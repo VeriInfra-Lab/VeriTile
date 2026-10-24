@@ -1,0 +1,113 @@
+{
+  "schema": 1,
+  "task": "layer_norm_fwd",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue08/result.json",
+    "sha256": "630f3362c51d29799697ba294a8b7e466ce28e565c6f87c5da9515ca1c6ffcef",
+    "task_index": 4
+  },
+  "finding": "Reader formula used nine numeric input ports and seven numeric output ports with division/modulo coordinates.",
+  "resolution": "Added bijective named finite matrix/vector inputs and named y/y1/mean/inverse/residual/Boolean keep outputs; flat coordinate conversion is confined to IO and Proofs.",
+  "mathematical_target": "Same-reader independent row scaling, canonical Philox dropout, ordered residual/RMS/LN and two affine formulas over named tensor inputs.",
+  "conditions_and_scope": "Complete ordinary grid, every flag/output mask, int64 seed narrowing to uint32, widthCheck, read/write separation and NativeGeometry preserved, including empty grids and zero-column statistics.",
+  "proof_connection": "LogicalIO.lift_formula and judgment_iff prove the exact previous RealInterface.io Implements RealInterface.formula statement, without positivity additions.",
+  "fp_review": "Actual original/indexCommuted FP32 ordinary-grid source comparison unchanged, R=[].",
+  "numerical_dependencies": {
+    "experimental_rule_instances": 0,
+    "new_numerical_experiments": 0,
+    "change": "No FP theorem, precision, cast, computation order or numerical dependency changed."
+  },
+  "previous_formula_scope": {
+    "mathematical_target": "Same-reader pure formulas expose seed narrowing modulo 2^32, canonical seven-round Philox keep/dropout, optional row scaling, second input and residual in source order, logical mean/population or RMS variance, reciprocal sqrt, both affine outputs and both dropout masks.",
+    "required_conditions": [
+      "widthCheck N=true, Domain.ReadWriteSeparated f r and NativeGeometry.Geometry f r stride M N remain public.",
+      "widthCheck is exactly N≤tile N. tile=max 1 originalTile remains positive/bounded and its arange legality is already proved in Contract.",
+      "All flag-dependent IO masks, seed/rowscale second streams beginning at M, aliases and output windows are unchanged."
+    ],
+    "scope": "The complete selected-positive-tile ordinary M-row grid and all seven active output channels Y/Y1/mean/rstd/residualOut/keep1/keep2, including empty M and zero-column statistics.",
+    "canonical_connection": "The displayed Mathematics family is definitionally the established Formula family; the channel formula retains RealInterface.logicalInputs and channel packing. RealInterface.implements directly checks the canonical-to-visible connection in the main proof.",
+    "fp_program_pair": {
+      "actual_program_pairs": [
+        "Actual complete ordinary original versus existing indexCommuted grids, arbitrary typed Algebra and Comparisons, source FP32 payload graph and Philox semantics."
+      ],
+      "transformation_and_model_binding": "Only the initial X integer stride product commutes. Randomness, casts, arithmetic order and seven outputs are preserved.",
+      "ruleset": "[] (kv_cache_copy uses the definitionally empty assumptions list)",
+      "main_empirical_rule_instances_used": 0,
+      "new_numerical_experiments_required": 0,
+      "precision_domain_note": "Typed original source precision, casts, storage, operation order and explicit backend/model binding retained. Empty experimental R does not assert equality for unrelated hardware or arbitrary models outside that binding."
+    },
+    "numerical_dependencies": {
+      "actual_program_pairs": [
+        "Actual complete ordinary original versus existing indexCommuted grids, arbitrary typed Algebra and Comparisons, source FP32 payload graph and Philox semantics."
+      ],
+      "transformation_and_model_binding": "Only the initial X integer stride product commutes. Randomness, casts, arithmetic order and seven outputs are preserved.",
+      "ruleset": "[] (kv_cache_copy uses the definitionally empty assumptions list)",
+      "main_empirical_rule_instances_used": 0,
+      "new_numerical_experiments_required": 0,
+      "precision_domain_note": "Typed original source precision, casts, storage, operation order and explicit backend/model binding retained. Empty experimental R does not assert equality for unrelated hardware or arbitrary models outside that binding."
+    }
+  },
+  "verification": [
+    {
+      "kind": "reader",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue08/build.py",
+        "bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Correct"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue08/layer_norm_fwd_nonzero_tile-reader.log",
+      "log_sha256": "027e9301afc21d9ed6c7391a7f0d7276dc35a5a8c8b19fbf8494b0cabb72cffd",
+      "seconds": 0.23870229721069336
+    },
+    {
+      "kind": "fp_source",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue08/build.py",
+        "--check",
+        "bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue08/layer_norm_fwd_nonzero_tile-fp_source.log",
+      "log_sha256": "06dc7569ec201ed8798bfebe56e520b168ebf62e72c18cefde3ae5feb78b84ce",
+      "seconds": 12.662317514419556
+    },
+    {
+      "kind": "joint",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue08/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue08/layer_norm_fwd_nonzero_tile-joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue08/layer_norm_fwd_nonzero_tile-joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "seconds": 4.3721537590026855
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Contract.lean": "366419d2e172fd27020d20d45346437c45dd0ee89557877e48b9b69ad67d0da0",
+    "bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Correct.lean": "e9dd9e558a8771e032e0d63b2686e2b7dfac3d422a72a209a8d7e2a005cc7ae4",
+    "bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/FPEquiv.lean": "5eb13dc49886c63e15a9d1641f1eea10349ac0d3ed0ad3ed31a143658787e505",
+    "bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/LogicalIO.lean": "2726dcb24c38f75e24a3c1da3740ba9db018e24646fc3571632ec5a571a22eab",
+    "bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/LogicalIO.lean": "acda79a231ee1343d3b14c01c5e57f0c109d2c8ebf80e073076e3feb90eaaeac",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

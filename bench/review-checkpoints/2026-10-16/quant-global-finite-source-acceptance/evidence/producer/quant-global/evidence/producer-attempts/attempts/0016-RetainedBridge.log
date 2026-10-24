@@ -1,0 +1,32 @@
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/RetainedBridge.lean:14:50: error: Application type mismatch: The argument
+  a
+has type
+  Word Storage.fp32
+but is expected to have type
+  BitVec (FP.Format.width ?m.4)
+in the application
+  { bits := a }
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/RetainedBridge.lean:14:54: error: Application type mismatch: The argument
+  c
+has type
+  Word Storage.fp32
+but is expected to have type
+  BitVec (FP.Format.width ?m.5)
+in the application
+  { bits := c }
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/RetainedBridge.lean:20:44: error: Invalid argument: Variable `mulBinding` is not a proposition or let-declaration
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/RetainedBridge.lean:19:104: error: unsolved goals
+b : Numerics
+cfg : FP.Config
+round : QuantizeIntegerStage.Llrint64 (FP.Value FP.Format.fp32)
+x inverse : FP.Value FP.Format.fp32
+mulBinding : Word Storage.fp32 → Word Storage.fp32 → sorry
+roundBinding :
+  llrint Storage.fp32 (QuantizeIntegerStage.FP32.scaled cfg x inverse).bits =
+    some (round (QuantizeIntegerStage.FP32.scaled cfg x inverse))
+⊢ b.mul32 1123942400 (b.mul32 x.bits inverse.bits) =
+    (FP.mul cfg { bits := 1123942400#FP.Format.fp32.width } (FP.mul cfg x inverse)).bits
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/RetainedBridge.lean:34:0: error: QuantizeGlobalFinite.retained_fp32_result: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+QuantizeGlobalFinite.zero_times_infinity_undefined: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

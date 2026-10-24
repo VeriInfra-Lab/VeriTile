@@ -1,0 +1,14 @@
+{
+  "scope_verified": 1,
+  "scope_verified_with_deferred_numerics": 1,
+  "pending": 181,
+  "partial_rows_updated": [
+    "softmax_flaggems"
+  ],
+  "accepted_catalog_reviews_rebound": [
+    "matrix_transpose",
+    "relu_triton_kernel"
+  ],
+  "unrelated_rows_unchanged": 180,
+  "catalog_sha256": "32098aeda6088cedf4d6052ba6cd69ce3dac61e0a8a38f08d74f1cab01e66d3c"
+}

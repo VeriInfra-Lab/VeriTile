@@ -18,17 +18,23 @@ theorem post_step {B : Nat} (u : BlockState) (gs gl : RegionName) (col : TileInd
   rcases h with ⟨hc,hm,hcr,hci,har,hai,hlr,hli⟩
   simp only [ComplexBackwardSource.postlude,Erasure.complexBackward,
     ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeKernel.surfaceBody,
-    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,
+    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
+    ComputeKernel.eraseDType,ComputeKernel.fromKernelBody,ComputeDType.eraseDType,
+    Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
+    Op.eraseDType,MemAccess.eraseDType,MaskOpt.eraseDType,NumericDType.eraseDType,
+    ComparableDType.eraseDType,IntegralDType.eraseDType,
+    List.map_cons,List.map_nil,Op.eraseDType.eq_def,
+    VeriTile.Triton.eraseDType,FloatDType.toTileDType,
     Except.bind,bind,Bool.false_eq_true,↓reduceIte,List.drop]
+  simp only [eq_mp_eq_cast, eq_mpr_eq_cast, cast_eq, id_eq]
   simp only [stepStmts,stepStmt,evalOp,evalOp.eq_def,Option.bind,bind,pure,
-    Option.map,Option.pure_def,Broadcast.leftIndex,Broadcast.rightIndex,Tile.vec,
+    FloatDType.toTileDType,FloatDType.ofWithBot,FloatDType.toWithBot,WithBot.map,Option.map,Option.pure_def,Broadcast.leftIndex,Broadcast.rightIndex,Tile.vec,
     String.reduceEq,Tile.bop,Tile.cop,Tile.scalar,NumericDType.mul,NumericDType.add,NumericDType.sub,
     WithBot.realSub,Option.map₂_some_some,Region.cast,BlockState.writeMemTyped_real,
     BlockState.foldl_writeMem_masked_regs,BlockState.setReg_same,BlockState.setReg_ne_name,
     hc,hm,hcr,hci,har,hai,realTile,imagTile,
     FloatDType.storeValue,FloatDType.toWithBot,WithBot.unbotD_some]
   simp only [result,ComplexMemory.store,Complex.conj_re,Complex.conj_im]
-  norm_num only [zero_sub]
 
 theorem read_carry {B : Nat} (u : BlockState) (gs gl : RegionName) (col : TileIndex [B] → Nat)
     (mask : TileIndex [B] → Bool) (carry acc : TileIndex [B] → ℂ)

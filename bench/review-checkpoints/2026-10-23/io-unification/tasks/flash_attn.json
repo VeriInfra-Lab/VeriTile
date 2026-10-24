@@ -1,0 +1,346 @@
+{
+  "schema": 1,
+  "task": "flash_attn",
+  "status": "unchanged",
+  "owner": {
+    "path": ".veritile-cache/io-unification-20261023/queue05/result.json",
+    "sha256": "347a32cf78210b10569dd4b576fe337b999e2aa51c817529e322e71392f3356b",
+    "task_index": 9
+  },
+  "reason": "The selected scalar-ABI-checked variant already has its complete memory interface and named logical view in IO.lean. PairIO.lean contains source selection and thin variants.",
+  "selected_public_entries": [
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Contract.lean",
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Correct.lean",
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/FPEquiv.lean"
+  ],
+  "previous_semantic_review": {
+    "manifest": {
+      "path": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json",
+      "sha256": "5df771b8603eaf5d9f08b4fde0c5b938c18087c00092f5348b47eb54d33a8225"
+    },
+    "task": "flash_attn"
+  },
+  "changed_files": [],
+  "removed_files": [],
+  "moved_declarations": [],
+  "preservation": {
+    "all_task_sources_byte_identical": true,
+    "current_io": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/IO.lean",
+    "prior_source_pins_match": true
+  },
+  "verification": [
+    {
+      "kind": "cached_prior_success_reuse",
+      "report": ".veritile-cache/logical-reader-review-20261022/queue05/result.json",
+      "report_sha256": "b7855ba15faaf5e2f177961e4a8a89181354e8928bbce04e8519a187efbab386",
+      "prior_successful_verification": [
+        {
+          "task": "flash_attn",
+          "kind": "targeted_reader_helpers",
+          "command": [
+            "python",
+            "-u",
+            ".veritile-cache/logical-reader-review-20261022/queue05/build.py",
+            "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/IO.lean",
+            "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Proofs/LogicalIO.lean",
+            "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Proofs/ReaderConnections.lean",
+            "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Correct.lean",
+            "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/FPEquiv.lean"
+          ],
+          "exit_code": 0,
+          "log": ".veritile-cache/logical-reader-review-20261022/queue05/supplement/flash_attn-targeted_reader_helpers.log",
+          "log_sha256": "9047810ffb33d1fd9ac489e5c63b85a803eb30782e62d7e88f9d4e0628f17c12"
+        },
+        {
+          "task": "flash_attn",
+          "kind": "task_joint",
+          "command": [
+            "python",
+            "-u",
+            ".veritile-cache/logical-reader-review-20261022/queue05/build.py",
+            "--check",
+            ".veritile-cache/logical-reader-review-20261022/queue05/supplement/joint_flash_attn.lean"
+          ],
+          "exit_code": 0,
+          "log": ".veritile-cache/logical-reader-review-20261022/queue05/supplement/flash_attn-task_joint.log",
+          "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "source": ".veritile-cache/logical-reader-review-20261022/queue05/supplement/joint_flash_attn.lean",
+          "source_sha256": "7ede20a7308e794be356350923a956214f4808fce6d8772868c50dd1a7430f34"
+        },
+        {
+          "kind": "receipt_source_object_direct_dependency_audit",
+          "command": [
+            "python",
+            ".veritile-cache/logical-reader-review-20261022/queue05/audit-receipts.py"
+          ],
+          "exit_code": 0,
+          "log": ".veritile-cache/logical-reader-review-20261022/queue05/receipts-final.json",
+          "log_sha256": "a3a64928712915a8204fd3fec33335656e18e0542b5c5ab22d8bdec24b8df76e"
+        }
+      ],
+      "pin_audit": ".veritile-cache/io-unification-20261023/queue05/baseline-source-pin-audit.json",
+      "pin_audit_sha256": "3535eb0ebc67ecff6130c8fdf140403077be3390e085e927116ef26d9c46b6b5",
+      "prior_log_audit": ".veritile-cache/io-unification-20261023/queue05/prior-verification-audit.json",
+      "prior_log_audit_sha256": "cada918c9d52d249c52abe0debf55355e8bac5f5290f276a97543be2d2eac907",
+      "fresh_lean_build_in_this_campaign": false
+    },
+    {
+      "kind": "fresh_source_organization_and_body_preservation_audit",
+      "command": [
+        "python",
+        ".veritile-cache/io-unification-20261023/queue05/audit-sources.py"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue05/source-audit.json",
+      "log_sha256": "e7702b0b935237adebd55b2442d77ba9f3c9f854d7bcbef4e04dd12519294e97"
+    }
+  ],
+  "verification_status": "unchanged_reused",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Contract.lean": "e3f9c5bdbd7c050a779126329d24ea6e228bc1a8c6fc7d5b98cd7903a7ddd758",
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Correct.lean": "2ed065fc3d251e43ede73bc37a19e5a6dace50a55ad619d668eb86c116765234",
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/FPEquiv.lean": "344d0e68d9aecdde55c2eb423a5cde8a7872183c822470a591d3e326b34bd3d7",
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/IO.lean": "d931b47337b7d586d48ff44c56de1e188a0d8e24759a1a990d3aaae535aef60a",
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Kernels.lean": "109209ca9c6546d3a7fcb58d3f1704ace2cb33d213bc1737762fa8167c2e69b2",
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/PairIO.lean": "e5a5894f9605bae35ba4ff94d6e016dbc9ba113e2214865b1b430d3250ef8e47",
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Proofs/LogicalIO.lean": "93e23cdddb18a92f9c4a48daa90206c488919e477cf3ec15e6f10fdcc9fde7af",
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Proofs/ReaderConnections.lean": "0b8c11dda1ae7c03fe5aee19abd3b8556f86eb71f5690f316d319b17bb35e57f",
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Formulas.lean": "656bbfbc5700097076abf434112abe3a15859e057964dd4ea737c197fcf3e81d",
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Proofs/IOCorrect.lean": "14e3b07f69530c36fdfe8d996994b45c4f5f27bba48c22c52e10678cf516a4e6",
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Proofs/PairEquivalence.lean": "69fcc8e8b0bbc4e5dd9fe8ea9440d37d927e96603bd9d69497f69f142036f95d",
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Proofs/IndexPair.lean": "b63e6dadb1e3119b6be0e29f5e3f5d99d7b76477a5bd1815d60ad8c48f302473",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8",
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Misc/InterfaceChecks.lean": "29a147f839ba03df27cbc0c0d98562a039b758d73bffcba15be0b95d430abfb8",
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Misc/KernelNativeResults.lean": "0292765f875b550a55fadf997bafe7a871a3eb7778b699a0951b013fa56a59b4",
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Misc/KernelRealResults.lean": "560773884cbed3f07cd2042a89d07ee736661b3c10794576e90d06e102b30376",
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Misc/NativeCorrect.lean": "6684e4c0b5cc025b24b94195b124f6ccaf5c7f1a1424b17a818a2e3f61b87f51",
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Misc/TensorBridge.lean": "cad1bfd0bf3155e33ea18e2d974f9d2c8e7dc73e2950ed561d9952cc0910f501",
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Proofs/IOBindings.lean": "526a353fa29ff509f07813a029d36fec530d521061907c16333952793b481b03",
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Proofs/IOCompatibility.lean": "5a9b5c5ac1ce53355dd7263404f5526ac757d07b9b6385efa50884805fb0e25f",
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Proofs/IOCoverage.lean": "e6f916914eb7aa2435861cd8945f7628dd1155c245dbd9f302e9ffe8d1f24110",
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Proofs/IOGrid.lean": "cb33390a357d4d8287c520cb34e2ebf4ee65d0ce0e0696ea202bfec461f4357f",
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Proofs/IONative.lean": "677e8df78e5865089b2a1ff0f8e43e58242bfb576ed8532be1fcfb050b920e12",
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Proofs/IORealMath.lean": "e01621399e7df3b35ad9459e625780bc7a34221472455e85e9e3cf3b358b7659",
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Proofs/IOResults.lean": "0b5a2d6f7569ae79d366bfcf1d69d75b840b868dff0324946d67fac262792b0b",
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Proofs/IOSafetyBody.lean": "7b83eee3e4a9feb5bbf3d36a7df69d43c9688ae046afcb7a200904f7a8c5d4ac",
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Proofs/IOSafetyEntry.lean": "ecf67a6917a72b13db6008dba83cc01f7f205c019a473bda5dece55d2183c599",
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Proofs/IOSafetyFinish.lean": "d62b358d0eed8b27ed0fe3e7f3cf951537fd664a78a35b65cfc29cdcf67ebb66",
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Proofs/IOSafetyPrelude.lean": "faa688e553cc477925c594b78f65e616e3ca3ecac17d1647c48ae168e1566b42",
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Proofs/IOSafetyQueryPointer.lean": "4ac77832e0de8ac45c9e68c94781b32acbeadb2aee30e8229dfc5e93db8ae6ec",
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Proofs/IOScatter.lean": "bd6ca70f3464d4a6e6755f8c5877f67bc43f7f2007d178e25143e352032c4867",
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Proofs/IOSourceSafety.lean": "2bce06ea8b5c9bf20cf3db7f2b28ee7e01b2a191f478aae795073381095137c8",
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Proofs/IOValues.lean": "e3646b60d884479d660887f3f0d4a32e9c98761498e08c2f65e0f61f01a5ed9c",
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Proofs/SourcePreservation.lean": "8bf8708e84a4217d92afa86eb13b37d5342ea97c02702bb5fbf3d2fb0a1f0c7c",
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Targets.lean": "c7844d9c61eac3221cf5d63812346de079c208feeb4536ff67bb03bc88fc38f6",
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/Statements.lean": "3047401231e882e9c3a5c395f8a2c27c8322a533f66a7420b42a06fff2d94b20"
+  },
+  "source_pin_provenance": {
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Contract.lean": {
+      "owner_tasks": [
+        "flash_attn"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Correct.lean": {
+      "owner_tasks": [
+        "flash_attn"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/FPEquiv.lean": {
+      "owner_tasks": [
+        "flash_attn"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/IO.lean": {
+      "owner_tasks": [
+        "flash_attn"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Kernels.lean": {
+      "owner_tasks": [
+        "flash_attn"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/PairIO.lean": {
+      "owner_tasks": [
+        "flash_attn"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Proofs/LogicalIO.lean": {
+      "owner_tasks": [
+        "flash_attn"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Proofs/ReaderConnections.lean": {
+      "owner_tasks": [
+        "flash_attn"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Formulas.lean": {
+      "owner_tasks": [
+        "flash_attn"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Proofs/IOCorrect.lean": {
+      "owner_tasks": [
+        "flash_attn"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Proofs/PairEquivalence.lean": {
+      "owner_tasks": [
+        "flash_attn"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Proofs/IndexPair.lean": {
+      "owner_tasks": [
+        "flash_attn"
+      ]
+    },
+    "VeriTile/Triton/Memory/LogicalIO.lean": {
+      "owner_tasks": [
+        "mixed_sparse_attention",
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Misc/InterfaceChecks.lean": {
+      "owner_tasks": [
+        "flash_attn"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Misc/KernelNativeResults.lean": {
+      "owner_tasks": [
+        "flash_attn"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Misc/KernelRealResults.lean": {
+      "owner_tasks": [
+        "flash_attn"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Misc/NativeCorrect.lean": {
+      "owner_tasks": [
+        "flash_attn"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Misc/TensorBridge.lean": {
+      "owner_tasks": [
+        "flash_attn"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Proofs/IOBindings.lean": {
+      "owner_tasks": [
+        "flash_attn"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Proofs/IOCompatibility.lean": {
+      "owner_tasks": [
+        "flash_attn"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Proofs/IOCoverage.lean": {
+      "owner_tasks": [
+        "flash_attn"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Proofs/IOGrid.lean": {
+      "owner_tasks": [
+        "flash_attn"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Proofs/IONative.lean": {
+      "owner_tasks": [
+        "flash_attn"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Proofs/IORealMath.lean": {
+      "owner_tasks": [
+        "flash_attn"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Proofs/IOResults.lean": {
+      "owner_tasks": [
+        "flash_attn"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Proofs/IOSafetyBody.lean": {
+      "owner_tasks": [
+        "flash_attn"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Proofs/IOSafetyEntry.lean": {
+      "owner_tasks": [
+        "flash_attn"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Proofs/IOSafetyFinish.lean": {
+      "owner_tasks": [
+        "flash_attn"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Proofs/IOSafetyPrelude.lean": {
+      "owner_tasks": [
+        "flash_attn"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Proofs/IOSafetyQueryPointer.lean": {
+      "owner_tasks": [
+        "flash_attn"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Proofs/IOScatter.lean": {
+      "owner_tasks": [
+        "flash_attn"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Proofs/IOSourceSafety.lean": {
+      "owner_tasks": [
+        "flash_attn"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Proofs/IOValues.lean": {
+      "owner_tasks": [
+        "flash_attn"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Proofs/SourcePreservation.lean": {
+      "owner_tasks": [
+        "flash_attn"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Targets.lean": {
+      "owner_tasks": [
+        "flash_attn"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/Statements.lean": {
+      "owner_tasks": [
+        "flash_attn"
+      ]
+    }
+  },
+  "retired_current_source_pins": {},
+  "limits": [
+    "No fresh Lean build was needed because every task source is unchanged; previous successful checks and pinned logs are reused explicitly."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/io-unification-20261023/queue16/result.json",
+    "sha256": "12f6dd5ed523e9f723fee3847af964fd8987958c2cb997aa572210c04de5bc84"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

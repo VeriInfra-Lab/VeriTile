@@ -1,0 +1,310 @@
+{
+  "schema": 1,
+  "task": "chunk_gla_simple",
+  "status": "consolidated",
+  "owner": {
+    "path": ".veritile-cache/io-unification-20261023/queue03/result-metadata-supplement.json",
+    "sha256": "df6d43a409aacf78752e64a27561a49d53956c4277a5ed8d7fd71c8dded57140",
+    "task_index": 4
+  },
+  "reason": "Merged the existing logical tensor view into IO; extracted only PublicMath.extend/arrays from Targets to remove the import cycle. The independent mathematical target and native formulas remain in Targets.",
+  "selected_public_entries": [
+    "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/Contract.lean",
+    "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/Correct.lean",
+    "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/FPEquiv.lean"
+  ],
+  "previous_semantic_review": {
+    "manifest": {
+      "path": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json",
+      "sha256": "5df771b8603eaf5d9f08b4fde0c5b938c18087c00092f5348b47eb54d33a8225"
+    },
+    "task": "chunk_gla_simple"
+  },
+  "changed_files": [
+    "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/IO.lean",
+    "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/Targets.lean",
+    "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/Proofs/LogicalIO.lean"
+  ],
+  "removed_files": [
+    "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/LogicalIO.lean"
+  ],
+  "moved_declarations": [
+    {
+      "task": "chunk_gla_simple",
+      "from_path": "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/Targets.lean",
+      "to_path": "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/IO.lean",
+      "kind": "minimal_pure_input_mapping",
+      "names": [
+        "extend",
+        "arrays"
+      ],
+      "byte_sha256": "73fc6997ef9a97acdcc4dd0cc999d26ead3db7aa0e99bc6c0ec52610e7da9d63",
+      "byte_length": 340
+    },
+    {
+      "task": "chunk_gla_simple",
+      "from_path": "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/LogicalIO.lean",
+      "to_path": "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/IO.lean",
+      "kind": "logical_view",
+      "names": [
+        "coords3",
+        "tensor3",
+        "tensor2",
+        "coords4",
+        "tensor4",
+        "Inputs",
+        "inputs",
+        "outputIndices",
+        "arrays",
+        "tileLaunch",
+        "io"
+      ],
+      "byte_sha256": "300b437515378d57c591f28dfc24a8fef33b307a88c3874b33ff2d4bbd961793",
+      "byte_length": 5027
+    }
+  ],
+  "preservation": {
+    "evidence": ".veritile-cache/io-unification-20261023/queue03/preservation-verification.json",
+    "evidence_sha256": "0b8e73f469f3de3296274d701faf1ea6a1b38630ee3563a79d35db0efdca15ef",
+    "moved_blocks": [
+      {
+        "task": "chunk_gla_simple",
+        "from_path": "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/Targets.lean",
+        "to_path": "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/IO.lean",
+        "kind": "minimal_pure_input_mapping",
+        "names": [
+          "extend",
+          "arrays"
+        ],
+        "byte_sha256": "73fc6997ef9a97acdcc4dd0cc999d26ead3db7aa0e99bc6c0ec52610e7da9d63",
+        "byte_length": 340,
+        "original_snapshot": ".veritile-cache/io-unification-20261023/queue03/before/bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/Targets.lean",
+        "snapshot_sha256": "da7b1ebb9e61659b522325e91c531ee5dffcdba090a8a3a8c6e7a5e9d26d44a0",
+        "current_contains_identical_block": true,
+        "identical_after_documented_proof_only_normalization": true,
+        "block_sha256": "73fc6997ef9a97acdcc4dd0cc999d26ead3db7aa0e99bc6c0ec52610e7da9d63"
+      },
+      {
+        "task": "chunk_gla_simple",
+        "from_path": "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/LogicalIO.lean",
+        "to_path": "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/IO.lean",
+        "kind": "logical_view",
+        "names": [
+          "coords3",
+          "tensor3",
+          "tensor2",
+          "coords4",
+          "tensor4",
+          "Inputs",
+          "inputs",
+          "outputIndices",
+          "arrays",
+          "tileLaunch",
+          "io"
+        ],
+        "byte_sha256": "300b437515378d57c591f28dfc24a8fef33b307a88c3874b33ff2d4bbd961793",
+        "byte_length": 5027,
+        "original_snapshot": ".veritile-cache/io-unification-20261023/queue03/before/bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/LogicalIO.lean",
+        "snapshot_sha256": "2a6f3fcdf09328f7081e1011a0c94925530c04e77d83c0262f63cbd31e0e52c3",
+        "current_contains_identical_block": true,
+        "identical_after_documented_proof_only_normalization": true,
+        "block_sha256": "300b437515378d57c591f28dfc24a8fef33b307a88c3874b33ff2d4bbd961793"
+      }
+    ],
+    "changed_file_checks": [
+      {
+        "path": "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/IO.lean",
+        "kind": "original_memory_IO_body_byte_preserved",
+        "before_sha256": "dc4a02335d3bb2675043623ee0e6445bf6a562c526828539fa1937cd5b70eb4b",
+        "current_sha256": "d30fc50ba262d4ce283609942722103a17289b568ec8a11c87c60deb675f9b35"
+      },
+      {
+        "path": "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/Targets.lean",
+        "kind": "only_imports_and_recorded_pure_extraction",
+        "before_sha256": "da7b1ebb9e61659b522325e91c531ee5dffcdba090a8a3a8c6e7a5e9d26d44a0",
+        "current_sha256": "9557e84a177d53bc673d430c3f116806b46c8443bf61e5b32d23f0fcc9d16888"
+      },
+      {
+        "path": "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/Proofs/LogicalIO.lean",
+        "kind": "only_imports",
+        "before_sha256": "58d36dd01824fedf61e35d2da4bf3247df557d706c5ee112d71dc7d6e0074a94",
+        "current_sha256": "6d2369f47b6246b9958e40df1ff2cdbf4144ad60456f1fd9e061fec13f77d7c5"
+      }
+    ],
+    "original_public_Lean_names": "Namespace and declaration spellings are preserved; extraction wrappers use the original namespace. No public alias or replacement judgment is introduced.",
+    "complete_public_judgment": "All three selected Correct/FPEquiv/Contract sources are byte-identical to the before snapshot/current selected pins. Proofs helper non-import bytes are unchanged. Existing full-judgment equivalence, execution, safety, output/frame, domain/coverage and mathematical connection proofs remain in Proofs and compile against the same definitions now owned by IO.",
+    "exceptions": []
+  },
+  "verification": [
+    {
+      "kind": "targeted_changed_chain_and_public_build",
+      "task": "chunk_gla_simple",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue03/build.py",
+        "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/IO.lean",
+        "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/Targets.lean",
+        "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/Proofs/LogicalIO.lean",
+        "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/Correct.lean",
+        "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue03/chunk_gla_simple-build-1.log",
+      "modules": [
+        "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/IO.lean",
+        "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/Targets.lean",
+        "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/Proofs/LogicalIO.lean",
+        "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/Correct.lean",
+        "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/FPEquiv.lean"
+      ],
+      "log_sha256": "4a4be243d7264784ecbcf5b8f1c5b3ca54eec9f858c124c03fd5e2226a288deb",
+      "disposition": "success"
+    },
+    {
+      "kind": "targeted_changed_chain_and_public_build",
+      "task": "chunk_gla_simple",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue03/build.py",
+        "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/IO.lean",
+        "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/Targets.lean",
+        "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/Proofs/LogicalIO.lean",
+        "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/Correct.lean",
+        "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue03/chunk_gla_simple-build-2.log",
+      "modules": [
+        "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/IO.lean",
+        "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/Targets.lean",
+        "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/Proofs/LogicalIO.lean",
+        "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/Correct.lean",
+        "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/FPEquiv.lean"
+      ],
+      "log_sha256": "3f4c6945a3aa792a927568903b90282969b411259756cc4aa18df61bb7324bde",
+      "disposition": "success"
+    },
+    {
+      "task": "chunk_gla_simple",
+      "kind": "fresh_source_check_public_joint",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue03/build.py",
+        "--check",
+        ".veritile-cache/io-unification-20261023/queue03/chunk_gla_simple-joint.lean"
+      ],
+      "exit_code": 0,
+      "source": ".veritile-cache/io-unification-20261023/queue03/chunk_gla_simple-joint.lean",
+      "source_sha256": "e0798811c2ba9b3c53be909a81c35b0a6ad74b16069ada45ff8313fea78bfd46",
+      "log": ".veritile-cache/io-unification-20261023/queue03/chunk_gla_simple-public_joint-1.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "kind": "current_source_artifacts_and_direct_dependency_hash_check",
+      "command": [
+        "python",
+        ".veritile-cache/io-unification-20261023/queue03/verify_receipts.py"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue03/receipt-verification.log",
+      "log_sha256": "7f5b1f4ac628a4ec73f85105119d0cb0ab77462e4147a65a428dc8caa18528b9",
+      "record": ".veritile-cache/io-unification-20261023/queue03/receipt-verification.json",
+      "record_sha256": "908882afe759c062cf2e64ebc56f264484d17a191849ac8015953dcdf81dad84",
+      "module_count": 5
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/Contract.lean": "d2a3f37305831ec99548a4effe870fc9fe9318dbc88fc6cd57fd59f8b45b95f5",
+    "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/Correct.lean": "c67bb7c272315c806ed473695eb09bdd10b1b771a86faa2814f3582c2594cc65",
+    "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/FPEquiv.lean": "e439c985c00fe0125b640e871bc2b34d379fd8f2e50b714cb54d23cfc9d36572",
+    "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/Proofs/LogicalIO.lean": "6d2369f47b6246b9958e40df1ff2cdbf4144ad60456f1fd9e061fec13f77d7c5",
+    "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/IO.lean": "d30fc50ba262d4ce283609942722103a17289b568ec8a11c87c60deb675f9b35",
+    "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/Kernels.lean": "94b5bc751b785ba0c6cebe4608831fa458666bac1518f2af6078bfa3ae25bbb5",
+    "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/PairIO.lean": "3dfea9878ef2365f43a1251d68a24697ef3f523e49dab30bf96d980a0c2f64a1",
+    "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/Proofs/Admission.lean": "fae5048e5cf617e371e9844c14bb9f43e667bfcef3bc2f641f7a69fec59f689e",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8",
+    "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/Targets.lean": "9557e84a177d53bc673d430c3f116806b46c8443bf61e5b32d23f0fcc9d16888"
+  },
+  "source_pin_provenance": {
+    "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/Contract.lean": {
+      "owner_tasks": [
+        "chunk_gla_simple"
+      ]
+    },
+    "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/Correct.lean": {
+      "owner_tasks": [
+        "chunk_gla_simple"
+      ]
+    },
+    "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/FPEquiv.lean": {
+      "owner_tasks": [
+        "chunk_gla_simple"
+      ]
+    },
+    "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/Proofs/LogicalIO.lean": {
+      "owner_tasks": [
+        "chunk_gla_simple"
+      ]
+    },
+    "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/IO.lean": {
+      "owner_tasks": [
+        "chunk_gla_simple"
+      ]
+    },
+    "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/Kernels.lean": {
+      "owner_tasks": [
+        "chunk_gla_simple"
+      ]
+    },
+    "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/PairIO.lean": {
+      "unchanged_prior_pin": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json"
+    },
+    "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/Proofs/Admission.lean": {
+      "unchanged_prior_pin": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json"
+    },
+    "VeriTile/Triton/Memory/LogicalIO.lean": {
+      "owner_tasks": [
+        "mixed_sparse_attention",
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/Targets.lean": {
+      "owner_tasks": [
+        "chunk_gla_simple"
+      ]
+    }
+  },
+  "retired_current_source_pins": {
+    "bench/repairs/tritonbench_g/chunk_gla_simple_min_dot_tile/LogicalIO.lean": "2a6f3fcdf09328f7081e1011a0c94925530c04e77d83c0262f63cbd31e0e52c3"
+  },
+  "limits": [
+    "Only the changed chains, selected public modules and explicitly missing/stale baseline prerequisites were rebuilt. Unchanged dependency proof objects are reused from read-only prior successful overlays; this is not a rebuild of the complete proof closure.",
+    "This organization-only campaign changes no numerical rule, precision, arithmetic order, actual FP pair, schedule, admissible domain, mathematical formula or public premise; no new GPU/native/host/numerical experiment acceptance was introduced."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/io-unification-20261023/queue16/result.json",
+    "sha256": "12f6dd5ed523e9f723fee3847af964fd8987958c2cb997aa572210c04de5bc84"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

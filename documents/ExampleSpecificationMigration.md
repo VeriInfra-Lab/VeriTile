@@ -7,7 +7,8 @@ Each completed case has a real correctness file and an independent FP equivalenc
 The correctness statement is `Spec.Real (io ⊨ mathematical_formula)`.
 The FP statement is `originalKernel … ≡[R] optimizedKernel …` (or the corresponding
 IO contracts for transformations with private scratch), with
-`#print_fp_assumptions` listing the numerical atoms used by its proof. Both proof files import the shared sources in `Kernels.lean`. FP execution
+`#print_fp_assumptions` separating the empirical atoms and strict certificates
+actually used by its proof. Both proof files import the shared sources in `Kernels.lean`. FP execution
 and contract helpers live in the example's `Proofs/FP.lean` and never import the
 correctness counterpart. See the [example index](../bench/examples/README.md)
 for the shared implementations and precise observation scopes.
@@ -35,11 +36,11 @@ FP equivalence. Pending entries must not be advertised as proved.
 | Aligned vector addition | `VectorAdd/Correct.lean` — checked for original and optimized sources | `VectorAdd/FPEquiv.lean` — checked; add commutation |
 | Masked vector addition | `FlatVectorAdd/Correct.lean` — checked for original and optimized sources | `FlatVectorAdd/FPEquiv.lean` — checked; add commutation |
 | Float dtype addition | `FloatDTypeAdd/Correct.lean` — checked for original and optimized sources, including empty tiles | `FloatDTypeAdd/FPEquiv.lean` — checked; add commutation; output cast retained |
-| Row-wise sum | `RowWiseSum/Correct.lean` — checked for original and optimized sources | `RowWiseSum/FPEquiv.lean` — checked under the admitted fp32 ADD-COMMUTE and ADD-ASSOC assumptions; dimensions and reduction schedules remain symbolic |
+| Row-wise sum | `RowWiseSum/Correct.lean` — checked for original and optimized sources | `RowWiseSum/FPEquiv.lean` — strict fp32 ADD-COMMUTE with empirical ADD-ASSOC/ADD-ZERO; dimensions and reduction schedules remain symbolic |
 | Row-wise max | `RowWiseMax/Correct.lean` — checked for original and optimized sources | `RowWiseMax/FPEquiv.lean` — checked; inline the load and reduction into the store, preserving the same reduction and input order; no numerical assumptions |
 | Online softmax | `OnlineSoftmax/Correct.lean` — checked for batch and complete online output; bounded flat-memory stores/frame for both sources | `OnlineSoftmax/FPEquiv.lean` — checked for actual stored outputs on both sides; libdevice EXP-SUB and scalar arithmetic, symbolic positive row length and memory frames |
 | mHC depth | `HyperConnectionsDepth/Correct.lean` — checked for general matrix sources and finite Sinkhorn iterations, including bounded flat memory for both original and optimized versions | `HyperConnectionsDepth/FPEquiv.lean` — checked for symbolic dimensions and iteration count; final pointwise add commutation |
-| mHC width | `HyperConnectionsWidth/Correct.lean` — checked for general matrix sources and finite Sinkhorn iterations, including bounded flat memory for both original and optimized versions | `HyperConnectionsWidth/FPEquiv.lean` — checked for symbolic dimensions and iteration count; logit division versus reciprocal multiplication, with unchanged matrix products |
+| mHC width | `HyperConnectionsWidth/Correct.lean` — checked for general matrix sources and finite Sinkhorn iterations, including bounded flat memory for both original and optimized versions | `HyperConnectionsWidth/FPEquiv.lean` — strict scalar multiplication commutation; matrix logit division versus reciprocal multiplication uses empirical DIV-MUL-RCP, with symbolic dimensions, iteration count and unchanged matrix products |
 | Adam-named Lion update | `AdamUpdateGridLaunch/Correct.lean` — checked for both sources per program; original grid proofs retained | `AdamUpdateGridLaunch/FPEquiv.lean` — checked per program; momentum addition commutation, masked in-place stores retained |
 | Stable softmax | `SoftmaxStable/Correct.lean` — checked for both original kernels against the softmax formula | `SoftmaxStable/FPEquiv.lean` — checked for the libdevice.exp kernels, using admitted scalar arithmetic and EXP-SUB; symbolic row length, scheduled sums, bf16 stores and frames retained |
 | Log-exp elimination | `LogExp/Correct.lean` — checked for the fixed reference and guarded candidate against the identity formula | `LogExp/FPEquiv.lean` — checked using the admitted conditional `log_exp_cancel .libdevice` atom |
@@ -48,10 +49,12 @@ FP equivalence. Pending entries must not be advertised as proved.
 | Float dtype softmax | `FloatDTypeSoftmax/Correct.lean` — checked for both original fp32-load/fp64-work kernels against the softmax formula | `FloatDTypeSoftmax/FPEquiv.lean` — fp32 load, fp64 work, fp32 output; only the casted division/reciprocal relation is assumed |
 | Fused SiLU | `FusedSiLU/Correct.lean` — checked for both original kernels against residual + silu(x · gate), including empty blocks and scratch framing | `FusedSiLU/FPEquiv.lean` — checked; original fused versus materialized pipeline, with no numerical assumptions |
 | Fused SwiGLU | `FusedSwiglu/Correct.lean` — checked for both original kernels against silu(x) · y, including empty blocks, tail masks and scratch framing | `FusedSwiglu/FPEquiv.lean` — checked; original fused versus materialized pipeline, with bf16 casts, tail masks and no numerical assumptions |
-| Welford | `Welford/Correct.lean` — checked for both original kernels against population mean and variance; both output windows and memory framing | `Welford/FPEquiv.lean` — checked under scalar arithmetic and the two bounded count atoms, for `0 < N <= 2^24`; both original bf16 outputs and memory frames retained |
+| Welford | `Welford/Correct.lean` — checked for both original kernels against population mean and variance; both output windows and memory framing | `Welford/FPEquiv.lean` — checked under scalar arithmetic and two strict bounded-count certificates, for `0 < N <= 2^24`; both original bf16 outputs and memory frames retained |
 | Fused layernorm | `FusedLayerNorm/Correct.lean` — checked for both original kernels against population-variance normalization and affine transformation | `FusedLayerNorm/FPEquiv.lean` — checked for `N <= 2^24`, including empty output rows; original statistics, affine suffix, bf16 stores and frames retained |
 
 There are 19 correctness modules and 19 modules with completed FP specifications.
+They expose 21 public FP specifications. The [current rule-usage guide](./FPRemainingAdmissionGaps.md)
+records the group/specification split and the 12 empirical instances actually used.
 StableLogSumExp proves the conditional candidate. Its older general FP target
 is refuted in `StableLogSumExp/Proofs/Unconditional.lean` by a logical model of
 all selected atoms, with different stored outputs on a legal singleton row.
@@ -75,11 +78,11 @@ scope: one concatenation of stage bodies. Both real and FP specifications explic
 declare scratch windows and prove that every cell outside output and scratch
 windows is preserved. They do not claim a new separate-launch theorem.
 
-Welford and LayerNorm retain symbolic row length and stride. The FP count rules additionally require `N <= 2^24`;
+Welford and LayerNorm retain symbolic row length and stride. The strict FP count certificates require `N <= 2^24`;
 Welford requires a nonempty row because its empty mean divides by zero. These are
 per-program specifications: the original Welford sources write each scalar
 output at offset zero, so this does not assert a race-free multi-program
-Welford launch. Both proofs also cover zero-length rows under Lean's total
+Welford launch. Both real correctness proofs also cover zero-length rows under Lean's total
 real arithmetic. For Welford, that means zero mean and variance; for LayerNorm,
 there are no output lanes. The new `KernelIO₁ₓ₂.Implements` interface requires
 both results and frames outside the union of the two output windows and any
@@ -87,11 +90,13 @@ declared scratch windows.
 
 ## Admission and proof boundaries
 
-The main, supplemental and bounded-count reports define the accepted precision
-instances. They use a local-ULP mean-bias budget (`tau=0.05`, five SEs) and the
-peak absolute-error ratio gate; z is diagnostic. Counts are computed from current
-reports, and only dual-PASS rows enter the generated Lean tables. No table
-contains a whole softmax, logsumexp, normalization, reduction or recurrence atom.
+The main, supplemental and bounded-count reports retain historical precision
+instances. Experimental admission uses a local-ULP mean-bias budget (`tau=0.05`,
+five SEs) and a peak absolute-error ratio gate; z is diagnostic. Only dual-PASS
+rows enter the generated historical tables. [CurrentAdmission](../VeriTile/Triton/Float/CurrentAdmission.lean)
+separately removes matching strict certificates from the current experimental
+pool. No table contains a whole softmax, logsumexp, normalization, reduction or
+recurrence atom.
 
 The supplemental EXP-SUB implementation uses libdevice.exp. Its bf16,
 bf16-input/fp32-work/bf16-output and fp32 instances are admitted with the
@@ -118,43 +123,31 @@ Binary64 constant projection is partial (finite normals); the structural
 interpreter deliberately rejects raw fp64 payload constants and typed fp64
 loads, which these examples do not use. This is not a complete IEEE evaluator.
 
-[The remaining prerequisites](./FPRemainingAdmissionGaps.md) distinguish the
-main-table algebraic countermodels from the supplemental rule set. The
-historical unconditional logsumexp shift's general FP specification is refuted
+[The current proof boundaries](./FPRemainingAdmissionGaps.md) distinguish actual
+dependencies from available catalogue entries. Historical main-table-only
+countermodels do not establish a gap in the combined strict and empirical theory.
+The historical unconditional logsumexp shift's general FP specification is refuted
 under the currently selected atomic theory by the `refutation` declarations in
 [Unconditional.lean](../bench/examples/StableLogSumExp/Proofs/Unconditional.lean).
 The singleton countermodel satisfies all selected rules and domain checks,
 while the kernels store different outputs. This is a logical disproof under
 the abstract theory, not a GPU or two-gates failure.
 
-The two scalar probes and paired libdevice.log
-variants in `experiments/floating_point/supplement/log_product_config.py`
-completed on H200: LOG-MUL is bias-INCONCLUSIVE and LOG-EXP-LIBDEVICE is
-bias-REJECT. Both variants have identical observations and PTX after removing
-source-location directives under the recorded Triton 3.7.1 configuration.
-None supplies the missing unconditional admission. LOG-EXP-GUARDED keeps
-`libdevice.log(libdevice.exp(a))` as reference and returns `a` only for
-`0.5 < abs(a) <= 80`; its fallback is the original computation. Both seeds pass
-(B=0.04578995059 / 0.04579159812, U=0.625 / 0.625).
-The branch is retained in the Lean candidate and cannot justify unconditional
-log-exp cancellation. All ordinary-log relations now have independently measured
-tl.log and libdevice.log versions, with both exp implementations covered by the
-unconditional and guarded candidates. The conditional log-product candidate
-also passes under two seeds (B=0.0006248690 / 0.0006251552), retaining the
-product log when `0.5<=fp32(a*b)<=2` and splitting it elsewhere. This does
-not justify the unconditional log-product premise. It is available in the Lean
-candidate catalog as `log_mul_split .libdevice` and `log_mul_split .tl`, each
-preserving its complete expression and frozen report identifier. The same
-log parameter selects `log_exp_cancel log exp`, whose exp parameter defaults to
-`.libdevice`. The two guarded tl.exp candidates fail the bias budget under both
-seeds; the existing libdevice.exp candidates remain admitted. The conditional logsumexp proof
-uses the two tl.log variants without changing the direct reference.
-Its scheduled IO contract explicitly requires fp32 comparison support;
-this specifies available operations, not a branch outcome or numerical law. See the
-[current log report](../experiments/floating_point/supplement/log_report/summary.md).
+The selected LogExp API admits guarded log-exp and log-product candidates,
+with separate tl.log and libdevice.log evidence. The accepted log-exp candidates
+use libdevice.exp; the measured tl.exp candidates fail the configured bias gate.
+Guarded log-exp returns `a` only for `0.5 < abs(a) <= 80`, otherwise retaining
+its reference. Guarded log-product keeps the product log in `[0.5, 2]` and splits
+outside it. Both fallbacks and inactive-argument masks remain in the candidate.
+These admissions do not enable the API's unconditional candidates or a different
+backend/precision relation. StableLogSumExp uses the two guarded tl.log variants
+without changing its direct reference. Its scheduled IO contract requires fp32
+comparison support, not an assumed branch outcome. The frozen measurements are
+in the [log report](../experiments/floating_point/supplement/log_report/summary.md).
 
-The current `Spec.Derivation` supports atoms, symmetry, transitivity and common
-sequential context. A `ProgramSyntax` view may additionally enable independently
+The current `Spec.Derivation` supports empirical atoms, fixed-theory strict
+certificates, symmetry, transitivity and common sequential context. A
+`ProgramSyntax` view selects its strict theory and may additionally enable independently
 proved structural execution steps through `Spec.ProgramDerivation`, without
 changing the public `≡[R]` notation or the existing syntax-only views. Each step
 preserves the public signature; syntax steps also preserve private scratch
@@ -208,14 +201,15 @@ A concrete valid schedule exists even for empty rows.
 The one-input IO view can now use these term derivations to relate actual
 successful abstract executions, with the same typed-output and memory-frame
 obligations as its structural steps. Other primitives stay opaque. The public
-notation remains `lhs ≡[R] rhs`. The sum example prints `add_commute`,
-`add_assoc` and `add_zero`, each bound to an accepted fp32 instance. This derives a theorem in the selected FP model; it neither
+notation remains `lhs ≡[R] rhs`. The sum example prints strict `add_commute`
+separately from empirical `add_assoc` and `add_zero`, with their fp32 domains.
+This derives a theorem in the selected FP model; it neither
 replays the GPU report nor claims an IEEE or whole-kernel statistical guarantee.
 
 Unsupported syntax still fails explicitly. Counted loops and conditionals
 now have execution lemmas. Welford also has scalar-derived loop and schedule
 comparisons plus a scheduled IO contract with syntactic domain checks; its two
-integer-count conversion atoms are bound to the accepted bounded-count report. The
+integer-count conversions now use strict bounded-count certificates. The
 public Welford FP theorem retains `0 < N <= 2^24`. LayerNorm reuses the
 unrounded statistics through its unchanged affine suffix and completes its
 three-input FP contract for `N <= 2^24`, including empty output rows. Real ring identities
@@ -225,7 +219,8 @@ Stable softmax has independent libdevice source definitions and a scheduled
 one-input contract. `SoftmaxStableFPEquiv.softmax_stable_equiv` derives its
 reduction and normalization from the admitted scalar arithmetic and libdevice
 EXP-SUB atoms. Max and bf16 casts remain opaque; the row length is symbolic
-and positive. `#print_fp_assumptions` lists only the scalar assumptions.
+and positive. `#print_fp_assumptions` separates strict certificates from the
+empirical scalar dependencies.
 
 `OnlineSoftmaxFPEquiv.online_softmax_equiv` compares `batch` with `online`
 using `Float/ScheduledIO`. The complete online source runs the recurrence,
@@ -241,7 +236,7 @@ The conditional candidate's log-product and log-exp atoms are admitted and
 bound, and its complete FP specification preserves both fallbacks. The
 historical unconditional shift's general FP target has a checked logical
 counterexample in `StableLogSumExp/Proofs/Unconditional.lean`. Count-conversion
-atoms are admitted with their explicit integer bound. Any external unresolved
+certificates retain their explicit integer bound. Any external unresolved
 FP premise remains visible to the assumption printer, including equations
 accessed through record fields.
 
@@ -256,117 +251,21 @@ bf16 memory cell a real memory cell. This distinction matters for the
 
 ## Validation
 
-The checks cover:
+The [strict-rule checkpoint](../bench/review-checkpoints/2026-10-21/strict-fp-laws/README.md)
+retains the completed build, regression and independent-comparator record.
+It is a historical snapshot; the current usage counts are in the rule-usage
+guide above. Detailed experiment records remain alongside their frozen reports.
 
-- The OnlineSoftmax observation update passes the full library/example build
-  and independent comparator checking of 43 theorem targets across its view,
-  execution contract, public specification and boundary fixture. Regressions
-  check its eleven printed scalar atoms, source independence, missing-register
-  failure, aliased readback and both memory frames. The paired log and exp profiles
-  compile forty fp32 kernel specializations for sm_90. All twenty log/exp
-  implementation cases completed
-  4096 H200 replicates with identical independent CPU replay; LOG-MUL and its
-  libdevice.log variant remain bias-INCONCLUSIVE, while LOG-EXP-LIBDEVICE and
-  its libdevice.log variant are bias-REJECT. The guarded log-exp candidates using libdevice.exp
-  pass both seeds with their own references unchanged; both tl.exp variants
-  fail the bias budget. Twenty-five GPU
-  boundary inputs check branch endpoints, tiny values and extreme tails.
-  Twenty confirmation cases completed 4096 replicates with an independent seed
-  and matching CPU replay. The guarded product candidate also passes both seeds;
-  the FMA/log1p reference variant remains inconclusive. Sixteen product fixtures
-  check branch boundaries and retained numerical events. The standalone guarded
-  log-exp timings are reported separately for all four intrinsic combinations;
-  numerical acceptance is not a performance claim.
-  CPU tests retain negative log-exp inputs and reject
-  nonfinite outputs on valid inputs, and existing admission tables remain
-  byte-for-byte reproducible from their frozen reports.
-- The bounded-count update passes `lake build VeriTile TritonBenchSpecExamples`
-  and 28 regression tests. It checks the two public FP specifications, their
-  13 printed scalar atoms, source independence, the last admitted successor,
-  a failing out-of-range conversion, and the common guarded result outside
-  that range. Report-import tests reject incompatible scopes, precisions,
-  incomplete/rejected results and contradictory metadata. LayerNorm's empty
-  output and the admitted upper row-length boundary are exercised explicitly.
-  Independent comparator replay accepts all 58 theorem targets in the count
-  admission/binding, both new FP files, their boundary fixture and StatementAudit.
-- The libdevice update passes `lake build VeriTile TritonBenchSpecExamples`
-  and 26 related regression tests. The new fixture distinguishes the two
-  exp symbols through nested syntax and fp32 annotations, gives them the
-  same real meaning, and checks a model where libdevice EXP-SUB holds but
-  intrinsic EXP-SUB does not. The printer tests cover derivation-table
-  extension without hiding external symbolic atoms or opaque premises.
-  Independent comparator replay accepts all 63 theorem targets across
-  `StatementAudit`, `Float/Exponential`, `SoftmaxStable/FPEquiv.lean`, the online
-  and logsumexp contracts, and `FPLibdeviceExp`.
-- `lake build TritonBenchSpecExamples` (all currently present example modules).
-- The admission, assumption-printer and specification-surface tests. Repeated
-  uses of the same admission at different rewrite sites print once; distinct
-  contracts or evidence remain distinct, even if their names or keys coincide.
-- Pair checks: the real/FP originals have equal mathematical projections, FP
-  files do not import Correct, and real float addition includes empty tiles.
-- Exact source equality against both original kernels in each of the four
-  reduction pairs, plus their public mathematical formulas. The real proofs
-  include output readback, termination, bounds safety and memory framing.
-- Exact source equality for both SiLU and SwiGLU pairs, and applications of all
-  four real correctness headlines at arbitrary dimensions, without positivity
-  or whole-tile restrictions.
-- Exact source equality for both kernels in `FusedSiLU/FPEquiv.lean`, its public FP
-  theorem at symbolic block size (including zero), independence from Correct,
-  and its empty numerical-assumption output. Structural countermodels prevent
-  accidental commutation, reassociation, cast idempotence or precision erasure;
-  they also check typed forwarding, register shadowing, unsupported executions,
-  private scratch and cell-level framing.
-- Exact source equality for the original fused and materialized SwiGLU kernels,
-  its independent FP proof at symbolic dimensions, and its empty assumption
-  output. Masked-interface counterexamples prevent changing the public mask,
-  hiding writes to inactive output or scratch lanes, aliasing input as scratch,
-  or treating two failed executions as a structural certificate.
-- Exact source equality for row-wise max, independent FP proof and empty
-  assumption output, and application of its public theorem at symbolic stride
-  and positive block size. Countermodels keep max input permutations distinct
-  and reject empty max reductions; the one-input interface also protects output
-  windows, private scratch and successful-execution requirements.
-- Row-wise sum's original mathematical projection, its FP proof under the
-  admitted scalar assumptions at arbitrary dimensions including empty rows,
-  and output identifying add_commute, add_assoc and add_zero.
-  Reduction-tree countermodels reject removing a zero leaf, erasing precision
-  or dropping repeated casts. Opaque sum interpretation does not permit input
-  permutations; numerical IO steps still reject failed executions and dtype
-  changes. Assumption auditing distinguishes internal induction hypotheses
-  from opaque external derivation or execution premises.
-- Exact source equality for both Welford and LayerNorm pairs, and applications
-  of all four public real formulas without positivity restrictions. A flat
-  memory consumer checks Welford's two numerical outputs and preservation of
-  unwritten cells within both output regions.
-- Official comparator replay with trust audits for `VectorAdd/FPEquiv.lean`,
-  `FlatVectorAdd/FPEquiv.lean`, `FloatDTypeAdd/FPEquiv.lean`, `FloatDTypeAdd/Correct.lean`,
-  `SoftmaxStable/Correct.lean`, `StableLogSumExp/Correct.lean`, `SoftmaxReciprocal/Correct.lean`,
-  `FloatDTypeSoftmax/Correct.lean`, `HyperConnectionsDepth/FPEquiv.lean`,
-  `HyperConnectionsWidth/FPEquiv.lean`, `AdamUpdateGridLaunch/FPEquiv.lean`,
-  `FusedSiLU/Correct.lean`, `FusedSwiglu/Correct.lean`, `Welford/Correct.lean`,
-  `FusedLayerNorm/Correct.lean` and the updated `KernelSpec/Basic` interface. The
-  structural FP extension also replays `Spec`, `Float/Structural`,
-  `Float/StructuralIO`, `FusedSiLU/FPEquiv.lean`, `FusedSwiglu/FPEquiv.lean`,
-  `RowWiseMax/FPEquiv.lean` and the boundary fixture, including its named reduction
-  and IO-interface counterexamples.
-  The sum extension replays `Float/Equational`, `Float/TermModel`,
-  `RowWiseSum/FPEquiv.lean` and their updated interfaces and boundary fixtures;
-  all 510 theorem targets in that batch were accepted.
+For code changes, run `lake build VeriTile TritonBenchSpecExamples` and the
+relevant existing regressions. The example target includes all `bench.examples`
+modules and the imported TritonBench vector-addition module. Check:
 
-The regression suite includes 7 example-pair/contract tests, 7 structural FP
-tests, 6 expression/reduction/admission-coverage tests and 35 admission,
-assumption-printer and specification-surface tests.
+- Shared source bindings and independent Real/FP imports.
+- Public formulas, precision, actual operand domains, masks and scratch windows.
+- Successful execution, output readback, bounds and memory frames.
+- `#print_fp_assumptions` on the actual public theorem, separating strict
+  certificates, used empirical instances and unresolved external premises.
 
-The comparator also has 7 passing integration tests. Its theorem inventory
-enumerates and looks up declarations in the same completed kernel environment,
-so realized private match equations remain explicit replay targets even when
-the elaborator's name lookup cannot retrieve them. The tests retain rejection
-checks for `sorry` and unapproved axioms.
-
-Compile each changed module and run its axiom/statement audits. The
-`TritonBenchSpecExamples` Lake target includes all `bench.examples` modules
-and the imported TritonBench vector-addition module in its build globs,
-so missing companion dependencies cannot hide behind the lightweight default
-library build. Run the admission/printer tests after changing their consumers,
-and run the independent comparator on the resulting proofs before declaring
-the migration complete.
+Run axiom/statement audits and the independent comparator for changed proofs.
+Reuse matching strict certificates and frozen experimental evidence; a change
+of relation, precision, backend or domain needs its own applicable evidence.

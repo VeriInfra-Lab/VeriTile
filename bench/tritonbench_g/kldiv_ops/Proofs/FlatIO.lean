@@ -45,7 +45,12 @@ theorem flatten_frame (A : FlatAlloc) (s t : BlockState) (O : RegionName) (base 
 theorem forward_flattenOk (Y T O : RegionName) (sy st so N B : Nat)
     (eps : ℝ) (flag : Bool) (reduction : Nat) :
     (forward Y T O sy st so N B eps flag reduction).FlattenOk := by
-  simp [forward, forwardSurface, ComputeKernel.surfaceBody,
+  cases flag <;> simp [forward, forwardSurface, ComputeKernel.eraseDType, ComputeKernel.fromKernelBody,
+      ComputeKernel.toAlgKernel_fromKernelBody, Kernel.eraseDType,
+      Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def,
+      MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def,
+      NumericDType.eraseDType, ComparableDType.eraseDType, ComputeDType.eraseDType,
+      VeriTile.Triton.eraseDType,  ComputeKernel.surfaceBody,
     ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeStmt.listToAlgorithm?,
     ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
     Kernel.FlattenOk, StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk.eq_def,

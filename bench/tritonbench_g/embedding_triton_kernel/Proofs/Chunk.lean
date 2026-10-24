@@ -45,7 +45,7 @@ theorem frame (weight ids out : RegionName) (first last : Int) (sw so n h D N NN
     v.mem r o=u.mem r o := by
   rcases hc with ⟨hr,hc⟩
   simp [body,code,Erasure.source,ComputeKernel.surfaceBody,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
-    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,Except.bind,bind,Option.bind,
+    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.bind,bind,Option.bind,
     stepStmts,stepStmt,evalOp.eq_def,Tile.bop,Tile.cop,Tile.expandDim,TileShape.dropInsertedIndex,
     NumericDType.add,NumericDType.mul,NumericDType.sub,ComparableDType.lt,ComparableDType.ge,
     Bool.and_eq_true,hr,hc] at he
@@ -66,7 +66,7 @@ theorem readback (weight ids out : RegionName) (first last : Int) (sw so n h D N
     v.readMem out (address u so N start j)=Reference.value u weight ids first last sw (row u N start j) j.2.1.val := by
   rcases hc with ⟨hr,hc⟩
   simp [body,code,Erasure.source,ComputeKernel.surfaceBody,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
-    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,Except.bind,bind,Option.bind,
+    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.bind,bind,Option.bind,
     stepStmts,stepStmt,evalOp.eq_def,Tile.bop,Tile.cop,Tile.expandDim,TileShape.dropInsertedIndex,
     NumericDType.add,NumericDType.mul,NumericDType.sub,ComparableDType.lt,ComparableDType.ge,
     Bool.and_eq_true,hr,hc] at he
@@ -92,7 +92,7 @@ theorem executes (weight ids out : RegionName) (first last : Int) (sw so n h D N
       (u.setReg "start_nn" .nat [] (Tile.scalar start))=some v := by
   rcases hc with ⟨hr,hc⟩
   simp [body,code,Erasure.source,ComputeKernel.surfaceBody,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
-    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,Except.bind,bind,Option.bind,
+    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.bind,bind,Option.bind,
     stepStmts,stepStmt,evalOp.eq_def,Tile.bop,Tile.cop,Tile.expandDim,TileShape.dropInsertedIndex,
     NumericDType.add,NumericDType.mul,NumericDType.sub,ComparableDType.lt,ComparableDType.ge,
     Bool.and_eq_true,hr,hc]
@@ -104,7 +104,7 @@ theorem preserves_context (weight ids out : RegionName) (first last : Int) (sw s
     Context v N NN D ∧ v.pids=u.pids := by
   rcases hc with ⟨hr,hc⟩
   simp [body,code,Erasure.source,ComputeKernel.surfaceBody,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
-    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,Except.bind,bind,Option.bind,
+    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.bind,bind,Option.bind,
     stepStmts,stepStmt,evalOp.eq_def,Tile.bop,Tile.cop,Tile.expandDim,TileShape.dropInsertedIndex,
     NumericDType.add,NumericDType.mul,NumericDType.sub,ComparableDType.lt,ComparableDType.ge,
     Bool.and_eq_true,hr,hc] at he
@@ -122,7 +122,7 @@ theorem prefix_executes (weight ids out : RegionName) (first last : Int) (sw so 
     ∃ v, stepStmts (prefixCode weight ids out first last sw so n h D N NN) u=some v ∧
       Context v N NN D ∧ v.pids=u.pids ∧ v.mem=u.mem := by
   simp [prefixCode,code,Erasure.source,ComputeKernel.surfaceBody,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
-    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,Except.bind,bind,Option.bind,
+    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.bind,bind,Option.bind,
     stepStmts,stepStmt,evalOp.eq_def,Tile.bop,NumericDType.add,NumericDType.mul]
   constructor
   · constructor
@@ -135,7 +135,7 @@ theorem flatten_ok (weight ids out : RegionName) (first last : Int) (sw so n h D
     (Erasure.source Bool.false weight ids out first last sw so n h D N NN).toAlgKernel.FlattenOk := by
   unfold Kernel.FlattenOk
   simp [Erasure.source,ComputeKernel.surfaceBody,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
-    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,Except.bind,bind,
+    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.bind,bind,
     StmtList.FlattenOk,Stmt.FlattenOk,Op.FlattenOk]
   simp [Op.FlattenOk.eq_def]
 

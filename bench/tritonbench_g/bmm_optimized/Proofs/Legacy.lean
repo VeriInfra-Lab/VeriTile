@@ -49,13 +49,11 @@ The port targets `bmm_optimized.py`'s `bmm_kernel`.
 
 ## Correctness-surface status
 
-Correctness-surface blocker: the `*_exec_genuine` headline(s) in this file
-state correctness as an inline exec-existential
-(`∃ sF, exec … = some sF ∧ <output readback>`) rather than through a named
-`⊨` (`KernelIO`) or `ComputeCorrect.Realizes` surface. Termination and every
-stored output cell are proved; the **frame** — nothing outside the write set
-changes — is not part of the statement. Lifting this to `⊨` therefore needs
-the frame proof, not a rename. Registered in `proof_blockers.md`.
+The legacy `*_exec_genuine` statements below prove successful execution and
+output readback without a frame. The current public `Correct.lean` separately
+proves named `⊨` contracts for both complete sources, including finite flat
+execution and preservation outside the output tile. Their zero unspecified-load
+premise and mathematical-address boundary remain explicit in that file.
 -/
 
 namespace VeriTile.Bench.TritonBenchG.BmmOptimized

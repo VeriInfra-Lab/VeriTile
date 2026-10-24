@@ -1,0 +1,7 @@
+import VeriTile.Meta.StatementAudit
+import bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Contract
+import bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Correct
+import bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.FPEquiv
+
+#axiomsClean VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.correct
+#axiomsClean VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.index_commuted_equiv

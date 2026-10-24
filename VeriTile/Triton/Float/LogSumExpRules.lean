@@ -15,7 +15,8 @@ def Rules.assumptions (R : Rules) : Spec.Assumptions GuardedFragment :=
 
 instance : CoeOut Rules (Spec.Assumptions GuardedFragment) := ⟨Rules.assumptions⟩
 
-/-- Every step remains a derivation from the same atomic entry. -/
+/-- Extend the experimental assumptions while preserving fixed strict
+certificates and each selected atomic entry. -/
 theorem include_derivation {A B : Spec.Assumptions GuardedFragment}
     (subset : ∀ e ∈ A, e ∈ B) {lhs rhs : List GuardedFragment}
     (h : Spec.Derivation A lhs rhs) : Spec.Derivation B lhs rhs := by
@@ -25,6 +26,7 @@ theorem include_derivation {A B : Spec.Assumptions GuardedFragment}
   | symm _ ih => exact .symm ih
   | trans _ _ ih₁ ih₂ => exact .trans ih₁ ih₂
   | frame beforeCode afterCode _ ih => exact .frame beforeCode afterCode ih
+  | strict certificate => exact .strict certificate
 
 theorem exponential_models {α : Type} [Inhabited α] (R : Rules)
     (M : Algebra α) (D : Domain α) (hM : Models R.assumptions M D) :

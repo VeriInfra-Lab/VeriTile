@@ -1,5 +1,11 @@
 # matrix_transpose
 
+Current public contracts are the `specification` declarations in
+[Correct.lean](Correct.lean), [FPEquiv.lean](FPEquiv.lean),
+[FPCorrect.lean](FPCorrect.lean) and [HostCorrect.lean](HostCorrect.lean).
+Reusable supporting facts remain ordinary helper theorems. These contracts
+have explicit, different scopes; their presence is not whole-task acceptance.
+
 `Kernels.lean` retains the entire upstream two-dimensional pointer construction,
 unmasked matrix load, transpose, and unmasked output store. The Python wrapper
 allocates only float16 input/output, and `typedKernel` preserves that storage
@@ -27,3 +33,22 @@ the actual float16 source. The host's single-program launch, allocation, legal
 Triton tile dimensions, fixed-width index overflow, and negative strides are
 outside the per-kernel model. Other storage types are not wrapper profiles and
 are not claimed. Independent comparator replay remains pending on this host.
+
+
+`HostCorrect.lean` composes the original fp16 wrapper's logical allocations
+and single-program launch with the complete original typed kernel. Input
+samples are arbitrary 16-bit words; output starts at zero. The exact contiguous
+strides are `[max(d,1),1]` and `[max(m,1),1]`, including empty shapes. The theorem
+proves output-address injectivity from those strides, exact transposed bit
+values, input preservation and the full frame outside both allocated slices.
+No numerical callback, RNG correctness property or assumed result is used.
+
+The theorem's total Nat shape model is not the native compiler's acceptance
+domain. An exact-wrapper AST probe with CPU allocation and a launch recorder
+checks metadata and return identity, including empty shapes and host errors;
+installed Triton validation rejects zero/non-power-of-two arange endpoints.
+Neither that probe nor the Lean theorem executes a GPU kernel. Complete caller
+error/rejection behavior, CUDA allocation/provenance, fixed-width ABI and native
+compiler/device correspondence remain open. The signed32 offset lemma proves
+representability when the element count is at most 2^31; it is not an ABI
+refinement theorem.

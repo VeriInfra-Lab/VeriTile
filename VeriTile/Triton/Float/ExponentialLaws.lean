@@ -23,7 +23,7 @@ theorem exp_sub {α : Type} [Inhabited α] (R : Rules)
   simp only [lhs, rhs, Atom.lhs, Atom.rhs, Backend.exp, fragment, run, step, evalExpr,
     evalComputeOp, evalOp_unfold, ref, minus, divide, ComputeDType.eraseDType,
     numeric, State.setReg_same, t] at h
-  simp [State.setReg, SoftmaxShift.exp, sub, div] at h ⊢
+  simp [State.setReg, SoftmaxShift.exp, ScalarArithmetic.sub, ScalarArithmetic.div] at h ⊢
   exact congrFun h PUnit.unit
 
 end VeriTile.Triton.FP.Exponential

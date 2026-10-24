@@ -1,5 +1,6 @@
 import bench.tritonbench_g.kldiv_triton.Kernels
 import bench.tritonbench_g.kldiv_triton.Proofs.IndexRewrite
+import bench.tritonbench_g.kldiv_triton.Proofs.SourceDomain
 
 namespace VeriTile.Bench.TritonBenchG.KldivTriton.FPEquiv
 open VeriTile Triton FP.ProfiledRewrite TypedSource
@@ -37,11 +38,20 @@ specification forward_equivalence (pred : Storage) (target : MathStorage) (outpu
 /-- Complete default backward AST, including aliases, arbitrary backend behavior,
 masked-load values, empty rows and multiple blocks. The fp8 target branches are
 a formal extension; pinned source support is recorded by BackwardSourceSupported. -/
-specification backward_default_equivalence (target output : Storage)
+theorem backward_default_equivalence (target output : Storage)
     (T O : RegionName) (st so N B : Nat) :
     backwardDefaultProgram target output Bool.false T O st so N B ≡[assumptions]
       backwardDefaultProgram target output Bool.true T O st so N B := by
   cases target <;> cases output <;> equiv_decompose <;> fp_prove
+
+/-- Source-facing default backward equivalence retains the pinned frontend's
+nonzero-literal restriction. The broader interpreter lemma above also covers
+abstract fp8 programs, without certifying that their Python source compiles. -/
+specification backward_default_source_equivalence (target output : Storage)
+    (T O : RegionName) (st so N B : Nat) (_hSource : BackwardSourceSupported target) :
+    backwardDefaultProgram target output Bool.false T O st so N B ≡[assumptions]
+      backwardDefaultProgram target output Bool.true T O st so N B :=
+  backward_default_equivalence target output T O st so N B
 
 /-- Complete log-target backward source; the only rewrite is signed address multiplication. -/
 specification backward_log_equivalence (target : MathStorage) (output : Storage)
@@ -51,7 +61,7 @@ specification backward_log_equivalence (target : MathStorage) (output : Storage)
   cases target <;> cases output <;> equiv_decompose <;> fp_prove
 
 #print_fp_assumptions forward_equivalence
-#print_fp_assumptions backward_default_equivalence
+#print_fp_assumptions backward_default_source_equivalence
 #print_fp_assumptions backward_log_equivalence
 #guard_msgs (drop info) in
 #auditModuleAxioms

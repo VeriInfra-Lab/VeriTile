@@ -1,0 +1,130 @@
+{
+  "task": "vector_addition integer/mixed complete program permutations",
+  "standard": "All original stages/dtypes/branches; only explicitly registered numerical correspondence may be deferred.",
+  "whole_original_program_accepted": false,
+  "completed_original_program_increment": 0,
+  "source": {
+    "file": "bench/tritonbench_g/vector_addition/vector_addition.py",
+    "sha256": "cfcb749bd562924106c1e0e95e18a9bd987238be3a3b522abac89e099de3d098"
+  },
+  "public_contracts": [
+    {
+      "file": "bench/tritonbench_g/vector_addition/ValueScheduleCorrect.lean",
+      "parser_name": "vector_addition_integer_program_order_correctness",
+      "declaration": "VeriTile.Bench.TritonBenchG.VectorAddition.ValueScheduleCorrect.vector_addition_integer_program_order_correctness",
+      "kind": "specification",
+      "statement_sha256": "7696d88a875739e0fa562c037343ac992d18874c48b799ab21aca74cad0b17ca",
+      "model_kind": "bit_interpreter_contract",
+      "role": "parametric_value_contract",
+      "dtype_scope_relation": "selected_explicit_profiles_only",
+      "native_binding_status": "not_established",
+      "bit_interpreter_closed_command": false,
+      "unclosed_numeric_callbacks": [],
+      "premises": "Positive natural block and a complete permutation of original logical program ids."
+    },
+    {
+      "file": "bench/tritonbench_g/vector_addition/ValueScheduleCorrect.lean",
+      "parser_name": "vector_addition_mixed_fp32_total_program_order_correctness",
+      "declaration": "VeriTile.Bench.TritonBenchG.VectorAddition.ValueScheduleCorrect.vector_addition_mixed_fp32_total_program_order_correctness",
+      "kind": "specification",
+      "statement_sha256": "2a756b34053a978e92ac0cf6b942828918f8758d3a84e7639cd3151450f6cd8b",
+      "model_kind": "backend_value_contract",
+      "role": "parametric_value_contract",
+      "dtype_scope_relation": "selected_explicit_profiles_only",
+      "native_binding_status": "not_established",
+      "bit_interpreter_closed_command": false,
+      "unclosed_numeric_callbacks": [
+        "Explicit us/uu policies on undefined fp32-to-integer output conversions."
+      ],
+      "premises": "Positive natural block and a complete permutation of original logical program ids."
+    },
+    {
+      "file": "bench/tritonbench_g/vector_addition/ValueScheduleCorrect.lean",
+      "parser_name": "vector_addition_mixed_fp32_defined_program_order_correctness",
+      "declaration": "VeriTile.Bench.TritonBenchG.VectorAddition.ValueScheduleCorrect.vector_addition_mixed_fp32_defined_program_order_correctness",
+      "kind": "specification",
+      "statement_sha256": "49753610767f8332d118896f004993f9f9d51d4bd87e5d384f44aa1dbbd570a5",
+      "model_kind": "backend_value_contract",
+      "role": "parametric_value_contract",
+      "dtype_scope_relation": "selected_explicit_profiles_only",
+      "native_binding_status": "not_established",
+      "bit_interpreter_closed_command": false,
+      "unclosed_numeric_callbacks": [],
+      "premises": "Positive natural block and a complete permutation of original logical program ids. Active integer-output OutputDefined domain."
+    },
+    {
+      "file": "bench/tritonbench_g/vector_addition/ValueScheduleCorrect.lean",
+      "parser_name": "vector_addition_mixed_small_total_program_order_correctness",
+      "declaration": "VeriTile.Bench.TritonBenchG.VectorAddition.ValueScheduleCorrect.vector_addition_mixed_small_total_program_order_correctness",
+      "kind": "specification",
+      "statement_sha256": "fc720d667b7583c21046581fb55bef2a0a5cb4be0a633b3df59df5965b21e76b",
+      "model_kind": "backend_value_contract",
+      "role": "parametric_value_contract",
+      "dtype_scope_relation": "selected_explicit_profiles_only",
+      "native_binding_status": "not_established",
+      "bit_interpreter_closed_command": false,
+      "unclosed_numeric_callbacks": [
+        "Explicit us/uu policies on undefined fp32-to-integer output conversions."
+      ],
+      "premises": "Positive natural block and a complete permutation of original logical program ids."
+    },
+    {
+      "file": "bench/tritonbench_g/vector_addition/ValueScheduleCorrect.lean",
+      "parser_name": "vector_addition_mixed_small_defined_program_order_correctness",
+      "declaration": "VeriTile.Bench.TritonBenchG.VectorAddition.ValueScheduleCorrect.vector_addition_mixed_small_defined_program_order_correctness",
+      "kind": "specification",
+      "statement_sha256": "56ca7350e01709145608185db1776bd02c9701ffeb401e07dbabe2d2a730675a",
+      "model_kind": "backend_value_contract",
+      "role": "parametric_value_contract",
+      "dtype_scope_relation": "selected_explicit_profiles_only",
+      "native_binding_status": "not_established",
+      "bit_interpreter_closed_command": false,
+      "unclosed_numeric_callbacks": [],
+      "premises": "Positive natural block and a complete permutation of original logical program ids. Active integer-output OutputDefined domain."
+    }
+  ],
+  "counts": {
+    "refined_existing_integer_bool_pairs": 81,
+    "refined_existing_mixed_fp32_pairs": 18,
+    "refined_existing_mixed_fp16_bf16_pairs": 36,
+    "refined_existing_pairs_total": 135,
+    "new_dtype_pairs": 0,
+    "cumulative_value_grid_pairs_unchanged": 160,
+    "prior_floating_permutation_pairs": 25,
+    "cumulative_logical_complete_program_permutation_pairs": 160,
+    "new_public_contracts": 5,
+    "native_backend_runs": 0,
+    "gpu_runs": 0,
+    "whole_original_program_completion_increment": 0
+  },
+  "structural_remaining": [
+    {
+      "id": "VA-ORDER-S1",
+      "gap": "Native source, compiler and dtype/error correspondence",
+      "detail": "Actual existing manually materialized typed source programs are executed. All original Python/compiler admission, unsupported profiles, errors/poison/sanitizers and noncanonical dtype families retain their prior obligations."
+    },
+    {
+      "id": "VA-ORDER-S2",
+      "gap": "Native bytes, physical views and finite addresses",
+      "detail": "Whole tagged logical cells and Nat element offsets do not establish raw byte decoding, memory validity, mixed-width or shifted aliases, finite-width overflow or native allocation/layout."
+    },
+    {
+      "id": "VA-ORDER-S3",
+      "gap": "Native instruction interleaving",
+      "detail": "Any complete permutation of whole programs is proved. Operations within each program remain sequential/atomic at this scheduling layer; native load/store interleaving, races and physical scheduling require separate refinement."
+    },
+    {
+      "id": "VA-ORDER-S4",
+      "gap": "Remaining host, harness, module and dtype scope",
+      "detail": "The same135 existing integer/mixed logical profiles are refined. No new dtype pairs, original error branches, native host allocation/dispatch, harness or module execution are accepted."
+    }
+  ],
+  "numerical_followups": [],
+  "inherited_numeric_obligations": "Existing mixed-fp32 and mixed-small numerical/native bindings retain their exact scope. Total us/uu policies remain visible and defined-domain policy independence is unchanged.",
+  "proof_composition": "Generic internal schedule lemma requires a real single-program success/memory theorem and same-offset locality. ValueSchedules supplies both using exact existing IntegerSource/MixedFP32/MixedSmall complete_correct and expected_cell theorems. No public specification assumes desired correctness or successful execution.",
+  "state_threading": "Each whole program receives actual preceding memory and resets local registers/pid from the same initial context used by existing ascending grids.",
+  "alias_boundary": "Equal logical region names are allowed because different program ids own disjoint element offsets. This does not imply physical mixed-width/shifted memory disjointness.",
+  "zero_N": "The complete permutation of an empty grid is empty; only logical no-op behavior is proved.",
+  "source_views": "Preserve all original source view records; these scheduling proofs do not establish an extraction or compiler bridge.",
+  "independent_review": "pending independent source and receipt review"
+}

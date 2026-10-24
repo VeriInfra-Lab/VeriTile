@@ -1,3 +1,12 @@
+/-
+Source-audit target: square_kernel
+Source-audit Lean: squareSource%
+Source-audit args: version=original
+Selected lexical source view only; this metadata is not all-profile certification.
+Original row-square quotation; storage dtype, load padding and output addressing remain symbolic.
+Other storage profiles and the index-commuted candidate require separate source views.
+-/
+
 import VeriTile.Triton.DSL
 
 namespace VeriTile.Bench.TritonBenchG.SquareMatrix

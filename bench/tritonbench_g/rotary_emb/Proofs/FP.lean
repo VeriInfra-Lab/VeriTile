@@ -37,8 +37,11 @@ theorem original_prefix (q k cos sin : Storage) (Q K Cos Sin : RegionName)
     (sqb sqh sqd skb skh skd scb scd ssb ssd L HQ HK BH BS D : Nat) :
     (original q k cos sin Q K Cos Sin sqb sqh sqd skb skh skd scb scd ssb ssd
       L HQ HK BH BS D).surfaceBody.take 3 = sourcePrefix Bool.false BH := by
-  simp [original, ComputeKernel.surfaceBody, List.take_append, List.take_take,
-    template_shape, template_prefix]
+  change ((template q cos sin Q K Cos Sin sqb sqh sqd skb skh skd scb scd
+    ssb ssd L HQ HK BH BS D).surfaceBody.take 20 ++
+    (template k cos sin Q K Cos Sin sqb sqh sqd skb skh skd scb scd
+      ssb ssd L HQ HK BH BS D).surfaceBody.drop 20).take 3 = sourcePrefix Bool.false BH
+  simp [List.take_append, List.take_take, template_shape, template_prefix]
 
 theorem decomposition (q k cos sin : Storage) (v : Bool) (Q K Cos Sin : RegionName)
     (sqb sqh sqd skb skh skd scb scd ssb ssd L HQ HK BH BS D : Nat) :
@@ -53,7 +56,8 @@ theorem decomposition (q k cos sin : Storage) (v : Bool) (Q K Cos Sin : RegionNa
       (List.take_append_drop 3 (original q k cos sin Q K Cos Sin sqb sqh sqd
         skb skh skd scb scd ssb ssd L HQ HK BH BS D).surfaceBody).symm
   · have hp2 := congrArg (List.take 2) hp
-    simp only [List.take_take, sourcePrefix, List.take_succ_cons, List.take_zero] at hp2
+    simp only [List.take_take, show min 2 3 = 2 from rfl, sourcePrefix,
+      List.take_succ_cons, List.take_zero, ComputeKernel.surfaceBody] at hp2
     simpa only [kernel, ↓reduceIte, ComputeKernel.surfaceBody, hp2, sourcePrefix,
       List.cons_append, List.nil_append]
 

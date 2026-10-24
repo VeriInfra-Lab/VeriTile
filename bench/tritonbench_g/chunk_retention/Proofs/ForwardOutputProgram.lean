@@ -62,7 +62,7 @@ def retentionOutputFront (q k v h o : RegionName)
     Stmt.assign .nat [] "i_bh" (Op.programId 2),
     Stmt.assign .nat [] "i_h" (.mod .nat .nil (.ref .nat [] "i_bh") (.constNat H)),
     Stmt.assign .real [] "b_b" RealHProgram.baseOp,
-    Stmt.assign .int [BT] "o_i" (.castNatToInt (.arange BT)),
+    Stmt.assign .int [BT] "o_i" (.intToSigned 32 (.castNatToInt (.arange BT))),
     Stmt.assign .real [BT] "d_i" (RealDecayTiles.queryOp BT),
     Stmt.assign .bool [BT,BT] "m_s" (RealDecayTiles.maskOp BT),
     Stmt.assign .real [BT,BT] "d_s" (RealDecayTiles.scoreOp BT),
@@ -121,6 +121,7 @@ theorem body_split :
       s_k_h s_k_t s_k_d s_v_h s_v_t s_v_d s_h_h s_h_t scale H T K V BT BK BV).eraseDType.toAlgKernel.body =
     RealOutput.retentionOutputFront q k v h o s_k_h s_k_t s_k_d s_v_h s_v_t s_v_d s_h_h s_h_t H T K V BT BK BV scale ++
       [RealOutput.retentionOutputStoreStmt o BT BV] := by
+  simp only [ComputeKernel.eraseDType, projects, ComputeKernel.toAlgKernel_fromKernelBody, Kernel.eraseDType]
   simp only [forwardOSource, Bool.false_eq_true, ↓reduceIte, RealOutput.retentionOutputFront, RealOutput.retentionOutputLoopBody,
     RealOutput.retentionOutputStoreStmt, RealHProgram.baseOp, RealDecayTiles.queryOp,
     RealDecayTiles.maskOp, RealDecayTiles.scoreOp, ComputeKernel.surfaceBody, ComputeKernel.eraseDType,
@@ -394,7 +395,7 @@ def carryO (p : Layout) (l : Launch) (a : Inputs) (n : Nat) : Tile .real [p.BT,p
 def carryS (p : Layout) (l : Launch) (a : Inputs) (n : Nat) : Tile .real [p.BT,p.BT] :=
   Tile.mat fun i j => some (qkSum p l a n i.val j.val)
 def maskTile (p : Layout) : Tile .bool [p.BT,p.BT] :=
-  Tile.mat fun i j => decide (j.val ≤ i.val)
+  Tile.mat fun i j => decide (Decay.index32 j.val ≤ Decay.index32 i.val)
 
 theorem query_tile (p : Layout) (r : Regions) (s : BlockState) (kb : Nat) :
     bqTile s r.query p.keyHead p.keyTime p.keyDimension p.T p.K p.BT p.BK kb = queryTile p (launch s) (inputs r s) kb := by

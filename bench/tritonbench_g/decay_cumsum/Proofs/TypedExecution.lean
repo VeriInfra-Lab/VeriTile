@@ -1,14 +1,45 @@
 import bench.tritonbench_g.decay_cumsum.Proofs.MaskEquivalence
-import bench.tritonbench_g.context_attn_fwd.Proofs.FPModel
+import VeriTile.Triton.Float.Countermodel
 import VeriTile.Triton.Float.Control
 import VeriTile.Triton.Float.ProfiledSoundness
 namespace VeriTile.Bench.TritonBenchG.DecayCumsum.TypedExecution
 open VeriTile.Triton FP.Structural FP.ProfiledRewrite TypedSource
-open VeriTile.Bench.TritonBenchG.ContextAttnFwd.FPModel (model)
 noncomputable section
 set_option maxHeartbeats 8000000
 set_option maxRecDepth 4000
 set_option linter.unusedSimpArgs false
+
+/-- A local, consistent abstract arithmetic interpretation used only to
+witness complete executions; it does not claim GPU numerical refinement. -/
+def model : Algebra ℝ where
+  literal := fun _ _ x => x
+  negInf := 0
+  binary := fun _ _ op a b => match op with
+    | .add => a+b | .sub => a-b | .mul => a*b | .div => a/b
+    | .max => max a b | .pow => 0
+  unary := fun _ _ _ => 1
+  cast := fun _ _ _ x => x
+  fromNat := fun _ n => n
+  fromInt := fun _ n => n
+  fp32Bits := fun _ => 0
+  fp32Load := id
+  reduceMax := fun _ {_} _ _ _ _ => 0
+  reduceSum := fun _ {_} _ _ _ _ => 1
+
+theorem range_int_done (M : Algebra ℝ) (idx : RegName) (cur stop : Int)
+    (stride : Nat) (body : List ComputeStmt) (s : State ℝ) (h : stop≤cur) :
+    rangeInt M idx cur stop stride body s = some s := by
+  rw [rangeInt]
+  simp [Int.not_lt.mpr h]
+
+theorem range_int_step (M : Algebra ℝ) (idx : RegName) (cur stop : Int)
+    (stride : Nat) (body : List ComputeStmt) (s : State ℝ)
+    (hs : stride≠0) (h : cur<stop) :
+    rangeInt M idx cur stop stride body s =
+      (run M body (s.setReg idx .int [] (fun _ => cur))).bind
+        (rangeInt M idx (cur+stride) stop stride body) := by
+  rw [rangeInt]
+  simp [hs,h]
 
 def initial : State ℝ where
   mem := fun r _ => if r ∈ (["g","go","dg"] : List RegionName) then .mk .bf16 1 else .mk .fp16 1
@@ -29,7 +60,7 @@ def forwardExecution : {t : State ℝ // FP.Structural.exec (engine model) forwa
   dsimp only [forwardKernel,forward,ComputeKernel.surfaceBody]
   dsimp only [FP.Structural.exec]
   simp [FP.Structural.exec,forwardKernel,forward,ComputeKernel.surfaceBody,
-    run,step,range_zero,range_done,range_step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
+    run,step,range_int_done,range_int_step,range_zero,range_done,range_step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     engine,Algebra.withDefaultPrecision,resolvePrecision,model,ComputeDType.eraseDType,
     numeric,natLt,numericLt,numericLe,numericEq,bop,initial,ofFloat,toFloat,Region.cast,
     FP.Structural.store,TileShape.allIndices,List.finRange_succ,State.write]
@@ -52,7 +83,7 @@ def prepareExecution : {t : State ℝ // FP.Structural.exec (engine model) prepa
   dsimp only [prepareKernel,prepare,ComputeKernel.surfaceBody]
   dsimp only [FP.Structural.exec]
   simp [FP.Structural.exec,prepareKernel,prepare,ComputeKernel.surfaceBody,
-    run,step,range_zero,range_done,range_step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
+    run,step,range_int_done,range_int_step,range_zero,range_done,range_step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     engine,Algebra.withDefaultPrecision,resolvePrecision,model,ComputeDType.eraseDType,
     numeric,natLt,numericLt,numericLe,numericEq,bop,initial,ofFloat,toFloat,Region.cast,
     FP.Structural.store,TileShape.allIndices,List.finRange_succ,State.write]
@@ -75,7 +106,7 @@ def backwardExecution : {t : State ℝ // FP.Structural.exec (engine model) back
   dsimp only [backwardKernel,backward,ComputeKernel.surfaceBody]
   dsimp only [FP.Structural.exec]
   simp [FP.Structural.exec,backwardKernel,backward,ComputeKernel.surfaceBody,
-    run,step,range_zero,range_done,range_step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
+    run,step,range_int_done,range_int_step,range_zero,range_done,range_step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     engine,Algebra.withDefaultPrecision,resolvePrecision,model,ComputeDType.eraseDType,
     numeric,natLt,numericLt,numericLe,numericEq,bop,initial,ofFloat,toFloat,Region.cast,
     FP.Structural.store,TileShape.allIndices,List.finRange_succ,State.write]

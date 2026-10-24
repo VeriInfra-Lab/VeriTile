@@ -21,14 +21,14 @@ def model : Algebra (WithBot ℝ) where
     | .mul => WithBot.realMul a b
     | .div => WithBot.realDiv a b
     | .max => max a b
-    | .pow => some 0
+    | .pow => WithBot.realPow a b
   unary := fun _ op a ↦ match op with
     | .sqrt => WithBot.realSqrt a
-    | _ => some 0
+    | _ => none
   cast := fun _ _ _ x ↦ x
   fromNat := fun _ n ↦ some n
   fromInt := fun _ n ↦ some n
-  fp32Bits := fun _ ↦ some 0
+  fp32Bits := fun _ ↦ none
   fp32Load := id
   reduceMax := fun _ {_} ax keep v ↦
     ((Tile.reduceMax ax keep ⟨v⟩).getD ⟨fun _ ↦ none⟩).data
@@ -95,6 +95,34 @@ theorem numeric_cells (v lateWide : Bool) :
     List.finRange_succ, List.foldl, List.flatMap, sum_fin2]
   all_goals first | rfl | (repeat' constructor)
   all_goals first | rfl | (congr 1; funext i; norm_num)
+
+/-- Every raw cell outside the three output stores retains its original dtype
+and value. This includes every input cell, every stride gap and the masked tail. -/
+theorem numeric_frame (v lateWide : Bool) (r : RegionName) (o : Nat)
+    (h : r ≠ "O" ∨ (o ≠ 24 ∧ o ≠ 26 ∧ o ≠ 28)) :
+    (numeric_run v lateWide).val.mem r o = (initial lateWide).mem r o := by
+  cases v <;> cases lateWide
+  all_goals
+    rcases h with hr | ⟨h24, h26, h28⟩
+    · simp [numeric_run, initial, ofFloat, hr]
+    · simp [numeric_run, initial, ofFloat, h24, h26, h28]
+
+/-- The numerical outputs and complete typed frame hold for the same successful
+execution of both full loops, with both fp64-promotion locations exercised. -/
+theorem numerical_execution (v lateWide : Bool) :
+    ∃ t, run (engine model)
+      (typedKernel (if lateWide then .fp16 else .fp64)
+        (if lateWide then .fp64 else .fp16) .bf16 v "X" "W" "O"
+        8 4 2 3 16 8 2 3 2 5).surfaceBody (initial lateWide) = some t ∧
+      t.regs .real [] "std" = some (fun _ => some 3) ∧
+      t.mem "O" 24 = Cell.mk .bf16 (some 2) ∧
+      t.mem "O" 26 = Cell.mk .bf16 (some 2) ∧
+      t.mem "O" 28 = Cell.mk .bf16 (some 2) ∧
+      (∀ (r : RegionName) o, (r ≠ "O" ∨ (o ≠ 24 ∧ o ≠ 26 ∧ o ≠ 28)) →
+        t.mem r o = (initial lateWide).mem r o) := by
+  have hc := numeric_cells v lateWide
+  exact ⟨(numeric_run v lateWide).val, (numeric_run v lateWide).property,
+    hc.1, hc.2.1, hc.2.2.1, hc.2.2.2.1, numeric_frame v lateWide⟩
 
 end
 #guard_msgs (drop info) in

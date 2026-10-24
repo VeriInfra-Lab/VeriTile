@@ -1,0 +1,153 @@
+{
+  "schema": 1,
+  "task": "rmsnorm_implementation",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue12/result.json",
+    "sha256": "1acd093fdb5df5a7fed2f0fba54b4e617613726893846119a55bbd0b72bb6386",
+    "task_index": 6
+  },
+  "finding": "A two-channel row input and dummy singleton output channel were visible in an otherwise ordinary vector RMS formula.",
+  "resolution": "LogicalScheduledKernelIO exposes (input vector, weight vector) and the actual feature index, retaining the identity singleton launch and initial program IDs.",
+  "mathematical_target": "(xs k / sqrt ((sum j:Fin n, (xs j)^2)/n + eps)) * weights k.",
+  "conditions_and_scope": {
+    "scope": "One complete selected logical row; identity singleton launch retains initial program IDs, leading strides and both source loops. Width n is arbitrary/empty; source blockSize=4096 loops cover all n.",
+    "public_conditions": [
+      "All original batch/row/column/weight/output strides and n/eps are parameters",
+      "OutputUnique n sok (injective active output addresses) only",
+      "RegionalScheduledImplements oneProgram keeps original contextual input binding and physical windows, source safety, successful execution, all active outputs and exterior frame."
+    ],
+    "contract_connection": "Contract.mathematical is the independent finite unpadded RMS expression. IOResults.mathematical_formula proves its finite-channel equality. Singleton/empty domains permit zero output stride where OutputUnique holds; no arbitrary positive-stride assumption added.",
+    "preserved": "Same complete original judgment: input binding/bounds, source safety, successful execution, all specified output observations and exact exterior frame."
+  },
+  "proof_connection": [
+    "finTwoArrowEquiv and the singleton output-index equivalence retain all input/output values.",
+    "Interface.logical_iff is Iff.rfl for the full original RegionalScheduledImplements judgment, including contextual binding, safety, execution and frame.",
+    "Correct applies the existing implements theorem with precisely OutputUnique n sok and all original strides."
+  ],
+  "fp_review": {
+    "pair": "Actual full typed source versus existing candidate commuting an input batch-stride product.",
+    "scope": "Both complete programs succeed and agree on every memory cell; arbitrary undefined payloads and source masks/reduction order preserved.",
+    "model_precision_and_domain": "ProfiledMemory FP32 source interpretation, unchanged primitive operations, R=[]. Native graph/host applications remain auxiliary.",
+    "source_changed": false,
+    "candidate_changed": false,
+    "actual_rule_set": "[]"
+  },
+  "numerical_dependencies": {
+    "actual_experimental_rule_instances": 0,
+    "experimental_rules": [],
+    "missing_evidence": [],
+    "new_experiments": false,
+    "source_precision_casts_FMA_and_order_changed": false,
+    "note": "Empty experiment set is interpreted under the retained fixed program/model theory; no universal arbitrary-opaque-model or hardware bit-equality claim."
+  },
+  "previous_formula_scope": {
+    "mathematical_target": "(x[k]/sqrt((sum j:Fin n of x[j]^2)/n+eps))*w[k].",
+    "required_conditions": {
+      "explicit_conditions": [
+        "All original batch/row/column/weight/output strides and n/eps are parameters",
+        "OutputUnique n sok (injective active output addresses) only",
+        "RegionalScheduledImplements oneProgram keeps original contextual input binding and physical windows, source safety, successful execution, all active outputs and exterior frame."
+      ],
+      "contract_correspondence": "Contract.mathematical is the independent finite unpadded RMS expression. IOResults.mathematical_formula proves its finite-channel equality. Singleton/empty domains permit zero output stride where OutputUnique holds; no arbitrary positive-stride assumption added."
+    },
+    "scope": "One complete selected logical row; identity singleton launch retains initial program IDs, leading strides and both source loops. Width n is arbitrary/empty; source blockSize=4096 loops cover all n.",
+    "canonical_connection": "Inline target is definitionally Interface.formula; existing IOResults.implements proves both full passes, actual source safety/success, output equality and frame. mathematical_formula connects the Contract sum.",
+    "fp_program_pair": {
+      "fp_pair": "Actual full typed source versus existing candidate commuting an input batch-stride product.",
+      "fp_scope": "Both complete programs succeed and agree on every memory cell; arbitrary undefined payloads and source masks/reduction order preserved.",
+      "fp_model_domain": "ProfiledMemory FP32 source interpretation, unchanged primitive operations, R=[]. Native graph/host applications remain auxiliary."
+    },
+    "numerical_dependencies": "No numerical rewrite; exact natural-number address product only."
+  },
+  "verification": [
+    {
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue12/build.py",
+        "bench/repairs/tritonbench_g/rmsnorm_implementation/IO.lean",
+        "bench/repairs/tritonbench_g/rmsnorm_implementation/Proofs/LogicalReader.lean",
+        "bench/repairs/tritonbench_g/rmsnorm_implementation/Correct.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue12/rmsnorm_implementation-verified-readers.log",
+      "kind": "targeted_readers",
+      "log_sha256": "ea716809228ea3a12fa7f2c2d20adfdc5be5aa28cc5e81ce22a07079d22a2860",
+      "compile_receipts": [
+        {
+          "path": ".veritile-cache/logical-reader-review-20261022/queue12/build/lib/lean/bench/repairs/tritonbench_g/rmsnorm_implementation/IO.workspace-build.json",
+          "sha256": "b9d7cecf35c2770c89e0098926adaf69986239f528462576261b78e65524a817"
+        },
+        {
+          "path": ".veritile-cache/logical-reader-review-20261022/queue12/build/lib/lean/bench/repairs/tritonbench_g/rmsnorm_implementation/Proofs/LogicalReader.workspace-build.json",
+          "sha256": "d4481260848f5f989503bff72ce771c3a03338481469b087f96366ee738909a1"
+        },
+        {
+          "path": ".veritile-cache/logical-reader-review-20261022/queue12/build/lib/lean/bench/repairs/tritonbench_g/rmsnorm_implementation/Correct.workspace-build.json",
+          "sha256": "d9d3af1c0509e709f04b5fbc3a96cd40aa6b58f93cdce5909ed0d3800565e1f5"
+        }
+      ],
+      "note": "Successful queue12 targeted compilation receipts; final validation reuses only source/dependency-hash-matching successful objects."
+    },
+    {
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue12/build.py",
+        "bench/repairs/tritonbench_g/rmsnorm_implementation/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue12/rmsnorm_implementation-fp-build.log",
+      "kind": "targeted_fp_reader",
+      "log_sha256": "fd40574bf71341607b9a2669db419b6b63b4a313ca6ef03001532025fe65369b",
+      "compile_receipts": [
+        {
+          "path": ".veritile-cache/logical-reader-review-20261022/queue12/build/lib/lean/bench/repairs/tritonbench_g/rmsnorm_implementation/FPEquiv.workspace-build.json",
+          "sha256": "557ec3d6a3f9738fd7056b631c5d3ae2066b4075cf861d7027db84aa0b113ace"
+        }
+      ],
+      "note": "Successful queue12 targeted compilation receipts; final validation reuses only source/dependency-hash-matching successful objects."
+    },
+    {
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue12/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue12/joint/rmsnorm_implementation.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue12/rmsnorm_implementation-joint.log",
+      "fixture": ".veritile-cache/logical-reader-review-20261022/queue12/joint/rmsnorm_implementation.lean",
+      "fixture_sha256": "0ae20913cb73ffb9768ec715f5dec0f43096d683bea0eca0581a16665d2fabed",
+      "kind": "per_task_joint",
+      "log_sha256": "c13b5766cf5eafccb2a90b9ad33ae01ec6de9598cfffe2c4c1562da81b1269a5"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Contract.lean": "8ac15410dd421118d6e8621daab06fc940ad48586d8a807789138030303a5ebc",
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Correct.lean": "ea6b4f1006da15834fb0cbe5c8c0d711c1a69c4403f3193d6a5d321265fcc2ae",
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/FPEquiv.lean": "84f4889d65fdd68109ad374115c3c3da293ad2585a866d77be9392d183fc5370",
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/IO.lean": "0df4f7064900e695fdc6c690b1b9aea891348b1f663355b66d65f71926c6cb0b",
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Kernels.lean": "e754f0c19e9cf70e697b13e0bed56163f6f3613ea9b200cfe5cb8c9207e3c0b3",
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/PairIO.lean": "1b0434dac37e4b80fd4845729504be83a81043fe2578aa1e287b24a6ca5d24ce",
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Proofs/FPInterface.lean": "e1ecd1e261f8c00325b4cafced887ca1c31808de012f804bcce252cdee2752ff",
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Proofs/IOResults.lean": "e7eea3b58053b584605268f77e1291f9ab311969818c7c93352aa0a27a9490d8",
+    "bench/repairs/tritonbench_g/rmsnorm_implementation/Proofs/LogicalReader.lean": "c9a3b0dbbb226fa24d1cd923df52e8f02e61048cca1040d6a1cf33d811c6a8ee",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [
+    "Existing applicable internal proof objects reused; no full transitive proof-closure replay or new host/native/Tensor/hardware/numerical task."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

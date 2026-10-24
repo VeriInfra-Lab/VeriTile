@@ -1,0 +1,32 @@
+import bench.repairs.tritonbench_g.matmul_dequantize.Correct
+import bench.repairs.tritonbench_g.matmul_dequantize.Misc.NativeCorrect
+import bench.repairs.tritonbench_g.matmul_dequantize.Misc.TensorBridge
+
+namespace VeriTile.Bench.Repairs.MatmulDequantize.Review
+#axiomsClean Correct.gptq_kernel_correct
+#axiomsClean FPEquiv.gptq_kernel_equiv
+#axiomsClean KernelRealResult.gptq_kernel_correct
+#axiomsClean KernelNativeResult.gptq_kernel_equiv
+#axiomsClean Correct.s2_kernel_correct
+#axiomsClean FPEquiv.s2_kernel_equiv
+#axiomsClean KernelRealResult.s2_kernel_correct
+#axiomsClean KernelNativeResult.s2_kernel_equiv
+#axiomsClean Correct.dequant32_kernel_correct
+#axiomsClean FPEquiv.dequant32_kernel_equiv
+#axiomsClean KernelRealResult.dequant32_kernel_correct
+#axiomsClean KernelNativeResult.dequant32_kernel_equiv
+#axiomsClean Correct.dequant16_kernel_correct
+#axiomsClean FPEquiv.dequant16_kernel_equiv
+#axiomsClean KernelRealResult.dequant16_kernel_correct
+#axiomsClean KernelNativeResult.dequant16_kernel_equiv
+#axiomsClean TensorBridge.gptq_kernel_correct
+#axiomsClean TensorBridge.gptq_kernel_equiv
+#axiomsClean TensorBridge.s2_kernel_correct
+#axiomsClean TensorBridge.s2_kernel_equiv
+#axiomsClean TensorBridge.dequant32_kernel_correct
+#axiomsClean TensorBridge.dequant32_kernel_equiv
+#axiomsClean TensorBridge.dequant16_kernel_correct
+#axiomsClean TensorBridge.dequant16_kernel_equiv
+#guard_msgs (drop info) in
+#auditModuleAxioms
+end VeriTile.Bench.Repairs.MatmulDequantize.Review

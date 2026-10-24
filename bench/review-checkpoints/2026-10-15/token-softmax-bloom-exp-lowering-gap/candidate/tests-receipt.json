@@ -1,0 +1,26 @@
+{
+  "command": [
+    "/opt/conda/bin/python",
+    "-B",
+    "/tmp/veritile-token-softmax-bloom-word-20261015/test_tools.py"
+  ],
+  "exit_code": 0,
+  "elapsed": 0.09248757362365723,
+  "source_sha256_before": {
+    "test_tools.py": "8dee20b0f21701298344ba053b96f175bb91968d0906f97b74748d5b644d1339",
+    "inspect_lowering.py": "009f7d98a9dacdce41dc8d86a9cae5b46a3db2fc63e73a7e7271b29d696231cd",
+    "capture.py": "65db7a0cea97fe0f89a62797f30a81136eea66312a95db5bbb6fb610481b4924",
+    "exponent_probe.py": "9cae65948d2313210754bd13aa270cbc3e5f169328217f965ad0a7d968441a04",
+    "probe.py": "0d42495bc565474d405629933509bb35e06d648f9b940d34e78d29f538b848d2"
+  },
+  "source_sha256_after": {
+    "test_tools.py": "8dee20b0f21701298344ba053b96f175bb91968d0906f97b74748d5b644d1339",
+    "inspect_lowering.py": "009f7d98a9dacdce41dc8d86a9cae5b46a3db2fc63e73a7e7271b29d696231cd",
+    "capture.py": "65db7a0cea97fe0f89a62797f30a81136eea66312a95db5bbb6fb610481b4924",
+    "exponent_probe.py": "9cae65948d2313210754bd13aa270cbc3e5f169328217f965ad0a7d968441a04",
+    "probe.py": "0d42495bc565474d405629933509bb35e06d648f9b940d34e78d29f538b848d2"
+  },
+  "tests": 22,
+  "log_sha256": "084be0b897fc080ce8a21f517058490226856a5e50e6ac80365344d8d3872bf6",
+  "GPU": false
+}

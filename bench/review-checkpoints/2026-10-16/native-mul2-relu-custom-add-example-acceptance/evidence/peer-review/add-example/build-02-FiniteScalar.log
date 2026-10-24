@@ -1,0 +1,17 @@
+VeriTile.Bench.TritonBenchG.AddExample.Finite.scalarFormula: definition does not reference [VeriTile.Bench.TritonBenchG.AddExample.Finite.evaluateScalar,
+ VeriTile.Bench.TritonBenchG.VectorAddition.TypedHost.execute,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Finite.runLive,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Finite.runLoaded] — non-circular ✓
+VeriTile.Bench.TritonBenchG.AddExample.Finite.expectedScalar: definition does not reference [VeriTile.Bench.TritonBenchG.AddExample.Finite.evaluateScalar,
+ VeriTile.Bench.TritonBenchG.VectorAddition.TypedHost.execute,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Finite.runLive,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Finite.runLoaded] — non-circular ✓
+VeriTile.Bench.TritonBenchG.AddExample.Finite.scalar_policy_independent: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.AddExample.Finite.scalar_correspondence: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.AddExample.Finite.scalar_success_defined: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

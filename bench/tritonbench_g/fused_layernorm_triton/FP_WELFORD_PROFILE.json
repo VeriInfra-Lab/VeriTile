@@ -1,0 +1,25 @@
+{
+  "selection": "explicit helper source profile; native runtime correspondence remains to be bound",
+  "torch_version": "2.14.0+cu130",
+  "triton_version": "3.8.0",
+  "module_path": "/opt/conda/lib/python3.11/site-packages/torch/_inductor/runtime/triton_helpers.py",
+  "module_sha256": "653ad73ace0588ba8748ac0499353031268f10c739f911cb73be50248d0a8d9f",
+  "selected_lines": [
+    420,
+    450
+  ],
+  "selected_source": "Proofs/WELFORD_HELPER_SOURCE.txt",
+  "selected_source_sha256": "d8ba8b7b89238864284b39dd8def960bfc75347e738c573fb372857eb42a2eda",
+  "functions": [
+    "welford_reduce",
+    "welford_combine",
+    "welford"
+  ],
+  "reduction_profile": "explicit complete binary ReductionTree with ordered left/right children; no associativity assumed",
+  "native_tree_binding": "not established",
+  "guards": [
+    "first_iteration returns value, zero, one",
+    "mean_1 == mean_2 guards delta",
+    "new_weight == 0.0 guards ratio"
+  ]
+}

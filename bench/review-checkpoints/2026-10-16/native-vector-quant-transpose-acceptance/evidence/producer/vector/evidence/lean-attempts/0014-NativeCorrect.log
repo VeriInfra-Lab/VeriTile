@@ -1,0 +1,138 @@
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-revision1-wip/after/bench/tritonbench_g/vector_addition/NativeCorrect.lean:112:48: error: Application type mismatch: The argument
+  metadata
+has type
+  AllocationBinding metadata✝ x y output
+of sort `Prop` but is expected to have type
+  Metadata
+of sort `Type` in the application
+  layout metadata
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-revision1-wip/after/bench/tritonbench_g/vector_addition/NativeCorrect.lean:117:39: error: Application type mismatch: The argument
+  metadata
+has type
+  AllocationBinding metadata✝ x y output
+of sort `Prop` but is expected to have type
+  Metadata
+of sort `Type` in the application
+  layout metadata
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-revision1-wip/after/bench/tritonbench_g/vector_addition/NativeCorrect.lean:139:50: error(lean.unknownIdentifier): Unknown constant `Bool.eq_true_iff.mpr`
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-revision1-wip/after/bench/tritonbench_g/vector_addition/NativeCorrect.lean:154:18: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  if ¬gridSupported output.numel then ?m.187 else ?m.188
+in the target expression
+  AllocatedSpec ops b env metadata xd yd x y output allocated
+    (match none with
+    | some detail => Outcome.failed (attemptedTrace x y output) (Failure.primitive SetupStage.context detail)
+    | none =>
+      match Except.ok r with
+      | Except.error reason => Outcome.failed (attemptedTrace x y output) (Failure.setup reason)
+      | Except.ok r =>
+        match none, none with
+        | some detail, x_1 =>
+          Outcome.failed (attemptedTrace x y output) (Failure.primitive SetupStage.compilation detail)
+        | none, some detail =>
+          Outcome.failed (attemptedTrace x y output) (Failure.primitive SetupStage.pointerPacking detail)
+        | none, none =>
+          if ¬gridSupported output.numel then
+            Outcome.failed (attemptedTrace x y output) (Failure.gridLimit (grid output.numel))
+          else
+            match env SetupStage.launch with
+            | some detail => Outcome.failed (attemptedTrace x y output) (Failure.primitive SetupStage.launch detail)
+            | none =>
+              match executeLaunch r (ops r) b (layout metadata x y output) output.numel allocated with
+              | Except.error issue => Outcome.observed (attemptedTrace x y output) issue
+              | Except.ok memory => Outcome.returned (successTrace x y output) output memory)
+
+case pos
+M : Type
+ops : (r : Route) → Memory M (Carrier r)
+b : Numerics
+env : Environment
+metadata : Metadata
+xd yd : DenseDType
+x y output : Tensor
+allocated : M
+binding : AllocationBinding metadata x y output
+hc : ¬cudaGuard x y output = «false»
+cuda : cudaGuard x y output = «true»
+he : env SetupStage.context = none
+r : Route
+ha : admission xd yd = Except.ok r
+hcomp : env SetupStage.compilation = none
+hpack : env SetupStage.pointerPacking = none
+hg : gridSupported output.numel
+⊢ AllocatedSpec ops b env metadata xd yd x y output allocated
+    (match none with
+    | some detail => Outcome.failed (attemptedTrace x y output) (Failure.primitive SetupStage.context detail)
+    | none =>
+      match Except.ok r with
+      | Except.error reason => Outcome.failed (attemptedTrace x y output) (Failure.setup reason)
+      | Except.ok r =>
+        match none, none with
+        | some detail, x_1 =>
+          Outcome.failed (attemptedTrace x y output) (Failure.primitive SetupStage.compilation detail)
+        | none, some detail =>
+          Outcome.failed (attemptedTrace x y output) (Failure.primitive SetupStage.pointerPacking detail)
+        | none, none =>
+          if ¬gridSupported output.numel then
+            Outcome.failed (attemptedTrace x y output) (Failure.gridLimit (grid output.numel))
+          else
+            match env SetupStage.launch with
+            | some detail => Outcome.failed (attemptedTrace x y output) (Failure.primitive SetupStage.launch detail)
+            | none =>
+              match executeLaunch r (ops r) b (layout metadata x y output) output.numel allocated with
+              | Except.error issue => Outcome.observed (attemptedTrace x y output) issue
+              | Except.ok memory => Outcome.returned (successTrace x y output) output memory)
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-revision1-wip/after/bench/tritonbench_g/vector_addition/NativeCorrect.lean:188:34: warning: unused variable `hx`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-revision1-wip/after/bench/tritonbench_g/vector_addition/NativeCorrect.lean:188:62: warning: unused variable `hy`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-revision1-wip/after/bench/tritonbench_g/vector_addition/NativeCorrect.lean:207:62: error: unsolved goals
+M : Type
+ops : (r : Route) → Memory M (Carrier r)
+b : Numerics
+alloc : Allocator M
+metadata : Metadata
+xd yd : DenseDType
+r : Route
+x y output : Tensor
+initial allocated : M
+ha : alloc x initial = Except.ok (output, allocated)
+hc : cudaGuard x y output = «true»
+hr : admission xd yd = Except.ok r
+hn : output.numel = 2 ^ 31
+⊢ (if gridSupported 2147483648 then
+      match executeLaunch r (ops r) b (layout metadata x y output) 2147483648 allocated with
+      | Except.error issue => Outcome.observed (attemptedTrace x y output) issue
+      | Except.ok memory => Outcome.returned (successTrace x y output) output memory
+    else Outcome.failed (attemptedTrace x y output) (Failure.gridLimit (grid 2147483648))) =
+    Outcome.returned (successTrace x y output) output allocated
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-revision1-wip/after/bench/tritonbench_g/vector_addition/NativeCorrect.lean:208:49: warning: This simp argument is unused:
+  counterexample_grid.2.1
+
+Hint: Omit it from the simp argument list.
+  simp [̵e̵x̵e̵c̵u̵t̵e̵H̵o̵s̵t̵,̵h̵a̵,̵e̵x̵e̵c̵u̵t̵e̵A̵l̵l̵o̵c̵a̵t̵e̵d̵,̵h̵c̵,̵h̵r̵,̵h̵n̵,̵c̵o̵u̵n̵t̵e̵r̵e̵x̵a̵m̵p̵l̵e̵_̵g̵r̵i̵d̵.̵2̵.̵1̵,̵n̵o̵_̵a̵c̵c̵e̵s̵s̵_̵r̵e̵t̵u̵r̵n̵e̵d̵_̵m̵e̵m̵o̵r̵y̵]̵[̲e̲x̲e̲c̲u̲t̲e̲H̲o̲s̲t̲,̲ ̲h̲a̲,̲ ̲e̲x̲e̲c̲u̲t̲e̲A̲l̲l̲o̲c̲a̲t̲e̲d̲,̲ ̲h̲c̲,̲ ̲h̲r̲,̲ ̲h̲n̲,̲ ̲n̲o̲_̲a̲c̲c̲e̲s̲s̲_̲r̲e̲t̲u̲r̲n̲e̲d̲_̲m̲e̲m̲o̲r̲y̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-revision1-wip/after/bench/tritonbench_g/vector_addition/NativeCorrect.lean:208:73: warning: This simp argument is unused:
+  no_access_returned_memory
+
+Hint: Omit it from the simp argument list.
+  simp [̵e̵x̵e̵c̵u̵t̵e̵H̵o̵s̵t̵,̵h̵a̵,̵e̵x̵e̵c̵u̵t̵e̵A̵l̵l̵o̵c̵a̵t̵e̵d̵,̵h̵c̵,̵h̵r̵,̵h̵n̵,̵c̵o̵u̵n̵t̵e̵r̵e̵x̵a̵m̵p̵l̵e̵_̵g̵r̵i̵d̵.̵2̵.̵1̵,̵n̵o̵_̵a̵c̵c̵e̵s̵s̵_̵r̵e̵t̵u̵r̵n̵e̵d̵_̵m̵e̵m̵o̵r̵y̵]̵[̲e̲x̲e̲c̲u̲t̲e̲H̲o̲s̲t̲,̲ ̲h̲a̲,̲ ̲e̲x̲e̲c̲u̲t̲e̲A̲l̲l̲o̲c̲a̲t̲e̲d̲,̲ ̲h̲c̲,̲ ̲h̲r̲,̲ ̲h̲n̲,̲ ̲c̲o̲u̲n̲t̲e̲r̲e̲x̲a̲m̲p̲l̲e̲_̲g̲r̲i̲d̲.̲2̲.̲1̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.TritonBenchG.VectorAddition.Native.HostSpec: definition does not reference [VeriTile.Bench.TritonBenchG.VectorAddition.Native.executeHost,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Native.executeAllocated,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Native.executeLaunch,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Native.executeGrid,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Native.executeProgram,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Native.sourceWrites] — non-circular ✓
+VeriTile.Bench.TritonBenchG.VectorAddition.Native.ReturnedSpec: definition does not reference [VeriTile.Bench.TritonBenchG.VectorAddition.Native.executeHost,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Native.executeAllocated,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Native.executeLaunch,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Native.executeGrid,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Native.executeProgram,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Native.sourceWrites] — non-circular ✓
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-revision1-wip/after/bench/tritonbench_g/vector_addition/NativeCorrect.lean:212:0: error: VeriTile.Bench.TritonBenchG.VectorAddition.Native.allocated_all_outcomes: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-revision1-wip/after/bench/tritonbench_g/vector_addition/NativeCorrect.lean:213:0: error: VeriTile.Bench.TritonBenchG.VectorAddition.Native.vector_addition_native_source_outcomes: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-revision1-wip/after/bench/tritonbench_g/vector_addition/NativeCorrect.lean:214:0: error: VeriTile.Bench.TritonBenchG.VectorAddition.Native.vector_addition_two31_return: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

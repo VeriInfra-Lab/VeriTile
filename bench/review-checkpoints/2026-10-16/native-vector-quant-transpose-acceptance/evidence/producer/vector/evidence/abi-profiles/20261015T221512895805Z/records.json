@@ -1,0 +1,1552 @@
+[
+  {
+    "n": 0,
+    "signature": {
+      "x_ptr": "*fp32",
+      "y_ptr": "*fp32",
+      "output_ptr": "*fp32",
+      "n_elements": "i32",
+      "BLOCK_SIZE": "constexpr"
+    },
+    "specialization": [
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "i32",
+        "D"
+      ],
+      [
+        "constexpr",
+        1024
+      ]
+    ],
+    "constexprs": {
+      "(4,)": 1024
+    },
+    "attrs": {
+      "(0,)": [
+        [
+          "tt.divisibility",
+          16
+        ]
+      ],
+      "(1,)": [
+        [
+          "tt.divisibility",
+          16
+        ]
+      ],
+      "(2,)": [
+        [
+          "tt.divisibility",
+          16
+        ]
+      ],
+      "(3,)": [
+        [
+          "tt.divisibility",
+          16
+        ]
+      ],
+      "(4,)": []
+    },
+    "driver_i32": 0,
+    "options": {
+      "num_warps": 4,
+      "num_ctas": 1,
+      "num_stages": 3,
+      "warp_size": 32,
+      "maxnreg": null,
+      "ptx_version": null,
+      "ptx_options": null,
+      "ir_override": null,
+      "enable_fp_fusion": true,
+      "enable_reflect_ftz": true,
+      "launch_cooperative_grid": false,
+      "launch_pdl": false,
+      "supported_fp8_dtypes": [
+        "fp8e4b15",
+        "fp8e4nv",
+        "fp8e5"
+      ],
+      "deprecated_fp8_dot_operand_dtypes": [
+        "fp8e4b15"
+      ],
+      "default_dot_input_precision": "tf32",
+      "allowed_dot_input_precisions": [
+        "tf32",
+        "tf32x3",
+        "ieee",
+        "bf16x3",
+        "bf16x6"
+      ],
+      "max_num_imprecise_acc_default": 1073741824,
+      "extern_libs": [
+        [
+          "libdevice",
+          "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+        ]
+      ],
+      "debug": false,
+      "backend_name": "cuda",
+      "sanitize_overflow": true,
+      "arch": "sm90",
+      "instrumentation_mode": ""
+    },
+    "raw_sha256": "f4368dde072b1bd651caa760b0059c51c81dc2db4f303bcc5b8e31fe1bb07a5a",
+    "artifacts": {
+      "0.source": "f4368dde072b1bd651caa760b0059c51c81dc2db4f303bcc5b8e31fe1bb07a5a",
+      "0.ttir": "a2a0cbdfc540a167f93e5e55d10ff7d3e012afbc55468a9bad5dfa566de0d09c",
+      "0.ttgir": "99a2e7cc05dfcb1cc7faafc82b84e0bae9ffd37572ad5f98c45b5571b97470da",
+      "0.llir": "2e2f39e376d1e1b7d0e3cc15884c2bd5ecee2c844d5f12697db52a80caec2871",
+      "0.ptx": "92a3eabd1295cd589f0b76c7d4e4aab7893f57cf59a42fabb3ab495deee39982",
+      "0.cubin": "46e38d5838d65d4bad86f402aab75797a4b1c027046b698e3cb9490771b984c5"
+    }
+  },
+  {
+    "n": 1,
+    "signature": {
+      "x_ptr": "*fp32",
+      "y_ptr": "*fp32",
+      "output_ptr": "*fp32",
+      "n_elements": "i32",
+      "BLOCK_SIZE": "constexpr"
+    },
+    "specialization": [
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        1024
+      ]
+    ],
+    "constexprs": {
+      "(4,)": 1024
+    },
+    "attrs": {
+      "(0,)": [
+        [
+          "tt.divisibility",
+          16
+        ]
+      ],
+      "(1,)": [
+        [
+          "tt.divisibility",
+          16
+        ]
+      ],
+      "(2,)": [
+        [
+          "tt.divisibility",
+          16
+        ]
+      ],
+      "(4,)": []
+    },
+    "driver_i32": 1,
+    "options": {
+      "num_warps": 4,
+      "num_ctas": 1,
+      "num_stages": 3,
+      "warp_size": 32,
+      "maxnreg": null,
+      "ptx_version": null,
+      "ptx_options": null,
+      "ir_override": null,
+      "enable_fp_fusion": true,
+      "enable_reflect_ftz": true,
+      "launch_cooperative_grid": false,
+      "launch_pdl": false,
+      "supported_fp8_dtypes": [
+        "fp8e4b15",
+        "fp8e4nv",
+        "fp8e5"
+      ],
+      "deprecated_fp8_dot_operand_dtypes": [
+        "fp8e4b15"
+      ],
+      "default_dot_input_precision": "tf32",
+      "allowed_dot_input_precisions": [
+        "tf32",
+        "tf32x3",
+        "ieee",
+        "bf16x3",
+        "bf16x6"
+      ],
+      "max_num_imprecise_acc_default": 1073741824,
+      "extern_libs": [
+        [
+          "libdevice",
+          "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+        ]
+      ],
+      "debug": false,
+      "backend_name": "cuda",
+      "sanitize_overflow": true,
+      "arch": "sm90",
+      "instrumentation_mode": ""
+    },
+    "raw_sha256": "95c675ae9bf8fcec8987e6727995fb5d13bf03162fd2b270fe4644b2a2c2948e",
+    "artifacts": {
+      "1.source": "95c675ae9bf8fcec8987e6727995fb5d13bf03162fd2b270fe4644b2a2c2948e",
+      "1.ttir": "19179d867fd9546581c557c7c7ea738739df5f4d988b62cc72955ef33f9419c3",
+      "1.ttgir": "121bbd5d1d4f257fa5e1f98bef51fefc424ecaa2aa6923f63edb0806f182084d",
+      "1.llir": "47f773dab6676c6c07ea2690be9d827024714b1a993ada41affa5e95d3aa9066",
+      "1.ptx": "915ce646885142327cddc5e6b5ed3f9dd87915ea22cfddf54b49e137a185755b",
+      "1.cubin": "d4ff231e329c8f44304741d00e9e81cecc8e8a1d6c35208f859a7f44e4b0aba5"
+    }
+  },
+  {
+    "n": 1023,
+    "signature": {
+      "x_ptr": "*fp32",
+      "y_ptr": "*fp32",
+      "output_ptr": "*fp32",
+      "n_elements": "i32",
+      "BLOCK_SIZE": "constexpr"
+    },
+    "specialization": [
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "i32",
+        ""
+      ],
+      [
+        "constexpr",
+        1024
+      ]
+    ],
+    "constexprs": {
+      "(4,)": 1024
+    },
+    "attrs": {
+      "(0,)": [
+        [
+          "tt.divisibility",
+          16
+        ]
+      ],
+      "(1,)": [
+        [
+          "tt.divisibility",
+          16
+        ]
+      ],
+      "(2,)": [
+        [
+          "tt.divisibility",
+          16
+        ]
+      ],
+      "(3,)": [],
+      "(4,)": []
+    },
+    "driver_i32": 1023,
+    "options": {
+      "num_warps": 4,
+      "num_ctas": 1,
+      "num_stages": 3,
+      "warp_size": 32,
+      "maxnreg": null,
+      "ptx_version": null,
+      "ptx_options": null,
+      "ir_override": null,
+      "enable_fp_fusion": true,
+      "enable_reflect_ftz": true,
+      "launch_cooperative_grid": false,
+      "launch_pdl": false,
+      "supported_fp8_dtypes": [
+        "fp8e4b15",
+        "fp8e4nv",
+        "fp8e5"
+      ],
+      "deprecated_fp8_dot_operand_dtypes": [
+        "fp8e4b15"
+      ],
+      "default_dot_input_precision": "tf32",
+      "allowed_dot_input_precisions": [
+        "tf32",
+        "tf32x3",
+        "ieee",
+        "bf16x3",
+        "bf16x6"
+      ],
+      "max_num_imprecise_acc_default": 1073741824,
+      "extern_libs": [
+        [
+          "libdevice",
+          "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+        ]
+      ],
+      "debug": false,
+      "backend_name": "cuda",
+      "sanitize_overflow": true,
+      "arch": "sm90",
+      "instrumentation_mode": ""
+    },
+    "raw_sha256": "95c675ae9bf8fcec8987e6727995fb5d13bf03162fd2b270fe4644b2a2c2948e",
+    "artifacts": {
+      "1023.source": "95c675ae9bf8fcec8987e6727995fb5d13bf03162fd2b270fe4644b2a2c2948e",
+      "1023.ttir": "19179d867fd9546581c557c7c7ea738739df5f4d988b62cc72955ef33f9419c3",
+      "1023.ttgir": "121bbd5d1d4f257fa5e1f98bef51fefc424ecaa2aa6923f63edb0806f182084d",
+      "1023.llir": "47f773dab6676c6c07ea2690be9d827024714b1a993ada41affa5e95d3aa9066",
+      "1023.ptx": "915ce646885142327cddc5e6b5ed3f9dd87915ea22cfddf54b49e137a185755b",
+      "1023.cubin": "d4ff231e329c8f44304741d00e9e81cecc8e8a1d6c35208f859a7f44e4b0aba5"
+    }
+  },
+  {
+    "n": 1024,
+    "signature": {
+      "x_ptr": "*fp32",
+      "y_ptr": "*fp32",
+      "output_ptr": "*fp32",
+      "n_elements": "i32",
+      "BLOCK_SIZE": "constexpr"
+    },
+    "specialization": [
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "i32",
+        "D"
+      ],
+      [
+        "constexpr",
+        1024
+      ]
+    ],
+    "constexprs": {
+      "(4,)": 1024
+    },
+    "attrs": {
+      "(0,)": [
+        [
+          "tt.divisibility",
+          16
+        ]
+      ],
+      "(1,)": [
+        [
+          "tt.divisibility",
+          16
+        ]
+      ],
+      "(2,)": [
+        [
+          "tt.divisibility",
+          16
+        ]
+      ],
+      "(3,)": [
+        [
+          "tt.divisibility",
+          16
+        ]
+      ],
+      "(4,)": []
+    },
+    "driver_i32": 1024,
+    "options": {
+      "num_warps": 4,
+      "num_ctas": 1,
+      "num_stages": 3,
+      "warp_size": 32,
+      "maxnreg": null,
+      "ptx_version": null,
+      "ptx_options": null,
+      "ir_override": null,
+      "enable_fp_fusion": true,
+      "enable_reflect_ftz": true,
+      "launch_cooperative_grid": false,
+      "launch_pdl": false,
+      "supported_fp8_dtypes": [
+        "fp8e4b15",
+        "fp8e4nv",
+        "fp8e5"
+      ],
+      "deprecated_fp8_dot_operand_dtypes": [
+        "fp8e4b15"
+      ],
+      "default_dot_input_precision": "tf32",
+      "allowed_dot_input_precisions": [
+        "tf32",
+        "tf32x3",
+        "ieee",
+        "bf16x3",
+        "bf16x6"
+      ],
+      "max_num_imprecise_acc_default": 1073741824,
+      "extern_libs": [
+        [
+          "libdevice",
+          "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+        ]
+      ],
+      "debug": false,
+      "backend_name": "cuda",
+      "sanitize_overflow": true,
+      "arch": "sm90",
+      "instrumentation_mode": ""
+    },
+    "raw_sha256": "f4368dde072b1bd651caa760b0059c51c81dc2db4f303bcc5b8e31fe1bb07a5a",
+    "artifacts": {
+      "1024.source": "f4368dde072b1bd651caa760b0059c51c81dc2db4f303bcc5b8e31fe1bb07a5a",
+      "1024.ttir": "a2a0cbdfc540a167f93e5e55d10ff7d3e012afbc55468a9bad5dfa566de0d09c",
+      "1024.ttgir": "99a2e7cc05dfcb1cc7faafc82b84e0bae9ffd37572ad5f98c45b5571b97470da",
+      "1024.llir": "2e2f39e376d1e1b7d0e3cc15884c2bd5ecee2c844d5f12697db52a80caec2871",
+      "1024.ptx": "92a3eabd1295cd589f0b76c7d4e4aab7893f57cf59a42fabb3ab495deee39982",
+      "1024.cubin": "46e38d5838d65d4bad86f402aab75797a4b1c027046b698e3cb9490771b984c5"
+    }
+  },
+  {
+    "n": 1025,
+    "signature": {
+      "x_ptr": "*fp32",
+      "y_ptr": "*fp32",
+      "output_ptr": "*fp32",
+      "n_elements": "i32",
+      "BLOCK_SIZE": "constexpr"
+    },
+    "specialization": [
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "i32",
+        ""
+      ],
+      [
+        "constexpr",
+        1024
+      ]
+    ],
+    "constexprs": {
+      "(4,)": 1024
+    },
+    "attrs": {
+      "(0,)": [
+        [
+          "tt.divisibility",
+          16
+        ]
+      ],
+      "(1,)": [
+        [
+          "tt.divisibility",
+          16
+        ]
+      ],
+      "(2,)": [
+        [
+          "tt.divisibility",
+          16
+        ]
+      ],
+      "(3,)": [],
+      "(4,)": []
+    },
+    "driver_i32": 1025,
+    "options": {
+      "num_warps": 4,
+      "num_ctas": 1,
+      "num_stages": 3,
+      "warp_size": 32,
+      "maxnreg": null,
+      "ptx_version": null,
+      "ptx_options": null,
+      "ir_override": null,
+      "enable_fp_fusion": true,
+      "enable_reflect_ftz": true,
+      "launch_cooperative_grid": false,
+      "launch_pdl": false,
+      "supported_fp8_dtypes": [
+        "fp8e4b15",
+        "fp8e4nv",
+        "fp8e5"
+      ],
+      "deprecated_fp8_dot_operand_dtypes": [
+        "fp8e4b15"
+      ],
+      "default_dot_input_precision": "tf32",
+      "allowed_dot_input_precisions": [
+        "tf32",
+        "tf32x3",
+        "ieee",
+        "bf16x3",
+        "bf16x6"
+      ],
+      "max_num_imprecise_acc_default": 1073741824,
+      "extern_libs": [
+        [
+          "libdevice",
+          "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+        ]
+      ],
+      "debug": false,
+      "backend_name": "cuda",
+      "sanitize_overflow": true,
+      "arch": "sm90",
+      "instrumentation_mode": ""
+    },
+    "raw_sha256": "95c675ae9bf8fcec8987e6727995fb5d13bf03162fd2b270fe4644b2a2c2948e",
+    "artifacts": {
+      "1025.source": "95c675ae9bf8fcec8987e6727995fb5d13bf03162fd2b270fe4644b2a2c2948e",
+      "1025.ttir": "19179d867fd9546581c557c7c7ea738739df5f4d988b62cc72955ef33f9419c3",
+      "1025.ttgir": "121bbd5d1d4f257fa5e1f98bef51fefc424ecaa2aa6923f63edb0806f182084d",
+      "1025.llir": "47f773dab6676c6c07ea2690be9d827024714b1a993ada41affa5e95d3aa9066",
+      "1025.ptx": "915ce646885142327cddc5e6b5ed3f9dd87915ea22cfddf54b49e137a185755b",
+      "1025.cubin": "d4ff231e329c8f44304741d00e9e81cecc8e8a1d6c35208f859a7f44e4b0aba5"
+    }
+  },
+  {
+    "n": 2147483647,
+    "signature": {
+      "x_ptr": "*fp32",
+      "y_ptr": "*fp32",
+      "output_ptr": "*fp32",
+      "n_elements": "i32",
+      "BLOCK_SIZE": "constexpr"
+    },
+    "specialization": [
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "i32",
+        ""
+      ],
+      [
+        "constexpr",
+        1024
+      ]
+    ],
+    "constexprs": {
+      "(4,)": 1024
+    },
+    "attrs": {
+      "(0,)": [
+        [
+          "tt.divisibility",
+          16
+        ]
+      ],
+      "(1,)": [
+        [
+          "tt.divisibility",
+          16
+        ]
+      ],
+      "(2,)": [
+        [
+          "tt.divisibility",
+          16
+        ]
+      ],
+      "(3,)": [],
+      "(4,)": []
+    },
+    "driver_i32": 2147483647,
+    "options": {
+      "num_warps": 4,
+      "num_ctas": 1,
+      "num_stages": 3,
+      "warp_size": 32,
+      "maxnreg": null,
+      "ptx_version": null,
+      "ptx_options": null,
+      "ir_override": null,
+      "enable_fp_fusion": true,
+      "enable_reflect_ftz": true,
+      "launch_cooperative_grid": false,
+      "launch_pdl": false,
+      "supported_fp8_dtypes": [
+        "fp8e4b15",
+        "fp8e4nv",
+        "fp8e5"
+      ],
+      "deprecated_fp8_dot_operand_dtypes": [
+        "fp8e4b15"
+      ],
+      "default_dot_input_precision": "tf32",
+      "allowed_dot_input_precisions": [
+        "tf32",
+        "tf32x3",
+        "ieee",
+        "bf16x3",
+        "bf16x6"
+      ],
+      "max_num_imprecise_acc_default": 1073741824,
+      "extern_libs": [
+        [
+          "libdevice",
+          "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+        ]
+      ],
+      "debug": false,
+      "backend_name": "cuda",
+      "sanitize_overflow": true,
+      "arch": "sm90",
+      "instrumentation_mode": ""
+    },
+    "raw_sha256": "95c675ae9bf8fcec8987e6727995fb5d13bf03162fd2b270fe4644b2a2c2948e",
+    "artifacts": {
+      "2147483647.source": "95c675ae9bf8fcec8987e6727995fb5d13bf03162fd2b270fe4644b2a2c2948e",
+      "2147483647.ttir": "19179d867fd9546581c557c7c7ea738739df5f4d988b62cc72955ef33f9419c3",
+      "2147483647.ttgir": "121bbd5d1d4f257fa5e1f98bef51fefc424ecaa2aa6923f63edb0806f182084d",
+      "2147483647.llir": "47f773dab6676c6c07ea2690be9d827024714b1a993ada41affa5e95d3aa9066",
+      "2147483647.ptx": "915ce646885142327cddc5e6b5ed3f9dd87915ea22cfddf54b49e137a185755b",
+      "2147483647.cubin": "d4ff231e329c8f44304741d00e9e81cecc8e8a1d6c35208f859a7f44e4b0aba5"
+    }
+  },
+  {
+    "n": 2147483648,
+    "signature": {
+      "x_ptr": "*fp32",
+      "y_ptr": "*fp32",
+      "output_ptr": "*fp32",
+      "n_elements": "i32",
+      "BLOCK_SIZE": "constexpr"
+    },
+    "specialization": [
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "i32",
+        "D"
+      ],
+      [
+        "constexpr",
+        1024
+      ]
+    ],
+    "constexprs": {
+      "(4,)": 1024
+    },
+    "attrs": {
+      "(0,)": [
+        [
+          "tt.divisibility",
+          16
+        ]
+      ],
+      "(1,)": [
+        [
+          "tt.divisibility",
+          16
+        ]
+      ],
+      "(2,)": [
+        [
+          "tt.divisibility",
+          16
+        ]
+      ],
+      "(3,)": [
+        [
+          "tt.divisibility",
+          16
+        ]
+      ],
+      "(4,)": []
+    },
+    "driver_i32": -2147483648,
+    "options": {
+      "num_warps": 4,
+      "num_ctas": 1,
+      "num_stages": 3,
+      "warp_size": 32,
+      "maxnreg": null,
+      "ptx_version": null,
+      "ptx_options": null,
+      "ir_override": null,
+      "enable_fp_fusion": true,
+      "enable_reflect_ftz": true,
+      "launch_cooperative_grid": false,
+      "launch_pdl": false,
+      "supported_fp8_dtypes": [
+        "fp8e4b15",
+        "fp8e4nv",
+        "fp8e5"
+      ],
+      "deprecated_fp8_dot_operand_dtypes": [
+        "fp8e4b15"
+      ],
+      "default_dot_input_precision": "tf32",
+      "allowed_dot_input_precisions": [
+        "tf32",
+        "tf32x3",
+        "ieee",
+        "bf16x3",
+        "bf16x6"
+      ],
+      "max_num_imprecise_acc_default": 1073741824,
+      "extern_libs": [
+        [
+          "libdevice",
+          "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+        ]
+      ],
+      "debug": false,
+      "backend_name": "cuda",
+      "sanitize_overflow": true,
+      "arch": "sm90",
+      "instrumentation_mode": ""
+    },
+    "raw_sha256": "f4368dde072b1bd651caa760b0059c51c81dc2db4f303bcc5b8e31fe1bb07a5a",
+    "artifacts": {
+      "2147483648.source": "f4368dde072b1bd651caa760b0059c51c81dc2db4f303bcc5b8e31fe1bb07a5a",
+      "2147483648.ttir": "a2a0cbdfc540a167f93e5e55d10ff7d3e012afbc55468a9bad5dfa566de0d09c",
+      "2147483648.ttgir": "99a2e7cc05dfcb1cc7faafc82b84e0bae9ffd37572ad5f98c45b5571b97470da",
+      "2147483648.llir": "2e2f39e376d1e1b7d0e3cc15884c2bd5ecee2c844d5f12697db52a80caec2871",
+      "2147483648.ptx": "92a3eabd1295cd589f0b76c7d4e4aab7893f57cf59a42fabb3ab495deee39982",
+      "2147483648.cubin": "46e38d5838d65d4bad86f402aab75797a4b1c027046b698e3cb9490771b984c5"
+    }
+  },
+  {
+    "n": 2147483649,
+    "signature": {
+      "x_ptr": "*fp32",
+      "y_ptr": "*fp32",
+      "output_ptr": "*fp32",
+      "n_elements": "i32",
+      "BLOCK_SIZE": "constexpr"
+    },
+    "specialization": [
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "i32",
+        ""
+      ],
+      [
+        "constexpr",
+        1024
+      ]
+    ],
+    "constexprs": {
+      "(4,)": 1024
+    },
+    "attrs": {
+      "(0,)": [
+        [
+          "tt.divisibility",
+          16
+        ]
+      ],
+      "(1,)": [
+        [
+          "tt.divisibility",
+          16
+        ]
+      ],
+      "(2,)": [
+        [
+          "tt.divisibility",
+          16
+        ]
+      ],
+      "(3,)": [],
+      "(4,)": []
+    },
+    "driver_i32": -2147483647,
+    "options": {
+      "num_warps": 4,
+      "num_ctas": 1,
+      "num_stages": 3,
+      "warp_size": 32,
+      "maxnreg": null,
+      "ptx_version": null,
+      "ptx_options": null,
+      "ir_override": null,
+      "enable_fp_fusion": true,
+      "enable_reflect_ftz": true,
+      "launch_cooperative_grid": false,
+      "launch_pdl": false,
+      "supported_fp8_dtypes": [
+        "fp8e4b15",
+        "fp8e4nv",
+        "fp8e5"
+      ],
+      "deprecated_fp8_dot_operand_dtypes": [
+        "fp8e4b15"
+      ],
+      "default_dot_input_precision": "tf32",
+      "allowed_dot_input_precisions": [
+        "tf32",
+        "tf32x3",
+        "ieee",
+        "bf16x3",
+        "bf16x6"
+      ],
+      "max_num_imprecise_acc_default": 1073741824,
+      "extern_libs": [
+        [
+          "libdevice",
+          "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+        ]
+      ],
+      "debug": false,
+      "backend_name": "cuda",
+      "sanitize_overflow": true,
+      "arch": "sm90",
+      "instrumentation_mode": ""
+    },
+    "raw_sha256": "95c675ae9bf8fcec8987e6727995fb5d13bf03162fd2b270fe4644b2a2c2948e",
+    "artifacts": {
+      "2147483649.source": "95c675ae9bf8fcec8987e6727995fb5d13bf03162fd2b270fe4644b2a2c2948e",
+      "2147483649.ttir": "19179d867fd9546581c557c7c7ea738739df5f4d988b62cc72955ef33f9419c3",
+      "2147483649.ttgir": "121bbd5d1d4f257fa5e1f98bef51fefc424ecaa2aa6923f63edb0806f182084d",
+      "2147483649.llir": "47f773dab6676c6c07ea2690be9d827024714b1a993ada41affa5e95d3aa9066",
+      "2147483649.ptx": "915ce646885142327cddc5e6b5ed3f9dd87915ea22cfddf54b49e137a185755b",
+      "2147483649.cubin": "d4ff231e329c8f44304741d00e9e81cecc8e8a1d6c35208f859a7f44e4b0aba5"
+    }
+  },
+  {
+    "n": 4294967295,
+    "signature": {
+      "x_ptr": "*fp32",
+      "y_ptr": "*fp32",
+      "output_ptr": "*fp32",
+      "n_elements": "i32",
+      "BLOCK_SIZE": "constexpr"
+    },
+    "specialization": [
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "i32",
+        ""
+      ],
+      [
+        "constexpr",
+        1024
+      ]
+    ],
+    "constexprs": {
+      "(4,)": 1024
+    },
+    "attrs": {
+      "(0,)": [
+        [
+          "tt.divisibility",
+          16
+        ]
+      ],
+      "(1,)": [
+        [
+          "tt.divisibility",
+          16
+        ]
+      ],
+      "(2,)": [
+        [
+          "tt.divisibility",
+          16
+        ]
+      ],
+      "(3,)": [],
+      "(4,)": []
+    },
+    "driver_i32": -1,
+    "options": {
+      "num_warps": 4,
+      "num_ctas": 1,
+      "num_stages": 3,
+      "warp_size": 32,
+      "maxnreg": null,
+      "ptx_version": null,
+      "ptx_options": null,
+      "ir_override": null,
+      "enable_fp_fusion": true,
+      "enable_reflect_ftz": true,
+      "launch_cooperative_grid": false,
+      "launch_pdl": false,
+      "supported_fp8_dtypes": [
+        "fp8e4b15",
+        "fp8e4nv",
+        "fp8e5"
+      ],
+      "deprecated_fp8_dot_operand_dtypes": [
+        "fp8e4b15"
+      ],
+      "default_dot_input_precision": "tf32",
+      "allowed_dot_input_precisions": [
+        "tf32",
+        "tf32x3",
+        "ieee",
+        "bf16x3",
+        "bf16x6"
+      ],
+      "max_num_imprecise_acc_default": 1073741824,
+      "extern_libs": [
+        [
+          "libdevice",
+          "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+        ]
+      ],
+      "debug": false,
+      "backend_name": "cuda",
+      "sanitize_overflow": true,
+      "arch": "sm90",
+      "instrumentation_mode": ""
+    },
+    "raw_sha256": "95c675ae9bf8fcec8987e6727995fb5d13bf03162fd2b270fe4644b2a2c2948e",
+    "artifacts": {
+      "4294967295.source": "95c675ae9bf8fcec8987e6727995fb5d13bf03162fd2b270fe4644b2a2c2948e",
+      "4294967295.ttir": "19179d867fd9546581c557c7c7ea738739df5f4d988b62cc72955ef33f9419c3",
+      "4294967295.ttgir": "121bbd5d1d4f257fa5e1f98bef51fefc424ecaa2aa6923f63edb0806f182084d",
+      "4294967295.llir": "47f773dab6676c6c07ea2690be9d827024714b1a993ada41affa5e95d3aa9066",
+      "4294967295.ptx": "915ce646885142327cddc5e6b5ed3f9dd87915ea22cfddf54b49e137a185755b",
+      "4294967295.cubin": "d4ff231e329c8f44304741d00e9e81cecc8e8a1d6c35208f859a7f44e4b0aba5"
+    }
+  },
+  {
+    "n": 4294967296,
+    "signature": {
+      "x_ptr": "*fp32",
+      "y_ptr": "*fp32",
+      "output_ptr": "*fp32",
+      "n_elements": "i32",
+      "BLOCK_SIZE": "constexpr"
+    },
+    "specialization": [
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "i32",
+        "D"
+      ],
+      [
+        "constexpr",
+        1024
+      ]
+    ],
+    "constexprs": {
+      "(4,)": 1024
+    },
+    "attrs": {
+      "(0,)": [
+        [
+          "tt.divisibility",
+          16
+        ]
+      ],
+      "(1,)": [
+        [
+          "tt.divisibility",
+          16
+        ]
+      ],
+      "(2,)": [
+        [
+          "tt.divisibility",
+          16
+        ]
+      ],
+      "(3,)": [
+        [
+          "tt.divisibility",
+          16
+        ]
+      ],
+      "(4,)": []
+    },
+    "driver_i32": 0,
+    "options": {
+      "num_warps": 4,
+      "num_ctas": 1,
+      "num_stages": 3,
+      "warp_size": 32,
+      "maxnreg": null,
+      "ptx_version": null,
+      "ptx_options": null,
+      "ir_override": null,
+      "enable_fp_fusion": true,
+      "enable_reflect_ftz": true,
+      "launch_cooperative_grid": false,
+      "launch_pdl": false,
+      "supported_fp8_dtypes": [
+        "fp8e4b15",
+        "fp8e4nv",
+        "fp8e5"
+      ],
+      "deprecated_fp8_dot_operand_dtypes": [
+        "fp8e4b15"
+      ],
+      "default_dot_input_precision": "tf32",
+      "allowed_dot_input_precisions": [
+        "tf32",
+        "tf32x3",
+        "ieee",
+        "bf16x3",
+        "bf16x6"
+      ],
+      "max_num_imprecise_acc_default": 1073741824,
+      "extern_libs": [
+        [
+          "libdevice",
+          "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+        ]
+      ],
+      "debug": false,
+      "backend_name": "cuda",
+      "sanitize_overflow": true,
+      "arch": "sm90",
+      "instrumentation_mode": ""
+    },
+    "raw_sha256": "f4368dde072b1bd651caa760b0059c51c81dc2db4f303bcc5b8e31fe1bb07a5a",
+    "artifacts": {
+      "4294967296.source": "f4368dde072b1bd651caa760b0059c51c81dc2db4f303bcc5b8e31fe1bb07a5a",
+      "4294967296.ttir": "a2a0cbdfc540a167f93e5e55d10ff7d3e012afbc55468a9bad5dfa566de0d09c",
+      "4294967296.ttgir": "99a2e7cc05dfcb1cc7faafc82b84e0bae9ffd37572ad5f98c45b5571b97470da",
+      "4294967296.llir": "2e2f39e376d1e1b7d0e3cc15884c2bd5ecee2c844d5f12697db52a80caec2871",
+      "4294967296.ptx": "92a3eabd1295cd589f0b76c7d4e4aab7893f57cf59a42fabb3ab495deee39982",
+      "4294967296.cubin": "46e38d5838d65d4bad86f402aab75797a4b1c027046b698e3cb9490771b984c5"
+    }
+  },
+  {
+    "n": 4294967297,
+    "signature": {
+      "x_ptr": "*fp32",
+      "y_ptr": "*fp32",
+      "output_ptr": "*fp32",
+      "n_elements": "i32",
+      "BLOCK_SIZE": "constexpr"
+    },
+    "specialization": [
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "i32",
+        ""
+      ],
+      [
+        "constexpr",
+        1024
+      ]
+    ],
+    "constexprs": {
+      "(4,)": 1024
+    },
+    "attrs": {
+      "(0,)": [
+        [
+          "tt.divisibility",
+          16
+        ]
+      ],
+      "(1,)": [
+        [
+          "tt.divisibility",
+          16
+        ]
+      ],
+      "(2,)": [
+        [
+          "tt.divisibility",
+          16
+        ]
+      ],
+      "(3,)": [],
+      "(4,)": []
+    },
+    "driver_i32": 1,
+    "options": {
+      "num_warps": 4,
+      "num_ctas": 1,
+      "num_stages": 3,
+      "warp_size": 32,
+      "maxnreg": null,
+      "ptx_version": null,
+      "ptx_options": null,
+      "ir_override": null,
+      "enable_fp_fusion": true,
+      "enable_reflect_ftz": true,
+      "launch_cooperative_grid": false,
+      "launch_pdl": false,
+      "supported_fp8_dtypes": [
+        "fp8e4b15",
+        "fp8e4nv",
+        "fp8e5"
+      ],
+      "deprecated_fp8_dot_operand_dtypes": [
+        "fp8e4b15"
+      ],
+      "default_dot_input_precision": "tf32",
+      "allowed_dot_input_precisions": [
+        "tf32",
+        "tf32x3",
+        "ieee",
+        "bf16x3",
+        "bf16x6"
+      ],
+      "max_num_imprecise_acc_default": 1073741824,
+      "extern_libs": [
+        [
+          "libdevice",
+          "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+        ]
+      ],
+      "debug": false,
+      "backend_name": "cuda",
+      "sanitize_overflow": true,
+      "arch": "sm90",
+      "instrumentation_mode": ""
+    },
+    "raw_sha256": "95c675ae9bf8fcec8987e6727995fb5d13bf03162fd2b270fe4644b2a2c2948e",
+    "artifacts": {
+      "4294967297.source": "95c675ae9bf8fcec8987e6727995fb5d13bf03162fd2b270fe4644b2a2c2948e",
+      "4294967297.ttir": "19179d867fd9546581c557c7c7ea738739df5f4d988b62cc72955ef33f9419c3",
+      "4294967297.ttgir": "121bbd5d1d4f257fa5e1f98bef51fefc424ecaa2aa6923f63edb0806f182084d",
+      "4294967297.llir": "47f773dab6676c6c07ea2690be9d827024714b1a993ada41affa5e95d3aa9066",
+      "4294967297.ptx": "915ce646885142327cddc5e6b5ed3f9dd87915ea22cfddf54b49e137a185755b",
+      "4294967297.cubin": "d4ff231e329c8f44304741d00e9e81cecc8e8a1d6c35208f859a7f44e4b0aba5"
+    }
+  },
+  {
+    "n": 2199023254528,
+    "signature": {
+      "x_ptr": "*fp32",
+      "y_ptr": "*fp32",
+      "output_ptr": "*fp32",
+      "n_elements": "i32",
+      "BLOCK_SIZE": "constexpr"
+    },
+    "specialization": [
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "i32",
+        "D"
+      ],
+      [
+        "constexpr",
+        1024
+      ]
+    ],
+    "constexprs": {
+      "(4,)": 1024
+    },
+    "attrs": {
+      "(0,)": [
+        [
+          "tt.divisibility",
+          16
+        ]
+      ],
+      "(1,)": [
+        [
+          "tt.divisibility",
+          16
+        ]
+      ],
+      "(2,)": [
+        [
+          "tt.divisibility",
+          16
+        ]
+      ],
+      "(3,)": [
+        [
+          "tt.divisibility",
+          16
+        ]
+      ],
+      "(4,)": []
+    },
+    "driver_i32": -1024,
+    "options": {
+      "num_warps": 4,
+      "num_ctas": 1,
+      "num_stages": 3,
+      "warp_size": 32,
+      "maxnreg": null,
+      "ptx_version": null,
+      "ptx_options": null,
+      "ir_override": null,
+      "enable_fp_fusion": true,
+      "enable_reflect_ftz": true,
+      "launch_cooperative_grid": false,
+      "launch_pdl": false,
+      "supported_fp8_dtypes": [
+        "fp8e4b15",
+        "fp8e4nv",
+        "fp8e5"
+      ],
+      "deprecated_fp8_dot_operand_dtypes": [
+        "fp8e4b15"
+      ],
+      "default_dot_input_precision": "tf32",
+      "allowed_dot_input_precisions": [
+        "tf32",
+        "tf32x3",
+        "ieee",
+        "bf16x3",
+        "bf16x6"
+      ],
+      "max_num_imprecise_acc_default": 1073741824,
+      "extern_libs": [
+        [
+          "libdevice",
+          "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+        ]
+      ],
+      "debug": false,
+      "backend_name": "cuda",
+      "sanitize_overflow": true,
+      "arch": "sm90",
+      "instrumentation_mode": ""
+    },
+    "raw_sha256": "f4368dde072b1bd651caa760b0059c51c81dc2db4f303bcc5b8e31fe1bb07a5a",
+    "artifacts": {
+      "2199023254528.source": "f4368dde072b1bd651caa760b0059c51c81dc2db4f303bcc5b8e31fe1bb07a5a",
+      "2199023254528.ttir": "a2a0cbdfc540a167f93e5e55d10ff7d3e012afbc55468a9bad5dfa566de0d09c",
+      "2199023254528.ttgir": "99a2e7cc05dfcb1cc7faafc82b84e0bae9ffd37572ad5f98c45b5571b97470da",
+      "2199023254528.llir": "2e2f39e376d1e1b7d0e3cc15884c2bd5ecee2c844d5f12697db52a80caec2871",
+      "2199023254528.ptx": "92a3eabd1295cd589f0b76c7d4e4aab7893f57cf59a42fabb3ab495deee39982",
+      "2199023254528.cubin": "46e38d5838d65d4bad86f402aab75797a4b1c027046b698e3cb9490771b984c5"
+    }
+  },
+  {
+    "n": 2199023254529,
+    "signature": {
+      "x_ptr": "*fp32",
+      "y_ptr": "*fp32",
+      "output_ptr": "*fp32",
+      "n_elements": "i32",
+      "BLOCK_SIZE": "constexpr"
+    },
+    "specialization": [
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "i32",
+        ""
+      ],
+      [
+        "constexpr",
+        1024
+      ]
+    ],
+    "constexprs": {
+      "(4,)": 1024
+    },
+    "attrs": {
+      "(0,)": [
+        [
+          "tt.divisibility",
+          16
+        ]
+      ],
+      "(1,)": [
+        [
+          "tt.divisibility",
+          16
+        ]
+      ],
+      "(2,)": [
+        [
+          "tt.divisibility",
+          16
+        ]
+      ],
+      "(3,)": [],
+      "(4,)": []
+    },
+    "driver_i32": -1023,
+    "options": {
+      "num_warps": 4,
+      "num_ctas": 1,
+      "num_stages": 3,
+      "warp_size": 32,
+      "maxnreg": null,
+      "ptx_version": null,
+      "ptx_options": null,
+      "ir_override": null,
+      "enable_fp_fusion": true,
+      "enable_reflect_ftz": true,
+      "launch_cooperative_grid": false,
+      "launch_pdl": false,
+      "supported_fp8_dtypes": [
+        "fp8e4b15",
+        "fp8e4nv",
+        "fp8e5"
+      ],
+      "deprecated_fp8_dot_operand_dtypes": [
+        "fp8e4b15"
+      ],
+      "default_dot_input_precision": "tf32",
+      "allowed_dot_input_precisions": [
+        "tf32",
+        "tf32x3",
+        "ieee",
+        "bf16x3",
+        "bf16x6"
+      ],
+      "max_num_imprecise_acc_default": 1073741824,
+      "extern_libs": [
+        [
+          "libdevice",
+          "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+        ]
+      ],
+      "debug": false,
+      "backend_name": "cuda",
+      "sanitize_overflow": true,
+      "arch": "sm90",
+      "instrumentation_mode": ""
+    },
+    "raw_sha256": "95c675ae9bf8fcec8987e6727995fb5d13bf03162fd2b270fe4644b2a2c2948e",
+    "artifacts": {
+      "2199023254529.source": "95c675ae9bf8fcec8987e6727995fb5d13bf03162fd2b270fe4644b2a2c2948e",
+      "2199023254529.ttir": "19179d867fd9546581c557c7c7ea738739df5f4d988b62cc72955ef33f9419c3",
+      "2199023254529.ttgir": "121bbd5d1d4f257fa5e1f98bef51fefc424ecaa2aa6923f63edb0806f182084d",
+      "2199023254529.llir": "47f773dab6676c6c07ea2690be9d827024714b1a993ada41affa5e95d3aa9066",
+      "2199023254529.ptx": "915ce646885142327cddc5e6b5ed3f9dd87915ea22cfddf54b49e137a185755b",
+      "2199023254529.cubin": "d4ff231e329c8f44304741d00e9e81cecc8e8a1d6c35208f859a7f44e4b0aba5"
+    }
+  },
+  {
+    "n": 9223372036854775807,
+    "signature": {
+      "x_ptr": "*fp32",
+      "y_ptr": "*fp32",
+      "output_ptr": "*fp32",
+      "n_elements": "i32",
+      "BLOCK_SIZE": "constexpr"
+    },
+    "specialization": [
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "i32",
+        ""
+      ],
+      [
+        "constexpr",
+        1024
+      ]
+    ],
+    "constexprs": {
+      "(4,)": 1024
+    },
+    "attrs": {
+      "(0,)": [
+        [
+          "tt.divisibility",
+          16
+        ]
+      ],
+      "(1,)": [
+        [
+          "tt.divisibility",
+          16
+        ]
+      ],
+      "(2,)": [
+        [
+          "tt.divisibility",
+          16
+        ]
+      ],
+      "(3,)": [],
+      "(4,)": []
+    },
+    "driver_i32": -1,
+    "options": {
+      "num_warps": 4,
+      "num_ctas": 1,
+      "num_stages": 3,
+      "warp_size": 32,
+      "maxnreg": null,
+      "ptx_version": null,
+      "ptx_options": null,
+      "ir_override": null,
+      "enable_fp_fusion": true,
+      "enable_reflect_ftz": true,
+      "launch_cooperative_grid": false,
+      "launch_pdl": false,
+      "supported_fp8_dtypes": [
+        "fp8e4b15",
+        "fp8e4nv",
+        "fp8e5"
+      ],
+      "deprecated_fp8_dot_operand_dtypes": [
+        "fp8e4b15"
+      ],
+      "default_dot_input_precision": "tf32",
+      "allowed_dot_input_precisions": [
+        "tf32",
+        "tf32x3",
+        "ieee",
+        "bf16x3",
+        "bf16x6"
+      ],
+      "max_num_imprecise_acc_default": 1073741824,
+      "extern_libs": [
+        [
+          "libdevice",
+          "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+        ]
+      ],
+      "debug": false,
+      "backend_name": "cuda",
+      "sanitize_overflow": true,
+      "arch": "sm90",
+      "instrumentation_mode": ""
+    },
+    "raw_sha256": "95c675ae9bf8fcec8987e6727995fb5d13bf03162fd2b270fe4644b2a2c2948e",
+    "artifacts": {
+      "9223372036854775807.source": "95c675ae9bf8fcec8987e6727995fb5d13bf03162fd2b270fe4644b2a2c2948e",
+      "9223372036854775807.ttir": "19179d867fd9546581c557c7c7ea738739df5f4d988b62cc72955ef33f9419c3",
+      "9223372036854775807.ttgir": "121bbd5d1d4f257fa5e1f98bef51fefc424ecaa2aa6923f63edb0806f182084d",
+      "9223372036854775807.llir": "47f773dab6676c6c07ea2690be9d827024714b1a993ada41affa5e95d3aa9066",
+      "9223372036854775807.ptx": "915ce646885142327cddc5e6b5ed3f9dd87915ea22cfddf54b49e137a185755b",
+      "9223372036854775807.cubin": "d4ff231e329c8f44304741d00e9e81cecc8e8a1d6c35208f859a7f44e4b0aba5"
+    }
+  }
+]

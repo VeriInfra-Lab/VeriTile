@@ -1,0 +1,7 @@
+import VeriTile.Meta.StatementAudit
+import bench.repairs.tritonbench_g.attention_score_tile_checked.Contract
+import bench.repairs.tritonbench_g.attention_score_tile_checked.Correct
+import bench.repairs.tritonbench_g.attention_score_tile_checked.FPEquiv
+
+#axiomsClean VeriTile.Bench.Repairs.AttentionScoreTileChecked.Correct.kernel_correct
+#axiomsClean VeriTile.Bench.Repairs.AttentionScoreTileChecked.FPEquiv.score_scaling_equiv

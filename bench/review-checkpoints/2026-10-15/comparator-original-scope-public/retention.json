@@ -1,0 +1,79 @@
+{
+  "schema": 1,
+  "kind": "root_retention_of_historical_public_comparator_evidence",
+  "reviewer": "root",
+  "status": "accepted_historical_evidence_only",
+  "historical_commit": "93d38e399ac513eb98aa3624d9aeb1c21858757a",
+  "root_review": "Root read the independent semantic/integrity review and original compact results/configuration. Root independently checked archive path/type/member integrity, every archived byte against the expanded package, all 98 SHA256SUMS entries, all 97 payload hashes/sizes, all six original exit/result bindings and exact historical configuration. The separate reviewer additionally rehashed every historical Git blob and reconstructed all source wrappers and statement mappings.",
+  "retained_exact_artifacts": {
+    "replay-evidence.tar.gz": {
+      "sha256": "1ba741709746f29d0499d1560820f1bece91b99e70bde5934419c2db6bc67150",
+      "bytes": 1473577,
+      "original_path": "/tmp/veritile-comparator-restore-20261015/public-entrypoints-93d38e39-evidence.tar.gz"
+    },
+    "verification.json": {
+      "sha256": "8185fe0a8ecfa9bcb08b592537530e6b08e0bf842e73fd57395f3e08189356e4",
+      "bytes": 3972,
+      "original_path": "/tmp/veritile-comparator-restore-20261015/public-entrypoints-93d38e39-evidence/verification.json"
+    },
+    "target-mapping.json": {
+      "sha256": "d838d68d04226325903f14afaac05c39e0a3e56fbd5a2a391905658eca7f8d8c",
+      "bytes": 24172,
+      "original_path": "/tmp/veritile-comparator-restore-20261015/public-entrypoints-93d38e39-evidence/raw/target-mapping.json"
+    },
+    "original-results.json": {
+      "sha256": "2b8297e6a3584bb5ebf1e583e8cf293dbe2a7f6070f88509a17019d98fa1903c",
+      "bytes": 8448,
+      "original_path": "/tmp/veritile-comparator-restore-20261015/public-entrypoints-93d38e39-evidence/raw/run/results.json"
+    },
+    "commit-binding.json": {
+      "sha256": "d5ccc5b4a2d822aef003ac38956b164468b07cbc2cebd30e226ad9a528a31c04",
+      "bytes": 371,
+      "original_path": "/tmp/veritile-comparator-restore-20261015/public-entrypoints-93d38e39-evidence/provenance/commit-binding.json"
+    },
+    "independent-review.json": {
+      "sha256": "7794224d18e860ec9dcab68f1d74997d1dfb20debcdc863e9b9f1f9f1ba41aa1",
+      "bytes": 18690,
+      "original_path": "/tmp/veritile-standardization-20261015/comparator-six-public-independent-review.json"
+    },
+    "independent-static-verification.json": {
+      "sha256": "dfa72d78aa9d4d4b926a3af27d049a704c1d5c599ee2019a9e69bb74887ff0fd",
+      "bytes": 21638,
+      "original_path": "/tmp/veritile-standardization-20261015/comparator-six-public-static-verification.json"
+    },
+    "independent-static-audit.py": {
+      "sha256": "451781318ef7f88233ced61eb13743376b2c8c86eca28b3c4b9edb354cd5fd4f",
+      "bytes": 17040,
+      "original_path": "/tmp/veritile-standardization-20261015/comparator-six-public-static-audit.py"
+    }
+  },
+  "accepted_files": 6,
+  "actual_theorem_targets": 26,
+  "registered_public_declarations": 11,
+  "source_guards": {
+    "frozen_git_blobs": 7177,
+    "official_snapshot_inputs": 4303,
+    "root_accepted_independent_reviewer_verification": true
+  },
+  "configuration": {
+    "mode": "same-source-replay",
+    "challenge_equals_solution": true,
+    "enable_nanoda": false,
+    "kernel": "Lean default",
+    "permitted_axioms": [
+      "propext",
+      "Quot.sound",
+      "Classical.choice"
+    ]
+  },
+  "prior_library": {
+    "path": "bench/review-checkpoints/2026-10-15/comparator-original-scope-library/verification.json",
+    "sha256": "c2dd4a1e7e381a49f176931d9805ffb9e161f45e0f527ab3fee642af9be53d30",
+    "relation": "Separate 118-target historical library replay at the same commit; not included in 26 targets."
+  },
+  "current_head_acceptance": false,
+  "whole_program_acceptance": false,
+  "whole_program_count_delta": 0,
+  "numerical_deferrals_added": [],
+  "scope": "Only the six named files and exact frozen proof premises at 93d38e39. No claim for later batches, all first-batch supporting modules, current corpus, original-program semantic equivalence or all183 acceptance."
+}

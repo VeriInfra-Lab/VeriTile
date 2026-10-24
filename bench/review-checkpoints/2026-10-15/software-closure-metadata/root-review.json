@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "reviewer": "root",
+  "status": "passed_for_software_supplement_and_current_inventory_scope",
+  "receipt_sha256": "ff981c418d9829aab17e1a7b7b00a60f43830b8844f96c7dd343054b34dc6319",
+  "catalog_sha256": "0c08db2227343179453f482e20132f3f0cb2826870cd15d434a45623df7ccb81",
+  "actual_workspace_reproduction_receipt_sha256": "3e01b6ec61dcbd70e6455e05d85e9af24f0372cdba7e09e455542602a31fb79e",
+  "independent_build_API_review_sha256": "7357454c92a1c07e25673cf3e6470124ce8a84ff0c4dd774e8c4c4926f6668d5",
+  "independent_semantic_review_sha256": "4d88d2ce014c3e2bf2e7bdd76eed6fb1581102cb1c90376778d4ed4491be08f7",
+  "final_hardware_acceptance": false,
+  "remaining": [
+    "original scaled FP4 contract",
+    "full formal comparator replay",
+    "native bindings"
+  ],
+  "freeze_script_sha256": "c0d33abda7536a870b304903912f2b76758b32a5342f8f92e6d3bae39839fd4a"
+}

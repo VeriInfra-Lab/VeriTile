@@ -1,0 +1,31 @@
+{
+  "status": "frozen_read_only_build_review",
+  "review_sha256": "824433a3fdd742c75b43d50a256b2f39734a2356fc80eb84781ea239f45ec485",
+  "artifacts": {
+    "build-consumers.candidate.py": "80b035dc416ffc0231a292e9420ec9de574621f645c688f5dbb7dac86ae82c9d",
+    "build-consumers.patch": "0013370cb87deec03487815f700e3f5d412a19483e55c9179975f2960b3b44d1",
+    "build-consumers.py": "909c82ac8ed0ce5cb8c5fa8d4436229190346e511b6d512fbc281658ca3ae49d",
+    "build-plan.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "consumer-build-plan.json": "584581b5b60cfb8a790ad2bb6e24b48d582dc323c0073ee71521264dd9f5ae27",
+    "external-direct-object-bindings.json": "3b4307110b430e52cfaa59ee407d0e2968a3202c41e046bde3b8d8a60374b773",
+    "finalize_review.py": "881c736090a3f2fe29b0157a5dddc76ecc29fb92a062ed038fe1627aa9b167af",
+    "lakefile.toml": "6adfaffa630b11491b8eb587123d0b0c63f5cd0e2a286ebf7cf5182ce89371fa",
+    "lean-path.txt": "8153eff2130458b8ae0612f7bb7597317bcb98c63874e6a5098fa2193df10490",
+    "library-roots.json": "155e777aaa5895b3ed5e191817f7a00814511cb9c3f2a4877ecc3e7eadd57a85",
+    "mock-cache-results.json": "b7d7638f3762e356d3b94df1f5fe1838d965759217841bd377892a54c5bdd11d",
+    "mock-candidate-results.json": "4fb5963aa483783f3991105202f87ffd9fcb4252af9b62982b3194bd09b63d4e",
+    "mock_cache.py": "491dbf64bfb2d718dab1194530738a0e8320120f36fa0abea1dbc2551c99a0d7",
+    "mock_candidate.py": "4d7bc14a6bf4f64e85ab3ca903251e08805058472e01e175b5d0d537af244627",
+    "out-of-scope-regressions.json": "46bd8324302746950502143d4c6510a4e90f0005faf59f9d9c9ef4e1c8a00615",
+    "parser-comparison.json": "fa48c5029f17d3d4f4e82d9e868d754781f72c8e297e442b850addda41348ede",
+    "registered-source-snapshot.json": "99ad2a1f97187f12007c3f06094610124bcdd97aba21a753ba4af205b7018144",
+    "review.json": "824433a3fdd742c75b43d50a256b2f39734a2356fc80eb84781ea239f45ec485",
+    "review.md": "239d7902c7cc9b7ae82661b20937c5d2bcb13f20910d2cd7cc40c1f1471f6a42",
+    "scan.json": "df6ceb16b5047eba066c8d57538cc0bd643ba2a3adfdad4f91956f9177883664",
+    "scan.py": "b8296e5e088929a3909eaf41465d4440f01a823755c665c0f08db1ffc66af9fc",
+    "source-provenance.json": "8be58e82ae95f9d9073f518a8e17cbc2d8682e18e3aeb5b454b86ac905472ba0"
+  },
+  "running_tree_written": false,
+  "compiler_started": false,
+  "candidate_applied": false
+}

@@ -1,0 +1,166 @@
+{
+  "schema": 1,
+  "status": "validated_capture_tooling",
+  "records": [
+    {
+      "name": "prepare",
+      "command": [
+        "/opt/conda/bin/python",
+        "-B",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/src/run.py",
+        "prepare",
+        "--inputs",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/inputs",
+        "--output",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/final-validation/reference"
+      ],
+      "exit_code": 0,
+      "log": "prepare.log",
+      "log_sha256": "8e13cc9fdd84ae3943fc17cca2ae9fd25b9b44827bda2c2fee427751b886bc56",
+      "input_sha256": {
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/src/test_runner.py": "a8eedb560bc5932df6192858dd0a3da1b93200e513d071e01d2890f7de455cbe",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/src/validate_package.py": "70851966475af17a21cd0db82cbf906bc659bcb4cf96bfd1982a1a9c987fc683",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/src/support.py": "2370cdfd9f15caad56f34d05ea916ecdfc5cb3e0e2787ad0f6c60ea1e94884eb",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/src/verify_capture.py": "57c74ef3f59ba3e36fb3b0c084980133b5613d344f2ce30d53b53c790d528447",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/src/compile_probe.py": "1007490507ee4b137336c8cc56adcf46c805ff5d22a18cc61756c3d6401ee626",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/src/contracts.py": "deb168c5bb46b4ba1936c70c9c3d7d012314f27907faa223b752adfc586de0ff",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/src/run.py": "baa4f09d155a15ee38fe6b0eeb669758df7a09ab08e26507f32f3c651b5b3eb9",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/inputs/source-bindings.json": "332eaa6059d9106ff9c42995a46f8ba0e143be9ac0db00573b1b0e9b1f01bb0e"
+      },
+      "changed_inputs": []
+    },
+    {
+      "name": "offline",
+      "command": [
+        "/opt/conda/bin/python",
+        "-B",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/src/run.py",
+        "compile",
+        "--reference",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/final-validation/reference",
+        "--output",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/final-validation/offline",
+        "--arch",
+        "80",
+        "--arch",
+        "90"
+      ],
+      "exit_code": 0,
+      "log": "offline.log",
+      "log_sha256": "376dce863c1a19944626d52c0c7e38c0d4b85e4fd3a9193edb4527a6d5795837",
+      "input_sha256": {
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/src/test_runner.py": "a8eedb560bc5932df6192858dd0a3da1b93200e513d071e01d2890f7de455cbe",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/src/validate_package.py": "70851966475af17a21cd0db82cbf906bc659bcb4cf96bfd1982a1a9c987fc683",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/src/support.py": "2370cdfd9f15caad56f34d05ea916ecdfc5cb3e0e2787ad0f6c60ea1e94884eb",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/src/verify_capture.py": "57c74ef3f59ba3e36fb3b0c084980133b5613d344f2ce30d53b53c790d528447",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/src/compile_probe.py": "1007490507ee4b137336c8cc56adcf46c805ff5d22a18cc61756c3d6401ee626",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/src/contracts.py": "deb168c5bb46b4ba1936c70c9c3d7d012314f27907faa223b752adfc586de0ff",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/src/run.py": "baa4f09d155a15ee38fe6b0eeb669758df7a09ab08e26507f32f3c651b5b3eb9",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/inputs/source-bindings.json": "332eaa6059d9106ff9c42995a46f8ba0e143be9ac0db00573b1b0e9b1f01bb0e"
+      },
+      "changed_inputs": []
+    },
+    {
+      "name": "gpu-attempt",
+      "command": [
+        "/opt/conda/bin/python",
+        "-B",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/src/run.py",
+        "run",
+        "--reference",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/final-validation/reference",
+        "--output",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/final-validation/gpu-attempt"
+      ],
+      "exit_code": 2,
+      "log": "gpu-attempt.log",
+      "log_sha256": "2f4374762466bd7e0fa9914e44e392cd0d5730c66ce75706880dd36989429d2e",
+      "input_sha256": {
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/src/test_runner.py": "a8eedb560bc5932df6192858dd0a3da1b93200e513d071e01d2890f7de455cbe",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/src/validate_package.py": "70851966475af17a21cd0db82cbf906bc659bcb4cf96bfd1982a1a9c987fc683",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/src/support.py": "2370cdfd9f15caad56f34d05ea916ecdfc5cb3e0e2787ad0f6c60ea1e94884eb",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/src/verify_capture.py": "57c74ef3f59ba3e36fb3b0c084980133b5613d344f2ce30d53b53c790d528447",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/src/compile_probe.py": "1007490507ee4b137336c8cc56adcf46c805ff5d22a18cc61756c3d6401ee626",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/src/contracts.py": "deb168c5bb46b4ba1936c70c9c3d7d012314f27907faa223b752adfc586de0ff",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/src/run.py": "baa4f09d155a15ee38fe6b0eeb669758df7a09ab08e26507f32f3c651b5b3eb9",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/inputs/source-bindings.json": "332eaa6059d9106ff9c42995a46f8ba0e143be9ac0db00573b1b0e9b1f01bb0e"
+      },
+      "changed_inputs": []
+    },
+    {
+      "name": "verify-offline",
+      "command": [
+        "/opt/conda/bin/python",
+        "-B",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/src/verify_capture.py",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/final-validation/offline"
+      ],
+      "exit_code": 0,
+      "log": "verify-offline.log",
+      "log_sha256": "056c785994e5daed2594cf4081d5a6838c46e7548587e63435316468636f2c1a",
+      "input_sha256": {
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/src/test_runner.py": "a8eedb560bc5932df6192858dd0a3da1b93200e513d071e01d2890f7de455cbe",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/src/validate_package.py": "70851966475af17a21cd0db82cbf906bc659bcb4cf96bfd1982a1a9c987fc683",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/src/support.py": "2370cdfd9f15caad56f34d05ea916ecdfc5cb3e0e2787ad0f6c60ea1e94884eb",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/src/verify_capture.py": "57c74ef3f59ba3e36fb3b0c084980133b5613d344f2ce30d53b53c790d528447",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/src/compile_probe.py": "1007490507ee4b137336c8cc56adcf46c805ff5d22a18cc61756c3d6401ee626",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/src/contracts.py": "deb168c5bb46b4ba1936c70c9c3d7d012314f27907faa223b752adfc586de0ff",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/src/run.py": "baa4f09d155a15ee38fe6b0eeb669758df7a09ab08e26507f32f3c651b5b3eb9",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/inputs/source-bindings.json": "332eaa6059d9106ff9c42995a46f8ba0e143be9ac0db00573b1b0e9b1f01bb0e"
+      },
+      "changed_inputs": []
+    },
+    {
+      "name": "verify-gpu",
+      "command": [
+        "/opt/conda/bin/python",
+        "-B",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/src/verify_capture.py",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/final-validation/gpu-attempt"
+      ],
+      "exit_code": 0,
+      "log": "verify-gpu.log",
+      "log_sha256": "549c72d36bbb25d4fbb8637be38c7288220522bad7bc37d43701b732cf9ac94f",
+      "input_sha256": {
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/src/test_runner.py": "a8eedb560bc5932df6192858dd0a3da1b93200e513d071e01d2890f7de455cbe",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/src/validate_package.py": "70851966475af17a21cd0db82cbf906bc659bcb4cf96bfd1982a1a9c987fc683",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/src/support.py": "2370cdfd9f15caad56f34d05ea916ecdfc5cb3e0e2787ad0f6c60ea1e94884eb",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/src/verify_capture.py": "57c74ef3f59ba3e36fb3b0c084980133b5613d344f2ce30d53b53c790d528447",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/src/compile_probe.py": "1007490507ee4b137336c8cc56adcf46c805ff5d22a18cc61756c3d6401ee626",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/src/contracts.py": "deb168c5bb46b4ba1936c70c9c3d7d012314f27907faa223b752adfc586de0ff",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/src/run.py": "baa4f09d155a15ee38fe6b0eeb669758df7a09ab08e26507f32f3c651b5b3eb9",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/inputs/source-bindings.json": "332eaa6059d9106ff9c42995a46f8ba0e143be9ac0db00573b1b0e9b1f01bb0e"
+      },
+      "changed_inputs": []
+    },
+    {
+      "name": "tests",
+      "command": [
+        "/opt/conda/bin/python",
+        "-B",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/src/test_runner.py"
+      ],
+      "exit_code": 0,
+      "log": "tests.log",
+      "log_sha256": "59e2c33f31b47fd551b7a8e188a8f240d3886ca47695bea24e0c434ef999bb5e",
+      "input_sha256": {
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/src/test_runner.py": "a8eedb560bc5932df6192858dd0a3da1b93200e513d071e01d2890f7de455cbe",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/src/validate_package.py": "70851966475af17a21cd0db82cbf906bc659bcb4cf96bfd1982a1a9c987fc683",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/src/support.py": "2370cdfd9f15caad56f34d05ea916ecdfc5cb3e0e2787ad0f6c60ea1e94884eb",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/src/verify_capture.py": "57c74ef3f59ba3e36fb3b0c084980133b5613d344f2ce30d53b53c790d528447",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/src/compile_probe.py": "1007490507ee4b137336c8cc56adcf46c805ff5d22a18cc61756c3d6401ee626",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/src/contracts.py": "deb168c5bb46b4ba1936c70c9c3d7d012314f27907faa223b752adfc586de0ff",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/src/run.py": "baa4f09d155a15ee38fe6b0eeb669758df7a09ab08e26507f32f3c651b5b3eb9",
+        "/tmp/veritile-rbe-original-characterization-v2-20261015/inputs/source-bindings.json": "332eaa6059d9106ff9c42995a46f8ba0e143be9ac0db00573b1b0e9b1f01bb0e"
+      },
+      "changed_inputs": []
+    }
+  ],
+  "exit_code": 0,
+  "native_status": "NOT_RUN",
+  "native_exit_code": 2,
+  "native_execution": false,
+  "numeric_acceptance": false,
+  "numeric_comparison": "NOT_ESTABLISHED",
+  "note": "Tool tests include CPU-only simulations, not native evidence. Frame checks and complete output capture do not supply missing numeric reference."
+}

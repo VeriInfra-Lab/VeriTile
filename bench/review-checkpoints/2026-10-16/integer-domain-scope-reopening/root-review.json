@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "kind": "original_program_scope_reopening",
+  "reviewer": "root",
+  "status": "confirmed_structural_omission_acceptance_withdrawn",
+  "recorded_at_utc": "2026-10-15T21:59:46.077902+00:00",
+  "base_commit": "992346ecb2079a505b717d76309b2561801d6147",
+  "previous_ledger_sha256": "eaf5dd65c57fa7203acf56a64bf2731e4e0e43c634b562ab94dc4e7f27fe530c",
+  "peer_receipt": {
+    "path": "bench/review-checkpoints/2026-10-16/integer-domain-scope-reopening/evidence/peer/receipt.json",
+    "sha256": "0cc8683df7cf0ee9a3497c00082e93f4d125cde63f9c4c5e3ef55af98d8bbb00"
+  },
+  "affected_tasks": [
+    "vector_addition",
+    "vector_addition_custom",
+    "add_value"
+  ],
+  "source_hashes": {
+    "bench/tritonbench_g/vector_addition/vector_addition.py": "cfcb749bd562924106c1e0e95e18a9bd987238be3a3b522abac89e099de3d098",
+    "bench/tritonbench_g/vector_addition_custom/vector_addition_custom.py": "a1e1a05555a7d42a6cee871847907ef6e6fbe6834ac0088d186921d994a10957",
+    "bench/tritonbench_g/add_value/add_value.py": "018443803f71ddd60d1fa6cdf59eb5e791853f3c43be9cc17d5fb31c029aad62"
+  },
+  "semantic_review": "Root read all three original annotations/wrappers, compiled signed-mask evidence, exact installed extractI32 source/probe, universal Lean no_i32_below_bound/all_source_masks_false/empty_active_tile proofs and all three explicit SafeAPI exclusions. Python extent2^31 is accepted by the annotated binder and 64bit-host extractor, narrows to signed-minimum32, and produces legal source grids. Every source mask is false, so ordinary successful allocation/setup returns its original allocated payload without active loads/stores. This deterministic no-access route is absent from the bounded finite theorems. Existing bounded theorems and exact numerical registrations remain valid in their stated domain; their whole-source acceptance recommendation is withdrawn. The omission is structural and cannot be a numerical deferral. No GPU execution or large allocation is claimed.",
+  "retained_lean_checks": 7,
+  "previous_root_recommendations_superseded": [
+    {
+      "path": "/tmp/veritile-standardization-20261015/vector-custom-finite-root-validation/review.json",
+      "sha256": "5d39d63d8b9df0fb3ce79c4cbcec2b9d5a65aa946071a01c463a46efca36e9a2"
+    },
+    {
+      "path": "/tmp/veritile-standardization-20261015/vector-custom-finite-root-validation/review-final.json",
+      "sha256": "52f8fc3efeef9f228d40c82aff3bbc023a4d9878616b97e6b70dcf39a84d90be"
+    }
+  ],
+  "remaining_work": "Add actual runtime i32 narrowing, signed index/mask wrap and u64 actual-address execution/outcome coverage; retain mathematical prefix formula as conditional refinement; independently review full original dtype/setup scope.",
+  "whole_source_acceptance_change": -1,
+  "numerical_conformance_validated": false,
+  "gpu_executed": false
+}

@@ -1,0 +1,231 @@
+{
+  "task": "attention_fwd_triton2",
+  "original_file_count": 45,
+  "files": [
+    {
+      "path": "bench/tritonbench_g/attention_fwd_triton2/Correct.lean",
+      "snapshot": "bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/preserved/bench/tritonbench_g/attention_fwd_triton2/Correct.lean",
+      "sha256": "f4e96c58b3d456ec8a378752725766d73977906b290391d916a55b2423902a03"
+    },
+    {
+      "path": "bench/tritonbench_g/attention_fwd_triton2/FPEquiv.lean",
+      "snapshot": "bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/preserved/bench/tritonbench_g/attention_fwd_triton2/FPEquiv.lean",
+      "sha256": "3ef6d65b0ebd82b21635d23b5cb325d2b33a08d802ae29989f3bf9052c597d04"
+    },
+    {
+      "path": "bench/tritonbench_g/attention_fwd_triton2/Kernels.lean",
+      "snapshot": "bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/preserved/bench/tritonbench_g/attention_fwd_triton2/Kernels.lean",
+      "sha256": "15645546c059c930730152e8c7a3fdf3ad58d1a6e18dc256fc1e29a3365486b6"
+    },
+    {
+      "path": "bench/tritonbench_g/attention_fwd_triton2/Proofs/FP.lean",
+      "snapshot": "bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/preserved/bench/tritonbench_g/attention_fwd_triton2/Proofs/FP.lean",
+      "sha256": "95f8ef31ddbee8b3893e32f9176076fbe7f4a24d4a4fa63195bafb67805580d6"
+    },
+    {
+      "path": "bench/tritonbench_g/attention_fwd_triton2/Proofs/LegacyRounding.lean",
+      "snapshot": "bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/preserved/bench/tritonbench_g/attention_fwd_triton2/Proofs/LegacyRounding.lean",
+      "sha256": "1db1ccb55b3a4d1b9fca6cbc4f15baf5e13f6c46418d27f88779adf96a72222c"
+    },
+    {
+      "path": "bench/tritonbench_g/attention_fwd_triton2/Proofs/Real.lean",
+      "snapshot": "bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/preserved/bench/tritonbench_g/attention_fwd_triton2/Proofs/Real.lean",
+      "sha256": "c8db190d29524b6a6abb32242447c16b467bbac5325feb6538437e4c5b05cbb7"
+    },
+    {
+      "path": "bench/tritonbench_g/attention_fwd_triton2/Proofs/RealProjection.lean",
+      "snapshot": "bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/preserved/bench/tritonbench_g/attention_fwd_triton2/Proofs/RealProjection.lean",
+      "sha256": "649485851d59221e659c8d8c94603e4dc438cbcbdc5fc7f70f2a442c7536619f"
+    },
+    {
+      "path": "bench/tritonbench_g/attention_fwd_triton2/Proofs/TailCounterexample.lean",
+      "snapshot": "bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/preserved/bench/tritonbench_g/attention_fwd_triton2/Proofs/TailCounterexample.lean",
+      "sha256": "192572d46702eadf2da6283e169f71cad22da6b3be18e72158a84fa7940c7697"
+    },
+    {
+      "path": "bench/tritonbench_g/attention_fwd_triton2/Proofs/TypedExecution.lean",
+      "snapshot": "bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/preserved/bench/tritonbench_g/attention_fwd_triton2/Proofs/TypedExecution.lean",
+      "sha256": "0711404adaaeb407c0758da2314dc8917e708b453ffb91c4cc45ac0eabfabb25"
+    },
+    {
+      "path": "bench/tritonbench_g/attention_fwd_triton2/README.md",
+      "snapshot": "bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/preserved/bench/tritonbench_g/attention_fwd_triton2/README.md",
+      "sha256": "1425307310fb1c33b273b7deb97afee88787fb08af024565e18604177083ca5e"
+    },
+    {
+      "path": "bench/tritonbench_g/attention_fwd_triton2/attention_fwd_triton2.py",
+      "snapshot": "bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/preserved/bench/tritonbench_g/attention_fwd_triton2/attention_fwd_triton2.py",
+      "sha256": "8374790f32e79a8e313e0c0650518b30e5f898c6639d3cc3fb78dea6815b26af"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/attention_fwd_triton2/Contract.lean",
+      "snapshot": "bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/preserved/bench/repairs/tritonbench_g/attention_fwd_triton2/Contract.lean",
+      "sha256": "db81a172b58f7a118064b5b2a8348e2220d70f67a0f67b3f763fcf658c12c8af"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/attention_fwd_triton2/Correct.lean",
+      "snapshot": "bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/preserved/bench/repairs/tritonbench_g/attention_fwd_triton2/Correct.lean",
+      "sha256": "633e92e5c27002cdc116650b0186518c44c42c85553d0e4b65679fd3b73fc2b0"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/attention_fwd_triton2/FPEquiv.lean",
+      "snapshot": "bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/preserved/bench/repairs/tritonbench_g/attention_fwd_triton2/FPEquiv.lean",
+      "sha256": "28d25b93d7bc95595a265ed840df93269e310c28c814be93917cbbace415e232"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/attention_fwd_triton2/Kernels.lean",
+      "snapshot": "bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/preserved/bench/repairs/tritonbench_g/attention_fwd_triton2/Kernels.lean",
+      "sha256": "5288fb09f9482024bf3cf0c78136d01603466fa176157bfe0c3296b5261f4e4a"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/attention_fwd_triton2/README.md",
+      "snapshot": "bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/preserved/bench/repairs/tritonbench_g/attention_fwd_triton2/README.md",
+      "sha256": "5b19e3921ff3416c54315aef49d3f44e70b7876f330879a80eb9e0a9dd66e472"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Correct.lean",
+      "snapshot": "bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/preserved/bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Correct.lean",
+      "sha256": "ae0a60b61f57506514db30e18ac18438c32da87fb61d934d4ec685b22eb0cab0"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Domain.lean",
+      "snapshot": "bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/preserved/bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Domain.lean",
+      "sha256": "f9411453720925c95257b1dac430cc4c331ee9850a14934af794069c2ad8d8ed"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/FPEquiv.lean",
+      "snapshot": "bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/preserved/bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/FPEquiv.lean",
+      "sha256": "789c627760d85af813ceafb20ae66dff9b7ba5783ee4060bf6a50159ee53f1b8"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Host.lean",
+      "snapshot": "bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/preserved/bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Host.lean",
+      "sha256": "2eeabb21fa1c9ba0d36a24f5f50d0034372efd324269c89ebd3e0c3453b08335"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Kernels.lean",
+      "snapshot": "bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/preserved/bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Kernels.lean",
+      "sha256": "126a1b36e7694b0df4aeee6fcb9d737d6148ddcf45f42971ed92056301ba10cc"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Native.lean",
+      "snapshot": "bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/preserved/bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Native.lean",
+      "sha256": "8ee2a27d068118a947798de6648341dddd09ef41f7576ae190ab6b9d6b269655"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Proofs/Access.lean",
+      "snapshot": "bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/preserved/bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Proofs/Access.lean",
+      "sha256": "e24ce9f6b1c9871579eff8cb9059e886c4b296d1059f9c2377b2866da1e078ed"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Proofs/Body.lean",
+      "snapshot": "bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/preserved/bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Proofs/Body.lean",
+      "sha256": "5349077d17df0a305d17edcfb0ba0b8e638900456d1286b378da19e3500f7f5b"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Proofs/Context.lean",
+      "snapshot": "bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/preserved/bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Proofs/Context.lean",
+      "sha256": "4c7b859b5e23abd6dc86c906f5bf2c263b6d18d638b08ca47db181606e2932ae"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Proofs/Coverage.lean",
+      "snapshot": "bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/preserved/bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Proofs/Coverage.lean",
+      "sha256": "94cebe4e35e56e2d49aee91a17b741152cc7cac903c73fc1f67179857d90c04c"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Proofs/Engine.lean",
+      "snapshot": "bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/preserved/bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Proofs/Engine.lean",
+      "sha256": "8327ed4ec99effd715001c3838771a4b31bac400d2b05eb658fbb7cb2df7ae05"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Proofs/Entry.lean",
+      "snapshot": "bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/preserved/bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Proofs/Entry.lean",
+      "sha256": "42a26298c66265e44dcb7825e7b0c3e3cbee02b759817e876aa822982d473492"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Proofs/Grid.lean",
+      "snapshot": "bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/preserved/bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Proofs/Grid.lean",
+      "sha256": "8e9e50e59fe0a3ae35694b701d64a04fe6d2173bed7ef1e1826f9212b6c8e1f9"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Proofs/Loop.lean",
+      "snapshot": "bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/preserved/bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Proofs/Loop.lean",
+      "sha256": "ce7b41063d692dcedf9b969be5dce8fb442a111e129c17750d29bb68b68622ca"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Proofs/Machine.lean",
+      "snapshot": "bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/preserved/bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Proofs/Machine.lean",
+      "sha256": "13f4ebca3ee690d3d622cf8c5a0c0930d29df4fbc8807d6261e28536532cee52"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Proofs/NativeReturned.lean",
+      "snapshot": "bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/preserved/bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Proofs/NativeReturned.lean",
+      "sha256": "b706eaf64167ee81291ae1d48258f7bb91e5be3a83087a0f018b3b02e8d3f14b"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Proofs/NativeStaging.lean",
+      "snapshot": "bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/preserved/bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Proofs/NativeStaging.lean",
+      "sha256": "d92f2558b50dcc5d83e6e8c4ac1cfa7ebe1cbcd988298931a559be148209b0e1"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Proofs/Output.lean",
+      "snapshot": "bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/preserved/bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Proofs/Output.lean",
+      "sha256": "de3c203b08618a9922f0dd826939ef3ab2af30d60c7f3406c9862b360336ed5f"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Proofs/Physical.lean",
+      "snapshot": "bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/preserved/bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Proofs/Physical.lean",
+      "sha256": "8221699143de19f2e2b2cab3a2c3767ed6799db9d14425aecfaa6b004f0885be"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Proofs/RealBackend.lean",
+      "snapshot": "bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/preserved/bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Proofs/RealBackend.lean",
+      "sha256": "781b88647626fcf14e63cfb233b5887744b4273903261a72dbf574da6f2a9513"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Proofs/RealInvariant.lean",
+      "snapshot": "bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/preserved/bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Proofs/RealInvariant.lean",
+      "sha256": "abbe2147c1cee38e3d299a1120a89ba599c69fc5acc6863f89679fd7fbf4afde"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Proofs/RealMath.lean",
+      "snapshot": "bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/preserved/bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Proofs/RealMath.lean",
+      "sha256": "ef3cea2599cdb6cadcdbf4e6e6f4f95f652c672be54abc86700cb8cd7a39d02f"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Proofs/RealReturned.lean",
+      "snapshot": "bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/preserved/bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Proofs/RealReturned.lean",
+      "sha256": "02ec8396ea555faeea5b3086a68569b818e5eb9f1e833cfe75cf88626b08c5ea"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Proofs/RealStep.lean",
+      "snapshot": "bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/preserved/bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Proofs/RealStep.lean",
+      "sha256": "4496bde5fe8be2ccc2fdccfb8b924c7826adcbf1216a02899862c38ceef40379"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Proofs/Scatter.lean",
+      "snapshot": "bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/preserved/bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Proofs/Scatter.lean",
+      "sha256": "cf4938cf50436094bd1f104b13f79ad65f9dea57ea775bd97e062dc13080259a"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Proofs/Values.lean",
+      "snapshot": "bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/preserved/bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Proofs/Values.lean",
+      "sha256": "b4f734022c0ff22a527ad126f40a87b7aac39bb7f901d0227bfe030b71e51cd0"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/ReviewEntry.lean",
+      "snapshot": "bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/preserved/bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/ReviewEntry.lean",
+      "sha256": "3ec53169a07bc87b46c1d036b47b35e2e7954bcee9a2bd66a735441b923cfb15"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/attention_fwd_triton2_repaired.py",
+      "snapshot": "bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/preserved/bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/attention_fwd_triton2_repaired.py",
+      "sha256": "eb7192d0aaab5db92b98eba026b05eb728774263b5f3afecbd7270d9d84bc005"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/attention_fwd_triton2/test_checked_contract.py",
+      "snapshot": "bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/preserved/bench/repairs/tritonbench_g/attention_fwd_triton2/test_checked_contract.py",
+      "sha256": "1761380b18b5bd098e4008006f8345384b5ca85cb0066a5fc9b11630a75f2f6c"
+    }
+  ]
+}

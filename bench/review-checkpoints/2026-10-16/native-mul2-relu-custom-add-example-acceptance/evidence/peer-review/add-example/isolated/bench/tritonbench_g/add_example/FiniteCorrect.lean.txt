@@ -1,0 +1,28 @@
+import bench.tritonbench_g.add_example.Proofs.FiniteHost
+
+namespace VeriTile.Bench.TritonBenchG.AddExample
+open VeriTile.Triton VeriTile.Bench.TritonBenchG.VectorAddition
+open DTypeScope TypedHost VectorAddition.Finite Finite
+noncomputable section
+
+/-- Complete original source outcomes over all actual dense dtype routes,
+metadata, native setup failures and finite requests. Scalar numerical ports
+remain explicit. No safe-domain, owner-device equality, no-wrap bound or input
+shape/length condition restricts the statement. Every complete native program
+schedule is represented by Metadata; conflicting accesses remain observations
+without a native trap, rollback, race winner or final-memory claim. -/
+specification add_example_actual_source_outcomes {M : Type}
+    (ops : (r : Route) → Finite.MemoryPrimitives M (Carrier r)) (b : Numerics)
+    (alloc : Finite.Allocator M) (env : Finite.NativeEnvironment) (metadata : Finite.Metadata)
+    (x y : Finite.Tensor) (before : M)
+    (contract : ∀ output allocated,alloc x before=.ok (output,allocated) →
+      Finite.AllocationBinding ops env metadata x y output before allocated) :
+    Finite.byteObservation ops x y (Finite.sourceHost ops b alloc env metadata x y before)=
+      Finite.hostFormula ops b alloc env metadata x y before :=
+  Finite.host_correspondence ops b alloc env metadata x y before contract
+
+#axiomsClean add_example_actual_source_outcomes
+#guard_msgs (drop info) in
+#auditModuleAxioms
+end
+end VeriTile.Bench.TritonBenchG.AddExample

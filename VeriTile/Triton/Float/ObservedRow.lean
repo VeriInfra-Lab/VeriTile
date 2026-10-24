@@ -41,10 +41,11 @@ def Equivalent (R : Spec.Assumptions GuardedFragment) (lhs rhs : Program) : Prop
 
 instance : Spec.ProgramSyntax Program where
   Statement := GuardedFragment
+  theory := Guarded.fp32Theory
   Signature := RegionName × RegionName × Nat × (Nat → Nat) × Scheduled.Profile ×
     (Schedules → GuardExpression.Condition)
   signature p := (p.input, p.output, p.size, p.offset, p.profile, p.domain)
-  body p := [⟨[], p.kernel.surfaceBody⟩]
+  body p := [⟨[], p.kernel.surfaceBody, .real, none⟩]
   structural := some (fun _ _ => False)
   numerical := Equivalent
   -- Kernel-body syntax alone cannot change an observation or memory frame.

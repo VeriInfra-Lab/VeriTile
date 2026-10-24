@@ -1,0 +1,31 @@
+{
+  "status": "complete_three_accepted_source_stages_value_and_frame_review_pass_pending_unified_integration",
+  "receipt_sha256": "7861f7a62e87351c621d9b848a558d1ffbff994af122c6e766c8dff3d1cb20c4",
+  "frozen_artifacts_verified": 437,
+  "fresh_compiled_task_modules": 26,
+  "independent_package_audit_modules": 1,
+  "resolved_project_source_object_pairs_verified": 207,
+  "public_specifications_verified": 6,
+  "old_public_specifications_preserved": 4,
+  "root_noncircular_reference_checks": 9,
+  "reference_audit": {
+    "source": "TritonAttentionValueReferenceAudit.lean",
+    "source_sha256": "2fa8dad6059ed945878b2f43e921b4494b439eb6f2b559543d00d8f3cab811d6",
+    "log": "root-reference-audit.log",
+    "log_sha256": "8f0a126661e891262901fe3d37b04b98c6f9b1c6c712c25b82064d6b58264f87"
+  },
+  "model_counts": {
+    "backend_value_contract": 5,
+    "closed_preprocess_software_contract_three_storage_profiles": 1
+  },
+  "findings": [
+    "Full accepted preprocess outputs, complete forward loop Out/L/M and complete backward outer/inner loops DQ/DK/DV are derived from independent initial-memory recurrences with full frame. Existing source/layout/alias/undef scope preserved.",
+    "Three source erasure bridges preserve the old main file and four old public specifications. No half=id premise in the new contracts; diagnostics retained.",
+    "Preprocess fp16/bf16/fp32 software result is proved independent of every external callback. Forward/backward concrete scalars/casts/reduction retain hostLiteral/exp/dot and unsupported f8 casts as callbacks.",
+    "Original Real host-scale ABI erases signed-zero/NaN payload distinctions; formal all-FloatDType callback execution does not establish all native dtype combinations legal.",
+    "Native 18 offline original-AST profiles:10 pass,8 bf16/fp32 forward/backward dtype-mismatch failures. Fusion and dotAcc graph differences are explicitly unresolved; they cannot be closed by sampling a false universal equivalence.",
+    "Raw loop BLOCK_M normalization, ignored BLOCK_N and pointer-reset adaptation are inherited accepted port boundaries, not general native address refinement."
+  ],
+  "native_execution": false,
+  "unified_build_pending": true
+}

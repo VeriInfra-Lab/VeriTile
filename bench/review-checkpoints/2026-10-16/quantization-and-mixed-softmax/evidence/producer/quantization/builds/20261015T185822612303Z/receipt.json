@@ -1,0 +1,43 @@
+{
+  "kind": "isolated_quantize_integer_stage_build",
+  "started_utc": "20261015T185822612303Z",
+  "launcher": "PATH=/tmp/veritile-lean-toolchain/bin:$PATH LAKE_HOME=/tmp/veritile-lean-toolchain lake env python /tmp/veritile-standardization-20261015/quantize-integer-stage-wip/build.py",
+  "lean_path": "/tmp/veritile-standardization-20261015/quantize-integer-stage-wip/builds/20261015T185822612303Z/src:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean",
+  "requested_modules": [
+    "QuantizeIntegerStage.Semantics",
+    "QuantizeIntegerStage.Global"
+  ],
+  "records": [
+    {
+      "module": "QuantizeIntegerStage.Semantics",
+      "command": [
+        "/tmp/veritile-lean-toolchain/bin/lean",
+        "-R",
+        "/tmp/veritile-standardization-20261015/quantize-integer-stage-wip/builds/20261015T185822612303Z/src",
+        "-o",
+        "/tmp/veritile-standardization-20261015/quantize-integer-stage-wip/builds/20261015T185822612303Z/src/QuantizeIntegerStage/Semantics.olean",
+        "/tmp/veritile-standardization-20261015/quantize-integer-stage-wip/builds/20261015T185822612303Z/src/QuantizeIntegerStage/Semantics.lean"
+      ],
+      "exit_code": 1,
+      "elapsed_seconds": 3.617,
+      "source_sha256": "80e99b5a3153f256e8ef873e65294616a1d206fdafebcb6162841e32cf82c81f",
+      "log": "/tmp/veritile-standardization-20261015/quantize-integer-stage-wip/builds/20261015T185822612303Z/QuantizeIntegerStage.Semantics.log",
+      "log_sha256": "3d53bdefc7ebdf284ba8de5d5b7fc116ef7d9b3cddb9a0ed02028437c07df76d",
+      "olean_sha256": null,
+      "dependency_olean_sha256": {
+        "/tmp/veritile-lean-toolchain/lib/lean/Init.olean": "7ccac48ef26289852ecb686826d9e0ce42f3ceb33ba7bdff960c38fb3d9a00c5",
+        "/tmp/veritile-tritonbench-lake/build/lib/lean/VeriTile/Triton.olean": "c76243f1226a0984808c5b43a9d338cefd35b1d2410b30393612efd4c17516c7",
+        "/tmp/veritile-tritonbench-lake/build/lib/lean/VeriTile/Triton/Float/ScalarBackend.olean": "eab205e9931df32f07f2205d44729725356161beb8ecf3e619a6a960a62b723b"
+      },
+      "dependency_hashes_stable": true,
+      "dependencies_exit_code": 0
+    }
+  ],
+  "source_sha256": {
+    "QuantizeIntegerStage/Semantics.lean": "80e99b5a3153f256e8ef873e65294616a1d206fdafebcb6162841e32cf82c81f",
+    "QuantizeIntegerStage/Global.lean": "499c2e3411382a568fa0667f958a9ee3832f78e7966bf7e69a0ccedfecc4850e"
+  },
+  "new_original_program_acceptances": 0,
+  "status": "failed",
+  "completed_utc": "2026-10-15T18:58:26.275004+00:00"
+}

@@ -10,7 +10,7 @@ audit:
 * `#stmtConsts T`          — every constant in `T`'s statement.
 * `#auditStmt T`           — just the project (non-core) constants: the surface
                              a human must read.
-* `#print_fp_assumptions T` — atomic assumptions referenced by an FP proof.
+* `#print_fp_assumptions T` — used experimental atoms and separate strict certificates.
 * `#print_spec T`          — reader-facing claim, premises and atomic rules.
 * `#print_spec T full`     — configuration/evidence, transitive dependencies
                              and the complete trust audit.
@@ -252,10 +252,12 @@ private def syntaxPrimitive (env : Environment) (n : Name) : Bool :=
 
 private def fpProofType (name : Name) : Bool :=
   #[``VeriTile.Spec.Derivation, ``VeriTile.Spec.ProgramDerivation,
+    ``VeriTile.Spec.StatementTheory.Certified,
     ``VeriTile.Spec.FloatingPoint, ``VeriTile.Spec.ProgramSyntax.Derivation,
     ``VeriTile.Spec.ProgramSyntax.numerical,
     `VeriTile.Triton.FP.Equational.TermEq, `VeriTile.Triton.FP.Equational.OptionalEq,
     `VeriTile.Triton.FP.Structural.IO₁NumericalEquiv,
+    `VeriTile.Triton.FP.Structural.ProgramIO.EquivalentOn,
     `VeriTile.Triton.FP.Guarded.Equivalent,
     `VeriTile.Triton.FP.GuardedRewrite.Equivalent,
     `VeriTile.Triton.FP.Guarded.Equivalent₁ₓ₂,
@@ -418,8 +420,11 @@ private structure FPAssumptionState where
   seen : Std.HashSet Expr := {}
   internalProofVars : Std.HashSet Expr := {}
   forwardedAtoms : Std.HashSet Expr := {}
+  forwardedCertificates : Std.HashSet Expr := {}
   entries : Array Expr := #[]
   printedAdmissions : Array (Expr × Expr) := #[]
+  printedStrict : Array (Expr × Expr) := #[]
+  strictReports : Array String := #[]
   unresolved : Bool := false
   fpConstants : Std.HashMap Name Bool := {}
   remaining : Nat := 100000
@@ -508,8 +513,18 @@ private partial def visitFPAssumptions (proof : Expr) :
     unless ← Meta.isProof proof do return
     unless ← fpExprReachable proof do return
     let args := proof.getAppArgs
+    -- Dispatchers may select strict versus empirical evidence with a concrete
+    -- condition. Reduce only the conditional head before inspecting branches;
+    -- a symbolic decision still exposes both branches conservatively. Without
+    -- this step an instantiated `isStrict = false` case would incorrectly
+    -- report the impossible branch's strict certificate as used evidence.
+    if proof.isAppOf ``dite || proof.isAppOf ``ite then
+      let reduced ← Meta.withTransparency .all <| Meta.whnf proof
+      if reduced != proof then
+        visitFPAssumptions reduced
+        return
     if proof.isAppOf ``VeriTile.Spec.Derivation.atom then
-      let entry := args[2]!
+      let entry := args[3]!
       -- Track each syntax instantiation, but print the same concrete admission
       -- once when it is applied at several sites. Different experimental
       -- contracts/evidence stay distinct even when their textual IDs coincide.
@@ -542,6 +557,36 @@ private partial def visitFPAssumptions (proof : Expr) :
           modify fun s => { s with printedAdmissions := s.printedAdmissions.push identity }
           printFPAtom entry
       return
+    if proof.isAppOf ``VeriTile.Spec.Derivation.strict then
+      let theory := args[1]!
+      let certificate := args[5]!
+      if (← get).forwardedCertificates.contains certificate then return
+      let identity := (theory, certificate)
+      unless (← get).printedStrict.contains identity do
+        let modelField ← Meta.mkAppOptM ``VeriTile.Spec.StatementTheory.modelID
+          #[some args[0]!, some theory]
+        let model := Meta.getStringValue?
+          (← Meta.withTransparency .all <| Meta.whnf modelField)
+        let model := model.getD (← Meta.ppExpr theory).pretty
+        let rendered := (← Meta.ppExpr certificate).pretty
+        let collect : StateRefT (Array Expr) MetaM Unit := certificate.forEach fun e => do
+          if e.isFVar && !(← get).contains e then modify (·.push e)
+        let (_, variables) ← collect.run #[]
+        let mut premises : Array String := #[]
+        for localVar in variables do
+          if !(← get).internalProofVars.contains localVar && (← Meta.isProof localVar) then
+            premises := premises.push (← Meta.ppExpr localVar).pretty
+        let status := if premises.isEmpty then ""
+          else "\n    conditional on proof premises: " ++ String.intercalate ", " premises.toList
+        modify fun s => { s with
+          printedStrict := s.printedStrict.push identity
+          strictReports := s.strictReports.push
+            ("  model: " ++ model ++ "\n    certificate: " ++ rendered ++ status) }
+      -- Certificates are actual proof arguments. Inspect them too, so an
+      -- opaque premise or an empirical dependency cannot disappear behind
+      -- the strict constructor's name.
+      visitFPAssumptions certificate
+      return
     if proof.isAppOf ``VeriTile.Spec.Derivation.rec then
       for i in [:args.size] do
         let arg := args[i]!
@@ -549,7 +594,7 @@ private partial def visitFPAssumptions (proof : Expr) :
         -- The atom branch re-emits an atom from the input derivation, whose
         -- actual proof is also visited below. Do not generalize this to data
         -- recursors: unpacking an entry there can introduce a new assumption.
-        if i == 4 then
+        if i == 5 then
           Meta.lambdaTelescope arg fun params body => do
             let previousVars := (← get).internalProofVars
             let previousAtoms := (← get).forwardedAtoms
@@ -563,6 +608,23 @@ private partial def visitFPAssumptions (proof : Expr) :
             modify fun s => { s with
               internalProofVars := previousVars
               forwardedAtoms := previousAtoms }
+        else if i == 9 then
+          -- The final strict branch forwards the input certificate, just as
+          -- the atom branch forwards its entry. Inspect the input derivation
+          -- below instead of reporting the induction binder as new evidence.
+          Meta.lambdaTelescope arg fun params body => do
+            let previousVars := (← get).internalProofVars
+            let previousCertificates := (← get).forwardedCertificates
+            let forwarded := match params[2]? with
+              | some certificate => previousCertificates.insert certificate
+              | none => previousCertificates
+            modify fun s => { s with
+              internalProofVars := params.foldl (·.insert ·) previousVars
+              forwardedCertificates := forwarded }
+            visitFPAssumptions body
+            modify fun s => { s with
+              internalProofVars := previousVars
+              forwardedCertificates := previousCertificates }
         else if ← Meta.isProof arg then visitFPAssumptions arg
       return
     let env ← getEnv
@@ -604,8 +666,9 @@ private partial def visitFPAssumptions (proof : Expr) :
         modify fun s => { s with unresolved := true }
         logInfo m!"  unresolved FP proof: {← Meta.ppExpr proof} (atomic assumptions unavailable)"
 
-/-- Print only the atomic assumptions referenced by a floating-point proof.
-Works on ordinary theorems as well as registered `specification` headlines. -/
+/-- Print the experimental atoms actually reached in the proof, followed by
+the separately identified strict model certificates. Neither a declared table
+nor a certificate's label is treated as evidence that an experiment ran. -/
 elab "#print_fp_assumptions " id:ident : command => do
   let name ← liftCoreM <| realizeGlobalConstNoOverload id
   let info ← liftCoreM <| getConstInfo name
@@ -623,6 +686,9 @@ elab "#print_fp_assumptions " id:ident : command => do
     let proof := mkAppN (mkConst name (info.levelParams.map Level.param)) params
     let (_, state) ← (visitFPAssumptions proof).run {}
     if state.entries.isEmpty && !state.unresolved then logInfo "  none"
+    unless state.strictReports.isEmpty do
+      logInfo m!"Strict model certificates used by {shortSpecName name}:"
+      for report in state.strictReports do logInfo report
 
 private def printCompactAtoms (assumptions : Expr) : MetaM Unit := do
   logInfo "Atomic assumptions (declared scope):"

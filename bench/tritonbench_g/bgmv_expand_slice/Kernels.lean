@@ -1,6 +1,13 @@
 import VeriTile.Triton.DSL
 import VeriTile.Triton.Source
 import VeriTile.Meta.StatementAudit
+/-!
+Source-audit target: _bgmv_expand_slice_kernel
+Source-audit Lean: bgmvConcreteSource%
+Source-audit args: inTy=tl.float32, weightTy=tl.float16, outTy=tl.float16, castFlag=cast, swapFlag=original
+Selected fp32 input, fp16 weights/output and original cast profile only; other storage and cast profiles remain separate obligations.
+-/
+
 /-! Complete source of `bgmv_expand_slice.py`'s `_bgmv_expand_slice_kernel`.
 The source template below is specialized at the input and weight dtypes and
 CAST_TYPE, which are compile-time choices in Triton. Every accepted input dtype
@@ -20,7 +27,8 @@ The sum itself retains its product dtype, and only the ADD_INPUTS arithmetic
 uses promotion against the loaded output.
 
 Correct.lean proves the independent full-rank real formula with flat-memory
-IO; FPEquiv.lean proves the complete typed-program equivalence. The legacy
+IO; FPEquiv.lean proves the complete typed-program equivalence under explicit
+configuration-specific native scalar addition laws and finite operand guards. The legacy
 real helper remains in Proofs/RealFoundation solely for reusable lemmas.
 
 Translation-surface blocker: the macro specializes storage dtypes and stages

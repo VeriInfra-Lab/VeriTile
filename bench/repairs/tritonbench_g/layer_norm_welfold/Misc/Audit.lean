@@ -1,0 +1,16 @@
+import bench.repairs.tritonbench_g.layer_norm_welfold.Misc.NativeCorrect
+import bench.repairs.tritonbench_g.layer_norm_welfold.Misc.TensorBridge
+import bench.repairs.tritonbench_g.layer_norm_welfold.FPEquiv
+
+#axiomsClean VeriTile.Bench.Repairs.LayerNormWelfold.TensorBridge.python_checks_iff_preconditions
+#axiomsClean VeriTile.Bench.Repairs.LayerNormWelfold.TensorBridge.layer_norm_welfold_real
+#axiomsClean VeriTile.Bench.Repairs.LayerNormWelfold.TensorBridge.layer_norm_welfold_native
+#axiomsClean VeriTile.Bench.Repairs.LayerNormWelfold.InputBinding.observed
+#axiomsClean VeriTile.Bench.Repairs.LayerNormWelfold.InputBinding.native_address
+#axiomsClean VeriTile.Bench.Repairs.LayerNormWelfold.NativeInputs.observed
+#axiomsClean VeriTile.Bench.Repairs.LayerNormWelfold.TensorBridge.layer_norm_welfold_native_physical
+#axiomsClean VeriTile.Bench.Repairs.LayerNormWelfold.Physical.store_bytes
+#axiomsClean VeriTile.Bench.Repairs.LayerNormWelfold.Physical.output_pointers
+
+#axiomsClean VeriTile.Bench.Repairs.LayerNormWelfold.Correct.kernel_real
+#axiomsClean VeriTile.Bench.Repairs.LayerNormWelfold.FPEquiv.kernel_native

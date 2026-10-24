@@ -1,0 +1,5 @@
+QuantTransposeFinite.nativeByteResult: definition does not reference [QuantTransposeFinite.applyNativeWrites] — non-circular ✓
+QuantTransposeFinite.native_read_congr: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+QuantTransposeFinite.native_read_outside_output: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+QuantTransposeFinite.writes_pointwise: axiom footprint ⊆ standard base ✓  ([propext])
+QuantTransposeFinite.writes_outside_output: axiom footprint ⊆ standard base ✓  ([propext])

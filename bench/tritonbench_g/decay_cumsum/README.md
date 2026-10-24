@@ -20,6 +20,14 @@ all lanes of its final gate row without a mask; the IO read window includes
 these extra cells. Backward retains its final pointer decrements and updates
 dq/dk arrays in place.
 
+The reverse source lowers to a signed loop. `BackwardLoop.lean` proves its
+iteration-by-iteration correspondence with an explicitly written internal Nat
+reference: for positive `BT`, both visit `BT-1, ..., 0`. The bridge deletes only
+the dead `j`, `__rev_j` and cached `offs` registers when comparing final states;
+all memory, failures, program IDs and other registers are preserved. This bridge
+uses the existing `BT > 0` real-contract premise. A regression separately checks
+that the actual signed source executes zero iterations at `BT = 0`.
+
 The real contracts require `BK <= DK`, and preparation/backward also require
 `BT > 0`. Their explicit region separation conditions protect input values
 from earlier stores. Each contract also requires a finite disjoint allocation,
@@ -36,7 +44,10 @@ preserve complete states and failures and need no numerical atoms or extra
 numerical-domain restrictions. No host launch, concurrent GPU execution,
 IEEE rounding or fixed-width index-overflow guarantee is claimed.
 
-Validation passed: complete repository closure, all-three-JIT source expression
-checks, precision regressions, source-only corpus gates, 31 audit/layout tests
-and independent comparator/trust replay of all 27 files. Final target inventories
-and source fingerprints match `Logs/comparator-check-d9lunxqu`.
+Current validation and exact source snapshots are recorded in the dated
+acceptance checkpoint. `FPDecayCumsumSource` checks precision/storage for all
+source variants; `DecayCumsumReverse` checks the signed reverse-loop shape,
+zero iterations at `BT = 0`, finite two-iteration execution for all storage pairs,
+and a complete typed execution. Independent comparator replay remains a
+separate environment-dependent acceptance gate; historical replay logs are
+not evidence for a changed source snapshot.

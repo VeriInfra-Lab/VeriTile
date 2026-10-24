@@ -83,11 +83,27 @@ def Op.eraseDType : Op dtype shape → Op (VeriTile.Triton.eraseDType dtype) sha
   | .numPrograms axis => .numPrograms axis
   | .ref dtype shape name => .ref (VeriTile.Triton.eraseDType dtype) shape name
   | .arange n => .arange n
+  | .philox4x32 cfg plan field seed c0 c1 c2 c3 =>
+      .philox4x32 cfg plan field seed.eraseDType
+        c0.eraseDType c1.eraseDType c2.eraseDType c3.eraseDType
+  | .uniform32 word => .uniform32 word.eraseDType
+  | .rand cfg seed offsets => .rand cfg seed.eraseDType offsets.eraseDType
+  | .randTensor cfg seed offsets => .randTensor cfg seed.eraseDType offsets.eraseDType
   | .broadcast e shape => .broadcast e.eraseDType shape
   | .full shape e => .full shape e.eraseDType
   | .withPrecision _ _ e => e.eraseDType
   | .castFloat src dst e => by
       simpa [eraseDType_float src, eraseDType_float dst] using e.eraseDType
+  | .negFloat dtype e => by
+      rw [eraseDType_float dtype]
+      exact .negFloat .real (by simpa [eraseDType_float dtype] using e.eraseDType)
+  | .absFloat dtype e => by
+      rw [eraseDType_float dtype]
+      exact .absFloat .real (by simpa [eraseDType_float dtype] using e.eraseDType)
+  | .floatToInt precision src width e =>
+      .floatToInt precision .real width (by simpa [eraseDType_float src] using e.eraseDType)
+  | .floatToNat precision src width e =>
+      .floatToNat precision .real width (by simpa [eraseDType_float src] using e.eraseDType)
   | .castNatToInt e => .castNatToInt e.eraseDType
   | .castIntToNat e => .castIntToNat e.eraseDType
   | .castRealToInt8 e => .castRealToInt8 e.eraseDType
@@ -136,13 +152,26 @@ def Op.eraseDType : Op dtype shape → Op (VeriTile.Triton.eraseDType dtype) sha
   | .boolOr bc a b => .boolOr bc a.eraseDType b.eraseDType
   | .boolNot a => .boolNot a.eraseDType
   | .max2 bc a b => .max2 bc a.eraseDType b.eraseDType
+  | .maximumFloat dtype (a := leftShape) (b := rightShape) bc a b => by
+      have ea : Op .real leftShape := by simpa only [eraseDType_float] using a.eraseDType
+      have eb : Op .real rightShape := by simpa only [eraseDType_float] using b.eraseDType
+      rw [eraseDType_float dtype]
+      exact .max2 bc ea eb
+  | .minimumFloat dtype (a := leftShape) (b := rightShape) bc a b => by
+      have ea : Op .real leftShape := by simpa only [eraseDType_float] using a.eraseDType
+      have eb : Op .real rightShape := by simpa only [eraseDType_float] using b.eraseDType
+      rw [eraseDType_float dtype]
+      exact .minimumFloat .real bc ea eb
   | .pow bc a b => .pow bc a.eraseDType b.eraseDType
+  | .libdevicePowi bc a b => .libdevicePowi bc a.eraseDType b.eraseDType
   | .where c a b => .where c.eraseDType a.eraseDType b.eraseDType
   | .ite c a b => .ite c.eraseDType a.eraseDType b.eraseDType
+  | .reduceMin axis keepDims a => .reduceMin axis keepDims a.eraseDType
   | .reduceMax axis keepDims a => .reduceMax axis keepDims a.eraseDType
   | .reduceMaxNat axis keepDims a => .reduceMaxNat axis keepDims a.eraseDType
   | .reduceMaxInt axis keepDims a => .reduceMaxInt axis keepDims a.eraseDType
   | .reduceSum axis keepDims a => .reduceSum axis keepDims a.eraseDType
+  | .reduceSumBool axis keepDims a => .reduceSumBool axis keepDims a.eraseDType
   | .reduceSumTyped dtype (shape := shape) axis keepDims a => by
       have ea : Op .real shape := by simpa only [eraseDType_float] using a.eraseDType
       rw [eraseDType_float dtype]
@@ -153,6 +182,7 @@ def Op.eraseDType : Op dtype shape → Op (VeriTile.Triton.eraseDType dtype) sha
       exact .reduceMax axis keepDims ea
   | .scan op axis dir a => .scan op axis dir a.eraseDType
   | .argMax axis a => .argMax axis a.eraseDType
+  | .argMaxInt axis a => .argMaxInt axis a.eraseDType
   | .indexedMaxValue dtype (shape := shape) axis a => by
       have ea : Op .real shape := by simpa only [eraseDType_float] using a.eraseDType
       rw [eraseDType_float dtype]

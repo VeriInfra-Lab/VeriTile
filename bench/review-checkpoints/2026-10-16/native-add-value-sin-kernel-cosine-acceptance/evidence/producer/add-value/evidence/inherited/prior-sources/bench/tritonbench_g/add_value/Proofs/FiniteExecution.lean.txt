@@ -1,0 +1,253 @@
+import bench.tritonbench_g.add_value.Proofs.FiniteScalar
+import bench.tritonbench_g.vector_addition.Proofs.FiniteSchedule
+import bench.tritonbench_g.vector_addition.Proofs.FiniteIndices
+
+namespace AddValueFinite
+open VeriTile.Bench.TritonBenchG.VectorAddition.Finite
+set_option maxHeartbeats 6000000
+set_option maxRecDepth 24000
+
+/-- Actual typed output stores. Undefined conversion stops the interpreter;
+it is not a native trap or a rollback assertion. -/
+def executeStores {M A : Type} (ops : MemoryPrimitives M A) (values : Nat → Option A)
+    (output : View) : List Nat → M → Except Nat M
+  | [],s => .ok s
+  | i::rest,s => match values i with
+    | none => .error i
+    | some v => executeStores ops values output rest (writeView ops s output i v)
+
+/-- Unary source loads: each operand is read at its actual input address. -/
+def executeLive {M A : Type} (ops : MemoryPrimitives M A) (compute : A → Option A)
+    (x output : View) : List Nat → M → Except Nat M
+  | [],s => .ok s
+  | i::rest,s => match compute (readView ops s x i) with
+    | none => .error i
+    | some v => executeLive ops compute x output rest (writeView ops s output i v)
+
+/-- The original program loads its tile before the addition and stores. -/
+def executeBatches {M A : Type} (ops : MemoryPrimitives M A) (compute : A → Option A)
+    (x output : View) : List (List Nat) → M → Except Nat M
+  | [],s => .ok s
+  | jobs::rest,s => do
+      let next ← executeStores ops (fun i => compute (readView ops s x i)) output jobs s
+      executeBatches ops compute x output rest next
+
+theorem stores_output {M A : Type} (ops : MemoryPrimitives M A) (values : Nat → Option A)
+    (output : View) (jobs : List Nat) (initial final : M)
+    (h : executeStores ops values output jobs initial=.ok final) (i : Nat) :
+    some (readView ops final output i)=
+      if i∈jobs then values i else some (readView ops initial output i) := by
+  induction jobs generalizing initial with
+  | nil => cases h; simp
+  | cons j jobs ih =>
+    cases hv : values j with
+    | none => simp [executeStores,hv] at h
+    | some v =>
+      simp only [executeStores,hv] at h
+      have he := ih _ h
+      by_cases hi : i∈jobs
+      · simpa [hi] using he
+      · rw [if_neg hi] at he
+        rw [he]
+        by_cases hji : j=i
+        · subst j
+          simp [readView,writeView,ops.read_same,hv]
+        · have hr := ops.read_disjoint initial output.dtype (output.address j) v
+            output.dtype (output.address i) (distinct_cells output j i hji)
+          simp [hi,Ne.symm hji,readView,writeView,hr]
+
+theorem stores_error {M A : Type} (ops : MemoryPrimitives M A) (values : Nat → Option A)
+    (output : View) (jobs : List Nat) (initial : M) (i : Nat)
+    (h : executeStores ops values output jobs initial=.error i) : i∈jobs ∧ values i=none := by
+  induction jobs generalizing initial with
+  | nil => cases h
+  | cons j jobs ih =>
+    cases hv : values j with
+    | none => simp [executeStores,hv] at h; subst i; exact ⟨by simp,hv⟩
+    | some v =>
+      simp only [executeStores,hv] at h
+      obtain ⟨hi,he⟩ := ih _ h
+      exact ⟨by simp [hi],he⟩
+
+theorem stores_byte_frame {M A : Type} (ops : MemoryPrimitives M A) (values : Nat → Option A)
+    (output : View) (jobs : List Nat) (initial final : M)
+    (h : executeStores ops values output jobs initial=.ok final) (address : Nat)
+    (outside : ∀ i∈jobs, address<output.address i ∨ output.finish i≤address) :
+    ops.observeByte final address=ops.observeByte initial address := by
+  induction jobs generalizing initial with
+  | nil => cases h; rfl
+  | cons i jobs ih =>
+    cases hv : values i with
+    | none => simp [executeStores,hv] at h
+    | some v =>
+      simp only [executeStores,hv] at h
+      rw [ih _ h (fun j hj => outside j (by simp [hj]))]
+      exact ops.byte_frame initial output.dtype (output.address i) v address (outside i (by simp))
+
+theorem stores_read_frame {M A : Type} (ops : MemoryPrimitives M A) (values : Nat → Option A)
+    (output : View) (jobs : List Nat) (initial final : M)
+    (h : executeStores ops values output jobs initial=.ok final) (x : View) (j : Nat)
+    (separate : ∀ i∈jobs, SpanDisjoint (output.address i) (output.finish i) (x.address j) (x.finish j)) :
+    readView ops final x j=readView ops initial x j := by
+  induction jobs generalizing initial with
+  | nil => cases h; rfl
+  | cons i jobs ih =>
+    cases hv : values i with
+    | none => simp [executeStores,hv] at h
+    | some v =>
+      simp only [executeStores,hv] at h
+      rw [ih _ h (fun k hk => separate k (by simp [hk]))]
+      exact ops.read_disjoint initial output.dtype (output.address i) v x.dtype (x.address j) (separate i (by simp))
+
+theorem live_eq_stores {M A : Type} (ops : MemoryPrimitives M A) (compute : A → Option A)
+    (x output : View) (n : Nat) (base : M) (jobs : List Nat)
+    (active : ∀ i∈jobs, i<n)
+    (separate : ∀ i, i<n → ∀ j, j<n → SpanDisjoint (output.address i) (output.finish i) (x.address j) (x.finish j))
+    (current : M) (preserved : ∀ i, i<n → readView ops current x i=readView ops base x i) :
+    executeLive ops compute x output jobs current=
+      executeStores ops (fun i => compute (readView ops base x i)) output jobs current := by
+  induction jobs generalizing current with
+  | nil => rfl
+  | cons i jobs ih =>
+    have hi := active i (by simp)
+    simp only [executeLive,executeStores,preserved i hi]
+    cases hv : compute (readView ops base x i) with
+    | none => rfl
+    | some v =>
+      apply ih (fun j hj => active j (by simp [hj]))
+      intro j hj
+      exact (ops.read_disjoint current output.dtype (output.address i) v x.dtype (x.address j)
+        (separate i hi j hj)).trans (preserved j hj)
+
+theorem live_append {M A : Type} (ops : MemoryPrimitives M A) (compute : A → Option A)
+    (x output : View) (left right : List Nat) (initial : M) :
+    executeLive ops compute x output (left++right) initial=
+      (executeLive ops compute x output left initial).bind (executeLive ops compute x output right) := by
+  induction left generalizing initial with
+  | nil => rfl
+  | cons i rest ih =>
+    simp only [List.cons_append,executeLive]
+    cases compute (readView ops initial x i) <;> simp [ih,Except.bind]
+
+theorem batches_eq_live {M A : Type} (ops : MemoryPrimitives M A) (compute : A → Option A)
+    (x output : View) (n : Nat) (batches : List (List Nat)) (initial : M)
+    (active : ∀ i∈batches.flatten, i<n)
+    (separate : ∀ i, i<n → ∀ j, j<n → SpanDisjoint (output.address i) (output.finish i) (x.address j) (x.finish j)) :
+    executeBatches ops compute x output batches initial=
+      executeLive ops compute x output batches.flatten initial := by
+  induction batches generalizing initial with
+  | nil => rfl
+  | cons jobs rest ih =>
+    have ha : ∀ i∈jobs, i<n := fun i hi => active i (by simp [hi])
+    have hr : ∀ i∈rest.flatten, i<n := fun i hi => active i (by simp [hi])
+    rw [executeBatches,List.flatten_cons,live_append,
+      live_eq_stores ops compute x output n initial jobs ha separate initial (fun _ _ => rfl)]
+    cases executeStores ops (fun i => compute (readView ops initial x i)) output jobs initial with
+    | error reason => rfl
+    | ok next => exact ih next hr
+
+/-- Full source grid, including zero programs for N=0 and every tail mask. -/
+def executeGrid {M : Type} (b : Numerics) (d : Storage)
+    (ops : MemoryPrimitives M (Word (.storage d))) (x output : View) (n : Nat) (initial : M) : Except Nat M :=
+  executeBatches ops (fun a => (source d).eval b a argument) x output (sourceBatches n) initial
+
+theorem grid_eq_stores {M : Type} (b : Numerics) (d : Storage)
+    (ops : MemoryPrimitives M (Word (.storage d))) (x output : View) (n : Nat) (initial : M)
+    (hx : x.Valid n (rounded n)) (ho : output.Valid n (rounded n)) (sep : StorageDisjoint output x) :
+    executeGrid b d ops x output n initial=
+      executeStores ops (fun i => result b d (readView ops initial x i) argument) output (activeLanes n) initial := by
+  have separate : ∀ i, i<n → ∀ j, j<n → SpanDisjoint (output.address i) (output.finish i) (x.address j) (x.finish j) :=
+    fun i hi j hj => separated_accesses output x n n (rounded n) (rounded n) i j ho hx hi hj sep
+  unfold executeGrid
+  rw [batches_eq_live ops _ x output n (sourceBatches n) initial ?_ separate,source_batches_flatten,
+    live_eq_stores ops _ x output n initial (activeLanes n) (fun i hi => (mem_activeLanes n i).1 hi)
+      separate initial (fun _ _ => rfl)]
+  · simp only [source_scalar]
+  · intro i hi
+    exact (mem_activeLanes n i).1 (by simpa [source_batches_flatten] using hi)
+
+def GridResult {M : Type} (b : Numerics) (d : Storage)
+    (ops : MemoryPrimitives M (Word (.storage d))) (x output : View) (n : Nat) (initial final : M) : Prop :=
+  (∀ i, i<n → some (readView ops final output i)=result b d (readView ops initial x i) argument) ∧
+  (∀ i, i<n → readView ops final x i=readView ops initial x i) ∧
+  (∀ address, ¬ output.active n address → ops.observeByte final address=ops.observeByte initial address)
+
+theorem grid_all_value_outcomes {M : Type} (b : Numerics) (d : Storage)
+    (ops : MemoryPrimitives M (Word (.storage d))) (x output : View) (n : Nat) (initial : M)
+    (hx : x.Valid n (rounded n)) (ho : output.Valid n (rounded n)) (sep : StorageDisjoint output x) :
+    (∃ i, i<n ∧ result b d (readView ops initial x i) argument=none ∧ executeGrid b d ops x output n initial=.error i) ∨
+    (∃ final, executeGrid b d ops x output n initial=.ok final ∧ GridResult b d ops x output n initial final) := by
+  have he := grid_eq_stores b d ops x output n initial hx ho sep
+  cases h : executeGrid b d ops x output n initial with
+  | error i =>
+    have hf := stores_error ops _ output (activeLanes n) initial i (he.symm.trans h)
+    exact Or.inl ⟨i,(mem_activeLanes n i).1 hf.1,hf.2,rfl⟩
+  | ok final =>
+    right
+    refine ⟨final,rfl,?_,?_,?_⟩
+    · intro i hi
+      simpa [mem_activeLanes,hi] using stores_output ops _ output (activeLanes n) initial final (he.symm.trans h) i
+    · intro j hj
+      apply stores_read_frame ops _ output (activeLanes n) initial final (he.symm.trans h) x j
+      intro i hi
+      exact separated_accesses output x n n (rounded n) (rounded n) i j ho hx ((mem_activeLanes n i).1 hi) hj sep
+    · intro address outside
+      apply stores_byte_frame ops _ output (activeLanes n) initial final (he.symm.trans h) address
+      intro i hi
+      exact outside_span output n i address ((mem_activeLanes n i).1 hi) outside
+
+/-- Applicability of active native output conversions, independent of any
+kernel execution or final memory. Undefined native conversions are excluded,
+not relabeled as native exceptions or assigned a totalized result. -/
+def ValuesDefined {M : Type} (b : Numerics) (d : Storage)
+    (ops : MemoryPrimitives M (Word (.storage d))) (x : View) (n : Nat) (initial : M) : Prop :=
+  ∀ i, i<n → ∃ value, result b d (readView ops initial x i) argument=some value
+
+theorem grid_defined_success {M : Type} (b : Numerics) (d : Storage)
+    (ops : MemoryPrimitives M (Word (.storage d))) (x output : View) (n : Nat) (initial : M)
+    (hx : x.Valid n (rounded n)) (ho : output.Valid n (rounded n)) (sep : StorageDisjoint output x)
+    (defined : ValuesDefined b d ops x n initial) :
+    ∃ final, executeGrid b d ops x output n initial=.ok final ∧ GridResult b d ops x output n initial final ∧
+      ∀ i, n ≤ i → readView ops final output i=readView ops initial output i := by
+  rcases grid_all_value_outcomes b d ops x output n initial hx ho sep with bad|good
+  · obtain ⟨i,hi,hbad,_⟩ := bad
+    obtain ⟨value,hvalue⟩ := defined i hi
+    rw [hvalue] at hbad
+    contradiction
+  · obtain ⟨final,hfinal,correct⟩ := good
+    refine ⟨final,hfinal,correct,?_⟩
+    intro i hi
+    have h := stores_output ops _ output (activeLanes n) initial final
+      ((grid_eq_stores b d ops x output n initial hx ho sep).symm.trans hfinal) i
+    simpa [mem_activeLanes,show ¬i<n by omega] using h
+
+theorem complete_schedule {M : Type} (b : Numerics) (d : Storage)
+    (ops : MemoryPrimitives M (Word (.storage d))) (x output : View) (n : Nat) (initial : M)
+    (hx : x.Valid n (rounded n)) (ho : output.Valid n (rounded n)) (sep : StorageDisjoint output x)
+    (defined : ValuesDefined b d ops x n initial) (jobs : List Nat) (complete : ∀ i, i∈jobs ↔ i<n) :
+    ∃ final, executeLive ops (fun a ↦ (source d).eval b a argument) x output jobs initial=.ok final ∧
+      ∀ i, i<n → some (readView ops final output i)=result b d (readView ops initial x i) argument := by
+  have eqn := live_eq_stores ops (fun a ↦ (source d).eval b a argument) x output n initial jobs
+    (fun i hi ↦ (complete i).1 hi)
+    (fun i hi j hj ↦ separated_accesses output x n n (rounded n) (rounded n) i j ho hx hi hj sep)
+    initial (fun _ _ ↦ rfl)
+  simp only [source_scalar] at eqn
+  cases hs : executeStores ops (fun i ↦ result b d (readView ops initial x i) argument) output jobs initial with
+  | error i =>
+    obtain ⟨hi,hbad⟩ := stores_error ops _ output jobs initial i hs
+    obtain ⟨value,hvalue⟩ := defined i ((complete i).1 hi)
+    rw [hvalue] at hbad
+    contradiction
+  | ok final =>
+    refine ⟨final,by simpa only [source_scalar] using eqn.trans hs,?_⟩
+    intro i hi
+    simpa [if_pos ((complete i).2 hi)] using stores_output ops _ output jobs initial final hs i
+
+#axiomsClean grid_defined_success
+#axiomsClean complete_schedule
+#specNonCircular GridResult avoiding [executeGrid,executeBatches,executeLive,executeStores,source,Expr.eval]
+#axiomsClean grid_eq_stores
+#axiomsClean grid_all_value_outcomes
+#guard_msgs (drop info) in
+#auditModuleAxioms
+end AddValueFinite

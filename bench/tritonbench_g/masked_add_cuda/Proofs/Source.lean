@@ -149,9 +149,9 @@ def expectedTypedStore (storage : FloatStorage) (g : RegionName) (B : Nat) : Com
   | .fp32 => .store .real [B] (.region g (.ref .nat [B] "offsets"))
       (.compute (.alg .fp32 (.ref .real [B] "grad"))) (.mask (.ref .bool [B] "mask"))
   | .fp16 => .store .fp16 [B] (.region (.cast g) (.ref .nat [B] "offsets"))
-      (.alg (.castFloat .real .fp16 (.ref .real [B] "grad"))) (.mask (.ref .bool [B] "mask"))
+      (.alg (.castFloat .real .fp16 (.withPrecision .real .fp32 (.ref .real [B] "grad")))) (.mask (.ref .bool [B] "mask"))
   | .bf16 => .store .bf16 [B] (.region (.cast g) (.ref .nat [B] "offsets"))
-      (.alg (.castFloat .real .bf16 (.ref .real [B] "grad"))) (.mask (.ref .bool [B] "mask"))
+      (.alg (.castFloat .real .bf16 (.withPrecision .real .fp32 (.ref .real [B] "grad")))) (.mask (.ref .bool [B] "mask"))
 
 theorem typed_store_precision (gt pt : FloatStorage) (mt : MaskStorage) (v : Bool)
     (g p m : RegionName) (n : Nat) (a : ℝ) (B : Nat) :

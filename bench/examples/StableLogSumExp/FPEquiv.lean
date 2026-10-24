@@ -65,7 +65,8 @@ def original (x y : RegionName) (B : Nat) : FP.Kernel₁ where
 def optimized (x y : RegionName) (B : Nat) : FP.Kernel₁ :=
   { original x y B with io := optimizedIO x y B }
 
-/-- Actual source-to-source equivalence from admitted scalar atoms. -/
+/-- Actual source-to-source equivalence from the fixed strict scalar theory
+and the numerical relaxations in `R`, including the conditional log rules. -/
 specification logsumexp_equiv (B : Nat) (hB : 0 < B) (R : FP.LogSumExp.Rules) :
     optimized "x" "y" B ≡[R] original "x" "y" B := by
   apply Spec.FloatingPoint.ofNumerical (lhs := optimized "x" "y" B)

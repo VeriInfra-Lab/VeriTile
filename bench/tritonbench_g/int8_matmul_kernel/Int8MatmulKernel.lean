@@ -44,8 +44,8 @@ literals inside index arithmetic are written `$(n)` (a bare literal is
 inferred `.real` by the DSL's expression typing).
 
 Faithful spellings worth noting (probed, **not** deviations): the
-`out_dtype=tl.int32` kwarg on `tl.dot` is kept and macro-erased (on the
-`.int` channel `Op.dotInt` is exact ℤ arithmetic, so the kwarg is
+`out_dtype=tl.int32` kwarg on `tl.dot` is retained in `DotOptions` (on the
+`.int` channel `Op.dotInt` is exact ℤ arithmetic, so the option is
 semantically redundant); `b - tensor_full` (`[BK, BN] − [1]`) compiles
 through the rank-promoting broadcast `Broadcast.leadR` with no respell;
 `tl.program_id(axis=0)` is native syntax; the register named `mask`
@@ -408,7 +408,7 @@ source text:
   `b - tensor_full` broadcasts `[BK, BN] − [1]` through
   `Broadcast.leadR (Broadcast.consR Broadcast.nil)`;
 * `accumulator += tl.dot(a, …, out_dtype=tl.int32)` lowers to
-  `Op.add .int` over **`Op.dotInt`** (the kwarg is erased — exact ℤ). -/
+  `Op.add .int` over **`Op.dotInt`** (the option is retained; evaluation is over exact ℤ). -/
 
 /-- The prologue's assert no-op plus nine scalar statements: the program id
 and the group swizzle down to `(pid_m, pid_n)`. -/
@@ -536,7 +536,7 @@ def imInnerBody (K stride_ak stride_bk BM BN BK numKBlocks : Nat) : List Stmt :=
     Stmt.assign .int [BM, BN] "accumulator"
       (Op.add .int (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
         (Op.ref .int [BM, BN] "accumulator")
-        (Op.dotInt (batch := []) (Op.ref .int [BM, BK] "a")
+        (Op.dotInt (batch := []) (options := { outDType := some .int }) (Op.ref .int [BM, BK] "a")
           (Op.sub .int (Broadcast.leadR (Broadcast.consR Broadcast.nil))
             (Op.ref .int [BK, BN] "b") (Op.ref .int [1] "tensor_full")))),
     Stmt.assign .ptr [BM, BK] "a_ptrs"
@@ -1014,7 +1014,7 @@ private theorem im_dotInt_eval {M K N : Nat} (x : Op .int [M, K])
     (y : Op .int [K, N]) (t : BlockState)
     (vx : Tile .int [M, K]) (vy : Tile .int [K, N])
     (hx : evalOp x t = some vx) (hy : evalOp y t = some vy) :
-    evalOp (Op.dotInt (batch := []) x y) t = some (Tile.dotInt [] vx vy) := by
+    evalOp (Op.dotInt (batch := []) (options := { outDType := some .int }) x y) t = some (Tile.dotInt [] vx vy) := by
   erw [evalOp_dotInt, hx, hy]
   rfl
 
@@ -1620,7 +1620,7 @@ theorem imInnerBody_run (s0 : BlockState) (A : Region .int) (B : Region .nat)
   have h7 : evalOp (Op.add .int
         (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
         (Op.ref .int [BM, BN] "accumulator")
-        (Op.dotInt (batch := []) (Op.ref .int [BM, BK] "a")
+        (Op.dotInt (batch := []) (options := { outDType := some .int }) (Op.ref .int [BM, BK] "a")
           (Op.sub .int (Broadcast.leadR (Broadcast.consR Broadcast.nil))
             (Op.ref .int [BK, BN] "b") (Op.ref .int [1] "tensor_full"))))
         ((((((s.setReg "k" .nat [] (Tile.scalar (i * numKBlocks + j))).setReg

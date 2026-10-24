@@ -1,0 +1,123 @@
+{
+  "schema": 1,
+  "task": "uniform_sampling",
+  "status": "unchanged",
+  "owner": {
+    "path": ".veritile-cache/io-unification-20261023/queue15/result-metadata-supplement.json",
+    "sha256": "d3933f9464365a66724f89062ce7d2ade62a60d3909b42e4428bfe0ed0f3e3a8",
+    "task_index": 8
+  },
+  "reason": "Already consolidated: memory IO and named logical input/output equivalences are in IO.lean. Proofs/LogicalIO is the complete judgment equivalence; no independent logical layout module remains.",
+  "selected_public_entries": [
+    "bench/repairs/tritonbench_g/uniform_sampling/Contract.lean",
+    "bench/repairs/tritonbench_g/uniform_sampling/Correct.lean",
+    "bench/repairs/tritonbench_g/uniform_sampling/FPEquiv.lean"
+  ],
+  "previous_semantic_review": {
+    "manifest": {
+      "path": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json",
+      "sha256": "5df771b8603eaf5d9f08b4fde0c5b938c18087c00092f5348b47eb54d33a8225"
+    },
+    "task": "uniform_sampling"
+  },
+  "changed_files": [],
+  "removed_files": [],
+  "moved_declarations": [],
+  "preservation": {
+    "public_entries_unchanged_source": true,
+    "source_matches_latest_owner_pins": {},
+    "scope": "No mathematical formula, public premise, kernel, precision, rule set, observation or schedule was changed."
+  },
+  "verification": [
+    {
+      "task": "uniform_sampling",
+      "kind": "joint",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue15/build.py",
+        "--check",
+        ".veritile-cache/io-unification-20261023/queue15/checks/uniform_sampling-joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue15/logs/uniform_sampling-joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "permission": "require_escalated",
+      "elapsed_seconds": 5.177
+    }
+  ],
+  "verification_status": "unchanged_reused",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/uniform_sampling/Contract.lean": "45fdb9560e7217b2947a0b8f88667cc3e35427709e21e8d52b63c968e1e88698",
+    "bench/repairs/tritonbench_g/uniform_sampling/Correct.lean": "91546f052c5149acb1b6514df52b09574256f55fe47c56f1acc7fd0176709c91",
+    "bench/repairs/tritonbench_g/uniform_sampling/FPEquiv.lean": "dd043ac9df3cd8bab96cb8cb1a80f0099844d98cdc2cc494fd508d1a5af0b99f",
+    "bench/repairs/tritonbench_g/uniform_sampling/IO.lean": "45cbba1cbd02a157ac0f9ed1ace491772bca60792d30f3c22b8052f5e0e10f7b",
+    "bench/repairs/tritonbench_g/uniform_sampling/Proofs/LogicalIO.lean": "54f4fbada079e71c97e8d156640176543029ab7a351bf1a155fe6c32489cf585",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8",
+    "bench/repairs/tritonbench_g/uniform_sampling/Proofs/PublicIO.lean": "7f50ff5bcf2b02ad13620756a7c06bac8737fa4cce91b5d028aefc526b112359"
+  },
+  "source_pin_provenance": {
+    "bench/repairs/tritonbench_g/uniform_sampling/Contract.lean": {
+      "owner_tasks": [
+        "uniform_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/uniform_sampling/Correct.lean": {
+      "owner_tasks": [
+        "uniform_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/uniform_sampling/FPEquiv.lean": {
+      "owner_tasks": [
+        "uniform_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/uniform_sampling/IO.lean": {
+      "owner_tasks": [
+        "uniform_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/uniform_sampling/Proofs/LogicalIO.lean": {
+      "owner_tasks": [
+        "uniform_sampling"
+      ]
+    },
+    "VeriTile/Triton/Memory/LogicalIO.lean": {
+      "owner_tasks": [
+        "mixed_sparse_attention",
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "bench/repairs/tritonbench_g/uniform_sampling/Proofs/PublicIO.lean": {
+      "owner_tasks": [
+        "uniform_sampling"
+      ]
+    }
+  },
+  "retired_current_source_pins": {},
+  "limits": [
+    "Targeted checking only; unchanged applicable dependencies are reused. No transitive proof-closure replay, numerical experiment, GPU, native/host correctness or hardware claim is added."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/io-unification-20261023/queue16/result.json",
+    "sha256": "12f6dd5ed523e9f723fee3847af964fd8987958c2cb997aa572210c04de5bc84"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

@@ -1,3 +1,4 @@
+import bench.tritonbench_g.swiglu_fwd.Proofs.WholeIndex
 import bench.tritonbench_g.swiglu_fwd.Proofs.Execution
 import bench.tritonbench_g.swiglu_fwd.Kernels
 import bench.tritonbench_g.swiglu_fwd.Proofs.FP
@@ -44,3 +45,30 @@ specification source_equivalence (input partner output : Storage)
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end VeriTile.Bench.TritonBenchG.SwigluFwd.FPEquiv
+
+namespace VeriTile.Bench.TritonBenchG.SwigluFwd.Whole
+open VeriTile.Triton FP.Structural
+noncomputable section
+
+/-- Thirty-two-bit payload carrier. Primitive implementations remain explicit;
+there is no associativity, exact sigmoid, identity-cast, or finite-only law. -/
+abbrev FP32Word := BitVec 32
+
+/-- Original whole-entry finite-word result, with the source's FP32 load
+casts, sigmoid and left-associated multiplications. No source/candidate
+rewrite is used to infer original values, and no BF16 route is selected. -/
+specification swiglu_fwd_fp32_source_outcomes (M : Algebra FP32Word)
+    (rt : Runtime FP32Word input supplied entry preexisting)
+    (_inputValid : InputDomain input)
+    (valid : ∀ p, rt.prepare = .ok p → checks p = Bool.true → Domain p)
+    (finite : ∀ p (hp : rt.prepare = .ok p) (hc : checks p = Bool.true),
+      FiniteAdmission p (valid p hp hc)) :
+    HostSpec (scalar M) rt (executeHost M rt) ∧
+      ∀ p hp hc, IndexCorrespondence p (valid p hp hc) (finite p hp hc) := by
+  exact ⟨host_outcomes M rt valid,fun p hp hc => index_correspondence p (valid p hp hc) (finite p hp hc)⟩
+
+#axiomsClean swiglu_fwd_fp32_source_outcomes
+#guard_msgs (drop info) in
+#auditModuleAxioms
+end
+end VeriTile.Bench.TritonBenchG.SwigluFwd.Whole

@@ -1,13 +1,47 @@
-# layer_norm_triton
+# layer_norm_triton — complete typed source bridge, FP references and SC lock proof
 
-- Source file: `layer_norm_triton.py` (upstream `data/TritonBench_G_v1/layer_norm_triton.py`)
-- Corpus: TritonBench-G v1
-- Size: 231 lines, 3 `@triton.jit` kernel(s)
-- Status: READY — not imported yet, but every `tl.*` form it uses is already in the
-  DSL surface, so the port is a scheduling question, not a capability one.
-  Import the `.py` **with** its `.lean` port in one change:
-  `bench/audit_tritonbench_g.sh` enforces `py_count == lean_count`.
+This private work covers all three frozen JIT kernels, not only a ready-lock backward stage. The original Python is unchanged, SHA256 `dc9269766a0a4252723fd8795dd3d14fa0d08a070c30181f09449f868b834a9b`. The workspace previously had only a BLOCKED README and no public Lean declarations. No shared frontend, workspace source, registry, or lakefile was changed.
 
-This directory is the per-kernel workspace for the TritonBench-G
-full-formalization roadmap. It is currently a placeholder: the upstream
-Python source has **not** been imported.
+The historical five model contracts remain unchanged in `ConcurrentCorrect.lean`. Five new contracts in `SourceCorrect.lean` enter through the complete generated typed source for all three JITs. `ProtocolCorrect.lean` additionally proves mutual exclusion for that source under the chosen SC profile. The external Python parser, typed symbolic substitution and compound-node validation are explicitly reviewed trust boundaries. This is not automatic shared-DSL admission or GPU correctness.
+
+## Complete modeled scope
+
+- Forward: all three source range loops, per-lane `_mean` and `_var` carries initialized to +0, explicit reduction plans, mean/variance division by the converted signed N, `1/sqrt(var+eps)`, Mean/Rstd stores and every masked affine Y store. Variance retains the source's `where(mask, x-mean, +0)` before squaring. The output loop retains arbitrary undefined W/B tail loads and their arithmetic.
+- Backward: source-order register assignments for x/dy/w/mean/rstd, xhat/wdy before and after masks, c1/c2 reductions/divisions, DX, and both partials. All DX stores precede each program's CAS loop. Failed CAS retries, Count load/first-write branch, every shared partial load/add, narrow DW/DB store and release are represented for arbitrary finite program schedules.
+- Final DW/DB: full multi-iteration BM×BN accumulator carries, both row/column masks, retained +0 padding arithmetic, explicit axis-zero reduction trees, final storage conversion and masked stores.
+
+Memory regions follow the host's distinct allocations. Signed int32 address arithmetic and separate addptr sign extensions are preserved. Invalid signed remainder enters a fault state. Range execution uses actual signed-i32 guards and wrapping increments, with a fuel result: None means that budget did not complete the first loop, never an invented early exit. Soundness and completeness connect successful traces to the independent integer control relation. No int32 bound or termination hypothesis was added to the numerical contracts.
+
+The source profiles modeled here use fp16/bf16/fp32 storage and fp32 computation. Float64 affine operands would promote operations and are explicitly outside this profile. Original test input is fp32; offline original-source probes cover fp32 and fp16.
+
+## References and concrete floating semantics
+
+Forward/final references use per-lane chronological observation lists and a valid `ReductionPlan`; vector accumulator execution is proved equal by induction, without associativity, identity-rounding, or removal of padded operands. Backward's source register program is proved equal to independently written DX/dw/db formulas.
+
+The shared-memory reference has no mutable FP accumulator. It reads its own partial memory, appends observed cast values, and recomputes the ordered fold for each store. The control-only trace has no FP backend or floating memory: it depends only on configuration, initial integer words and schedule. Its projection from the full execution is proved. The public backward contract combines that independent trace with independently computed row values and observation replay; it assumes neither source steps nor final output equality.
+
+The software profile uses actual binary32 add/sub/mul/div, signed-int conversion, true binary16 narrowing/widening and bf16 conversion. Every Count!=0 accumulation performs `current contribution + loaded previous partial`, in that order, followed by storage narrowing. Count==0 performs no artificial addition with zero. Backward and final DWDB do not use sqrt; backward sqrt-independence is proved. Forward retains an explicit sqrt primitive callback and is not a closed bit interpreter.
+
+Pure row arithmetic is evaluated against immutable X/DY/W/Mean/Rstd regions before scheduling visible backward memory effects. The chosen SC profile serializes lanes and treats a partial load plus local add as one event. These choices require separate source-lowering/native refinement; they are not claims about arbitrary physical aliasing, SIMD timing, FP status flags, or the GPU memory model.
+
+## Lock protocol and checked examples
+
+CAS returns the old word and writes 1 only when it observed 0. The source loops specifically while the old value equals 1. An old word 2 exits without acquiring; this behavior is preserved and proved, rather than silently replacing it with spin-until-success. From the original zero-initialized lock/count allocation, the complete control runner preserves the 0/1 invariant. A failing poll remains at the same PC for every natural number of retries. The complete SC invariant additionally proves that every critical program holds lock value 1 and any two critical programs with the same lock address are the same program. It covers Count load/branch, every partial read/add/store, and release. This is mutual exclusion per lock address; disjoint data ranges for different locks still need allocation/layout binding. Induction proves preservation for every finite schedule from the actual all-zero allocation, without a fairness or ready-lock assumption. `ProtocolCorrect.compiled_source_mutual_exclusion` connects it to the generated source. This is a full SC mutual-exclusion proof; native memory-model refinement and unconditional progress are not claimed.
+
+Kernel-checked examples complete two full critical sections, confirm Count=1 and released Lock=0, retain untouched DX addresses, and show 2^24+1 rounding back to 2^24. Another complete first critical section preserves negative zero in DB; adding a spurious initial +0 would change it. Binary16 narrowing of 2049 rounds to 2048 and is not identity. Eight separate tests execute the original Python AST with only memory-call scheduling instrumentation, covering all three kernels in sequence, both-axis tails, full forward streams, repeated held-lock polls, invalid lock 2, and per-section half narrowing. Removing instrumentation restores each original kernel AST exactly. These finite NumPy tests do not prove universal Triton/NumPy equivalence.
+
+## Native evidence and remaining obligations
+
+All three original kernels compile offline for SM90 with fp32 and fp16 storage, both at default compiler options and with `enable_fp_fusion=false`: 12 successful compilations, no GPU execution. The default PTX fuses forward variance/affine and backward arithmetic into FMA. Its forward sqrt is `sqrt.approx.ftz.f32`, and divisions use `div.full.f32`. The explicit source-order software graph is therefore not automatically the default native graph. A kernel-checked finite-operand primitive counterexample proves split multiply/add yields +0 while FMA yields 1 for 4097×4097−(2^24+8192). It is a primitive graph counterexample, not a complete host-input kernel counterexample. No universal split-multiply/add-to-FMA equality is assumed. The disabled-fusion profile removes these scalar FMAs but still uses approximate FTZ sqrt.
+
+Remaining work includes verification of the external typed frontend or general shared-DSL admission; the exact default native fused graph and reduction plan; div.full/sqrt/FTZ/NaN bindings; allocation and provenance; SIMD/SC concurrency refinement; native lock protocol memory ordering and progress under an explicit scheduler/residency condition; and host launch ordering across the three kernels. Current proofs do not establish GPU functional correctness, GPU race freedom, or unconditional termination.
+
+## Complete typed source bridge and checks
+
+`translate_source.py` accounts for all 79 statements of the original three JITs. It checks full signatures, pointer/index preludes, range bounds/steps, every mask/other/dtype, both branches of Count, the actual while/CAS, every store and release. Compound nodes are admitted only after checking their entire interior. It parses floating expressions and CAS/Count literals into executable Lean syntax; source expressions are not replaced by precomputed output values. Implicit W/B promotion is materialized according to the explicit fp32-compute profile. `typed-source-ledger.json` binds all source statements, the generated module and the translator.
+
+The Lean compiler requires the complete three-kernel structure and keeps all graph expressions and atomic literals. `SourceBridge` proves the generated plans execute the original complete model, using direct expression normalization and induction over all scheduler prefixes. Final source contracts target independent forward/final ordered-fold references and backward control-only trace/observation memory. Backward and final software contracts have no unresolved arithmetic callback; separate proofs show sqrt is never consulted by either. Forward still has an explicit sqrt callback.
+
+Nine Lean frontend checks comprise five rejection cases (omitted kernels/stages, missing polling and extra instructions) and four positive source-change checks. Changing the CAS retry literal changes control. Changing C1 changes a concrete fp32 DX result from −1 to +0. Ten external frontend tests additionally reject missing casts, changed tail-load semantics, changed loop stride and dropped partial additions. Eight original-AST execution tests remain separate concrete evidence.
+
+The stage1 package remains historical and byte-identical for its eight Lean modules and five declarations. The final package adds the full typed source and SC protocol proofs; it does not rewrite the old evidence or claim those older receipts already covered them.

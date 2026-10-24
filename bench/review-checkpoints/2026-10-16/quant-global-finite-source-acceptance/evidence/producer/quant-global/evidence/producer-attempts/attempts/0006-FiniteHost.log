@@ -1,0 +1,73 @@
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FiniteHost.lean:114:29: error: unsolved goals
+case cons
+b : Numerics
+d : Storage
+m : Memory
+x : String
+offsets : List ℕ
+logical : List (Word d)
+i : ℕ
+v : Word d
+is : List ℕ
+vs : List (Word d)
+hi : m x i = some (Cell.mk d v)
+hs : List.Forall₂ (fun i v => m x i = some (Cell.mk d v)) is vs
+ih : absoluteValues b d m x is = Except.ok (List.map (b.abs d) vs)
+⊢ (do
+      let y ← Except.ok v
+      Except.ok (b.abs d y :: List.map (b.abs d) vs)) =
+    Except.ok (b.abs d v :: List.map (b.abs d) vs)
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FiniteHost.lean:125:13: error: unsolved goals
+case cons
+b : Numerics
+d : Storage
+a : Input
+alloc : Allocations
+m : Memory
+x : String
+rank : a.shape ≠ []
+cuda : a.isCuda = true
+h : Word d
+t : List (Word d)
+inputs : LogicalInputs d a m x (h :: t)
+habs : absoluteValues b d m x a.logicalOffsets = Except.ok (List.map (b.abs d) (h :: t))
+⊢ (do
+      Except.ok ()
+      let vals ← Except.ok (b.abs d h :: List.map (b.abs d) t)
+      Except.ok ()
+      match vals with
+        | [] => do
+          let y ← Except.error HostFailure.emptyMaximum
+          Except.ok ()
+          Except.ok ()
+          Except.ok { maximum := y, inverse := b.reciprocal d y, initial := allocated d a alloc m y (b.reciprocal d y) }
+        | h :: t => do
+          let y ← Except.ok (b.maximum d h t)
+          Except.ok ()
+          Except.ok ()
+          Except.ok
+              { maximum := y, inverse := b.reciprocal d y, initial := allocated d a alloc m y (b.reciprocal d y) }) =
+    Except.ok
+      { maximum := b.maximum d (b.abs d h) (List.map (b.abs d) t),
+        inverse := b.reciprocal d (b.maximum d (b.abs d h) (List.map (b.abs d) t)),
+        initial :=
+          allocated d a alloc m (b.maximum d (b.abs d h) (List.map (b.abs d) t))
+            (b.reciprocal d (b.maximum d (b.abs d h) (List.map (b.abs d) t))) }
+QuantizeGlobalFinite.Result: definition does not reference [QuantizeGlobalFinite.execute,
+ QuantizeGlobalFinite.prepare,
+ QuantizeGlobalFinite.runTrials,
+ QuantizeGlobalFinite.runGrid,
+ QuantizeGlobalFinite.runProgram,
+ QuantizeGlobalFinite.runLanes,
+ QuantizeGlobalFinite.source,
+ QuantizeGlobalFinite.Expr.eval] — non-circular ✓
+QuantizeGlobalFinite.produced: definition does not reference [QuantizeGlobalFinite.execute,
+ QuantizeGlobalFinite.prepare,
+ QuantizeGlobalFinite.runTrials,
+ QuantizeGlobalFinite.runGrid,
+ QuantizeGlobalFinite.runProgram,
+ QuantizeGlobalFinite.runLanes,
+ QuantizeGlobalFinite.source,
+ QuantizeGlobalFinite.Expr.eval] — non-circular ✓
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FiniteHost.lean:225:0: error: QuantizeGlobalFinite.quantize_global_finite_host_correctness: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FiniteHost.lean:227:0: error: QuantizeGlobalFinite.quantize_global_finite_host_correctness: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

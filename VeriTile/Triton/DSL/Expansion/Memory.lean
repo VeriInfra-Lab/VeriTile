@@ -5,6 +5,7 @@ Memory-surface expansion helpers.
 -/
 
 import VeriTile.Triton.DSL.Expansion.Common
+import VeriTile.Triton.Core.SignedCast
 
 open Lean
 
@@ -31,24 +32,28 @@ private def expandLoadOtherAs? (dtype : DInfo) (e : TSyntax `tritonExpr) :
       | `(tritonExpr| 0.0) =>
           pure (some ⟨← `(Op.constNat 0), .nat, SInfo.scalar, none, none⟩)
       | _ => pure none
-  | .int | .int8 =>
+  | .int | .int8 | .int32 =>
       match e with
       | `(tritonExpr| $n:num) =>
           if dtype == .int8 && n.getNat ≥ 128 then
             Macro.throwError "tl.load: int8 other must fit the signed byte range"
+          if dtype == .int32 && n.getNat ≥ 2147483648 then
+            Macro.throwError "tl.load: int32 other must fit the signed int32 range"
           let t : TSyntax `term := ⟨Syntax.mkNumLit (toString n.getNat)⟩
           pure (some ⟨← `(Op.constInt ($t : Int)), dtype, SInfo.scalar, none, none⟩)
       | `(tritonExpr| -$n:num) =>
           if dtype == .int8 && n.getNat > 128 then
             Macro.throwError "tl.load: int8 other must fit the signed byte range"
+          if dtype == .int32 && n.getNat > 2147483648 then
+            Macro.throwError "tl.load: int32 other must fit the signed int32 range"
           let t : TSyntax `term := ⟨Syntax.mkNumLit (toString n.getNat)⟩
           pure (some ⟨← `(Op.constInt (-($t : Int))), dtype, SInfo.scalar, none, none⟩)
       | `(tritonExpr| 0.0) =>
           pure (some ⟨← `(Op.constInt 0), dtype, SInfo.scalar, none, none⟩)
       | `(tritonExpr| $($t:term)) =>
-          if dtype == .int8 then
-            Macro.throwError "tl.load: int8 other requires a byte literal or a typed byte expression"
-          pure (some ⟨← `(Op.constInt $t), dtype, SInfo.scalar, none, none⟩)
+          -- A dynamic integer is not certified to fit the pointer element
+          -- type. Keep its wide carrier until the implicit load conversion.
+          pure (some ⟨← `(Op.constInt $t), .int, SInfo.scalar, none, none⟩)
       | _ => pure none
   | .bool =>
       match e with
@@ -77,6 +82,7 @@ private def isNoneExpr (e : TSyntax `tritonExpr) : Bool :=
   isNoneSyntax e.raw
 
 private def dtypeName : DInfo → String
+  | .fp32Argument => "external fp32 argument"
   | .real => "real"
   | .fp32 => "fp32"
   | .fp16 => "fp16"
@@ -85,6 +91,7 @@ private def dtypeName : DInfo → String
   | .f8e5 => "f8e5"
   | .int => "int"
   | .int8 => "int8"
+  | .int32 => "int32"
   | .nat => "nat"
   | .bool => "bool"
   | .ptr => "ptr"
@@ -211,11 +218,29 @@ partial def expandLoad (expandExpr : ExprExpander)
             match ← expandLoadOtherAs? outDType other with
             | some out => pure out
             | none => expandExpr env other
-          -- Triton converts a floating `other` to the pointer element dtype.
+          -- Triton converts `other` to the pointer element dtype, including
+          -- signed integer narrowing before a masked value enters the program.
           -- fp32 uses the existing real-carrier compute-load representation.
           let other' ← match outDType with
             | .fp16 | .bf16 | .f8e4 | .f8e5 | .floatVar _ =>
                 coerceFloatOperand outDType other'
+            | .int8 | .int32 => do
+                if other'.dtype == outDType then pure other'
+                else do
+                  let value ← match other'.dtype with
+                    | .int | .int8 | .int32 => pure other'.term
+                    | .nat => `(Op.castNatToInt $other'.term)
+                    | .bool => `(Op.boolToInt $other'.term)
+                    | _ => Macro.throwError "tl.load: signed integer other requires an integer or Bool expression"
+                  let width : TSyntax `term ← if outDType == .int8 then `(8) else `(32)
+                  -- A constant has no evaluation effects. Fold its signed
+                  -- bit interpretation; retain the explicit operation for
+                  -- runtime expressions and register references.
+                  let narrowed ← match value with
+                    | `(Op.constInt $literal) =>
+                        `(Op.constInt ((BitVec.ofInt $width $literal).toInt))
+                    | _ => `(Op.intToSigned $width $value)
+                  pure ⟨narrowed, outDType, other'.shape, none, none⟩
             | _ => pure other'
           pure (some (other'.term, other'.dtype, other'.shape, other'.computeDType?))
   if let some (_, otherDType, _, _) := otherTerm then
@@ -284,8 +309,21 @@ partial def expandStore (expandExpr : ExprExpander)
       maskTerm := some (mask'.term, mask'.shape)
   let mut dtype? : Option DInfo := none
   let mut boundaryCheck? : Option (TSyntax `term) := none
+  let mut evictionPolicySeen := Bool.false
   for kw in kwargs do
     match kw with
+    | `(tritonMemKwarg| eviction_policy="evict_last")
+    | `(tritonMemKwarg| eviction_policy="evict_first") =>
+        if evictionPolicySeen then
+          Macro.throwError "tl.store: duplicate `eviction_policy=` kwarg"
+        -- These source cache hints do not change memory semantics.
+        evictionPolicySeen := Bool.true
+    | `(tritonMemKwarg| eviction_policy=$policy:str) =>
+        unless policy.getString == "evict_first" || policy.getString == "evict_last" do
+          Macro.throwError "tl.store: eviction_policy requires literal evict_first or evict_last"
+        if evictionPolicySeen then
+          Macro.throwError "tl.store: duplicate `eviction_policy=` kwarg"
+        evictionPolicySeen := Bool.true
     | `(tritonMemKwarg| boundary_check=$axes:term) =>
         if boundaryCheck?.isSome then
           Macro.throwError "tl.store: duplicate `boundary_check=` kwarg"
@@ -324,6 +362,8 @@ partial def expandStore (expandExpr : ExprExpander)
             if dtype?.isSome then
               Macro.throwError "tl.store: duplicate `dtype=` kwarg"
             dtype? := some (← expandDTypeExpr kval)
+        | "eviction_policy" =>
+            Macro.throwError "tl.store: eviction_policy requires literal evict_first or evict_last"
         | unknown =>
             let msg : String :=
               "tl.store: unknown kwarg `" ++ unknown ++

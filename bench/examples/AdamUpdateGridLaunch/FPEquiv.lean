@@ -2,7 +2,7 @@ import bench.examples.AdamUpdateGridLaunch.Kernels
 import VeriTile.Triton.Float.RewriteTactics
 import VeriTile.Meta.StatementAudit
 
-/-! AdamUpdateGridLaunch: contextual FP equivalence from the admitted scalar add_commute.
+/-! AdamUpdateGridLaunch: contextual FP equivalence from the shared strict FP32 add_commute.
 Only the final momentum addition is commuted. Its operands are the
 computed diff * beta2 and grad, not merely the original inputs.
 This is a per-program contextual rewrite, retaining both in-place stores.
@@ -33,8 +33,8 @@ def optimized (lr wd beta1 beta2 : ℝ) (n B : Nat) : Program :=
 
 /-- Under the finite-operand contract, every successful run is preserved,
 including all registers and memory; failed surrounding executions also agree. -/
-specification adam_update_equiv (lr wd beta1 beta2 : ℝ) (n B : Nat) (R : Rules) :
-    original lr wd beta1 beta2 n B ≡[R] optimized lr wd beta1 beta2 n B := by
+specification adam_update_equiv (lr wd beta1 beta2 : ℝ) (n B : Nat) :
+    original lr wd beta1 beta2 n B ≡[([] : Spec.Assumptions FP.GuardedFragment)] optimized lr wd beta1 beta2 n B := by
   equiv_decompose
   all_goals fp_prove
 

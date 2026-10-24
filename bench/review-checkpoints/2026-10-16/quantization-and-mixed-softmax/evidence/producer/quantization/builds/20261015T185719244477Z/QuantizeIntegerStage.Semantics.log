@@ -1,0 +1,8 @@
+/tmp/veritile-standardization-20261015/quantize-integer-stage-wip/builds/20261015T185719244477Z/src/QuantizeIntegerStage/Semantics.lean:107:88: error: unsolved goals
+out : RegionName
+value : ℤ
+⊢ BitVec.ofInt 8 (value.bmod 256) = BitVec.ofInt 8 value
+QuantizeIntegerStage.missing_llrint_fails: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+QuantizeIntegerStage.llrint_executes_word: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+/tmp/veritile-standardization-20261015/quantize-integer-stage-wip/builds/20261015T185719244477Z/src/QuantizeIntegerStage/Semantics.lean:130:0: error: QuantizeIntegerStage.byte_word: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+QuantizeIntegerStage.fold_memory: axiom footprint ⊆ standard base ✓  ([Quot.sound, propext])

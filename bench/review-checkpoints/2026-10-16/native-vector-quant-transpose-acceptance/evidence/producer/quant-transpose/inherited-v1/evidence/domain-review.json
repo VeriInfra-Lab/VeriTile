@@ -1,0 +1,62 @@
+{
+  "status": "producer_proposal_awaiting_independent_root_review",
+  "successful_api": "Dense strided typed CUDA tensors, Torch2.13 default float32, Triton3.7.1 CUDA sm90 warp32, signed-i32 runtime M/N/stride metadata, two exact source Config entries.",
+  "retained_dtypes": [
+    "bool",
+    "uint8",
+    "int8",
+    "int16",
+    "int32",
+    "int64",
+    "fp32",
+    "fp64"
+  ],
+  "source_rejections": "22 canonical CPU/CUDA dtype profiles plus empty/rank/stride and reachable propagating primitive errors; no CUDA input assertion inserted.",
+  "no_wrap_inequalities": [
+    "M+127<2^31",
+    "N+127<2^31",
+    "gridM*gridN<2^31",
+    "8*gridN<2^31",
+    "gridM*128*sam+gridN*128*san<2^31",
+    "gridM*128+gridN*128*M<2^31",
+    "sam<2^31",
+    "san<2^31"
+  ],
+  "views": "logicalOffsets=viewOffsets(shape,strides); logical count=numel; exact strided kernel offsets; storageOffset+each logical/active offset<storageLength; base+storageLength*bytewidth<=2^64; disjoint fresh output/maximum/scale allocation intervals.",
+  "public_specification": "QuantTransposeFinite.quant_transpose_finite_acceptance in bench/tritonbench_g/quant_transpose_kernel/FiniteAcceptance.lean; one public specification and ten ordinary helper modules, all axiom audited.",
+  "finite_value_coverage": "No Safe premise in the final public theorem. For all source storage words in Domain and PhysicalBinding, the interpreter either returns the source tuple with physical replay and frame or observes an active conversionUndefined. This diagnostic is neither a native trap nor a rollback claim.",
+  "structural_conversion_domain": "LlrintDefined on source-scaled word: exact decoded finite rational, nearestEven in [-2^63,2^63). Nonfinite/out-of-range source conversions belong to the explicit undefined branch of the whole finite theorem and have no fabricated numeric output. Only the returned branch requires defined conversions; numerical deferral cannot waive this partition.",
+  "outside_finite_physical_domain": [
+    "wider runtime metadata specialization; separately compiled evidence only",
+    "any failed sufficient padded arithmetic bound; no blanket native-rejection or unsafe claim",
+    "unavailable/invalid typed view storage, inaccessible allocation-device reads/writes, or overlapping fresh physical allocations"
+  ],
+  "physical_refinement": {
+    "binding": "Actual bases/capacities/alignment/uint64 bounds, device ownership and current-CUDA-device access permissions; actual input bytes and actual allocated output snapshot via outputInitialWords.",
+    "host": "host_physical_preparation derives starting byte memory from explicit maximum and reciprocal wordWrite operations over initialBytes.",
+    "kernel": "output_store_commutes, lanes_physical, grid_physical, quant_transpose_trial_physical_execution and execute_physical construct the byte mutation replay across all actual ordered programs and trials.",
+    "loads": "physical_input_load and physical_inverse_load bind typed operands to their bytes; quant_transpose_physical_lane_accesses proves source grouped-lane addresses, capacities, no-wrap and permissions.",
+    "frame": "PhysicalStores.logical_frame and PhysicalStores.byte_frame preserve intermediate input/scalar cells and outside bytes. Final PhysicalResult covers returned output, original maximum, reciprocal and source-visible live-memory frame."
+  },
+  "rejected_case_numerical_boundary": "First-error classification records invocation order, dtype and failure only. No intermediate numerical equality or postfailure memory is asserted, so these cases require zero numerical ports. Returned-or-undefined cases carry their exact host/kernel ports.",
+  "trusted_primitives": [
+    "Torch typed metadata and fresh allocation, with exact returned metadata and physical interval premises",
+    "source-called Torch scalar/tensor operations with exact numerical registrations",
+    "Triton typed launch/load/store and non-observable inactive masked arithmetic",
+    "native dtype specialization and compile/driver rejection mechanics, source/probe grounded"
+  ],
+  "not_required": [
+    "generic allocator/compiler/MMU/GPU implementation proof"
+  ],
+  "legacy_preservation": {
+    "source": "bench/tritonbench_g/quant_transpose_kernel/IntegerCorrect.lean",
+    "bridge": "Proofs/FiniteLegacy.lean scalar_legacy and existing_fp32_primitive"
+  },
+  "test_harness": "Non-JIT test_quantize_global_transpose; no production caller; four wrapper examples and import-time result_gold are test initialization.",
+  "known_limits": [
+    "no GPU execution",
+    "no native numerical validation",
+    "no independent root review or accepted source count increment yet"
+  ],
+  "frozen_relu_receipt_sha256": "1b18f21b18b1347799969bd5a037074759ee50a7193de3139b33933e9e002e42"
+}

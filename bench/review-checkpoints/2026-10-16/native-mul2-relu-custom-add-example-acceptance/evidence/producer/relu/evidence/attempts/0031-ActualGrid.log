@@ -1,0 +1,42 @@
+/tmp/veritile-standardization-20261015/relu-finite-acceptance-revision1-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ActualGrid.lean:140:4: error: unsolved goals
+case pos
+toBacking : ℕ → ℕ
+b : Numerics
+d : Storage
+x output : BitVec 64
+n : ℕ
+initial : ByteMemory.Memory
+rest : List ℕ
+ih :
+  (∀ pid ∈ rest, pid < 2 ^ 32) →
+    gridWrites toBacking b d x output n rest initial =
+      (List.replicate (List.count 0 rest) (programWrites toBacking b d x output n 0 initial)).flatten
+hr : ∀ p ∈ rest, p < 2 ^ 32
+bound : ∀ pid ∈ 0 :: rest, pid < 2 ^ 32
+hp : 0 < 2 ^ 32
+⊢ programWrites toBacking b d x output n 0 initial ++
+      (List.replicate (List.count 0 rest) (programWrites toBacking b d x output n 0 initial)).flatten =
+    (List.replicate (List.count 0 rest + 1) (programWrites toBacking b d x output n 0 initial)).flatten
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.gridFormula: definition does not reference [VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.runGrid,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.runProgram,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.executeBody,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.step,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.applyWrites] — non-circular ✓
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.source_grid_correspondence: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.source_grid_formula: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.grid_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.stores32_exact: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.launched_stores_only_first: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/veritile-standardization-20261015/relu-finite-acceptance-revision1-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ActualGrid.lean:171:0: error: VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.schedule_write_groups: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/relu-finite-acceptance-revision1-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ActualGrid.lean:172:0: error: VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.complete_schedule_formula: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.empty_grid: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

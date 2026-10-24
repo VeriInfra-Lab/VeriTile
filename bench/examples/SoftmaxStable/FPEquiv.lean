@@ -1,5 +1,6 @@
 import bench.examples.SoftmaxStable.Kernels
-/- Stable versus naive softmax under admitted scalar FP assumptions.
+/- Stable versus naive softmax using the shared strictly certified scalar
+theory and admitted numerical relaxations.
 Both implementations use libdevice.exp: the measured tl.exp exp-sub relation
 failed the configured bias gate (0.1608954387 ULP > 0.05). -/
 import bench.examples.SoftmaxStable.Proofs.FP
@@ -46,7 +47,8 @@ def stable (x y : RegionName) (B : Nat) : FP.Kernel₁ :=
   { naive x y B with io := stableIO x y B }
 
 /-- Row length is symbolic. The shared contract retains the intermediate
-finite/nonzero domain; the experiment selects scalar assumptions only. -/
+finite/nonzero domain. `R` contains the admitted numerical relaxations;
+strictly certified scalar rules belong to the fixed statement theory. -/
 specification softmax_stable_equiv (B : Nat) (hB : 0 < B) (R : Rules) :
     stable "x" "y" B ≡[R] naive "x" "y" B := by
   apply Spec.FloatingPoint.ofNumerical (lhs := stable "x" "y" B) (rhs := naive "x" "y" B)

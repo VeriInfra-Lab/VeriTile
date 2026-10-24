@@ -1,0 +1,51 @@
+{
+  "module": "bench.tritonbench_g.matmul_dequantize_int4.Proofs.FPCharacterizationExecution",
+  "command": [
+    "/tmp/lean-4.29.0-linux/bin/lean",
+    "--root=/tmp/veritile-dequant-int4-characterization-20261015/proof",
+    "-o",
+    "/tmp/veritile-dequant-int4-characterization-20261015/proof/.lake/build/lib/lean/bench/tritonbench_g/matmul_dequantize_int4/Proofs/FPCharacterizationExecution.olean",
+    "/tmp/veritile-dequant-int4-characterization-20261015/proof/bench/tritonbench_g/matmul_dequantize_int4/Proofs/FPCharacterizationExecution.lean"
+  ],
+  "cwd": "/tmp/veritile-dequant-int4-characterization-20261015/proof",
+  "source": "/tmp/veritile-dequant-int4-characterization-20261015/proof/bench/tritonbench_g/matmul_dequantize_int4/Proofs/FPCharacterizationExecution.lean",
+  "source_before_sha256": "774930fce144024e16b41a9ef7182399699172d3dfe2597a5db3ddd02bcabb96",
+  "source_after_sha256": "774930fce144024e16b41a9ef7182399699172d3dfe2597a5db3ddd02bcabb96",
+  "direct_objects_before": {
+    "bench.tritonbench_g.matmul_dequantize_int4.Proofs.FPCharacterizationValues": {
+      "/tmp/veritile-dequant-int4-characterization-20261015/proof/.lake/build/lib/lean/bench/tritonbench_g/matmul_dequantize_int4/Proofs/FPCharacterizationValues.olean": "a9e5fb5a6f7cc7dd2aaf5ac1bfd29c19b791b905a7e3c47b8611f5a4c5014898"
+    }
+  },
+  "direct_objects_after": {
+    "bench.tritonbench_g.matmul_dequantize_int4.Proofs.FPCharacterizationValues": {
+      "/tmp/veritile-dequant-int4-characterization-20261015/proof/.lake/build/lib/lean/bench/tritonbench_g/matmul_dequantize_int4/Proofs/FPCharacterizationValues.olean": "a9e5fb5a6f7cc7dd2aaf5ac1bfd29c19b791b905a7e3c47b8611f5a4c5014898"
+    }
+  },
+  "log": "/tmp/veritile-dequant-int4-characterization-20261015/proof/logs/20261015T035115-bench.tritonbench_g.matmul_dequantize_int4.Proofs.FPCharacterizationExecution.log",
+  "log_sha256": "b1482865284c4a2718f51c0e20a655063f6e0ce0cc6cb7cb8f1b0b972737e2fc",
+  "exit_code": 1,
+  "object": "/tmp/veritile-dequant-int4-characterization-20261015/proof/.lake/build/lib/lean/bench/tritonbench_g/matmul_dequantize_int4/Proofs/FPCharacterizationExecution.olean",
+  "object_sha256": null,
+  "lean": "/tmp/lean-4.29.0-linux/bin/lean",
+  "lean_sha256": "3e0d0d3d801675359f2d4cf9815bfdb417b20b92fdd9d48b3b14c95bbae28bbf",
+  "ordered_roots": [
+    "/tmp/veritile-dequant-int4-characterization-20261015/proof/.lake/build/lib/lean",
+    "/tmp/veritile-dequant-int4-original-bits-20261015/.lake/build/lib/lean",
+    "/tmp/veritile-dequant-int4-dotacc-closure-20261015/.lake/build/lib/lean",
+    "/tmp/veritile-next-value-integration-20261014/.lake/build/lib/lean",
+    "/tmp/veritile-int16-frontend-20261014/.lake/build/lib/lean",
+    "/tmp/veritile-combined-frontend-20261014/.lake/build/lib/lean",
+    "/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean",
+    "/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean",
+    "/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean",
+    "/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean",
+    "/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean",
+    "/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean",
+    "/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean",
+    "/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean",
+    "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean",
+    "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean",
+    "/tmp/lean-4.29.0-linux/lib/lean"
+  ],
+  "changed_inputs": []
+}

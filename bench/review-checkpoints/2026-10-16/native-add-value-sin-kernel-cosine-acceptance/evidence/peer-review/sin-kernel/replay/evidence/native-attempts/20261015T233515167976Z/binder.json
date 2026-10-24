@@ -1,0 +1,42 @@
+[
+  {
+    "n": 0,
+    "binding_repr": "({'x_ptr': tensor([]), 'output_ptr': tensor([]), 'n_elements': 0, 'BLOCK_SIZE': 1024}, [('*fp32', 'D'), ('*fp32', 'D'), ('i32', 'D'), ('constexpr', 1024)], {})"
+  },
+  {
+    "n": 1,
+    "binding_repr": "({'x_ptr': tensor([]), 'output_ptr': tensor([]), 'n_elements': 1, 'BLOCK_SIZE': 1024}, [('*fp32', 'D'), ('*fp32', 'D'), ('i32', 1), ('constexpr', 1024)], {})"
+  },
+  {
+    "n": 2,
+    "binding_repr": "({'x_ptr': tensor([]), 'output_ptr': tensor([]), 'n_elements': 2, 'BLOCK_SIZE': 1024}, [('*fp32', 'D'), ('*fp32', 'D'), ('i32', ''), ('constexpr', 1024)], {})"
+  },
+  {
+    "n": 2147483647,
+    "binding_repr": "({'x_ptr': tensor([]), 'output_ptr': tensor([]), 'n_elements': 2147483647, 'BLOCK_SIZE': 1024}, [('*fp32', 'D'), ('*fp32', 'D'), ('i32', ''), ('constexpr', 1024)], {})"
+  },
+  {
+    "n": 2147483648,
+    "binding_repr": "({'x_ptr': tensor([]), 'output_ptr': tensor([]), 'n_elements': 2147483648, 'BLOCK_SIZE': 1024}, [('*fp32', 'D'), ('*fp32', 'D'), ('i32', 'D'), ('constexpr', 1024)], {})"
+  },
+  {
+    "n": 4294967295,
+    "binding_repr": "({'x_ptr': tensor([]), 'output_ptr': tensor([]), 'n_elements': 4294967295, 'BLOCK_SIZE': 1024}, [('*fp32', 'D'), ('*fp32', 'D'), ('i32', ''), ('constexpr', 1024)], {})"
+  },
+  {
+    "n": 4294967296,
+    "binding_repr": "({'x_ptr': tensor([]), 'output_ptr': tensor([]), 'n_elements': 4294967296, 'BLOCK_SIZE': 1024}, [('*fp32', 'D'), ('*fp32', 'D'), ('i32', 'D'), ('constexpr', 1024)], {})"
+  },
+  {
+    "n": 2199023254528,
+    "binding_repr": "({'x_ptr': tensor([]), 'output_ptr': tensor([]), 'n_elements': 2199023254528, 'BLOCK_SIZE': 1024}, [('*fp32', 'D'), ('*fp32', 'D'), ('i32', 'D'), ('constexpr', 1024)], {})"
+  },
+  {
+    "n": 2199023255552,
+    "binding_repr": "({'x_ptr': tensor([]), 'output_ptr': tensor([]), 'n_elements': 2199023255552, 'BLOCK_SIZE': 1024}, [('*fp32', 'D'), ('*fp32', 'D'), ('i32', 'D'), ('constexpr', 1024)], {})"
+  },
+  {
+    "n": 9223372036854775807,
+    "binding_repr": "({'x_ptr': tensor([]), 'output_ptr': tensor([]), 'n_elements': 9223372036854775807, 'BLOCK_SIZE': 1024}, [('*fp32', 'D'), ('*fp32', 'D'), ('i32', ''), ('constexpr', 1024)], {})"
+  }
+]

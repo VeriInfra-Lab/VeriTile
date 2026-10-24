@@ -1,0 +1,93 @@
+{
+  "status": "passed",
+  "runtime_Python_argument": 10,
+  "runtime_fp32_bits": 1092616192,
+  "i32_profiles": [
+    {
+      "host_n": 0,
+      "i32": 0
+    },
+    {
+      "host_n": 1,
+      "i32": 1
+    },
+    {
+      "host_n": 1023,
+      "i32": 1023
+    },
+    {
+      "host_n": 1024,
+      "i32": 1024
+    },
+    {
+      "host_n": 1025,
+      "i32": 1025
+    },
+    {
+      "host_n": 2147483647,
+      "i32": 2147483647
+    },
+    {
+      "host_n": 2147483648,
+      "i32": -2147483648
+    },
+    {
+      "host_n": 2147483649,
+      "i32": -2147483647
+    },
+    {
+      "host_n": 4294967295,
+      "i32": -1
+    },
+    {
+      "host_n": 4294967296,
+      "i32": 0
+    },
+    {
+      "host_n": 4294967297,
+      "i32": 1
+    },
+    {
+      "host_n": 6442450944,
+      "i32": -2147483648
+    },
+    {
+      "host_n": 2199023254527,
+      "i32": -1025
+    },
+    {
+      "host_n": 2199023254528,
+      "i32": -1024
+    },
+    {
+      "host_n": 2199023254529,
+      "i32": -1023
+    },
+    {
+      "host_n": 9223372036854775807,
+      "i32": -1
+    }
+  ],
+  "signed64_overflow_rejected": true,
+  "driver_sha256": "835f068cf517d237dc62be91275261e260c2bae985a9242fd28866303c1e5a60",
+  "exact_extractor_hashes": {
+    "extractFP32": "e3d11d9791fc4af1c66064f9e7432b25a2cf65b6066a7b801a4b24f02a8a9a44",
+    "extractI32": "e48f4823d2ae0b76b6d22cdaa5f4f98a24d11d99db5e22206b7674eb09d51133"
+  },
+  "command": [
+    "cc",
+    "-shared",
+    "-fPIC",
+    "-O2",
+    "-I/usr/local/include/python3.12",
+    "/tmp/veritile-standardization-20261015/add-value-revision1-independent-review/exact-extractors/extract.c",
+    "-o",
+    "/tmp/veritile-standardization-20261015/add-value-revision1-independent-review/exact-extractors/extract.so"
+  ],
+  "GPU_launches": 0,
+  "artifacts": {
+    "build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "extract.so": "737999c5f76b78572ea3ce11bf92f58ceb8cfa56f004a189bb68955021822967",
+    "extract.c": "ca38c19f51fc6c70bd92dd8011be5bbe0745abd6b49dfebf679c2213c344dd8a"
+  }
+}

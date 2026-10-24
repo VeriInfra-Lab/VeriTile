@@ -1,6 +1,13 @@
 import VeriTile.Triton.DSL
 import VeriTile.Triton.Source
 
+/-!
+Source-audit target: _chunk_cumsum_fwd_kernel
+Source-audit Lean: chunkedCumsumSource%
+Source-audit args: biasTy=tl.float32, version=original, bound=finite
+Selected fp32 bias and finite-bound original profile only; infinite-bound and other bias-storage profiles remain separate obligations.
+-/
+
 /-! Source: chunked_cumsum_fwd.py, _chunk_cumsum_fwd_kernel.
 Both complete sources retain optional bias/softplus, clamp, the padded output
 store, A load after that store and the within-chunk scan. The candidate only

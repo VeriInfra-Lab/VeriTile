@@ -1,0 +1,7 @@
+VeriTile.Bench.TritonBenchG.KcacheCopyTriton.Host.batch_grid: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.TritonBenchG.KcacheCopyTriton.Host.reshape_three: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.KcacheCopyTriton.Host.reshape_four_shape: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.KcacheCopyTriton.Host.warps_le128: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.KcacheCopyTriton.Host.warps_gt128: axiom footprint ⊆ standard base ✓  ([propext])

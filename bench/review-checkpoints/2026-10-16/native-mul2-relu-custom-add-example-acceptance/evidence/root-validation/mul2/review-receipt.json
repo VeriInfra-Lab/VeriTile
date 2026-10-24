@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "frozen": true,
+  "producer_receipt_sha256": "7644e8a8dadc81452975c71b662ff1ae587bb6ceab8fd07c94e996ce0be75a4f",
+  "review_sha256": "90a92dc701865fe6f888119e0d9d433a4b3f7768ff46bab2fcca256e8867917f",
+  "artifacts": {
+    "review.json": "90a92dc701865fe6f888119e0d9d433a4b3f7768ff46bab2fcca256e8867917f",
+    "review-package.py": "321c6558909edb68ee120670f65ffd122f5b90d4c752f150c7e4631f7d7fd15d"
+  },
+  "source_acceptance_increment": 0
+}

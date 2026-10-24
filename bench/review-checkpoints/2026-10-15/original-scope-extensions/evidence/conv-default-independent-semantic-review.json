@@ -1,0 +1,55 @@
+{
+  "kind": "independent_semantic_review_conv2d_default_branch",
+  "reviewer": "/root/scope_integration_review",
+  "result": "no correctness defect found inside the explicitly modeled single-program fp32-storage profile; not whole-task acceptance",
+  "reviewed_input_sha256": {
+    "bench/tritonbench_g/triton_conv2d_fwd/BranchesCorrect.lean": "ef3aaeac2584e71a499b6caf424e6c747fce7cd8fd018303e886121e1c3254b2",
+    "bench/tritonbench_g/triton_conv2d_fwd/README.md": "001d0a123bc4d341ad61c92015e2bffbd34cf511bede33f0cc0c9992d13ed167",
+    "bench/tritonbench_g/triton_conv2d_fwd/triton_conv2d_fwd.py": "b22af1e5429eef6c1371c6b786821f7082df54da10868001acdbb5007972ac9e",
+    "bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPCleanUndef.lean": "341f0785c108eb786de6f959d7154b94133a8e00e908233dc8ca4300a5d33ec8",
+    "bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPComplete.lean": "1cdd2be3af012721b6494914bb51329a11367f76c4f10d05b05297477621f7b0",
+    "bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPDefaultComplete.lean": "d550cee4837a5466ecdd1e5b4b1c9a4ef2dd9109b95c5536a15e6579b4088287",
+    "bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPDefaultExecution.lean": "09346c910fe28280d47f921652c33bf2fa9a97ac8a34455e4d60801e7ac145d0",
+    "bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPDefaultLoops.lean": "6327edd275b5cac045ff2bea18aac45ededd3937371220b3e0959884f9c0dd02",
+    "bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPDefaultReference.lean": "912bf0e9cfc3f72b7792b9ceb62a0f714523f72d4cfd6fbd363646729f7f8568",
+    "bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPDefaultSoftware.lean": "562e769ab0b825e3f8a4ab18eea366a6780ddcf8247b7e495b3c2fd4ee47fa62",
+    "bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPDefaultTypedSource.lean": "8d5ab3999177e05dcaab24987a3d80d2136c11afe8f6fa374b280d794d4a69d7",
+    "bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPDefaultWitness.lean": "a777c2ca8e89ef42610b2310cee3103023af1b1f2d81f8fedfa5ad2a2ba26eb4",
+    "bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPExecution.lean": "8f0a6e2dfff9d00471dab96dadc47a43bdcff96d7a2c8f4da8265fdeb5f84b12",
+    "bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPLoops.lean": "f0e5db9d98aada17094943df4aa612af1224005685bf27675527ac97b4d565a6",
+    "bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPReference.lean": "46a880c6a0e3a7945ada52bf8fc063d4e60fd03c8c061d6a53f728c180cb1fa8",
+    "bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPShape.lean": "219c1220d1dd2f34abe3d31232aab541aa1fbdd2902fcf87cf5afa5e19f6d27d",
+    "bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPSoftware.lean": "0a7a2293a5f0dee30a6a43da64035b66798679e5f8eb5d6986eb0971cd9e010d",
+    "bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPTypedSource.lean": "dee1d07abaa40a500dc8bc2a8f2bd3fca2d6e168be1fe209ba74e7b08ab8b1cd",
+    "bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPWitness.lean": "a28827af66624c3a0409019d30ecf062893f5bdca5d7c4a13d6948d2ae40f048"
+  },
+  "producer_receipt_inputs_still_match": true,
+  "proof_chain_review": [
+    "FPDefaultTypedSource removes exactly fp16-guarded two casts and uses fp32/fp32/fp32 dot; both tf32 flags remain in DotOptions",
+    "bodyExecution proves the entire c body; Context preserves initial memory/undef; range_values inductions cover c, w, h in original order, including logical zero trips",
+    "Independent initial-memory reference preserves masks and address-dependent undef, dot output conversion and separate accumulator add; no result-equality or zero-undef premise",
+    "Full source run is composed from prelude, all loops and epilogue; independent scatter equality and memory frame, with injective active addresses required only for per-lane readback",
+    "software_reference closes each used fp32 operation and dot callback to explicit ascending mul/add arithmetic; fp16=true path is retained unchanged",
+    "Kernel-checked 2x2x2-loop witness distinguishes fp16=False 0x41001000 from fp16=True 0x41000000"
+  ],
+  "callback_obligations": [
+    "Generic backend dot and scalar callbacks require exact native numerical graph/profile binding before native correctness can be claimed",
+    "Closed software dot ignores allowTF32 as a deliberate software plan; TF32 behavior, tensor-core reduction order, dot/carry fusion and floating-point implementation policy remain unverified numerical bindings"
+  ],
+  "structural_gaps_not_numerical_deferrals": [
+    "Python host allocation, dimension extraction, output-size formulas, returned tensor, actual 3D grid and cross-program composition are not proved",
+    "Only fp32 input/weight/output storage profile is covered; wrapper has no dtype assertions and other supported or rejected input/weight dtype combinations are unclassified",
+    "Parameters use Nat strides, dimensions and padding; native integer width, pointer offsets and invalid-argument/error domain remain unbound",
+    "Logical pointer additions convert negative signed height/width terms with toNat separately. This can differ from original signed addresses on masked lanes; arbitrary undef in the logical model alone does not establish native undef/poison correspondence",
+    "Original groups-grid and floor channel division must be preserved in a host proof, including possible unwritten channels when out_feat_dim is not divisible by groups",
+    "Physical allocation validity and concurrency/race freedom remain outside this single-program semantics"
+  ],
+  "documentation_note": "README phrase arbitrary original shape/stride/padding/group parameters is broader than the Nat logical domain; qualify as arbitrary Nat model parameters, with native domain correspondence still pending.",
+  "validation_scope": {
+    "independent_build_rerun": false,
+    "reason": "existing build receipt/log and input hashes match; this was an independent read-only semantic review, not a fresh Lean or official-comparator replay",
+    "observed_build_log": "/tmp/veritile-standardization-20261015/conv-branches-build-03.log",
+    "observed_build_log_sha256": "793db741d3c709b2a0f20dab11e2332087c4c479a49524933025cb3137fc45f8"
+  },
+  "whole_task_accepted": false
+}

@@ -1,0 +1,10 @@
+{
+  "reviewer": "root",
+  "status": "reviewed",
+  "change": "Only deterministic .lean to .lean.txt and generated Lean object to .bin archival mapping is added to each frozen adapter; all source/review/receipt/collision/whole-queue validation remains unchanged.",
+  "quant_producer_adapter_sha256": "c4ab96a55f9618950dd88268b77eaad716e2c954b0613189149987530f84b1f1",
+  "quant_current_adapter_sha256": "b42ee778297e0c274b78d76283c1565d2f617bd05955d0066d5189b9ac920c7e",
+  "vector_producer_adapter_sha256": "e369a83b6bb61e1ee46cfd663f6941c6ae0b3f355ccceb8b640c7cc901dc9822",
+  "vector_current_adapter_sha256": "1e40d619ba5c72e6bbfcae9dd704ef0df85f4b9c63a6cd69643d9cee85ffb430",
+  "adversarial_object_and_source_tests_added": true
+}

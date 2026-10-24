@@ -1,0 +1,1613 @@
+{
+  "torch_version": "2.13.0+cu130",
+  "cuda_available": false,
+  "source": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/quantize_global/quantize_global.py",
+  "source_sha256": "163f6e73234587c1d05763ed60ccc1ac4ca7d7d384f18b7af17399509205032f",
+  "scope": "Real CPU scalar/tensor host primitives; CUDA dispatch remains a separate obligation. No GPU launches.",
+  "records": [
+    {
+      "dtype": "bool",
+      "shape": [
+        3
+      ],
+      "device": "cpu",
+      "steps": [],
+      "status": "rejected",
+      "stage": "abs",
+      "error_type": "NotImplementedError",
+      "error": "\"abs_cpu\" not implemented for 'Bool'"
+    },
+    {
+      "dtype": "bool",
+      "shape": [
+        0
+      ],
+      "device": "cpu",
+      "steps": [],
+      "status": "rejected",
+      "stage": "abs",
+      "error_type": "NotImplementedError",
+      "error": "\"abs_cpu\" not implemented for 'Bool'"
+    },
+    {
+      "dtype": "bool",
+      "shape": [],
+      "device": "cpu",
+      "steps": [],
+      "status": "rejected",
+      "stage": "abs",
+      "error_type": "NotImplementedError",
+      "error": "\"abs_cpu\" not implemented for 'Bool'"
+    },
+    {
+      "dtype": "uint8",
+      "shape": [
+        3
+      ],
+      "device": "cpu",
+      "steps": [
+        {
+          "stage": "abs",
+          "dtype": "torch.uint8",
+          "shape": [
+            3
+          ],
+          "values": "tensor([254,   0,   1], dtype=torch.uint8)"
+        },
+        {
+          "stage": "max",
+          "dtype": "torch.uint8",
+          "shape": [],
+          "values": "tensor(254, dtype=torch.uint8)"
+        },
+        {
+          "stage": "unsqueeze",
+          "dtype": "torch.uint8",
+          "shape": [
+            1
+          ],
+          "values": "tensor([254], dtype=torch.uint8)"
+        },
+        {
+          "stage": "reciprocal",
+          "dtype": "torch.float32",
+          "shape": [
+            1
+          ],
+          "values": "tensor([0.0039])"
+        }
+      ],
+      "status": "host_primitives_success"
+    },
+    {
+      "dtype": "uint8",
+      "shape": [
+        0
+      ],
+      "device": "cpu",
+      "steps": [
+        {
+          "stage": "abs",
+          "dtype": "torch.uint8",
+          "shape": [
+            0
+          ],
+          "values": "tensor([], dtype=torch.uint8)"
+        }
+      ],
+      "status": "rejected",
+      "stage": "max",
+      "error_type": "RuntimeError",
+      "error": "max(): Expected reduction dim to be specified for input.numel() == 0. Specify the reduction dim with the 'dim' argument."
+    },
+    {
+      "dtype": "uint8",
+      "shape": [],
+      "device": "cpu",
+      "steps": [
+        {
+          "stage": "abs",
+          "dtype": "torch.uint8",
+          "shape": [],
+          "values": "tensor(1, dtype=torch.uint8)"
+        },
+        {
+          "stage": "max",
+          "dtype": "torch.uint8",
+          "shape": [],
+          "values": "tensor(1, dtype=torch.uint8)"
+        },
+        {
+          "stage": "unsqueeze",
+          "dtype": "torch.uint8",
+          "shape": [
+            1
+          ],
+          "values": "tensor([1], dtype=torch.uint8)"
+        },
+        {
+          "stage": "reciprocal",
+          "dtype": "torch.float32",
+          "shape": [
+            1
+          ],
+          "values": "tensor([1.])"
+        }
+      ],
+      "status": "host_primitives_success"
+    },
+    {
+      "dtype": "int8",
+      "shape": [
+        3
+      ],
+      "device": "cpu",
+      "steps": [
+        {
+          "stage": "abs",
+          "dtype": "torch.int8",
+          "shape": [
+            3
+          ],
+          "values": "tensor([2, 0, 1], dtype=torch.int8)"
+        },
+        {
+          "stage": "max",
+          "dtype": "torch.int8",
+          "shape": [],
+          "values": "tensor(2, dtype=torch.int8)"
+        },
+        {
+          "stage": "unsqueeze",
+          "dtype": "torch.int8",
+          "shape": [
+            1
+          ],
+          "values": "tensor([2], dtype=torch.int8)"
+        },
+        {
+          "stage": "reciprocal",
+          "dtype": "torch.float32",
+          "shape": [
+            1
+          ],
+          "values": "tensor([0.5000])"
+        }
+      ],
+      "status": "host_primitives_success"
+    },
+    {
+      "dtype": "int8",
+      "shape": [
+        0
+      ],
+      "device": "cpu",
+      "steps": [
+        {
+          "stage": "abs",
+          "dtype": "torch.int8",
+          "shape": [
+            0
+          ],
+          "values": "tensor([], dtype=torch.int8)"
+        }
+      ],
+      "status": "rejected",
+      "stage": "max",
+      "error_type": "RuntimeError",
+      "error": "max(): Expected reduction dim to be specified for input.numel() == 0. Specify the reduction dim with the 'dim' argument."
+    },
+    {
+      "dtype": "int8",
+      "shape": [],
+      "device": "cpu",
+      "steps": [
+        {
+          "stage": "abs",
+          "dtype": "torch.int8",
+          "shape": [],
+          "values": "tensor(1, dtype=torch.int8)"
+        },
+        {
+          "stage": "max",
+          "dtype": "torch.int8",
+          "shape": [],
+          "values": "tensor(1, dtype=torch.int8)"
+        },
+        {
+          "stage": "unsqueeze",
+          "dtype": "torch.int8",
+          "shape": [
+            1
+          ],
+          "values": "tensor([1], dtype=torch.int8)"
+        },
+        {
+          "stage": "reciprocal",
+          "dtype": "torch.float32",
+          "shape": [
+            1
+          ],
+          "values": "tensor([1.])"
+        }
+      ],
+      "status": "host_primitives_success"
+    },
+    {
+      "dtype": "int16",
+      "shape": [
+        3
+      ],
+      "device": "cpu",
+      "steps": [
+        {
+          "stage": "abs",
+          "dtype": "torch.int16",
+          "shape": [
+            3
+          ],
+          "values": "tensor([2, 0, 1], dtype=torch.int16)"
+        },
+        {
+          "stage": "max",
+          "dtype": "torch.int16",
+          "shape": [],
+          "values": "tensor(2, dtype=torch.int16)"
+        },
+        {
+          "stage": "unsqueeze",
+          "dtype": "torch.int16",
+          "shape": [
+            1
+          ],
+          "values": "tensor([2], dtype=torch.int16)"
+        },
+        {
+          "stage": "reciprocal",
+          "dtype": "torch.float32",
+          "shape": [
+            1
+          ],
+          "values": "tensor([0.5000])"
+        }
+      ],
+      "status": "host_primitives_success"
+    },
+    {
+      "dtype": "int16",
+      "shape": [
+        0
+      ],
+      "device": "cpu",
+      "steps": [
+        {
+          "stage": "abs",
+          "dtype": "torch.int16",
+          "shape": [
+            0
+          ],
+          "values": "tensor([], dtype=torch.int16)"
+        }
+      ],
+      "status": "rejected",
+      "stage": "max",
+      "error_type": "RuntimeError",
+      "error": "max(): Expected reduction dim to be specified for input.numel() == 0. Specify the reduction dim with the 'dim' argument."
+    },
+    {
+      "dtype": "int16",
+      "shape": [],
+      "device": "cpu",
+      "steps": [
+        {
+          "stage": "abs",
+          "dtype": "torch.int16",
+          "shape": [],
+          "values": "tensor(1, dtype=torch.int16)"
+        },
+        {
+          "stage": "max",
+          "dtype": "torch.int16",
+          "shape": [],
+          "values": "tensor(1, dtype=torch.int16)"
+        },
+        {
+          "stage": "unsqueeze",
+          "dtype": "torch.int16",
+          "shape": [
+            1
+          ],
+          "values": "tensor([1], dtype=torch.int16)"
+        },
+        {
+          "stage": "reciprocal",
+          "dtype": "torch.float32",
+          "shape": [
+            1
+          ],
+          "values": "tensor([1.])"
+        }
+      ],
+      "status": "host_primitives_success"
+    },
+    {
+      "dtype": "int32",
+      "shape": [
+        3
+      ],
+      "device": "cpu",
+      "steps": [
+        {
+          "stage": "abs",
+          "dtype": "torch.int32",
+          "shape": [
+            3
+          ],
+          "values": "tensor([2, 0, 1], dtype=torch.int32)"
+        },
+        {
+          "stage": "max",
+          "dtype": "torch.int32",
+          "shape": [],
+          "values": "tensor(2, dtype=torch.int32)"
+        },
+        {
+          "stage": "unsqueeze",
+          "dtype": "torch.int32",
+          "shape": [
+            1
+          ],
+          "values": "tensor([2], dtype=torch.int32)"
+        },
+        {
+          "stage": "reciprocal",
+          "dtype": "torch.float32",
+          "shape": [
+            1
+          ],
+          "values": "tensor([0.5000])"
+        }
+      ],
+      "status": "host_primitives_success"
+    },
+    {
+      "dtype": "int32",
+      "shape": [
+        0
+      ],
+      "device": "cpu",
+      "steps": [
+        {
+          "stage": "abs",
+          "dtype": "torch.int32",
+          "shape": [
+            0
+          ],
+          "values": "tensor([], dtype=torch.int32)"
+        }
+      ],
+      "status": "rejected",
+      "stage": "max",
+      "error_type": "RuntimeError",
+      "error": "max(): Expected reduction dim to be specified for input.numel() == 0. Specify the reduction dim with the 'dim' argument."
+    },
+    {
+      "dtype": "int32",
+      "shape": [],
+      "device": "cpu",
+      "steps": [
+        {
+          "stage": "abs",
+          "dtype": "torch.int32",
+          "shape": [],
+          "values": "tensor(1, dtype=torch.int32)"
+        },
+        {
+          "stage": "max",
+          "dtype": "torch.int32",
+          "shape": [],
+          "values": "tensor(1, dtype=torch.int32)"
+        },
+        {
+          "stage": "unsqueeze",
+          "dtype": "torch.int32",
+          "shape": [
+            1
+          ],
+          "values": "tensor([1], dtype=torch.int32)"
+        },
+        {
+          "stage": "reciprocal",
+          "dtype": "torch.float32",
+          "shape": [
+            1
+          ],
+          "values": "tensor([1.])"
+        }
+      ],
+      "status": "host_primitives_success"
+    },
+    {
+      "dtype": "int64",
+      "shape": [
+        3
+      ],
+      "device": "cpu",
+      "steps": [
+        {
+          "stage": "abs",
+          "dtype": "torch.int64",
+          "shape": [
+            3
+          ],
+          "values": "tensor([2, 0, 1])"
+        },
+        {
+          "stage": "max",
+          "dtype": "torch.int64",
+          "shape": [],
+          "values": "tensor(2)"
+        },
+        {
+          "stage": "unsqueeze",
+          "dtype": "torch.int64",
+          "shape": [
+            1
+          ],
+          "values": "tensor([2])"
+        },
+        {
+          "stage": "reciprocal",
+          "dtype": "torch.float32",
+          "shape": [
+            1
+          ],
+          "values": "tensor([0.5000])"
+        }
+      ],
+      "status": "host_primitives_success"
+    },
+    {
+      "dtype": "int64",
+      "shape": [
+        0
+      ],
+      "device": "cpu",
+      "steps": [
+        {
+          "stage": "abs",
+          "dtype": "torch.int64",
+          "shape": [
+            0
+          ],
+          "values": "tensor([], dtype=torch.int64)"
+        }
+      ],
+      "status": "rejected",
+      "stage": "max",
+      "error_type": "RuntimeError",
+      "error": "max(): Expected reduction dim to be specified for input.numel() == 0. Specify the reduction dim with the 'dim' argument."
+    },
+    {
+      "dtype": "int64",
+      "shape": [],
+      "device": "cpu",
+      "steps": [
+        {
+          "stage": "abs",
+          "dtype": "torch.int64",
+          "shape": [],
+          "values": "tensor(1)"
+        },
+        {
+          "stage": "max",
+          "dtype": "torch.int64",
+          "shape": [],
+          "values": "tensor(1)"
+        },
+        {
+          "stage": "unsqueeze",
+          "dtype": "torch.int64",
+          "shape": [
+            1
+          ],
+          "values": "tensor([1])"
+        },
+        {
+          "stage": "reciprocal",
+          "dtype": "torch.float32",
+          "shape": [
+            1
+          ],
+          "values": "tensor([1.])"
+        }
+      ],
+      "status": "host_primitives_success"
+    },
+    {
+      "dtype": "uint16",
+      "shape": [
+        3
+      ],
+      "device": "cpu",
+      "steps": [],
+      "status": "rejected",
+      "stage": "abs",
+      "error_type": "NotImplementedError",
+      "error": "\"abs_cpu\" not implemented for 'UInt16'"
+    },
+    {
+      "dtype": "uint16",
+      "shape": [
+        0
+      ],
+      "device": "cpu",
+      "steps": [],
+      "status": "rejected",
+      "stage": "abs",
+      "error_type": "NotImplementedError",
+      "error": "\"abs_cpu\" not implemented for 'UInt16'"
+    },
+    {
+      "dtype": "uint16",
+      "shape": [],
+      "device": "cpu",
+      "steps": [],
+      "status": "rejected",
+      "stage": "abs",
+      "error_type": "NotImplementedError",
+      "error": "\"abs_cpu\" not implemented for 'UInt16'"
+    },
+    {
+      "dtype": "uint32",
+      "shape": [
+        3
+      ],
+      "device": "cpu",
+      "steps": [],
+      "status": "rejected",
+      "stage": "abs",
+      "error_type": "NotImplementedError",
+      "error": "\"abs_cpu\" not implemented for 'UInt32'"
+    },
+    {
+      "dtype": "uint32",
+      "shape": [
+        0
+      ],
+      "device": "cpu",
+      "steps": [],
+      "status": "rejected",
+      "stage": "abs",
+      "error_type": "NotImplementedError",
+      "error": "\"abs_cpu\" not implemented for 'UInt32'"
+    },
+    {
+      "dtype": "uint32",
+      "shape": [],
+      "device": "cpu",
+      "steps": [],
+      "status": "rejected",
+      "stage": "abs",
+      "error_type": "NotImplementedError",
+      "error": "\"abs_cpu\" not implemented for 'UInt32'"
+    },
+    {
+      "dtype": "uint64",
+      "shape": [
+        3
+      ],
+      "device": "cpu",
+      "steps": [],
+      "status": "rejected",
+      "stage": "abs",
+      "error_type": "NotImplementedError",
+      "error": "\"abs_cpu\" not implemented for 'UInt64'"
+    },
+    {
+      "dtype": "uint64",
+      "shape": [
+        0
+      ],
+      "device": "cpu",
+      "steps": [],
+      "status": "rejected",
+      "stage": "abs",
+      "error_type": "NotImplementedError",
+      "error": "\"abs_cpu\" not implemented for 'UInt64'"
+    },
+    {
+      "dtype": "uint64",
+      "shape": [],
+      "device": "cpu",
+      "steps": [],
+      "status": "rejected",
+      "stage": "abs",
+      "error_type": "NotImplementedError",
+      "error": "\"abs_cpu\" not implemented for 'UInt64'"
+    },
+    {
+      "dtype": "float16",
+      "shape": [
+        3
+      ],
+      "device": "cpu",
+      "steps": [
+        {
+          "stage": "abs",
+          "dtype": "torch.float16",
+          "shape": [
+            3
+          ],
+          "values": "tensor([2., 0., 1.], dtype=torch.float16)"
+        },
+        {
+          "stage": "max",
+          "dtype": "torch.float16",
+          "shape": [],
+          "values": "tensor(2., dtype=torch.float16)"
+        },
+        {
+          "stage": "unsqueeze",
+          "dtype": "torch.float16",
+          "shape": [
+            1
+          ],
+          "values": "tensor([2.], dtype=torch.float16)"
+        },
+        {
+          "stage": "reciprocal",
+          "dtype": "torch.float16",
+          "shape": [
+            1
+          ],
+          "values": "tensor([0.5000], dtype=torch.float16)"
+        }
+      ],
+      "status": "host_primitives_success"
+    },
+    {
+      "dtype": "float16",
+      "shape": [
+        0
+      ],
+      "device": "cpu",
+      "steps": [
+        {
+          "stage": "abs",
+          "dtype": "torch.float16",
+          "shape": [
+            0
+          ],
+          "values": "tensor([], dtype=torch.float16)"
+        }
+      ],
+      "status": "rejected",
+      "stage": "max",
+      "error_type": "RuntimeError",
+      "error": "max(): Expected reduction dim to be specified for input.numel() == 0. Specify the reduction dim with the 'dim' argument."
+    },
+    {
+      "dtype": "float16",
+      "shape": [],
+      "device": "cpu",
+      "steps": [
+        {
+          "stage": "abs",
+          "dtype": "torch.float16",
+          "shape": [],
+          "values": "tensor(1., dtype=torch.float16)"
+        },
+        {
+          "stage": "max",
+          "dtype": "torch.float16",
+          "shape": [],
+          "values": "tensor(1., dtype=torch.float16)"
+        },
+        {
+          "stage": "unsqueeze",
+          "dtype": "torch.float16",
+          "shape": [
+            1
+          ],
+          "values": "tensor([1.], dtype=torch.float16)"
+        },
+        {
+          "stage": "reciprocal",
+          "dtype": "torch.float16",
+          "shape": [
+            1
+          ],
+          "values": "tensor([1.], dtype=torch.float16)"
+        }
+      ],
+      "status": "host_primitives_success"
+    },
+    {
+      "dtype": "bfloat16",
+      "shape": [
+        3
+      ],
+      "device": "cpu",
+      "steps": [
+        {
+          "stage": "abs",
+          "dtype": "torch.bfloat16",
+          "shape": [
+            3
+          ],
+          "values": "tensor([2., 0., 1.], dtype=torch.bfloat16)"
+        },
+        {
+          "stage": "max",
+          "dtype": "torch.bfloat16",
+          "shape": [],
+          "values": "tensor(2., dtype=torch.bfloat16)"
+        },
+        {
+          "stage": "unsqueeze",
+          "dtype": "torch.bfloat16",
+          "shape": [
+            1
+          ],
+          "values": "tensor([2.], dtype=torch.bfloat16)"
+        },
+        {
+          "stage": "reciprocal",
+          "dtype": "torch.bfloat16",
+          "shape": [
+            1
+          ],
+          "values": "tensor([0.5000], dtype=torch.bfloat16)"
+        }
+      ],
+      "status": "host_primitives_success"
+    },
+    {
+      "dtype": "bfloat16",
+      "shape": [
+        0
+      ],
+      "device": "cpu",
+      "steps": [
+        {
+          "stage": "abs",
+          "dtype": "torch.bfloat16",
+          "shape": [
+            0
+          ],
+          "values": "tensor([], dtype=torch.bfloat16)"
+        }
+      ],
+      "status": "rejected",
+      "stage": "max",
+      "error_type": "RuntimeError",
+      "error": "max(): Expected reduction dim to be specified for input.numel() == 0. Specify the reduction dim with the 'dim' argument."
+    },
+    {
+      "dtype": "bfloat16",
+      "shape": [],
+      "device": "cpu",
+      "steps": [
+        {
+          "stage": "abs",
+          "dtype": "torch.bfloat16",
+          "shape": [],
+          "values": "tensor(1., dtype=torch.bfloat16)"
+        },
+        {
+          "stage": "max",
+          "dtype": "torch.bfloat16",
+          "shape": [],
+          "values": "tensor(1., dtype=torch.bfloat16)"
+        },
+        {
+          "stage": "unsqueeze",
+          "dtype": "torch.bfloat16",
+          "shape": [
+            1
+          ],
+          "values": "tensor([1.], dtype=torch.bfloat16)"
+        },
+        {
+          "stage": "reciprocal",
+          "dtype": "torch.bfloat16",
+          "shape": [
+            1
+          ],
+          "values": "tensor([1.], dtype=torch.bfloat16)"
+        }
+      ],
+      "status": "host_primitives_success"
+    },
+    {
+      "dtype": "float32",
+      "shape": [
+        3
+      ],
+      "device": "cpu",
+      "steps": [
+        {
+          "stage": "abs",
+          "dtype": "torch.float32",
+          "shape": [
+            3
+          ],
+          "values": "tensor([2., 0., 1.])"
+        },
+        {
+          "stage": "max",
+          "dtype": "torch.float32",
+          "shape": [],
+          "values": "tensor(2.)"
+        },
+        {
+          "stage": "unsqueeze",
+          "dtype": "torch.float32",
+          "shape": [
+            1
+          ],
+          "values": "tensor([2.])"
+        },
+        {
+          "stage": "reciprocal",
+          "dtype": "torch.float32",
+          "shape": [
+            1
+          ],
+          "values": "tensor([0.5000])"
+        }
+      ],
+      "status": "host_primitives_success"
+    },
+    {
+      "dtype": "float32",
+      "shape": [
+        0
+      ],
+      "device": "cpu",
+      "steps": [
+        {
+          "stage": "abs",
+          "dtype": "torch.float32",
+          "shape": [
+            0
+          ],
+          "values": "tensor([])"
+        }
+      ],
+      "status": "rejected",
+      "stage": "max",
+      "error_type": "RuntimeError",
+      "error": "max(): Expected reduction dim to be specified for input.numel() == 0. Specify the reduction dim with the 'dim' argument."
+    },
+    {
+      "dtype": "float32",
+      "shape": [],
+      "device": "cpu",
+      "steps": [
+        {
+          "stage": "abs",
+          "dtype": "torch.float32",
+          "shape": [],
+          "values": "tensor(1.)"
+        },
+        {
+          "stage": "max",
+          "dtype": "torch.float32",
+          "shape": [],
+          "values": "tensor(1.)"
+        },
+        {
+          "stage": "unsqueeze",
+          "dtype": "torch.float32",
+          "shape": [
+            1
+          ],
+          "values": "tensor([1.])"
+        },
+        {
+          "stage": "reciprocal",
+          "dtype": "torch.float32",
+          "shape": [
+            1
+          ],
+          "values": "tensor([1.])"
+        }
+      ],
+      "status": "host_primitives_success"
+    },
+    {
+      "dtype": "float64",
+      "shape": [
+        3
+      ],
+      "device": "cpu",
+      "steps": [
+        {
+          "stage": "abs",
+          "dtype": "torch.float64",
+          "shape": [
+            3
+          ],
+          "values": "tensor([2., 0., 1.], dtype=torch.float64)"
+        },
+        {
+          "stage": "max",
+          "dtype": "torch.float64",
+          "shape": [],
+          "values": "tensor(2., dtype=torch.float64)"
+        },
+        {
+          "stage": "unsqueeze",
+          "dtype": "torch.float64",
+          "shape": [
+            1
+          ],
+          "values": "tensor([2.], dtype=torch.float64)"
+        },
+        {
+          "stage": "reciprocal",
+          "dtype": "torch.float64",
+          "shape": [
+            1
+          ],
+          "values": "tensor([0.5000], dtype=torch.float64)"
+        }
+      ],
+      "status": "host_primitives_success"
+    },
+    {
+      "dtype": "float64",
+      "shape": [
+        0
+      ],
+      "device": "cpu",
+      "steps": [
+        {
+          "stage": "abs",
+          "dtype": "torch.float64",
+          "shape": [
+            0
+          ],
+          "values": "tensor([], dtype=torch.float64)"
+        }
+      ],
+      "status": "rejected",
+      "stage": "max",
+      "error_type": "RuntimeError",
+      "error": "max(): Expected reduction dim to be specified for input.numel() == 0. Specify the reduction dim with the 'dim' argument."
+    },
+    {
+      "dtype": "float64",
+      "shape": [],
+      "device": "cpu",
+      "steps": [
+        {
+          "stage": "abs",
+          "dtype": "torch.float64",
+          "shape": [],
+          "values": "tensor(1., dtype=torch.float64)"
+        },
+        {
+          "stage": "max",
+          "dtype": "torch.float64",
+          "shape": [],
+          "values": "tensor(1., dtype=torch.float64)"
+        },
+        {
+          "stage": "unsqueeze",
+          "dtype": "torch.float64",
+          "shape": [
+            1
+          ],
+          "values": "tensor([1.], dtype=torch.float64)"
+        },
+        {
+          "stage": "reciprocal",
+          "dtype": "torch.float64",
+          "shape": [
+            1
+          ],
+          "values": "tensor([1.], dtype=torch.float64)"
+        }
+      ],
+      "status": "host_primitives_success"
+    },
+    {
+      "dtype": "complex32",
+      "shape": [
+        3
+      ],
+      "device": "cpu",
+      "steps": [
+        {
+          "stage": "abs",
+          "dtype": "torch.float16",
+          "shape": [
+            3
+          ],
+          "values": "tensor([2., 0., 1.], dtype=torch.float16)"
+        },
+        {
+          "stage": "max",
+          "dtype": "torch.float16",
+          "shape": [],
+          "values": "tensor(2., dtype=torch.float16)"
+        },
+        {
+          "stage": "unsqueeze",
+          "dtype": "torch.float16",
+          "shape": [
+            1
+          ],
+          "values": "tensor([2.], dtype=torch.float16)"
+        },
+        {
+          "stage": "reciprocal",
+          "dtype": "torch.float16",
+          "shape": [
+            1
+          ],
+          "values": "tensor([0.5000], dtype=torch.float16)"
+        }
+      ],
+      "status": "host_primitives_success"
+    },
+    {
+      "dtype": "complex32",
+      "shape": [
+        0
+      ],
+      "device": "cpu",
+      "steps": [
+        {
+          "stage": "abs",
+          "dtype": "torch.float16",
+          "shape": [
+            0
+          ],
+          "values": "tensor([], dtype=torch.float16)"
+        }
+      ],
+      "status": "rejected",
+      "stage": "max",
+      "error_type": "RuntimeError",
+      "error": "max(): Expected reduction dim to be specified for input.numel() == 0. Specify the reduction dim with the 'dim' argument."
+    },
+    {
+      "dtype": "complex32",
+      "shape": [],
+      "device": "cpu",
+      "steps": [
+        {
+          "stage": "abs",
+          "dtype": "torch.float16",
+          "shape": [],
+          "values": "tensor(1., dtype=torch.float16)"
+        },
+        {
+          "stage": "max",
+          "dtype": "torch.float16",
+          "shape": [],
+          "values": "tensor(1., dtype=torch.float16)"
+        },
+        {
+          "stage": "unsqueeze",
+          "dtype": "torch.float16",
+          "shape": [
+            1
+          ],
+          "values": "tensor([1.], dtype=torch.float16)"
+        },
+        {
+          "stage": "reciprocal",
+          "dtype": "torch.float16",
+          "shape": [
+            1
+          ],
+          "values": "tensor([1.], dtype=torch.float16)"
+        }
+      ],
+      "status": "host_primitives_success"
+    },
+    {
+      "dtype": "complex64",
+      "shape": [
+        3
+      ],
+      "device": "cpu",
+      "steps": [
+        {
+          "stage": "abs",
+          "dtype": "torch.float32",
+          "shape": [
+            3
+          ],
+          "values": "tensor([2., 0., 1.])"
+        },
+        {
+          "stage": "max",
+          "dtype": "torch.float32",
+          "shape": [],
+          "values": "tensor(2.)"
+        },
+        {
+          "stage": "unsqueeze",
+          "dtype": "torch.float32",
+          "shape": [
+            1
+          ],
+          "values": "tensor([2.])"
+        },
+        {
+          "stage": "reciprocal",
+          "dtype": "torch.float32",
+          "shape": [
+            1
+          ],
+          "values": "tensor([0.5000])"
+        }
+      ],
+      "status": "host_primitives_success"
+    },
+    {
+      "dtype": "complex64",
+      "shape": [
+        0
+      ],
+      "device": "cpu",
+      "steps": [
+        {
+          "stage": "abs",
+          "dtype": "torch.float32",
+          "shape": [
+            0
+          ],
+          "values": "tensor([])"
+        }
+      ],
+      "status": "rejected",
+      "stage": "max",
+      "error_type": "RuntimeError",
+      "error": "max(): Expected reduction dim to be specified for input.numel() == 0. Specify the reduction dim with the 'dim' argument."
+    },
+    {
+      "dtype": "complex64",
+      "shape": [],
+      "device": "cpu",
+      "steps": [
+        {
+          "stage": "abs",
+          "dtype": "torch.float32",
+          "shape": [],
+          "values": "tensor(1.)"
+        },
+        {
+          "stage": "max",
+          "dtype": "torch.float32",
+          "shape": [],
+          "values": "tensor(1.)"
+        },
+        {
+          "stage": "unsqueeze",
+          "dtype": "torch.float32",
+          "shape": [
+            1
+          ],
+          "values": "tensor([1.])"
+        },
+        {
+          "stage": "reciprocal",
+          "dtype": "torch.float32",
+          "shape": [
+            1
+          ],
+          "values": "tensor([1.])"
+        }
+      ],
+      "status": "host_primitives_success"
+    },
+    {
+      "dtype": "complex128",
+      "shape": [
+        3
+      ],
+      "device": "cpu",
+      "steps": [
+        {
+          "stage": "abs",
+          "dtype": "torch.float64",
+          "shape": [
+            3
+          ],
+          "values": "tensor([2., 0., 1.], dtype=torch.float64)"
+        },
+        {
+          "stage": "max",
+          "dtype": "torch.float64",
+          "shape": [],
+          "values": "tensor(2., dtype=torch.float64)"
+        },
+        {
+          "stage": "unsqueeze",
+          "dtype": "torch.float64",
+          "shape": [
+            1
+          ],
+          "values": "tensor([2.], dtype=torch.float64)"
+        },
+        {
+          "stage": "reciprocal",
+          "dtype": "torch.float64",
+          "shape": [
+            1
+          ],
+          "values": "tensor([0.5000], dtype=torch.float64)"
+        }
+      ],
+      "status": "host_primitives_success"
+    },
+    {
+      "dtype": "complex128",
+      "shape": [
+        0
+      ],
+      "device": "cpu",
+      "steps": [
+        {
+          "stage": "abs",
+          "dtype": "torch.float64",
+          "shape": [
+            0
+          ],
+          "values": "tensor([], dtype=torch.float64)"
+        }
+      ],
+      "status": "rejected",
+      "stage": "max",
+      "error_type": "RuntimeError",
+      "error": "max(): Expected reduction dim to be specified for input.numel() == 0. Specify the reduction dim with the 'dim' argument."
+    },
+    {
+      "dtype": "complex128",
+      "shape": [],
+      "device": "cpu",
+      "steps": [
+        {
+          "stage": "abs",
+          "dtype": "torch.float64",
+          "shape": [],
+          "values": "tensor(1., dtype=torch.float64)"
+        },
+        {
+          "stage": "max",
+          "dtype": "torch.float64",
+          "shape": [],
+          "values": "tensor(1., dtype=torch.float64)"
+        },
+        {
+          "stage": "unsqueeze",
+          "dtype": "torch.float64",
+          "shape": [
+            1
+          ],
+          "values": "tensor([1.], dtype=torch.float64)"
+        },
+        {
+          "stage": "reciprocal",
+          "dtype": "torch.float64",
+          "shape": [
+            1
+          ],
+          "values": "tensor([1.], dtype=torch.float64)"
+        }
+      ],
+      "status": "host_primitives_success"
+    },
+    {
+      "dtype": "float8_e4m3fn",
+      "shape": [
+        3
+      ],
+      "device": "cpu",
+      "steps": [
+        {
+          "stage": "abs",
+          "dtype": "torch.float8_e4m3fn",
+          "shape": [
+            3
+          ],
+          "values": "tensor([2., 0., 1.], dtype=torch.float8_e4m3fn)"
+        }
+      ],
+      "status": "rejected",
+      "stage": "max",
+      "error_type": "NotImplementedError",
+      "error": "\"max_all\" not implemented for 'Float8_e4m3fn'"
+    },
+    {
+      "dtype": "float8_e4m3fn",
+      "shape": [
+        0
+      ],
+      "device": "cpu",
+      "steps": [
+        {
+          "stage": "abs",
+          "dtype": "torch.float8_e4m3fn",
+          "shape": [
+            0
+          ],
+          "values": "tensor([], dtype=torch.float8_e4m3fn)"
+        }
+      ],
+      "status": "rejected",
+      "stage": "max",
+      "error_type": "RuntimeError",
+      "error": "max(): Expected reduction dim to be specified for input.numel() == 0. Specify the reduction dim with the 'dim' argument."
+    },
+    {
+      "dtype": "float8_e4m3fn",
+      "shape": [],
+      "device": "cpu",
+      "steps": [
+        {
+          "stage": "abs",
+          "dtype": "torch.float8_e4m3fn",
+          "shape": [],
+          "values": "tensor(1., dtype=torch.float8_e4m3fn)"
+        }
+      ],
+      "status": "rejected",
+      "stage": "max",
+      "error_type": "NotImplementedError",
+      "error": "\"max_all\" not implemented for 'Float8_e4m3fn'"
+    },
+    {
+      "dtype": "float8_e5m2",
+      "shape": [
+        3
+      ],
+      "device": "cpu",
+      "steps": [
+        {
+          "stage": "abs",
+          "dtype": "torch.float8_e5m2",
+          "shape": [
+            3
+          ],
+          "values": "tensor([2., 0., 1.], dtype=torch.float8_e5m2)"
+        }
+      ],
+      "status": "rejected",
+      "stage": "max",
+      "error_type": "NotImplementedError",
+      "error": "\"max_all\" not implemented for 'Float8_e5m2'"
+    },
+    {
+      "dtype": "float8_e5m2",
+      "shape": [
+        0
+      ],
+      "device": "cpu",
+      "steps": [
+        {
+          "stage": "abs",
+          "dtype": "torch.float8_e5m2",
+          "shape": [
+            0
+          ],
+          "values": "tensor([], dtype=torch.float8_e5m2)"
+        }
+      ],
+      "status": "rejected",
+      "stage": "max",
+      "error_type": "RuntimeError",
+      "error": "max(): Expected reduction dim to be specified for input.numel() == 0. Specify the reduction dim with the 'dim' argument."
+    },
+    {
+      "dtype": "float8_e5m2",
+      "shape": [],
+      "device": "cpu",
+      "steps": [
+        {
+          "stage": "abs",
+          "dtype": "torch.float8_e5m2",
+          "shape": [],
+          "values": "tensor(1., dtype=torch.float8_e5m2)"
+        }
+      ],
+      "status": "rejected",
+      "stage": "max",
+      "error_type": "NotImplementedError",
+      "error": "\"max_all\" not implemented for 'Float8_e5m2'"
+    },
+    {
+      "dtype": "float8_e4m3fnuz",
+      "shape": [
+        3
+      ],
+      "device": "cpu",
+      "steps": [
+        {
+          "stage": "abs",
+          "dtype": "torch.float8_e4m3fnuz",
+          "shape": [
+            3
+          ],
+          "values": "tensor([2., 0., 1.], dtype=torch.float8_e4m3fnuz)"
+        }
+      ],
+      "status": "rejected",
+      "stage": "max",
+      "error_type": "NotImplementedError",
+      "error": "\"max_all\" not implemented for 'Float8_e4m3fnuz'"
+    },
+    {
+      "dtype": "float8_e4m3fnuz",
+      "shape": [
+        0
+      ],
+      "device": "cpu",
+      "steps": [
+        {
+          "stage": "abs",
+          "dtype": "torch.float8_e4m3fnuz",
+          "shape": [
+            0
+          ],
+          "values": "tensor([], dtype=torch.float8_e4m3fnuz)"
+        }
+      ],
+      "status": "rejected",
+      "stage": "max",
+      "error_type": "RuntimeError",
+      "error": "max(): Expected reduction dim to be specified for input.numel() == 0. Specify the reduction dim with the 'dim' argument."
+    },
+    {
+      "dtype": "float8_e4m3fnuz",
+      "shape": [],
+      "device": "cpu",
+      "steps": [
+        {
+          "stage": "abs",
+          "dtype": "torch.float8_e4m3fnuz",
+          "shape": [],
+          "values": "tensor(1., dtype=torch.float8_e4m3fnuz)"
+        }
+      ],
+      "status": "rejected",
+      "stage": "max",
+      "error_type": "NotImplementedError",
+      "error": "\"max_all\" not implemented for 'Float8_e4m3fnuz'"
+    },
+    {
+      "dtype": "float8_e5m2fnuz",
+      "shape": [
+        3
+      ],
+      "device": "cpu",
+      "steps": [
+        {
+          "stage": "abs",
+          "dtype": "torch.float8_e5m2fnuz",
+          "shape": [
+            3
+          ],
+          "values": "tensor([2., 0., 1.], dtype=torch.float8_e5m2fnuz)"
+        }
+      ],
+      "status": "rejected",
+      "stage": "max",
+      "error_type": "NotImplementedError",
+      "error": "\"max_all\" not implemented for 'Float8_e5m2fnuz'"
+    },
+    {
+      "dtype": "float8_e5m2fnuz",
+      "shape": [
+        0
+      ],
+      "device": "cpu",
+      "steps": [
+        {
+          "stage": "abs",
+          "dtype": "torch.float8_e5m2fnuz",
+          "shape": [
+            0
+          ],
+          "values": "tensor([], dtype=torch.float8_e5m2fnuz)"
+        }
+      ],
+      "status": "rejected",
+      "stage": "max",
+      "error_type": "RuntimeError",
+      "error": "max(): Expected reduction dim to be specified for input.numel() == 0. Specify the reduction dim with the 'dim' argument."
+    },
+    {
+      "dtype": "float8_e5m2fnuz",
+      "shape": [],
+      "device": "cpu",
+      "steps": [
+        {
+          "stage": "abs",
+          "dtype": "torch.float8_e5m2fnuz",
+          "shape": [],
+          "values": "tensor(1., dtype=torch.float8_e5m2fnuz)"
+        }
+      ],
+      "status": "rejected",
+      "stage": "max",
+      "error_type": "NotImplementedError",
+      "error": "\"max_all\" not implemented for 'Float8_e5m2fnuz'"
+    },
+    {
+      "dtype": "float8_e8m0fnu",
+      "shape": [
+        3
+      ],
+      "device": "cpu",
+      "steps": [],
+      "status": "rejected",
+      "stage": "abs",
+      "error_type": "NotImplementedError",
+      "error": "\"abs_cpu\" not implemented for 'Float8_e8m0fnu'"
+    },
+    {
+      "dtype": "float8_e8m0fnu",
+      "shape": [
+        0
+      ],
+      "device": "cpu",
+      "steps": [],
+      "status": "rejected",
+      "stage": "abs",
+      "error_type": "NotImplementedError",
+      "error": "\"abs_cpu\" not implemented for 'Float8_e8m0fnu'"
+    },
+    {
+      "dtype": "float8_e8m0fnu",
+      "shape": [],
+      "device": "cpu",
+      "steps": [],
+      "status": "rejected",
+      "stage": "abs",
+      "error_type": "NotImplementedError",
+      "error": "\"abs_cpu\" not implemented for 'Float8_e8m0fnu'"
+    },
+    {
+      "dtype": "float4_e2m1fn_x2",
+      "shape": [
+        3
+      ],
+      "device": "cpu",
+      "steps": [],
+      "status": "rejected",
+      "stage": "input_construction",
+      "error_type": "NotImplementedError",
+      "error": "\"copy_\" not implemented for 'Float4_e2m1fn_x2'"
+    },
+    {
+      "dtype": "float4_e2m1fn_x2",
+      "shape": [
+        0
+      ],
+      "device": "cpu",
+      "steps": [],
+      "status": "rejected",
+      "stage": "abs",
+      "error_type": "NotImplementedError",
+      "error": "\"abs_cpu\" not implemented for 'Float4_e2m1fn_x2'"
+    },
+    {
+      "dtype": "float4_e2m1fn_x2",
+      "shape": [],
+      "device": "cpu",
+      "steps": [],
+      "status": "rejected",
+      "stage": "input_construction",
+      "error_type": "NotImplementedError",
+      "error": "\"copy_\" not implemented for 'Float4_e2m1fn_x2'"
+    }
+  ]
+}

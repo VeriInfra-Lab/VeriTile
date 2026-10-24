@@ -1,0 +1,241 @@
+{
+  "source": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/quantize_global/quantize_global.py",
+  "source_sha256": "163f6e73234587c1d05763ed60ccc1ac4ca7d7d384f18b7af17399509205032f",
+  "autotuner_source": "/usr/local/lib/python3.12/site-packages/triton/runtime/autotuner.py",
+  "autotuner_sha256": "40f5e142806219942585a16742e9f3721d5bfef88145b571cf389f9aec6460bb",
+  "records": [
+    {
+      "repetitions": 1,
+      "fail_first": false,
+      "cache_miss_events": [
+        {
+          "block": 1024,
+          "before": 0,
+          "after": 1
+        },
+        {
+          "block": 2048,
+          "before": 1,
+          "after": 2
+        },
+        {
+          "block": 2048,
+          "before": 2,
+          "after": 3
+        }
+      ],
+      "cache_hit_event": {
+        "block": 2048,
+        "before": 3,
+        "after": 4
+      }
+    },
+    {
+      "repetitions": 1,
+      "fail_first": true,
+      "cache_miss_events": [
+        {
+          "block": 1024,
+          "failed": "OutOfResources",
+          "version": 0
+        },
+        {
+          "block": 2048,
+          "before": 0,
+          "after": 1
+        },
+        {
+          "block": 2048,
+          "before": 1,
+          "after": 2
+        }
+      ],
+      "cache_hit_event": {
+        "block": 2048,
+        "before": 2,
+        "after": 3
+      }
+    },
+    {
+      "repetitions": 2,
+      "fail_first": false,
+      "cache_miss_events": [
+        {
+          "block": 1024,
+          "before": 0,
+          "after": 1
+        },
+        {
+          "block": 1024,
+          "before": 1,
+          "after": 2
+        },
+        {
+          "block": 2048,
+          "before": 2,
+          "after": 3
+        },
+        {
+          "block": 2048,
+          "before": 3,
+          "after": 4
+        },
+        {
+          "block": 2048,
+          "before": 4,
+          "after": 5
+        }
+      ],
+      "cache_hit_event": {
+        "block": 2048,
+        "before": 5,
+        "after": 6
+      }
+    },
+    {
+      "repetitions": 2,
+      "fail_first": true,
+      "cache_miss_events": [
+        {
+          "block": 1024,
+          "failed": "OutOfResources",
+          "version": 0
+        },
+        {
+          "block": 2048,
+          "before": 0,
+          "after": 1
+        },
+        {
+          "block": 2048,
+          "before": 1,
+          "after": 2
+        },
+        {
+          "block": 2048,
+          "before": 2,
+          "after": 3
+        }
+      ],
+      "cache_hit_event": {
+        "block": 2048,
+        "before": 3,
+        "after": 4
+      }
+    },
+    {
+      "repetitions": 5,
+      "fail_first": false,
+      "cache_miss_events": [
+        {
+          "block": 1024,
+          "before": 0,
+          "after": 1
+        },
+        {
+          "block": 1024,
+          "before": 1,
+          "after": 2
+        },
+        {
+          "block": 1024,
+          "before": 2,
+          "after": 3
+        },
+        {
+          "block": 1024,
+          "before": 3,
+          "after": 4
+        },
+        {
+          "block": 1024,
+          "before": 4,
+          "after": 5
+        },
+        {
+          "block": 2048,
+          "before": 5,
+          "after": 6
+        },
+        {
+          "block": 2048,
+          "before": 6,
+          "after": 7
+        },
+        {
+          "block": 2048,
+          "before": 7,
+          "after": 8
+        },
+        {
+          "block": 2048,
+          "before": 8,
+          "after": 9
+        },
+        {
+          "block": 2048,
+          "before": 9,
+          "after": 10
+        },
+        {
+          "block": 2048,
+          "before": 10,
+          "after": 11
+        }
+      ],
+      "cache_hit_event": {
+        "block": 2048,
+        "before": 11,
+        "after": 12
+      }
+    },
+    {
+      "repetitions": 5,
+      "fail_first": true,
+      "cache_miss_events": [
+        {
+          "block": 1024,
+          "failed": "OutOfResources",
+          "version": 0
+        },
+        {
+          "block": 2048,
+          "before": 0,
+          "after": 1
+        },
+        {
+          "block": 2048,
+          "before": 1,
+          "after": 2
+        },
+        {
+          "block": 2048,
+          "before": 2,
+          "after": 3
+        },
+        {
+          "block": 2048,
+          "before": 3,
+          "after": 4
+        },
+        {
+          "block": 2048,
+          "before": 4,
+          "after": 5
+        },
+        {
+          "block": 2048,
+          "before": 5,
+          "after": 6
+        }
+      ],
+      "cache_hit_event": {
+        "block": 2048,
+        "before": 6,
+        "after": 7
+      }
+    }
+  ],
+  "all_passed": true,
+  "boundary": "Actual installed Autotuner with instrumented kernel launch and benchmark primitives; tests scheduling, argument identity, repeated writes, swallowed resource failure, final choice and cache hit. No GPU calls."
+}

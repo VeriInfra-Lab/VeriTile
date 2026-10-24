@@ -1,0 +1,419 @@
+{
+  "schema": 1,
+  "sources": {
+    "token_softmax_bloom": {
+      "path": "bench/tritonbench_g/token_softmax_bloom/token_softmax_bloom.py",
+      "sha256": "043577948fab74005f05d1824b68df2d65c5b26d4a4f47097676f7ac48118e84",
+      "kernel_lines": [
+        7,
+        32
+      ],
+      "ast_sha256": "74130ff0ae942741cb80335d41af840fd248156c9f72aabaaab84200f5dd13aa",
+      "extracted_path": "evidence/frontend/token_softmax_bloom_kernel.py",
+      "extracted_sha256": "e7a9580ea795481afad959f0585907111ebd44f161528096a22ea1df09771e7a",
+      "ast_identical": true,
+      "original_module_imported": false
+    },
+    "token_softmax_llama": {
+      "path": "bench/tritonbench_g/token_softmax_llama/token_softmax_llama.py",
+      "sha256": "0fa02ee678899b4524478c77876bd07c331494faf2320e76f5f7669d458a1f41",
+      "kernel_lines": [
+        7,
+        32
+      ],
+      "ast_sha256": "74130ff0ae942741cb80335d41af840fd248156c9f72aabaaab84200f5dd13aa",
+      "extracted_path": "evidence/frontend/token_softmax_llama_kernel.py",
+      "extracted_sha256": "e7a9580ea795481afad959f0585907111ebd44f161528096a22ea1df09771e7a",
+      "ast_identical": true,
+      "original_module_imported": false
+    }
+  },
+  "kernel_ast_identical_between_tasks": true,
+  "profiles": [
+    {
+      "task": "token_softmax_bloom",
+      "input_dtype": "fp16",
+      "output_dtype": "fp16",
+      "signature": {
+        "Logics": "*fp16",
+        "B_Start_Loc": "*i32",
+        "B_Seqlen": "*i32",
+        "Prob_Out": "*fp16",
+        "stride_logic_h": "i32",
+        "stride_logic_bs": "i32",
+        "stride_prob_h": "i32",
+        "stride_prob_bs": "i32"
+      },
+      "status": "frontend_generated",
+      "ttir_path": "evidence/frontend/token_softmax_bloom__fp16__fp16.raw.ttir",
+      "ttir_sha256": "da2dbd61208f80b74be8da59beb379636afd4177d0a0a42df6a444e6f70b16b9"
+    },
+    {
+      "task": "token_softmax_bloom",
+      "input_dtype": "fp16",
+      "output_dtype": "bf16",
+      "signature": {
+        "Logics": "*fp16",
+        "B_Start_Loc": "*i32",
+        "B_Seqlen": "*i32",
+        "Prob_Out": "*bf16",
+        "stride_logic_h": "i32",
+        "stride_logic_bs": "i32",
+        "stride_prob_h": "i32",
+        "stride_prob_bs": "i32"
+      },
+      "status": "frontend_generated",
+      "ttir_path": "evidence/frontend/token_softmax_bloom__fp16__bf16.raw.ttir",
+      "ttir_sha256": "e4a88436f945b70453417e55a5d5ab9326c828b9c1edbb005d989e289a777b7c"
+    },
+    {
+      "task": "token_softmax_bloom",
+      "input_dtype": "fp16",
+      "output_dtype": "fp32",
+      "signature": {
+        "Logics": "*fp16",
+        "B_Start_Loc": "*i32",
+        "B_Seqlen": "*i32",
+        "Prob_Out": "*fp32",
+        "stride_logic_h": "i32",
+        "stride_logic_bs": "i32",
+        "stride_prob_h": "i32",
+        "stride_prob_bs": "i32"
+      },
+      "status": "frontend_generated",
+      "ttir_path": "evidence/frontend/token_softmax_bloom__fp16__fp32.raw.ttir",
+      "ttir_sha256": "ed9d8691fbb1b4abde145f944603614421e586b013738004834b08b39545d1f6"
+    },
+    {
+      "task": "token_softmax_bloom",
+      "input_dtype": "bf16",
+      "output_dtype": "fp16",
+      "signature": {
+        "Logics": "*bf16",
+        "B_Start_Loc": "*i32",
+        "B_Seqlen": "*i32",
+        "Prob_Out": "*fp16",
+        "stride_logic_h": "i32",
+        "stride_logic_bs": "i32",
+        "stride_prob_h": "i32",
+        "stride_prob_bs": "i32"
+      },
+      "status": "frontend_generated",
+      "ttir_path": "evidence/frontend/token_softmax_bloom__bf16__fp16.raw.ttir",
+      "ttir_sha256": "7136d33905b675848606843617eca8aa0d9545b5e7f8630df686c23d95a26a3e"
+    },
+    {
+      "task": "token_softmax_bloom",
+      "input_dtype": "bf16",
+      "output_dtype": "bf16",
+      "signature": {
+        "Logics": "*bf16",
+        "B_Start_Loc": "*i32",
+        "B_Seqlen": "*i32",
+        "Prob_Out": "*bf16",
+        "stride_logic_h": "i32",
+        "stride_logic_bs": "i32",
+        "stride_prob_h": "i32",
+        "stride_prob_bs": "i32"
+      },
+      "status": "frontend_generated",
+      "ttir_path": "evidence/frontend/token_softmax_bloom__bf16__bf16.raw.ttir",
+      "ttir_sha256": "a28893af974697705e9aa7f73a14e9a65024e36205554aaa532c5fabdba58f77"
+    },
+    {
+      "task": "token_softmax_bloom",
+      "input_dtype": "bf16",
+      "output_dtype": "fp32",
+      "signature": {
+        "Logics": "*bf16",
+        "B_Start_Loc": "*i32",
+        "B_Seqlen": "*i32",
+        "Prob_Out": "*fp32",
+        "stride_logic_h": "i32",
+        "stride_logic_bs": "i32",
+        "stride_prob_h": "i32",
+        "stride_prob_bs": "i32"
+      },
+      "status": "frontend_generated",
+      "ttir_path": "evidence/frontend/token_softmax_bloom__bf16__fp32.raw.ttir",
+      "ttir_sha256": "a6b55bbf68483441c360bcecbd2a88e4c1b52421716119d19858debca59c7664"
+    },
+    {
+      "task": "token_softmax_bloom",
+      "input_dtype": "fp32",
+      "output_dtype": "fp16",
+      "signature": {
+        "Logics": "*fp32",
+        "B_Start_Loc": "*i32",
+        "B_Seqlen": "*i32",
+        "Prob_Out": "*fp16",
+        "stride_logic_h": "i32",
+        "stride_logic_bs": "i32",
+        "stride_prob_h": "i32",
+        "stride_prob_bs": "i32"
+      },
+      "status": "frontend_generated",
+      "ttir_path": "evidence/frontend/token_softmax_bloom__fp32__fp16.raw.ttir",
+      "ttir_sha256": "8da3a0fe142714967d859c3f650ba972d65c61a8cb700b98acb9fc29ecfa1435"
+    },
+    {
+      "task": "token_softmax_bloom",
+      "input_dtype": "fp32",
+      "output_dtype": "bf16",
+      "signature": {
+        "Logics": "*fp32",
+        "B_Start_Loc": "*i32",
+        "B_Seqlen": "*i32",
+        "Prob_Out": "*bf16",
+        "stride_logic_h": "i32",
+        "stride_logic_bs": "i32",
+        "stride_prob_h": "i32",
+        "stride_prob_bs": "i32"
+      },
+      "status": "frontend_generated",
+      "ttir_path": "evidence/frontend/token_softmax_bloom__fp32__bf16.raw.ttir",
+      "ttir_sha256": "f22b1fbbd7ff3a19df01b00b67014ef5685ecb06bafd45017cf4e9ee93ddb51a"
+    },
+    {
+      "task": "token_softmax_bloom",
+      "input_dtype": "fp32",
+      "output_dtype": "fp32",
+      "signature": {
+        "Logics": "*fp32",
+        "B_Start_Loc": "*i32",
+        "B_Seqlen": "*i32",
+        "Prob_Out": "*fp32",
+        "stride_logic_h": "i32",
+        "stride_logic_bs": "i32",
+        "stride_prob_h": "i32",
+        "stride_prob_bs": "i32"
+      },
+      "status": "frontend_generated",
+      "ttir_path": "evidence/frontend/token_softmax_bloom__fp32__fp32.raw.ttir",
+      "ttir_sha256": "13e184c187ca247c8a123a6a9cca3d6c1f579b82af03faf1d49add8c07a89ee1"
+    },
+    {
+      "task": "token_softmax_llama",
+      "input_dtype": "fp16",
+      "output_dtype": "fp16",
+      "signature": {
+        "Logics": "*fp16",
+        "B_Start_Loc": "*i32",
+        "B_Seqlen": "*i32",
+        "Prob_Out": "*fp16",
+        "stride_logic_h": "i32",
+        "stride_logic_bs": "i32",
+        "stride_prob_h": "i32",
+        "stride_prob_bs": "i32"
+      },
+      "status": "frontend_generated",
+      "ttir_path": "evidence/frontend/token_softmax_llama__fp16__fp16.raw.ttir",
+      "ttir_sha256": "8493f057231f970ec00bca54194e71598031b25f8469468a608196bb456106f0"
+    },
+    {
+      "task": "token_softmax_llama",
+      "input_dtype": "fp16",
+      "output_dtype": "bf16",
+      "signature": {
+        "Logics": "*fp16",
+        "B_Start_Loc": "*i32",
+        "B_Seqlen": "*i32",
+        "Prob_Out": "*bf16",
+        "stride_logic_h": "i32",
+        "stride_logic_bs": "i32",
+        "stride_prob_h": "i32",
+        "stride_prob_bs": "i32"
+      },
+      "status": "frontend_generated",
+      "ttir_path": "evidence/frontend/token_softmax_llama__fp16__bf16.raw.ttir",
+      "ttir_sha256": "ff7b955d150c1da60f3ee7f20a3cefd4ac3da929f862f135fb4788b3a8e2ee0d"
+    },
+    {
+      "task": "token_softmax_llama",
+      "input_dtype": "fp16",
+      "output_dtype": "fp32",
+      "signature": {
+        "Logics": "*fp16",
+        "B_Start_Loc": "*i32",
+        "B_Seqlen": "*i32",
+        "Prob_Out": "*fp32",
+        "stride_logic_h": "i32",
+        "stride_logic_bs": "i32",
+        "stride_prob_h": "i32",
+        "stride_prob_bs": "i32"
+      },
+      "status": "frontend_generated",
+      "ttir_path": "evidence/frontend/token_softmax_llama__fp16__fp32.raw.ttir",
+      "ttir_sha256": "3106a1399682fd1ad17c7275c1aeb8321a5e1b48ea14695dcf87de10fd297f98"
+    },
+    {
+      "task": "token_softmax_llama",
+      "input_dtype": "bf16",
+      "output_dtype": "fp16",
+      "signature": {
+        "Logics": "*bf16",
+        "B_Start_Loc": "*i32",
+        "B_Seqlen": "*i32",
+        "Prob_Out": "*fp16",
+        "stride_logic_h": "i32",
+        "stride_logic_bs": "i32",
+        "stride_prob_h": "i32",
+        "stride_prob_bs": "i32"
+      },
+      "status": "frontend_generated",
+      "ttir_path": "evidence/frontend/token_softmax_llama__bf16__fp16.raw.ttir",
+      "ttir_sha256": "c1e54ce0eadad0154f6cce2b94d871c0c2e01cb718423398c597fe363f5933dc"
+    },
+    {
+      "task": "token_softmax_llama",
+      "input_dtype": "bf16",
+      "output_dtype": "bf16",
+      "signature": {
+        "Logics": "*bf16",
+        "B_Start_Loc": "*i32",
+        "B_Seqlen": "*i32",
+        "Prob_Out": "*bf16",
+        "stride_logic_h": "i32",
+        "stride_logic_bs": "i32",
+        "stride_prob_h": "i32",
+        "stride_prob_bs": "i32"
+      },
+      "status": "frontend_generated",
+      "ttir_path": "evidence/frontend/token_softmax_llama__bf16__bf16.raw.ttir",
+      "ttir_sha256": "10e881b03afb4c1f4b2e1906aab82a0bfbf31deb9bffc56eaa4c046ed9a8b563"
+    },
+    {
+      "task": "token_softmax_llama",
+      "input_dtype": "bf16",
+      "output_dtype": "fp32",
+      "signature": {
+        "Logics": "*bf16",
+        "B_Start_Loc": "*i32",
+        "B_Seqlen": "*i32",
+        "Prob_Out": "*fp32",
+        "stride_logic_h": "i32",
+        "stride_logic_bs": "i32",
+        "stride_prob_h": "i32",
+        "stride_prob_bs": "i32"
+      },
+      "status": "frontend_generated",
+      "ttir_path": "evidence/frontend/token_softmax_llama__bf16__fp32.raw.ttir",
+      "ttir_sha256": "2ca0bbb9cbec648bee3e9d1c543db20fa7e5e6024a2fb6b50e8bd9b38525dc8c"
+    },
+    {
+      "task": "token_softmax_llama",
+      "input_dtype": "fp32",
+      "output_dtype": "fp16",
+      "signature": {
+        "Logics": "*fp32",
+        "B_Start_Loc": "*i32",
+        "B_Seqlen": "*i32",
+        "Prob_Out": "*fp16",
+        "stride_logic_h": "i32",
+        "stride_logic_bs": "i32",
+        "stride_prob_h": "i32",
+        "stride_prob_bs": "i32"
+      },
+      "status": "frontend_generated",
+      "ttir_path": "evidence/frontend/token_softmax_llama__fp32__fp16.raw.ttir",
+      "ttir_sha256": "187aa7a238abfa280149fd75e5355762159b04854ecf5a833ea085d1429343e5"
+    },
+    {
+      "task": "token_softmax_llama",
+      "input_dtype": "fp32",
+      "output_dtype": "bf16",
+      "signature": {
+        "Logics": "*fp32",
+        "B_Start_Loc": "*i32",
+        "B_Seqlen": "*i32",
+        "Prob_Out": "*bf16",
+        "stride_logic_h": "i32",
+        "stride_logic_bs": "i32",
+        "stride_prob_h": "i32",
+        "stride_prob_bs": "i32"
+      },
+      "status": "frontend_generated",
+      "ttir_path": "evidence/frontend/token_softmax_llama__fp32__bf16.raw.ttir",
+      "ttir_sha256": "a8c8d45092bce4b5a070628d4c68b0945c3f5927ff5bf0c1b45dba3d2b980250"
+    },
+    {
+      "task": "token_softmax_llama",
+      "input_dtype": "fp32",
+      "output_dtype": "fp32",
+      "signature": {
+        "Logics": "*fp32",
+        "B_Start_Loc": "*i32",
+        "B_Seqlen": "*i32",
+        "Prob_Out": "*fp32",
+        "stride_logic_h": "i32",
+        "stride_logic_bs": "i32",
+        "stride_prob_h": "i32",
+        "stride_prob_bs": "i32"
+      },
+      "status": "frontend_generated",
+      "ttir_path": "evidence/frontend/token_softmax_llama__fp32__fp32.raw.ttir",
+      "ttir_sha256": "663cff155a95253d03625fbbdf3af02bb14d318de2d187f3c12876ef0c235109"
+    }
+  ],
+  "frontend_successes": 18,
+  "environment": {
+    "python": "3.12.13 (main, Aug 20 2026, 17:28:00) [GCC 11.4.0]",
+    "triton": "3.7.1",
+    "semantic_path": "/usr/local/lib/python3.12/site-packages/triton/language/semantic.py",
+    "semantic_sha256": "22b7669ff8ba591fc1540ce01a4030cf54aa2dccfdb21c2d31fa55d5cab77c7c"
+  },
+  "target": {
+    "backend": "cuda",
+    "architecture": "sm90",
+    "warp_size": 32
+  },
+  "options": {
+    "num_warps": 4,
+    "num_ctas": 1,
+    "num_stages": 3,
+    "warp_size": 32,
+    "maxnreg": null,
+    "ptx_version": null,
+    "ptx_options": null,
+    "ir_override": null,
+    "enable_fp_fusion": true,
+    "enable_reflect_ftz": true,
+    "launch_cooperative_grid": false,
+    "launch_pdl": false,
+    "supported_fp8_dtypes": [
+      "fp8e4b15",
+      "fp8e4nv",
+      "fp8e5"
+    ],
+    "deprecated_fp8_dot_operand_dtypes": [
+      "fp8e4b15"
+    ],
+    "default_dot_input_precision": "tf32",
+    "allowed_dot_input_precisions": [
+      "tf32",
+      "tf32x3",
+      "ieee",
+      "bf16x3",
+      "bf16x6"
+    ],
+    "max_num_imprecise_acc_default": 1073741824,
+    "extern_libs": [
+      [
+        "libdevice",
+        "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+      ]
+    ],
+    "debug": false,
+    "backend_name": "cuda",
+    "sanitize_overflow": true,
+    "arch": "sm90",
+    "instrumentation_mode": ""
+  },
+  "constexprs": {
+    "BLOCK_SIZE": 1024
+  },
+  "original_module_imported": false,
+  "native_backend_compiled": false,
+  "gpu_execution": false,
+  "scope": "Only the selected 3x3 floating-storage routes at this frontend configuration are observed. No compiler correctness, native numerical conformance, host grid composition, or whole-program acceptance follows."
+}

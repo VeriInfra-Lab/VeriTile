@@ -1,0 +1,81 @@
+{
+  "status": "producer_domain_review_for_independent_root_review",
+  "source": "bench/tritonbench_g/vector_addition_custom/vector_addition_custom.py",
+  "entrypoint": "custom_add",
+  "target": "Frozen canonical17 Torch dtype signatures, Triton3.7.1, CUDA sm90 frontend, ordinary debug=false/instrumentation empty native primitives.",
+  "source_order": [
+    "torch.empty_like(a), fallible, output contents arbitrary",
+    "c.size(0), rank0 raises after allocation",
+    "BLOCK=16",
+    "grid=(triton.cdiv(size,16),)",
+    "_add_kernel[grid](a,b,c,size,BLOCK=16)",
+    "return c after successful launch"
+  ],
+  "kernel_binding": {
+    "original_annotations": "A:tl.tensor,B:tl.tensor,C:tl.tensor,size:tl.int32,BLOCK:tl.constexpr retained in frontend AST extraction",
+    "lean_original": "Existing unchanged Kernels._add_kernel directly lowered via lowerBody; original_ast_lowering proves extraction",
+    "execution": "Register index assignment; offsets; complete masked a tile load; complete masked b tile load; storeAdd evaluates concrete typed source scalar promotion/add/store conversion with captured operands; no supplied final-output callback",
+    "numeric_scalar_reuse": "All189 raw frontend arithmetic/conversion/store fingerprints identical to reviewed vector scalar paths after only SSA/location/block-extent normalization. Existing B1024 grid/host execution is not used."
+  },
+  "outcomes": {
+    "allocation_error": "Only empty_like event; fallible allocator state retained.",
+    "rank_zero_error": "Allocation succeeds, sizeZero event raises; no block/grid/launch.",
+    "prepare_error": "After size/block/grid/launch event. Ordinary JIT current-device/stream/binder preparation fails before frontend.",
+    "signature_rejected": "Frozen matrix64 signatures reject at first A/B unsupported fnuz argument after prepare.",
+    "addition_rejected": "36 canonical fp8+integer/bool pairs reject addition after accepted signature.",
+    "native_setup_error": "For189 admitted frontend routes, ordinary target lowering/load/argument/launch setup can fail; its reason is retained. No kernel value or memory-result callback.",
+    "successful_zero_grid": "Actual allocator output storage/data-pointer binding and empty_like stride query are retained in FullSuccess returned metadata. These are ordinary metadata equalities, not access validity. No scalar/memory operation, no ValueDomain, pointer/alignment/permission/CUDA/owning-device premise. Actual native preparation/setup still required; CPU null pointer may be accepted by native extractPointer.",
+    "successful_positive_grid": "SafeAPI physical view metadata and finite indices; permissions in current launch device address space; concrete typed ValueDomain for active inputs/conversions; output fresh and storage-disjoint from both inputs."
+  },
+  "extent_and_tail": {
+    "size": "first output shape dimension; not numel",
+    "rank0": "covered failure after allocation",
+    "shape_0_m": "zero grid, unchanged allocated contents",
+    "shape_m_0_positive_m": "positive first dimension with zero allocation: outside defined physical access domain; no fabricated safe result/native rollback",
+    "higher_rank": "Only first size flat storage cells written. Tail is arbitrary empty_like contents, proved unchanged. e.g.[3,7] writes3 of21 cells, not21 elementwise sums.",
+    "strides": "Original source ignores logical strides; actual flat storageOffset/data_ptr spans used for all three tensors. c retains actual empty_like preserve-format strides.",
+    "b_short": "b.numel is unrestricted when underlying readable backing span covers size."
+  },
+  "physical_contract": {
+    "metadata": "AllocationContract and FullSuccess bind actual returned output storage base/extent, dataPointer and empty_like preserve-format strides universally, including zero grids. Positive SafeAPI also binds input/output views, storageOffset and shape/product metadata. GPU owning device tags are bound when present; CPU views do not invent a GPU owner.",
+    "widths": "1,2,4,8 bytes per canonical dtype, bool raw byte normalization/store path preserved",
+    "indices": "0<size<2^31, B16, all launched pid*16+lane nonnegative signed_i32; sign-extension and unsigned64 scaled pointers agree with actual addresses",
+    "masked_tail": "All launched pointer expressions no-wrap through rounded16 endpoint; only active bytes must fit allocations and readable/writable permissions",
+    "alignment": "Natural element width for ordinary typed load/store primitive ABI",
+    "current_device": "ops.launchDevice=context.currentDevice for positive launches. Permissions express actual current-address-space accessibility, including valid peer/mapped memory; no source isCUDA or same-device assertion.",
+    "aliasing": "a and b may overlap arbitrarily. Fresh c backing allocation disjoint from both.",
+    "frames": "Allocation preserves existing bytes outside fresh actual allocation. Kernel preserves every byte outside c active prefix, every output cell i>=size, and all input reads.",
+    "schedule": "Any complete active-lane schedule, including repeated writes of same initial-memory result, has same final observed active output; source interpreter also executes exact tile load-before-store order."
+  },
+  "value_domain": {
+    "shared": "Tagged integer/raw bool byte and finite-width floating input representation; all defined IEEE encodings including nonfinite accepted where operation/store is defined.",
+    "mixed_float_integer": "Out-of-range/NaN-to-integer output conversions excluded by existing OutputDefined, and independent specifiedCell removes undefined policies. This is structural applicability, never a numerical deferral.",
+    "wide": "29 concrete fp64 routes,20 floating outputs and9 integer/bool outputs. Ready carries exact input types and OutputDefined for wide output conversion; no undefined result supplied."
+  },
+  "trusted_ordinary_primitives": [
+    "Torch allocation and metadata",
+    "JIT prepare/current device and stream/binder",
+    "Frozen target frontend classification and ordinary native lowering/load/argument/launch setup",
+    "Typed physical load/store with local same/disjoint/frame laws and stable allocation permissions"
+  ],
+  "numeric_deferral": "Only308 exact scalar operations,616 positive one/multiple-block case bindings in43 families; errors, rank0 and zero-grid have no numerical obligations. No compiler/allocator/MMU/scheduler implementation proof required; no structural omission deferred.",
+  "tests": {
+    "frontend_pairs": 289,
+    "frontend_admitted": 189,
+    "signature_rejects": 64,
+    "addition_rejects": 36,
+    "scalar_reuse_fingerprints": 189,
+    "exact_wrapper_cpu_metadata_cases": 10,
+    "dtype_layout_metadata_cases": 68,
+    "independent_byte_memory_schedule_cases": 128,
+    "index_boundaries": 9
+  },
+  "harness": "test_add non-JIT/no production caller: four initial examples plus four dictionary calls with final empty tensors. Import-time result_gold remains test harness; no RNG implementation obligation.",
+  "not_claimed": [
+    "Native scalar conformance/hardware kernel validation",
+    "Target portability beyond frozen ordinary primitive profile",
+    "Safe behavior for OOB/misaligned/unavailable physical memory or undefined active conversion",
+    "Canonical dispatch for complex/quantized/shell Torch dtypes outside the frozen17 canonical signature domain",
+    "Producer self-approval or original-program completion increment"
+  ]
+}

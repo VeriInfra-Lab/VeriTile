@@ -1,0 +1,1457 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "task": "triton_linear_activation complete accepted-body values; separate actual compiled dotAcc graph",
+  "frozen_at_utc": "2026-10-14T22:07:21.858881+00:00",
+  "integration_status": "Private overlay only. Parent owns integration. Includes already separately reviewed old-main maximum compatibility patch; avoid applying that hunk twice.",
+  "required_core_receipt_sha256": "a1f2ce4adbf80b5ea3aac8b769c849eaa7eec7128648a59db2caada1f32b8395",
+  "required_core_patch_sha256": "061d9eef2b330a44dc2c9416568700264ef65f17245514f36b47feeb8668f339",
+  "changed_files": [
+    {
+      "path": "bench/tritonbench_g/triton_linear_activation/FPCorrect.lean",
+      "before_sha256": null,
+      "after_sha256": "424857070abb39e8a53e4e831a82e33a725b9bbd4cde7f2c10533c5e2597b83f"
+    },
+    {
+      "path": "bench/tritonbench_g/triton_linear_activation/FPValueScope.md",
+      "before_sha256": null,
+      "after_sha256": "7aa1ffc441d8c26df08d12f67d0825d8a96d8323ce6edd83ece59d3f3652d278"
+    },
+    {
+      "path": "bench/tritonbench_g/triton_linear_activation/Proofs/FPContract.lean",
+      "before_sha256": null,
+      "after_sha256": "b6020205bf5aaab1d49bc51f39c9382c05b2b13976576a32219e624d82f698e5"
+    },
+    {
+      "path": "bench/tritonbench_g/triton_linear_activation/Proofs/FPLiterals.lean",
+      "before_sha256": null,
+      "after_sha256": "43a408f4f25a9a9ec14eb47b02a41d8e8650aac93cd34d33413b28e0537d24ff"
+    },
+    {
+      "path": "bench/tritonbench_g/triton_linear_activation/Proofs/FPLoop.lean",
+      "before_sha256": null,
+      "after_sha256": "7f20e45eda0701ad07246250a9fa05914efc2257be658f54709c856ad430c675"
+    },
+    {
+      "path": "bench/tritonbench_g/triton_linear_activation/Proofs/FPPrefix.lean",
+      "before_sha256": null,
+      "after_sha256": "e97c7ea0986900854ee1f17b911b5ce4e5006b5859f938da797c62bbe1326a49"
+    },
+    {
+      "path": "bench/tritonbench_g/triton_linear_activation/Proofs/FPReference.lean",
+      "before_sha256": null,
+      "after_sha256": "0ef21e121b7393e1284a1fc98508054915201f5cf14879b9a5d59b2fd39ce102"
+    },
+    {
+      "path": "bench/tritonbench_g/triton_linear_activation/Proofs/FPShape.lean",
+      "before_sha256": null,
+      "after_sha256": "5fe9f56d56b6ed1d29a77e9e9d20d74ff565ca7b066d6fed5b46ed464274b441"
+    },
+    {
+      "path": "bench/tritonbench_g/triton_linear_activation/Proofs/FPSoftware.lean",
+      "before_sha256": null,
+      "after_sha256": "7842fc2def333def9eff1eef524f8c2c433a45b43f5eacbd1738ebbf192bc4d3"
+    },
+    {
+      "path": "bench/tritonbench_g/triton_linear_activation/Proofs/FPSource.lean",
+      "before_sha256": null,
+      "after_sha256": "7042189b2bc35ed9a94b9fd934a4e4619f6c7dc7349723325a658b01099c3f9f"
+    },
+    {
+      "path": "bench/tritonbench_g/triton_linear_activation/Proofs/FPTail.lean",
+      "before_sha256": null,
+      "after_sha256": "643971d20faf544ad38bce07934b307f3424986025aada5aaba26b55b489c918"
+    },
+    {
+      "path": "bench/tritonbench_g/triton_linear_activation/Proofs/FPWitness.lean",
+      "before_sha256": null,
+      "after_sha256": "0d4c4ce5ba4f607df894937bc1cac28bce97ffcfdc49e757a867a210cb8eaa28"
+    },
+    {
+      "path": "bench/tritonbench_g/triton_linear_activation/TritonLinearActivation.lean",
+      "before_sha256": "257bee878e09c500706213ddb7868db76fea6cbab79682a262b03356d2aafd6b",
+      "after_sha256": "1b31e65513bee2d6a5c9b1821660d2ebbbcc898f29865066bdf6f87b668db8db"
+    }
+  ],
+  "patch": "value-proof.patch",
+  "patch_sha256": "472fd01edf7ffe39662dbf6e046f15923df40abca39eaacf8deba7d843de278a",
+  "final_build_modules": [
+    "bench.tritonbench_g.sgmv_expand_slice.Proofs.FPSoftware",
+    "bench.tritonbench_g.sgmv_expand_slice.Proofs.FPFusedSoftware",
+    "bench.tritonbench_g.softmax_reducev.Proofs.FPSoftware",
+    "bench.tritonbench_g.triton_linear_activation.TritonLinearActivation",
+    "bench.tritonbench_g.triton_linear_activation.Proofs.FPSource",
+    "bench.tritonbench_g.triton_linear_activation.Proofs.FPLiterals",
+    "bench.tritonbench_g.triton_linear_activation.Proofs.FPReference",
+    "bench.tritonbench_g.triton_linear_activation.Proofs.FPPrefix",
+    "bench.tritonbench_g.triton_linear_activation.Proofs.FPLoop",
+    "bench.tritonbench_g.triton_linear_activation.Proofs.FPTail",
+    "bench.tritonbench_g.triton_linear_activation.Proofs.FPContract",
+    "bench.tritonbench_g.triton_linear_activation.Proofs.FPShape",
+    "bench.tritonbench_g.triton_linear_activation.Proofs.FPSoftware",
+    "bench.tritonbench_g.triton_linear_activation.Proofs.FPWitness",
+    "bench.tritonbench_g.triton_linear_activation.FPCorrect"
+  ],
+  "final_build_count": 15,
+  "final_task_module_count": 12,
+  "compiled": [
+    {
+      "module": "VeriTile.Triton.Memory.View",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory/View.lean",
+      "source_sha256": "81902179bc5303b70f7e76fa8896df3d3ac0c130e7b25950ab21c546f286f077",
+      "baseline_source_sha256": "81902179bc5303b70f7e76fa8896df3d3ac0c130e7b25950ab21c546f286f077",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.View.log",
+      "log_sha256": "18be43de83742fed98fbf06156e32a50c34cbfcc5101fad82b051332a801d08f",
+      "olean_sha256": "0b07e47b59d6a44d635862d47f4d86918421713ddca2f40ef1ea19ba9b9520a9",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Frame.Basic",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory/Frame/Basic.lean",
+      "source_sha256": "14e010c95c718cb6b994031fab88ee85da4fe0ad623c8adeadf3bb755bc1c593",
+      "baseline_source_sha256": "14e010c95c718cb6b994031fab88ee85da4fe0ad623c8adeadf3bb755bc1c593",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.Frame.Basic.log",
+      "log_sha256": "eb8b2ebe657d99dfb4ddf7888e2991e3408b44a6bc7159b3cd55bd1076fb5f5d",
+      "olean_sha256": "b85a506795b344b2b06d91654cc43feee2837a527f9d02f793de1fc28c09beba",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Frame.Stmt",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory/Frame/Stmt.lean",
+      "source_sha256": "98a4a4032c574773dc719d85d79452c1d1c745f11db296da9ce78019cddbf116",
+      "baseline_source_sha256": "98a4a4032c574773dc719d85d79452c1d1c745f11db296da9ce78019cddbf116",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.Frame.Stmt.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "42ee6fe6d606c083c873509264db8c6628821bf2f00696c6976364a2229d1c6b",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Frame.Kernel",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory/Frame/Kernel.lean",
+      "source_sha256": "d15f68b693226f9d4d6ac64428fca447e973a0141b5310e98026c755a293c0ee",
+      "baseline_source_sha256": "d15f68b693226f9d4d6ac64428fca447e973a0141b5310e98026c755a293c0ee",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.Frame.Kernel.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "7c29f4b8c76cbe52fd8478743333e7e7bcc003e8dedf51e4c65dbde74b7aaef8",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Frame",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory/Frame.lean",
+      "source_sha256": "69ceb0d4ffea1563dcd1dd3a1ea1ca12f7d4f7a1bca192edd7c6a300091ad49e",
+      "baseline_source_sha256": "69ceb0d4ffea1563dcd1dd3a1ea1ca12f7d4f7a1bca192edd7c6a300091ad49e",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.Frame.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "f86d117fa906a7d87ccff6e3fe778676207940f6e2c953277c1ca1f5794b96de",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Footprint",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory/Footprint.lean",
+      "source_sha256": "ef80d79ae760c927093577188f384f31aae7f54527dc67358308389ee0af7eb2",
+      "baseline_source_sha256": "ef80d79ae760c927093577188f384f31aae7f54527dc67358308389ee0af7eb2",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.Footprint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "d90f32433ae68998401c5c492c55a458708da41ed4604fdf6e84c68a332b99dc",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Typing",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory/Typing.lean",
+      "source_sha256": "20ed89f4c6e4040275af913ce63ecc706bcbdb9a5b20ce4cbaed493cdc6542b6",
+      "baseline_source_sha256": "20ed89f4c6e4040275af913ce63ecc706bcbdb9a5b20ce4cbaed493cdc6542b6",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.Typing.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "8a95f89912a78f5d885086541e1abce52e7bd75a0d872d70018e5e9dff9c6db2",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.FlattenTolerant",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory/FlattenTolerant.lean",
+      "source_sha256": "3465fcb1233e1ad47c3f7c89c3377fae203cd168f9cf47c34485ea480f71a66a",
+      "baseline_source_sha256": "3465fcb1233e1ad47c3f7c89c3377fae203cd168f9cf47c34485ea480f71a66a",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.FlattenTolerant.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "861f5f0428874f9810d6a50a57d33ab835fe7d5d2b6a4c4f8401ad089925cd1f",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Layout",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory/Layout.lean",
+      "source_sha256": "e0532314b8f5de6b4abc349368cdf2fd369280ee2ce97eedf364cd12f847996a",
+      "baseline_source_sha256": "e0532314b8f5de6b4abc349368cdf2fd369280ee2ce97eedf364cd12f847996a",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.Layout.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "76254a07f1217e29023d7f9d3df04e4980f4694f5f4c458ce1bc7c3dcef9928d",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.MaskedND",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory/KernelSpec/MaskedND.lean",
+      "source_sha256": "e4056b3085024808ab8fc1e04d3af2381a879fea9374ab0f4751ba9fbdf15532",
+      "baseline_source_sha256": "e4056b3085024808ab8fc1e04d3af2381a879fea9374ab0f4751ba9fbdf15532",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.KernelSpec.MaskedND.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "b446119e6b0b84abbe7f215eedb25e076c026a306cd8ce606b421f58fdf2141d",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.BooleanMasked",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory/KernelSpec/BooleanMasked.lean",
+      "source_sha256": "7dc158c61ed167c2d6dcd50ebfb2285094ee5862195d2f50fe6446ed6fe628fb",
+      "baseline_source_sha256": "7dc158c61ed167c2d6dcd50ebfb2285094ee5862195d2f50fe6446ed6fe628fb",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.KernelSpec.BooleanMasked.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "854b7870a1e65458c6d8e62caedda452b638957392a3dee7ecfe3a4c66273cc0",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Metadata",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory/KernelSpec/Metadata.lean",
+      "source_sha256": "27672a7a080cce048c2556e3f9705abba985fc4c20b3e378e0ea31e929c01009",
+      "baseline_source_sha256": "27672a7a080cce048c2556e3f9705abba985fc4c20b3e378e0ea31e929c01009",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.KernelSpec.Metadata.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "8089851794b910e5534252755a4343d640ac48db2fc30809b84626c062ea8d32",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Scatter",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory/KernelSpec/Scatter.lean",
+      "source_sha256": "e32c3d321b97105b4ce5d192d87c94bed970c38b750f5b26ff10d71a237a4b24",
+      "baseline_source_sha256": "e32c3d321b97105b4ce5d192d87c94bed970c38b750f5b26ff10d71a237a4b24",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.KernelSpec.Scatter.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "80cd3933d784484e7dedd291908f12f2470d921489b93fcca3f25b3f6e45062c",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Gather",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory/KernelSpec/Gather.lean",
+      "source_sha256": "aa6b2a6a0b9cfc873d3194a9ce4c8cad9c1f881e6c0e7454000065d0101ae457",
+      "baseline_source_sha256": "aa6b2a6a0b9cfc873d3194a9ce4c8cad9c1f881e6c0e7454000065d0101ae457",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.KernelSpec.Gather.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "52208b56018457626e3966f4f36bdc69bf2d6279bcfc9d70577fd449ff927f6c",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Grouped",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory/KernelSpec/Grouped.lean",
+      "source_sha256": "809d66cfa5021f0ffc7f569ef5aa1b91edea5afafb56d123f8093ab24c18850f",
+      "baseline_source_sha256": "809d66cfa5021f0ffc7f569ef5aa1b91edea5afafb56d123f8093ab24c18850f",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.KernelSpec.Grouped.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "f9d1889f12c4f0ceba72df61bb7e48eb00b6af02776e3d8a31673c6dac5bec69",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Stream",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory/KernelSpec/Stream.lean",
+      "source_sha256": "308da848372ad8982ece008ea561836d1b2f96bac711cef3436cc859c2aa254e",
+      "baseline_source_sha256": "308da848372ad8982ece008ea561836d1b2f96bac711cef3436cc859c2aa254e",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.KernelSpec.Stream.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "ef760db10a5bbed35d0366e281856c0a6cfa14417e14b29ada6608fbec66a295",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.StreamEmit",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory/KernelSpec/StreamEmit.lean",
+      "source_sha256": "e723e4737a7384bd4ed69011b5d7135d8630f7c540c1848be3d18a8f1c94c02a",
+      "baseline_source_sha256": "e723e4737a7384bd4ed69011b5d7135d8630f7c540c1848be3d18a8f1c94c02a",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.KernelSpec.StreamEmit.log",
+      "log_sha256": "bf6d540f0ceaddcbf4395622aed7f2681d144543dedb56d082bc004de5fa2974",
+      "olean_sha256": "38cf761afb3888a79a9a0c09a5c9b67c90811d148a9ee2fa3144b71b1e752f86",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.StreamAttention",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory/KernelSpec/StreamAttention.lean",
+      "source_sha256": "a3d9812b4dea7ab67edffe5d338f108f91464f79910fb88abed54b9dff2f7a30",
+      "baseline_source_sha256": "a3d9812b4dea7ab67edffe5d338f108f91464f79910fb88abed54b9dff2f7a30",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.KernelSpec.StreamAttention.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "2de3a66af8bbf1cf9cbac8b21bb73f381a87e24bec5918326794e5ce3b479e91",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.StreamAttentionMetadata",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory/KernelSpec/StreamAttentionMetadata.lean",
+      "source_sha256": "c4d582356c4ced27762da21e73b7d22ffea362c2014dd336d1522de988998a99",
+      "baseline_source_sha256": "c4d582356c4ced27762da21e73b7d22ffea362c2014dd336d1522de988998a99",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.KernelSpec.StreamAttentionMetadata.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "5427a8e184ed5efedbe0c375b4a3a53dad3c3cdf33574173639dd52ee88d79fc",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.TileIndex",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory/KernelSpec/TileIndex.lean",
+      "source_sha256": "07294995905ab00ee3c4981cbae5e18bf50796815cd9bd49e93b8d427e72c8b1",
+      "baseline_source_sha256": "07294995905ab00ee3c4981cbae5e18bf50796815cd9bd49e93b8d427e72c8b1",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.KernelSpec.TileIndex.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "b6523b28b41b7d0d28a79e60c7a2bedd3db09bc2f689e78ee46c1d0946bcde07",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Tile",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory/KernelSpec/Tile.lean",
+      "source_sha256": "6056b7cf40200213a953c9249bfc1ecdb81534363fc5686a7538220fbea66872",
+      "baseline_source_sha256": "6056b7cf40200213a953c9249bfc1ecdb81534363fc5686a7538220fbea66872",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.KernelSpec.Tile.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "7e8a9f17374a5098d302cf393d8ec20f61bcdec701b72450e67c088da0131d19",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.TileND",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory/KernelSpec/TileND.lean",
+      "source_sha256": "d1b1fd6fd0be7fb1741e34d6bffec81b1f46db04eb7866db363e2d8cb7b4645a",
+      "baseline_source_sha256": "d1b1fd6fd0be7fb1741e34d6bffec81b1f46db04eb7866db363e2d8cb7b4645a",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.KernelSpec.TileND.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "e924557f3fad17406085eee90f3efc8ff3fff435890a77b77e8e7b83f777be7e",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.TileMetadata",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory/KernelSpec/TileMetadata.lean",
+      "source_sha256": "c457a30724b6288584a6e2e5e8533bcdbf59300eb4b20f8d82ca9be36efbe77c",
+      "baseline_source_sha256": "c457a30724b6288584a6e2e5e8533bcdbf59300eb4b20f8d82ca9be36efbe77c",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.KernelSpec.TileMetadata.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "0a22a2075a0c6da00670e1b480108474919d675c3f47d56ccbac4f11681bd122",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.TileGather",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory/KernelSpec/TileGather.lean",
+      "source_sha256": "964d1e68747a97b25d3f65d1728efc51d913d937ef5cb08e40ba991e99dbf0a9",
+      "baseline_source_sha256": "964d1e68747a97b25d3f65d1728efc51d913d937ef5cb08e40ba991e99dbf0a9",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.KernelSpec.TileGather.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "32b40858c2e2eae1c9e8278f4c8e14361cdd4fe9bae8bb3319902f1f0eba272d",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory/KernelSpec.lean",
+      "source_sha256": "f6e211da67da821f3853b0dbf6ce13b648bdb5df98816193024b94170758dbe3",
+      "baseline_source_sha256": "f6e211da67da821f3853b0dbf6ce13b648bdb5df98816193024b94170758dbe3",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.KernelSpec.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "8e2b57c41662b550f6f392c9ea293f3505ce4d82fb3cfe1cab1b11082e90a95b",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory.lean",
+      "source_sha256": "95ded98671abf69963028f62c116ea94ad838d2e784fe59f350f688f1c0618f0",
+      "baseline_source_sha256": "95ded98671abf69963028f62c116ea94ad838d2e784fe59f350f688f1c0618f0",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "13b8aef98ec86b726acf6f4e43dd4dcc9ab25aa74dc25411d958d86bac8279d2",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.KernelLemmas.EvalHelpers",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/KernelLemmas/EvalHelpers.lean",
+      "source_sha256": "4a19550e09aabcadc3434134e8f6fdccf0dbcc3d634820c7b491d3bc3cecb9d9",
+      "baseline_source_sha256": "4a19550e09aabcadc3434134e8f6fdccf0dbcc3d634820c7b491d3bc3cecb9d9",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.KernelLemmas.EvalHelpers.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "85a75fbb25bb4c268a77022352fd704d297108a72165fb6118b0bb751a783129",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.KernelLemmas.Matmul",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/KernelLemmas/Matmul.lean",
+      "source_sha256": "93eee78a5a29fe9526eada5beb986df35c6f9a24768a20ff9c9a64f8b156ce80",
+      "baseline_source_sha256": "93eee78a5a29fe9526eada5beb986df35c6f9a24768a20ff9c9a64f8b156ce80",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.KernelLemmas.Matmul.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "da012e28328a4e22d6cb0d16667b6dc312608645291c18b72ae4e56ab0dfe946",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.KernelLemmas.ScatterStore",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/KernelLemmas/ScatterStore.lean",
+      "source_sha256": "b48c2d047c8ffc611d7791c14d4f98128bf17208f5a134edffe9c8678da7ff17",
+      "baseline_source_sha256": "b48c2d047c8ffc611d7791c14d4f98128bf17208f5a134edffe9c8678da7ff17",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.KernelLemmas.ScatterStore.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "97389129a7ed9703ce3ded8a80076c925b48848baab40bf3cc327dfe49c3cf0d",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.KernelLemmas.LoopInvariant",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/KernelLemmas/LoopInvariant.lean",
+      "source_sha256": "ed17ccd8157fd3fd026d950a6b73eccd04fa13626048792e2d93ae7fcdf564f0",
+      "baseline_source_sha256": "ed17ccd8157fd3fd026d950a6b73eccd04fa13626048792e2d93ae7fcdf564f0",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.KernelLemmas.LoopInvariant.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "a2e427c3df632db334fc09904e50bcf8a93491d729c87ea4ff3de3f384abe125",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Float.StateErasure",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Float/StateErasure.lean",
+      "source_sha256": "d87d2d39b9cff48d8f7011f451329afefc3bc76ae600776bd599ec5b62b3b93e",
+      "baseline_source_sha256": "d87d2d39b9cff48d8f7011f451329afefc3bc76ae600776bd599ec5b62b3b93e",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Float.StateErasure.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "d545b5841a8c40cb9ef4f5b1de6a6af8496aa06d0ddcac9a4b55f284210f3e11",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.ExternalCheck",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/ExternalCheck.lean",
+      "source_sha256": "df0c83664a16531f22d5c4c7898d358dffbae95a64173cddc2ace6257feabb95",
+      "baseline_source_sha256": "df0c83664a16531f22d5c4c7898d358dffbae95a64173cddc2ace6257feabb95",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.ExternalCheck.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "e84af70d4e226dda18a6b7009a8e442ac961186fc16cf03a934c410cc175fb89",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Correctness",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Correctness.lean",
+      "source_sha256": "0e5c59fe03bdf99aa94059eb533b44bd5764fa48e844751e9603891b730a03ce",
+      "baseline_source_sha256": "0e5c59fe03bdf99aa94059eb533b44bd5764fa48e844751e9603891b730a03ce",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Correctness.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "e53773ccacdc1cb5b30c0d4867c9444ef047bb9aae380e256bfed975aa57d392",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.KernelLemmas.CarryFold",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/KernelLemmas/CarryFold.lean",
+      "source_sha256": "652e516656ffb90b3e85d37f47942c4bfe1a26f1fbc98218879f5a47da03bd49",
+      "baseline_source_sha256": "652e516656ffb90b3e85d37f47942c4bfe1a26f1fbc98218879f5a47da03bd49",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.KernelLemmas.CarryFold.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "3619566e63902550d18cdb3225d719ff51cabaea1db8d3bda5dc4542acee998c",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.KernelLemmas",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/KernelLemmas.lean",
+      "source_sha256": "22dba3bab9b64beb95ccae479e1e4fd0df8982a30751b814bbd38cd8bac87d9d",
+      "baseline_source_sha256": "22dba3bab9b64beb95ccae479e1e4fd0df8982a30751b814bbd38cd8bac87d9d",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.KernelLemmas.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "07badf8ce7af9b35fd12577b69f808a503d5c243b8ed55a282a5f2ee445e734e",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Float.Refine",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Float/Refine.lean",
+      "source_sha256": "fa767a47f0f9e79c951c2b5d074455612c3464438220ee829de29f17e5eabc83",
+      "baseline_source_sha256": "fa767a47f0f9e79c951c2b5d074455612c3464438220ee829de29f17e5eabc83",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Float.Refine.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "578129691695e9d16bf43e12572ce41aab68d29be8ebf95e53513984645899a3",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Float.Pipeline",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Float/Pipeline.lean",
+      "source_sha256": "5a892afbc554b181bcff18de0901bef31fa70f659fe420274e6c8cfcd5975646",
+      "baseline_source_sha256": "5a892afbc554b181bcff18de0901bef31fa70f659fe420274e6c8cfcd5975646",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Float.Pipeline.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "73be878c1ca3dcb51e6c253d70b830d319eadf16d272691c110777241fb0bf71",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Float",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Float.lean",
+      "source_sha256": "92d888b138f8b593d5337806b3128af63832e8c2a1ab482efceedbd432821b7d",
+      "baseline_source_sha256": "92d888b138f8b593d5337806b3128af63832e8c2a1ab482efceedbd432821b7d",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Float.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "f4a8a5d99d3371c750f93e9ee496e0f80eaef414d7907ac48c07c108ac3d3d56",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Launch.Grid",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Launch/Grid.lean",
+      "source_sha256": "74c1c565e02dc30e35751531333bd59ba16f4f9305f40a7ca591e4b24e251925",
+      "baseline_source_sha256": "74c1c565e02dc30e35751531333bd59ba16f4f9305f40a7ca591e4b24e251925",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Launch.Grid.log",
+      "log_sha256": "8ecab4082a49010d4f59c08436ee4d0262e60ac57f7fb20e5e2a2b24969524b7",
+      "olean_sha256": "3e62ce6cbfb45ca277cf96b9381920b3582fe70d1ff87a8aefabb4421ea0ad0d",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Launch.Composition",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Launch/Composition.lean",
+      "source_sha256": "1a4db9f31530ff88a9727478b8cfa1df9de9934168c759a2934c4367877090a3",
+      "baseline_source_sha256": "1a4db9f31530ff88a9727478b8cfa1df9de9934168c759a2934c4367877090a3",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Launch.Composition.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "1aa7ce43cc7edeac38cd1339ec61d9b8de864ac601e3080da9ef4b541284e9ce",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Launch",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Launch.lean",
+      "source_sha256": "2dd3ea1acf4cecd1ba4f24dee9868bf5089fa898ca9bf73a6074b4717241b4e6",
+      "baseline_source_sha256": "2dd3ea1acf4cecd1ba4f24dee9868bf5089fa898ca9bf73a6074b4717241b4e6",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Launch.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "dcb2bd8c6bfd67c9d34ce7cae289252df42d9bdbff453aeaafd2ae57cf5ef09e",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Concurrency.Trace",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Concurrency/Trace.lean",
+      "source_sha256": "85b2f0867c77795663ca6de96344f8896014bb919e9632ea400479138cc52c8c",
+      "baseline_source_sha256": "85b2f0867c77795663ca6de96344f8896014bb919e9632ea400479138cc52c8c",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Concurrency.Trace.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "959ff12791dff190d9a0787a5967e4956b63a1d00ca4003d0aa4d9814c2b1f28",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Concurrency.Discipline",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Concurrency/Discipline.lean",
+      "source_sha256": "3901bcbadeaf513cb0723a0db9c77f23e8f4700bf6b076cb9da0869abf17395a",
+      "baseline_source_sha256": "3901bcbadeaf513cb0723a0db9c77f23e8f4700bf6b076cb9da0869abf17395a",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Concurrency.Discipline.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "2d994077b3a762f4367eb7863435ae81bfb7fe4b6a386342021abc9442d16e60",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Concurrency.Refinement",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Concurrency/Refinement.lean",
+      "source_sha256": "0baf4b34389f4d1b1ea978e8fd4525e306e8110733a33c9793f3cad851b93196",
+      "baseline_source_sha256": "0baf4b34389f4d1b1ea978e8fd4525e306e8110733a33c9793f3cad851b93196",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Concurrency.Refinement.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "22d68f9546acbfe7e73e6da703982dcfb2b8b9c9ef688536f30d0238b78beddd",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Concurrency.ProducerConsumer",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Concurrency/ProducerConsumer.lean",
+      "source_sha256": "0ba0c4c59a75b83b52782a2bc7f58880af134e9c2718e03fd8e5ca831d8de06a",
+      "baseline_source_sha256": "0ba0c4c59a75b83b52782a2bc7f58880af134e9c2718e03fd8e5ca831d8de06a",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Concurrency.ProducerConsumer.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "d4118d267f1c9f431b512d0da65929a66c9aac0806507aa70d5864d083ba9304",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Concurrency.Atomic",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Concurrency/Atomic.lean",
+      "source_sha256": "03dc2a7547ff4c90ca22d3af13867ca243306fbb06e73ddc424d41545129da52",
+      "baseline_source_sha256": "03dc2a7547ff4c90ca22d3af13867ca243306fbb06e73ddc424d41545129da52",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Concurrency.Atomic.log",
+      "log_sha256": "8f42f9f70b56271c5c27b8a94701f60ff39f27b3d51fc028a36b9cec45f1e0c1",
+      "olean_sha256": "4b7c8600558b0897501716b930dba698bd20419ad222472af2dc91bc6172ebe7",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Concurrency",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Concurrency.lean",
+      "source_sha256": "b6312bcc71e3596bb9fbfd039b11b412a22df3a4cbcd6e740c703c9271739f6e",
+      "baseline_source_sha256": "b6312bcc71e3596bb9fbfd039b11b412a22df3a4cbcd6e740c703c9271739f6e",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Concurrency.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "28412cf13053906592ad3f13749029c692e3ac24c59974fca6af1f792e32999e",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton.lean",
+      "source_sha256": "0937879a78c271cce7beda0e77d0b0bcf90a23a2ce90485ab011a5472d75f9a0",
+      "baseline_source_sha256": "0937879a78c271cce7beda0e77d0b0bcf90a23a2ce90485ab011a5472d75f9a0",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "d249fd2b9199806ebcc323be3b6a7a57d3cd8ee13aea3283320057a7932df9e9",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Float.ScalarBackend",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Float/ScalarBackend.lean",
+      "source_sha256": "b53529209e20d55de6dbde031c19d5baf76032c1377ef84df6583d93295d2b0a",
+      "baseline_source_sha256": "b53529209e20d55de6dbde031c19d5baf76032c1377ef84df6583d93295d2b0a",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Float.ScalarBackend.log",
+      "log_sha256": "87b0f7859d8d7cadb65b04d474526151d02e2be1ee5f7f3a4488d005f99e19f2",
+      "olean_sha256": "efb060cdbe8620637a01df038ccd6fc63919eeb90fd62407a2c26fb02d3c4db8",
+      "axiom_checks": 7
+    },
+    {
+      "module": "VeriTile.Triton.Float.LegacyRealInt8",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Float/LegacyRealInt8.lean",
+      "source_sha256": "23e468061b3bd66234309d7d354a68a2d7a8675feedc13ed68995f2cbeea9197",
+      "baseline_source_sha256": "23e468061b3bd66234309d7d354a68a2d7a8675feedc13ed68995f2cbeea9197",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Float.LegacyRealInt8.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "8a3caf9352b30a080b3a7cd252658442c8b20e40ee1607b4a0c9206bd2fa6ecd",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Float.IntegerConversion",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Float/IntegerConversion.lean",
+      "source_sha256": "0a826b55abcd01350f0eb9832a54929d1e1481c2ea4e928bf3ba0888de7921c0",
+      "baseline_source_sha256": "0a826b55abcd01350f0eb9832a54929d1e1481c2ea4e928bf3ba0888de7921c0",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Float.IntegerConversion.log",
+      "log_sha256": "7f834ba7db55b296401086fb038bf0ea0fa07681164eb00ff1709dcaeab2bf58",
+      "olean_sha256": "1cd971ecd1988a390b2eda9b5ec6ff4d5e7c7ce5243c670d2ee6bdd579d448b2",
+      "axiom_checks": 6
+    },
+    {
+      "module": "VeriTile.Triton.Float.IntegerConversionTotal",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Float/IntegerConversionTotal.lean",
+      "source_sha256": "3f36ef1b3ff8dfb3fd3a2f4a4456ac7072190853d402ea256470b6e7960d282d",
+      "baseline_source_sha256": "3f36ef1b3ff8dfb3fd3a2f4a4456ac7072190853d402ea256470b6e7960d282d",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Float.IntegerConversionTotal.log",
+      "log_sha256": "47b20d22bde4a1601371701115f4f5104a9b8197b99c8f27e305d5666ae9c4d9",
+      "olean_sha256": "838fe7bbc9c5f6c54d34fcbb56229707188f646680ee0587ec9f9fd1b74118cf",
+      "axiom_checks": 4
+    },
+    {
+      "module": "VeriTile.Triton.Source",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Source.lean",
+      "source_sha256": "41482321a17d14a5a2fe783f489d2aa95fc483e21760eb828c292d9785705f88",
+      "baseline_source_sha256": "41482321a17d14a5a2fe783f489d2aa95fc483e21760eb828c292d9785705f88",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Source.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "fe69f79ce68048a94a401d1273726811ead220a2c0ce6bc438fdb9bd3e366fb5",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Float.ScalarArithmeticLaws",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Float/ScalarArithmeticLaws.lean",
+      "source_sha256": "f1fd02ebbb34e2384c459a09ab2013837752133940f5ecd57809ed96cb240dad",
+      "baseline_source_sha256": "f1fd02ebbb34e2384c459a09ab2013837752133940f5ecd57809ed96cb240dad",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Float.ScalarArithmeticLaws.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "058e0381ebf06b593d85f83e58bab8117ec29f04dd594ed3735050079f3c9b72",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Float.GuardedRewrite",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Float/GuardedRewrite.lean",
+      "source_sha256": "f350311fea97fdf25597b2c5ebae9415718ad55e65a74e28b2331a27252b0854",
+      "baseline_source_sha256": "f350311fea97fdf25597b2c5ebae9415718ad55e65a74e28b2331a27252b0854",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Float.GuardedRewrite.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "c31aaba5c69cdc39f62e8a8e1c1b574fb817f8a93e68616a9a4285710e81d6fe",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Float.Loop",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Float/Loop.lean",
+      "source_sha256": "3b67954d45467ed5755158c9ef280e078c9fe911b5c906c34020249edc412336",
+      "baseline_source_sha256": "3b67954d45467ed5755158c9ef280e078c9fe911b5c906c34020249edc412336",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Float.Loop.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "8a030ffd722b2fad0432fd68a739e8c8d6a7421746b01352b9f67cc0a08423fc",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Float.ProfiledRewrite",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Float/ProfiledRewrite.lean",
+      "source_sha256": "3e6460ceec521965b756c66fa7a186a495b61a6f683da7044c1c410b6a3ba18b",
+      "baseline_source_sha256": "3e6460ceec521965b756c66fa7a186a495b61a6f683da7044c1c410b6a3ba18b",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Float.ProfiledRewrite.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "10f890ddde7a15b3c1d02a9ddb5224bb54a14330fe801eff5df79b5d3fc66081",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Float.IntegerDot",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Float/IntegerDot.lean",
+      "source_sha256": "c8aaf78b76b9b8ff27f835c18830f298911deecf040ca29c78e84ebdc0859251",
+      "baseline_source_sha256": "c8aaf78b76b9b8ff27f835c18830f298911deecf040ca29c78e84ebdc0859251",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Float.IntegerDot.log",
+      "log_sha256": "5ccfc676bdf17e368722a509b88ca023ed8675b719b7b1608ead5a4dc1a7b18b",
+      "olean_sha256": "48e14eef42d57e996f43dcb38b6d1b7a2851f761fd70976a4c4cb71ffbc2887c",
+      "axiom_checks": 5
+    },
+    {
+      "module": "VeriTile.Triton.Float.UnsignedCast",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Float/UnsignedCast.lean",
+      "source_sha256": "297f5a3cd7b5911ea8995a46b8c4d5f4dec4f9596475bcb6003ea27cdeb56b9d",
+      "baseline_source_sha256": "297f5a3cd7b5911ea8995a46b8c4d5f4dec4f9596475bcb6003ea27cdeb56b9d",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Float.UnsignedCast.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "992c5e12076506ba83b4c1335b0e41f902259ca6727438633d0a96631a9222de",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Float.FixedInteger",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Float/FixedInteger.lean",
+      "source_sha256": "376b99eb05cb9fa3433ea9fb3ebe3edb4aa90b535323b71eac600300bc40fdda",
+      "baseline_source_sha256": "376b99eb05cb9fa3433ea9fb3ebe3edb4aa90b535323b71eac600300bc40fdda",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Float.FixedInteger.log",
+      "log_sha256": "0f26c1631becf2033c19dda3edc53351be0f218be239fef2d38367f69f8e5f81",
+      "olean_sha256": "f6b5cfc071194e7ef3346f04a34dccb81baf589fee99ae395d04871fdbeb87a8",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Float.SignedCast",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Float/SignedCast.lean",
+      "source_sha256": "79fb0af591b285287bc861973fe18571f5ae8528605f0ee783d1417c6bbe8c6c",
+      "baseline_source_sha256": "79fb0af591b285287bc861973fe18571f5ae8528605f0ee783d1417c6bbe8c6c",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Float.SignedCast.log",
+      "log_sha256": "b9a5caae01d933e142a6965cb5aa85c9f4206c36c295883cf96b951103f67adc",
+      "olean_sha256": "34f3dd45b160c80c49ac3f361d8e236a84413ec285665eca5a3a9fc0f1ddfff5",
+      "axiom_checks": 0
+    },
+    {
+      "module": "bench.tritonbench_g.sgmv_expand_slice.Proofs.FPSoftware",
+      "role": "final_reused_helper_run",
+      "source": "bench/tritonbench_g/sgmv_expand_slice/Proofs/FPSoftware.lean",
+      "source_sha256": "e2bbc18f32f88b4671d26ea837ee8f133a99dfce804c690286a9cf6736fc1b8f",
+      "baseline_source_sha256": null,
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.sgmv_expand_slice.Proofs.FPSoftware.log",
+      "log_sha256": "ab5815c6a29e14a2e661360a3c68b8e0eec74c366ba42ede665b31c30a24657a",
+      "olean_sha256": "74b06a5fbec91f834aac24b4a485fdc16d7bdc962b1c22377260bc682a68007a",
+      "axiom_checks": 1
+    },
+    {
+      "module": "bench.tritonbench_g.sgmv_expand_slice.Proofs.FPFusedSoftware",
+      "role": "final_reused_helper_run",
+      "source": "bench/tritonbench_g/sgmv_expand_slice/Proofs/FPFusedSoftware.lean",
+      "source_sha256": "17a48a3c0273e8790c11850ca6e6833015af0d50da5b69fa4dee2f3b04b5b99c",
+      "baseline_source_sha256": null,
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.sgmv_expand_slice.Proofs.FPFusedSoftware.log",
+      "log_sha256": "049c8aeeb4c7616a4999384a6ef0af6523e78cf0420a743dc67e9fe580004460",
+      "olean_sha256": "0d419b5026f9982894ddc80483d0101f6eea9c99f89b66fa8330dfc01482c3ff",
+      "axiom_checks": 3
+    },
+    {
+      "module": "bench.tritonbench_g.softmax_reducev.Proofs.FPSoftware",
+      "role": "final_reused_helper_run",
+      "source": "bench/tritonbench_g/softmax_reducev/Proofs/FPSoftware.lean",
+      "source_sha256": "73c558021f079ce27ffcaacd378e5fac4437d697bb6765249bc0cfcbccd7ab9e",
+      "baseline_source_sha256": null,
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.softmax_reducev.Proofs.FPSoftware.log",
+      "log_sha256": "82777a5952239d1a47fd215623e33a2bd361749d82d1f42ee36987bc05ee7dbf",
+      "olean_sha256": "8367e3d2dfeff9b1126ad9782432b8fb1b14cd050f853fa99084fed1d31622a9",
+      "axiom_checks": 5
+    },
+    {
+      "module": "bench.tritonbench_g.triton_linear_activation.TritonLinearActivation",
+      "role": "final_task_run",
+      "source": "bench/tritonbench_g/triton_linear_activation/TritonLinearActivation.lean",
+      "source_sha256": "1b31e65513bee2d6a5c9b1821660d2ebbbcc898f29865066bdf6f87b668db8db",
+      "baseline_source_sha256": "257bee878e09c500706213ddb7868db76fea6cbab79682a262b03356d2aafd6b",
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.triton_linear_activation.TritonLinearActivation.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "9e0d9a17873c7ecac9bbf4c9de429508f4b7010aafae45b24eeb133587b7f29a",
+      "axiom_checks": 0
+    },
+    {
+      "module": "bench.tritonbench_g.triton_linear_activation.Proofs.FPSource",
+      "role": "final_task_run",
+      "source": "bench/tritonbench_g/triton_linear_activation/Proofs/FPSource.lean",
+      "source_sha256": "7042189b2bc35ed9a94b9fd934a4e4619f6c7dc7349723325a658b01099c3f9f",
+      "baseline_source_sha256": null,
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.triton_linear_activation.Proofs.FPSource.log",
+      "log_sha256": "a29d66ee3ce8da2f92dabcbecfeb538fbfcdaf56135773912deffa8ad825e776",
+      "olean_sha256": "3865eb16f5ea30e8c7f445931bce4d704b980db547bda437651924734891d71a",
+      "axiom_checks": 1
+    },
+    {
+      "module": "bench.tritonbench_g.triton_linear_activation.Proofs.FPLiterals",
+      "role": "final_task_run",
+      "source": "bench/tritonbench_g/triton_linear_activation/Proofs/FPLiterals.lean",
+      "source_sha256": "43a408f4f25a9a9ec14eb47b02a41d8e8650aac93cd34d33413b28e0537d24ff",
+      "baseline_source_sha256": null,
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.triton_linear_activation.Proofs.FPLiterals.log",
+      "log_sha256": "cb89983fe53a2c4f840a81da43d10031dc3a4d73f40ee5215a00295ede4cb57f",
+      "olean_sha256": "ed64c29129300d8a3db2fb36ed2e46aac779182496bfbf7fdb40036125a4d8fa",
+      "axiom_checks": 6
+    },
+    {
+      "module": "bench.tritonbench_g.triton_linear_activation.Proofs.FPReference",
+      "role": "final_task_run",
+      "source": "bench/tritonbench_g/triton_linear_activation/Proofs/FPReference.lean",
+      "source_sha256": "0ef21e121b7393e1284a1fc98508054915201f5cf14879b9a5d59b2fd39ce102",
+      "baseline_source_sha256": null,
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.triton_linear_activation.Proofs.FPReference.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "7410a137d96d37c6d6dd28f0c6494303272fd17b1eef2d40f9a934f536f70d1e",
+      "axiom_checks": 0
+    },
+    {
+      "module": "bench.tritonbench_g.triton_linear_activation.Proofs.FPPrefix",
+      "role": "final_task_run",
+      "source": "bench/tritonbench_g/triton_linear_activation/Proofs/FPPrefix.lean",
+      "source_sha256": "e97c7ea0986900854ee1f17b911b5ce4e5006b5859f938da797c62bbe1326a49",
+      "baseline_source_sha256": null,
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.triton_linear_activation.Proofs.FPPrefix.log",
+      "log_sha256": "d7fd433334b90da3bf5efdb18e4345779bbea2a067433cfd724c5d2c807e3d5a",
+      "olean_sha256": "e45ede5ae3cf5254675cdedb88182536c9b214086b8d411c7d3456cb6806b778",
+      "axiom_checks": 2
+    },
+    {
+      "module": "bench.tritonbench_g.triton_linear_activation.Proofs.FPLoop",
+      "role": "final_task_run",
+      "source": "bench/tritonbench_g/triton_linear_activation/Proofs/FPLoop.lean",
+      "source_sha256": "7f20e45eda0701ad07246250a9fa05914efc2257be658f54709c856ad430c675",
+      "baseline_source_sha256": null,
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.triton_linear_activation.Proofs.FPLoop.log",
+      "log_sha256": "e770ec0e71e535745ebd9e09fa29ad62d35019afee73ed0944ae96c49da6550e",
+      "olean_sha256": "f50f6e213a3839f977c2ee1654624fcc631c5f57bba4729e971544c311387762",
+      "axiom_checks": 2
+    },
+    {
+      "module": "bench.tritonbench_g.triton_linear_activation.Proofs.FPTail",
+      "role": "final_task_run",
+      "source": "bench/tritonbench_g/triton_linear_activation/Proofs/FPTail.lean",
+      "source_sha256": "643971d20faf544ad38bce07934b307f3424986025aada5aaba26b55b489c918",
+      "baseline_source_sha256": null,
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.triton_linear_activation.Proofs.FPTail.log",
+      "log_sha256": "f6f886a35dede946731079b35715b1a0bf330457d7f085c04bc88c64a0963b20",
+      "olean_sha256": "0ca47ffdab4ca732c03cefcd9fcc2e28970e15a203b8884a0e12050f77a7b52e",
+      "axiom_checks": 4
+    },
+    {
+      "module": "bench.tritonbench_g.triton_linear_activation.Proofs.FPContract",
+      "role": "final_task_run",
+      "source": "bench/tritonbench_g/triton_linear_activation/Proofs/FPContract.lean",
+      "source_sha256": "b6020205bf5aaab1d49bc51f39c9382c05b2b13976576a32219e624d82f698e5",
+      "baseline_source_sha256": null,
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.triton_linear_activation.Proofs.FPContract.log",
+      "log_sha256": "a175f01a086a7fa3b3fe0ffa30ae8878632cb35279f02bb2a4e1b9e69a9e6cd9",
+      "olean_sha256": "98a7b74d04c9d05c12b8ffe8ec2122b2b14b0cadfbebda54a06f627a4f72d4e1",
+      "axiom_checks": 3
+    },
+    {
+      "module": "bench.tritonbench_g.triton_linear_activation.Proofs.FPShape",
+      "role": "final_task_run",
+      "source": "bench/tritonbench_g/triton_linear_activation/Proofs/FPShape.lean",
+      "source_sha256": "5fe9f56d56b6ed1d29a77e9e9d20d74ff565ca7b066d6fed5b46ed464274b441",
+      "baseline_source_sha256": null,
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.triton_linear_activation.Proofs.FPShape.log",
+      "log_sha256": "cc3da4af0a2dde1f88331eb5487300894e03e27d5ad5e4796771bc8854456acb",
+      "olean_sha256": "52f16e41867a5a26a3cdf42c7671d5b7af70ee70d7b3a613ff662ace9ab00ec9",
+      "axiom_checks": 5
+    },
+    {
+      "module": "bench.tritonbench_g.triton_linear_activation.Proofs.FPSoftware",
+      "role": "final_task_run",
+      "source": "bench/tritonbench_g/triton_linear_activation/Proofs/FPSoftware.lean",
+      "source_sha256": "7842fc2def333def9eff1eef524f8c2c433a45b43f5eacbd1738ebbf192bc4d3",
+      "baseline_source_sha256": null,
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.triton_linear_activation.Proofs.FPSoftware.log",
+      "log_sha256": "9205b36510243299aa841416a981ccea50f82a391733022de7c31e84cb0ea6f1",
+      "olean_sha256": "dc7f08d3f2611874e8686a040b1e1b828463e17d57973dc389a59bf140484f44",
+      "axiom_checks": 2
+    },
+    {
+      "module": "bench.tritonbench_g.triton_linear_activation.Proofs.FPWitness",
+      "role": "final_task_run",
+      "source": "bench/tritonbench_g/triton_linear_activation/Proofs/FPWitness.lean",
+      "source_sha256": "0d4c4ce5ba4f607df894937bc1cac28bce97ffcfdc49e757a867a210cb8eaa28",
+      "baseline_source_sha256": null,
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.triton_linear_activation.Proofs.FPWitness.log",
+      "log_sha256": "e00c6948ff688fb09ad002e82f5f3c32506f8df42edaea590be58928548f8f68",
+      "olean_sha256": "2cbf0afef4e65bf40d44c58de1c822b4293fc06e3a8fd0565995ffb8bd481326",
+      "axiom_checks": 10
+    },
+    {
+      "module": "bench.tritonbench_g.triton_linear_activation.FPCorrect",
+      "role": "final_task_run",
+      "source": "bench/tritonbench_g/triton_linear_activation/FPCorrect.lean",
+      "source_sha256": "424857070abb39e8a53e4e831a82e33a725b9bbd4cde7f2c10533c5e2597b83f",
+      "baseline_source_sha256": null,
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.triton_linear_activation.FPCorrect.log",
+      "log_sha256": "81e8b35271cb8604259f44d05420c9181dd9d86e426ceefc4901c0c08cc23bef",
+      "olean_sha256": "a499fae7ba9a7b463a6a96dd61d8962f62d7c784f01da86c7a6bca69019085f2",
+      "axiom_checks": 5
+    }
+  ],
+  "dependency_manifest": "dependency-inputs.json",
+  "dependency_manifest_count": 204,
+  "named_declarations": [
+    {
+      "file": "bench/tritonbench_g/triton_linear_activation/FPCorrect.lean",
+      "name": "source_backend_values",
+      "kind": "specification",
+      "line": 10,
+      "statement_sha256": "2a5d81adae466a8c8bb440b500e58cb30837f6a415fe9050d49b2b4010c7e137"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_linear_activation/FPCorrect.lean",
+      "name": "compiled_graph_backend_values",
+      "kind": "specification",
+      "line": 25,
+      "statement_sha256": "8d20f298637d2555bd6b5d3dbe665639b357f52bb0779d90166297f37868f851"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_linear_activation/FPCorrect.lean",
+      "name": "scalar_activation_sequential_bits",
+      "kind": "specification",
+      "line": 40,
+      "statement_sha256": "97fe8911a18e085f42b49d7479204b7267e1ce9bc503d74dfc3d2303a2231b76"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_linear_activation/FPCorrect.lean",
+      "name": "full_two_block_bit_success",
+      "kind": "theorem",
+      "line": 55,
+      "statement_sha256": "3ab0e3e3e9dce2835e07a2260998a6d022abe077aabd75562f19e79d3c54bd7c"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_linear_activation/FPCorrect.lean",
+      "name": "every_activation_bit_success",
+      "kind": "theorem",
+      "line": 67,
+      "statement_sha256": "b5dfa9b45a3fde64c1c4d945db44ba79d6ebf9cd4d0f6adc73677b3e2b4e7f9f"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_linear_activation/Proofs/FPContract.lean",
+      "name": "execution_memory",
+      "kind": "theorem",
+      "line": 8,
+      "statement_sha256": "8e4bb3480f1edc5f00253aef01ba2239581dfcde8864ab90ef971a21545b11c9"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_linear_activation/Proofs/FPContract.lean",
+      "name": "written_post",
+      "kind": "theorem",
+      "line": 38,
+      "statement_sha256": "243b6b7dca1859bb20223bd14f204e2dffa2091577041a15e5618964590d4310"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_linear_activation/Proofs/FPContract.lean",
+      "name": "correctness",
+      "kind": "theorem",
+      "line": 61,
+      "statement_sha256": "eb2544f20a72eb36e955b9df5d90f39945bda42a4dda2ce91ce74d7b9a86a77c"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_linear_activation/Proofs/FPLiterals.lean",
+      "name": "literal_zero",
+      "kind": "theorem",
+      "line": 27,
+      "statement_sha256": "2c2bfc8608b4e8fd2ac6fa5bd881fd4a9bd3fb2cba7542889ccf4aa73c3155d4"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_linear_activation/Proofs/FPLiterals.lean",
+      "name": "literal_one",
+      "kind": "theorem",
+      "line": 28,
+      "statement_sha256": "28f4bf03d492e42fee0ee32a9ac63a7a1ae14df243b2fcddeac21a075828d46e"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_linear_activation/Proofs/FPLiterals.lean",
+      "name": "literal_half",
+      "kind": "theorem",
+      "line": 29,
+      "statement_sha256": "fd0a017e27eb6350b3f1b0415a7488a9b57d1efd8ae42e6dcb485149fafd8d33"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_linear_activation/Proofs/FPLiterals.lean",
+      "name": "literal_cubic",
+      "kind": "theorem",
+      "line": 30,
+      "statement_sha256": "59db98d05d15f40c4991296faa5795a187e2d34eb43334eb82701af76d970aba"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_linear_activation/Proofs/FPLiterals.lean",
+      "name": "literal_sqrt2",
+      "kind": "theorem",
+      "line": 42,
+      "statement_sha256": "f59263b3a1ec297896db64b2d5e83f9cddb29d86e1d295ec1d6e9577246b11fb"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_linear_activation/Proofs/FPLiterals.lean",
+      "name": "literal_sqrt2pi",
+      "kind": "theorem",
+      "line": 46,
+      "statement_sha256": "542f4f7dac07df8d4a78c0296b543ae0afd8418c22735bd99eebba80069be865"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_linear_activation/Proofs/FPLiterals.lean",
+      "name": "literal_zero_decimal",
+      "kind": "theorem",
+      "line": 54,
+      "statement_sha256": "54c8da724653427e8f857e165605c34a2a72ca2356463fd3d1238393760160dd"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_linear_activation/Proofs/FPLiterals.lean",
+      "name": "literal_one_decimal",
+      "kind": "theorem",
+      "line": 56,
+      "statement_sha256": "0089dfebbe4674fb722ae3b878911ca3668fbe72cdb82869ea24985d8a63f0dc"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_linear_activation/Proofs/FPLiterals.lean",
+      "name": "literal_sqrt2pi_decimal",
+      "kind": "theorem",
+      "line": 58,
+      "statement_sha256": "3aa06d8e47c52be08522077b378d9a7b180a46ef7b680a5afc4c8c30f431a38e"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_linear_activation/Proofs/FPLoop.lean",
+      "name": "body_run",
+      "kind": "theorem",
+      "line": 10,
+      "statement_sha256": "dd70488d0d74b63ce0ac8d3fd4561549250c50d4e899b8f00317f469aad7321e"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_linear_activation/Proofs/FPLoop.lean",
+      "name": "loop_run",
+      "kind": "theorem",
+      "line": 32,
+      "statement_sha256": "c2df15a0f6e4bbf88002307477fec42307e23e00c7e7222136615c858731aa8e"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_linear_activation/Proofs/FPPrefix.lean",
+      "name": "scalars_run",
+      "kind": "theorem",
+      "line": 25,
+      "statement_sha256": "db33a3ac3656da381ee702bdae670693b4dd2b9c374d63556183ae51c4a69eee"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_linear_activation/Proofs/FPPrefix.lean",
+      "name": "seeds_run",
+      "kind": "theorem",
+      "line": 33,
+      "statement_sha256": "fc0f4f81901c2156b8dfa6ab49be53541ca3bfb58170db403d04f17a33ddcee1"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_linear_activation/Proofs/FPShape.lean",
+      "name": "source_projection",
+      "kind": "theorem",
+      "line": 13,
+      "statement_sha256": "c5d8343e273b87d3c2941ff2ac15801ff20b5a371f4168a68931f6376cd74b2a"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_linear_activation/Proofs/FPShape.lean",
+      "name": "compiled_dot_node",
+      "kind": "theorem",
+      "line": 36,
+      "statement_sha256": "f85800cf37dd70338e74e5850c8958fddcd16afaddec0ce5a10d99e068d7df41"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_linear_activation/Proofs/FPShape.lean",
+      "name": "output_injective_of_fit",
+      "kind": "theorem",
+      "line": 46,
+      "statement_sha256": "8013b317caa1aa95d58e5b2d64748499a18cfc8d889089c32e5fb3091ec2e14d"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_linear_activation/Proofs/FPShape.lean",
+      "name": "saved_injective_of_fit",
+      "kind": "theorem",
+      "line": 58,
+      "statement_sha256": "98c5b0fe92f93c0143b580d5f2749eaf9bc91fcb8f248ea8f2346dc42f9438e0"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_linear_activation/Proofs/FPShape.lean",
+      "name": "active_of_fit",
+      "kind": "theorem",
+      "line": 70,
+      "statement_sha256": "bad4e4a8ac9e3f89d4978307d9ce2759d6c29607a29bf6c289db0baf00ecba6f"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_linear_activation/Proofs/FPSoftware.lean",
+      "name": "scalar_only_independent",
+      "kind": "theorem",
+      "line": 13,
+      "statement_sha256": "c50105036b5df59e19078660e4ff7c9eff6a0e0e3247192463ee899559e8907a"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_linear_activation/Proofs/FPSoftware.lean",
+      "name": "maximum_special_values",
+      "kind": "theorem",
+      "line": 23,
+      "statement_sha256": "cb18ded3cedeb283030f2cb01100af29a9d9ae3ea09f75aaa26e30444920ee28"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_linear_activation/Proofs/FPSource.lean",
+      "name": "source_split",
+      "kind": "theorem",
+      "line": 151,
+      "statement_sha256": "dd7f6bc188f24b361a6d4647aebf13db37def9c9dc601e8437b3eb33c884ce8e"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_linear_activation/Proofs/FPTail.lean",
+      "name": "suffix_split",
+      "kind": "theorem",
+      "line": 13,
+      "statement_sha256": "63282ab259fae8ff25cc501085a8c841bcc735ca4e89d795b724d369aa81a374"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_linear_activation/Proofs/FPTail.lean",
+      "name": "save_run",
+      "kind": "theorem",
+      "line": 34,
+      "statement_sha256": "02a303d9c5088f558e9ef8326249ad3225b48b3c907c90e251cea99b2aa31b89"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_linear_activation/Proofs/FPTail.lean",
+      "name": "activation_run",
+      "kind": "theorem",
+      "line": 52,
+      "statement_sha256": "76f3db5d329b816041e998f2cf0b4427101a252ac00a140cc734cae6b6fa180b"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_linear_activation/Proofs/FPTail.lean",
+      "name": "store_run",
+      "kind": "theorem",
+      "line": 69,
+      "statement_sha256": "b7bc9b300217061e189a6628013d42990d57900b7b6cb756c658e4ea9b611180"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_linear_activation/Proofs/FPWitness.lean",
+      "name": "witness_outputOffset",
+      "kind": "theorem",
+      "line": 30,
+      "statement_sha256": "4cdd3b7d8ac7c8e20d74ae829aa0b16ec9fd16ec31480e05e89d8a3c44e34c56"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_linear_activation/Proofs/FPWitness.lean",
+      "name": "witness_savedOffset",
+      "kind": "theorem",
+      "line": 38,
+      "statement_sha256": "3cf0dc52bfb28ddf665b7281a96665a8cf5046a51ddb65b0c68208cbb08186d1"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_linear_activation/Proofs/FPWitness.lean",
+      "name": "witness_active",
+      "kind": "theorem",
+      "line": 46,
+      "statement_sha256": "bb6d89ddd8a249607514b989d0e0e406f57a32f77f5efbd1677ef07a6f1a1642"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_linear_activation/Proofs/FPWitness.lean",
+      "name": "witness_layout",
+      "kind": "theorem",
+      "line": 54,
+      "statement_sha256": "21cb16f0964b056578f7cc33e12fa24c7c83d616f2b4c102d4f1cefd69dd0c74"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_linear_activation/Proofs/FPWitness.lean",
+      "name": "witness_accumulated",
+      "kind": "theorem",
+      "line": 67,
+      "statement_sha256": "5118f64dfaad8309268f0b885a2e80ce4c36c6c83564a97026bb9493c3343da8"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_linear_activation/Proofs/FPWitness.lean",
+      "name": "witness_output",
+      "kind": "theorem",
+      "line": 74,
+      "statement_sha256": "334db2031e1bdbc8f0280d2b02707c70fc7968cd0e89db9e0d7ed97ae2bbfce5"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_linear_activation/Proofs/FPWitness.lean",
+      "name": "witness_saved",
+      "kind": "theorem",
+      "line": 79,
+      "statement_sha256": "c5c54d1a3eec998c2e8ef8bb8bb3eebc37ce28b9102c1bb7db927e481903642e"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_linear_activation/Proofs/FPWitness.lean",
+      "name": "two_block_bit_success",
+      "kind": "theorem",
+      "line": 85,
+      "statement_sha256": "39f4c3df3bb4a82dd1ff92e4aaeaff6c90749850675b8a1036f6fd3c0446b0be"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_linear_activation/Proofs/FPWitness.lean",
+      "name": "cancellation_value",
+      "kind": "theorem",
+      "line": 128,
+      "statement_sha256": "4cb2b87bc215445aa897ad70e1212dcec42bbd6c2b2d249217577e54300bb623"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_linear_activation/Proofs/FPWitness.lean",
+      "name": "all_activation_bit_success",
+      "kind": "theorem",
+      "line": 137,
+      "statement_sha256": "5530a98c5fd225a921e0a8a5aba359df4ebc09db926ab456bedd05d85f9c79c6"
+    }
+  ],
+  "legacy": {
+    "count": 68,
+    "public_count": 2,
+    "all_statements_unchanged": true,
+    "whole_file_unchanged": false,
+    "review": "legacy-maximum-compat/receipt.json"
+  },
+  "public_specifications": [
+    {
+      "file": "bench/tritonbench_g/triton_linear_activation/FPCorrect.lean",
+      "name": "source_backend_values",
+      "kind": "specification",
+      "line": 10,
+      "statement_sha256": "2a5d81adae466a8c8bb440b500e58cb30837f6a415fe9050d49b2b4010c7e137",
+      "model_role": "backend_value_contract",
+      "scope": "complete old accepted body, both flags and every activation string",
+      "profile": "explicit dot/dotAcc, tanh, erf, division callbacks; concrete scalar operations/casts/maxnum and bound host constants",
+      "native_closed": false
+    },
+    {
+      "file": "bench/tritonbench_g/triton_linear_activation/FPCorrect.lean",
+      "name": "compiled_graph_backend_values",
+      "kind": "specification",
+      "line": 25,
+      "statement_sha256": "8d20f298637d2555bd6b5d3dbe665639b357f52bb0779d90166297f37868f851",
+      "model_role": "backend_value_contract",
+      "scope": "complete old accepted body, both flags and every activation string",
+      "profile": "explicit dot/dotAcc, tanh, erf, division callbacks; concrete scalar operations/casts/maxnum and bound host constants",
+      "native_closed": false
+    },
+    {
+      "file": "bench/tritonbench_g/triton_linear_activation/FPCorrect.lean",
+      "name": "scalar_activation_sequential_bits",
+      "kind": "specification",
+      "line": 40,
+      "statement_sha256": "97fe8911a18e085f42b49d7479204b7267e1ce9bc503d74dfc3d2303a2231b76",
+      "model_role": "bit_interpreter",
+      "scope": "additional ReLU/identity specialization; not the full activation task",
+      "profile": "sequential software dot mul/add or FMA, concrete fp32 scalar arithmetic/casts/maxnum",
+      "native_closed": false
+    }
+  ],
+  "public_specification_count": 3,
+  "role_counts": {
+    "full_scope_backend_value_contract": 2,
+    "configuration_specialized_parametric_bit_interpreter": 1,
+    "fixed_success_public_theorems": 2
+  },
+  "accepted_scope": {
+    "exact_K": "K=BLOCK_K*numKBlocks, full ascending transcript of original descending exact-K loop",
+    "SPLIT_K": 1,
+    "K_LOAD_MASK_NEEDED": true,
+    "HAS_BIAS": "both Bool values",
+    "SHOULD_SAVE_ACT_INPUTS": "both Bool values",
+    "ACTIVATION": "every String: tanh/gelu/fast_gelu/relu, identity otherwise",
+    "layout": "full grouped L2 mapping, modulo gathers, arbitrary strides, saved preactivation, masked C output; original fitting-tile/stride readback assumptions",
+    "physical_formats": [
+      "fp16",
+      "bf16",
+      "fp32"
+    ],
+    "saved_formats": [
+      "fp16",
+      "bf16",
+      "fp32"
+    ],
+    "host_boundary": "host/autotune/launch, native address validity; other split-K/partial-K configurations remain outside old scope"
+  },
+  "scope_preservation": "Arbitrary initial memory and payload bits; no finite/nonNaN/output-value law. execution_memory has no injectivity hypothesis. Public readback derives output injectivity from old layout conditions; saved readback uses distinct output/saved and analogous injectivity, matching original separation/layout boundary. Both flags and all activation strings retained.",
+  "model_detail": {
+    "source_graph": "source bias and activation operand order; separately rounded dot result plus outer FP.add",
+    "compiled_graph": "observed accumulator dot and normalized bias/activation operand order; no source=compiled bit law",
+    "literal_values": "Host Python fp64 bits and fp32 literal bits frozen in native receipt; Real sqrt tags map to specific fp32 words, not opaque constants or ideal sqrt equality",
+    "callbacks": [
+      "full Dot/DotAcc with values/dtypes/precision/options/dimensions",
+      "tanh32",
+      "erf32",
+      "divide"
+    ],
+    "concrete": [
+      "fp32 add/sub/mul",
+      "low-format widening/narrowing",
+      "maxnum including lone NaNs and mixed signed zero"
+    ],
+    "software_specialization": "ReLU/identity only: increasing-K separate mul/add source dot or FMA dotAcc; not claimed native MMA behavior",
+    "witness_callback": "zeroUnary has qNaN fallback away from zero; only a declared test profile, not libdevice semantics"
+  },
+  "native_obligations": [
+    "Bind hardware MMA/TF32 dotAcc implementation and exceptional values to explicit callback; software sequential order is not assumed native",
+    "Bind libdevice tanh/erf and PTX div.full.f32 to callbacks; no ideal-function/correct-rounding assertion",
+    "Bind selected scalar cfg rounding, FTZ, NaN and casts including mixed formats",
+    "Original fast_gelu needs constexpr source correction before original native execution; separately frozen candidate passes compile"
+  ],
+  "native_compile": {
+    "original_pass": 15,
+    "original_fail": 3,
+    "failure": "all original fast_gelu dtypes: sqrt2pi mutable global",
+    "candidate_pass": 3,
+    "candidate_change": "only tl.constexpr wraps existing sqrt2pi initialization; helper/kernel bodies unchanged",
+    "target": "Triton 3.8 / CUDA SM90 warp32 / BM=BN=BK=32 GROUP_M=8 / enable_fp_fusion=false",
+    "gpu_executed": false,
+    "receipts": [
+      {
+        "folder": "linear-native-probe",
+        "receipt_sha256": "1e98d2c0f6c38fffbfe27ecf1febbeca30539d393646bad299d321c9e272dec9"
+      },
+      {
+        "folder": "linear-constexpr-candidate",
+        "receipt_sha256": "f3114a0d981243929c68fe238886de49507770fecce904ae3b3549cbaef59090"
+      }
+    ]
+  },
+  "witnesses": {
+    "positive": "two K blocks, four active lanes, PID=3, dimensions 4x4, BM=BN=BK=2, nonunit strides, bias=1 and dot=20, output/saved=21 in all nine format pairs and both graphs, identity/ReLU",
+    "cancellation": "two K blocks with bias=-20; all five activation branches and both graphs; zero-only software tanh/erf callbacks",
+    "frame": [
+      "C[0]",
+      "Saved[0]",
+      "X[12]"
+    ],
+    "scope_role": "fixed success only; does not upgrade full-scope model"
+  },
+  "native_source": {
+    "file": "bench/tritonbench_g/triton_linear_activation/triton_linear_activation.py",
+    "sha256": "f962d270863d07fdb3329d1b852b6678f7bc4e003c0311ceaba89af782ef75e3"
+  },
+  "accepted_gap_source": {
+    "file": "bench/tritonbench_g/fp_proof_gaps.json",
+    "sha256": "c14e99ae8f029fda8f5670692bea8e73d8ca297dac1b7767146b39e500bb9cbb",
+    "archived_row": "accepted-gap-row.json"
+  },
+  "axiom_checks": 114,
+  "final_public_audit": {
+    "file": "LinearValueAudit.lean",
+    "log": "logs/LinearValueAudit.log",
+    "source_sha256": "e9fc34f1a8c5632231faea4f1e04397fc9159c7382702fac17bd5f088ec47c00",
+    "log_sha256": "066d5dcdd27f815be6ab42f042224310cd9af46622c73662d6aa1f50b2f2f869",
+    "checks": 43,
+    "exit_code": 0
+  },
+  "validation": "Direct Lean topology build; all named final assertions axiom-clean. No sorry/native_decide/GPU result. Independent initial-memory formulas and real source execution/readback/frame."
+}

@@ -1,0 +1,18 @@
+Source assertions unchanged; subprocess deadline raised to at least 300 seconds.
+test_real_production_all_twenty_four_source_gates_pass (scripts.test_source_extern_orders.SourceExternOrderTests.test_real_production_all_twenty_four_source_gates_pass) ... ok
+test_actual_production_gates_pass_both_recorded_storage_views (scripts.test_source_pointer_dtype_profile.PointerDtypeProfileTests.test_actual_production_gates_pass_both_recorded_storage_views) ... ok
+test_actual_production_hidden_arm_mutation_is_hard_failure (scripts.test_source_pointer_dtype_profile.PointerDtypeProfileTests.test_actual_production_hidden_arm_mutation_is_hard_failure) ... ok
+test_actual_production_invalid_profile_is_not_exempted_by_blocker (scripts.test_source_pointer_dtype_profile.PointerDtypeProfileTests.test_actual_production_invalid_profile_is_not_exempted_by_blocker) ... ok
+test_actual_production_no_metadata_leaves_original_three_failures (scripts.test_source_pointer_dtype_profile.PointerDtypeProfileTests.test_actual_production_no_metadata_leaves_original_three_failures) ... ok
+test_actual_production_selected_lean_cast_mutation_remains_a_gate_failure (scripts.test_source_pointer_dtype_profile.PointerDtypeProfileTests.test_actual_production_selected_lean_cast_mutation_remains_a_gate_failure) ... ok
+test_production_extraction_rejects_changed_source_and_helper (scripts.test_source_finite_helpers.SourceFiniteHelperTests.test_production_extraction_rejects_changed_source_and_helper) ... ok
+test_production_keeps_wrong_dot_dtype_cast_and_bias_visible (scripts.test_source_dtype_constexpr.DtypeConstexprTests.test_production_keeps_wrong_dot_dtype_cast_and_bias_visible) ... ok
+test_actual_production_gates_keep_source_mutations_visible (scripts.test_source_constexpr_profile.SourceConstexprProfileTests.test_actual_production_gates_keep_source_mutations_visible) ... ok
+test_actual_production_five_port_baseline (scripts.test_source_runtime_scalar_profile.SourceRuntimeScalarProfileTests.test_actual_production_five_port_baseline) ... ok
+test_augmented_assignment_gate_uses_the_selected_jit (scripts.test_source_helpers.SourceHelperTests.test_augmented_assignment_gate_uses_the_selected_jit) ... ok
+test_production_baseline_and_helper_mutations (scripts.test_source_helpers.SourceHelperTests.test_production_baseline_and_helper_mutations) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 115.893s
+
+OK

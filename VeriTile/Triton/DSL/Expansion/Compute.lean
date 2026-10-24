@@ -5,6 +5,7 @@ Compute, reduction, and shape-view expansion helpers.
 -/
 
 import VeriTile.Triton.DSL.Expansion.Common
+import VeriTile.Triton.Core.SignedCast
 
 open Lean
 
@@ -141,6 +142,50 @@ partial def expandArith (expandExpr : ExprExpander) (env : Env) (ctx : String) (
   let (computeTerm?, computeDType?) ← floatingComputeArith? ctx algTerm a' b'
   pure ⟨algTerm, a'.dtype, outShape, computeTerm?, computeDType?⟩
 
+/-- The selected fp32/fp64 FMA is a distinct compute expression. Every operand
+keeps its own expression and load/conversion precision. Unannotated floating
+scalars receive the selected source precision. Mixed explicit precisions and
+nested FMA composition are rejected until their conversion path is modeled. -/
+partial def expandFma (expandExpr : ExprExpander) (env : Env)
+    (a b c : TSyntax `tritonExpr) : MacroM EOut := do
+  let a' ← expandExpr env a
+  let b' ← expandExpr env b
+  let c' ← expandExpr env c
+  let values := [a', b', c']
+  for value in values do
+    ensureDType .real value.dtype "tl.fma: operands must have explicit fp32/fp64 floating interpretation"
+    if let some ct := value.computeTerm then
+      match ct with
+      | `(ComputeExpr.fma $_ $_ $_ $_ $_ $_) =>
+          Macro.throwError "tl.fma: materialize a nested FMA before using it as an operand"
+      | _ => pure ()
+  let precisions := values.filterMap (·.computeDType?)
+  let some selected := precisions.head? |
+    Macro.throwError "tl.fma: an operand must establish explicit fp32/fp64 precision"
+  unless selected == .fp32 || selected == .real do
+    Macro.throwError "tl.fma: only explicit fp32/fp64 precision is supported"
+  unless precisions.all (· == selected) do
+    Macro.throwError "tl.fma: explicitly convert mixed-precision operands before fused arithmetic"
+  let precision ← if selected == .fp32 then `(IndexComputePrecision.fp32)
+    else `(IndexComputePrecision.fp64)
+  let operand (e : EOut) : MacroM (TSyntax `term) := do
+    if let some ct := e.computeTerm then
+      if e.computeDType?.isSome then return ct
+      match ct with
+      | `(ComputeExpr.alg $op) =>
+          if selected == .fp32 then fp32ComputeExpr op else fp64ComputeExpr op
+      | _ => Macro.throwError "tl.fma: unsupported compute operand; materialize it first"
+    else if selected == .fp32 then fp32ComputeExpr e.term else fp64ComputeExpr e.term
+  let av ← operand a'
+  let bv ← operand b'
+  let cv ← operand c'
+  let (bcAB, abShape) ← broadcastTerm a'.shape b'.shape "tl.fma multiplicands"
+  let (bcC, outShape) ← broadcastTerm abShape c'.shape "tl.fma addend"
+  let alg ← `(Op.add NumericDType.real $bcC
+    (Op.mul NumericDType.real $bcAB $a'.term $b'.term) $c'.term)
+  let compute ← `(ComputeExpr.fma $precision $bcAB $bcC $av $bv $cv)
+  return ⟨alg, .real, outShape, some compute, some selected⟩
+
 /-- `tl.extra.cuda.libdevice.pow(base, exponent)`: element-wise real power,
 lowering to `Op.pow` (`Real.rpow` semantics). Operands are coerced onto the
 ℝ channel like the other real math calls (`$(...)` antiquotes reinterpreted
@@ -174,6 +219,65 @@ partial def expandPow (expandExpr : ExprExpander) (env : Env) (ctx : String)
   let algTerm ← `(Op.pow $bc $aTerm $bTerm)
   let (computeTerm?, computeDType?) ← floatingComputeArith? ctx algTerm a' b'
   pure ⟨algTerm, .real, outShape, computeTerm?, computeDType?⟩
+
+/-- Recover an integer literal before generic arithmetic promotion erases its
+source dispatch. Native libdevice integer power accepts signed int32 exponents. -/
+private partial def powiLiteral? : TSyntax `tritonExpr → Option Int
+  | `(tritonExpr| $n:num) => some (Int.ofNat n.getNat)
+  | `(tritonExpr| ($e:tritonExpr)) => powiLiteral? e
+  | `(tritonExpr| -$e:tritonExpr) => (powiLiteral? e).map Int.neg
+  | _ => none
+
+/-- Preserve the separate CUDA integer-power overload, including literal two
+and dynamic values read from native int32 storage. Unknown integer widths fail
+visibly. Exponent range validation is part of every evaluator. -/
+partial def expandLibdevicePow (expandExpr : ExprExpander) (env : Env)
+    (a b : TSyntax `tritonExpr) : MacroM EOut := do
+  let ctx := "tl.extra.cuda.libdevice.pow"
+  match powiLiteral? b with
+  | some exponent =>
+      unless -(2147483648 : Int) ≤ exponent && exponent < 2147483648 do
+        Macro.throwError (ctx ++ ": integer exponent must fit the native int32 overload")
+      let a' ← expandExpr env a
+      unless a'.dtype == .real || a'.dtype == .fp32 do
+        Macro.throwError (ctx ++ ": integer-power overload requires an fp32 or fp64 base; cast the source operand explicitly")
+      ensureComputeArithComposable ctx a'
+      let aTerm ← realMathTerm (ctx ++ " base") a'
+      let magnitude := Syntax.mkNumLit (toString exponent.natAbs)
+      let n ← if exponent < 0 then `(-($magnitude : Int))
+        else `(($magnitude : Int))
+      let nTerm ← `(Op.constInt $n)
+      let (bc, outShape) ← broadcastTerm a'.shape SInfo.scalar ctx
+      let algTerm ← `(Op.libdevicePowi $bc $aTerm $nTerm)
+      let (computeTerm?, computeDType?) ← floatingComputeArith? ctx algTerm a' a'
+      pure ⟨algTerm, .real, outShape, computeTerm?, computeDType?⟩
+  | none =>
+      let b' ← expandExpr env b
+      if b'.dtype == .int32 then
+        let a' ← expandExpr env a
+        unless a'.dtype == .real || a'.dtype == .fp32 do
+          Macro.throwError (ctx ++ ": integer-power overload requires an fp32 or fp64 base; cast the source operand explicitly")
+        ensureComputeArithComposable ctx a'
+        ensureAlgorithmOnly ctx b'
+        let aTerm ← realMathTerm (ctx ++ " base") a'
+        let (bc, outShape) ← broadcastTerm a'.shape b'.shape ctx
+        let algTerm ← `(Op.libdevicePowi $bc $aTerm $b'.term)
+        let (computeTerm?, computeDType?) ← floatingComputeArith? ctx algTerm a' a'
+        return ⟨algTerm, .real, outShape, computeTerm?, computeDType?⟩
+      if b'.dtype == .int || b'.dtype == .int8 || b'.dtype == .nat then
+        Macro.throwError (ctx ++ ": dynamic integer exponent needs retained int32 width; this source dispatch is not modeled yet")
+      let a' ← expandExpr env a
+      let nativeFloat (e : EOut) : Option DInfo :=
+        e.computeDType?.orElse (fun _ => match e.dtype with
+          | .fp32 | .fp16 | .bf16 | .f8e4 | .f8e5 => some e.dtype
+          | _ => none)
+      let baseType := nativeFloat a'
+      let exponentType := nativeFloat b'
+      let unsupported (d : DInfo) := d != .fp32 && d != .real
+      if baseType.any unsupported || exponentType.any unsupported ||
+          (baseType.isSome && exponentType.isSome && baseType != exponentType) then
+        Macro.throwError (ctx ++ ": native floating-power overload requires matching fp32 or fp64 operands; cast the source operands explicitly")
+      expandPow expandExpr env ctx a b
 
 partial def expandBoolMaskMul? (expandExpr : ExprExpander) (env : Env)
     (a b : TSyntax `tritonExpr) : MacroM (Option EOut) := do
@@ -245,12 +349,67 @@ partial def expandBoolBin (expandExpr : ExprExpander) (env : Env) (ctx : String)
   let (bc, outShape) ← broadcastTerm a'.shape b'.shape ctx
   pure ⟨← `($op $bc $a'.term $b'.term), .bool, outShape, none, none⟩
 
+private def signedStorageWidth? : DInfo → Option Nat
+  | .int32 => some 32
+  | _ => none
+
+/-- Only a source literal known to fit the other operand's retained width is
+promoted here. An arbitrary mathematical Int does not acquire a machine width. -/
+private def signedBitLiteral (width : Nat) (dtype : DInfo)
+    (exprSyntax : TSyntax `tritonExpr) (fallback : EOut) : MacroM EOut := do
+  match exprSyntax with
+  | `(tritonExpr| $n:num) =>
+      if n.getNat < 2 ^ (width - 1) then
+        pure ⟨← `(Op.constInt $n), dtype, SInfo.scalar, none, none⟩
+      else Macro.throwError "signed bitwise literal exceeds retained source width"
+  | `(tritonExpr| -$n:num) =>
+      if n.getNat ≤ 2 ^ (width - 1) then
+        pure ⟨← `(Op.constInt (-($n : Int))), dtype, SInfo.scalar, none, none⟩
+      else Macro.throwError "signed bitwise literal exceeds retained source width"
+  | _ => pure fallback
+
+private def signedBitOperands (a b : TSyntax `tritonExpr) (aa bb : EOut) :
+    MacroM (EOut × EOut) := do
+  let bb ← match signedStorageWidth? aa.dtype with
+    | some w => signedBitLiteral w aa.dtype b bb
+    | none => pure bb
+  let aa ← match signedStorageWidth? bb.dtype with
+    | some w => signedBitLiteral w bb.dtype a aa
+    | none => pure aa
+  pure (aa, bb)
+
 partial def expandNatBitwise (expandExpr : ExprExpander) (env : Env) (ctx : String) (op : TSyntax `term)
     (a b : TSyntax `tritonExpr) : MacroM EOut := do
   let a' ← expandExpr env a
   let b' ← expandExpr env b
   ensureAlgorithmOnly ctx a'
   ensureAlgorithmOnly ctx b'
+  if let some width := signedStorageWidth? a'.dtype then
+    let widthLit : TSyntax `num := ⟨Syntax.mkNumLit (toString width)⟩
+    match op with
+    | `(Op.shiftRight) =>
+        ensureDType .nat b'.dtype (ctx ++ ": signed shift requires nonnegative Nat count; native count < width remains a source-domain premise")
+        let (bc, outShape) ← broadcastTerm a'.shape b'.shape ctx
+        return ⟨← `(Op.intShiftRight $bc $a'.term $b'.term), a'.dtype, outShape, none, none⟩
+    | `(Op.shiftLeft) =>
+        ensureDType .nat b'.dtype (ctx ++ ": signed shift requires nonnegative Nat count; native count < width remains a source-domain premise")
+        let (bc, outShape) ← broadcastTerm a'.shape b'.shape ctx
+        let rhsShape ← b'.shape.term
+        let pow ← `(Op.castNatToInt (Op.shiftLeft (IntegerExpr.sameShape $rhsShape)
+          (Op.full $rhsShape (Op.constNat 1)) $b'.term))
+        return ⟨← `(Op.intToSigned $widthLit (Op.mul NumericDType.int $bc $a'.term $pow)),
+          a'.dtype, outShape, none, none⟩
+    | `(Op.bitXor) | `(Op.bitOr) | `(Op.bitAnd) =>
+        let (a', b') ← signedBitOperands a b a' b'
+        let some bw := signedStorageWidth? b'.dtype |
+          Macro.throwError (ctx ++ ": signed bitwise rhs requires retained storage width")
+        let width := max width bw
+        let widthLit : TSyntax `num := ⟨Syntax.mkNumLit (toString width)⟩
+        let (bc, outShape) ← broadcastTerm a'.shape b'.shape ctx
+        return ⟨← `(Op.unsignedToInt $widthLit ($op $bc
+          (Op.intToUnsigned $widthLit $a'.term) (Op.intToUnsigned $widthLit $b'.term))),
+          (if width == 32 then .int32 else .int8), outShape, none, none⟩
+    | _ => Macro.throwError (ctx ++ ": unsupported signed bitwise operation")
   ensureDType .nat a'.dtype ctx
   ensureDType .nat b'.dtype ctx
   let (bc, outShape) ← broadcastTerm a'.shape b'.shape ctx
@@ -262,6 +421,16 @@ partial def expandBoolOrNatBitwise (expandExpr : ExprExpander) (env : Env) (ctx 
   let b' ← expandExpr env b
   ensureAlgorithmOnly ctx a'
   ensureAlgorithmOnly ctx b'
+  let (a', b') ← signedBitOperands a b a' b'
+  if let some aw := signedStorageWidth? a'.dtype then
+    let some bw := signedStorageWidth? b'.dtype |
+      Macro.throwError (ctx ++ ": signed bitwise rhs requires retained storage width")
+    let width := max aw bw
+    let widthLit : TSyntax `num := ⟨Syntax.mkNumLit (toString width)⟩
+    let (bc, outShape) ← broadcastTerm a'.shape b'.shape ctx
+    return ⟨← `(Op.unsignedToInt $widthLit ($natOp $bc
+      (Op.intToUnsigned $widthLit $a'.term) (Op.intToUnsigned $widthLit $b'.term))),
+      (if width == 32 then .int32 else .int8), outShape, none, none⟩
   unless a'.dtype == b'.dtype do
     Macro.throwError (ctx ++ ": dtype mismatch")
   let (bc, outShape) ← broadcastTerm a'.shape b'.shape ctx
@@ -366,7 +535,20 @@ partial def expandMinMax (expandExpr : ExprExpander) (env : Env) (ctx : String) 
   let (bc, outShape) ← broadcastTerm a'.shape b'.shape ctx
   let aTerm ← coerceShape a'.term a'.shape outShape (ctx ++ " lhs")
   let bTerm ← coerceShape b'.term b'.shape outShape (ctx ++ " rhs")
-  let algTerm ← `(Op.where ($cmp $cp $bc $a'.term $b'.term) $aTerm $bTerm)
+  let algTerm ←
+    if ctx == "tl.maximum" then
+      match a'.dtype with
+      | .real | .fp32 | .fp16 | .bf16 | .f8e4 | .f8e5 | .floatVar _ => do
+          let dtype ← a'.dtype.floatProof
+          `(Op.maximumFloat $dtype $bc $a'.term $b'.term)
+      | _ => `(Op.where ($cmp $cp $bc $a'.term $b'.term) $aTerm $bTerm)
+    else if ctx == "tl.minimum" then
+      match a'.dtype with
+      | .real | .fp32 | .fp16 | .bf16 | .f8e4 | .f8e5 | .floatVar _ => do
+          let dtype ← a'.dtype.floatProof
+          `(Op.minimumFloat $dtype $bc $a'.term $b'.term)
+      | _ => `(Op.where ($cmp $cp $bc $a'.term $b'.term) $aTerm $bTerm)
+    else `(Op.where ($cmp $cp $bc $a'.term $b'.term) $aTerm $bTerm)
   let (computeTerm?, computeDType?) ← floatingComputeArith? ctx algTerm a' b'
   pure ⟨algTerm, a'.dtype, outShape, computeTerm?, computeDType?⟩
 
@@ -497,6 +679,10 @@ partial def expandArgReduce (expandExpr : ExprExpander) (env : Env) (ctx : Strin
   let outDims ← eraseNth dims axisIdx
   let axisLit : TSyntax `num := ⟨Syntax.mkNumLit (toString axisIdx)⟩
   let term ← match e'.dtype with
+    | .int | .int8 | .int32 => do
+        if axisKwargs.isEmpty && dims.length != 1 then
+          Macro.throwError "tl.argmax: signed integer tiles of rank > 1 require an explicit axis"
+        `(Op.argMaxInt (⟨$axisLit, by simp⟩) $e'.term)
     | .real => match e'.computeDType? with
       | some .fp32 => `(Op.argMaxTyped FloatDType.real (⟨$axisLit, by simp⟩) $e'.term (some IndexComputePrecision.fp32))
       | some .real => `(Op.argMaxTyped FloatDType.real (⟨$axisLit, by simp⟩) $e'.term (some IndexComputePrecision.fp64))
@@ -526,6 +712,11 @@ partial def expandReduce (expandExpr : ExprExpander) (env : Env) (ctx : String) 
     (e : TSyntax `tritonExpr)
     (kwargs : TSyntaxArray `tritonReduceKwarg) : MacroM EOut := do
   let original ← expandExpr env e
+  -- Minimum currently has a real-channel node (including fp32/fp64 compute
+  -- annotations). Reject other channels until their typed reduction is
+  -- represented, rather than silently inserting a floating conversion.
+  if ctx == "tl.min" && original.dtype != .real then
+    Macro.throwError "tl.min: only real-channel reductions are supported; typed and integer reductions require dedicated lowering"
   let dims := match original.shape with | .dims ds => ds
   if dims.isEmpty then
     Macro.throwError (ctx ++ ": reduction expects a tile, got scalar")
@@ -583,6 +774,8 @@ partial def expandReduce (expandExpr : ExprExpander) (env : Env) (ctx : String) 
         else
           Macro.throwError (ctx ++ ": unknown or unsupported kwarg `" ++ nm ++ "`")
     | _ => Macro.throwUnsupported
+  if isSum && original.dtype == .bool && dtype?.isSome then
+    Macro.throwError "tl.sum: bool inputs support only the default uint32 reduction dtype"
   let e' ← match dtype? with
     | none => pure original
     | some dtype => do
@@ -597,13 +790,14 @@ partial def expandReduce (expandExpr : ExprExpander) (env : Env) (ctx : String) 
               computeTerm := some (← fp64ComputeExpr casted.term)
               computeDType? := some .real }
           else pure { casted with computeTerm := none, computeDType? := none }
-  let eTerm ← if isSum then
+  let boolSum := isSum && e'.dtype == .bool
+  let eTerm ← if boolSum then pure e'.term else if isSum then
       -- Check that this is a floating reduction without erasing its channel.
       let _ ← e'.dtype.floatProof
       pure e'.term
     else realMathTerm ctx e'
-  let resultDType := if isSum then e'.dtype else DInfo.real
-  let reducer ← if isSum && e'.dtype != .real then do
+  let resultDType := if boolSum then DInfo.nat else if isSum then e'.dtype else DInfo.real
+  let reducer ← if boolSum then `(Op.reduceSumBool) else if isSum && e'.dtype != .real then do
       let dtype ← e'.dtype.floatProof
       `(Op.reduceSumTyped $dtype)
     else pure op
@@ -838,7 +1032,10 @@ partial def expandDot (expandExpr : ExprExpander) (env : Env)
   if !typed then
     let opTerm ← `(Op.dot (options := $optionsT) (batch := $batchT)
       (M := $aM) (K := $aK) (N := $bN) $a'.term $b'.term)
-    return ⟨opTerm, .real, .dims (aBatch ++ [aM, bN]), none, none⟩
+    -- The legacy value channel can carry explicitly fp32 operands. Preserve
+    -- their compute precision through the dot and subsequent arithmetic.
+    let (computeTerm?, computeDType?) ← floatingComputeArith? "tl.dot" opTerm a' b'
+    return ⟨opTerm, .real, .dims (aBatch ++ [aM, bN]), computeTerm?, computeDType?⟩
   -- Triton's fp32 and bf16 operands produce fp32; fp16/fp8 operands use the
   -- selected result type, defaulting to fp32. Result dtype is part of the dot.
   if resultHint == some .bf16 then
@@ -1224,6 +1421,39 @@ partial def expandJoin (expandExpr : ExprExpander) (env : Env)
   let two : TSyntax `term ← `((2 : Nat))
   pure ⟨← `(Op.join $a'.term $b'.term), a'.dtype, .dims (dims ++ [two]), none, none⟩
 
+/-- Interleave equal tensors along their last axis (or join two scalars). The typed
+join/reshape graph retains every operand and its floating precision context. -/
+partial def expandInterleave (expandExpr : ExprExpander) (env : Env)
+    (a b : TSyntax `tritonExpr) : MacroM EOut := do
+  let a' ← expandExpr env a
+  let b' ← expandExpr env b
+  unless a'.dtype == b'.dtype do
+    Macro.throwError "tl.interleave: dtype mismatch"
+  ensureShape a'.shape b'.shape "tl.interleave"
+  let dims := match a'.shape with | .dims ds => ds
+  if dims.isEmpty then
+    let term ← `(Op.join $a'.term $b'.term)
+    let (computeTerm?, computeDType?) ← floatingComputeArith? "tl.interleave" term a' b'
+    return ⟨term, a'.dtype, .dims [← `((2 : Nat))], computeTerm?, computeDType?⟩
+  let lastDim := dims[dims.length - 1]!
+  let rec bareDim (t : TSyntax `term) : TSyntax `term :=
+    match t with
+    | `(($e:term)) | `(($e:term : $_:term)) => bareDim e
+    | _ => t
+  let doubledRaw ← match termNatLit? lastDim with
+    | some n => pure (⟨Syntax.mkNumLit (toString (n * 2))⟩ : TSyntax `term)
+    | none => do
+        let d := bareDim lastDim
+        `($d * 2)
+  let doubled ← `(($doubledRaw : Nat))
+  let outDims := dims.dropLast ++ [doubled]
+  let outShape ← shapeTermOfDims outDims
+  let term ← `(Op.reshape $outShape (Op.join $a'.term $b'.term))
+  ensureComputeArithComposable "tl.interleave" a'
+  ensureComputeArithComposable "tl.interleave" b'
+  let (computeTerm?, computeDType?) ← floatingComputeArith? "tl.interleave" term a' b'
+  pure ⟨term, a'.dtype, .dims outDims, computeTerm?, computeDType?⟩
+
 partial def expandSplit (expandExpr : ExprExpander) (env : Env)
     (e : TSyntax `tritonExpr) (side : Nat) : MacroM EOut := do
   let e' ← expandExpr env e
@@ -1255,8 +1485,12 @@ partial def expandExpandDims (expandExpr : ExprExpander) (env : Env)
   let axisLit : TSyntax `num := ⟨Syntax.mkNumLit (toString axisIdx)⟩
   let outDims : List (TSyntax `term) :=
     dims.take axisIdx ++ [← `((1 : Nat))] ++ dims.drop axisIdx
-  pure ⟨← `(Op.expandDim (⟨$axisLit, by simp [TileShape.eraseAxis, TileShape.setAxisOne]⟩) $e'.term),
-        e'.dtype, .dims outDims, none, none⟩
+  let term ← `(Op.expandDim (⟨$axisLit, by simp [TileShape.eraseAxis, TileShape.setAxisOne]⟩) $e'.term)
+  -- A view changes shape, not the register's computation precision. Rebuild
+  -- the compute expression around the expanded operand so its shape agrees
+  -- with the algorithm expression; reusing e'.computeTerm would be ill-typed.
+  let (computeTerm?, computeDType?) ← floatingComputeArith? "tl.expand_dims" term e' e'
+  pure ⟨term, e'.dtype, .dims outDims, computeTerm?, computeDType?⟩
 
 /-- Lower `e[:, None]` / `e[None, :]` to `Op.expandDim` with the appropriate
 axis. TritonBench-G contains scalar guard masks written as `cond[:, None]`;

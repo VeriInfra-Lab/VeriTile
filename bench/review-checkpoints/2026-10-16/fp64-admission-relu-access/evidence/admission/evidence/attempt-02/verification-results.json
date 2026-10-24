@@ -1,0 +1,18 @@
+[
+  {
+    "module": "bench/tritonbench_g/vector_addition/Proofs/DTypeAdmission.lean",
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lean",
+      "--root=/tmp/veritile-standardization-20261015/vector-dtype-admission-wip",
+      "/tmp/veritile-standardization-20261015/vector-dtype-admission-wip/bench/tritonbench_g/vector_addition/Proofs/DTypeAdmission.lean",
+      "-o",
+      "/tmp/veritile-standardization-20261015/vector-dtype-admission-wip/bench/tritonbench_g/vector_addition/Proofs/DTypeAdmission.olean"
+    ],
+    "exit_code": 1,
+    "seconds": 5.338695107027888,
+    "source_sha256_before": "1fdfccf848a65be422e3e7c1d103543ed502a7b464e05238e67f3bf9514f116d",
+    "source_sha256_after": "1fdfccf848a65be422e3e7c1d103543ed502a7b464e05238e67f3bf9514f116d",
+    "log": "evidence/attempt-02/DTypeAdmission.compile.log",
+    "log_sha256": "68f4bba5121df424bf3c7b044a790bfd3c3e59a292d5964e69531cef1b55e76c"
+  }
+]

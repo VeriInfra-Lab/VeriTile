@@ -1,0 +1,101 @@
+{
+  "schema": 1,
+  "task": "fused_layernorm_triton",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue06/result.json",
+    "sha256": "7ae7b1cff07a7eae50c418a92a90a26cc367270bb529c13f49c0bf8e5d0f06ea",
+    "task_index": 2
+  },
+  "finding": "Although normalization mathematics was visible, its input/output interface remained raw typed channels and one-dimensional channel indices.",
+  "resolution": "TensorInputs names the rows×D x matrix and weight/bias vectors. TensorOutputs names the mean and reciprocal-standard-deviation vectors and y matrix. Curried coordinate equivalences retain every finite cell; logicalExpected assembles the three mathematical outputs.",
+  "mathematical_target": "kernel_real: logicalIO implements all-D mean, variance, reciprocal sqrt(variance+1e-5), and affine normalization over named logical tensors.",
+  "conditions_and_scope": "Retains D>0, output separation, both permitted block configurations and a complete reduction tree. Every row and every logical column participates, without a D≤block restriction. The source uses FP32 inputs/statistics and BF16 y storage; the Real theorem interprets explicit source operations mathematically and retains all masks, safety and exterior frames.",
+  "proof_connection": "PublicIO.logical_iff transports the whole ProgramIO judgment for an arbitrary independent row callback. PublicIO.logical_real applies existing IOResults.real. Both input and output maps are Equiv values, not shape-only aliases.",
+  "fp_review": "Unchanged Pair.original p ≡[Pair.assumptions] Pair.candidate p, hoisting invariant row scalar projections from the second loop. Full grids, typed Mean/Rstd/Y observations, arithmetic order and storage precision remain unchanged; empty experimental rule set.",
+  "numerical_dependencies": {
+    "experimental_rule_instances": [],
+    "strict_rewrite_certificates": [],
+    "classification": "Empty experimental rule set. Exact model/source structure and any listed strict software theorem are retained; no new hardware-conformance claim."
+  },
+  "previous_formula_scope": {
+    "mathematical_target": "For every logical row: mean=Σ_{col<D} x/D, variance=Σ_{col<D}(x-mean)^2/D, inverse=1/sqrt(variance+1e-5), output=(x-mean)*inverse*weight+bias. The three channel outputs are mean, inverse and affine normalization.",
+    "required_conditions": {
+      "public_conditions": [
+        "0<D",
+        "Separation X W Bias Y Mean Rstd",
+        "Contract.Configuration.allowed: block=1024 or 2048",
+        "c.tree.Complete for Real mean/variance",
+        "ProgramIO input/physical bounds and frame remain implicit judgment conditions"
+      ],
+      "contract_and_domain_correspondence": "Contract width positivity and both autotune configurations match the public Real assumptions. Outputs must be fresh as stated by Separation. FP equivalence can retain an arbitrary identical selected tree on both sides; the independent Real formula specifically needs Complete."
+    },
+    "scope": "Complete selected row grid, all logical D columns, both 1024/2048 source chunk sizes, masked chunk tails, FP32 statistics and BF16 output storage. The source loops cover D; no false D<=block restriction is added.",
+    "canonical_connection": "IOResults.real -> PublicIO.implements -> KernelValues.real -> independent Contract/Mathlib means and variance. Existing reader-local normalization already uses logical D; complete headline Iff.rfl confirms notation did not change the target.",
+    "fp_program_pair": {
+      "fp_actual_pair": "Pair.original p versus Pair.candidate p: hoist invariant row scalar projections out of the second loop in the complete grid, retaining every Welford operation, tree and cast.",
+      "fp_conditions_and_model_binding": [
+        "Pair.Parameters contains positive D, separation and the actual configuration",
+        "Native.Instructions and Native.Profile remain explicit software-model interpretations",
+        "All raw native values and typed Mean/Rstd/Y observations retained; no floating rewrite or finite-only restriction"
+      ]
+    },
+    "numerical_dependencies": {
+      "experimental_rule_instances": [],
+      "strict_rewrite_certificates": [],
+      "classification": "Empty experimental rule set. Exact model/source structure and any listed strict software theorem are retained; no new hardware-conformance claim."
+    }
+  },
+  "verification": [
+    {
+      "kind": "targeted_current_sources",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue06/build.py",
+        "bench/repairs/tritonbench_g/fused_layernorm_triton/LogicalCoordinates.lean",
+        "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/LogicalCoordinates.lean",
+        "bench/repairs/tritonbench_g/fused_layernorm_triton/Correct.lean",
+        "bench/repairs/tritonbench_g/fused_layernorm_triton/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue06/fused_layernorm_triton.targeted.log",
+      "log_sha256": "0c6f82f50ab6e51ddae3cb77684ec4a3ae2faed408a600debf4525df1571aa3f"
+    },
+    {
+      "kind": "task_joint_import",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue06/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue06/fused_layernorm_triton.joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue06/fused_layernorm_triton.joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Contract.lean": "a99da7f114db8de85c60447ef81405434849332131cb0d977ca91c28c4af9777",
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Correct.lean": "35e88842d1436a92896631ed03fc6d7571f4fad5169f2a7fa76897689dcfd869",
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/FPEquiv.lean": "768476cd3c619895670c378704dfe5382d81e0c1bebf2bf56a4450b7a91130ca",
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Kernels.lean": "eff744a6951eca44f744094dab82c288815feeec9efd51aff3c4fcbd78c4c6f1",
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/LogicalCoordinates.lean": "25ab97842f75ada48891ee6db6ac91f0716acb236a40982b7f82ccae20f61f14",
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/IOResults.lean": "479638ad3665f4d6deac653eadeb5b164ede10a9baa84e72f9af3501f0adc984",
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/LogicalCoordinates.lean": "a57eedabcfa33f99a5473fe47f898f41bac5ae1664dd9355ccdbde25e55ef78f",
+    "bench/repairs/tritonbench_g/fused_layernorm_triton/Proofs/PairEquivalence.lean": "04b3b5bc2e4828dc29c25f61d337efb6c89e688eed6e68df54fe96e7b621f90f",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

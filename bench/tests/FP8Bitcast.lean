@@ -23,7 +23,8 @@ theorem runtime_reinterpretation : (source "K" "O").surfaceBody[3]? = some
 
 theorem following_cast : (source "K" "O").surfaceBody[4]? = some
     (.assign .fp16 [2] "half" (.alg
-      (.castFloat .f8e5 .fp16 (.ref .f8e5 [2] "bits")))) := rfl
+      (.castFloat .f8e5 .fp16
+        (.withPrecision .f8e5 .fp32 (.ref .f8e5 [2] "bits"))))) := rfl
 
 def explicitLoad (K : RegionName) : ComputeKernel := triton {
   raw = tl.load(K + $(0), dtype=tl.int8)

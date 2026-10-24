@@ -28,7 +28,7 @@ def statsCode (p : Layout) : List Stmt :=
    .assign .real [p.BM] "l_ij" (.reduceSum ⟨1,by simp⟩ Bool.false (mat p "p"))]
 
 def normalizerCode (p : Layout) : List Stmt :=
-  [.assign .real [p.BM] "m_i_new" (.where (.gt .real Broadcast.nil.consSame (vec p "m_i") (vec p "m_ij")) (vec p "m_i") (vec p "m_ij")),
+  [.assign .real [p.BM] "m_i_new" (.max2 Broadcast.nil.consSame (vec p "m_i") (vec p "m_ij")),
    .assign .real [p.BM] "alpha" (.exp (.sub .real Broadcast.nil.consSame (vec p "m_i") (vec p "m_i_new"))),
    .assign .real [p.BM] "beta" (.exp (.sub .real Broadcast.nil.consSame (vec p "m_ij") (vec p "m_i_new"))),
    .assign .real [p.BM] "l_i_new" (.add .real Broadcast.nil.consSame

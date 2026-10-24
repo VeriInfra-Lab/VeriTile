@@ -1,3 +1,4 @@
+import VeriTile.Triton.Math.MaximumProjection
 import bench.tritonbench_g.context_attn_fwd.Proofs.LoopProgram
 namespace VeriTile.Bench.TritonBenchG.ContextAttnFwd.StatsExecution
 open VeriTile.Triton Formula Program PreludeProgram LoopProgram NumericOps
@@ -50,7 +51,7 @@ theorem executes (p : Layout) (qk : Tile .real [p.BM,p.BN]) (mi li rm : Tile .re
   let s4 := s3.setReg "l_ij" .real [p.BM] (denominator p qk mx)
   let s5 := s4.setReg "alpha" .real [p.BM] (alpha p mi mx)
   let s6 := s5.setReg "l_i" .real [p.BM] (updatedDenominator p li (alpha p mi mx) (denominator p qk mx))
-  have h1 := ctxMij_op_eval u mi rm qk hm hq hr
+  have h1 := evalOp_max2_of_where (ctxMij_op_eval u mi rm qk hm hq hr)
   have h2 := ctxQk2_op_eval s1 qk mx (by simp [s1,hq]) (by simp [s1])
   have h3 := ctxP_op_eval s2 (shifted p qk mx) (by simp [s2])
   have h4 := ctxLij_op_eval s3 (probabilities p qk mx) (by simp [s3])
@@ -60,7 +61,7 @@ theorem executes (p : Layout) (qk : Tile .real [p.BM,p.BN]) (mi li rm : Tile .re
   have h7 := ctxAcc1_op_eval s6 acc (alpha p mi mx)
     (by simp [s6,s5,s4,s3,s2,s1,ha]) (by simp [s6,s5])
   unfold stats column vec mat
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some (shape := [p.BM]) (name := "m_ij") h1)]
+  erw [stepStmts.cons_some (stepStmt_assign_eq_some (shape := [p.BM]) (name := "m_ij") h1)]
   change stepStmts _ s1 = _
   rw [stepStmts.cons_some (stepStmt_assign_eq_some h2)]
   change stepStmts _ s2 = _

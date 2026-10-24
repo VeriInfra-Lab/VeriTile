@@ -1,0 +1,22 @@
+SinKernelNative.grid_parse_precedes_pointer_packing: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+SinKernelNative.HostSpec: definition does not reference [SinKernelNative.executeHost,
+ SinKernelNative.executeAllocated,
+ SinKernelNative.executeLaunch,
+ SinKernelNative.executeGrid,
+ SinKernelNative.executeProgram,
+ SinKernelNative.sourceWrites] — non-circular ✓
+SinKernelNative.ReturnedSpec: definition does not reference [SinKernelNative.executeHost,
+ SinKernelNative.executeAllocated,
+ SinKernelNative.executeLaunch,
+ SinKernelNative.executeGrid,
+ SinKernelNative.executeProgram,
+ SinKernelNative.sourceWrites] — non-circular ✓
+SinKernelNative.allocated_return_of_launch: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+SinKernelNative.allocated_all_outcomes: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
+SinKernelNative.uses_extracted_pointer: axiom footprint ⊆ standard base ✓  ([propext])
+SinKernelNative.sin_kernel_native_source_outcomes: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+SinKernelNative.sin_kernel_two31_return: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])

@@ -1,0 +1,12 @@
+--- bench/tritonbench_g/vector_addition/Proofs/NativeMemory.lean
++++ bench/tritonbench_g/vector_addition_custom/Proofs/NativeMemory.lean
+@@ -1,7 +1,8 @@
+ import bench.tritonbench_g.vector_addition.Proofs.NativeScalar
+ 
+ namespace VeriTile.Bench.TritonBenchG.VectorAddition.Native
+-open VeriTile.Triton DTypeScope TypedHost Finite
++open VeriTile.Bench.TritonBenchG.VectorAddition
++open VeriTile.Triton DTypeScope TypedHost VectorAddition.Finite
+ noncomputable section
+ open Classical
+ set_option maxHeartbeats 6000000

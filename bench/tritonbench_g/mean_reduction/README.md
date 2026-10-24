@@ -1,5 +1,7 @@
 # mean_reduction
 
+Public-entry cleanup (2026-10-14): the current benchmark specifications are the `specification` declarations in [Correct.lean](Correct.lean) and [FPEquiv.lean](FPEquiv.lean). Superseded entries have been retired; reusable mathematical facts remain ordinary helper theorems, and unused output-summary declarations have been removed. Historical preservation counts below describe the earlier snapshots. This cleanup adds no proof coverage or task acceptance.
+
 `Kernels.lean` retains the complete row-chunk accumulation loop, zero padding,
 fp32 accumulator, final column reduction/division and masked row store. Its
 typed family covers all sixteen fp32/fp16/bf16/fp64 input/output storage pairs.
@@ -34,3 +36,11 @@ This is a per-program contract for the contiguous matrix produced by the host's
 `dim_compress`. Host permutation/allocation/launch composition, legal Triton
 tile sizes, fixed-width address overflow and nonfloating storage profiles are
 outside the current proof scope. Independent comparator replay remains pending.
+
+The retained original proof credit is unchanged. `Proofs/Real.lean` now holds the
+former public implementation behind the compatibility `Correct.lean` import.
+Historical `Whole*` helpers restore the FP32 wrapper composition, independent
+coordinate mean, compression order, output shapes, full grid/frame, finite
+indices and inspected native graph. They do not broaden the existing sixteen
+per-program precision profiles. The separate guarded FP32 whole-wrapper
+candidate is documented in `bench/repairs/tritonbench_g/mean_reduction/README.md`.

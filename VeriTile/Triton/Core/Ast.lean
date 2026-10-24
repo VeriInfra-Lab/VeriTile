@@ -7,6 +7,8 @@ Typed expression, statement, and kernel AST definitions for the Triton core.
 import Mathlib.Data.Rat.Defs
 import VeriTile.Triton.Core.Shape
 import VeriTile.Triton.Core.Float8
+import VeriTile.Triton.Random.SourceProfile
+import VeriTile.Triton.Random.DirectProfile
 
 namespace VeriTile.Triton
 
@@ -122,6 +124,23 @@ inductive Op : TileDType → TileShape → Type where
   | numPrograms : (axis : Nat) → Op .nat []
   | ref       : (dtype : TileDType) → (shape : TileShape) → RegName → Op dtype shape
   | arange    : (n : Nat) → Op .nat [n]
+  /-- Deterministic Philox random generation with its actual two fp32 rounding
+  stages. Source integer widths remain explicit even under precision erasure.
+  The seed is scalar; the offsets determine the result shape. -/
+  | rand : Random.SourceProfile → Op .int [] → Op .int shape → Op .real shape
+  /-- Same-shape per-lane Philox seeds and offsets. Both children are evaluated
+  even for empty tiles; source integer profiles validate all original lanes.
+  No implicit seed/offset broadcasting is performed. -/
+  | randTensor : Random.SourceProfile → Op .int shape → Op .int shape → Op .real shape
+  /-- A field of a direct Philox4x32 call, retaining all five source operands
+  and their original shapes. Tuple lowering must capture the operands first. -/
+  | philox4x32 {ins outs : Random.Direct.Shapes} {rounds : Nat} :
+      Random.Direct.Profile → Random.Direct.Plan ins rounds outs →
+      (field : Random.Direct.Field) → Op .int [] →
+      Op .int ins.c0 → Op .int ins.c1 → Op .int ins.c2 → Op .int ins.c3 →
+      Op .nat (outs.at field)
+  /-- The canonical two-rounding uint32-to-fp32 uniform helper. -/
+  | uniform32 : Op .nat shape → Op .real shape
   | broadcast : Op dtype [] → (shape : TileShape) → Op dtype shape
   | full      : (shape : TileShape) → Op dtype [] → Op dtype shape
   /-- Evaluate a floating subtree at its own arithmetic precision. This preserves
@@ -129,6 +148,19 @@ inductive Op : TileDType → TileShape → Type where
   | withPrecision : (dtype : FloatDType) → IndexComputePrecision →
       Op dtype.toTileDType shape → Op dtype.toTileDType shape
   | castFloat : (src dst : FloatDType) → Op src.toTileDType shape → Op dst.toTileDType shape
+  /-- Floating sign negation, separate from subtraction so signed zero and
+  NaN payloads can be preserved by the floating backend. -/
+  | negFloat : (dtype : FloatDType) → Op dtype.toTileDType shape → Op dtype.toTileDType shape
+  /-- Floating absolute value clears the sign bit, including negative zero
+  and negative NaNs; it is not a comparison followed by subtraction. -/
+  | absFloat : (dtype : FloatDType) → Op dtype.toTileDType shape → Op dtype.toTileDType shape
+  /-- Explicit toward-zero floating conversion. Source precision and format,
+  signedness, and destination width are retained; unavailable or out-of-domain
+  conversions fail in the floating interpreter. -/
+  | floatToInt : Option IndexComputePrecision → (src : FloatDType) → Nat →
+      Op src.toTileDType shape → Op .int shape
+  | floatToNat : Option IndexComputePrecision → (src : FloatDType) → Nat →
+      Op src.toTileDType shape → Op .nat shape
   | castNatToInt : Op .nat shape → Op .int shape
   | castIntToNat : Op .int shape → Op .nat shape
   | castRealToInt8 : Op .real shape → Op .int shape
@@ -183,6 +215,12 @@ inductive Op : TileDType → TileShape → Type where
   | boolOr    : Broadcast a b out → Op .bool a → Op .bool b → Op .bool out
   | boolNot   : Op .bool shape → Op .bool shape
   | max2      : Broadcast a b out → Op .real a → Op .real b → Op .real out
+  /-- Floating elementwise maximum, preserving its storage channel and
+  broadcasting. This is an independent floating primitive: default Triton
+  maximum is not equivalent to an ordered comparison followed by selection
+  when a NaN occurs. The surrounding precision context is retained. -/
+  | maximumFloat : (dtype : FloatDType) → Broadcast a b out →
+      Op dtype.toTileDType a → Op dtype.toTileDType b → Op dtype.toTileDType out
   /--
   Element-wise power (`tl.extra.cuda.libdevice.pow(base, exponent)`) on the
   ℝ channel, modeled by Mathlib's `Real.rpow`. For base > 0 this matches
@@ -193,6 +231,10 @@ inductive Op : TileDType → TileShape → Type where
   binary arithmetic ops, so the common scalar-base × tensor-exponent form
   (e.g. RoPE's `pow(theta, freqs)`) is a `Broadcast [] s s` instance. -/
   | pow       : Broadcast a b out → Op .real a → Op .real b → Op .real out
+  /-- CUDA libdevice integer power (`__nv_powif` / `__nv_powi`). The exponent
+  remains an integer; a compute precision scope selects the floating overload.
+  The FP backend is independent of both multiplication and floating power. -/
+  | libdevicePowi : Broadcast a b out → Op .real a → Op .int b → Op .real out
   /--
   Element-wise select (`tl.where(cond, a, b)`): pick `a` where the bool
   tile `cond` is `true`, else pick `b`. All three arguments share the
@@ -210,6 +252,10 @@ inductive Op : TileDType → TileShape → Type where
   | ite       : {dtype : TileDType} → {shape : TileShape} →
                 Op .bool [] → Op dtype shape → Op dtype shape →
                 Op dtype shape
+  /-- Block-level floating minimum, independent of maximum and negation. -/
+  | reduceMin : (axis : Fin shape.length) → (keepDims : Bool) →
+                Op .real shape →
+                Op .real (TileShape.reduceShape shape axis keepDims)
   /-- Block-level reduce-max along an arbitrary axis. -/
   | reduceMax : (axis : Fin shape.length) → (keepDims : Bool) →
                 Op .real shape →
@@ -226,6 +272,11 @@ inductive Op : TileDType → TileShape → Type where
   | reduceSum : (axis : Fin shape.length) → (keepDims : Bool) →
                 Op .real shape →
                 Op .real (TileShape.reduceShape shape axis keepDims)
+  /-- Bool sum with Triton's default uint32 accumulator and result. The Nat
+  carrier is bounded modulo 2^32; no floating reduction participates. -/
+  | reduceSumBool : (axis : Fin shape.length) → (keepDims : Bool) →
+                Op .bool shape →
+                Op .nat (TileShape.reduceShape shape axis keepDims)
   /-- A floating sum that retains its input/accumulator/output channel.
   Unlike an explicit cast followed by a real/fp32 sum, a half-precision sum
   selects its own opaque FP reduction. Precision erasure still yields the
@@ -247,6 +298,9 @@ inductive Op : TileDType → TileShape → Type where
   /-- Axis index of the maximum value, with ties resolved toward the smallest
   axis coordinate. -/
   | argMax    : (axis : Fin shape.length) → Op .real shape →
+                Op .nat (TileShape.eraseAxis shape axis)
+  /-- Exact signed integer argmax with smallest-index ties. -/
+  | argMaxInt : (axis : Fin shape.length) → Op .int shape →
                 Op .nat (TileShape.eraseAxis shape axis)
   /-- Selected value of a paired indexed maximum. Unlike ordinary maximum,
   this retains the indexed combine operation and its special-value semantics. -/
@@ -368,6 +422,11 @@ inductive Op : TileDType → TileShape → Type where
                 MaskOpt dtype shape → (padding : PaddingOption := .zero) → Op dtype shape
   | natToReal : Op .nat shape → Op .real shape
   | intToReal : Op .int shape → Op .real shape
+  /-- Default Triton floating minimum, retaining its storage channel and
+  broadcasting. Its FP backend is independent of comparisons and maximum;
+  NaN, signed-zero and payload behavior come from the selected profile. -/
+  | minimumFloat : (dtype : FloatDType) → Broadcast a b out →
+      Op dtype.toTileDType a → Op dtype.toTileDType b → Op dtype.toTileDType out
 
 /-- Memory address form shared by load and store nodes.
 
@@ -482,6 +541,34 @@ abbrev AlgOp := Op
 /-- Long-term name for the algorithm-layer kernel AST. -/
 abbrev AlgKernel := Kernel
 
+/-- Validate all source integer inputs before the generator's modular
+conversions. This does not assert that earlier source arithmetic was free of
+overflow; that is a separate source-domain obligation. -/
+def Random.SourceProfile.inputsValid {shape : TileShape}
+    (cfg : Random.SourceProfile) (seed : Int) (offsets : TileIndex shape → Int) : Bool :=
+  cfg.seedType.inRange seed &&
+    (TileShape.allIndices shape).all (fun i => cfg.offsetType.inRange (offsets i))
+
+@[simp] theorem Random.SourceProfile.inputsValid_iff {shape : TileShape}
+    (cfg : Random.SourceProfile) (seed : Int) (offsets : TileIndex shape → Int) :
+    cfg.inputsValid seed offsets = true ↔
+      cfg.seedType.inRange seed = true ∧ ∀ i, cfg.offsetType.inRange (offsets i) = true := by
+  simp [Random.SourceProfile.inputsValid, TileShape.mem_allIndices]
+
+/-- Validate both same-shaped source operands before canonical modular RNG
+conversions. Empty tensors still require both operand evaluations to succeed. -/
+def Random.SourceProfile.tensorInputsValid {shape : TileShape}
+    (cfg : Random.SourceProfile) (seeds offsets : TileIndex shape → Int) : Bool :=
+  (TileShape.allIndices shape).all (fun i => cfg.seedType.inRange (seeds i)) &&
+    (TileShape.allIndices shape).all (fun i => cfg.offsetType.inRange (offsets i))
+
+@[simp] theorem Random.SourceProfile.tensorInputsValid_iff {shape : TileShape}
+    (cfg : Random.SourceProfile) (seeds offsets : TileIndex shape → Int) :
+    cfg.tensorInputsValid seeds offsets = true ↔
+      (∀ i, cfg.seedType.inRange (seeds i) = true) ∧
+        (∀ i, cfg.offsetType.inRange (offsets i) = true) := by
+  simp [Random.SourceProfile.tensorInputsValid, TileShape.mem_allIndices]
+
 /-- Error type for compute-kernel features that cannot be projected into the
 algorithm layer. -/
 inductive EraseDTypeError where
@@ -513,6 +600,21 @@ end UInt32Bits
 
 namespace Int32Bits
 
+/-- The native signed int32 operand domain. Values outside it are invalid
+typed inputs; integer-power evaluation must fail instead of wrapping them. -/
+def inRange (n : Int) : Bool := decide (-(2147483648 : Int) ≤ n ∧ n < 2147483648)
+
+/-- Check all exponent lanes before calling a native int32 backend. -/
+def valuesValid {shape : TileShape} (values : TileIndex shape → Int) : Bool :=
+  (TileShape.allIndices shape).all (fun i => inRange (values i))
+
+@[simp] theorem valuesValid_const {shape : TileShape} (n : Int)
+    (hn : inRange n = true) : valuesValid (shape := shape) (fun _ => n) = true := by
+  simp [valuesValid, hn]
+
+@[simp] theorem inRange_two : inRange 2 = true := rfl
+
+
 def toInt (x : Int32Bits) : Int :=
   let n := x.bits.toNat
   if n < 2^31 then
@@ -534,18 +636,22 @@ private def scalePow2 (q : Rat) (e : Int) : Rat :=
     q / pow2 (-e).toNat
 
 /--
-Computable finite-normal IEEE-754 binary32 decode to `Rat`.
+Computable finite IEEE-754 binary32 decode to `Rat`.
 
-This initial algorithm bridge intentionally supports only finite normal values.
-Zeros, subnormals, infinities, and NaNs return `none` until the compute-correct
-IEEE model is widened.
+Signed zeros project to rational zero and subnormals use their exact dyadic
+value. Infinities and NaNs return `none`; bit-pattern semantics retains their
+payloads separately from this real-valued projection.
 -/
 def decodeRat (x : Float32Bits) : Option Rat :=
   let n := x.bits.toNat
   let sign := n / 2^31
   let exp := (n / 2^23) % 256
   let frac := n % 2^23
-  if exp = 0 ∨ exp = 255 then
+  if exp = 0 then
+    let significand : Rat := (frac : Nat)
+    let signed := if sign = 0 then significand else -significand
+    some (scalePow2 signed (-149))
+  else if exp = 255 then
     none
   else
     let significand : Rat := (2^23 + frac : Nat)
@@ -566,7 +672,7 @@ structure Float64Bits where
 
 namespace Float64Bits
 
-/-- Finite-normal binary64 projection, with the same partial domain as binary32. -/
+/-- Finite-normal binary64 projection; exponent-zero encodings remain unsupported. -/
 def decodeRat (x : Float64Bits) : Option Rat :=
   let n := x.bits.toNat
   let sign := n / 2^63
@@ -793,11 +899,34 @@ theorem minusOneBitcast_toAlgorithm :
 
 end ComputeOp
 
+/-- The two source libdevice finite classifiers have different input widths.
+This tag never inherits the surrounding default arithmetic precision. -/
+inductive FinitePrecision where
+  | fp32 | fp64
+  deriving Repr, BEq, DecidableEq
+
 inductive ComputeExpr : AlgDType → TileShape → Type where
   | alg : Op dtype shape → ComputeExpr dtype shape
   | compute : ComputeOp cdtype shape → ComputeExpr cdtype.eraseDType shape
   | opaque : (op : String) → ComputeExpr dtype shape
   | llrint : ComputeExpr .real shape → ComputeExpr .int shape
+  /-- IEEE finite classification is a compute-only Bool operation. The child
+  retains every source load/cast and its independent arithmetic precision. -/
+  | isFinite : FinitePrecision → ComputeExpr .real shape → ComputeExpr .bool shape
+  /-- Explicit fused multiply-add. The operands keep their individual compute
+  graphs and are broadcast before a single precision-selected FMA. Its Real
+  projection is mathematical multiplication plus addition; FP execution must
+  retain this node and must never substitute separately rounded operations.
+  See https://triton-lang.org/main/python-api/generated/triton.language.fma.html. -/
+  | fma : IndexComputePrecision → Broadcast a b ab → Broadcast ab c out →
+      ComputeExpr .real a → ComputeExpr .real b → ComputeExpr .real c →
+      ComputeExpr .real out
+  /-- Storage-typed fused multiply-add. All operands and the result retain the
+  same floating dtype, including FP16. This is one primitive operation; the
+  mathematical projection does not assert equality with rounded mul/add. -/
+  | fmaTyped : (dtype : FloatDType) → Broadcast a b ab → Broadcast ab c out →
+      ComputeExpr dtype.toTileDType a → ComputeExpr dtype.toTileDType b →
+      ComputeExpr dtype.toTileDType c → ComputeExpr dtype.toTileDType out
 
 namespace ComputeExpr
 
@@ -806,6 +935,21 @@ def toAlgorithm? : ComputeExpr dtype shape → Except EraseDTypeError (Op dtype 
   | .compute e => ComputeOp.toAlgorithm? e
   | .opaque op => Except.error (.requiresComputeSemantics op)
   | .llrint _ => Except.error (.requiresComputeSemantics "runtime CUDA llrint")
+  | .isFinite _ _ => Except.error (.requiresComputeSemantics "libdevice finite classification")
+  | .fma _ bcAB bcC a b c => do
+      let a' ← a.toAlgorithm?
+      let b' ← b.toAlgorithm?
+      let c' ← c.toAlgorithm?
+      return Op.add NumericDType.real bcC (Op.mul NumericDType.real bcAB a' b') c'
+  | .fmaTyped dtype bcAB bcC a b c => do
+      let a' ← a.toAlgorithm?
+      let b' ← b.toAlgorithm?
+      let c' ← c.toAlgorithm?
+      return Op.add dtype.numericDType bcC (Op.mul dtype.numericDType bcAB a' b') c'
+
+@[simp] theorem toAlgorithm?_isFinite (p : FinitePrecision) (e : ComputeExpr .real shape) :
+    (ComputeExpr.isFinite p e).toAlgorithm? =
+      Except.error (.requiresComputeSemantics "libdevice finite classification") := rfl
 
 @[simp] theorem toAlgorithm?_alg (e : Op dtype shape) :
     (ComputeExpr.alg e).toAlgorithm? = Except.ok e := rfl

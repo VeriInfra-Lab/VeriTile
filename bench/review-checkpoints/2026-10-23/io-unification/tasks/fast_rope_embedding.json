@@ -1,0 +1,332 @@
+{
+  "schema": 1,
+  "task": "fast_rope_embedding",
+  "status": "unchanged",
+  "owner": {
+    "path": ".veritile-cache/io-unification-20261023/queue05/result.json",
+    "sha256": "347a32cf78210b10569dd4b576fe337b999e2aa51c817529e322e71392f3356b",
+    "task_index": 7
+  },
+  "reason": "The full memory interface and named logical view already reside in IO.lean. PairIO.lean contains candidate source/schedule selection and thin variants, without another full memory descriptor.",
+  "selected_public_entries": [
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Contract.lean",
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Correct.lean",
+    "bench/repairs/tritonbench_g/fast_rope_embedding/FPEquiv.lean"
+  ],
+  "previous_semantic_review": {
+    "manifest": {
+      "path": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json",
+      "sha256": "5df771b8603eaf5d9f08b4fde0c5b938c18087c00092f5348b47eb54d33a8225"
+    },
+    "task": "fast_rope_embedding"
+  },
+  "changed_files": [],
+  "removed_files": [],
+  "moved_declarations": [],
+  "preservation": {
+    "all_task_sources_byte_identical": true,
+    "current_io": "bench/repairs/tritonbench_g/fast_rope_embedding/IO.lean",
+    "prior_source_pins_match": true
+  },
+  "verification": [
+    {
+      "kind": "cached_prior_success_reuse",
+      "report": ".veritile-cache/logical-reader-review-20261022/queue05/result.json",
+      "report_sha256": "b7855ba15faaf5e2f177961e4a8a89181354e8928bbce04e8519a187efbab386",
+      "prior_successful_verification": [
+        {
+          "task": "fast_rope_embedding",
+          "kind": "fp_source",
+          "command": [
+            "python",
+            "-u",
+            ".veritile-cache/logical-reader-review-20261022/queue05/build.py",
+            "bench/repairs/tritonbench_g/fast_rope_embedding/FPEquiv.lean"
+          ],
+          "exit_code": 0,
+          "log": ".veritile-cache/logical-reader-review-20261022/queue05/fp-fast_rope_embedding.log",
+          "log_sha256": "f896da88779e2edddf0de81c56ed9b607860ab0ae01606a51adf3f28acb965e9",
+          "reuse": "Prior task-local successful check; reviewed source and receipt pins remain current."
+        },
+        {
+          "task": "fast_rope_embedding",
+          "kind": "task_joint",
+          "command": [
+            "python",
+            "-u",
+            ".veritile-cache/logical-reader-review-20261022/queue05/build.py",
+            "--check",
+            ".veritile-cache/logical-reader-review-20261022/queue05/joint_fast_rope_embedding.lean"
+          ],
+          "exit_code": 0,
+          "source": ".veritile-cache/logical-reader-review-20261022/queue05/joint_fast_rope_embedding.lean",
+          "source_sha256": "82c4a2c1ebc5bc8c7c6533fb1e35519f31be5ff732f1c53f994366440f65432d",
+          "log": ".veritile-cache/logical-reader-review-20261022/queue05/joint-fast_rope_embedding.log",
+          "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "reuse": "Prior task-local successful check; reviewed source and receipt pins remain current."
+        },
+        {
+          "kind": "receipt_source_object_direct_dependency_audit",
+          "command": [
+            "python",
+            ".veritile-cache/logical-reader-review-20261022/queue05/audit-receipts.py"
+          ],
+          "exit_code": 0,
+          "log": ".veritile-cache/logical-reader-review-20261022/queue05/receipts-final.json",
+          "log_sha256": "a3a64928712915a8204fd3fec33335656e18e0542b5c5ab22d8bdec24b8df76e"
+        }
+      ],
+      "pin_audit": ".veritile-cache/io-unification-20261023/queue05/baseline-source-pin-audit.json",
+      "pin_audit_sha256": "3535eb0ebc67ecff6130c8fdf140403077be3390e085e927116ef26d9c46b6b5",
+      "prior_log_audit": ".veritile-cache/io-unification-20261023/queue05/prior-verification-audit.json",
+      "prior_log_audit_sha256": "cada918c9d52d249c52abe0debf55355e8bac5f5290f276a97543be2d2eac907",
+      "fresh_lean_build_in_this_campaign": false
+    },
+    {
+      "kind": "fresh_source_organization_and_body_preservation_audit",
+      "command": [
+        "python",
+        ".veritile-cache/io-unification-20261023/queue05/audit-sources.py"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue05/source-audit.json",
+      "log_sha256": "e7702b0b935237adebd55b2442d77ba9f3c9f854d7bcbef4e04dd12519294e97"
+    }
+  ],
+  "verification_status": "unchanged_reused",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Contract.lean": "d7db028719875e4478ed376be50113faa0efb57b48accc70783f4793b163a5de",
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Correct.lean": "5cd6502389fddc87c6e06e37942494b53f955bc65c09f5e5b185a339c12ef46f",
+    "bench/repairs/tritonbench_g/fast_rope_embedding/FPEquiv.lean": "a5723970b08fd06fda3e486db0c52e27cf39ac39dfabe1aebc7f504c9f80bbf1",
+    "bench/repairs/tritonbench_g/fast_rope_embedding/IO.lean": "06101beccf615546da86e3297d05894666142ed52179ba6ccb477bc7c5ba243c",
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Kernels.lean": "1a2716d7954a4e9197a92f489fef0e6bc1550b134b5711030be843dd91347628",
+    "bench/repairs/tritonbench_g/fast_rope_embedding/PairIO.lean": "cdbefed9fef5d67888927e969cdf912fa8af57d2b094b92583f041ede2b8e893",
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/IOPair.lean": "61cc52800eb42077f43a41ee9dd6e56e97d00d0f8b5c357baae48e2dfde4634b",
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/LogicalIO.lean": "481a2a7bd282d22106880e5e265af3f8f8903e058ca4499279d9b3002b036ffb",
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/RealIO.lean": "2d25a56b5374513cebf606719aeeddd3d1edd40842d3a155ffa9a87a2eae9b7a",
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/ProgramPair.lean": "8597773f4167c004b6f7ff006f253967c79d33543f883830b3c5f60cd5b527b8",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8",
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Misc/HostCorrect.lean": "b76b4fda0aa7fe2cea57ebe0a28a56b243d58e47e70facdfb4b1cf50422a490a",
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Misc/HostFPEquiv.lean": "a0a180b0c549607601cbc989f60b7709296fd3f4201c4cb67236427751f9bef7",
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Misc/InterfaceChecks.lean": "662ece1027f28815f6eb7afb135df9993d5fb494b7354561994983ad52b9c322",
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Misc/KernelBytes.lean": "a1e35bc34c87f6aeb04557346e3980be9206b3b1132ab969331173673099c484",
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Misc/KernelResult.lean": "b85140f2f11d9675d1127ef781a54c32771791664b718e65e77d8c325b2f2058",
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Misc/NativeCorrect.lean": "2d6e44a4cbbdc9af9f214dceb926e8fb2ed1d1f2f4bb46c0d58fc18750f3ad9a",
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Misc/RawNative.lean": "bea677b4e16a2b2a84520321e97776dca60fae9238b74a495a3351dc418261c5",
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Misc/TensorBridge.lean": "79fdc70eb035552ae9bdc316012c44bdaf776e68ec1c702ce27df45204e2a159",
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/AccessSafety.lean": "66e7ade2a139402ccee049133942568b2ef9f85bbd98a636eabae942bf99c538",
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/Allocation.lean": "b59d731456d4fe8c921eaa8f130b322ead4b860d4e13e4d7f38c939e01479ede",
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/Backward.lean": "683cd6fa9c2b28f683d9756170a9a2888284c1ecc687be37a6d2b1101d7f28fa",
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/HostContract.lean": "85cda5971926c4070d2d19efcbe50c74122bc6bebea455465ed32abc19aac91e",
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/Interface.lean": "eec5b763f3ac9af035ce1f35e26f2eb051fced270ff9d9c1818ac5f8998f82d6",
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/KernelAccess.lean": "9a9ed212d9ba48da298d2f5856538ea1a9d3960fb489fed81d2194517e0cf10b",
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/KernelInterface.lean": "c848c8fa58b611f1568d1bf2678289260bb90a6cc819d011d2b0b3edddf69e34",
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/KernelMemory.lean": "a9cf9c675c9fdfba707941f8eef77f351f41bdd34f2fd54ffb070f97ec84eee5",
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/KernelRegressions.lean": "f48218a00b111e36f2ae8bc0b8f1b7dc05f133b619eba5b99777fa81d745acab",
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/KernelSource.lean": "2238bc7a5c6c0eede79adea8c12d67df1651689e9304c8dadf594b7eae7acea4",
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/NativeIO.lean": "961d2fd8c1c7ddaa588ba8c546e59f85fd9ccd5030a5dc98e4518d4cf58b24a7",
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/Public.lean": "641611780fab02cbed8e3102101f61046ea15005ff703884b7ca520d00172140",
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/RawReal.lean": "f8a28c90c93387257a28787f6d9be3d5b76933d722b75c1dcfe1c2c635e13b49",
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/Sequence.lean": "853825bb76bd9054493dee017345b50552ef51d92fa1235fcea64df271afd968",
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/SourcePair.lean": "1b7d4c6fd72597d790bc381af39245ed38bd5652080a48f7295f439665c05974"
+  },
+  "source_pin_provenance": {
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Contract.lean": {
+      "owner_tasks": [
+        "fast_rope_embedding"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Correct.lean": {
+      "owner_tasks": [
+        "fast_rope_embedding"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fast_rope_embedding/FPEquiv.lean": {
+      "owner_tasks": [
+        "fast_rope_embedding"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fast_rope_embedding/IO.lean": {
+      "owner_tasks": [
+        "fast_rope_embedding"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Kernels.lean": {
+      "owner_tasks": [
+        "fast_rope_embedding"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fast_rope_embedding/PairIO.lean": {
+      "owner_tasks": [
+        "fast_rope_embedding"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/IOPair.lean": {
+      "owner_tasks": [
+        "fast_rope_embedding"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/LogicalIO.lean": {
+      "owner_tasks": [
+        "fast_rope_embedding"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/RealIO.lean": {
+      "owner_tasks": [
+        "fast_rope_embedding"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/ProgramPair.lean": {
+      "owner_tasks": [
+        "fast_rope_embedding"
+      ]
+    },
+    "VeriTile/Triton/Memory/LogicalIO.lean": {
+      "owner_tasks": [
+        "mixed_sparse_attention",
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Misc/HostCorrect.lean": {
+      "owner_tasks": [
+        "fast_rope_embedding"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Misc/HostFPEquiv.lean": {
+      "owner_tasks": [
+        "fast_rope_embedding"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Misc/InterfaceChecks.lean": {
+      "owner_tasks": [
+        "fast_rope_embedding"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Misc/KernelBytes.lean": {
+      "owner_tasks": [
+        "fast_rope_embedding"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Misc/KernelResult.lean": {
+      "owner_tasks": [
+        "fast_rope_embedding"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Misc/NativeCorrect.lean": {
+      "owner_tasks": [
+        "fast_rope_embedding"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Misc/RawNative.lean": {
+      "owner_tasks": [
+        "fast_rope_embedding"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Misc/TensorBridge.lean": {
+      "owner_tasks": [
+        "fast_rope_embedding"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/AccessSafety.lean": {
+      "owner_tasks": [
+        "fast_rope_embedding"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/Allocation.lean": {
+      "owner_tasks": [
+        "fast_rope_embedding"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/Backward.lean": {
+      "owner_tasks": [
+        "fast_rope_embedding"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/HostContract.lean": {
+      "owner_tasks": [
+        "fast_rope_embedding"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/Interface.lean": {
+      "owner_tasks": [
+        "fast_rope_embedding"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/KernelAccess.lean": {
+      "owner_tasks": [
+        "fast_rope_embedding"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/KernelInterface.lean": {
+      "owner_tasks": [
+        "fast_rope_embedding"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/KernelMemory.lean": {
+      "owner_tasks": [
+        "fast_rope_embedding"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/KernelRegressions.lean": {
+      "owner_tasks": [
+        "fast_rope_embedding"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/KernelSource.lean": {
+      "owner_tasks": [
+        "fast_rope_embedding"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/NativeIO.lean": {
+      "owner_tasks": [
+        "fast_rope_embedding"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/Public.lean": {
+      "owner_tasks": [
+        "fast_rope_embedding"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/RawReal.lean": {
+      "owner_tasks": [
+        "fast_rope_embedding"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/Sequence.lean": {
+      "owner_tasks": [
+        "fast_rope_embedding"
+      ]
+    },
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/SourcePair.lean": {
+      "owner_tasks": [
+        "fast_rope_embedding"
+      ]
+    }
+  },
+  "retired_current_source_pins": {},
+  "limits": [
+    "No fresh Lean build was needed because every task source is unchanged; previous successful checks and pinned logs are reused explicitly."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/io-unification-20261023/queue16/result.json",
+    "sha256": "12f6dd5ed523e9f723fee3847af964fd8987958c2cb997aa572210c04de5bc84"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

@@ -1,0 +1,7 @@
+import VeriTile.Meta.StatementAudit
+import bench.repairs.tritonbench_g.nested_loops_processing.Contract
+import bench.repairs.tritonbench_g.nested_loops_processing.Correct
+import bench.repairs.tritonbench_g.nested_loops_processing.FPEquiv
+
+#axiomsClean VeriTile.Bench.Repairs.NestedLoopsProcessing.Correct.kernel_correctness
+#axiomsClean VeriTile.Bench.Repairs.NestedLoopsProcessing.FPEquiv.kernel_equiv

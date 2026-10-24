@@ -1,0 +1,179 @@
+{
+  "schema": 1,
+  "kind": "original_scope_gap_review",
+  "reviewer": "root",
+  "task": "quant_transpose_kernel",
+  "reviewed_at_utc": "2026-10-15T18:45:00.453280+00:00",
+  "reviewed_base_commit": "ea6512dd1c663d24b2bcbdf0b0c29b89481c5a8a",
+  "catalog": {
+    "path": "bench/review-checkpoints/2026-10-16/relu-source-grid-and-exact-numerics/current-source-catalog.json",
+    "sha256": "ef0da28a4c601f9841664431013d72e565ec5497cf21ba3e7be692c440d1a3fe"
+  },
+  "status": "structural_gaps_confirmed",
+  "whole_original_program_accepted": false,
+  "completion_increment": 0,
+  "source_sha256": {
+    "bench/tritonbench_g/quant_transpose_kernel/quant_transpose_kernel.py": "ccf3ff3369cddbb96364cbff33ae9efa6e722450eae0e5b59b195a8eaa39534a",
+    "bench/tritonbench_g/quant_transpose_kernel/FPCorrect.lean": "dee7d9ac55cfe289def37676c231ecc77bdb9cd606eb18b0fabbcd29733af18a",
+    "bench/tritonbench_g/quant_transpose_kernel/QuantTransposeKernel.lean": "7c2b124ace154bc1edc7d3a973f5cb5e1436000bd2683423c3d34f8f910b7bf0",
+    "bench/tritonbench_g/quant_transpose_kernel/Proofs/TypedScaled.lean": "55eb7c0c14fee596ab569268f58f1b50e28254e2aacdfb2189e40eca15c25ba2",
+    "bench/tritonbench_g/quant_transpose_kernel/Proofs/TypedShape.lean": "3d1c25e2d6f3a9e9ce28304afd071a8e4763f55337cd38a0728b0d772653a776"
+  },
+  "all_input_sha256": {
+    "lean": {
+      "bench/tritonbench_g/quant_transpose_kernel/FPCorrect.lean": "dee7d9ac55cfe289def37676c231ecc77bdb9cd606eb18b0fabbcd29733af18a",
+      "bench/tritonbench_g/quant_transpose_kernel/Proofs/TypedScaled.lean": "55eb7c0c14fee596ab569268f58f1b50e28254e2aacdfb2189e40eca15c25ba2",
+      "bench/tritonbench_g/quant_transpose_kernel/Proofs/TypedShape.lean": "3d1c25e2d6f3a9e9ce28304afd071a8e4763f55337cd38a0728b0d772653a776",
+      "bench/tritonbench_g/quant_transpose_kernel/QuantTransposeKernel.lean": "7c2b124ace154bc1edc7d3a973f5cb5e1436000bd2683423c3d34f8f910b7bf0"
+    },
+    "python": {
+      "bench/tritonbench_g/quant_transpose_kernel/quant_transpose_kernel.py": "ccf3ff3369cddbb96364cbff33ae9efa6e722450eae0e5b59b195a8eaa39534a"
+    }
+  },
+  "public_declarations_checked": [
+    {
+      "file": "bench/tritonbench_g/quant_transpose_kernel/FPCorrect.lean",
+      "declaration": "quant_transpose_scaled_store_fp32_correctness",
+      "statement_sha256": "752461fed6d1b86c5fc5b7907849d9b970d4083c4d73af45e39cf282f5ee1840"
+    },
+    {
+      "file": "bench/tritonbench_g/quant_transpose_kernel/QuantTransposeKernel.lean",
+      "declaration": "quantize_global_transpose_blocked_output_summary_general",
+      "statement_sha256": "0ea7a16da632b54bf109a38312a077833ea1bc6537e24403c0a73842931ecfc9"
+    },
+    {
+      "file": "bench/tritonbench_g/quant_transpose_kernel/QuantTransposeKernel.lean",
+      "declaration": "quant_transpose_scaled_store_io_correctness",
+      "statement_sha256": "3b3ab5f963bf3933a2444ac8a2da7a2809a5f01dd794907837f2a0842b2bb714"
+    }
+  ],
+  "existing_proofs_preserved": "All three public specifications remain credited. The real slice has termination, masked readback, region IO safety and frame under legitimate output injectivity/bounds. The software-fp32 slice proves actual execution and two rounded multiplies in source order, with masked write frame. Its erased shape corresponds exactly to the scaled slice. The separate full-source lowering-error theorem is retained honestly.",
+  "production_stage_mapping": [
+    {
+      "function": "_quantize_global_transpose",
+      "path": "bench/tritonbench_g/quant_transpose_kernel/quant_transpose_kernel.py",
+      "line": 16,
+      "end_line": 55,
+      "coverage": "Per-block scaled-store slice only; source grouped pid remapping and final llrint/int8 route are absent from the executing slice."
+    },
+    {
+      "function": "quantize_global_transpose",
+      "path": "bench/tritonbench_g/quant_transpose_kernel/quant_transpose_kernel.py",
+      "line": 57,
+      "end_line": 79,
+      "coverage": "Host reduction/reciprocal, source-selected grouped grid, int8 allocation, return tuple and stride guards are not composed."
+    }
+  ],
+  "dtype_review": "Concrete software theorem has fp32 A/AbsmaxInv/B. The original output is int8 and source input dtype is unguarded. No claim that every arbitrary dtype compiles; each source-admitted route or precise rejection needs its own correspondence.",
+  "branch_review": "The original last partial GROUP_M group uses min and division/remainder, not the independent two-axis coordinates of the slice. Existing arbitrary M/N masks are credited. Stride assertions and the wrapper complete grid remain uncomposed; no repaired schedule is substituted.",
+  "structural_gaps": [
+    {
+      "id": "quant_transpose_kernel:round_int8_store",
+      "kind": "missing_executing_stage_and_storage_dtype",
+      "finding": "Original llrint(127*(a*absmax_inv)) writes to wrapper-allocated int8. The executing TypedScaled.source declares fp32 A, scale and B and stores two rounded multiplications without llrint or int8 conversion. The original surface has an explicit lowering-failure theorem.",
+      "why_blocks_full_original_scope": "Native conformance of an already represented scalar operation may be deferred, but neither the final rounding stage nor the original output representation is executed here.",
+      "can_defer_as_numeric_assumption": false,
+      "evidence": [
+        {
+          "path": "bench/tritonbench_g/quant_transpose_kernel/quant_transpose_kernel.py",
+          "line": 53,
+          "end_line": 61,
+          "sha256": "ccf3ff3369cddbb96364cbff33ae9efa6e722450eae0e5b59b195a8eaa39534a",
+          "excerpt": "    output = tl.extra.cuda.libdevice.llrint(127.0 * (a * absmax_inv))\n\n    tl.store(B, output, mask=mask)\n\ndef quantize_global_transpose(input):\n    absmax = input.abs().max().unsqueeze(0)\n    absmax_inv = 1.0 / absmax\n    M, N = input.shape\n    out = torch.empty(N, M, device=\"cuda\", dtype=torch.int8)"
+        },
+        {
+          "path": "bench/tritonbench_g/quant_transpose_kernel/Proofs/TypedScaled.lean",
+          "line": 10,
+          "end_line": 26,
+          "sha256": "55eb7c0c14fee596ab569268f58f1b50e28254e2aacdfb2189e40eca15c25ba2",
+          "excerpt": "/-- The already accepted pre-llrint scaled-store stage, with actual fp32 storage\nand compute precision. This does not implement the final integer quantization. -/\ndef source (A AbsmaxInv B : RegionName)\n    (sam san sbn sbm M N BM BN : Nat) : ComputeKernel := triton {\n  tl.region A = tl.float32, AbsmaxInv = tl.float32, B = tl.float32\n  pid_m = tl.program_id(0)\n  pid_n = tl.program_id(1)\n  rm = pid_m * $(BM) + tl.arange(0, $(BM))\n  rn = pid_n * $(BN) + tl.arange(0, $(BN))\n  mask = (rm[:, None] < $(M)) & (rn[None, :] < $(N))\n  a = tl.load(A + rm[:, None] * $(sam) + rn[None, :] * $(san), mask=mask).to(tl.float32)\n  absmax_inv = tl.load(AbsmaxInv).to(tl.float32)\n  output = 127.0 * (a * absmax_inv)\n  tl.store(B + rm[:, None] * $(sbm) + rn[None, :] * $(sbn), output, mask=mask)\n}\n\nabbrev Word := FP.Value .fp32"
+        },
+        {
+          "path": "bench/tritonbench_g/quant_transpose_kernel/QuantTransposeKernel.lean",
+          "line": 99,
+          "end_line": 106,
+          "sha256": "7c2b124ace154bc1edc7d3a973f5cb5e1436000bd2683423c3d34f8f910b7bf0",
+          "excerpt": "theorem quantize_global_transpose_real_surface_toAlgorithm_blocked\n    (A AbsmaxInv B : RegionName)\n    (stride_am stride_an stride_bn stride_bm M N BLOCK_M BLOCK_N GROUP_M : Nat) :\n    \u2203 err,\n      (quantize_global_transpose_real_surface A AbsmaxInv B stride_am stride_an\n        stride_bn stride_bm M N BLOCK_M BLOCK_N GROUP_M).toAlgorithm? =\n        Except.error err := by\n  simp [quantize_global_transpose_real_surface, ComputeExpr.toAlgorithm?]"
+        }
+      ]
+    },
+    {
+      "id": "quant_transpose_kernel:grouped_pid_mapping",
+      "kind": "source_launch_mapping",
+      "finding": "Original one-dimensional pid is remapped through GROUP_M/grid_n/group_size into pid_m and pid_n, including the last partial group. The proved scaled slice reads independent pids0/pids1 instead. No public contract relates those grid coordinates or composes the original grouped launch.",
+      "why_blocks_full_original_scope": "The source scheduler and its final-group branch must correspond to the executing slice; output-offset injectivity alone does not provide that relation.",
+      "can_defer_as_numeric_assumption": false,
+      "evidence": [
+        {
+          "path": "bench/tritonbench_g/quant_transpose_kernel/quant_transpose_kernel.py",
+          "line": 30,
+          "end_line": 43,
+          "sha256": "ccf3ff3369cddbb96364cbff33ae9efa6e722450eae0e5b59b195a8eaa39534a",
+          "excerpt": "    pid = tl.program_id(0)\n    grid_m = (M + BLOCK_M - 1) // BLOCK_M\n    grid_n = (N + BLOCK_N - 1) // BLOCK_N\n\n    width = GROUP_M * grid_n\n    group_id = pid // width\n    group_size = min(grid_m - group_id * GROUP_M, GROUP_M)\n    pid_m = group_id * GROUP_M + (pid % group_size)\n    pid_n = (pid % width) // group_size\n\n    rm = pid_m * BLOCK_M + tl.arange(0, BLOCK_M)\n    rn = pid_n * BLOCK_N + tl.arange(0, BLOCK_N)\n    A = A + (rm[:, None] * stride_am + rn[None, :] * stride_an)\n    mask = (rm < M)[:, None] & (rn < N)[None, :]"
+        },
+        {
+          "path": "bench/tritonbench_g/quant_transpose_kernel/quant_transpose_kernel.py",
+          "line": 63,
+          "end_line": 78,
+          "sha256": "ccf3ff3369cddbb96364cbff33ae9efa6e722450eae0e5b59b195a8eaa39534a",
+          "excerpt": "    assert out.size(0) == N and out.size(1) == M\n    assert input.stride(0) == 1 or input.stride(1) == 1\n    assert out.stride(0) == 1 or out.stride(1) == 1\n\n    grid = lambda META: (triton.cdiv(M, META[\"BLOCK_M\"]) * triton.cdiv(N, META[\"BLOCK_N\"]),)\n    _quantize_global_transpose[grid](\n        input,\n        absmax_inv,\n        out,\n        input.stride(0),\n        input.stride(1),\n        out.stride(0),\n        out.stride(1),\n        M,\n        N,\n    )"
+        },
+        {
+          "path": "bench/tritonbench_g/quant_transpose_kernel/Proofs/TypedScaled.lean",
+          "line": 12,
+          "end_line": 21,
+          "sha256": "55eb7c0c14fee596ab569268f58f1b50e28254e2aacdfb2189e40eca15c25ba2",
+          "excerpt": "def source (A AbsmaxInv B : RegionName)\n    (sam san sbn sbm M N BM BN : Nat) : ComputeKernel := triton {\n  tl.region A = tl.float32, AbsmaxInv = tl.float32, B = tl.float32\n  pid_m = tl.program_id(0)\n  pid_n = tl.program_id(1)\n  rm = pid_m * $(BM) + tl.arange(0, $(BM))\n  rn = pid_n * $(BN) + tl.arange(0, $(BN))\n  mask = (rm[:, None] < $(M)) & (rn[None, :] < $(N))\n  a = tl.load(A + rm[:, None] * $(sam) + rn[None, :] * $(san), mask=mask).to(tl.float32)\n  absmax_inv = tl.load(AbsmaxInv).to(tl.float32)"
+        },
+        {
+          "path": "bench/tritonbench_g/quant_transpose_kernel/QuantTransposeKernel.lean",
+          "line": 546,
+          "end_line": 557,
+          "sha256": "7c2b124ace154bc1edc7d3a973f5cb5e1436000bd2683423c3d34f8f910b7bf0",
+          "excerpt": "specification quant_transpose_scaled_store_io_correctness\n    (A AbsmaxInv B : RegionName)\n    (stride_am stride_an stride_bn stride_bm M N BLOCK_M BLOCK_N : Nat)\n    (scale127 : \u211d)\n    (hM : 0 < BLOCK_M) (hN : 0 < BLOCK_N)\n    (hOutInj : \u2200 p\u2080 p\u2081 : Nat, Function.Injective\n      (fun idx : TileIndex [BLOCK_M, BLOCK_N] =>\n        (p\u2080 * BLOCK_M + idx.1.val) * stride_bm\n          + (p\u2081 * BLOCK_N + idx.2.1.val) * stride_bn)) :\n    quantTransposeScaledIO A AbsmaxInv B stride_am stride_an stride_bn stride_bm\n        M N BLOCK_M BLOCK_N scale127\n      \u22a8 fun _p\u2080 _p\u2081 xs ys idx => scale127 * (xs idx * ys idx) := by"
+        }
+      ]
+    },
+    {
+      "id": "quant_transpose_kernel:host_reduction_and_tuple",
+      "kind": "host_stage_composition",
+      "finding": "Wrapper abs/max/unsqueeze and reciprocal compute the scale from the input and return both transposed int8 output and absmax. Public correctness receives AbsmaxInv as unrelated input and proves no composition from the tensor through those host stages and the complete launch to both outputs.",
+      "why_blocks_full_original_scope": "The scale-to-source relation and returned absmax value are part of the original program and are absent from the proved stage, independently of the chosen numerical primitives.",
+      "can_defer_as_numeric_assumption": false,
+      "evidence": [
+        {
+          "path": "bench/tritonbench_g/quant_transpose_kernel/quant_transpose_kernel.py",
+          "line": 57,
+          "end_line": 79,
+          "sha256": "ccf3ff3369cddbb96364cbff33ae9efa6e722450eae0e5b59b195a8eaa39534a",
+          "excerpt": "def quantize_global_transpose(input):\n    absmax = input.abs().max().unsqueeze(0)\n    absmax_inv = 1.0 / absmax\n    M, N = input.shape\n    out = torch.empty(N, M, device=\"cuda\", dtype=torch.int8)\n\n    assert out.size(0) == N and out.size(1) == M\n    assert input.stride(0) == 1 or input.stride(1) == 1\n    assert out.stride(0) == 1 or out.stride(1) == 1\n\n    grid = lambda META: (triton.cdiv(M, META[\"BLOCK_M\"]) * triton.cdiv(N, META[\"BLOCK_N\"]),)\n    _quantize_global_transpose[grid](\n        input,\n        absmax_inv,\n        out,\n        input.stride(0),\n        input.stride(1),\n        out.stride(0),\n        out.stride(1),\n        M,\n        N,\n    )\n    return out, absmax"
+        },
+        {
+          "path": "bench/tritonbench_g/quant_transpose_kernel/FPCorrect.lean",
+          "line": 10,
+          "end_line": 18,
+          "sha256": "dee7d9ac55cfe289def37676c231ecc77bdb9cd606eb18b0fabbcd29733af18a",
+          "excerpt": "specification quant_transpose_scaled_store_fp32_correctness\n    (rest : Algebra Word) (cfg : FP.Config) (s : State Word)\n    (A AbsmaxInv B : RegionName) (sam san sbn sbm M N BM BN : Nat)\n    (hOutInj : Function.Injective (outputOffset s sbn sbm BM BN)) :\n    \u2203 t, FP.Structural.exec (backend rest cfg) (source A AbsmaxInv B sam san sbn sbm M N BM BN) s = some t \u2227\n      (\u2200 i, TypedScaled.active s M N BM BN i \u2192\n        t.mem B (outputOffset s sbn sbm BM BN i) = .mk .real (value cfg s A AbsmaxInv sam san BM BN i)) \u2227\n      (\u2200 r o, (r \u2260 B \u2228 \u2200 i, TypedScaled.active s M N BM BN i \u2192 o \u2260 outputOffset s sbn sbm BM BN i) \u2192\n        t.mem r o = s.mem r o) :="
+        },
+        {
+          "path": "bench/tritonbench_g/quant_transpose_kernel/QuantTransposeKernel.lean",
+          "line": 163,
+          "end_line": 169,
+          "sha256": "7c2b124ace154bc1edc7d3a973f5cb5e1436000bd2683423c3d34f8f910b7bf0",
+          "excerpt": "noncomputable def quantTransposeScaledSpec\n    (s : BlockState) (A AbsmaxInv : RegionName)\n    (stride_am stride_an BLOCK_M BLOCK_N : Nat) (scale127 : \u211d)\n    (idx : TileIndex [BLOCK_M, BLOCK_N]) : \u211d :=\n  scale127 *\n    (s.readMem A (aOffset s stride_am stride_an BLOCK_M BLOCK_N idx) *\n      s.readMem AbsmaxInv 0)"
+        }
+      ]
+    }
+  ],
+  "numerical_boundary": "Exact native correspondence of represented fp32 multiplies may be explicitly registered and deferred. Missing llrint/int8 execution and grouped source/host composition must first be implemented; no new deferral is registered by this review.",
+  "precondition_assessment": "Existing bounds, positive tile sizes, masks and per-tile output injectivity are legitimate selected-domain premises, not counted as defects by themselves.",
+  "verification": {
+    "manual_production_functions_read": 2,
+    "actual_public_statements_reparsed": 3,
+    "key_source_helpers_read": true,
+    "new_lean_runs": 0,
+    "new_frontend_runs": 0,
+    "gpu_runs": 0,
+    "numerical_deferrals_registered": 0
+  }
+}

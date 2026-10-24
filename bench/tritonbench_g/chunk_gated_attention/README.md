@@ -1,9 +1,19 @@
 # chunk_gated_attention
 
-Source: `chunk_gated_attention.py`, TritonBench-G v1. Complete per-program
-real contracts and FP equivalences have passed compilation, regressions and
-independent comparator/trust replay. Host grid composition and fixed-width address overflow are
-outside these statements.
+Source: `chunk_gated_attention.py`, TritonBench-G v1. The current complete
+real entrypoint passed the [branch integration build](../../review-checkpoints/2026-10-14/acceptance-branch-real-root/README.md).
+Current aggregate results are recorded in the [checkpoint index](../../review-checkpoints/2026-10-14/README.md).
+Historical independent replay does not certify the current source; official
+replay is blocked on this host by unavailable systemd/Landlock isolation.
+Host grid composition and fixed-width address overflow remain outside the statements.
+
+The source retains its actual branch-local carry update. The real proof
+establishes that factoring this continuation preserves execution and memory
+safety. The FP domain now locates the finite carry/dot guard inside the
+selected gate arm, after that arm's actual prefix. This corrects the old
+guard placement; it is not a claim that the old and new domains are identical.
+Every gate/storage/seed/final selection remains in the public statement.
+The FP proof uses `add_commute`; no unconditional IEEE equality is claimed.
 
 - [Kernels.lean](Kernels.lean): complete original/candidate Triton sources.
 - [Correct.lean](Correct.lean): both versions' IO, independent formulas and

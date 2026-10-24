@@ -55,6 +55,9 @@ Currently supported statements: assignment (`name := expr`),
 follows body occurrence; no macro-time dedup since regions are Lean terms
 (possibly equal at runtime but not statically). `Kernel.inputs/outputs` is
 metadata only (not consumed by `exec`), so duplicates are harmless.
+An optional top-level `tl.ports inputs=[...], outputs=[...]` declares the
+ordered interface explicitly, including optional regions. It emits no runtime
+statement, changes no memory operation, and does not establish memory safety.
 
 This module owns macro expansion only. Surface syntax, macro-time typing
 helpers, and metadata scanning live in sibling `DSL.*` modules.
@@ -62,13 +65,19 @@ helpers, and metadata scanning live in sibling `DSL.*` modules.
 
 import VeriTile.Triton.Core
 import VeriTile.Triton.Core.Integer
+import VeriTile.Triton.Core.FixedInteger
+import VeriTile.Triton.Core.SignedCast
 import VeriTile.Triton.DSL.Metadata
 import VeriTile.Triton.DSL.Inference
+import VeriTile.Triton.DSL.RandomProfile
+import VeriTile.Triton.DSL.FiniteHelperSource
+import VeriTile.Triton.DSL.WelfordSource
 import VeriTile.Triton.DSL.Expansion.Common
 import VeriTile.Triton.DSL.Expansion.Memory
 import VeriTile.Triton.DSL.Expansion.Compute
 import VeriTile.Triton.DSL.Expansion.DType
 import VeriTile.Triton.DSL.Expansion.Control
+import VeriTile.Triton.DSL.Expansion.DirectRandom
 import VeriTile.Triton.DSL.Syntax
 import VeriTile.Triton.DSL.Typing
 
@@ -171,6 +180,9 @@ private def expandIdentRefByName (env : Env) (name : String) : MacroM EOut := do
   let dt ← dtype.term
   let sh ← shape.term
   let term ← `(Op.ref $dt $sh $s)
+  if dtype == .fp32Argument then
+    let bridge ← `(Op.castFloat FloatDType.fp32 FloatDType.real $term)
+    return ⟨bridge, .real, shape, some (← fp32ComputeExpr bridge), some .fp32⟩
   match lookupComputeDType? env name with
   | some .fp32 =>
       pure ⟨term, dtype, shape, some (← fp32ComputeExpr term), some .fp32⟩
@@ -210,6 +222,97 @@ private def pointerOffsetIntAsNat (out : EOut) : MacroM EOut := do
   | some natTerm => pure { out with term := natTerm, dtype := .nat }
   | none => pure { out with term := ← `(Op.castIntToNat $out.term), dtype := .nat }
 
+private def unsignedCastWidth? : TSyntax `tritonDType → Option Nat
+  | `(tritonDType| tl.uint8) => some 8
+  | `(tritonDType| tl.uint16) => some 16
+  | `(tritonDType| tl.uint32) => some 32
+  | `(tritonDType| tl.uint64) => some 64
+  | _ => none
+
+private def signedCastWidth? : TSyntax `tritonDType → Option Nat
+  | `(tritonDType| tl.int8) => some 8
+  | `(tritonDType| tl.int16) => some 16
+  | `(tritonDType| tl.int32) => some 32
+  | `(tritonDType| tl.int64) => some 64
+  | _ => none
+
+/-- Numeric float-to-integer casts keep their own source precision because
+integer results have no enclosing floating compute channel. -/
+private def floatingIntegerCast? (dst : TSyntax `tritonDType) (src : EOut) :
+    MacroM (Option EOut) := do
+  match src.dtype with
+  | .real | .fp32 | .fp16 | .bf16 | .f8e4 | .f8e5 | .floatVar _ => pure ()
+  | _ => return none
+  let signedWidth := signedCastWidth? dst
+  let some width := signedWidth.orElse (fun _ => unsignedCastWidth? dst) | return none
+  let bits : TSyntax `term := ⟨Syntax.mkNumLit (toString width)⟩
+  let sourceDType ← src.dtype.floatProof
+  let precision ← match src.computeDType? with
+    | some .fp32 => `(some IndexComputePrecision.fp32)
+    | some .real => `(some IndexComputePrecision.fp64)
+    | _ => `(none)
+  let child ← if src.computeDType?.isSome then src.scopedFloatingTerm else src.floatingTerm
+  if signedWidth.isSome then
+    let dtype := if width == 8 then DInfo.int8 else if width == 32 then DInfo.int32 else DInfo.int
+    return some ⟨← `(Op.floatToInt $precision $sourceDType $bits $child),
+      dtype, src.shape, none, none⟩
+  return some ⟨← `(Op.floatToNat $precision $sourceDType $bits $child),
+    .nat, src.shape, none, none⟩
+
+/-- Machine casts must be evaluated before forgetting source storage width.
+Signed i8/i16/i32 narrowing keeps the low word and reinterprets its sign.
+This preserves explicit casts; it does not attach i16 width to all arithmetic. -/
+private def machineIntegerCast? (dst : TSyntax `tritonDType) (src : EOut) :
+    MacroM (Option EOut) := do
+  if let some cast ← floatingIntegerCast? dst src then return some cast
+  if let `(tritonDType| tl.int8) := dst then
+    match src.dtype with
+    | .nat => return some ⟨← `(Op.intToSigned 8 (Op.castNatToInt $src.term)), .int8,
+        src.shape, none, none⟩
+    | .int | .int32 => return some ⟨← `(Op.intToSigned 8 $src.term), .int8,
+        src.shape, none, none⟩
+    | .bool => return some ⟨← `(Op.boolToInt $src.term), .int8,
+        src.shape, none, none⟩
+    | .int8 => return some src
+    | _ => return none
+  if let `(tritonDType| tl.int16) := dst then
+    let term ← match src.dtype with
+      | .nat => `(Op.intToSigned 16 (Op.castNatToInt $src.term))
+      | .int | .int8 | .int32 => `(Op.intToSigned 16 $src.term)
+      | .bool => `(Op.intToSigned 16 (Op.boolToInt $src.term))
+      | _ => return none
+    return some ⟨term, .int, src.shape, none, none⟩
+  if let `(tritonDType| tl.int32) := dst then
+    match src.dtype with
+    | .nat => return some ⟨← `(Op.intToSigned 32 (Op.castNatToInt $src.term)), .int32,
+        src.shape, none, none⟩
+    | .int => return some ⟨← `(Op.intToSigned 32 $src.term), .int32,
+        src.shape, none, none⟩
+    | .bool => return some ⟨← `(Op.boolToInt $src.term), .int32,
+        src.shape, none, none⟩
+    | .int32 => return some src
+    | .int8 => return some { src with dtype := .int32 }
+    | _ => return none
+  let some width := unsignedCastWidth? dst | return none
+  let bits : TSyntax `term := ⟨Syntax.mkNumLit (toString width)⟩
+  let term ← match src.dtype with
+    | .int | .int8 | .int32 => `(Op.intToUnsigned $bits $src.term)
+    | .nat => `(Op.natToUnsigned $bits $src.term)
+    | _ => return none
+  return some ⟨term, .nat, src.shape, none, none⟩
+
+private def signedMachineCast (dt : TSyntax `tritonDType) : Bool :=
+  match dt with
+  | `(tritonDType| tl.int8) | `(tritonDType| tl.int16) | `(tritonDType| tl.int32) => Bool.true
+  | _ => Bool.false
+
+/-- Facts about immutable, external constexpr parameters on the current path.
+The optional string identifies a string-equality atom; `none` is a Bool atom.
+Register bindings shadow these parameters, so facts are only consulted while
+the corresponding name is absent from the register environment. -/
+abbrev StaticBoolFacts := List ((Name × Option String) × Bool)
+
+
 mutual
 
 partial def expandNatExpectedExpr (env : Env) (stx : TSyntax `tritonExpr) :
@@ -220,7 +323,9 @@ partial def expandNatExpectedExpr (env : Env) (stx : TSyntax `tritonExpr) :
       let i : TSyntax `ident := ⟨args[0]⟩
       match dottedToBaseName? i with
       | some name =>
-          let e' ← expandIdentRefByName env name
+          let dt : TSyntax `tritonDType := ⟨args[2]⟩
+          let e' ← if (unsignedCastWidth? dt).isSome then expandExpr env stx
+            else expandIdentRefByName env name
           ensureDType .nat e'.dtype "nat expression"
           pure e'
       | none => Macro.throwUnsupported
@@ -361,7 +466,7 @@ partial def expandIntExpectedExpr (env : Env) (stx : TSyntax `tritonExpr) :
     MacroM EOut := do
   let natToInt (e' : EOut) : MacroM EOut := do
     match e'.dtype with
-    | .int | .int8 => pure e'.forgetStorageWidth
+    | .int | .int8 | .int32 => pure e'.forgetStorageWidth
     | .nat =>
         pure ⟨← `(Op.castNatToInt $e'.term), .int, e'.shape,
           e'.computeTerm, e'.computeDType?⟩
@@ -374,7 +479,9 @@ partial def expandIntExpectedExpr (env : Env) (stx : TSyntax `tritonExpr) :
       let i : TSyntax `ident := ⟨args[0]⟩
       match dottedToBaseName? i with
       | some name =>
-          natToInt (← expandIdentRefByName env name)
+          let dt : TSyntax `tritonDType := ⟨args[2]⟩
+          if (unsignedCastWidth? dt).isSome || signedMachineCast dt then natToInt (← expandExpr env stx)
+          else natToInt (← expandIdentRefByName env name)
       | none => Macro.throwUnsupported
     else
       Macro.throwUnsupported
@@ -389,7 +496,9 @@ partial def expandIntExpectedExpr (env : Env) (stx : TSyntax `tritonExpr) :
     let args := stx.raw.getArgs
     if h : 0 < args.size then
       let e : TSyntax `tritonExpr := ⟨args[0]⟩
-      expandIntExpectedExpr env e
+      if methodCastTargetName? stx == some `tl.int32 then
+        natToInt (← expandExpr env stx)
+      else expandIntExpectedExpr env e
     else
       Macro.throwUnsupported
   else
@@ -397,7 +506,7 @@ partial def expandIntExpectedExpr (env : Env) (stx : TSyntax `tritonExpr) :
   | some (e, dt) =>
       let dst ← expandDType dt
       if dst == .nat then
-        natToInt (← expandNatExpectedExpr env e)
+        natToInt (← expandExpr env stx)
       else
         natToInt (← expandExpr env stx)
   | none =>
@@ -423,6 +532,11 @@ partial def expandIntExpectedExpr (env : Env) (stx : TSyntax `tritonExpr) :
       pure ⟨← `(Op.constInt (Int.ofNat $t)), .int, SInfo.scalar, none, none⟩
   | `(tritonExpr| ($e:tritonExpr)) =>
       expandIntExpectedExpr env e
+  | `(tritonExpr| -$e:tritonExpr) => do
+      let e' ← expandIntExpectedExpr env e
+      let (bc, shape) ← broadcastTerm SInfo.scalar e'.shape "int negation"
+      pure ⟨← `(Op.sub NumericDType.int $bc (Op.constInt 0) $e'.term),
+        .int, shape, none, none⟩
   | `(tritonExpr| $a:tritonExpr + $b:tritonExpr) => do
       let a' ← expandIntExpectedExpr env a
       let b' ← expandIntExpectedExpr env b
@@ -461,6 +575,39 @@ partial def expandIntExpectedExpr (env : Env) (stx : TSyntax `tritonExpr) :
         (defaultDType := some .int)
   | _ => do
       natToInt (← expandExpr env stx)
+
+/-- The rand source profile determines an inline integer load's carrier.
+Unsigned loads use Nat and then inject into Int; other operands retain the
+existing exact mathematical integer expressions and checked source domain. -/
+partial def expandRandIntegerExpr (env : Env) (sourceType : Random.IntegerType)
+    (stx : TSyntax `tritonExpr) : MacroM EOut := do
+  let isUnsigned := sourceType == .u32 || sourceType == .u64
+  let loadedToInt (e : EOut) : MacroM EOut := do
+    if isUnsigned then
+      ensureDType .nat e.dtype "tl.rand unsigned load"
+      return ⟨← `(Op.castNatToInt $e.term), .int, e.shape, none, none⟩
+    let e := e.forgetStorageWidth
+    ensureDType .int e.dtype "tl.rand signed load"
+    return e
+  match stx with
+  | `(tritonExpr| ($e:tritonExpr)) => expandRandIntegerExpr env sourceType e
+  | `(tritonExpr| tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*)) =>
+      loadedToInt (← expandLoad expandExpr expandStaticPtrExpr env p kwargs
+        (defaultDType := some (if isUnsigned then .nat else .int)))
+  | `(tritonExpr| tl.load($p:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*)) =>
+      loadedToInt (← expandLoad expandExpr expandStaticPtrExpr env p kwargs
+        (defaultDType := some (if isUnsigned then .nat else .int)) (some mask))
+  | `(tritonExpr| $a:tritonExpr + $b:tritonExpr) =>
+      let a' ← expandRandIntegerExpr env sourceType a
+      let b' ← expandRandIntegerExpr env sourceType b
+      let (bc, shape) ← broadcastTerm a'.shape b'.shape "tl.rand integer operand"
+      return ⟨← `(Op.add NumericDType.int $bc $a'.term $b'.term), .int, shape, none, none⟩
+  | `(tritonExpr| $a:tritonExpr * $b:tritonExpr) =>
+      let a' ← expandRandIntegerExpr env sourceType a
+      let b' ← expandRandIntegerExpr env sourceType b
+      let (bc, shape) ← broadcastTerm a'.shape b'.shape "tl.rand integer operand"
+      return ⟨← `(Op.mul NumericDType.int $bc $a'.term $b'.term), .int, shape, none, none⟩
+  | _ => expandIntExpectedExpr env stx
 
 private partial def valueTypedAntiquote? (stx : TSyntax `tritonExpr) : MacroM Bool := do
   match stx with
@@ -517,7 +664,7 @@ partial def expandStaticPtrExpr (env : Env) (stx : TSyntax `tritonExpr) :
   | `(tritonExpr| $a:tritonExpr + $b:tritonExpr) => do
       match ← expandStaticPtrExpr env a with
       | some p =>
-          let b0 ← expandExpr env b
+          let b0 := (← expandExpr env b).forgetStorageWidth
           -- A static region offset is accumulated before the natural-address
           -- conversion. Converting each signed addend separately would turn
           -- `cols + base + i` into `base + i.toNat`, which is wrong for i < 0.
@@ -574,10 +721,12 @@ partial def expandWhereFromCond (env : Env) (c' : EOut)
     (a b : TSyntax `tritonExpr) : MacroM EOut := do
   let a' ← expandExpr env a
   let b' ← expandExpr env b
+  let (a', b') := if a'.dtype == b'.dtype then (a', b')
+    else (a'.forgetStorageWidth, b'.forgetStorageWidth)
   -- Triton 3.5.1 casts integer conditions to int1 with `value != 0`.
   -- Keep the original integer load and compare in its own dtype.
   let c' ← match c'.dtype with
-    | .int | .int8 => do
+    | .int | .int8 | .int32 => do
         ensureAlgorithmOnly "tl.where integer condition" c'
         let zero ← coerceShape (← `(Op.constInt 0)) SInfo.scalar c'.shape "tl.where integer condition"
         let (bc, _) ← broadcastTerm c'.shape c'.shape "tl.where integer condition"
@@ -614,6 +763,12 @@ partial def expandWhereFromCond (env : Env) (c' : EOut)
         let aCast ← expandNatToIntBranch a a'
         let bCast ← expandNatToIntBranch b b'
         pure (aCast, bCast)
+  let floating : DInfo → Bool
+    | .real | .fp32 | .fp16 | .bf16 | .f8e4 | .f8e5 | .floatVar _ => Bool.true
+    | _ => Bool.false
+  let (a', b') ← if floating a'.dtype && floating b'.dtype then
+    coerceRealArithOperands "tl.where" a' b'
+    else pure (a', b')
   unless a'.dtype == b'.dtype do
     Macro.throwError "tl.where: branch dtype mismatch"
   let (_, valueShape) ← broadcastTerm a'.shape b'.shape "tl.where branches"
@@ -621,12 +776,16 @@ partial def expandWhereFromCond (env : Env) (c' : EOut)
   let cTerm ← coerceShape c'.term c'.shape target "tl.where condition"
   let aTerm ← coerceShape a'.term a'.shape target "tl.where then-branch"
   let bTerm ← coerceShape b'.term b'.shape target "tl.where else-branch"
-  pure ⟨← `(Op.where $cTerm $aTerm $bTerm), a'.dtype, target, none, none⟩
+  let algTerm ← `(Op.where $cTerm $aTerm $bTerm)
+  let (computeTerm, precision) ← floatingComputeArith? "tl.where" algTerm a' b'
+  pure ⟨algTerm, a'.dtype, target, computeTerm, precision⟩
 
 partial def expandIteFromCond (env : Env) (c' : EOut)
     (a b : TSyntax `tritonExpr) : MacroM EOut := do
   let a' ← expandExpr env a
   let b' ← expandExpr env b
+  let (a', b') := if a'.dtype == b'.dtype then (a', b')
+    else (a'.forgetStorageWidth, b'.forgetStorageWidth)
   ensureDType .bool c'.dtype "conditional expression condition"
   ensureShape SInfo.scalar c'.shape "conditional expression condition"
   let expandNatToIntBranch (e : TSyntax `tritonExpr) (out : EOut) : MacroM EOut := do
@@ -726,13 +885,76 @@ partial def staticBoolCond? (env : Env) (cond : TSyntax `tritonExpr) : Bool :=
       staticBoolCond? env e
   | _ => Bool.false
 
+
+private partial def staticBoolAtom? (env : Env) (cond : TSyntax `tritonExpr) :
+    Option ((Name × Option String) × Bool) :=
+  match cond with
+  | `(tritonExpr| $a:ident == $b:str) =>
+      if env.any (fun entry => entry.1 == a.getId.toString) then none
+      else some ((a.getId, some b.getString), Bool.true)
+  | `(tritonExpr| $a:ident != $b:str) =>
+      if env.any (fun entry => entry.1 == a.getId.toString) then none
+      else some ((a.getId, some b.getString), Bool.false)
+  | `(tritonExpr| $b:ident) =>
+      if env.any (fun entry => entry.1 == b.getId.toString) then none
+      else some ((b.getId, none), Bool.true)
+  | `(tritonExpr| not $e:tritonExpr) =>
+      (staticBoolAtom? env e).map (fun (atom, positive) => (atom, !positive))
+  | _ => none
+
+private partial def knownStaticBool? (env : Env) (facts : StaticBoolFacts)
+    (cond : TSyntax `tritonExpr) : Option Bool := do
+  let (atom, positive) ← staticBoolAtom? env cond
+  let (_, value) ← facts.find? (fun fact => fact.1 == atom)
+  pure (value == positive)
+
+private partial def withStaticBool (env : Env) (facts : StaticBoolFacts)
+    (cond : TSyntax `tritonExpr) (value : Bool) : StaticBoolFacts :=
+  match staticBoolAtom? env cond with
+  | some (atom, positive) => (atom, value == positive) :: facts
+  | none => facts
+
 partial def mergeStaticBranchEnv (base thenEnv elseEnv : Env) : Env :=
-  let baseNames := base.map (fun entry => entry.1)
-  let thenNew := thenEnv.filter (fun entry => !(baseNames.contains entry.1))
-  let elseNew := elseEnv.filter (fun entry => !(baseNames.contains entry.1))
-  let thenNames := thenNew.map (fun entry => entry.1)
-  let elseOnly := elseNew.filter (fun entry => !(thenNames.contains entry.1))
-  thenNew ++ elseOnly ++ base
+  -- Retain rebinding history as well as newly introduced names. An enclosing
+  -- constexpr branch must see a nested dtype change even when the name was
+  -- already present before either branch. Divergent continuations are expanded
+  -- separately by `expandStmts`, so this is not a runtime dtype join.
+  thenEnv.take (thenEnv.length - base.length) ++
+    elseEnv.take (elseEnv.length - base.length) ++ base
+
+private partial def sameBranchBindingType
+    (a b : String × DInfo × SInfo × Option DInfo) : Bool :=
+  let (_, ad, ash, ac) := a
+  let (_, bd, bsh, bc) := b
+  ad == bd && ash.eq bsh &&
+    (ac == bc || (ad == .real &&
+      ((ac == none && bc == some .fp32) || (ac == some .fp32 && bc == none))))
+
+private partial def staticBranchChangesType (base thenEnv elseEnv : Env) : Bool :=
+  let bindings := thenEnv.take (thenEnv.length - base.length) ++
+    elseEnv.take (elseEnv.length - base.length)
+  bindings.any fun binding =>
+    (match base.find? (fun old => old.1 == binding.1) with
+     | some old => !sameBranchBindingType old binding
+     | none => Bool.false) ||
+    bindings.any (fun other => other.1 == binding.1 &&
+      !sameBranchBindingType binding other)
+
+/-- Intermediate assignments within a straight-line arm are not alternative
+exit types. For arms containing control flow we retain the conservative history:
+it can encode distinct types at the exits of nested constexpr branches. -/
+private partial def staticBranchExitEnv (base branch : Env)
+    (stmts : List (TSyntax `tritonStmt)) : Env :=
+  let linear := stmts.all fun st => match st with
+    | `(tritonStmt| $_:ident = $_:tritonExpr) => Bool.true
+    | `(tritonStmt| $_:ident := $_:tritonExpr) => Bool.true
+    | _ => Bool.false
+  if !linear then branch else
+    let fresh := branch.take (branch.length - base.length)
+    let rec latest : Env → Env
+      | [] => []
+      | binding :: rest => binding :: latest (rest.filter (fun other => other.1 != binding.1))
+    latest fresh ++ base
 
 partial def natOffsetsWithBaseAdd (env : Env) (ctx : String)
     (offsets strides : Array (TSyntax `tritonExpr)) :
@@ -820,6 +1042,15 @@ partial def blockPtrDeltas (env : Env) (offsets : Array (TSyntax `tritonExpr)) :
 partial def natBlockPtrOffsets (env : Env) (ctx : String)
     (offsets : Array (TSyntax `tritonExpr)) :
     MacroM (TSyntax `term × TSyntax `term × Bool) := do
+  let signedNames := env.filterMap fun entry =>
+    if entry.2.1 == DInfo.int || entry.2.1 == DInfo.int8 ||
+        entry.2.1 == DInfo.int32 then some entry.1 else none
+  let expandOffset (off : TSyntax `tritonExpr) : MacroM EOut := do
+    if Inference.isSignedExpr signedNames off then
+      let value ← expandIntExpectedExpr env off
+      -- Evaluate signed arithmetic before projecting the complete address.
+      return ⟨← `(Op.castIntToNat $value.term), .nat, value.shape, none, none⟩
+    expandNatExpectedExpr env off
   let mut staticOffsets : Array (TSyntax `term) := #[]
   let mut offsetOps : Array (TSyntax `term) := #[]
   let mut hasDynamic := Bool.false
@@ -835,7 +1066,7 @@ partial def natBlockPtrOffsets (env : Env) (ctx : String)
         if env.any (fun entry => entry.1 == id.getId.toString) then
           hasDynamic := Bool.true
           staticOffsets := staticOffsets.push (← `((0 : Nat)))
-          let off' ← expandNatExpectedExpr env off
+          let off' ← expandOffset off
           ensureShape SInfo.scalar off'.shape (ctx ++ " offsets")
           offsetOps := offsetOps.push off'.term
         else
@@ -845,7 +1076,7 @@ partial def natBlockPtrOffsets (env : Env) (ctx : String)
     | _ =>
         hasDynamic := Bool.true
         staticOffsets := staticOffsets.push (← `((0 : Nat)))
-        let off' ← expandNatExpectedExpr env off
+        let off' ← expandOffset off
         ensureShape SInfo.scalar off'.shape (ctx ++ " offsets")
         offsetOps := offsetOps.push off'.term
   let rec natListTerm : List (TSyntax `term) → MacroM (TSyntax `term)
@@ -861,6 +1092,16 @@ partial def natBlockPtrOffsets (env : Env) (ctx : String)
   pure (← natListTerm staticOffsets.toList, ← opListTerm offsetOps.toList, hasDynamic)
 
 partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := do
+  -- The source's explicit output-pointer cast can be Bool -> Bool. Preserve
+  -- its actual operand instead of treating the register as a numeric load.
+  if let some (e, dt) := methodCast? stx then
+    if (← expandDType dt) == .bool then
+      let e ← if e.raw.isIdent then do
+        let i : TSyntax `ident := ⟨e.raw⟩
+        `(tritonExpr| $i:ident)
+      else pure e
+      let original ← expandExpr env e
+      if original.dtype == .bool then return original
   if let some (e, dt) := methodBitcast? stx then
     let e ← if e.raw.isIdent then do
       let i : TSyntax `ident := ⟨e.raw⟩
@@ -875,6 +1116,7 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
       match dottedToBaseName? i with
       | some name =>
           let e' ← expandIdentRefByName env name
+          if let some cast ← machineIntegerCast? dt e' then return cast
           let dst ← expandDType dt
           match dst with
           | .bool =>
@@ -882,21 +1124,17 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
           | .nat =>
               match e'.dtype with
               | .real | .fp32 | .fp16 | .bf16 | .f8e4 | .f8e5 | .floatVar _ =>
-                  let sh ← e'.shape.term
-                  let ref ← `(Op.ref TileDType.nat $sh "__compute_float_to_nat_cast_unprojected__")
-                  pure ⟨ref, .nat, e'.shape, none, none⟩
-              | .int | .int8 =>
+                  Macro.throwError "float-to-unsigned cast requires an explicit supported target width"
+              | .int | .int8 | .int32 =>
                   pure ⟨← `(Op.castIntToNat $e'.term), .nat, e'.shape, none, none⟩
               | _ => pure e'
           | .int =>
               match e'.dtype with
               | .real | .fp32 | .fp16 | .bf16 | .f8e4 | .f8e5 | .floatVar _ =>
-                  let srcProof ← e'.dtype.floatProof
-                  let realTerm ← `(Op.castFloat $srcProof FloatDType.real $e'.term)
-                  pure ⟨← `(Op.castRealToInt8 $realTerm), .int, e'.shape, none, none⟩
+                  Macro.throwError "float-to-signed cast requires an explicit supported target width"
               | .nat =>
                   pure ⟨← `(Op.castNatToInt $e'.term), .int, e'.shape, none, none⟩
-              | _ => pure e'.forgetStorageWidth
+              | _ => pure (e'.integerIdentityCast dt)
           | .fp32 =>
               explicitFloatCast .fp32 e'
           | .real =>
@@ -917,10 +1155,22 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
     let args := stx.raw.getArgs
     if h : 0 < args.size then
       let e : TSyntax `tritonExpr := ⟨args[0]⟩
-      match ← methodCastTargetDType? stx with
-      | some .int => expandIntExpectedExpr env e
+      let target := (← methodCastTargetDType? stx).orElse
+        (fun _ => methodCastRegisterDType? env stx)
+      match target with
+      | some .int =>
+          let original ← expandExpr env e
+          if methodCastTargetName? stx == some `tl.int32 then
+            if let some cast ← machineIntegerCast? (← `(tritonDType| tl.int32)) original then
+              return cast
+          expandIntExpectedExpr env e
       | some .nat => expandNatExpectedExpr env e
-      | _ => expandExpr env e
+      | some dst =>
+          match dst with
+          | .real | .fp32 | .fp16 | .bf16 | .f8e4 | .f8e5 | .floatVar _ =>
+              explicitFloatCast dst (← expandExpr env e)
+          | _ => expandExpr env e
+      | none => expandExpr env e
     else
       Macro.throwUnsupported
   else
@@ -962,25 +1212,22 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
               Macro.throwError "tl.cast: Bool casts are only supported directly on tl.load"
       | _ =>
           let e' ← expandExpr env e
+          if let some cast ← machineIntegerCast? dt e' then return cast
           match e'.dtype, dst with
           | .real, .nat | .fp32, .nat | .fp16, .nat | .bf16, .nat
           | .f8e4, .nat | .f8e5, .nat
           | .floatVar _, .nat =>
-              let sh ← e'.shape.term
-              let ref ← `(Op.ref TileDType.nat $sh "__compute_float_to_nat_cast_unprojected__")
-              pure ⟨ref, .nat, e'.shape, none, none⟩
-          | .int, .nat | .int8, .nat =>
+              Macro.throwError "float-to-unsigned cast requires an explicit supported target width"
+          | .int, .nat | .int8, .nat | .int32, .nat =>
               pure ⟨← `(Op.castIntToNat $e'.term), .nat, e'.shape, none, none⟩
           | .real, .int | .fp32, .int | .fp16, .int | .bf16, .int
           | .f8e4, .int | .f8e5, .int
           | .floatVar _, .int =>
-              let srcProof ← e'.dtype.floatProof
-              let realTerm ← `(Op.castFloat $srcProof FloatDType.real $e'.term)
-              pure ⟨← `(Op.castRealToInt8 $realTerm), .int, e'.shape, none, none⟩
+              Macro.throwError "float-to-signed cast requires an explicit supported target width"
           | .nat, .int =>
               pure ⟨← `(Op.castNatToInt $e'.term), .int, e'.shape, none, none⟩
           | _, .int =>
-              pure e'.forgetStorageWidth
+              pure (e'.integerIdentityCast dt)
           | _, .fp32 =>
               explicitFloatCast .fp32 e'
           | _, .real =>
@@ -1010,26 +1257,7 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
         if env.any (fun entry => entry.1 == rawName) then rawName
         else if env.any (fun entry => entry.1 == userName) then userName
         else erasedName
-      let (dtype, shape) ← lookupEnv env name
-      let s : TSyntax `term := Syntax.mkStrLit name
-      let dt ← dtype.term
-      let sh ← shape.term
-      let term ← `(Op.ref $dt $sh $s)
-      match lookupComputeDType? env name with
-      | some .fp32 =>
-          pure ⟨term, dtype, shape,
-            some (← fp32ComputeExpr term),
-            some .fp32⟩
-      | some .real =>
-          pure ⟨term, dtype, shape,
-            some (← fp64ComputeExpr term),
-            some .real⟩
-      | some _ =>
-          pure ⟨term, dtype, shape,
-            some (← `(ComputeExpr.opaque ("runtime compute value `" ++ $s ++ "`"))),
-            lookupComputeDType? env name⟩
-      | none =>
-          pure ⟨term, dtype, shape, none, none⟩
+      expandIdentRefByName env name
   | `(tritonExpr| $(($t:term : ℝ))) =>
       pure ⟨← `(Op.const $t), .real, SInfo.scalar, none, none⟩
   | `(tritonExpr| $(($t:term : Real))) =>
@@ -1059,6 +1287,57 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
       expandArange e
   | `(tritonExpr| tl.arange($s:tritonExpr, $e:tritonExpr)) => do
       expandArangeRangeWithEnv env s e
+  | `(tritonExpr| tl.__uniform32_profiled($input:tritonExpr)) => do
+      expandDirectUniform32 (← expandExpr env input)
+  | `(tritonExpr| tl.__unsigned_add_profiled($width:num, $lt:term, $rt:term,
+      $left:tritonExpr, $right:tritonExpr)) => do
+      unless width.getNat == 32 || width.getNat == 64 do
+        Macro.throwError "unsupported internal unsigned arithmetic width"
+      let some leftType := RandomProfile.integerTypeTerm? lt |
+        Macro.throwError "malformed internal unsigned lhs profile"
+      let some rightType := RandomProfile.integerTypeTerm? rt |
+        Macro.throwError "malformed internal unsigned rhs profile"
+      expandDirectUnsignedArithmetic width.getNat Bool.false
+        (← expandRandIntegerExpr env leftType left) (← expandRandIntegerExpr env rightType right)
+  | `(tritonExpr| tl.__unsigned_mul_profiled($width:num, $lt:term, $rt:term,
+      $left:tritonExpr, $right:tritonExpr)) => do
+      unless width.getNat == 32 || width.getNat == 64 do
+        Macro.throwError "unsupported internal unsigned arithmetic width"
+      let some leftType := RandomProfile.integerTypeTerm? lt |
+        Macro.throwError "malformed internal unsigned lhs profile"
+      let some rightType := RandomProfile.integerTypeTerm? rt |
+        Macro.throwError "malformed internal unsigned rhs profile"
+      expandDirectUnsignedArithmetic width.getNat Bool.true
+        (← expandRandIntegerExpr env leftType left) (← expandRandIntegerExpr env rightType right)
+  | `(tritonExpr| tl.__signed_and64_profiled($rt:term, $left:tritonExpr, $right:tritonExpr)) => do
+      let some rightType := RandomProfile.integerTypeTerm? rt |
+        Macro.throwError "malformed internal signed bitwise rhs profile"
+      let lhs ← expandRandIntegerExpr env .i64 left
+      let rhs ← expandRandIntegerExpr env rightType right
+      let (bc, shape) ← broadcastTerm lhs.shape rhs.shape "signed int64 bitwise AND"
+      return ⟨← `(Op.intBitAnd 64 $bc $lhs.term $rhs.term), .int, shape, none, none⟩
+  | `(tritonExpr| tl.__signed_shift64_profiled($left:tritonExpr, $count:num)) => do
+      unless count.getNat < 64 do
+        Macro.throwError "signed int64 right shift requires a literal count below 64"
+      let lhs ← expandRandIntegerExpr env .i64 left
+      let (bc, shape) ← broadcastTerm lhs.shape SInfo.scalar "signed int64 right shift"
+      return ⟨← `(Op.intShiftRight $bc $lhs.term (Op.constNat $count)), .int, shape, none, none⟩
+  | `(tritonExpr| tl.__rand_profiled($cfg:term, $seed:tritonExpr, $offsets:tritonExpr)) => do
+      let some (seedType, offsetType) := RandomProfile.configTypes? cfg |
+        Macro.throwError "tl.rand: malformed internal source profile"
+      let seed' ← expandRandIntegerExpr env seedType seed
+      let offsets' ← expandRandIntegerExpr env offsetType offsets
+      let term ← if seed'.shape.eq SInfo.scalar then
+          `(Op.rand $cfg $seed'.term $offsets'.term)
+        else do
+          ensureShape offsets'.shape seed'.shape
+            "tl.rand: vector seeds require the same shape as offsets"
+          `(Op.randTensor $cfg $seed'.term $offsets'.term)
+      pure ⟨term, .real, offsets'.shape, some (← fp32ComputeExpr term), some .fp32⟩
+  | `(tritonExpr| tl.rand($_:tritonExpr, $_:tritonExpr))
+  | `(tritonExpr| tl.rand($_:tritonExpr, $_:tritonExpr, $_:tritonExpr))
+  | `(tritonExpr| tl.rand($_:tritonExpr, $_:tritonExpr, n_rounds=$_:tritonExpr)) =>
+      Macro.throwError "tl.rand requires source-profile preprocessing in a triton block"
   | `(tritonExpr| tl.exp($e:tritonExpr)) => do
       let e' ← expandExpr env e
       let eTerm ← realMathTerm "tl.exp" e'
@@ -1096,24 +1375,17 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
   | `(tritonExpr| tl.exp2($e:tritonExpr)) => do
       let e' ← expandExpr env e
       let eTerm ← realMathTerm "tl.exp2" e'
-      pure ⟨← `(Op.exp2 $eTerm), .real, e'.shape, none, none⟩
+      let term ← `(Op.exp2 $eTerm)
+      let (ct, cp) ← floatingComputeArith? "exp2" term e' e'
+      pure ⟨term, .real, e'.shape, ct, cp⟩
   | `(tritonExpr| tl.math.exp2($e:tritonExpr)) => do
       let e' ← expandExpr env e
       let eTerm ← realMathTerm "tl.math.exp2" e'
-      pure ⟨← `(Op.exp2 $eTerm), .real, e'.shape, none, none⟩
-  | `(tritonExpr| tl.extra.cuda.libdevice.pow($e:tritonExpr, $b:tritonExpr)) => do
-      -- A literal exponent `2` keeps its historical `x * x` (`Op.mul`)
-      -- lowering so existing squared-magnitude ports (e.g. rmsnorm_triton)
-      -- elaborate unchanged; every other exponent — including the
-      -- scalar-base × tensor-exponent form — lowers to the general
-      -- `Op.pow` (`Real.rpow`) node via `expandPow`.
-      match b with
-      | `(tritonExpr| $n:num) =>
-          if n.getNat == 2 then
-            expandArith expandExpr env "tl.extra.cuda.libdevice.pow" (← `(Op.mul)) e e
-          else
-            expandPow expandExpr env "tl.extra.cuda.libdevice.pow" e b
-      | _ => expandPow expandExpr env "tl.extra.cuda.libdevice.pow" e b
+      let term ← `(Op.exp2 $eTerm)
+      let (ct, cp) ← floatingComputeArith? "exp2" term e' e'
+      pure ⟨term, .real, e'.shape, ct, cp⟩
+  | `(tritonExpr| tl.extra.cuda.libdevice.pow($e:tritonExpr, $b:tritonExpr)) =>
+      expandLibdevicePow expandExpr env e b
   | `(tritonExpr| tl.log($e:tritonExpr)) => do
       let e' ← expandExpr env e
       let eTerm ← realMathTerm "tl.log" e'
@@ -1123,15 +1395,21 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
   | `(tritonExpr| tl.log2($e:tritonExpr)) => do
       let e' ← expandExpr env e
       let eTerm ← realMathTerm "tl.log2" e'
-      pure ⟨← `(Op.log2 $eTerm), .real, e'.shape, none, none⟩
+      let term ← `(Op.log2 $eTerm)
+      let (ct, cp) ← floatingComputeArith? "log2" term e' e'
+      pure ⟨term, .real, e'.shape, ct, cp⟩
   | `(tritonExpr| tl.math.log2($e:tritonExpr)) => do
       let e' ← expandExpr env e
       let eTerm ← realMathTerm "tl.math.log2" e'
-      pure ⟨← `(Op.log2 $eTerm), .real, e'.shape, none, none⟩
+      let term ← `(Op.log2 $eTerm)
+      let (ct, cp) ← floatingComputeArith? "log2" term e' e'
+      pure ⟨term, .real, e'.shape, ct, cp⟩
   | `(tritonExpr| tl.sigmoid($e:tritonExpr)) => do
       let e' ← expandExpr env e
       let eTerm ← realMathTerm "tl.sigmoid" e'
-      pure ⟨← `(Op.sigmoid $eTerm), .real, e'.shape, none, none⟩
+      let term ← `(Op.sigmoid $eTerm)
+      let (ct, cp) ← floatingComputeArith? "sigmoid" term e' e'
+      pure ⟨term, .real, e'.shape, ct, cp⟩
   | `(tritonExpr| silu($e:tritonExpr)) =>
       expandExpr env (← `(tritonExpr| $e * tl.sigmoid($e)))
   | `(tritonExpr| leaky_relu($e:tritonExpr)) => do
@@ -1146,6 +1424,8 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
       let cond ← `(Op.ge ComparableDType.real $cmpBc $eTerm $zero)
       let scaled ← `(Op.mul NumericDType.real $mulBc $slope $eTerm)
       pure ⟨← `(Op.where $cond $eTerm $scaled), .real, e'.shape, none, none⟩
+  | `(tritonExpr| tl.fma($a:tritonExpr, $b:tritonExpr, $c:tritonExpr)) =>
+      expandFma expandExpr env a b c
   | `(tritonExpr| tl.sqrt($e:tritonExpr)) => do
       let e' ← expandExpr env e
       let eTerm ← realMathTerm "tl.sqrt" e'
@@ -1167,7 +1447,9 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
   | `(tritonExpr| tl.tanh($e:tritonExpr)) => do
       let e' ← expandExpr env e
       let eTerm ← realMathTerm "tl.tanh" e'
-      pure ⟨← `(Op.tanh $eTerm), .real, e'.shape, none, none⟩
+      let term ← `(Op.tanh $eTerm)
+      let (ct, cp) ← floatingComputeArith? "tanh" term e' e'
+      pure ⟨term, .real, e'.shape, ct, cp⟩
   -- The corpus alias triton_tanh denotes libdevice.tanh. Keep its backend
   -- separate from tl.tanh, including the propagated compute precision.
   | `(tritonExpr| triton_tanh($e:tritonExpr))
@@ -1181,7 +1463,9 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
   | `(tritonExpr| tanh($e:tritonExpr)) => do
       let e' ← expandExpr env e
       let eTerm ← realMathTerm "tanh" e'
-      pure ⟨← `(Op.tanh $eTerm), .real, e'.shape, none, none⟩
+      let term ← `(Op.tanh $eTerm)
+      let (ct, cp) ← floatingComputeArith? "tanh" term e' e'
+      pure ⟨term, .real, e'.shape, ct, cp⟩
   | `(tritonExpr| tl.sin($e:tritonExpr)) => do
       let e' ← expandExpr env e
       let eTerm ← realMathTerm "tl.sin" e'
@@ -1197,42 +1481,64 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
   | `(tritonExpr| tl.cos($e:tritonExpr)) => do
       let e' ← expandExpr env e
       let eTerm ← realMathTerm "tl.cos" e'
-      pure ⟨← `(Op.cos $eTerm), .real, e'.shape, none, none⟩
+      let term ← `(Op.cos $eTerm)
+      let (ct, cp) ← floatingComputeArith? "cos" term e' e'
+      pure ⟨term, .real, e'.shape, ct, cp⟩
   | `(tritonExpr| tl.tan($e:tritonExpr)) => do
       let e' ← expandExpr env e
       let eTerm ← realMathTerm "tl.tan" e'
-      pure ⟨← `(Op.tan $eTerm), .real, e'.shape, none, none⟩
+      let term ← `(Op.tan $eTerm)
+      let (ct, cp) ← floatingComputeArith? "tan" term e' e'
+      pure ⟨term, .real, e'.shape, ct, cp⟩
   | `(tritonExpr| tl.atan($e:tritonExpr)) => do
       let e' ← expandExpr env e
       let eTerm ← realMathTerm "tl.atan" e'
-      pure ⟨← `(Op.atan $eTerm), .real, e'.shape, none, none⟩
+      let term ← `(Op.atan $eTerm)
+      let (ct, cp) ← floatingComputeArith? "atan" term e' e'
+      pure ⟨term, .real, e'.shape, ct, cp⟩
   | `(tritonExpr| tl.cosh($e:tritonExpr)) => do
       let e' ← expandExpr env e
       let eTerm ← realMathTerm "tl.cosh" e'
-      pure ⟨← `(Op.cosh $eTerm), .real, e'.shape, none, none⟩
+      let term ← `(Op.cosh $eTerm)
+      let (ct, cp) ← floatingComputeArith? "cosh" term e' e'
+      pure ⟨term, .real, e'.shape, ct, cp⟩
   | `(tritonExpr| tl.sinh($e:tritonExpr)) => do
       let e' ← expandExpr env e
       let eTerm ← realMathTerm "tl.sinh" e'
-      pure ⟨← `(Op.sinh $eTerm), .real, e'.shape, none, none⟩
+      let term ← `(Op.sinh $eTerm)
+      let (ct, cp) ← floatingComputeArith? "sinh" term e' e'
+      pure ⟨term, .real, e'.shape, ct, cp⟩
   | `(tritonExpr| tl.erf($e:tritonExpr)) => do
       let e' ← expandExpr env e
       let eTerm ← realMathTerm "tl.erf" e'
-      pure ⟨← `(Op.erf $eTerm), .real, e'.shape, none, none⟩
+      let term ← `(Op.erf $eTerm)
+      let (ct, cp) ← floatingComputeArith? "erf" term e' e'
+      pure ⟨term, .real, e'.shape, ct, cp⟩
   | `(tritonExpr| tl.extra.cuda.libdevice.erf($e:tritonExpr)) => do
       let e' ← expandExpr env e
       let eTerm ← realMathTerm "tl.extra.cuda.libdevice.erf" e'
-      pure ⟨← `(Op.erf $eTerm), .real, e'.shape, none, none⟩
+      let term ← `(Op.erf $eTerm)
+      let (ct, cp) ← floatingComputeArith? "erf" term e' e'
+      pure ⟨term, .real, e'.shape, ct, cp⟩
   | `(tritonExpr| tl.abs($e:tritonExpr)) => do
       let e' ← expandExpr env e
-      ensureDType .real e'.dtype "tl.abs"
-      let (cmpBc, cmpShape) ← broadcastTerm e'.shape SInfo.scalar "tl.abs"
-      ensureShape e'.shape cmpShape "tl.abs"
-      let (subBc, subShape) ← broadcastTerm SInfo.scalar e'.shape "tl.abs"
-      ensureShape e'.shape subShape "tl.abs"
-      let zero ← `(Op.const 0)
-      let cond ← `(Op.lt ComparableDType.real $cmpBc $e'.term $zero)
-      let neg ← `(Op.sub NumericDType.real $subBc $zero $e'.term)
-      pure ⟨← `(Op.where $cond $neg $e'.term), .real, e'.shape, none, none⟩
+      let dtype ← e'.dtype.floatProof
+      let term ← `(Op.absFloat $dtype $e'.term)
+      match e'.computeDType? with
+      | some .fp32 =>
+          let child ← e'.scopedFloatingTerm
+          let fp ← `(Op.absFloat $dtype $child)
+          pure ⟨term, e'.dtype, e'.shape, some (← fp32ComputeExpr fp), some .fp32⟩
+      | some .real =>
+          let child ← e'.scopedFloatingTerm
+          let fp ← `(Op.absFloat $dtype $child)
+          pure ⟨term, e'.dtype, e'.shape, some (← fp64ComputeExpr fp), some .real⟩
+      | _ =>
+          if e'.computeTerm.isSome then
+            let child ← e'.floatingTerm
+            let fp ← `(Op.absFloat $dtype $child)
+            pure ⟨term, e'.dtype, e'.shape, some (← `(ComputeExpr.alg $fp)), none⟩
+          else pure ⟨term, e'.dtype, e'.shape, none, none⟩
   | `(tritonExpr| tl.logical_and($a:tritonExpr, $b:tritonExpr)) => do
       expandBoolBin expandExpr env "tl.logical_and" (← `(Op.boolAnd)) a b
   | `(tritonExpr| tl.logical_or($a:tritonExpr, $b:tritonExpr)) => do
@@ -1273,7 +1579,7 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
             pure ⟨term, .real, a'.shape, ct, cp⟩
           else
             expandMinMax expandExpr env "tl.minimum" (← `(Op.lt)) a
-              (← `(tritonExpr| float ($arg)))
+              (← `(tritonExpr| float ($arg:term)))
       | _ => Macro.throwError "tl.minimum: expected the literal float(\"inf\")"
   | `(tritonExpr| tl.minimum($a:tritonExpr, $b:tritonExpr)) => do
       expandMinMax expandExpr env "tl.minimum" (← `(Op.lt)) a b
@@ -1291,14 +1597,29 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
       expandArgReduce expandExpr env "tl.argmin" (← `(Op.argMin)) e kwargs
   | `(tritonExpr| tl.sort($e:tritonExpr $[, $kwargs:tritonReduceKwarg]*)) => do
       expandSort expandExpr env e kwargs
+  | `(tritonExpr| tl.sum($e:tritonExpr, axis=1, tree=$($tree:term), keep_dims=true)) => do
+      let input ← expandExpr env e
+      ensureDType .real input.dtype "ordered tl.sum"
+      unless input.computeDType? == some .fp32 do
+        Macro.throwError "ordered tl.sum requires explicit FP32 input precision"
+      let .dims [row, _] := input.shape
+        | Macro.throwError "ordered tl.sum requires a [1, N] tile"
+      unless termIsOne row do
+        Macro.throwError "ordered tl.sum requires a [1, N] tile"
+      let inputTerm ← input.scopedFloatingTerm
+      let term ← `(Op.full [1,1] (WelfordSource.sumExpression $inputTerm $tree))
+      pure ⟨term, .real, .dims [← `(1), ← `(1)],
+        some (← fp32ComputeExpr term), some .fp32⟩
   | `(tritonExpr| tl.sum($e:tritonExpr $[, $kwargs:tritonReduceKwarg]*)) => do
       expandReduce expandExpr env "tl.sum" (← `(Op.reduceSum)) e kwargs
+  | `(tritonExpr| tl.min($e:tritonExpr $[, $kwargs:tritonReduceKwarg]*)) => do
+      expandReduce expandExpr env "tl.min" (← `(Op.reduceMin)) e kwargs
   | `(tritonExpr| tl.max($e:tritonExpr $[, $kwargs:tritonReduceKwarg]*)) => do
       expandReduceMax expandExpr env e kwargs
   | `(tritonExpr| tl.toReal($e:tritonExpr)) => do
       let e' ← expandExpr env e
       match e'.dtype with
-      | .int | .int8 => pure ⟨← `(Op.intToReal $e'.term), .real, e'.shape, none, none⟩
+      | .int | .int8 | .int32 => pure ⟨← `(Op.intToReal $e'.term), .real, e'.shape, none, none⟩
       | _ =>
           ensureDType .nat e'.dtype "tl.toReal"
           pure ⟨← `(Op.natToReal $e'.term), .real, e'.shape, none, none⟩
@@ -1342,26 +1663,23 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
             some (← `(ComputeExpr.compute $op)), none⟩
   | `(tritonExpr| tl.cast($e:tritonExpr, $dt:tritonDType)) => do
       let e' ← expandExpr env e
+      if let some cast ← machineIntegerCast? dt e' then return cast
       let dst ← expandDType dt
       match dst with
       | .nat =>
           match e'.dtype with
           | .real | .fp32 | .fp16 | .bf16 | .f8e4 | .f8e5 | .floatVar _ =>
-              let sh ← e'.shape.term
-              let ref ← `(Op.ref TileDType.nat $sh "__compute_float_to_nat_cast_unprojected__")
-              pure ⟨ref, .nat, e'.shape, none, none⟩
-          | .int | .int8 =>
+              Macro.throwError "float-to-unsigned cast requires an explicit supported target width"
+          | .int | .int8 | .int32 =>
               pure ⟨← `(Op.castIntToNat $e'.term), .nat, e'.shape, none, none⟩
           | _ => pure e'
       | .int =>
           match e'.dtype with
           | .real | .fp32 | .fp16 | .bf16 | .f8e4 | .f8e5 | .floatVar _ =>
-              let srcProof ← e'.dtype.floatProof
-              let realTerm ← `(Op.castFloat $srcProof FloatDType.real $e'.term)
-              pure ⟨← `(Op.castRealToInt8 $realTerm), .int, e'.shape, none, none⟩
+              Macro.throwError "float-to-signed cast requires an explicit supported target width"
           | .nat =>
               pure ⟨← `(Op.castNatToInt $e'.term), .int, e'.shape, none, none⟩
-          | _ => pure e'.forgetStorageWidth
+          | _ => pure (e'.integerIdentityCast dt)
       | .fp32 =>
           explicitFloatCast .fp32 e'
       | .real =>
@@ -1380,6 +1698,10 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
         .int, e'.shape, some (← `(ComputeExpr.llrint $argCompute)), some .int⟩
   | `(tritonExpr| -inf) =>
       pure ⟨← `(Op.negInf), .real, SInfo.scalar, none, none⟩
+  | `(tritonExpr| float ($n:num)) => do
+      unless n.getNat == 0 do
+        Macro.throwError "float(integer): only the exact builtin literal float(0) is supported"
+      expandExpr env (← `(tritonExpr| 0.0))
   | `(tritonExpr| - float ($arg:term)) =>
       let argString := toString arg.raw
       unless argString.contains "inf" do
@@ -1515,8 +1837,10 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
       expandLoad expandExpr expandStaticPtrExpr env p kwargs (positionalMask := some mask)
   | `(tritonExpr| tl.load($p:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*).to($dt:tritonDType)) => do
       let dst ← expandDType dt
-      expandLoad expandExpr expandStaticPtrExpr env p kwargs
+      let loaded ← expandLoad expandExpr expandStaticPtrExpr env p kwargs
         (defaultDType := some dst) (positionalMask := some mask)
+      if let some cast ← machineIntegerCast? dt loaded then return cast
+      return loaded
   | `(tritonExpr| tl.load($p:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*).to($_dt:ident)) => do
       expandLoad expandExpr expandStaticPtrExpr env p kwargs (positionalMask := some mask)
   | `(tritonExpr| tl.load($p:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*).to($_base:ident.$_field:ident)) => do
@@ -1525,7 +1849,9 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
       expandLoad expandExpr expandStaticPtrExpr env p kwargs
   | `(tritonExpr| tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*).to($dt:tritonDType)) => do
       let dst ← expandDType dt
-      expandLoad expandExpr expandStaticPtrExpr env p kwargs (defaultDType := some dst)
+      let loaded ← expandLoad expandExpr expandStaticPtrExpr env p kwargs (defaultDType := some dst)
+      if let some cast ← machineIntegerCast? dt loaded then return cast
+      return loaded
   | `(tritonExpr| tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*).to($_dt:ident)) => do
       expandLoad expandExpr expandStaticPtrExpr env p kwargs
   | `(tritonExpr| tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*).to($_base:ident.$_field:ident)) => do
@@ -1559,32 +1885,46 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
   | `(tritonExpr| not $a:tritonExpr) => do
       expandBoolNot expandExpr env "boolean not" a
   | `(tritonExpr| -$a:tritonExpr) => do
+      -- Literal negation stays a constant; value negation is a sign-bit op.
+      match a with
+      | `(tritonExpr| $n:num) =>
+          return ⟨← `(Op.const (-$n)), .real, SInfo.scalar, none, none⟩
+      | `(tritonExpr| $n:scientific) =>
+          return ⟨← `(Op.const (-$n)), .real, SInfo.scalar, none, none⟩
+      | _ => pure ()
       let a' := (← expandExpr env a).forgetStorageWidth
-      let (zeroTerm, zeroDType) ←
-        match a'.dtype with
-        | .real => pure (← `(Op.const 0.0), DInfo.real)
-        | .fp32 => pure (← `(Op.constFloat FloatDType.fp32 0.0), DInfo.fp32)
-        | .fp16 => pure (← `(Op.constFloat FloatDType.fp16 0.0), DInfo.fp16)
-        | .bf16 => pure (← `(Op.constFloat FloatDType.bf16 0.0), DInfo.bf16)
-        | .f8e4 => pure (← `(Op.constFloat FloatDType.f8e4 0.0), DInfo.f8e4)
-        | .f8e5 => pure (← `(Op.constFloat FloatDType.f8e5 0.0), DInfo.f8e5)
-        | .int => pure (← `(Op.constInt 0), DInfo.int)
-        | _ => Macro.throwError "unary -: dtype mismatch"
-      ensureDType zeroDType a'.dtype "unary -"
-      let np ← a'.dtype.numericProof
-      let (bc, outShape) ← broadcastTerm SInfo.scalar a'.shape "unary -"
-      let term ← `(Op.sub $np $bc $zeroTerm $a'.term)
-      let zero : EOut := ⟨zeroTerm, zeroDType, SInfo.scalar, none, none⟩
-      let (computeTerm?, computeDType?) ← floatingComputeArith? "unary -" term zero a'
-      pure ⟨term, a'.dtype, outShape, computeTerm?, computeDType?⟩
+      match a'.dtype with
+      | .int =>
+          let (bc, outShape) ← broadcastTerm SInfo.scalar a'.shape "unary -"
+          pure ⟨← `(Op.sub NumericDType.int $bc (Op.constInt 0) $a'.term),
+            .int, outShape, none, none⟩
+      | .real | .fp32 | .fp16 | .bf16 | .f8e4 | .f8e5 | .floatVar _ =>
+          let dtype ← a'.dtype.floatProof
+          let term ← `(Op.negFloat $dtype $a'.term)
+          match a'.computeDType? with
+          | some .fp32 =>
+              let child ← a'.scopedFloatingTerm
+              let fp ← `(Op.negFloat $dtype $child)
+              pure ⟨term, a'.dtype, a'.shape, some (← fp32ComputeExpr fp), some .fp32⟩
+          | some .real =>
+              let child ← a'.scopedFloatingTerm
+              let fp ← `(Op.negFloat $dtype $child)
+              pure ⟨term, a'.dtype, a'.shape, some (← fp64ComputeExpr fp), some .real⟩
+          | _ =>
+              if a'.computeTerm.isSome then
+                let child ← a'.floatingTerm
+                let fp ← `(Op.negFloat $dtype $child)
+                pure ⟨term, a'.dtype, a'.shape, some (← `(ComputeExpr.alg $fp)), none⟩
+              else pure ⟨term, a'.dtype, a'.shape, none, none⟩
+      | _ => Macro.throwError "unary -: dtype mismatch"
   | `(tritonExpr| $a:tritonExpr + $b:tritonExpr) => do
       match ← expandStaticPtrExpr env stx with
       | some sp =>
           let (bc, _) ← broadcastTerm SInfo.scalar sp.shape "pointer arithmetic"
           pure ⟨← `(Op.ptrAdd $bc (Op.ptrBase $sp.region) $sp.offset), .ptr, sp.shape, none, none⟩
       | none =>
-          let a' ← expandExpr env a
-          let b' ← expandExpr env b
+          let a' := (← expandExpr env a).forgetStorageWidth
+          let b' := (← expandExpr env b).forgetStorageWidth
           match a'.dtype, b'.dtype with
           | .ptr, .nat =>
               ensureAlgorithmOnly "pointer arithmetic" a'
@@ -1739,6 +2079,8 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
       expandFlip expandExpr env e ax
   | `(tritonExpr| tl.join($a:tritonExpr, $b:tritonExpr)) => do
       expandJoin expandExpr env a b
+  | `(tritonExpr| tl.interleave($a:tritonExpr, $b:tritonExpr)) => do
+      expandInterleave expandExpr env a b
   | `(tritonExpr| tl.split($e:tritonExpr, $side:num)) => do
       expandSplit expandExpr env e side.getNat
   | `(tritonExpr| tl.full([$dims:tritonExpr,*], $v:tritonExpr)) => do
@@ -1817,6 +2159,8 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
       let e' ← expandExpr env e
       let zero ←
         match e'.dtype with
+        | .fp32Argument =>
+            Macro.throwError "tl.zeros_like: external FP32 argument must be read first"
         | .real => `(Op.const 0.0)
         | .fp32 => `(Op.constFloat FloatDType.fp32 0.0)
         | .fp16 => `(Op.constFloat FloatDType.fp16 0.0)
@@ -1827,7 +2171,7 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
             let t : TSyntax `term := ⟨mkIdent (Name.mkSimple name)⟩
             `(Op.constFloat $t 0.0)
         | .nat => `(Op.constNat 0)
-        | .int | .int8 => `(Op.constInt 0)
+        | .int | .int8 | .int32 => `(Op.constInt 0)
         | .bool => `(Op.constBool Bool.false)
         | .ptr | .blockPtr =>
             Macro.throwError "tl.zeros_like: pointer-valued tensors are not supported"
@@ -1837,7 +2181,19 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
 
 end
 
-/-- Carry known narrow floating storage into nested load expressions. This is
+/-- Explicit value conversions can establish a new type for a reused source
+name, including when the conversion is nested inside an arithmetic expression.
+The caller still checks the expanded result type before overriding a pin. -/
+private partial def containsExplicitConversion (env : Env) (raw : Syntax) : Bool :=
+  let e : TSyntax `tritonExpr := ⟨raw⟩
+  (methodCast? e).isSome || (methodCastRegisterDType? env e).isSome ||
+    (match e with
+      | `(tritonExpr| tl.toReal($_:tritonExpr)) => Bool.true
+      | `(tritonExpr| tl.cast($_:tritonExpr, $_:tritonDType)) => Bool.true
+      | _ => Bool.false) || raw.getArgs.any (containsExplicitConversion env)
+
+/-- Carry known floating and int32 storage into nested load expressions, and
+preserve integer storage underneath unsigned casts. This is
 internal elaboration metadata: the surface source and its operations stay the
 same. Unknown roots and explicit load dtypes are left unchanged. -/
 partial def annotateFloatingLoadStorage (regions : Inference.RegionDTypes)
@@ -1847,7 +2203,8 @@ partial def annotateFloatingLoadStorage (regions : Inference.RegionDTypes)
         let args ← args.mapM (annotateFloatingLoadStorage regions pointers)
         pure (.node info kind args)
     | other => pure other
-  let keyword? (p : TSyntax `tritonExpr) (kwargs : TSyntaxArray `tritonMemKwarg) :
+  let keyword? (p : TSyntax `tritonExpr) (kwargs : TSyntaxArray `tritonMemKwarg)
+      (unsignedCast : Bool := Bool.false) :
       MacroM (Option (TSyntax `tritonMemKwarg)) := do
     for kw in kwargs do
       match kw with
@@ -1860,21 +2217,97 @@ partial def annotateFloatingLoadStorage (regions : Inference.RegionDTypes)
       | some .bf16 => `(tritonDType| tl.bfloat16)
       | some .f8e4 => `(tritonDType| tl.float8e4nv)
       | some .f8e5 => `(tritonDType| tl.float8e5)
+      | some .int32 => `(tritonDType| tl.int32)
+      | some .int =>
+          if unsignedCast then `(tritonDType| tl.int64) else return none
+      | some .int8 =>
+          if unsignedCast then `(tritonDType| tl.int8) else return none
+      | some .nat =>
+          if unsignedCast then `(tritonDType| tl.uint64) else return none
       | some (.floatVar "dtype") => `(tritonDType| DTYPE)
       | some (.floatVar "out_dtype") => `(tritonDType| OUT_DTYPE)
       | _ => return none
     let kwName : Ident := mkIdent `dtype
     return some (← `(tritonMemKwarg| $kwName:ident = $dtype:tritonDType))
   let expr : TSyntax `tritonExpr := ⟨raw⟩
+  let hasExplicitDType (kwargs : TSyntaxArray `tritonMemKwarg) : Bool :=
+    kwargs.any fun kw => match kw with
+      | `(tritonMemKwarg| $name:ident = $_:tritonDType)
+      | `(tritonMemKwarg| $name:ident = $_:tritonExpr) =>
+          name.getId.eraseMacroScopes.toString == "dtype"
+      | _ => Bool.false
+  -- Machine integer casts may contain arbitrarily parenthesized loads. Preserve the
+  -- load's declared channel and canonicalize the cast even if a dtype kwarg
+  -- is already present; that kwarg must not cause the conversion to disappear.
+  let rec unsignedLoad? (e : TSyntax `tritonExpr) :
+      MacroM (Option (TSyntax `tritonExpr)) := do
+    match e with
+    | `(tritonExpr| ($inner:tritonExpr)) => unsignedLoad? inner
+    | `(tritonExpr| tl.load($p:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*)) =>
+        let kwargs ← match ← keyword? p kwargs Bool.true with
+          | some kw => pure (kwargs.push kw)
+          | none =>
+              if hasExplicitDType kwargs then pure kwargs else return none
+        return some (← `(tritonExpr| tl.load($p:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*)))
+    | `(tritonExpr| tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*)) =>
+        let kwargs ← match ← keyword? p kwargs Bool.true with
+          | some kw => pure (kwargs.push kw)
+          | none =>
+              if hasExplicitDType kwargs then pure kwargs else return none
+        return some (← `(tritonExpr| tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*)))
+    | _ => return none
+  let cast? ← match expr with
+    | `(tritonExpr| tl.load($p:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*).to($dt:tritonDType)) =>
+        pure (some (← `(tritonExpr| tl.load($p:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*)), dt))
+    | `(tritonExpr| tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*).to($dt:tritonDType)) =>
+        pure (some (← `(tritonExpr| tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*)), dt))
+    | `(tritonExpr| tl.cast($e:tritonExpr, $dt:tritonDType)) => pure (some (e, dt))
+    | _ => pure (methodCast? expr)
+  if let some (operand, dtype) := cast? then
+    if (unsignedCastWidth? dtype).isSome || signedMachineCast dtype then
+      if let some loaded ← unsignedLoad? operand then
+        return (← `(tritonExpr| ($loaded:tritonExpr).to($dtype:tritonDType))).raw
   match expr with
+  | `(tritonExpr| (tl.load($p:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*)).to($dt:tritonDType))
   | `(tritonExpr| tl.load($p:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*).to($dt:tritonDType)) =>
-      let some kw ← keyword? p kwargs | return raw
+      let some kw ← keyword? p kwargs ((unsignedCastWidth? dt).isSome || signedMachineCast dt) | return raw
       let kwargs := kwargs.push kw
       return (← `(tritonExpr| (tl.load($p:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*)).to($dt:tritonDType))).raw
+  | `(tritonExpr| (tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*)).to($dt:tritonDType))
   | `(tritonExpr| tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*).to($dt:tritonDType)) =>
-      let some kw ← keyword? p kwargs | return raw
+      let some kw ← keyword? p kwargs ((unsignedCastWidth? dt).isSome || signedMachineCast dt) | return raw
       let kwargs := kwargs.push kw
       return (← `(tritonExpr| (tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*)).to($dt:tritonDType))).raw
+  -- Direct-load attribute casts have their own parser nodes. Canonicalize
+  -- them only when source storage is known, so the regular attribute-cast
+  -- resolver sees both the original load channel and the register's dtype.
+  -- Merely erasing `.to(other.dtype)` would lose two numerical events.
+  | `(tritonExpr| tl.load($p:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*).to($target:ident)) =>
+      let some kw ← keyword? p kwargs | return raw
+      let kwargs := kwargs.push kw
+      return (← `(tritonExpr| (tl.load($p:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*)).to($target:ident))).raw
+  | `(tritonExpr| tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*).to($target:ident)) =>
+      let some kw ← keyword? p kwargs | return raw
+      let kwargs := kwargs.push kw
+      return (← `(tritonExpr| (tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*)).to($target:ident))).raw
+  | `(tritonExpr| tl.load($p:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*).to($base:ident.$field:ident)) =>
+      let some kw ← keyword? p kwargs | return raw
+      let kwargs := kwargs.push kw
+      return (← `(tritonExpr| (tl.load($p:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*)).to($base:ident.$field:ident))).raw
+  | `(tritonExpr| tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*).to($base:ident.$field:ident)) =>
+      let some kw ← keyword? p kwargs | return raw
+      let kwargs := kwargs.push kw
+      return (← `(tritonExpr| (tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*)).to($base:ident.$field:ident))).raw
+  | `(tritonExpr| tl.cast(tl.load($p:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*), $dt:tritonDType)) =>
+      if (unsignedCastWidth? dt).isNone && !signedMachineCast dt then return raw
+      let some kw ← keyword? p kwargs Bool.true | return raw
+      let kwargs := kwargs.push kw
+      return (← `(tritonExpr| tl.cast(tl.load($p:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*), $dt:tritonDType))).raw
+  | `(tritonExpr| tl.cast(tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*), $dt:tritonDType)) =>
+      if (unsignedCastWidth? dt).isNone && !signedMachineCast dt then return raw
+      let some kw ← keyword? p kwargs Bool.true | return raw
+      let kwargs := kwargs.push kw
+      return (← `(tritonExpr| tl.cast(tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*), $dt:tritonDType))).raw
   | `(tritonExpr| tl.load($p:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*)) =>
       let some kw ← keyword? p kwargs | return raw
       let kwargs := kwargs.push kw
@@ -1888,6 +2321,14 @@ partial def annotateFloatingLoadStorage (regions : Inference.RegionDTypes)
 /-- Floating storage evidence is separate from ordinary dtype inference.
 An unknown binding shadows older evidence, including a same-named region. -/
 abbrev FPPtrProvenance := List (String × Option DInfo)
+
+/-- Storage-profile presence is a property of the complete source, not of the
+current pointer map. Only unprofiled mathematical surfaces retain their legacy
+pointer-element cast interpretation. -/
+structure FPSourceContext where
+  regions : Inference.RegionDTypes
+  legacyPointerCasts : Bool
+
 
 /-- Normalize only the syntax inspected for floating provenance. A mathematical
 `Region.real` annotation supplies no fp64 evidence; a named root must obtain
@@ -1923,23 +2364,133 @@ private partial def fpAssignedNames (raw : Syntax) : List String :=
   | `(tritonStmt| $name:ident := $_:tritonExpr) => [name.getId.toString]
   | _ => raw.getArgs.toList.flatMap fpAssignedNames
 
+/-- Resolve a pointer element cast from storage evidence at this program point.
+This changes only internal syntax; explicit source `.to(p.dtype.element_ty)`
+still contributes its storage conversion to the compute program. -/
+private partial def annotatePointerElementCasts (regions : Inference.RegionDTypes)
+    (legacyPointerCasts : Bool) (pointers : FPPtrProvenance) (raw : Syntax) : MacroM Syntax := do
+  let raw ← match raw with
+    | .node info kind args =>
+        pure (.node info kind (← args.mapM (annotatePointerElementCasts regions legacyPointerCasts pointers)))
+    | other => pure other
+  unless raw.getKind == ``tritonMethodCastElementTy ||
+      raw.getKind == ``tritonMethodCastDTypeIdent ||
+      raw.getKind == ``tritonMethodCastElementTyIdent ||
+      raw.getKind == ``tritonIdentMethodCastDTypeIdent ||
+      raw.getKind == ``tritonIdentMethodCastDTypeIdentSpaced ||
+      raw.getKind == ``tritonIdentMethodCastElementTyIdent ||
+      raw.getKind == ``tritonIdentMethodCastElementTyIdentSpaced do
+    return raw
+  let expr : TSyntax `tritonExpr := ⟨raw⟩
+  let some (.str (.str pointer field) "element_ty") := methodCastTargetName? expr
+    | return raw
+  unless field == "dtype" || field == "type" do return raw
+  let p : Ident := mkIdent pointer
+  let dtype ← match ← fpPointerDType? regions pointers (← `(tritonExpr| $p:ident)) with
+    | some .real => `(tritonDType| tl.float64)
+    | some .fp32 => `(tritonDType| tl.float32)
+    | some .fp16 => `(tritonDType| tl.float16)
+    | some .bf16 => `(tritonDType| tl.bfloat16)
+    | some .f8e4 => `(tritonDType| tl.float8e4nv)
+    | some .f8e5 => `(tritonDType| tl.float8e5)
+    | some (.floatVar "dtype") => `(tritonDType| DTYPE)
+    | some (.floatVar "out_dtype") => `(tritonDType| OUT_DTYPE)
+    | some .bool => `(tritonDType| tl.int1)
+    | _ =>
+        if field == "type" && !legacyPointerCasts then
+          Macro.throwError "pointer .type.element_ty cast requires known supported storage provenance"
+        return raw
+  let args := raw.getArgs
+  if h : 0 < args.size then
+    let value : TSyntax `tritonExpr := ⟨args[0]⟩
+    return (← `(tritonExpr| ($value:tritonExpr).to($dtype:tritonDType))).raw
+  return raw
+
 /-- A loop-carried binding cannot use evidence from only its first iteration.
 Assignments earlier in the loop body may establish fresh evidence normally. -/
-private def fpLoopProvenance (pointers : FPPtrProvenance) (index : Ident)
+private def fpLoopProvenance (regions : Inference.RegionDTypes) (pointers : FPPtrProvenance) (index : Ident)
     (stmts : List (TSyntax `tritonStmt)) : FPPtrProvenance :=
   let assigned := index.getId.toString :: stmts.flatMap (fun st => fpAssignedNames st.raw)
-  assigned.map (·, none) ++ pointers.filter (fun p => !(assigned.contains p.1))
+  -- A fresh local is still unbound on the zero-iteration/untaken path.
+  -- Only existing bindings and shadowed source regions need unknown markers.
+  let shadowed := assigned.filter (fun name =>
+    pointers.any (fun p => p.1 == name) || (Inference.lookupRegionDType regions name).isSome)
+  shadowed.map (·, none) ++ pointers.filter (fun p => !(assigned.contains p.1))
 
-private def fpProvenanceAfterStmt (regions : Inference.RegionDTypes)
-    (pointers : FPPtrProvenance) (st : TSyntax `tritonStmt) : MacroM FPPtrProvenance := do
+/-- Definite evidence drives precision. Possible evidence is retained only
+inside a control-flow analysis to reject conflicting typed-pointer bindings
+even when one nested arm leaves the register unbound. -/
+private abbrev FPPtrFlow := FPPtrProvenance × FPPtrProvenance
+
+private def fpFlowLookup (regions : Inference.RegionDTypes)
+    (pointers : FPPtrProvenance) (name : String) : Option (Option DInfo) :=
+  match pointers.find? (fun p => p.1 == name) with
+  | some p => some p.2
+  | none => (Inference.lookupRegionDType regions name).map some
+
+private def fpJoinFlows (regions : Inference.RegionDTypes)
+    (base left right : FPPtrFlow) (assigned : List String) : MacroM FPPtrFlow := do
+  let mut definite := base.1.filter (fun p => !(assigned.contains p.1))
+  let mut possible := base.2.filter (fun p => !(assigned.contains p.1))
+  for name in assigned do
+    let ld := (fpFlowLookup regions left.1 name).join
+    let rd := (fpFlowLookup regions right.1 name).join
+    definite := (name, if ld == rd then ld else none) :: definite
+    let lp := fpFlowLookup regions left.2 name
+    let rp := fpFlowLookup regions right.2 name
+    let choices ← match lp, rp with
+      | some (some a), some (some b) =>
+          if a == b then pure (some (some a))
+          else Macro.throwError ("pointer storage dtype conflict across branches: " ++ name)
+      | some (some _), some none | some none, some (some _) =>
+          Macro.throwError ("pointer storage dtype is unknown on a bound branch: " ++ name)
+      | none, other | other, none => pure other
+      | some none, some none => pure (some none)
+    -- An unbound fp64 arm cannot silently become a default-fp32 real load.
+    -- Narrow channels still carry their dtype in ordinary inference, and a
+    -- missing pointer register still fails dynamically. Wide partial joins
+    -- require a future path-sensitive continuation and are rejected here.
+    if choices == some (some DInfo.real) && (ld.isNone || rd.isNone) then
+      Macro.throwError ("fp64 pointer storage is not established on every branch: " ++ name)
+    if let some dtype := choices then
+      possible := (name, dtype) :: possible
+  return (definite, possible)
+
+mutual
+
+private partial def fpFlowAfterStmts (regions : Inference.RegionDTypes)
+    (flow : FPPtrFlow) (stmts : List (TSyntax `tritonStmt)) : MacroM FPPtrFlow :=
+  stmts.foldlM (fpFlowAfterStmt regions) flow
+
+private partial def fpFlowAfterStmt (regions : Inference.RegionDTypes)
+    (flow : FPPtrFlow) (st : TSyntax `tritonStmt) : MacroM FPPtrFlow := do
   match st with
   | `(tritonStmt| $name:ident = $e:tritonExpr)
   | `(tritonStmt| $name:ident := $e:tritonExpr) =>
-      let dtype ← fpPointerDType? regions pointers e
-      return (name.getId.toString, dtype) :: pointers.filter (fun p => p.1 != name.getId.toString)
+      let dtype ← fpPointerDType? regions flow.1 e
+      let possible ← fpPointerDType? regions flow.2 e
+      let key := name.getId.toString
+      return ((key, dtype) :: flow.1.filter (fun p => p.1 != key),
+        (key, possible) :: flow.2.filter (fun p => p.1 != key))
+  | `(tritonStmt| if $_:tritonExpr { $ts:tritonStmt* } else { $es:tritonStmt* })
+  | `(tritonStmt| tl.if $_:tritonExpr { $ts:tritonStmt* } else { $es:tritonStmt* }) =>
+      let left ← fpFlowAfterStmts regions flow ts.toList
+      let right ← fpFlowAfterStmts regions flow es.toList
+      fpJoinFlows regions flow left right (fpAssignedNames st.raw)
+  | `(tritonStmt| if $_:tritonExpr { $ts:tritonStmt* })
+  | `(tritonStmt| tl.if $_:tritonExpr { $ts:tritonStmt* }) =>
+      let left ← fpFlowAfterStmts regions flow ts.toList
+      fpJoinFlows regions flow left flow (fpAssignedNames st.raw)
   | _ =>
       let assigned := fpAssignedNames st.raw
-      return assigned.map (·, none) ++ pointers.filter (fun p => !(assigned.contains p.1))
+      return (assigned.map (·, none) ++ flow.1.filter (fun p => !(assigned.contains p.1)),
+        assigned.map (·, none) ++ flow.2.filter (fun p => !(assigned.contains p.1)))
+
+end
+
+private def fpProvenanceAfterStmt (regions : Inference.RegionDTypes)
+    (pointers : FPPtrProvenance) (st : TSyntax `tritonStmt) : MacroM FPPtrProvenance := do
+  return (← fpFlowAfterStmt regions (pointers, pointers) st).1
 
 /-- Explicit wide storage provenance supplies load compute precision, independently
 of the mathematical real carrier used by unannotated source kernels. -/
@@ -1984,15 +2535,46 @@ partial def annotateWideFloatingLoadStorage (regions : Inference.RegionDTypes)
       return (← `(tritonExpr| tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*))).raw
   | _ => return raw
 
+/-- Annotate only unsigned-load casts at a statement's current program point.
+Do not annotate whole branch bodies with pointer evidence from before them. -/
+private partial def annotateMachineLoadCasts (regions : Inference.RegionDTypes)
+    (pointers : Inference.PtrElems) (raw : Syntax) : MacroM Syntax := do
+  let raw ← match raw with
+    | .node info kind args =>
+        pure (.node info kind (← args.mapM (annotateMachineLoadCasts regions pointers)))
+    | other => pure other
+  let expr : TSyntax `tritonExpr := ⟨raw⟩
+  let dtype? := match expr with
+    | `(tritonExpr| tl.load($_p:tritonExpr, $_mask:tritonExpr $[, $_kwargs:tritonMemKwarg]*).to($dt:tritonDType)) => some dt
+    | `(tritonExpr| tl.load($_p:tritonExpr $[, $_kwargs:tritonMemKwarg]*).to($dt:tritonDType)) => some dt
+    | `(tritonExpr| tl.cast($_e:tritonExpr, $dt:tritonDType)) => some dt
+    | _ => (methodCast? expr).map Prod.snd
+  if let some dtype := dtype? then
+    if (unsignedCastWidth? dtype).isSome || signedMachineCast dtype then
+      return ← annotateFloatingLoadStorage regions pointers raw
+  return raw
+
 mutual
 
 partial def expandStmt (env : Env) (pinned intPinned : List String)
     (regionDTypes : Inference.RegionDTypes) (ptrElems : Inference.PtrElems)
-    (fpRegionDTypes : Inference.RegionDTypes) (fpPtrElems : FPPtrProvenance)
-    (stx : TSyntax `tritonStmt) :
+    (fpSource : FPSourceContext) (fpPtrElems : FPPtrProvenance)
+    (facts : StaticBoolFacts) (stx : TSyntax `tritonStmt) :
     MacroM (TSyntax `term × TSyntax `term × Env × Bool) := do
+  let annotate (e : TSyntax `tritonExpr) : MacroM (TSyntax `tritonExpr) := do
+    let raw ← annotatePointerElementCasts fpSource.regions fpSource.legacyPointerCasts fpPtrElems e.raw
+    return ⟨← annotateMachineLoadCasts regionDTypes ptrElems raw⟩
+  let expandExpr (env : Env) (e : TSyntax `tritonExpr) : MacroM EOut := do
+    expandExpr env (← annotate e)
+  let expandBoolCondition (env : Env) (e : TSyntax `tritonExpr) : MacroM EOut := do
+    expandBoolCondition env (← annotate e)
+  let expandNatExpectedExpr (env : Env) (e : TSyntax `tritonExpr) : MacroM EOut := do
+    withRef e <| expandNatExpectedExpr env (← annotate e)
+  let expandIntExpectedExpr (env : Env) (e : TSyntax `tritonExpr) : MacroM EOut := do
+    expandIntExpectedExpr env (← annotate e)
   let signedNames := intPinned ++ env.filterMap (fun entry =>
-    if entry.2.1 == DInfo.int then some entry.1 else none)
+    if entry.2.1 == DInfo.int || entry.2.1 == DInfo.int8 ||
+        entry.2.1 == DInfo.int32 then some entry.1 else none)
   let signedBounds (start stop : TSyntax `tritonExpr) : Bool :=
     Inference.isSignedExpr signedNames start || Inference.isSignedExpr signedNames stop
   let expandSignedRange (i : Ident) (start stop stride : TSyntax `tritonExpr)
@@ -2007,8 +2589,8 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
     ensureShape SInfo.scalar stride'.shape "signed range stride"
     let bodyEnv := (i.getId.toString, DInfo.int, SInfo.scalar, none) :: env
     let (algBody, computeBody, _, bodyHasCompute) ←
-      expandStmts bodyEnv pinned intPinned regionDTypes ptrElems fpRegionDTypes
-        (fpLoopProvenance fpPtrElems i stmts.toList) stmts.toList
+      expandStmts bodyEnv pinned intPinned regionDTypes ptrElems fpSource
+        (fpLoopProvenance fpSource.regions fpPtrElems i stmts.toList) facts stmts.toList
     pure (← `(Stmt.forRangeInt $nameLit $start'.term $stop'.term $stride'.term [$algBody,*]),
       ← `(ComputeStmt.forRangeInt $nameLit $start'.term $stop'.term $stride'.term [$computeBody,*]),
       env, bodyHasCompute)
@@ -2102,9 +2684,9 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
       (kwargs : TSyntaxArray `tritonMemKwarg)
       (mask : Option (TSyntax `tritonExpr)) : MacroM (Option EOut) := do
     let hint ← pointerDTypeHint p
-    if hint != some DInfo.int then return none
-    let loaded ← expandLoad expandExpr expandStaticPtrExpr env p kwargs
-      (defaultDType := hint) (positionalMask := mask)
+    if hint != some DInfo.int && hint != some DInfo.int32 then return none
+    let loaded := (← expandLoad expandExpr expandStaticPtrExpr env p kwargs
+      (defaultDType := hint) (positionalMask := mask)).forgetStorageWidth
     ensureDType .int loaded.dtype "integer load cast to int1"
     let zero ← coerceShape (← `(Op.constInt 0)) SInfo.scalar loaded.shape
       "integer load cast to int1"
@@ -2120,9 +2702,8 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
     | `(tritonExpr| tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*).to(tl.int1)) =>
         integerBoolLoadCast p kwargs none
     | _ => return none
-  -- A cast around a load must not hide an explicitly signed storage type
-  -- from assignment inference. int32/int64 share the mathematical Int
-  -- channel here; this does not erase an int8 narrowing operation.
+  -- Preserve signed source storage and apply explicit i32 narrowing before
+  -- assignment inference. Same-width i32 casts retain their existing AST.
   let signedLoadCast? (dest : Ident) (e : TSyntax `tritonExpr) : MacroM (Option EOut) := do
     match e with
     | `(tritonExpr| (tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*)).to(tl.int32))
@@ -2130,11 +2711,48 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
     | `(tritonExpr| tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*).to(tl.int32))
     | `(tritonExpr| tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*).to(tl.int64)) =>
         let hint ← loadDTypeHint dest p
-        if hint == some DInfo.int then
-          return some (← expandLoad expandExpr expandStaticPtrExpr env p kwargs
-            (defaultDType := hint))
+        if hint == some DInfo.int || hint == some DInfo.int32 then
+          let loaded ← expandLoad expandExpr expandStaticPtrExpr env p kwargs
+            (defaultDType := hint)
+          let same32 := match e with
+            | `(tritonExpr| (tl.load($_ $[, $_:tritonMemKwarg]*)).to(tl.int32))
+            | `(tritonExpr| tl.load($_ $[, $_:tritonMemKwarg]*).to(tl.int32)) => Bool.true
+            | _ => Bool.false
+          if same32 then
+            if let some cast ← machineIntegerCast? (← `(tritonDType| tl.int32)) loaded then
+              return some cast
+          return some loaded.forgetStorageWidth
         return none
     | _ => return none
+  -- Read integer cells at their source dtype before applying a machine
+  -- destination cast. In particular, int64 seeds remain signed loads.
+  let machineLoadCast? (e : TSyntax `tritonExpr) : MacroM (Option EOut) := do
+    let cast? ← match e with
+      | `(tritonExpr| tl.load($p:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*).to($dt:tritonDType)) =>
+          pure (some (← `(tritonExpr| tl.load($p:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*)), dt))
+      | `(tritonExpr| tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*).to($dt:tritonDType)) =>
+          pure (some (← `(tritonExpr| tl.load($p $[, $kwargs:tritonMemKwarg]*)), dt))
+      | `(tritonExpr| tl.cast($a:tritonExpr, $dt:tritonDType)) => pure (some (a, dt))
+      | _ => pure (methodCast? e)
+    let some (a, dt) := cast? | return none
+    if (unsignedCastWidth? dt).isNone && !signedMachineCast dt then return none
+    let rec loadInteger (a : TSyntax `tritonExpr) : MacroM (Option EOut) := do
+      match a with
+      | `(tritonExpr| ($inner:tritonExpr)) => loadInteger inner
+      | `(tritonExpr| tl.load($p:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*)) =>
+          let hint ← pointerDTypeHint p
+          if hint != some DInfo.int && hint != some DInfo.int32 &&
+              hint != some DInfo.int8 && hint != some DInfo.nat then return none
+          return ← machineIntegerCast? dt (← expandLoad expandExpr expandStaticPtrExpr
+            env p kwargs (defaultDType := hint) (positionalMask := some mask))
+      | `(tritonExpr| tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*)) =>
+          let hint ← pointerDTypeHint p
+          if hint != some DInfo.int && hint != some DInfo.int32 &&
+              hint != some DInfo.int8 && hint != some DInfo.nat then return none
+          return ← machineIntegerCast? dt (← expandLoad expandExpr expandStaticPtrExpr
+            env p kwargs (defaultDType := hint))
+      | _ => return none
+    loadInteger a
   -- Keep the pointer's known floating storage type through a load/cast
   -- assignment. The cast target describes the result, not the memory cell.
   -- Ordinary fp32/real loads already use the real carrier; preserve their
@@ -2149,7 +2767,7 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
     | some .real =>
         -- The mathematical real carrier alone is not fp64 storage evidence.
         -- Only explicit floating provenance enables this load/cast repair.
-        if (← fpPointerDType? fpRegionDTypes fpPtrElems p) != some .real then return none
+        if (← fpPointerDType? fpSource.regions fpPtrElems p) != some .real then return none
         if dst != .real && dst != .fp32 then return none
     | _ => return none
     match dst with
@@ -2175,17 +2793,61 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
   -- ordinary assignment. Resolve its storage from the pointer at this program
   -- point; the target of `.to` must not become the load's storage dtype.
   let expandUpdateOperand (dest : Ident) (e : TSyntax `tritonExpr) : MacroM EOut := do
+    if let some loaded ← machineLoadCast? e then return loaded
     if let some loaded ← floatLoadCast? dest e then return loaded
     if let some loaded ← signedLoadCast? dest e then return loaded
+    -- A machine cast establishes the signed result before address-use
+    -- inference. Keep its negative values until the final address projection.
+    let signedCast := match e with
+      | `(tritonExpr| tl.cast($_:tritonExpr, $dt:tritonDType)) => signedMachineCast dt
+      | _ => (methodCast? e).any (fun pair => signedMachineCast pair.2)
+    if signedCast then
+      let inferred ← expandExpr env e
+      if inferred.dtype == .int32 || inferred.dtype == .int then return inferred
     let e : TSyntax `tritonExpr := ⟨← annotateFloatingLoadStorage regionDTypes ptrElems e.raw⟩
-    let e : TSyntax `tritonExpr := ⟨← annotateWideFloatingLoadStorage fpRegionDTypes fpPtrElems e.raw⟩
+    let e : TSyntax `tritonExpr := ⟨← annotateWideFloatingLoadStorage fpSource.regions fpPtrElems e.raw⟩
     expandExpr env e
   let expandAssignment (dest : Ident) (e : TSyntax `tritonExpr) : MacroM EOut := do
+    -- This source operation must be materialized in a Bool register before
+    -- algorithm-layer composition. Do not add an expandExpr fallback that
+    -- would let where/if silently discard its compute-only child.
+    match e with
+    | `(tritonExpr| tl.__finite_helper_resolved($argument:tritonExpr)) =>
+        let input ← expandExpr env argument
+        if ← finiteHelperIsFP64 input then
+          return ← explicitFiniteClassifier .fp64 input
+        else
+          -- Keep the helper's explicit cast even for an already-fp32 operand.
+          return ← explicitFiniteClassifier .fp32 (← explicitFloatCast .fp32 input)
+    | `(tritonExpr| tl.extra.cuda.libdevice.finitef($input:tritonExpr))
+    | `(tritonExpr| libdevice.finitef($input:tritonExpr)) =>
+        return ← explicitFiniteClassifier .fp32 (← expandExpr env input)
+    | `(tritonExpr| tl.extra.cuda.libdevice.isfinited($input:tritonExpr))
+    | `(tritonExpr| libdevice.isfinited($input:tritonExpr)) =>
+        return ← explicitFiniteClassifier .fp64 (← expandExpr env input)
+    | _ => pure ()
+    if let some loaded ← machineLoadCast? e then return loaded
     if let some loaded ← integerBoolLoadCast? e then return loaded
     if let some loaded ← floatLoadCast? dest e then return loaded
     if let some loaded ← signedLoadCast? dest e then return loaded
+    -- A machine cast establishes the signed result before address-use
+    -- inference. Keep its negative values until the final address projection.
+    let signedCast := match e with
+      | `(tritonExpr| tl.cast($_:tritonExpr, $dt:tritonDType)) => signedMachineCast dt
+      | _ => (methodCast? e).any (fun pair => signedMachineCast pair.2)
+    if signedCast then
+      let inferred ← expandExpr env e
+      if inferred.dtype == .int32 || inferred.dtype == .int then return inferred
     let e : TSyntax `tritonExpr := ⟨← annotateFloatingLoadStorage regionDTypes ptrElems e.raw⟩
-    let e : TSyntax `tritonExpr := ⟨← annotateWideFloatingLoadStorage fpRegionDTypes fpPtrElems e.raw⟩
+    let e : TSyntax `tritonExpr := ⟨← annotateWideFloatingLoadStorage fpSource.regions fpPtrElems e.raw⟩
+    -- A name may first hold a packed integer and later its dequantized float.
+    -- A whole-body address/bitwise pin must not override this explicit cast.
+    let explicitConversion := containsExplicitConversion env e.raw
+    if explicitConversion then
+      let inferred ← expandExpr env e
+      match inferred.dtype with
+      | .real | .fp32 | .fp16 | .bf16 | .f8e4 | .f8e5 | .floatVar _ => return inferred
+      | _ => pure ()
     if intPinned.contains dest.getId.toString then
       -- Signed offset propagation can also reach a named pointer binding.
       -- Keep its pointer dtype: only the offset is an integer expression.
@@ -2198,11 +2860,11 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
     -- expressions retain their ordinary pointer expansion.
     if Inference.isSignedExpr signedNames e then
       let inferred ← expandExpr env e
-      if inferred.dtype == DInfo.int then return inferred
+      if inferred.forgetStorageWidth.dtype == DInfo.int then return inferred
     if pinned.contains dest.getId.toString then return ← expandNatExpectedExpr env e
     expandExpr env e
   let preserveWideLoad (p : TSyntax `tritonExpr) (e : EOut) : MacroM EOut := do
-    if e.dtype == .real && (← fpPointerDType? fpRegionDTypes fpPtrElems p) == some .real then
+    if e.dtype == .real && (← fpPointerDType? fpSource.regions fpPtrElems p) == some .real then
       let ct ← fp64ComputeExpr e.term
       return { e with computeTerm := some ct, computeDType? := some .real }
     return e
@@ -2229,6 +2891,10 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
       | some out => pure out
       | none => expandExpr env rhs
     ensureAlgorithmOnly "arithmetic" rhs'
+    -- Loaded storage widths do not change the mathematical integer carrier.
+    -- Normalize both operands, including a previously bound int32 register,
+    -- before comparing dtypes; mixed natural offsets widen to signed Int.
+    let (load', rhs') ← coerceNatIntOperands "arithmetic" load' rhs'
     ensureDType load'.dtype rhs'.dtype "arithmetic"
     let np ← load'.dtype.numericProof
     let (bc, outShape) ← broadcastTerm load'.shape rhs'.shape "arithmetic"
@@ -2272,7 +2938,7 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
               Bool.false)
       let nameLit : TSyntax `term := Syntax.mkStrLit envName
       if lhsDType == .ptr then
-        let rhs0 ← expandExpr env rhs
+        let rhs0 := (← expandExpr env rhs).forgetStorageWidth
         let rhs' ←
           match rhs0.dtype with
           | .nat => pure rhs0
@@ -2341,6 +3007,19 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
           (envName, e'.dtype, e'.shape, e'.computeDType?) :: env,
         e'.computeTerm.isSome)
   match stx with
+  | `(tritonStmt| $r0:ident, $r1:ident, $r2:ident, $r3:ident =
+      tl.__philox_profiled($cfg:term, $seed:tritonExpr, $c0:tritonExpr,
+        $c1:tritonExpr, $c2:tritonExpr, $c3:tritonExpr)) => do
+      let some types := RandomProfile.directConfigTypes? cfg |
+        Macro.throwError "tl.philox: malformed internal source profile"
+      let operands := #[seed, c0, c1, c2, c3]
+      let mut expanded : Array EOut := #[]
+      for index in [:5] do
+        expanded := expanded.push (← expandRandIntegerExpr env types[index]! operands[index]!)
+      expandDirectPhilox env #[r0, r1, r2, r3] cfg 10 expanded
+  | `(tritonStmt| $_:ident, $_:ident, $_:ident, $_:ident =
+      tl.philox($_:tritonExpr, $_:tritonExpr, $_:tritonExpr, $_:tritonExpr, $_:tritonExpr)) =>
+      Macro.throwError "tl.philox requires source-profile preprocessing in a triton block"
   | `(tritonStmt| $valueName:ident, $indexName:ident = tl.max($e:tritonExpr $[, $kwargs:tritonReduceKwarg]*)) => do
       let original ← expandExpr env e
       -- Triton 3.5.1 promotes bf16 before either max branch; fp16 is
@@ -2555,6 +3234,77 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
       let compute ← `(ComputeStmt.assign $dt $sh $nameLit $exprTerm)
       let env' := (lhs0.getId.toString, aOut.dtype, aOut.shape, aOut.computeDType?) :: env
       pure (stmt, compute, env', aOut.computeTerm.isSome)
+  | `(tritonStmt| $outMean:ident, $outM2:ident, $outWeight:ident = triton_helpers.welford_reduce($x:tritonExpr, $mean:tritonExpr, $m2:tritonExpr, $weight:tritonExpr, $first:tritonExpr)) => do
+      let values ← #[x, mean, m2, weight].mapM (expandExpr env)
+      for value in values do
+        ensureDType .real value.dtype "welford_reduce"
+        ensureShape values[0]!.shape value.shape "welford_reduce"
+        unless value.computeDType? == some .fp32 do
+          Macro.throwError "welford_reduce requires explicit FP32 operands"
+      let targets := [outMean.getId.toString, outM2.getId.toString, outWeight.getId.toString]
+      unless targets.eraseDups.length == 3 do
+        Macro.throwError "welford_reduce requires three distinct targets"
+      let rec mentionsReduce (stx : Syntax) : Bool :=
+        (stx.isIdent && targets.contains stx.getId.toString) || stx.getArgs.any mentionsReduce
+      if (#[x, mean, m2, weight, first]).any (fun expr => mentionsReduce expr.raw) then
+        Macro.throwError "welford_reduce targets must be separate from its input expressions"
+      let .dims dims := values[0]!.shape
+      let shape ← dims.toArray.mapM (fun dim => `(tritonExpr| $($dim:term)))
+      let dtypeName := mkIdent `dtype
+      let (alg, compute, nextEnv, hasCompute) ←
+        expandStmt env pinned intPinned regionDTypes ptrElems fpSource fpPtrElems facts
+        (← `(tritonStmt| if $first:tritonExpr {
+          $outWeight:ident = tl.full([$shape,*], 1.0, $dtypeName:ident=tl.float32)
+          $outMean:ident = $x:tritonExpr
+          $outM2:ident = tl.zeros([$shape,*], tl.float32)
+        } else {
+          $outWeight:ident = $weight:tritonExpr + 1.0
+          $outMean:ident = $mean:tritonExpr + ($x:tritonExpr - $mean:tritonExpr) / $outWeight:ident
+          $outM2:ident = $m2:tritonExpr + ($x:tritonExpr - $mean:tritonExpr) * ($x:tritonExpr - $outMean:ident)
+        }))
+      -- Shape annotations emitted through the inline source can contain an
+      -- extra `(dim : Nat)` wrapper. Both branches have the checked input
+      -- shape definitionally; keep that original macro-time shape key.
+      let nextEnv := targets.foldl (fun result name =>
+        (name, DInfo.real, values[0]!.shape, some DInfo.fp32) :: result) nextEnv
+      pure (alg, compute, nextEnv, hasCompute)
+  | `(tritonStmt| $outMean:ident, $outM2:ident, $outWeight:ident = triton_helpers.welford($mean:tritonExpr, $m2:tritonExpr, $weight:tritonExpr, 1, tree=$($tree:term))) => do
+      let values ← #[mean, m2, weight].mapM (expandExpr env)
+      for value in values do
+        ensureDType .real value.dtype "welford"
+        ensureShape values[0]!.shape value.shape "welford"
+        unless value.computeDType? == some .fp32 do
+          Macro.throwError "welford requires explicit FP32 operands"
+      let .dims [row, _] := values[0]!.shape
+        | Macro.throwError "welford requires [1, N] tiles and axis 1"
+      unless termIsOne row do
+        Macro.throwError "welford requires [1, N] tiles and axis 1"
+      let targets := [outMean.getId.toString, outM2.getId.toString, outWeight.getId.toString]
+      unless targets.eraseDups.length == 3 do
+        Macro.throwError "welford requires three distinct targets"
+      let rec mentionsTree (stx : Syntax) : Bool :=
+        (stx.isIdent && targets.contains stx.getId.toString) || stx.getArgs.any mentionsTree
+      if (#[mean, m2, weight]).any (fun expr => mentionsTree expr.raw) then
+        Macro.throwError "welford targets must be separate from its input expressions"
+      let meanTerm ← values[0]!.scopedFloatingTerm
+      let m2Term ← values[1]!.scopedFloatingTerm
+      let weightTerm ← values[2]!.scopedFloatingTerm
+      let triple ← `(WelfordSource.expressions $meanTerm $m2Term $weightTerm $tree)
+      let exprs : Array (TSyntax `term) := #[← `(Op.full [1] ($triple).mean),
+        ← `(Op.full [1] ($triple).m2), ← `(Op.full [1] ($triple).weight)]
+      let mut alg : Array (TSyntax `term) := #[]
+      let mut compute : Array (TSyntax `term) := #[]
+      let mut nextEnv := env
+      for (name, expr) in #[outMean, outM2, outWeight].zip exprs do
+        let nameLit ← identAsStr name
+        alg := alg.push (← `(Stmt.assign .real [1] $nameLit $expr))
+        compute := compute.push (← `(ComputeStmt.assign TileDType.real [1] $nameLit
+          (ComputeExpr.compute (ComputeOp.alg ComputeDType.fp32 $expr))))
+        nextEnv := (name.getId.toString, DInfo.real, .dims [← `(1)], some DInfo.fp32) :: nextEnv
+      pure (← `(Stmt.ifThen (Op.constBool Bool.true) [$alg,*]),
+        ← `(ComputeStmt.ifThen (Op.constBool Bool.true) [$compute,*]), nextEnv, Bool.true)
+  | `(tritonStmt| $_outMean:ident, $_outM2:ident, $_outWeight:ident = triton_helpers.welford($_mean:tritonExpr, $_m2:tritonExpr, $_weight:tritonExpr, $_axis:num, tree=$($_tree:term))) =>
+      Macro.throwError "welford requires [1, N] tiles and axis 1"
   | `(tritonStmt| $_lhs0:ident, $_lhs1:ident = $_fn:ident($_args:tritonExpr,*)) => do
       pure (← `(Stmt.ifThen (Op.constBool Bool.true) []),
         ← `(ComputeStmt.ifThen (Op.constBool Bool.true) []),
@@ -2766,7 +3516,7 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
         let (lhsDType, lhsShape) ← lookupEnv env name
         match lhsDType with
         | .ptr =>
-            let rhs0 ← expandExpr env e
+            let rhs0 := (← expandExpr env e).forgetStorageWidth
             let rhs ←
               match rhs0.dtype with
               | .nat => pure rhs0
@@ -2830,7 +3580,7 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
               (name, e'.dtype, e'.shape, e'.computeDType?) :: env,
               e'.computeTerm.isSome)
       else
-          let rhs0 ← expandExpr env e
+          let rhs0 := (← expandExpr env e).forgetStorageWidth
           let rhs ←
             match rhs0.dtype with
             | .nat => pure rhs0
@@ -2854,7 +3604,7 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
         Macro.throwError ("`-=`: unknown identifier `" ++ name ++ "`")
       let (lhsDType, lhsShape) ← lookupEnv env name
       if lhsDType == .ptr then
-        let rhs0 ← expandExpr env e
+        let rhs0 := (← expandExpr env e).forgetStorageWidth
         let rhs ←
           match rhs0.dtype with
           | .nat => pure rhs0
@@ -3072,15 +3822,15 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
   | `(tritonStmt| tl.for $i:ident in $($n:term) { $stmts:tritonStmt* }) => do
       let nameLit ← identAsStr i
       let bodyEnv := (i.getId.toString, DInfo.nat, SInfo.scalar, none) :: env
-      let (algBody, computeBody, _, bodyHasCompute) ← expandStmts bodyEnv pinned intPinned regionDTypes ptrElems fpRegionDTypes
-        (fpLoopProvenance fpPtrElems i stmts.toList) stmts.toList
+      let (algBody, computeBody, _, bodyHasCompute) ← expandStmts bodyEnv pinned intPinned regionDTypes ptrElems fpSource
+        (fpLoopProvenance fpSource.regions fpPtrElems i stmts.toList) facts stmts.toList
       pure (← `(Stmt.forLoop $nameLit $n [$algBody,*]),
         ← `(ComputeStmt.forLoop $nameLit $n [$computeBody,*]), env, bodyHasCompute)
   | `(tritonStmt| tl.for $i:ident in $n:num { $stmts:tritonStmt* }) => do
       let nameLit ← identAsStr i
       let bodyEnv := (i.getId.toString, DInfo.nat, SInfo.scalar, none) :: env
-      let (algBody, computeBody, _, bodyHasCompute) ← expandStmts bodyEnv pinned intPinned regionDTypes ptrElems fpRegionDTypes
-        (fpLoopProvenance fpPtrElems i stmts.toList) stmts.toList
+      let (algBody, computeBody, _, bodyHasCompute) ← expandStmts bodyEnv pinned intPinned regionDTypes ptrElems fpSource
+        (fpLoopProvenance fpSource.regions fpPtrElems i stmts.toList) facts stmts.toList
       pure (← `(Stmt.forLoop $nameLit $n [$algBody,*]),
         ← `(ComputeStmt.forLoop $nameLit $n [$computeBody,*]), env, bodyHasCompute)
   | `(tritonStmt| for $i:ident in range(0, $($stop:term), $($step:term)) { $stmts:tritonStmt* }) => do
@@ -3090,8 +3840,8 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
         return ← expandSignedRange i startExpr stopExpr (← `(tritonExpr| $($step:term))) stmts
       let nameLit ← identAsStr i
       let bodyEnv := (i.getId.toString, DInfo.nat, SInfo.scalar, none) :: env
-      let (algBody, computeBody, _, bodyHasCompute) ← expandStmts bodyEnv pinned intPinned regionDTypes ptrElems fpRegionDTypes
-        (fpLoopProvenance fpPtrElems i stmts.toList) stmts.toList
+      let (algBody, computeBody, _, bodyHasCompute) ← expandStmts bodyEnv pinned intPinned regionDTypes ptrElems fpSource
+        (fpLoopProvenance fpSource.regions fpPtrElems i stmts.toList) facts stmts.toList
       pure (← `(Stmt.forRange $nameLit 0 $stop $step [$algBody,*]),
         ← `(ComputeStmt.forRange $nameLit 0 $stop $step [$computeBody,*]), env, bodyHasCompute)
   | `(tritonStmt| for $i:ident in range($stop:tritonExpr) { $stmts:tritonStmt* }) => do
@@ -3102,8 +3852,8 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
       let stop' ← expandNatExpectedExpr env stop
       ensureShape SInfo.scalar stop'.shape "range stop"
       let bodyEnv := (i.getId.toString, DInfo.nat, SInfo.scalar, none) :: env
-      let (algBody, computeBody, _, bodyHasCompute) ← expandStmts bodyEnv pinned intPinned regionDTypes ptrElems fpRegionDTypes
-        (fpLoopProvenance fpPtrElems i stmts.toList) stmts.toList
+      let (algBody, computeBody, _, bodyHasCompute) ← expandStmts bodyEnv pinned intPinned regionDTypes ptrElems fpSource
+        (fpLoopProvenance fpSource.regions fpPtrElems i stmts.toList) facts stmts.toList
       let zero ← `(Op.constNat 0)
       let one ← `(Op.constNat 1)
       pure (← `(Stmt.forRangeDyn $nameLit $zero $stop'.term $one [$algBody,*]),
@@ -3116,8 +3866,8 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
         return ← expandSignedRange i startExpr stopExpr (← `(tritonExpr| $($step:term))) stmts
       let nameLit ← identAsStr i
       let bodyEnv := (i.getId.toString, DInfo.nat, SInfo.scalar, none) :: env
-      let (algBody, computeBody, _, bodyHasCompute) ← expandStmts bodyEnv pinned intPinned regionDTypes ptrElems fpRegionDTypes
-        (fpLoopProvenance fpPtrElems i stmts.toList) stmts.toList
+      let (algBody, computeBody, _, bodyHasCompute) ← expandStmts bodyEnv pinned intPinned regionDTypes ptrElems fpSource
+        (fpLoopProvenance fpSource.regions fpPtrElems i stmts.toList) facts stmts.toList
       pure (← `(Stmt.forRange $nameLit $start $stop $step [$algBody,*]),
         ← `(ComputeStmt.forRange $nameLit $start $stop $step [$computeBody,*]), env, bodyHasCompute)
   | `(tritonStmt| for $i:ident in range($start:tritonExpr, $stop:tritonExpr) { $stmts:tritonStmt* }) => do
@@ -3129,41 +3879,40 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
       ensureShape SInfo.scalar start'.shape "range start"
       ensureShape SInfo.scalar stop'.shape "range stop"
       let bodyEnv := (i.getId.toString, DInfo.nat, SInfo.scalar, none) :: env
-      let (algBody, computeBody, _, bodyHasCompute) ← expandStmts bodyEnv pinned intPinned regionDTypes ptrElems fpRegionDTypes
-        (fpLoopProvenance fpPtrElems i stmts.toList) stmts.toList
+      let (algBody, computeBody, _, bodyHasCompute) ← expandStmts bodyEnv pinned intPinned regionDTypes ptrElems fpSource
+        (fpLoopProvenance fpSource.regions fpPtrElems i stmts.toList) facts stmts.toList
       let one ← `(Op.constNat 1)
       pure (← `(Stmt.forRangeDyn $nameLit $start'.term $stop'.term $one [$algBody,*]),
         ← `(ComputeStmt.forRangeDyn $nameLit $start'.term $stop'.term $one [$computeBody,*]),
         env, bodyHasCompute)
   | `(tritonStmt| for $i:ident in range($start:tritonExpr, -$stop:tritonExpr, -$step:tritonExpr) { $stmts:tritonStmt* }) => do
-      let _ := stop
       let nameLit ← identAsStr i
       let name := i.getId.toString
       let revName := "__rev_" ++ name
       let revNameLit : TSyntax `term := Syntax.mkStrLit revName
-      let start' ← expandNatExpectedExpr env start
+      let start' ← expandIntExpectedExpr env start
+      let stop' ← expandIntExpectedExpr env stop
       let step' ← expandNatExpectedExpr env step
       ensureShape SInfo.scalar start'.shape "reverse range start"
+      ensureShape SInfo.scalar stop'.shape "reverse range stop"
       ensureShape SInfo.scalar step'.shape "reverse range step"
       let bodyEnv :=
-        (name, DInfo.nat, SInfo.scalar, none) ::
-        (revName, DInfo.nat, SInfo.scalar, none) :: env
+        (name, DInfo.int, SInfo.scalar, none) ::
+        (revName, DInfo.int, SInfo.scalar, none) :: env
       let (algBody, computeBody, _, bodyHasCompute) ←
-        expandStmts bodyEnv pinned intPinned regionDTypes ptrElems fpRegionDTypes
-        (fpLoopProvenance fpPtrElems i stmts.toList) stmts.toList
-      let zero ← `(Op.constNat 0)
-      let one ← `(Op.constNat 1)
-      let count ←
-        `(Op.add NumericDType.nat Broadcast.nil
-            (Op.div NumericDType.nat Broadcast.nil $start'.term $step'.term) $one)
-      let revRef ← `(Op.ref TileDType.nat [] $revNameLit)
-      let stride ← `(Op.mul NumericDType.nat Broadcast.nil $revRef $step'.term)
-      let idxTerm ← `(Op.sub NumericDType.nat Broadcast.nil $start'.term $stride)
-      let idxAssign ← `(Stmt.assign TileDType.nat [] $nameLit $idxTerm)
+        expandStmts bodyEnv pinned intPinned regionDTypes ptrElems fpSource
+        (fpLoopProvenance fpSource.regions fpPtrElems i stmts.toList) facts stmts.toList
+      -- Mirror the signed interval: j = -i runs from -start to -stop.
+      -- The interpreter captures all bounds once, including for an empty loop.
+      let zero ← `(Op.constInt 0)
+      let lower ← `(Op.sub NumericDType.int Broadcast.nil $zero $start'.term)
+      let revRef ← `(Op.ref TileDType.int [] $revNameLit)
+      let idxTerm ← `(Op.sub NumericDType.int Broadcast.nil $zero $revRef)
+      let idxAssign ← `(Stmt.assign TileDType.int [] $nameLit $idxTerm)
       let computeIdxAssign ←
-        `(ComputeStmt.assign TileDType.nat [] $nameLit (ComputeExpr.alg $idxTerm))
-      pure (← `(Stmt.forRangeDyn $revNameLit $zero $count $one [$idxAssign, $algBody,*]),
-        ← `(ComputeStmt.forRangeDyn $revNameLit $zero $count $one
+        `(ComputeStmt.assign TileDType.int [] $nameLit (ComputeExpr.alg $idxTerm))
+      pure (← `(Stmt.forRangeInt $revNameLit $lower $stop'.term $step'.term [$idxAssign, $algBody,*]),
+        ← `(ComputeStmt.forRangeInt $revNameLit $lower $stop'.term $step'.term
               [$computeIdxAssign, $computeBody,*]),
         env, bodyHasCompute)
   | `(tritonStmt| for $i:ident in range($start:tritonExpr, $stop:tritonExpr, $step:tritonExpr) { $stmts:tritonStmt* }) => do
@@ -3177,37 +3926,37 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
       ensureShape SInfo.scalar stop'.shape "range stop"
       ensureShape SInfo.scalar step'.shape "range step"
       let bodyEnv := (i.getId.toString, DInfo.nat, SInfo.scalar, none) :: env
-      let (algBody, computeBody, _, bodyHasCompute) ← expandStmts bodyEnv pinned intPinned regionDTypes ptrElems fpRegionDTypes
-        (fpLoopProvenance fpPtrElems i stmts.toList) stmts.toList
+      let (algBody, computeBody, _, bodyHasCompute) ← expandStmts bodyEnv pinned intPinned regionDTypes ptrElems fpSource
+        (fpLoopProvenance fpSource.regions fpPtrElems i stmts.toList) facts stmts.toList
       pure (← `(Stmt.forRangeDyn $nameLit $start'.term $stop'.term $step'.term [$algBody,*]),
         ← `(ComputeStmt.forRangeDyn $nameLit $start'.term $stop'.term $step'.term [$computeBody,*]),
         env, bodyHasCompute)
   | `(tritonStmt| for $i:ident in tl.static_range($($n:term)) { $stmts:tritonStmt* }) => do
       let nameLit ← identAsStr i
       let bodyEnv := (i.getId.toString, DInfo.nat, SInfo.scalar, none) :: env
-      let (algBody, computeBody, _, bodyHasCompute) ← expandStmts bodyEnv pinned intPinned regionDTypes ptrElems fpRegionDTypes
-        (fpLoopProvenance fpPtrElems i stmts.toList) stmts.toList
+      let (algBody, computeBody, _, bodyHasCompute) ← expandStmts bodyEnv pinned intPinned regionDTypes ptrElems fpSource
+        (fpLoopProvenance fpSource.regions fpPtrElems i stmts.toList) facts stmts.toList
       pure (← `(Stmt.forLoop $nameLit $n [$algBody,*]),
         ← `(ComputeStmt.forLoop $nameLit $n [$computeBody,*]), env, bodyHasCompute)
   | `(tritonStmt| for $i:ident in tl.static_range($n:num) { $stmts:tritonStmt* }) => do
       let nameLit ← identAsStr i
       let bodyEnv := (i.getId.toString, DInfo.nat, SInfo.scalar, none) :: env
-      let (algBody, computeBody, _, bodyHasCompute) ← expandStmts bodyEnv pinned intPinned regionDTypes ptrElems fpRegionDTypes
-        (fpLoopProvenance fpPtrElems i stmts.toList) stmts.toList
+      let (algBody, computeBody, _, bodyHasCompute) ← expandStmts bodyEnv pinned intPinned regionDTypes ptrElems fpSource
+        (fpLoopProvenance fpSource.regions fpPtrElems i stmts.toList) facts stmts.toList
       pure (← `(Stmt.forLoop $nameLit $n [$algBody,*]),
         ← `(ComputeStmt.forLoop $nameLit $n [$computeBody,*]), env, bodyHasCompute)
   | `(tritonStmt| tl.static_range $i:ident in $($n:term) { $stmts:tritonStmt* }) => do
       let nameLit ← identAsStr i
       let bodyEnv := (i.getId.toString, DInfo.nat, SInfo.scalar, none) :: env
-      let (algBody, computeBody, _, bodyHasCompute) ← expandStmts bodyEnv pinned intPinned regionDTypes ptrElems fpRegionDTypes
-        (fpLoopProvenance fpPtrElems i stmts.toList) stmts.toList
+      let (algBody, computeBody, _, bodyHasCompute) ← expandStmts bodyEnv pinned intPinned regionDTypes ptrElems fpSource
+        (fpLoopProvenance fpSource.regions fpPtrElems i stmts.toList) facts stmts.toList
       pure (← `(Stmt.forLoop $nameLit $n [$algBody,*]),
         ← `(ComputeStmt.forLoop $nameLit $n [$computeBody,*]), env, bodyHasCompute)
   | `(tritonStmt| tl.static_range $i:ident in $n:num { $stmts:tritonStmt* }) => do
       let nameLit ← identAsStr i
       let bodyEnv := (i.getId.toString, DInfo.nat, SInfo.scalar, none) :: env
-      let (algBody, computeBody, _, bodyHasCompute) ← expandStmts bodyEnv pinned intPinned regionDTypes ptrElems fpRegionDTypes
-        (fpLoopProvenance fpPtrElems i stmts.toList) stmts.toList
+      let (algBody, computeBody, _, bodyHasCompute) ← expandStmts bodyEnv pinned intPinned regionDTypes ptrElems fpSource
+        (fpLoopProvenance fpSource.regions fpPtrElems i stmts.toList) facts stmts.toList
       pure (← `(Stmt.forLoop $nameLit $n [$algBody,*]),
         ← `(ComputeStmt.forLoop $nameLit $n [$computeBody,*]), env, bodyHasCompute)
   | `(tritonStmt| tl.if $cond:tritonExpr { $thenStmts:tritonStmt* } else { $elseStmts:tritonStmt* }) => do
@@ -3215,8 +3964,10 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
       ensureDType .bool cond'.dtype "tl.if condition"
       ensureShape SInfo.scalar cond'.shape "tl.if condition"
       let thenBaseEnv := env
-      let (algThen, computeThen, thenEnv, thenHasCompute) ← expandStmts env pinned intPinned regionDTypes ptrElems fpRegionDTypes fpPtrElems thenStmts.toList
-      let (algElse, computeElse, elseEnv, elseHasCompute) ← expandStmts env pinned intPinned regionDTypes ptrElems fpRegionDTypes fpPtrElems elseStmts.toList
+      let (algThen, computeThen, thenEnv, thenHasCompute) ← expandStmts env pinned intPinned regionDTypes ptrElems fpSource fpPtrElems
+        (withStaticBool env facts cond Bool.true) thenStmts.toList
+      let (algElse, computeElse, elseEnv, elseHasCompute) ← expandStmts env pinned intPinned regionDTypes ptrElems fpSource fpPtrElems
+        (withStaticBool env facts cond Bool.false) elseStmts.toList
       let nextEnv :=
         if staticBoolCond? env cond then
           mergeStaticBranchEnv thenBaseEnv thenEnv elseEnv
@@ -3230,35 +3981,38 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
       let cond' ← expandBoolCondition env cond
       ensureDType .bool cond'.dtype "tl.if condition"
       ensureShape SInfo.scalar cond'.shape "tl.if condition"
-      let (algBody, computeBody, bodyEnv, bodyHasCompute) ← expandStmts env pinned intPinned regionDTypes ptrElems fpRegionDTypes fpPtrElems stmts.toList
+      let (algBody, computeBody, bodyEnv, bodyHasCompute) ← expandStmts env pinned intPinned regionDTypes ptrElems fpSource fpPtrElems
+        (withStaticBool env facts cond Bool.true) stmts.toList
       pure (← `(Stmt.ifThen $cond'.term [$algBody,*]),
         ← `(ComputeStmt.ifThen $cond'.term [$computeBody,*]),
         bodyEnv,
         bodyHasCompute)
   | `(tritonStmt| if $c0:tritonExpr { $s0:tritonStmt* } elif $c1:tritonExpr { $s1:tritonStmt* } else { $se:tritonStmt* }) =>
-      expandStmt env pinned intPinned regionDTypes ptrElems fpRegionDTypes fpPtrElems
+      expandStmt env pinned intPinned regionDTypes ptrElems fpSource fpPtrElems facts
         (← `(tritonStmt| if $c0:tritonExpr { $s0:tritonStmt* } else { if $c1:tritonExpr { $s1:tritonStmt* } else { $se:tritonStmt* } }))
   | `(tritonStmt| if $c0:tritonExpr { $s0:tritonStmt* } elif $c1:tritonExpr { $s1:tritonStmt* } elif $c2:tritonExpr { $s2:tritonStmt* } else { $se:tritonStmt* }) =>
-      expandStmt env pinned intPinned regionDTypes ptrElems fpRegionDTypes fpPtrElems
+      expandStmt env pinned intPinned regionDTypes ptrElems fpSource fpPtrElems facts
         (← `(tritonStmt| if $c0:tritonExpr { $s0:tritonStmt* } else { if $c1:tritonExpr { $s1:tritonStmt* } else { if $c2:tritonExpr { $s2:tritonStmt* } else { $se:tritonStmt* } } }))
   | `(tritonStmt| if $c0:tritonExpr { $s0:tritonStmt* } elif $c1:tritonExpr { $s1:tritonStmt* } elif $c2:tritonExpr { $s2:tritonStmt* } elif $c3:tritonExpr { $s3:tritonStmt* } else { $se:tritonStmt* }) =>
-      expandStmt env pinned intPinned regionDTypes ptrElems fpRegionDTypes fpPtrElems
+      expandStmt env pinned intPinned regionDTypes ptrElems fpSource fpPtrElems facts
         (← `(tritonStmt| if $c0:tritonExpr { $s0:tritonStmt* } else { if $c1:tritonExpr { $s1:tritonStmt* } else { if $c2:tritonExpr { $s2:tritonStmt* } else { if $c3:tritonExpr { $s3:tritonStmt* } else { $se:tritonStmt* } } } }))
   | `(tritonStmt| if $c0:tritonExpr { $s0:tritonStmt* } elif $c1:tritonExpr { $s1:tritonStmt* }) =>
-      expandStmt env pinned intPinned regionDTypes ptrElems fpRegionDTypes fpPtrElems
+      expandStmt env pinned intPinned regionDTypes ptrElems fpSource fpPtrElems facts
         (← `(tritonStmt| if $c0:tritonExpr { $s0:tritonStmt* } else { if $c1:tritonExpr { $s1:tritonStmt* } }))
   | `(tritonStmt| if $c0:tritonExpr { $s0:tritonStmt* } elif $c1:tritonExpr { $s1:tritonStmt* } elif $c2:tritonExpr { $s2:tritonStmt* }) =>
-      expandStmt env pinned intPinned regionDTypes ptrElems fpRegionDTypes fpPtrElems
+      expandStmt env pinned intPinned regionDTypes ptrElems fpSource fpPtrElems facts
         (← `(tritonStmt| if $c0:tritonExpr { $s0:tritonStmt* } else { if $c1:tritonExpr { $s1:tritonStmt* } else { if $c2:tritonExpr { $s2:tritonStmt* } } }))
   | `(tritonStmt| if $c0:tritonExpr { $s0:tritonStmt* } elif $c1:tritonExpr { $s1:tritonStmt* } elif $c2:tritonExpr { $s2:tritonStmt* } elif $c3:tritonExpr { $s3:tritonStmt* }) =>
-      expandStmt env pinned intPinned regionDTypes ptrElems fpRegionDTypes fpPtrElems
+      expandStmt env pinned intPinned regionDTypes ptrElems fpSource fpPtrElems facts
         (← `(tritonStmt| if $c0:tritonExpr { $s0:tritonStmt* } else { if $c1:tritonExpr { $s1:tritonStmt* } else { if $c2:tritonExpr { $s2:tritonStmt* } else { if $c3:tritonExpr { $s3:tritonStmt* } } } }))
   | `(tritonStmt| if $cond:tritonExpr { $thenStmts:tritonStmt* } else { $elseStmts:tritonStmt* }) => do
       let cond' ← expandBoolCondition env cond
       ensureDType .bool cond'.dtype "if condition"
       ensureShape SInfo.scalar cond'.shape "if condition"
-      let (algThen, computeThen, thenEnv, thenHasCompute) ← expandStmts env pinned intPinned regionDTypes ptrElems fpRegionDTypes fpPtrElems thenStmts.toList
-      let (algElse, computeElse, elseEnv, elseHasCompute) ← expandStmts env pinned intPinned regionDTypes ptrElems fpRegionDTypes fpPtrElems elseStmts.toList
+      let (algThen, computeThen, thenEnv, thenHasCompute) ← expandStmts env pinned intPinned regionDTypes ptrElems fpSource fpPtrElems
+        (withStaticBool env facts cond Bool.true) thenStmts.toList
+      let (algElse, computeElse, elseEnv, elseHasCompute) ← expandStmts env pinned intPinned regionDTypes ptrElems fpSource fpPtrElems
+        (withStaticBool env facts cond Bool.false) elseStmts.toList
       pure (← `(Stmt.ifThenElse $cond'.term [$algThen,*] [$algElse,*]),
         ← `(ComputeStmt.ifThenElse $cond'.term [$computeThen,*] [$computeElse,*]),
         (if staticBoolCond? env cond then
@@ -3270,7 +4024,8 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
       let cond' ← expandBoolCondition env cond
       ensureDType .bool cond'.dtype "if condition"
       ensureShape SInfo.scalar cond'.shape "if condition"
-      let (algBody, computeBody, bodyEnv, bodyHasCompute) ← expandStmts env pinned intPinned regionDTypes ptrElems fpRegionDTypes fpPtrElems stmts.toList
+      let (algBody, computeBody, bodyEnv, bodyHasCompute) ← expandStmts env pinned intPinned regionDTypes ptrElems fpSource fpPtrElems
+        (withStaticBool env facts cond Bool.true) stmts.toList
       pure (← `(Stmt.ifThen $cond'.term [$algBody,*]),
         ← `(ComputeStmt.ifThen $cond'.term [$computeBody,*]),
         bodyEnv,
@@ -3295,23 +4050,67 @@ private partial def ifReturnCond? (st : TSyntax `tritonStmt) :
       | _ => pure none
   | _ => pure none
 
+private partial def staticIfParts? (env : Env) (st : TSyntax `tritonStmt) :
+    Option (TSyntax `tritonExpr × List (TSyntax `tritonStmt) × List (TSyntax `tritonStmt)) :=
+  let parts := match st with
+    | `(tritonStmt| if $cond:tritonExpr { $ts:tritonStmt* } else { $es:tritonStmt* }) =>
+        some (cond, ts.toList, es.toList)
+    | `(tritonStmt| tl.if $cond:tritonExpr { $ts:tritonStmt* } else { $es:tritonStmt* }) =>
+        some (cond, ts.toList, es.toList)
+    | `(tritonStmt| if $cond:tritonExpr { $ts:tritonStmt* }) =>
+        some (cond, ts.toList, [])
+    | `(tritonStmt| tl.if $cond:tritonExpr { $ts:tritonStmt* }) =>
+        some (cond, ts.toList, [])
+    | _ => none
+  parts.filter (fun (cond, _, _) => staticBoolCond? env cond)
+
 partial def expandStmts (env : Env) (pinned intPinned : List String)
     (regionDTypes : Inference.RegionDTypes) (ptrElems : Inference.PtrElems)
-    (fpRegionDTypes : Inference.RegionDTypes) (fpPtrElems : FPPtrProvenance)
-    (stmts : List (TSyntax `tritonStmt)) :
+    (fpSource : FPSourceContext) (fpPtrElems : FPPtrProvenance)
+    (facts : StaticBoolFacts) (stmts : List (TSyntax `tritonStmt)) :
     MacroM (Array (TSyntax `term) × Array (TSyntax `term) × Env × Bool) := do
   match stmts with
   | [] => pure (#[], #[], env, Bool.false)
   | st :: rest => do
       if Inference.isRegionDirective st then
-        return ← expandStmts env pinned intPinned regionDTypes ptrElems fpRegionDTypes fpPtrElems rest
+        return ← expandStmts env pinned intPinned regionDTypes ptrElems fpSource fpPtrElems facts rest
+      if let `(tritonStmt| tl.param $name:ident : $dt:tritonDType (carrier=$carrier:tritonDType)) := st then
+        let key := name.getId.toString
+        if env.any (fun binding => binding.1 == key) then
+          Macro.throwError ("tl.param: register already bound: " ++ key)
+        unless (← expandDType dt) == .fp32 && (← expandDType carrier) == .fp32 do
+          Macro.throwError "tl.param: explicit carrier requires FP32 precision and FP32 carrier"
+        let nextEnv := (key, DInfo.fp32Argument, SInfo.scalar, some DInfo.fp32) :: env
+        return ← expandStmts nextEnv pinned intPinned regionDTypes ptrElems fpSource fpPtrElems facts rest
+      if let `(tritonStmt| tl.param $name:ident : $dt:tritonDType) := st then
+        let key := name.getId.toString
+        if env.any (fun binding => binding.1 == key) then
+          Macro.throwError ("tl.param: register already bound: " ++ key)
+        let binding ← match dt with
+          | `(tritonDType| tl.int64) =>
+              pure (key, DInfo.int, SInfo.scalar, none)
+          | _ => do
+              let precision ← expandDType dt
+              unless precision == .fp32 || precision == .real do
+                Macro.throwError "tl.param: only FP32, FP64 and Int64 scalar arguments are supported"
+              pure (key, DInfo.real, SInfo.scalar, some precision)
+        let nextEnv := binding :: env
+        return ← expandStmts nextEnv pinned intPinned regionDTypes ptrElems fpSource fpPtrElems facts rest
       match ← ifReturnCond? st with
       | some cond => do
+          if let some value := knownStaticBool? env facts cond then
+            if value then
+              return (#[], #[], env, Bool.false)
+            else
+              return ← expandStmts env pinned intPinned regionDTypes ptrElems
+                fpSource fpPtrElems facts rest
+          let cond : TSyntax `tritonExpr :=
+            ⟨← annotateMachineLoadCasts regionDTypes ptrElems cond.raw⟩
           let cond' ← expandBoolCondition env cond
           ensureDType .bool cond'.dtype "return condition"
           ensureShape SInfo.scalar cond'.shape "return condition"
           let (algRest, computeRest, restEnv, restHasCompute) ←
-            expandStmts env pinned intPinned regionDTypes ptrElems fpRegionDTypes fpPtrElems rest
+            expandStmts env pinned intPinned regionDTypes ptrElems fpSource fpPtrElems facts rest
           let negCond ← `(Op.boolNot $cond'.term)
           pure (#[
               ← `(Stmt.ifThen $negCond [$algRest,*])
@@ -3319,15 +4118,46 @@ partial def expandStmts (env : Env) (pinned intPinned : List String)
               ← `(ComputeStmt.ifThen $negCond [$computeRest,*])
             ], restEnv, cond'.computeTerm.isSome || restHasCompute)
       | none => do
+          -- A repeated constexpr test inside an already selected path has
+          -- only one reachable arm. Expand that arm before dtype checking:
+          -- the other arm may mention bindings that do not exist on this path.
+          if let some (cond, thenStmts, elseStmts) := staticIfParts? env st then
+            if let some value := knownStaticBool? env facts cond then
+              return ← expandStmts env pinned intPinned regionDTypes ptrElems
+                fpSource fpPtrElems facts ((if value then thenStmts else elseStmts) ++ rest)
+          -- A constexpr cast may change the register carrier or arithmetic
+          -- precision on just one path. Expand the remaining source under
+          -- each path's bindings instead of reading the true-arm register on
+          -- both paths. Keep the original condition and every source action.
+          -- Nested branches retain their rebinding history for the same check.
+          if !rest.isEmpty then
+            if let some (cond, thenStmts, elseStmts) := staticIfParts? env st then
+              let (_, _, thenEnv, _) ← expandStmts env pinned intPinned regionDTypes
+                ptrElems fpSource fpPtrElems (withStaticBool env facts cond Bool.true) thenStmts
+              let (_, _, elseEnv, _) ← expandStmts env pinned intPinned regionDTypes
+                ptrElems fpSource fpPtrElems (withStaticBool env facts cond Bool.false) elseStmts
+              if staticBranchChangesType env
+                  (staticBranchExitEnv env thenEnv thenStmts)
+                  (staticBranchExitEnv env elseEnv elseStmts) then
+                let thenTail := (thenStmts ++ rest).toArray
+                let elseTail := (elseStmts ++ rest).toArray
+                let branched ← `(tritonStmt| if $cond { $thenTail* } else { $elseTail* })
+                let (alg, compute, nextEnv, hasCompute) ← expandStmt env pinned intPinned
+                  regionDTypes ptrElems fpSource fpPtrElems facts branched
+                return (#[alg], #[compute], nextEnv, hasCompute)
           let (algTerm, computeTerm, nextEnv, stmtHasCompute) ←
-            expandStmt env pinned intPinned regionDTypes ptrElems fpRegionDTypes fpPtrElems st
+            expandStmt env pinned intPinned regionDTypes ptrElems fpSource fpPtrElems facts st
           -- Thread the pointer element-dtype map the same way `env` is threaded:
           -- prepend this statement's bindings so the *rest* of the block resolves
           -- a pointer name to its most recent binding, not the body's last one.
           let nextPtrElems := Inference.ptrElemsAfterStmt regionDTypes ptrElems st
-          let nextFPPtrElems ← fpProvenanceAfterStmt fpRegionDTypes fpPtrElems st
+          -- Storage evidence after the final statement is never consumed.
+          -- Enclosing control-flow continuations analyze their full source
+          -- block separately, so their branch-conflict checks remain intact.
+          let nextFPPtrElems ← if rest.isEmpty then pure fpPtrElems
+            else fpProvenanceAfterStmt fpSource.regions fpPtrElems st
           let (algRest, computeRest, restEnv, restHasCompute) ←
-            expandStmts nextEnv pinned intPinned regionDTypes nextPtrElems fpRegionDTypes nextFPPtrElems rest
+            expandStmts nextEnv pinned intPinned regionDTypes nextPtrElems fpSource nextFPPtrElems facts rest
           pure (#[algTerm] ++ algRest, #[computeTerm] ++ computeRest,
             restEnv, stmtHasCompute || restHasCompute)
 
@@ -3367,6 +4197,13 @@ private def regionDTypeOfLocalType? (type : Expr) : MetaM (Option DInfo) := do
       else
         pure none
   | _ => pure none
+
+private def collectFiniteSourceExternalNames : TermElabM (List String) := do
+  let mut names : List String := []
+  for decl in (← getLCtx) do
+    unless decl.isImplementationDetail do
+      names := names ++ [decl.userName.eraseMacroScopes.toString]
+  return names
 
 private def collectLocalRegionDTypes : TermElabM Inference.RegionDTypes := do
   let mut out : Inference.RegionDTypes := []
@@ -3433,9 +4270,25 @@ elab_rules : term
       -- arithmetic downstream.
       let localRegionDTypes ← collectLocalRegionDTypes
       let natEqAliases ← collectLocalNatEqAliases
+      let finiteSourceExternalNames ← collectFiniteSourceExternalNames
       let expanded ← liftMacroM do
+        let sourceStmts ← stmts.toList.mapM fun st => do
+          return (⟨← Inference.normalizeControlFlow st.raw⟩ : TSyntax `tritonStmt)
+        let mut explicitPorts : Option (Array (TSyntax `term) × Array (TSyntax `term)) := none
+        let mut sourceBody : List (TSyntax `tritonStmt) := []
+        for st in sourceStmts do
+          match st with
+          | `(tritonStmt| tl.ports inputs=[$ins:term,*], outputs=[$outs:term,*]) =>
+              if explicitPorts.isSome then
+                Macro.throwError "triton: only one top-level tl.ports declaration is allowed"
+              explicitPorts := some (ins, outs)
+          | _ => sourceBody := sourceBody ++ [st]
+        -- Validate the original declaration names before equality aliases can
+        -- rewrite syntax. Source helper metadata has its own lexical scope.
+        let finiteStmts ← FiniteHelperSource.prepare sourceBody finiteSourceExternalNames
         let stmtList : List (TSyntax `tritonStmt) :=
-          stmts.toList.map fun st => ⟨rewriteIdentAliases natEqAliases st.raw⟩
+          finiteStmts.map fun st => ⟨rewriteIdentAliases natEqAliases st.raw⟩
+        let stmtList ← RandomProfile.prepare stmtList
         let pinned := Inference.collectNatPinned stmtList
         let intPinned := Inference.collectIntPinned stmtList
         -- Pre-pass: collect `region <name> = <dtype>` directives so the
@@ -3448,22 +4301,34 @@ elab_rules : term
         -- Pre-pass: propagate region dtypes to chained pointer bindings
         -- (`p = R + offs; ... ; tl.load(p)` recovers `R`'s dtype on the load).
         let ptrElems := Inference.collectPtrElems regionDTypes stmtList
-        let fpRegionDTypes := Inference.collectRegionDTypes stmtList ++
+        let fpRegions := Inference.collectRegionDTypes stmtList ++
           localRegionDTypes.filter (fun entry => entry.2 != DInfo.real)
+        let fpSource : FPSourceContext := {
+          regions := fpRegions
+          legacyPointerCasts := fpRegions.isEmpty &&
+            !(sourceBody.any (fun st => Inference.hasConcreteRegionStorage st.raw ||
+              st.raw.getKind == ``tritonSourceFiniteAlias ||
+              st.raw.getKind == ``tritonSourceFiniteHelper)) }
         -- Evidence starts at the source ports and follows execution order;
         -- later assignments must not establish provenance for earlier loads.
         let fpPtrElems : FPPtrProvenance := []
         let (_, computeStmtTerms, _, _) ←
-          expandStmts [] pinned intPinned regionDTypes ptrElems fpRegionDTypes fpPtrElems stmtList
+          expandStmts [] pinned intPinned regionDTypes ptrElems fpSource fpPtrElems [] stmtList
         -- Auto-scan body: collect every region appearing in `tl.load(...)` (inputs)
         -- and `tl.store(...)` (outputs). Order = body occurrence; no macro-time
         -- dedup (a mix of literals and Lean terms can't be statically deduped, and
         -- `Kernel.inputs/outputs` is metadata-only, so duplicates are harmless).
-        let (allIns, allOuts) := Metadata.blockRegions stmts.toList
-        let insArr  : Array (TSyntax `term) := allIns.toArray
-        let outsArr : Array (TSyntax `term) := allOuts.toArray
+        let (insArr, outsArr) := match explicitPorts with
+          | some ports => ports
+          | none => let (ins, outs) := Metadata.blockRegions sourceBody
+                    (ins.toArray, outs.toArray)
         let result ← `(ComputeKernel.mk [$insArr,*] [$outsArr,*] [$computeStmtTerms,*])
-        normalizePrecisionScopes .fp32 result.raw
-      elabTerm expanded none
+        normalizePrecisionScopes none result.raw
+      let e ← elabTerm expanded none
+      -- Resolve generated placeholders before declaration processing traverses
+      -- the expanded expression. Large kernels otherwise repeatedly expand
+      -- shared metavariable assignments, causing excessive memory use.
+      synthesizeSyntheticMVarsNoPostponing
+      instantiateMVars e
 
 end VeriTile.Triton.DSL

@@ -1,0 +1,9 @@
+import VeriTile.Meta.StatementAudit
+import bench.repairs.tritonbench_g.layer_norm_ops.Contract
+import bench.repairs.tritonbench_g.layer_norm_ops.Correct
+import bench.repairs.tritonbench_g.layer_norm_ops.FPEquiv
+
+#axiomsClean VeriTile.Bench.Repairs.LayerNormOps.Correct.layer_norm_ops_forward_kernel_real
+#axiomsClean VeriTile.Bench.Repairs.LayerNormOps.Correct.layer_norm_ops_backward_kernel_real
+#axiomsClean VeriTile.Bench.Repairs.LayerNormOps.FPEquiv.forward_mask_reused_equiv
+#axiomsClean VeriTile.Bench.Repairs.LayerNormOps.FPEquiv.backward_row_start_reused_equiv

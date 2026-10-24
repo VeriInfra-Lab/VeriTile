@@ -50,13 +50,14 @@ partial def solveUsing (goal : MVarId) (facts : Array Expr) (fuel : Nat) : MetaM
 
 /-- Instantiate one directed rule at a concrete fragment. An unconstrained
 intermediate is not a search node: all its parameters must be resolved. -/
-def step? (statement rules code fact : Expr) (backwards : Bool)
+def step? (statement theory rules code fact : Expr) (backwards : Bool)
     (facts : Array Expr) : MetaM (Option (Expr × Expr)) := do
   let saved ← saveState
   let result ← try
     let next ← mkFreshExprMVar (← mkAppM ``List #[statement])
-    let target ← mkAppM ``Spec.Derivation
-      (if backwards then #[rules, next, code] else #[rules, code, next])
+    let target ← mkAppOptM ``Spec.Derivation
+      (if backwards then #[some statement, some theory, some rules, some next, some code]
+        else #[some statement, some theory, some rules, some code, some next])
     let hole ← mkFreshExprSyntheticOpaqueMVar target
     let children ← hole.mvarId!.apply fact
     let mut solved := true
@@ -84,9 +85,10 @@ structure SearchNode where
 inside a larger fragment. Search is bounded; failure does not assert inequivalence. -/
 def search (goal : MVarId) (facts : Array Expr) (maxSteps : Nat) : MetaM Bool := goal.withContext do
   let target ← whnf (← goal.getType)
-  unless target.isAppOfArity ``Spec.Derivation 4 do return false
-  let #[statement, rules, lhs, rhs] := target.getAppArgs | return false
-  let proof ← mkAppOptM ``Spec.Derivation.refl #[some statement, some rules, some lhs]
+  unless target.isAppOfArity ``Spec.Derivation 5 do return false
+  let #[statement, theory, rules, lhs, rhs] := target.getAppArgs | return false
+  let proof ← mkAppOptM ``Spec.Derivation.refl
+    #[some statement, some theory, some rules, some lhs]
   let mut queue : Array SearchNode := #[⟨lhs, proof, 0⟩]
   let mut cursor := 0
   while cursor < queue.size && cursor < 256 do
@@ -110,7 +112,7 @@ def search (goal : MVarId) (facts : Array Expr) (maxSteps : Nat) : MetaM Bool :=
     for (before, fragment, after) in slices do
       for fact in facts do
         for backwards in [false, true] do
-          if let some (next, edge) ← step? statement rules fragment fact backwards facts then
+          if let some (next, edge) ← step? statement theory rules fragment fact backwards facts then
             let next ← mkAppM ``List.append #[before, (← mkAppM ``List.append #[next, after])]
             if ← queue.anyM (fun old => same old.code next) then continue
             let edge ← mkAppM ``Spec.Derivation.frame #[before, after, edge]

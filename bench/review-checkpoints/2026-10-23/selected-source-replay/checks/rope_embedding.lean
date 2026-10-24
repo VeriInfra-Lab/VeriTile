@@ -1,0 +1,7 @@
+import VeriTile.Meta.StatementAudit
+import bench.repairs.tritonbench_g.rope_embedding.Contract
+import bench.repairs.tritonbench_g.rope_embedding.Correct
+import bench.repairs.tritonbench_g.rope_embedding.FPEquiv
+
+#axiomsClean VeriTile.Bench.Repairs.RopeEmbedding.rope_embedding_kernel_correct
+#axiomsClean VeriTile.Bench.Repairs.RopeEmbedding.rope_embedding_index_commuted_equiv

@@ -1,0 +1,7 @@
+    def flatten_ir_types(self, builder: ir.builder, types: List[base_type]) -> List[ir.type]:
+        ir_types = []
+        for ty in types:
+            if ty is None:
+                continue
+            ty._flatten_ir_types(builder, ir_types)
+        return ir_types

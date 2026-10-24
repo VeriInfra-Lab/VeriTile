@@ -44,7 +44,7 @@ theorem source_flatten_ok (p : Layout) (r : Regions) (dot gate history : TypedSo
     (source p r dot gate history seed final gateK hasSeed storeFinal swapped).eraseDType.toAlgKernel.FlattenOk := by
   rw [Kernel.FlattenOk,source_body]
   cases swapped <;> simp [StmtList.FlattenOk,Stmt.FlattenOk,body,initialization,finalization,
-    iteration,gateKey,RealHProgram.gateValue,storeCarry,carry,RealHProgram.dot,
+    iteration,iterationPrelude,updateStmt,gateKey,RealHProgram.gateValue,storeCarry,carry,RealHProgram.dot,
     keyPtr,valuePtr,historyPtr,statePtr,stateBase,endpointPtr,endpointOp,times,load1,load2,Op.FlattenOk]
   all_goals simp [Op.FlattenOk.eq_def]
 

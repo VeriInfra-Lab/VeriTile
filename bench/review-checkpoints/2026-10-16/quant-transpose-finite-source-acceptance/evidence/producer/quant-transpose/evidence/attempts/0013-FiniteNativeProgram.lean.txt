@@ -1,0 +1,211 @@
+import bench.tritonbench_g.quant_transpose_kernel.Proofs.FiniteNativeBytes
+
+namespace QuantTransposeFinite
+set_option maxHeartbeats 10000000
+set_option maxRecDepth 24000
+noncomputable section
+open Classical
+
+/-- Observations of the source interpreter. None asserts a corresponding
+native exception, race winner, or rollback of already executed stores. -/
+inductive NativeIssue where
+  | integerDivision (pid : Nat)
+  | inputAccess (pid lane address : Nat)
+  | inverseAccess (pid address : Nat)
+  | missingInputBytes (pid lane address : Nat)
+  | missingInverseBytes (pid address : Nat)
+  | outputAccess (pid lane address : Nat)
+  | outputOwnershipConflict (pid lane address : Nat)
+  | conversionUndefined (pid lane : Nat)
+  deriving DecidableEq, Repr
+
+structure NativeLoaded (d : Storage) where
+  lane : Nat
+  inputAddress : Nat
+  outputAddress : Nat
+  value : Word d
+
+/-- First the source computes its finite addresses and loads the complete
+active input tile. The output-pointer expression is pure and rematerialized
+from the same typed coordinates; no output memory is touched here. -/
+def nativeLoadTile (d : Storage) (a : Input) (alloc : Allocations) (p : PhysicalLayout)
+    (snapshot : ByteMemory) (pid : Nat) : List Nat → Except NativeIssue (List (NativeLoaded d))
+  | [] => .ok []
+  | lane::rest => do
+      let native ← (nativeLane a.M a.N a.sam a.san pid lane).toExcept (.integerDivision pid)
+      if native.mask then
+        let address := (nativePointer p.inputPointer.toNat (bytes d) native.inputOffset).toNat
+        if ¬(InRegion p.input address (bytes d) ∧ p.input.readable alloc.currentDevice) then
+          .error (.inputAccess pid lane address)
+        else
+          let value ← (nativeReadWord d snapshot address).toExcept (.missingInputBytes pid lane address)
+          let tail ← nativeLoadTile d a alloc p snapshot pid rest
+          pure (⟨lane,address,(nativePointer p.output.base 1 native.outputOffset).toNat,value⟩::tail)
+      else nativeLoadTile d a alloc p snapshot pid rest
+
+def nativeLoadInverse (d : Storage) (alloc : Allocations) (p : PhysicalLayout)
+    (snapshot : ByteMemory) (pid : Nat) : Except NativeIssue (Word (compute d)) :=
+  if InRegion p.inverse p.inverse.base (bytes (compute d)) ∧ p.inverse.readable alloc.currentDevice then
+    (nativeReadWord (compute d) snapshot p.inverse.base).toExcept (.missingInverseBytes pid p.inverse.base)
+  else .error (.inverseAccess pid p.inverse.base)
+
+/-- Independent source values and output requests for a loaded tile. The
+owner set is reset at each launch, so repeated autotuning trials are allowed. -/
+def nativeTileWrites (b : Numerics) (d : Storage) (alloc : Allocations) (p : PhysicalLayout)
+    (pid : Nat) (inverse : Word (compute d)) :
+    List (NativeLoaded d) → List Nat → Except NativeIssue (List NativeWrite × List Nat)
+  | [],seen => .ok ([],seen)
+  | loaded::rest,seen => do
+      let z ← (result b d loaded.value inverse).toExcept (.conversionUndefined pid loaded.lane)
+      if ¬(InRegion p.output loaded.outputAddress 1 ∧ p.output.writable alloc.currentDevice) then
+        .error (.outputAccess pid loaded.lane loaded.outputAddress)
+      else if loaded.outputAddress∈seen then
+        .error (.outputOwnershipConflict pid loaded.lane loaded.outputAddress)
+      else
+        let (tail,owners) ← nativeTileWrites b d alloc p pid inverse rest (loaded.outputAddress::seen)
+        pure (⟨pid,loaded.lane,loaded.inputAddress,loaded.outputAddress,z⟩::tail,owners)
+
+/-- Source interpreter materialization uses the actual typed expression. -/
+def executeNativeTileWrites (b : Numerics) (d : Storage) (alloc : Allocations) (p : PhysicalLayout)
+    (pid : Nat) (inverse : Word (compute d)) :
+    List (NativeLoaded d) → List Nat → Except NativeIssue (List NativeWrite × List Nat)
+  | [],seen => .ok ([],seen)
+  | loaded::rest,seen => do
+      let z ← ((source d).eval b loaded.value inverse).toExcept (.conversionUndefined pid loaded.lane)
+      if ¬(InRegion p.output loaded.outputAddress 1 ∧ p.output.writable alloc.currentDevice) then
+        .error (.outputAccess pid loaded.lane loaded.outputAddress)
+      else if loaded.outputAddress∈seen then
+        .error (.outputOwnershipConflict pid loaded.lane loaded.outputAddress)
+      else
+        let (tail,owners) ← executeNativeTileWrites b d alloc p pid inverse rest (loaded.outputAddress::seen)
+        pure (⟨pid,loaded.lane,loaded.inputAddress,loaded.outputAddress,z⟩::tail,owners)
+
+theorem native_tile_scalar_correspondence (b : Numerics) (d : Storage) (alloc : Allocations)
+    (p : PhysicalLayout) (pid : Nat) (inverse : Word (compute d)) (loaded : List (NativeLoaded d)) (seen : List Nat) :
+    executeNativeTileWrites b d alloc p pid inverse loaded seen=nativeTileWrites b d alloc p pid inverse loaded seen := by
+  induction loaded generalizing seen with
+  | nil => rfl
+  | cons loaded rest ih =>
+    simp only [executeNativeTileWrites,nativeTileWrites,source_scalar,ih]
+
+def nativeProgramPlan (b : Numerics) (d : Storage) (a : Input) (alloc : Allocations)
+    (p : PhysicalLayout) (snapshot : ByteMemory) (pid : Nat) (seen : List Nat) :
+    Except NativeIssue (List NativeWrite × List Nat) := do
+  let loaded ← nativeLoadTile d a alloc p snapshot pid (List.range (128*128))
+  let inverse ← nativeLoadInverse d alloc p snapshot pid
+  nativeTileWrites b d alloc p pid inverse loaded seen
+
+structure NativeState where
+  memory : ByteMemory
+  owners : List Nat
+
+/-- Actual source tile execution: full input load, unmasked inverse load,
+typed arithmetic, ownership observation, then concrete individual byte stores. -/
+def executeNativeProgram (b : Numerics) (d : Storage) (a : Input) (alloc : Allocations)
+    (p : PhysicalLayout) (pid : Nat) (state : NativeState) : Except NativeIssue NativeState := do
+  let loaded ← nativeLoadTile d a alloc p state.memory pid (List.range (128*128))
+  let inverse ← nativeLoadInverse d alloc p state.memory pid
+  let (writes,owners) ← executeNativeTileWrites b d alloc p pid inverse loaded state.owners
+  pure ⟨applyNativeWrites writes state.memory,owners⟩
+
+theorem native_program_correspondence (b : Numerics) (d : Storage) (a : Input) (alloc : Allocations)
+    (p : PhysicalLayout) (pid : Nat) (state : NativeState) :
+    executeNativeProgram b d a alloc p pid state=
+      (nativeProgramPlan b d a alloc p state.memory pid state.owners).map
+        (fun plan => ⟨applyNativeWrites plan.1 state.memory,plan.2⟩) := by
+  simp only [executeNativeProgram,nativeProgramPlan,native_tile_scalar_correspondence]
+  cases nativeLoadTile d a alloc p state.memory pid (List.range (128*128)) <;>
+    cases nativeLoadInverse d alloc p state.memory pid <;> simp [Except.map,Except.bind]
+  split <;> rfl
+
+theorem native_load_tile_frame (d : Storage) (a : Input) (alloc : Allocations) (p : PhysicalLayout)
+    (left right : ByteMemory) (same : OutsideOutput p left right) (sep : p.input.Disjoint p.output)
+    (pid : Nat) (lanes : List Nat) :
+    nativeLoadTile d a alloc p left pid lanes=nativeLoadTile d a alloc p right pid lanes := by
+  induction lanes with
+  | nil => rfl
+  | cons lane rest ih =>
+    simp only [nativeLoadTile]
+    cases h : nativeLane a.M a.N a.sam a.san pid lane with
+    | none => rfl
+    | some native =>
+      simp only [Option.toExcept,Except.bind]
+      split
+      · split
+        · rfl
+        · rename_i valid
+          have hi : InRegion p.input (nativePointer p.inputPointer.toNat (bytes d) native.inputOffset).toNat (bytes d) :=
+            (not_not.mp valid).1
+          rw [native_read_outside_output d p left right p.input _ same sep hi,ih]
+      · exact ih
+
+theorem native_load_inverse_frame (d : Storage) (alloc : Allocations) (p : PhysicalLayout)
+    (left right : ByteMemory) (same : OutsideOutput p left right) (sep : p.inverse.Disjoint p.output) (pid : Nat) :
+    nativeLoadInverse d alloc p left pid=nativeLoadInverse d alloc p right pid := by
+  unfold nativeLoadInverse
+  split
+  · rename_i valid
+    rw [native_read_outside_output (compute d) p left right p.inverse _ same sep valid.1]
+  · rfl
+
+theorem native_program_plan_frame (b : Numerics) (d : Storage) (a : Input) (alloc : Allocations)
+    (p : PhysicalLayout) (left right : ByteMemory) (same : OutsideOutput p left right)
+    (hi : p.input.Disjoint p.output) (hv : p.inverse.Disjoint p.output) (pid : Nat) (seen : List Nat) :
+    nativeProgramPlan b d a alloc p left pid seen=nativeProgramPlan b d a alloc p right pid seen := by
+  rw [nativeProgramPlan,nativeProgramPlan,native_load_tile_frame d a alloc p left right same hi,
+    native_load_inverse_frame d alloc p left right same hv]
+
+theorem native_tile_write_bounds (b : Numerics) (d : Storage) (alloc : Allocations) (p : PhysicalLayout)
+    (pid : Nat) (inverse : Word (compute d)) (loaded : List (NativeLoaded d)) (seen : List Nat)
+    (writes : List NativeWrite) (owners : List Nat)
+    (h : nativeTileWrites b d alloc p pid inverse loaded seen=.ok (writes,owners)) :
+    ∀ w∈writes, p.output.Contains w.outputAddress := by
+  induction loaded generalizing seen writes owners with
+  | nil => cases h; simp
+  | cons item rest ih =>
+    simp only [nativeTileWrites] at h
+    cases hz : result b d item.value inverse with
+    | none => simp [hz,Option.toExcept,Except.bind] at h
+    | some z =>
+      simp only [hz,Option.toExcept,Except.bind] at h
+      split at h
+      · cases h
+      · rename_i valid
+        split at h
+        · cases h
+        · cases ht : nativeTileWrites b d alloc p pid inverse rest (item.outputAddress::seen) with
+          | error issue => simp [ht,Except.bind] at h
+          | ok tail =>
+            rcases tail with ⟨tail,finalOwners⟩
+            simp [ht,Except.bind,Except.pure] at h
+            rcases h with ⟨rfl,rfl⟩
+            intro w hw
+            rcases List.mem_cons.1 hw with rfl|hw
+            · have hb := (not_not.mp valid).1
+              unfold InRegion at hb
+              exact ⟨hb.1,by omega⟩
+            · exact ih _ _ _ ht w hw
+
+theorem native_program_write_bounds (b : Numerics) (d : Storage) (a : Input) (alloc : Allocations)
+    (p : PhysicalLayout) (snapshot : ByteMemory) (pid : Nat) (seen : List Nat)
+    (writes : List NativeWrite) (owners : List Nat)
+    (h : nativeProgramPlan b d a alloc p snapshot pid seen=.ok (writes,owners)) :
+    ∀ w∈writes, p.output.Contains w.outputAddress := by
+  unfold nativeProgramPlan at h
+  cases hl : nativeLoadTile d a alloc p snapshot pid (List.range (128*128)) with
+  | error issue => simp [hl,Except.bind] at h
+  | ok loaded =>
+    cases hv : nativeLoadInverse d alloc p snapshot pid with
+    | error issue => simp [hl,hv,Except.bind] at h
+    | ok inverse =>
+      simp only [hl,hv,Except.bind] at h
+      exact native_tile_write_bounds b d alloc p pid inverse loaded seen writes owners h
+
+#specNonCircular nativeProgramPlan avoiding [executeNativeProgram,executeNativeTileWrites,applyNativeWrites,source,Expr.eval]
+#axiomsClean native_program_correspondence
+#axiomsClean native_program_plan_frame
+#axiomsClean native_program_write_bounds
+#guard_msgs (drop info) in
+#auditModuleAxioms
+end
+end QuantTransposeFinite

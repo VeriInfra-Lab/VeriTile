@@ -1,0 +1,21 @@
+VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Characterization.all_active: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Characterization.output_offset: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Characterization.output_bounded: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Characterization.output_injective: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Characterization.whole_memory_of_post: axiom footprint ⊆ standard base ✓  ([Quot.sound,
+ propext,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Characterization.physical_reference_bridge: axiom footprint ⊆ standard base ✓  ([Quot.sound,
+ propext,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Characterization.complete_legal_tile_execution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

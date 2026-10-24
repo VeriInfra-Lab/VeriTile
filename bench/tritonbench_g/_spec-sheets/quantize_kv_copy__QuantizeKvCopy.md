@@ -109,16 +109,6 @@ def scaleOutOffset
 
 <details><summary><code>destindex_copy_quantize_kv_group_real_surface</code></summary>
 
-```
-/-- Real-valued surface of `quantize_kv_copy.py`'s grouped
-`_fwd_kernel_destindex_copy_quantize_kv`.
-
-This preserves destination-indexed grouped addressing, `tl.abs`, per-group
-scale computation, value writeback, and scale writeback. The Python kernel casts
-the scale to `OutScale.dtype.element_ty`; that cast is represented explicitly.
-The final quotient cast to int8 is preserved as a surface dtype annotation and
-lowers through the DSL's fixed-width cast surface. -/
-```
 ```lean
 def destindex_copy_quantize_kv_group_real_surface
     (K : RegionName) (DestLoc : Region .nat) (Out OutScale : RegionName)
@@ -126,7 +116,7 @@ def destindex_copy_quantize_kv_group_real_surface
       stride_o_bs stride_o_h stride_o_g _stride_o_d
       stride_os_bs stride_os_h _stride_os_g
       group_size BLOCK_GROUP_NUM BLOCK_GROUP_DIM : Nat) :
-    ComputeKernel := triton {
+    ComputeKernel := legacy_real_int8% triton {
   cur_index = tl.program_id(0)
   cur_head = tl.program_id(1)
   offs_g = tl.arange(0, $(BLOCK_GROUP_NUM))
@@ -387,16 +377,6 @@ noncomputable def scaleCellXs (BLOCK_GROUP_NUM BLOCK_GROUP_DIM group_size : Nat)
 
 <details><summary><code>destindex_copy_quantize_kv_group_real_surface</code></summary>
 
-```
-/-- Real-valued surface of `quantize_kv_copy.py`'s grouped
-`_fwd_kernel_destindex_copy_quantize_kv`.
-
-This preserves destination-indexed grouped addressing, `tl.abs`, per-group
-scale computation, value writeback, and scale writeback. The Python kernel casts
-the scale to `OutScale.dtype.element_ty`; that cast is represented explicitly.
-The final quotient cast to int8 is preserved as a surface dtype annotation and
-lowers through the DSL's fixed-width cast surface. -/
-```
 ```lean
 def destindex_copy_quantize_kv_group_real_surface
     (K : RegionName) (DestLoc : Region .nat) (Out OutScale : RegionName)
@@ -404,7 +384,7 @@ def destindex_copy_quantize_kv_group_real_surface
       stride_o_bs stride_o_h stride_o_g _stride_o_d
       stride_os_bs stride_os_h _stride_os_g
       group_size BLOCK_GROUP_NUM BLOCK_GROUP_DIM : Nat) :
-    ComputeKernel := triton {
+    ComputeKernel := legacy_real_int8% triton {
   cur_index = tl.program_id(0)
   cur_head = tl.program_id(1)
   offs_g = tl.arange(0, $(BLOCK_GROUP_NUM))

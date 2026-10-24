@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "reviewer": "root",
+  "status": "passed_kcache_five_format_software_word_storage_scope",
+  "receipt_sha256": "176e476120bcf38282bdca54f3cf4699d0be83f740f9423e221fa5cd3b8f0b91",
+  "reviewed_input_sha256": {
+    "bench/tritonbench_g/kcache_copy_triton/Proofs/RawBitMemory.lean": "35c4dcf62542b5bc257de0af357c48de53ee00b63676c8d507652e35a8388b10",
+    "bench/tritonbench_g/kcache_copy_triton/Proofs/RawBitCopy.lean": "02ed841c64ef65aa7a9b08b054c3d7b1bcaef4e2d4f29f43502095815188ecc1",
+    "bench/tritonbench_g/kcache_copy_triton/RawBitCorrect.lean": "337123302b9f7b53f5e1e220ce8872353503d0326fba0fe8b087bd2a7d20132e",
+    "bench/tritonbench_g/kcache_copy_triton/Proofs/RawBitWitness.lean": "f81887b7619ee6e4c32149651dd7cc76cd74ad1815ebb3a41c639ed3f4e7b30d"
+  },
+  "new_public_specifications": 1,
+  "numeric_callbacks_in_public_spec": [],
+  "additional_numeric_laws": [],
+  "native_execution": false,
+  "native_fp64": false,
+  "byte_ABI_refinement": false,
+  "full_task_corpus_comparator": false,
+  "scope": "Full existing n_tokens=1/splitX source, five raw machine formats, independent initial-memory reference, full frame and unchanged old parameter domain."
+}

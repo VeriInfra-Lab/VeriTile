@@ -72,7 +72,7 @@ theorem update_fn_kernel_exp_avg_correct
           p_ptr _ _ _ _ _ _ _ hRegions]
     by_cases hi : s.pids 0 * BLOCK_SIZE + i.val < n_elements
     · simp only [hi, if_true, expAvgFullSpec, TiledOptimizer.lionMomentum,
-        linearOffset, BlockState.pid_eq, Option.map₂, Option.map, Option.bind,
+        linearOffset, BlockState.pid_eq, Option.map₂, Option.map, Option.bind, WithBot.map,
         WithBot.some_eq_coe, WithBot.unbotD_coe]
       ring
     · simp [hi]
@@ -108,7 +108,7 @@ theorem update_fn_kernel_p_correct
     · -- The realized masked `p` store equals the Lion parameter-update oracle.
       unfold pFullSpec TiledOptimizer.lionParam TiledOptimizer.lionUpdateDir
       simp only [linearOffset, hi, if_true, BlockState.pid_eq,
-        Option.map₂, Option.map, Option.bind]
+        Option.map₂, Option.map, Option.bind, WithBot.map]
       set m := s.readMem exp_avg_ptr (s.pids 0 * BLOCK_SIZE + i.val) with hm
       set g := s.readMem grad_ptr (s.pids 0 * BLOCK_SIZE + i.val) with hg
       set p := s.readMem p_ptr (s.pids 0 * BLOCK_SIZE + i.val) with hp
@@ -502,7 +502,7 @@ theorem update_fn_kernel_flattenOk
       lr wd beta1 beta2 n_elements BLOCK_SIZE).toAlgKernel).FlattenOk := by
   unfold Kernel.FlattenOk
   simp [update_fn_kernel, ComputeKernel.toAlgKernel,
-    StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk]
+    StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk, Op.FlattenOk.eq_def]
 
 /-- Per-execution safety walk: all three masked loads and both masked
 stores address the same window `pid * BLOCK_SIZE + j`, active only when
@@ -526,7 +526,7 @@ theorem update_fn_kernel_traceSafe
   -- load-free `SafeAt` and reducing the five memory accesses' lane-wise
   -- address obligations to the bounds hypotheses below.
   simp [update_fn_kernel, ComputeKernel.toAlgKernel,
-    Stmt.TraceSafeList, Stmt.TraceSafe, Op.SafeAt, MaskOpt.SafeAt,
+    Stmt.TraceSafeList, Stmt.TraceSafe, Op.SafeAt, Op.SafeAt.eq_def, MaskOpt.SafeAt,
     stepStmt, evalOp.eq_def,
     Tile.bop, Tile.cop, Tile.ptrAdd, Tile.select,
     NumericDType.add, NumericDType.mul, NumericDType.sub,

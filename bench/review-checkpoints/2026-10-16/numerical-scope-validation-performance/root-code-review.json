@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "kind": "root_unapplied_numerical_validator_code_review",
+  "reviewer": "root",
+  "recorded_at": "2026-10-16T04:29:30.740522+00:00",
+  "status": "reviewed_for_post_commit_production_validation",
+  "candidate_receipt_sha256": "a0df46dc028fa7fb267a048948131130572a9acb8c15e6a6800dfb11f63d3e29",
+  "baseline_source_sha256": "8a5fccb70fa937d5f6696905a530d6cafd2a0bb2256a55d4f3baaf3e5b74fd72",
+  "candidate_source_sha256": "91c18e19f04f50a0d36ac698b4512bca23559cdfecbb11efad8d5d24c03e3f33",
+  "combined_patch_sha256": "99278ad451498811929723cac363ed2740e6449ce80bb2a09072203822e4f897",
+  "reviewed_findings": [
+    "Root read the complete combined A+C diff, original deferral and use validators, unchanged exact authority gate, proposal, test harness and bounded results. All 46 proposal artifact hashes verified.",
+    "The tuple index preserves dictionary-reference equality because validate_deferrals first requires exactly file/declaration/statement_sha256 string fields. Entries keep all bindings for every declaration/case, including repeated callback ports.",
+    "Function-local lazy rule hashes and binding indexes preserve old schema and hash check points. No cross-call acceptance cache or authority bypass is introduced.",
+    "The extracted local callback-reference loop is rejection-only and independent of derived authority. Every successful exact-queue invocation still runs full authority derivation, queue equality, callback-name equality, exact case ports and both final usage equalities.",
+    "Multiply-invalid rows can now report local callback-reference errors before authority or callback-name errors. Acceptance conditions are unchanged for ordinary immutable JSON input.",
+    "Six additional tests import the full combined production module, retain real exact queue and port validators, and replace only authority/legacy derivation with fixtures. They cover missing deferral, simultaneous deferral/link removal, repeated rederivation with later source failure, stale queue, missing callback names, and documented error priority. All six pass."
+  ],
+  "extra_test_sha256": "1408280cedbecc85a43340e01106df52dd2df693856fa944f59dede48e4c6db1",
+  "extra_test_report_sha256": "f48df2691717da2f7d73ccb1aa8170f8166648791f2964a835496a40a8c22637",
+  "not_performed": [
+    "checkout application",
+    "actual production source-authority positive replay",
+    "existing production scope/numerical regression suites",
+    "commit or push"
+  ],
+  "current_frozen_verification_unchanged": true,
+  "acceptance_increment": 0
+}

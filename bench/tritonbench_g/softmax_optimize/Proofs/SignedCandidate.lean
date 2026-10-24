@@ -16,10 +16,12 @@ def indexPrefixCandidate (X : RegionName) (N B : Nat) : List Stmt :=
       (.ptrAdd .scalarL (.ptrBase X) (.castIntToNat (.ref .int [B] "offset")))]
 
 def inputFullCandidate (X : RegionName) (N B : Nat) : List Stmt :=
-  indexPrefixCandidate X N B ++ (loopAbody X N B).drop 3
+  indexPrefixCandidate X N B ++ ((loopAbody X N B).drop 3).take 1 ++
+    [sourceMaximum B] ++ (loopAbody X N B).drop 5
 
 def inputTailCandidate (X : RegionName) (N B : Nat) : List Stmt :=
-  indexPrefixCandidate X N B ++ [maskStatement N B] ++ (loopBbody X N B).drop 4
+  indexPrefixCandidate X N B ++ [maskStatement N B] ++ ((loopBbody X N B).drop 4).take 1 ++
+    [sourceMaximum B] ++ (loopBbody X N B).drop 6
 
 def outputFullCandidate (Y X : RegionName) (N B : Nat) : List Stmt :=
   indexPrefixCandidate X N B ++ ((loopApass2body Y X N B).drop 3).take 3 ++

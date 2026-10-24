@@ -406,32 +406,12 @@ theorem flash_decode2_llama_running_max_step_kernel_compute_correct
         sumExpOffset, runningMaxStepValue, ComputeCorrect.WriteMap.scalar] at hExec ⊢
   rw [← hExec]
   simp [BlockState.writeMem_readMem]
-  by_cases hlt :
-      s.readMem MaxLogic (s.pids 0 * stride_logic_b + s.pids 1 * stride_logic_h) <
-        s.readMem Mid_O_LogExpSum
-          (s.pids 0 * stride_mid_o_eb + s.pids 1 * stride_mid_o_eh + block_seq_n)
-  · have hbot :
-        (s.readMem MaxLogic
-          (s.pids 0 * stride_logic_b + s.pids 1 * stride_logic_h) : WithBot ℝ) <
-          (s.readMem Mid_O_LogExpSum
-            (s.pids 0 * stride_mid_o_eb + s.pids 1 * stride_mid_o_eh + block_seq_n) :
-            WithBot ℝ) := by
-      simpa using hlt
-    split
-    · exact WithBot.unbotD_coe 0 _
-    · rename_i hnot
-      exact False.elim (hnot hbot)
-  · have hbot :
-        ¬ (s.readMem MaxLogic
-          (s.pids 0 * stride_logic_b + s.pids 1 * stride_logic_h) : WithBot ℝ) <
-          (s.readMem Mid_O_LogExpSum
-            (s.pids 0 * stride_mid_o_eb + s.pids 1 * stride_mid_o_eh + block_seq_n) :
-            WithBot ℝ) := by
-      simpa using hlt
-    split
-    · rename_i hpos
-      exact False.elim (hbot hpos)
-    · exact WithBot.unbotD_coe 0 _
+  change max
+      (s.readMem Mid_O_LogExpSum
+        (s.pids 0 * stride_mid_o_eb + s.pids 1 * stride_mid_o_eh + block_seq_n))
+      (s.readMem MaxLogic (s.pids 0 * stride_logic_b + s.pids 1 * stride_logic_h)) = _
+  simp [max_def, ← not_le, ite_not]
+
 
 
 /-! ### ════════ ★ MAIN THEOREM ★ ════════ -/

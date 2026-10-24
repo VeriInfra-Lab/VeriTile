@@ -33,7 +33,8 @@ theorem input_full_related (X : RegionName) (N B i : Nat)
       (stepStmts (inputFull X N B) (s.setReg "start_n" .int [] (Tile.scalar (i:Int))))
       (stepStmts (loopAbody X N B) (t.setReg "start_n" .nat [] (Tile.scalar i))) := by
   have hh := prefix_suffix_related X N B i (input_full_suffix_related X N B) s t h
-  simpa only [inputFull, naturalPrefix, List.take_append_drop] using hh
+  rw [input_full_math_step]
+  simpa only [naturalPrefix, List.take_append_drop] using hh
 
 theorem input_tail_related (X : RegionName) (N B i : Nat)
     (s t : BlockState) (h : LiveRelated s t) : ResultsRelated LiveRelated
@@ -41,7 +42,8 @@ theorem input_tail_related (X : RegionName) (N B i : Nat)
       (stepStmts (loopBbody X N B) (t.setReg "start_n" .nat [] (Tile.scalar i))) := by
   have hh := prefix_suffix_related X N B i
     (cons_related (mask_related N B) (input_tail_suffix_related X N B)) s t h
-  simpa only [inputTail, List.append_assoc, List.singleton_append, naturalPrefix,
+  rw [input_tail_math_step]
+  simpa only [List.append_assoc, List.singleton_append, naturalPrefix,
     naturalMask, loopAbody, loopBbody, List.take_succ_cons, List.take_zero,
     List.drop_succ_cons, List.drop_zero, List.cons_append, List.nil_append] using hh
 

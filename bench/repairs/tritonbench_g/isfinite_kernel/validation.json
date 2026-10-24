@@ -1,0 +1,12 @@
+{
+  "source_interpreter_cases": 84,
+  "guard_rejections": 17,
+  "wrapper_admissions": 38,
+  "original_empty_counterexample": true,
+  "large_extent_controls": [
+    2147483648,
+    2147483649
+  ],
+  "scalar_cpu_adapter": "numpy.isfinite for CUDA libdevice externs only",
+  "gpu_execution": false
+}

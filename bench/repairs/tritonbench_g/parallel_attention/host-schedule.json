@@ -1,0 +1,526 @@
+{
+  "status": "PASSED",
+  "positive_cases": {
+    "scalar_19": {
+      "status": "STRUCTURAL_ADMISSION",
+      "source_sha256": {
+        "/usr/local/lib/python3.12/site-packages/torch/include/ATen/native/cuda/Reduce.cuh": "ef9bea8fdfd03cec2d7e7421cbe75d98fddfdaafddb4f25a1ed655c5861dfb65",
+        "/usr/local/lib/python3.12/site-packages/torch/include/ATen/native/SharedReduceOps.h": "75a6bad9a3c7f47572ab8264fd66487697e2a77bb9fba1b0d555d967aac18b5e"
+      },
+      "launches": [
+        {
+          "first": 0,
+          "inputs": 19,
+          "width": 16,
+          "height": 8,
+          "reduceX": true,
+          "reduceY": false,
+          "ctas": 1,
+          "vectorInput": false,
+          "alignmentShift": 0,
+          "accumulate": false
+        }
+      ],
+      "selected_configs": [
+        {
+          "block_width": 16,
+          "block_height": 8,
+          "num_threads": 128,
+          "num_inputs": 19,
+          "num_outputs": 8,
+          "vectorize_input": false,
+          "output_vec_size": 1,
+          "ctas_per_output": 1,
+          "step_input": 16,
+          "step_output": 8,
+          "input_mult": [
+            1,
+            0,
+            0
+          ]
+        }
+      ],
+      "reduced_inputs": 19,
+      "tree_sha256": "549b85a7dc9bf23546f5ac2c3b4287d59c7f0040714c3a0ea3d50993a03af174",
+      "numerical_oracle": false,
+      "GPU_execution": false,
+      "boundary": "Actual ordered TensorIterator metadata, input/output mapping and ordinary scalar-add compilation must match the pinned source. This checker does not observe a GPU run."
+    },
+    "vector_aligned_131": {
+      "status": "STRUCTURAL_ADMISSION",
+      "source_sha256": {
+        "/usr/local/lib/python3.12/site-packages/torch/include/ATen/native/cuda/Reduce.cuh": "ef9bea8fdfd03cec2d7e7421cbe75d98fddfdaafddb4f25a1ed655c5861dfb65",
+        "/usr/local/lib/python3.12/site-packages/torch/include/ATen/native/SharedReduceOps.h": "75a6bad9a3c7f47572ab8264fd66487697e2a77bb9fba1b0d555d967aac18b5e"
+      },
+      "launches": [
+        {
+          "first": 0,
+          "inputs": 131,
+          "width": 32,
+          "height": 8,
+          "reduceX": true,
+          "reduceY": false,
+          "ctas": 1,
+          "vectorInput": true,
+          "alignmentShift": 0,
+          "accumulate": false
+        }
+      ],
+      "selected_configs": [
+        {
+          "block_width": 32,
+          "block_height": 8,
+          "num_threads": 256,
+          "num_inputs": 131,
+          "num_outputs": 8,
+          "vectorize_input": true,
+          "output_vec_size": 1,
+          "ctas_per_output": 1,
+          "step_input": 32,
+          "step_output": 8,
+          "input_mult": [
+            1,
+            0,
+            0
+          ]
+        }
+      ],
+      "reduced_inputs": 131,
+      "tree_sha256": "8ac1358afc8308f94ad7d611ad6a2e855dcee9ad1b93f2fbf1267136b7f3ab36",
+      "numerical_oracle": false,
+      "GPU_execution": false,
+      "boundary": "Actual ordered TensorIterator metadata, input/output mapping and ordinary scalar-add compilation must match the pinned source. This checker does not observe a GPU run."
+    },
+    "vector_row_alignment_131": {
+      "status": "STRUCTURAL_ADMISSION",
+      "source_sha256": {
+        "/usr/local/lib/python3.12/site-packages/torch/include/ATen/native/cuda/Reduce.cuh": "ef9bea8fdfd03cec2d7e7421cbe75d98fddfdaafddb4f25a1ed655c5861dfb65",
+        "/usr/local/lib/python3.12/site-packages/torch/include/ATen/native/SharedReduceOps.h": "75a6bad9a3c7f47572ab8264fd66487697e2a77bb9fba1b0d555d967aac18b5e"
+      },
+      "launches": [
+        {
+          "first": 0,
+          "inputs": 131,
+          "width": 32,
+          "height": 8,
+          "reduceX": true,
+          "reduceY": false,
+          "ctas": 1,
+          "vectorInput": true,
+          "alignmentShift": 3,
+          "accumulate": false
+        }
+      ],
+      "selected_configs": [
+        {
+          "block_width": 32,
+          "block_height": 8,
+          "num_threads": 256,
+          "num_inputs": 131,
+          "num_outputs": 8,
+          "vectorize_input": true,
+          "output_vec_size": 1,
+          "ctas_per_output": 1,
+          "step_input": 32,
+          "step_output": 8,
+          "input_mult": [
+            1,
+            0,
+            0
+          ]
+        }
+      ],
+      "reduced_inputs": 131,
+      "tree_sha256": "ad460d5bb2d6fad09c4fa39eb383da4676b5674493e980af60d0a57135a4da15",
+      "numerical_oracle": false,
+      "GPU_execution": false,
+      "boundary": "Actual ordered TensorIterator metadata, input/output mapping and ordinary scalar-add compilation must match the pinned source. This checker does not observe a GPU run."
+    },
+    "global_262144": {
+      "status": "STRUCTURAL_ADMISSION",
+      "source_sha256": {
+        "/usr/local/lib/python3.12/site-packages/torch/include/ATen/native/cuda/Reduce.cuh": "ef9bea8fdfd03cec2d7e7421cbe75d98fddfdaafddb4f25a1ed655c5861dfb65",
+        "/usr/local/lib/python3.12/site-packages/torch/include/ATen/native/SharedReduceOps.h": "75a6bad9a3c7f47572ab8264fd66487697e2a77bb9fba1b0d555d967aac18b5e"
+      },
+      "launches": [
+        {
+          "first": 0,
+          "inputs": 262144,
+          "width": 512,
+          "height": 1,
+          "reduceX": true,
+          "reduceY": true,
+          "ctas": 32,
+          "vectorInput": true,
+          "alignmentShift": 0,
+          "accumulate": false
+        }
+      ],
+      "selected_configs": [
+        {
+          "block_width": 512,
+          "block_height": 1,
+          "num_threads": 512,
+          "num_inputs": 262144,
+          "num_outputs": 1,
+          "vectorize_input": true,
+          "output_vec_size": 1,
+          "ctas_per_output": 32,
+          "step_input": 16384,
+          "step_output": 1,
+          "input_mult": [
+            1,
+            512,
+            512
+          ]
+        }
+      ],
+      "reduced_inputs": 262144,
+      "tree_sha256": "eef85c2b5ba2bc5f2521efdb84ef96ac429ee4a7f0f285feb13f35c48fe4db2b",
+      "numerical_oracle": false,
+      "GPU_execution": false,
+      "boundary": "Actual ordered TensorIterator metadata, input/output mapping and ordinary scalar-add compilation must match the pinned source. This checker does not observe a GPU run."
+    },
+    "scratch_2": {
+      "status": "STRUCTURAL_ADMISSION",
+      "source_sha256": {
+        "/usr/local/lib/python3.12/site-packages/torch/include/ATen/native/cuda/Reduce.cuh": "ef9bea8fdfd03cec2d7e7421cbe75d98fddfdaafddb4f25a1ed655c5861dfb65",
+        "/usr/local/lib/python3.12/site-packages/torch/include/ATen/native/SharedReduceOps.h": "75a6bad9a3c7f47572ab8264fd66487697e2a77bb9fba1b0d555d967aac18b5e"
+      },
+      "launches": [
+        {
+          "first": 0,
+          "inputs": 2,
+          "width": 128,
+          "height": 2,
+          "reduceX": false,
+          "reduceY": false,
+          "ctas": 1,
+          "vectorInput": false,
+          "alignmentShift": 0,
+          "accumulate": false
+        }
+      ],
+      "selected_configs": [
+        {
+          "block_width": 128,
+          "block_height": 2,
+          "num_threads": 256,
+          "num_inputs": 2,
+          "num_outputs": 131,
+          "vectorize_input": false,
+          "output_vec_size": 1,
+          "ctas_per_output": 1,
+          "step_input": 1,
+          "step_output": 256,
+          "input_mult": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "reduced_inputs": 2,
+      "tree_sha256": "169e9ca54aa69e02df1373d3ddbd057a13f4f9f17eef9dd1087ff3f495a37f5c",
+      "numerical_oracle": false,
+      "GPU_execution": false,
+      "boundary": "Actual ordered TensorIterator metadata, input/output mapping and ordinary scalar-add compilation must match the pinned source. This checker does not observe a GPU run."
+    },
+    "scratch_257": {
+      "status": "STRUCTURAL_ADMISSION",
+      "source_sha256": {
+        "/usr/local/lib/python3.12/site-packages/torch/include/ATen/native/cuda/Reduce.cuh": "ef9bea8fdfd03cec2d7e7421cbe75d98fddfdaafddb4f25a1ed655c5861dfb65",
+        "/usr/local/lib/python3.12/site-packages/torch/include/ATen/native/SharedReduceOps.h": "75a6bad9a3c7f47572ab8264fd66487697e2a77bb9fba1b0d555d967aac18b5e"
+      },
+      "launches": [
+        {
+          "first": 0,
+          "inputs": 257,
+          "width": 32,
+          "height": 4,
+          "reduceX": false,
+          "reduceY": true,
+          "ctas": 1,
+          "vectorInput": false,
+          "alignmentShift": 0,
+          "accumulate": false
+        }
+      ],
+      "selected_configs": [
+        {
+          "block_width": 32,
+          "block_height": 4,
+          "num_threads": 128,
+          "num_inputs": 257,
+          "num_outputs": 128,
+          "vectorize_input": false,
+          "output_vec_size": 4,
+          "ctas_per_output": 1,
+          "step_input": 4,
+          "step_output": 32,
+          "input_mult": [
+            0,
+            1,
+            0
+          ]
+        }
+      ],
+      "reduced_inputs": 257,
+      "tree_sha256": "a1c3be6510232192732dd6fb8562e8d32dfb6582ea255e0bcb4781eb558f1ae2",
+      "numerical_oracle": false,
+      "GPU_execution": false,
+      "boundary": "Actual ordered TensorIterator metadata, input/output mapping and ordinary scalar-add compilation must match the pinned source. This checker does not observe a GPU run."
+    },
+    "coalesced_single_shard": {
+      "status": "STRUCTURAL_ADMISSION",
+      "source_sha256": {
+        "/usr/local/lib/python3.12/site-packages/torch/include/ATen/native/cuda/Reduce.cuh": "ef9bea8fdfd03cec2d7e7421cbe75d98fddfdaafddb4f25a1ed655c5861dfb65",
+        "/usr/local/lib/python3.12/site-packages/torch/include/ATen/native/SharedReduceOps.h": "75a6bad9a3c7f47572ab8264fd66487697e2a77bb9fba1b0d555d967aac18b5e"
+      },
+      "launches": [
+        {
+          "first": 0,
+          "inputs": 1,
+          "width": 128,
+          "height": 1,
+          "reduceX": false,
+          "reduceY": false,
+          "ctas": 1,
+          "vectorInput": false,
+          "alignmentShift": 0,
+          "accumulate": false
+        }
+      ],
+      "selected_configs": [
+        {
+          "block_width": 128,
+          "block_height": 1,
+          "num_threads": 128,
+          "num_inputs": 1,
+          "num_outputs": 131,
+          "vectorize_input": false,
+          "output_vec_size": 1,
+          "ctas_per_output": 1,
+          "step_input": 1,
+          "step_output": 128,
+          "input_mult": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "reduced_inputs": 1,
+      "tree_sha256": "ea4f3410df67caaa7b31e88997e6f8f88d0bfb09774fc179e409afb273b6b67a",
+      "numerical_oracle": false,
+      "GPU_execution": false,
+      "boundary": "Actual ordered TensorIterator metadata, input/output mapping and ordinary scalar-add compilation must match the pinned source. This checker does not observe a GPU run."
+    },
+    "reduction_axis_split": {
+      "status": "STRUCTURAL_ADMISSION",
+      "source_sha256": {
+        "/usr/local/lib/python3.12/site-packages/torch/include/ATen/native/cuda/Reduce.cuh": "ef9bea8fdfd03cec2d7e7421cbe75d98fddfdaafddb4f25a1ed655c5861dfb65",
+        "/usr/local/lib/python3.12/site-packages/torch/include/ATen/native/SharedReduceOps.h": "75a6bad9a3c7f47572ab8264fd66487697e2a77bb9fba1b0d555d967aac18b5e"
+      },
+      "launches": [
+        {
+          "first": 0,
+          "inputs": 1,
+          "width": 128,
+          "height": 1,
+          "reduceX": false,
+          "reduceY": false,
+          "ctas": 1,
+          "vectorInput": false,
+          "alignmentShift": 0,
+          "accumulate": false
+        },
+        {
+          "first": 1,
+          "inputs": 1,
+          "width": 128,
+          "height": 1,
+          "reduceX": false,
+          "reduceY": false,
+          "ctas": 1,
+          "vectorInput": false,
+          "alignmentShift": 3,
+          "accumulate": true
+        },
+        {
+          "first": 2,
+          "inputs": 1,
+          "width": 128,
+          "height": 1,
+          "reduceX": false,
+          "reduceY": false,
+          "ctas": 1,
+          "vectorInput": false,
+          "alignmentShift": 2,
+          "accumulate": true
+        }
+      ],
+      "selected_configs": [
+        {
+          "block_width": 128,
+          "block_height": 1,
+          "num_threads": 128,
+          "num_inputs": 1,
+          "num_outputs": 131,
+          "vectorize_input": false,
+          "output_vec_size": 1,
+          "ctas_per_output": 1,
+          "step_input": 1,
+          "step_output": 128,
+          "input_mult": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "block_width": 128,
+          "block_height": 1,
+          "num_threads": 128,
+          "num_inputs": 1,
+          "num_outputs": 131,
+          "vectorize_input": false,
+          "output_vec_size": 1,
+          "ctas_per_output": 1,
+          "step_input": 1,
+          "step_output": 128,
+          "input_mult": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "block_width": 128,
+          "block_height": 1,
+          "num_threads": 128,
+          "num_inputs": 1,
+          "num_outputs": 131,
+          "vectorize_input": false,
+          "output_vec_size": 1,
+          "ctas_per_output": 1,
+          "step_input": 1,
+          "step_output": 128,
+          "input_mult": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "reduced_inputs": 3,
+      "tree_sha256": "7837de169f1cdac55ec0569942768711aaf1254b3d42750e515579136b481f50",
+      "numerical_oracle": false,
+      "GPU_execution": false,
+      "boundary": "Actual ordered TensorIterator metadata, input/output mapping and ordinary scalar-add compilation must match the pinned source. This checker does not observe a GPU run."
+    },
+    "ordered_split": {
+      "status": "STRUCTURAL_ADMISSION",
+      "source_sha256": {
+        "/usr/local/lib/python3.12/site-packages/torch/include/ATen/native/cuda/Reduce.cuh": "ef9bea8fdfd03cec2d7e7421cbe75d98fddfdaafddb4f25a1ed655c5861dfb65",
+        "/usr/local/lib/python3.12/site-packages/torch/include/ATen/native/SharedReduceOps.h": "75a6bad9a3c7f47572ab8264fd66487697e2a77bb9fba1b0d555d967aac18b5e"
+      },
+      "launches": [
+        {
+          "first": 0,
+          "inputs": 128,
+          "width": 32,
+          "height": 1,
+          "reduceX": true,
+          "reduceY": false,
+          "ctas": 1,
+          "vectorInput": true,
+          "alignmentShift": 0,
+          "accumulate": false
+        },
+        {
+          "first": 128,
+          "inputs": 135,
+          "width": 32,
+          "height": 1,
+          "reduceX": true,
+          "reduceY": false,
+          "ctas": 1,
+          "vectorInput": true,
+          "alignmentShift": 0,
+          "accumulate": true
+        }
+      ],
+      "selected_configs": [
+        {
+          "block_width": 32,
+          "block_height": 1,
+          "num_threads": 32,
+          "num_inputs": 128,
+          "num_outputs": 1,
+          "vectorize_input": true,
+          "output_vec_size": 1,
+          "ctas_per_output": 1,
+          "step_input": 32,
+          "step_output": 1,
+          "input_mult": [
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "block_width": 32,
+          "block_height": 1,
+          "num_threads": 32,
+          "num_inputs": 135,
+          "num_outputs": 1,
+          "vectorize_input": true,
+          "output_vec_size": 1,
+          "ctas_per_output": 1,
+          "step_input": 32,
+          "step_output": 1,
+          "input_mult": [
+            1,
+            0,
+            0
+          ]
+        }
+      ],
+      "reduced_inputs": 263,
+      "tree_sha256": "951b25faba42353868557840e2c4cd476f516bd513ba7640b6bf20da5b2f9522",
+      "numerical_oracle": false,
+      "GPU_execution": false,
+      "boundary": "Actual ordered TensorIterator metadata, input/output mapping and ordinary scalar-add compilation must match the pinned source. This checker does not observe a GPU run."
+    }
+  },
+  "negative_controls": [
+    {
+      "name": "lost_split",
+      "rejected": true,
+      "reason": "source schedule fails finite input coverage"
+    },
+    {
+      "name": "reset_accumulate",
+      "rejected": true,
+      "reason": "source schedule fails finite input coverage"
+    },
+    {
+      "name": "duplicated_interval",
+      "rejected": true,
+      "reason": "source schedule fails finite input coverage"
+    },
+    {
+      "name": "wrong_config",
+      "rejected": true,
+      "reason": "captured ReduceConfig differs from source selector"
+    },
+    {
+      "name": "wrong_dtype_stride",
+      "rejected": true,
+      "reason": "FP32 byte strides"
+    }
+  ],
+  "source_runtime_capture": false,
+  "native_numerical_conformance": false
+}

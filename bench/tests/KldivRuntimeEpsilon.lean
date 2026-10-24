@@ -12,13 +12,12 @@ def halfClamp (target : RegionName) (eps : ℝ) : ComputeKernel := triton {
   logarithm = tl.log(clamped)
 }
 
-/-- The clamp widens the loaded half value, retaining the runtime epsilon cast. -/
+/-- The dedicated maximum primitive widens the loaded half value and retains
+the runtime epsilon cast. A compare/select tree would have different NaN behavior. -/
 example (target : RegionName) (eps : ℝ) :
     (halfClamp target eps).surfaceBody[1]? = some
       (.assign .real [] "clamped" (.compute (.alg .fp32
-        (.where (.gt .real .nil
-          (.castFloat .fp16 .real (.ref .fp16 [] "value"))
-          (.castFloat .real .real (.const eps)))
+        (.maximumFloat .real .nil
           (.castFloat .fp16 .real (.ref .fp16 [] "value"))
           (.castFloat .real .real (.const eps)))))) := rfl
 

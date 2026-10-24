@@ -1,0 +1,37 @@
+{"module": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Kernels.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Kernels.olean"}
+VeriTile.Bench.Repairs.Int8DequantMatmul.ScalarCast.typedJIT_preserved: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Int8DequantMatmul.ScalarCast.prepared_bounds: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.Int8DequantMatmul.ScalarCast.runtime_cast_exact: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Int8DequantMatmul.ScalarCast.constexpr_one_cast: axiom footprint ⊆ standard base ✓  ([])
+{"module": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Contract.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Contract.olean"}
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/KernelExecution.lean:38:13: warning: This simp argument is unused:
+  Prod.snd
+
+Hint: Omit it from the simp argument list.
+  simp only ̵[̵P̵r̵o̵d̵.̵s̵n̵d̵]̵
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/KernelExecution.lean:66:13: warning: This simp argument is unused:
+  Prod.snd
+
+Hint: Omit it from the simp argument list.
+  simp only [̵P̵r̵o̵d̵.̵s̵n̵d̵,̵r̵e̵a̵d̵1̵6̵,̵h̵v̵]̵[̲r̲e̲a̲d̲1̲6̲,̲ ̲h̲v̲]̲ at result ⊢
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.Int8DequantMatmul.ScalarCast.execution_eq: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.Int8DequantMatmul.ScalarCast.output: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.Int8DequantMatmul.ScalarCast.output_word: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.Int8DequantMatmul.ScalarCast.frame: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.Int8DequantMatmul.ScalarCast.native_execution: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.Int8DequantMatmul.ScalarCast.empty_execution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+{"module": "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/KernelExecution.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/KernelExecution.olean"}

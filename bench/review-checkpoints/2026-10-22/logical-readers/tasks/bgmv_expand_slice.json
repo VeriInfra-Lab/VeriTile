@@ -1,0 +1,183 @@
+{
+  "schema": 1,
+  "task": "bgmv_expand_slice",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue02/result.json",
+    "sha256": "6313bc4c19a098ef093b809d9e781b5fcf735f96ac8c070354d6e6d8279fda8f",
+    "task_index": 2
+  },
+  "finding": "The GEMV formula still used PublicIO.result and raw logical-channel accessors.",
+  "resolution": "Curried input/weight/previous/metadata roles and a direct batch/row full-K sum with optional initial Y.",
+  "mathematical_target": "For each active batch/output row, sum over logical K of X[b,k]*gatheredW[b,n,k], plus the initial Y[b,n] exactly when ADD_INPUTS is true. Signed -1 rows are outside the output write mask.",
+  "conditions_and_scope": {
+    "scope": "Complete batch/output-row schedule, both EVEN_K and ADD_INPUTS branches; all logical K terms and all output rows, including empty calls and the real unmasked EVEN_K read width.",
+    "preserved_conditions": [
+      "Call retains BK positivity, rankCovered, evenExact, sliceInside and selected storage metadata",
+      "PublicIO.Valid: each signed index is -1 or nonnegative",
+      "The exact gathered read windows are bound/backed through ProgramIO; Valid does not silently add an adapter-count restriction",
+      "Output mask, InBounds, execution success, safety and exterior frame are preserved"
+    ],
+    "all_original_masks_schedules_safety_success_and_frames_retained": true
+  },
+  "proof_connection": {
+    "complete_previous_new_judgment_iff": "VeriTile.Bench.Repairs.BgmvExpandSlicePhysicalTileChecked.PublicIO.logical_iff",
+    "path": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/LogicalReader.lean",
+    "domain_and_target_transport": "The full original judgment, including observer/exact-cell/regional/scheduled scope where present, is instantiated unchanged; bijective input/output views transport its complete formula and domain.",
+    "input_output_bijections": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/LogicalIO.lean",
+    "proof_helpers_do_not_depend_on_Misc": true
+  },
+  "fp_review": {
+    "pair": "Equivalence.original versus Equivalence.outputFirst; only the operands of the optional final FP32 addition are exchanged.",
+    "scope_and_conditions": "Complete actual signed sources, all batches/rows, both branches, FP32 X/Y, FP16 products and reduction, narrowing/widening order retained; same reduction backend and PublicIO.Valid domain.",
+    "source_unchanged": true
+  },
+  "numerical_dependencies": {
+    "experimental_rule_instances": [],
+    "new_experiments_or_deferrals": 0,
+    "strict_model_context": "Empty experimental R; PairIO.strictAlgebra fixes just FP32 add to FP.add cfg, with the shared all-word FP.ScalarOpsLaws.add_comm certificate. Other operations/reduction remain shared."
+  },
+  "previous_formula_scope": {
+    "mathematical_target": "For each active batch/output row, sum over logical K of X[b,k]*gatheredW[b,n,k], plus the initial Y[b,n] exactly when ADD_INPUTS is true. Signed -1 rows are outside the output write mask.",
+    "required_conditions": {
+      "public_conditions": [
+        "Call retains BK positivity, rankCovered, evenExact, sliceInside and selected storage metadata",
+        "PublicIO.Valid: each signed index is -1 or nonnegative",
+        "The exact gathered read windows are bound/backed through ProgramIO; Valid does not silently add an adapter-count restriction",
+        "Output mask, InBounds, execution success, safety and exterior frame are preserved"
+      ],
+      "contract_domain_source": "Contract.python_checks_iff records the actual tensor/scalar/layout/separation/alignment/static-tile checks. Contract.call, block_covered and selected_valid connect admitted host metadata to Call and valid signed indices. PublicIO.inputWidth preserves BK reads in EVEN_K, including K=0."
+    },
+    "scope": "Complete batch/output-row schedule, both EVEN_K and ADD_INPUTS branches; all logical K terms and all output rows, including empty calls and the real unmasked EVEN_K read width.",
+    "canonical_connection": {
+      "canonical_target": "PublicMath.formula",
+      "display_equality": "The main proof unfolds PublicMath.formula by simpa only",
+      "implementation": "PublicMath.implements",
+      "scope_connection": "IOReal.localValue_eq proves padded BK products equal the full K sum using rankCovered; IOImplementation supplies the full source schedule/safety/frame"
+    },
+    "fp_program_pair": {
+      "fp_pair": "Equivalence.original versus Equivalence.outputFirst; only the operands of the optional final FP32 addition are exchanged.",
+      "fp_scope_and_conditions": "Complete actual signed sources, all batches/rows, both branches, FP32 X/Y, FP16 products and reduction, narrowing/widening order retained; same reduction backend and PublicIO.Valid domain."
+    },
+    "numerical_dependencies": "Empty experimental R; PairIO.strictAlgebra fixes just FP32 add to FP.add cfg, with the shared all-word FP.ScalarOpsLaws.add_comm certificate. Other operations/reduction remain shared."
+  },
+  "verification": [
+    {
+      "task": "bgmv_expand_slice",
+      "kind": "logical IO / complete iff / Correct final receipt",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue02/build.py",
+        "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/LogicalIO.lean",
+        "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/LogicalReader.lean",
+        "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Correct.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue02/bgmv_expand_slice-logical-final.log",
+      "log_sha256": "1e9d443134411700c7e43a1a4fbd250f26a68f8c285f54ac796f8453907a65cb"
+    },
+    {
+      "task": "bgmv_expand_slice",
+      "kind": "FPEquiv source",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue02/build.py",
+        "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue02/bgmv_expand_slice-fp.log",
+      "log_sha256": "820c3d50f884b27e2ee3babcb406f3976ef36f47630204a13850d227ee041e06"
+    },
+    {
+      "task": "bgmv_expand_slice",
+      "kind": "per-task Correct + FPEquiv joint imports",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue02/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue02/fixtures/bgmv_expand_slice_joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue02/bgmv_expand_slice-joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fixture": ".veritile-cache/logical-reader-review-20261022/queue02/fixtures/bgmv_expand_slice_joint.lean",
+      "fixture_sha256": "4e640cef5aed3a106106f663fee6b0484301627c0eb3227d0356aec39d6f50bd"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Contract.lean": "d4655d406de68ac46dabafb6554ef9f86133fbaa0d3cd24eef509d4fef09ff71",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Correct.lean": "ffb6b9798f85fa0aee5e4ed447cf525386ca4c66bcd01e955efa2a7d26cf4a62",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/FPEquiv.lean": "f716a0358147db30eb5213ac3ef2b78f421558d89624c69788a05f04e54ba15b",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/IO.lean": "13866ef6a928191fac0fb952c5313df43a4a8a415a9fd6b9de5421cf3440a67d",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/LogicalIO.lean": "3612f7e6fdbbf317e1097d5a3e5d850b7abce12af18ac338ad42cf36c79e6a3c",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/IOReal.lean": "9f5eb72369804626df1eec457ff39af6d6ac139661f4a167eeab38fff2257b11",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/LogicalReader.lean": "63260a90f59dae5c57fc4ca78f645218c9c4844de0eda6e2e1095558a9ef9f41",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice/Kernels.lean": "044e7fd1483e017f340d1dbba342156234ae5c8300f5df97ef53edc9f52826a2",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice/Proofs/Direct/Geometry.lean": "896e4876e4cf81220af67f092cf2fd75e6479f10685fe9f0048d4f72363d7292",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice/Proofs/Direct/Kernels.lean": "9ffbee2fdd06b74fb889beeebd6d7decc52bb81fc5120c30bd08961d1d32b585",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice/Proofs/Geometry.lean": "c2b604cb7fc08f8a1a6b5079c915d5b97ed5891d63707d74d82b353f10bc25b0",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice/Proofs/NativeIndex.lean": "4ca96eb7a48250872193ff9107870cf2957c29964ed0dfeb0f3794a0f137b958",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice/Proofs/Snapshot.lean": "68e3af00923e9b41312c0a6d88cad674289dcc7cb5008eb9bfdc9538115532f2",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice/Proofs/Storage.lean": "e4d3aeafbdf6c2a9dd9b4df0c8aaf033865b8f63ed98ffeca106223327208832",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/ByteCodec.lean": "657e64b43ddfeda116f77763467400a36f4e8501d249e8cfe1ac30da05021c65",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Definitions.lean": "063cecd7b740332c936db6163ac83a677d6d598593966d18c27fdbed67543366",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Kernels.lean": "4f664de0d2fd0cdbad6f9bf71f4200aeda270c45ddebf5edfa9d946adeff5914",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Memory.lean": "b9fe226aab5ba5028597ea3d4f92c7c707a8f265e3925b06d6e8cc3cdd6d1d9f",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Native.lean": "d1ec79c6ebd9121bd6603c9cb5a69d719255443c457bf3ec36b5105744197024",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/AccessSafety.lean": "2012ca5217b169b6073c059d8125e7696029d69cd58f122fe12415b725fe3699",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/Direct/Bounds.lean": "c86549e721c698003bd2c9b7d7fa01a7fae930e7be8967b8a35d286276e576a5",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/Direct/FPBody.lean": "4751b60b93631175c92bb89e72297c78c6375323f31e6a8ff6a0f90bf5c3be69",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/Direct/FPControl.lean": "8529700942696d48fb05eff3753f5a53a567fdb00b21d1af8064cc7450b91833",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/Direct/FPExecution.lean": "7d445f9ecdf4a15954bcca0dce3845a341e0ea501897535d21cd12aef6119919",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/Direct/FPGrid.lean": "cd22f073188ffc39fa403c3c79b4d3be6b123edb94de4610fd9a9e9591ce1137",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/Direct/FPProgram.lean": "f4caef0d6e8110273c1f9ad56fd929715c2cea059b67cd08ee720ba91132b29a",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/Direct/FPReadback.lean": "d4c245984f0baafe78eb022a870a155e0f32bf89ff6d5b86a80478480f962565",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/Direct/FPScalarTree.lean": "9c4756ba0027752c98b5f92e00a96c90f2cc85b018446e8cd97e3d4b802c05ae",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/Direct/FPSetup.lean": "35106d1d84ab6876b5ae285533142eaaedd439ab7f8efb96ef61bf545a9e29bd",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/Direct/FPStages.lean": "fdf1fb0b58f71b5d149e3490d86b5dbdec130e44f351a63f753ae599786967e9",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/Direct/FPValues.lean": "937f993928de8aac607ea5ee10c903014d25907492ebb669a8fc5ba9156f73bc",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/Direct/Geometry.lean": "5befb82cee4ce3607ee222345d420079b6af7541cc78f22b9d3afdebb5bb3a6c",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/Direct/Kernels.lean": "01d0b0dae728521cac59b67f9ab20bb1e38e669c5719523482367fee645b2484",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/IOBindings.lean": "fceced5df6deaf83ef270cc4b8f47314d1ca2a5298e42860f65a29fcdef3ecb7",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/IOExecution.lean": "a88c24ddf1d46a60716a2b65a1a3dc480dba33f96657831460a0d970df92cf17",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/IOGrid.lean": "f906a9f40805ae0ec38d575f9f7c010958f117ab87bbf0ff99f9b11c6d9fd249",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/IOImplementation.lean": "3b8d8f5f60c84271064ba31cb6a4db2240b1bf0815127e47153b1680c8d754ea",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/IOSafety.lean": "32933df0134785ea3db1f4a6701627b9bc4e1cd7288de0c868de6a53af2fb476",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/IOValues.lean": "6c8adb886b85ca6e46f5a1069cfe8b49999117dc12e321e766db8382d7e75cc4",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/KernelRaw.lean": "034502d0e71b04e219755ca4fe83a3b0b72160432d6b04753a89f3c63eb8fa45",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/PairConnection.lean": "c7f35a1dbea040ee949fef9311853213add27d0513a7a109d230c04e0b4ba9d1",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/PairIO.lean": "fa925dad0f7fe0d913d6844b24d2d5d545addfe56aa689f393a5f8b87ead66cd",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/SourceSafety.lean": "05b8a38e0626000e517b38c6a2a689e1da1f8546b7a4b3cd441228c9f8d45f9a",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Real.lean": "42a9c0503b272e64e10842a31f80d80729dec9d099706163cef3d7593467febc",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/SignedBody.lean": "dbf0e70c173fdf98ec93a78cbbdf135ae8f8a58aef22c751ff70d555a1c473ce",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/SignedControl.lean": "31ac3c875fc7a3badcb1e87e2cf7f528a16767fc5d5c986e8e878983f95c5973",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/SignedExecution.lean": "f8f8d4d3ee0792ce6ac5a8d906a32d94d81752e6f4abaa3b396ea0627e0ec31f",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/SignedGrid.lean": "2e3c1ad2499c71b493f3fa117ceb87255b58f87e36635eb81b0f978e046da37c",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/SignedProgram.lean": "ed3ae177d7476ff09f7085abdbd5f5748f1335f2c89aa1896438619865d3717a",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/SignedReadback.lean": "90f369105e2dd961fc1c8c4772d3cee3bbc86900203f778af232749a26d5c250",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/SignedSetup.lean": "947ae5002fff1e294c11f9c1f59c1b2760cba9f15c02bcf61a4b2a897e26d70c",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/SignedStages.lean": "060fc9566fe059fc2bdeae794d40106bf9a1fcff5de41ca4c5daadc73339f315",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/SurfaceSource.lean": "b5fce2d1a05bd5b221076f809b46d537edab8478c3c217241d32ca3ce4180543",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Target.lean": "048391569b5c39936bf0972ff2ead934542c57aa002eaa1367cd10ce9261d16a",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Targets.lean": "5447c8cb10e113c8408f59b8b351259ffd85a02ba0759557bf735b7aaab8dee0",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Tensor.lean": "c834e2934e38ae74a25e932bedc7aca3a854052e18de1704a8a0a218032f6ff9",
+    "bench/tritonbench_g/bgmv_expand_slice/Kernels.lean": "7e347bb56e8325759c8144f72a67a3788572ec89f38df55b4d3460006471b4f6",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [
+    "The accepted unchanged implementation/native proof closure is reused read-only; this campaign compiles new coordinate data, full-judgment connections, Correct and unchanged FPEquiv readers, plus per-task joint imports. No new hardware/native/host/numerical obligation is inferred."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

@@ -1,0 +1,325 @@
+{
+  "schema": 1,
+  "task": "pow_scalar_tensor",
+  "status": "consolidated",
+  "owner": {
+    "path": ".veritile-cache/io-unification-20261023/queue11/result.json",
+    "sha256": "5261ce4ba28ea51ca7584f6e2fef179f58f11cc38213a43561e4653bfcd432f4",
+    "task_index": 4
+  },
+  "reason": "The existing memory IO and complete named logical view now live in task IO.lean under their original namespaces. Logical maps and definitions were moved byte for byte; complete judgment and execution proofs remain in Proofs/.",
+  "selected_public_entries": [
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Contract.lean",
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Correct.lean",
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/FPEquiv.lean"
+  ],
+  "previous_semantic_review": {
+    "manifest": {
+      "path": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json",
+      "sha256": "5df771b8603eaf5d9f08b4fde0c5b938c18087c00092f5348b47eb54d33a8225"
+    },
+    "task": "pow_scalar_tensor"
+  },
+  "changed_files": [
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/IO.lean",
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/LogicalReader.lean"
+  ],
+  "removed_files": [
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/LogicalViewIO.lean"
+  ],
+  "moved_declarations": [
+    {
+      "from": "bench/repairs/tritonbench_g/pow_scalar_tensor/LogicalViewIO.lean",
+      "to": "bench/repairs/tritonbench_g/pow_scalar_tensor/IO.lean",
+      "names": [
+        "VeriTile.Bench.Repairs.PowScalarTensor.Checked.LogicalView.vector",
+        "VeriTile.Bench.Repairs.PowScalarTensor.Checked.LogicalView.powerIO"
+      ],
+      "kind": "complete-nonimport-body",
+      "nonimport_chunk_sha256": "da86330fe9819958c4bb57a7702a7300820a66291b715ce50bf24dcb050c52dd"
+    }
+  ],
+  "preservation": {
+    "evidence": ".veritile-cache/io-unification-20261023/queue11/preservation.json",
+    "evidence_sha256": "1f89e5373962fef293e9000411eba3ff34b31c06030c022a8c35f39ae0f52110",
+    "task_evidence": {
+      "task": "pow_scalar_tensor",
+      "io_original_nonimport_body_sha256": "cc54fa1b1183aa4631c7e40c5beb49a4989c6b63cd6e8d5f5097efd6e4706a59",
+      "io_original_body_contiguous_and_exact": true,
+      "moved_chunks": [
+        {
+          "task": "pow_scalar_tensor",
+          "from": "bench/repairs/tritonbench_g/pow_scalar_tensor/LogicalViewIO.lean",
+          "to": "bench/repairs/tritonbench_g/pow_scalar_tensor/IO.lean",
+          "kind": "complete-nonimport-body",
+          "declaration_lines": [
+            "def vector (r : RegionName) (n : Nat) :",
+            "def powerIO (rest : Algebra ℝ) (base : ℝ) (candidate : Bool)"
+          ],
+          "chunk_sha256": "da86330fe9819958c4bb57a7702a7300820a66291b715ce50bf24dcb050c52dd",
+          "names": [
+            "VeriTile.Bench.Repairs.PowScalarTensor.Checked.LogicalView.vector",
+            "VeriTile.Bench.Repairs.PowScalarTensor.Checked.LogicalView.powerIO"
+          ]
+        }
+      ],
+      "proofs_and_other_changes": [
+        {
+          "path": "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/LogicalReader.lean",
+          "kind": "import_only_change",
+          "nonimport_body_sha256": "93aa403d356b396b48ad4d8b0a492610ec811df8bb639c17d6a363757a32a9b1"
+        }
+      ],
+      "public_judgment_preservation": [
+        {
+          "path": "bench/repairs/tritonbench_g/pow_scalar_tensor/Contract.lean",
+          "kind": "complete_public_source_byte_identical",
+          "before_sha256": "61bb6fe847fc531452972e0c1abadf816b0895c7efb2979252ca9134358c8b56",
+          "after_sha256": "61bb6fe847fc531452972e0c1abadf816b0895c7efb2979252ca9134358c8b56"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/pow_scalar_tensor/Correct.lean",
+          "kind": "complete_public_source_byte_identical",
+          "before_sha256": "226392d002f2f9ed529eb9ed83b8b11fcdda4ceceba8449463e3c147d409e825",
+          "after_sha256": "226392d002f2f9ed529eb9ed83b8b11fcdda4ceceba8449463e3c147d409e825"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/pow_scalar_tensor/FPEquiv.lean",
+          "kind": "complete_public_source_byte_identical",
+          "before_sha256": "687363f72dc497fb98d551ad5497599b6c1491aaa8dce32eaebc79bfab8c8119",
+          "after_sha256": "687363f72dc497fb98d551ad5497599b6c1491aaa8dce32eaebc79bfab8c8119"
+        }
+      ],
+      "scope_guard_unchanged_sources": [
+        "bench/repairs/tritonbench_g/pow_scalar_tensor/FPEquiv.lean",
+        "bench/repairs/tritonbench_g/pow_scalar_tensor/Contract.lean",
+        "bench/repairs/tritonbench_g/pow_scalar_tensor/Kernels.lean",
+        "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/Contract.lean"
+      ],
+      "remaining_issues": []
+    },
+    "full_public_judgments": "All selected Contract/Correct/FPEquiv files are byte identical to before, including mathematical formulas, assumptions, scope, FP pair and rule sets; complete connection proof bodies retain exact nonimport source. Fresh targeted builds and per-task joint imports elaborate these unchanged statements against the moved definitions."
+  },
+  "verification": [
+    {
+      "id": "attempt-008",
+      "task": "pow_scalar_tensor",
+      "kind": "build",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue11/build.py",
+        "bench.repairs.tritonbench_g.pow_scalar_tensor.Contract",
+        "bench.repairs.tritonbench_g.pow_scalar_tensor.IO",
+        "bench.repairs.tritonbench_g.pow_scalar_tensor.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.pow_scalar_tensor.Correct",
+        "bench.repairs.tritonbench_g.pow_scalar_tensor.FPEquiv"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue11/attempt-008-pow_scalar_tensor-build.log",
+      "log_sha256": "c12415606609f5203fc4e81f0a9e5e9ff9b4a93dc3405281c2198ad159d9a1e2",
+      "sandbox_permissions": "require_escalated"
+    },
+    {
+      "id": "attempt-009",
+      "task": "pow_scalar_tensor",
+      "kind": "joint",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue11/build.py",
+        "--check",
+        ".veritile-cache/io-unification-20261023/queue11/pow_scalar_tensorJoint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue11/attempt-009-pow_scalar_tensor-joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sandbox_permissions": "require_escalated"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Correct.lean": "226392d002f2f9ed529eb9ed83b8b11fcdda4ceceba8449463e3c147d409e825",
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/FPEquiv.lean": "687363f72dc497fb98d551ad5497599b6c1491aaa8dce32eaebc79bfab8c8119",
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Contract.lean": "61bb6fe847fc531452972e0c1abadf816b0895c7efb2979252ca9134358c8b56",
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/ReaderBefore.lean": "4241fd346a01f19c06bf8175743d8d588977d064c465070e3504e3e9eed1ae23",
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/LogicalReader.lean": "57a2cabfa93975a5e35fb0498575e54a9b4d6208c87a584df637a33e95e00227",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8",
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Kernels.lean": "85e1679ceb328737a3f60a96cc478c2cb2757804407d89617642c59655361c78",
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/IO.lean": "8f697879fd319ed2813cea97c165bfafda8db45273e268f4c797da9a961066a8",
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Misc/NativeObservation.lean": "9a5c35eb1b19136bc615be3a328e3d57e5b7ab0ad14027ebb17f5738cb0c3d32",
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Misc/TensorBridge.lean": "c05d99668b5702c5406c163c9ff01a98420c872fa159ff05aac7599f5f91cba0",
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/Source.lean": "8f481024b083c13a71dcb8f6badb23b67d29a8134687831a722ddf109e5d3edd",
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/KernelInterface.lean": "2dc7affe03a03147e83a6e2eff2e24e374f1fbfdd5d768204a5c2f7d3a881c40",
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/HostFP32.lean": "c3945e36c80ba279924bb178c3d8d23ae2ff7068a710f077d9269c2bccf41f5f",
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/KernelSafety.lean": "f6819df8160f20ac531fd5ef2c31b1b0cdb3ef0df6a476c170fcf7260fbcab31",
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/TileSafety.lean": "0ce41772a947e62af9d8a06d9deda133f3183ae291f72e40e29357a89459f402",
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/HostReal.lean": "39f350c9b55808da1e590229354a8df9a0387372ff9d7f1f073609b81e821cdc",
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/Contract.lean": "216d49c1755b944a5e7f74fa9b3762a6d29fd83229f3b49900e8a0079d2c9d1d",
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/IOResults.lean": "9e6472a716224ca8fbfbf61d494a5bac611df615a4b6db61b1d485c198f05292",
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/SafetySteps.lean": "9ce29ec5bc0c5bcd50e161460c0a97ce29cf51e347c23dc0ed79e162b4bd6b64",
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/RawNative.lean": "34d841f55a4c7fbcd13807eabb8f38db4daff7158bb20fac96edacdfd4c672c5",
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/Kernel.lean": "61543247ff54cdf2036baef8578c5e67d27471e586476183327edd184e708e14",
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/RawCorrect.lean": "db3a0d99532910d5d9bc831102ed76cb3d288d14a6b94db17ca43120fba0a9e2",
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/KernelAccess.lean": "a362ce1a3bad4d02132e9d973cb3f615e0f7e530fa2b886654f19238f0f07f79",
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/Physical.lean": "af3b90a4c5cc6694c19abb8c1e70f933fbd5bacf89a5019c10d6f4f754ea3651",
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/IOInterface.lean": "1c2f15fc9a719f21c6574117ef00595b5095d713d0b21913bd739cc497d38ff2"
+  },
+  "source_pin_provenance": {
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Correct.lean": {
+      "owner_tasks": [
+        "pow_scalar_tensor"
+      ]
+    },
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/FPEquiv.lean": {
+      "owner_tasks": [
+        "pow_scalar_tensor"
+      ]
+    },
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Contract.lean": {
+      "owner_tasks": [
+        "pow_scalar_tensor"
+      ]
+    },
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/ReaderBefore.lean": {
+      "owner_tasks": [
+        "pow_scalar_tensor"
+      ]
+    },
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/LogicalReader.lean": {
+      "owner_tasks": [
+        "pow_scalar_tensor"
+      ]
+    },
+    "VeriTile/Triton/Memory/LogicalIO.lean": {
+      "owner_tasks": [
+        "mixed_sparse_attention",
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Kernels.lean": {
+      "owner_tasks": [
+        "pow_scalar_tensor"
+      ]
+    },
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/IO.lean": {
+      "owner_tasks": [
+        "pow_scalar_tensor"
+      ]
+    },
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Misc/NativeObservation.lean": {
+      "owner_tasks": [
+        "pow_scalar_tensor"
+      ]
+    },
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Misc/TensorBridge.lean": {
+      "owner_tasks": [
+        "pow_scalar_tensor"
+      ]
+    },
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/Source.lean": {
+      "owner_tasks": [
+        "pow_scalar_tensor"
+      ]
+    },
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/KernelInterface.lean": {
+      "owner_tasks": [
+        "pow_scalar_tensor"
+      ]
+    },
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/HostFP32.lean": {
+      "owner_tasks": [
+        "pow_scalar_tensor"
+      ]
+    },
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/KernelSafety.lean": {
+      "owner_tasks": [
+        "pow_scalar_tensor"
+      ]
+    },
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/TileSafety.lean": {
+      "owner_tasks": [
+        "pow_scalar_tensor"
+      ]
+    },
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/HostReal.lean": {
+      "owner_tasks": [
+        "pow_scalar_tensor"
+      ]
+    },
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/Contract.lean": {
+      "owner_tasks": [
+        "pow_scalar_tensor"
+      ]
+    },
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/IOResults.lean": {
+      "owner_tasks": [
+        "pow_scalar_tensor"
+      ]
+    },
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/SafetySteps.lean": {
+      "owner_tasks": [
+        "pow_scalar_tensor"
+      ]
+    },
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/RawNative.lean": {
+      "owner_tasks": [
+        "pow_scalar_tensor"
+      ]
+    },
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/Kernel.lean": {
+      "owner_tasks": [
+        "pow_scalar_tensor"
+      ]
+    },
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/RawCorrect.lean": {
+      "owner_tasks": [
+        "pow_scalar_tensor"
+      ]
+    },
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/KernelAccess.lean": {
+      "owner_tasks": [
+        "pow_scalar_tensor"
+      ]
+    },
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/Physical.lean": {
+      "owner_tasks": [
+        "pow_scalar_tensor"
+      ]
+    },
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/IOInterface.lean": {
+      "owner_tasks": [
+        "pow_scalar_tensor"
+      ]
+    }
+  },
+  "retired_current_source_pins": {
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/LogicalViewIO.lean": "52e3a814b2f8e4e2d49b01e0941d73b5531ed584b7bb54623d6114c0ca5ee671"
+  },
+  "limits": [
+    "Source organization change only; no numerical rewrite, numerical experiment, GPU run, native correctness or host correctness requirement was added.",
+    "Only changed IO/import helpers, current public entries, needed compatibility modules and each task public joint were checked in the new overlay. Cached unmodified proof objects are distinguished from fresh source checks."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/io-unification-20261023/queue16/result.json",
+    "sha256": "12f6dd5ed523e9f723fee3847af964fd8987958c2cb997aa572210c04de5bc84"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

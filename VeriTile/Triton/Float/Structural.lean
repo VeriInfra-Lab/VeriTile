@@ -47,6 +47,8 @@ inductive Binary where
   deriving DecidableEq, Repr
 
 inductive Unary where
+  | neg (dtype : FloatDType)
+  | abs (dtype : FloatDType)
   | exp | libdeviceExp | libdeviceLog | libdeviceExpm1 | libdeviceLog1p | libdeviceTanh
   | exp2 | log | log2 | sigmoid | sqrt | rsqrt | tanh
   | sin | cos | tan | atan | cosh | sinh | erf
@@ -61,16 +63,35 @@ structure Algebra (α : Type) where
   literal : Option ComputeDType → FloatDType → ℝ → α
   negInf : α
   binary : Option ComputeDType → FloatDType → Binary → α → α → α
+  /-- Explicit source FMA is a separate primitive with a single result rounding.
+  Missing support fails, including empty results. No identity with ordinary
+  multiplication/addition, contraction law, or native-conformance premise is
+  built into structural execution. -/
+  fma : IndexComputePrecision → Option (α → α → α → α) := fun _ => none
   /-- Atomic addition has its own backend, selected by storage dtype. Its
   rounding and special-value behavior need not equal ordinary addition.
   Missing support fails; scalar rewrite assumptions impose no atomic laws. -/
   atomicAdd : FloatDType → Option (α → α → α) := fun _ => none
   unary : Option ComputeDType → Unary → α → α
+  /-- CUDA integer-exponent power has its own precision-specific backend.
+  Absence fails; neither floating power nor multiplication is a fallback. -/
+  libdevicePowi : Option ComputeDType → Option (α → Int → α) := fun _ => none
+  /-- Precision-specific finite classification is independent of floating
+  ordering and real projection. Missing support fails, including on an empty
+  tile. The callback imposes no numerical laws on an arbitrary carrier. -/
+  isFinite : FinitePrecision → Option (α → Bool) := fun _ => none
   /-- Floating comparisons stay opaque and retain precision/dtype. Missing
   support still fails; no order on the floating carrier is assumed. -/
   compareLt : Option ComputeDType → FloatDType → Option (α → α → Bool) := fun _ _ => none
   compareLe : Option ComputeDType → FloatDType → Option (α → α → Bool) := fun _ _ => none
   compareEq : Option ComputeDType → FloatDType → Option (α → α → Bool) := fun _ _ => none
+  /-- Toward-zero numeric conversions preserve original floating precision,
+  source format and target width. Missing implementation or a value outside
+  the defined finite range fails rather than becoming a register read. -/
+  floatToInt : Option IndexComputePrecision → FloatDType → Nat → Option (α → Option Int) :=
+    fun _ _ _ => none
+  floatToNat : Option IndexComputePrecision → FloatDType → Nat → Option (α → Option Nat) :=
+    fun _ _ _ => none
   cast : Option ComputeDType → FloatDType → FloatDType → α → α
   fromNat : Option ComputeDType → Nat → α
   fromInt : Option ComputeDType → Int → α
@@ -80,6 +101,12 @@ structure Algebra (α : Type) where
   float8E5Bits : Option (FloatDType → Float8E5Bits → α) := none
   /-- Compute loads retain their explicit load precision. -/
   fp32Load : α → α
+  /-- Floating minimum retains its source precision and complete input layout.
+  Missing support fails; no negated-maximum or order law is assumed. -/
+  reduceMin : Option ComputeDType → {shape : TileShape} →
+    (axis : Fin shape.length) → (keepDims : Bool) → Values α .real shape →
+    Option (Values α .real (TileShape.reduceShape shape axis keepDims)) :=
+    fun _ {_} _ _ _ => none
   /-- Preserve the complete reduction operation and layout. No max identity,
   permutation invariance, scalar fold law or reduction schedule is assumed. -/
   reduceMax : Option ComputeDType → {shape : TileShape} →
@@ -148,6 +175,22 @@ structure Algebra (α : Type) where
     Values α out.toTileDType (batch ++ [m, n]) →
     Option (Values α out.toTileDType (batch ++ [m, n])) :=
     fun _ _ _ _ _ {_} {_} {_} {_} _ _ _ => none
+  /-- Integer dot has a separate backend. The Int carrier alone does not
+  establish operand widths, signedness, overflow or saturation. A concrete
+  adapter must bind those to the typed source and check its input domain.
+  Unsupported options and missing implementations fail explicitly. -/
+  integerDot : DotOptions → {batch : TileShape} → {m k n : Nat} →
+    Values α .int (batch ++ [m,k]) → Values α .int (batch ++ [k,n]) →
+    Option (Values α .int (batch ++ [m,n])) := fun _ {_} {_} {_} {_} _ _ => none
+  /-- A separate fused primitive for explicitly typed floating operands and
+  result. No widening, cast or separately rounded mul/add fallback is implied.
+  Missing support fails, including on an empty tile. -/
+  fmaTyped : FloatDType → Option (α → α → α → α) := fun _ => none
+  /-- Default floating minimum is an independent primitive, preserving dtype
+  and local precision. Missing support fails even for an empty result tile.
+  No comparison/select, negated-maximum, NaN or zero-tie law is assumed. -/
+  minimum : Option ComputeDType → FloatDType → Option (α → α → α) :=
+    fun _ _ => none
 
 /-- Interpret explicit zero padding in the access channel.
 Floating zero is interpreted by the algebra, never by the carrier's arbitrary
@@ -421,6 +464,17 @@ def numericEq {α : Type} (M : Algebra α) (p : Option ComputeDType) :
 @[simp] theorem numericLe_nat {α : Type} (M : Algebra α) (p : Option ComputeDType) :
     numericLe M p .nat = natLe (α := α) .nat := rfl
 
+/-- A partial scalar primitive succeeds on a tile exactly when every lane is
+in its defined domain. This retains all failure cases, including empty optional
+backend support checked before calling it. -/
+noncomputable def collectValues? {ι β : Type} (values : ι → Option β) : Option (ι → β) := by
+  classical
+  exact if h : ∀ i, (values i).isSome then some (fun i => (values i).get (h i)) else none
+
+@[simp] theorem collectValues?_some {ι β : Type} (values : ι → β) :
+    collectValues? (fun i => some (values i)) = some values := by
+  simp [collectValues?]
+
 set_option maxHeartbeats 1600000 in
 mutual
 /-- Evaluate the supported expression fragment without any floating laws.
@@ -437,6 +491,35 @@ noncomputable def evalOp {α : Type} [Inhabited α] (M : Algebra α) (p : Option
   | .numPrograms a, s => some (fun _ => s.numPids a)
   | .ref d sh n, s => s.regs d sh n
   | .arange _, _ => some (fun i => i.1.val)
+  | .philox4x32 cfg plan field seed c0 c1 c2 c3, s => do
+      let vs ← evalOp M p seed s
+      let v0 ← evalOp M p c0 s
+      let v1 ← evalOp M p c1 s
+      let v2 ← evalOp M p c2 s
+      let v3 ← evalOp M p c3 s
+      let result ← Random.Direct.evalField cfg plan field (vs PUnit.unit)
+        ⟨v0, v1, v2, v3⟩
+      return result
+  | .uniform32 word, s => do
+      let v ← evalOp M p word s
+      if Random.Direct.uniformInputsValid v then
+        some (fun i => M.fp32Bits ⟨(Random.uniform (BitVec.ofNat 32 (v i))).bits⟩)
+      else none
+  | .rand cfg seed offsets, s => do
+      let vs ← evalOp M p seed s
+      let vo ← evalOp M p offsets s
+      let seedValue := vs PUnit.unit
+      if cfg.inputsValid seedValue vo then
+        some (fun i => M.fp32Bits
+          ⟨(Random.rand seedValue (vo i) cfg.offsetType.offsetWidth cfg.nRounds).bits⟩)
+      else none
+  | .randTensor cfg seed offsets, s => do
+      let vs ← evalOp M p seed s
+      let vo ← evalOp M p offsets s
+      if cfg.tensorInputsValid vs vo then
+        some (fun i => M.fp32Bits
+          ⟨(Random.rand (vs i) (vo i) cfg.offsetType.offsetWidth cfg.nRounds).bits⟩)
+      else none
   | .broadcast e _, s | .full _ e, s => do
       let v ← evalOp M p e s
       return fun _ => v PUnit.unit
@@ -451,6 +534,28 @@ noncomputable def evalOp {α : Type} [Inhabited α] (M : Algebra α) (p : Option
       if (TileShape.allIndices shape).all (fun i => Float8E5Bits.isInt8 (v i)) then
         some (fun i => ofFloat dst (decode dst (Float8E5Bits.ofInt (v i))))
       else none
+  | .negFloat dtype e, s => do
+      let v ← evalOp M p e s
+      return fun i => ofFloat dtype (M.unary p (.neg dtype) (toFloat dtype (v i)))
+  | .absFloat dtype e, s => do
+      let v ← evalOp M p e s
+      return fun i => ofFloat dtype (M.unary p (.abs dtype) (toFloat dtype (v i)))
+  | .floatToInt precision src width e, s => do
+      let convert ← M.floatToInt precision src width
+      let sourceContext := match precision with
+        | none => p
+        | some .fp32 => some ComputeDType.fp32
+        | some .fp64 => some ComputeDType.fp64
+      let v ← evalOp M sourceContext e s
+      collectValues? (fun i => convert (toFloat src (v i)))
+  | .floatToNat precision src width e, s => do
+      let convert ← M.floatToNat precision src width
+      let sourceContext := match precision with
+        | none => p
+        | some .fp32 => some ComputeDType.fp32
+        | some .fp64 => some ComputeDType.fp64
+      let v ← evalOp M sourceContext e s
+      collectValues? (fun i => convert (toFloat src (v i)))
   | .castNatToInt e, s => do
       let v ← evalOp M p e s
       return fun i => Int.ofNat (v i)
@@ -483,7 +588,21 @@ noncomputable def evalOp {α : Type} [Inhabited α] (M : Algebra α) (p : Option
   | .erf a, s => return (M.unary p .erf) ∘ (← evalOp M p a s)
   | .minPosInf a, s => return (M.unary p .minPosInf) ∘ (← evalOp M p a s)
   | .max2 bc a b, s => return bop (M.binary p .real .max) bc (← evalOp M p a s) (← evalOp M p b s)
+  | .maximumFloat dtype bc a b, s =>
+      return bop (fun x y => ofFloat dtype (M.binary p dtype .max
+        (toFloat dtype x) (toFloat dtype y))) bc (← evalOp M p a s) (← evalOp M p b s)
+  | .minimumFloat dtype bc a b, s => do
+      let minimum ← M.minimum p dtype
+      let va ← evalOp M p a s
+      let vb ← evalOp M p b s
+      return bop (fun x y => ofFloat dtype
+        (minimum (toFloat dtype x) (toFloat dtype y))) bc va vb
   | .pow bc a b, s => return bop (M.binary p .real .pow) bc (← evalOp M p a s) (← evalOp M p b s)
+  | .libdevicePowi bc a b, s => do
+      let va ← evalOp M p a s
+      let vb ← evalOp M p b s
+      let powi ← M.libdevicePowi p
+      if Int32Bits.valuesValid vb then some (bop powi bc va vb) else none
   | .natToReal e, s => do
       let v ← evalOp M p e s
       return fun i => M.fromNat p (v i)
@@ -564,6 +683,11 @@ noncomputable def evalOp {α : Type} [Inhabited α] (M : Algebra α) (p : Option
         | _ => some (fun i => s.undef d (addresses i).1 (addresses i).2)
       let other ← otherResult
       return fun i => if active i then (s.mem (addresses i).1 (addresses i).2).read d else other i
+  | .reduceMin axis keepDims e, s => do
+      let v ← evalOp M p e s
+      if 0 < TileShape.axisDim _ axis then
+        M.reduceMin p axis keepDims v
+      else none
   | .reduceMax axis keepDims e, s => do
       let v ← evalOp M p e s
       if 0 < TileShape.axisDim _ axis then
@@ -572,6 +696,9 @@ noncomputable def evalOp {α : Type} [Inhabited α] (M : Algebra α) (p : Option
   | .reduceSum axis keepDims e, s => do
       let v ← evalOp M p e s
       return M.reduceSum p axis keepDims v
+  | .reduceSumBool axis keepDims e, s => do
+      let v ← evalOp M p e s
+      return TileShape.discreteBoolSum axis keepDims v
   | .reduceSumTyped dtype axis keepDims e, s => do
       M.reduceSumTyped p dtype axis keepDims (← evalOp M p e s)
   | .reduceMaxTyped dtype axis keepDims e, s => do
@@ -584,11 +711,26 @@ noncomputable def evalOp {α : Type} [Inhabited α] (M : Algebra α) (p : Option
       return bop (integralFloorDiv h) bc (← evalOp M p a s) (← evalOp M p b s)
   | .mod h bc a b, s =>
       return bop (integralMod h) bc (← evalOp M p a s) (← evalOp M p b s)
-  | .bitAnd .., _ => none
-  | .bitOr .., _ => none
-  | .bitXor .., _ => none
-  | .shiftLeft .., _ => none
-  | .shiftRight .., _ => none
+  | .bitAnd bc a b, s => do
+      let va ← evalOp M p a s
+      let vb ← evalOp M p b s
+      return bop (· &&& ·) bc va vb
+  | .bitOr bc a b, s => do
+      let va ← evalOp M p a s
+      let vb ← evalOp M p b s
+      return bop (· ||| ·) bc va vb
+  | .bitXor bc a b, s => do
+      let va ← evalOp M p a s
+      let vb ← evalOp M p b s
+      return bop (· ^^^ ·) bc va vb
+  | .shiftLeft bc a b, s => do
+      let va ← evalOp M p a s
+      let vb ← evalOp M p b s
+      return bop (· <<< ·) bc va vb
+  | .shiftRight bc a b, s => do
+      let va ← evalOp M p a s
+      let vb ← evalOp M p b s
+      return bop (· >>> ·) bc va vb
   | .reduceMaxNat axis keepDims e, s => do
       let v ← evalOp M p e s
       TileShape.discreteMaximum axis keepDims v
@@ -600,6 +742,9 @@ noncomputable def evalOp {α : Type} [Inhabited α] (M : Algebra α) (p : Option
   | .argMax axis e, s => do
       let v ← evalOp M p e s
       if TileShape.axisDim _ axis = 0 then none else (M.indexedMax p .real axis v).map Prod.snd
+  | .argMaxInt axis e, s => do
+      let v ← evalOp M p e s
+      return TileShape.discreteIntArgMax axis v
   | .argMaxTyped dtype axis e precision, s => do
       let actual := match precision with
         | some .fp32 => some ComputeDType.fp32
@@ -621,7 +766,8 @@ noncomputable def evalOp {α : Type} [Inhabited α] (M : Algebra α) (p : Option
   | .dotAcc left right out a b acc options, s => do
       M.dotAcc p left right out options
         (← evalOp M p a s) (← evalOp M p b s) (← evalOp M p acc s)
-  | .dotInt .., _ => none
+  | .dotInt a b options, s => do
+      M.integerDot options (← evalOp M p a s) (← evalOp M p b s)
   | .transpose (batch := batch) a, s => do
       return transposeValues batch (← evalOp M p a s)
   | .reshape (shape := input) output e, s => do
@@ -632,8 +778,15 @@ noncomputable def evalOp {α : Type} [Inhabited α] (M : Algebra α) (p : Option
   | .remap _ map a, s => do
       let v ← evalOp M p a s
       return fun i => v (map i)
-  | .join .., _ => none
-  | .split .., _ => none
+  | .join (shape := shape) a b, s => do
+      let va ← evalOp M p a s
+      let vb ← evalOp M p b s
+      return fun i =>
+        let parts := TileShape.splitLastIndex shape i
+        if parts.2.val = 0 then va parts.1 else vb parts.1
+  | .split (shape := shape) side a, s => do
+      let v ← evalOp M p a s
+      return fun i => v (TileShape.appendAxisIndex shape i side)
   | .expandDim (shape := shape) axis a, s => do
       let v ← evalOp M p a s
       return fun i => v (TileShape.dropInsertedIndex shape axis 1 i)
@@ -682,6 +835,7 @@ end
 -- Materialize the dependent unfold theorem in its defining module. Imported
 -- lazy equation generation uses Lean's default heartbeat limit instead of the
 -- evaluator's declaration options.
+set_option maxHeartbeats 1600000 in
 abbrev evalOp_unfold := @evalOp.eq_def
 
 noncomputable def evalComputeOp {α : Type} [Inhabited α] (M : Algebra α) :
@@ -700,13 +854,43 @@ noncomputable def evalComputeOp {α : Type} [Inhabited α] (M : Algebra α) :
       return fun i => M.fp32Load (v i)
   | .load .int32 mem mask padding, s => evalOp M (some .int32) (.load .int mem mask padding) s
   | .load .uint32 mem mask padding, s => evalOp M (some .uint32) (.load .nat mem mask padding) s
+  | .bitcast .int32 .fp32 _ e, s => do
+      let v ← evalComputeOp M e s
+      return fun i => M.fp32Bits ⟨BitVec.ofInt 32 (v i)⟩
+  | .bitcast .uint32 .fp32 _ e, s => do
+      let v ← evalComputeOp M e s
+      return fun i => M.fp32Bits ⟨BitVec.ofNat 32 (v i)⟩
   | .bitcast .., _ => none
 
 noncomputable def evalExpr {α : Type} [Inhabited α] (M : Algebra α) :
     ComputeExpr dtype shape → State α → Option (Values α dtype shape)
   | .alg e, s => evalOp M none e s
   | .compute e, s => evalComputeOp M e s
-  | _, _ => none
+  | .isFinite precision e, s => do
+      let values ← evalExpr M e s
+      let classify ← M.isFinite precision
+      return fun i => classify (values i)
+  | .fma precision bcAB bcC a b c, s => do
+      let fused ← M.fma precision
+      let av ← evalExpr M a s
+      let bv ← evalExpr M b s
+      let cv ← evalExpr M c s
+      return fun i => fused
+        (av (bcAB.leftIndex (bcC.leftIndex i)))
+        (bv (bcAB.rightIndex (bcC.leftIndex i)))
+        (cv (bcC.rightIndex i))
+  | .fmaTyped dtype bcAB bcC a b c, s => do
+      let fused ← M.fmaTyped dtype
+      let av ← evalExpr M a s
+      let bv ← evalExpr M b s
+      let cv ← evalExpr M c s
+      return fun i => ofFloat dtype (fused
+        (toFloat dtype (av (bcAB.leftIndex (bcC.leftIndex i))))
+        (toFloat dtype (bv (bcAB.rightIndex (bcC.leftIndex i))))
+        (toFloat dtype (cv (bcC.rightIndex i))))
+  | .opaque _, _ => none
+  | .llrint _, _ => none
+termination_by structural e _ => e
 
 /-- The address and mask are evaluated before writes, as in the operational
 semantics. Each active lane copies its already typed value into memory. -/
@@ -828,6 +1012,12 @@ noncomputable def step {α : Type} [Inhabited α] (M : Algebra α) :
   | .ifThenElse cond yes no, s => do
       let c ← evalOp M none cond s
       if c PUnit.unit then run M yes s else run M no s
+  -- One program executes synchronously in statement order. This precise
+  -- intra-program barrier therefore preserves the whole abstract state,
+  -- consistently with ComputeStmt.toAlgorithm?. It does not discharge
+  -- native convergence or inter-program synchronization obligations.
+  -- All async and unknown markers still use the failure fallback below.
+  | .effectMarker "tl.debug_barrier", s => some s
   | _, _ => none
 termination_by st _ => (sizeOf st, 0)
 decreasing_by

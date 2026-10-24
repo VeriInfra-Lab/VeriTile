@@ -1,0 +1,125 @@
+{
+  "task": "relu_triton_kernel finite input words to typed grid refinement",
+  "package_root": "/tmp/veritile-standardization-20261015/relu-integer-word-refinement-wip",
+  "frozen_at_utc": "2026-10-15T16:35:03.191129+00:00",
+  "whole_original_program_accepted": false,
+  "original_program_completion_increment": 0,
+  "modules": {
+    "bench/tritonbench_g/relu_triton_kernel/Proofs/IntegerWords.lean": "1bd893d8f7091d1334463167ecb36e59eceac9e0025fc52594de134f5a6dd274",
+    "bench/tritonbench_g/relu_triton_kernel/Proofs/WordGrid.lean": "7713efc80df8facdcf1dc948ff040a86cc32b99cc9309806f6b2bee5a3f1bf5c",
+    "bench/tritonbench_g/relu_triton_kernel/WordGridCorrect.lean": "7b8a1995e52205dff86331907345b597da1d6680d1cd87abe901d7a4e679f86b"
+  },
+  "public_contract": {
+    "file": "bench/tritonbench_g/relu_triton_kernel/WordGridCorrect.lean",
+    "declaration": "VeriTile.Bench.TritonBenchG.ReluTritonKernel.WordGridCorrect.relu_word_grid_correctness",
+    "parser_name": "relu_word_grid_correctness",
+    "kind": "specification",
+    "statement_sha256": "6a3ebe259d31fa6ee27d955a482b2abca3786ebdfd7c9330b3264c25f0c10702",
+    "model_kind": "backend_value_contract",
+    "role": "parametric_value_contract",
+    "dtype_scope": "selected_explicit_profiles_only",
+    "profiles": [
+      "int8",
+      "int16",
+      "int32",
+      "int64",
+      "uint8",
+      "uint16",
+      "uint32",
+      "uint64",
+      "bool"
+    ],
+    "structural_premise": "InputWords equality of the complete tagged logical cell with explicit finite-word decoding at every offset below N; no successful-execution or result premise.",
+    "unclosed_numeric_callbacks": [
+      "M.fromInt none on decoded signed source-width integers",
+      "M.fromNat none on decoded unsigned words or normalized unsigned i1 bool",
+      "M.literal none fp32 0 in the signed negative branch"
+    ],
+    "unused_inherited_parameters": "cmp16/cmp32 occur in the existing backend parameterization but no integer/bool source operation or word result calls them.",
+    "native_conformance_proved": false
+  },
+  "verification": {
+    "module_count": 3,
+    "actual_exit_codes": [
+      0,
+      0,
+      0
+    ],
+    "seconds": 12.554938844172284,
+    "named_axiom_checks": 23,
+    "spec_noncircularity_checks": 2,
+    "module_axiom_audits": 3,
+    "warnings": 0,
+    "dependency_file_count": 177,
+    "dependency_breakdown": {
+      "repository": 168,
+      "frozen_relu_package": 6,
+      "package": 3
+    },
+    "source_and_dependency_hashes_unchanged": true,
+    "head_equality_required": false,
+    "actual_lakefile_toml_bound": true,
+    "external_library_build_rechecked": false,
+    "compiler_results": "evidence/verification-results.json",
+    "source_trailing_whitespace_check": "all three sources have a final newline and no trailing spaces/tabs"
+  },
+  "coverage_summary": {
+    "finite_word_input_profiles": 9,
+    "original_logical_profiles_unchanged": 12,
+    "new_logical_profile_names_added": 0,
+    "prior_ttir_hashes_rechecked": 13,
+    "annotated_integer_bool_routes": 9,
+    "raw_bool_byte_domain_size": 256,
+    "native_backend_compilations": 0,
+    "gpu_executions": 0
+  },
+  "prior_frozen_receipt_sha256": "ed4a852afafce5efd027f62565e32afe42146eb9c0b140d872990a5da211fd90",
+  "prior_modules_unchanged": {
+    "bench/tritonbench_g/relu_triton_kernel/Proofs/GatedGrid.lean": "ab72e796a93ce107f6f932d87ef968d9e36d4677ec77aac17f0c68a14634833f",
+    "bench/tritonbench_g/relu_triton_kernel/Proofs/TypedValue.lean": "b0f93f59b5e2131c456429003e3c875d8050d53f3d1f47e5151dc678d575ee4e",
+    "bench/tritonbench_g/relu_triton_kernel/Proofs/TypedGrid.lean": "9762ea888384a68276c2eeb6ec7f21fc8cf193df4f932c706a43d48773edd1a6",
+    "bench/tritonbench_g/relu_triton_kernel/Proofs/HostWrapper.lean": "712f72fea6b4e28f256f3507a044a7c8575986ab83cecf285288cf48a8d2d6ef",
+    "bench/tritonbench_g/relu_triton_kernel/Proofs/SoftwareFP32.lean": "017f6d7cbc1f3e182d65beb4463edf925a6bde7024949058a60526454d65a297",
+    "bench/tritonbench_g/relu_triton_kernel/TypedGridCorrect.lean": "2fa9b6daa50f0da67d5f369fef69c4125a5f64fbefad541ecd6c67bdad0b5507"
+  },
+  "acceptance_limits": [
+    {
+      "id": "RELU-W-S1",
+      "gap": "Native loads to the explicit InputWords relation",
+      "detail": "Actual storage bytes, endianness, source-word assembly, tag correspondence, dtype dispatch and load-validity remain unproved. Finite-word decoding and bool normalization are now formal; defining decoded cells is not a native memory theorem."
+    },
+    {
+      "id": "RELU-W-S2",
+      "gap": "Physical aliases and allocation/layout",
+      "detail": "Logical equal region names are permitted; shifted, misaligned or mixed-width physical byte views are not represented. The y!=x construction lemma preserves a supplied output region but does not prove fresh or separate empty_like allocation."
+    },
+    {
+      "id": "RELU-W-S3",
+      "gap": "Native finite-width address, launch and error semantics",
+      "detail": "N, B, program IDs and element offsets still use Nat. Invalid block domains, zero-grid native behavior, pointer overflow and debug/sanitizer behavior are not closed."
+    },
+    {
+      "id": "RELU-W-S4",
+      "gap": "Original dtype, host, compiler and execution scope",
+      "detail": "The prior fp64 value gap, four observed fp8 errors, noncanonical dtype families, native host/harness/module stages, compiler refinement and instruction interleavings remain open."
+    }
+  ],
+  "artifacts": {
+    "README.md": "44c674e1174a84787ee91e8336ddaa1ef2078a4a1475d40f0b24813b171f08d5",
+    "bench/tritonbench_g/relu_triton_kernel/Proofs/IntegerWords.lean": "1bd893d8f7091d1334463167ecb36e59eceac9e0025fc52594de134f5a6dd274",
+    "bench/tritonbench_g/relu_triton_kernel/Proofs/WordGrid.lean": "7713efc80df8facdcf1dc948ff040a86cc32b99cc9309806f6b2bee5a3f1bf5c",
+    "bench/tritonbench_g/relu_triton_kernel/WordGridCorrect.lean": "7b8a1995e52205dff86331907345b597da1d6680d1cd87abe901d7a4e679f86b",
+    "evidence/IntegerWords.compile.log": "0c8c08adee88b1d902907da288dbe545478689e2cde936231be356d6e404bfaf",
+    "evidence/WordGrid.compile.log": "0131762f03a0ce1eab12a6ef187404886183335bc8a5619e1dded0f114aab011",
+    "evidence/WordGridCorrect.compile.log": "43a4294d4a75ded4f539a73b834df33d6f3766cbf0a593bf10ecd447b29cc48e",
+    "evidence/final-dependencies-after.json": "6e70f5a60a3d8b0ed2777be846cc292c658bb1cdd3e74059e582f26e4b48739e",
+    "evidence/final-dependencies-before.json": "6e70f5a60a3d8b0ed2777be846cc292c658bb1cdd3e74059e582f26e4b48739e",
+    "evidence/route-review.json": "02222a382c314e9d407ea810ad40ce002fc658803ad37f69cb82705d9a206aef",
+    "evidence/scope-review.json": "da4d9317436b3f73bfc2aac6e1c0a795501b0af18904e7e065a185175ba60e57",
+    "evidence/verification-results.json": "a4c752f82c4ce6d6089ef68647d88e882455b60930ecb34ed71202d101cc9d9c",
+    "finalize.py": "2bb34d594a9fafa288bee6c73103ccc51333853453e64e03e04df6c036083e6b",
+    "freeze.py": "8a8e24c05a6df5a21a1facb799f0a9dab6e4aff357cc9d82356c1197fcce68c8",
+    "review_routes.py": "0488d2012491ef2654fc1aa41f9e240418a8ef79e5bf8b1eda1f8aaa317ba291",
+    "verify.py": "16820e4bcfdb61cd4eb8fa9c10c090e1c5eaf64ff54db3de03182480a927ef27"
+  }
+}

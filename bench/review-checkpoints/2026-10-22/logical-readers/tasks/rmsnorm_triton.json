@@ -1,0 +1,159 @@
+{
+  "schema": 1,
+  "task": "rmsnorm_triton",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue12/result.json",
+    "sha256": "1acd093fdb5df5a7fed2f0fba54b4e617613726893846119a55bbd0b72bb6386",
+    "task_index": 7
+  },
+  "finding": "Logical rows were encoded as one raw input channel per flattened batch/row, followed by a final weight channel.",
+  "resolution": "LogicalScheduledKernelIO exposes xs batch row feature, shared weights and batch/row/feature result coordinates, with inverse equivalences.",
+  "mathematical_target": "(xs batch row k * sqrt ((sum j:Fin width, xs batch row j * xs batch row j)/width + eps)^(-1)) * weights k.",
+  "conditions_and_scope": {
+    "scope": "Complete 2D batch/row grid, arbitrary original tensor strides, both complete source loops with blockSize=1024, unpadded logical width sum.",
+    "public_conditions": [
+      "g:KernelGrid.Geometry",
+      "Separation g.parameters retained in main theorem",
+      "OutputUnique g.parameters",
+      "work:Schedule g.parameters supplies the complete schedule",
+      "RegionalScheduledImplements explicitly uses RmsIO.schedule g work, retaining coherent typed IO, access safety, success, every row output and raw-cell exterior frame."
+    ],
+    "contract_connection": "Contract.mathematicalResult uses the same unpadded RMS expression on original input and weight tensors. IO.rms/target preserve logical width independently of source block size. Existing Schedule and OutputUnique retain coverage and singleton zero-stride behavior.",
+    "preserved": "Same complete original judgment: input binding/bounds, source safety, successful execution, all specified output observations and exact exterior frame."
+  },
+  "proof_connection": [
+    "RmsIO.rowInputs separates every original row channel from the final weights, and logicalInputs reindexes it bijectively to batch/row/feature.",
+    "logicalIndices is a full finite-product equivalence on every output cell.",
+    "IOCorrect.logical_iff proves equality of the complete RegionalScheduledImplements target to the original target using finProdFinEquiv.apply_symm_apply.",
+    "Correct retains Separation, OutputUnique and the complete original 2D Schedule and applies IOCorrect.complete."
+  ],
+  "fp_review": {
+    "pair": "Complete typed original source versus existing candidate commuting a natural row-address product.",
+    "scope": "Source-pair equivalence includes both loops, native integer power/casts/reduction/rsqrt and all loads/stores. Full physical-grid native observation remains auxiliary, not asserted by this main source-pair theorem.",
+    "model_precision_and_domain": "ProfiledRewrite source primitives with unchanged FP32 precision and order; R=[].",
+    "source_changed": false,
+    "candidate_changed": false,
+    "actual_rule_set": "[]"
+  },
+  "numerical_dependencies": {
+    "actual_experimental_rule_instances": 0,
+    "experimental_rules": [],
+    "missing_evidence": [],
+    "new_experiments": false,
+    "source_precision_casts_FMA_and_order_changed": false,
+    "note": "Empty experiment set is interpreted under the retained fixed program/model theory; no universal arbitrary-opaque-model or hardware bit-equality claim."
+  },
+  "previous_formula_scope": {
+    "mathematical_target": "(x[k]*sqrt((sum j:Fin width of x[j]*x[j])/width+eps)^(-1))*w[k], for each logical row.",
+    "required_conditions": {
+      "explicit_conditions": [
+        "g:KernelGrid.Geometry",
+        "Separation g.parameters retained in main theorem",
+        "OutputUnique g.parameters",
+        "work:Schedule g.parameters supplies the complete schedule",
+        "RegionalScheduledImplements explicitly uses RmsIO.schedule g work, retaining coherent typed IO, access safety, success, every row output and raw-cell exterior frame."
+      ],
+      "contract_correspondence": "Contract.mathematicalResult uses the same unpadded RMS expression on original input and weight tensors. IO.rms/target preserve logical width independently of source block size. Existing Schedule and OutputUnique retain coverage and singleton zero-stride behavior."
+    },
+    "scope": "Complete 2D batch/row grid, arbitrary original tensor strides, both complete source loops with blockSize=1024, unpadded logical width sum.",
+    "canonical_connection": "Inline row/channel lambda is definitionally RmsIO.target via RmsIO.rms. IOCorrect.complete is reused for full source schedule.",
+    "fp_program_pair": {
+      "fp_pair": "Complete typed original source versus existing candidate commuting a natural row-address product.",
+      "fp_scope": "Source-pair equivalence includes both loops, native integer power/casts/reduction/rsqrt and all loads/stores. Full physical-grid native observation remains auxiliary, not asserted by this main source-pair theorem.",
+      "fp_model_domain": "ProfiledRewrite source primitives with unchanged FP32 precision and order; R=[]."
+    },
+    "numerical_dependencies": "No numerical rewrite; exact natural-number indexing only."
+  },
+  "verification": [
+    {
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue12/build.py",
+        "bench/repairs/tritonbench_g/rmsnorm_triton/IO.lean",
+        "bench/repairs/tritonbench_g/rmsnorm_triton/Proofs/LogicalReader.lean",
+        "bench/repairs/tritonbench_g/rmsnorm_triton/Correct.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue12/rmsnorm_triton-verified-readers.log",
+      "kind": "targeted_readers",
+      "log_sha256": "8f512a0dcd2b2ab740b00f6265145b0bbe9bf5e55dbb354aca2bc11d1bf40dfd",
+      "compile_receipts": [
+        {
+          "path": ".veritile-cache/logical-reader-review-20261022/queue12/build/lib/lean/bench/repairs/tritonbench_g/rmsnorm_triton/IO.workspace-build.json",
+          "sha256": "e1c622eb782f94a48adec5dc3cec89d039185b2d84dc819f80244ad447c3eb7d"
+        },
+        {
+          "path": ".veritile-cache/logical-reader-review-20261022/queue12/build/lib/lean/bench/repairs/tritonbench_g/rmsnorm_triton/Proofs/LogicalReader.workspace-build.json",
+          "sha256": "aa4f1c3f866ceba8c2e494fad3e3e04763aa1d92de9f1f885ab9f1ffe9f76bcc"
+        },
+        {
+          "path": ".veritile-cache/logical-reader-review-20261022/queue12/build/lib/lean/bench/repairs/tritonbench_g/rmsnorm_triton/Correct.workspace-build.json",
+          "sha256": "e04d4c0f164131052e14c924c7ff129e59291fe5bea5954bbb5ad4a49d4cc5ef"
+        }
+      ],
+      "note": "Successful queue12 targeted compilation receipts; final validation reuses only source/dependency-hash-matching successful objects."
+    },
+    {
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue12/build.py",
+        "bench/repairs/tritonbench_g/rmsnorm_triton/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue12/rmsnorm_triton-fp-build.log",
+      "kind": "targeted_fp_reader",
+      "log_sha256": "8ba012321d63a33f833ae3a01cbde6ce371173bcf0f4402f98666dfd86e93954",
+      "compile_receipts": [
+        {
+          "path": ".veritile-cache/logical-reader-review-20261022/queue12/build/lib/lean/bench/repairs/tritonbench_g/rmsnorm_triton/FPEquiv.workspace-build.json",
+          "sha256": "2cfd41ecbd01d7c028835cf6cdf704341e354e04fe4f8858e876fb999a9b6d62"
+        }
+      ],
+      "note": "Successful queue12 targeted compilation receipts; final validation reuses only source/dependency-hash-matching successful objects."
+    },
+    {
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue12/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue12/joint/rmsnorm_triton.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue12/rmsnorm_triton-joint.log",
+      "fixture": ".veritile-cache/logical-reader-review-20261022/queue12/joint/rmsnorm_triton.lean",
+      "fixture_sha256": "e0b326ffcef5a6c21ffb6d44256c779f7dcd1424e1651a47bb65a8db91560004",
+      "kind": "per_task_joint",
+      "log_sha256": "318185772bd308ed3d759745adb9b3a6a7a1dd4318cc6ab741757df5a3253f80"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/rmsnorm_triton/Contract.lean": "3ed420059a89e89bf136830453c1cd5d6b5f1e815f0278c533cc69ca615137cd",
+    "bench/repairs/tritonbench_g/rmsnorm_triton/Correct.lean": "4ce7d00fa045638477c8788bcb140e170f2ab1f46e7a35be73e860a6cf57b97b",
+    "bench/repairs/tritonbench_g/rmsnorm_triton/FPEquiv.lean": "74a1cb6d6e43c055ef62c1523bff3290c2addd270074f5965d7e5908c0d0a115",
+    "bench/repairs/tritonbench_g/rmsnorm_triton/Geometry.lean": "fd08f012b0be52235953cf0faffcc42e76f9cdb237ffc6e1bc6ea63c82b5c2e2",
+    "bench/repairs/tritonbench_g/rmsnorm_triton/IO.lean": "517cc596ad4e80b16318d34e583107cf6c6398e88d199a747ef349c261d2f143",
+    "bench/repairs/tritonbench_g/rmsnorm_triton/Kernels.lean": "f6324f008da0783946b4c7dab9039b6ba4e0ef1f25b3c91852adb7d70466a61a",
+    "bench/repairs/tritonbench_g/rmsnorm_triton/Proofs/IOCorrect.lean": "ea335288d25a90a2d140cd49f0d6a6771932591265d5858e42c6af0e872c57cc",
+    "bench/repairs/tritonbench_g/rmsnorm_triton/Proofs/IOGeometry.lean": "d565de7ed93fb451dbf3f87641b3e634a4a3ec0897a028fe1370ae84e41b20fa",
+    "bench/repairs/tritonbench_g/rmsnorm_triton/Proofs/KernelRewrite.lean": "c72d79990561b7ac24564e7129d5afcfae5158a0487ef2211ca06fa7c526aa41",
+    "bench/repairs/tritonbench_g/rmsnorm_triton/Proofs/LogicalReader.lean": "e4a8b487a647007db7facd9c529684b0348d3073a76560ccba591b0727089fa2",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [
+    "Existing applicable internal proof objects reused; no full transitive proof-closure replay or new host/native/Tensor/hardware/numerical task."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

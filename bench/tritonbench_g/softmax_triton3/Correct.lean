@@ -1,6 +1,11 @@
 import bench.tritonbench_g.softmax_triton3.Proofs.Real
 import VeriTile.Meta.StatementAudit
 
+/-! Historical mathematical and slice contracts in this file are ordinary helper
+theorems. Only the retained `specification` entries below are public source contracts.
+The helpers retain their statements and proofs for downstream reuse. -/
+
+
 namespace VeriTile.Bench.TritonBenchG.SoftmaxTriton3
 open VeriTile.Triton
 
@@ -49,7 +54,7 @@ kernel terminates, every active output-row lane `j` holds
 unchanged. `0 < BLOCK_SIZE` is required: the kernel's `max` reduce (like
 `Finset.sup'`) is only defined on non-empty tiles. Proof: `Implements.intro`
 assembles the region-model masked triple with the bridge side conditions. -/
-specification softmax_kernel_correctness
+theorem softmax_kernel_correctness
     (output_ptr input_ptr mask_ptr : RegionName)
     (row_stride n_cols BLOCK_SIZE : Nat)
     (hB : 0 < BLOCK_SIZE) :
@@ -102,7 +107,7 @@ every active output-row lane `j` holds
 unchanged. `0 < BLOCK_SIZE` is required: the kernel's `max` reduce (like
 `Finset.sup'`) is only defined on non-empty tiles. Proof: `Implements.intro`
 assembles the region-model masked triple with the bridge side conditions. -/
-specification softmax_kernel_masked_correctness
+theorem softmax_kernel_masked_correctness
     (output_ptr input_ptr mask_ptr : RegionName)
     (row_stride n_cols BLOCK_SIZE : Nat)
     (hB : 0 < BLOCK_SIZE) :

@@ -325,6 +325,25 @@ theorem evalOp_agreeOn (bounds : RegionBounds) :
       simp only [evalOp, hag.numPids]
   | _, _, .ref d sh n, s₁, s₂, hag, _ => by
       simp only [evalOp, hag.regs]
+  | _, _, .philox4x32 cfg plan field seed c0 c1 c2 c3, s₁, s₂, hag, hms => by
+      simp only [Op.SafeAt] at hms
+      simp only [evalOp,
+        evalOp_agreeOn bounds seed s₁ s₂ hag hms.1,
+        evalOp_agreeOn bounds c0 s₁ s₂ hag hms.2.1,
+        evalOp_agreeOn bounds c1 s₁ s₂ hag hms.2.2.1,
+        evalOp_agreeOn bounds c2 s₁ s₂ hag hms.2.2.2.1,
+        evalOp_agreeOn bounds c3 s₁ s₂ hag hms.2.2.2.2]
+  | _, _, .uniform32 word, s₁, s₂, hag, hms => by
+      simp only [Op.SafeAt] at hms
+      simp only [evalOp, evalOp_agreeOn bounds word s₁ s₂ hag hms]
+  | _, _, .rand cfg seed offsets, s₁, s₂, hag, hms => by
+      simp only [Op.SafeAt] at hms
+      simp only [evalOp, evalOp_agreeOn bounds seed s₁ s₂ hag hms.1,
+        evalOp_agreeOn bounds offsets s₁ s₂ hag hms.2]
+  | _, _, .randTensor cfg seed offsets, s₁, s₂, hag, hms => by
+      simp only [Op.SafeAt] at hms
+      simp only [evalOp, evalOp_agreeOn bounds seed s₁ s₂ hag hms.1,
+        evalOp_agreeOn bounds offsets s₁ s₂ hag hms.2]
   | _, _, .broadcast e sh, s₁, s₂, hag, hms => by
       simp only [Op.SafeAt] at hms
       simp only [evalOp, evalOp_agreeOn bounds e s₁ s₂ hag hms]
@@ -337,6 +356,14 @@ theorem evalOp_agreeOn (bounds : RegionBounds) :
   | _, _, .castFloat src dst a, s₁, s₂, hag, hms => by
       simp only [Op.SafeAt] at hms
       simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
+  | _, _, .negFloat dtype a, s₁, s₂, hag, hms => by
+      simp only [Op.SafeAt] at hms
+      simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
+  | _, _, .absFloat dtype a, s₁, s₂, hag, hms => by
+      simp only [Op.SafeAt] at hms
+      simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
+  | _, _, .floatToInt .., s₁, s₂, hag, hms => by simp only [evalOp]
+  | _, _, .floatToNat .., s₁, s₂, hag, hms => by simp only [evalOp]
   | _, _, .castNatToInt a, s₁, s₂, hag, hms => by
       simp only [Op.SafeAt] at hms
       simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
@@ -495,7 +522,19 @@ theorem evalOp_agreeOn (bounds : RegionBounds) :
       simp only [Op.SafeAt] at hms
       simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms.1,
         evalOp_agreeOn bounds b s₁ s₂ hag hms.2]
+  | _, _, .maximumFloat dtype bc a b, s₁, s₂, hag, hms => by
+      simp only [Op.SafeAt] at hms
+      simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms.1,
+        evalOp_agreeOn bounds b s₁ s₂ hag hms.2]
+  | _, _, .minimumFloat dtype bc a b, s₁, s₂, hag, hms => by
+      simp only [Op.SafeAt] at hms
+      simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms.1,
+        evalOp_agreeOn bounds b s₁ s₂ hag hms.2]
   | _, _, .pow bc a b, s₁, s₂, hag, hms => by
+      simp only [Op.SafeAt] at hms
+      simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms.1,
+        evalOp_agreeOn bounds b s₁ s₂ hag hms.2]
+  | _, _, .libdevicePowi bc a b, s₁, s₂, hag, hms => by
       simp only [Op.SafeAt] at hms
       simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms.1,
         evalOp_agreeOn bounds b s₁ s₂ hag hms.2]
@@ -509,6 +548,9 @@ theorem evalOp_agreeOn (bounds : RegionBounds) :
       simp only [evalOp, evalOp_agreeOn bounds c s₁ s₂ hag hms.1,
         evalOp_agreeOn bounds a s₁ s₂ hag hms.2.1,
         evalOp_agreeOn bounds b s₁ s₂ hag hms.2.2]
+  | _, _, .reduceMin ax kd a, s₁, s₂, hag, hms => by
+      simp only [Op.SafeAt] at hms
+      simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
   | _, _, .reduceMax ax kd a, s₁, s₂, hag, hms => by
       simp only [Op.SafeAt] at hms
       simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
@@ -519,6 +561,9 @@ theorem evalOp_agreeOn (bounds : RegionBounds) :
       simp only [Op.SafeAt] at hms
       simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
   | _, _, .reduceSum ax kd a, s₁, s₂, hag, hms => by
+      simp only [Op.SafeAt] at hms
+      simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
+  | _, _, .reduceSumBool ax kd a, s₁, s₂, hag, hms => by
       simp only [Op.SafeAt] at hms
       simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
   | _, _, .reduceSumTyped _ ax kd a, s₁, s₂, hag, hms => by
@@ -534,6 +579,9 @@ theorem evalOp_agreeOn (bounds : RegionBounds) :
       simp only [Op.SafeAt] at hms
       simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
   | _, _, .argMax ax a, s₁, s₂, hag, hms => by
+      simp only [Op.SafeAt] at hms
+      simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
+  | _, _, .argMaxInt ax a, s₁, s₂, hag, hms => by
       simp only [Op.SafeAt] at hms
       simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
   | _, _, .argMaxTyped dtype ax a _, s₁, s₂, hag, hms => by

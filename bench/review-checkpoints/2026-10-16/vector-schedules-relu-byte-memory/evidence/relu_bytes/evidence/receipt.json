@@ -1,0 +1,220 @@
+{
+  "task": "relu_triton_kernel little-endian mathematical byte-memory refinement",
+  "package_root": "/tmp/veritile-standardization-20261015/relu-byte-memory-wip",
+  "frozen_at_utc": "2026-10-15T17:17:56.604620+00:00",
+  "whole_original_program_accepted": false,
+  "original_program_completion_increment": 0,
+  "modules": {
+    "bench/tritonbench_g/relu_triton_kernel/Proofs/ByteCodec.lean": "1524c55f059d152ab4ff36b8f27e5cc86c46360a9b7cfa045b5c8f91cd8ff712",
+    "bench/tritonbench_g/relu_triton_kernel/Proofs/ByteStores.lean": "69450c5c328332cac6757d3445de508c2c84263da094582ec9756492803b326f",
+    "bench/tritonbench_g/relu_triton_kernel/Proofs/ByteView.lean": "090d4cb4a70b3e78cb90ccac714a464b5c447968b569bc666ea61dbefbb18f1b",
+    "bench/tritonbench_g/relu_triton_kernel/ByteGridCorrect.lean": "75559f4cd4f9ef3b4abb0d1b2aae4be07489cf7413b2fdbdd3d4a144047c2c7a"
+  },
+  "public_contract": {
+    "file": "bench/tritonbench_g/relu_triton_kernel/ByteGridCorrect.lean",
+    "parser_name": "relu_byte_grid_correctness",
+    "declaration": "VeriTile.Bench.TritonBenchG.ReluTritonKernel.ByteGridCorrect.relu_byte_grid_correctness",
+    "kind": "specification",
+    "statement_sha256": "40bc0379ed4ffe9ab6d9e022f7edd1d78b476b420980114d94834264a0ec5818",
+    "model_kind": "backend_value_contract",
+    "role": "parametric_value_contract",
+    "dtype_scope_relation": "selected_explicit_profiles_only",
+    "profiles": [
+      "int8",
+      "int16",
+      "int32",
+      "int64",
+      "uint8",
+      "uint16",
+      "uint32",
+      "uint64",
+      "bool"
+    ],
+    "unclosed_numeric_callbacks": [
+      "M.fromInt none on decoded signed source-width integers",
+      "M.fromNat none on decoded unsigned words or normalized unsigned i1 bool",
+      "M.literal none fp32 0 in the signed negative branch"
+    ],
+    "bit_interpreter_closed_command": false,
+    "native_binding_status": "not_established",
+    "carrier": "BitVec32 for every output Algebra value; full arbitrary32-bit payloads are serialized.",
+    "premises": [
+      "Complete tagged LogicalView of arbitrary mathematical initial bytes.",
+      "Distinct logical input/output names and explicit nonoverlapping full N-element byte intervals.",
+      "B1024, N<2^31 and representable64-bit bases/exclusive input-output endpoints."
+    ],
+    "conclusion": "Actual old typed-grid success and wordSpec, final LogicalView of the independent byte-grid execution, full byteSpec/frame, finite-address input loads and every output-byte readback, plus the inherited address certificate."
+  },
+  "coverage_summary": {
+    "finite_word_profiles": 9,
+    "new_dtype_pairs": 0,
+    "new_logical_profile_names": 0,
+    "original_logical_profiles_unchanged": 12,
+    "new_public_contracts": 1,
+    "byte_width_bits": 8,
+    "input_word_width_bits": [
+      8,
+      16,
+      32,
+      64
+    ],
+    "output_word_width_bits": 32,
+    "raw_bool_input_bytes": 256,
+    "new_frontend_compilations": 0,
+    "native_backend_compilations": 0,
+    "gpu_executions": 0
+  },
+  "verification": {
+    "module_count": 4,
+    "actual_exit_codes": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "seconds": 18.900604878319427,
+    "named_axiom_checks": 30,
+    "spec_noncircularity_checks": 3,
+    "module_axiom_audits": 4,
+    "warnings": 0,
+    "dependency_file_count": 180,
+    "dependency_breakdown": {
+      "repository": 167,
+      "relu-finite-address-wip": 3,
+      "package": 4,
+      "relu-original-wip": 3,
+      "relu-integer-word-refinement-wip": 3
+    },
+    "imported_project_olean_count": 172,
+    "inherited_ttir_count": 13,
+    "source_dependency_and_olean_hashes_unchanged": true,
+    "all_twelve_frozen_relu_source_modules_unchanged": true,
+    "actual_lakefile_toml_bound": true,
+    "external_library_build_rechecked": false,
+    "source_whitespace_check": "All four sources have a final newline and no trailing spaces/tabs.",
+    "compiler_results": "evidence/verification-results.json",
+    "all_compile_attempts": "evidence/verification-attempts.json",
+    "attempts_retained": 13,
+    "failed_attempts_retained": 2,
+    "failure_exit_codes": [
+      1,
+      1
+    ],
+    "failure_logs_and_source_snapshots_retained": true
+  },
+  "prior_frozen_receipts": {
+    "/tmp/veritile-standardization-20261015/relu-finite-address-wip": {
+      "receipt": "fc98bfa9d776e2b5592506905eda9241efb16a4809c7ad112f500afc83d815f3",
+      "scope": "6eaaf3bfa779c674ad6a6a3436354b9684a8d67e55c4e1d7d58ce892491c6e6e"
+    },
+    "/tmp/veritile-standardization-20261015/relu-integer-word-refinement-wip": {
+      "receipt": "bf37c9bb89af701ca3737ce96fbc21d9a707d8a3d7c41e1a47d11a2e73c31276",
+      "scope": "da4d9317436b3f73bfc2aac6e1c0a795501b0af18904e7e065a185175ba60e57"
+    },
+    "/tmp/veritile-standardization-20261015/relu-original-wip": {
+      "receipt": "ed4a852afafce5efd027f62565e32afe42146eb9c0b140d872990a5da211fd90",
+      "scope": "f484d80a8fbb1ff238a4a2ebb360b5d0991938d6b79437adb9c1b6f0b8d49453"
+    }
+  },
+  "acceptance_limits": [
+    {
+      "id": "RELU-B-S1",
+      "gap": "Native storage to mathematical little-endian byte memory",
+      "detail": "Real8-bit assembly/splitting and read/write relations are proved for a chosen total Nat-addressed byte map. Native device bytes, little-endian representation, pointer provenance, alignment, allocation/admission and source dtype dispatch remain to be related to that map. This is not merely a renamed logical cell, but it is not a native memory theorem."
+    },
+    {
+      "id": "RELU-B-S2",
+      "gap": "Native source/compiler and byte execution correspondence",
+      "detail": "The custom byteProgram is the source memory-effect projection with total byte reads, pre-store pid0 lane values and sequential4-byte stores. The nonzero-pid loaded/result functions can remain unevaluated; byte memory-effect success does not imply their native load success. The actual old logical source independently succeeds and its final tagged cells correspond to the byte result. This is an end-to-end representation proof, not a stepwise TTIR/extraction/native instruction theorem. Masked/unused values, access failures, poison, sanitizers and native addptr lowering remain open."
+    },
+    {
+      "id": "RELU-B-S3",
+      "gap": "Host-established layout and domain coverage",
+      "detail": "Distinct logical names and nonoverlapping contiguous physical byte intervals are explicit subtheorem premises; no runtime guard, empty_like freshness, tensor layout/stride or native wrapper property is inferred. Shifted/overlapping/misaligned layouts, N>=2^31, other block sizes, launch limits and native zero-grid behavior remain open."
+    },
+    {
+      "id": "RELU-B-S4",
+      "gap": "Remaining dtype, host/module and concurrent scope",
+      "detail": "Nine prior finite-word profiles are refined, with no additional dtype names. Prior fp64/fp8/error families, native host/harness/module stages, compiler targets and instruction interleavings remain required. Math-byte sequential grid success is not whole-original-program acceptance."
+    }
+  ],
+  "failed_attempts": [
+    {
+      "module": "bench/tritonbench_g/relu_triton_kernel/Proofs/ByteCodec.lean",
+      "command": [
+        "/tmp/veritile-lean-toolchain/bin/lean",
+        "--root=/tmp/veritile-standardization-20261015/relu-byte-memory-wip",
+        "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ByteCodec.lean",
+        "-o",
+        "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ByteCodec.olean"
+      ],
+      "exit_code": 1,
+      "seconds": 4.131685740081593,
+      "source_sha256_before": "63a690cdf40569e9ce66e3a0b536cada37f65865a1ad4ac8010bee97929ab487",
+      "source_sha256_after": "63a690cdf40569e9ce66e3a0b536cada37f65865a1ad4ac8010bee97929ab487",
+      "log": "evidence/attempts/0001-ByteCodec.log",
+      "log_sha256": "4494bdbb541bada80a73ba014d759bf99b88fc020c2ef5cfb9900e2430b60049",
+      "source_snapshot": "evidence/attempts/0001-ByteCodec.lean.txt",
+      "snapshot_sha256": "63a690cdf40569e9ce66e3a0b536cada37f65865a1ad4ac8010bee97929ab487"
+    },
+    {
+      "module": "bench/tritonbench_g/relu_triton_kernel/Proofs/ByteStores.lean",
+      "command": [
+        "/tmp/veritile-lean-toolchain/bin/lean",
+        "--root=/tmp/veritile-standardization-20261015/relu-byte-memory-wip",
+        "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ByteStores.lean",
+        "-o",
+        "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ByteStores.olean"
+      ],
+      "exit_code": 1,
+      "seconds": 4.926480968948454,
+      "source_sha256_before": "3541bd20614c2272d3a933831d785e80ccdd2ef319eefb9ae1823fb9a6c14905",
+      "source_sha256_after": "3541bd20614c2272d3a933831d785e80ccdd2ef319eefb9ae1823fb9a6c14905",
+      "log": "evidence/attempts/0003-ByteStores.log",
+      "log_sha256": "e69bcdf1ffbf0d245e6cda55ac0805f40c0287f086e71ea9ce82b3f1e00a8deb",
+      "source_snapshot": "evidence/attempts/0003-ByteStores.lean.txt",
+      "snapshot_sha256": "3541bd20614c2272d3a933831d785e80ccdd2ef319eefb9ae1823fb9a6c14905"
+    }
+  ],
+  "artifacts": {
+    "README.md": "a865973d2e0fd980f6e88801aa86961e5df7f1ae9e160788f27abdc1369076b4",
+    "bench/tritonbench_g/relu_triton_kernel/ByteGridCorrect.lean": "75559f4cd4f9ef3b4abb0d1b2aae4be07489cf7413b2fdbdd3d4a144047c2c7a",
+    "bench/tritonbench_g/relu_triton_kernel/Proofs/ByteCodec.lean": "1524c55f059d152ab4ff36b8f27e5cc86c46360a9b7cfa045b5c8f91cd8ff712",
+    "bench/tritonbench_g/relu_triton_kernel/Proofs/ByteStores.lean": "69450c5c328332cac6757d3445de508c2c84263da094582ec9756492803b326f",
+    "bench/tritonbench_g/relu_triton_kernel/Proofs/ByteView.lean": "090d4cb4a70b3e78cb90ccac714a464b5c447968b569bc666ea61dbefbb18f1b",
+    "evidence/attempts/0001-ByteCodec.lean.txt": "63a690cdf40569e9ce66e3a0b536cada37f65865a1ad4ac8010bee97929ab487",
+    "evidence/attempts/0001-ByteCodec.log": "4494bdbb541bada80a73ba014d759bf99b88fc020c2ef5cfb9900e2430b60049",
+    "evidence/attempts/0002-ByteCodec.lean.txt": "fdec6601e7be3356b519c7ce3293c2802ddd22e3f762cb70f4b2cb8e6a45e1e5",
+    "evidence/attempts/0002-ByteCodec.log": "303bcc6b943f192c1ec649f3ad50cae13a447971ee560ca4d43c214709d00da9",
+    "evidence/attempts/0003-ByteStores.lean.txt": "3541bd20614c2272d3a933831d785e80ccdd2ef319eefb9ae1823fb9a6c14905",
+    "evidence/attempts/0003-ByteStores.log": "e69bcdf1ffbf0d245e6cda55ac0805f40c0287f086e71ea9ce82b3f1e00a8deb",
+    "evidence/attempts/0004-ByteStores.lean.txt": "298823fcc637c4cffacfb626475e5a3fc6cd55aa63b4ffd2b204f6a8af15e1c4",
+    "evidence/attempts/0004-ByteStores.log": "a712d3ba26cf319ab174d57e7217165533e57025dc41ec08378db56600c61620",
+    "evidence/attempts/0005-ByteCodec.lean.txt": "1524c55f059d152ab4ff36b8f27e5cc86c46360a9b7cfa045b5c8f91cd8ff712",
+    "evidence/attempts/0005-ByteCodec.log": "dd4f53411205678a910ed5999a7919210118e7db2eed64f38d67f15005bcb228",
+    "evidence/attempts/0006-ByteStores.lean.txt": "69450c5c328332cac6757d3445de508c2c84263da094582ec9756492803b326f",
+    "evidence/attempts/0006-ByteStores.log": "ed962fcdec29406fa5d1d97b32efe9e8ef74ae54813224968d6c355e97c14e87",
+    "evidence/attempts/0007-ByteView.lean.txt": "a35daabd596912dd3f1a6547bbf46b1b1c803c48ddd04c255e9220817c066ce1",
+    "evidence/attempts/0007-ByteView.log": "a306dfcdfcbe08a5f7da228179e16901014325576c08f6cd8ae8681a6a81c044",
+    "evidence/attempts/0008-ByteView.lean.txt": "090d4cb4a70b3e78cb90ccac714a464b5c447968b569bc666ea61dbefbb18f1b",
+    "evidence/attempts/0008-ByteView.log": "5c22286933fdb1ee9f3be015b8fa9b266236a6b2af62f4741fd16739cb1132cc",
+    "evidence/attempts/0009-ByteGridCorrect.lean.txt": "75559f4cd4f9ef3b4abb0d1b2aae4be07489cf7413b2fdbdd3d4a144047c2c7a",
+    "evidence/attempts/0009-ByteGridCorrect.log": "b759a52bd086280e925bca38bdba47557cf87701d472aa868ce5b940108901f7",
+    "evidence/attempts/0010-ByteCodec.lean.txt": "1524c55f059d152ab4ff36b8f27e5cc86c46360a9b7cfa045b5c8f91cd8ff712",
+    "evidence/attempts/0010-ByteCodec.log": "dd4f53411205678a910ed5999a7919210118e7db2eed64f38d67f15005bcb228",
+    "evidence/attempts/0011-ByteStores.lean.txt": "69450c5c328332cac6757d3445de508c2c84263da094582ec9756492803b326f",
+    "evidence/attempts/0011-ByteStores.log": "ed962fcdec29406fa5d1d97b32efe9e8ef74ae54813224968d6c355e97c14e87",
+    "evidence/attempts/0012-ByteView.lean.txt": "090d4cb4a70b3e78cb90ccac714a464b5c447968b569bc666ea61dbefbb18f1b",
+    "evidence/attempts/0012-ByteView.log": "5c22286933fdb1ee9f3be015b8fa9b266236a6b2af62f4741fd16739cb1132cc",
+    "evidence/attempts/0013-ByteGridCorrect.lean.txt": "75559f4cd4f9ef3b4abb0d1b2aae4be07489cf7413b2fdbdd3d4a144047c2c7a",
+    "evidence/attempts/0013-ByteGridCorrect.log": "b759a52bd086280e925bca38bdba47557cf87701d472aa868ce5b940108901f7",
+    "evidence/final-dependencies-after.json": "88c050dd3c3226b9d98bd5de4895cc9fb56086a1de9ba3e34df413a33a7cb29b",
+    "evidence/final-dependencies-before.json": "88c050dd3c3226b9d98bd5de4895cc9fb56086a1de9ba3e34df413a33a7cb29b",
+    "evidence/scope-review.json": "a1cac8990de499ec700642d1609405b1d76bbcd2d223e5d1dcb6e22fe3bdcee3",
+    "evidence/verification-attempts.json": "a0578a99a63378bd449c1c27c2952c709ed4126ec7821bcf8dcef87d744d791f",
+    "evidence/verification-results.json": "dd84e8ca9f0819e1cb69aebc4e0434db137de398c2894a2b03a472825d4a5963",
+    "finalize.py": "706d8803da1423f31c822d2b979841d70683d156436d236586d02ffcc868f382",
+    "freeze.py": "b82905c2e7da1d67604379469b66de8d87b9ac8a9a6600e6c1c7fb15fb28fbe0",
+    "verify.py": "be467447e58283c312e5347dc6b95db825672e3c02628a618a9a800f54332384"
+  }
+}

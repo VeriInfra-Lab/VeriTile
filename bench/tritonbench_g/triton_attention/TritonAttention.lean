@@ -1,4 +1,6 @@
+import VeriTile.Triton.Math.MaximumProjection
 import VeriTile.Triton
+import VeriTile.Meta.StatementAudit
 import VeriTile.Examples.FlashAttention1
 
 /-!
@@ -81,6 +83,22 @@ additionally requires the score tiles distinct (`PTile ≠ DSTile`).
 namespace VeriTile.Bench.TritonBenchG.TritonAttention
 
 open VeriTile.Triton
+
+private theorem typed_dot_real {m k n : Nat} (x : Op .fp16 [m,k]) (y : Op .real [k,n]) (s : BlockState) :
+ evalOp (Op.castFloat .fp32 .real (Op.dotTyped .fp16 .real .fp32 (batch := []) x y)) s =
+ evalOp (Op.dot (batch := []) (Op.castFloat .fp16 .real x) y) s := by
+  rw [evalOp_castFloat, evalOp_dotTyped, evalOp_dot]
+  erw [evalOp_castFloat]
+  cases hx : evalOp x s <;> cases hy : evalOp y s <;>
+    simp [hx, hy, FloatDType.cast, FloatDType.toWithBot, FloatDType.ofWithBot] <;> rfl
+
+
+private theorem load_empty_padding {shape : TileShape}
+    (ptr : Op .blockPtr shape) (s : BlockState) :
+    evalOp (.load .real (.blockPtr ptr []) .none .unspecified) s =
+      evalOp (.load .real (.blockPtr ptr []) .none) s := by
+  simp only [evalOp]
+  cases h : evalOp ptr s <;> simp [h, BlockPtr.inBounds_nil_checkedAxes]
 
 set_option linter.unusedSimpArgs false
 
@@ -2494,7 +2512,7 @@ private noncomputable def bwdInnerBodyG (sc : ℝ) (BM BD : Nat) : List Stmt :=
   [ Stmt.assign .nat [BM] "offs_m_curr"
       (Op.add .nat Broadcast.scalarL (Op.ref .nat [] "start_m") (Op.ref .nat [BM] "offs_m")),
     Stmt.assign .real [BM, BD] "q"
-      (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [BM, BD] "q_tile_ptr") [0, 1]) MaskOpt.none),
+      (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [BM, BD] "q_tile_ptr") [0, 1]) MaskOpt.none .unspecified),
     Stmt.assign .real [BM, BM] "qk"
       (Op.dot (batch := []) (Op.ref .real [BM, BD] "q") (Op.transpose (batch := []) (Op.ref .real [BM, BD] "k"))),
     Stmt.assign .real [BM, BM] "qk"
@@ -2514,14 +2532,11 @@ private noncomputable def bwdInnerBodyG (sc : ℝ) (BM BD : Nat) : List Stmt :=
           (Op.mul .real Broadcast.scalarR (Op.ref .real [BM, BM] "qk") (Op.const sc))
           (Op.expandDim ⟨1, by simp⟩ (Op.ref .real [BM] "m")))),
     Stmt.assign .real [BM, BD] "do_val"
-      (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [BM, BD] "do_tile_ptr") [0, 1]) MaskOpt.none),
+      (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [BM, BD] "do_tile_ptr") [0, 1]) MaskOpt.none .unspecified),
     Stmt.assign .real [BM, BD] "dv"
       (Op.add .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
         (Op.ref .real [BM, BD] "dv")
-        (Op.dot (batch := [])
-          (Op.castFloat .fp16 .real
-            (Op.transpose (batch := []) (Op.castFloat .real .fp16 (Op.ref .real [BM, BM] "p"))))
-          (Op.ref .real [BM, BD] "do_val"))),
+        (Op.castFloat .fp32 .real (Op.dotTyped .fp16 .real .fp32 (batch := []) (Op.transpose (batch := []) (Op.castFloat .real .fp16 (Op.ref .real [BM, BM] "p"))) (Op.ref .real [BM, BD] "do_val")))),
     Stmt.assign .real [BM] "Di"
       (Op.load .real
         (MemAccess.ptr
@@ -2544,18 +2559,14 @@ private noncomputable def bwdInnerBodyG (sc : ℝ) (BM BD : Nat) : List Stmt :=
     Stmt.assign .real [BM, BD] "dk"
       (Op.add .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
         (Op.ref .real [BM, BD] "dk")
-        (Op.dot (batch := [])
-          (Op.castFloat .fp16 .real
-            (Op.transpose (batch := []) (Op.castFloat .real .fp16 (Op.ref .real [BM, BM] "ds"))))
-          (Op.ref .real [BM, BD] "q"))),
+        (Op.castFloat .fp32 .real (Op.dotTyped .fp16 .real .fp32 (batch := []) (Op.transpose (batch := []) (Op.castFloat .real .fp16 (Op.ref .real [BM, BM] "ds"))) (Op.ref .real [BM, BD] "q")))),
     Stmt.assign .real [BM, BD] "dq"
-      (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [BM, BD] "dq_tile_ptr") []) MaskOpt.none),
+      (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [BM, BD] "dq_tile_ptr") []) MaskOpt.none .unspecified),
     Stmt.assign .real [BM, BD] "dq"
       (Op.add .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
-        (Op.ref .real [BM, BD] "dq")
-        (Op.dot (batch := [])
-          (Op.castFloat .fp16 .real (Op.castFloat .real .fp16 (Op.ref .real [BM, BM] "ds")))
-          (Op.ref .real [BM, BD] "k"))),
+        (Op.withPrecision .real .fp32 (Op.ref .real [BM, BD] "dq"))
+        (Op.withPrecision .real .fp32
+          (Op.castFloat .fp32 .real (Op.dotTyped .fp16 .real .fp32 (batch := []) (Op.castFloat .real .fp16 (Op.ref .real [BM, BM] "ds")) (Op.ref .real [BM, BD] "k"))))),
     Stmt.store .real [BM, BD] (MemAccess.blockPtr (Op.ref .blockPtr [BM, BD] "dq_tile_ptr") [])
       (Op.ref .real [BM, BD] "dq") MaskOpt.none,
     Stmt.assign .ptr [BM, BD] "dq_ptrs"
@@ -2608,9 +2619,9 @@ private noncomputable def bwdOuterBodyG (Q DO DQ Delta M : RegionName)
     Stmt.assign .real [BM, BD] "dv" (Op.full [BM, BD] (Op.const 0)),
     Stmt.assign .real [BM, BD] "dk" (Op.full [BM, BD] (Op.const 0)),
     Stmt.assign .real [BM, BD] "k"
-      (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [BM, BD] "k_tile_ptr") [0, 1]) MaskOpt.none),
+      (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [BM, BD] "k_tile_ptr") [0, 1]) MaskOpt.none .unspecified),
     Stmt.assign .real [BM, BD] "v"
-      (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [BM, BD] "v_tile_ptr") [0, 1]) MaskOpt.none),
+      (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [BM, BD] "v_tile_ptr") [0, 1]) MaskOpt.none .unspecified),
     Stmt.forRangeDyn "start_m" (Op.ref .nat [] "lo")
       (Op.mul .nat Broadcast.nil (Op.constNat nb) (Op.constNat BM)) (Op.constNat BM)
       (bwdInnerBodyG sc BM BD),
@@ -2619,13 +2630,14 @@ private noncomputable def bwdOuterBodyG (Q DO DQ Delta M : RegionName)
     Stmt.assign .blockPtr [BM, BD] "v_tile_ptr"
       (Op.advanceBlockPtr (Op.ref .blockPtr [BM, BD] "v_tile_ptr") [BM, (0:Nat)]),
     Stmt.store .fp16 [BM, BD] (MemAccess.blockPtr (Op.ref .blockPtr [BM, BD] "dv_tile_ptr") [0, 1])
-      (Op.castFloat .real .fp16 (Op.ref .real [BM, BD] "dv")) MaskOpt.none,
+      (Op.castFloat .real .fp16 (Op.withPrecision .real .fp32 (Op.ref .real [BM, BD] "dv"))) MaskOpt.none,
     Stmt.store .fp16 [BM, BD] (MemAccess.blockPtr (Op.ref .blockPtr [BM, BD] "dk_tile_ptr") [0, 1])
-      (Op.castFloat .real .fp16 (Op.ref .real [BM, BD] "dk")) MaskOpt.none,
+      (Op.castFloat .real .fp16 (Op.withPrecision .real .fp32 (Op.ref .real [BM, BD] "dk"))) MaskOpt.none,
     Stmt.assign .blockPtr [BM, BD] "dv_tile_ptr"
       (Op.advanceBlockPtr (Op.ref .blockPtr [BM, BD] "dv_tile_ptr") [BM, (0:Nat)]),
     Stmt.assign .blockPtr [BM, BD] "dk_tile_ptr"
       (Op.advanceBlockPtr (Op.ref .blockPtr [BM, BD] "dk_tile_ptr") [BM, (0:Nat)]) ]
+
 
 set_option maxHeartbeats 4000000 in
 set_option maxRecDepth 8000 in
@@ -3357,12 +3369,13 @@ theorem ta_load_blockPtr_bc_eval
         { region := region, baseOffset := base, parentShape := [rows, cols],
           blockShape := [BT, BS], strides := [strideT, strideS],
           offsets := [rowOff, 0] }⟩) :
-    evalOp (.load .real (.blockPtr ptrOp [0, 1]) .none) s
+    evalOp (.load .real (.blockPtr ptrOp [0, 1]) .none .unspecified) s
       = some ⟨fun idx : TileIndex [BT, BS] =>
           if (rowOff + idx.1.val < rows ∧ idx.2.1.val < cols) then
             some (s.readMem region
               (base + (rowOff + idx.1.val) * strideT + idx.2.1.val * strideS))
-          else BlockState.defaultCarrier .real⟩ := by
+          else s.paddingValue .real .unspecified region
+            (base + (rowOff + idx.1.val) * strideT + idx.2.1.val * strideS)⟩ := by
   simp only [evalOp, hp, Option.bind]
   refine congrArg some ?_
   ext idx
@@ -3389,7 +3402,7 @@ theorem ta_load_k_eval
           blockShape := [128, 64], strides := [64, 1],
           offsets := [off_hz * 128, 0] }⟩)
     (hrow : ∀ i : Fin 128, off_hz * 128 + i.val < 1024) :
-    evalOp (.load .real (.blockPtr ptrOp [0, 1]) .none) s
+    evalOp (.load .real (.blockPtr ptrOp [0, 1]) .none .unspecified) s
       = some ⟨fun idx : TileIndex [128, 64] =>
           some (fwdKTile s K idx)⟩ := by
   rw [ta_load_blockPtr_bc_eval K 0 1024 64 128 64 64 1
@@ -3417,7 +3430,7 @@ theorem ta_load_v_eval
           blockShape := [128, 64], strides := [64, 1],
           offsets := [off_hz * 128, 0] }⟩)
     (hrow : ∀ j : Fin 128, off_hz * 128 + j.val < 1024) :
-    evalOp (.load .real (.blockPtr ptrOp [0, 1]) .none) s
+    evalOp (.load .real (.blockPtr ptrOp [0, 1]) .none .unspecified) s
       = some ⟨fun idx : TileIndex [128, 64] =>
           some (fwdVTile s V idx)⟩ := by
   rw [ta_load_blockPtr_bc_eval V 0 1024 64 128 64 64 1
@@ -3445,10 +3458,10 @@ theorem ta_load_q_eval
         { region := Q, baseOffset := 0,
           parentShape := [1024, 64], blockShape := [128, 64], strides := [64, 1],
           offsets := [off_hz * 128 + start_m * 128, 0] }⟩) :
-    evalOp (.load .real (.blockPtr ptrOp []) .none) s
+    evalOp (.load .real (.blockPtr ptrOp []) .none .unspecified) s
       = some ⟨fun idx : TileIndex [128, 64] =>
           some (fwdQTile s Q idx)⟩ := by
-  rw [load_blockPtr_Q_eval Q 0 1024 64 128 64
+  rw [load_empty_padding, load_blockPtr_Q_eval Q 0 1024 64 128 64
     64 1 (off_hz * 128 + start_m * 128) ptrOp s hp]
   refine congrArg some ?_
   ext idx
@@ -3735,6 +3748,35 @@ theorem ta_pfp16_eval (s : BlockState) (BM BN : Nat) (ptile : Tile .real [BM, BN
       = some (⟨fun i => FloatDType.real.cast FloatDType.fp16 (ptile.data i)⟩ : Tile .fp16 [BM, BN]) := by
   rw [evalOp_castFloat]; simp [hp]
 
+private theorem ta_evalOp_precision_scope {d : FloatDType} {shape : TileShape}
+    (precision : IndexComputePrecision) (e : Op d.toTileDType shape) (s : BlockState) :
+    evalOp (.withPrecision d precision e) s = evalOp e s := by
+  rw [evalOp.eq_def]
+
+private theorem ta_evalOp_cast_precision_scope {src dst : FloatDType} {shape : TileShape}
+    (precision : IndexComputePrecision) (e : Op src.toTileDType shape) (s : BlockState) :
+    evalOp (.castFloat src dst (.withPrecision src precision e)) s =
+      evalOp (.castFloat src dst e) s := by
+  rw [evalOp_castFloat, ta_evalOp_precision_scope, evalOp_castFloat]
+
+private theorem ta_stepStmt_store_precision_scope {shape : TileShape}
+    (precision : IndexComputePrecision) (mem : MemAccess .fp16 shape)
+    (e : Op .real shape) (mask : MaskOpt .fp16 shape) (s : BlockState) :
+    stepStmt (.store .fp16 shape mem
+      (.castFloat .real .fp16 (.withPrecision .real precision e)) mask) s =
+    stepStmt (.store .fp16 shape mem (.castFloat .real .fp16 e) mask) s := by
+  simp only [stepStmt.eq_def]
+  erw [ta_evalOp_cast_precision_scope]
+  rfl
+
+private theorem ta_pfp16_scoped_eval (s : BlockState) (BM BN : Nat)
+    (ptile : Tile .real [BM, BN]) (hp : s.regs .real [BM, BN] "p" = some ptile) :
+    evalOp (Op.castFloat .real .fp16
+      (Op.withPrecision .real .fp32 (Op.ref .real [BM, BN] "p"))) s =
+      some (⟨fun i => FloatDType.real.cast FloatDType.fp16 (ptile.data i)⟩ : Tile .fp16 [BM, BN]) := by
+  rw [ta_evalOp_cast_precision_scope]
+  exact ta_pfp16_eval s BM BN ptile hp
+
 set_option maxHeartbeats 1600000 in
 set_option maxRecDepth 8000 in
 /-- **`acc += tl.dot(p, v)` statement eval** (loop body L15): the numerator
@@ -3749,8 +3791,7 @@ theorem ta_acc_eval (s : BlockState) (BM BN BD : Nat)
     (hv : s.regs .real [BN, BD] "v" = some vtile) :
     evalOp (Op.add .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
         (Op.ref .real [BM, BD] "acc")
-        (Op.dot (batch := []) (Op.castFloat .fp16 .real (Op.ref .fp16 [BM, BN] "p"))
-          (Op.ref .real [BN, BD] "v"))) s
+        (Op.castFloat .fp32 .real (Op.dotTyped .fp16 .real .fp32 (batch := []) (Op.ref .fp16 [BM, BN] "p") (Op.ref .real [BN, BD] "v")))) s
       = some (Tile.bop NumericDType.real.add
           (Broadcast.consSame (Broadcast.consSame Broadcast.nil)) acctile
           (Tile.dot [] ptile vtile)) := by
@@ -3769,7 +3810,9 @@ theorem ta_acc_eval (s : BlockState) (BM BN BD : Nat)
       = some (Tile.dot [] ptile vtile) := by
     erw [evalOp_dot [] (Op.castFloat .fp16 .real (Op.ref .fp16 [BM, BN] "p"))
       (Op.ref .real [BN, BD] "v"), hcb, hvr]; rfl
-  rw [evalOp_add]; simp only [haccr, hdot, Option.bind_eq_bind, Option.bind_some]; rfl
+  rw [evalOp_add]
+  erw [typed_dot_real, hdot]
+  simp only [haccr, hdot, Option.bind_eq_bind, Option.bind_some]; rfl
 
 set_option maxHeartbeats 1600000 in
 set_option maxRecDepth 8000 in
@@ -3839,13 +3882,13 @@ def taPreLoop (Q K V Out : RegionName) (sc : ℝ) : List Stmt :=
           (Op.mul .nat Broadcast.nil (Op.ref .nat [] "off_hz") (Op.ref .nat [] "stride_qh_2d"))
           (Op.mul .nat Broadcast.nil (Op.ref .nat [] "start_m") (Op.constNat 128)), Op.constNat 0]),
     Stmt.assign .real [128, 64] "q"
-      (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [128, 64] "q_tile_ptr") []) MaskOpt.none) ]
+      (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [128, 64] "q_tile_ptr") []) MaskOpt.none .unspecified) ]
 
 /-- The 19 lowered loop-body statements of the Python-shape triton-attention
 forward `forRangeDyn` body (STAGE=3 diagonal causal block). -/
 def taLoopBody (sc : ℝ) : List Stmt :=
   [ Stmt.assign .real [128, 64] "k"
-      (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [128, 64] "k_tile_ptr") [0, 1]) MaskOpt.none),
+      (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [128, 64] "k_tile_ptr") [0, 1]) MaskOpt.none .unspecified),
     Stmt.assign .real [128, 128] "qk" (Op.full [128, 128] (Op.const 0)),
     Stmt.assign .real [128, 128] "qk"
       (Op.add .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
@@ -3862,11 +3905,7 @@ def taLoopBody (sc : ℝ) : List Stmt :=
             (Op.expandDim ⟨0, by simp⟩ (Op.ref .nat [128] "offs_n"))))
         (Op.ref .real [128, 128] "qk") (Op.broadcast Op.negInf [128, 128])),
     Stmt.assign .real [128] "m_curr"
-      (Op.where
-        (Op.gt .real (Broadcast.consSame Broadcast.nil)
-          (Op.reduceMax (⟨1, by simp⟩ : Fin [128, 128].length) Bool.false (Op.ref .real [128, 128] "qk"))
-          (Op.ref .real [128] "m_prev"))
-        (Op.reduceMax (⟨1, by simp⟩ : Fin [128, 128].length) Bool.false (Op.ref .real [128, 128] "qk"))
+      (Op.maximumFloat .real (Broadcast.consSame Broadcast.nil) (Op.reduceMax (⟨1, by simp⟩ : Fin [128, 128].length) Bool.false (Op.ref .real [128, 128] "qk"))
         (Op.ref .real [128] "m_prev")),
     Stmt.assign .real [128] "l_prev"
       (Op.mul .real (Broadcast.consSame Broadcast.nil) (Op.ref .real [128] "l_prev")
@@ -3891,14 +3930,13 @@ def taLoopBody (sc : ℝ) : List Stmt :=
           (Op.mul .real (Broadcast.consSame Broadcast.nil)
             (Op.ref .real [128] "l_prev") (Op.ref .real [128] "l_rcp")))),
     Stmt.assign .fp16 [128, 128] "p"
-      (Op.castFloat .real .fp16 (Op.ref .real [128, 128] "p")),
+      (Op.castFloat .real .fp16 (Op.withPrecision .real .fp32 (Op.ref .real [128, 128] "p"))),
     Stmt.assign .real [128, 64] "v"
-      (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [128, 64] "v_tile_ptr") [0, 1]) MaskOpt.none),
+      (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [128, 64] "v_tile_ptr") [0, 1]) MaskOpt.none .unspecified),
     Stmt.assign .real [128, 64] "acc"
       (Op.add .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
         (Op.ref .real [128, 64] "acc")
-        (Op.dot (batch := []) (Op.castFloat .fp16 .real (Op.ref .fp16 [128, 128] "p"))
-          (Op.ref .real [128, 64] "v"))),
+        (Op.castFloat .fp32 .real (Op.dotTyped .fp16 .real .fp32 (batch := []) (Op.ref .fp16 [128, 128] "p") (Op.ref .real [128, 64] "v")))),
     Stmt.assign .real [128] "l_prev" (Op.ref .real [128] "l_curr"),
     Stmt.assign .real [128] "m_prev" (Op.ref .real [128] "m_curr"),
     Stmt.assign .blockPtr [128, 64] "k_tile_ptr"
@@ -3929,7 +3967,7 @@ def taPostLoop (L M Out : RegionName) : List Stmt :=
     Stmt.store .real [128] (MemAccess.ptr (Op.ref .ptr [128] "m_ptrs"))
       (Op.ref .real [128] "m_prev") MaskOpt.none,
     Stmt.assign .fp16 [128, 64] "acc"
-      (Op.castFloat .real .fp16 (Op.ref .real [128, 64] "acc")),
+      (Op.castFloat .real .fp16 (Op.withPrecision .real .fp32 (Op.ref .real [128, 64] "acc"))),
     Stmt.store .fp16 [128, 64] (MemAccess.blockPtr (Op.ref .blockPtr [128, 64] "out_tile_ptr") [0, 1])
       (Op.ref .fp16 [128, 64] "acc") MaskOpt.none ]
 
@@ -4007,12 +4045,12 @@ def taPreLoopG (Q K V Out : RegionName) (sc : ℝ)
           (Op.mul .nat Broadcast.nil (Op.ref .nat [] "off_hz") (Op.ref .nat [] "stride_qh_2d"))
           (Op.mul .nat Broadcast.nil (Op.ref .nat [] "start_m") (Op.constNat BLOCK_M)), Op.constNat 0]),
     Stmt.assign .real [BLOCK_M, BLOCK_DMODEL] "q"
-      (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [BLOCK_M, BLOCK_DMODEL] "q_tile_ptr") []) MaskOpt.none) ]
+      (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [BLOCK_M, BLOCK_DMODEL] "q_tile_ptr") []) MaskOpt.none .unspecified) ]
 
 /-- General loop body (19 statements). -/
 def taLoopBodyG (sc : ℝ) (BLOCK_M BLOCK_N BLOCK_DMODEL : Nat) : List Stmt :=
   [ Stmt.assign .real [BLOCK_N, BLOCK_DMODEL] "k"
-      (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [BLOCK_N, BLOCK_DMODEL] "k_tile_ptr") [0, 1]) MaskOpt.none),
+      (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [BLOCK_N, BLOCK_DMODEL] "k_tile_ptr") [0, 1]) MaskOpt.none .unspecified),
     Stmt.assign .real [BLOCK_M, BLOCK_N] "qk" (Op.full [BLOCK_M, BLOCK_N] (Op.const 0)),
     Stmt.assign .real [BLOCK_M, BLOCK_N] "qk"
       (Op.add .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
@@ -4029,11 +4067,7 @@ def taLoopBodyG (sc : ℝ) (BLOCK_M BLOCK_N BLOCK_DMODEL : Nat) : List Stmt :=
             (Op.expandDim ⟨0, by simp⟩ (Op.ref .nat [BLOCK_N] "offs_n"))))
         (Op.ref .real [BLOCK_M, BLOCK_N] "qk") (Op.broadcast Op.negInf [BLOCK_M, BLOCK_N])),
     Stmt.assign .real [BLOCK_M] "m_curr"
-      (Op.where
-        (Op.gt .real (Broadcast.consSame Broadcast.nil)
-          (Op.reduceMax (⟨1, by simp⟩ : Fin [BLOCK_M, BLOCK_N].length) Bool.false (Op.ref .real [BLOCK_M, BLOCK_N] "qk"))
-          (Op.ref .real [BLOCK_M] "m_prev"))
-        (Op.reduceMax (⟨1, by simp⟩ : Fin [BLOCK_M, BLOCK_N].length) Bool.false (Op.ref .real [BLOCK_M, BLOCK_N] "qk"))
+      (Op.maximumFloat .real (Broadcast.consSame Broadcast.nil) (Op.reduceMax (⟨1, by simp⟩ : Fin [BLOCK_M, BLOCK_N].length) Bool.false (Op.ref .real [BLOCK_M, BLOCK_N] "qk"))
         (Op.ref .real [BLOCK_M] "m_prev")),
     Stmt.assign .real [BLOCK_M] "l_prev"
       (Op.mul .real (Broadcast.consSame Broadcast.nil) (Op.ref .real [BLOCK_M] "l_prev")
@@ -4058,14 +4092,13 @@ def taLoopBodyG (sc : ℝ) (BLOCK_M BLOCK_N BLOCK_DMODEL : Nat) : List Stmt :=
           (Op.mul .real (Broadcast.consSame Broadcast.nil)
             (Op.ref .real [BLOCK_M] "l_prev") (Op.ref .real [BLOCK_M] "l_rcp")))),
     Stmt.assign .fp16 [BLOCK_M, BLOCK_N] "p"
-      (Op.castFloat .real .fp16 (Op.ref .real [BLOCK_M, BLOCK_N] "p")),
+      (Op.castFloat .real .fp16 (Op.withPrecision .real .fp32 (Op.ref .real [BLOCK_M, BLOCK_N] "p"))),
     Stmt.assign .real [BLOCK_N, BLOCK_DMODEL] "v"
-      (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [BLOCK_N, BLOCK_DMODEL] "v_tile_ptr") [0, 1]) MaskOpt.none),
+      (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [BLOCK_N, BLOCK_DMODEL] "v_tile_ptr") [0, 1]) MaskOpt.none .unspecified),
     Stmt.assign .real [BLOCK_M, BLOCK_DMODEL] "acc"
       (Op.add .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
         (Op.ref .real [BLOCK_M, BLOCK_DMODEL] "acc")
-        (Op.dot (batch := []) (Op.castFloat .fp16 .real (Op.ref .fp16 [BLOCK_M, BLOCK_N] "p"))
-          (Op.ref .real [BLOCK_N, BLOCK_DMODEL] "v"))),
+        (Op.castFloat .fp32 .real (Op.dotTyped .fp16 .real .fp32 (batch := []) (Op.ref .fp16 [BLOCK_M, BLOCK_N] "p") (Op.ref .real [BLOCK_N, BLOCK_DMODEL] "v")))),
     Stmt.assign .real [BLOCK_M] "l_prev" (Op.ref .real [BLOCK_M] "l_curr"),
     Stmt.assign .real [BLOCK_M] "m_prev" (Op.ref .real [BLOCK_M] "m_curr"),
     Stmt.assign .blockPtr [BLOCK_N, BLOCK_DMODEL] "k_tile_ptr"
@@ -4094,7 +4127,7 @@ def taPostLoopG (L M Out : RegionName) (N_CTX BLOCK_M BLOCK_DMODEL : Nat) : List
     Stmt.store .real [BLOCK_M] (MemAccess.ptr (Op.ref .ptr [BLOCK_M] "m_ptrs"))
       (Op.ref .real [BLOCK_M] "m_prev") MaskOpt.none,
     Stmt.assign .fp16 [BLOCK_M, BLOCK_DMODEL] "acc"
-      (Op.castFloat .real .fp16 (Op.ref .real [BLOCK_M, BLOCK_DMODEL] "acc")),
+      (Op.castFloat .real .fp16 (Op.withPrecision .real .fp32 (Op.ref .real [BLOCK_M, BLOCK_DMODEL] "acc"))),
     Stmt.store .fp16 [BLOCK_M, BLOCK_DMODEL] (MemAccess.blockPtr (Op.ref .blockPtr [BLOCK_M, BLOCK_DMODEL] "out_tile_ptr") [0, 1])
       (Op.ref .fp16 [BLOCK_M, BLOCK_DMODEL] "acc") MaskOpt.none ]
 
@@ -4110,10 +4143,10 @@ theorem ta_load_q_evalG
         { region := Q, baseOffset := 0,
           parentShape := [D0, BLOCK_DMODEL], blockShape := [BLOCK_M, BLOCK_DMODEL], strides := [BLOCK_DMODEL, 1],
           offsets := [off_hz * stride_hz_2d + start_m * BLOCK_M, 0] }⟩) :
-    evalOp (.load .real (.blockPtr ptrOp []) .none) s
+    evalOp (.load .real (.blockPtr ptrOp []) .none .unspecified) s
       = some ⟨fun idx : TileIndex [BLOCK_M, BLOCK_DMODEL] =>
           some (fwdQTileG s Q stride_hz_2d BLOCK_DMODEL BLOCK_M BLOCK_DMODEL idx)⟩ := by
-  rw [load_blockPtr_Q_eval Q 0 D0 BLOCK_DMODEL BLOCK_M BLOCK_DMODEL
+  rw [load_empty_padding, load_blockPtr_Q_eval Q 0 D0 BLOCK_DMODEL BLOCK_M BLOCK_DMODEL
     BLOCK_DMODEL 1 (off_hz * stride_hz_2d + start_m * BLOCK_M) ptrOp s hp]
   refine congrArg some ?_
   ext idx
@@ -4268,8 +4301,8 @@ theorem taLoopBody_steps (K V : RegionName) (off_hz : Nat) (sc : ℝ) (sin : Blo
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (ta_where_eval _ 128 128 0 gm qk0 (by simp [hoffm]) (by simp [hoffn]) (by simp [hsn]) (by simp [hqk0])))]
   -- L6: m_curr = maximum
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some
-    (ta_mij_eval _ 128 128 mtile qk1 rmaxT (by simp [hmp]) (by simp [hqk1]) hrm))]
+  erw [stepStmts.cons_some (stepStmt_assign_eq_some
+    (evalOp_maximumFloat_real_of_where (ta_mij_eval _ 128 128 mtile qk1 rmaxT (by simp [hmp]) (by simp [hqk1]) hrm)))]
   -- L7: l_prev *= alpha
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (ta_alpha_eval _ 128 ltile mtile mcurrT (by simp [hlp]) (by simp [hmp]) (by simp [hmc])))]
@@ -4290,13 +4323,13 @@ theorem taLoopBody_steps (K V : RegionName) (off_hz : Nat) (sc : ℝ) (sin : Blo
     (ta_acc_rescale_eval _ 128 64 (by decide) acctile lprev1T lrcpT (by simp [hacc]) (by simp [hlp1, hal]) (by simp [hlr])))]
   -- L13: p -> fp16
   rw [stepStmts.cons_some (@stepStmt_assign_eq_some .fp16 [128, 128] "p"
-    (Op.castFloat .real .fp16 (Op.ref .real [128, 128] "p")) _
+    (Op.castFloat .real .fp16 (Op.withPrecision .real .fp32 (Op.ref .real [128, 128] "p"))) _
     (⟨fun i => FloatDType.real.cast FloatDType.fp16 (pT.data i)⟩ : Tile .fp16 [128, 128])
-    (ta_pfp16_eval _ 128 128 pT (by simp [hpT])))]
+    (ta_pfp16_scoped_eval _ 128 128 pT (by simp [hpT])))]
   -- L14: v = load(v_tile_ptr [0,1]); the load reads `fwdVTile <state> V`, but
   -- every prior setReg preserves mem/pids so this equals `vT = fwdVTile sin V`.
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
-    (show evalOp (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [128, 64] "v_tile_ptr") [0, 1]) MaskOpt.none) _
+    (show evalOp (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [128, 64] "v_tile_ptr") [0, 1]) MaskOpt.none .unspecified) _
         = some vT from by
       rw [ta_load_v_eval V off_hz (Op.ref .blockPtr [128, 64] "v_tile_ptr") _
         (by simp [hpids1]) (by rw [evalOp_ref]; simp [hvp, taKVPtrTile]) hrow]
@@ -4311,7 +4344,7 @@ theorem taLoopBody_steps (K V : RegionName) (off_hz : Nat) (sc : ℝ) (sin : Blo
     (ta_reg_carry_eval _ 128 "l_curr" lcurrT (by simp [hlc])))]
   -- L17: m_prev = m_curr
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
-    (ta_reg_carry_eval _ 128 "m_curr" mcurrT (by simp [hmc])))]
+    (ta_reg_carry_eval _ 128 "m_curr" mcurrT (by simp [FloatDType.toTileDType, hmc])))]
   -- L18: k_tile_ptr advance
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (ta_advance_row_eval _ K 0 1024 64 128 64 64 1 (off_hz * 128) 128 "k_tile_ptr" (by simp [hkp, taKVPtrTile])))]
@@ -4452,7 +4485,7 @@ theorem taLoopBody_stepsG (sc : ℝ) (BLOCK_M BLOCK_N BLOCK_DMODEL SN : Nat) (si
   -- L1: k = load(k_tile_ptr [0,1]); discharge via the block-ptr-bc recipe against
   -- the entry register `hkp`, then per-cell `hkload` (entry-state readMem).
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
-    (show evalOp (.load .real (.blockPtr (Op.ref .blockPtr [BLOCK_N, BLOCK_DMODEL] "k_tile_ptr") [0, 1]) .none) sin
+    (show evalOp (.load .real (.blockPtr (Op.ref .blockPtr [BLOCK_N, BLOCK_DMODEL] "k_tile_ptr") [0, 1]) .none .unspecified) sin
         = some kT from by
       rw [ta_load_blockPtr_bc_eval K 0 D0 BLOCK_DMODEL BLOCK_N BLOCK_DMODEL BLOCK_DMODEL 1 rowOff
         (Op.ref .blockPtr [BLOCK_N, BLOCK_DMODEL] "k_tile_ptr") sin (by rw [evalOp_ref, hkp]; rfl)]
@@ -4473,8 +4506,8 @@ theorem taLoopBody_stepsG (sc : ℝ) (BLOCK_M BLOCK_N BLOCK_DMODEL SN : Nat) (si
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (ta_where_eval _ BLOCK_M BLOCK_N SN gm qk0 (by simp [hoffm]) (by simp [hoffn]) (by simp [hsn]) (by simp [hqk0])))]
   -- L6: m_curr = maximum
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some
-    (ta_mij_eval _ BLOCK_M BLOCK_N mtile qk1 rmaxT (by simp [hmp]) (by simp [hqk1]) hrm))]
+  erw [stepStmts.cons_some (stepStmt_assign_eq_some
+    (evalOp_maximumFloat_real_of_where (ta_mij_eval _ BLOCK_M BLOCK_N mtile qk1 rmaxT (by simp [hmp]) (by simp [hqk1]) hrm)))]
   -- L7: l_prev *= alpha
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (ta_alpha_eval _ BLOCK_M ltile mtile mcurrT (by simp [hlp]) (by simp [hmp]) (by simp [hmc])))]
@@ -4495,13 +4528,13 @@ theorem taLoopBody_stepsG (sc : ℝ) (BLOCK_M BLOCK_N BLOCK_DMODEL SN : Nat) (si
     (ta_acc_rescale_eval _ BLOCK_M BLOCK_DMODEL Nat.one_lt_two acctile lprev1T lrcpT (by simp [hacc]) (by simp [hlp1, hal]) (by simp [hlr])))]
   -- L13: p -> fp16
   rw [stepStmts.cons_some (@stepStmt_assign_eq_some .fp16 [BLOCK_M, BLOCK_N] "p"
-    (Op.castFloat .real .fp16 (Op.ref .real [BLOCK_M, BLOCK_N] "p")) _
+    (Op.castFloat .real .fp16 (Op.withPrecision .real .fp32 (Op.ref .real [BLOCK_M, BLOCK_N] "p"))) _
     (⟨fun i => FloatDType.real.cast FloatDType.fp16 (pT.data i)⟩ : Tile .fp16 [BLOCK_M, BLOCK_N])
-    (ta_pfp16_eval _ BLOCK_M BLOCK_N pT (by simp [hpT])))]
+    (ta_pfp16_scoped_eval _ BLOCK_M BLOCK_N pT (by simp [hpT])))]
   -- L14: v = load(v_tile_ptr [0,1]); the load reads `v_tile_ptr` (untouched by
   -- L1-L13) and the setReg tower preserves `sin`'s mem, so per-cell `hvload` applies.
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
-    (show evalOp (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [BLOCK_N, BLOCK_DMODEL] "v_tile_ptr") [0, 1]) MaskOpt.none) _
+    (show evalOp (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [BLOCK_N, BLOCK_DMODEL] "v_tile_ptr") [0, 1]) MaskOpt.none .unspecified) _
         = some vT from by
       rw [ta_load_blockPtr_bc_eval V 0 D0 BLOCK_DMODEL BLOCK_N BLOCK_DMODEL BLOCK_DMODEL 1 rowOff
         (Op.ref .blockPtr [BLOCK_N, BLOCK_DMODEL] "v_tile_ptr") _
@@ -4521,7 +4554,7 @@ theorem taLoopBody_stepsG (sc : ℝ) (BLOCK_M BLOCK_N BLOCK_DMODEL SN : Nat) (si
     (ta_reg_carry_eval _ BLOCK_M "l_curr" lcurrT (by simp [hlc])))]
   -- L17: m_prev = m_curr
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
-    (ta_reg_carry_eval _ BLOCK_M "m_curr" mcurrT (by simp [hmc])))]
+    (ta_reg_carry_eval _ BLOCK_M "m_curr" mcurrT (by simp [FloatDType.toTileDType, hmc])))]
   -- L18: k_tile_ptr advance
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (ta_advance_row_eval _ K 0 D0 BLOCK_DMODEL BLOCK_N BLOCK_DMODEL BLOCK_DMODEL 1 rowOff BLOCK_N "k_tile_ptr"
@@ -5572,9 +5605,9 @@ theorem ta_postLoop
     rw [hop]
   -- stmt 6: acc = castFloat real→fp16 acc
   erw [stepStmts.cons_some (stepStmt_assign_eq_some
-    (show evalOp (Op.castFloat .real .fp16 (Op.ref .real [128, 64] "acc")) s5
+    (show evalOp (Op.castFloat .real .fp16 (Op.withPrecision .real .fp32 (Op.ref .real [128, 64] "acc"))) s5
         = some (⟨fun idx => FloatDType.real.cast FloatDType.fp16 (accTile.data idx)⟩ : Tile .fp16 [128, 64]) from by
-      rw [evalOp_castFloat]; erw [evalOp_ref, hacc5]; rfl))]
+      rw [ta_evalOp_cast_precision_scope, evalOp_castFloat]; erw [evalOp_ref, hacc5]; rfl))]
   set s6 := s5.setReg "acc" .fp16 [128, 64]
       ⟨fun idx => FloatDType.real.cast FloatDType.fp16 (accTile.data idx)⟩ with hs6
   have hout6 : s6.regs .blockPtr [128, 64] "out_tile_ptr"
@@ -6651,9 +6684,9 @@ theorem ta_postLoopG
     rw [hop]
   -- stmt 6: acc = castFloat real→fp16 acc
   erw [stepStmts.cons_some (stepStmt_assign_eq_some
-    (show evalOp (Op.castFloat .real .fp16 (Op.ref .real [BLOCK_M, BLOCK_DMODEL] "acc")) s5
+    (show evalOp (Op.castFloat .real .fp16 (Op.withPrecision .real .fp32 (Op.ref .real [BLOCK_M, BLOCK_DMODEL] "acc"))) s5
         = some (⟨fun idx => FloatDType.real.cast FloatDType.fp16 (accTile.data idx)⟩ : Tile .fp16 [BLOCK_M, BLOCK_DMODEL]) from by
-      rw [evalOp_castFloat]; erw [evalOp_ref, hacc5]; rfl))]
+      rw [ta_evalOp_cast_precision_scope, evalOp_castFloat]; erw [evalOp_ref, hacc5]; rfl))]
   set s6 := s5.setReg "acc" .fp16 [BLOCK_M, BLOCK_DMODEL]
       ⟨fun idx => FloatDType.real.cast FloatDType.fp16 (accTile.data idx)⟩ with hs6
   have hout6 : s6.regs .blockPtr [BLOCK_M, BLOCK_DMODEL] "out_tile_ptr"
@@ -7033,10 +7066,7 @@ theorem bwd_trans_fp16_dot_evalG (s : BlockState) (BM BD : Nat) (nacc nx ny : Re
     @evalOp TileDType.real [BM, BD]
         (Op.add .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
           (Op.ref .real [BM, BD] nacc)
-          (Op.dot (batch := [])
-            (Op.castFloat .fp16 .real
-              (Op.transpose (batch := []) (Op.castFloat .real .fp16 (Op.ref .real [BM, BM] nx))))
-            (Op.ref .real [BM, BD] ny))) s
+          (Op.castFloat .fp32 .real (Op.dotTyped .fp16 .real .fp32 (batch := []) (Op.transpose (batch := []) (Op.castFloat .real .fp16 (Op.ref .real [BM, BM] nx))) (Op.ref .real [BM, BD] ny)))) s
       = some (Tile.bop NumericDType.real.add
           (Broadcast.consSame (Broadcast.consSame Broadcast.nil)) acctile
           (Tile.dot []
@@ -7086,6 +7116,7 @@ theorem bwd_trans_fp16_dot_evalG (s : BlockState) (BM BD : Nat) (nacc nx ny : Re
         (Op.transpose (batch := []) (Op.castFloat .real .fp16 (Op.ref .real [BM, BM] nx))))
       (Op.ref .real [BM, BD] ny), hcastback, hyr]; rfl
   rw [evalOp_add]
+  erw [typed_dot_real, hdot]
   simp only [haccr, hdot, Option.bind_eq_bind, Option.bind_some]; rfl
 
 set_option maxHeartbeats 1600000 in
@@ -7100,9 +7131,7 @@ theorem bwd_fp16_dot_evalG (s : BlockState) (BM BD : Nat) (ndq nds nk : RegName)
     @evalOp TileDType.real [BM, BD]
         (Op.add .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
           (Op.ref .real [BM, BD] ndq)
-          (Op.dot (batch := [])
-            (Op.castFloat .fp16 .real (Op.castFloat .real .fp16 (Op.ref .real [BM, BM] nds)))
-            (Op.ref .real [BM, BD] nk))) s
+          (Op.castFloat .fp32 .real (Op.dotTyped .fp16 .real .fp32 (batch := []) (Op.castFloat .real .fp16 (Op.ref .real [BM, BM] nds)) (Op.ref .real [BM, BD] nk)))) s
       = some (Tile.bop NumericDType.real.add
           (Broadcast.consSame (Broadcast.consSame Broadcast.nil)) dqtile
           (Tile.dot []
@@ -7136,7 +7165,27 @@ theorem bwd_fp16_dot_evalG (s : BlockState) (BM BD : Nat) (ndq nds nk : RegName)
       (Op.castFloat .fp16 .real (Op.castFloat .real .fp16 (Op.ref .real [BM, BM] nds)))
       (Op.ref .real [BM, BD] nk), hcastback, hkr]; rfl
   rw [evalOp_add]
+  erw [typed_dot_real, hdot]
   simp only [hdqr, hdot, Option.bind_eq_bind, Option.bind_some]; rfl
+
+private theorem bwd_fp16_dot_scoped_evalG (s : BlockState) (BM BD : Nat) (ndq nds nk : RegName)
+    (dqtile : Tile .real [BM, BD]) (dstile : Tile .real [BM, BM]) (ktile : Tile .real [BM, BD])
+    (hdq : s.regs .real [BM, BD] ndq = some dqtile)
+    (hds : s.regs .real [BM, BM] nds = some dstile)
+    (hk : s.regs .real [BM, BD] nk = some ktile) :
+    @evalOp TileDType.real [BM, BD]
+        (Op.add .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
+          (Op.withPrecision .real .fp32 (Op.ref .real [BM, BD] ndq))
+          (Op.withPrecision .real .fp32 (Op.castFloat .fp32 .real (Op.dotTyped .fp16 .real .fp32 (batch := []) (Op.castFloat .real .fp16 (Op.ref .real [BM, BM] nds)) (Op.ref .real [BM, BD] nk))))) s
+      = some (Tile.bop NumericDType.real.add
+          (Broadcast.consSame (Broadcast.consSame Broadcast.nil)) dqtile
+          (Tile.dot []
+            (⟨fun idx : TileIndex [BM, BM] =>
+                FloatDType.fp16.cast FloatDType.real
+                  (FloatDType.real.cast FloatDType.fp16 (dstile.data idx))⟩ : Tile .real [BM, BM])
+            ktile)) := by
+  simpa only [evalOp.eq_def] using
+    bwd_fp16_dot_evalG s BM BD ndq nds nk dqtile dstile ktile hdq hds hk
 
 theorem foldl_writeMem_pids_eq {α : Type}
     (region : RegionName) (offsetFn : α → Nat) (valueFn : α → ℝ)
@@ -7266,7 +7315,7 @@ theorem bwd_load_bc_evalG
     (hmem : t.mem = s.mem)
     (hrow : ∀ i : Fin BM, base / BD + rowOff + i.val < D0)
     (hp : evalOp ptrOp t = some (bwdPtrTileG R base D0 BM BD rowOff)) :
-    evalOp (.load .real (.blockPtr ptrOp [0, 1]) .none) t
+    evalOp (.load .real (.blockPtr ptrOp [0, 1]) .none .unspecified) t
       = some ⟨fun idx : TileIndex [BM, BD] =>
           some (s.readMem R (base + (rowOff + idx.1.val) * BD + idx.2.1.val))⟩ := by
   have hp' : evalOp ptrOp t = some
@@ -7297,7 +7346,7 @@ theorem bwd_load_nobc_evalG
     (hbdvd : BD ∣ base)
     (hmem : t.mem = s.mem)
     (hp : evalOp ptrOp t = some (bwdPtrTileG R base D0 BM BD rowOff)) :
-    evalOp (.load .real (.blockPtr ptrOp []) .none) t
+    evalOp (.load .real (.blockPtr ptrOp []) .none .unspecified) t
       = some ⟨fun idx : TileIndex [BM, BD] =>
           some (s.readMem R (base + (rowOff + idx.1.val) * BD + idx.2.1.val))⟩ := by
   have hp' : evalOp ptrOp t = some
@@ -8239,7 +8288,7 @@ private theorem bwdInnerChunk3_stepG (base : Nat) (s sin : BlockState) (Q K V DO
   rw [stepStmts.cons_some (show stepStmt _ s4
       = some (s4.setReg "dq" .real [BM, BD] (bwdInnerDqG base s Q K V DO M Delta DQ BM BD NCTX qRow kRow sc)) from
     stepStmt_assign_eq_some
-      (bwd_fp16_dot_evalG s4 BM BD "dq" "ds" "k"
+      (bwd_fp16_dot_scoped_evalG s4 BM BD "dq" "ds" "k"
         (⟨fun idx : TileIndex [BM, BD] =>
           some (s.readMem DQ (base + (qRow + idx.1.val) * BD + idx.2.1.val))⟩)
         (bwdInnerDsG base s Q K V DO M Delta BM BD NCTX qRow kRow sc)
@@ -9724,7 +9773,10 @@ private theorem bwdOuterBodyG_step (H stride_qz stride_qh : Nat) (base : Nat) (s
         some (bwdAccDvCell base sOuter Q K M DO BM BD N_CTX sc n (nb - n) idx.1.val idx.2.1.val)⟩
       hbdvd hrowDV hdvtp2 hdv2
       (fun idx => ⟨_, rfl⟩)
-  rw [stepStmts.cons_some hDVstep]
+  rw [stepStmts.cons_some ((ta_stepStmt_store_precision_scope
+    .fp32
+    (MemAccess.blockPtr (Op.ref .blockPtr [BM, BD] "dv_tile_ptr") [0, 1])
+    (Op.ref .real [BM, BD] "dv") MaskOpt.none sa2).trans hDVstep)]
   -- DK fp16 store
   have hdktpDV : sDV.regs .blockPtr [BM, BD] "dk_tile_ptr"
       = some (bwdPtrTileG DK (base) D0 BM BD (n * BM)) := by
@@ -9747,7 +9799,10 @@ private theorem bwdOuterBodyG_step (H stride_qz stride_qh : Nat) (base : Nat) (s
         some (bwdAccDkCell base sOuter Q K V DO M Delta BM BD N_CTX sc n (nb - n) idx.1.val idx.2.1.val)⟩
       hbdvd hrowDV hdktpDV hdk2DV
       (fun idx => ⟨_, rfl⟩)
-  rw [stepStmts.cons_some hDKstep]
+  rw [stepStmts.cons_some ((ta_stepStmt_store_precision_scope
+    .fp32
+    (MemAccess.blockPtr (Op.ref .blockPtr [BM, BD] "dk_tile_ptr") [0, 1])
+    (Op.ref .real [BM, BD] "dk") MaskOpt.none sDV).trans hDKstep)]
   -- final two advances (dv_tile_ptr, dk_tile_ptr)
   have hdvtpDK : sDK.regs .blockPtr [BM, BD] "dv_tile_ptr"
       = some (bwdPtrTileG DV (base) D0 BM BD (n * BM)) := by
@@ -10544,6 +10599,14 @@ private theorem taIO_Rcast_fp16_real (R : RoundingModel) :
     funext y; cases y <;> simp [RoundingModel.roundW]]
   rfl
 
+private theorem taIO_Rcast_fp32_real (R : RoundingModel) :
+    R.cast .fp32 .real = FloatDType.cast .fp32 .real := by
+  funext x
+  unfold RoundingModel.cast FloatDType.cast
+  rw [show R.roundW .real = id from by
+    funext y; cases y <;> simp [RoundingModel.roundW]]
+  rfl
+
 /-- `.real` stores never round: `writeMemTypedR` delegates to the exact write. -/
 private theorem taIO_wmtR_real (R : RoundingModel) (s : BlockState)
     (region : RegionName) (o : Nat) (v : TileCarrier .real) :
@@ -10685,7 +10748,7 @@ private theorem taIO_loopBody_stmt_castFree (R : RoundingModel)
   rcases hst with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl |
     rfl | rfl | rfl | rfl | rfl | rfl <;>
     simp only [stepStmtR, stepStmt, evalOpR.eq_def, evalOp.eq_def,
-      taIO_Rcast_real_fp16 R hfp16, taIO_Rcast_fp16_real R]
+      taIO_Rcast_real_fp16 R hfp16, taIO_Rcast_fp16_real R, taIO_Rcast_fp32_real R]
 
 set_option maxHeartbeats 4000000 in
 /-- Every postLoop statement is cast-free given `R.round .fp16 = id`: the two
@@ -10911,7 +10974,7 @@ private theorem taIO_preLoop_split (Q K V Out : RegionName) (sc : ℝ)
               (Op.load .real
                 (MemAccess.blockPtr
                   (Op.ref .blockPtr [BLOCK_M, BLOCK_DMODEL] "q_tile_ptr") [])
-                MaskOpt.none)] := rfl
+                MaskOpt.none .unspecified)] := rfl
 
 set_option maxHeartbeats 4000000 in
 set_option maxRecDepth 8000 in
@@ -11159,11 +11222,7 @@ private def taBodyMidG (sc : ℝ) (BLOCK_M BLOCK_N BLOCK_DMODEL : Nat) : List St
             (Op.expandDim ⟨0, by simp⟩ (Op.ref .nat [BLOCK_N] "offs_n"))))
         (Op.ref .real [BLOCK_M, BLOCK_N] "qk") (Op.broadcast Op.negInf [BLOCK_M, BLOCK_N])),
     Stmt.assign .real [BLOCK_M] "m_curr"
-      (Op.where
-        (Op.gt .real (Broadcast.consSame Broadcast.nil)
-          (Op.reduceMax (⟨1, by simp⟩ : Fin [BLOCK_M, BLOCK_N].length) Bool.false (Op.ref .real [BLOCK_M, BLOCK_N] "qk"))
-          (Op.ref .real [BLOCK_M] "m_prev"))
-        (Op.reduceMax (⟨1, by simp⟩ : Fin [BLOCK_M, BLOCK_N].length) Bool.false (Op.ref .real [BLOCK_M, BLOCK_N] "qk"))
+      (Op.maximumFloat .real (Broadcast.consSame Broadcast.nil) (Op.reduceMax (⟨1, by simp⟩ : Fin [BLOCK_M, BLOCK_N].length) Bool.false (Op.ref .real [BLOCK_M, BLOCK_N] "qk"))
         (Op.ref .real [BLOCK_M] "m_prev")),
     Stmt.assign .real [BLOCK_M] "l_prev"
       (Op.mul .real (Broadcast.consSame Broadcast.nil) (Op.ref .real [BLOCK_M] "l_prev")
@@ -11188,7 +11247,7 @@ private def taBodyMidG (sc : ℝ) (BLOCK_M BLOCK_N BLOCK_DMODEL : Nat) : List St
           (Op.mul .real (Broadcast.consSame Broadcast.nil)
             (Op.ref .real [BLOCK_M] "l_prev") (Op.ref .real [BLOCK_M] "l_rcp")))),
     Stmt.assign .fp16 [BLOCK_M, BLOCK_N] "p"
-      (Op.castFloat .real .fp16 (Op.ref .real [BLOCK_M, BLOCK_N] "p")) ]
+      (Op.castFloat .real .fp16 (Op.withPrecision .real .fp32 (Op.ref .real [BLOCK_M, BLOCK_N] "p"))) ]
 
 /-- Loop-body statements 15–19 (post-V-load register updates and the two
 pointer advances), as an explicit list. -/
@@ -11196,8 +11255,7 @@ private def taBodyTailG (BLOCK_M BLOCK_N BLOCK_DMODEL : Nat) : List Stmt :=
   [ Stmt.assign .real [BLOCK_M, BLOCK_DMODEL] "acc"
       (Op.add .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
         (Op.ref .real [BLOCK_M, BLOCK_DMODEL] "acc")
-        (Op.dot (batch := []) (Op.castFloat .fp16 .real (Op.ref .fp16 [BLOCK_M, BLOCK_N] "p"))
-          (Op.ref .real [BLOCK_N, BLOCK_DMODEL] "v"))),
+        (Op.castFloat .fp32 .real (Op.dotTyped .fp16 .real .fp32 (batch := []) (Op.ref .fp16 [BLOCK_M, BLOCK_N] "p") (Op.ref .real [BLOCK_N, BLOCK_DMODEL] "v")))),
     Stmt.assign .real [BLOCK_M] "l_prev" (Op.ref .real [BLOCK_M] "l_curr"),
     Stmt.assign .real [BLOCK_M] "m_prev" (Op.ref .real [BLOCK_M] "m_curr"),
     Stmt.assign .blockPtr [BLOCK_N, BLOCK_DMODEL] "k_tile_ptr"
@@ -11209,10 +11267,10 @@ private def taBodyTailG (BLOCK_M BLOCK_N BLOCK_DMODEL : Nat) : List Stmt :=
 private theorem taIO_body_split (sc : ℝ) (BLOCK_M BLOCK_N BLOCK_DMODEL : Nat) :
     taLoopBodyG sc BLOCK_M BLOCK_N BLOCK_DMODEL
       = Stmt.assign .real [BLOCK_N, BLOCK_DMODEL] "k"
-          (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [BLOCK_N, BLOCK_DMODEL] "k_tile_ptr") [0, 1]) MaskOpt.none)
+          (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [BLOCK_N, BLOCK_DMODEL] "k_tile_ptr") [0, 1]) MaskOpt.none .unspecified)
         :: (taBodyMidG sc BLOCK_M BLOCK_N BLOCK_DMODEL
           ++ (Stmt.assign .real [BLOCK_N, BLOCK_DMODEL] "v"
-                (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [BLOCK_N, BLOCK_DMODEL] "v_tile_ptr") [0, 1]) MaskOpt.none)
+                (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [BLOCK_N, BLOCK_DMODEL] "v_tile_ptr") [0, 1]) MaskOpt.none .unspecified)
               :: taBodyTailG BLOCK_M BLOCK_N BLOCK_DMODEL)) := rfl
 
 /-- The 12 middle loop-body statements (2–13; pure register arithmetic on
@@ -11884,9 +11942,9 @@ private theorem taIO_postLoop_frameG
     rw [hs3]; iterate 4 rw [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (by decide)]
     rw [hop]
   erw [stepStmts.cons_some (stepStmt_assign_eq_some
-    (show evalOp (Op.castFloat .real .fp16 (Op.ref .real [BLOCK_M, BLOCK_DMODEL] "acc")) s5
+    (show evalOp (Op.castFloat .real .fp16 (Op.withPrecision .real .fp32 (Op.ref .real [BLOCK_M, BLOCK_DMODEL] "acc"))) s5
         = some (⟨fun idx => FloatDType.real.cast FloatDType.fp16 (accTile.data idx)⟩ : Tile .fp16 [BLOCK_M, BLOCK_DMODEL]) from by
-      rw [evalOp_castFloat]; erw [evalOp_ref, hacc5]; rfl))]
+      rw [ta_evalOp_cast_precision_scope, evalOp_castFloat]; erw [evalOp_ref, hacc5]; rfl))]
   set s6 := s5.setReg "acc" .fp16 [BLOCK_M, BLOCK_DMODEL]
       ⟨fun idx => FloatDType.real.cast FloatDType.fp16 (accTile.data idx)⟩ with hs6
   have hout6 : s6.regs .blockPtr [BLOCK_M, BLOCK_DMODEL] "out_tile_ptr"
@@ -12691,3 +12749,5 @@ specification triton_attention_forward_io_correctness (R : RoundingModel)
 end IOHeadline
 
 end VeriTile.Bench.TritonBenchG.TritonAttention
+
+#auditModuleAxioms

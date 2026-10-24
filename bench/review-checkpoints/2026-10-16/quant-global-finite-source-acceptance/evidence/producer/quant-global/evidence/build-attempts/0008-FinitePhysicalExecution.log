@@ -1,0 +1,6 @@
+QuantizeGlobalFinite.output_store_commutes: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+QuantizeGlobalFinite.lanes_physical: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+QuantizeGlobalFinite.grid_physical: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+QuantizeGlobalFinite.quantize_global_trial_physical_execution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

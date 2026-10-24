@@ -1,0 +1,10 @@
+import VeriTile.Meta.StatementAudit
+import bench.repairs.tritonbench_g.chunk_retention_ops.KernelOnly.Contract
+import bench.repairs.tritonbench_g.chunk_retention_ops.KernelOnly.Correct
+import bench.repairs.tritonbench_g.chunk_retention_ops.KernelOnly.FPEquiv
+
+#axiomsClean VeriTile.Bench.Repairs.ChunkRetentionOps.Whole001.KernelOnly.Correct.forward_correct
+#axiomsClean VeriTile.Bench.Repairs.ChunkRetentionOps.Whole001.KernelOnly.Correct.output_correct
+#axiomsClean VeriTile.Bench.Repairs.ChunkRetentionOps.Whole001.KernelOnly.Correct.backward_correct
+#axiomsClean VeriTile.Bench.Repairs.ChunkRetentionOps.Whole001.KernelOnly.Correct.gradient_correct
+#axiomsClean VeriTile.Bench.Repairs.ChunkRetentionOps.Whole001.KernelOnly.FPEquiv.source_candidate_equivalence

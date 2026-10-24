@@ -34,19 +34,19 @@ def inv : Op .real [] := .div .real .nil (.const 1) (ref "b")
 def mul : Op .real [] := .mul .real .nil (ref "a") (ref "inv")
 
 def lhs : Format → GuardedFragment
-  | .fp32 => ⟨guards, [.assign .real [] "out" (.compute (.alg .fp32 div))]⟩
+  | .fp32 => ⟨guards, [.assign .real [] "out" (.compute (.alg .fp32 div))], .real, none⟩
   | .fp64_fp32 => ⟨guards, [
       .assign .real [] "value" (.compute (.alg .fp64 div)),
-      .assign .real [] "out" (.compute (.alg .fp32 (.castFloat .real .real (ref "value"))))]⟩
+      .assign .real [] "out" (.compute (.alg .fp32 (.castFloat .real .real (ref "value"))))], .real, none⟩
 
 def rhs : Format → GuardedFragment
   | .fp32 => ⟨guards, [
       .assign .real [] "inv" (.compute (.alg .fp32 inv)),
-      .assign .real [] "out" (.compute (.alg .fp32 mul))]⟩
+      .assign .real [] "out" (.compute (.alg .fp32 mul))], .real, none⟩
   | .fp64_fp32 => ⟨guards, [
       .assign .real [] "inv" (.compute (.alg .fp64 inv)),
       .assign .real [] "value" (.compute (.alg .fp64 mul)),
-      .assign .real [] "out" (.compute (.alg .fp32 (.castFloat .real .real (ref "value"))))]⟩
+      .assign .real [] "out" (.compute (.alg .fp32 (.castFloat .real .real (ref "value"))))], .real, none⟩
 
 def Format.matches (f : Format) (row : ReportedScalarRule) : Bool :=
   let compute := match f with | .fp32 => "fp32" | .fp64_fp32 => "fp64"

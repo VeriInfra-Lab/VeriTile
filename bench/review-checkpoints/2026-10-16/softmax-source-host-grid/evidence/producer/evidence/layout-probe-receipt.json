@@ -1,0 +1,800 @@
+{
+  "status": "passed",
+  "torch_version": "2.13.0+cu130",
+  "cases": [
+    {
+      "shape": [
+        1
+      ],
+      "input_strides": [
+        0
+      ],
+      "contiguous_strides": [
+        0
+      ],
+      "output_strides": [
+        1
+      ],
+      "gradient_strides": [
+        1
+      ],
+      "contiguous_identity": true,
+      "canonical_output": true,
+      "canonical_strides": [
+        1
+      ]
+    },
+    {
+      "shape": [
+        1
+      ],
+      "input_strides": [
+        1
+      ],
+      "contiguous_strides": [
+        1
+      ],
+      "output_strides": [
+        1
+      ],
+      "gradient_strides": [
+        1
+      ],
+      "contiguous_identity": true,
+      "canonical_output": true,
+      "canonical_strides": [
+        1
+      ]
+    },
+    {
+      "shape": [
+        1
+      ],
+      "input_strides": [
+        17
+      ],
+      "contiguous_strides": [
+        17
+      ],
+      "output_strides": [
+        1
+      ],
+      "gradient_strides": [
+        1
+      ],
+      "contiguous_identity": true,
+      "canonical_output": true,
+      "canonical_strides": [
+        1
+      ]
+    },
+    {
+      "shape": [
+        1
+      ],
+      "input_strides": [
+        99
+      ],
+      "contiguous_strides": [
+        99
+      ],
+      "output_strides": [
+        1
+      ],
+      "gradient_strides": [
+        1
+      ],
+      "contiguous_identity": true,
+      "canonical_output": true,
+      "canonical_strides": [
+        1
+      ]
+    },
+    {
+      "shape": [
+        1,
+        5
+      ],
+      "input_strides": [
+        0,
+        1
+      ],
+      "contiguous_strides": [
+        0,
+        1
+      ],
+      "output_strides": [
+        5,
+        1
+      ],
+      "gradient_strides": [
+        5,
+        1
+      ],
+      "contiguous_identity": true,
+      "canonical_output": true,
+      "canonical_strides": [
+        5,
+        1
+      ]
+    },
+    {
+      "shape": [
+        1,
+        5
+      ],
+      "input_strides": [
+        1,
+        1
+      ],
+      "contiguous_strides": [
+        1,
+        1
+      ],
+      "output_strides": [
+        5,
+        1
+      ],
+      "gradient_strides": [
+        5,
+        1
+      ],
+      "contiguous_identity": true,
+      "canonical_output": true,
+      "canonical_strides": [
+        5,
+        1
+      ]
+    },
+    {
+      "shape": [
+        1,
+        5
+      ],
+      "input_strides": [
+        17,
+        1
+      ],
+      "contiguous_strides": [
+        17,
+        1
+      ],
+      "output_strides": [
+        5,
+        1
+      ],
+      "gradient_strides": [
+        5,
+        1
+      ],
+      "contiguous_identity": true,
+      "canonical_output": true,
+      "canonical_strides": [
+        5,
+        1
+      ]
+    },
+    {
+      "shape": [
+        1,
+        5
+      ],
+      "input_strides": [
+        99,
+        1
+      ],
+      "contiguous_strides": [
+        99,
+        1
+      ],
+      "output_strides": [
+        5,
+        1
+      ],
+      "gradient_strides": [
+        5,
+        1
+      ],
+      "contiguous_identity": true,
+      "canonical_output": true,
+      "canonical_strides": [
+        5,
+        1
+      ]
+    },
+    {
+      "shape": [
+        2,
+        1,
+        3
+      ],
+      "input_strides": [
+        3,
+        0,
+        1
+      ],
+      "contiguous_strides": [
+        3,
+        0,
+        1
+      ],
+      "output_strides": [
+        3,
+        3,
+        1
+      ],
+      "gradient_strides": [
+        3,
+        3,
+        1
+      ],
+      "contiguous_identity": true,
+      "canonical_output": true,
+      "canonical_strides": [
+        3,
+        3,
+        1
+      ]
+    },
+    {
+      "shape": [
+        2,
+        1,
+        3
+      ],
+      "input_strides": [
+        3,
+        1,
+        1
+      ],
+      "contiguous_strides": [
+        3,
+        1,
+        1
+      ],
+      "output_strides": [
+        3,
+        3,
+        1
+      ],
+      "gradient_strides": [
+        3,
+        3,
+        1
+      ],
+      "contiguous_identity": true,
+      "canonical_output": true,
+      "canonical_strides": [
+        3,
+        3,
+        1
+      ]
+    },
+    {
+      "shape": [
+        2,
+        1,
+        3
+      ],
+      "input_strides": [
+        3,
+        17,
+        1
+      ],
+      "contiguous_strides": [
+        3,
+        17,
+        1
+      ],
+      "output_strides": [
+        3,
+        3,
+        1
+      ],
+      "gradient_strides": [
+        3,
+        3,
+        1
+      ],
+      "contiguous_identity": true,
+      "canonical_output": true,
+      "canonical_strides": [
+        3,
+        3,
+        1
+      ]
+    },
+    {
+      "shape": [
+        2,
+        1,
+        3
+      ],
+      "input_strides": [
+        3,
+        99,
+        1
+      ],
+      "contiguous_strides": [
+        3,
+        99,
+        1
+      ],
+      "output_strides": [
+        3,
+        3,
+        1
+      ],
+      "gradient_strides": [
+        3,
+        3,
+        1
+      ],
+      "contiguous_identity": true,
+      "canonical_output": true,
+      "canonical_strides": [
+        3,
+        3,
+        1
+      ]
+    },
+    {
+      "shape": [
+        2,
+        3,
+        1
+      ],
+      "input_strides": [
+        3,
+        1,
+        0
+      ],
+      "contiguous_strides": [
+        3,
+        1,
+        0
+      ],
+      "output_strides": [
+        3,
+        1,
+        1
+      ],
+      "gradient_strides": [
+        3,
+        1,
+        1
+      ],
+      "contiguous_identity": true,
+      "canonical_output": true,
+      "canonical_strides": [
+        3,
+        1,
+        1
+      ]
+    },
+    {
+      "shape": [
+        2,
+        3,
+        1
+      ],
+      "input_strides": [
+        3,
+        1,
+        1
+      ],
+      "contiguous_strides": [
+        3,
+        1,
+        1
+      ],
+      "output_strides": [
+        3,
+        1,
+        1
+      ],
+      "gradient_strides": [
+        3,
+        1,
+        1
+      ],
+      "contiguous_identity": true,
+      "canonical_output": true,
+      "canonical_strides": [
+        3,
+        1,
+        1
+      ]
+    },
+    {
+      "shape": [
+        2,
+        3,
+        1
+      ],
+      "input_strides": [
+        3,
+        1,
+        17
+      ],
+      "contiguous_strides": [
+        3,
+        1,
+        17
+      ],
+      "output_strides": [
+        3,
+        1,
+        1
+      ],
+      "gradient_strides": [
+        3,
+        1,
+        1
+      ],
+      "contiguous_identity": true,
+      "canonical_output": true,
+      "canonical_strides": [
+        3,
+        1,
+        1
+      ]
+    },
+    {
+      "shape": [
+        2,
+        3,
+        1
+      ],
+      "input_strides": [
+        3,
+        1,
+        99
+      ],
+      "contiguous_strides": [
+        3,
+        1,
+        99
+      ],
+      "output_strides": [
+        3,
+        1,
+        1
+      ],
+      "gradient_strides": [
+        3,
+        1,
+        1
+      ],
+      "contiguous_identity": true,
+      "canonical_output": true,
+      "canonical_strides": [
+        3,
+        1,
+        1
+      ]
+    },
+    {
+      "shape": [
+        1,
+        2,
+        1,
+        3
+      ],
+      "input_strides": [
+        0,
+        3,
+        0,
+        1
+      ],
+      "contiguous_strides": [
+        0,
+        3,
+        0,
+        1
+      ],
+      "output_strides": [
+        6,
+        3,
+        3,
+        1
+      ],
+      "gradient_strides": [
+        6,
+        3,
+        3,
+        1
+      ],
+      "contiguous_identity": true,
+      "canonical_output": true,
+      "canonical_strides": [
+        6,
+        3,
+        3,
+        1
+      ]
+    },
+    {
+      "shape": [
+        1,
+        2,
+        1,
+        3
+      ],
+      "input_strides": [
+        1,
+        3,
+        1,
+        1
+      ],
+      "contiguous_strides": [
+        1,
+        3,
+        1,
+        1
+      ],
+      "output_strides": [
+        6,
+        3,
+        3,
+        1
+      ],
+      "gradient_strides": [
+        6,
+        3,
+        3,
+        1
+      ],
+      "contiguous_identity": true,
+      "canonical_output": true,
+      "canonical_strides": [
+        6,
+        3,
+        3,
+        1
+      ]
+    },
+    {
+      "shape": [
+        1,
+        2,
+        1,
+        3
+      ],
+      "input_strides": [
+        17,
+        3,
+        17,
+        1
+      ],
+      "contiguous_strides": [
+        17,
+        3,
+        17,
+        1
+      ],
+      "output_strides": [
+        6,
+        3,
+        3,
+        1
+      ],
+      "gradient_strides": [
+        6,
+        3,
+        3,
+        1
+      ],
+      "contiguous_identity": true,
+      "canonical_output": true,
+      "canonical_strides": [
+        6,
+        3,
+        3,
+        1
+      ]
+    },
+    {
+      "shape": [
+        1,
+        2,
+        1,
+        3
+      ],
+      "input_strides": [
+        99,
+        3,
+        99,
+        1
+      ],
+      "contiguous_strides": [
+        99,
+        3,
+        99,
+        1
+      ],
+      "output_strides": [
+        6,
+        3,
+        3,
+        1
+      ],
+      "gradient_strides": [
+        6,
+        3,
+        3,
+        1
+      ],
+      "contiguous_identity": true,
+      "canonical_output": true,
+      "canonical_strides": [
+        6,
+        3,
+        3,
+        1
+      ]
+    },
+    {
+      "shape": [
+        2,
+        1,
+        1,
+        3
+      ],
+      "input_strides": [
+        3,
+        0,
+        0,
+        1
+      ],
+      "contiguous_strides": [
+        3,
+        0,
+        0,
+        1
+      ],
+      "output_strides": [
+        3,
+        3,
+        3,
+        1
+      ],
+      "gradient_strides": [
+        3,
+        3,
+        3,
+        1
+      ],
+      "contiguous_identity": true,
+      "canonical_output": true,
+      "canonical_strides": [
+        3,
+        3,
+        3,
+        1
+      ]
+    },
+    {
+      "shape": [
+        2,
+        1,
+        1,
+        3
+      ],
+      "input_strides": [
+        3,
+        1,
+        1,
+        1
+      ],
+      "contiguous_strides": [
+        3,
+        1,
+        1,
+        1
+      ],
+      "output_strides": [
+        3,
+        1,
+        1,
+        1
+      ],
+      "gradient_strides": [
+        3,
+        1,
+        1,
+        1
+      ],
+      "contiguous_identity": true,
+      "canonical_output": false,
+      "canonical_strides": [
+        3,
+        3,
+        3,
+        1
+      ]
+    },
+    {
+      "shape": [
+        2,
+        1,
+        1,
+        3
+      ],
+      "input_strides": [
+        3,
+        17,
+        17,
+        1
+      ],
+      "contiguous_strides": [
+        3,
+        17,
+        17,
+        1
+      ],
+      "output_strides": [
+        3,
+        6,
+        6,
+        1
+      ],
+      "gradient_strides": [
+        3,
+        6,
+        6,
+        1
+      ],
+      "contiguous_identity": true,
+      "canonical_output": false,
+      "canonical_strides": [
+        3,
+        3,
+        3,
+        1
+      ]
+    },
+    {
+      "shape": [
+        2,
+        1,
+        1,
+        3
+      ],
+      "input_strides": [
+        3,
+        99,
+        99,
+        1
+      ],
+      "contiguous_strides": [
+        3,
+        99,
+        99,
+        1
+      ],
+      "output_strides": [
+        3,
+        6,
+        6,
+        1
+      ],
+      "gradient_strides": [
+        3,
+        6,
+        6,
+        1
+      ],
+      "contiguous_identity": true,
+      "canonical_output": false,
+      "canonical_strides": [
+        3,
+        3,
+        3,
+        1
+      ]
+    }
+  ],
+  "scope": "Positive-shape singleton-stride boundary: contiguous may preserve arbitrary singleton strides, empty_like may preserve noncanonical singleton strides. The exact primitive output metadata is retained; only non-singleton coordinate strides are fixed. Ordinary primitive metadata evidence, no GPU values.",
+  "gpu_execution": false
+}

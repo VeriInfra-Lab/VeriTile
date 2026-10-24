@@ -1,0 +1,26 @@
+{
+  "scope": "Successful final runs; earlier draft failures remain in their separate development logs",
+  "runs": [
+    {
+      "session_id": 80153,
+      "operation": "Reviewed v2 final build, 18 candidate modules in dependency order",
+      "exit_code": 0,
+      "observed_by": "functions.write_stdin terminal result",
+      "log": "final-build.log"
+    },
+    {
+      "session_id": 66415,
+      "operation": "Reviewed v2 PreparedZero build",
+      "exit_code": 0,
+      "observed_by": "functions.write_stdin terminal result",
+      "log": "prepared-zero-build.log"
+    },
+    {
+      "session_id": 28018,
+      "operation": "Reviewed v2 combined Audit build; 51 axiom and 9 noncircular checks",
+      "exit_code": 0,
+      "observed_by": "functions.write_stdin terminal result",
+      "log": "combined-audit.log"
+    }
+  ]
+}

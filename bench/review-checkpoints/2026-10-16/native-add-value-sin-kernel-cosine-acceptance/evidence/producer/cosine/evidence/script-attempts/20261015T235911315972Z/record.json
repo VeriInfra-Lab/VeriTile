@@ -1,0 +1,10 @@
+{
+  "script": "rebuild.py",
+  "exit_code": 1,
+  "artifacts": {
+    "rebuild.py.txt": "cf820f91c3c8c2debabd6ad4b9e771d2536b0aeba51ae2d2e528d35a95ff0143",
+    "console.log": "7d222ee0775cc9cf8a8ac8b28654cf2780933705028a8b3c8830dc1cf6848aa5",
+    "propose.py.txt": "691d8d3b22ae8496b28d13f7c568fdc019f808425a913c015fc81412b66cdf38",
+    "authority_adapter.py.txt": "c392daa28fd539f4504bde8dcdca1dc4c1e9ff34de0cd0d5d65e8d65c4ae58eb"
+  }
+}

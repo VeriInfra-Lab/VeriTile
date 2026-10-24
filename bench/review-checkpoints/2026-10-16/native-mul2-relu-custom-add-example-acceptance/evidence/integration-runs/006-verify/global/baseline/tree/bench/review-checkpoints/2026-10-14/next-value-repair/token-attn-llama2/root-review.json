@@ -1,0 +1,49 @@
+{
+  "reviewer": "root",
+  "receipt_sha256": "9cd39a4899766eeb2701331ae03bcf855930d015d825cd2ff059c8c84aa205c4",
+  "status": "pass_scope_and_value_review",
+  "classification": "backend_full_scope; software_with_host_encoder; finite_rational_specialization",
+  "review_findings": [
+    "Full dynamic block_mask loop and gather/masks/strides retained; initial-memory reference does not call source execution.",
+    "Concrete FP.mul/add with arbitrary valid ReductionPlan retains all padding leaves; generic software statement still names Real-to-word encoder.",
+    "Rational specialization closes its single reached scalar conversion; this is not closure of arbitrary Real or host NaN/Inf/signed-zero ABI.",
+    "Both source dtype-erasure projection and inactive full-memory frame checked; old source/public statement records remain separately bound."
+  ],
+  "reviewed_input_sha256": {
+    "bench/tritonbench_g/token_attn_llama2/TokenAttnLlama2.lean": "091fcba867e6c2f7877938abbc25031f0608dcf988e3d28a948229d309533e3f",
+    "bench/tritonbench_g/token_attn_llama2/token_attn_llama2.py": "3dccffd5a31077851127ee70f8ec64136fdc0872ef29399b3bf74a8223023d5f",
+    "VeriTile/Triton/Core/Ast.lean": "df3e412817263aebf8c56992b6d6d3015bc95a9143b26abf3143832187ccfb14",
+    "VeriTile/Triton/Float/Structural.lean": "b0675fc69d11f52ad4d6c5689501f8cc32f33815cd37cff454f6c1c23b4b5bd2",
+    "VeriTile/Triton/Float/ScalarBackend.lean": "b53529209e20d55de6dbde031c19d5baf76032c1377ef84df6583d93295d2b0a",
+    "VeriTile/Triton/Float/ScalarOps.lean": "26bd46b941918c3a617cb6e15b2ddb2003a85c40cd69fca3a3905ba181bc6072",
+    "VeriTile/Triton/Float/BitValue.lean": "92f8bf41aac7a1268815a58fea6e68475c134903893b8e075599c5427be6a1eb",
+    "VeriTile/Triton/Float/TermModel.lean": "e8c98fd3d0bb93493e4570e5c4dab2369f1b5dcb3795f1696ec7bbe85e073e6d",
+    "VeriTile/Triton/Float/Erasure.lean": "bf9d2d905fa8b54360ea6955433fa2f6e8cc68e4ca51d96228ac20aedce94f61",
+    "VeriTile/Triton/DSL/Expansion/Main.lean": "6261db586c86f0a4397d8839d1560f7d0a41f299559d8594d21b81ad3da327c9",
+    "VeriTile/Triton/DSL/Expansion/Compute.lean": "06cb62623ac789881b7087a7256865b8a318c77f0de2867a841978a7af981ca0",
+    "VeriTile/Triton/DSL/Expansion/Common.lean": "4b6380326b745c239a07e67224591b75b8532a897a3e7947a29e6b23cc4cc0d7",
+    "bench/tritonbench_g/kcache_copy_triton/Proofs/TypedCopy.lean": "727b75143b5d44732b8240aadd0a5e62ab1bd4ba81cd37420d89e02b1a73ca34",
+    "scripts/spec_sheet.py": "70e65de2801f1f1cb76f5cfebf3e97020d7b0f63cc0510229ebaf56282e1dcf3",
+    "bench/review-checkpoints/2026-10-14/next-cast-only-review/review.json": "9468855ba31ce0e3158c17a994a6d4a127c1affa92b75c10a68b2dedf080e9b6",
+    "bench/review-checkpoints/2026-10-14/next-cast-only-review/source-evidence.json": "0cdef63dc1457f909d2b67e7d4c1874cae9d95f5691c9f39efcf7dcb9312cf85",
+    "bench/tritonbench_g/token_attn_llama2/Proofs/FPValueScope.md": "eaab3d7ad031cf79a8b9b2c55e96bb3ef1c4b9bdc36b13331e7ae24e17729b5d",
+    "bench/tritonbench_g/token_attn_llama2/Proofs/FPTypedSource.lean": "595342d21bf06c639646ebd261d8af688a5489e3b6b6a0b07653eceab11d7303",
+    "bench/tritonbench_g/token_attn_llama2/Proofs/FPProgram.lean": "8cf5d390b3d66896ec4847454ace81eae2e1b94811d160ee08f9fa4248837cbd",
+    "bench/tritonbench_g/token_attn_llama2/Proofs/FPExecution.lean": "068fc0d5eac5061ec01d66df80b77ece2eb8dbafc08234280399b54f0cc5b940",
+    "bench/tritonbench_g/token_attn_llama2/Proofs/FPReference.lean": "e677b8c0882c69d9f40ba1748b3ce60bcdc0efe63b3fbb48f7f739e8755449f8",
+    "bench/tritonbench_g/token_attn_llama2/Proofs/FPContract.lean": "398de238edf159bbcf6394c9071b9ffadf4f5f2eafbe018a5f8a9c047353f010",
+    "bench/tritonbench_g/token_attn_llama2/Proofs/FPSumProfile.lean": "f7e3a0c321ad6ce07d0f91f4bdae01cd77c3fb15ab2cc5229b6cba7e044d2f30",
+    "bench/tritonbench_g/token_attn_llama2/Proofs/FPSoftware.lean": "6a6da59942ac1218349d0ddbe036dd773c696c0c25afc5d04c9fc750cb58e5df",
+    "bench/tritonbench_g/token_attn_llama2/Proofs/FPShape.lean": "06a97baa54c7f6e58cd9ecf0155b0935abc4dbe206abe6506f8eaa2209012498",
+    "bench/tritonbench_g/token_attn_llama2/Proofs/FPWitness.lean": "ec9463d18655f9f9c837d5b5805fc132381d17e810fb94ae1ac7574e29f2e37a",
+    "bench/tritonbench_g/token_attn_llama2/FPCorrect.lean": "a942c28cf48a4e7363e3f9ce893a8650c53d3e58e671c169200da0649d365713"
+  },
+  "source_drift": [],
+  "native_status": "not_established",
+  "hardware_acceptance": false,
+  "total_task_count_promotion": "not_applied; canonical integration pending",
+  "additional_reference_audit": {
+    "path": "bench/review-checkpoints/2026-10-14/next-value-repair/reviewed-reference-audit.json",
+    "sha256": "faa45a7cdc2a7285ee6a90ff312fbb93b3f2c356ad947acb0c4c5e8d0e1761b9"
+  }
+}

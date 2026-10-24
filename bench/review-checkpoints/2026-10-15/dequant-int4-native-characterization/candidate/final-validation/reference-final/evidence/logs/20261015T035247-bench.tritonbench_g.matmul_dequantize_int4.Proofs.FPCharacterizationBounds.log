@@ -1,0 +1,13 @@
+VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Characterization.a_read_extent: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Characterization.b_read_extent: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Characterization.scale_read_extent: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Characterization.zero_read_extent: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Characterization.original_launch_geometry: axiom footprint ⊆ standard base ✓  ([])

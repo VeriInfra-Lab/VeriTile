@@ -1,0 +1,600 @@
+{
+  "status": "passed",
+  "offline_profiles_replayed": 78,
+  "counts": {
+    "compiled": 30,
+    "rejected": 42,
+    "frontend_passed": 6
+  },
+  "IR_artifacts_equal_after_path_normalization": 172,
+  "PTX_scope": "All executable PTX through last function; debug sections excluded only after proving no following .entry/.func, full differences retained.",
+  "PTX_debug_diffs": [
+    "debug-diffs/mul2_kernel-bool-b16.ptx.diff",
+    "debug-diffs/mul2_kernel-uint8-b16.ptx.diff",
+    "debug-diffs/mul2_kernel-int8-b16.ptx.diff",
+    "debug-diffs/mul2_kernel-int16-b16.ptx.diff",
+    "debug-diffs/mul2_kernel-uint16-b16.ptx.diff",
+    "debug-diffs/mul2_kernel-int32-b16.ptx.diff",
+    "debug-diffs/mul2_kernel-uint32-b16.ptx.diff",
+    "debug-diffs/mul2_kernel-int64-b16.ptx.diff",
+    "debug-diffs/mul2_kernel-uint64-b16.ptx.diff",
+    "debug-diffs/mul2_kernel-float16-b16.ptx.diff",
+    "debug-diffs/mul2_kernel-bfloat16-b16.ptx.diff",
+    "debug-diffs/mul2_kernel-float32-b16.ptx.diff",
+    "debug-diffs/mul2_kernel-float64-b16.ptx.diff",
+    "debug-diffs/mul2_kernel-float32-b512.ptx.diff",
+    "debug-diffs/mul2_kernel-float32-b1024.ptx.diff",
+    "debug-diffs/mul2_inplace_kernel-bool-b16.ptx.diff",
+    "debug-diffs/mul2_inplace_kernel-uint8-b16.ptx.diff",
+    "debug-diffs/mul2_inplace_kernel-int8-b16.ptx.diff",
+    "debug-diffs/mul2_inplace_kernel-int16-b16.ptx.diff",
+    "debug-diffs/mul2_inplace_kernel-uint16-b16.ptx.diff",
+    "debug-diffs/mul2_inplace_kernel-int32-b16.ptx.diff",
+    "debug-diffs/mul2_inplace_kernel-uint32-b16.ptx.diff",
+    "debug-diffs/mul2_inplace_kernel-int64-b16.ptx.diff",
+    "debug-diffs/mul2_inplace_kernel-uint64-b16.ptx.diff",
+    "debug-diffs/mul2_inplace_kernel-float16-b16.ptx.diff",
+    "debug-diffs/mul2_inplace_kernel-bfloat16-b16.ptx.diff",
+    "debug-diffs/mul2_inplace_kernel-float32-b16.ptx.diff",
+    "debug-diffs/mul2_inplace_kernel-float64-b16.ptx.diff",
+    "debug-diffs/mul2_inplace_kernel-float32-b512.ptx.diff",
+    "debug-diffs/mul2_inplace_kernel-float32-b1024.ptx.diff"
+  ],
+  "metadata": {
+    "wrapper_metadata_cases": 126,
+    "dtype_allocations": 22,
+    "binder_sizes": 14,
+    "byte_schedule_cases": 960
+  },
+  "metadata_comparison": "Every semantic field equals producer result; process allocator addresses excluded from equality but checked against zero/nonzero affine metadata rules.",
+  "gpu_executions": 0,
+  "native_numeric_validation": false,
+  "records": [
+    {
+      "name": "mul2_kernel-bool-b16",
+      "status": "compiled",
+      "failure_stage": null,
+      "dtype": "bool",
+      "block": 16
+    },
+    {
+      "name": "mul2_kernel-uint8-b16",
+      "status": "compiled",
+      "failure_stage": null,
+      "dtype": "uint8",
+      "block": 16
+    },
+    {
+      "name": "mul2_kernel-int8-b16",
+      "status": "compiled",
+      "failure_stage": null,
+      "dtype": "int8",
+      "block": 16
+    },
+    {
+      "name": "mul2_kernel-int16-b16",
+      "status": "compiled",
+      "failure_stage": null,
+      "dtype": "int16",
+      "block": 16
+    },
+    {
+      "name": "mul2_kernel-uint16-b16",
+      "status": "compiled",
+      "failure_stage": null,
+      "dtype": "uint16",
+      "block": 16
+    },
+    {
+      "name": "mul2_kernel-int32-b16",
+      "status": "compiled",
+      "failure_stage": null,
+      "dtype": "int32",
+      "block": 16
+    },
+    {
+      "name": "mul2_kernel-uint32-b16",
+      "status": "compiled",
+      "failure_stage": null,
+      "dtype": "uint32",
+      "block": 16
+    },
+    {
+      "name": "mul2_kernel-int64-b16",
+      "status": "compiled",
+      "failure_stage": null,
+      "dtype": "int64",
+      "block": 16
+    },
+    {
+      "name": "mul2_kernel-uint64-b16",
+      "status": "compiled",
+      "failure_stage": null,
+      "dtype": "uint64",
+      "block": 16
+    },
+    {
+      "name": "mul2_kernel-float16-b16",
+      "status": "compiled",
+      "failure_stage": null,
+      "dtype": "float16",
+      "block": 16
+    },
+    {
+      "name": "mul2_kernel-bfloat16-b16",
+      "status": "compiled",
+      "failure_stage": null,
+      "dtype": "bfloat16",
+      "block": 16
+    },
+    {
+      "name": "mul2_kernel-float32-b16",
+      "status": "compiled",
+      "failure_stage": null,
+      "dtype": "float32",
+      "block": 16
+    },
+    {
+      "name": "mul2_kernel-float64-b16",
+      "status": "compiled",
+      "failure_stage": null,
+      "dtype": "float64",
+      "block": 16
+    },
+    {
+      "name": "mul2_kernel-float8_e4m3fn-b16",
+      "status": "rejected",
+      "failure_stage": "backend",
+      "dtype": "float8_e4m3fn",
+      "block": 16
+    },
+    {
+      "name": "mul2_kernel-float8_e5m2-b16",
+      "status": "rejected",
+      "failure_stage": "backend",
+      "dtype": "float8_e5m2",
+      "block": 16
+    },
+    {
+      "name": "mul2_kernel-float8_e4m3fnuz-b16",
+      "status": "rejected",
+      "failure_stage": "frontend",
+      "dtype": "float8_e4m3fnuz",
+      "block": 16
+    },
+    {
+      "name": "mul2_kernel-float8_e5m2fnuz-b16",
+      "status": "rejected",
+      "failure_stage": "frontend",
+      "dtype": "float8_e5m2fnuz",
+      "block": 16
+    },
+    {
+      "name": "mul2_kernel-complex32-b16",
+      "status": "rejected",
+      "failure_stage": "signature",
+      "dtype": "complex32",
+      "block": 16
+    },
+    {
+      "name": "mul2_kernel-complex64-b16",
+      "status": "rejected",
+      "failure_stage": "signature",
+      "dtype": "complex64",
+      "block": 16
+    },
+    {
+      "name": "mul2_kernel-complex128-b16",
+      "status": "rejected",
+      "failure_stage": "signature",
+      "dtype": "complex128",
+      "block": 16
+    },
+    {
+      "name": "mul2_kernel-float8_e8m0fnu-b16",
+      "status": "rejected",
+      "failure_stage": "signature",
+      "dtype": "float8_e8m0fnu",
+      "block": 16
+    },
+    {
+      "name": "mul2_kernel-float4_e2m1fn_x2-b16",
+      "status": "rejected",
+      "failure_stage": "signature",
+      "dtype": "float4_e2m1fn_x2",
+      "block": 16
+    },
+    {
+      "name": "mul2_kernel-float32-b1",
+      "status": "frontend_passed",
+      "failure_stage": null,
+      "dtype": "float32",
+      "block": 1
+    },
+    {
+      "name": "mul2_kernel-float32-b2",
+      "status": "frontend_passed",
+      "failure_stage": null,
+      "dtype": "float32",
+      "block": 2
+    },
+    {
+      "name": "mul2_kernel-float32-b3",
+      "status": "rejected",
+      "failure_stage": "frontend",
+      "dtype": "float32",
+      "block": 3
+    },
+    {
+      "name": "mul2_kernel-float32-b0",
+      "status": "rejected",
+      "failure_stage": "frontend",
+      "dtype": "float32",
+      "block": 0
+    },
+    {
+      "name": "mul2_kernel-float32-b-16",
+      "status": "rejected",
+      "failure_stage": "frontend",
+      "dtype": "float32",
+      "block": -16
+    },
+    {
+      "name": "mul2_kernel-float32-b512",
+      "status": "compiled",
+      "failure_stage": null,
+      "dtype": "float32",
+      "block": 512
+    },
+    {
+      "name": "mul2_kernel-float32-b1024",
+      "status": "compiled",
+      "failure_stage": null,
+      "dtype": "float32",
+      "block": 1024
+    },
+    {
+      "name": "mul2_kernel-float32-b1025",
+      "status": "rejected",
+      "failure_stage": "frontend",
+      "dtype": "float32",
+      "block": 1025
+    },
+    {
+      "name": "mul2_kernel-float32-b1048576",
+      "status": "frontend_passed",
+      "failure_stage": null,
+      "dtype": "float32",
+      "block": 1048576
+    },
+    {
+      "name": "mul2_kernel-float32-b1048577",
+      "status": "rejected",
+      "failure_stage": "frontend",
+      "dtype": "float32",
+      "block": 1048577
+    },
+    {
+      "name": "mul2_kernel-float32-b2147483648",
+      "status": "rejected",
+      "failure_stage": "frontend",
+      "dtype": "float32",
+      "block": 2147483648
+    },
+    {
+      "name": "mul2_inplace_kernel-bool-b16",
+      "status": "compiled",
+      "failure_stage": null,
+      "dtype": "bool",
+      "block": 16
+    },
+    {
+      "name": "mul2_inplace_kernel-uint8-b16",
+      "status": "compiled",
+      "failure_stage": null,
+      "dtype": "uint8",
+      "block": 16
+    },
+    {
+      "name": "mul2_inplace_kernel-int8-b16",
+      "status": "compiled",
+      "failure_stage": null,
+      "dtype": "int8",
+      "block": 16
+    },
+    {
+      "name": "mul2_inplace_kernel-int16-b16",
+      "status": "compiled",
+      "failure_stage": null,
+      "dtype": "int16",
+      "block": 16
+    },
+    {
+      "name": "mul2_inplace_kernel-uint16-b16",
+      "status": "compiled",
+      "failure_stage": null,
+      "dtype": "uint16",
+      "block": 16
+    },
+    {
+      "name": "mul2_inplace_kernel-int32-b16",
+      "status": "compiled",
+      "failure_stage": null,
+      "dtype": "int32",
+      "block": 16
+    },
+    {
+      "name": "mul2_inplace_kernel-uint32-b16",
+      "status": "compiled",
+      "failure_stage": null,
+      "dtype": "uint32",
+      "block": 16
+    },
+    {
+      "name": "mul2_inplace_kernel-int64-b16",
+      "status": "compiled",
+      "failure_stage": null,
+      "dtype": "int64",
+      "block": 16
+    },
+    {
+      "name": "mul2_inplace_kernel-uint64-b16",
+      "status": "compiled",
+      "failure_stage": null,
+      "dtype": "uint64",
+      "block": 16
+    },
+    {
+      "name": "mul2_inplace_kernel-float16-b16",
+      "status": "compiled",
+      "failure_stage": null,
+      "dtype": "float16",
+      "block": 16
+    },
+    {
+      "name": "mul2_inplace_kernel-bfloat16-b16",
+      "status": "compiled",
+      "failure_stage": null,
+      "dtype": "bfloat16",
+      "block": 16
+    },
+    {
+      "name": "mul2_inplace_kernel-float32-b16",
+      "status": "compiled",
+      "failure_stage": null,
+      "dtype": "float32",
+      "block": 16
+    },
+    {
+      "name": "mul2_inplace_kernel-float64-b16",
+      "status": "compiled",
+      "failure_stage": null,
+      "dtype": "float64",
+      "block": 16
+    },
+    {
+      "name": "mul2_inplace_kernel-float8_e4m3fn-b16",
+      "status": "rejected",
+      "failure_stage": "backend",
+      "dtype": "float8_e4m3fn",
+      "block": 16
+    },
+    {
+      "name": "mul2_inplace_kernel-float8_e5m2-b16",
+      "status": "rejected",
+      "failure_stage": "backend",
+      "dtype": "float8_e5m2",
+      "block": 16
+    },
+    {
+      "name": "mul2_inplace_kernel-float8_e4m3fnuz-b16",
+      "status": "rejected",
+      "failure_stage": "frontend",
+      "dtype": "float8_e4m3fnuz",
+      "block": 16
+    },
+    {
+      "name": "mul2_inplace_kernel-float8_e5m2fnuz-b16",
+      "status": "rejected",
+      "failure_stage": "frontend",
+      "dtype": "float8_e5m2fnuz",
+      "block": 16
+    },
+    {
+      "name": "mul2_inplace_kernel-complex32-b16",
+      "status": "rejected",
+      "failure_stage": "signature",
+      "dtype": "complex32",
+      "block": 16
+    },
+    {
+      "name": "mul2_inplace_kernel-complex64-b16",
+      "status": "rejected",
+      "failure_stage": "signature",
+      "dtype": "complex64",
+      "block": 16
+    },
+    {
+      "name": "mul2_inplace_kernel-complex128-b16",
+      "status": "rejected",
+      "failure_stage": "signature",
+      "dtype": "complex128",
+      "block": 16
+    },
+    {
+      "name": "mul2_inplace_kernel-float8_e8m0fnu-b16",
+      "status": "rejected",
+      "failure_stage": "signature",
+      "dtype": "float8_e8m0fnu",
+      "block": 16
+    },
+    {
+      "name": "mul2_inplace_kernel-float4_e2m1fn_x2-b16",
+      "status": "rejected",
+      "failure_stage": "signature",
+      "dtype": "float4_e2m1fn_x2",
+      "block": 16
+    },
+    {
+      "name": "mul2_inplace_kernel-float32-b1",
+      "status": "frontend_passed",
+      "failure_stage": null,
+      "dtype": "float32",
+      "block": 1
+    },
+    {
+      "name": "mul2_inplace_kernel-float32-b2",
+      "status": "frontend_passed",
+      "failure_stage": null,
+      "dtype": "float32",
+      "block": 2
+    },
+    {
+      "name": "mul2_inplace_kernel-float32-b3",
+      "status": "rejected",
+      "failure_stage": "frontend",
+      "dtype": "float32",
+      "block": 3
+    },
+    {
+      "name": "mul2_inplace_kernel-float32-b0",
+      "status": "rejected",
+      "failure_stage": "frontend",
+      "dtype": "float32",
+      "block": 0
+    },
+    {
+      "name": "mul2_inplace_kernel-float32-b-16",
+      "status": "rejected",
+      "failure_stage": "frontend",
+      "dtype": "float32",
+      "block": -16
+    },
+    {
+      "name": "mul2_inplace_kernel-float32-b512",
+      "status": "compiled",
+      "failure_stage": null,
+      "dtype": "float32",
+      "block": 512
+    },
+    {
+      "name": "mul2_inplace_kernel-float32-b1024",
+      "status": "compiled",
+      "failure_stage": null,
+      "dtype": "float32",
+      "block": 1024
+    },
+    {
+      "name": "mul2_inplace_kernel-float32-b1025",
+      "status": "rejected",
+      "failure_stage": "frontend",
+      "dtype": "float32",
+      "block": 1025
+    },
+    {
+      "name": "mul2_inplace_kernel-float32-b1048576",
+      "status": "frontend_passed",
+      "failure_stage": null,
+      "dtype": "float32",
+      "block": 1048576
+    },
+    {
+      "name": "mul2_inplace_kernel-float32-b1048577",
+      "status": "rejected",
+      "failure_stage": "frontend",
+      "dtype": "float32",
+      "block": 1048577
+    },
+    {
+      "name": "mul2_inplace_kernel-float32-b2147483648",
+      "status": "rejected",
+      "failure_stage": "frontend",
+      "dtype": "float32",
+      "block": 2147483648
+    },
+    {
+      "name": "mul2_kernel-float8_e4m3fn-b1",
+      "status": "rejected",
+      "failure_stage": "backend",
+      "dtype": "float8_e4m3fn",
+      "block": 1
+    },
+    {
+      "name": "mul2_kernel-float8_e4m3fn-b512",
+      "status": "rejected",
+      "failure_stage": "backend",
+      "dtype": "float8_e4m3fn",
+      "block": 512
+    },
+    {
+      "name": "mul2_kernel-float8_e4m3fn-b1024",
+      "status": "rejected",
+      "failure_stage": "backend",
+      "dtype": "float8_e4m3fn",
+      "block": 1024
+    },
+    {
+      "name": "mul2_kernel-float8_e5m2-b1",
+      "status": "rejected",
+      "failure_stage": "backend",
+      "dtype": "float8_e5m2",
+      "block": 1
+    },
+    {
+      "name": "mul2_kernel-float8_e5m2-b512",
+      "status": "rejected",
+      "failure_stage": "backend",
+      "dtype": "float8_e5m2",
+      "block": 512
+    },
+    {
+      "name": "mul2_kernel-float8_e5m2-b1024",
+      "status": "rejected",
+      "failure_stage": "backend",
+      "dtype": "float8_e5m2",
+      "block": 1024
+    },
+    {
+      "name": "mul2_inplace_kernel-float8_e4m3fn-b1",
+      "status": "rejected",
+      "failure_stage": "backend",
+      "dtype": "float8_e4m3fn",
+      "block": 1
+    },
+    {
+      "name": "mul2_inplace_kernel-float8_e4m3fn-b512",
+      "status": "rejected",
+      "failure_stage": "backend",
+      "dtype": "float8_e4m3fn",
+      "block": 512
+    },
+    {
+      "name": "mul2_inplace_kernel-float8_e4m3fn-b1024",
+      "status": "rejected",
+      "failure_stage": "backend",
+      "dtype": "float8_e4m3fn",
+      "block": 1024
+    },
+    {
+      "name": "mul2_inplace_kernel-float8_e5m2-b1",
+      "status": "rejected",
+      "failure_stage": "backend",
+      "dtype": "float8_e5m2",
+      "block": 1
+    },
+    {
+      "name": "mul2_inplace_kernel-float8_e5m2-b512",
+      "status": "rejected",
+      "failure_stage": "backend",
+      "dtype": "float8_e5m2",
+      "block": 512
+    },
+    {
+      "name": "mul2_inplace_kernel-float8_e5m2-b1024",
+      "status": "rejected",
+      "failure_stage": "backend",
+      "dtype": "float8_e5m2",
+      "block": 1024
+    }
+  ]
+}

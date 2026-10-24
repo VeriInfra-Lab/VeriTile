@@ -1,0 +1,23 @@
+bool 0 compiled
+uint8 0 compiled
+int8 0 compiled
+int16 0 compiled
+uint16 0 compiled
+int32 0 compiled
+uint32 0 compiled
+int64 0 compiled
+uint64 0 compiled
+float16 0 compiled
+bfloat16 0 compiled
+float32 0 compiled
+float64 0 compiled
+float8_e4m3fn 0 compiled
+float8_e5m2 0 compiled
+float8_e4m3fnuz 0 rejected
+float8_e5m2fnuz 0 rejected
+complex32 0 rejected
+complex64 0 rejected
+complex128 0 rejected
+float8_e8m0fnu 0 rejected
+float4_e2m1fn_x2 0 rejected
+{"receipt": "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/native-attempts/20261015T231621281851Z/receipt.json", "sha256": "43600a484be4e885d68f8e683436704e44420fbd67059f2ed2161c7e0131ec3f"}

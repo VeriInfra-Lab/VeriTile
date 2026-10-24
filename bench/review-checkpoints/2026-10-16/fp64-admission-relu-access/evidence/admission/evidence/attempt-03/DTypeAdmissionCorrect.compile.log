@@ -1,0 +1,4 @@
+VeriTile.Bench.TritonBenchG.VectorAddition.DTypeAdmissionCorrect.vector_addition_sm90_admission_model_partition: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.VectorAddition.DTypeAdmissionCorrect.vector_addition_fnuz_first_stage_model: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.VectorAddition.DTypeAdmissionCorrect.vector_addition_sm90_add_rejection_model: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.VectorAddition.DTypeAdmissionCorrect.vector_addition_sm90_promotion_stage_cross_model: axiom footprint ⊆ standard base ✓  ([propext])

@@ -1,0 +1,144 @@
+{
+  "schema": 1,
+  "kind": "selected_mixed_output_softmax_scope_review",
+  "status": "partial_selected_routes_ready_for_independent_review",
+  "tasks": {
+    "token_softmax_bloom": {
+      "closed_selected_gap": "Independent destination dtype is now represented and proved for all nine fp16/bf16/fp32 input/output pairs, including six mixed pairs. The complete row executes its original load-to-fp32, maximum/subtraction/exp/sum/division graph, then casts to the independently selected destination dtype and preserves the off-write frame.",
+      "source_relation": "Public erased-surface equality with the complete existing token_softmax_surface; original JIT ASTs independently extracted and byte-pinned.",
+      "public_contract": "token_softmax_mixed_output_typed_correctness",
+      "public_file": "bench/tritonbench_g/token_softmax_bloom/MixedFPCorrect.lean",
+      "model_kind": "backend_value_contract",
+      "role": "parametric_value_contract",
+      "scope_relation": "full_declared_stage",
+      "dtype_scope_relation": "selected_explicit_profiles_only",
+      "covers_stages": [
+        "complete_per_program_mixed_floating_row_value_and_frame"
+      ],
+      "premises": [
+        "positive tile width",
+        "nonzero output token stride",
+        "arbitrary initial total typed-cell state, algebra and natural program ids/metadata/strides; no execution-result premise"
+      ],
+      "successful_execution": true,
+      "independent_initial_state_value_formula": true,
+      "all_off_write_cells_preserved": true,
+      "whole_original_program_accepted": false,
+      "remaining_structural_obligations": [
+        {
+          "id": "S1",
+          "kind": "host_block_selection_and_head_batch_grid",
+          "finding": "The wrapper computes next_power_of_2(max_input_len), chooses num_warps at 2048/4096, and launches the full (batch,head) grid. The new result proves a single selected pid pair; cross-program composition over metadata intervals and host-selected launch is still required.",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "id": "S2",
+          "kind": "remaining_original_dtype_and_admission_routes",
+          "finding": "Independent source/destination storage is represented for the nine fp16/bf16/fp32 pairs only. The original caller-supplied tensors are not restricted to these pairs. Other floating formats, integer/bool storage and admission/error branches are not established by this package; no whole dtype-domain closure is claimed.",
+          "can_defer_as_numeric_assumption": false
+        }
+      ],
+      "modeling_boundaries": [
+        "The generalized contract uses the inherited total typed-cell state, natural metadata and natural offsets. The existing real-valued IO contract is preserved, but transporting this new mixed typed result through original finite-width metadata/address behavior and the valid physical placements/layouts of both independently typed tensors remains to connect.",
+        "The public result includes full erased-surface equality with each historical translated kernel. Exact original JIT extraction and 18 raw frontend SSA paths are retained as source evidence; these observations are not a formal Python/frontend/backend refinement or native reduction-schedule proof. Scalar conformance may be deferred only after binding the selected source graph and configuration."
+      ],
+      "valid_domain_note": "Inherited natural metadata and strides are a legitimate selected domain. This review does not require unsupported negative indices or invent a generic hardware blocker."
+    },
+    "token_softmax_llama": {
+      "closed_selected_gap": "Independent destination dtype is now represented and proved for all nine fp16/bf16/fp32 input/output pairs, including six mixed pairs. The complete row executes its original load-to-fp32, maximum/subtraction/exp/sum/division graph, then casts to the independently selected destination dtype and preserves the off-write frame.",
+      "source_relation": "Public erased-surface equality with the complete existing token_softmax_surface; original JIT ASTs independently extracted and byte-pinned.",
+      "public_contract": "token_softmax_mixed_output_typed_correctness",
+      "public_file": "bench/tritonbench_g/token_softmax_llama/MixedFPCorrect.lean",
+      "model_kind": "backend_value_contract",
+      "role": "parametric_value_contract",
+      "scope_relation": "full_declared_stage",
+      "dtype_scope_relation": "selected_explicit_profiles_only",
+      "covers_stages": [
+        "complete_per_program_mixed_floating_row_value_and_frame"
+      ],
+      "premises": [
+        "positive tile width",
+        "nonzero output token stride",
+        "arbitrary initial total typed-cell state, algebra and natural program ids/metadata/strides; no execution-result premise"
+      ],
+      "successful_execution": true,
+      "independent_initial_state_value_formula": true,
+      "all_off_write_cells_preserved": true,
+      "whole_original_program_accepted": false,
+      "remaining_structural_obligations": [
+        {
+          "id": "S1",
+          "kind": "host_block_selection_and_head_batch_grid",
+          "finding": "The wrapper computes next_power_of_2(max_input_len), chooses num_warps at 2048/4096, and launches the full (batch,head) grid. The new result proves a single selected pid pair; cross-program composition over metadata intervals and host-selected launch is still required.",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "id": "S2",
+          "kind": "remaining_original_dtype_and_admission_routes",
+          "finding": "Independent source/destination storage is represented for the nine fp16/bf16/fp32 pairs only. The original caller-supplied tensors are not restricted to these pairs. Other floating formats, integer/bool storage and admission/error branches are not established by this package; no whole dtype-domain closure is claimed.",
+          "can_defer_as_numeric_assumption": false
+        }
+      ],
+      "modeling_boundaries": [
+        "The generalized contract uses the inherited total typed-cell state, natural metadata and natural offsets. The existing real-valued IO contract is preserved, but transporting this new mixed typed result through original finite-width metadata/address behavior and the valid physical placements/layouts of both independently typed tensors remains to connect.",
+        "The public result includes full erased-surface equality with each historical translated kernel. Exact original JIT extraction and 18 raw frontend SSA paths are retained as source evidence; these observations are not a formal Python/frontend/backend refinement or native reduction-schedule proof. Scalar conformance may be deferred only after binding the selected source graph and configuration."
+      ],
+      "valid_domain_note": "Inherited natural metadata and strides are a legitimate selected domain. This review does not require unsupported negative indices or invent a generic hardware blocker."
+    }
+  },
+  "selected_storage_pairs": [
+    {
+      "input": "fp16",
+      "output": "fp16"
+    },
+    {
+      "input": "fp16",
+      "output": "bf16"
+    },
+    {
+      "input": "fp16",
+      "output": "fp32"
+    },
+    {
+      "input": "bf16",
+      "output": "fp16"
+    },
+    {
+      "input": "bf16",
+      "output": "bf16"
+    },
+    {
+      "input": "bf16",
+      "output": "fp32"
+    },
+    {
+      "input": "fp32",
+      "output": "fp16"
+    },
+    {
+      "input": "fp32",
+      "output": "bf16"
+    },
+    {
+      "input": "fp32",
+      "output": "fp32"
+    }
+  ],
+  "whole_program_completion_increment": 0,
+  "accepted_original_programs": 0,
+  "new_native_executions": 0,
+  "current_repository_integrated": false,
+  "frontend_evidence": {
+    "path": "evidence/frontend/receipt.json",
+    "sha256": "31d796ea608a0a87aff9aea8319529090759b9fb6ce063b1a1daa5ec9f5b69ef",
+    "profiles": 18,
+    "fixed_block_size": 1024,
+    "target": "sm90",
+    "numerical_validation": false
+  },
+  "scalar_graph_audit": {
+    "path": "evidence/scalar-graph-audit.json",
+    "sha256": "8e306982487cd06a4bbca595825b1c76ca47d71eb2067e76ee51cee7342e2bb9"
+  },
+  "preservation": "All existing source/proof files of both tasks remain byte-for-byte unchanged."
+}

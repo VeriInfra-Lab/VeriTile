@@ -70,7 +70,7 @@ theorem kldiv_backward_default_correct
         (BlockState.tileIndex1d_base_offset_injective _) (i, PUnit.unit)]
   rw [← Int.natCast_mul, Int.toNat_natCast]
   by_cases h : i.val < n_cols
-  · simp [defaultSpec, inOffset, h]
+  · norm_num [defaultSpec, inOffset, h]
   · simp [h]
 /-- Algorithm-layer correctness for the log-target backward kernel under the
 Python-tested single-chunk regime `0 < n_cols ≤ BLOCK_SIZE`. -/
@@ -105,7 +105,7 @@ theorem kldiv_backward_log_target_correct
         (BlockState.tileIndex1d_base_offset_injective _) (i, PUnit.unit)]
   rw [← Int.natCast_mul, Int.toNat_natCast]
   by_cases h : i.val < n_cols
-  · simp [logTargetSpec, inOffset, h]
+  · norm_num [logTargetSpec, inOffset, h, WithBot.realExp, WithBot.map]
   · simp [h]
 /-- Compute-facing correctness for the default backward kernel under the
 Python-tested single-chunk regime `0 < n_cols ≤ BLOCK_SIZE`. -/

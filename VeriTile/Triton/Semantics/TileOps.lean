@@ -226,6 +226,33 @@ matching the uniform `Option.map₂` propagation of `WithBot.realSub` /
 noncomputable def WithBot.realPow : WithBot ℝ → WithBot ℝ → WithBot ℝ :=
   Option.map₂ Real.rpow
 
+/-- The mathematical interpretation of native integer power. Integer exponents
+stay exact; bottom bases propagate. This definition imposes no FP backend law. -/
+noncomputable def WithBot.realPowi (x : WithBot ℝ) (n : Int) : WithBot ℝ :=
+  x.map (fun a => a ^ n)
+
+@[simp] theorem WithBot.realPowi_some (x : ℝ) (n : Int) :
+    WithBot.realPowi (some x) n = some (x ^ n) := rfl
+
+/-- Exponent two is a square only on the mathematical channel. -/
+theorem WithBot.realPowi_two (x : WithBot ℝ) :
+    WithBot.realPowi x 2 = WithBot.realMul x x := by
+  cases x using Option.rec with
+  | none => rfl
+  | some x =>
+      change some (x ^ (2 : Int)) = some (x * x)
+      simp [zpow_ofNat, pow_two]
+
+/-- Broadcasting for mixed real-base/integer-exponent tiles. -/
+noncomputable def Tile.libdevicePowi (bc : Broadcast a b out)
+    (x : Tile .real a) (n : Tile .int b) : Tile .real out :=
+  ⟨fun i => WithBot.realPowi (x.data (bc.leftIndex i)) (n.data (bc.rightIndex i))⟩
+
+@[simp] theorem Tile.libdevicePowi_data (bc : Broadcast a b out)
+    (x : Tile .real a) (n : Tile .int b) (i : TileIndex out) :
+    (Tile.libdevicePowi bc x n).data i =
+      WithBot.realPowi (x.data (bc.leftIndex i)) (n.data (bc.rightIndex i)) := rfl
+
 noncomputable def ScanOp.eval : ScanOp → List (WithBot ℝ) → WithBot ℝ
   | .sum, xs => xs.foldl WithBot.realAdd ((0 : ℝ) : WithBot ℝ)
   | .prod, xs => xs.foldl WithBot.realMul ((1 : ℝ) : WithBot ℝ)
@@ -578,10 +605,49 @@ the elaborated `Option ℝ`. -/
   show WithBot.unbotD (0 : ℝ) (s.sup' h (fun i => ((f i : ℝ) : WithBot ℝ))) = _
   rw [WithBot.sup'_coe]; rfl
 
-/-! ### Reduce-max along an arbitrary axis
+/-! ### Real minimum and maximum along an arbitrary axis
 
-Returns `none` only when the reduced dimension is `0` (empty `sup'`
-undefined). -/
+Return `none` when the reduced dimension is `0`, where the nonempty finite
+infimum/supremum is undefined. -/
+
+noncomputable def Tile.reduceMinDrop {shape : TileShape}
+    (axis : Fin shape.length) (x : Tile .real shape) :
+    Option (Tile .real (TileShape.eraseAxis shape axis)) :=
+  if h : 0 < TileShape.axisDim shape axis then
+    some ⟨fun outIdx =>
+      (Finset.univ : Finset (Fin (TileShape.axisDim shape axis))).inf'
+        (by exact ⟨⟨0, h⟩, Finset.mem_univ _⟩)
+        (fun k => x.data (TileShape.insertAxisIndex shape axis outIdx k))⟩
+  else
+    none
+
+/-- Tile.reduceMinDrop returns `none` when the reduction axis has zero
+length. Useful as a simp lemma when proving correctness of kernels that
+guard `tl.min(..., return_indices=False)` against empty axes. -/
+@[simp] theorem Tile.reduceMinDrop_eq_none {shape : TileShape}
+    {axis : Fin shape.length} {x : Tile .real shape}
+    (h : TileShape.axisDim shape axis = 0) :
+    Tile.reduceMinDrop axis x = none := by
+  unfold Tile.reduceMinDrop
+  rw [dif_neg (by omega)]
+
+noncomputable def Tile.reduceMinKeep {shape : TileShape}
+    (axis : Fin shape.length) (x : Tile .real shape) :
+    Option (Tile .real (TileShape.setAxisOne shape axis)) :=
+  if h : 0 < TileShape.axisDim shape axis then
+    some ⟨fun outIdx =>
+      (Finset.univ : Finset (Fin (TileShape.axisDim shape axis))).inf'
+        (by exact ⟨⟨0, h⟩, Finset.mem_univ _⟩)
+        (fun k => x.data (TileShape.replaceAxisIndex shape axis outIdx k))⟩
+  else
+    none
+
+noncomputable def Tile.reduceMin {shape : TileShape}
+    (axis : Fin shape.length) (keepDims : Bool) (x : Tile .real shape) :
+    Option (Tile .real (TileShape.reduceShape shape axis keepDims)) := by
+  cases keepDims
+  · exact Tile.reduceMinDrop axis x
+  · exact Tile.reduceMinKeep axis x
 
 noncomputable def Tile.reduceMaxDrop {shape : TileShape}
     (axis : Fin shape.length) (x : Tile .real shape) :

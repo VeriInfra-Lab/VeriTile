@@ -1,0 +1,93 @@
+/tmp/veritile-standardization-20261015/rotary-emb-host-grid-wip/HostWitness.lean:25:78: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  0 ≤ f ≤ 6
+  0 ≤ e ≤ 4
+  0 ≤ c ≤ 16
+  0 ≤ b ≤ 4
+  b - e ≤ -1
+  0 ≤ a ≤ 16
+  -6 ≤ 50*a + 8*b - 50*c - 8*e - f ≤ 0
+where
+ a := ↑n
+ b := ↑h
+ c := ↑n'
+ e := ↑h'
+ f := ↑d'
+/tmp/veritile-standardization-20261015/rotary-emb-host-grid-wip/HostWitness.lean:25:78: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  0 ≤ f ≤ 6
+  0 ≤ e ≤ 9
+  0 ≤ c ≤ 16
+  0 ≤ b ≤ 9
+  b - e ≤ -1
+  0 ≤ a ≤ 16
+  -6 ≤ 100*a + 8*b - 100*c - 8*e - f ≤ 0
+where
+ a := ↑n
+ b := ↑h
+ c := ↑n'
+ e := ↑h'
+ f := ↑d'
+/tmp/veritile-standardization-20261015/rotary-emb-host-grid-wip/HostWitness.lean:29:54: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  f ≥ 0
+  0 ≤ e ≤ 3
+  0 ≤ c ≤ 4
+  b ≥ 0
+  4*b - c ≥ 1
+  0 ≤ a ≤ 16
+  100*a + 16*c + 2*e - f ≥ 0
+where
+ a := ↑n
+ b := ↑{
+      request :=
+        { q := { length := 17, heads := 5, width := 7, batchStride := 100, headStride := 16, dimStride := 2 },
+          k := { length := 17, heads := 10, width := 7, batchStride := 200, headStride := 16, dimStride := 2 },
+          cos := { length := 17, width := 7, batchStride := 20, dimStride := 2 },
+          sin := { length := 17, width := 7, batchStride := 30, dimStride := 3 }, partialRotaryFactor := 1.0 },
+      signedHeadDim := 5 }.headBlocks
+ c := ↑h
+ e := ↑d
+ f := ↑(FlatAlloc.listExtent
+    [({ name := "Q" }, 4000), ({ name := "K" }, 4000), ({ name := "Cos" }, 1000), ({ name := "Sin" }, 1000)]
+    { name := "Q" })
+/tmp/veritile-standardization-20261015/rotary-emb-host-grid-wip/HostWitness.lean:29:54: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  f ≥ 0
+  0 ≤ e ≤ 3
+  0 ≤ c ≤ 9
+  b ≥ 0
+  4*b - c ≥ 1
+  0 ≤ a ≤ 16
+  200*a + 16*c + 2*e - f ≥ 0
+where
+ a := ↑n
+ b := ↑{
+      request :=
+        { q := { length := 17, heads := 5, width := 7, batchStride := 100, headStride := 16, dimStride := 2 },
+          k := { length := 17, heads := 10, width := 7, batchStride := 200, headStride := 16, dimStride := 2 },
+          cos := { length := 17, width := 7, batchStride := 20, dimStride := 2 },
+          sin := { length := 17, width := 7, batchStride := 30, dimStride := 3 }, partialRotaryFactor := 1.0 },
+      signedHeadDim := 5 }.headBlocks
+ c := ↑h
+ e := ↑d
+ f := ↑(FlatAlloc.listExtent
+    [({ name := "Q" }, 4000), ({ name := "K" }, 4000), ({ name := "Cos" }, 1000), ({ name := "Sin" }, 1000)]
+    { name := "K" })
+/tmp/veritile-standardization-20261015/rotary-emb-host-grid-wip/HostWitness.lean:32:4: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  c ≥ 0
+  0 ≤ b ≤ 3
+  0 ≤ a ≤ 16
+  20*a + 2*b - c ≥ 0
+where
+ a := ↑n
+ b := ↑d
+ c := ↑(FlatAlloc.listExtent
+    [({ name := "Q" }, 4000), ({ name := "K" }, 4000), ({ name := "Cos" }, 1000), ({ name := "Sin" }, 1000)]
+    { name := "Cos" })
+/tmp/veritile-standardization-20261015/rotary-emb-host-grid-wip/HostWitness.lean:46:0: error: VeriTile.Bench.TritonBenchG.RotaryEmb.HostGrid.witness_domain: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/rotary-emb-host-grid-wip/HostWitness.lean:47:0: error: VeriTile.Bench.TritonBenchG.RotaryEmb.HostGrid.witness_exists: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.TritonBenchG.RotaryEmb.HostGrid.witness_grid_nonempty: axiom footprint ⊆ standard base ✓  ([Classical.choice])
+VeriTile.Bench.TritonBenchG.RotaryEmb.HostGrid.witness_k_extra_heads: axiom footprint ⊆ standard base ✓  ([Classical.choice])
+VeriTile.Bench.TritonBenchG.RotaryEmb.HostGrid.witness_odd_partial_tail: axiom footprint ⊆ standard base ✓  ([Classical.choice])

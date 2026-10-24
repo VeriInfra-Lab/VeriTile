@@ -18,16 +18,19 @@ noncomputable def qArithmeticState (p : Parameters) (s : BlockState)
     (p.resultValues s Q Cos Sin p.qBatch p.qHead p.qDim p.headsQ Bool.true)
 
 @[simp] theorem q_arithmetic_mem (p : Parameters) (s : BlockState)
-    (Q Cos Sin : RegionName) : (qArithmeticState p s Q Cos Sin).mem = s.mem := rfl
+    (Q Cos Sin : RegionName) : (qArithmeticState p s Q Cos Sin).mem = s.mem := by
+  funext r o
+  simp only [qArithmeticState, qLoadState, qIndexState, prefixState, BlockState.setReg_mem]
 
 @[simp] theorem q_arithmetic_pids (p : Parameters) (s : BlockState)
-    (Q Cos Sin : RegionName) : (qArithmeticState p s Q Cos Sin).pids = s.pids := rfl
+    (Q Cos Sin : RegionName) : (qArithmeticState p s Q Cos Sin).pids = s.pids := by
+  simp only [qArithmeticState, qLoadState, qIndexState, prefixState, BlockState.setReg_pids]
 
 set_option hygiene false in
 macro "solveRotaryArithmetic" : tactic => `(tactic|
   (simp only [evalOp.eq_def, qLoadState, BlockState.setReg_same,
     BlockState.setReg_ne_name, String.reduceEq, not_false_eq_true, ne_eq,
-    Option.bind_some, Option.map_some]
+    bind, Option.bind, Option.map_some]
    congr 1
    apply Tile.ext
    intro i
@@ -53,7 +56,7 @@ theorem q_arithmetic_run (p : Parameters) (Q K Cos Sin : RegionName) (s : BlockS
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (v := p.resultValues s Q Cos Sin p.qBatch p.qHead p.qDim p.headsQ Bool.true)
     (by solveRotaryArithmetic))]
-  rfl
+  exact stepStmts.nil
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

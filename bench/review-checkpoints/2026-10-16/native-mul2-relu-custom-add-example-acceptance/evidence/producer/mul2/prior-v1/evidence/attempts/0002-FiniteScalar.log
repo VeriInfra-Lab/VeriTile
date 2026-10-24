@@ -1,0 +1,23 @@
+/tmp/veritile-standardization-20261015/triton-mul2-finite-acceptance-wip/bench/tritonbench_g/triton_mul2/Proofs/FiniteScalar.lean:83:12: error: unsolved goals
+case pos
+b : Numerics
+x : Word Storage.boolean
+h : x = 0
+⊢ 0#8 = 0#(Storage.boolean.bytes * 8)
+
+case neg
+b : Numerics
+x : Word Storage.boolean
+h : ¬x = 0
+⊢ BitVec.setWidth 8
+      (if x = 0#(Storage.boolean.bytes * 8) then 0#(Storage.boolean.registerBytes * 8)
+      else 2#(Storage.boolean.registerBytes * 8)) =
+    if x = 0#(Storage.boolean.bytes * 8) then 0#(Storage.boolean.bytes * 8) else 2#(Storage.boolean.bytes * 8)
+TritonMul2Finite.result: definition does not reference [TritonMul2Finite.source,
+ TritonMul2Finite.Expr.eval,
+ TritonMul2Finite.stored,
+ TritonMul2Finite.multiply,
+ TritonMul2Finite.loaded] — non-circular ✓
+/tmp/veritile-standardization-20261015/triton-mul2-finite-acceptance-wip/bench/tritonbench_g/triton_mul2/Proofs/FiniteScalar.lean:98:0: error: TritonMul2Finite.source_scalar: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+TritonMul2Finite.bool_raw_store: axiom footprint ⊆ standard base ✓  ([])
+TritonMul2Finite.storage_width_positive: axiom footprint ⊆ standard base ✓  ([])

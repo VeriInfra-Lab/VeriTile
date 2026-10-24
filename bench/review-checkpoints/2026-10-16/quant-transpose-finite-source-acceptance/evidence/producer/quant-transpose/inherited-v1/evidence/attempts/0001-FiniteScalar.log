@@ -1,0 +1,16 @@
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-wip/FiniteScalar.lean:81:36: warning: This simp argument is unused:
+  h
+
+Hint: Omit it from the simp argument list.
+  simp [llrint, ̲LlrintDefined, ̲hp,̵h̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+QuantTransposeFinite.result: definition does not reference [QuantTransposeFinite.source,
+ QuantTransposeFinite.Expr.eval] — non-circular ✓
+QuantTransposeFinite.LlrintDefined: definition does not reference [QuantTransposeFinite.source,
+ QuantTransposeFinite.Expr.eval,
+ QuantTransposeFinite.llrint] — non-circular ✓
+QuantTransposeFinite.source_scalar: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+QuantTransposeFinite.defined_result: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+QuantTransposeFinite.special_conversions: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+QuantTransposeFinite.conversion_boundaries: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])

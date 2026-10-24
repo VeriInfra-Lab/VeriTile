@@ -1,0 +1,1111 @@
+{
+  "torch_version": "2.13.0+cu130",
+  "torch_commit": "cf30153c4c131c8164ee7798e5022d810682e2cb",
+  "triton_version": "3.7.1",
+  "source": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/quantize_global/quantize_global.py",
+  "source_sha256": "163f6e73234587c1d05763ed60ccc1ac4ca7d7d384f18b7af17399509205032f",
+  "copied_prefix": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/quantize_global.py",
+  "copied_prefix_sha256": "50b0193c3fcf481a41bfcf5907b7bef3728c8b61505fce8eaba501bc92f49e39",
+  "production_ast_unchanged": true,
+  "records": [
+    {
+      "name": "bool",
+      "signature": {
+        "x_ptr": "*u1",
+        "absmax_inv_ptr": "*fp32",
+        "output_ptr": "*i8",
+        "n_elements": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 1024
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3
+      },
+      "target": {
+        "backend": "cuda",
+        "arch": 90,
+        "warp_size": 32
+      },
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/bool-1024.ttir",
+          "sha256": "43caa8b489e7200b052a23404ce6a70f2aceacd29722f192e9bec1a7d8173a8e"
+        },
+        "ttgir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/bool-1024.ttgir",
+          "sha256": "6fe15ba0c39cb9d188a08cc4b0686ff02e399ae76857c983cc6a7f7724b542f4"
+        },
+        "llir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/bool-1024.llir",
+          "sha256": "2f8aa32d09a3253bee731a6b5942104c7340acd04b2d0ab96a02455549abfd3b"
+        },
+        "ptx": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/bool-1024.ptx",
+          "sha256": "3314e7298d7b8da915022d548d6d44acd5254ee52e3ccbe75e8ce910a77c6cb4"
+        }
+      },
+      "status": "compiled",
+      "arithmetic_ir": [
+        "%output_8 = arith.uitofp %x_7 : tensor<1024xi1> to tensor<1024xf32> loc(#loc29)",
+        "%output_10 = arith.mulf %output_8, %output_9 : tensor<1024xf32> loc(#loc29)",
+        "%output_11 = arith.mulf %output_10, %output : tensor<1024xf32> loc(#loc20)",
+        "%output_12 = tt.extern_elementwise %output_11 {libname = \"\", libpath = \"\", pure = true, symbol = \"__nv_llrintf\"} : (tensor<1024xf32>) -> tensor<1024xi64> loc(#loc30)",
+        "%2 = arith.trunci %output_12 : tensor<1024xi64> to tensor<1024xi8> loc(#loc14)"
+      ]
+    },
+    {
+      "name": "bool",
+      "signature": {
+        "x_ptr": "*u1",
+        "absmax_inv_ptr": "*fp32",
+        "output_ptr": "*i8",
+        "n_elements": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 2048
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 1
+      },
+      "target": {
+        "backend": "cuda",
+        "arch": 90,
+        "warp_size": 32
+      },
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/bool-2048.ttir",
+          "sha256": "8d157ea52ce9796a06f7a696e23e39af86e8a45738c2de35111cec1c4259b575"
+        },
+        "ttgir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/bool-2048.ttgir",
+          "sha256": "ee3cebb5e3500a5ba4aa07a3653fc62a23b3ba613a9c2c688dfffff95d6dccc4"
+        },
+        "llir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/bool-2048.llir",
+          "sha256": "85e696c39f695b01da783054112155d24bd0e52fe5e7daf07a11cb1f92ac76b3"
+        },
+        "ptx": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/bool-2048.ptx",
+          "sha256": "7cd616f93e0965739c6ce40a59d9d1452e49bfe6027d1fa1017bf8ef48458cd7"
+        }
+      },
+      "status": "compiled",
+      "arithmetic_ir": [
+        "%output_8 = arith.uitofp %x_7 : tensor<2048xi1> to tensor<2048xf32> loc(#loc29)",
+        "%output_10 = arith.mulf %output_8, %output_9 : tensor<2048xf32> loc(#loc29)",
+        "%output_11 = arith.mulf %output_10, %output : tensor<2048xf32> loc(#loc20)",
+        "%output_12 = tt.extern_elementwise %output_11 {libname = \"\", libpath = \"\", pure = true, symbol = \"__nv_llrintf\"} : (tensor<2048xf32>) -> tensor<2048xi64> loc(#loc30)",
+        "%2 = arith.trunci %output_12 : tensor<2048xi64> to tensor<2048xi8> loc(#loc14)"
+      ]
+    },
+    {
+      "name": "u8",
+      "signature": {
+        "x_ptr": "*u8",
+        "absmax_inv_ptr": "*fp32",
+        "output_ptr": "*i8",
+        "n_elements": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 1024
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3
+      },
+      "target": {
+        "backend": "cuda",
+        "arch": 90,
+        "warp_size": 32
+      },
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/u8-1024.ttir",
+          "sha256": "738a313e5edd4d71113d98fecfa567ba971604d8d01c290e25758239d5fb3f7a"
+        },
+        "ttgir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/u8-1024.ttgir",
+          "sha256": "59b687b8f909191a917dd91c2ed3a3d9a026db8224a06c0a3cbbe887cc91fe30"
+        },
+        "llir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/u8-1024.llir",
+          "sha256": "0ccf7f2fd438c9d1497c1858c5b981340f82ba9f57945a1b7b68a8defd0ede82"
+        },
+        "ptx": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/u8-1024.ptx",
+          "sha256": "fdf573a8ecf3027afc9d16b33bf3499c9a94a031cad01fee91525cb3945711f6"
+        }
+      },
+      "status": "compiled",
+      "arithmetic_ir": [
+        "%output_5 = arith.uitofp %x_4 : tensor<1024xi8> to tensor<1024xf32> loc(#loc29)",
+        "%output_7 = arith.mulf %output_5, %output_6 : tensor<1024xf32> loc(#loc29)",
+        "%output_8 = arith.mulf %output_7, %output : tensor<1024xf32> loc(#loc20)",
+        "%output_9 = tt.extern_elementwise %output_8 {libname = \"\", libpath = \"\", pure = true, symbol = \"__nv_llrintf\"} : (tensor<1024xf32>) -> tensor<1024xi64> loc(#loc30)",
+        "%2 = arith.trunci %output_9 : tensor<1024xi64> to tensor<1024xi8> loc(#loc14)"
+      ]
+    },
+    {
+      "name": "u8",
+      "signature": {
+        "x_ptr": "*u8",
+        "absmax_inv_ptr": "*fp32",
+        "output_ptr": "*i8",
+        "n_elements": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 2048
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 1
+      },
+      "target": {
+        "backend": "cuda",
+        "arch": 90,
+        "warp_size": 32
+      },
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/u8-2048.ttir",
+          "sha256": "8e8da2b827cd8f766a44fd54aa18119adca68367cc9111002def75d885ddd1a0"
+        },
+        "ttgir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/u8-2048.ttgir",
+          "sha256": "7ad0e54a51f52237d626aa0a7b4efea8459ceca29a65040cd712e29f8007c775"
+        },
+        "llir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/u8-2048.llir",
+          "sha256": "15d33351881c51ada0d2aac89328b422b77567c3239f80f57579ebcb0ca24f23"
+        },
+        "ptx": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/u8-2048.ptx",
+          "sha256": "82cd5daefb5ab4a7cd76915e658709972177c4fbb8c589966cff3c25719436f2"
+        }
+      },
+      "status": "compiled",
+      "arithmetic_ir": [
+        "%output_5 = arith.uitofp %x_4 : tensor<2048xi8> to tensor<2048xf32> loc(#loc29)",
+        "%output_7 = arith.mulf %output_5, %output_6 : tensor<2048xf32> loc(#loc29)",
+        "%output_8 = arith.mulf %output_7, %output : tensor<2048xf32> loc(#loc20)",
+        "%output_9 = tt.extern_elementwise %output_8 {libname = \"\", libpath = \"\", pure = true, symbol = \"__nv_llrintf\"} : (tensor<2048xf32>) -> tensor<2048xi64> loc(#loc30)",
+        "%2 = arith.trunci %output_9 : tensor<2048xi64> to tensor<2048xi8> loc(#loc14)"
+      ]
+    },
+    {
+      "name": "i8",
+      "signature": {
+        "x_ptr": "*i8",
+        "absmax_inv_ptr": "*fp32",
+        "output_ptr": "*i8",
+        "n_elements": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 1024
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3
+      },
+      "target": {
+        "backend": "cuda",
+        "arch": 90,
+        "warp_size": 32
+      },
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/i8-1024.ttir",
+          "sha256": "1a4b5945cbe444b90fb48c0f877d4a07df54294debf741606b6a425076bbf30e"
+        },
+        "ttgir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/i8-1024.ttgir",
+          "sha256": "5625c9c9210439d45515a8435a65a8cf0e3ac344a6bf140fff420f978f859383"
+        },
+        "llir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/i8-1024.llir",
+          "sha256": "266f9f2699e2585f7749cba54a35d4656d2b1793975e25683bfdf6eb4b8f2401"
+        },
+        "ptx": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/i8-1024.ptx",
+          "sha256": "3b6320cad408559560e5b5dc35c4b45b32504f74384ef9d4c98c8a0ea04b9e52"
+        }
+      },
+      "status": "compiled",
+      "arithmetic_ir": [
+        "%output_5 = arith.sitofp %x_4 : tensor<1024xi8> to tensor<1024xf32> loc(#loc29)",
+        "%output_7 = arith.mulf %output_5, %output_6 : tensor<1024xf32> loc(#loc29)",
+        "%output_8 = arith.mulf %output_7, %output : tensor<1024xf32> loc(#loc20)",
+        "%output_9 = tt.extern_elementwise %output_8 {libname = \"\", libpath = \"\", pure = true, symbol = \"__nv_llrintf\"} : (tensor<1024xf32>) -> tensor<1024xi64> loc(#loc30)",
+        "%2 = arith.trunci %output_9 : tensor<1024xi64> to tensor<1024xi8> loc(#loc14)"
+      ]
+    },
+    {
+      "name": "i8",
+      "signature": {
+        "x_ptr": "*i8",
+        "absmax_inv_ptr": "*fp32",
+        "output_ptr": "*i8",
+        "n_elements": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 2048
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 1
+      },
+      "target": {
+        "backend": "cuda",
+        "arch": 90,
+        "warp_size": 32
+      },
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/i8-2048.ttir",
+          "sha256": "5b8e11413d0e3d2a3b316112aa70704ebabccfb722074bba6d2d28779662e13e"
+        },
+        "ttgir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/i8-2048.ttgir",
+          "sha256": "847ed247f6841134702639d6ee277cdef14136a33dbaa50f15ea592e631c84eb"
+        },
+        "llir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/i8-2048.llir",
+          "sha256": "55905f7367971ff3b8ac056413d7feb74d2fbdaebc0bf5c088db14a7e85e3071"
+        },
+        "ptx": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/i8-2048.ptx",
+          "sha256": "7be3fd9645f1fc3496112fc098a33d0126c5a8b8f2223271d93113007a4be4e3"
+        }
+      },
+      "status": "compiled",
+      "arithmetic_ir": [
+        "%output_5 = arith.sitofp %x_4 : tensor<2048xi8> to tensor<2048xf32> loc(#loc29)",
+        "%output_7 = arith.mulf %output_5, %output_6 : tensor<2048xf32> loc(#loc29)",
+        "%output_8 = arith.mulf %output_7, %output : tensor<2048xf32> loc(#loc20)",
+        "%output_9 = tt.extern_elementwise %output_8 {libname = \"\", libpath = \"\", pure = true, symbol = \"__nv_llrintf\"} : (tensor<2048xf32>) -> tensor<2048xi64> loc(#loc30)",
+        "%2 = arith.trunci %output_9 : tensor<2048xi64> to tensor<2048xi8> loc(#loc14)"
+      ]
+    },
+    {
+      "name": "i16",
+      "signature": {
+        "x_ptr": "*i16",
+        "absmax_inv_ptr": "*fp32",
+        "output_ptr": "*i8",
+        "n_elements": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 1024
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3
+      },
+      "target": {
+        "backend": "cuda",
+        "arch": 90,
+        "warp_size": 32
+      },
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/i16-1024.ttir",
+          "sha256": "31e9b5d72449eab3fd7b450869e5cb47565d30d940f96b7bd4360256d0adfc32"
+        },
+        "ttgir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/i16-1024.ttgir",
+          "sha256": "f5f61a7deecb23f5a7c33928ed780c9328d095860d339c4b61693073b826a324"
+        },
+        "llir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/i16-1024.llir",
+          "sha256": "f4a6101400f3ef6c3f71fec2f7ad0d3a974bcf7a34ea894ceeec17a0d0039f9d"
+        },
+        "ptx": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/i16-1024.ptx",
+          "sha256": "cd63ac7e463b9e30f42d73c4fc397d238dd159838f6a570b2b0ece2dca4cd795"
+        }
+      },
+      "status": "compiled",
+      "arithmetic_ir": [
+        "%output_5 = arith.sitofp %x_4 : tensor<1024xi16> to tensor<1024xf32> loc(#loc29)",
+        "%output_7 = arith.mulf %output_5, %output_6 : tensor<1024xf32> loc(#loc29)",
+        "%output_8 = arith.mulf %output_7, %output : tensor<1024xf32> loc(#loc20)",
+        "%output_9 = tt.extern_elementwise %output_8 {libname = \"\", libpath = \"\", pure = true, symbol = \"__nv_llrintf\"} : (tensor<1024xf32>) -> tensor<1024xi64> loc(#loc30)",
+        "%2 = arith.trunci %output_9 : tensor<1024xi64> to tensor<1024xi8> loc(#loc14)"
+      ]
+    },
+    {
+      "name": "i16",
+      "signature": {
+        "x_ptr": "*i16",
+        "absmax_inv_ptr": "*fp32",
+        "output_ptr": "*i8",
+        "n_elements": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 2048
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 1
+      },
+      "target": {
+        "backend": "cuda",
+        "arch": 90,
+        "warp_size": 32
+      },
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/i16-2048.ttir",
+          "sha256": "b044d2dc0a02f0c7c34dbaedb8e3131b692531552686d8b193c5f550c3f528b4"
+        },
+        "ttgir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/i16-2048.ttgir",
+          "sha256": "f21e6c7b87c111fe17e06577c3d9f3945cb02448cf9612fd113489fa95affad8"
+        },
+        "llir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/i16-2048.llir",
+          "sha256": "c1866d043846a9f10db5890ba499db5f34a3f45d9623f5637f891e3b6d1d5de4"
+        },
+        "ptx": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/i16-2048.ptx",
+          "sha256": "6f07fad08e83cb1a0c22a078404fe68942462ed6eb1c79b97efbc5fa7114b588"
+        }
+      },
+      "status": "compiled",
+      "arithmetic_ir": [
+        "%output_5 = arith.sitofp %x_4 : tensor<2048xi16> to tensor<2048xf32> loc(#loc29)",
+        "%output_7 = arith.mulf %output_5, %output_6 : tensor<2048xf32> loc(#loc29)",
+        "%output_8 = arith.mulf %output_7, %output : tensor<2048xf32> loc(#loc20)",
+        "%output_9 = tt.extern_elementwise %output_8 {libname = \"\", libpath = \"\", pure = true, symbol = \"__nv_llrintf\"} : (tensor<2048xf32>) -> tensor<2048xi64> loc(#loc30)",
+        "%2 = arith.trunci %output_9 : tensor<2048xi64> to tensor<2048xi8> loc(#loc14)"
+      ]
+    },
+    {
+      "name": "i32",
+      "signature": {
+        "x_ptr": "*i32",
+        "absmax_inv_ptr": "*fp32",
+        "output_ptr": "*i8",
+        "n_elements": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 1024
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3
+      },
+      "target": {
+        "backend": "cuda",
+        "arch": 90,
+        "warp_size": 32
+      },
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/i32-1024.ttir",
+          "sha256": "48366bc4856de9ff475646e484b255057c1a1ba09bfdd97fbfad9751400b3a51"
+        },
+        "ttgir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/i32-1024.ttgir",
+          "sha256": "8459c6ac33b4d62ae1d3c033e989b0b1d11bbe9e133f562b007a6016d0238a20"
+        },
+        "llir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/i32-1024.llir",
+          "sha256": "5fbc269e32aafae39c8ab0be662990d3b27d192e5c4fe4b5b75f9679598c0710"
+        },
+        "ptx": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/i32-1024.ptx",
+          "sha256": "116ed885a027e8f4fdba1624146bbba85092f06bffc22cf4fe751ac69f32f2f8"
+        }
+      },
+      "status": "compiled",
+      "arithmetic_ir": [
+        "%output_5 = arith.sitofp %x_4 : tensor<1024xi32> to tensor<1024xf32> loc(#loc29)",
+        "%output_7 = arith.mulf %output_5, %output_6 : tensor<1024xf32> loc(#loc29)",
+        "%output_8 = arith.mulf %output_7, %output : tensor<1024xf32> loc(#loc20)",
+        "%output_9 = tt.extern_elementwise %output_8 {libname = \"\", libpath = \"\", pure = true, symbol = \"__nv_llrintf\"} : (tensor<1024xf32>) -> tensor<1024xi64> loc(#loc30)",
+        "%2 = arith.trunci %output_9 : tensor<1024xi64> to tensor<1024xi8> loc(#loc14)"
+      ]
+    },
+    {
+      "name": "i32",
+      "signature": {
+        "x_ptr": "*i32",
+        "absmax_inv_ptr": "*fp32",
+        "output_ptr": "*i8",
+        "n_elements": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 2048
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 1
+      },
+      "target": {
+        "backend": "cuda",
+        "arch": 90,
+        "warp_size": 32
+      },
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/i32-2048.ttir",
+          "sha256": "b9ef5418521cca75668e8444b9bc892b8fe5b3f9dbd6a2b2ace9ff34a6311bc1"
+        },
+        "ttgir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/i32-2048.ttgir",
+          "sha256": "69b6e11a6e3c77c771a0dc3a304c1d866f0c3d9dcc3d954eac0486345c78ee2c"
+        },
+        "llir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/i32-2048.llir",
+          "sha256": "d5d7cf9408ef6b9491849e10322f445efcdc0f8d4d4f9def8cb0c653718ad227"
+        },
+        "ptx": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/i32-2048.ptx",
+          "sha256": "6d0785062e5005f7053bb3920452206f2db0eaed6b98fa91dc60f4040d618ec8"
+        }
+      },
+      "status": "compiled",
+      "arithmetic_ir": [
+        "%output_5 = arith.sitofp %x_4 : tensor<2048xi32> to tensor<2048xf32> loc(#loc29)",
+        "%output_7 = arith.mulf %output_5, %output_6 : tensor<2048xf32> loc(#loc29)",
+        "%output_8 = arith.mulf %output_7, %output : tensor<2048xf32> loc(#loc20)",
+        "%output_9 = tt.extern_elementwise %output_8 {libname = \"\", libpath = \"\", pure = true, symbol = \"__nv_llrintf\"} : (tensor<2048xf32>) -> tensor<2048xi64> loc(#loc30)",
+        "%2 = arith.trunci %output_9 : tensor<2048xi64> to tensor<2048xi8> loc(#loc14)"
+      ]
+    },
+    {
+      "name": "i64",
+      "signature": {
+        "x_ptr": "*i64",
+        "absmax_inv_ptr": "*fp32",
+        "output_ptr": "*i8",
+        "n_elements": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 1024
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3
+      },
+      "target": {
+        "backend": "cuda",
+        "arch": 90,
+        "warp_size": 32
+      },
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/i64-1024.ttir",
+          "sha256": "3529a71f66520130d79c787178d203754c6dde989dc696853a0a278e068dd991"
+        },
+        "ttgir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/i64-1024.ttgir",
+          "sha256": "8a655bcc07a0e684c8e3b162cbd3504bd02c16ce6bc0dcdea9ca97c112c404db"
+        },
+        "llir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/i64-1024.llir",
+          "sha256": "8849f3d1762178cc11011eff1356388cf6513aded888144d5c24f4e50aadf1b1"
+        },
+        "ptx": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/i64-1024.ptx",
+          "sha256": "e7bd65aeeeedea5c8cf83aa2ade32aa8f7435fe714a0be9da367d1108fe0f077"
+        }
+      },
+      "status": "compiled",
+      "arithmetic_ir": [
+        "%output_5 = arith.sitofp %x_4 : tensor<1024xi64> to tensor<1024xf32> loc(#loc29)",
+        "%output_7 = arith.mulf %output_5, %output_6 : tensor<1024xf32> loc(#loc29)",
+        "%output_8 = arith.mulf %output_7, %output : tensor<1024xf32> loc(#loc20)",
+        "%output_9 = tt.extern_elementwise %output_8 {libname = \"\", libpath = \"\", pure = true, symbol = \"__nv_llrintf\"} : (tensor<1024xf32>) -> tensor<1024xi64> loc(#loc30)",
+        "%2 = arith.trunci %output_9 : tensor<1024xi64> to tensor<1024xi8> loc(#loc14)"
+      ]
+    },
+    {
+      "name": "i64",
+      "signature": {
+        "x_ptr": "*i64",
+        "absmax_inv_ptr": "*fp32",
+        "output_ptr": "*i8",
+        "n_elements": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 2048
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 1
+      },
+      "target": {
+        "backend": "cuda",
+        "arch": 90,
+        "warp_size": 32
+      },
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/i64-2048.ttir",
+          "sha256": "bb2fbf6d9bcb636e335a90efa7599b3e268c1d7cdb9e634c0c941bba1206ec03"
+        },
+        "ttgir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/i64-2048.ttgir",
+          "sha256": "a722f9f79439887f267969239ae396cfb529feb0495df282cd3bf2bdb9ed7fef"
+        },
+        "llir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/i64-2048.llir",
+          "sha256": "f1221c0cf1c8543c0dff695d0f5a99c34059a1b872d5a667c875bf56d494e666"
+        },
+        "ptx": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/i64-2048.ptx",
+          "sha256": "1af60eecd2536301bb627791d0b826d6db4a5f2f2d612d986e1a340aeef9b05f"
+        }
+      },
+      "status": "compiled",
+      "arithmetic_ir": [
+        "%output_5 = arith.sitofp %x_4 : tensor<2048xi64> to tensor<2048xf32> loc(#loc29)",
+        "%output_7 = arith.mulf %output_5, %output_6 : tensor<2048xf32> loc(#loc29)",
+        "%output_8 = arith.mulf %output_7, %output : tensor<2048xf32> loc(#loc20)",
+        "%output_9 = tt.extern_elementwise %output_8 {libname = \"\", libpath = \"\", pure = true, symbol = \"__nv_llrintf\"} : (tensor<2048xf32>) -> tensor<2048xi64> loc(#loc30)",
+        "%2 = arith.trunci %output_9 : tensor<2048xi64> to tensor<2048xi8> loc(#loc14)"
+      ]
+    },
+    {
+      "name": "fp16",
+      "signature": {
+        "x_ptr": "*fp16",
+        "absmax_inv_ptr": "*fp16",
+        "output_ptr": "*i8",
+        "n_elements": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 1024
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3
+      },
+      "target": {
+        "backend": "cuda",
+        "arch": 90,
+        "warp_size": 32
+      },
+      "status": "failed",
+      "error": "Traceback (most recent call last):\n  File \"/usr/local/lib/python3.12/site-packages/triton/language/core.py\", line 43, in wrapper\n    return fn(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/language/extra/cuda/libdevice.py\", line 1025, in llrint\n    return core.extern_elementwise(\n           ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/language/core.py\", line 43, in wrapper\n    return fn(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/language/core.py\", line 3439, in extern_elementwise\n    ret_type = arg_type_symbol_dict[arg_types][1]\n               ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^\nKeyError: (triton.language.float16)\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/probe_native.py\", line 26, in <module>\n    compiled=triton.compile(ASTSource(function,rec['signature'],constexprs=config.kwargs),target=GPUTarget('cuda',90,32),options=rec['options'])\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/compiler.py\", line 307, in compile\n    module = src.make_ir(target, options, codegen_fns, module_map, context)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/compiler.py\", line 80, in make_ir\n    return ast_to_ttir(self.fn, self, context=context, options=options, codegen_fns=codegen_fns,\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\ntriton.compiler.errors.CompilationError: at 14:13:\n    absmax_inv_ptr,\n    output_ptr,\n    n_elements,\n    BLOCK_SIZE: tl.constexpr,\n):\n    pid = tl.program_id(axis=0)\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    absmax_inv = tl.load(absmax_inv_ptr)\n    output = tl.extra.cuda.libdevice.llrint(127.0 * (x * absmax_inv))\n             ^\n(triton.language.float16)\n"
+    },
+    {
+      "name": "fp16",
+      "signature": {
+        "x_ptr": "*fp16",
+        "absmax_inv_ptr": "*fp16",
+        "output_ptr": "*i8",
+        "n_elements": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 2048
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 1
+      },
+      "target": {
+        "backend": "cuda",
+        "arch": 90,
+        "warp_size": 32
+      },
+      "status": "failed",
+      "error": "Traceback (most recent call last):\n  File \"/usr/local/lib/python3.12/site-packages/triton/language/core.py\", line 43, in wrapper\n    return fn(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/language/extra/cuda/libdevice.py\", line 1025, in llrint\n    return core.extern_elementwise(\n           ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/language/core.py\", line 43, in wrapper\n    return fn(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/language/core.py\", line 3439, in extern_elementwise\n    ret_type = arg_type_symbol_dict[arg_types][1]\n               ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^\nKeyError: (triton.language.float16)\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/probe_native.py\", line 26, in <module>\n    compiled=triton.compile(ASTSource(function,rec['signature'],constexprs=config.kwargs),target=GPUTarget('cuda',90,32),options=rec['options'])\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/compiler.py\", line 307, in compile\n    module = src.make_ir(target, options, codegen_fns, module_map, context)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/compiler.py\", line 80, in make_ir\n    return ast_to_ttir(self.fn, self, context=context, options=options, codegen_fns=codegen_fns,\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\ntriton.compiler.errors.CompilationError: at 14:13:\n    absmax_inv_ptr,\n    output_ptr,\n    n_elements,\n    BLOCK_SIZE: tl.constexpr,\n):\n    pid = tl.program_id(axis=0)\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    absmax_inv = tl.load(absmax_inv_ptr)\n    output = tl.extra.cuda.libdevice.llrint(127.0 * (x * absmax_inv))\n             ^\n(triton.language.float16)\n"
+    },
+    {
+      "name": "bf16",
+      "signature": {
+        "x_ptr": "*bf16",
+        "absmax_inv_ptr": "*bf16",
+        "output_ptr": "*i8",
+        "n_elements": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 1024
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3
+      },
+      "target": {
+        "backend": "cuda",
+        "arch": 90,
+        "warp_size": 32
+      },
+      "status": "failed",
+      "error": "Traceback (most recent call last):\n  File \"/usr/local/lib/python3.12/site-packages/triton/language/core.py\", line 43, in wrapper\n    return fn(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/language/extra/cuda/libdevice.py\", line 1025, in llrint\n    return core.extern_elementwise(\n           ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/language/core.py\", line 43, in wrapper\n    return fn(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/language/core.py\", line 3439, in extern_elementwise\n    ret_type = arg_type_symbol_dict[arg_types][1]\n               ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^\nKeyError: (triton.language.bfloat16)\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/probe_native.py\", line 26, in <module>\n    compiled=triton.compile(ASTSource(function,rec['signature'],constexprs=config.kwargs),target=GPUTarget('cuda',90,32),options=rec['options'])\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/compiler.py\", line 307, in compile\n    module = src.make_ir(target, options, codegen_fns, module_map, context)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/compiler.py\", line 80, in make_ir\n    return ast_to_ttir(self.fn, self, context=context, options=options, codegen_fns=codegen_fns,\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\ntriton.compiler.errors.CompilationError: at 14:13:\n    absmax_inv_ptr,\n    output_ptr,\n    n_elements,\n    BLOCK_SIZE: tl.constexpr,\n):\n    pid = tl.program_id(axis=0)\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    absmax_inv = tl.load(absmax_inv_ptr)\n    output = tl.extra.cuda.libdevice.llrint(127.0 * (x * absmax_inv))\n             ^\n(triton.language.bfloat16)\n"
+    },
+    {
+      "name": "bf16",
+      "signature": {
+        "x_ptr": "*bf16",
+        "absmax_inv_ptr": "*bf16",
+        "output_ptr": "*i8",
+        "n_elements": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 2048
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 1
+      },
+      "target": {
+        "backend": "cuda",
+        "arch": 90,
+        "warp_size": 32
+      },
+      "status": "failed",
+      "error": "Traceback (most recent call last):\n  File \"/usr/local/lib/python3.12/site-packages/triton/language/core.py\", line 43, in wrapper\n    return fn(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/language/extra/cuda/libdevice.py\", line 1025, in llrint\n    return core.extern_elementwise(\n           ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/language/core.py\", line 43, in wrapper\n    return fn(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/language/core.py\", line 3439, in extern_elementwise\n    ret_type = arg_type_symbol_dict[arg_types][1]\n               ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^\nKeyError: (triton.language.bfloat16)\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/probe_native.py\", line 26, in <module>\n    compiled=triton.compile(ASTSource(function,rec['signature'],constexprs=config.kwargs),target=GPUTarget('cuda',90,32),options=rec['options'])\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/compiler.py\", line 307, in compile\n    module = src.make_ir(target, options, codegen_fns, module_map, context)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/compiler.py\", line 80, in make_ir\n    return ast_to_ttir(self.fn, self, context=context, options=options, codegen_fns=codegen_fns,\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\ntriton.compiler.errors.CompilationError: at 14:13:\n    absmax_inv_ptr,\n    output_ptr,\n    n_elements,\n    BLOCK_SIZE: tl.constexpr,\n):\n    pid = tl.program_id(axis=0)\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    absmax_inv = tl.load(absmax_inv_ptr)\n    output = tl.extra.cuda.libdevice.llrint(127.0 * (x * absmax_inv))\n             ^\n(triton.language.bfloat16)\n"
+    },
+    {
+      "name": "fp32",
+      "signature": {
+        "x_ptr": "*fp32",
+        "absmax_inv_ptr": "*fp32",
+        "output_ptr": "*i8",
+        "n_elements": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 1024
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3
+      },
+      "target": {
+        "backend": "cuda",
+        "arch": 90,
+        "warp_size": 32
+      },
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/fp32-1024.ttir",
+          "sha256": "7e28f7e8dced2d0ae74dae8241d48516b82296da1e80974842650c3a07982f0e"
+        },
+        "ttgir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/fp32-1024.ttgir",
+          "sha256": "43215bda89bb1d462efcd05abcb6a1386e3518a1cfe7ece7fe7efecbb2e5d3e9"
+        },
+        "llir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/fp32-1024.llir",
+          "sha256": "f5327527d18e434451725527abd8c975d97d845f66a9759c1034dd21793d0aef"
+        },
+        "ptx": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/fp32-1024.ptx",
+          "sha256": "93ebfe93d910225ccd9e7fbcda4ba4022561fc0e404188a54ff9384a825649b8"
+        }
+      },
+      "status": "compiled",
+      "arithmetic_ir": [
+        "%output_6 = arith.mulf %x_4, %output_5 : tensor<1024xf32> loc(#loc29)",
+        "%output_7 = arith.mulf %output_6, %output : tensor<1024xf32> loc(#loc20)",
+        "%output_8 = tt.extern_elementwise %output_7 {libname = \"\", libpath = \"\", pure = true, symbol = \"__nv_llrintf\"} : (tensor<1024xf32>) -> tensor<1024xi64> loc(#loc30)",
+        "%2 = arith.trunci %output_8 : tensor<1024xi64> to tensor<1024xi8> loc(#loc14)"
+      ]
+    },
+    {
+      "name": "fp32",
+      "signature": {
+        "x_ptr": "*fp32",
+        "absmax_inv_ptr": "*fp32",
+        "output_ptr": "*i8",
+        "n_elements": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 2048
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 1
+      },
+      "target": {
+        "backend": "cuda",
+        "arch": 90,
+        "warp_size": 32
+      },
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/fp32-2048.ttir",
+          "sha256": "72e24714fbcac6eb15038765349aa193b5e57af9c1af6a92f62ff14f747aa1e3"
+        },
+        "ttgir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/fp32-2048.ttgir",
+          "sha256": "fe96df4f4f1a603011c5f792b82092d3e99d0a7b15eb62f12d13587e31c1695d"
+        },
+        "llir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/fp32-2048.llir",
+          "sha256": "4daf02c73ef38c08b3d033a13c5d3a16a6b1909926ea9a9fb72d5081fbeab4de"
+        },
+        "ptx": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/fp32-2048.ptx",
+          "sha256": "e166837ac0dec2f08b867307b4c4c4f733a545ba371f5ea34995844da3101ee8"
+        }
+      },
+      "status": "compiled",
+      "arithmetic_ir": [
+        "%output_6 = arith.mulf %x_4, %output_5 : tensor<2048xf32> loc(#loc29)",
+        "%output_7 = arith.mulf %output_6, %output : tensor<2048xf32> loc(#loc20)",
+        "%output_8 = tt.extern_elementwise %output_7 {libname = \"\", libpath = \"\", pure = true, symbol = \"__nv_llrintf\"} : (tensor<2048xf32>) -> tensor<2048xi64> loc(#loc30)",
+        "%2 = arith.trunci %output_8 : tensor<2048xi64> to tensor<2048xi8> loc(#loc14)"
+      ]
+    },
+    {
+      "name": "fp32-i64-n",
+      "signature": {
+        "x_ptr": "*fp32",
+        "absmax_inv_ptr": "*fp32",
+        "output_ptr": "*i8",
+        "n_elements": "i64"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 1024
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3
+      },
+      "target": {
+        "backend": "cuda",
+        "arch": 90,
+        "warp_size": 32
+      },
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/fp32-i64-n-1024.ttir",
+          "sha256": "322611cdf9a3e4851abfde205bc0a97c01fa78f5ef5fa43b26a2e8134e420329"
+        },
+        "ttgir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/fp32-i64-n-1024.ttgir",
+          "sha256": "b67dc7953c24babc5ccf5211c366bc539feb0e2db9a49533776c7590406b9a5d"
+        },
+        "llir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/fp32-i64-n-1024.llir",
+          "sha256": "95abc6a4a3abeba2aeb562302ad55e78a80092f5ef77ef1e684f0fb7cb83349a"
+        },
+        "ptx": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/fp32-i64-n-1024.ptx",
+          "sha256": "02b1d09d9a5dc661542b9455efbb2c8a18fa4c613cb1ebb0fff32788c152268f"
+        }
+      },
+      "status": "compiled",
+      "arithmetic_ir": [
+        "%output_7 = arith.mulf %x_5, %output_6 : tensor<1024xf32> loc(#loc29)",
+        "%output_8 = arith.mulf %output_7, %output : tensor<1024xf32> loc(#loc20)",
+        "%output_9 = tt.extern_elementwise %output_8 {libname = \"\", libpath = \"\", pure = true, symbol = \"__nv_llrintf\"} : (tensor<1024xf32>) -> tensor<1024xi64> loc(#loc30)",
+        "%2 = arith.trunci %output_9 : tensor<1024xi64> to tensor<1024xi8> loc(#loc14)"
+      ]
+    },
+    {
+      "name": "fp32-i64-n",
+      "signature": {
+        "x_ptr": "*fp32",
+        "absmax_inv_ptr": "*fp32",
+        "output_ptr": "*i8",
+        "n_elements": "i64"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 2048
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 1
+      },
+      "target": {
+        "backend": "cuda",
+        "arch": 90,
+        "warp_size": 32
+      },
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/fp32-i64-n-2048.ttir",
+          "sha256": "3a786df40a6d355a201284bc58dadbbc9b255abe51dd9ef90b8205146ff29951"
+        },
+        "ttgir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/fp32-i64-n-2048.ttgir",
+          "sha256": "d9e2282f91357e8bf064d507687758ecc35f6c6414730162320264510dcba9f5"
+        },
+        "llir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/fp32-i64-n-2048.llir",
+          "sha256": "59e7466c13d3c6cfd2911e00ef426e034dfe9a8ab3e806413512a3b226f83e65"
+        },
+        "ptx": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/fp32-i64-n-2048.ptx",
+          "sha256": "3e342243ccc7fbd784465b0a139a2f8e8ce01c318b79d021bf29567beebf97b3"
+        }
+      },
+      "status": "compiled",
+      "arithmetic_ir": [
+        "%output_7 = arith.mulf %x_5, %output_6 : tensor<2048xf32> loc(#loc29)",
+        "%output_8 = arith.mulf %output_7, %output : tensor<2048xf32> loc(#loc20)",
+        "%output_9 = tt.extern_elementwise %output_8 {libname = \"\", libpath = \"\", pure = true, symbol = \"__nv_llrintf\"} : (tensor<2048xf32>) -> tensor<2048xi64> loc(#loc30)",
+        "%2 = arith.trunci %output_9 : tensor<2048xi64> to tensor<2048xi8> loc(#loc14)"
+      ]
+    },
+    {
+      "name": "fp64",
+      "signature": {
+        "x_ptr": "*fp64",
+        "absmax_inv_ptr": "*fp64",
+        "output_ptr": "*i8",
+        "n_elements": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 1024
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3
+      },
+      "target": {
+        "backend": "cuda",
+        "arch": 90,
+        "warp_size": 32
+      },
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/fp64-1024.ttir",
+          "sha256": "1de5f4dbda80c9cf794ffac3edb19a57cd6da3a5bc2de29558cc45a99a53ec52"
+        },
+        "ttgir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/fp64-1024.ttgir",
+          "sha256": "2d443fb790dce0f6e6fdee8be8373e47cca233de7d8ae18b347312f7764126ee"
+        },
+        "llir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/fp64-1024.llir",
+          "sha256": "3bf405a8b39d5b262978f1ba715ba832ac8338657f2fe494828a086b36dc7a8f"
+        },
+        "ptx": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/fp64-1024.ptx",
+          "sha256": "54476be5a97cd69c71a481794531f47f0085c1a4abecac09cfd901d407ad55b7"
+        }
+      },
+      "status": "compiled",
+      "arithmetic_ir": [
+        "%output_6 = arith.mulf %x_4, %output_5 : tensor<1024xf64> loc(#loc29)",
+        "%output_7 = arith.mulf %output_6, %output : tensor<1024xf64> loc(#loc20)",
+        "%output_8 = tt.extern_elementwise %output_7 {libname = \"\", libpath = \"\", pure = true, symbol = \"__nv_llrint\"} : (tensor<1024xf64>) -> tensor<1024xi64> loc(#loc30)",
+        "%2 = arith.trunci %output_8 : tensor<1024xi64> to tensor<1024xi8> loc(#loc14)"
+      ]
+    },
+    {
+      "name": "fp64",
+      "signature": {
+        "x_ptr": "*fp64",
+        "absmax_inv_ptr": "*fp64",
+        "output_ptr": "*i8",
+        "n_elements": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 2048
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 1
+      },
+      "target": {
+        "backend": "cuda",
+        "arch": 90,
+        "warp_size": 32
+      },
+      "artifacts": {
+        "ttir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/fp64-2048.ttir",
+          "sha256": "76fe50333addaf4fc8a55cc700635d4527fab39a68daedf31bde9e3c25b9041e"
+        },
+        "ttgir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/fp64-2048.ttgir",
+          "sha256": "6f64dd7bc1798888ac3dcdd1c4925fe35bb256aecd48a2c949cb2b5838f9ecc7"
+        },
+        "llir": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/fp64-2048.llir",
+          "sha256": "a90082f388dfdb8a3dab6c06fa796f7a7c1bd2fb57b79b86a45546397331ac07"
+        },
+        "ptx": {
+          "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/native-attempts/20261015T203253224533Z/fp64-2048.ptx",
+          "sha256": "ea3d6322c8e2c854ee2ca2a7642295e83f476034765b91990a3ef148e4a83819"
+        }
+      },
+      "status": "compiled",
+      "arithmetic_ir": [
+        "%output_6 = arith.mulf %x_4, %output_5 : tensor<2048xf64> loc(#loc29)",
+        "%output_7 = arith.mulf %output_6, %output : tensor<2048xf64> loc(#loc20)",
+        "%output_8 = tt.extern_elementwise %output_7 {libname = \"\", libpath = \"\", pure = true, symbol = \"__nv_llrint\"} : (tensor<2048xf64>) -> tensor<2048xi64> loc(#loc30)",
+        "%2 = arith.trunci %output_8 : tensor<2048xi64> to tensor<2048xi8> loc(#loc14)"
+      ]
+    },
+    {
+      "name": "complex32",
+      "signature": {
+        "x_ptr": "*complex32",
+        "absmax_inv_ptr": "*fp16",
+        "output_ptr": "*i8",
+        "n_elements": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 1024
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3
+      },
+      "target": {
+        "backend": "cuda",
+        "arch": 90,
+        "warp_size": 32
+      },
+      "status": "failed",
+      "error": "Traceback (most recent call last):\n  File \"/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/probe_native.py\", line 26, in <module>\n    compiled=triton.compile(ASTSource(function,rec['signature'],constexprs=config.kwargs),target=GPUTarget('cuda',90,32),options=rec['options'])\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/compiler.py\", line 307, in compile\n    module = src.make_ir(target, options, codegen_fns, module_map, context)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/compiler.py\", line 80, in make_ir\n    return ast_to_ttir(self.fn, self, context=context, options=options, codegen_fns=codegen_fns,\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/language/__init__.py\", line 301, in str_to_ty\n    ty = str_to_ty(name, c)\n         ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/language/__init__.py\", line 356, in str_to_ty\n    return tys[name]\n           ~~~^^^^^^\nKeyError: 'complex32'\n"
+    },
+    {
+      "name": "complex32",
+      "signature": {
+        "x_ptr": "*complex32",
+        "absmax_inv_ptr": "*fp16",
+        "output_ptr": "*i8",
+        "n_elements": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 2048
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 1
+      },
+      "target": {
+        "backend": "cuda",
+        "arch": 90,
+        "warp_size": 32
+      },
+      "status": "failed",
+      "error": "Traceback (most recent call last):\n  File \"/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/probe_native.py\", line 26, in <module>\n    compiled=triton.compile(ASTSource(function,rec['signature'],constexprs=config.kwargs),target=GPUTarget('cuda',90,32),options=rec['options'])\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/compiler.py\", line 307, in compile\n    module = src.make_ir(target, options, codegen_fns, module_map, context)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/compiler.py\", line 80, in make_ir\n    return ast_to_ttir(self.fn, self, context=context, options=options, codegen_fns=codegen_fns,\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/language/__init__.py\", line 301, in str_to_ty\n    ty = str_to_ty(name, c)\n         ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/language/__init__.py\", line 356, in str_to_ty\n    return tys[name]\n           ~~~^^^^^^\nKeyError: 'complex32'\n"
+    },
+    {
+      "name": "complex64",
+      "signature": {
+        "x_ptr": "*complex64",
+        "absmax_inv_ptr": "*fp32",
+        "output_ptr": "*i8",
+        "n_elements": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 1024
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3
+      },
+      "target": {
+        "backend": "cuda",
+        "arch": 90,
+        "warp_size": 32
+      },
+      "status": "failed",
+      "error": "Traceback (most recent call last):\n  File \"/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/probe_native.py\", line 26, in <module>\n    compiled=triton.compile(ASTSource(function,rec['signature'],constexprs=config.kwargs),target=GPUTarget('cuda',90,32),options=rec['options'])\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/compiler.py\", line 307, in compile\n    module = src.make_ir(target, options, codegen_fns, module_map, context)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/compiler.py\", line 80, in make_ir\n    return ast_to_ttir(self.fn, self, context=context, options=options, codegen_fns=codegen_fns,\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/language/__init__.py\", line 301, in str_to_ty\n    ty = str_to_ty(name, c)\n         ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/language/__init__.py\", line 356, in str_to_ty\n    return tys[name]\n           ~~~^^^^^^\nKeyError: 'complex64'\n"
+    },
+    {
+      "name": "complex64",
+      "signature": {
+        "x_ptr": "*complex64",
+        "absmax_inv_ptr": "*fp32",
+        "output_ptr": "*i8",
+        "n_elements": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 2048
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 1
+      },
+      "target": {
+        "backend": "cuda",
+        "arch": 90,
+        "warp_size": 32
+      },
+      "status": "failed",
+      "error": "Traceback (most recent call last):\n  File \"/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/probe_native.py\", line 26, in <module>\n    compiled=triton.compile(ASTSource(function,rec['signature'],constexprs=config.kwargs),target=GPUTarget('cuda',90,32),options=rec['options'])\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/compiler.py\", line 307, in compile\n    module = src.make_ir(target, options, codegen_fns, module_map, context)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/compiler.py\", line 80, in make_ir\n    return ast_to_ttir(self.fn, self, context=context, options=options, codegen_fns=codegen_fns,\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/language/__init__.py\", line 301, in str_to_ty\n    ty = str_to_ty(name, c)\n         ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/language/__init__.py\", line 356, in str_to_ty\n    return tys[name]\n           ~~~^^^^^^\nKeyError: 'complex64'\n"
+    },
+    {
+      "name": "complex128",
+      "signature": {
+        "x_ptr": "*complex128",
+        "absmax_inv_ptr": "*fp64",
+        "output_ptr": "*i8",
+        "n_elements": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 1024
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 3
+      },
+      "target": {
+        "backend": "cuda",
+        "arch": 90,
+        "warp_size": 32
+      },
+      "status": "failed",
+      "error": "Traceback (most recent call last):\n  File \"/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/probe_native.py\", line 26, in <module>\n    compiled=triton.compile(ASTSource(function,rec['signature'],constexprs=config.kwargs),target=GPUTarget('cuda',90,32),options=rec['options'])\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/compiler.py\", line 307, in compile\n    module = src.make_ir(target, options, codegen_fns, module_map, context)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/compiler.py\", line 80, in make_ir\n    return ast_to_ttir(self.fn, self, context=context, options=options, codegen_fns=codegen_fns,\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/language/__init__.py\", line 301, in str_to_ty\n    ty = str_to_ty(name, c)\n         ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/language/__init__.py\", line 356, in str_to_ty\n    return tys[name]\n           ~~~^^^^^^\nKeyError: 'complex128'\n"
+    },
+    {
+      "name": "complex128",
+      "signature": {
+        "x_ptr": "*complex128",
+        "absmax_inv_ptr": "*fp64",
+        "output_ptr": "*i8",
+        "n_elements": "i32"
+      },
+      "constexprs": {
+        "BLOCK_SIZE": 2048
+      },
+      "options": {
+        "num_warps": 4,
+        "num_ctas": 1,
+        "num_stages": 1
+      },
+      "target": {
+        "backend": "cuda",
+        "arch": 90,
+        "warp_size": 32
+      },
+      "status": "failed",
+      "error": "Traceback (most recent call last):\n  File \"/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/probe_native.py\", line 26, in <module>\n    compiled=triton.compile(ASTSource(function,rec['signature'],constexprs=config.kwargs),target=GPUTarget('cuda',90,32),options=rec['options'])\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/compiler.py\", line 307, in compile\n    module = src.make_ir(target, options, codegen_fns, module_map, context)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/compiler.py\", line 80, in make_ir\n    return ast_to_ttir(self.fn, self, context=context, options=options, codegen_fns=codegen_fns,\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/language/__init__.py\", line 301, in str_to_ty\n    ty = str_to_ty(name, c)\n         ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/language/__init__.py\", line 356, in str_to_ty\n    return tys[name]\n           ~~~^^^^^^\nKeyError: 'complex128'\n"
+    }
+  ],
+  "gpu_launches": 0
+}

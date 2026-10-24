@@ -1,0 +1,72 @@
+"""Fail-closed sin_kernel extension. Integration requires two independently pinned receipts."""
+from pathlib import Path
+from copy import deepcopy
+import hashlib,json,sys
+sys.dont_write_bytecode=True
+sha=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest()
+load=lambda p:json.loads(Path(p).read_text())
+def safe(root,rel):
+ rel=Path(rel);p=(root/rel).resolve()
+ if rel.is_absolute() or '..' in rel.parts or not p.is_relative_to(root):raise ValueError('escaping sin_kernel path')
+ return p
+
+def extend_authority(root,previous,package_path,receipt_sha256,review_path,review_sha256):
+ from adapter_common import declarations
+ root=Path(root).resolve();out=deepcopy(previous)
+ def bind(rel,h):
+  p=safe(root,rel)
+  if not p.is_file() or sha(p)!=h:raise ValueError('changed reviewed sin_kernel input: '+str(rel))
+  key='repo:'+Path(rel).as_posix()
+  if out['input_sha256'].get(key,h)!=h:raise ValueError('conflicting reviewed sin_kernel input')
+  out['input_sha256'][key]=h;return p
+ package=safe(root,package_path);base=Path(package_path)
+ receipt=load(bind(base/'evidence/receipt.json',receipt_sha256));review=load(bind(review_path,review_sha256))
+ if receipt.get('frozen') is not True or review.get('reviewer')!='root' or review.get('status')!='substantively_reviewed_for_finite_scope_integration' or review.get('producer_receipt_sha256')!=receipt_sha256:raise ValueError('unreviewed sin_kernel authority')
+ if receipt['checkpoint_module_source_paths']!={p:p+'.txt' for p in receipt['modules']}:raise ValueError('invalid source mapping')
+ for p,h in receipt['modules'].items():bind(base/(p+'.txt'),h);bind(p,h)
+ for p,h in receipt['artifacts'].items():bind(base/p,h)
+ delta=load(package/'evidence/numerical-authority-delta.json')
+ if delta['task']!='sin_kernel':raise ValueError('wrong sin_kernel authority task')
+ src=delta['original_source'];bind(src['path'],src['sha256'])
+ expected={'scalar_families':len(delta['rules']),'scope_bindings':len(delta['provenance']),'declaration_cases':sum(len(t['cases']) for t in delta['requirements']),'registered_declarations':len(delta['requirements'])}
+ if any(delta['summary'].get(k)!=v for k,v in expected.items()):raise ValueError('sin_kernel authority count mismatch')
+ captures=delta['dependency_snapshots']
+ expected_captures={p for p in receipt['artifacts'] if p=='evidence/dependencies-before.json' or (Path(p).parent==Path('evidence') and Path(p).name.startswith('dependencies-added-before-'))}
+ if {r['path'] for r in captures}!=expected_captures or len(captures)!=len(expected_captures):raise ValueError('incomplete dependency captures')
+ for ref in captures:
+  if receipt['artifacts'].get(ref['path'])!=ref['sha256']:raise ValueError('unbound dependency capture')
+  captured=load(package/ref['path'])
+  for module,row in captured['project'].items():bind(module.replace('.','/')+'.lean',row['sha256'])
+ after=load(package/'evidence/dependencies-after.json')
+ if after.get('all_unchanged') is not True or after.get('captures')!={r['path']:{'sha256':r['sha256'],'verified_unchanged':True} for r in captures}:raise ValueError('incomplete dependency verification')
+ evidence=delta['native_evidence']
+ if [e['role'] for e in evidence]!=['full22_frontend_backend']:raise ValueError('incomplete native provenance')
+ source_check=load(package/'evidence/source-check.json')
+ if source_check['original_source']!=src or source_check['AST_identity'] is not True:raise ValueError('source AST mismatch')
+ prefix=source_check['source_prefix_sha256']
+ if receipt['artifacts'].get('evidence/source-prefix.py')!=prefix:raise ValueError('source prefix not pinned')
+ native_refs=[]
+ for entry in evidence:
+  ref=entry['receipt'];native_refs.append(ref)
+  if receipt['artifacts'].get(ref['path'])!=ref['sha256']:raise ValueError('unbound native receipt')
+  native=load(package/ref['path'])
+  if native.get('source_prefix_sha256',native.get('original_source_prefix_sha256'))!=prefix or native['gpu_executed'] is not False:raise ValueError('native source mismatch')
+  if native['cases']!=22 or native['compiled']!=2:raise ValueError('native dtype scope mismatch')
+  for name,h in native['artifacts'].items():
+   p=(Path(ref['path']).parent/name).as_posix()
+   if receipt['artifacts'].get(p)!=h:raise ValueError('unbound native artifact')
+   bind(base/p,h)
+ for port in delta['provenance'].values():
+  if port['original_source']!=src or port['lean_source_sha256']!=receipt['modules'] or port['native_receipts']!=native_refs:raise ValueError('sin_kernel port provenance mismatch')
+  raw=port['raw_ttir']
+  if receipt['artifacts'].get(raw['path'])!=raw['sha256']:raise ValueError('unbound raw TTIR port')
+ for table in delta['requirements']:
+  ref=table['declaration'];decl=declarations(root/ref['file']).get(ref['declaration'])
+  if decl is None or decl['kind']!='specification' or decl['statement_sha256']!=ref['statement_sha256']:raise ValueError('sin_kernel public statement changed')
+ ids=[r['id'] for r in delta['rules']];oldids={r['id'] for r in out['rules']}
+ refs=[(t['declaration']['file'],t['declaration']['declaration']) for t in delta['requirements']];oldrefs={(t['declaration']['file'],t['declaration']['declaration']) for t in out['requirements']}
+ if len(ids)!=len(set(ids)) or oldids.intersection(ids) or set(out['provenance']).intersection(delta['provenance']) or len(refs)!=len(set(refs)) or oldrefs.intersection(refs):raise ValueError('sin_kernel authority collision')
+ out['rules']+=deepcopy(delta['rules']);out['provenance'].update(deepcopy(delta['provenance']));out['requirements']+=deepcopy(delta['requirements'])
+ out.setdefault('independent_source_reviews',[]).append({'package':'repo','path':review_path,'sha256':review_sha256})
+ out['summary'].update(new_scalar_families=len(out['rules']),scope_bindings=len(out['provenance']),declaration_cases=sum(len(t['cases']) for t in out['requirements']),registered_declarations=len(out['requirements']),unvalidated_numeric_instances=len(out['provenance']),sin_kernel_actual_delta=delta['summary'])
+ return out

@@ -1,0 +1,167 @@
+VeriTile.Bench.Repairs.FusedRecurrentHgrn.KernelTensor.coordinates: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FusedRecurrentHgrn.KernelTensor.logical_read: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FusedRecurrentHgrn.KernelTensor.result_eq: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FusedRecurrentHgrn.KernelTensor.result_logical: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FusedRecurrentHgrn.KernelTensor.Arguments: definition does not reference [VeriTile.Bench.Repairs.FusedRecurrentHgrn.Execution.gridRun,
+ VeriTile.Bench.Repairs.FusedRecurrentHgrn.state,
+ VeriTile.Bench.Repairs.FusedRecurrentHgrn.dx,
+ VeriTile.Bench.Repairs.FusedRecurrentHgrn.dg] — non-circular ✓
+{"module": "bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/KernelTensor.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/KernelTensor.olean"}
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/KernelEndpoints.lean:68:23: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  b.mem { name := "o" } (rowAddr bh c.T c.D time d)
+in the target expression
+  Cell.read TileDType.real (b.mem { name := name Role.o } (rowAddr bh c.T c.D time d)) =
+    state p U (data t memory) bh d (time + 1)
+
+case refine_1
+α : Type
+inst✝ : Inhabited α
+p : Ops α
+c : Shape
+U S V : Bool
+runtime : Runtime c U S V
+accepted : check c U S V runtime = «true»
+t : Arguments c U S V runtime
+BDF BDB : ℕ
+tileF : tileCheck BDF = «true»
+tileB : tileCheck BDB = «true»
+memory : Role → ℕ → α
+other f : State α
+hf :
+  Execution.gridRun p (forward c.T c.D BDF U S).surfaceBody (Execution.programs c.BH c.D BDF) (lift t memory other) =
+    some f
+hI : Execution.Inputs f (data t memory) c.T c.D
+hO✝ : Execution.Saved p f (data t memory) U c.BH c.T c.D
+hH :
+  S = «true» →
+    ∀ bh < c.BH,
+      ∀ d < c.D,
+        f.mem { name := "ht" } (stateAddr bh c.D d) = Cell.mk TileDType.real (state p U (data t memory) bh d c.T)
+hff :
+  ∀ (r : RegionName) (a : ℕ), ¬Execution.ForwardRegion c.BH c.T c.D S r a → f.mem r a = (lift t memory other).mem r a
+b : State α
+hb : Execution.gridRun p (backward c.T c.D BDB U (S && V)).surfaceBody (Execution.programs c.BH c.D BDB) f = some b
+left✝ : Execution.Inputs b (data t memory) c.T c.D
+hO : Execution.Saved p b (data t memory) U c.BH c.T c.D
+hG : Execution.Gradients p b (data t memory) U (S && V) c.BH c.T c.D
+hbf : ∀ (r : RegionName) (a : ℕ), ¬Execution.BackwardRegion c.BH c.T c.D r a → b.mem r a = f.mem r a
+bh time d : ℕ
+hh : bh < c.BH
+ht : time < c.T
+hd : d < c.D
+⊢ Cell.read TileDType.real (b.mem { name := name Role.o } (rowAddr bh c.T c.D time d)) =
+    state p U (data t memory) bh d (time + 1)
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/KernelEndpoints.lean:72:23: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  b.mem { name := "ht" } ?m.186
+in the target expression
+  Cell.read TileDType.real (b.mem { name := name Role.ht } (stateAddr bh c.D d)) = state p U (data t memory) bh d c.T
+
+case refine_2
+α : Type
+inst✝ : Inhabited α
+p : Ops α
+c : Shape
+U S V : Bool
+runtime : Runtime c U S V
+accepted : check c U S V runtime = «true»
+t : Arguments c U S V runtime
+BDF BDB : ℕ
+tileF : tileCheck BDF = «true»
+tileB : tileCheck BDB = «true»
+memory : Role → ℕ → α
+other f : State α
+hf :
+  Execution.gridRun p (forward c.T c.D BDF U S).surfaceBody (Execution.programs c.BH c.D BDF) (lift t memory other) =
+    some f
+hI : Execution.Inputs f (data t memory) c.T c.D
+hO✝ : Execution.Saved p f (data t memory) U c.BH c.T c.D
+hH :
+  S = «true» →
+    ∀ bh < c.BH,
+      ∀ d < c.D,
+        f.mem { name := "ht" } (stateAddr bh c.D d) = Cell.mk TileDType.real (state p U (data t memory) bh d c.T)
+hff :
+  ∀ (r : RegionName) (a : ℕ), ¬Execution.ForwardRegion c.BH c.T c.D S r a → f.mem r a = (lift t memory other).mem r a
+b : State α
+hb : Execution.gridRun p (backward c.T c.D BDB U (S && V)).surfaceBody (Execution.programs c.BH c.D BDB) f = some b
+left✝ : Execution.Inputs b (data t memory) c.T c.D
+hO : Execution.Saved p b (data t memory) U c.BH c.T c.D
+hG : Execution.Gradients p b (data t memory) U (S && V) c.BH c.T c.D
+hbf : ∀ (r : RegionName) (a : ℕ), ¬Execution.BackwardRegion c.BH c.T c.D r a → b.mem r a = f.mem r a
+hs : S = «true»
+bh d : ℕ
+hh : bh < c.BH
+hd : d < c.D
+⊢ Cell.read TileDType.real (b.mem { name := name Role.ht } (stateAddr bh c.D d)) = state p U (data t memory) bh d c.T
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/KernelEndpoints.lean:78:91: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  b.mem { name := "dx" } (rowAddr bh c.T c.D time d)
+in the target expression
+  Cell.read TileDType.real (b.mem { name := name Role.dx } (rowAddr bh c.T c.D time d)) =
+      dx p (S && V) (data t memory) c.T bh d time ∧
+    Cell.read TileDType.real (b.mem { name := name Role.dg } (rowAddr bh c.T c.D time d)) =
+      dg p U (S && V) (data t memory) c.T bh d time
+
+case refine_3
+α : Type
+inst✝ : Inhabited α
+p : Ops α
+c : Shape
+U S V : Bool
+runtime : Runtime c U S V
+accepted : check c U S V runtime = «true»
+t : Arguments c U S V runtime
+BDF BDB : ℕ
+tileF : tileCheck BDF = «true»
+tileB : tileCheck BDB = «true»
+memory : Role → ℕ → α
+other f : State α
+hf :
+  Execution.gridRun p (forward c.T c.D BDF U S).surfaceBody (Execution.programs c.BH c.D BDF) (lift t memory other) =
+    some f
+hI : Execution.Inputs f (data t memory) c.T c.D
+hO✝ : Execution.Saved p f (data t memory) U c.BH c.T c.D
+hH :
+  S = «true» →
+    ∀ bh < c.BH,
+      ∀ d < c.D,
+        f.mem { name := "ht" } (stateAddr bh c.D d) = Cell.mk TileDType.real (state p U (data t memory) bh d c.T)
+hff :
+  ∀ (r : RegionName) (a : ℕ), ¬Execution.ForwardRegion c.BH c.T c.D S r a → f.mem r a = (lift t memory other).mem r a
+b : State α
+hb : Execution.gridRun p (backward c.T c.D BDB U (S && V)).surfaceBody (Execution.programs c.BH c.D BDB) f = some b
+left✝ : Execution.Inputs b (data t memory) c.T c.D
+hO : Execution.Saved p b (data t memory) U c.BH c.T c.D
+hG : Execution.Gradients p b (data t memory) U (S && V) c.BH c.T c.D
+hbf : ∀ (r : RegionName) (a : ℕ), ¬Execution.BackwardRegion c.BH c.T c.D r a → b.mem r a = f.mem r a
+bh time d : ℕ
+hh : bh < c.BH
+ht : time < c.T
+hd : d < c.D
+bound : rowAddr bh c.T c.D time d < c.BH * c.T * c.D
+hx :
+  b.mem { name := "dx" } (rowAddr bh c.T c.D time d) =
+    Cell.mk TileDType.real (dx p (S && V) (data t memory) c.T bh d time)
+hg :
+  b.mem { name := "dg" } (rowAddr bh c.T c.D time d) =
+    Cell.mk TileDType.real (dg p U (S && V) (data t memory) c.T bh d time)
+⊢ Cell.read TileDType.real (b.mem { name := name Role.dx } (rowAddr bh c.T c.D time d)) =
+      dx p (S && V) (data t memory) c.T bh d time ∧
+    Cell.read TileDType.real (b.mem { name := name Role.dg } (rowAddr bh c.T c.D time d)) =
+      dg p U (S && V) (data t memory) c.T bh d time
+VeriTile.Bench.Repairs.FusedRecurrentHgrn.Kernel.data: definition does not reference [VeriTile.Bench.Repairs.FusedRecurrentHgrn.Execution.gridRun,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.Repairs.FusedRecurrentHgrn.Kernel.profileSchedule: definition does not reference [VeriTile.Bench.Repairs.FusedRecurrentHgrn.Execution.gridRun,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.FusedRecurrentHgrn.Kernel.data,
+ VeriTile.Bench.Repairs.FusedRecurrentHgrn.Kernel.terms,
+ VeriTile.Bench.Repairs.FusedRecurrentHgrn.Native.eval] — non-circular ✓
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/KernelEndpoints.lean:179:0: error: VeriTile.Bench.Repairs.FusedRecurrentHgrn.Kernel.complete: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/KernelEndpoints.lean:180:0: error: VeriTile.Bench.Repairs.FusedRecurrentHgrn.Kernel.real_complete: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/KernelEndpoints.lean:181:0: error: VeriTile.Bench.Repairs.FusedRecurrentHgrn.Kernel.native_complete: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.Repairs.FusedRecurrentHgrn.Kernel.saved_rounding_boundary: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.FusedRecurrentHgrn.Kernel.saved_word_reload: axiom footprint ⊆ standard base ✓  ([propext])

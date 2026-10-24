@@ -1,0 +1,18 @@
+{
+  "status": "passed",
+  "source_sha256": "363fe81932ce7a18a907f330311e1214130e1c5cad0c0f7c91b476e6eca13d7a",
+  "lean_source_sha256": "87445193384e787ad863e71514b4d21b87cfd62baef46954b83fc037d6fab554",
+  "source_statements": "def sourceStatements (n block : Nat) : List SourceStmt :=\n  [.assign \"offset\" (.plus (.times (.program 0) (.literal block)) (.laneRange 0 block)),\n   .assign \"mask\" (.less (.register \"offset\") (.literal n)),\n   .assign \"a_value\" (.load \"a\" (.register \"offset\") (.register \"mask\") none),\n   .assign \"b_value\" (.cosine (.toFP32 (.register \"a_value\"))),\n   .store \"b\" (.register \"offset\") (.register \"b_value\") (.register \"mask\")]",
+  "kernel_ast_sha256": "6da5ae1f63449f8aa9d6f290bb3f755a32746d1455aa031019a9152dfef7a494",
+  "mutations_rejected": [
+    "wrong_scalar_precision",
+    "wrong_trigonometric_op",
+    "wrong_mask",
+    "wrong_program_axis",
+    "unmasked_load"
+  ],
+  "unchanged_source_control": "accepted",
+  "mutation_logic": "translation error or unequal translation; equality rejects mutation evidence",
+  "source_statement_count": 5,
+  "boundary": "Exact task-local syntax translation audit. Lean proves lowering, finite execution and independent formulas; this script is not a verified Python parser or native numerical-conformance proof."
+}

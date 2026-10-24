@@ -1,0 +1,14 @@
+{
+  "scope": "current old-source snapshot; producer candidate is additive and contains no old file replacement; this is not a historical Git comparison",
+  "files": {
+    "bench/tritonbench_g/cosine_compute/Correct.lean": "59f3fe645f3a40a7dd880fc85264c33de251473b0f1437762a9233c490463fb4",
+    "bench/tritonbench_g/cosine_compute/cosine_compute.py": "363fe81932ce7a18a907f330311e1214130e1c5cad0c0f7c91b476e6eca13d7a",
+    "bench/tritonbench_g/cosine_compute/FPEquiv.lean": "76a25d2b431e6e9ce803194308412d5691235179a55242d5fac1d08800c238b8",
+    "bench/tritonbench_g/cosine_compute/Kernels.lean": "12186c73e9eab875486d9dadcef6ec42f512d65a590304a4e5b49d4d747f0632",
+    "bench/tritonbench_g/cosine_compute/README.md": "ea9ab1219ae37a5efe5c8d6d0c602c533a1531e0068d860867ce37399bbf95c9",
+    "bench/tritonbench_g/cosine_compute/Proofs/RealWitness.lean": "1033ef351cfac0ea73db0946c8d9cf2d21a978a906ecad2a82a5c047ca99cde8",
+    "bench/tritonbench_g/cosine_compute/Proofs/Real.lean": "684e4701ea75b3f9d8cd8c6b433d4ac44d0a49b23d523f038a344f21b8f32462",
+    "bench/tritonbench_g/cosine_compute/Proofs/TypedExecution.lean": "95c27942793b9c075071cfe8b528c8c6bfa5759b921be114903b364099ea452e",
+    "bench/tritonbench_g/cosine_compute/Proofs/FP.lean": "c3036548e0ec7b9debb9b5681368bec5caefa41c8c2f23a8da918206cf495d33"
+  }
+}

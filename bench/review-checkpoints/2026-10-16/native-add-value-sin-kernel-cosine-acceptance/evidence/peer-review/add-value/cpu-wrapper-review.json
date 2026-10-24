@@ -1,0 +1,1821 @@
+{
+  "status": "passed",
+  "cases": 49,
+  "dtype_profiles": 22,
+  "source_prefix_sha256": "532ddad1049b565706b01b9e7fcdbc0552c34bd5e8f742f26e1fdd276a461cac",
+  "original_AST_unchanged": true,
+  "CPU_only": true,
+  "GPU_launches": 0,
+  "scope": "Actual torch.empty_like and actual source CUDA assertion. Allocation recorder exposes output metadata; no kernel replacement needed because assertion fires before launch.",
+  "records": [
+    {
+      "case": "bool-0",
+      "input": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.bool",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "allocated_output": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.bool",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "outcome": "actual_AssertionError_after_actual_empty_like",
+      "pointer_extraction_reached": false
+    },
+    {
+      "case": "bool-1",
+      "input": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.bool",
+        "storage_offset": 0,
+        "data_ptr": 94550713046400,
+        "storage_base": 94550713046400,
+        "storage_bytes": 1,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "allocated_output": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.bool",
+        "storage_offset": 0,
+        "data_ptr": 94550713606720,
+        "storage_base": 94550713606720,
+        "storage_bytes": 1,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "outcome": "actual_AssertionError_after_actual_empty_like",
+      "pointer_extraction_reached": false
+    },
+    {
+      "case": "uint8-0",
+      "input": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.uint8",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "allocated_output": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.uint8",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "outcome": "actual_AssertionError_after_actual_empty_like",
+      "pointer_extraction_reached": false
+    },
+    {
+      "case": "uint8-1",
+      "input": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.uint8",
+        "storage_offset": 0,
+        "data_ptr": 94550713117504,
+        "storage_base": 94550713117504,
+        "storage_bytes": 1,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "allocated_output": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.uint8",
+        "storage_offset": 0,
+        "data_ptr": 94550713606912,
+        "storage_base": 94550713606912,
+        "storage_bytes": 1,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "outcome": "actual_AssertionError_after_actual_empty_like",
+      "pointer_extraction_reached": false
+    },
+    {
+      "case": "int8-0",
+      "input": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.int8",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "allocated_output": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.int8",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "outcome": "actual_AssertionError_after_actual_empty_like",
+      "pointer_extraction_reached": false
+    },
+    {
+      "case": "int8-1",
+      "input": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.int8",
+        "storage_offset": 0,
+        "data_ptr": 94550713373184,
+        "storage_base": 94550713373184,
+        "storage_bytes": 1,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "allocated_output": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.int8",
+        "storage_offset": 0,
+        "data_ptr": 94550713606976,
+        "storage_base": 94550713606976,
+        "storage_bytes": 1,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "outcome": "actual_AssertionError_after_actual_empty_like",
+      "pointer_extraction_reached": false
+    },
+    {
+      "case": "int16-0",
+      "input": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.int16",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "allocated_output": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.int16",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "outcome": "actual_AssertionError_after_actual_empty_like",
+      "pointer_extraction_reached": false
+    },
+    {
+      "case": "int16-1",
+      "input": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.int16",
+        "storage_offset": 0,
+        "data_ptr": 94550599065856,
+        "storage_base": 94550599065856,
+        "storage_bytes": 2,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "allocated_output": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.int16",
+        "storage_offset": 0,
+        "data_ptr": 94550713607168,
+        "storage_base": 94550713607168,
+        "storage_bytes": 2,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "outcome": "actual_AssertionError_after_actual_empty_like",
+      "pointer_extraction_reached": false
+    },
+    {
+      "case": "uint16-0",
+      "input": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.uint16",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "allocated_output": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.uint16",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "outcome": "actual_AssertionError_after_actual_empty_like",
+      "pointer_extraction_reached": false
+    },
+    {
+      "case": "uint16-1",
+      "input": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.uint16",
+        "storage_offset": 0,
+        "data_ptr": 94550713061056,
+        "storage_base": 94550713061056,
+        "storage_bytes": 2,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "allocated_output": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.uint16",
+        "storage_offset": 0,
+        "data_ptr": 94550713607296,
+        "storage_base": 94550713607296,
+        "storage_bytes": 2,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "outcome": "actual_AssertionError_after_actual_empty_like",
+      "pointer_extraction_reached": false
+    },
+    {
+      "case": "int32-0",
+      "input": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.int32",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "allocated_output": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.int32",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "outcome": "actual_AssertionError_after_actual_empty_like",
+      "pointer_extraction_reached": false
+    },
+    {
+      "case": "int32-1",
+      "input": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.int32",
+        "storage_offset": 0,
+        "data_ptr": 94550713015616,
+        "storage_base": 94550713015616,
+        "storage_bytes": 4,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "allocated_output": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.int32",
+        "storage_offset": 0,
+        "data_ptr": 94550713607488,
+        "storage_base": 94550713607488,
+        "storage_bytes": 4,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "outcome": "actual_AssertionError_after_actual_empty_like",
+      "pointer_extraction_reached": false
+    },
+    {
+      "case": "uint32-0",
+      "input": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.uint32",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "allocated_output": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.uint32",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "outcome": "actual_AssertionError_after_actual_empty_like",
+      "pointer_extraction_reached": false
+    },
+    {
+      "case": "uint32-1",
+      "input": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.uint32",
+        "storage_offset": 0,
+        "data_ptr": 94550712095552,
+        "storage_base": 94550712095552,
+        "storage_bytes": 4,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "allocated_output": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.uint32",
+        "storage_offset": 0,
+        "data_ptr": 94550713607552,
+        "storage_base": 94550713607552,
+        "storage_bytes": 4,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "outcome": "actual_AssertionError_after_actual_empty_like",
+      "pointer_extraction_reached": false
+    },
+    {
+      "case": "int64-0",
+      "input": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.int64",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "allocated_output": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.int64",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "outcome": "actual_AssertionError_after_actual_empty_like",
+      "pointer_extraction_reached": false
+    },
+    {
+      "case": "int64-1",
+      "input": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.int64",
+        "storage_offset": 0,
+        "data_ptr": 94550713305408,
+        "storage_base": 94550713305408,
+        "storage_bytes": 8,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "allocated_output": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.int64",
+        "storage_offset": 0,
+        "data_ptr": 94550713607744,
+        "storage_base": 94550713607744,
+        "storage_bytes": 8,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "outcome": "actual_AssertionError_after_actual_empty_like",
+      "pointer_extraction_reached": false
+    },
+    {
+      "case": "uint64-0",
+      "input": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.uint64",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "allocated_output": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.uint64",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "outcome": "actual_AssertionError_after_actual_empty_like",
+      "pointer_extraction_reached": false
+    },
+    {
+      "case": "uint64-1",
+      "input": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.uint64",
+        "storage_offset": 0,
+        "data_ptr": 94550712888960,
+        "storage_base": 94550712888960,
+        "storage_bytes": 8,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "allocated_output": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.uint64",
+        "storage_offset": 0,
+        "data_ptr": 94550713607872,
+        "storage_base": 94550713607872,
+        "storage_bytes": 8,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "outcome": "actual_AssertionError_after_actual_empty_like",
+      "pointer_extraction_reached": false
+    },
+    {
+      "case": "float16-0",
+      "input": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.float16",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "allocated_output": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.float16",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "outcome": "actual_AssertionError_after_actual_empty_like",
+      "pointer_extraction_reached": false
+    },
+    {
+      "case": "float16-1",
+      "input": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.float16",
+        "storage_offset": 0,
+        "data_ptr": 94550712896640,
+        "storage_base": 94550712896640,
+        "storage_bytes": 2,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "allocated_output": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.float16",
+        "storage_offset": 0,
+        "data_ptr": 94550713608064,
+        "storage_base": 94550713608064,
+        "storage_bytes": 2,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "outcome": "actual_AssertionError_after_actual_empty_like",
+      "pointer_extraction_reached": false
+    },
+    {
+      "case": "bfloat16-0",
+      "input": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.bfloat16",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "allocated_output": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.bfloat16",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "outcome": "actual_AssertionError_after_actual_empty_like",
+      "pointer_extraction_reached": false
+    },
+    {
+      "case": "bfloat16-1",
+      "input": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.bfloat16",
+        "storage_offset": 0,
+        "data_ptr": 94550712896832,
+        "storage_base": 94550712896832,
+        "storage_bytes": 2,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "allocated_output": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.bfloat16",
+        "storage_offset": 0,
+        "data_ptr": 94550713608128,
+        "storage_base": 94550713608128,
+        "storage_bytes": 2,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "outcome": "actual_AssertionError_after_actual_empty_like",
+      "pointer_extraction_reached": false
+    },
+    {
+      "case": "float32-0",
+      "input": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.float32",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "allocated_output": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.float32",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "outcome": "actual_AssertionError_after_actual_empty_like",
+      "pointer_extraction_reached": false
+    },
+    {
+      "case": "float32-1",
+      "input": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.float32",
+        "storage_offset": 0,
+        "data_ptr": 94550713412800,
+        "storage_base": 94550713412800,
+        "storage_bytes": 4,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "allocated_output": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.float32",
+        "storage_offset": 0,
+        "data_ptr": 94550713608320,
+        "storage_base": 94550713608320,
+        "storage_bytes": 4,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "outcome": "actual_AssertionError_after_actual_empty_like",
+      "pointer_extraction_reached": false
+    },
+    {
+      "case": "float64-0",
+      "input": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.float64",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "allocated_output": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.float64",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "outcome": "actual_AssertionError_after_actual_empty_like",
+      "pointer_extraction_reached": false
+    },
+    {
+      "case": "float64-1",
+      "input": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.float64",
+        "storage_offset": 0,
+        "data_ptr": 94550712996544,
+        "storage_base": 94550712996544,
+        "storage_bytes": 8,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "allocated_output": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.float64",
+        "storage_offset": 0,
+        "data_ptr": 94550713608448,
+        "storage_base": 94550713608448,
+        "storage_bytes": 8,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "outcome": "actual_AssertionError_after_actual_empty_like",
+      "pointer_extraction_reached": false
+    },
+    {
+      "case": "float8_e4m3fn-0",
+      "input": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.float8_e4m3fn",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "allocated_output": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.float8_e4m3fn",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "outcome": "actual_AssertionError_after_actual_empty_like",
+      "pointer_extraction_reached": false
+    },
+    {
+      "case": "float8_e4m3fn-1",
+      "input": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.float8_e4m3fn",
+        "storage_offset": 0,
+        "data_ptr": 94550713293120,
+        "storage_base": 94550713293120,
+        "storage_bytes": 1,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "allocated_output": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.float8_e4m3fn",
+        "storage_offset": 0,
+        "data_ptr": 94550713608640,
+        "storage_base": 94550713608640,
+        "storage_bytes": 1,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "outcome": "actual_AssertionError_after_actual_empty_like",
+      "pointer_extraction_reached": false
+    },
+    {
+      "case": "float8_e5m2-0",
+      "input": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.float8_e5m2",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "allocated_output": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.float8_e5m2",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "outcome": "actual_AssertionError_after_actual_empty_like",
+      "pointer_extraction_reached": false
+    },
+    {
+      "case": "float8_e5m2-1",
+      "input": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.float8_e5m2",
+        "storage_offset": 0,
+        "data_ptr": 94550712996672,
+        "storage_base": 94550712996672,
+        "storage_bytes": 1,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "allocated_output": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.float8_e5m2",
+        "storage_offset": 0,
+        "data_ptr": 94550713608704,
+        "storage_base": 94550713608704,
+        "storage_bytes": 1,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "outcome": "actual_AssertionError_after_actual_empty_like",
+      "pointer_extraction_reached": false
+    },
+    {
+      "case": "float8_e4m3fnuz-0",
+      "input": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.float8_e4m3fnuz",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "allocated_output": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.float8_e4m3fnuz",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "outcome": "actual_AssertionError_after_actual_empty_like",
+      "pointer_extraction_reached": false
+    },
+    {
+      "case": "float8_e4m3fnuz-1",
+      "input": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.float8_e4m3fnuz",
+        "storage_offset": 0,
+        "data_ptr": 94550713352128,
+        "storage_base": 94550713352128,
+        "storage_bytes": 1,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "allocated_output": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.float8_e4m3fnuz",
+        "storage_offset": 0,
+        "data_ptr": 94550713608896,
+        "storage_base": 94550713608896,
+        "storage_bytes": 1,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "outcome": "actual_AssertionError_after_actual_empty_like",
+      "pointer_extraction_reached": false
+    },
+    {
+      "case": "float8_e5m2fnuz-0",
+      "input": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.float8_e5m2fnuz",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "allocated_output": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.float8_e5m2fnuz",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "outcome": "actual_AssertionError_after_actual_empty_like",
+      "pointer_extraction_reached": false
+    },
+    {
+      "case": "float8_e5m2fnuz-1",
+      "input": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.float8_e5m2fnuz",
+        "storage_offset": 0,
+        "data_ptr": 94550713354176,
+        "storage_base": 94550713354176,
+        "storage_bytes": 1,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "allocated_output": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.float8_e5m2fnuz",
+        "storage_offset": 0,
+        "data_ptr": 94550713609024,
+        "storage_base": 94550713609024,
+        "storage_bytes": 1,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "outcome": "actual_AssertionError_after_actual_empty_like",
+      "pointer_extraction_reached": false
+    },
+    {
+      "case": "complex32-0",
+      "input": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.complex32",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "allocated_output": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.complex32",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "outcome": "actual_AssertionError_after_actual_empty_like",
+      "pointer_extraction_reached": false
+    },
+    {
+      "case": "complex32-1",
+      "input": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.complex32",
+        "storage_offset": 0,
+        "data_ptr": 94550713015680,
+        "storage_base": 94550713015680,
+        "storage_bytes": 4,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "allocated_output": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.complex32",
+        "storage_offset": 0,
+        "data_ptr": 94550713609216,
+        "storage_base": 94550713609216,
+        "storage_bytes": 4,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "outcome": "actual_AssertionError_after_actual_empty_like",
+      "pointer_extraction_reached": false
+    },
+    {
+      "case": "complex64-0",
+      "input": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.complex64",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "allocated_output": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.complex64",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "outcome": "actual_AssertionError_after_actual_empty_like",
+      "pointer_extraction_reached": false
+    },
+    {
+      "case": "complex64-1",
+      "input": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.complex64",
+        "storage_offset": 0,
+        "data_ptr": 94550713122624,
+        "storage_base": 94550713122624,
+        "storage_bytes": 8,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "allocated_output": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.complex64",
+        "storage_offset": 0,
+        "data_ptr": 94550713609280,
+        "storage_base": 94550713609280,
+        "storage_bytes": 8,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "outcome": "actual_AssertionError_after_actual_empty_like",
+      "pointer_extraction_reached": false
+    },
+    {
+      "case": "complex128-0",
+      "input": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.complex128",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "allocated_output": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.complex128",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "outcome": "actual_AssertionError_after_actual_empty_like",
+      "pointer_extraction_reached": false
+    },
+    {
+      "case": "complex128-1",
+      "input": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.complex128",
+        "storage_offset": 0,
+        "data_ptr": 94550713162496,
+        "storage_base": 94550713162496,
+        "storage_bytes": 16,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "allocated_output": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.complex128",
+        "storage_offset": 0,
+        "data_ptr": 94550713609472,
+        "storage_base": 94550713609472,
+        "storage_bytes": 16,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "outcome": "actual_AssertionError_after_actual_empty_like",
+      "pointer_extraction_reached": false
+    },
+    {
+      "case": "float8_e8m0fnu-0",
+      "input": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.float8_e8m0fnu",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "allocated_output": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.float8_e8m0fnu",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "outcome": "actual_AssertionError_after_actual_empty_like",
+      "pointer_extraction_reached": false
+    },
+    {
+      "case": "float8_e8m0fnu-1",
+      "input": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.float8_e8m0fnu",
+        "storage_offset": 0,
+        "data_ptr": 94550713598592,
+        "storage_base": 94550713598592,
+        "storage_bytes": 1,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "allocated_output": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.float8_e8m0fnu",
+        "storage_offset": 0,
+        "data_ptr": 94550713609600,
+        "storage_base": 94550713609600,
+        "storage_bytes": 1,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "outcome": "actual_AssertionError_after_actual_empty_like",
+      "pointer_extraction_reached": false
+    },
+    {
+      "case": "float4_e2m1fn_x2-0",
+      "input": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.float4_e2m1fn_x2",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "allocated_output": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.float4_e2m1fn_x2",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "outcome": "actual_AssertionError_after_actual_empty_like",
+      "pointer_extraction_reached": false
+    },
+    {
+      "case": "float4_e2m1fn_x2-1",
+      "input": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.float4_e2m1fn_x2",
+        "storage_offset": 0,
+        "data_ptr": 94550713614784,
+        "storage_base": 94550713614784,
+        "storage_bytes": 1,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "allocated_output": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.float4_e2m1fn_x2",
+        "storage_offset": 0,
+        "data_ptr": 94550713623552,
+        "storage_base": 94550713623552,
+        "storage_bytes": 1,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "outcome": "actual_AssertionError_after_actual_empty_like",
+      "pointer_extraction_reached": false
+    },
+    {
+      "case": "scalar",
+      "input": {
+        "shape": [],
+        "strides": [],
+        "numel": 1,
+        "dtype": "torch.float32",
+        "storage_offset": 0,
+        "data_ptr": 94550713615232,
+        "storage_base": 94550713615232,
+        "storage_bytes": 4,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "allocated_output": {
+        "shape": [],
+        "strides": [],
+        "numel": 1,
+        "dtype": "torch.float32",
+        "storage_offset": 0,
+        "data_ptr": 94550713623744,
+        "storage_base": 94550713623744,
+        "storage_bytes": 4,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "outcome": "actual_AssertionError_after_actual_empty_like",
+      "pointer_extraction_reached": false
+    },
+    {
+      "case": "transpose",
+      "input": {
+        "shape": [
+          3,
+          2
+        ],
+        "strides": [
+          1,
+          3
+        ],
+        "numel": 6,
+        "dtype": "torch.float32",
+        "storage_offset": 0,
+        "data_ptr": 94550713616512,
+        "storage_base": 94550713616512,
+        "storage_bytes": 24,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "allocated_output": {
+        "shape": [
+          3,
+          2
+        ],
+        "strides": [
+          1,
+          3
+        ],
+        "numel": 6,
+        "dtype": "torch.float32",
+        "storage_offset": 0,
+        "data_ptr": 94550713623872,
+        "storage_base": 94550713623872,
+        "storage_bytes": 24,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "outcome": "actual_AssertionError_after_actual_empty_like",
+      "pointer_extraction_reached": false
+    },
+    {
+      "case": "slice",
+      "input": {
+        "shape": [
+          10
+        ],
+        "strides": [
+          2
+        ],
+        "numel": 10,
+        "dtype": "torch.float32",
+        "storage_offset": 3,
+        "data_ptr": 94550713617228,
+        "storage_base": 94550713617216,
+        "storage_bytes": 128,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "allocated_output": {
+        "shape": [
+          10
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 10,
+        "dtype": "torch.float32",
+        "storage_offset": 0,
+        "data_ptr": 94550713624064,
+        "storage_base": 94550713624064,
+        "storage_bytes": 40,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "outcome": "actual_AssertionError_after_actual_empty_like",
+      "pointer_extraction_reached": false
+    },
+    {
+      "case": "offset-empty",
+      "input": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.float32",
+        "storage_offset": 7,
+        "data_ptr": 0,
+        "storage_base": 94550713617920,
+        "storage_bytes": 128,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "allocated_output": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.float32",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "outcome": "actual_AssertionError_after_actual_empty_like",
+      "pointer_extraction_reached": false
+    },
+    {
+      "case": "broadcast",
+      "input": {
+        "shape": [
+          5
+        ],
+        "strides": [
+          0
+        ],
+        "numel": 5,
+        "dtype": "torch.float32",
+        "storage_offset": 0,
+        "data_ptr": 94550713603904,
+        "storage_base": 94550713603904,
+        "storage_bytes": 4,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "allocated_output": {
+        "shape": [
+          5
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 5,
+        "dtype": "torch.float32",
+        "storage_offset": 0,
+        "data_ptr": 94550713624192,
+        "storage_base": 94550713624192,
+        "storage_bytes": 20,
+        "is_cuda": false,
+        "device": "cpu"
+      },
+      "outcome": "actual_AssertionError_after_actual_empty_like",
+      "pointer_extraction_reached": false
+    }
+  ]
+}

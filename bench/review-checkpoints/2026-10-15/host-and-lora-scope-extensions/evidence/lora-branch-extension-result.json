@@ -1,0 +1,210 @@
+{
+  "schema": 1,
+  "task": "lora_expand_gemv",
+  "status": "passed_selected_software_extension",
+  "source_root": "/tmp/veritile-standardization-20261015/lora-wip",
+  "repository_source_changed": false,
+  "registered_or_committed": false,
+  "public_file": "bench/tritonbench_g/lora_expand_gemv/BranchCorrect.lean",
+  "public_declaration": "VeriTile.Bench.TritonBenchG.LoraExpandGemv.BranchCorrect.lora_expand_all_branches_machine_correctness",
+  "statement_sha256": "cabeca2ffc89ada8508771422b2230572aee135dc8a9592fbd2777ff9e280a82",
+  "source_bridge": "Branches.full_source_projection proves exact full-body equality with original bgmv_expand_surface after dtype erasure and syntactically constant branch normalization. Both bodies have successful toAlgorithm? witnesses; dynamic sentinel, all loops/bounds/statements are retained.",
+  "proven_execution": "Successful complete per-program execution, independent scalar/tree/memory reference equality, exact whole-memory frame and unused-backend independence.",
+  "source_profile": {
+    "input_weight_pairs": 6,
+    "output_formats": [
+      "fp16",
+      "bf16",
+      "fp32"
+    ],
+    "profiles": 18,
+    "constexpr_branches": [
+      "EVEN_K=false/true",
+      "ADD_INPUTS=false/true",
+      "CAST_TYPE=false/true"
+    ],
+    "signed_sentinel": "-1 returns without memory writes",
+    "output_loop": "all iterations and masked tail; source cdiv length",
+    "execution_premises": [
+      "0 < BLOCK_N"
+    ]
+  },
+  "numeric_model": {
+    "concrete": [
+      "fp16/bf16/fp32 casts",
+      "format-promoted multiplication",
+      "format-promoted addition",
+      "valid reduction tree with explicit zero seeds",
+      "fp32 real-channel load and reduction"
+    ],
+    "unclosed_numeric_callbacks": [],
+    "extra_numeric_law_ids": [],
+    "native_binding_status": "not_established"
+  },
+  "witnesses": [
+    "fp32-to-half CAST_TYPE=true, ADD_INPUTS=true, padded K, partial final row tile, weight/output aliases and duplicate output offsets: exact half 0x4800 (8.0)",
+    "Signed -1 index leaves the entire memory unchanged"
+  ],
+  "standard_accepted": false,
+  "remaining_structural_obligations": [
+    "Python output/index dtype are not enumerated; fp16/bf16/fp32 output and mathematical signed index are selected profiles.",
+    "Host shape/squeeze/stride/grid/BLOCK_K dispatch is not connected to the per-program theorem.",
+    "The total interpreter parameter space does not establish native specialization admissibility; positive splits and legal BLOCK_K/arange shapes still need binding or explicit rejection classification.",
+    "Mathematical Nat/Int offsets need fixed-width no-overflow, nonnegative address, allocation and byte-memory correspondence.",
+    "Ordered interpreter writes do not close native duplicate-address or cross-program concurrency; a race/injectivity or concurrency refinement is required."
+  ],
+  "remaining_native_numerical_bindings": [
+    "Native floating-point configuration and operation rounding, including FTZ and special values.",
+    "Concrete compiled reduction tree, explicit seeds and compiler fusion mapping.",
+    "Native conversion behavior, including fp16/bf16 conversion through fp32 and NaN payload behavior."
+  ],
+  "validation": {
+    "method": "Direct Lean compilation with --root=/tmp/veritile-standardization-20261015/lora-wip; compiled module output under existing .lake/build/lib/lean; new modules remain unregistered until root integration.",
+    "all_current_module_checks_passed": true,
+    "modules": [
+      {
+        "module": "BranchSource",
+        "exit_code": 0,
+        "log": "/tmp/veritile-standardization-20261015/lora-branch-source-build.log",
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "axioms_clean": []
+      },
+      {
+        "module": "BranchReference",
+        "exit_code": 0,
+        "log": "/tmp/veritile-standardization-20261015/lora-rebuild-BranchReference.log",
+        "log_sha256": "ab7e7596cac5f9f7807e0bace6ee99271fe500d3304830b44176af6892db421c",
+        "axioms_clean": []
+      },
+      {
+        "module": "BranchExecution",
+        "exit_code": 0,
+        "log": "/tmp/veritile-standardization-20261015/lora-rebuild-BranchExecution.log",
+        "log_sha256": "eb5d9bfcd2d69f38a0ef5941d9233e2d542e5186f57389027d70ad441de2c8b3",
+        "axioms_clean": [
+          "VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.headerExecution",
+          "VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.setupExecution",
+          "VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.setupInvariant"
+        ]
+      },
+      {
+        "module": "BranchBody",
+        "exit_code": 0,
+        "log": "/tmp/veritile-standardization-20261015/lora-rebuild-BranchBody.log",
+        "log_sha256": "7d08916a32c641e7013a571a8a01412e596ea818fe96b79a5a70b288695ba9f9",
+        "axioms_clean": [
+          "VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.bodyExecution"
+        ]
+      },
+      {
+        "module": "BranchBodyValue",
+        "exit_code": 0,
+        "log": "/tmp/veritile-standardization-20261015/lora-rebuild-BranchBodyValue.log",
+        "log_sha256": "150bd5da980d465961cfbb460145bc6f747d248e17ff5c21cd031b53433acf45",
+        "axioms_clean": [
+          "VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.bodyMemory",
+          "VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.bodyInvariant"
+        ]
+      },
+      {
+        "module": "BranchFrame",
+        "exit_code": 0,
+        "log": "/tmp/veritile-standardization-20261015/lora-rebuild-BranchFrame.log",
+        "log_sha256": "293a9521b376d7c57da67b5a3b86f7cca53c9f0f76c84240dba162ebdd0a34f7",
+        "axioms_clean": [
+          "VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.writeBlock_frame",
+          "VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.reference_frame",
+          "VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.expectedMemory_frame"
+        ]
+      },
+      {
+        "module": "BranchAssembly",
+        "exit_code": 0,
+        "log": "/tmp/veritile-standardization-20261015/lora-rebuild-BranchAssembly.log",
+        "log_sha256": "6eb7f7e8419de1c6b5404e338a47d0e18ad1963ce3b04cb5ca465b9e134983f3",
+        "axioms_clean": [
+          "VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.sourceShape",
+          "VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.runActive",
+          "VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.guardEval",
+          "VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.headerMemory",
+          "VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.setupMemory"
+        ]
+      },
+      {
+        "module": "BranchLoop",
+        "exit_code": 0,
+        "log": "/tmp/veritile-standardization-20261015/lora-rebuild-BranchLoop.log",
+        "log_sha256": "175779bf96cf0559e5a4915ecd9550e692ff0d94ef5da18fceff3b76b468b066",
+        "axioms_clean": [
+          "VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.loopExecution"
+        ]
+      },
+      {
+        "module": "BranchComplete",
+        "exit_code": 0,
+        "log": "/tmp/veritile-standardization-20261015/lora-rebuild-BranchComplete.log",
+        "log_sha256": "1b4bf38915cf2c75b64547fcd8be07a354727ff05f870ce463e48195baf14605",
+        "axioms_clean": [
+          "VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.correctness",
+          "VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.backend_independent"
+        ]
+      },
+      {
+        "module": "BranchShape",
+        "exit_code": 0,
+        "log": "/tmp/veritile-standardization-20261015/lora-branch-shape.log",
+        "log_sha256": "c58cefb7e43c969d92b1a17479d410fac263ad2708270b53d62fbf2b39ab9ab6",
+        "axioms_clean": [
+          "VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.sourceAlgorithmSupported",
+          "VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.legacyAlgorithmSupported",
+          "VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.full_source_projection"
+        ]
+      },
+      {
+        "module": "BranchCorrect",
+        "exit_code": 0,
+        "log": "/tmp/veritile-standardization-20261015/lora-rebuild-BranchCorrect.log",
+        "log_sha256": "a7f60878542428e8f0b45a3b2859d205e5a44dd50ce1d771a2ed9ca2062a8651",
+        "axioms_clean": [
+          "VeriTile.Bench.TritonBenchG.LoraExpandGemv.BranchCorrect.lora_expand_all_branches_machine_correctness"
+        ]
+      },
+      {
+        "module": "BranchWitness",
+        "exit_code": 0,
+        "log": "/tmp/veritile-standardization-20261015/lora-rebuild-BranchWitness.log",
+        "log_sha256": "3a98a1a089777f1f1db2df72bba6a28140fbc421faaf0eddd610f63c1034d142",
+        "axioms_clean": [
+          "VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.alias_expected_value",
+          "VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.add_cast_alias_execution",
+          "VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.signed_sentinel_execution"
+        ]
+      }
+    ],
+    "named_axiom_checks": 24,
+    "independent_reference_non_circular": true,
+    "proof_hole_scan": "passed"
+  },
+  "source_sha256": {
+    "bench/tritonbench_g/lora_expand_gemv/BranchCorrect.lean": "ee775c2cbc80a0d171f5dc1fff81ac3e74efa439a6af06b632ef097e19b0bf08",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchAssembly.lean": "67c16f9ef82cb1928d81dcbcbadb38ecb8c289b1cc300b77358a7a73e217adb8",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchBody.lean": "9a64b6aaaffd5d0244972aa69d7576a1fc183c6502a6ee3f898dc1e87cb6b640",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchBodyValue.lean": "a9efc21c5b24e13ae29dee126879be76e94d7a16c76f5ce676babdea3b5da615",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchComplete.lean": "6b5dbf61213b0acaf8818b0217cbe0e05bb2cfd6a2bd39ae646f726bd35ed8e6",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchExecution.lean": "1667f26e25b4c4ae69ee6bc940b1a7a61fde5d385dd82ac761826786d2090a6a",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchFrame.lean": "fe60c6204184bc63f9830ef0455d18f1b27fa35e7096c94e9047cc215ebcbe9d",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchLoop.lean": "824238b20a8f27698b79c09ea8e7b480c332ee50504c6fddd4e3554a2b585a33",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchReference.lean": "ec95c5062ce8bd0ed5761ed99fafc797a4431cde18b2dec1884731f03a0f8564",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchShape.lean": "6e9008353729972c7cced8128a2bf267a9ea99f55b173568f66c04bc03b91733",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchSource.lean": "67d35e8009e6c9fa3a7dc60c7de1d7d54dd4ce614ea5c96bdb58f6263a9ce565",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchWitness.lean": "435efc0b0500620b0bb5f6abbe9bae67727493c6fa327983703457e1e279dd55"
+  },
+  "catalog_supplement": "/tmp/veritile-standardization-20261015/lora-catalog-supplement-task.json",
+  "scope_review": "/tmp/veritile-standardization-20261015/lora-source-scope-review.json",
+  "readme_fragment": "/tmp/veritile-standardization-20261015/lora-extension-readme.md",
+  "artifacts_sha256": {
+    "lora-catalog-supplement-task.json": "6b965ac8c31ab44e2548e9de620ba60bbec8a31ad6f176471caae0119baae925",
+    "lora-source-scope-review.json": "9e1e49ef69cfee287c8e190778baf69a2a978cd09195cc7127e4b5ab5be45710",
+    "lora-extension-readme.md": "e961a8fa592ed5927ae247c30b461be809a2eebc31959fb3516323aecf2de259"
+  }
+}

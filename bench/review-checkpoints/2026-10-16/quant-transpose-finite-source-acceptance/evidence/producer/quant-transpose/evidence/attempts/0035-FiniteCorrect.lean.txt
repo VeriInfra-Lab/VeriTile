@@ -1,0 +1,121 @@
+import bench.tritonbench_g.quant_transpose_kernel.Proofs.FiniteAdmission
+import bench.tritonbench_g.quant_transpose_kernel.Proofs.FiniteLegacy
+
+namespace QuantTransposeFinite
+set_option maxRecDepth 24000
+set_option maxHeartbeats 8000000
+
+/-- Scalar conversion domain depends on the independently produced logical
+maximum and original strided input. It does not assume execution success. -/
+def Safe (b : Numerics) (d : Storage) (a : Input) (alloc : Allocations) (x : String)
+    (logical : List (Word d)) (xs : Nat → Word d) : Prop :=
+  ∀ maximum, produced b d logical=some maximum →
+    Defined b d (parameters a alloc x) xs (b.reciprocal d maximum)
+
+inductive APIResult where
+  | rejected (why : Rejected)
+  | attempted (route : Storage) (outcome : Except Diagnostic Returned)
+
+/-- Admission classifies data-independent errors; this is not a second native
+invocation. An admitted successful path executes the typed host and full grid. -/
+def executeAPI (b : Numerics) (env : Environment) (dt : DType) (a : Input)
+    (alloc : Allocations) (m : Memory) (x : String) (trials : List Config) (last : Config) : APIResult :=
+  match admission env (if a.isCuda then .cuda else .cpu) dt a.numel a.shape.length (decide (a.sam=1 ∨ a.san=1)) with
+  | .error e => .rejected e
+  | .ok d => .attempted d (execute b env d a alloc m x trials last)
+
+theorem quant_transpose_complete_finite_execution
+    (b : Numerics) (d : Storage) (a : Input) (alloc : Allocations) (m : Memory)
+    (x : String) (logical : List (Word d)) (xs : Nat → Word d)
+    (D : Domain d a alloc m x logical xs) (nonempty : 0<a.numel)
+    (rank : a.shape.length=2) (stride : a.sam=1 ∨ a.san=1) (cuda : a.isCuda=Bool.true)
+    (safe : Safe b d a alloc x logical xs) (trials : List Config) (last : Config) :
+    ∃ maximum ret, produced b d logical=some maximum ∧
+      executeAPI b (fun _ => none) (dtype d) a alloc m x trials last=.attempted d (.ok ret) ∧
+      Result b d a alloc m xs maximum ret := by
+  have hlen : a.logicalOffsets.length=logical.length := List.Forall₂.length_eq D.logical
+  have hne : logical≠[] := by
+    intro he
+    have hz : a.logicalOffsets.length=0 := by simpa only [he,List.length_nil] using hlen
+    have hc := D.metadataCount
+    omega
+  cases logical with
+  | nil => exact (hne rfl).elim
+  | cons h t =>
+    let maximum := b.maximum d (b.abs d h) (t.map (b.abs d))
+    have hm : produced b d (h::t)=some maximum := rfl
+    obtain ⟨ret,hr,hres⟩ := quant_transpose_finite_host_correctness b d a alloc m x (h::t) xs
+      maximum D hm rank stride cuda (safe maximum hm) trials last
+    refine ⟨maximum,ret,hm,?_,hres⟩
+    have hroute := admitted_route d a.numel nonempty
+    simp [executeAPI,cuda,rank,stride,hroute,hr]
+
+theorem quant_transpose_rejected_source_outcome
+    (b : Numerics) (env : Environment) (dt : DType) (a : Input) (alloc : Allocations)
+    (m : Memory) (x : String) (trials : List Config) (last : Config) (why : Rejected)
+    (first : admission env (if a.isCuda then .cuda else .cpu) dt a.numel a.shape.length
+      (decide (a.sam=1 ∨ a.san=1))=.error why) :
+    executeAPI b env dt a alloc m x trials last=.rejected why := by
+  unfold executeAPI
+  rw [first]
+
+/-- Undefined conversion is an explicit semantic diagnostic, not a claim
+that CUDA raises this exception or preserves a transactional output buffer. -/
+theorem quant_transpose_undefined_conversion
+    (b : Numerics) (d : Storage) (p : Parameters) (snapshot working : Memory)
+    (xs : Nat → Word d) (v : Word (compute d)) (c : Config) (pid lane : Nat) (lanes : List Nat)
+    (inputs : Inputs d p xs v snapshot) (ha : active p pid lane)
+    (bad : ¬LlrintDefined d (scaled b d (xs (offset p pid lane)) v)) :
+    runLanes b d p snapshot v c pid (lane::lanes) working=.error (.conversionUndefined (offset p pid lane)) := by
+  have hz : result b d (xs (offset p pid lane)) v=none := by
+    have h := defined_result b d (xs (offset p pid lane)) v
+    cases he : result b d (xs (offset p pid lane)) v with
+    | none => rfl
+    | some z => exact (bad (h.1 (by simp [he]))).elim
+  obtain ⟨hi,he⟩ := active_index p pid lane ha
+  have hl := inputs.1 _ hi
+  rw [he] at hl
+  rw [runLanes,if_pos ha,hl,read_same]
+  dsimp only
+  rw [source_scalar,hz]
+
+theorem quant_transpose_source_address_domain
+    (d : Storage) (a : Input) (alloc : Allocations) (m : Memory) (x : String)
+    (logical : List (Word d)) (xs : Nat → Word d) (D : Domain d a alloc m x logical xs)
+    (pid lane : Nat) (ha : active (parameters a alloc x) pid lane) :
+    a.storageOffset+laneInput (parameters a alloc x) pid lane<a.storageLength ∧
+      offset (parameters a alloc x) pid lane<a.numel := by
+  obtain ⟨he,hoff⟩ := active_index (parameters a alloc x) pid lane ha
+  refine ⟨?_,?_⟩
+  · simpa [hoff] using D.stridedBounds _ he
+  · simpa [D.matrixCount,parameters,Parameters.n] using he
+
+/-- One public statement combines all admitted finite routes, exact complete
+CUDA dtype inventory and arbitrary first source rejection. -/
+theorem quant_transpose_finite_source_outcomes
+    (b : Numerics) (d : Storage) (a : Input) (alloc : Allocations) (m : Memory)
+    (x : String) (logical : List (Word d)) (xs : Nat → Word d)
+    (D : Domain d a alloc m x logical xs) (nonempty : 0<a.numel)
+    (rank : a.shape.length=2) (stride : a.sam=1 ∨ a.san=1) (cuda : a.isCuda=Bool.true)
+    (safe : Safe b d a alloc x logical xs) (trials : List Config) (last : Config) :
+    (∃ maximum ret, produced b d logical=some maximum ∧
+      executeAPI b (fun _ => none) (dtype d) a alloc m x trials last=.attempted d (.ok ret) ∧
+      Result b d a alloc m xs maximum ret) ∧
+    profiles.map (fun dt => admission (fun _ => none) .cuda dt 3 2 Bool.true)=observedCuda ∧
+    (∀ env dt input why, admission env (if input.isCuda then .cuda else .cpu) dt input.numel input.shape.length
+      (decide (input.sam=1 ∨ input.san=1))=.error why →
+      executeAPI b env dt input alloc m x trials last=.rejected why) := by
+  refine ⟨quant_transpose_complete_finite_execution b d a alloc m x logical xs D nonempty rank stride cuda safe trials last,
+    quant_transpose_dtype_admission_inventory,?_⟩
+  intro env dt input why h
+  exact quant_transpose_rejected_source_outcome b env dt input alloc m x trials last why h
+
+#specNonCircular Safe avoiding [executeAPI,execute,prepare,runTrials,runGrid,runProgram,runLanes,source,Expr.eval]
+#axiomsClean quant_transpose_complete_finite_execution
+#axiomsClean quant_transpose_rejected_source_outcome
+#axiomsClean quant_transpose_undefined_conversion
+#axiomsClean quant_transpose_source_address_domain
+#axiomsClean quant_transpose_finite_source_outcomes
+#guard_msgs (drop info) in
+#auditModuleAxioms
+end QuantTransposeFinite

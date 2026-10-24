@@ -1,3 +1,13 @@
+/-
+Source-audit target: rms_norm_fwd_fused
+Source-audit Lean: rmsFusedTyped%
+Source-audit params: BLOCK_SIZE=B
+Source-audit args: weight=tl.float32, output=tl.float32
+Selected lexical source view only; this metadata is not all-profile certification.
+Original two-loop quotation; input dtype symbolic, fp32 weight/output resolve the store branch.
+Other floating/nonfloating profiles and the later address candidate are not certified.
+-/
+
 import VeriTile.Triton
 
 /-!

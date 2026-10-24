@@ -1,0 +1,2784 @@
+{
+  "schema": 1,
+  "capture_report_sha256": "6074f28dcd01260bdb73269fc6f3fe03074ded6cffbdc8578b6d1ce55ecae10b",
+  "native_execution": false,
+  "records": [
+    {
+      "label": "sm80-wrapper_default-fusion-false",
+      "constexprs": {
+        "THETA": 10000.0,
+        "BLOCK_SIZE_M": 2,
+        "BLOCK_SIZE_K": 1024
+      },
+      "options": {
+        "enable_fp_fusion": false
+      },
+      "resolved_warps": 4,
+      "resolved_stages": 3,
+      "artifact_sha256": {
+        "ttir": "fb1e25d79f142c55c709748a5d3bbabc244e7656f079739a3460647c0d29d54a",
+        "ttgir": "4396811adec9aa570059f0eb1f3c2ca3987ae842283ae92404c60994eb5712d2",
+        "llir": "4ec931b096f7334a92a2c403a0c0eef449c2f12f815461c9fe1829d4e37cae3a",
+        "ptx": "7f7469a810f2ac6b78fc8226aadaa65117000e0a576fa14ad0686f588aba8c93",
+        "cubin": "a2f49579cc1c77e24db55515c30b669e571ec92306575f28e29928501fbb4a73"
+      },
+      "pow_TTIR": [
+        {
+          "line": 73,
+          "text": "%freqs_40 = tt.extern_elementwise %cst, %freqs_39 {libname = \"\", libpath = \"\", pure = true, symbol = \"__nv_powf\"} : (tensor<512xf32>, tensor<512xf32>) -> tensor<512xf32> loc(#loc106)"
+        }
+      ],
+      "trig_TTIR": [
+        {
+          "line": 82,
+          "text": "%0 = math.cos %freqs_48 : tensor<2x512xf32> loc(#loc92)"
+        },
+        {
+          "line": 83,
+          "text": "%1 = math.sin %freqs_48 : tensor<2x512xf32> loc(#loc93)"
+        }
+      ],
+      "counts": {
+        "pow_exit_labels": 4,
+        "cos_exit_labels": 8,
+        "sin_exit_labels": 8,
+        "sin_approx": 0,
+        "cos_approx": 0,
+        "exp2_approx_ftz": 1,
+        "reciprocal_approx_ftz": 1,
+        "div_full": 9,
+        "all_fmas": 132
+      },
+      "pair_arithmetic_debug_locations": [
+        {
+          "ptx_line": 2356,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r838, %rs1;"
+        },
+        {
+          "ptx_line": 2357,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r839, %rs3;"
+        },
+        {
+          "ptx_line": 2358,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r840, %rs4;"
+        },
+        {
+          "ptx_line": 2359,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r841, %rs5;"
+        },
+        {
+          "ptx_line": 2360,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r842, %rs6;"
+        },
+        {
+          "ptx_line": 2361,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r843, %rs7;"
+        },
+        {
+          "ptx_line": 2362,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r844, %rs8;"
+        },
+        {
+          "ptx_line": 2363,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r845, %rs9;"
+        },
+        {
+          "ptx_line": 2364,
+          "original_jit_line": 37,
+          "instruction": "mul.rn.f32 \t%r846, %r930, %r838;"
+        },
+        {
+          "ptx_line": 2365,
+          "original_jit_line": 37,
+          "instruction": "mul.rn.f32 \t%r847, %r939, %r839;"
+        },
+        {
+          "ptx_line": 2366,
+          "original_jit_line": 37,
+          "instruction": "mul.rn.f32 \t%r848, %r948, %r840;"
+        },
+        {
+          "ptx_line": 2367,
+          "original_jit_line": 37,
+          "instruction": "mul.rn.f32 \t%r849, %r957, %r841;"
+        },
+        {
+          "ptx_line": 2368,
+          "original_jit_line": 37,
+          "instruction": "mul.rn.f32 \t%r850, %r966, %r842;"
+        },
+        {
+          "ptx_line": 2369,
+          "original_jit_line": 37,
+          "instruction": "mul.rn.f32 \t%r851, %r975, %r843;"
+        },
+        {
+          "ptx_line": 2370,
+          "original_jit_line": 37,
+          "instruction": "mul.rn.f32 \t%r852, %r984, %r844;"
+        },
+        {
+          "ptx_line": 2371,
+          "original_jit_line": 37,
+          "instruction": "mul.rn.f32 \t%r853, %r993, %r845;"
+        },
+        {
+          "ptx_line": 2373,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r854, %rs10;"
+        },
+        {
+          "ptx_line": 2374,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r855, %rs11;"
+        },
+        {
+          "ptx_line": 2375,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r856, %rs12;"
+        },
+        {
+          "ptx_line": 2376,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r857, %rs13;"
+        },
+        {
+          "ptx_line": 2377,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r858, %rs14;"
+        },
+        {
+          "ptx_line": 2378,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r859, %rs15;"
+        },
+        {
+          "ptx_line": 2379,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r860, %rs16;"
+        },
+        {
+          "ptx_line": 2380,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r861, %rs17;"
+        },
+        {
+          "ptx_line": 2381,
+          "original_jit_line": 37,
+          "instruction": "mul.rn.f32 \t%r862, %r1002, %r854;"
+        },
+        {
+          "ptx_line": 2382,
+          "original_jit_line": 37,
+          "instruction": "mul.rn.f32 \t%r863, %r1011, %r855;"
+        },
+        {
+          "ptx_line": 2383,
+          "original_jit_line": 37,
+          "instruction": "mul.rn.f32 \t%r864, %r1020, %r856;"
+        },
+        {
+          "ptx_line": 2384,
+          "original_jit_line": 37,
+          "instruction": "mul.rn.f32 \t%r865, %r1029, %r857;"
+        },
+        {
+          "ptx_line": 2385,
+          "original_jit_line": 37,
+          "instruction": "mul.rn.f32 \t%r866, %r1038, %r858;"
+        },
+        {
+          "ptx_line": 2386,
+          "original_jit_line": 37,
+          "instruction": "mul.rn.f32 \t%r867, %r1047, %r859;"
+        },
+        {
+          "ptx_line": 2387,
+          "original_jit_line": 37,
+          "instruction": "mul.rn.f32 \t%r868, %r1056, %r860;"
+        },
+        {
+          "ptx_line": 2388,
+          "original_jit_line": 37,
+          "instruction": "mul.rn.f32 \t%r869, %r1065, %r861;"
+        },
+        {
+          "ptx_line": 2390,
+          "original_jit_line": 37,
+          "instruction": "sub.rn.f32 \t%r870, %r846, %r862;"
+        },
+        {
+          "ptx_line": 2391,
+          "original_jit_line": 37,
+          "instruction": "sub.rn.f32 \t%r871, %r847, %r863;"
+        },
+        {
+          "ptx_line": 2392,
+          "original_jit_line": 37,
+          "instruction": "sub.rn.f32 \t%r872, %r848, %r864;"
+        },
+        {
+          "ptx_line": 2393,
+          "original_jit_line": 37,
+          "instruction": "sub.rn.f32 \t%r873, %r849, %r865;"
+        },
+        {
+          "ptx_line": 2394,
+          "original_jit_line": 37,
+          "instruction": "sub.rn.f32 \t%r874, %r850, %r866;"
+        },
+        {
+          "ptx_line": 2395,
+          "original_jit_line": 37,
+          "instruction": "sub.rn.f32 \t%r875, %r851, %r867;"
+        },
+        {
+          "ptx_line": 2396,
+          "original_jit_line": 37,
+          "instruction": "sub.rn.f32 \t%r876, %r852, %r868;"
+        },
+        {
+          "ptx_line": 2397,
+          "original_jit_line": 37,
+          "instruction": "sub.rn.f32 \t%r877, %r853, %r869;"
+        },
+        {
+          "ptx_line": 2399,
+          "original_jit_line": 38,
+          "instruction": "mul.rn.f32 \t%r878, %r1002, %r838;"
+        },
+        {
+          "ptx_line": 2400,
+          "original_jit_line": 38,
+          "instruction": "mul.rn.f32 \t%r879, %r1011, %r839;"
+        },
+        {
+          "ptx_line": 2401,
+          "original_jit_line": 38,
+          "instruction": "mul.rn.f32 \t%r880, %r1020, %r840;"
+        },
+        {
+          "ptx_line": 2402,
+          "original_jit_line": 38,
+          "instruction": "mul.rn.f32 \t%r881, %r1029, %r841;"
+        },
+        {
+          "ptx_line": 2403,
+          "original_jit_line": 38,
+          "instruction": "mul.rn.f32 \t%r882, %r1038, %r842;"
+        },
+        {
+          "ptx_line": 2404,
+          "original_jit_line": 38,
+          "instruction": "mul.rn.f32 \t%r883, %r1047, %r843;"
+        },
+        {
+          "ptx_line": 2405,
+          "original_jit_line": 38,
+          "instruction": "mul.rn.f32 \t%r884, %r1056, %r844;"
+        },
+        {
+          "ptx_line": 2406,
+          "original_jit_line": 38,
+          "instruction": "mul.rn.f32 \t%r885, %r1065, %r845;"
+        },
+        {
+          "ptx_line": 2408,
+          "original_jit_line": 38,
+          "instruction": "mul.rn.f32 \t%r886, %r930, %r854;"
+        },
+        {
+          "ptx_line": 2409,
+          "original_jit_line": 38,
+          "instruction": "mul.rn.f32 \t%r887, %r939, %r855;"
+        },
+        {
+          "ptx_line": 2410,
+          "original_jit_line": 38,
+          "instruction": "mul.rn.f32 \t%r888, %r948, %r856;"
+        },
+        {
+          "ptx_line": 2411,
+          "original_jit_line": 38,
+          "instruction": "mul.rn.f32 \t%r889, %r957, %r857;"
+        },
+        {
+          "ptx_line": 2412,
+          "original_jit_line": 38,
+          "instruction": "mul.rn.f32 \t%r890, %r966, %r858;"
+        },
+        {
+          "ptx_line": 2413,
+          "original_jit_line": 38,
+          "instruction": "mul.rn.f32 \t%r891, %r975, %r859;"
+        },
+        {
+          "ptx_line": 2414,
+          "original_jit_line": 38,
+          "instruction": "mul.rn.f32 \t%r892, %r984, %r860;"
+        },
+        {
+          "ptx_line": 2415,
+          "original_jit_line": 38,
+          "instruction": "mul.rn.f32 \t%r893, %r993, %r861;"
+        },
+        {
+          "ptx_line": 2417,
+          "original_jit_line": 38,
+          "instruction": "add.rn.f32 \t%r894, %r886, %r878;"
+        },
+        {
+          "ptx_line": 2418,
+          "original_jit_line": 38,
+          "instruction": "add.rn.f32 \t%r895, %r887, %r879;"
+        },
+        {
+          "ptx_line": 2419,
+          "original_jit_line": 38,
+          "instruction": "add.rn.f32 \t%r896, %r888, %r880;"
+        },
+        {
+          "ptx_line": 2420,
+          "original_jit_line": 38,
+          "instruction": "add.rn.f32 \t%r897, %r889, %r881;"
+        },
+        {
+          "ptx_line": 2421,
+          "original_jit_line": 38,
+          "instruction": "add.rn.f32 \t%r898, %r890, %r882;"
+        },
+        {
+          "ptx_line": 2422,
+          "original_jit_line": 38,
+          "instruction": "add.rn.f32 \t%r899, %r891, %r883;"
+        },
+        {
+          "ptx_line": 2423,
+          "original_jit_line": 38,
+          "instruction": "add.rn.f32 \t%r900, %r892, %r884;"
+        },
+        {
+          "ptx_line": 2424,
+          "original_jit_line": 38,
+          "instruction": "add.rn.f32 \t%r901, %r893, %r885;"
+        }
+      ],
+      "integer_conversion_LLIR": [
+        {
+          "line": 132,
+          "text": "%117 = add i32 %20, %10, !dbg !39"
+        },
+        {
+          "line": 847,
+          "text": "%548 = sitofp i32 %117 to float, !dbg !46"
+        },
+        {
+          "line": 848,
+          "text": "%549 = sitofp i32 %547 to float, !dbg !46"
+        }
+      ]
+    },
+    {
+      "label": "sm80-wrapper_default-fusion-true",
+      "constexprs": {
+        "THETA": 10000.0,
+        "BLOCK_SIZE_M": 2,
+        "BLOCK_SIZE_K": 1024
+      },
+      "options": {
+        "enable_fp_fusion": true
+      },
+      "resolved_warps": 4,
+      "resolved_stages": 3,
+      "artifact_sha256": {
+        "ttir": "fb1e25d79f142c55c709748a5d3bbabc244e7656f079739a3460647c0d29d54a",
+        "ttgir": "4396811adec9aa570059f0eb1f3c2ca3987ae842283ae92404c60994eb5712d2",
+        "llir": "4ec931b096f7334a92a2c403a0c0eef449c2f12f815461c9fe1829d4e37cae3a",
+        "ptx": "884a55b0ebc4f775c72df6220f09f801da9786d62793e6321955d5faed7eeb6e",
+        "cubin": "42ecb10b3e2e7aae2cb9a31da940647d140aa26b6fcedde372ff32006132e859"
+      },
+      "pow_TTIR": [
+        {
+          "line": 73,
+          "text": "%freqs_40 = tt.extern_elementwise %cst, %freqs_39 {libname = \"\", libpath = \"\", pure = true, symbol = \"__nv_powf\"} : (tensor<512xf32>, tensor<512xf32>) -> tensor<512xf32> loc(#loc106)"
+        }
+      ],
+      "trig_TTIR": [
+        {
+          "line": 82,
+          "text": "%0 = math.cos %freqs_48 : tensor<2x512xf32> loc(#loc92)"
+        },
+        {
+          "line": 83,
+          "text": "%1 = math.sin %freqs_48 : tensor<2x512xf32> loc(#loc93)"
+        }
+      ],
+      "counts": {
+        "pow_exit_labels": 4,
+        "cos_exit_labels": 8,
+        "sin_exit_labels": 8,
+        "sin_approx": 0,
+        "cos_approx": 0,
+        "exp2_approx_ftz": 1,
+        "reciprocal_approx_ftz": 1,
+        "div_full": 9,
+        "all_fmas": 151
+      },
+      "pair_arithmetic_debug_locations": [
+        {
+          "ptx_line": 2357,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r839, %rs1;"
+        },
+        {
+          "ptx_line": 2358,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r840, %rs3;"
+        },
+        {
+          "ptx_line": 2359,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r841, %rs4;"
+        },
+        {
+          "ptx_line": 2360,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r842, %rs5;"
+        },
+        {
+          "ptx_line": 2361,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r843, %rs6;"
+        },
+        {
+          "ptx_line": 2362,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r844, %rs7;"
+        },
+        {
+          "ptx_line": 2363,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r845, %rs8;"
+        },
+        {
+          "ptx_line": 2364,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r846, %rs9;"
+        },
+        {
+          "ptx_line": 2366,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r847, %rs10;"
+        },
+        {
+          "ptx_line": 2367,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r848, %rs11;"
+        },
+        {
+          "ptx_line": 2368,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r849, %rs12;"
+        },
+        {
+          "ptx_line": 2369,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r850, %rs13;"
+        },
+        {
+          "ptx_line": 2370,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r851, %rs14;"
+        },
+        {
+          "ptx_line": 2371,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r852, %rs15;"
+        },
+        {
+          "ptx_line": 2372,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r853, %rs16;"
+        },
+        {
+          "ptx_line": 2373,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r854, %rs17;"
+        },
+        {
+          "ptx_line": 2374,
+          "original_jit_line": 37,
+          "instruction": "mul.f32 \t%r855, %r995, %r847;"
+        },
+        {
+          "ptx_line": 2375,
+          "original_jit_line": 37,
+          "instruction": "mul.f32 \t%r856, %r1004, %r848;"
+        },
+        {
+          "ptx_line": 2376,
+          "original_jit_line": 37,
+          "instruction": "mul.f32 \t%r857, %r1013, %r849;"
+        },
+        {
+          "ptx_line": 2377,
+          "original_jit_line": 37,
+          "instruction": "mul.f32 \t%r858, %r1022, %r850;"
+        },
+        {
+          "ptx_line": 2378,
+          "original_jit_line": 37,
+          "instruction": "mul.f32 \t%r859, %r1031, %r851;"
+        },
+        {
+          "ptx_line": 2379,
+          "original_jit_line": 37,
+          "instruction": "mul.f32 \t%r860, %r1040, %r852;"
+        },
+        {
+          "ptx_line": 2380,
+          "original_jit_line": 37,
+          "instruction": "mul.f32 \t%r861, %r1049, %r853;"
+        },
+        {
+          "ptx_line": 2381,
+          "original_jit_line": 37,
+          "instruction": "mul.f32 \t%r862, %r1058, %r854;"
+        },
+        {
+          "ptx_line": 2383,
+          "original_jit_line": 37,
+          "instruction": "neg.f32 \t%r863, %r855;"
+        },
+        {
+          "ptx_line": 2384,
+          "original_jit_line": 37,
+          "instruction": "fma.rn.f32 \t%r864, %r923, %r839, %r863;"
+        },
+        {
+          "ptx_line": 2385,
+          "original_jit_line": 37,
+          "instruction": "neg.f32 \t%r865, %r856;"
+        },
+        {
+          "ptx_line": 2386,
+          "original_jit_line": 37,
+          "instruction": "fma.rn.f32 \t%r866, %r932, %r840, %r865;"
+        },
+        {
+          "ptx_line": 2387,
+          "original_jit_line": 37,
+          "instruction": "neg.f32 \t%r867, %r857;"
+        },
+        {
+          "ptx_line": 2388,
+          "original_jit_line": 37,
+          "instruction": "fma.rn.f32 \t%r868, %r941, %r841, %r867;"
+        },
+        {
+          "ptx_line": 2389,
+          "original_jit_line": 37,
+          "instruction": "neg.f32 \t%r869, %r858;"
+        },
+        {
+          "ptx_line": 2390,
+          "original_jit_line": 37,
+          "instruction": "fma.rn.f32 \t%r870, %r950, %r842, %r869;"
+        },
+        {
+          "ptx_line": 2391,
+          "original_jit_line": 37,
+          "instruction": "neg.f32 \t%r871, %r859;"
+        },
+        {
+          "ptx_line": 2392,
+          "original_jit_line": 37,
+          "instruction": "fma.rn.f32 \t%r872, %r959, %r843, %r871;"
+        },
+        {
+          "ptx_line": 2393,
+          "original_jit_line": 37,
+          "instruction": "neg.f32 \t%r873, %r860;"
+        },
+        {
+          "ptx_line": 2394,
+          "original_jit_line": 37,
+          "instruction": "fma.rn.f32 \t%r874, %r968, %r844, %r873;"
+        },
+        {
+          "ptx_line": 2395,
+          "original_jit_line": 37,
+          "instruction": "neg.f32 \t%r875, %r861;"
+        },
+        {
+          "ptx_line": 2396,
+          "original_jit_line": 37,
+          "instruction": "fma.rn.f32 \t%r876, %r977, %r845, %r875;"
+        },
+        {
+          "ptx_line": 2397,
+          "original_jit_line": 37,
+          "instruction": "neg.f32 \t%r877, %r862;"
+        },
+        {
+          "ptx_line": 2398,
+          "original_jit_line": 37,
+          "instruction": "fma.rn.f32 \t%r878, %r986, %r846, %r877;"
+        },
+        {
+          "ptx_line": 2400,
+          "original_jit_line": 38,
+          "instruction": "mul.f32 \t%r879, %r995, %r839;"
+        },
+        {
+          "ptx_line": 2401,
+          "original_jit_line": 38,
+          "instruction": "mul.f32 \t%r880, %r1004, %r840;"
+        },
+        {
+          "ptx_line": 2402,
+          "original_jit_line": 38,
+          "instruction": "mul.f32 \t%r881, %r1013, %r841;"
+        },
+        {
+          "ptx_line": 2403,
+          "original_jit_line": 38,
+          "instruction": "mul.f32 \t%r882, %r1022, %r842;"
+        },
+        {
+          "ptx_line": 2404,
+          "original_jit_line": 38,
+          "instruction": "mul.f32 \t%r883, %r1031, %r843;"
+        },
+        {
+          "ptx_line": 2405,
+          "original_jit_line": 38,
+          "instruction": "mul.f32 \t%r884, %r1040, %r844;"
+        },
+        {
+          "ptx_line": 2406,
+          "original_jit_line": 38,
+          "instruction": "mul.f32 \t%r885, %r1049, %r845;"
+        },
+        {
+          "ptx_line": 2407,
+          "original_jit_line": 38,
+          "instruction": "mul.f32 \t%r886, %r1058, %r846;"
+        },
+        {
+          "ptx_line": 2408,
+          "original_jit_line": 38,
+          "instruction": "fma.rn.f32 \t%r887, %r923, %r847, %r879;"
+        },
+        {
+          "ptx_line": 2409,
+          "original_jit_line": 38,
+          "instruction": "fma.rn.f32 \t%r888, %r932, %r848, %r880;"
+        },
+        {
+          "ptx_line": 2410,
+          "original_jit_line": 38,
+          "instruction": "fma.rn.f32 \t%r889, %r941, %r849, %r881;"
+        },
+        {
+          "ptx_line": 2411,
+          "original_jit_line": 38,
+          "instruction": "fma.rn.f32 \t%r890, %r950, %r850, %r882;"
+        },
+        {
+          "ptx_line": 2412,
+          "original_jit_line": 38,
+          "instruction": "fma.rn.f32 \t%r891, %r959, %r851, %r883;"
+        },
+        {
+          "ptx_line": 2413,
+          "original_jit_line": 38,
+          "instruction": "fma.rn.f32 \t%r892, %r968, %r852, %r884;"
+        },
+        {
+          "ptx_line": 2414,
+          "original_jit_line": 38,
+          "instruction": "fma.rn.f32 \t%r893, %r977, %r853, %r885;"
+        },
+        {
+          "ptx_line": 2415,
+          "original_jit_line": 38,
+          "instruction": "fma.rn.f32 \t%r894, %r986, %r854, %r886;"
+        }
+      ],
+      "integer_conversion_LLIR": [
+        {
+          "line": 132,
+          "text": "%117 = add i32 %20, %10, !dbg !39"
+        },
+        {
+          "line": 847,
+          "text": "%548 = sitofp i32 %117 to float, !dbg !46"
+        },
+        {
+          "line": 848,
+          "text": "%549 = sitofp i32 %547 to float, !dbg !46"
+        }
+      ]
+    },
+    {
+      "label": "sm80-old_backend_witness-fusion-false",
+      "constexprs": {
+        "THETA": 10000.0,
+        "BLOCK_SIZE_M": 1,
+        "BLOCK_SIZE_K": 2
+      },
+      "options": {
+        "enable_fp_fusion": false
+      },
+      "resolved_warps": 4,
+      "resolved_stages": 3,
+      "artifact_sha256": {
+        "ttir": "28823c9456d3203072568dece5ba68ccf866cc75e10b347ced9b9cfa6078961f",
+        "ttgir": "da596073727248a12870a096c24cb36f4ac60eaf450edee9fd9c3524cd81252f",
+        "llir": "efb6051c74aaeb5eb2f8e298bb938638385ab5ea61caca056fed26bd9a3de23c",
+        "ptx": "92078aa589275866120f083d5c9f55e7122dcc9b5f7b6434eaca54c17746fbaa",
+        "cubin": "9248afeea1d9115606569bd825caa0c55f33e6bee05c9fcd19ea81cb2af31875"
+      },
+      "pow_TTIR": [
+        {
+          "line": 52,
+          "text": "%freqs_21 = tt.extern_elementwise %freqs, %freqs_20 {libname = \"\", libpath = \"\", pure = true, symbol = \"__nv_powf\"} : (f32, f32) -> f32 loc(#loc87)"
+        }
+      ],
+      "trig_TTIR": [
+        {
+          "line": 55,
+          "text": "%0 = math.cos %freqs_23 : f32 loc(#loc77)"
+        },
+        {
+          "line": 57,
+          "text": "%2 = math.sin %freqs_23 : f32 loc(#loc78)"
+        }
+      ],
+      "counts": {
+        "pow_exit_labels": 1,
+        "cos_exit_labels": 1,
+        "sin_exit_labels": 1,
+        "sin_approx": 0,
+        "cos_approx": 0,
+        "exp2_approx_ftz": 1,
+        "reciprocal_approx_ftz": 1,
+        "div_full": 2,
+        "all_fmas": 24
+      },
+      "pair_arithmetic_debug_locations": [
+        {
+          "ptx_line": 462,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r184, %rs1;"
+        },
+        {
+          "ptx_line": 463,
+          "original_jit_line": 37,
+          "instruction": "mul.rn.f32 \t%r185, %r206, %r184;"
+        },
+        {
+          "ptx_line": 465,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r186, %rs3;"
+        },
+        {
+          "ptx_line": 466,
+          "original_jit_line": 37,
+          "instruction": "mul.rn.f32 \t%r187, %r215, %r186;"
+        },
+        {
+          "ptx_line": 468,
+          "original_jit_line": 37,
+          "instruction": "sub.rn.f32 \t%r188, %r185, %r187;"
+        },
+        {
+          "ptx_line": 470,
+          "original_jit_line": 38,
+          "instruction": "mul.rn.f32 \t%r189, %r215, %r184;"
+        },
+        {
+          "ptx_line": 472,
+          "original_jit_line": 38,
+          "instruction": "mul.rn.f32 \t%r190, %r206, %r186;"
+        },
+        {
+          "ptx_line": 474,
+          "original_jit_line": 38,
+          "instruction": "add.rn.f32 \t%r191, %r190, %r189;"
+        }
+      ],
+      "integer_conversion_LLIR": [
+        {
+          "line": 38,
+          "text": "%37 = add i32 %18, %10, !dbg !37"
+        },
+        {
+          "line": 230,
+          "text": "%158 = sitofp i32 %37 to float, !dbg !43"
+        }
+      ]
+    },
+    {
+      "label": "sm80-old_backend_witness-fusion-true",
+      "constexprs": {
+        "THETA": 10000.0,
+        "BLOCK_SIZE_M": 1,
+        "BLOCK_SIZE_K": 2
+      },
+      "options": {
+        "enable_fp_fusion": true
+      },
+      "resolved_warps": 4,
+      "resolved_stages": 3,
+      "artifact_sha256": {
+        "ttir": "28823c9456d3203072568dece5ba68ccf866cc75e10b347ced9b9cfa6078961f",
+        "ttgir": "da596073727248a12870a096c24cb36f4ac60eaf450edee9fd9c3524cd81252f",
+        "llir": "efb6051c74aaeb5eb2f8e298bb938638385ab5ea61caca056fed26bd9a3de23c",
+        "ptx": "7f8951803ec3a9f2f70d970df7f36a394b78c05b5cb094df6ce45ec4e53f0a31",
+        "cubin": "a6e14ffbb8d425a0a69e7562508f6f0b9cbe4b81e3d0abad386671edc7599b13"
+      },
+      "pow_TTIR": [
+        {
+          "line": 52,
+          "text": "%freqs_21 = tt.extern_elementwise %freqs, %freqs_20 {libname = \"\", libpath = \"\", pure = true, symbol = \"__nv_powf\"} : (f32, f32) -> f32 loc(#loc87)"
+        }
+      ],
+      "trig_TTIR": [
+        {
+          "line": 55,
+          "text": "%0 = math.cos %freqs_23 : f32 loc(#loc77)"
+        },
+        {
+          "line": 57,
+          "text": "%2 = math.sin %freqs_23 : f32 loc(#loc78)"
+        }
+      ],
+      "counts": {
+        "pow_exit_labels": 1,
+        "cos_exit_labels": 1,
+        "sin_exit_labels": 1,
+        "sin_approx": 0,
+        "cos_approx": 0,
+        "exp2_approx_ftz": 1,
+        "reciprocal_approx_ftz": 1,
+        "div_full": 2,
+        "all_fmas": 29
+      },
+      "pair_arithmetic_debug_locations": [
+        {
+          "ptx_line": 463,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r185, %rs1;"
+        },
+        {
+          "ptx_line": 465,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r186, %rs3;"
+        },
+        {
+          "ptx_line": 466,
+          "original_jit_line": 37,
+          "instruction": "mul.f32 \t%r187, %r215, %r186;"
+        },
+        {
+          "ptx_line": 468,
+          "original_jit_line": 37,
+          "instruction": "neg.f32 \t%r188, %r187;"
+        },
+        {
+          "ptx_line": 469,
+          "original_jit_line": 37,
+          "instruction": "fma.rn.f32 \t%r189, %r206, %r185, %r188;"
+        },
+        {
+          "ptx_line": 471,
+          "original_jit_line": 38,
+          "instruction": "mul.f32 \t%r190, %r215, %r185;"
+        },
+        {
+          "ptx_line": 472,
+          "original_jit_line": 38,
+          "instruction": "fma.rn.f32 \t%r191, %r206, %r186, %r190;"
+        }
+      ],
+      "integer_conversion_LLIR": [
+        {
+          "line": 38,
+          "text": "%37 = add i32 %18, %10, !dbg !37"
+        },
+        {
+          "line": 230,
+          "text": "%158 = sitofp i32 %37 to float, !dbg !43"
+        }
+      ]
+    },
+    {
+      "label": "sm80-nonperiod_tile-fusion-false",
+      "constexprs": {
+        "THETA": 10000.0,
+        "BLOCK_SIZE_M": 2,
+        "BLOCK_SIZE_K": 64
+      },
+      "options": {
+        "enable_fp_fusion": false
+      },
+      "resolved_warps": 4,
+      "resolved_stages": 3,
+      "artifact_sha256": {
+        "ttir": "0d518e03970a4b8ed82355cefa9227a97666b89a2ab6add2c9cf6f21555b9fd5",
+        "ttgir": "83597b62601881a5f272634a54e59679e1ab72d2d65cd904dea4ea3557b30406",
+        "llir": "1097fa0df0471c7e4c9cbde767c9ced145a906c969ee2ef6e19bd73453559fee",
+        "ptx": "17760d679df239ac6e2f4989c676fa41267a3732a7dbd9973c2bf9c917bd710f",
+        "cubin": "2e64d5e3e9b9bddc3c07a40c09415bc8521946292061c57ab7a1cf3e760c665c"
+      },
+      "pow_TTIR": [
+        {
+          "line": 73,
+          "text": "%freqs_40 = tt.extern_elementwise %cst, %freqs_39 {libname = \"\", libpath = \"\", pure = true, symbol = \"__nv_powf\"} : (tensor<32xf32>, tensor<32xf32>) -> tensor<32xf32> loc(#loc106)"
+        }
+      ],
+      "trig_TTIR": [
+        {
+          "line": 82,
+          "text": "%0 = math.cos %freqs_48 : tensor<2x32xf32> loc(#loc92)"
+        },
+        {
+          "line": 83,
+          "text": "%1 = math.sin %freqs_48 : tensor<2x32xf32> loc(#loc93)"
+        }
+      ],
+      "counts": {
+        "pow_exit_labels": 1,
+        "cos_exit_labels": 1,
+        "sin_exit_labels": 1,
+        "sin_approx": 0,
+        "cos_approx": 0,
+        "exp2_approx_ftz": 1,
+        "reciprocal_approx_ftz": 1,
+        "div_full": 2,
+        "all_fmas": 24
+      },
+      "pair_arithmetic_debug_locations": [
+        {
+          "ptx_line": 478,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r193, %rs1;"
+        },
+        {
+          "ptx_line": 479,
+          "original_jit_line": 37,
+          "instruction": "mul.rn.f32 \t%r194, %r214, %r193;"
+        },
+        {
+          "ptx_line": 481,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r195, %rs3;"
+        },
+        {
+          "ptx_line": 482,
+          "original_jit_line": 37,
+          "instruction": "mul.rn.f32 \t%r196, %r223, %r195;"
+        },
+        {
+          "ptx_line": 484,
+          "original_jit_line": 37,
+          "instruction": "sub.rn.f32 \t%r197, %r194, %r196;"
+        },
+        {
+          "ptx_line": 486,
+          "original_jit_line": 38,
+          "instruction": "mul.rn.f32 \t%r198, %r223, %r193;"
+        },
+        {
+          "ptx_line": 488,
+          "original_jit_line": 38,
+          "instruction": "mul.rn.f32 \t%r199, %r214, %r195;"
+        },
+        {
+          "ptx_line": 490,
+          "original_jit_line": 38,
+          "instruction": "add.rn.f32 \t%r200, %r199, %r198;"
+        }
+      ],
+      "integer_conversion_LLIR": [
+        {
+          "line": 237,
+          "text": "%165 = add i32 %10, %23, !dbg !45"
+        },
+        {
+          "line": 239,
+          "text": "%167 = sitofp i32 %166 to float, !dbg !47"
+        }
+      ]
+    },
+    {
+      "label": "sm80-nonperiod_tile-fusion-true",
+      "constexprs": {
+        "THETA": 10000.0,
+        "BLOCK_SIZE_M": 2,
+        "BLOCK_SIZE_K": 64
+      },
+      "options": {
+        "enable_fp_fusion": true
+      },
+      "resolved_warps": 4,
+      "resolved_stages": 3,
+      "artifact_sha256": {
+        "ttir": "0d518e03970a4b8ed82355cefa9227a97666b89a2ab6add2c9cf6f21555b9fd5",
+        "ttgir": "83597b62601881a5f272634a54e59679e1ab72d2d65cd904dea4ea3557b30406",
+        "llir": "1097fa0df0471c7e4c9cbde767c9ced145a906c969ee2ef6e19bd73453559fee",
+        "ptx": "f4fac81d4daa7b8e1b11c286d598384eea774bc70144db2b087876804c1090e6",
+        "cubin": "f19a4e03f853703a74c899d22849cacb17438687f374f5cb2fbe85bf53a9ae27"
+      },
+      "pow_TTIR": [
+        {
+          "line": 73,
+          "text": "%freqs_40 = tt.extern_elementwise %cst, %freqs_39 {libname = \"\", libpath = \"\", pure = true, symbol = \"__nv_powf\"} : (tensor<32xf32>, tensor<32xf32>) -> tensor<32xf32> loc(#loc106)"
+        }
+      ],
+      "trig_TTIR": [
+        {
+          "line": 82,
+          "text": "%0 = math.cos %freqs_48 : tensor<2x32xf32> loc(#loc92)"
+        },
+        {
+          "line": 83,
+          "text": "%1 = math.sin %freqs_48 : tensor<2x32xf32> loc(#loc93)"
+        }
+      ],
+      "counts": {
+        "pow_exit_labels": 1,
+        "cos_exit_labels": 1,
+        "sin_exit_labels": 1,
+        "sin_approx": 0,
+        "cos_approx": 0,
+        "exp2_approx_ftz": 1,
+        "reciprocal_approx_ftz": 1,
+        "div_full": 2,
+        "all_fmas": 29
+      },
+      "pair_arithmetic_debug_locations": [
+        {
+          "ptx_line": 479,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r194, %rs1;"
+        },
+        {
+          "ptx_line": 481,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r195, %rs3;"
+        },
+        {
+          "ptx_line": 482,
+          "original_jit_line": 37,
+          "instruction": "mul.f32 \t%r196, %r223, %r195;"
+        },
+        {
+          "ptx_line": 484,
+          "original_jit_line": 37,
+          "instruction": "neg.f32 \t%r197, %r196;"
+        },
+        {
+          "ptx_line": 485,
+          "original_jit_line": 37,
+          "instruction": "fma.rn.f32 \t%r198, %r214, %r194, %r197;"
+        },
+        {
+          "ptx_line": 487,
+          "original_jit_line": 38,
+          "instruction": "mul.f32 \t%r199, %r223, %r194;"
+        },
+        {
+          "ptx_line": 488,
+          "original_jit_line": 38,
+          "instruction": "fma.rn.f32 \t%r200, %r214, %r195, %r199;"
+        }
+      ],
+      "integer_conversion_LLIR": [
+        {
+          "line": 237,
+          "text": "%165 = add i32 %10, %23, !dbg !45"
+        },
+        {
+          "line": 239,
+          "text": "%167 = sitofp i32 %166 to float, !dbg !47"
+        }
+      ]
+    },
+    {
+      "label": "sm80-period_tile-fusion-false",
+      "constexprs": {
+        "THETA": 10000.0,
+        "BLOCK_SIZE_M": 4,
+        "BLOCK_SIZE_K": 128
+      },
+      "options": {
+        "enable_fp_fusion": false
+      },
+      "resolved_warps": 4,
+      "resolved_stages": 3,
+      "artifact_sha256": {
+        "ttir": "530578381e33400bbb7083d552a36f93fc07b7aa46e076d9a1024b4e1bcd9f5b",
+        "ttgir": "db7613899e251dfbad7c735b80b221c39c49eff868ceb02a4826c10c9832a5ca",
+        "llir": "6816ece19c651cd96b5b277ffdf64c356a946e1297817677ee6ed7b746ef7f97",
+        "ptx": "11e960a9fcdf02fe087fbac0f362acc5cfac06a040c5f532c513142848d6c563",
+        "cubin": "84e5ad08f011012d725330e334f24d832868b91d6c4ad0814f7a03e3d8bded42"
+      },
+      "pow_TTIR": [
+        {
+          "line": 73,
+          "text": "%freqs_40 = tt.extern_elementwise %cst, %freqs_39 {libname = \"\", libpath = \"\", pure = true, symbol = \"__nv_powf\"} : (tensor<64xf32>, tensor<64xf32>) -> tensor<64xf32> loc(#loc106)"
+        }
+      ],
+      "trig_TTIR": [
+        {
+          "line": 82,
+          "text": "%0 = math.cos %freqs_48 : tensor<4x64xf32> loc(#loc92)"
+        },
+        {
+          "line": 83,
+          "text": "%1 = math.sin %freqs_48 : tensor<4x64xf32> loc(#loc93)"
+        }
+      ],
+      "counts": {
+        "pow_exit_labels": 1,
+        "cos_exit_labels": 2,
+        "sin_exit_labels": 2,
+        "sin_approx": 0,
+        "cos_approx": 0,
+        "exp2_approx_ftz": 1,
+        "reciprocal_approx_ftz": 1,
+        "div_full": 3,
+        "all_fmas": 39
+      },
+      "pair_arithmetic_debug_locations": [
+        {
+          "ptx_line": 737,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r284, %rs1;"
+        },
+        {
+          "ptx_line": 738,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r285, %rs3;"
+        },
+        {
+          "ptx_line": 739,
+          "original_jit_line": 37,
+          "instruction": "mul.rn.f32 \t%r286, %r313, %r284;"
+        },
+        {
+          "ptx_line": 740,
+          "original_jit_line": 37,
+          "instruction": "mul.rn.f32 \t%r287, %r322, %r285;"
+        },
+        {
+          "ptx_line": 742,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r288, %rs4;"
+        },
+        {
+          "ptx_line": 743,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r289, %rs5;"
+        },
+        {
+          "ptx_line": 744,
+          "original_jit_line": 37,
+          "instruction": "mul.rn.f32 \t%r290, %r331, %r288;"
+        },
+        {
+          "ptx_line": 745,
+          "original_jit_line": 37,
+          "instruction": "mul.rn.f32 \t%r291, %r340, %r289;"
+        },
+        {
+          "ptx_line": 747,
+          "original_jit_line": 37,
+          "instruction": "sub.rn.f32 \t%r292, %r286, %r290;"
+        },
+        {
+          "ptx_line": 748,
+          "original_jit_line": 37,
+          "instruction": "sub.rn.f32 \t%r293, %r287, %r291;"
+        },
+        {
+          "ptx_line": 750,
+          "original_jit_line": 38,
+          "instruction": "mul.rn.f32 \t%r294, %r331, %r284;"
+        },
+        {
+          "ptx_line": 751,
+          "original_jit_line": 38,
+          "instruction": "mul.rn.f32 \t%r295, %r340, %r285;"
+        },
+        {
+          "ptx_line": 753,
+          "original_jit_line": 38,
+          "instruction": "mul.rn.f32 \t%r296, %r313, %r288;"
+        },
+        {
+          "ptx_line": 754,
+          "original_jit_line": 38,
+          "instruction": "mul.rn.f32 \t%r297, %r322, %r289;"
+        },
+        {
+          "ptx_line": 756,
+          "original_jit_line": 38,
+          "instruction": "add.rn.f32 \t%r298, %r296, %r294;"
+        },
+        {
+          "ptx_line": 757,
+          "original_jit_line": 38,
+          "instruction": "add.rn.f32 \t%r299, %r297, %r295;"
+        }
+      ],
+      "integer_conversion_LLIR": [
+        {
+          "line": 60,
+          "text": "%57 = add i32 %20, %10, !dbg !40"
+        },
+        {
+          "line": 253,
+          "text": "%179 = sitofp i32 %177 to float, !dbg !46"
+        },
+        {
+          "line": 254,
+          "text": "%180 = sitofp i32 %178 to float, !dbg !46"
+        }
+      ]
+    },
+    {
+      "label": "sm80-period_tile-fusion-true",
+      "constexprs": {
+        "THETA": 10000.0,
+        "BLOCK_SIZE_M": 4,
+        "BLOCK_SIZE_K": 128
+      },
+      "options": {
+        "enable_fp_fusion": true
+      },
+      "resolved_warps": 4,
+      "resolved_stages": 3,
+      "artifact_sha256": {
+        "ttir": "530578381e33400bbb7083d552a36f93fc07b7aa46e076d9a1024b4e1bcd9f5b",
+        "ttgir": "db7613899e251dfbad7c735b80b221c39c49eff868ceb02a4826c10c9832a5ca",
+        "llir": "6816ece19c651cd96b5b277ffdf64c356a946e1297817677ee6ed7b746ef7f97",
+        "ptx": "2174245db9356407baa90a095b5d90720155a322b2168e82c39b0f7d4bd66a72",
+        "cubin": "9a78c689f654a5bf2abcf3db27db95a381b31510a38c825ded0df01894ac036c"
+      },
+      "pow_TTIR": [
+        {
+          "line": 73,
+          "text": "%freqs_40 = tt.extern_elementwise %cst, %freqs_39 {libname = \"\", libpath = \"\", pure = true, symbol = \"__nv_powf\"} : (tensor<64xf32>, tensor<64xf32>) -> tensor<64xf32> loc(#loc106)"
+        }
+      ],
+      "trig_TTIR": [
+        {
+          "line": 82,
+          "text": "%0 = math.cos %freqs_48 : tensor<4x64xf32> loc(#loc92)"
+        },
+        {
+          "line": 83,
+          "text": "%1 = math.sin %freqs_48 : tensor<4x64xf32> loc(#loc93)"
+        }
+      ],
+      "counts": {
+        "pow_exit_labels": 1,
+        "cos_exit_labels": 2,
+        "sin_exit_labels": 2,
+        "sin_approx": 0,
+        "cos_approx": 0,
+        "exp2_approx_ftz": 1,
+        "reciprocal_approx_ftz": 1,
+        "div_full": 3,
+        "all_fmas": 46
+      },
+      "pair_arithmetic_debug_locations": [
+        {
+          "ptx_line": 738,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r285, %rs1;"
+        },
+        {
+          "ptx_line": 739,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r286, %rs3;"
+        },
+        {
+          "ptx_line": 741,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r287, %rs4;"
+        },
+        {
+          "ptx_line": 742,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r288, %rs5;"
+        },
+        {
+          "ptx_line": 743,
+          "original_jit_line": 37,
+          "instruction": "mul.f32 \t%r289, %r330, %r287;"
+        },
+        {
+          "ptx_line": 744,
+          "original_jit_line": 37,
+          "instruction": "mul.f32 \t%r290, %r339, %r288;"
+        },
+        {
+          "ptx_line": 746,
+          "original_jit_line": 37,
+          "instruction": "neg.f32 \t%r291, %r289;"
+        },
+        {
+          "ptx_line": 747,
+          "original_jit_line": 37,
+          "instruction": "fma.rn.f32 \t%r292, %r312, %r285, %r291;"
+        },
+        {
+          "ptx_line": 748,
+          "original_jit_line": 37,
+          "instruction": "neg.f32 \t%r293, %r290;"
+        },
+        {
+          "ptx_line": 749,
+          "original_jit_line": 37,
+          "instruction": "fma.rn.f32 \t%r294, %r321, %r286, %r293;"
+        },
+        {
+          "ptx_line": 751,
+          "original_jit_line": 38,
+          "instruction": "mul.f32 \t%r295, %r330, %r285;"
+        },
+        {
+          "ptx_line": 752,
+          "original_jit_line": 38,
+          "instruction": "mul.f32 \t%r296, %r339, %r286;"
+        },
+        {
+          "ptx_line": 753,
+          "original_jit_line": 38,
+          "instruction": "fma.rn.f32 \t%r297, %r312, %r287, %r295;"
+        },
+        {
+          "ptx_line": 754,
+          "original_jit_line": 38,
+          "instruction": "fma.rn.f32 \t%r298, %r321, %r288, %r296;"
+        }
+      ],
+      "integer_conversion_LLIR": [
+        {
+          "line": 60,
+          "text": "%57 = add i32 %20, %10, !dbg !40"
+        },
+        {
+          "line": 253,
+          "text": "%179 = sitofp i32 %177 to float, !dbg !46"
+        },
+        {
+          "line": 254,
+          "text": "%180 = sitofp i32 %178 to float, !dbg !46"
+        }
+      ]
+    },
+    {
+      "label": "sm90-wrapper_default-fusion-false",
+      "constexprs": {
+        "THETA": 10000.0,
+        "BLOCK_SIZE_M": 2,
+        "BLOCK_SIZE_K": 1024
+      },
+      "options": {
+        "enable_fp_fusion": false
+      },
+      "resolved_warps": 4,
+      "resolved_stages": 3,
+      "artifact_sha256": {
+        "ttir": "fb1e25d79f142c55c709748a5d3bbabc244e7656f079739a3460647c0d29d54a",
+        "ttgir": "05a2577c73d3b5cef073ce182f00fa141980f3f5174288bff3ee6540a39ef7cb",
+        "llir": "4ec931b096f7334a92a2c403a0c0eef449c2f12f815461c9fe1829d4e37cae3a",
+        "ptx": "2ba67c7b9b2acff1308225b3753759c3372a54237c1ed9b81dee0658d06b7c0e",
+        "cubin": "d8a6fa6e74afb9819934fba48d6c09bc70fb7a7d60bc8a805664349d97d03b74"
+      },
+      "pow_TTIR": [
+        {
+          "line": 73,
+          "text": "%freqs_40 = tt.extern_elementwise %cst, %freqs_39 {libname = \"\", libpath = \"\", pure = true, symbol = \"__nv_powf\"} : (tensor<512xf32>, tensor<512xf32>) -> tensor<512xf32> loc(#loc106)"
+        }
+      ],
+      "trig_TTIR": [
+        {
+          "line": 82,
+          "text": "%0 = math.cos %freqs_48 : tensor<2x512xf32> loc(#loc92)"
+        },
+        {
+          "line": 83,
+          "text": "%1 = math.sin %freqs_48 : tensor<2x512xf32> loc(#loc93)"
+        }
+      ],
+      "counts": {
+        "pow_exit_labels": 4,
+        "cos_exit_labels": 8,
+        "sin_exit_labels": 8,
+        "sin_approx": 0,
+        "cos_approx": 0,
+        "exp2_approx_ftz": 1,
+        "reciprocal_approx_ftz": 1,
+        "div_full": 9,
+        "all_fmas": 132
+      },
+      "pair_arithmetic_debug_locations": [
+        {
+          "ptx_line": 2356,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r838, %rs1;"
+        },
+        {
+          "ptx_line": 2357,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r839, %rs3;"
+        },
+        {
+          "ptx_line": 2358,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r840, %rs4;"
+        },
+        {
+          "ptx_line": 2359,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r841, %rs5;"
+        },
+        {
+          "ptx_line": 2360,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r842, %rs6;"
+        },
+        {
+          "ptx_line": 2361,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r843, %rs7;"
+        },
+        {
+          "ptx_line": 2362,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r844, %rs8;"
+        },
+        {
+          "ptx_line": 2363,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r845, %rs9;"
+        },
+        {
+          "ptx_line": 2364,
+          "original_jit_line": 37,
+          "instruction": "mul.rn.f32 \t%r846, %r930, %r838;"
+        },
+        {
+          "ptx_line": 2365,
+          "original_jit_line": 37,
+          "instruction": "mul.rn.f32 \t%r847, %r939, %r839;"
+        },
+        {
+          "ptx_line": 2366,
+          "original_jit_line": 37,
+          "instruction": "mul.rn.f32 \t%r848, %r948, %r840;"
+        },
+        {
+          "ptx_line": 2367,
+          "original_jit_line": 37,
+          "instruction": "mul.rn.f32 \t%r849, %r957, %r841;"
+        },
+        {
+          "ptx_line": 2368,
+          "original_jit_line": 37,
+          "instruction": "mul.rn.f32 \t%r850, %r966, %r842;"
+        },
+        {
+          "ptx_line": 2369,
+          "original_jit_line": 37,
+          "instruction": "mul.rn.f32 \t%r851, %r975, %r843;"
+        },
+        {
+          "ptx_line": 2370,
+          "original_jit_line": 37,
+          "instruction": "mul.rn.f32 \t%r852, %r984, %r844;"
+        },
+        {
+          "ptx_line": 2371,
+          "original_jit_line": 37,
+          "instruction": "mul.rn.f32 \t%r853, %r993, %r845;"
+        },
+        {
+          "ptx_line": 2373,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r854, %rs10;"
+        },
+        {
+          "ptx_line": 2374,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r855, %rs11;"
+        },
+        {
+          "ptx_line": 2375,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r856, %rs12;"
+        },
+        {
+          "ptx_line": 2376,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r857, %rs13;"
+        },
+        {
+          "ptx_line": 2377,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r858, %rs14;"
+        },
+        {
+          "ptx_line": 2378,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r859, %rs15;"
+        },
+        {
+          "ptx_line": 2379,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r860, %rs16;"
+        },
+        {
+          "ptx_line": 2380,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r861, %rs17;"
+        },
+        {
+          "ptx_line": 2381,
+          "original_jit_line": 37,
+          "instruction": "mul.rn.f32 \t%r862, %r1002, %r854;"
+        },
+        {
+          "ptx_line": 2382,
+          "original_jit_line": 37,
+          "instruction": "mul.rn.f32 \t%r863, %r1011, %r855;"
+        },
+        {
+          "ptx_line": 2383,
+          "original_jit_line": 37,
+          "instruction": "mul.rn.f32 \t%r864, %r1020, %r856;"
+        },
+        {
+          "ptx_line": 2384,
+          "original_jit_line": 37,
+          "instruction": "mul.rn.f32 \t%r865, %r1029, %r857;"
+        },
+        {
+          "ptx_line": 2385,
+          "original_jit_line": 37,
+          "instruction": "mul.rn.f32 \t%r866, %r1038, %r858;"
+        },
+        {
+          "ptx_line": 2386,
+          "original_jit_line": 37,
+          "instruction": "mul.rn.f32 \t%r867, %r1047, %r859;"
+        },
+        {
+          "ptx_line": 2387,
+          "original_jit_line": 37,
+          "instruction": "mul.rn.f32 \t%r868, %r1056, %r860;"
+        },
+        {
+          "ptx_line": 2388,
+          "original_jit_line": 37,
+          "instruction": "mul.rn.f32 \t%r869, %r1065, %r861;"
+        },
+        {
+          "ptx_line": 2390,
+          "original_jit_line": 37,
+          "instruction": "sub.rn.f32 \t%r870, %r846, %r862;"
+        },
+        {
+          "ptx_line": 2391,
+          "original_jit_line": 37,
+          "instruction": "sub.rn.f32 \t%r871, %r847, %r863;"
+        },
+        {
+          "ptx_line": 2392,
+          "original_jit_line": 37,
+          "instruction": "sub.rn.f32 \t%r872, %r848, %r864;"
+        },
+        {
+          "ptx_line": 2393,
+          "original_jit_line": 37,
+          "instruction": "sub.rn.f32 \t%r873, %r849, %r865;"
+        },
+        {
+          "ptx_line": 2394,
+          "original_jit_line": 37,
+          "instruction": "sub.rn.f32 \t%r874, %r850, %r866;"
+        },
+        {
+          "ptx_line": 2395,
+          "original_jit_line": 37,
+          "instruction": "sub.rn.f32 \t%r875, %r851, %r867;"
+        },
+        {
+          "ptx_line": 2396,
+          "original_jit_line": 37,
+          "instruction": "sub.rn.f32 \t%r876, %r852, %r868;"
+        },
+        {
+          "ptx_line": 2397,
+          "original_jit_line": 37,
+          "instruction": "sub.rn.f32 \t%r877, %r853, %r869;"
+        },
+        {
+          "ptx_line": 2399,
+          "original_jit_line": 38,
+          "instruction": "mul.rn.f32 \t%r878, %r1002, %r838;"
+        },
+        {
+          "ptx_line": 2400,
+          "original_jit_line": 38,
+          "instruction": "mul.rn.f32 \t%r879, %r1011, %r839;"
+        },
+        {
+          "ptx_line": 2401,
+          "original_jit_line": 38,
+          "instruction": "mul.rn.f32 \t%r880, %r1020, %r840;"
+        },
+        {
+          "ptx_line": 2402,
+          "original_jit_line": 38,
+          "instruction": "mul.rn.f32 \t%r881, %r1029, %r841;"
+        },
+        {
+          "ptx_line": 2403,
+          "original_jit_line": 38,
+          "instruction": "mul.rn.f32 \t%r882, %r1038, %r842;"
+        },
+        {
+          "ptx_line": 2404,
+          "original_jit_line": 38,
+          "instruction": "mul.rn.f32 \t%r883, %r1047, %r843;"
+        },
+        {
+          "ptx_line": 2405,
+          "original_jit_line": 38,
+          "instruction": "mul.rn.f32 \t%r884, %r1056, %r844;"
+        },
+        {
+          "ptx_line": 2406,
+          "original_jit_line": 38,
+          "instruction": "mul.rn.f32 \t%r885, %r1065, %r845;"
+        },
+        {
+          "ptx_line": 2408,
+          "original_jit_line": 38,
+          "instruction": "mul.rn.f32 \t%r886, %r930, %r854;"
+        },
+        {
+          "ptx_line": 2409,
+          "original_jit_line": 38,
+          "instruction": "mul.rn.f32 \t%r887, %r939, %r855;"
+        },
+        {
+          "ptx_line": 2410,
+          "original_jit_line": 38,
+          "instruction": "mul.rn.f32 \t%r888, %r948, %r856;"
+        },
+        {
+          "ptx_line": 2411,
+          "original_jit_line": 38,
+          "instruction": "mul.rn.f32 \t%r889, %r957, %r857;"
+        },
+        {
+          "ptx_line": 2412,
+          "original_jit_line": 38,
+          "instruction": "mul.rn.f32 \t%r890, %r966, %r858;"
+        },
+        {
+          "ptx_line": 2413,
+          "original_jit_line": 38,
+          "instruction": "mul.rn.f32 \t%r891, %r975, %r859;"
+        },
+        {
+          "ptx_line": 2414,
+          "original_jit_line": 38,
+          "instruction": "mul.rn.f32 \t%r892, %r984, %r860;"
+        },
+        {
+          "ptx_line": 2415,
+          "original_jit_line": 38,
+          "instruction": "mul.rn.f32 \t%r893, %r993, %r861;"
+        },
+        {
+          "ptx_line": 2417,
+          "original_jit_line": 38,
+          "instruction": "add.rn.f32 \t%r894, %r886, %r878;"
+        },
+        {
+          "ptx_line": 2418,
+          "original_jit_line": 38,
+          "instruction": "add.rn.f32 \t%r895, %r887, %r879;"
+        },
+        {
+          "ptx_line": 2419,
+          "original_jit_line": 38,
+          "instruction": "add.rn.f32 \t%r896, %r888, %r880;"
+        },
+        {
+          "ptx_line": 2420,
+          "original_jit_line": 38,
+          "instruction": "add.rn.f32 \t%r897, %r889, %r881;"
+        },
+        {
+          "ptx_line": 2421,
+          "original_jit_line": 38,
+          "instruction": "add.rn.f32 \t%r898, %r890, %r882;"
+        },
+        {
+          "ptx_line": 2422,
+          "original_jit_line": 38,
+          "instruction": "add.rn.f32 \t%r899, %r891, %r883;"
+        },
+        {
+          "ptx_line": 2423,
+          "original_jit_line": 38,
+          "instruction": "add.rn.f32 \t%r900, %r892, %r884;"
+        },
+        {
+          "ptx_line": 2424,
+          "original_jit_line": 38,
+          "instruction": "add.rn.f32 \t%r901, %r893, %r885;"
+        }
+      ],
+      "integer_conversion_LLIR": [
+        {
+          "line": 132,
+          "text": "%117 = add i32 %20, %10, !dbg !39"
+        },
+        {
+          "line": 847,
+          "text": "%548 = sitofp i32 %117 to float, !dbg !46"
+        },
+        {
+          "line": 848,
+          "text": "%549 = sitofp i32 %547 to float, !dbg !46"
+        }
+      ]
+    },
+    {
+      "label": "sm90-wrapper_default-fusion-true",
+      "constexprs": {
+        "THETA": 10000.0,
+        "BLOCK_SIZE_M": 2,
+        "BLOCK_SIZE_K": 1024
+      },
+      "options": {
+        "enable_fp_fusion": true
+      },
+      "resolved_warps": 4,
+      "resolved_stages": 3,
+      "artifact_sha256": {
+        "ttir": "fb1e25d79f142c55c709748a5d3bbabc244e7656f079739a3460647c0d29d54a",
+        "ttgir": "05a2577c73d3b5cef073ce182f00fa141980f3f5174288bff3ee6540a39ef7cb",
+        "llir": "4ec931b096f7334a92a2c403a0c0eef449c2f12f815461c9fe1829d4e37cae3a",
+        "ptx": "feaf1f42e346a6d81122f1ca940112f0a98b2754c4ccbffccef9bbecafd00253",
+        "cubin": "84915532e914b19270262dcaa7d5e88016af8b494faca20f50645367847d65be"
+      },
+      "pow_TTIR": [
+        {
+          "line": 73,
+          "text": "%freqs_40 = tt.extern_elementwise %cst, %freqs_39 {libname = \"\", libpath = \"\", pure = true, symbol = \"__nv_powf\"} : (tensor<512xf32>, tensor<512xf32>) -> tensor<512xf32> loc(#loc106)"
+        }
+      ],
+      "trig_TTIR": [
+        {
+          "line": 82,
+          "text": "%0 = math.cos %freqs_48 : tensor<2x512xf32> loc(#loc92)"
+        },
+        {
+          "line": 83,
+          "text": "%1 = math.sin %freqs_48 : tensor<2x512xf32> loc(#loc93)"
+        }
+      ],
+      "counts": {
+        "pow_exit_labels": 4,
+        "cos_exit_labels": 8,
+        "sin_exit_labels": 8,
+        "sin_approx": 0,
+        "cos_approx": 0,
+        "exp2_approx_ftz": 1,
+        "reciprocal_approx_ftz": 1,
+        "div_full": 9,
+        "all_fmas": 151
+      },
+      "pair_arithmetic_debug_locations": [
+        {
+          "ptx_line": 2357,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r839, %rs1;"
+        },
+        {
+          "ptx_line": 2358,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r840, %rs3;"
+        },
+        {
+          "ptx_line": 2359,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r841, %rs4;"
+        },
+        {
+          "ptx_line": 2360,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r842, %rs5;"
+        },
+        {
+          "ptx_line": 2361,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r843, %rs6;"
+        },
+        {
+          "ptx_line": 2362,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r844, %rs7;"
+        },
+        {
+          "ptx_line": 2363,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r845, %rs8;"
+        },
+        {
+          "ptx_line": 2364,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r846, %rs9;"
+        },
+        {
+          "ptx_line": 2366,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r847, %rs10;"
+        },
+        {
+          "ptx_line": 2367,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r848, %rs11;"
+        },
+        {
+          "ptx_line": 2368,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r849, %rs12;"
+        },
+        {
+          "ptx_line": 2369,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r850, %rs13;"
+        },
+        {
+          "ptx_line": 2370,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r851, %rs14;"
+        },
+        {
+          "ptx_line": 2371,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r852, %rs15;"
+        },
+        {
+          "ptx_line": 2372,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r853, %rs16;"
+        },
+        {
+          "ptx_line": 2373,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r854, %rs17;"
+        },
+        {
+          "ptx_line": 2374,
+          "original_jit_line": 37,
+          "instruction": "mul.f32 \t%r855, %r995, %r847;"
+        },
+        {
+          "ptx_line": 2375,
+          "original_jit_line": 37,
+          "instruction": "mul.f32 \t%r856, %r1004, %r848;"
+        },
+        {
+          "ptx_line": 2376,
+          "original_jit_line": 37,
+          "instruction": "mul.f32 \t%r857, %r1013, %r849;"
+        },
+        {
+          "ptx_line": 2377,
+          "original_jit_line": 37,
+          "instruction": "mul.f32 \t%r858, %r1022, %r850;"
+        },
+        {
+          "ptx_line": 2378,
+          "original_jit_line": 37,
+          "instruction": "mul.f32 \t%r859, %r1031, %r851;"
+        },
+        {
+          "ptx_line": 2379,
+          "original_jit_line": 37,
+          "instruction": "mul.f32 \t%r860, %r1040, %r852;"
+        },
+        {
+          "ptx_line": 2380,
+          "original_jit_line": 37,
+          "instruction": "mul.f32 \t%r861, %r1049, %r853;"
+        },
+        {
+          "ptx_line": 2381,
+          "original_jit_line": 37,
+          "instruction": "mul.f32 \t%r862, %r1058, %r854;"
+        },
+        {
+          "ptx_line": 2383,
+          "original_jit_line": 37,
+          "instruction": "neg.f32 \t%r863, %r855;"
+        },
+        {
+          "ptx_line": 2384,
+          "original_jit_line": 37,
+          "instruction": "fma.rn.f32 \t%r864, %r923, %r839, %r863;"
+        },
+        {
+          "ptx_line": 2385,
+          "original_jit_line": 37,
+          "instruction": "neg.f32 \t%r865, %r856;"
+        },
+        {
+          "ptx_line": 2386,
+          "original_jit_line": 37,
+          "instruction": "fma.rn.f32 \t%r866, %r932, %r840, %r865;"
+        },
+        {
+          "ptx_line": 2387,
+          "original_jit_line": 37,
+          "instruction": "neg.f32 \t%r867, %r857;"
+        },
+        {
+          "ptx_line": 2388,
+          "original_jit_line": 37,
+          "instruction": "fma.rn.f32 \t%r868, %r941, %r841, %r867;"
+        },
+        {
+          "ptx_line": 2389,
+          "original_jit_line": 37,
+          "instruction": "neg.f32 \t%r869, %r858;"
+        },
+        {
+          "ptx_line": 2390,
+          "original_jit_line": 37,
+          "instruction": "fma.rn.f32 \t%r870, %r950, %r842, %r869;"
+        },
+        {
+          "ptx_line": 2391,
+          "original_jit_line": 37,
+          "instruction": "neg.f32 \t%r871, %r859;"
+        },
+        {
+          "ptx_line": 2392,
+          "original_jit_line": 37,
+          "instruction": "fma.rn.f32 \t%r872, %r959, %r843, %r871;"
+        },
+        {
+          "ptx_line": 2393,
+          "original_jit_line": 37,
+          "instruction": "neg.f32 \t%r873, %r860;"
+        },
+        {
+          "ptx_line": 2394,
+          "original_jit_line": 37,
+          "instruction": "fma.rn.f32 \t%r874, %r968, %r844, %r873;"
+        },
+        {
+          "ptx_line": 2395,
+          "original_jit_line": 37,
+          "instruction": "neg.f32 \t%r875, %r861;"
+        },
+        {
+          "ptx_line": 2396,
+          "original_jit_line": 37,
+          "instruction": "fma.rn.f32 \t%r876, %r977, %r845, %r875;"
+        },
+        {
+          "ptx_line": 2397,
+          "original_jit_line": 37,
+          "instruction": "neg.f32 \t%r877, %r862;"
+        },
+        {
+          "ptx_line": 2398,
+          "original_jit_line": 37,
+          "instruction": "fma.rn.f32 \t%r878, %r986, %r846, %r877;"
+        },
+        {
+          "ptx_line": 2400,
+          "original_jit_line": 38,
+          "instruction": "mul.f32 \t%r879, %r995, %r839;"
+        },
+        {
+          "ptx_line": 2401,
+          "original_jit_line": 38,
+          "instruction": "mul.f32 \t%r880, %r1004, %r840;"
+        },
+        {
+          "ptx_line": 2402,
+          "original_jit_line": 38,
+          "instruction": "mul.f32 \t%r881, %r1013, %r841;"
+        },
+        {
+          "ptx_line": 2403,
+          "original_jit_line": 38,
+          "instruction": "mul.f32 \t%r882, %r1022, %r842;"
+        },
+        {
+          "ptx_line": 2404,
+          "original_jit_line": 38,
+          "instruction": "mul.f32 \t%r883, %r1031, %r843;"
+        },
+        {
+          "ptx_line": 2405,
+          "original_jit_line": 38,
+          "instruction": "mul.f32 \t%r884, %r1040, %r844;"
+        },
+        {
+          "ptx_line": 2406,
+          "original_jit_line": 38,
+          "instruction": "mul.f32 \t%r885, %r1049, %r845;"
+        },
+        {
+          "ptx_line": 2407,
+          "original_jit_line": 38,
+          "instruction": "mul.f32 \t%r886, %r1058, %r846;"
+        },
+        {
+          "ptx_line": 2408,
+          "original_jit_line": 38,
+          "instruction": "fma.rn.f32 \t%r887, %r923, %r847, %r879;"
+        },
+        {
+          "ptx_line": 2409,
+          "original_jit_line": 38,
+          "instruction": "fma.rn.f32 \t%r888, %r932, %r848, %r880;"
+        },
+        {
+          "ptx_line": 2410,
+          "original_jit_line": 38,
+          "instruction": "fma.rn.f32 \t%r889, %r941, %r849, %r881;"
+        },
+        {
+          "ptx_line": 2411,
+          "original_jit_line": 38,
+          "instruction": "fma.rn.f32 \t%r890, %r950, %r850, %r882;"
+        },
+        {
+          "ptx_line": 2412,
+          "original_jit_line": 38,
+          "instruction": "fma.rn.f32 \t%r891, %r959, %r851, %r883;"
+        },
+        {
+          "ptx_line": 2413,
+          "original_jit_line": 38,
+          "instruction": "fma.rn.f32 \t%r892, %r968, %r852, %r884;"
+        },
+        {
+          "ptx_line": 2414,
+          "original_jit_line": 38,
+          "instruction": "fma.rn.f32 \t%r893, %r977, %r853, %r885;"
+        },
+        {
+          "ptx_line": 2415,
+          "original_jit_line": 38,
+          "instruction": "fma.rn.f32 \t%r894, %r986, %r854, %r886;"
+        }
+      ],
+      "integer_conversion_LLIR": [
+        {
+          "line": 132,
+          "text": "%117 = add i32 %20, %10, !dbg !39"
+        },
+        {
+          "line": 847,
+          "text": "%548 = sitofp i32 %117 to float, !dbg !46"
+        },
+        {
+          "line": 848,
+          "text": "%549 = sitofp i32 %547 to float, !dbg !46"
+        }
+      ]
+    },
+    {
+      "label": "sm90-old_backend_witness-fusion-false",
+      "constexprs": {
+        "THETA": 10000.0,
+        "BLOCK_SIZE_M": 1,
+        "BLOCK_SIZE_K": 2
+      },
+      "options": {
+        "enable_fp_fusion": false
+      },
+      "resolved_warps": 4,
+      "resolved_stages": 3,
+      "artifact_sha256": {
+        "ttir": "28823c9456d3203072568dece5ba68ccf866cc75e10b347ced9b9cfa6078961f",
+        "ttgir": "9c21a2776187a1a12cb8d0bc296b103c959f239d339365daee1e3ad5fab352bb",
+        "llir": "efb6051c74aaeb5eb2f8e298bb938638385ab5ea61caca056fed26bd9a3de23c",
+        "ptx": "e4ef8376b06bf5e5ad7c836e5c99683be253751201146f687dde49e9629bb596",
+        "cubin": "99dc379df6d063f70d33f34170f0350dd9aaf62b4e6e932dd2d1fa67736f4b6a"
+      },
+      "pow_TTIR": [
+        {
+          "line": 52,
+          "text": "%freqs_21 = tt.extern_elementwise %freqs, %freqs_20 {libname = \"\", libpath = \"\", pure = true, symbol = \"__nv_powf\"} : (f32, f32) -> f32 loc(#loc87)"
+        }
+      ],
+      "trig_TTIR": [
+        {
+          "line": 55,
+          "text": "%0 = math.cos %freqs_23 : f32 loc(#loc77)"
+        },
+        {
+          "line": 57,
+          "text": "%2 = math.sin %freqs_23 : f32 loc(#loc78)"
+        }
+      ],
+      "counts": {
+        "pow_exit_labels": 1,
+        "cos_exit_labels": 1,
+        "sin_exit_labels": 1,
+        "sin_approx": 0,
+        "cos_approx": 0,
+        "exp2_approx_ftz": 1,
+        "reciprocal_approx_ftz": 1,
+        "div_full": 2,
+        "all_fmas": 24
+      },
+      "pair_arithmetic_debug_locations": [
+        {
+          "ptx_line": 462,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r184, %rs1;"
+        },
+        {
+          "ptx_line": 463,
+          "original_jit_line": 37,
+          "instruction": "mul.rn.f32 \t%r185, %r206, %r184;"
+        },
+        {
+          "ptx_line": 465,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r186, %rs3;"
+        },
+        {
+          "ptx_line": 466,
+          "original_jit_line": 37,
+          "instruction": "mul.rn.f32 \t%r187, %r215, %r186;"
+        },
+        {
+          "ptx_line": 468,
+          "original_jit_line": 37,
+          "instruction": "sub.rn.f32 \t%r188, %r185, %r187;"
+        },
+        {
+          "ptx_line": 470,
+          "original_jit_line": 38,
+          "instruction": "mul.rn.f32 \t%r189, %r215, %r184;"
+        },
+        {
+          "ptx_line": 472,
+          "original_jit_line": 38,
+          "instruction": "mul.rn.f32 \t%r190, %r206, %r186;"
+        },
+        {
+          "ptx_line": 474,
+          "original_jit_line": 38,
+          "instruction": "add.rn.f32 \t%r191, %r190, %r189;"
+        }
+      ],
+      "integer_conversion_LLIR": [
+        {
+          "line": 38,
+          "text": "%37 = add i32 %18, %10, !dbg !37"
+        },
+        {
+          "line": 230,
+          "text": "%158 = sitofp i32 %37 to float, !dbg !43"
+        }
+      ]
+    },
+    {
+      "label": "sm90-old_backend_witness-fusion-true",
+      "constexprs": {
+        "THETA": 10000.0,
+        "BLOCK_SIZE_M": 1,
+        "BLOCK_SIZE_K": 2
+      },
+      "options": {
+        "enable_fp_fusion": true
+      },
+      "resolved_warps": 4,
+      "resolved_stages": 3,
+      "artifact_sha256": {
+        "ttir": "28823c9456d3203072568dece5ba68ccf866cc75e10b347ced9b9cfa6078961f",
+        "ttgir": "9c21a2776187a1a12cb8d0bc296b103c959f239d339365daee1e3ad5fab352bb",
+        "llir": "efb6051c74aaeb5eb2f8e298bb938638385ab5ea61caca056fed26bd9a3de23c",
+        "ptx": "e736de5c1772ba08cc772f5c4d8f6b165ebe4900a97c12c6d053357280dad960",
+        "cubin": "26c4b75c5acc2efea7160d98b95aa8b95f5c301d5f3392b1982f0e0f7768560f"
+      },
+      "pow_TTIR": [
+        {
+          "line": 52,
+          "text": "%freqs_21 = tt.extern_elementwise %freqs, %freqs_20 {libname = \"\", libpath = \"\", pure = true, symbol = \"__nv_powf\"} : (f32, f32) -> f32 loc(#loc87)"
+        }
+      ],
+      "trig_TTIR": [
+        {
+          "line": 55,
+          "text": "%0 = math.cos %freqs_23 : f32 loc(#loc77)"
+        },
+        {
+          "line": 57,
+          "text": "%2 = math.sin %freqs_23 : f32 loc(#loc78)"
+        }
+      ],
+      "counts": {
+        "pow_exit_labels": 1,
+        "cos_exit_labels": 1,
+        "sin_exit_labels": 1,
+        "sin_approx": 0,
+        "cos_approx": 0,
+        "exp2_approx_ftz": 1,
+        "reciprocal_approx_ftz": 1,
+        "div_full": 2,
+        "all_fmas": 29
+      },
+      "pair_arithmetic_debug_locations": [
+        {
+          "ptx_line": 463,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r185, %rs1;"
+        },
+        {
+          "ptx_line": 465,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r186, %rs3;"
+        },
+        {
+          "ptx_line": 466,
+          "original_jit_line": 37,
+          "instruction": "mul.f32 \t%r187, %r215, %r186;"
+        },
+        {
+          "ptx_line": 468,
+          "original_jit_line": 37,
+          "instruction": "neg.f32 \t%r188, %r187;"
+        },
+        {
+          "ptx_line": 469,
+          "original_jit_line": 37,
+          "instruction": "fma.rn.f32 \t%r189, %r206, %r185, %r188;"
+        },
+        {
+          "ptx_line": 471,
+          "original_jit_line": 38,
+          "instruction": "mul.f32 \t%r190, %r215, %r185;"
+        },
+        {
+          "ptx_line": 472,
+          "original_jit_line": 38,
+          "instruction": "fma.rn.f32 \t%r191, %r206, %r186, %r190;"
+        }
+      ],
+      "integer_conversion_LLIR": [
+        {
+          "line": 38,
+          "text": "%37 = add i32 %18, %10, !dbg !37"
+        },
+        {
+          "line": 230,
+          "text": "%158 = sitofp i32 %37 to float, !dbg !43"
+        }
+      ]
+    },
+    {
+      "label": "sm90-nonperiod_tile-fusion-false",
+      "constexprs": {
+        "THETA": 10000.0,
+        "BLOCK_SIZE_M": 2,
+        "BLOCK_SIZE_K": 64
+      },
+      "options": {
+        "enable_fp_fusion": false
+      },
+      "resolved_warps": 4,
+      "resolved_stages": 3,
+      "artifact_sha256": {
+        "ttir": "0d518e03970a4b8ed82355cefa9227a97666b89a2ab6add2c9cf6f21555b9fd5",
+        "ttgir": "867f751981ff80d18117460f59f6625312d4e9f7ec4baea02aa7567af839a9cc",
+        "llir": "1097fa0df0471c7e4c9cbde767c9ced145a906c969ee2ef6e19bd73453559fee",
+        "ptx": "a7c72969dca444558fe543db4897c28e74c435219c44eea4eb95cac55a46491d",
+        "cubin": "63895acfc24a34e730e85ae210538d4944957458e38aaa45a928700bdbcb4695"
+      },
+      "pow_TTIR": [
+        {
+          "line": 73,
+          "text": "%freqs_40 = tt.extern_elementwise %cst, %freqs_39 {libname = \"\", libpath = \"\", pure = true, symbol = \"__nv_powf\"} : (tensor<32xf32>, tensor<32xf32>) -> tensor<32xf32> loc(#loc106)"
+        }
+      ],
+      "trig_TTIR": [
+        {
+          "line": 82,
+          "text": "%0 = math.cos %freqs_48 : tensor<2x32xf32> loc(#loc92)"
+        },
+        {
+          "line": 83,
+          "text": "%1 = math.sin %freqs_48 : tensor<2x32xf32> loc(#loc93)"
+        }
+      ],
+      "counts": {
+        "pow_exit_labels": 1,
+        "cos_exit_labels": 1,
+        "sin_exit_labels": 1,
+        "sin_approx": 0,
+        "cos_approx": 0,
+        "exp2_approx_ftz": 1,
+        "reciprocal_approx_ftz": 1,
+        "div_full": 2,
+        "all_fmas": 24
+      },
+      "pair_arithmetic_debug_locations": [
+        {
+          "ptx_line": 478,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r193, %rs1;"
+        },
+        {
+          "ptx_line": 479,
+          "original_jit_line": 37,
+          "instruction": "mul.rn.f32 \t%r194, %r214, %r193;"
+        },
+        {
+          "ptx_line": 481,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r195, %rs3;"
+        },
+        {
+          "ptx_line": 482,
+          "original_jit_line": 37,
+          "instruction": "mul.rn.f32 \t%r196, %r223, %r195;"
+        },
+        {
+          "ptx_line": 484,
+          "original_jit_line": 37,
+          "instruction": "sub.rn.f32 \t%r197, %r194, %r196;"
+        },
+        {
+          "ptx_line": 486,
+          "original_jit_line": 38,
+          "instruction": "mul.rn.f32 \t%r198, %r223, %r193;"
+        },
+        {
+          "ptx_line": 488,
+          "original_jit_line": 38,
+          "instruction": "mul.rn.f32 \t%r199, %r214, %r195;"
+        },
+        {
+          "ptx_line": 490,
+          "original_jit_line": 38,
+          "instruction": "add.rn.f32 \t%r200, %r199, %r198;"
+        }
+      ],
+      "integer_conversion_LLIR": [
+        {
+          "line": 237,
+          "text": "%165 = add i32 %10, %23, !dbg !45"
+        },
+        {
+          "line": 239,
+          "text": "%167 = sitofp i32 %166 to float, !dbg !47"
+        }
+      ]
+    },
+    {
+      "label": "sm90-nonperiod_tile-fusion-true",
+      "constexprs": {
+        "THETA": 10000.0,
+        "BLOCK_SIZE_M": 2,
+        "BLOCK_SIZE_K": 64
+      },
+      "options": {
+        "enable_fp_fusion": true
+      },
+      "resolved_warps": 4,
+      "resolved_stages": 3,
+      "artifact_sha256": {
+        "ttir": "0d518e03970a4b8ed82355cefa9227a97666b89a2ab6add2c9cf6f21555b9fd5",
+        "ttgir": "867f751981ff80d18117460f59f6625312d4e9f7ec4baea02aa7567af839a9cc",
+        "llir": "1097fa0df0471c7e4c9cbde767c9ced145a906c969ee2ef6e19bd73453559fee",
+        "ptx": "25866642803ed0d51ad4e5bfa3f57285abcf515c2daa76a8b2dc208817a095be",
+        "cubin": "5a94f808a3a872fa1f88b3cbb66918b8a21c9814aa2da1eb3be220c4f24cdbee"
+      },
+      "pow_TTIR": [
+        {
+          "line": 73,
+          "text": "%freqs_40 = tt.extern_elementwise %cst, %freqs_39 {libname = \"\", libpath = \"\", pure = true, symbol = \"__nv_powf\"} : (tensor<32xf32>, tensor<32xf32>) -> tensor<32xf32> loc(#loc106)"
+        }
+      ],
+      "trig_TTIR": [
+        {
+          "line": 82,
+          "text": "%0 = math.cos %freqs_48 : tensor<2x32xf32> loc(#loc92)"
+        },
+        {
+          "line": 83,
+          "text": "%1 = math.sin %freqs_48 : tensor<2x32xf32> loc(#loc93)"
+        }
+      ],
+      "counts": {
+        "pow_exit_labels": 1,
+        "cos_exit_labels": 1,
+        "sin_exit_labels": 1,
+        "sin_approx": 0,
+        "cos_approx": 0,
+        "exp2_approx_ftz": 1,
+        "reciprocal_approx_ftz": 1,
+        "div_full": 2,
+        "all_fmas": 29
+      },
+      "pair_arithmetic_debug_locations": [
+        {
+          "ptx_line": 479,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r194, %rs1;"
+        },
+        {
+          "ptx_line": 481,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r195, %rs3;"
+        },
+        {
+          "ptx_line": 482,
+          "original_jit_line": 37,
+          "instruction": "mul.f32 \t%r196, %r223, %r195;"
+        },
+        {
+          "ptx_line": 484,
+          "original_jit_line": 37,
+          "instruction": "neg.f32 \t%r197, %r196;"
+        },
+        {
+          "ptx_line": 485,
+          "original_jit_line": 37,
+          "instruction": "fma.rn.f32 \t%r198, %r214, %r194, %r197;"
+        },
+        {
+          "ptx_line": 487,
+          "original_jit_line": 38,
+          "instruction": "mul.f32 \t%r199, %r223, %r194;"
+        },
+        {
+          "ptx_line": 488,
+          "original_jit_line": 38,
+          "instruction": "fma.rn.f32 \t%r200, %r214, %r195, %r199;"
+        }
+      ],
+      "integer_conversion_LLIR": [
+        {
+          "line": 237,
+          "text": "%165 = add i32 %10, %23, !dbg !45"
+        },
+        {
+          "line": 239,
+          "text": "%167 = sitofp i32 %166 to float, !dbg !47"
+        }
+      ]
+    },
+    {
+      "label": "sm90-period_tile-fusion-false",
+      "constexprs": {
+        "THETA": 10000.0,
+        "BLOCK_SIZE_M": 4,
+        "BLOCK_SIZE_K": 128
+      },
+      "options": {
+        "enable_fp_fusion": false
+      },
+      "resolved_warps": 4,
+      "resolved_stages": 3,
+      "artifact_sha256": {
+        "ttir": "530578381e33400bbb7083d552a36f93fc07b7aa46e076d9a1024b4e1bcd9f5b",
+        "ttgir": "8db8a98514a6d041fa987ca76fb313f9efecfa4a4f8638166d3350280a215383",
+        "llir": "6816ece19c651cd96b5b277ffdf64c356a946e1297817677ee6ed7b746ef7f97",
+        "ptx": "2f6f00d621513bbfd6c3e9cbde48d85c59dd5016656b2e6e3b9f7cdd42e93e20",
+        "cubin": "e4a58012ae5c19e2714070753a5291e8a0c2e9f6494cb9fbf057ebcb24d5fcaf"
+      },
+      "pow_TTIR": [
+        {
+          "line": 73,
+          "text": "%freqs_40 = tt.extern_elementwise %cst, %freqs_39 {libname = \"\", libpath = \"\", pure = true, symbol = \"__nv_powf\"} : (tensor<64xf32>, tensor<64xf32>) -> tensor<64xf32> loc(#loc106)"
+        }
+      ],
+      "trig_TTIR": [
+        {
+          "line": 82,
+          "text": "%0 = math.cos %freqs_48 : tensor<4x64xf32> loc(#loc92)"
+        },
+        {
+          "line": 83,
+          "text": "%1 = math.sin %freqs_48 : tensor<4x64xf32> loc(#loc93)"
+        }
+      ],
+      "counts": {
+        "pow_exit_labels": 1,
+        "cos_exit_labels": 2,
+        "sin_exit_labels": 2,
+        "sin_approx": 0,
+        "cos_approx": 0,
+        "exp2_approx_ftz": 1,
+        "reciprocal_approx_ftz": 1,
+        "div_full": 3,
+        "all_fmas": 39
+      },
+      "pair_arithmetic_debug_locations": [
+        {
+          "ptx_line": 737,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r284, %rs1;"
+        },
+        {
+          "ptx_line": 738,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r285, %rs3;"
+        },
+        {
+          "ptx_line": 739,
+          "original_jit_line": 37,
+          "instruction": "mul.rn.f32 \t%r286, %r313, %r284;"
+        },
+        {
+          "ptx_line": 740,
+          "original_jit_line": 37,
+          "instruction": "mul.rn.f32 \t%r287, %r322, %r285;"
+        },
+        {
+          "ptx_line": 742,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r288, %rs4;"
+        },
+        {
+          "ptx_line": 743,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r289, %rs5;"
+        },
+        {
+          "ptx_line": 744,
+          "original_jit_line": 37,
+          "instruction": "mul.rn.f32 \t%r290, %r331, %r288;"
+        },
+        {
+          "ptx_line": 745,
+          "original_jit_line": 37,
+          "instruction": "mul.rn.f32 \t%r291, %r340, %r289;"
+        },
+        {
+          "ptx_line": 747,
+          "original_jit_line": 37,
+          "instruction": "sub.rn.f32 \t%r292, %r286, %r290;"
+        },
+        {
+          "ptx_line": 748,
+          "original_jit_line": 37,
+          "instruction": "sub.rn.f32 \t%r293, %r287, %r291;"
+        },
+        {
+          "ptx_line": 750,
+          "original_jit_line": 38,
+          "instruction": "mul.rn.f32 \t%r294, %r331, %r284;"
+        },
+        {
+          "ptx_line": 751,
+          "original_jit_line": 38,
+          "instruction": "mul.rn.f32 \t%r295, %r340, %r285;"
+        },
+        {
+          "ptx_line": 753,
+          "original_jit_line": 38,
+          "instruction": "mul.rn.f32 \t%r296, %r313, %r288;"
+        },
+        {
+          "ptx_line": 754,
+          "original_jit_line": 38,
+          "instruction": "mul.rn.f32 \t%r297, %r322, %r289;"
+        },
+        {
+          "ptx_line": 756,
+          "original_jit_line": 38,
+          "instruction": "add.rn.f32 \t%r298, %r296, %r294;"
+        },
+        {
+          "ptx_line": 757,
+          "original_jit_line": 38,
+          "instruction": "add.rn.f32 \t%r299, %r297, %r295;"
+        }
+      ],
+      "integer_conversion_LLIR": [
+        {
+          "line": 60,
+          "text": "%57 = add i32 %20, %10, !dbg !40"
+        },
+        {
+          "line": 253,
+          "text": "%179 = sitofp i32 %177 to float, !dbg !46"
+        },
+        {
+          "line": 254,
+          "text": "%180 = sitofp i32 %178 to float, !dbg !46"
+        }
+      ]
+    },
+    {
+      "label": "sm90-period_tile-fusion-true",
+      "constexprs": {
+        "THETA": 10000.0,
+        "BLOCK_SIZE_M": 4,
+        "BLOCK_SIZE_K": 128
+      },
+      "options": {
+        "enable_fp_fusion": true
+      },
+      "resolved_warps": 4,
+      "resolved_stages": 3,
+      "artifact_sha256": {
+        "ttir": "530578381e33400bbb7083d552a36f93fc07b7aa46e076d9a1024b4e1bcd9f5b",
+        "ttgir": "8db8a98514a6d041fa987ca76fb313f9efecfa4a4f8638166d3350280a215383",
+        "llir": "6816ece19c651cd96b5b277ffdf64c356a946e1297817677ee6ed7b746ef7f97",
+        "ptx": "4f79402731c532eae7cc5da84893090ddc4b7584f9a4008f3877573453aea6d5",
+        "cubin": "a933e4a4ccd523c927ae5f356b41e83b4a81bbe33cf8815fc4515f036da85207"
+      },
+      "pow_TTIR": [
+        {
+          "line": 73,
+          "text": "%freqs_40 = tt.extern_elementwise %cst, %freqs_39 {libname = \"\", libpath = \"\", pure = true, symbol = \"__nv_powf\"} : (tensor<64xf32>, tensor<64xf32>) -> tensor<64xf32> loc(#loc106)"
+        }
+      ],
+      "trig_TTIR": [
+        {
+          "line": 82,
+          "text": "%0 = math.cos %freqs_48 : tensor<4x64xf32> loc(#loc92)"
+        },
+        {
+          "line": 83,
+          "text": "%1 = math.sin %freqs_48 : tensor<4x64xf32> loc(#loc93)"
+        }
+      ],
+      "counts": {
+        "pow_exit_labels": 1,
+        "cos_exit_labels": 2,
+        "sin_exit_labels": 2,
+        "sin_approx": 0,
+        "cos_approx": 0,
+        "exp2_approx_ftz": 1,
+        "reciprocal_approx_ftz": 1,
+        "div_full": 3,
+        "all_fmas": 46
+      },
+      "pair_arithmetic_debug_locations": [
+        {
+          "ptx_line": 738,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r285, %rs1;"
+        },
+        {
+          "ptx_line": 739,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r286, %rs3;"
+        },
+        {
+          "ptx_line": 741,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r287, %rs4;"
+        },
+        {
+          "ptx_line": 742,
+          "original_jit_line": 37,
+          "instruction": "cvt.f32.f16 \t%r288, %rs5;"
+        },
+        {
+          "ptx_line": 743,
+          "original_jit_line": 37,
+          "instruction": "mul.f32 \t%r289, %r330, %r287;"
+        },
+        {
+          "ptx_line": 744,
+          "original_jit_line": 37,
+          "instruction": "mul.f32 \t%r290, %r339, %r288;"
+        },
+        {
+          "ptx_line": 746,
+          "original_jit_line": 37,
+          "instruction": "neg.f32 \t%r291, %r289;"
+        },
+        {
+          "ptx_line": 747,
+          "original_jit_line": 37,
+          "instruction": "fma.rn.f32 \t%r292, %r312, %r285, %r291;"
+        },
+        {
+          "ptx_line": 748,
+          "original_jit_line": 37,
+          "instruction": "neg.f32 \t%r293, %r290;"
+        },
+        {
+          "ptx_line": 749,
+          "original_jit_line": 37,
+          "instruction": "fma.rn.f32 \t%r294, %r321, %r286, %r293;"
+        },
+        {
+          "ptx_line": 751,
+          "original_jit_line": 38,
+          "instruction": "mul.f32 \t%r295, %r330, %r285;"
+        },
+        {
+          "ptx_line": 752,
+          "original_jit_line": 38,
+          "instruction": "mul.f32 \t%r296, %r339, %r286;"
+        },
+        {
+          "ptx_line": 753,
+          "original_jit_line": 38,
+          "instruction": "fma.rn.f32 \t%r297, %r312, %r287, %r295;"
+        },
+        {
+          "ptx_line": 754,
+          "original_jit_line": 38,
+          "instruction": "fma.rn.f32 \t%r298, %r321, %r288, %r296;"
+        }
+      ],
+      "integer_conversion_LLIR": [
+        {
+          "line": 60,
+          "text": "%57 = add i32 %20, %10, !dbg !40"
+        },
+        {
+          "line": 253,
+          "text": "%179 = sitofp i32 %177 to float, !dbg !46"
+        },
+        {
+          "line": 254,
+          "text": "%180 = sitofp i32 %178 to float, !dbg !46"
+        }
+      ]
+    }
+  ],
+  "interpretation": "These are actual compiler-text observations, not formal lowering equivalence. All16 retain dynamic pow implementation, libdevice cosine/sine, and fp32-to-half conversion. Pair fused code differs from old separate AST. enable_fp_fusion=false does not remove explicit FMAs within libdevice."
+}

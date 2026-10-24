@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/current_source_catalog.py", line 632, in <module>
+    main()
+  File "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/current_source_catalog.py", line 619, in main
+    result = collect(a.root, baseline(a.baseline), load(a.source_map), load(a.legacy_inventory),
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/current_source_catalog.py", line 355, in collect
+    extra = validate_supplement(root, evidence_root, supplement, set(oldtasks)) if supplement else {}
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/current_source_catalog.py", line 315, in validate_supplement
+    raise ValueError('supplement source not bound to root review')
+ValueError: supplement source not bound to root review

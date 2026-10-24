@@ -1,0 +1,13 @@
+{
+  "dtype": "float4_e2m1fn_x2",
+  "target": {
+    "backend": "cuda",
+    "arch": 90,
+    "warp_size": 32
+  },
+  "N_python": 4096,
+  "BLOCK_SIZE": 64,
+  "status": "rejected",
+  "failure_stage": "signature",
+  "exception": "Traceback (most recent call last):\n  File \"/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/probe_native.py\", line 26, in <module>\n    params,specialization,options=binder(jit.MockTensor(dtype),jit.MockTensor(dtype),4096,64)\n                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<string>\", line 4, in dynamic_func\n  File \"/usr/local/lib/python3.12/site-packages/triton/_utils.py\", line 123, in canonicalize_ptr_dtype\n    return f\"{'*k' if is_const else '*'}{canonicalize_dtype(dtype)}\"\n                                         ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/_utils.py\", line 119, in canonicalize_dtype\n    return type_canonicalisation_dict[dtype_str]\n           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^\nKeyError: 'float4_e2m1fn_x2'\n"
+}

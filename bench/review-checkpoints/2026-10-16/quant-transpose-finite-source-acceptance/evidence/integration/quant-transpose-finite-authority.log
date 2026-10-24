@@ -1,0 +1,1 @@
+{"adapter": "bench/quant_transpose_numerical_extension.py", "families": 16, "ports": 140, "cases": 863, "new_tests": 3, "callback_union": 14}

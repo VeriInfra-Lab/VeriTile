@@ -1,3 +1,4 @@
+import VeriTile.Triton.Math.MaximumProjection
 import bench.tritonbench_g.attention_fwd_triton3.Proofs.RealScores
 
 /-! Execution of the source row maximum, exponentiation and probability masks.
@@ -58,7 +59,7 @@ theorem prefix_executes (s : BlockState) (BM BN context window even : Nat) (hN :
     (Tile.expandDim ⟨1, by simp⟩ c)
   let ss := sc.setReg "qk" .real [BM, BN] shifted
   let p := finite (fun i : TileIndex [BM, BN] => probability score active old i.1 i.2.1)
-  have hc := eval_center s BM BN hN score active old hm hqk
+  have hc := evalOp_max2_of_where (eval_center s BM BN hN score active old hm hqk)
   have hshift : evalOp (.sub .real (.consSame (.consR .nil)) (.ref .real [BM, BN] "qk")
       (.expandDim ⟨1, by simp⟩ (.ref .real [BM] "m_ij"))) sc = some shifted := by
     simp [evalOp.eq_def, sc, hqk, shifted, qkt]
@@ -67,7 +68,7 @@ theorem prefix_executes (s : BlockState) (BM BN context window even : Nat) (hN :
     simp only [evalOp.eq_def, ss, BlockState.setReg_same, bind, Option.bind]
     exact congrArg some (probabilities_match BM BN score active old)
   simp only [RealBody.probabilities, List.take_succ_cons, List.take_zero]
-  rw [stepStmts.cons_some (@stepStmt_assign_eq_some .real [BM] "m_ij" _ _ _ hc),
+  erw [stepStmts.cons_some (@stepStmt_assign_eq_some .real [BM] "m_ij" _ _ _ hc),
     stepStmts.cons_some (stepStmt_assign_eq_some hshift),
     stepStmts.cons_some (stepStmt_assign_eq_some hp), stepStmts.nil]
   refine ⟨_, rfl, by simp [sc, ss, c], by simp [p], ?_⟩

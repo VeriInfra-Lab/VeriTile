@@ -1,0 +1,90 @@
+{
+  "schema": 1,
+  "purpose": "CHARACTERIZATION, not global numerical acceptance",
+  "original_source_sha256": "0fa02ee678899b4524478c77876bd07c331494faf2320e76f5f7669d458a1f41",
+  "diagnostic_source_sha256": "9cae65948d2313210754bd13aa270cbc3e5f169328217f965ad0a7d968441a04",
+  "capture_tool_sha256": "743ee5b0608e1f5becba84330dfd795c7570714fa7b02a3a9786c205e0a41962",
+  "cases": [
+    {
+      "storage": "fp32",
+      "active_rows": [
+        [
+          0,
+          3208642566
+        ],
+        [
+          0,
+          3208642567
+        ]
+      ],
+      "word_width": 32,
+      "finite_normal_payloads": true
+    }
+  ],
+  "logical_source": {
+    "grid": [
+      3,
+      2,
+      1
+    ],
+    "BLOCK_SIZE": 32,
+    "num_warps": 4,
+    "num_stages": 3,
+    "enable_fp_fusion": false,
+    "strides": [
+      64,
+      2,
+      64,
+      3
+    ],
+    "metadata_at_program2": {
+      "start": 3,
+      "length": 2
+    },
+    "metadata_other_programs": {
+      "start": 0,
+      "length": 0
+    },
+    "pointer_origin_elements": 8,
+    "full_allocations_elements": {
+      "Logics": 160,
+      "Prob_Out": 180,
+      "B_Start_Loc": 12,
+      "B_Seqlen": 12
+    },
+    "active_output_physical_indices": [
+      17,
+      20,
+      81,
+      84
+    ]
+  },
+  "proved_internal_words": {
+    "sub32_operands": [
+      3208642566,
+      3208642567
+    ],
+    "log2e": 1069066811,
+    "scaled_both": 3213524913,
+    "direct_real_exp_distinct_nearest_cells": [
+      1056037378,
+      1056037377
+    ]
+  },
+  "comparisons": {
+    "diagnostic": "Capture both exact scale words/ex2 words and entire frame. The scale collision is proved. Any deterministic SFU must give equal exp words to equal inputs; it cannot match both distinct direct-RN(exp) targets.",
+    "whole_original": "Capture all raw output words, complete input/output buffers and frame; no full-row expected bit evaluator is present, so no numerical PASS status.",
+    "environment": "Record actual GPU UUID/name/capability/driver query, compiler metadata and full artifacts. Device binding and numerical observation are separate statuses."
+  },
+  "not_claimed": [
+    "GPU executed",
+    "final original softmax outputs necessarily differ",
+    "ex2 implementation known",
+    "div.full equals FP.div RNE",
+    "all accepted dtype/width/native configurations tested"
+  ],
+  "commands": [
+    "/opt/conda/bin/python -B capture.py compile --output /tmp/new-llama-diagnostic --arch 80 --arch 90",
+    "/opt/conda/bin/python -B capture.py run --output /tmp/new-llama-capture --device cuda:0"
+  ]
+}

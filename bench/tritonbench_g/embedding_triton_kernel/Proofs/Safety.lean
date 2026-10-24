@@ -7,17 +7,18 @@ noncomputable section
 set_option maxHeartbeats 2000000
 set_option maxRecDepth 20000
 
-/-- Only source-active token, weight and output addresses require storage.
-Bounds are on initial inputs, independently of any execution result. -/
+/-- Only actual source accesses require storage. Weight reads use the int32
+converted default even when the row has no output store. Bounds are on initial
+inputs, independently of any execution result. -/
 structure Bounds (u : BlockState) (weight ids out : RegionName) (first last : Int)
     (sw so n h D N NN : Nat) (bounds : RegionBounds) : Prop where
   idAccess : ∀ t, t*NN<N → ∀ jr : Fin NN,
     Reference.row u.pid N NN t jr.val<n → Reference.row u.pid N NN t jr.val<bounds ids
   weightAccess : ∀ t, t*NN<N → ∀ jr : Fin NN, ∀ jd : Fin D,
-    Reference.row u.pid N NN t jr.val<n → jd.val<h →
-    first≤Reference.token u ids (Reference.row u.pid N NN t jr.val) →
-    Reference.token u ids (Reference.row u.pid N NN t jr.val)<last →
-    (Reference.token u ids (Reference.row u.pid N NN t jr.val)-first).toNat*sw+jd.val<bounds weight
+    jd.val<h →
+    first≤Reference.loadedToken u ids last n (Reference.row u.pid N NN t jr.val) →
+    Reference.loadedToken u ids last n (Reference.row u.pid N NN t jr.val)<last →
+    (Reference.loadedToken u ids last n (Reference.row u.pid N NN t jr.val)-first).toNat*sw+jd.val<bounds weight
   outputAccess : ∀ t, t*NN<N → ∀ jr : Fin NN, ∀ jd : Fin D,
     Reference.row u.pid N NN t jr.val<n → jd.val<h →
     Reference.row u.pid N NN t jr.val*so+jd.val<bounds out
@@ -36,9 +37,9 @@ theorem chunk_bounds (s u : BlockState) (weight ids out : RegionName) (first las
   constructor
   · intro jr hn
     simpa only [hr] using hb.idAccess k hk jr (by simpa only [hr] using hn)
-  · rintro ⟨jr,jd,⟨⟩⟩ ⟨hn,hd⟩ hlo hhi
-    simp only [row,hr,ht] at hn hlo hhi ⊢
-    exact hb.weightAccess k hk jr jd hn hd hlo hhi
+  · rintro ⟨jr,jd,⟨⟩⟩ hd hlo hhi
+    simp only [Reference.loadedToken,row,hr,ht] at hlo hhi ⊢
+    exact hb.weightAccess k hk jr jd hd hlo hhi
   · rintro ⟨jr,jd,⟨⟩⟩ ⟨hn,hd⟩
     simp only [address,row,hr] at hn ⊢
     exact hb.outputAccess k hk jr jd hn hd
@@ -47,7 +48,7 @@ theorem prefix_safe (weight ids out : RegionName) (first last : Int) (sw so n h 
     (bounds : RegionBounds) (u : BlockState) :
     Stmt.TraceSafeList bounds (prefixCode weight ids out first last sw so n h D N NN) u := by
   simp [prefixCode,code,Erasure.source,ComputeKernel.surfaceBody,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
-    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,Except.bind,bind,Option.bind,
+    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.bind,bind,Option.bind,
     Stmt.TraceSafeList,Stmt.TraceSafe,Op.SafeAt.eq_def,stepStmt,evalOp.eq_def]
 
 /-- Memory safety follows the same invariant through the complete range.

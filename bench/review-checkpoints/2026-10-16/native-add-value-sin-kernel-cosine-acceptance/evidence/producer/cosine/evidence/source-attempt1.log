@@ -1,0 +1,433 @@
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:13:13: error: unexpected token 'axis'; expected '_' or identifier
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:16:2: error: unexpected token '|'; expected command
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:22:10: error: unexpected identifier; expected 'instance'
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:24:2: error: Constructor field `SourceExpr` of `CosineNative.SourceStmt.assign` contains universe level metavariables at the expression
+  Sort ?u.35
+in its type
+  Sort ?u.35
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:29:3: error(lean.invalidDottedIdent): Invalid dotted identifier notation: The expected type of `.assign` could not be determined
+
+Hint: Using one of these would be unambiguous:
+  [apply] `Lean.MVarId.assign`
+  [apply] `ComputeStmt.assign`
+  [apply] `Stmt.assign`
+  [apply] `VeriTile.Bench.TritonBenchG.VectorAddition.HostWrapper.Event.assign`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:30:3: error(lean.invalidDottedIdent): Invalid dotted identifier notation: The expected type of `.assign` could not be determined
+
+Hint: Using one of these would be unambiguous:
+  [apply] `Lean.MVarId.assign`
+  [apply] `ComputeStmt.assign`
+  [apply] `Stmt.assign`
+  [apply] `VeriTile.Bench.TritonBenchG.VectorAddition.HostWrapper.Event.assign`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:31:3: error(lean.invalidDottedIdent): Invalid dotted identifier notation: The expected type of `.assign` could not be determined
+
+Hint: Using one of these would be unambiguous:
+  [apply] `Lean.MVarId.assign`
+  [apply] `ComputeStmt.assign`
+  [apply] `Stmt.assign`
+  [apply] `VeriTile.Bench.TritonBenchG.VectorAddition.HostWrapper.Event.assign`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:32:3: error(lean.invalidDottedIdent): Invalid dotted identifier notation: The expected type of `.assign` could not be determined
+
+Hint: Using one of these would be unambiguous:
+  [apply] `Lean.MVarId.assign`
+  [apply] `ComputeStmt.assign`
+  [apply] `Stmt.assign`
+  [apply] `VeriTile.Bench.TritonBenchG.VectorAddition.HostWrapper.Event.assign`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:33:3: error(lean.invalidDottedIdent): Invalid dotted identifier notation: The expected type of `.store` could not be determined
+
+Hint: Using one of these would be unambiguous:
+  [apply] `Memory.store`
+  [apply] `ComputeStmt.store`
+  [apply] `Stmt.store`
+  [apply] `FP.Structural.store`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:37:13: error: unexpected token 'axis'; expected '_' or identifier
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:42:10: error: unexpected identifier; expected 'instance'
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:45:12: error: unexpected token 'axis'; expected '=>'
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:47:13: error: unexpected identifier; expected '(', '[', '{' or '⦃'
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:53:2: error: Constructor field `IndexExpr` of `CosineNative.MaskExpr.less` contains universe level metavariables at the expression
+  Sort ?u.205
+in its type
+  Sort ?u.205
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:56:4: error(lean.invalidDottedIdent): Invalid dotted identifier notation: The expected type of `.variable`
+  SourceExpr
+is not of the form `C ...` or `... → C ...` where C is a constant
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:60:2: error: Constructor field `IndexExpr` of `CosineNative.Instruction.indexAssign` contains universe level metavariables at the expression
+  Sort ?u.285
+in its type
+  Sort ?u.285
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:67:4: error(lean.invalidDottedIdent): Invalid dotted identifier notation: The expected type of `.assign`
+  SourceStmt
+is not of the form `C ...` or `... → C ...` where C is a constant
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:79:3: error(lean.invalidDottedIdent): Invalid dotted identifier notation: The expected type of `.indexAssign` could not be determined
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:80:3: error(lean.invalidDottedIdent): Invalid dotted identifier notation: The expected type of `.maskAssign` could not be determined
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:81:3: error(lean.invalidDottedIdent): Invalid dotted identifier notation: The expected type of `.load` could not be determined
+
+Hint: Using one of these would be unambiguous:
+  [apply] `Memory.load`
+  [apply] `Lean.Dynlib.load`
+  [apply] `Lean.ModuleSetup.load`
+  [apply] `Lean.Server.Ilean.load`
+  [apply] `ComputeOp.load`
+  [apply] `Op.load`
+  [apply] `Lean.Elab.Tactic.BVDecide.Frontend.LratCert.load`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:82:3: error(lean.invalidDottedIdent): Invalid dotted identifier notation: The expected type of `.cosine32Assign` could not be determined
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:83:3: error(lean.invalidDottedIdent): Invalid dotted identifier notation: The expected type of `.store` could not be determined
+
+Hint: Using one of these would be unambiguous:
+  [apply] `Memory.store`
+  [apply] `ComputeStmt.store`
+  [apply] `Stmt.store`
+  [apply] `FP.Structural.store`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:85:4: error: don't know how to synthesize implicit argument `α`
+  @Eq (Option (List (?m.7 n block))) (lowerBody (sourceStatements n block)) (some (sourceCode n block))
+context:
+name : RegName
+n block : ℕ
+⊢ Type ?u.915
+
+Note: All parameter types and holes (e.g., `_`) in the header of a theorem are resolved before the proof is processed; information from the proof cannot be used to infer what these values should be
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:85:41: error: don't know how to synthesize implicit argument `α`
+  @some (List (?m.7 n block)) (sourceCode n block)
+context:
+name : RegName
+n block : ℕ
+⊢ Type ?u.915
+
+Note: All parameter types and holes (e.g., `_`) in the header of a theorem are resolved before the proof is processed; information from the proof cannot be used to infer what these values should be
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:85:47: error: don't know how to synthesize implicit argument `Instruction`
+  @sourceCode (?m.7 n block) n block
+context:
+name : RegName
+n block : ℕ
+⊢ Type ?u.915
+
+Note: All parameter types and holes (e.g., `_`) in the header of a theorem are resolved before the proof is processed; information from the proof cannot be used to infer what these values should be
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:85:4: error: don't know how to synthesize implicit argument `Instruction`
+  @lowerBody (?m.8 n block) (?m.7 n block) (sourceStatements n block)
+context:
+name : RegName
+n block : ℕ
+⊢ Type ?u.915
+
+Note: All parameter types and holes (e.g., `_`) in the header of a theorem are resolved before the proof is processed; information from the proof cannot be used to infer what these values should be
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:85:4: error: don't know how to synthesize implicit argument `SourceStmt`
+  @lowerBody (?m.8 n block) (?m.7 n block) (sourceStatements n block)
+context:
+name : RegName
+n block : ℕ
+⊢ Type ?u.919
+
+Note: All parameter types and holes (e.g., `_`) in the header of a theorem are resolved before the proof is processed; information from the proof cannot be used to infer what these values should be
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:85:15: error: don't know how to synthesize implicit argument `SourceStmt`
+  @sourceStatements (?m.8 n block) n block
+context:
+name : RegName
+n block : ℕ
+⊢ Type ?u.919
+
+Note: All parameter types and holes (e.g., `_`) in the header of a theorem are resolved before the proof is processed; information from the proof cannot be used to infer what these values should be
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:85:70: error: unsolved goals
+n block : ℕ
+⊢ (do
+      let __do_lift ← sorry ()
+      let __do_lift_1 ←
+        do
+          let __do_lift ← sorry ()
+          let __do_lift_1 ←
+            do
+              let __do_lift ← sorry ()
+              let __do_lift_1 ←
+                do
+                  let __do_lift ← sorry ()
+                  let __do_lift_1 ←
+                    do
+                      let __do_lift ← sorry ()
+                      let __do_lift_1 ← some []
+                      pure (__do_lift :: __do_lift_1)
+                  pure (__do_lift :: __do_lift_1)
+              pure (__do_lift :: __do_lift_1)
+          pure (__do_lift :: __do_lift_1)
+      pure (__do_lift :: __do_lift_1)) =
+    some [sorry (), sorry (), sorry (), sorry (), sorry ()]
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:86:18: warning: declaration uses `sorry`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:86:33: warning: declaration uses `sorry`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:86:44: warning: declaration uses `sorry`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:86:54: warning: declaration uses `sorry`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:86:71: warning: declaration uses `sorry`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:86:33: warning: This simp argument is unused:
+  lowerIndex
+
+Hint: Omit it from the simp argument list.
+  simp [̵l̵o̵w̵e̵r̵B̵o̵d̵y̵,̵l̵o̵w̵e̵r̵S̵t̵a̵t̵e̵m̵e̵n̵t̵,̵l̵o̵w̵e̵r̵I̵n̵d̵e̵x̵,̵l̵o̵w̵e̵r̵M̵a̵s̵k̵,̵s̵o̵u̵r̵c̵e̵S̵t̵a̵t̵e̵m̵e̵n̵t̵s̵,̵s̵o̵u̵r̵c̵e̵C̵o̵d̵e̵]̵[̲l̲o̲w̲e̲r̲B̲o̲d̲y̲,̲ ̲l̲o̲w̲e̲r̲S̲t̲a̲t̲e̲m̲e̲n̲t̲,̲ ̲l̲o̲w̲e̲r̲M̲a̲s̲k̲,̲ ̲s̲o̲u̲r̲c̲e̲S̲t̲a̲t̲e̲m̲e̲n̲t̲s̲,̲ ̲s̲o̲u̲r̲c̲e̲C̲o̲d̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:86:44: warning: This simp argument is unused:
+  lowerMask
+
+Hint: Omit it from the simp argument list.
+  simp [lowerBody, ̲lowerStatement, ̲lowerIndex,l̵o̵w̵e̵r̵M̵a̵ ̲sk̵,̵s̵ourceStatements, ̲sourceCode]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:93:12: error: unexpected token 'axis'; expected '=>'
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:100:4: error(lean.invalidDottedIdent): Invalid dotted identifier notation: The expected type of `.register`
+  MaskExpr
+is not of the form `C ...` or `... → C ...` where C is a constant
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:103:4: error(lean.invalidDottedIdent): Invalid dotted identifier notation: The expected type of `.indexAssign`
+  Instruction
+is not of the form `C ...` or `... → C ...` where C is a constant
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:109:68: error(lean.unknownIdentifier): Unknown identifier `original_syntax_lowering`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:109:62: error: `simp` made no progress
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:110:36: error: don't know how to synthesize implicit argument `α`
+  @Eq (List (?m.4 n)) (compiledSource n) (sourceCode n (HostMath.block n))
+context:
+name : RegName
+n : ℕ
+⊢ Type ?u.9662
+
+Note: All parameter types and holes (e.g., `_`) in the header of a theorem are resolved before the proof is processed; information from the proof cannot be used to infer what these values should be
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:110:53: error: don't know how to synthesize implicit argument `Instruction`
+  @sourceCode (?m.4 n) n (HostMath.block n)
+context:
+name : RegName
+n : ℕ
+⊢ Type ?u.9662
+
+Note: All parameter types and holes (e.g., `_`) in the header of a theorem are resolved before the proof is processed; information from the proof cannot be used to infer what these values should be
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:110:36: error: don't know how to synthesize implicit argument `Instruction`
+  @compiledSource (?m.4 n) n
+context:
+name : RegName
+n : ℕ
+⊢ Type ?u.9662
+
+Note: All parameter types and holes (e.g., `_`) in the header of a theorem are resolved before the proof is processed; information from the proof cannot be used to infer what these values should be
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:111:23: error(lean.unknownIdentifier): Unknown identifier `original_syntax_lowering`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:110:88: error: unsolved goals
+n : ℕ
+⊢ sorry n = sourceCode n (HostMath.block n)
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:111:8: warning: declaration uses `sorry`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:113:43: error: don't know how to synthesize implicit argument `Instruction`
+  @runPrefix (?m.4 n pid) pid (compiledSource n)
+context:
+name : RegName
+n pid : ℕ
+⊢ Type ?u.9779
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:113:58: error: don't know how to synthesize implicit argument `Instruction`
+  @compiledSource (?m.4 n pid) n
+context:
+name : RegName
+n pid : ℕ
+⊢ Type ?u.9779
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:115:30: error(lean.unknownIdentifier): Unknown identifier `compiled_source`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:117:2: error: `simp` made no progress
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:115:13: warning: declaration uses `sorry`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:116:4: warning: declaration uses `sorry`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:116:15: warning: declaration uses `sorry`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:116:25: warning: declaration uses `sorry`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:115:46: warning: This simp argument is unused:
+  sourceCode
+
+Hint: Omit it from the simp argument list.
+  simp only [sourceActiveTile, ̲compiled_source,s̵o̵u̵ ̲rc̵e̵C̵o̵d̵e̵,̵r̵unPrefix, ̲List.foldl_cons, ̲List.foldl_nil,
+      stepPrefix, ̲evalIndex, ̲evalMask]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:115:57: warning: This simp argument is unused:
+  runPrefix
+
+Hint: Omit it from the simp argument list.
+  simp only [sourceActiveTile, ̲compiled_source, ̲sourceCode,r̵u̵n̵P̵r̵e̵f̵i̵x̵,̵ ̲List.foldl_cons, ̲List.foldl_nil,
+      stepPrefix, ̲evalIndex, ̲evalMask]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:115:67: warning: This simp argument is unused:
+  List.foldl_cons
+
+Hint: Omit it from the simp argument list.
+  simp only [̵s̵o̵u̵r̵c̵e̵A̵c̵t̵i̵v̵e̵T̵i̵l̵e̵,̵c̵o̵m̵p̵i̵l̵e̵d̵_̵s̵o̵u̵r̵c̵e̵,̵s̵o̵u̵r̵c̵e̵C̵o̵d̵e̵,̵r̵u̵n̵P̵r̵e̵f̵i̵x̵,̵L̵i̵s̵t̵.̵f̵o̵l̵d̵l̵_̵c̵o̵n̵s̵,̵L̵i̵s̵t̵.̵f̵o̵l̵d̵l̵_̵n̵i̵l̵,̵
+  ̵ ̵ ̵ ̵ ̵s̵t̵e̵p̵P̵r̵e̵f̵i̵x̵,̵e̵v̵a̵l̵I̵n̵d̵e̵x̵,̵e̵v̵a̵l̵M̵a̵s̵k̵]̵[̲s̲o̲u̲r̲c̲e̲A̲c̲t̲i̲v̲e̲T̲i̲l̲e̲,̲ ̲c̲o̲m̲p̲i̲l̲e̲d̲_̲s̲o̲u̲r̲c̲e̲,̲ ̲s̲o̲u̲r̲c̲e̲C̲o̲d̲e̲,̲ ̲r̲u̲n̲P̲r̲e̲f̲i̲x̲,̲ ̲L̲i̲s̲t̲.̲f̲o̲l̲d̲l̲_̲n̲i̲l̲,̲ ̲s̲t̲e̲p̲P̲r̲e̲f̲i̲x̲,̲
+  ̲ ̲ ̲ ̲ ̲e̲v̲a̲l̲I̲n̲d̲e̲x̲,̲ ̲e̲v̲a̲l̲M̲a̲s̲k̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:115:83: warning: This simp argument is unused:
+  List.foldl_nil
+
+Hint: Omit it from the simp argument list.
+  simp only [̵s̵o̵u̵r̵c̵e̵A̵c̵t̵i̵v̵e̵T̵i̵l̵e̵,̵c̵o̵m̵p̵i̵l̵e̵d̵_̵s̵o̵u̵r̵c̵e̵,̵s̵o̵u̵r̵c̵e̵C̵o̵d̵e̵,̵r̵u̵n̵P̵r̵e̵f̵i̵x̵,̵L̵i̵s̵t̵.̵f̵o̵l̵d̵l̵_̵c̵o̵n̵s̵,̵L̵i̵s̵t̵.̵f̵o̵l̵d̵l̵_̵n̵i̵l̵,̵
+  ̵ ̵ ̵ ̵ ̵s̵t̵e̵p̵P̵r̵e̵f̵i̵x̵,̵e̵v̵a̵l̵I̵n̵d̵e̵x̵,̵e̵v̵a̵l̵M̵a̵s̵k̵]̵[̲s̲o̲u̲r̲c̲e̲A̲c̲t̲i̲v̲e̲T̲i̲l̲e̲,̲ ̲c̲o̲m̲p̲i̲l̲e̲d̲_̲s̲o̲u̲r̲c̲e̲,̲ ̲s̲o̲u̲r̲c̲e̲C̲o̲d̲e̲,̲ ̲r̲u̲n̲P̲r̲e̲f̲i̲x̲,̲ ̲L̲i̲s̲t̲.̲f̲o̲l̲d̲l̲_̲c̲o̲n̲s̲,̲ ̲s̲t̲e̲p̲P̲r̲e̲f̲i̲x̲,̲
+  ̲ ̲ ̲ ̲ ̲e̲v̲a̲l̲I̲n̲d̲e̲x̲,̲ ̲e̲v̲a̲l̲M̲a̲s̲k̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:116:4: warning: This simp argument is unused:
+  stepPrefix
+
+Hint: Omit it from the simp argument list.
+  simp only [sourceActiveTile, ̲compiled_source, ̲sourceCode, ̲runPrefix, ̲List.foldl_cons,
+  ̲ ̲ ̲ ̲ ̲List.foldl_nil,
+  ̵  ̵ ̵ ̵s̵t̵ep̵P̵r̵e̵f̵i̵x̵,̵e̵valIndex, ̲evalMask]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:116:15: warning: This simp argument is unused:
+  evalIndex
+
+Hint: Omit it from the simp argument list.
+  simp only [̵s̵o̵u̵r̵c̵e̵A̵c̵t̵i̵v̵e̵T̵i̵l̵e̵,̵c̵o̵m̵p̵i̵l̵e̵d̵_̵s̵o̵u̵r̵c̵e̵,̵s̵o̵u̵r̵c̵e̵C̵o̵d̵e̵,̵r̵u̵n̵P̵r̵e̵f̵i̵x̵,̵L̵i̵s̵t̵.̵f̵o̵l̵d̵l̵_̵c̵o̵n̵s̵,̵L̵i̵s̵t̵.̵f̵o̵l̵d̵l̵_̵n̵i̵l̵,̵
+  ̵ ̵ ̵ ̵ ̵s̵t̵e̵p̵P̵r̵e̵f̵i̵x̵,̵e̵v̵a̵l̵I̵n̵d̵e̵x̵,̵e̵v̵a̵l̵M̵a̵s̵k̵]̵[̲s̲o̲u̲r̲c̲e̲A̲c̲t̲i̲v̲e̲T̲i̲l̲e̲,̲ ̲c̲o̲m̲p̲i̲l̲e̲d̲_̲s̲o̲u̲r̲c̲e̲,̲ ̲s̲o̲u̲r̲c̲e̲C̲o̲d̲e̲,̲ ̲r̲u̲n̲P̲r̲e̲f̲i̲x̲,̲ ̲L̲i̲s̲t̲.̲f̲o̲l̲d̲l̲_̲c̲o̲n̲s̲,̲
+  ̲ ̲ ̲ ̲ ̲L̲i̲s̲t̲.̲f̲o̲l̲d̲l̲_̲n̲i̲l̲,̲ ̲s̲t̲e̲p̲P̲r̲e̲f̲i̲x̲,̲ ̲e̲v̲a̲l̲M̲a̲s̲k̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:116:25: warning: This simp argument is unused:
+  evalMask
+
+Hint: Omit it from the simp argument list.
+  simp only [sourceActiveTile, ̲compiled_source, ̲sourceCode, ̲runPrefix, ̲List.foldl_cons,
+  ̲ ̲ ̲ ̲ ̲List.foldl_nil,
+  ̵  ̵ ̵ ̵stepPrefix, ̲evalIndex,̵e̵v̵a̵l̵M̵a̵s̵k̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:120:3: error: don't know how to synthesize implicit argument `Instruction`
+  @runPrefix (?m.5 n pid lane) pid (compiledSource n)
+context:
+name : RegName
+n pid lane : ℕ
+⊢ Type ?u.9832
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:120:18: error: don't know how to synthesize implicit argument `Instruction`
+  @compiledSource (?m.5 n pid lane) n
+context:
+name : RegName
+n pid lane : ℕ
+⊢ Type ?u.9832
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:122:26: error(lean.unknownIdentifier): Unknown identifier `compiled_source`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:124:2: error: `simp` made no progress
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:122:13: warning: declaration uses `sorry`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:123:4: warning: declaration uses `sorry`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:123:15: warning: declaration uses `sorry`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:123:25: warning: declaration uses `sorry`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:122:42: warning: This simp argument is unused:
+  sourceCode
+
+Hint: Omit it from the simp argument list.
+  simp only [̵s̵o̵u̵r̵c̵e̵O̵f̵f̵s̵e̵t̵,̵c̵o̵m̵p̵i̵l̵e̵d̵_̵s̵o̵u̵r̵c̵e̵,̵s̵o̵u̵r̵c̵e̵C̵o̵d̵e̵,̵r̵u̵n̵P̵r̵e̵f̵i̵x̵,̵L̵i̵s̵t̵.̵f̵o̵l̵d̵l̵_̵c̵o̵n̵s̵,̵L̵i̵s̵t̵.̵f̵o̵l̵d̵l̵_̵n̵i̵l̵,̵
+  ̵ ̵ ̵ ̵ ̵s̵t̵e̵p̵P̵r̵e̵f̵i̵x̵,̵e̵v̵a̵l̵I̵n̵d̵e̵x̵,̵e̵v̵a̵l̵M̵a̵s̵k̵]̵[̲s̲o̲u̲r̲c̲e̲O̲f̲f̲s̲e̲t̲,̲ ̲c̲o̲m̲p̲i̲l̲e̲d̲_̲s̲o̲u̲r̲c̲e̲,̲ ̲r̲u̲n̲P̲r̲e̲f̲i̲x̲,̲ ̲L̲i̲s̲t̲.̲f̲o̲l̲d̲l̲_̲c̲o̲n̲s̲,̲ ̲L̲i̲s̲t̲.̲f̲o̲l̲d̲l̲_̲n̲i̲l̲,̲ ̲s̲t̲e̲p̲P̲r̲e̲f̲i̲x̲,̲
+  ̲ ̲ ̲ ̲ ̲e̲v̲a̲l̲I̲n̲d̲e̲x̲,̲ ̲e̲v̲a̲l̲M̲a̲s̲k̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:122:53: warning: This simp argument is unused:
+  runPrefix
+
+Hint: Omit it from the simp argument list.
+  simp only [sourceOffset, ̲compiled_source, ̲sourceCode,r̵u̵n̵P̵r̵e̵f̵i̵x̵,̵ ̲List.foldl_cons, ̲List.foldl_nil,
+  ̵  ̵ ̵ ̵stepPrefix,
+  ̲ ̲ ̲ ̲ ̲evalIndex, ̲evalMask]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:122:63: warning: This simp argument is unused:
+  List.foldl_cons
+
+Hint: Omit it from the simp argument list.
+  simp only [̵s̵o̵u̵r̵c̵e̵O̵f̵f̵s̵e̵t̵,̵c̵o̵m̵p̵i̵l̵e̵d̵_̵s̵o̵u̵r̵c̵e̵,̵s̵o̵u̵r̵c̵e̵C̵o̵d̵e̵,̵r̵u̵n̵P̵r̵e̵f̵i̵x̵,̵L̵i̵s̵t̵.̵f̵o̵l̵d̵l̵_̵c̵o̵n̵s̵,̵L̵i̵s̵t̵.̵f̵o̵l̵d̵l̵_̵n̵i̵l̵,̵
+  ̵ ̵ ̵ ̵ ̵s̵t̵e̵p̵P̵r̵e̵f̵i̵x̵,̵e̵v̵a̵l̵I̵n̵d̵e̵x̵,̵e̵v̵a̵l̵M̵a̵s̵k̵]̵[̲s̲o̲u̲r̲c̲e̲O̲f̲f̲s̲e̲t̲,̲ ̲c̲o̲m̲p̲i̲l̲e̲d̲_̲s̲o̲u̲r̲c̲e̲,̲ ̲s̲o̲u̲r̲c̲e̲C̲o̲d̲e̲,̲ ̲r̲u̲n̲P̲r̲e̲f̲i̲x̲,̲ ̲L̲i̲s̲t̲.̲f̲o̲l̲d̲l̲_̲n̲i̲l̲,̲ ̲s̲t̲e̲p̲P̲r̲e̲f̲i̲x̲,̲
+  ̲ ̲ ̲ ̲ ̲e̲v̲a̲l̲I̲n̲d̲e̲x̲,̲ ̲e̲v̲a̲l̲M̲a̲s̲k̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:122:79: warning: This simp argument is unused:
+  List.foldl_nil
+
+Hint: Omit it from the simp argument list.
+  simp only [̵s̵o̵u̵r̵c̵e̵O̵f̵f̵s̵e̵t̵,̵c̵o̵m̵p̵i̵l̵e̵d̵_̵s̵o̵u̵r̵c̵e̵,̵s̵o̵u̵r̵c̵e̵C̵o̵d̵e̵,̵r̵u̵n̵P̵r̵e̵f̵i̵x̵,̵L̵i̵s̵t̵.̵f̵o̵l̵d̵l̵_̵c̵o̵n̵s̵,̵L̵i̵s̵t̵.̵f̵o̵l̵d̵l̵_̵n̵i̵l̵,̵
+  ̵ ̵ ̵ ̵ ̵s̵t̵e̵p̵P̵r̵e̵f̵i̵x̵,̵e̵v̵a̵l̵I̵n̵d̵e̵x̵,̵e̵v̵a̵l̵M̵a̵s̵k̵]̵[̲s̲o̲u̲r̲c̲e̲O̲f̲f̲s̲e̲t̲,̲ ̲c̲o̲m̲p̲i̲l̲e̲d̲_̲s̲o̲u̲r̲c̲e̲,̲ ̲s̲o̲u̲r̲c̲e̲C̲o̲d̲e̲,̲ ̲r̲u̲n̲P̲r̲e̲f̲i̲x̲,̲ ̲L̲i̲s̲t̲.̲f̲o̲l̲d̲l̲_̲c̲o̲n̲s̲,̲ ̲s̲t̲e̲p̲P̲r̲e̲f̲i̲x̲,̲
+  ̲ ̲ ̲ ̲ ̲e̲v̲a̲l̲I̲n̲d̲e̲x̲,̲ ̲e̲v̲a̲l̲M̲a̲s̲k̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:123:4: warning: This simp argument is unused:
+  stepPrefix
+
+Hint: Omit it from the simp argument list.
+  simp only [sourceOffset, ̲compiled_source, ̲sourceCode, ̲runPrefix, ̲List.foldl_cons, ̲List.foldl_nil,
+      s̵t̵ep̵P̵r̵e̵f̵i̵x̵,̵e̵valIndex, ̲evalMask]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:123:15: warning: This simp argument is unused:
+  evalIndex
+
+Hint: Omit it from the simp argument list.
+  simp only [sourceOffset, ̲compiled_source, ̲sourceCode, ̲runPrefix, ̲List.foldl_cons, ̲List.foldl_nil,
+      stepPrefix, ̲evalI̵n̵d̵e̵x̵,̵e̵v̵a̵l̵Mask]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:123:25: warning: This simp argument is unused:
+  evalMask
+
+Hint: Omit it from the simp argument list.
+  simp only [sourceOffset, ̲compiled_source, ̲sourceCode, ̲runPrefix, ̲List.foldl_cons, ̲List.foldl_nil,
+      stepPrefix, ̲evalIndex,̵e̵v̵a̵l̵M̵a̵s̵k̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:133:7: error(lean.invalidDottedIdent): Invalid dotted identifier notation: The expected type of `.load` could not be determined
+
+Hint: Using one of these would be unambiguous:
+  [apply] `Memory.load`
+  [apply] `Lean.Dynlib.load`
+  [apply] `Lean.ModuleSetup.load`
+  [apply] `Lean.Server.Ilean.load`
+  [apply] `ComputeOp.load`
+  [apply] `Op.load`
+  [apply] `Lean.Elab.Tactic.BVDecide.Frontend.LratCert.load`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:134:7: error(lean.invalidDottedIdent): Invalid dotted identifier notation: The expected type of `.cosine32Assign` could not be determined
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:134:43: error(lean.invalidDottedIdent): Invalid dotted identifier notation: The expected type of `.store` could not be determined
+
+Hint: Using one of these would be unambiguous:
+  [apply] `Memory.store`
+  [apply] `ComputeStmt.store`
+  [apply] `Stmt.store`
+  [apply] `FP.Structural.store`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:135:6: error(lean.unknownIdentifier): Unknown identifier `compiled_source`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:134:108: error: unsolved goals
+n : ℕ
+⊢ List.drop 2 (compiledSource n) = [sorry, sorry, sorry]
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:137:4: error(lean.invalidDottedIdent): Invalid dotted identifier notation: The expected type of `.cosine32Assign`
+  Instruction
+is not of the form `C ...` or `... → C ...` where C is a constant
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:141:14: error(lean.unknownIdentifier): Unknown identifier `compiled_source`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:141:5: error: unsolved goals
+name : RegName
+d : Storage
+n : ℕ
+⊢ ((compiledSource n)[3]?.bind fun a => sorry ()).isSome = «true»
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:141:41: warning: declaration uses `sorry`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:141:30: warning: This simp argument is unused:
+  sourceCode
+
+Hint: Omit it from the simp argument list.
+  simp [̵c̵o̵m̵p̵i̵l̵e̵d̵_̵s̵o̵u̵r̵c̵e̵,̵s̵o̵u̵r̵c̵e̵C̵o̵d̵e̵,̵l̵o̵w̵e̵r̵S̵c̵a̵l̵a̵r̵]̵[̲c̲o̲m̲p̲i̲l̲e̲d̲_̲s̲o̲u̲r̲c̲e̲,̲ ̲l̲o̲w̲e̲r̲S̲c̲a̲l̲a̲r̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:143:23: error(lean.unknownIdentifier): Unknown identifier `compiled_source`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:142:81: error: unsolved goals
+d : Storage
+n : ℕ
+⊢ sorry d n = stored32 d (promote32 d Expr.input).cosine
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:143:8: warning: declaration uses `sorry`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:143:39: warning: This simp argument is unused:
+  sourceCode
+
+Hint: Omit it from the simp argument list.
+  simp [̵c̵o̵m̵p̵i̵l̵e̵d̵S̵c̵a̵l̵a̵r̵,̵c̵o̵m̵p̵i̵l̵e̵d̵_̵s̵o̵u̵r̵c̵e̵,̵s̵o̵u̵r̵c̵e̵C̵o̵d̵e̵,̵l̵o̵w̵e̵r̵S̵c̵a̵l̵a̵r̵,̵s̵o̵u̵r̵c̵e̵]̵[̲c̲o̲m̲p̲i̲l̲e̲d̲S̲c̲a̲l̲a̲r̲,̲ ̲c̲o̲m̲p̲i̲l̲e̲d̲_̲s̲o̲u̲r̲c̲e̲,̲ ̲l̲o̲w̲e̲r̲S̲c̲a̲l̲a̲r̲,̲ ̲s̲o̲u̲r̲c̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:143:50: warning: This simp argument is unused:
+  lowerScalar
+
+Hint: Omit it from the simp argument list.
+  simp [̵c̵o̵m̵p̵i̵l̵e̵d̵S̵c̵a̵l̵a̵r̵,̵c̵o̵m̵p̵i̵l̵e̵d̵_̵s̵o̵u̵r̵c̵e̵,̵s̵o̵u̵r̵c̵e̵C̵o̵d̵e̵,̵l̵o̵w̵e̵r̵S̵c̵a̵l̵a̵r̵,̵s̵o̵u̵r̵c̵e̵]̵[̲c̲o̲m̲p̲i̲l̲e̲d̲S̲c̲a̲l̲a̲r̲,̲ ̲c̲o̲m̲p̲i̲l̲e̲d̲_̲s̲o̲u̲r̲c̲e̲,̲ ̲s̲o̲u̲r̲c̲e̲C̲o̲d̲e̲,̲ ̲s̲o̲u̲r̲c̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:145:13: error(lean.unknownIdentifier): Unknown constant `original_syntax_lowering`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:146:13: error(lean.unknownIdentifier): Unknown constant `compiled_source`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:147:0: error: CosineNative.source_active_tile: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:148:0: error: CosineNative.source_offset: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:149:0: error: CosineNative.source_pointer: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:150:13: error(lean.unknownIdentifier): Unknown constant `complete_source_suffix`
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean:151:0: error: CosineNative.compiled_scalar: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+
+{"source": "after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean", "source_sha256": "69186b24d96899b43a471d1f2c49382882a233bb6d289cc3223f4476f0be3aff", "source_unchanged": true, "command": ["/tmp/veritile-lean-toolchain/bin/lean", "--root=/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after", "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean", "-o", "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/build-overlay/bench/tritonbench_g/cosine_compute/Proofs/NativeSource.olean"], "LEAN_PATH": "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/build-overlay:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean", "exit_code": 1, "seconds": 5.509, "log": "evidence/lean-attempts/0009-NativeSource.log", "log_sha256": "e2922c129ba415e66fbe28b8f5c284a415f0216ff13d80f4dd5b6bdd8992fbd0"}

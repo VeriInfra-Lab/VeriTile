@@ -1,0 +1,308 @@
+{
+  "schema": 1,
+  "task": "flash_decode2_llama",
+  "status": "unchanged",
+  "owner": {
+    "path": ".veritile-cache/io-unification-20261023/queue05/result.json",
+    "sha256": "347a32cf78210b10569dd4b576fe337b999e2aa51c817529e322e71392f3356b",
+    "task_index": 10
+  },
+  "reason": "The full decode memory interface, actual order schedule and named logical view already reside in IO.lean. PairIO.lean contains candidate job selection and a thin variant.",
+  "selected_public_entries": [
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Contract.lean",
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Correct.lean",
+    "bench/repairs/tritonbench_g/flash_decode2_llama/FPEquiv.lean"
+  ],
+  "previous_semantic_review": {
+    "manifest": {
+      "path": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json",
+      "sha256": "5df771b8603eaf5d9f08b4fde0c5b938c18087c00092f5348b47eb54d33a8225"
+    },
+    "task": "flash_decode2_llama"
+  },
+  "changed_files": [],
+  "removed_files": [],
+  "moved_declarations": [],
+  "preservation": {
+    "all_task_sources_byte_identical": true,
+    "current_io": "bench/repairs/tritonbench_g/flash_decode2_llama/IO.lean",
+    "prior_source_pins_match": true
+  },
+  "verification": [
+    {
+      "kind": "cached_prior_success_reuse",
+      "report": ".veritile-cache/logical-reader-review-20261022/queue05/result.json",
+      "report_sha256": "b7855ba15faaf5e2f177961e4a8a89181354e8928bbce04e8519a187efbab386",
+      "prior_successful_verification": [
+        {
+          "task": "flash_decode2_llama",
+          "kind": "fp_source",
+          "command": [
+            "python",
+            "-u",
+            ".veritile-cache/logical-reader-review-20261022/queue05/build.py",
+            "bench/repairs/tritonbench_g/flash_decode2_llama/FPEquiv.lean"
+          ],
+          "exit_code": 0,
+          "log": ".veritile-cache/logical-reader-review-20261022/queue05/fp-flash_decode2_llama.log",
+          "log_sha256": "1f833a914acf087147efb62e7c3709155b06a17ddc958cd0641a0cc5a33af3bc",
+          "reuse": "Prior task-local successful check; reviewed source and receipt pins remain current."
+        },
+        {
+          "task": "flash_decode2_llama",
+          "kind": "task_joint",
+          "command": [
+            "python",
+            "-u",
+            ".veritile-cache/logical-reader-review-20261022/queue05/build.py",
+            "--check",
+            ".veritile-cache/logical-reader-review-20261022/queue05/joint_flash_decode2_llama.lean"
+          ],
+          "exit_code": 0,
+          "source": ".veritile-cache/logical-reader-review-20261022/queue05/joint_flash_decode2_llama.lean",
+          "source_sha256": "555bd0d3dff0b5cb67678c06d341ca097c548c024c13157e711999b0cd42f88f",
+          "log": ".veritile-cache/logical-reader-review-20261022/queue05/joint-flash_decode2_llama.log",
+          "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "reuse": "Prior task-local successful check; reviewed source and receipt pins remain current."
+        },
+        {
+          "kind": "receipt_source_object_direct_dependency_audit",
+          "command": [
+            "python",
+            ".veritile-cache/logical-reader-review-20261022/queue05/audit-receipts.py"
+          ],
+          "exit_code": 0,
+          "log": ".veritile-cache/logical-reader-review-20261022/queue05/receipts-final.json",
+          "log_sha256": "a3a64928712915a8204fd3fec33335656e18e0542b5c5ab22d8bdec24b8df76e"
+        }
+      ],
+      "pin_audit": ".veritile-cache/io-unification-20261023/queue05/baseline-source-pin-audit.json",
+      "pin_audit_sha256": "3535eb0ebc67ecff6130c8fdf140403077be3390e085e927116ef26d9c46b6b5",
+      "prior_log_audit": ".veritile-cache/io-unification-20261023/queue05/prior-verification-audit.json",
+      "prior_log_audit_sha256": "cada918c9d52d249c52abe0debf55355e8bac5f5290f276a97543be2d2eac907",
+      "fresh_lean_build_in_this_campaign": false
+    },
+    {
+      "kind": "fresh_source_organization_and_body_preservation_audit",
+      "command": [
+        "python",
+        ".veritile-cache/io-unification-20261023/queue05/audit-sources.py"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue05/source-audit.json",
+      "log_sha256": "e7702b0b935237adebd55b2442d77ba9f3c9f854d7bcbef4e04dd12519294e97"
+    }
+  ],
+  "verification_status": "unchanged_reused",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Contract.lean": "a6412291247d365cb78ae72fc68b4bdad60e069fe97a0a422db9568d4782488d",
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Correct.lean": "f3019b13215049d531e83084de87f5dea7f7451196ad07af86e121f546e24371",
+    "bench/repairs/tritonbench_g/flash_decode2_llama/FPEquiv.lean": "49ea9d9fd34ce27023a81dc584998f3330b5303e99e315a4420391321cbac3ea",
+    "bench/repairs/tritonbench_g/flash_decode2_llama/IO.lean": "6b489b5b55105640d6df6e9c59802a11a0e6675e86a5a11aeb18f71a3cabc07f",
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Kernels.lean": "71103573c13893c48efeb92b2d28757b325dbe9df291d177b45aa018a90bfb2d",
+    "bench/repairs/tritonbench_g/flash_decode2_llama/PairIO.lean": "fadbbec85e020f42e514a53721d89670170955631a68714b0f5cafc13c901ab0",
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/IOPair.lean": "17ca694a6f3e23383eaf10b09e409a851f687a7a1a5e35553cf43f1f87631b5b",
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/LogicalIO.lean": "09eb04617e9b83dd21184e87f6e07417c1d8d8cbd6e6826a60777730642651ac",
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/RawKernel.lean": "068d5e7d671ee7f25625e7d138cb7a435fe0acb2def4cb354e154bc070c8537e",
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/RealIO.lean": "236ac1892865861785228ea723cc02547e5650255c7e89c09109fa4b722d64c9",
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/NativeIO.lean": "47cef14ad3f6a5fd42009186fbf5ac0bd8bd470a412130da7a3b872f4885b23a",
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/SourcePair.lean": "59c4fa5d4f77a6a80b96adb08c9cc832885166575aba876fc3b1bba080cb504f",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8",
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Misc/KernelAudit.lean": "f296624e3737162317971dbd4fe3eb3495f7047958f52e0ac02d28b4ce0b0d59",
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Misc/NativeCorrect.lean": "37b4e5f2f0a0279fd6bb25336423e8f06b6cae99e230a2144136aaec90fdf244",
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Misc/NativeKernelResult.lean": "af9f6e1ef19f9e00b82b198972cc2d36c828412ebf3a76e6fc0544d35fa1cfb7",
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Misc/RealKernelResult.lean": "9c29e0b08f45ee730401cd2e2f74e0478c4ebd79eb0ec0e5bf861a74207d0dbf",
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Misc/TensorBridge.lean": "bd3e780602c1ce529f348794861d97a61550ed57c4c01e618bbd78e4104571b1",
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/AccessSafety.lean": "85e5bb3fc9ef2851adf57c4cb81d00498ad4cc3702bd5f3c8158110bf16d8c07",
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/HistoricalCorrect.lean": "27a4d9b6e22aa631a42f9fe6db6def5170a61aecfbe0ca5fc1ae1fcad5b0712c",
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/HistoricalFPEquiv.lean": "6949c877d7a4cf717add4cd779fba39cfe58b91b36a66032afc5b48bb5420305",
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/KernelEndpoints.lean": "3f537864ea6433b0f2f39e032caab20214d662a7654fb49bdac0bb84e0d658d0",
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/KernelModel.lean": "b4a10d027619ce9680e7fb5dfffaee0809ae5d91518c370bae2df484dc26598a",
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/KernelNative.lean": "76de67ff4d859e97590e62f0697d709717db6f357d277820b5d2cb5a454c7510",
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/KernelOrder.lean": "33a6f11d96401525b1a1a0213176edecb21bd49d323a9e7e1f207e0514c9186a",
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/KernelReal.lean": "b8813e025fb25d6caf9e40b6adbe686eed90dabe08eac56842a8b16ecb874202",
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/KernelSafety.lean": "4a42ab0dc544d91284c93ec9b77c6a31fb007ffce078fc05f8fdaf71b016af94",
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/KernelTensor.lean": "3b891fcda699dfddc28b74d0e8de946f6fffd707385c6091fa124a1746611834",
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/PublicIO.lean": "f965b7fdfc8d7db07d6e2964d9f9d1ce25245b186fb5da0229dfa31284b54686",
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/RawNative.lean": "7c9ef8e6b6201bb1c19e5e82b92d758a9e4f9c3015dc3cc9d6ad62a74f91cd83"
+  },
+  "source_pin_provenance": {
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Contract.lean": {
+      "owner_tasks": [
+        "flash_decode2_llama"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Correct.lean": {
+      "owner_tasks": [
+        "flash_decode2_llama"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_decode2_llama/FPEquiv.lean": {
+      "owner_tasks": [
+        "flash_decode2_llama"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_decode2_llama/IO.lean": {
+      "owner_tasks": [
+        "flash_decode2_llama"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Kernels.lean": {
+      "owner_tasks": [
+        "flash_decode2_llama"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_decode2_llama/PairIO.lean": {
+      "owner_tasks": [
+        "flash_decode2_llama"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/IOPair.lean": {
+      "owner_tasks": [
+        "flash_decode2_llama"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/LogicalIO.lean": {
+      "owner_tasks": [
+        "flash_decode2_llama"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/RawKernel.lean": {
+      "owner_tasks": [
+        "flash_decode2_llama"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/RealIO.lean": {
+      "owner_tasks": [
+        "flash_decode2_llama"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/NativeIO.lean": {
+      "owner_tasks": [
+        "flash_decode2_llama"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/SourcePair.lean": {
+      "owner_tasks": [
+        "flash_decode2_llama"
+      ]
+    },
+    "VeriTile/Triton/Memory/LogicalIO.lean": {
+      "owner_tasks": [
+        "mixed_sparse_attention",
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Misc/KernelAudit.lean": {
+      "owner_tasks": [
+        "flash_decode2_llama"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Misc/NativeCorrect.lean": {
+      "owner_tasks": [
+        "flash_decode2_llama"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Misc/NativeKernelResult.lean": {
+      "owner_tasks": [
+        "flash_decode2_llama"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Misc/RealKernelResult.lean": {
+      "owner_tasks": [
+        "flash_decode2_llama"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Misc/TensorBridge.lean": {
+      "owner_tasks": [
+        "flash_decode2_llama"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/AccessSafety.lean": {
+      "owner_tasks": [
+        "flash_decode2_llama"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/HistoricalCorrect.lean": {
+      "owner_tasks": [
+        "flash_decode2_llama"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/HistoricalFPEquiv.lean": {
+      "owner_tasks": [
+        "flash_decode2_llama"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/KernelEndpoints.lean": {
+      "owner_tasks": [
+        "flash_decode2_llama"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/KernelModel.lean": {
+      "owner_tasks": [
+        "flash_decode2_llama"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/KernelNative.lean": {
+      "owner_tasks": [
+        "flash_decode2_llama"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/KernelOrder.lean": {
+      "owner_tasks": [
+        "flash_decode2_llama"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/KernelReal.lean": {
+      "owner_tasks": [
+        "flash_decode2_llama"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/KernelSafety.lean": {
+      "owner_tasks": [
+        "flash_decode2_llama"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/KernelTensor.lean": {
+      "owner_tasks": [
+        "flash_decode2_llama"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/PublicIO.lean": {
+      "owner_tasks": [
+        "flash_decode2_llama"
+      ]
+    },
+    "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/RawNative.lean": {
+      "owner_tasks": [
+        "flash_decode2_llama"
+      ]
+    }
+  },
+  "retired_current_source_pins": {},
+  "limits": [
+    "No fresh Lean build was needed because every task source is unchanged; previous successful checks and pinned logs are reused explicitly."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/io-unification-20261023/queue16/result.json",
+    "sha256": "12f6dd5ed523e9f723fee3847af964fd8987958c2cb997aa572210c04de5bc84"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

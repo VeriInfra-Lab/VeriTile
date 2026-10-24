@@ -1,0 +1,25 @@
+import bench.repairs.tritonbench_g.layer_norm_liger.Correct
+import bench.repairs.tritonbench_g.layer_norm_liger.Misc.NativeCorrect
+import bench.repairs.tritonbench_g.layer_norm_liger.FPEquiv
+import bench.repairs.tritonbench_g.layer_norm_liger.Misc.TensorBridge
+import bench.repairs.tritonbench_g.layer_norm_liger.Misc.HostCorrect
+import bench.repairs.tritonbench_g.layer_norm_liger.Misc.HostFPEquiv
+
+#axiomsClean VeriTile.Bench.Repairs.LayerNormLiger.Correctness.layer_norm_forward_kernel_real
+#axiomsClean VeriTile.Bench.Repairs.LayerNormLiger.Correctness.layer_norm_backward_kernel_real
+#axiomsClean VeriTile.Bench.Repairs.LayerNormLiger.Equivalence.layer_norm_forward_kernel_fp32
+#axiomsClean VeriTile.Bench.Repairs.LayerNormLiger.Equivalence.layer_norm_backward_kernel_fp32
+#axiomsClean VeriTile.Bench.Repairs.LayerNormLiger.Correctness.layer_norm_original_inputs
+#axiomsClean VeriTile.Bench.Repairs.LayerNormLiger.Equivalence.layer_norm_source_fp32
+
+#axiomsClean VeriTile.Bench.Repairs.LayerNormLiger.KernelContract.backward_addresses
+#axiomsClean VeriTile.Bench.Repairs.LayerNormLiger.KernelContract.inactive_reference
+#axiomsClean VeriTile.Bench.Repairs.LayerNormLiger.KernelContract.singleton_rowStride
+#axiomsClean VeriTile.Bench.Repairs.LayerNormLiger.KernelContract.singleton_inactive_wrap
+
+#axiomsClean VeriTile.Bench.Repairs.LayerNormLiger.KernelContract.inactive_range
+
+#axiomsClean VeriTile.Bench.Repairs.LayerNormLiger.TensorBridge.layer_norm_forward_kernel_real
+#axiomsClean VeriTile.Bench.Repairs.LayerNormLiger.TensorBridge.layer_norm_forward_kernel_fp32
+#axiomsClean VeriTile.Bench.Repairs.LayerNormLiger.TensorBridge.layer_norm_backward_kernel_real
+#axiomsClean VeriTile.Bench.Repairs.LayerNormLiger.TensorBridge.layer_norm_backward_kernel_fp32

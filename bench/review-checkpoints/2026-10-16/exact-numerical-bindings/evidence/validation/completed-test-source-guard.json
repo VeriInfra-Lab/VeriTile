@@ -1,0 +1,15 @@
+{
+  "source_head": "74cb67ae99cd5cf77096dc74868d8adcb243b46a",
+  "adapter_files": {
+    "bench/deferred_numerical_experiments.py": "b96e0cd7a51a76853c02890610e55fb0105471269340cece5b08b0f9e01d7773",
+    "bench/exact_numerical_bindings.py": "fc49be311b150b876039c4c5994fe7926bf5ebeb37486de4a38f74868ff61e32",
+    "bench/exact_scope_gate.py": "ea2bb821d97e28e48b5272a8282e186b7de7580888efe37ca645be60080f27e1",
+    "bench/check_original_program_scope.py": "fdaea9635c386e2b9083e82f6a40958142733d49dfd242154a8d02d5365347e6",
+    "bench/tests/test_exact_numerical_bindings.py": "a09871474c2332b3de423f8665761fa33842521883ebacc6cc187463a0c0084b",
+    "bench/review-checkpoints/2026-10-16/exact-numerical-bindings/evidence/fp64-source-routes/receipt.json": "5254bfa22f320ac782fa2beb212ad5092f26f3bc5222b740b5540166346b88f9"
+  },
+  "test_results_sha256": "03f3dec8481170323bd9fd6c2d5703ed286f521ff7948b5cf50500674f801bd2",
+  "all_python_tests_log_sha256": "c98d668a5b2d29964ed4a5315ff65bb133878f2b441892c4e0f6576dd1fb873e",
+  "test_count": 238,
+  "reuse_boundary": "Only the relocation harness is changing; all imported adapter source and tests retain these exact bytes."
+}

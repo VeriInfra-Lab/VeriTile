@@ -1,0 +1,91 @@
+{
+  "schema": 1,
+  "task": "quantize_global",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue11/result.json",
+    "sha256": "7a28f136f231639a8f9558b05e0421064795ae4d4006e846103d9cb7137f1b44",
+    "task_index": 7
+  },
+  "finding": "Raw integerProgramIO domain/target adapters exposed two numeric input ports and packed vector cells.",
+  "resolution": "Named vector and supplied maximum inputs plus logical integer vector output. The public domain explicitly requires a nonnegative dominating maximum, and the visible formula is nearestEven(127*x/maximum), with zero-maximum branch.",
+  "mathematical_target": "kernel_grid_correct",
+  "conditions_and_scope": "Original separation, complete segmented grid including every retained autotune trial and per-active-segment nonempty condition; zero length remains legal. Maximum is supplied input, not silently computed absmax. Exact integer output and complete safety/success/frame remain.",
+  "proof_connection": "LogicalViewIO contains bijective input/output coordinates. Proofs/LogicalReader proves the full prior/new judgment iff; Proofs/ReaderBefore preserves the exact prior statement and established proof. The new public specification applies this connection.",
+  "fp_review": "Existing original-left versus right configuration schedules; same FP32 div.rn, separate multiply, clamp, llrint64 and INT8 graph; original unrestricted native inputs.",
+  "numerical_dependencies": "No new numerical rewrites or experiments. Existing actual FP pairs retain empty experimental rule sets and their original concrete/native/opaque unchanged-primitive interpretations; structural/index/schedule transformations only. Real mathematics remains independent.",
+  "previous_formula_scope": {
+    "mathematical_target": "Signed integer nearest-even(127*x[i]/maximum), totalized to zero for maximum=0. The maximum is an explicit logical input, not an asserted computation of absmax by this selected kernel.",
+    "required_conditions": "p.Separated; trials(k) nonempty for every active segment; domain=scaleCondition requiring maximum>=0 and abs(x[i])<=maximum. Zero n has no active segment obligation. IO retains integer observations, physical bindings, source safety/success and exterior frame. Contract finite FP32/contiguous CUDA guards remain.",
+    "scope": "Every logical i<n across the complete segmented source schedule and every retained autotune trial; all trials within a segment may overwrite the same output with the same scalar result.",
+    "canonical_connection": "Headline scalar lambda is definitionally QuantizeIO.realValues/Real.quantized. IOCorrect.real establishes clamp inactivity under scaleCondition, nearest-even byte integer result and complete grid.",
+    "fp_program_pair": {
+      "actual_pair": "original left configuration schedule versus candidate right schedule, both arbitrary nonempty choices from retained configurations.",
+      "model_and_precision": "Same Scalar/arithmetic graph and primitive interpretations: FP32 div.rn, separate multiplication, clamp, signed64 conversion and int8 storage. No floating algebra rewrite; experimental rules=[].",
+      "experimental_rules_used": 0,
+      "pending_experiments_for_main_pair": 0,
+      "dependency_note": "Empty experimental rules do not erase the fixed typed interpreter and local compiler/model bindings stated above."
+    },
+    "numerical_dependencies": {
+      "actual_pair": "original left configuration schedule versus candidate right schedule, both arbitrary nonempty choices from retained configurations.",
+      "model_and_precision": "Same Scalar/arithmetic graph and primitive interpretations: FP32 div.rn, separate multiplication, clamp, signed64 conversion and int8 storage. No floating algebra rewrite; experimental rules=[].",
+      "experimental_rules_used": 0,
+      "pending_experiments_for_main_pair": 0,
+      "dependency_note": "Empty experimental rules do not erase the fixed typed interpreter and local compiler/model bindings stated above."
+    }
+  },
+  "verification": [
+    {
+      "kind": "targeted_modules_and_fp_reader",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue11/build.py",
+        "bench.repairs.tritonbench_g.quantize_global.Proofs.ReaderBefore",
+        "bench.repairs.tritonbench_g.quantize_global.LogicalViewIO",
+        "bench.repairs.tritonbench_g.quantize_global.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.quantize_global.Correct",
+        "bench.repairs.tritonbench_g.quantize_global.FPEquiv",
+        "bench.repairs.tritonbench_g.quantize_global.Contract"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue11/final/quantize_global-build.log",
+      "log_sha256": "b9da9cc790516db0c4014c0297b72ad13e9b433f8c48991f6ce238b6a8396935"
+    },
+    {
+      "kind": "task_local_joint_import",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue11/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue11/final/quantize_globalJoint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue11/final/quantize_global-joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/quantize_global/Correct.lean": "649e9c1b5856763b24213c0467db028f26a3cfedae018901edc0fc86fd30ec96",
+    "bench/repairs/tritonbench_g/quantize_global/FPEquiv.lean": "53f1e3c4d4479b5758635ab5846414bb54d95ca9bacaed02dd4520c6d4a82330",
+    "bench/repairs/tritonbench_g/quantize_global/Contract.lean": "dfce2cc2e480b03a2218e6bbdf86fc0cd9e221a36b512a2091991d5a2a0b840f",
+    "bench/repairs/tritonbench_g/quantize_global/LogicalViewIO.lean": "f0a6161d9c7eed8a108b4e0c89f3904d4935c71c23cb71b8155907234aa770b0",
+    "bench/repairs/tritonbench_g/quantize_global/Proofs/ReaderBefore.lean": "71515d5f50eb21307dc0f98856ca50049e37a2c1cc414a6c7e3d72ef2e2e04a3",
+    "bench/repairs/tritonbench_g/quantize_global/Proofs/LogicalReader.lean": "c2928ca57e18fddd9a431ce687451382e1290fb1c9509a874a65e3a65d739d9d",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [
+    "Existing applicable internal proof objects reused; no unchanged proof-closure replay. Per-task joint imports were used, not a cross-task aggregate."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

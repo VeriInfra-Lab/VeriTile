@@ -1,0 +1,6 @@
+/usr/local/lib/python3.12/site-packages/triton/language/core.py:2284: UserWarning: tl.make_block_ptr is deprecated. Use TensorDescriptor or tl.make_tensor_descriptor instead.
+  warn("tl.make_block_ptr is deprecated. Use TensorDescriptor or tl.make_tensor_descriptor instead.")
+host controls 1042 admissions 43 rejections
+complete FP16 interpreter grids and byte frames: 8
+original output-head counterexample reproduced and repaired
+CPU host/interpreter checks only; CUDA and BF16 instruction validation deferred

@@ -1,0 +1,542 @@
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:23:44: error(lean.inferBinderTypeFailed): Failed to infer type of binder `storageOffset`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:23:28: error(lean.inferBinderTypeFailed): Failed to infer type of binder `storageElements`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:23:16: error(lean.inferBinderTypeFailed): Failed to infer type of binder `storageBase`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:22:9: error(lean.inferBinderTypeFailed): Failed to infer type of binder `ordinary`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:31:27: error(lean.inferBinderTypeFailed): Failed to infer type of binder `launchArgumentsAreInts`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:28:17: error(lean.inferBinderTypeFailed): Failed to infer type of binder `numStages`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:28:8: error(lean.inferBinderTypeFailed): Failed to infer type of binder `numWarps`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:28:5: error(lean.inferBinderTypeFailed): Failed to infer type of binder `bn`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:32:52: error(lean.invalidField): Invalid field notation: Field projection operates on types of the form `C ...` where C is a constant. The expression
+  Call
+has type `Sort ?u.1442` which does not have the necessary form.
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:32:0: error: instance does not provide concrete values for (semi-)out-params
+  CoeFun Call fun x => Role → ?Tensor
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:35:6: error: Function expected at
+  c
+but this term has type
+  Call
+
+Note: Expected a function because this term is being applied to the argument
+  .query
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:35:33: error(lean.invalidDottedIdent): Invalid dotted identifier notation: The expected type of `.floating` could not be determined
+
+Hint: Using `Torch.DType.floating would be unambiguous:
+  [apply] `Torch.DType.floating`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:38:36: error: Function expected at
+  c
+but this term has type
+  Call
+
+Note: Expected a function because this term is being applied to the argument
+  .query
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:39:35: error: Function expected at
+  c
+but this term has type
+  Call
+
+Note: Expected a function because this term is being applied to the argument
+  r
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:40:36: error: Function expected at
+  c
+but this term has type
+  Call
+
+Note: Expected a function because this term is being applied to the argument
+  r
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:40:56: error: Function expected at
+  c
+but this term has type
+  Call
+
+Note: Expected a function because this term is being applied to the argument
+  r
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:57:8: error(lean.invalidField): Invalid field notation: Field projection operates on types of the form `C ...` where C is a constant. The expression
+  c
+has type `Call` which does not have the necessary form.
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:58:8: error(lean.invalidField): Invalid field notation: Field projection operates on types of the form `C ...` where C is a constant. The expression
+  c
+has type `Call` which does not have the necessary form.
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:59:11: error(lean.invalidField): Invalid field notation: Field projection operates on types of the form `C ...` where C is a constant. The expression
+  c
+has type `Call` which does not have the necessary form.
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:48:8: error: Function expected at
+  c
+but this term has type
+  Call
+
+Note: Expected a function because this term is being applied to the argument
+  .query
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:49:8: error: Function expected at
+  c
+but this term has type
+  Call
+
+Note: Expected a function because this term is being applied to the argument
+  .key
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:50:8: error: Function expected at
+  c
+but this term has type
+  Call
+
+Note: Expected a function because this term is being applied to the argument
+  .value
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:51:11: error: Function expected at
+  c
+but this term has type
+  Call
+
+Note: Expected a function because this term is being applied to the argument
+  .bias
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:52:8: error: Function expected at
+  c
+but this term has type
+  Call
+
+Note: Expected a function because this term is being applied to the argument
+  .output
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:62:13: error: Function expected at
+  c
+but this term has type
+  Call
+
+Note: Expected a function because this term is being applied to the argument
+  r
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:63:13: error: Function expected at
+  c
+but this term has type
+  Call
+
+Note: Expected a function because this term is being applied to the argument
+  r
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:66:12: error: Function expected at
+  c
+but this term has type
+  Call
+
+Note: Expected a function because this term is being applied to the argument
+  r
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:67:15: error: Function expected at
+  c
+but this term has type
+  Call
+
+Note: Expected a function because this term is being applied to the argument
+  r
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:67:35: error: Function expected at
+  c
+but this term has type
+  Call
+
+Note: Expected a function because this term is being applied to the argument
+  r
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:67:54: error: Function expected at
+  c
+but this term has type
+  Call
+
+Note: Expected a function because this term is being applied to the argument
+  r
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:67:72: error: Function expected at
+  c
+but this term has type
+  Call
+
+Note: Expected a function because this term is being applied to the argument
+  r
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:68:15: error: Function expected at
+  c
+but this term has type
+  Call
+
+Note: Expected a function because this term is being applied to the argument
+  r
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:69:16: error: Function expected at
+  c
+but this term has type
+  Call
+
+Note: Expected a function because this term is being applied to the argument
+  r
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:70:17: error: Function expected at
+  c
+but this term has type
+  Call
+
+Note: Expected a function because this term is being applied to the argument
+  r
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:71:11: error: Function expected at
+  c
+but this term has type
+  Call
+
+Note: Expected a function because this term is being applied to the argument
+  r
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:80:15: error(lean.invalidField): Invalid field notation: Field projection operates on types of the form `C ...` where C is a constant. The expression
+  c
+has type `Call` which does not have the necessary form.
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:81:14: error(lean.invalidField): Invalid field notation: Field projection operates on types of the form `C ...` where C is a constant. The expression
+  c
+has type `Call` which does not have the necessary form.
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:82:15: error(lean.invalidField): Invalid field notation: Field projection operates on types of the form `C ...` where C is a constant. The expression
+  c
+has type `Call` which does not have the necessary form.
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:84:12: error(lean.invalidField): Invalid field notation: Field projection operates on types of the form `C ...` where C is a constant. The expression
+  c
+has type `Call` which does not have the necessary form.
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:85:14: error(lean.invalidField): Invalid field notation: Field projection operates on types of the form `C ...` where C is a constant. The expression
+  c
+has type `Call` which does not have the necessary form.
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:88:26: error(lean.unknownIdentifier): Unknown identifier `span`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:89:16: error(lean.unknownIdentifier): Unknown identifier `span`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:83:26: error: Function expected at
+  c
+but this term has type
+  Call
+
+Note: Expected a function because this term is being applied to the argument
+  r
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:86:26: error: Function expected at
+  c
+but this term has type
+  Call
+
+Note: Expected a function because this term is being applied to the argument
+  r
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:86:47: error(lean.invalidDottedIdent): Invalid dotted identifier notation: The expected type of `.strided` could not be determined
+
+Hint: Using one of these would be unambiguous:
+  [apply] `Torch.Layout.strided`
+  [apply] `Offset.strided`
+  [apply] `Contract.Arguments.strided`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:87:34: error: Function expected at
+  c
+but this term has type
+  Call
+
+Note: Expected a function because this term is being applied to the argument
+  r
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:92:8: error: Application type mismatch: The argument
+  c
+has type
+  Call
+but is expected to have type
+  Parameters
+in the application
+  base c
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:92:10: error(lean.unknownIdentifier): Unknown constant `VeriTile.Triton.FP.Structural.State.query`
+
+Note: Inferred this name from the expected resulting type of `.query`:
+  State ?m.2
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:92:22: error: Application type mismatch: The argument
+  c
+has type
+  Call
+but is expected to have type
+  Parameters
+in the application
+  base c
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:92:24: error(lean.unknownIdentifier): Unknown constant `VeriTile.Triton.FP.Structural.State.key`
+
+Note: Inferred this name from the expected resulting type of `.key`:
+  State ?m.3
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:92:34: error: Application type mismatch: The argument
+  c
+has type
+  Call
+but is expected to have type
+  Parameters
+in the application
+  base c
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:92:36: error(lean.unknownIdentifier): Unknown constant `VeriTile.Triton.FP.Structural.State.value`
+
+Note: Inferred this name from the expected resulting type of `.value`:
+  State ?m.4
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:92:48: error: Application type mismatch: The argument
+  c
+has type
+  Call
+but is expected to have type
+  Parameters
+in the application
+  base c
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:92:50: error(lean.unknownIdentifier): Unknown constant `VeriTile.Triton.FP.Structural.State.bias`
+
+Note: Inferred this name from the expected resulting type of `.bias`:
+  State ?m.5
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:92:61: error: Application type mismatch: The argument
+  c
+has type
+  Call
+but is expected to have type
+  Parameters
+in the application
+  base c
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:92:63: error(lean.unknownIdentifier): Unknown constant `VeriTile.Triton.FP.Structural.State.output`
+
+Note: Inferred this name from the expected resulting type of `.output`:
+  State ?m.6
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:109:5: error: Function expected at
+  c
+but this term has type
+  Call
+
+Note: Expected a function because this term is being applied to the argument
+  r
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:109:51: error: unsolved goals
+case query
+Call : Sort u_1
+c : Call
+hc : InputContract c
+hs :
+  (Contract.abi (parameters c) (sorry c) ⋯).query.shape =
+      [(parameters c).batches, (parameters c).heads, (parameters c).length, (parameters c).dim] ∧
+    (Contract.abi (parameters c) (sorry c) ⋯).key.shape = (Contract.abi (parameters c) (sorry c) ⋯).query.shape ∧
+      (Contract.abi (parameters c) (sorry c) ⋯).value.shape = (Contract.abi (parameters c) (sorry c) ⋯).query.shape ∧
+        (Contract.abi (parameters c) (sorry c) ⋯).output.shape = (Contract.abi (parameters c) (sorry c) ⋯).query.shape ∧
+          (Contract.abi (parameters c) (sorry c) ⋯).bias.shape =
+            [(parameters c).batches, (parameters c).heads, (parameters c).length, 128]
+⊢ sorry () = [(parameters c).batches, (parameters c).heads, (parameters c).length, (parameters c).dim]
+
+case key
+Call : Sort u_1
+c : Call
+hc : InputContract c
+hs :
+  (Contract.abi (parameters c) (sorry c) ⋯).query.shape =
+      [(parameters c).batches, (parameters c).heads, (parameters c).length, (parameters c).dim] ∧
+    (Contract.abi (parameters c) (sorry c) ⋯).key.shape = (Contract.abi (parameters c) (sorry c) ⋯).query.shape ∧
+      (Contract.abi (parameters c) (sorry c) ⋯).value.shape = (Contract.abi (parameters c) (sorry c) ⋯).query.shape ∧
+        (Contract.abi (parameters c) (sorry c) ⋯).output.shape = (Contract.abi (parameters c) (sorry c) ⋯).query.shape ∧
+          (Contract.abi (parameters c) (sorry c) ⋯).bias.shape =
+            [(parameters c).batches, (parameters c).heads, (parameters c).length, 128]
+⊢ sorry () = [(parameters c).batches, (parameters c).heads, (parameters c).length, (parameters c).dim]
+
+case value
+Call : Sort u_1
+c : Call
+hc : InputContract c
+hs :
+  (Contract.abi (parameters c) (sorry c) ⋯).query.shape =
+      [(parameters c).batches, (parameters c).heads, (parameters c).length, (parameters c).dim] ∧
+    (Contract.abi (parameters c) (sorry c) ⋯).key.shape = (Contract.abi (parameters c) (sorry c) ⋯).query.shape ∧
+      (Contract.abi (parameters c) (sorry c) ⋯).value.shape = (Contract.abi (parameters c) (sorry c) ⋯).query.shape ∧
+        (Contract.abi (parameters c) (sorry c) ⋯).output.shape = (Contract.abi (parameters c) (sorry c) ⋯).query.shape ∧
+          (Contract.abi (parameters c) (sorry c) ⋯).bias.shape =
+            [(parameters c).batches, (parameters c).heads, (parameters c).length, 128]
+⊢ sorry () = [(parameters c).batches, (parameters c).heads, (parameters c).length, (parameters c).dim]
+
+case bias
+Call : Sort u_1
+c : Call
+hc : InputContract c
+hs :
+  (Contract.abi (parameters c) (sorry c) ⋯).query.shape =
+      [(parameters c).batches, (parameters c).heads, (parameters c).length, (parameters c).dim] ∧
+    (Contract.abi (parameters c) (sorry c) ⋯).key.shape = (Contract.abi (parameters c) (sorry c) ⋯).query.shape ∧
+      (Contract.abi (parameters c) (sorry c) ⋯).value.shape = (Contract.abi (parameters c) (sorry c) ⋯).query.shape ∧
+        (Contract.abi (parameters c) (sorry c) ⋯).output.shape = (Contract.abi (parameters c) (sorry c) ⋯).query.shape ∧
+          (Contract.abi (parameters c) (sorry c) ⋯).bias.shape =
+            [(parameters c).batches, (parameters c).heads, (parameters c).length, 128]
+⊢ sorry () = [(parameters c).batches, (parameters c).heads, (parameters c).length, 128]
+
+case output
+Call : Sort u_1
+c : Call
+hc : InputContract c
+hs :
+  (Contract.abi (parameters c) (sorry c) ⋯).query.shape =
+      [(parameters c).batches, (parameters c).heads, (parameters c).length, (parameters c).dim] ∧
+    (Contract.abi (parameters c) (sorry c) ⋯).key.shape = (Contract.abi (parameters c) (sorry c) ⋯).query.shape ∧
+      (Contract.abi (parameters c) (sorry c) ⋯).value.shape = (Contract.abi (parameters c) (sorry c) ⋯).query.shape ∧
+        (Contract.abi (parameters c) (sorry c) ⋯).output.shape = (Contract.abi (parameters c) (sorry c) ⋯).query.shape ∧
+          (Contract.abi (parameters c) (sorry c) ⋯).bias.shape =
+            [(parameters c).batches, (parameters c).heads, (parameters c).length, 128]
+⊢ sorry () = [(parameters c).batches, (parameters c).heads, (parameters c).length, (parameters c).dim]
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:111:30: warning: declaration uses `sorry`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:111:41: warning: declaration uses `sorry`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:111:30: warning: This simp argument is unused:
+  descriptor
+
+Hint: Omit it from the simp argument list.
+  simp_all [̵s̵h̵a̵p̵e̵,̵d̵e̵s̵c̵r̵i̵p̵t̵o̵r̵,̵a̵r̵g̵u̵m̵e̵n̵t̵s̵]̵[̲s̲h̲a̲p̲e̲,̲ ̲a̲r̲g̲u̲m̲e̲n̲t̲s̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:116:18: error: Function expected at
+  c
+but this term has type
+  Call
+
+Note: Expected a function because this term is being applied to the argument
+  r
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:116:38: error: Function expected at
+  c
+but this term has type
+  Call
+
+Note: Expected a function because this term is being applied to the argument
+  r
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:118:5: error: Function expected at
+  c
+but this term has type
+  Call
+
+Note: Expected a function because this term is being applied to the argument
+  r
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:118:33: error: Function expected at
+  c
+but this term has type
+  Call
+
+Note: Expected a function because this term is being applied to the argument
+  r
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:118:60: error: Function expected at
+  c
+but this term has type
+  Call
+
+Note: Expected a function because this term is being applied to the argument
+  r
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:120:5: error: Function expected at
+  c
+but this term has type
+  Call
+
+Note: Expected a function because this term is being applied to the argument
+  r
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:120:35: error: Function expected at
+  c
+but this term has type
+  Call
+
+Note: Expected a function because this term is being applied to the argument
+  r
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:121:19: error: Function expected at
+  c
+but this term has type
+  Call
+
+Note: Expected a function because this term is being applied to the argument
+  r
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:122:5: error: Function expected at
+  c
+but this term has type
+  Call
+
+Note: Expected a function because this term is being applied to the argument
+  r
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:122:45: error: Function expected at
+  c
+but this term has type
+  Call
+
+Note: Expected a function because this term is being applied to the argument
+  r
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:122:65: error: Function expected at
+  c
+but this term has type
+  Call
+
+Note: Expected a function because this term is being applied to the argument
+  r
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:123:20: error: Function expected at
+  c
+but this term has type
+  Call
+
+Note: Expected a function because this term is being applied to the argument
+  .bias
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:124:5: error: Function expected at
+  c
+but this term has type
+  Call
+
+Note: Expected a function because this term is being applied to the argument
+  .bias
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:124:33: error: Function expected at
+  c
+but this term has type
+  Call
+
+Note: Expected a function because this term is being applied to the argument
+  .bias
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:127:3: error: Function expected at
+  c
+but this term has type
+  Call
+
+Note: Expected a function because this term is being applied to the argument
+  r
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:127:23: error: Function expected at
+  c
+but this term has type
+  Call
+
+Note: Expected a function because this term is being applied to the argument
+  r
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:131:7: error: Application type mismatch: The argument
+  c
+has type
+  Call
+but is expected to have type
+  Parameters
+in the application
+  base c
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:131:21: error: Function expected at
+  c
+but this term has type
+  Call
+
+Note: Expected a function because this term is being applied to the argument
+  r
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:134:50: error: Function expected at
+  c
+but this term has type
+  Call
+
+Note: Expected a function because this term is being applied to the argument
+  r
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:135:6: error: Failed to rewrite using equation theorems for `Torch.TensorMetadata.numel`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:140:65: error: Function expected at
+  TensorLaws
+but this term has type
+  ?m.2
+
+Note: Expected a function because this term is being applied to the argument
+  c
+
+Hint: The identifier `TensorLaws` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:142:60: error: unsolved goals
+Call : Sort u_1
+x✝ : Sort u_2
+TensorLaws : x✝
+c : Call
+hc : InputContract c
+laws : sorry
+r : Role
+b h n d : ℕ
+valid : Valid (parameters c) r b h n d
+⊢ ↑(logicalAddress c r b h n d) = sourceAddress c r b h n d
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:154:34: error: Application type mismatch: The argument
+  sourceAddress c r b h n d
+has type
+  Strides → ℕ
+but is expected to have type
+  ℕ
+in the application
+  read (sourceAddress c r b h n d)
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:153:12: error: Function expected at
+  TensorLaws
+but this term has type
+  ?m.2
+
+Note: Expected a function because this term is being applied to the argument
+  c
+
+Hint: The identifier `TensorLaws` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:157:0: error: VeriTile.Bench.Repairs.AttentionKernel.KernelOnly.check_iff: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:158:0: error: VeriTile.Bench.Repairs.AttentionKernel.KernelOnly.admitted_shapes: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:159:0: error: VeriTile.Bench.Repairs.AttentionKernel.KernelOnly.actual_address: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/KernelOnly/Inputs.lean:160:0: error: VeriTile.Bench.Repairs.AttentionKernel.KernelOnly.actual_read: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.Repairs.AttentionKernel.KernelOnly.InputContract: definition does not reference [VeriTile.Bench.Repairs.AttentionKernel.Whole001.Whole.invoke,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.AttentionKernel.Whole001.Whole.runPrograms] — non-circular ✓

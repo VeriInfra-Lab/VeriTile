@@ -1,0 +1,129 @@
+import FinitePhysical
+
+namespace QuantizeGlobalFinite
+set_option maxHeartbeats 8000000
+set_option maxRecDepth 24000
+
+def externalMemory (d : Storage) (a : Input) (alloc : Allocations)
+    (p : PhysicalLayout) (m : Memory) : ByteMemory :=
+  externalBytes d a alloc p ⟨m,(outputTensor a alloc,maximumTensor d a alloc)⟩
+
+def byteWrite (m : ByteMemory) (address : Nat) (z : BitVec 8) : ByteMemory :=
+  fun q => if q=address then some z else m q
+
+/-- Primitive store refinement. Logical source stores and physical byte stores
+commute at every active source index, for arbitrary intermediate memory. -/
+theorem output_store_commutes (d : Storage) (a : Input) (alloc : Allocations)
+    (p : PhysicalLayout) (m : Memory) (x : String) (fresh : alloc.Fresh x)
+    (i : Nat) (hi : i<a.numel) (z : BitVec 8) :
+    externalMemory d a alloc p (write m alloc.output i (some (.mk .i8 z)))=
+      byteWrite (externalMemory d a alloc p m) (p.output.base+i) z := by
+  funext address
+  by_cases he : address=p.output.base+i
+  · subst address
+    simp [externalMemory,externalBytes,byteWrite,write,inRange,hi,cellByte,read_same,byteOf,Storage.width]
+  · have hidx : inRange p.output.base a.numel address → address-p.output.base≠i := by
+      unfold inRange
+      omega
+    by_cases ho : inRange p.output.base a.numel address
+    · simp [externalMemory,externalBytes,byteWrite,write,he,ho,hidx ho]
+    · simp [externalMemory,externalBytes,byteWrite,write,he,ho,fresh.2.2.2.2.1,fresh.2.2.2.2.2]
+
+/-- An execution trace of primitive stores, each carrying the active source
+index and the corresponding concrete byte mutation. The proof below constructs
+this trace from the actual source interpreter; it is not an assumed replay. -/
+inductive PhysicalStores (a : Input) (alloc : Allocations) (p : PhysicalLayout) :
+    Memory → ByteMemory → Memory → ByteMemory → Prop where
+  | nil (m : Memory) (bytes : ByteMemory) : PhysicalStores a alloc p m bytes m bytes
+  | step (m : Memory) (bytes : ByteMemory) (i : Nat) (z : BitVec 8) (active : i<a.numel)
+      {final : Memory} {finalBytes : ByteMemory}
+      (rest : PhysicalStores a alloc p (write m alloc.output i (some (.mk .i8 z)))
+        (byteWrite bytes (p.output.base+i) z) final finalBytes) :
+      PhysicalStores a alloc p m bytes final finalBytes
+
+theorem PhysicalStores.trans {a : Input} {alloc : Allocations} {p : PhysicalLayout}
+    {m₀ m₁ m₂ : Memory} {b₀ b₁ b₂ : ByteMemory}
+    (left : PhysicalStores a alloc p m₀ b₀ m₁ b₁)
+    (right : PhysicalStores a alloc p m₁ b₁ m₂ b₂) : PhysicalStores a alloc p m₀ b₀ m₂ b₂ := by
+  induction left with
+  | nil => exact right
+  | step m bytes i z active rest ih => exact .step m bytes i z active (ih right)
+
+theorem lanes_physical (b : Numerics) (d : Storage) (a : Input) (alloc : Allocations)
+    (p : PhysicalLayout) (x : String) (fresh : alloc.Fresh x) (snapshot : Memory)
+    (v : Word (compute d)) (c : Config) (pid : Nat) (lanes : List Nat)
+    (working final : Memory)
+    (run : runLanes b d (parameters a alloc x) snapshot v c pid lanes working=.ok final) :
+    PhysicalStores a alloc p working (externalMemory d a alloc p working)
+      final (externalMemory d a alloc p final) := by
+  induction lanes generalizing working with
+  | nil => simp only [runLanes,Except.ok.injEq] at run; subst final; exact .nil _ _
+  | cons lane lanes ih =>
+    by_cases active : offset c pid lane<(parameters a alloc x).n
+    · rw [runLanes,if_pos active] at run
+      cases hx : readCell d (snapshot x (offset c pid lane)) with
+      | none => simp [parameters,hx] at run
+      | some value =>
+        simp only [parameters,hx] at run
+        cases hz : (source d).eval b value v with
+        | none => simp [hz] at run
+        | some z =>
+          simp only [hz] at run
+          have tail := ih _ run
+          rw [output_store_commutes d a alloc p working x fresh _ (by simpa [parameters] using active) z] at tail
+          exact .step working _ _ z (by simpa [parameters] using active) tail
+    · rw [runLanes,if_neg active] at run
+      exact ih working run
+
+theorem program_physical (b : Numerics) (d : Storage) (a : Input) (alloc : Allocations)
+    (p : PhysicalLayout) (x : String) (fresh : alloc.Fresh x) (c : Config) (pid : Nat)
+    (initial final : Memory)
+    (run : runProgram b d (parameters a alloc x) c pid initial=.ok final) :
+    PhysicalStores a alloc p initial (externalMemory d a alloc p initial)
+      final (externalMemory d a alloc p final) := by
+  unfold runProgram at run
+  cases hv : readCell (compute d) (initial (parameters a alloc x).scale 0) with
+  | none => simp [hv] at run
+  | some v =>
+    simp only [hv] at run
+    exact lanes_physical b d a alloc p x fresh initial v c pid _ initial final run
+
+theorem grid_physical (b : Numerics) (d : Storage) (a : Input) (alloc : Allocations)
+    (p : PhysicalLayout) (x : String) (fresh : alloc.Fresh x) (c : Config) (pids : List Nat)
+    (initial final : Memory)
+    (run : runGrid b d (parameters a alloc x) c pids initial=.ok final) :
+    PhysicalStores a alloc p initial (externalMemory d a alloc p initial)
+      final (externalMemory d a alloc p final) := by
+  induction pids generalizing initial with
+  | nil => simp only [runGrid,Except.ok.injEq] at run; subst final; exact .nil _ _
+  | cons pid pids ih =>
+    rw [runGrid] at run
+    cases hp : runProgram b d (parameters a alloc x) c pid initial with
+    | error e => simp [hp] at run; cases run
+    | ok next =>
+      simp only [hp] at run
+      exact (program_physical b d a alloc p x fresh c pid initial next hp).trans (ih next run)
+
+specification quantize_global_trial_physical_execution
+    (b : Numerics) (d : Storage) (a : Input) (alloc : Allocations) (p : PhysicalLayout)
+    (x : String) (fresh : alloc.Fresh x) (trials : List Config) (initial final : Memory)
+    (run : runTrials b d (parameters a alloc x) trials initial=.ok final) :
+    PhysicalStores a alloc p initial (externalMemory d a alloc p initial)
+      final (externalMemory d a alloc p final) := by
+  induction trials generalizing initial with
+  | nil => simp only [runTrials,Except.ok.injEq] at run; subst final; exact .nil _ _
+  | cons c cs ih =>
+    rw [runTrials] at run
+    cases hg : runGrid b d (parameters a alloc x) c (List.range (programs (parameters a alloc x).n c)) initial with
+    | error e => simp [hg] at run; cases run
+    | ok next =>
+      simp only [hg] at run
+      exact (grid_physical b d a alloc p x fresh c _ initial next hg).trans (ih next run)
+
+#axiomsClean output_store_commutes
+#axiomsClean lanes_physical
+#axiomsClean grid_physical
+#axiomsClean quantize_global_trial_physical_execution
+#guard_msgs (drop info) in
+#auditModuleAxioms
+end QuantizeGlobalFinite

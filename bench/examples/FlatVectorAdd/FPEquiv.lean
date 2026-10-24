@@ -2,7 +2,7 @@ import bench.examples.FlatVectorAdd.Kernels
 import VeriTile.Triton.Float.RewriteTactics
 import VeriTile.Meta.StatementAudit
 
-/-! FlatVectorAdd: contextual FP equivalence from the admitted scalar add_commute.
+/-! FlatVectorAdd: contextual FP equivalence from the shared strict FP32 add_commute.
 The loaded x/y operands must be finite, including masked undefined lanes
 whose arithmetic is evaluated; the store mask is preserved.
 The domain is evaluated at the actual rewrite site; experimental dimensions
@@ -31,8 +31,8 @@ def optimized (nElements blockSize : Nat) : Program :=
 
 /-- Under the finite-operand contract, every successful run is preserved,
 including all registers and memory; failed surrounding executions also agree. -/
-specification add_kernel_masked_equiv (nElements blockSize : Nat) (R : Rules) :
-    original nElements blockSize ≡[R] optimized nElements blockSize := by
+specification add_kernel_masked_equiv (nElements blockSize : Nat) :
+    original nElements blockSize ≡[([] : Spec.Assumptions FP.GuardedFragment)] optimized nElements blockSize := by
   equiv_decompose
   all_goals fp_prove
 

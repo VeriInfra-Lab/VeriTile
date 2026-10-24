@@ -1,0 +1,3 @@
+QuantTransposeReview.negative_coordinate_is_active: axiom footprint ⊆ standard base ✓  ([propext])
+QuantTransposeReview.mixed_product_wraps_before_extension: axiom footprint ⊆ standard base ✓  ([propext])
+QuantTransposeReview.wrapped_pointer_stays_inside_allocation: axiom footprint ⊆ standard base ✓  ([propext])

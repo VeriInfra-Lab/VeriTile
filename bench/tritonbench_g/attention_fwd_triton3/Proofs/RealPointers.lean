@@ -1,3 +1,4 @@
+import bench.tritonbench_g.attention_fwd_triton3.SourceParameters
 import bench.tritonbench_g.attention_fwd_triton3.Proofs.RealHeader
 
 /-! Construct all source pointers from the executed coordinate/base registers.
@@ -6,25 +7,6 @@ and the flattened head/batch indexing used for M/L. Address validity and
 disjoint output writes are later IO-contract obligations. -/
 namespace VeriTile.Bench.TritonBenchG.AttentionFwdTriton3.RealPointers
 open VeriTile.Triton RealScores RealHeader
-
-structure Layout where
-  Q : RegionName
-  K : RegionName
-  V : RegionName
-  M : RegionName
-  Out : RegionName
-  L : RegionName
-  queryContext : Nat
-  roundedContext : Nat
-  kvContext : Nat
-  qRow : Nat
-  qDim : Nat
-  kDim : Nat
-  kRow : Nat
-  vRow : Nat
-  vDim : Nat
-  oRow : Nat
-  oDim : Nat
 
 def rowOffsetExpr (BM : Nat) : Op .nat [] := .mul .nat .nil (.ref .nat [] "start_m") (.constNat BM)
 

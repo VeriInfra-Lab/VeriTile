@@ -1,0 +1,74 @@
+import QuantizeIntegerStage.Global
+import QuantizeIntegerStage.Transpose
+
+namespace QuantizeIntegerStage.SourceChecks
+open VeriTile.Triton FP.Structural QuantizeIntegerStage.FP32
+noncomputable section
+
+/-- The exact source evaluation tree, including two fp32 multiplications in
+source order and the original fp32 literal. -/
+def argument (shape : TileShape) (input : RegName) : ComputeExpr .real shape :=
+  .compute (.alg .fp32 (.mul .real .scalarL (.const (127.0 : ℝ))
+    (.mul .real .scalarR (.ref .real shape input) (.ref .real [] "absmax_inv"))))
+
+theorem global_round_node (X Scale Out : RegionName) (N B : Nat) :
+    (Global.source X Scale Out N B).surfaceBody[6]? =
+      some (.assign .int [B] "output" (.llrint (argument [B] "x"))) := rfl
+
+theorem global_store_node (X Scale Out : RegionName) (N B : Nat) :
+    (Global.source X Scale Out N B).surfaceBody[7]? =
+      some (.store .int [B] (.region (Region.cast Out) (.ref .nat [B] "offsets"))
+        (.opaque "runtime compute value `output`") (.mask (.ref .bool [B] "mask"))) := rfl
+
+theorem transpose_round_node (A Scale Out : RegionName)
+    (sam san sbn sbm M N BM BN : Nat) :
+    (Transpose.source A Scale Out sam san sbn sbm M N BM BN).surfaceBody[7]? =
+      some (.assign .int [BM, BN] "output" (.llrint (argument [BM, BN] "a"))) := rfl
+
+theorem transpose_store_node (A Scale Out : RegionName)
+    (sam san sbn sbm M N BM BN : Nat) :
+    ∃ off : Op .nat [BM, BN],
+      (Transpose.source A Scale Out sam san sbn sbm M N BM BN).surfaceBody[8]? =
+        some (.store .int [BM, BN] (.region (Region.cast Out) off)
+          (.opaque "runtime compute value `output`") (.mask (.ref .bool [BM, BN] "mask"))) :=
+  ⟨_, rfl⟩
+
+theorem global_signature (X Scale Out : RegionName) (N B : Nat) :
+    (Global.source X Scale Out N B).surfaceBody.length = 8 ∧
+      (Global.kernel X Scale Out N B).integerStorage Out = some 8 ∧
+      (Global.kernel X Scale Out N B).runtimeRegisters "runtime compute value `output`" = some "output" := by
+  simp [Global.kernel, Global.source, ComputeKernel.surfaceBody, byteOutput, outputRegister]
+
+theorem transpose_signature (A Scale Out : RegionName)
+    (sam san sbn sbm M N BM BN : Nat) :
+    (Transpose.source A Scale Out sam san sbn sbm M N BM BN).surfaceBody.length = 9 ∧
+      (Transpose.kernel A Scale Out sam san sbn sbm M N BM BN).integerStorage Out = some 8 ∧
+      (Transpose.kernel A Scale Out sam san sbn sbm M N BM BN).runtimeRegisters
+        "runtime compute value `output`" = some "output" := by
+  simp [Transpose.kernel, Transpose.source, ComputeKernel.surfaceBody, byteOutput, outputRegister]
+
+/-- No generic opaque-operation fallback was added. -/
+theorem unknown_integer_marker_fails (M : Algebra Word) (round : Option (Llrint64 Word))
+    (marker : String) (shape : TileShape) (s : State Word)
+    (h : marker ≠ "runtime compute value `output`") :
+    QuantizeIntegerStage.evalExpr M round outputRegister (.opaque (dtype := .int) (shape := shape) marker) s = none := by
+  simp [QuantizeIntegerStage.evalExpr, outputRegister, h]
+
+/-- Signed narrowing keeps the low eight bits for positive, negative and
+out-of-range llrint results; it does not saturate or omit negative values. -/
+theorem byte_narrowing_examples :
+    storedInteger (byteOutput "out") "out" 127 = 127 ∧
+    storedInteger (byteOutput "out") "out" 128 = -128 ∧
+    storedInteger (byteOutput "out") "out" (-129) = 127 ∧
+    storedInteger (byteOutput "out") "out" 256 = 0 := by decide
+
+#axiomsClean global_round_node
+#axiomsClean global_store_node
+#axiomsClean transpose_round_node
+#axiomsClean transpose_store_node
+#axiomsClean global_signature
+#axiomsClean transpose_signature
+#axiomsClean unknown_integer_marker_fails
+#axiomsClean byte_narrowing_examples
+end
+end QuantizeIntegerStage.SourceChecks

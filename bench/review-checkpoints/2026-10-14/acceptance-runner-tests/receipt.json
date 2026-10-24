@@ -1,0 +1,37 @@
+{
+  "recorded_at_utc": "2026-10-14T05:03:54.568094+00:00",
+  "input_sha256": {
+    "bench/acceptance_tritonbench_g.py": "f7f820efa777fefe6802b357547339f9d4e306917705fcc2c2cc8809cb600bfd",
+    "scripts/test_acceptance_bundle.py": "a5bb02422080faafdf9ab3cc6378b5690e1bacae0a78babb91e0ea878d552a9e",
+    "scripts/comparator_common.py": "f149a75de2c4fe9e3558c5b4e6ad66bbe7ba392a6a331c7af4d64c539bff0509",
+    "scripts/test_comparator_preflight.py": "3cc2dc5b78a8f27526d13c9060deb76910372a1f387c98bfc5dd90a028a8757f",
+    "scripts/test_check_comparator.py": "959b63eabb71e9370587f4e55d8d1e506269b3bc2444b713d4cb3a1334cc4a10",
+    "bench/port_layout.py": "b4eee04b42a0574ef614329f3f5fbe3db059ad7dcfe10824121168236bd269b6"
+  },
+  "unit_tests": {
+    "command": [
+      "python",
+      "-m",
+      "unittest",
+      "scripts.test_acceptance_bundle",
+      "scripts.test_comparator_preflight"
+    ],
+    "tests": 7,
+    "exit_code": 0
+  },
+  "comparator_integration": {
+    "command": [
+      "python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "scripts",
+      "-p",
+      "test_check_comparator.py"
+    ],
+    "tests": 7,
+    "exit_code": 1,
+    "reason": "Required systemd and Landlock isolation unavailable; test assertions requiring proof replay failed before replay."
+  }
+}

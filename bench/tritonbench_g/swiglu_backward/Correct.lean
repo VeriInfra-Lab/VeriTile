@@ -1,7 +1,13 @@
+import bench.tritonbench_g.swiglu_backward.Proofs.WholeIndex
 import bench.tritonbench_g.swiglu_backward.Proofs.Precision
 import bench.tritonbench_g.swiglu_backward.Proofs.Math
 import bench.tritonbench_g.swiglu_backward.Proofs.Candidate
 import bench.tritonbench_g.swiglu_backward.Proofs.Real
+
+/-! Historical mathematical and slice contracts in this file are ordinary helper
+theorems. Only the retained `specification` entries below are public source contracts.
+The helpers retain their statements and proofs for downstream reuse. -/
+
 
 namespace VeriTile.Bench.TritonBenchG.SwigluBackward
 open VeriTile.Triton
@@ -22,7 +28,7 @@ flag. The output buffers must be pairwise distinct (`DX ≠ DY`, `OUT ≠ DX`,
 `OUT ≠ DY`) so each readback sees through the later stores. Proof:
 `Masked2DKernelIO₃ₓ₃.Implements.intro` assembles the region-model masked
 triple with the flat-memory bridge side conditions. -/
-specification swiglu_bwd_kernel_correctness
+theorem swiglu_bwd_kernel_correctness
     (X Y DOUT OUT DX DY : RegionName)
     (stride_x_row stride_y_row stride_dout_row stride_out_row
       stride_dx_row stride_dy_row ncols BLOCK_N : Nat)
@@ -52,7 +58,7 @@ specification swiglu_bwd_kernel_correctness
 
 /-- Independent scalar gradients and optional forward recomputation, with full
 flat execution and frame for both values of the source constexpr flag. -/
-specification formula_correct (X Y DOUT OUT DX DY : RegionName)
+theorem formula_correct (X Y DOUT OUT DX DY : RegionName)
     (sx sy sd so sdx sdy N B : Nat) (R : Bool)
     (hxy : DX ≠ DY) (hox : OUT ≠ DX) (hoy : OUT ≠ DY) :
     swigluBackwardIO X Y DOUT OUT DX DY sx sy sd so sdx sdy N B R ⊨
@@ -93,3 +99,22 @@ specification typed_real_correct (input upstream gradient output : Storage) (v :
 #auditModuleAxioms
 
 end VeriTile.Bench.TritonBenchG.SwigluBackward
+
+namespace VeriTile.Bench.TritonBenchG.SwigluBackward.Whole
+open VeriTile.Triton FP.Structural
+noncomputable section
+specification swiglu_backward_real_source_outcomes
+    (rt : Runtime ℝ call entry preexisting) (_inputValid : InputDomain call)
+    (valid : ∀ p, rt.prepare = .ok p → checks p = Bool.true → Domain p)
+    (finite : ∀ p (hp : rt.prepare = .ok p) (hc : checks p = Bool.true),
+      FiniteAdmission p (valid p hp hc)) :
+    VeriTile.Spec.Real (HostSpec formula rt (executeHost realAlgebra rt) ∧
+      ∀ p hp hc, IndexCorrespondence p (valid p hp hc) (finite p hp hc)) := by
+  exact ⟨real_host_outcomes rt valid,
+    fun p hp hc => index_correspondence p (valid p hp hc) (finite p hp hc)⟩
+
+#axiomsClean swiglu_backward_real_source_outcomes
+#guard_msgs (drop info) in
+#auditModuleAxioms
+end
+end VeriTile.Bench.TritonBenchG.SwigluBackward.Whole

@@ -1,0 +1,10 @@
+{
+  "task": "matrix_vector_multip",
+  "files": {
+    "bench/tritonbench_g/matrix_vector_multip/matrix_vector_multip.py": "3a61edaa69bf03a48eb938a71da1fe302235dd6686dede2ee56050712d3f3551",
+    "bench/tritonbench_g/matrix_vector_multip/FPCorrect.lean": "2c6dea61a25ab6f8922b241d70bc40f220f82ac951512597914d2f04dc769172",
+    "bench/tritonbench_g/matrix_vector_multip/MatrixVectorMultip.lean": "707aeec60b0b10b43b5e86d32f7061bc61949dd381c5e2a2c17f402b60806f86",
+    "bench/tritonbench_g/matrix_vector_multip/Proofs/TypedSource.lean": "196609f9b309f75128b8768fce05f5c43674056c48cb0c5d8cad1ddb36cef958",
+    "bench/tritonbench_g/matrix_vector_multip/Proofs/TypedContract.lean": "46e2997c66ec4a80848408adcab38af00181e2d4d51f70db79b8f318a0a5a6de"
+  }
+}

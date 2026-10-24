@@ -42,12 +42,21 @@ def blockDot (storage : TypedSource.Storage) (BK BT BV : Nat) : Op .real [BK,BV]
   | .bf16 => .castFloat .fp32 .real (.dotTyped .bf16 .bf16 .fp32 (batch := [])
       (.ref .bf16 [BK,BT] "b_k") (.ref .bf16 [BT,BV] "b_v") { allowTF32 := some Bool.false })
 
+/-- Check the actual carry/dot operands after the selected gate arm.
+The source specializes GATEK to a constant branch; unreachable arms impose no
+finite-value requirement. The surrounding recurrent source is retained. -/
 def requirements (kernel : ComputeKernel) (storage : TypedSource.Storage) (BK BT BV : Nat) : List Site :=
   (do
     let loop ← Source.dynamicRange? kernel.surfaceBody "i_t"
+    let branch ← Source.conditional? loop.body (fun _ => Bool.true)
+    let selected ← match branch.condition with
+      | .constBool value => some value
+      | _ => none
+    let arm := if selected then branch.yes else branch.no
     return Site.range loop.before "i_t" loop.start loop.stop loop.stride loop.body
-      (.addFP32 (Source.prefixBefore loop.body "b_h") [BK,BV]
-        (.ref .real [BK,BV] "b_h") (blockDot storage BK BT BV))).toList
+      (.branch branch.before branch.condition selected
+        (.addFP32 (Source.prefixBefore arm "b_h" 1) [BK,BV]
+          (.ref .real [BK,BV] "b_h") (blockDot storage BK BT BV)))).toList
 
 variable (dotStorage gateStorage historyStorage : TypedSource.Storage)
     (dtype out_dtype : FloatDType) (k v g h h0 ht : RegionName)
@@ -71,14 +80,14 @@ def recurrentSumLeft : Program :=
 theorem domain_present :
     (recurrent dotStorage gateStorage historyStorage dtype out_dtype k v g h h0 ht
       s_k_h s_k_t s_k_d s_v_h s_v_t s_v_d s_h_h s_h_t s_h_d T K V BT BK BV NT gateK useSeed storeFinal).domain.length = 1 := by
-  cases dotStorage <;> cases gateStorage <;> cases historyStorage <;> rfl
+  cases gateK <;> cases dotStorage <;> cases gateStorage <;> cases historyStorage <;> rfl
 
 theorem recurrent_equiv (R : FP.ScalarArithmetic.Rules) :
     recurrent dotStorage gateStorage historyStorage dtype out_dtype k v g h h0 ht
       s_k_h s_k_t s_k_d s_v_h s_v_t s_v_d s_h_h s_h_t s_h_d T K V BT BK BV NT gateK useSeed storeFinal ≡[R]
     recurrentSumLeft dotStorage gateStorage historyStorage dtype out_dtype k v g h h0 ht
       s_k_h s_k_t s_k_d s_v_h s_v_t s_v_d s_h_h s_h_t s_h_d T K V BT BK BV NT gateK useSeed storeFinal := by
-  cases dotStorage <;> cases gateStorage <;> cases historyStorage <;> equiv_decompose <;> fp_prove
+  cases gateK <;> cases dotStorage <;> cases gateStorage <;> cases historyStorage <;> equiv_decompose <;> fp_prove
 
 end Recurrent
 

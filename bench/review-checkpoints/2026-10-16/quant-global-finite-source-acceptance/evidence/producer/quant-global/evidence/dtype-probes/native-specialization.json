@@ -1,0 +1,118 @@
+[
+  {
+    "dtype": "bool",
+    "signature": "*u1"
+  },
+  {
+    "dtype": "uint8",
+    "signature": "*u8"
+  },
+  {
+    "dtype": "int8",
+    "signature": "*i8"
+  },
+  {
+    "dtype": "int16",
+    "signature": "*i16"
+  },
+  {
+    "dtype": "int32",
+    "signature": "*i32"
+  },
+  {
+    "dtype": "int64",
+    "signature": "*i64"
+  },
+  {
+    "dtype": "uint16",
+    "signature": "*u16"
+  },
+  {
+    "dtype": "uint32",
+    "signature": "*u32"
+  },
+  {
+    "dtype": "uint64",
+    "signature": "*u64"
+  },
+  {
+    "dtype": "float16",
+    "signature": "*fp16"
+  },
+  {
+    "dtype": "bfloat16",
+    "signature": "*bf16"
+  },
+  {
+    "dtype": "float32",
+    "signature": "*fp32"
+  },
+  {
+    "dtype": "float64",
+    "signature": "*fp64"
+  },
+  {
+    "dtype": "complex32",
+    "error": "KeyError('complex32')"
+  },
+  {
+    "dtype": "complex64",
+    "error": "KeyError('complex64')"
+  },
+  {
+    "dtype": "complex128",
+    "error": "KeyError('complex128')"
+  },
+  {
+    "dtype": "float8_e4m3fn",
+    "signature": "*fp8e4nv"
+  },
+  {
+    "dtype": "float8_e5m2",
+    "signature": "*fp8e5"
+  },
+  {
+    "dtype": "float8_e4m3fnuz",
+    "signature": "*fp8e4b8"
+  },
+  {
+    "dtype": "float8_e5m2fnuz",
+    "signature": "*fp8e5b16"
+  },
+  {
+    "dtype": "float8_e8m0fnu",
+    "error": "KeyError('float8_e8m0fnu')"
+  },
+  {
+    "dtype": "float4_e2m1fn_x2",
+    "error": "KeyError('float4_e2m1fn_x2')"
+  },
+  {
+    "integer": 0,
+    "signature": "i32"
+  },
+  {
+    "integer": 2147483647,
+    "signature": "i32"
+  },
+  {
+    "integer": 2147483648,
+    "signature": "i64"
+  },
+  {
+    "integer": 4294967295,
+    "signature": "i64"
+  },
+  {
+    "integer": 9223372036854775807,
+    "signature": "i64"
+  },
+  {
+    "integer": 9223372036854775808,
+    "signature": "u64"
+  },
+  {
+    "integer": 18446744073709551615,
+    "signature": "u64"
+  }
+]

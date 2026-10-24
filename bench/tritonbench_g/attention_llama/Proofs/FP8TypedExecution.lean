@@ -103,6 +103,8 @@ private def loopBody (causal optimized : Bool) : List ComputeStmt :=
 private def loopEntry (causal optimized : Bool) : State ℝ :=
   (preloop causal optimized).val.setReg "start_n" .nat [] (fun _ => 0)
 
+-- The four causal/candidate branches each evaluate the full typed loop body.
+set_option maxHeartbeats 1600000 in
 private def iteration (causal optimized : Bool) :
     {t : State ℝ // run (engine model) (loopBody causal optimized) (loopEntry causal optimized) = some t} := by
   cases causal <;> cases optimized

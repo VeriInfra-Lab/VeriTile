@@ -1,0 +1,110 @@
+{
+  "status": "passed",
+  "date": "2026-10-23",
+  "tasks": 183,
+  "organization_counts": {
+    "consolidated": 116,
+    "unchanged": 67
+  },
+  "proof_completion_counts": {
+    "verified": 182,
+    "verified_with_deferred_numerics": 1
+  },
+  "checks": [
+    {
+      "name": "task_progress_render",
+      "command": "python bench/task_progress.py",
+      "exit_code": 0,
+      "log": {
+        "path": ".veritile-cache/io-unification-20261023/task-progress-render.log",
+        "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+      }
+    },
+    {
+      "name": "main_formula_review",
+      "command": "python bench/check_main_formula_review.py",
+      "exit_code": 0,
+      "log": {
+        "path": ".veritile-cache/io-unification-20261023/main-formula-guard.log",
+        "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+      },
+      "result": {
+        "tasks": 183,
+        "readers": 367,
+        "counts": {
+          "fixed": 179,
+          "unchanged": 4
+        },
+        "errors": [],
+        "status": "passed",
+        "scope": "Pinned per-task formula/domain/scope review and targeted proof evidence; no automatic semantic inference, full-source replay or GPU run"
+      }
+    },
+    {
+      "name": "main_entry_roles",
+      "command": "python bench/check_main_entry_roles.py",
+      "exit_code": 0,
+      "log": {
+        "path": ".veritile-cache/io-unification-20261023/main-entry-guard.log",
+        "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+      },
+      "result": {
+        "tasks": 183,
+        "readers": 367,
+        "headlines": 449,
+        "errors": [],
+        "status": "passed",
+        "scope": "Pinned semantic role review plus current repository import guard; no Lean replay or GPU run"
+      }
+    },
+    {
+      "name": "io_organization",
+      "command": "python bench/check_io_organization.py",
+      "exit_code": 0,
+      "log": {
+        "path": ".veritile-cache/io-unification-20261023/io-organization-guard.log",
+        "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+      },
+      "result": {
+        "tasks": 183,
+        "readers": 367,
+        "io_source_files": 315,
+        "errors": [],
+        "status": "passed",
+        "scope": "Reviewed canonical IO sharing and reader placement; no full-source replay or GPU experiment"
+      }
+    },
+    {
+      "name": "task_progress_consistency",
+      "command": "python bench/task_progress.py --check",
+      "exit_code": 0,
+      "log": {
+        "path": ".veritile-cache/io-unification-20261023/task-progress-check.log",
+        "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+      }
+    }
+  ],
+  "tool_executions": {
+    "path": ".veritile-cache/io-unification-20261023/final-guard-executions.json",
+    "sha256": "47988af17b603f4066929cc85b238318fce29cae0f4a8ad2f6a58970a28fcc70"
+  },
+  "release_inputs": {
+    "path": ".veritile-cache/io-unification-20261023/release-inputs.json",
+    "sha256": "7757438bbb99e5c1fa2e8f14e5662a8a551918bc2a97fe2a95b4936aa43ee6a9"
+  },
+  "independent_review": {
+    "path": ".veritile-cache/io-unification-20261023/queue16/result.json",
+    "sha256": "12f6dd5ed523e9f723fee3847af964fd8987958c2cb997aa572210c04de5bc84"
+  },
+  "publisher_review": {
+    "path": ".veritile-cache/io-unification-20261023/publisher-review-v3.json",
+    "sha256": "eac7ab78d4dda162944b99e8abde16d435d2c5a188db58c5660892b119b09b65"
+  },
+  "publication": {
+    "path": "bench/review-checkpoints/2026-10-23/io-unification/publication.json",
+    "sha256": "68b8d296266e476800b824c533a8837c5677831e85850c514a4c971fccd31d99"
+  },
+  "scope": "Pinned IO migration evidence and current reader/formula/import/organization/progress consistency. Targeted Lean and reused-proof limits are per task; no full proof-closure replay or new GPU/numerical experiment.",
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

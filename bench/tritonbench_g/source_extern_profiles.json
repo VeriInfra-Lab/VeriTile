@@ -1,0 +1,106 @@
+{
+  "schema": 1,
+  "profiles": {
+    "pow_fp32_fp32_grid_sm90": {
+      "jit": "pow_func_scalar_tensor_kernel_rank_1",
+      "helper": "pow_func_scalar_tensor",
+      "source_sha256": "142398199794dc7df724c341d3f86b1af60f20a9280b695efeac5e68d757471d",
+      "kernel_source_sha256": "0973a23e13685c71817fda6512b241a7927e7121d98e2d6139154d4ad9608923",
+      "helper_source_sha256": "4d1da6264eab0fd94cf954035787cf5eecadd11e0fc59c2c87772ce950037913",
+      "import_chain_sha256": "4733daf05492fd195eaa5b6b04687414b59d33166c319fe5624c62b7d9012375",
+      "lean": {
+        "source": "powScalarFloating%",
+        "args": {
+          "output": "tl.float32",
+          "single": 0,
+          "candidate": 0
+        }
+      },
+      "compiler": {
+        "triton_version": "3.7.1",
+        "target": "cuda sm90 warp32",
+        "options": {
+          "num_warps": 4,
+          "num_stages": 3
+        },
+        "kernel_launched": false
+      },
+      "selected_import": {
+        "branch": "primary",
+        "module": "triton.language.extra.cuda.libdevice",
+        "symbol": "pow",
+        "alias": "_pow"
+      },
+      "runtime_base_profile": {
+        "object": "float",
+        "abi": "fp32",
+        "cast_origin": "existing helper source; no ABI materialization"
+      },
+      "core_sha256": "373eebe68a4c1f6959c81ae6c382b65c5c2893d53274a205f5ff9bbb100fb31b",
+      "cuda_libdevice_sha256": "27b2a5d1e8db008bacefe6019f63922bbd65926de90bb1b527ee597477d2f365",
+      "native": {
+        "profile": "base_fp32_exp_fp32_single_0",
+        "signature": {
+          "val0": "fp32",
+          "in0_ptr": "*fp32",
+          "out0_ptr": "*fp32",
+          "in0_stride0": "i32",
+          "out0_stride0": "i32",
+          "s0": "i32",
+          "num_tasks": "i32",
+          "tiles_per_cta": "i32"
+        },
+        "constexprs": {
+          "in0_stride_order0": 0,
+          "out0_stride_order0": 0,
+          "tile_size0": 32,
+          "one_tile_per_cta": false
+        },
+        "kernel_launched": false,
+        "status": "compiled",
+        "ttir_sha256": "b38ae6dcdcd732bf958f26c5de4247bfab9ee0e0892940a8e8407f75257e1031",
+        "llir_sha256": "3d66c22a3e3cbe9b98b4b2932b386057829acec7b8ab92c61911b80a5ed2b46c",
+        "ptx_sha256": "1fb12aeb12ea2807096f23b2ef11ea0895ba062eccd54617e34514e10000f5da",
+        "ttir_signature": "tt.func public @pow_func_scalar_tensor_kernel_rank_1(%val0: f32 loc(\"val0\"(#loc)), %in0_ptr: !tt.ptr<f32> loc(\"in0_ptr\"(#loc)), %out0_ptr: !tt.ptr<f32> loc(\"out0_ptr\"(#loc)), %in0_stride0: i32 loc(\"in0_stride0\"(#loc)), %out0_stride0: i32 loc(\"out0_stride0\"(#loc)), %s0: i32 loc(\"s0\"(#loc)), %num_tasks: i32 loc(\"num_tasks\"(#loc)), %tiles_per_cta: i32 loc(\"tiles_per_cta\"(#loc))) attributes {noinline = false} {",
+        "extern_lines": [
+          "%out0_15 = tt.extern_elementwise %out0, %in0_14 {libname = \"\", libpath = \"\", pure = true, symbol = \"__nv_powf\"} : (tensor<32xf32>, tensor<32xf32>) -> tensor<32xf32> loc(#loc32)"
+        ],
+        "base_conversion_lines": []
+      },
+      "ttir": "#loc = loc(\"/tmp/veritile-pow-source-proposal/pow_exact_jits.py\":16:0)\n#loc15 = loc(\"val0\"(#loc))\n#loc16 = loc(\"in0_ptr\"(#loc))\n#loc17 = loc(\"out0_ptr\"(#loc))\n#loc18 = loc(\"in0_stride0\"(#loc))\n#loc19 = loc(\"out0_stride0\"(#loc))\n#loc20 = loc(\"s0\"(#loc))\n#loc21 = loc(\"num_tasks\"(#loc))\n#loc22 = loc(\"tiles_per_cta\"(#loc))\nmodule {\n  tt.func public @pow_func_scalar_tensor_kernel_rank_1(%val0: f32 loc(\"val0\"(#loc)), %in0_ptr: !tt.ptr<f32> loc(\"in0_ptr\"(#loc)), %out0_ptr: !tt.ptr<f32> loc(\"out0_ptr\"(#loc)), %in0_stride0: i32 loc(\"in0_stride0\"(#loc)), %out0_stride0: i32 loc(\"out0_stride0\"(#loc)), %s0: i32 loc(\"s0\"(#loc)), %num_tasks: i32 loc(\"num_tasks\"(#loc)), %tiles_per_cta: i32 loc(\"tiles_per_cta\"(#loc))) attributes {noinline = false} {\n    %cst = arith.constant dense<0> : tensor<32xi64> loc(#loc1)\n    %c1_i32 = arith.constant 1 : i32 loc(#loc2)\n    %c0_i32 = arith.constant 0 : i32 loc(#loc2)\n    %c32_i32 = arith.constant 32 : i32 loc(#loc1)\n    %pid = tt.get_program_id x : i32 loc(#loc23)\n    %num_ctas = tt.get_num_programs x : i32 loc(#loc24)\n    scf.for %j = %c0_i32 to %tiles_per_cta step %c1_i32  : i32 {\n      %tile_id = arith.muli %j, %num_ctas : i32 loc(#loc25)\n      %tile_id_0 = arith.addi %pid, %tile_id : i32 loc(#loc26)\n      %offset0 = arith.muli %tile_id_0, %c32_i32 : i32 loc(#loc27)\n      %in0_bptr = arith.extsi %s0 : i32 to i64 loc(#loc28)\n      %in0_bptr_1 = arith.extsi %in0_stride0 : i32 to i64 loc(#loc28)\n      %in0_bptr_2 = arith.extsi %offset0 : i32 to i64 loc(#loc28)\n      %in0 = tt.splat %in0_ptr : !tt.ptr<f32> -> tensor<32x!tt.ptr<f32>> loc(#loc29)\n      %in0_3 = tt.splat %in0_bptr_2 : i64 -> tensor<32xi64> loc(#loc29)\n      %in0_4 = tt.make_range {end = 32 : i32, start = 0 : i32} : tensor<32xi32> loc(#loc29)\n      %in0_5 = arith.extsi %in0_4 : tensor<32xi32> to tensor<32xi64> loc(#loc29)\n      %in0_6 = arith.addi %in0_3, %in0_5 : tensor<32xi64> loc(#loc29)\n      %in0_7 = tt.splat %in0_bptr_1 : i64 -> tensor<32xi64> loc(#loc29)\n      %in0_8 = arith.muli %in0_6, %in0_7 : tensor<32xi64> loc(#loc29)\n      %in0_9 = tt.addptr %in0, %in0_8 : tensor<32x!tt.ptr<f32>>, tensor<32xi64> loc(#loc29)\n      %in0_10 = arith.cmpi sge, %in0_6, %cst : tensor<32xi64> loc(#loc29)\n      %in0_11 = tt.splat %in0_bptr : i64 -> tensor<32xi64> loc(#loc29)\n      %in0_12 = arith.cmpi slt, %in0_6, %in0_11 : tensor<32xi64> loc(#loc29)\n      %in0_13 = arith.andi %in0_10, %in0_12 : tensor<32xi1> loc(#loc29)\n      %in0_14 = tt.load %in0_9, %in0_13 : tensor<32x!tt.ptr<f32>> loc(#loc29)\n      %out0 = tt.splat %val0 : f32 -> tensor<32xf32> loc(#loc32)\n      %out0_15 = tt.extern_elementwise %out0, %in0_14 {libname = \"\", libpath = \"\", pure = true, symbol = \"__nv_powf\"} : (tensor<32xf32>, tensor<32xf32>) -> tensor<32xf32> loc(#loc32)\n      %out0_bptr = arith.extsi %out0_stride0 : i32 to i64 loc(#loc31)\n      %0 = tt.splat %out0_ptr : !tt.ptr<f32> -> tensor<32x!tt.ptr<f32>> loc(#loc13)\n      %1 = tt.splat %out0_bptr : i64 -> tensor<32xi64> loc(#loc13)\n      %2 = arith.muli %in0_6, %1 : tensor<32xi64> loc(#loc13)\n      %3 = tt.addptr %0, %2 : tensor<32x!tt.ptr<f32>>, tensor<32xi64> loc(#loc13)\n      tt.store %3, %out0_15, %in0_13 : tensor<32x!tt.ptr<f32>> loc(#loc13)\n    } loc(#loc2)\n    tt.return loc(#loc14)\n  } loc(#loc)\n} loc(#loc)\n#loc1 = loc(unknown)\n#loc2 = loc(\"/tmp/veritile-pow-source-proposal/pow_exact_jits.py\":51:26)\n#loc3 = loc(\"/tmp/veritile-pow-source-proposal/pow_exact_jits.py\":30:24)\n#loc4 = loc(\"/tmp/veritile-pow-source-proposal/pow_exact_jits.py\":50:35)\n#loc5 = loc(\"/tmp/veritile-pow-source-proposal/pow_exact_jits.py\":52:32)\n#loc6 = loc(\"/tmp/veritile-pow-source-proposal/pow_exact_jits.py\":52:28)\n#loc7 = loc(\"/tmp/veritile-pow-source-proposal/pow_exact_jits.py\":57:33)\n#loc8 = loc(\"/tmp/veritile-pow-source-proposal/pow_exact_jits.py\":59:85)\n#loc9 = loc(\"/tmp/veritile-pow-source-proposal/pow_exact_jits.py\":60:26)\n#loc10 = loc(\"/tmp/veritile-pow-source-proposal/pow_exact_jits.py\":13:34)\n#loc11 = loc(\"/tmp/veritile-pow-source-proposal/pow_exact_jits.py\":63:48)\n#loc12 = loc(\"/tmp/veritile-pow-source-proposal/pow_exact_jits.py\":66:88)\n#loc13 = loc(\"/tmp/veritile-pow-source-proposal/pow_exact_jits.py\":67:32)\n#loc14 = loc(\"/tmp/veritile-pow-source-proposal/pow_exact_jits.py\":32:4)\n#loc23 = loc(\"pid\"(#loc3))\n#loc24 = loc(\"num_ctas\"(#loc4))\n#loc25 = loc(\"tile_id\"(#loc5))\n#loc26 = loc(\"tile_id\"(#loc6))\n#loc27 = loc(\"offset0\"(#loc7))\n#loc28 = loc(\"in0_bptr\"(#loc8))\n#loc29 = loc(\"in0\"(#loc9))\n#loc30 = loc(\"out0\"(#loc11))\n#loc31 = loc(\"out0_bptr\"(#loc12))\n#loc32 = loc(callsite(#loc10 at #loc30))\n",
+      "runtime_base_specialization": {
+        "2.0": [
+          "fp32",
+          null
+        ],
+        "0.5": [
+          "fp32",
+          null
+        ],
+        "7": [
+          "i32",
+          null
+        ]
+      },
+      "import_evidence": [
+        {
+          "module": "triton.language.extra.cuda.libdevice",
+          "status": "accepted",
+          "resolved_module": "triton.language.extra.cuda.libdevice",
+          "same_as_selected": true
+        },
+        {
+          "module": "triton.language.math",
+          "status": "ImportError",
+          "message": "cannot import name 'pow' from 'triton.language.math' (/usr/local/lib/python3.12/site-packages/triton/language/math.py)"
+        },
+        {
+          "module": "triton.language.libdevice",
+          "status": "ImportError",
+          "message": "No module named 'triton.language.libdevice'"
+        }
+      ],
+      "generated_module_sha256": "86fc37d5460cc1612f64d7141d24f6e8445e3e6e554e205614ed64adaa1b622a"
+    }
+  }
+}

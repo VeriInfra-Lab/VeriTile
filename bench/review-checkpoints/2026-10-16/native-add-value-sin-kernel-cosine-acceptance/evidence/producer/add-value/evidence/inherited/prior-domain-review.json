@@ -1,0 +1,98 @@
+{
+  "status": "producer_semantic_review_pending_independent_root_review",
+  "task": "add_value",
+  "public_contract": "AddValueFinite.add_value_finite_source_outcomes",
+  "source_connection": {
+    "source": "bench/tritonbench_g/add_value/add_value.py",
+    "DSL": "unchanged Kernels.puzzle1_kernel; exact seven statements lowered by original_ast_lowering",
+    "typed_expression": "one input word plus a runtime scalar register; no second pointer; source_scalar equates typed evaluation to independent result",
+    "native_ABI": "all15 admitted original annotated kernels compiled through TTIR/LLVM/PTX; value10 is fp32 nonconstexpr bits0x41200000, only BLOCK_SIZE1024 constexpr; N i32",
+    "bool": "raw8 input normalization !=0, exact predicate0/1 to fp32, addition, concrete partial fptosi8 store; raw output bytes10/11 under native conformance, no final bool normalization",
+    "fp64": "input remains fp64 and runtime fp32 scalar widens through singleTo64; existing_fp64_scalar reuses scalar proof only without a second load"
+  },
+  "host_outcomes": {
+    "order": [
+      "empty_like",
+      "CUDA assertion on x and output, including zero tensors",
+      "output.numel",
+      "current-device/stream preparation",
+      "canonical binder/frontend dtype handling",
+      "admitted native lowering/argument/launch setup",
+      "source full ceil(numel/1024) grid",
+      "return output"
+    ],
+    "canonical_dtypes": 22,
+    "admitted": 15,
+    "architecture_rejected": [
+      "float8_e4m3fnuz",
+      "float8_e5m2fnuz"
+    ],
+    "signature_rejected": [
+      "complex32",
+      "complex64",
+      "complex128",
+      "float8_e8m0fnu",
+      "float4_e2m1fn_x2"
+    ],
+    "rank_zero": "supported, numel1; no artificial rank rejection",
+    "test_harness": "test_puzzle is non-JIT, four ordinary wrapper calls; result_gold import initialization; no production caller"
+  },
+  "physical_domain": {
+    "index": "positive numel<2^31; every launched lane including masked tail has nonnegative signed-i32 pid*1024+lane; signed mask equals Nat mask",
+    "pointers": "actual storage base/extent/offset, natural dtype alignment, uint64 no-wrap including formed masked pointers",
+    "layout": "flat pointer source ignores logical strides; arbitrary rank and stride metadata preserved; safe physical active span rather than a generic Torch logical-indexing claim",
+    "allocation": "fresh storage separate from input; arbitrary initial output contents; allocation byte frame outside output allocation",
+    "device": "only actual wrapper CUDA assertion; no same-device/current-device equality requirement on input metadata; ordinary current launch context and byte permissions allow peer or mapped memory",
+    "permissions": "active input and output read observations, output writes; current launch address space bound to context; no positive memory or permission premise for zero-grid"
+  },
+  "zero_grid_metadata": {
+    "input": "InputViewBinding retains storageBase/storageBytes and actual dataPointer0 without equating unused affine address to null. Typed Matches retains input dtype and storage offset. TensorImpl::data_impl source snapshot and empty offset CPU probes support this boundary.",
+    "output": "unconditional ReturnedMetadata, shape/numel, exact empty_like preserve-format strides, dtype/offset Matches and View.Binds. Fresh empty outputs have offset0/base0/extent0/dataPointer0.",
+    "execution": "no memory reads/writes and no scalar requirements; host assertion, preparation, binder/frontend/native setup still occur before return"
+  },
+  "proved_results": [
+    "actual host trace and returned tensor",
+    "actual original source grid execution with concrete typed scalar AST",
+    "each active physical output equals independently defined result",
+    "active input preserved",
+    "all bytes outside active output unchanged from allocated memory",
+    "all output cells i>=numel unchanged from allocation",
+    "complete arbitrary active schedules including repeats construct successful independent results",
+    "unconditional allocation metadata and positive-only finite pointer/index/permission/current-context guarantees"
+  ],
+  "undefined_conversions": {
+    "model": "Option-based concrete toSigned/toUnsigned; grid_all_value_outcomes exposes None diagnostic or successful values",
+    "public_domain": "ValuesDefined requires existence of independent scalar result for every active original input; includes no final state, interpreter equality or execution conclusion",
+    "native_claim": "No native exception, rollback, store value or successful return claimed outside the defined conversion domain. undefinedDiagnostic is solely the mathematical interpreter diagnostic."
+  },
+  "trusted_ordinary_primitives": [
+    "Torch allocation, actual dtype/shape/stride/storage metadata",
+    "current-device/stream/target preparation and native launch setup errors",
+    "typed byte load/store MemoryPrimitives and stable readable/writable access permissions"
+  ],
+  "numerical_deferral": {
+    "families": 15,
+    "operation_instances": 41,
+    "case_bindings": 82,
+    "case_count": 309,
+    "errors_and_empty_numerical_requirements": 0,
+    "only_gap": "exact native scalar correspondence at each enumerated input/output dtype and configuration",
+    "not_deferred": [
+      "host order or scalar ABI",
+      "dtype routes or first native rejection",
+      "source lowering or full grids",
+      "views, finite addresses, masks or memory frames",
+      "undefined conversion structure",
+      "metadata or zero-grid behavior"
+    ]
+  },
+  "checks": {
+    "Lean": "5 clean compiled modules; final source/object hashes and all failed attempts retained",
+    "native": "22 original annotated signature probes,15 backend compiles,7 first rejects,0 GPU launches",
+    "structure": "20 exact original wrapper AST host-order probes,9 CPU metadata cases,96 synthetic byte-grid schedule cases,33 index-boundary cases,4 bool byte patterns",
+    "authority": "unchanged global queue equality in synthetic integration fixture,82 missing-port cases and6 tamper/self-review rejections; prior authority unchanged"
+  },
+  "acceptance_increment": 0,
+  "repository_modified": false,
+  "frozen_prior_packages_modified": false
+}

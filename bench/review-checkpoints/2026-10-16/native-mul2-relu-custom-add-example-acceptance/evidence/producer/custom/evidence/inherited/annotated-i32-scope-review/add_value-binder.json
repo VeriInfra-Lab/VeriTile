@@ -1,0 +1,85 @@
+{
+  "task": "add_value",
+  "N_python": 2147483648,
+  "block": 1024,
+  "grid_x": 2097152,
+  "native_signed_bound": -2147483648,
+  "original_source": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/add_value/add_value.py",
+  "source_sha256": "018443803f71ddd60d1fa6cdf59eb5e791853f3c43be9cc17d5fb31c029aad62",
+  "production_ast_unchanged": true,
+  "signature": {
+    "x_ptr": "*fp32",
+    "output_ptr": "*fp32",
+    "N": "i32",
+    "BLOCK_SIZE": "constexpr",
+    "value": "fp32"
+  },
+  "specialization": [
+    [
+      "*fp32",
+      "D"
+    ],
+    [
+      "*fp32",
+      "D"
+    ],
+    [
+      "i32",
+      "D"
+    ],
+    [
+      "constexpr",
+      1024
+    ],
+    [
+      "fp32",
+      null
+    ]
+  ],
+  "constexprs": {
+    "(3,)": 1024
+  },
+  "params_N": 2147483648,
+  "options": {
+    "num_warps": 4,
+    "num_ctas": 1,
+    "num_stages": 3,
+    "warp_size": 32,
+    "maxnreg": null,
+    "ptx_version": null,
+    "ptx_options": null,
+    "ir_override": null,
+    "enable_fp_fusion": true,
+    "enable_reflect_ftz": true,
+    "launch_cooperative_grid": false,
+    "launch_pdl": false,
+    "supported_fp8_dtypes": [
+      "fp8e4b15",
+      "fp8e4nv",
+      "fp8e5"
+    ],
+    "deprecated_fp8_dot_operand_dtypes": [
+      "fp8e4b15"
+    ],
+    "default_dot_input_precision": "tf32",
+    "allowed_dot_input_precisions": [
+      "tf32",
+      "tf32x3",
+      "ieee",
+      "bf16x3",
+      "bf16x6"
+    ],
+    "max_num_imprecise_acc_default": 1073741824,
+    "extern_libs": [
+      [
+        "libdevice",
+        "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+      ]
+    ],
+    "debug": false,
+    "backend_name": "cuda",
+    "sanitize_overflow": true,
+    "arch": "sm90",
+    "instrumentation_mode": ""
+  }
+}

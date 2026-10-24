@@ -1,0 +1,79 @@
+[
+  {
+    "module": "bench/tritonbench_g/add_value/NativeCorrect.lean",
+    "source_sha256": "de21bdb70d55dec7410a1ad405d17ae52d85f59b049e16d7fe9659f5b9a8bf06",
+    "attempt": "evidence/lean-attempts/0016-NativeCorrect.json",
+    "log": "evidence/lean-attempts/0016-NativeCorrect.log",
+    "log_sha256": "89b6ff2d496fa0f6f45539fee4aa19d2865b079641435069bf52e4742444e998",
+    "object": "evidence/final-objects/bench/tritonbench_g/add_value/NativeCorrect.olean",
+    "object_sha256": "a25b45e6fbba0526fd8ed7db3e848635138acfd7926ca0ba495eca166af817fe",
+    "clean_axiom_checks": 6,
+    "noncircular_checks": 2
+  },
+  {
+    "module": "bench/tritonbench_g/add_value/Proofs/NativeAdmission.lean",
+    "source_sha256": "7ec20c224728679db534af5011c2ff3433ae63826b058f1733ef82a12df45094",
+    "attempt": "evidence/lean-attempts/0014-NativeAdmission.json",
+    "log": "evidence/lean-attempts/0014-NativeAdmission.log",
+    "log_sha256": "c7326695d6c64780b4d9e6bddc8eecb8cc3fb3a6d2977ba7a0944a632ce4f0fb",
+    "object": "evidence/final-objects/bench/tritonbench_g/add_value/Proofs/NativeAdmission.olean",
+    "object_sha256": "691ad759798fc40bad683c155d64800b395d4bf19de72568d9dd4a654d4c6d07",
+    "clean_axiom_checks": 2,
+    "noncircular_checks": 0
+  },
+  {
+    "module": "bench/tritonbench_g/add_value/Proofs/NativeArithmetic.lean",
+    "source_sha256": "2b15a9c8cc60cb4f009e11475f8bae188027c642dcec8431ed87d02dfb2c2482",
+    "attempt": "evidence/lean-attempts/0010-NativeArithmetic.json",
+    "log": "evidence/lean-attempts/0010-NativeArithmetic.log",
+    "log_sha256": "a37b2ba3131594270d74b1ca0fbec7a3102844435978bd73474addf69ccf108b",
+    "object": "evidence/final-objects/bench/tritonbench_g/add_value/Proofs/NativeArithmetic.olean",
+    "object_sha256": "05b5c36e492561606a4bcd84107c092617be8da5969a97b9e08cc941641ff082",
+    "clean_axiom_checks": 2,
+    "noncircular_checks": 0
+  },
+  {
+    "module": "bench/tritonbench_g/add_value/Proofs/NativeGrid.lean",
+    "source_sha256": "8dd4eeebe3d5eb85a14d5dc14a9782c3f10116465afeb42b851118baeb1061dc",
+    "attempt": "evidence/lean-attempts/0013-NativeGrid.json",
+    "log": "evidence/lean-attempts/0013-NativeGrid.log",
+    "log_sha256": "c3f8869f0419c13a938efd2d1c5ca700a5b197de04d8013b55098708984324f4",
+    "object": "evidence/final-objects/bench/tritonbench_g/add_value/Proofs/NativeGrid.olean",
+    "object_sha256": "4a3b57a3548a5462f85900740978d9cb4428e51028ef2dafc8dca846fc53f519",
+    "clean_axiom_checks": 6,
+    "noncircular_checks": 1
+  },
+  {
+    "module": "bench/tritonbench_g/add_value/Proofs/NativeMemory.lean",
+    "source_sha256": "7afa128334f93ab6741bbee446ae535813f610be8f3c2bf7f4e8ec9c8b3cb620",
+    "attempt": "evidence/lean-attempts/0011-NativeMemory.json",
+    "log": "evidence/lean-attempts/0011-NativeMemory.log",
+    "log_sha256": "d012f8eaf1b291d6011638bc2b7c5aa328c536be222eb05461730c2964f5e779",
+    "object": "evidence/final-objects/bench/tritonbench_g/add_value/Proofs/NativeMemory.olean",
+    "object_sha256": "bf74e5dae07024a6f209c90351658cb9484a458defd39ec8eb9380f98676431d",
+    "clean_axiom_checks": 5,
+    "noncircular_checks": 1
+  },
+  {
+    "module": "bench/tritonbench_g/add_value/Proofs/NativeProgram.lean",
+    "source_sha256": "160edd44718eee239b96fcfc342a07597ee6af6238899694c537acc557cd7b17",
+    "attempt": "evidence/lean-attempts/0012-NativeProgram.json",
+    "log": "evidence/lean-attempts/0012-NativeProgram.log",
+    "log_sha256": "864df2eb1dfe794a2e0336c86f65969d2df6ff6276208bd3b77c6a5e0174616f",
+    "object": "evidence/final-objects/bench/tritonbench_g/add_value/Proofs/NativeProgram.olean",
+    "object_sha256": "1f1a190f1da3351cf18a897e1a85961574a4a4c3a1769906f6e9e48767472801",
+    "clean_axiom_checks": 5,
+    "noncircular_checks": 1
+  },
+  {
+    "module": "bench/tritonbench_g/add_value/Proofs/NativeScalar.lean",
+    "source_sha256": "1c298973356d2a73dd5042583107f6cb70bb213e288fa985dff8eb17727343bc",
+    "attempt": "evidence/lean-attempts/0009-NativeScalar.json",
+    "log": "evidence/lean-attempts/0009-NativeScalar.log",
+    "log_sha256": "fb7bb52d497e849e498eecb6d6a95085e2f9117f16cdcb3bc458a754bd3f6141",
+    "object": "evidence/final-objects/bench/tritonbench_g/add_value/Proofs/NativeScalar.olean",
+    "object_sha256": "2c7fc24060506bcb8eb0e9b2bcf4721da5cf88b993817f30ddd145a584aa5aba",
+    "clean_axiom_checks": 4,
+    "noncircular_checks": 1
+  }
+]

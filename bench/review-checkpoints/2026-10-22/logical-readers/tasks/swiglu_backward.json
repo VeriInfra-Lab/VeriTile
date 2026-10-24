@@ -1,0 +1,170 @@
+{
+  "schema": 1,
+  "task": "swiglu_backward",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue14/review-supplement/result.json",
+    "sha256": "200c835b2865a3754511626b67c3dd83da5915c23edcd916bf72095c1e08fe74",
+    "task_index": 5
+  },
+  "finding": "Main target hid matrix inputs and output channels behind IO.reference.",
+  "resolution": "Added named x/y/dout matrix inputs and complete dx/dy/out channel outputs; direct logical gradient application retains all inactive entries. Independent review also moved all scalar/stage proof assembly into Proofs, preserving the adjacent explicit pure mathematics and leaving a thin theorem application.",
+  "mathematical_target": "fun xs ch row col => backwardFormula ch (xs.x row col) (xs.y row col) (xs.dout row col)",
+  "conditions_and_scope": "0<B, Ownership c R, complete grid permutation; recompute-dependent optional OUT mask; source casts, strides, order, safety and frame unchanged.",
+  "proof_connection": {
+    "full_old_new_iff": "VeriTile.Bench.Repairs.SwigluBackward.Logical.judgment_iff",
+    "canonical_source_connection": [
+      "Existing independent visible backwardFormula retained",
+      "IOProof.implements plus scalar_real for every Channel connects actual scalar execution with Mathlib-backed analytic gradient/forward formulas",
+      "Only scoped ⊨ reader syntax changed"
+    ],
+    "coordinate_and_connection_build_receipts": [
+      {
+        "source": "bench/repairs/tritonbench_g/swiglu_backward/LogicalIO.lean",
+        "source_sha256": "6d5d215319b13373e1785fec02b1d13ea0a78c9ee157f15e742fd787eab5893f",
+        "receipt": ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/swiglu_backward/LogicalIO.workspace-build.json",
+        "receipt_sha256": "51c041dbeaa2dcc41455c5146fa5429b7126e5c9233e782148e5393aae8155dc",
+        "exit_code": 0,
+        "object_sha256": {
+          ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/swiglu_backward/LogicalIO.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/swiglu_backward/LogicalIO.ilean": "16da22081c480b62f848570363cb1804ca55d6ae93c8fe5324c326db8eb5eba5",
+          ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/swiglu_backward/LogicalIO.olean": "ef07fffc905405c3ce41a0522da6ff9f7fc82327b09130938be9b0987ad85ab7"
+        }
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/swiglu_backward/Proofs/LogicalIO.lean",
+        "source_sha256": "708738c86c1b2c8fcd2d4665d776198d9cb919998e64e18ee8666be815f7a4aa",
+        "receipt": ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/swiglu_backward/Proofs/LogicalIO.workspace-build.json",
+        "receipt_sha256": "d451f193872eeb5b520ea25b99bb9c75893100ca1293a7ea6ec4c17b435f9b6e",
+        "exit_code": 0,
+        "object_sha256": {
+          ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/swiglu_backward/Proofs/LogicalIO.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/swiglu_backward/Proofs/LogicalIO.ilean": "f8318592bbe99dfe1b32ed1e1304c54e20055a522320db95684c03dc9fbdc85c",
+          ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/swiglu_backward/Proofs/LogicalIO.olean": "9f26cdcd7cb1d7243ad286ce3843b60c5b1028291ab7167965590bc94275e7e4"
+        }
+      }
+    ],
+    "main_build_receipts": [
+      {
+        "source": "bench/repairs/tritonbench_g/swiglu_backward/Correct.lean",
+        "source_sha256": "55629c87d02495b80b5ca220bfb12d9251109a8bb6e2a2d58821fcd682eeeba1",
+        "receipt": ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/swiglu_backward/Correct.workspace-build.json",
+        "receipt_sha256": "2c6163c6ed1fcdd25b050516b228deb4102b8bb46576446c94d3b964537402c0",
+        "exit_code": 0,
+        "object_sha256": {
+          ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/swiglu_backward/Correct.olean": "3a3f95a1a7908a012772c9f06b144522cbf9ecf2e2609befdda7f6a69415d5de",
+          ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/swiglu_backward/Correct.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/swiglu_backward/Correct.ilean": "a2e329f20fdf319a51769eb3b0157bf74d3866121b7007aa5c34b53bd1b6036c"
+        }
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/swiglu_backward/FPEquiv.lean",
+        "source_sha256": "c44405b7852c833c4cfb0a535714b747bc8b3b3d3ec282ffb3f26d88122c1a35",
+        "receipt": ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/swiglu_backward/FPEquiv.workspace-build.json",
+        "receipt_sha256": "3b7ed56e2883d492472b2ebcae11115efdd8dab8ffd75f7429687c371e646fa6",
+        "exit_code": 0,
+        "object_sha256": {
+          ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/swiglu_backward/FPEquiv.ilean": "a893701d207bfeedf508d983c7c276a2c6cfccb8651014654a3301948fec758d",
+          ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/swiglu_backward/FPEquiv.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/swiglu_backward/FPEquiv.olean": "6b1d03858662f9671296a9a9f2fdda9d115e5d55f02c783252942eeeac85ce33"
+        }
+      }
+    ],
+    "reader_theorem": "Logical.reader_implements; scalar/stage formula identities and proof assembly live in Proofs/LogicalIO.lean."
+  },
+  "fp_review": {
+    "headline": "original ≡[assumptions=[]] indexCommuted",
+    "source": "complete original source grid versus IO.commuted candidate",
+    "connection": "GridEquivalence.equivalent through ProgramIO.Implementation.of_equivalent; six natural row-address products commute",
+    "source_unchanged": true
+  },
+  "numerical_dependencies": {
+    "experimental_rules": [],
+    "qualification": "Empty experimental rule set in the stated program view. Fixed strict/software/native primitives, precision, conversions, reduction trees and observers remain part of that view; no arbitrary opaque-model or hardware-wide bit-equality claim.",
+    "strict_model": "Observed.NativeModel(BitVec32), graph algebra and native observer retained. FP32 casts, sigmoid/FMA/operand order, stores and all raw input words unchanged.",
+    "main_experimental_rules_used_count": 0,
+    "new_experiments": 0,
+    "new_deferred_experiments": [],
+    "counting_scope": "Actual main-pair dependencies only; imported/available rule tables and optional native results are not counted as used."
+  },
+  "previous_formula_scope": {
+    "mathematical_target": "Adjacent backwardFormula: s=1/(1+exp(-x)); dx=d*y*s*(1+x*(1-s)); dy=d*x*s; optional out=x*s*y.",
+    "required_conditions": [
+      "0<B",
+      "Ownership c R",
+      "tiles.Perm (grid c B)",
+      "Public ProgramIO preserves active input/output masks, memory binding, safe successful schedule and exterior frame"
+    ],
+    "scope": "Full original source grid in every legal permutation, both recomputation branches, all strided matrix windows and tails. Optional OUT store remains selected by R; all three ordered stores retained.",
+    "canonical_connection": [
+      "Existing independent visible backwardFormula retained",
+      "IOProof.implements plus scalar_real for every Channel connects actual scalar execution with Mathlib-backed analytic gradient/forward formulas",
+      "Only scoped ⊨ reader syntax changed"
+    ],
+    "fp_program_pair": {
+      "headline": "original ≡[assumptions=[]] indexCommuted",
+      "source": "complete original source grid versus IO.commuted candidate",
+      "connection": "GridEquivalence.equivalent through ProgramIO.Implementation.of_equivalent; six natural row-address products commute"
+    },
+    "numerical_dependencies": {
+      "experimental_rules": [],
+      "qualification": "Empty experimental rule set in the stated program view. Fixed strict/software/native primitives, precision, conversions, reduction trees and observers remain part of that view; no arbitrary opaque-model or hardware-wide bit-equality claim.",
+      "strict_model": "Observed.NativeModel(BitVec32), graph algebra and native observer retained. FP32 casts, sigmoid/FMA/operand order, stores and all raw input words unchanged."
+    }
+  },
+  "verification": [
+    {
+      "kind": "Correct-FPEquiv",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue14/build.py",
+        "bench/repairs/tritonbench_g/swiglu_backward/Correct.lean",
+        "bench/repairs/tritonbench_g/swiglu_backward/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue14/review-supplement/verify-four/swiglu_backward/Correct-FPEquiv.log",
+      "log_sha256": "03ca45eb430936f30c7690b693ae8c1964e26850ab952b7562cd390f2aa4a412",
+      "elapsed_seconds": 4.379
+    },
+    {
+      "kind": "joint",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue14/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue14/review-supplement/verify-four/swiglu_backward/joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue14/review-supplement/verify-four/swiglu_backward/joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "elapsed_seconds": 3.693
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/swiglu_backward/Contract.lean": "89faa2bc8c91b05126aadba04c4ca471c889b8f028a2533f47fc327e01c2c57b",
+    "bench/repairs/tritonbench_g/swiglu_backward/Correct.lean": "55629c87d02495b80b5ca220bfb12d9251109a8bb6e2a2d58821fcd682eeeba1",
+    "bench/repairs/tritonbench_g/swiglu_backward/FPEquiv.lean": "c44405b7852c833c4cfb0a535714b747bc8b3b3d3ec282ffb3f26d88122c1a35",
+    "bench/repairs/tritonbench_g/swiglu_backward/IO.lean": "f09038cc9695280923c494df7634c06935f51bf43a01ebe90b69dc610a8ee1d6",
+    "bench/repairs/tritonbench_g/swiglu_backward/Kernels.lean": "df51e31e7f2072362d0fe7249228fff08c43f648234fbb214d99f30b630b3499",
+    "bench/repairs/tritonbench_g/swiglu_backward/LogicalIO.lean": "6d5d215319b13373e1785fec02b1d13ea0a78c9ee157f15e742fd787eab5893f",
+    "bench/repairs/tritonbench_g/swiglu_backward/Proofs/IOImplements.lean": "466dd820074eb2fa9ac85d7ac8a74ea33b02a30474f59f070e38f8fd85b2d0db",
+    "bench/repairs/tritonbench_g/swiglu_backward/Proofs/LogicalIO.lean": "708738c86c1b2c8fcd2d4665d776198d9cb919998e64e18ee8666be815f7a4aa",
+    "bench/repairs/tritonbench_g/swiglu_backward/Proofs/NativeIO.lean": "7eff69ed5ce7419af038bb54fbfe4446d207fd5dee332bdef1d7f490c8c1b2d9",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [
+    "Targeted modified IO/connection/reader replay and per-task Contract+Correct+FPEquiv imports; cached established internal proof dependencies reused. No new GPU/native/host or numerical obligation, and no full dependency-closure replay."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

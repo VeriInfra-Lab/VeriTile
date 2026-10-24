@@ -1,0 +1,37 @@
+{
+  "status": "passed",
+  "source_sha256": "11f0c747af151465286ea9e8821932f80b71513fbb2d343a304ba54f4e8013f4",
+  "source_function_and_decorator_ast_identical": true,
+  "selected_ast_sha256": "2c87612fd54e4b8e54f886b8e87d2343cb7ffd847fbb786e1ad61b3a0eaa7839",
+  "runtime_path": "/usr/local/lib/python3.12/site-packages/triton/runtime/autotuner.py",
+  "runtime_sha256": "40f5e142806219942585a16742e9f3721d5bfef88145b571cf389f9aec6460bb",
+  "triton_version": "3.7.1",
+  "cases": 252,
+  "cold_cases": 36,
+  "rejected": 28,
+  "trial_order": [
+    32,
+    64,
+    128,
+    256,
+    512,
+    1024
+  ],
+  "benchmark_calls_per_candidate": 2,
+  "benchmark_costs": "2048 - tile, deterministic synthetic timing",
+  "runtime_methods_executed": [
+    "Autotuner.run",
+    "Autotuner._bench",
+    "Autotuner.prune_configs",
+    "Heuristics.run"
+  ],
+  "jit_sink": "original JIT body AST compiled by ASTSource.make_ir; actual CompilationError propagates through real runtime methods",
+  "cold_fp64_domains": {
+    "inner": "N <= 32",
+    "noninner": "N <= 1"
+  },
+  "cache_hit_fp64_domain": "N <= selected TILE_N",
+  "native_backend_execution": false,
+  "gpu_execution": false,
+  "scope": "Runtime trial ordering, source configuration/heuristic wiring and compiler rejection. Synthetic timing and frontend-only JIT sink do not establish real timing, backend resource availability, or GPU value behavior."
+}

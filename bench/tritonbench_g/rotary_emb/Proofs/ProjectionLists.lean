@@ -15,7 +15,7 @@ theorem surface (k : ComputeKernel)
 
 theorem erase_map (xs : List Stmt) : Stmt.eraseDTypeList xs = xs.map Stmt.eraseDType := by
   induction xs with
-  | nil => rfl
+  | nil => simp [Stmt.eraseDTypeList]
   | cons x xs ih => simpa only [Stmt.eraseDTypeList, List.map_cons] using congrArg (x.eraseDType :: ·) ih
 
 /-- Successful source projection commutes with a statement prefix. -/
@@ -32,16 +32,16 @@ theorem take (n : Nat) (xs : List ComputeStmt) (ys : List Stmt)
           rfl
       | cons x xs =>
           cases hx : ComputeStmt.toAlgorithm? x with
-          | error e => simp [ComputeStmt.listToAlgorithm?, hx] at h
+          | error e => simp [ComputeStmt.listToAlgorithm?, hx, bind, Except.bind] at h
           | ok y =>
               cases ht : ComputeStmt.listToAlgorithm? xs with
-              | error e => simp [ComputeStmt.listToAlgorithm?, hx, ht] at h
+              | error e => simp [ComputeStmt.listToAlgorithm?, hx, ht, bind, Except.bind] at h
               | ok tail =>
                   have hy : y::tail=ys := by
-                    simpa [ComputeStmt.listToAlgorithm?, hx, ht] using h
+                    simpa [ComputeStmt.listToAlgorithm?, hx, ht, bind, Except.bind] using h
                   subst ys
                   simp only [List.take_succ_cons, ComputeStmt.listToAlgorithm?, hx,
-                    ih xs tail ht, Except.bind]
+                    ih xs tail ht, bind, Except.bind]
 
 /-- Successful source projection commutes with a statement suffix. -/
 theorem drop (n : Nat) (xs : List ComputeStmt) (ys : List Stmt)
@@ -57,13 +57,13 @@ theorem drop (n : Nat) (xs : List ComputeStmt) (ys : List Stmt)
           rfl
       | cons x xs =>
           cases hx : ComputeStmt.toAlgorithm? x with
-          | error e => simp [ComputeStmt.listToAlgorithm?, hx] at h
+          | error e => simp [ComputeStmt.listToAlgorithm?, hx, bind, Except.bind] at h
           | ok y =>
               cases ht : ComputeStmt.listToAlgorithm? xs with
-              | error e => simp [ComputeStmt.listToAlgorithm?, hx, ht] at h
+              | error e => simp [ComputeStmt.listToAlgorithm?, hx, ht, bind, Except.bind] at h
               | ok tail =>
                   have hy : y::tail=ys := by
-                    simpa [ComputeStmt.listToAlgorithm?, hx, ht] using h
+                    simpa [ComputeStmt.listToAlgorithm?, hx, ht, bind, Except.bind] using h
                   subst ys
                   exact ih xs tail ht
 
@@ -76,7 +76,7 @@ theorem joined_supported (a b : ComputeKernel) (inputs outputs : List RegionName
       .ok (a.toAlgKernel.body.take n ++ b.toAlgKernel.body.drop n) := by
     rw [ComputeStmt.listToAlgorithm?_append,
       take n _ _ (surface a ha), drop n _ _ (surface b hb)]
-  simp [ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel, hp]
+  simp only [ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?_mk, hp]
 
 /-- Composing two complete source templates at a fixed statement boundary
 commutes with checked projection and dtype erasure. No source statement is
@@ -106,8 +106,8 @@ theorem replace_supported (a : ComputeKernel) (inputs outputs : List RegionName)
       (a.surfaceBody.take n ++ [replacement] ++ a.surfaceBody.drop (n+1)) =
       .ok (a.toAlgKernel.body.take n ++ [st] ++ a.toAlgKernel.body.drop (n+1)) := by
     simp only [ComputeStmt.listToAlgorithm?_append, take n _ _ (surface a ha),
-      drop (n+1) _ _ (surface a ha), ComputeStmt.listToAlgorithm?, hr, Except.bind]
-  simp [ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel, hp]
+      drop (n+1) _ _ (surface a ha), ComputeStmt.listToAlgorithm?, hr, bind, Except.bind]
+  simp only [ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?_mk, hp]
 
 theorem replace_erased_body (a : ComputeKernel) (inputs outputs : List RegionName) (n : Nat)
     (replacement : ComputeStmt) (st : Stmt)
@@ -121,7 +121,7 @@ theorem replace_erased_body (a : ComputeKernel) (inputs outputs : List RegionNam
       (a.surfaceBody.take n ++ [replacement] ++ a.surfaceBody.drop (n+1)) =
       .ok (a.toAlgKernel.body.take n ++ [st] ++ a.toAlgKernel.body.drop (n+1)) := by
     simp only [ComputeStmt.listToAlgorithm?_append, take n _ _ (surface a ha),
-      drop (n+1) _ _ (surface a ha), ComputeStmt.listToAlgorithm?, hr, Except.bind]
+      drop (n+1) _ _ (surface a ha), ComputeStmt.listToAlgorithm?, hr, bind, Except.bind]
   simp only [ComputeKernel.eraseDType, ComputeKernel.toAlgorithm?_mk, hp, ha,
     ComputeKernel.toAlgKernel_fromKernelBody, Kernel.eraseDType, erase_map,
     List.map_append, List.map_take, List.map_drop, List.map_cons, List.map_nil]

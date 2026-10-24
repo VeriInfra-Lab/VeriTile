@@ -1,0 +1,545 @@
+{
+  "status": "pass",
+  "source": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/matrix_transpose/matrix_transpose.py",
+  "source_sha256": "0ceaf829e152415896fea92229c45c00f34ade1ff5f0da7aaefa8769a84c5957",
+  "wrapper_ast_sha256": "58af7ce2acde06582dfa6d4a8c517f555ea1616f31f820dcafb75e16765aa903",
+  "script_sha256": "9f2c9af81c209eb6623f3f7cef9cddf7ad814d7dbc7194bc586d2cc47423621e",
+  "torch_version": "2.13.0+cu130",
+  "triton_version": "3.7.1",
+  "execution": "original wrapper AST; CUDA allocation requests intercepted and delegated to CPU; kernel replaced with launch spy",
+  "gpu_execution": false,
+  "native_compilation": false,
+  "cases": [
+    {
+      "dimensions": [
+        16,
+        16
+      ],
+      "status": "wrapper_metadata_replayed",
+      "allocation_calls": [
+        {
+          "factory": "randn",
+          "shape": [
+            16,
+            16
+          ],
+          "requested_device": "cuda",
+          "dtype": "torch.float16"
+        },
+        {
+          "factory": "zeros",
+          "shape": [
+            16,
+            16
+          ],
+          "requested_device": "cuda",
+          "dtype": "torch.float16"
+        }
+      ],
+      "launch": {
+        "grid": [
+          1
+        ],
+        "input_shape": [
+          16,
+          16
+        ],
+        "output_shape": [
+          16,
+          16
+        ],
+        "input_strides": [
+          16,
+          1
+        ],
+        "output_strides": [
+          16,
+          1
+        ],
+        "dtype": "torch.float16",
+        "initial_output_zero": true,
+        "input_contiguous": true,
+        "output_contiguous": true,
+        "launch_dimensions": [
+          16,
+          16
+        ]
+      },
+      "returns_allocated_output_identity": true,
+      "pre_fix_input_stride_match": true,
+      "pre_fix_output_stride_match": true
+    },
+    {
+      "dimensions": [
+        32,
+        64
+      ],
+      "status": "wrapper_metadata_replayed",
+      "allocation_calls": [
+        {
+          "factory": "randn",
+          "shape": [
+            32,
+            64
+          ],
+          "requested_device": "cuda",
+          "dtype": "torch.float16"
+        },
+        {
+          "factory": "zeros",
+          "shape": [
+            64,
+            32
+          ],
+          "requested_device": "cuda",
+          "dtype": "torch.float16"
+        }
+      ],
+      "launch": {
+        "grid": [
+          1
+        ],
+        "input_shape": [
+          32,
+          64
+        ],
+        "output_shape": [
+          64,
+          32
+        ],
+        "input_strides": [
+          64,
+          1
+        ],
+        "output_strides": [
+          32,
+          1
+        ],
+        "dtype": "torch.float16",
+        "initial_output_zero": true,
+        "input_contiguous": true,
+        "output_contiguous": true,
+        "launch_dimensions": [
+          32,
+          64
+        ]
+      },
+      "returns_allocated_output_identity": true,
+      "pre_fix_input_stride_match": true,
+      "pre_fix_output_stride_match": true
+    },
+    {
+      "dimensions": [
+        1,
+        1
+      ],
+      "status": "wrapper_metadata_replayed",
+      "allocation_calls": [
+        {
+          "factory": "randn",
+          "shape": [
+            1,
+            1
+          ],
+          "requested_device": "cuda",
+          "dtype": "torch.float16"
+        },
+        {
+          "factory": "zeros",
+          "shape": [
+            1,
+            1
+          ],
+          "requested_device": "cuda",
+          "dtype": "torch.float16"
+        }
+      ],
+      "launch": {
+        "grid": [
+          1
+        ],
+        "input_shape": [
+          1,
+          1
+        ],
+        "output_shape": [
+          1,
+          1
+        ],
+        "input_strides": [
+          1,
+          1
+        ],
+        "output_strides": [
+          1,
+          1
+        ],
+        "dtype": "torch.float16",
+        "initial_output_zero": true,
+        "input_contiguous": true,
+        "output_contiguous": true,
+        "launch_dimensions": [
+          1,
+          1
+        ]
+      },
+      "returns_allocated_output_identity": true,
+      "pre_fix_input_stride_match": true,
+      "pre_fix_output_stride_match": true
+    },
+    {
+      "dimensions": [
+        0,
+        3
+      ],
+      "status": "wrapper_metadata_replayed",
+      "allocation_calls": [
+        {
+          "factory": "randn",
+          "shape": [
+            0,
+            3
+          ],
+          "requested_device": "cuda",
+          "dtype": "torch.float16"
+        },
+        {
+          "factory": "zeros",
+          "shape": [
+            3,
+            0
+          ],
+          "requested_device": "cuda",
+          "dtype": "torch.float16"
+        }
+      ],
+      "launch": {
+        "grid": [
+          1
+        ],
+        "input_shape": [
+          0,
+          3
+        ],
+        "output_shape": [
+          3,
+          0
+        ],
+        "input_strides": [
+          3,
+          1
+        ],
+        "output_strides": [
+          1,
+          1
+        ],
+        "dtype": "torch.float16",
+        "initial_output_zero": true,
+        "input_contiguous": true,
+        "output_contiguous": true,
+        "launch_dimensions": [
+          0,
+          3
+        ]
+      },
+      "returns_allocated_output_identity": true,
+      "pre_fix_input_stride_match": true,
+      "pre_fix_output_stride_match": false
+    },
+    {
+      "dimensions": [
+        3,
+        0
+      ],
+      "status": "wrapper_metadata_replayed",
+      "allocation_calls": [
+        {
+          "factory": "randn",
+          "shape": [
+            3,
+            0
+          ],
+          "requested_device": "cuda",
+          "dtype": "torch.float16"
+        },
+        {
+          "factory": "zeros",
+          "shape": [
+            0,
+            3
+          ],
+          "requested_device": "cuda",
+          "dtype": "torch.float16"
+        }
+      ],
+      "launch": {
+        "grid": [
+          1
+        ],
+        "input_shape": [
+          3,
+          0
+        ],
+        "output_shape": [
+          0,
+          3
+        ],
+        "input_strides": [
+          1,
+          1
+        ],
+        "output_strides": [
+          3,
+          1
+        ],
+        "dtype": "torch.float16",
+        "initial_output_zero": true,
+        "input_contiguous": true,
+        "output_contiguous": true,
+        "launch_dimensions": [
+          3,
+          0
+        ]
+      },
+      "returns_allocated_output_identity": true,
+      "pre_fix_input_stride_match": false,
+      "pre_fix_output_stride_match": true
+    },
+    {
+      "dimensions": [
+        0,
+        0
+      ],
+      "status": "wrapper_metadata_replayed",
+      "allocation_calls": [
+        {
+          "factory": "randn",
+          "shape": [
+            0,
+            0
+          ],
+          "requested_device": "cuda",
+          "dtype": "torch.float16"
+        },
+        {
+          "factory": "zeros",
+          "shape": [
+            0,
+            0
+          ],
+          "requested_device": "cuda",
+          "dtype": "torch.float16"
+        }
+      ],
+      "launch": {
+        "grid": [
+          1
+        ],
+        "input_shape": [
+          0,
+          0
+        ],
+        "output_shape": [
+          0,
+          0
+        ],
+        "input_strides": [
+          1,
+          1
+        ],
+        "output_strides": [
+          1,
+          1
+        ],
+        "dtype": "torch.float16",
+        "initial_output_zero": true,
+        "input_contiguous": true,
+        "output_contiguous": true,
+        "launch_dimensions": [
+          0,
+          0
+        ]
+      },
+      "returns_allocated_output_identity": true,
+      "pre_fix_input_stride_match": false,
+      "pre_fix_output_stride_match": false
+    },
+    {
+      "dimensions": [
+        3,
+        5
+      ],
+      "status": "wrapper_metadata_replayed",
+      "allocation_calls": [
+        {
+          "factory": "randn",
+          "shape": [
+            3,
+            5
+          ],
+          "requested_device": "cuda",
+          "dtype": "torch.float16"
+        },
+        {
+          "factory": "zeros",
+          "shape": [
+            5,
+            3
+          ],
+          "requested_device": "cuda",
+          "dtype": "torch.float16"
+        }
+      ],
+      "launch": {
+        "grid": [
+          1
+        ],
+        "input_shape": [
+          3,
+          5
+        ],
+        "output_shape": [
+          5,
+          3
+        ],
+        "input_strides": [
+          5,
+          1
+        ],
+        "output_strides": [
+          3,
+          1
+        ],
+        "dtype": "torch.float16",
+        "initial_output_zero": true,
+        "input_contiguous": true,
+        "output_contiguous": true,
+        "launch_dimensions": [
+          3,
+          5
+        ]
+      },
+      "returns_allocated_output_identity": true,
+      "pre_fix_input_stride_match": true,
+      "pre_fix_output_stride_match": true
+    },
+    {
+      "dimensions": [
+        -1,
+        4
+      ],
+      "status": "host_error_before_launch",
+      "exception_type": "RuntimeError",
+      "exception": "Trying to create tensor with negative dimension -1: [-1, 4]",
+      "allocation_calls": [
+        {
+          "factory": "randn",
+          "shape": [
+            -1,
+            4
+          ],
+          "requested_device": "cuda",
+          "dtype": "torch.float16"
+        }
+      ],
+      "launch_count": 0
+    },
+    {
+      "dimensions": [
+        4,
+        -1
+      ],
+      "status": "host_error_before_launch",
+      "exception_type": "RuntimeError",
+      "exception": "Trying to create tensor with negative dimension -1: [4, -1]",
+      "allocation_calls": [
+        {
+          "factory": "randn",
+          "shape": [
+            4,
+            -1
+          ],
+          "requested_device": "cuda",
+          "dtype": "torch.float16"
+        }
+      ],
+      "launch_count": 0
+    },
+    {
+      "dimensions": [
+        1.5,
+        4
+      ],
+      "status": "host_error_before_launch",
+      "exception_type": "TypeError",
+      "exception": "randn() received an invalid combination of arguments - got (tuple, device=str, dtype=torch.dtype), but expected one of:\n * (tuple of ints size, *, torch.Generator generator, Tensor out = None, torch.dtype dtype = None, torch.layout layout = None, torch.device device = None, bool pin_memory = False, bool requires_grad = False)\n * (tuple of ints size, *, Tensor out = None, torch.dtype dtype = None, torch.layout layout = None, torch.device device = None, bool pin_memory = False, bool requires_grad = False)\n",
+      "allocation_calls": [
+        {
+          "factory": "randn",
+          "shape": [
+            1.5,
+            4
+          ],
+          "requested_device": "cuda",
+          "dtype": "torch.float16"
+        }
+      ],
+      "launch_count": 0
+    },
+    {
+      "dimensions": [
+        true,
+        4
+      ],
+      "status": "host_error_before_launch",
+      "exception_type": "TypeError",
+      "exception": "randn() received an invalid combination of arguments - got (tuple, device=str, dtype=torch.dtype), but expected one of:\n * (tuple of ints size, *, torch.Generator generator, Tensor out = None, torch.dtype dtype = None, torch.layout layout = None, torch.device device = None, bool pin_memory = False, bool requires_grad = False)\n * (tuple of ints size, *, Tensor out = None, torch.dtype dtype = None, torch.layout layout = None, torch.device device = None, bool pin_memory = False, bool requires_grad = False)\n",
+      "allocation_calls": [
+        {
+          "factory": "randn",
+          "shape": [
+            true,
+            4
+          ],
+          "requested_device": "cuda",
+          "dtype": "torch.float16"
+        }
+      ],
+      "launch_count": 0
+    }
+  ],
+  "installed_arange_validation": [
+    {
+      "start": 0,
+      "end": 0,
+      "status": "rejected",
+      "diagnostic": "arange's end argument must be greater than the start argument"
+    },
+    {
+      "start": 0,
+      "end": 3,
+      "status": "rejected",
+      "diagnostic": "arange's range must be a power of 2"
+    },
+    {
+      "start": 0,
+      "end": 5,
+      "status": "rejected",
+      "diagnostic": "arange's range must be a power of 2"
+    },
+    {
+      "start": 0,
+      "end": 4294967296,
+      "status": "rejected",
+      "diagnostic": "arange must fit in int32"
+    }
+  ],
+  "installed_arange_validator_sha256": "a5cc92ce6e7faf3664491cc8d7c890d86c38b02162fea53d711fe7e17743faf8",
+  "limits": [
+    "No CUDA allocator correspondence",
+    "No execution of the Triton kernel",
+    "No proof of complete Python caller error domain",
+    "No RNG or numeric arithmetic claim",
+    "Positive power-of-two dimensions are necessary for arange; not asserted sufficient for complete native launch"
+  ]
+}

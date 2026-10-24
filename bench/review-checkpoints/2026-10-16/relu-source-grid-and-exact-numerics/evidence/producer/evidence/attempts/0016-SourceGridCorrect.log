@@ -1,0 +1,9 @@
+/tmp/veritile-standardization-20261015/relu-source-coupled-block-wip/bench/tritonbench_g/relu_triton_kernel/SourceGridCorrect.lean:46:90: error: Function expected at
+  List.length_range
+but this term has type
+  (List.range ?m.146).length = ?m.146
+
+Note: Expected a function because this term is being applied to the argument
+  _
+/tmp/veritile-standardization-20261015/relu-source-coupled-block-wip/bench/tritonbench_g/relu_triton_kernel/SourceGridCorrect.lean:55:0: error: VeriTile.Bench.TritonBenchG.ReluTritonKernel.SourceGridCorrect.relu_checked_source_grid_correctness: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/relu-source-coupled-block-wip/bench/tritonbench_g/relu_triton_kernel/SourceGridCorrect.lean:57:0: error: VeriTile.Bench.TritonBenchG.ReluTritonKernel.SourceGridCorrect.relu_checked_source_grid_correctness: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

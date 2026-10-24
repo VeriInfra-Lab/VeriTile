@@ -1,0 +1,12 @@
+{
+  "status": "pass",
+  "frozen_files": 362,
+  "archive_members": 363,
+  "task_build_receipts": 48,
+  "repository_closure": 245,
+  "available_ilean": 240,
+  "missing_reused_ilean": 5,
+  "public_axiom_audits": 8,
+  "noncircularity_audits": 2,
+  "source_or_object_mutations": false
+}

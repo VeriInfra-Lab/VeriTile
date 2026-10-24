@@ -1,0 +1,108 @@
+{
+  "fp64_core": {
+    "producer_dependencies_schema": "core_project_dependencies",
+    "dependency_records_checked": 4,
+    "imported_project_oleans_checked": 4,
+    "actual_final_compile_exits": [
+      0,
+      0,
+      0
+    ],
+    "named_axiom_checks": 22,
+    "noncircularity_checks": 2,
+    "modules_with_axiom_audits": 3,
+    "audit_directives_by_module": {
+      "bench/tritonbench_g/vector_addition/Proofs/Binary64Words.lean": 1,
+      "bench/tritonbench_g/vector_addition/Proofs/FP64Profiles.lean": 1,
+      "bench/tritonbench_g/vector_addition/Proofs/FP64TypedCore.lean": 1
+    },
+    "actual_compile_attempts_preserved": 3,
+    "failed_attempts_preserved": 0,
+    "review_schema": 1,
+    "review_status": "accepted_partial_binary64_word_and_typed_route_foundation",
+    "reviewed_input_map_present": false,
+    "reviewed_imported_olean_map_present": false,
+    "independent_lean_rerun_claimed_by_integration": false,
+    "boundary": "Preparation checks retained producer/review evidence; no build, frontend, native or numerical validation is inferred."
+  },
+  "fp64_grid": {
+    "producer_dependencies_schema": "files_with_source_kind",
+    "dependency_records_checked": 15,
+    "imported_project_oleans_checked": 7,
+    "actual_final_compile_exits": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "named_axiom_checks": 33,
+    "noncircularity_checks": 5,
+    "modules_with_axiom_audits": 4,
+    "audit_directives_by_module": {
+      "bench/tritonbench_g/vector_addition/FP64GridCorrect.lean": 1,
+      "bench/tritonbench_g/vector_addition/Proofs/FP64Grid.lean": 1,
+      "bench/tritonbench_g/vector_addition/Proofs/FP64Memory.lean": 1,
+      "bench/tritonbench_g/vector_addition/Proofs/FP64Programs.lean": 1
+    },
+    "actual_compile_attempts_preserved": 12,
+    "failed_attempts_preserved": 4,
+    "review_schema": 1,
+    "review_status": "accepted_partial_task_local_fp64_memory_grid_with_explicit_numerical_deferrals",
+    "reviewed_input_map_present": false,
+    "reviewed_imported_olean_map_present": false,
+    "independent_lean_rerun_claimed_by_integration": false,
+    "boundary": "Preparation checks retained producer/review evidence; no build, frontend, native or numerical validation is inferred."
+  },
+  "admission": {
+    "producer_dependencies_schema": "files_with_source_kind",
+    "dependency_records_checked": 154,
+    "imported_project_oleans_checked": 148,
+    "actual_final_compile_exits": [
+      0,
+      0
+    ],
+    "named_axiom_checks": 17,
+    "noncircularity_checks": 0,
+    "modules_with_axiom_audits": 2,
+    "audit_directives_by_module": {
+      "bench/tritonbench_g/vector_addition/Proofs/DTypeAdmission.lean": 1,
+      "bench/tritonbench_g/vector_addition/DTypeAdmissionCorrect.lean": 1
+    },
+    "actual_compile_attempts_preserved": 4,
+    "failed_attempts_preserved": 2,
+    "review_schema": 1,
+    "review_status": "accepted_partial_finite_dtype_admission_protocol_model",
+    "reviewed_input_map_present": false,
+    "reviewed_imported_olean_map_present": false,
+    "independent_lean_rerun_claimed_by_integration": false,
+    "boundary": "Preparation checks retained producer/review evidence; no build, frontend, native or numerical validation is inferred."
+  },
+  "relu_access": {
+    "producer_dependencies_schema": "files_with_source_kind",
+    "dependency_records_checked": 184,
+    "imported_project_oleans_checked": 176,
+    "actual_final_compile_exits": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "named_axiom_checks": 29,
+    "noncircularity_checks": 3,
+    "modules_with_axiom_audits": 4,
+    "audit_directives_by_module": {
+      "bench/tritonbench_g/relu_triton_kernel/Proofs/AccessMemory.lean": 1,
+      "bench/tritonbench_g/relu_triton_kernel/Proofs/AccessLoads.lean": 1,
+      "bench/tritonbench_g/relu_triton_kernel/Proofs/AccessGrid.lean": 1,
+      "bench/tritonbench_g/relu_triton_kernel/AccessGridCorrect.lean": 1
+    },
+    "actual_compile_attempts_preserved": 21,
+    "failed_attempts_preserved": 7,
+    "review_schema": 1,
+    "review_status": "accepted_partial_byte_access_and_complete_program_permutation_refinement",
+    "reviewed_input_map_present": false,
+    "reviewed_imported_olean_map_present": false,
+    "independent_lean_rerun_claimed_by_integration": false,
+    "boundary": "Preparation checks retained producer/review evidence; no build, frontend, native or numerical validation is inferred."
+  }
+}

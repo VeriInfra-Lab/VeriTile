@@ -36,9 +36,15 @@ theorem two_sites (R : ScalarArithmetic.Rules) :
 
 /-- info: FP assumptions used by two_sites:
 ---
-info:   add_commute
+info:   none
 ---
-info:   mul_commute -/
+info: Strict model certificates used by two_sites:
+---
+info:   model: VeriTile.Software.strictFP32/ieeeValue/maxnum/documented-exp-special-values
+    certificate: List.Forall₂.cons (ScalarArithmetic.strict_certificate ScalarArithmetic.Atom.addCommute rfl) List.Forall₂.nil
+---
+info:   model: VeriTile.Software.strictFP32/ieeeValue/maxnum/documented-exp-special-values
+    certificate: List.Forall₂.cons (ScalarArithmetic.strict_certificate ScalarArithmetic.Atom.mulCommute rfl) List.Forall₂.nil -/
 #guard_msgs in
 #print_fp_assumptions two_sites
 
@@ -107,11 +113,10 @@ example (R : ScalarArithmetic.Rules) : True := by
       all_goals fp_prove
   trivial
 
-example : True := by
-  fail_if_success
-    have : program [] false false ≡[([] : Spec.Assumptions GuardedFragment)] program [] true true := by
-      equiv_decompose
-      all_goals fp_prove
-  trivial
+-- Strict commutation keeps the same site guards with an empty empirical table.
+example : program [] false false ≡[([] : Spec.Assumptions GuardedFragment)]
+    program [] true true := by
+  equiv_decompose
+  all_goals fp_prove
 
 end GuardedRewriteTacticTests

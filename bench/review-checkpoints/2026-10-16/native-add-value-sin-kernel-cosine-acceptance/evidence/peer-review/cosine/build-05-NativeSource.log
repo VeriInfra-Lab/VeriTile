@@ -1,0 +1,7 @@
+CosineNative.original_syntax_lowering: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+CosineNative.compiled_source: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+CosineNative.source_active_tile: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+CosineNative.source_offset: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+CosineNative.source_pointer: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+CosineNative.complete_source_suffix: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+CosineNative.compiled_scalar: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])

@@ -107,7 +107,7 @@ example : ((initial.write "tmp" 3 (.mk .bf16 7)).mem "tmp" 3).read .real = 0 := 
   simp [Cell.read, defaultValue]
 
 private def unsupportedIO : KernelIO₃ where
-  kernel := .mk [] [] [.effectMarker "tl.debug_barrier"]
+  kernel := .mk [] [] [.alg (.ifThen (.constBool Bool.false) [])]
   projection := by rfl
   in1 := "x"
   in2 := "g"
@@ -126,7 +126,7 @@ private def unsupportedIO : KernelIO₃ where
 example : ¬ IO₃Equiv unsupportedIO unsupportedIO := by
   intro h
   obtain ⟨t, _, he, _⟩ := h.2.2 Nat M initial
-  simp [unsupportedIO, FP.Structural.exec, run, step] at he
+  simp [unsupportedIO, FP.Structural.exec, run, step, stepAlg] at he
 
 -- A same-body numerical derivation cannot modify private scratch metadata.
 example : ¬ Spec.ProgramSyntax.sameContext unsupportedIO
@@ -152,7 +152,7 @@ example : ¬ Frame
   simp [initial] at hcell
 
 private def maskedIO : MaskedKernelIO₂ where
-  kernel := .mk [] [] [.effectMarker "tl.debug_barrier"]
+  kernel := .mk [] [] [.alg (.ifThen (.constBool Bool.false) [])]
   projection := by rfl
   in1 := "x"
   in2 := "y"
@@ -205,10 +205,10 @@ theorem masked_scratch_cannot_alias_input :
 theorem masked_failures_not_certificates : ¬ MaskedIO₂Equiv maskedIO maskedIO := by
   intro h
   obtain ⟨t, _, he, _⟩ := h.2.2 Nat M initial
-  simp [maskedIO, FP.Structural.exec, run, step] at he
+  simp [maskedIO, FP.Structural.exec, run, step, stepAlg] at he
 
 private def singleIO : KernelIO₁ where
-  kernel := .mk [] [] [.effectMarker "tl.debug_barrier"]
+  kernel := .mk [] [] [.alg (.ifThen (.constBool Bool.false) [])]
   projection := by rfl
   inp := "x"
   out := "out"
@@ -232,7 +232,7 @@ theorem single_scratch_cannot_alias_input :
 theorem single_failures_not_certificates : ¬ IO₁Equiv singleIO singleIO := by
   intro h
   obtain ⟨t, _, he, _⟩ := h.2.2 Nat M initial
-  simp [singleIO, FP.Structural.exec, run, step] at he
+  simp [singleIO, FP.Structural.exec, run, step, stepAlg] at he
 
 private def termInitial : State (FP.Equational.Term Nat) where
   mem := fun _ _ => .mk .real (.leaf 0)
@@ -245,7 +245,7 @@ theorem numerical_failures_not_certificates (R : Spec.Assumptions ComputeStmt) :
     ¬ IO₁NumericalEquiv R singleIO singleIO := by
   intro h
   obtain ⟨t, _, he, _⟩ := h.2.2 Nat FP.Equational.seededSchedules termInitial
-  simp [singleIO, FP.Structural.exec, run, step] at he
+  simp [singleIO, FP.Structural.exec, run, step, stepAlg] at he
 
 theorem numerical_cell_dtype_cannot_change (R : Spec.Assumptions ComputeStmt) :
     ¬ CellRelated R (.mk .real (FP.Equational.Term.leaf (0 : Nat))) (.mk .bf16 (.leaf 0)) := by

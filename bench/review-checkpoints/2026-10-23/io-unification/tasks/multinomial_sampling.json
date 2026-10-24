@@ -1,0 +1,689 @@
+{
+  "schema": 1,
+  "task": "multinomial_sampling",
+  "status": "consolidated",
+  "owner": {
+    "path": ".veritile-cache/io-unification-20261023/queue11/result.json",
+    "sha256": "5261ce4ba28ea51ca7584f6e2fef179f58f11cc38213a43561e4653bfcd432f4",
+    "task_index": 0
+  },
+  "reason": "The existing memory IO and complete named logical view now live in task IO.lean under their original namespaces. Logical maps and definitions were moved byte for byte; complete judgment and execution proofs remain in Proofs/.",
+  "selected_public_entries": [
+    "bench/repairs/tritonbench_g/multinomial_sampling/Contract.lean",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Correct.lean",
+    "bench/repairs/tritonbench_g/multinomial_sampling/FPEquiv.lean"
+  ],
+  "previous_semantic_review": {
+    "manifest": {
+      "path": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json",
+      "sha256": "5df771b8603eaf5d9f08b4fde0c5b938c18087c00092f5348b47eb54d33a8225"
+    },
+    "task": "multinomial_sampling"
+  },
+  "changed_files": [
+    "bench/repairs/tritonbench_g/multinomial_sampling/IO.lean",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/IOFacts.lean",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/LogicalReader.lean",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/IOUndef.lean"
+  ],
+  "removed_files": [
+    "bench/repairs/tritonbench_g/multinomial_sampling/LogicalIO.lean",
+    "bench/repairs/tritonbench_g/multinomial_sampling/LogicalViewIO.lean",
+    "bench/repairs/tritonbench_g/multinomial_sampling/UndefIO.lean"
+  ],
+  "moved_declarations": [
+    {
+      "from": "bench/repairs/tritonbench_g/multinomial_sampling/UndefIO.lean",
+      "to": "bench/repairs/tritonbench_g/multinomial_sampling/IO.lean",
+      "names": [
+        "VeriTile.Bench.Repairs.MultinomialSampling.IOUndef.row",
+        "VeriTile.Bench.Repairs.MultinomialSampling.IOUndef.channels",
+        "VeriTile.Bench.Repairs.MultinomialSampling.IOUndef.addUndefined",
+        "VeriTile.Bench.Repairs.MultinomialSampling.IOUndef.seed",
+        "VeriTile.Bench.Repairs.MultinomialSampling.IOUndef.SeedDomain",
+        "VeriTile.Bench.Repairs.MultinomialSampling.IOUndef.offset",
+        "VeriTile.Bench.Repairs.MultinomialSampling.IOUndef.initialLabel",
+        "VeriTile.Bench.Repairs.MultinomialSampling.IOUndef.extract"
+      ],
+      "kind": "complete-nonimport-body",
+      "nonimport_chunk_sha256": "5477e1810178bde0800c6f021fa3e66edc179940d79bcbc128062d99f3b568de"
+    },
+    {
+      "from": "bench/repairs/tritonbench_g/multinomial_sampling/LogicalIO.lean",
+      "to": "bench/repairs/tritonbench_g/multinomial_sampling/IO.lean",
+      "names": [
+        "VeriTile.Bench.Repairs.MultinomialSampling.Interface.io",
+        "VeriTile.Bench.Repairs.MultinomialSampling.Interface.Data",
+        "VeriTile.Bench.Repairs.MultinomialSampling.Interface.data",
+        "VeriTile.Bench.Repairs.MultinomialSampling.Interface.Logical.row",
+        "VeriTile.Bench.Repairs.MultinomialSampling.Interface.Logical.seed",
+        "VeriTile.Bench.Repairs.MultinomialSampling.Interface.Logical.offset",
+        "VeriTile.Bench.Repairs.MultinomialSampling.Interface.Logical.initialLabel",
+        "VeriTile.Bench.Repairs.MultinomialSampling.Interface.Logical.SeedDomain",
+        "VeriTile.Bench.Repairs.MultinomialSampling.Interface.Logical.sample",
+        "VeriTile.Bench.Repairs.MultinomialSampling.Interface.Logical.scores",
+        "VeriTile.Bench.Repairs.MultinomialSampling.Interface.Logical.scanned",
+        "VeriTile.Bench.Repairs.MultinomialSampling.Interface.Logical.cumulative",
+        "VeriTile.Bench.Repairs.MultinomialSampling.Interface.Logical.valid",
+        "VeriTile.Bench.Repairs.MultinomialSampling.Interface.Logical.found",
+        "VeriTile.Bench.Repairs.MultinomialSampling.Interface.Logical.selected",
+        "VeriTile.Bench.Repairs.MultinomialSampling.Interface.Logical.advance",
+        "VeriTile.Bench.Repairs.MultinomialSampling.Interface.Logical.initial",
+        "VeriTile.Bench.Repairs.MultinomialSampling.Interface.Logical.rounds",
+        "VeriTile.Bench.Repairs.MultinomialSampling.Interface.SeedDomain",
+        "VeriTile.Bench.Repairs.MultinomialSampling.Interface.nativeReference",
+        "VeriTile.Bench.Repairs.MultinomialSampling.Interface.nativeOutputs"
+      ],
+      "kind": "complete-nonimport-body",
+      "nonimport_chunk_sha256": "5ac3ddf67fd06b84629fb7d7b4c6a3d23e2e1a1cb03e43712bc38c8bcab43697"
+    },
+    {
+      "from": "bench/repairs/tritonbench_g/multinomial_sampling/LogicalViewIO.lean",
+      "to": "bench/repairs/tritonbench_g/multinomial_sampling/IO.lean",
+      "names": [
+        "VeriTile.Bench.Repairs.MultinomialSampling.LogicalView.Inputs",
+        "VeriTile.Bench.Repairs.MultinomialSampling.LogicalView.inputEquiv",
+        "VeriTile.Bench.Repairs.MultinomialSampling.LogicalView.outputEquiv",
+        "VeriTile.Bench.Repairs.MultinomialSampling.LogicalView.weight",
+        "VeriTile.Bench.Repairs.MultinomialSampling.LogicalView.seedValue",
+        "VeriTile.Bench.Repairs.MultinomialSampling.LogicalView.offsetValue",
+        "VeriTile.Bench.Repairs.MultinomialSampling.LogicalView.labelValue",
+        "VeriTile.Bench.Repairs.MultinomialSampling.LogicalView.accepted",
+        "VeriTile.Bench.Repairs.MultinomialSampling.LogicalView.samplingIO"
+      ],
+      "kind": "complete-nonimport-body",
+      "nonimport_chunk_sha256": "2d1e9913d1bdc1afa031e521b370c6579d86bb20ffbfea4830518c7ddb594700"
+    }
+  ],
+  "preservation": {
+    "evidence": ".veritile-cache/io-unification-20261023/queue11/preservation.json",
+    "evidence_sha256": "1f89e5373962fef293e9000411eba3ff34b31c06030c022a8c35f39ae0f52110",
+    "task_evidence": {
+      "task": "multinomial_sampling",
+      "io_original_nonimport_body_sha256": "de96bbbf655ec8ab0685ce0439e2a18114c3eb58a51479c22b1f7d2be964f617",
+      "io_original_body_contiguous_and_exact": true,
+      "moved_chunks": [
+        {
+          "task": "multinomial_sampling",
+          "from": "bench/repairs/tritonbench_g/multinomial_sampling/UndefIO.lean",
+          "to": "bench/repairs/tritonbench_g/multinomial_sampling/IO.lean",
+          "kind": "complete-nonimport-body",
+          "declaration_lines": [
+            "def row (p : Parameters) (pid : Nat) (i : Row p) : Nat := pid * p.block + i.1.val",
+            "def channels (p : Parameters) : List IOChannel :=",
+            "def addUndefined {α β : Type} (p : Parameters) (pid : Nat)",
+            "def seed (vals : (addUndefined p pid base).Inputs)",
+            "def SeedDomain (vals : (addUndefined p pid base).Inputs)",
+            "def offset (vals : (addUndefined p pid base).Inputs)",
+            "def initialLabel (vals : (addUndefined p pid base).Inputs)",
+            "def extract (memory : base.Inputs) (s : State β) : (addUndefined p pid base).Inputs where"
+          ],
+          "chunk_sha256": "5477e1810178bde0800c6f021fa3e66edc179940d79bcbc128062d99f3b568de",
+          "names": [
+            "VeriTile.Bench.Repairs.MultinomialSampling.IOUndef.row",
+            "VeriTile.Bench.Repairs.MultinomialSampling.IOUndef.channels",
+            "VeriTile.Bench.Repairs.MultinomialSampling.IOUndef.addUndefined",
+            "VeriTile.Bench.Repairs.MultinomialSampling.IOUndef.seed",
+            "VeriTile.Bench.Repairs.MultinomialSampling.IOUndef.SeedDomain",
+            "VeriTile.Bench.Repairs.MultinomialSampling.IOUndef.offset",
+            "VeriTile.Bench.Repairs.MultinomialSampling.IOUndef.initialLabel",
+            "VeriTile.Bench.Repairs.MultinomialSampling.IOUndef.extract"
+          ]
+        },
+        {
+          "task": "multinomial_sampling",
+          "from": "bench/repairs/tritonbench_g/multinomial_sampling/LogicalIO.lean",
+          "to": "bench/repairs/tritonbench_g/multinomial_sampling/IO.lean",
+          "kind": "complete-nonimport-body",
+          "declaration_lines": [
+            "def io (rest : Algebra α) (P : Primitives α) (p : Parameters) (pid : Nat) : UndefProgramIO α α :=",
+            "structure Data (α : Type) (p : Parameters) where",
+            "def data (rest : Algebra α) (P : Primitives α) (p : Parameters) (pid : Nat)",
+            "def row (p : Parameters) (pid : Nat) (i : Row p) : Nat := IOUndef.row p pid i",
+            "def seed (p : Parameters) (pid : Nat) (x : Data α p) (i : Row p) : Int :=",
+            "def offset (p : Parameters) (pid : Nat) (x : Data α p) (i : Row p) : Int :=",
+            "def initialLabel (p : Parameters) (pid : Nat) (x : Data α p) (i : Row p) : Int :=",
+            "def SeedDomain (p : Parameters) (pid : Nat) (x : Data α p) : Prop :=",
+            "def sample (P : Primitives α) (p : Parameters) (pid : Nat) (x : Data α p) (i : Row p) : α :=",
+            "def scores (P : Primitives α) (p : Parameters) (pid : Nat) (x : Data α p)",
+            "def scanned (P : Primitives α) (p : Parameters) (pid : Nat) (x : Data α p) (b : Nat) : Lane p → α :=",
+            "def cumulative (P : Primitives α) (p : Parameters) (pid : Nat) (x : Data α p)",
+            "def valid (P : Primitives α) (p : Parameters) (pid : Nat) (x : Data α p)",
+            "def found (P : Primitives α) (p : Parameters) (pid : Nat) (x : Data α p)",
+            "def selected (P : Primitives α) (p : Parameters) (pid : Nat) (x : Data α p)",
+            "def advance (P : Primitives α) (p : Parameters) (pid : Nat) (x : Data α p)",
+            "def initial (P : Primitives α) (p : Parameters) (pid : Nat) (x : Data α p) : Accumulator α p :=",
+            "def rounds (P : Primitives α) (p : Parameters) (pid : Nat) (x : Data α p) : Nat → Accumulator α p",
+            "def SeedDomain (rest : Algebra α) (P : Primitives α) (p : Parameters) (pid : Nat)",
+            "def nativeReference (P : Primitives α) (p : Parameters) (pid : Nat)",
+            "def nativeOutputs (rest : Algebra α) (P : Primitives α) (p : Parameters) (pid : Nat)"
+          ],
+          "chunk_sha256": "5ac3ddf67fd06b84629fb7d7b4c6a3d23e2e1a1cb03e43712bc38c8bcab43697",
+          "names": [
+            "VeriTile.Bench.Repairs.MultinomialSampling.Interface.io",
+            "VeriTile.Bench.Repairs.MultinomialSampling.Interface.Data",
+            "VeriTile.Bench.Repairs.MultinomialSampling.Interface.data",
+            "VeriTile.Bench.Repairs.MultinomialSampling.Interface.Logical.row",
+            "VeriTile.Bench.Repairs.MultinomialSampling.Interface.Logical.seed",
+            "VeriTile.Bench.Repairs.MultinomialSampling.Interface.Logical.offset",
+            "VeriTile.Bench.Repairs.MultinomialSampling.Interface.Logical.initialLabel",
+            "VeriTile.Bench.Repairs.MultinomialSampling.Interface.Logical.SeedDomain",
+            "VeriTile.Bench.Repairs.MultinomialSampling.Interface.Logical.sample",
+            "VeriTile.Bench.Repairs.MultinomialSampling.Interface.Logical.scores",
+            "VeriTile.Bench.Repairs.MultinomialSampling.Interface.Logical.scanned",
+            "VeriTile.Bench.Repairs.MultinomialSampling.Interface.Logical.cumulative",
+            "VeriTile.Bench.Repairs.MultinomialSampling.Interface.Logical.valid",
+            "VeriTile.Bench.Repairs.MultinomialSampling.Interface.Logical.found",
+            "VeriTile.Bench.Repairs.MultinomialSampling.Interface.Logical.selected",
+            "VeriTile.Bench.Repairs.MultinomialSampling.Interface.Logical.advance",
+            "VeriTile.Bench.Repairs.MultinomialSampling.Interface.Logical.initial",
+            "VeriTile.Bench.Repairs.MultinomialSampling.Interface.Logical.rounds",
+            "VeriTile.Bench.Repairs.MultinomialSampling.Interface.SeedDomain",
+            "VeriTile.Bench.Repairs.MultinomialSampling.Interface.nativeReference",
+            "VeriTile.Bench.Repairs.MultinomialSampling.Interface.nativeOutputs"
+          ]
+        },
+        {
+          "task": "multinomial_sampling",
+          "from": "bench/repairs/tritonbench_g/multinomial_sampling/LogicalViewIO.lean",
+          "to": "bench/repairs/tritonbench_g/multinomial_sampling/IO.lean",
+          "kind": "complete-nonimport-body",
+          "declaration_lines": [
+            "structure Inputs (p : Parameters) where",
+            "def inputEquiv (rest : Algebra ℝ) (p : Parameters) (pid : Nat) :",
+            "def outputEquiv (rest : Algebra ℝ) (p : Parameters) (pid : Nat) :",
+            "def weight (rest : Algebra ℝ) (p : Parameters) (pid : Nat) (xs : Inputs p) : Nat → Nat → ℝ :=",
+            "def seedValue (rest : Algebra ℝ) (p : Parameters) (pid : Nat) (xs : Inputs p) : Nat → Int :=",
+            "def offsetValue (rest : Algebra ℝ) (p : Parameters) (pid : Nat) (xs : Inputs p) : Nat → Int :=",
+            "def labelValue (rest : Algebra ℝ) (p : Parameters) (pid : Nat) (xs : Inputs p) : Nat → Nat → Int :=",
+            "def accepted (rest : Algebra ℝ) (p : Parameters) (pid : Nat) (xs : Inputs p) : Prop :=",
+            "def samplingIO (rest : Algebra ℝ) (p : Parameters) (pid : Nat) :"
+          ],
+          "chunk_sha256": "2d1e9913d1bdc1afa031e521b370c6579d86bb20ffbfea4830518c7ddb594700",
+          "names": [
+            "VeriTile.Bench.Repairs.MultinomialSampling.LogicalView.Inputs",
+            "VeriTile.Bench.Repairs.MultinomialSampling.LogicalView.inputEquiv",
+            "VeriTile.Bench.Repairs.MultinomialSampling.LogicalView.outputEquiv",
+            "VeriTile.Bench.Repairs.MultinomialSampling.LogicalView.weight",
+            "VeriTile.Bench.Repairs.MultinomialSampling.LogicalView.seedValue",
+            "VeriTile.Bench.Repairs.MultinomialSampling.LogicalView.offsetValue",
+            "VeriTile.Bench.Repairs.MultinomialSampling.LogicalView.labelValue",
+            "VeriTile.Bench.Repairs.MultinomialSampling.LogicalView.accepted",
+            "VeriTile.Bench.Repairs.MultinomialSampling.LogicalView.samplingIO"
+          ]
+        }
+      ],
+      "proofs_and_other_changes": [
+        {
+          "path": "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/IOFacts.lean",
+          "kind": "import_only_change",
+          "nonimport_body_sha256": "f6b7733320d3c4c9fecc42e13263f2c43664bf9a9d20ab263661acf3eb8fff08"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/LogicalReader.lean",
+          "kind": "import_only_change",
+          "nonimport_body_sha256": "151aaa883d9f63717d69b759879979112aeb5a167c0c8575e2aa622e8db7b088"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/IOUndef.lean",
+          "kind": "import_only_change",
+          "nonimport_body_sha256": "99ab3fb50bdd413fc62a032193acb642c2cdd458f28fbc8b229cca0511af411b"
+        }
+      ],
+      "public_judgment_preservation": [
+        {
+          "path": "bench/repairs/tritonbench_g/multinomial_sampling/Contract.lean",
+          "kind": "complete_public_source_byte_identical",
+          "before_sha256": "b724cd216b697bb9296f9ff50791872ba853aaba6165ced4e67b0253c585fc05",
+          "after_sha256": "b724cd216b697bb9296f9ff50791872ba853aaba6165ced4e67b0253c585fc05"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/multinomial_sampling/Correct.lean",
+          "kind": "complete_public_source_byte_identical",
+          "before_sha256": "0f3a41477fbf99850156dc2c070528b6353152138358045cee2e6426b022b26b",
+          "after_sha256": "0f3a41477fbf99850156dc2c070528b6353152138358045cee2e6426b022b26b"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/multinomial_sampling/FPEquiv.lean",
+          "kind": "complete_public_source_byte_identical",
+          "before_sha256": "27dc2f08125df3ef1b2451a697f057327f5d9cadf5eb24743a2b112ed90a4c0a",
+          "after_sha256": "27dc2f08125df3ef1b2451a697f057327f5d9cadf5eb24743a2b112ed90a4c0a"
+        }
+      ],
+      "scope_guard_unchanged_sources": [
+        "bench/repairs/tritonbench_g/multinomial_sampling/FPEquiv.lean",
+        "bench/repairs/tritonbench_g/multinomial_sampling/Contract.lean",
+        "bench/repairs/tritonbench_g/multinomial_sampling/Kernels.lean",
+        "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Contract.lean"
+      ],
+      "remaining_issues": []
+    },
+    "full_public_judgments": "All selected Contract/Correct/FPEquiv files are byte identical to before, including mathematical formulas, assumptions, scope, FP pair and rule sets; complete connection proof bodies retain exact nonimport source. Fresh targeted builds and per-task joint imports elaborate these unchanged statements against the moved definitions."
+  },
+  "verification": [
+    {
+      "id": "attempt-003",
+      "task": "multinomial_sampling",
+      "kind": "build",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue11/build.py",
+        "bench.repairs.tritonbench_g.multinomial_sampling.Contract",
+        "bench.repairs.tritonbench_g.multinomial_sampling.IO",
+        "bench.repairs.tritonbench_g.multinomial_sampling.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.multinomial_sampling.Correct",
+        "bench.repairs.tritonbench_g.multinomial_sampling.FPEquiv",
+        "bench.repairs.tritonbench_g.multinomial_sampling.Proofs.IOUndef",
+        "bench.repairs.tritonbench_g.multinomial_sampling.Proofs.IOFacts"
+      ],
+      "exit_code": 1,
+      "log": ".veritile-cache/io-unification-20261023/queue11/attempt-003-multinomial_sampling-build.log",
+      "log_sha256": "402ccabbc97b0238a1881659045716944d425db667a241fbd028ce9f38e1023f",
+      "sandbox_permissions": "require_escalated",
+      "resolved_by": "attempt-023"
+    },
+    {
+      "id": "attempt-023",
+      "task": "multinomial_sampling",
+      "kind": "build",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue11/build.py",
+        "bench.repairs.tritonbench_g.multinomial_sampling.Contract",
+        "bench.repairs.tritonbench_g.multinomial_sampling.IO",
+        "bench.repairs.tritonbench_g.multinomial_sampling.Proofs.IOUndef",
+        "bench.repairs.tritonbench_g.multinomial_sampling.Proofs.IOFacts",
+        "bench.repairs.tritonbench_g.multinomial_sampling.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.multinomial_sampling.Correct",
+        "bench.repairs.tritonbench_g.multinomial_sampling.FPEquiv"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue11/attempt-023-multinomial_sampling-build.log",
+      "log_sha256": "40459ece1fd5d67c884e3c935a9e6b497395b15580b898b3e3aba85529f8591e",
+      "sandbox_permissions": "require_escalated"
+    },
+    {
+      "id": "attempt-024",
+      "task": "multinomial_sampling",
+      "kind": "joint",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue11/build.py",
+        "--check",
+        ".veritile-cache/io-unification-20261023/queue11/multinomial_samplingJoint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue11/attempt-024-multinomial_sampling-joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sandbox_permissions": "require_escalated"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/multinomial_sampling/Correct.lean": "0f3a41477fbf99850156dc2c070528b6353152138358045cee2e6426b022b26b",
+    "bench/repairs/tritonbench_g/multinomial_sampling/FPEquiv.lean": "27dc2f08125df3ef1b2451a697f057327f5d9cadf5eb24743a2b112ed90a4c0a",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Contract.lean": "b724cd216b697bb9296f9ff50791872ba853aaba6165ced4e67b0253c585fc05",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/ReaderBefore.lean": "4ae5ee57ec8a000ecafe2a5d66bac65fdf956bf595a051b87047bc555d47e537",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/LogicalReader.lean": "3cc460493eecf504523cfc8d292504ac6fa609aa375cc460ef0f762f4072c669",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8",
+    "bench/repairs/tritonbench_g/multinomial_sampling/PairIO.lean": "4988ab3338e04c0bebabffceaaa044b9fc2a0cfd657a9705cbf249e02e8bf9f7",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Kernels.lean": "cba8923091a91921a53313317c8b29b530126dd6978a164b67fbd83d9a775bab",
+    "bench/repairs/tritonbench_g/multinomial_sampling/IO.lean": "487234088a259cb11b1f37e949ec9b6bfd1427b0ae97375f7c8f51d4e18fb21f",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Misc/NativeCorrect.lean": "48ffb48a4dd2882f02a7c7581f82451ca2c9cbb190d965791bb6d69f6400a7ff",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Misc/HostCorrect.lean": "c8d2c22f31750f9fc1d1c9e29d974b7a8b1920a1facc34c47762afec417b859f",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Misc/HostFPEquiv.lean": "0f91fbafcfbbca39b8aa0f19d8f7b84941d61a114ef4619d755ced1f49d971bb",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Misc/CorrectPublic.lean": "cf8df71cb986a175e2a644b7266468defe5fe8a7eb3a3f38b166b3d6f0490637",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Misc/FPEquivPublic.lean": "817945d430c7a61b01ab226e742298970f46d25859c3aae2b8d4135a950acd01",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Misc/TensorBridge.lean": "51cb8e988493f32ebf9edb70e180346610d1c73b7e1b273a2cc219f269d0badc",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/TensorReference.lean": "14a7caf682a614e7f4f42fd46a0ef5e61896bc4ebc38e681919deef13aefbf81",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Real.lean": "f4d34298bd21d0193e495b19650b2ac351e427da22569b41f03281896ffa857b",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/IOResult.lean": "20fd3bd9c63e2cef0f733d53d7c6002c1c61659e02e691001a029477e7935b35",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/KernelSource.lean": "da2f4c299080bbdca4c245a7d9be3b061081165b526def438f5f35f9b93198b2",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/TensorInputs.lean": "c54da00270eb9aa3dd5eab435ad59fe7c33114713ac386ad9691e3a2dc26ed06",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/LogicalTransport.lean": "5e39dd1c889968f38bf0b0e9387599b25674871540450def1e43d63cb88031bb",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/KernelCompatibility.lean": "67376aacb0cfc917bbd540b984d48e87ea40c64f6d0935e794d46b43a755f37a",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Native.lean": "29822df9582cd30f27b9c7893025569bb560ec224f00caa47bc1893382d28f0a",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Boundary.lean": "c30cb8d796fb705049ab9d9b55ba0fb6916b7ef7907bd5b27ccc04f87a937584",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/NumericTrees.lean": "a188db659dab867847915d196a6cff1f68a4c88de2fb81caa9e25a0b24d43b65",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/IOSafety.lean": "7fae2303435e9f5a634fef948c3464737630d0c9f9d369a2f52eb9b3ec07d131",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/IOFacts.lean": "cdad069717f51e74d7e86975ba528d6d1bb1e2215313eb6b3fc0b313b98899f4",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Host.lean": "54f56bfece5099898f4d0a67ae67dafffcbbde3c3a63c0f4110472ba89feca3f",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/IOComplete.lean": "6d345acf9f01d89f64679df3ad117366bd55c4f52f6b95c544e25b7834b5af52",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Guarded.lean": "d8f2bc3b1862b7e9a639d75289e11fdd1f818304b0a3face5471bc4603021dbe",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Contract.lean": "44f0c71d24b8d82056c6e8d88c01a9c0d32d1bf1ecc7f0ac8bb50dfa62c5cef9",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Numerics.lean": "e96bc89574ca4476549ff2ed19db8266902ebdf81f4f9f69701f027c929a8dea",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/KernelMemory.lean": "1bac125203d8aeca478637c346cb65e7ff3d847f244bb1eea8ecfdd0d8baf596",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/FPCompatibility.lean": "cd7aa7105d06fb6edaf441ec54880850c5d2b2f6ac5959b3ad9bb06c21b821e6",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Spec.lean": "9ffbb049d1825bbb7b06c96dbfdb47b32a6b862c5f0c3d381dd825d71794fc51",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/UnrolledPair.lean": "73bc825cdb281caf22d8f208885c11326b7af82ba3657dfd5370d3e757d3d4ea",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Unrolled.lean": "941d44b0f123570a112e1f45af49bad4619754ba705a7aa8cb327bf9cce18be1",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Bits.lean": "1f7c11c2b00696fb6e922bfa48ab81cc09c58f0278abcb5878eb65db46d761fd",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Model.lean": "67189f7550082764f0a9332c8a0d764d62900e321d2aef04d1dbcb51335ddf55",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/IOUndef.lean": "2045005bd8dee93d1f71a3c90d7623bd7a83fb3dbff5a542dfa869eb53efd2f7",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/SourceSafety.lean": "66d6cb6fe896c8dddaa9c84741bdd045f901000c448ec9c56990e3c0feba1863",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/CDFBridge.lean": "ea0455e542dbe320f67da08d59c3d18d41698c89a44c58329dcf4c00b7393f15",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Physical.lean": "c189fe121d2a7e38c9ed8a9f801810a78b7a84d621efc88e5b4f1d5d1c5ad43c",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/IORealResult.lean": "72e9f175a81033e0f974e710dfdb0f7b043c8cb0f7e904d33eb7c4e829a437f6",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Core/FPComplete.lean": "5edd702a10f889b87aab0046cb6a26962302abf46656fa84f263aa46d0cc7c17",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Core/FPBody.lean": "4912f23b9913711bb545bf05325b1e3d8fa0cf5320488ed80e319825f4d24a6b",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Core/FPSoftware.lean": "ad551be7fc3fe61d83fcd0d683127904840ffd37401757f51856339de18e6026",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Core/FPReference.lean": "18262da355c62f9f55f6f37b966df7df8cb926b23424e41a18ef91c8112eb6d6",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Core/FPInvariant.lean": "533329c3f50451e7385737571c8d16bcaad010fffadb99b063b9820fe1fad2fa",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Core/FPSource.lean": "7ef1b99e2cf28d53a8460e38d9779820a9f36d649a7d1a2f42334eaa7a546ecb",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Core/FPStorage.lean": "1c978555e24fdc54763aea009db63211e8825375026f8d9b0857a8c62491682e",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Core/FPWrapper.lean": "508fda76572e4cb591977f0a52360138d86f68d539c6df9c6719939d42759915",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Core/FPPrologue.lean": "144f6ff42c210596cb2a146247d7e78572bfee4c6544df053600229d4c47f3ed",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Core/FPHost.lean": "1ee5e290c04af2a40c028713486d3b8365406c6a4540666c1e066d29beac59c4",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Core/FPBackend.lean": "608b5036154b1994a37ad2803b0ba3676aa758115df48b08c22053f6ea9bdfd1"
+  },
+  "source_pin_provenance": {
+    "bench/repairs/tritonbench_g/multinomial_sampling/Correct.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/FPEquiv.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/Contract.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/ReaderBefore.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/LogicalReader.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "VeriTile/Triton/Memory/LogicalIO.lean": {
+      "owner_tasks": [
+        "mixed_sparse_attention",
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/PairIO.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/Kernels.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/IO.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/Misc/NativeCorrect.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/Misc/HostCorrect.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/Misc/HostFPEquiv.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/Misc/CorrectPublic.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/Misc/FPEquivPublic.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/Misc/TensorBridge.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/TensorReference.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Real.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/IOResult.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/KernelSource.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/TensorInputs.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/LogicalTransport.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/KernelCompatibility.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Native.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Boundary.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/NumericTrees.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/IOSafety.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/IOFacts.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Host.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/IOComplete.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Guarded.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Contract.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Numerics.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/KernelMemory.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/FPCompatibility.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Spec.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/UnrolledPair.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Unrolled.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Bits.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Model.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/IOUndef.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/SourceSafety.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/CDFBridge.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Physical.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/IORealResult.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Core/FPComplete.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Core/FPBody.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Core/FPSoftware.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Core/FPReference.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Core/FPInvariant.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Core/FPSource.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Core/FPStorage.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Core/FPWrapper.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Core/FPPrologue.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Core/FPHost.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    },
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/Core/FPBackend.lean": {
+      "owner_tasks": [
+        "multinomial_sampling"
+      ]
+    }
+  },
+  "retired_current_source_pins": {
+    "bench/repairs/tritonbench_g/multinomial_sampling/LogicalViewIO.lean": "a50dcc721990190d625e8d3f1ec87bf1c43928fc4b570c9e9750520ad735c8ad"
+  },
+  "limits": [
+    "Source organization change only; no numerical rewrite, numerical experiment, GPU run, native correctness or host correctness requirement was added.",
+    "Only changed IO/import helpers, current public entries, needed compatibility modules and each task public joint were checked in the new overlay. Cached unmodified proof objects are distinguished from fresh source checks."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/io-unification-20261023/queue16/result.json",
+    "sha256": "12f6dd5ed523e9f723fee3847af964fd8987958c2cb997aa572210c04de5bc84"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

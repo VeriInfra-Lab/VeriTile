@@ -1,0 +1,20 @@
+[
+  {
+    "declaration": "softmax_autograd_host_grid_real",
+    "file": "bench/tritonbench_g/softmax_flaggems/Proofs/HostGridHost.lean",
+    "statement_sha256": "bd094b0f402b8aa8d9453bf125177adf37486cd3aecbf8dccffb71e513a63342",
+    "source_sha256": "a94529a69a9bf5150bd31f78417fc368b33f2cd616a8f4fa0665d8e8c07489f3",
+    "line": 102,
+    "semantic_model": "mathematical_dtype_erased_original_execution",
+    "native_fp_value_claim": false
+  },
+  {
+    "declaration": "softmax_autograd_source_admitted_real",
+    "file": "bench/tritonbench_g/softmax_flaggems/HostCorrect.lean",
+    "statement_sha256": "20ea7209ef844d49a29cb21d716156e35d4f8d866c146f972ca433a0b4bbec70",
+    "source_sha256": "091f444e1bf9c5c79e522c7b9a7eb6a0d3767947c7c786ac3cfdfb71597bad2f",
+    "line": 79,
+    "semantic_model": "mathematical_dtype_erased_original_execution",
+    "native_fp_value_claim": false
+  }
+]

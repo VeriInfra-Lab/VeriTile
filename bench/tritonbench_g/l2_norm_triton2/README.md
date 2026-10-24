@@ -1,5 +1,7 @@
 # l2_norm_triton2
 
+Public-entry cleanup (2026-10-14): the current benchmark specifications are the `specification` declarations in [Correct.lean](Correct.lean) and [FPEquiv.lean](FPEquiv.lean). Superseded entries have been retired; reusable mathematical facts remain ordinary helper theorems, and unused output-summary declarations have been removed. Historical preservation counts below describe the earlier snapshots. This cleanup adds no proof coverage or task acceptance.
+
 This port retains both complete Python JIT bodies: forward row normalization
 and backward input-gradient calculation. The complete public-entry dependency
 build passes (3445 jobs), including source checks and module axiom audits. It is

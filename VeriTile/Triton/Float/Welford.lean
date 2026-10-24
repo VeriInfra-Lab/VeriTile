@@ -7,17 +7,17 @@ import VeriTile.Triton.Float.ScalarReduction
 namespace VeriTile.Triton.FP.Welford
 open Structural Guarded ScalarArithmetic
 
-def nextCount {α : Type} (M : Algebra α) (n : α) : α := add M n (one M)
-def difference {α : Type} (M : Algebra α) (x mean : α) : α := sub M x mean
+def nextCount {α : Type} (M : Algebra α) (n : α) : α := ScalarArithmetic.add M n (one M)
+def difference {α : Type} (M : Algebra α) (x mean : α) : α := ScalarArithmetic.sub M x mean
 def correction {α : Type} (M : Algebra α) (x mean n : α) : α :=
-  div M (difference M x mean) (nextCount M n)
+  ScalarArithmetic.div M (difference M x mean) (nextCount M n)
 def nextMean {α : Type} (M : Algebra α) (x mean n : α) : α :=
-  add M mean (correction M x mean n)
+  ScalarArithmetic.add M mean (correction M x mean n)
 def residual {α : Type} (M : Algebra α) (x mean n : α) : α :=
-  sub M x (nextMean M x mean n)
-def square {α : Type} (M : Algebra α) (x : α) : α := mul M x x
+  ScalarArithmetic.sub M x (nextMean M x mean n)
+def square {α : Type} (M : Algebra α) (x : α) : α := ScalarArithmetic.mul M x x
 def increment {α : Type} (M : Algebra α) (x mean n : α) : α :=
-  mul M (difference M x mean) (residual M x mean n)
+  ScalarArithmetic.mul M (difference M x mean) (residual M x mean n)
 
 /-- Only finite/nonzero predicates occur here. In particular the updated mean
 or its weighted sum is never supplied as an equality premise. -/
@@ -30,20 +30,20 @@ structure MeanStepDomain {α : Type} (M : Algebra α) (D : Domain α)
   difference : D .finite (Welford.difference M x m)
   nextCount : D .finite (Welford.nextCount M n)
   countNonzero : D .nonzero (Welford.nextCount M n)
-  inverseCount : D .finite (div M (ScalarArithmetic.one M) (Welford.nextCount M n))
+  inverseCount : D .finite (ScalarArithmetic.div M (ScalarArithmetic.one M) (Welford.nextCount M n))
   correction : D .finite (Welford.correction M x m n)
   nextMean : D .finite (Welford.nextMean M x m n)
-  weightedMean : D .finite (mul M m n)
+  weightedMean : D .finite (ScalarArithmetic.mul M m n)
 
 /-- The mean invariant's arithmetic step, under the selected scalar theory:
 (m + (x-m)/(n+1)) * (n+1) = m*n + x. There is no Welford admission atom. -/
 theorem mean_step {α : Type} [Inhabited α] (R : Rules) (M : Algebra α)
     (D : Domain α) (hM : Models R.assumptions M D) (s : State α)
     (x mean n : α) (hd : MeanStepDomain M D x mean n) :
-    mul M (nextMean M x mean n) (nextCount M n) = add M (mul M mean n) x := by
+    ScalarArithmetic.mul M (nextMean M x mean n) (nextCount M n) = ScalarArithmetic.add M (ScalarArithmetic.mul M mean n) x := by
   unfold nextMean
   rw [add_mul R M D hM s mean _ _ hd.mean hd.correction hd.nextCount hd.nextMean]
-  have hdiv : mul M (correction M x mean n) (nextCount M n) = difference M x mean :=
+  have hdiv : ScalarArithmetic.mul M (correction M x mean n) (nextCount M n) = difference M x mean :=
     div_mul_cancel R M D hM s _ _ hd.difference hd.nextCount hd.countNonzero hd.inverseCount
   rw [hdiv]
   rw [nextCount, mul_distrib R M D hM s mean n (ScalarArithmetic.one M)
@@ -57,9 +57,9 @@ the variance increment. These remain predicates on values, not equations. -/
 structure VarianceStepDomain {α : Type} (M : Algebra α) (D : Domain α)
     (x m n : α) : Prop extends MeanStepDomain M D x m n where
   residual : D .finite (Welford.residual M x m n)
-  scaledCorrection : D .finite (mul M n (Welford.correction M x m n))
+  scaledCorrection : D .finite (ScalarArithmetic.mul M n (Welford.correction M x m n))
   zero : D .finite (ScalarArithmetic.zero M)
-  negativeNextMean : D .finite (sub M (ScalarArithmetic.zero M) (Welford.nextMean M x m n))
+  negativeNextMean : D .finite (ScalarArithmetic.sub M (ScalarArithmetic.zero M) (Welford.nextMean M x m n))
 
 section Variance
 variable {α : Type} [Inhabited α] (R : Rules) (M : Algebra α) (D : Domain α)
@@ -70,8 +70,8 @@ include R hM s hd
 /-- The correction recovers the old deviation after multiplication by the
 updated count, then distribution splits the old-count part from one copy. -/
 theorem split_correction :
-    difference M x m = add M (mul M n (correction M x m n)) (correction M x m n) := by
-  have recover : mul M (nextCount M n) (correction M x m n) = difference M x m := by
+    difference M x m = ScalarArithmetic.add M (ScalarArithmetic.mul M n (correction M x m n)) (correction M x m n) := by
+  have recover : ScalarArithmetic.mul M (nextCount M n) (correction M x m n) = difference M x m := by
     rw [mul_comm R M D hM s _ _ hd.nextCount hd.correction]
     exact div_mul_cancel R M D hM s _ _ hd.difference hd.nextCount hd.countNonzero hd.inverseCount
   rw [nextCount, add_mul R M D hM s n (one M) _ hd.count hd.one hd.correction hd.nextCount,
@@ -81,10 +81,10 @@ theorem split_correction :
 
 /-- The new deviation is n times the correction. This is the scalar identity
 used by Welford's variance invariant, derived without an integer-count law. -/
-theorem residual_step : residual M x m n = mul M n (correction M x m n) := by
+theorem residual_step : residual M x m n = ScalarArithmetic.mul M n (correction M x m n) := by
   apply add_right_cancel R M D hM s _ _ (nextMean M x m n)
     hd.residual hd.scaledCorrection hd.nextMean hd.zero hd.negativeNextMean
-  have recover : add M (mul M n (correction M x m n)) (nextMean M x m n) = x := by
+  have recover : ScalarArithmetic.add M (ScalarArithmetic.mul M n (correction M x m n)) (nextMean M x m n) = x := by
     unfold nextMean
     rw [add_comm R M D hM s m _ hd.mean hd.correction,
       ← add_assoc R M D hM s _ _ m hd.scaledCorrection hd.correction hd.mean,
@@ -95,12 +95,12 @@ theorem residual_step : residual M x m n = mul M n (correction M x m n) := by
 /-- Separate the newly appended sample's square from the shift contribution
 of the previous n samples. This identity is derived, never admitted whole. -/
 theorem variance_step :
-    increment M x m n = add M (square M (residual M x m n))
-      (mul M n (square M (correction M x m n))) := by
-  have split : difference M x m = add M (residual M x m n) (correction M x m n) := by
+    increment M x m n = ScalarArithmetic.add M (square M (residual M x m n))
+      (ScalarArithmetic.mul M n (square M (correction M x m n))) := by
+  have split : difference M x m = ScalarArithmetic.add M (residual M x m n) (correction M x m n) := by
     rw [residual_step R M D hM s x m n hd]
     exact split_correction R M D hM s x m n hd
-  have hsum : D .finite (add M (residual M x m n) (correction M x m n)) :=
+  have hsum : D .finite (ScalarArithmetic.add M (residual M x m n) (correction M x m n)) :=
     split ▸ hd.difference
   unfold increment square
   rw [split, add_mul R M D hM s _ _ _ hd.residual hd.correction hd.residual hsum]
@@ -118,21 +118,21 @@ structure CenterShiftDomain {α : Type} (M : Algebra α) (D : Domain α)
   input : D .finite x
   oldMean : D .finite m
   newMean : D .finite m'
-  oldDeviation : D .finite (sub M x m)
-  meanShift : D .finite (sub M m m')
-  joinedDeviation : D .finite (add M (sub M x m) (sub M m m'))
-  newDeviation : D .finite (sub M x m')
+  oldDeviation : D .finite (ScalarArithmetic.sub M x m)
+  meanShift : D .finite (ScalarArithmetic.sub M m m')
+  joinedDeviation : D .finite (ScalarArithmetic.add M (ScalarArithmetic.sub M x m) (ScalarArithmetic.sub M m m'))
+  newDeviation : D .finite (ScalarArithmetic.sub M x m')
   zero : D .finite (ScalarArithmetic.zero M)
-  negativeNewMean : D .finite (sub M (ScalarArithmetic.zero M) m')
+  negativeNewMean : D .finite (ScalarArithmetic.sub M (ScalarArithmetic.zero M) m')
 
 /-- Per-sample square recentering. The two cross terms stay explicit, avoiding
 an unproved identification of literal 2 with floating addition of two ones. -/
 theorem square_shift {α : Type} [Inhabited α] (R : Rules) (M : Algebra α)
     (D : Domain α) (hM : Models R.assumptions M D) (s : State α)
     (x m m' : α) (hd : CenterShiftDomain M D x m m') :
-    square M (sub M x m') =
-      add M (add M (square M (sub M x m)) (mul M (sub M x m) (sub M m m')))
-        (add M (mul M (sub M x m) (sub M m m')) (square M (sub M m m'))) := by
+    square M (ScalarArithmetic.sub M x m') =
+      ScalarArithmetic.add M (ScalarArithmetic.add M (square M (ScalarArithmetic.sub M x m)) (ScalarArithmetic.mul M (ScalarArithmetic.sub M x m) (ScalarArithmetic.sub M m m')))
+        (ScalarArithmetic.add M (ScalarArithmetic.mul M (ScalarArithmetic.sub M x m) (ScalarArithmetic.sub M m m')) (square M (ScalarArithmetic.sub M m m'))) := by
   have join := sub_add_sub_cancel R M D hM s x m m'
     hd.input hd.oldMean hd.newMean hd.oldDeviation hd.meanShift hd.joinedDeviation
     hd.newDeviation hd.zero hd.negativeNewMean
@@ -143,16 +143,16 @@ theorem square_shift {α : Type} [Inhabited α] (R : Rules) (M : Algebra α)
     mul_comm R M D hM s _ _ hd.meanShift hd.oldDeviation]
 
 def deviationSquares {α : Type} (M : Algebra α) (xs : Fin N → α) (m : α) : Fin N → α :=
-  fun i => square M (sub M (xs i) m)
+  fun i => square M (ScalarArithmetic.sub M (xs i) m)
 
 def crossTerms {α : Type} (M : Algebra α) (xs : Fin N → α) (m m' : α) : Fin N → α :=
-  fun i => mul M (sub M (xs i) m) (sub M m m')
+  fun i => ScalarArithmetic.mul M (ScalarArithmetic.sub M (xs i) m) (ScalarArithmetic.sub M m m')
 
 def oldPlusCross {α : Type} (M : Algebra α) (xs : Fin N → α) (m m' : α) : Fin N → α :=
-  fun i => add M (deviationSquares M xs m i) (crossTerms M xs m m' i)
+  fun i => ScalarArithmetic.add M (deviationSquares M xs m i) (crossTerms M xs m m' i)
 
 def crossPlusShift {α : Type} (M : Algebra α) (xs : Fin N → α) (m m' : α) : Fin N → α :=
-  fun i => add M (crossTerms M xs m m' i) (square M (sub M m m'))
+  fun i => ScalarArithmetic.add M (crossTerms M xs m m' i) (square M (ScalarArithmetic.sub M m m'))
 
 /-- Domains for all explicit addition trees used in square recentering.
 The transformed partial sums are checked too; finite input leaves alone are
@@ -163,7 +163,7 @@ structure CenterShiftTreeDomain {α : Type} (M : Algebra α) (D : Domain α)
   zero : D .finite (ScalarArithmetic.zero M)
   oldSquares : ScalarReduction.FiniteTree M D (deviationSquares M xs m) (ScalarArithmetic.zero M) tree
   cross : ScalarReduction.FiniteTree M D (crossTerms M xs m m') (ScalarArithmetic.zero M) tree
-  shiftSquares : ScalarReduction.FiniteTree M D (fun _ => square M (sub M m m'))
+  shiftSquares : ScalarReduction.FiniteTree M D (fun _ => square M (ScalarArithmetic.sub M m m'))
     (ScalarArithmetic.zero M) tree
   leftSum : ScalarReduction.FiniteTree M D (oldPlusCross M xs m m') (ScalarArithmetic.zero M) tree
   rightSum : ScalarReduction.FiniteTree M D (crossPlusShift M xs m m') (ScalarArithmetic.zero M) tree
@@ -177,13 +177,13 @@ theorem square_shift_tree {α : Type} [Inhabited α] (R : Rules) (M : Algebra α
     (xs : Fin N → α) (m m' : α) (tree : Equational.ReductionTree N)
     (hd : CenterShiftTreeDomain M D xs m m' tree) :
     ScalarReduction.value M (deviationSquares M xs m') (zero M) tree =
-      add M
-        (add M (ScalarReduction.value M (deviationSquares M xs m) (zero M) tree)
+      ScalarArithmetic.add M
+        (ScalarArithmetic.add M (ScalarReduction.value M (deviationSquares M xs m) (zero M) tree)
           (ScalarReduction.value M (crossTerms M xs m m') (zero M) tree))
-        (add M (ScalarReduction.value M (crossTerms M xs m m') (zero M) tree)
-          (ScalarReduction.value M (fun _ => square M (sub M m m')) (zero M) tree)) := by
+        (ScalarArithmetic.add M (ScalarReduction.value M (crossTerms M xs m m') (zero M) tree)
+          (ScalarReduction.value M (fun _ => square M (ScalarArithmetic.sub M m m')) (zero M) tree)) := by
   have hp (i : Fin N) : deviationSquares M xs m' i =
-      add M (oldPlusCross M xs m m' i) (crossPlusShift M xs m m' i) :=
+      ScalarArithmetic.add M (oldPlusCross M xs m m' i) (crossPlusShift M xs m m' i) :=
     square_shift R M D hM s (xs i) m m' (hd.pointwise i)
   have hf := (ScalarReduction.finiteTree_congr M D _ _ (zero M) (zero M) hp rfl tree).mp hd.newSquares
   rw [ScalarReduction.value_congr M _ _ (zero M) (zero M) hp rfl tree,

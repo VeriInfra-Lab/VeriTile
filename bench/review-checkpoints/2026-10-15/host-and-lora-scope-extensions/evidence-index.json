@@ -1,0 +1,67 @@
+{
+  "schema": 1,
+  "kind": "compact_second_scope_extension_evidence",
+  "retained_exact_artifacts": {
+    "lora-branch-extension-result.json": {
+      "path": "evidence/lora-branch-extension-result.json",
+      "sha256": "6bbfd90e1a39c56d58599593a67a4d46ae6c5ead0dd7f1b60b2ecbe0e1783bd7",
+      "producer_path": "/tmp/veritile-standardization-20261015/lora-branch-extension-result.json"
+    },
+    "lora-root-public-registration-revision.json": {
+      "path": "evidence/lora-root-public-registration-revision.json",
+      "sha256": "494d6b3f8b219d07d1d4fbcc82f8dcf45de5b27f927c41693711f1eaf4d48c4d",
+      "producer_path": "/tmp/veritile-standardization-20261015/lora-root-public-registration-revision.json"
+    },
+    "lora-root-public-specification.log": {
+      "path": "evidence/lora-root-public-specification.log",
+      "sha256": "a7f60878542428e8f0b45a3b2859d205e5a44dd50ce1d771a2ed9ca2062a8651",
+      "producer_path": "/tmp/veritile-standardization-20261015/lora-root-public-specification.log"
+    },
+    "lora-independent-review.json": {
+      "path": "evidence/lora-independent-review.json",
+      "sha256": "c52d6313c4ea451f73cfee593527d5b3b59264455a37ae70aa1a16c6a76bdfac",
+      "producer_path": "/tmp/veritile-standardization-20261015/lora-independent-review.json"
+    },
+    "lora-source-scope-review.json": {
+      "path": "evidence/lora-source-scope-review.json",
+      "sha256": "9e1e49ef69cfee287c8e190778baf69a2a978cd09195cc7127e4b5ab5be45710",
+      "producer_path": "/tmp/veritile-standardization-20261015/lora-source-scope-review.json"
+    },
+    "matrix-host-extension-result.json": {
+      "path": "evidence/matrix-host-extension-result.json",
+      "sha256": "aa5f90f9f470427041e0e61aee720cea7f5b677539c266dd24d8e38c442dba88",
+      "producer_path": "/tmp/veritile-standardization-20261015/matrix-host-extension-result.json"
+    },
+    "matrix-host-review.json": {
+      "path": "evidence/matrix-host-review.json",
+      "sha256": "e55456d41ed5912f3da2dcaba469c9fbe9d78f8d5a9f075f10090086fb8a5bab",
+      "producer_path": "/tmp/veritile-standardization-20261015/matrix-host-review.json"
+    },
+    "matrix-host.log": {
+      "path": "evidence/matrix-host.log",
+      "sha256": "ae4c3364ec53baa7bb3266e130b8f9316ee50cf8c2926a2c721e1ddbd771f060",
+      "producer_path": "/tmp/veritile-standardization-20261015/matrix-host.log"
+    },
+    "matrix-host-wrapper-probe.py": {
+      "path": "evidence/matrix-host-wrapper-probe.py",
+      "sha256": "9f2c9af81c209eb6623f3f7cef9cddf7ad814d7dbc7194bc586d2cc47423621e",
+      "producer_path": "/tmp/veritile-standardization-20261015/matrix-host-wrapper-probe.py"
+    },
+    "matrix-host-wrapper-probe.json": {
+      "path": "evidence/matrix-host-wrapper-probe.json",
+      "sha256": "813ca76c61f5147effe76ff0233aab443c0548040391a594a587c8d67a6b125c",
+      "producer_path": "/tmp/veritile-standardization-20261015/matrix-host-wrapper-probe.json"
+    }
+  },
+  "source_binding": "Reviewed temporary Lean sources were copied byte-for-byte into the repository; root-review.json binds the final repository paths. The old LoRA producer receipt is retained unchanged alongside the separate public-registration revision.",
+  "raw_receipt_path_policy": "Producer receipts retain their original /tmp paths. This index maps retained receipt/log/probe bytes to portable checkpoint paths. Unretained original logs are only hash-recorded, not claimed present.",
+  "matrix_probe_boundary": "Exact original wrapper AST is exercised with CPU tensor allocations and an intercepted launch; no GPU kernel executes. Probe source/CPU metadata observations do not prove native compilation or allocation/ABI refinement.",
+  "predecessor_checkpoint": "bench/review-checkpoints/2026-10-15/original-scope-extensions",
+  "metadata_baseline_reused": "bench/review-checkpoints/2026-10-15/original-scope-extensions/metadata-baseline",
+  "new_metadata_baseline_created": false,
+  "whole_task_acceptance": {
+    "accepted": 0,
+    "requested": 183
+  },
+  "integration_validation": "validation.json"
+}

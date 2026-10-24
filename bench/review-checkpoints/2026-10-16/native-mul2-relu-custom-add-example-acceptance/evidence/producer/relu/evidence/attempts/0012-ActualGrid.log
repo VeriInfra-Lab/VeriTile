@@ -1,0 +1,25 @@
+/tmp/veritile-standardization-20261015/relu-finite-acceptance-revision1-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ActualGrid.lean:56:4: error: `simp` made no progress
+/tmp/veritile-standardization-20261015/relu-finite-acceptance-revision1-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ActualGrid.lean:89:2: error: No goals to be solved
+/tmp/veritile-standardization-20261015/relu-finite-acceptance-revision1-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ActualGrid.lean:120:32: error: Application type mismatch: The argument
+  hp
+has type
+  p.succ ∈ List.map Nat.succ (List.range count)
+but is expected to have type
+  ?m.108 ∈ List.range ?m.109
+in the application
+  List.mem_range.mp hp
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.gridFormula: definition does not reference [VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.runGrid,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.runProgram,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.executeBody,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.step,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.applyWrites] — non-circular ✓
+/tmp/veritile-standardization-20261015/relu-finite-acceptance-revision1-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ActualGrid.lean:129:0: error: VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.source_grid_correspondence: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/relu-finite-acceptance-revision1-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ActualGrid.lean:130:0: error: VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.source_grid_formula: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.grid_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.stores32_exact: axiom footprint ⊆ standard base ✓  ([propext])
+/tmp/veritile-standardization-20261015/relu-finite-acceptance-revision1-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ActualGrid.lean:133:0: error: VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.launched_stores_only_first: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.empty_grid: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

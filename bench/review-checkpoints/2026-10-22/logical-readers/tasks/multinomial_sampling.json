@@ -1,0 +1,91 @@
+{
+  "schema": 1,
+  "task": "multinomial_sampling",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue11/result.json",
+    "sha256": "7a28f136f231639a8f9558b05e0421064795ae4d4006e846103d9cb7137f1b44",
+    "task_index": 0
+  },
+  "finding": "The inverse-CDF reader exposed raw memory, the sole output channel, and UndefProgramIO.SatisfiesOn.",
+  "resolution": "Finite named probability/seed/offset/label tensors, three separate arbitrary fallback vectors, and logical relational observation replace raw channels. The inverse-CDF sums and Philox10 signed-offset sample are visible.",
+  "mathematical_target": "multinomial_categorical_correctness",
+  "conditions_and_scope": "Every active lane of the original single-program stage, arbitrary PID/strides/aliases; exactly the original signed64 seed/fallback domain and normalized nonnegative active-row probability domain. Label/fallback integer types, safety, success and complete frame remain.",
+  "proof_connection": "LogicalViewIO contains bijective input/output coordinates. Proofs/LogicalReader proves the full prior/new judgment iff; Proofs/ReaderBefore preserves the exact prior statement and established proof. The new public specification applies this connection.",
+  "fp_review": "Complete dynamic token-loop original versus existing constexpr unrolling; same scan/max plans, Philox10, FP32 ordering/casts, signed64 labels, masks and fallback observations.",
+  "numerical_dependencies": "No new numerical rewrites or experiments. Existing actual FP pairs retain empty experimental rule sets and their original concrete/native/opaque unchanged-primitive interpretations; structural/index/schedule transformations only. Real mathematics remains independent.",
+  "previous_formula_scope": {
+    "mathematical_target": "For each active batch row, return label j where j<tokens and the Philox10 sample u lies in the inverse-CDF interval sum(k<j) w[k] < u <= sum(k<j+1) w[k]; u=0 selects j=0.",
+    "required_conditions": "SatisfiesOn preserves SeedDomain (signed64 seeds, including masked lanes) and ProbabilityDomain on active rows: tokens>0, nonnegative weights and sum=1. Public IO supplies input binding, memory bounds, actual source safety/success, typed labels and full frame. Contract checks finite FP32 probability units summing to 2^149, integer/pointer envelopes and ordinary metadata; no restriction was added.",
+    "scope": "Exactly one complete source program at pid, all token blocks, active rows pid*block+i<batches, source strides, signed64 labels, arbitrary typed masked-load fallback payloads.",
+    "canonical_connection": "The displayed inverseCDF target is definitionally Interface.categorical; the main specification directly applies the canonical theorem. IOComplete.real_satisfies joins IOSafety.whole, IOResult.outcome, IORealResult.categorical_result and IOFacts.entry_binding.",
+    "fp_program_pair": {
+      "actual_pair": "original rest P p pid versus unrolled rest P p pid: dynamic complete token-block loop versus constexpr unrolling, with identical scan/max/Philox10, masks and clamped label address.",
+      "model_and_precision": "Same typed source primitive bundle P and fallback rest on both programs; FP32 selected source and signed64/32 conversions retained; arbitrary compatible carrier and unchanged interpretations. Undef input view and SeedDomain remain.",
+      "experimental_rules_used": 0,
+      "pending_experiments_for_main_pair": 0,
+      "dependency_note": "Empty experimental rules do not erase the fixed typed interpreter and local compiler/model bindings stated above."
+    },
+    "numerical_dependencies": {
+      "actual_pair": "original rest P p pid versus unrolled rest P p pid: dynamic complete token-block loop versus constexpr unrolling, with identical scan/max/Philox10, masks and clamped label address.",
+      "model_and_precision": "Same typed source primitive bundle P and fallback rest on both programs; FP32 selected source and signed64/32 conversions retained; arbitrary compatible carrier and unchanged interpretations. Undef input view and SeedDomain remain.",
+      "experimental_rules_used": 0,
+      "pending_experiments_for_main_pair": 0,
+      "dependency_note": "Empty experimental rules do not erase the fixed typed interpreter and local compiler/model bindings stated above."
+    }
+  },
+  "verification": [
+    {
+      "kind": "targeted_modules_and_fp_reader",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue11/build.py",
+        "bench.repairs.tritonbench_g.multinomial_sampling.Proofs.ReaderBefore",
+        "bench.repairs.tritonbench_g.multinomial_sampling.LogicalViewIO",
+        "bench.repairs.tritonbench_g.multinomial_sampling.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.multinomial_sampling.Correct",
+        "bench.repairs.tritonbench_g.multinomial_sampling.FPEquiv",
+        "bench.repairs.tritonbench_g.multinomial_sampling.Contract"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue11/final/multinomial_sampling-build.log",
+      "log_sha256": "0dba006e8afe1a62f4304c599805942800b4734b09c7ac777f14eefcb348a060"
+    },
+    {
+      "kind": "task_local_joint_import",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue11/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue11/final/multinomial_samplingJoint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue11/final/multinomial_sampling-joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/multinomial_sampling/Correct.lean": "0f3a41477fbf99850156dc2c070528b6353152138358045cee2e6426b022b26b",
+    "bench/repairs/tritonbench_g/multinomial_sampling/FPEquiv.lean": "27dc2f08125df3ef1b2451a697f057327f5d9cadf5eb24743a2b112ed90a4c0a",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Contract.lean": "b724cd216b697bb9296f9ff50791872ba853aaba6165ced4e67b0253c585fc05",
+    "bench/repairs/tritonbench_g/multinomial_sampling/LogicalViewIO.lean": "a50dcc721990190d625e8d3f1ec87bf1c43928fc4b570c9e9750520ad735c8ad",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/ReaderBefore.lean": "4ae5ee57ec8a000ecafe2a5d66bac65fdf956bf595a051b87047bc555d47e537",
+    "bench/repairs/tritonbench_g/multinomial_sampling/Proofs/LogicalReader.lean": "e85b6b6c2b28433f3bceff845d4ada9c280fa1d9fd4793d50a03050390249656",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [
+    "Existing applicable internal proof objects reused; no unchanged proof-closure replay. Per-task joint imports were used, not a cross-task aggregate."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

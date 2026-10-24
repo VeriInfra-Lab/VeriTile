@@ -6,7 +6,7 @@ import VeriTile.Meta.StatementAudit
 when the output storage is fp32. Input, weight, cast, masking and accumulation
 choices remain symbolic. Products and sums retain their original dtypes; only
 promotion against the loaded fp32 output makes the addition fp32. This theorem
-does not discharge the arbitrary-output contract pending in FPEquiv.lean. -/
+does not discharge the additional native premises of the arbitrary-output contract in FPEquiv.lean. -/
 namespace VeriTile.Bench.TritonBenchG.BgmvExpandSlice.FP32Equivalence
 open VeriTile Triton FP.Structural FP.ProfiledRewrite
 open scoped VeriTile.Spec

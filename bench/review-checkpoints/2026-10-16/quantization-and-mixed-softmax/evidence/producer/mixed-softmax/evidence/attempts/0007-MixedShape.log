@@ -1,0 +1,3 @@
+VeriTile.Bench.TritonBenchG.TokenSoftmaxLlama.MixedTyped.source_shape: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

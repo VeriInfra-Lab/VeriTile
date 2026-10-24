@@ -3363,7 +3363,7 @@ scan under `execR R`, from an **arbitrary** launch state: the exact
 `diagSsmForwardLoopContextInvariant` stack runs verbatim (the surface is
 cast-free, so `execR R` collapses onto the exact stepper), extended with
 the per-segment memory frames. -/
-private theorem dssm_runR (R : RoundingModel)
+theorem dssm_runR (R : RoundingModel)
     (s_ptr x_ptr lambda_ptr y_ptr : RegionName)
     (length batch_size dim BLOCK_SIZE : Nat) (hXOutNe : x_ptr ≠ y_ptr)
     (s₀ : BlockState) :
@@ -4726,7 +4726,7 @@ per-cell frame of the whole reverse scan under `execR R`, from an
 cast-free, so `execR R` collapses onto the exact stepper), extended with
 the per-segment memory frames and closed by the terminal-scatter
 readback lemmas. -/
-private theorem dssmb_runR (R : RoundingModel)
+theorem dssmb_runR (R : RoundingModel)
     (s_ptr lambda_ptr y_ptr grad_s_ptr grad_x_ptr grad_lambda_ptr
       grad_y_ptr : RegionName)
     (length batch_size dim BLOCK_SIZE : Nat)
@@ -5123,4 +5123,8 @@ end BackwardIOFace
 
 #guard_msgs (drop info) in
 #auditModuleAxioms
+/-- Reuse the existing source trace-safety walk in regional interfaces. -/
+alias forward_traceSafeR := dssm_forward_traceSafeR
+alias backward_traceSafeR := dssmb_traceSafeR
+
 end VeriTile.Bench.TritonBenchG.DiagSsmTriton.RealReference

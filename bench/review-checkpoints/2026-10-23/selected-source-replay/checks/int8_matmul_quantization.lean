@@ -1,0 +1,9 @@
+import VeriTile.Meta.StatementAudit
+import bench.repairs.tritonbench_g.int8_matmul_quantization_i32_safe.Contract
+import bench.repairs.tritonbench_g.int8_matmul_quantization_i32_safe.Correct
+import bench.repairs.tritonbench_g.int8_matmul_quantization_i32_safe.FPEquiv
+
+#axiomsClean VeriTile.Bench.Repairs.Int8MatmulQuantization.I32Safe.KernelOnly.Correct.producer_correct
+#axiomsClean VeriTile.Bench.Repairs.Int8MatmulQuantization.I32Safe.KernelOnly.Correct.gemm_correct
+#axiomsClean VeriTile.Bench.Repairs.Int8MatmulQuantization.I32Safe.KernelOnly.FPEquiv.producer_indices_equiv
+#axiomsClean VeriTile.Bench.Repairs.Int8MatmulQuantization.I32Safe.KernelOnly.FPEquiv.gemm_scale_masks_equiv

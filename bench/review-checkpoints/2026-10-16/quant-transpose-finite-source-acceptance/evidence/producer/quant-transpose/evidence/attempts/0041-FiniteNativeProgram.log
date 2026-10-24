@@ -1,0 +1,14 @@
+QuantTransposeFinite.nativeProgramPlan: definition does not reference [QuantTransposeFinite.executeNativeProgram,
+ QuantTransposeFinite.executeNativeTileWrites,
+ QuantTransposeFinite.applyNativeWrites,
+ QuantTransposeFinite.source,
+ QuantTransposeFinite.Expr.eval] — non-circular ✓
+QuantTransposeFinite.native_program_correspondence: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+QuantTransposeFinite.native_program_plan_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+QuantTransposeFinite.native_program_write_bounds: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])

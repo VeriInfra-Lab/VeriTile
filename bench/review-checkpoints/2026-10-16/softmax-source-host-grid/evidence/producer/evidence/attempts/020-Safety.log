@@ -1,0 +1,44 @@
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Safety.lean:79:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (?m.50 * C + i) / C
+in the target expression
+  (fun x => x / C) (p * C + i) = (fun x => x / C) (q * C + j)
+
+C p q i j : ℕ
+hi : i < C
+hj : j < C
+he : p * C + i = q * C + j
+hd : (fun x => x / C) (p * C + i) = (fun x => x / C) (q * C + j)
+hm : (fun x => x % C) (p * C + i) = (fun x => x % C) (q * C + j)
+⊢ p = q ∧ i = j
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Safety.lean:91:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (?m.100 * N * K + n * K + k) / K / N
+in the target expression
+  (fun x => x / K / N) (r * N * K + n * K + k) = (fun x => x / K / N) (s * N * K + m * K + l)
+
+N K r s n m k l : ℕ
+hn : n < N
+hm : m < N
+hk : k < K
+hl : l < K
+he : r * N * K + n * K + k = s * N * K + m * K + l
+hr : (fun x => x / K / N) (r * N * K + n * K + k) = (fun x => x / K / N) (s * N * K + m * K + l)
+hnm : (fun x => x / K % N) (r * N * K + n * K + k) = (fun x => x / K % N) (s * N * K + m * K + l)
+hkl : (fun x => x % K) (r * N * K + n * K + k) = (fun x => x % K) (s * N * K + m * K + l)
+⊢ r = s ∧ n = m ∧ k = l
+VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.runSafe_of_each: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.forward_inner_grid_safe: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.forward_noninner_grid_safe: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.backward_inner_grid_safe: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.backward_noninner_grid_safe: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Safety.lean:101:0: error: VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.owner_unique: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Safety.lean:102:0: error: VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.noninner_coordinate_unique: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

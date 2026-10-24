@@ -1,0 +1,17 @@
+/tmp/veritile-standardization-20261015/add-example-independent-review/replay/probe_host.py:21: UserWarning: ComplexHalf support is experimental and many operators don't support it yet. (Triggered internally at /__w/pytorch/pytorch/aten/src/ATen/EmptyTensor.cpp:54.)
+  x=torch.empty(size,dtype=getattr(torch,name));y=torch.empty(size,dtype=getattr(torch,name));out=mod.add_wrapper(x,y);row.update(status='returned',x=meta(x),output=meta(out),launch=calls[-1])
+{
+  "receipt": "/tmp/veritile-standardization-20261015/add-example-independent-review/replay/evidence/host-attempts/20261015T231354712959Z/receipt.json",
+  "sha256": "76f44e0918ee3e67450db0d40990b3fc9a16ca59b333db3b91e31da7b188ad06",
+  "cases": 73,
+  "errors": [
+    {
+      "dtype": "float4_e2m1fn_x2",
+      "size": 0,
+      "status": "error",
+      "error_type": "NotImplementedError",
+      "error": "\"fill_cpu\" not implemented for 'Float4_e2m1fn_x2'",
+      "launch_count": 63
+    }
+  ]
+}

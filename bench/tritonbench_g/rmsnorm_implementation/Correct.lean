@@ -4,43 +4,17 @@ import bench.tritonbench_g.rmsnorm_implementation.Proofs.Precision
 import bench.tritonbench_g.rmsnorm_implementation.Proofs.Execution
 import bench.tritonbench_g.rmsnorm_implementation.Proofs.Math
 import bench.tritonbench_g.rmsnorm_implementation.Proofs.Safety
+import bench.tritonbench_g.rmsnorm_implementation.Proofs.FiniteWitness
+
+/-! Historical mathematical and slice contracts in this file are ordinary helper
+theorems. Only the retained `specification` entries below are public source contracts.
+The helpers retain their statements and proofs for downstream reuse. -/
+
 
 namespace VeriTile.Bench.TritonBenchG.RmsnormImplementation
 open VeriTile.Triton
 open scoped VeriTile.Triton.StreamEmitMasked2DKernelIO₂
 
-/-- Per-kernel output summary for `rmsnorm_triton`: the DSL surface lowers to the
-algorithm layer, and the masked store to `out_ptr` is compute-correct for
-arbitrary `N_SIZE` — every output column holds the full-`N` RMSNorm spec
-`rmsnormWeightedYFullNSpec`. Built on the multi-block `*_compute_fullN_correct`
-result; requires `0 < BLOCK_N_SIZE`, `0 < stride_out_k`, and output/input
-disjointness. -/
-specification rmsnorm_implementation_output_summary
-    (x_ptr rms_w_ptr out_ptr : RegionName)
-    (stride_x_batch stride_x_m stride_x_k stride_rms_w
-      stride_out_batch stride_out_m stride_out_k N_SIZE BLOCK_N_SIZE : Nat)
-    (eps : ℝ) (s : BlockState)
-    (hBlockPos : 0 < BLOCK_N_SIZE)
-    (hStrideOutKPos : 0 < stride_out_k)
-    (hXOutNe : x_ptr ≠ out_ptr)
-    (hWOutNe : rms_w_ptr ≠ out_ptr) :
-    (∃ alg, (rmsnorm_implementation x_ptr rms_w_ptr out_ptr
-        stride_x_batch stride_x_m stride_x_k stride_rms_w
-        stride_out_batch stride_out_m stride_out_k N_SIZE BLOCK_N_SIZE
-        eps).toAlgorithm? = Except.ok alg) ∧
-    ComputeCorrect.Realizes_without_Rounding
-      (kernel := rmsnorm_implementation x_ptr rms_w_ptr out_ptr
-        stride_x_batch stride_x_m stride_x_k stride_rms_w
-        stride_out_batch stride_out_m stride_out_k N_SIZE BLOCK_N_SIZE eps)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun _ : Fin N_SIZE => True)
-        (fun i => (out_ptr,
-          outColOffset s stride_out_batch stride_out_m stride_out_k i.val)))
-      (expected := fun i =>
-        rmsnormWeightedYFullNSpec s x_ptr rms_w_ptr stride_x_batch stride_x_m
-          stride_x_k stride_rms_w N_SIZE BLOCK_N_SIZE eps i) := by
-  exact rmsnorm_implementation_output_summary_bridge x_ptr rms_w_ptr out_ptr stride_x_batch stride_x_m stride_x_k stride_rms_w stride_out_batch stride_out_m stride_out_k N_SIZE BLOCK_N_SIZE eps s hBlockPos hStrideOutKPos hXOutNe hWOutNe
 
 /-- **The `⊨[R]` streaming headline (wave-5 S3 per-step emit genre).** For
 every rounding model `R`, the faithful `rmsnorm_implementation` surface
@@ -90,7 +64,7 @@ is retained unchanged; this `⊨[R]` face restates the same RMS-norm content
 on the streaming emit skin, for every `R` at once (at the `.real` grid the
 two faces carry the same exact cell). Both faces are kept per the
 rounding-as-default doctrine. -/
-specification rmsnorm_implementation_io_correctness (R : RoundingModel)
+theorem rmsnorm_implementation_io_correctness (R : RoundingModel)
     (x_ptr rms_w_ptr out_ptr : RegionName)
     (stride_x_batch stride_x_m stride_x_k stride_rms_w
       stride_out_batch stride_out_m stride_out_k N_SIZE BLOCK_N_SIZE : Nat)
@@ -115,6 +89,20 @@ specification typed_real_correct (input weight output : Storage) (v : Bool)
       (ExactIO (typedIO input weight output v X W O sxb sxm sxk sw sob som sok N B eps)
         (fun _ _ xs ws t j => rmsImplStreamSpec N B eps xs ws t j)) :=
   typed_exact_io input weight output v X W O sxb sxm sxk sw sob som sok N B eps
+    hB hXO hWO hsok
+
+/-- Both complete floating-profile programs satisfy actual trace safety,
+successful finite flat execution, every active output of the independent full
+row RMSNorm formula and the frame of all other raw cells. This is the exact-real
+projection with nonnegative strides and zero undefined masked-load values;
+storage casts erase to identity. It is not an IEEE arithmetic assertion. -/
+specification full_real_correct (input weight output : Storage) (v : Bool)
+    (X W O : RegionName) (sxb sxm sxk sw sob som sok N B : Nat) (eps : ℝ)
+    (hB : 0 < B) (hXO : X ≠ O) (hWO : W ≠ O) (hsok : 0 < sok) :
+    VeriTile.Spec.Real
+      (FullExactIO (typedIO input weight output v X W O sxb sxm sxk sw sob som sok N B eps)
+        (fun _ _ xs ws t j => rmsImplStreamSpec N B eps xs ws t j)) :=
+  typed_full_exact_io input weight output v X W O sxb sxm sxk sw sob som sok N B eps
     hB hXO hWO hsok
 
 #guard_msgs (drop info) in

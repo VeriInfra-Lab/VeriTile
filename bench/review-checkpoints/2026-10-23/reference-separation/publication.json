@@ -1,0 +1,110 @@
+{
+  "release_inputs": {
+    "path": ".veritile-cache/reference-separation-20261023/release-inputs.json",
+    "sha256": "26c4334d83d5752fe758e143ce55703ece38ceeb3f1cffaf131ff8a8c724b9af"
+  },
+  "publisher": {
+    "path": ".veritile-cache/reference-separation-20261023/publish.py",
+    "sha256": "5764c3a775ef9f9c5d049ca8aa0dd60ff1d3080134b69c2560c6bcc66d32c5fa"
+  },
+  "manifests": {
+    "main_formula_review": {
+      "path": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
+      "sha256": "a1abc467576f77057d9c1f68720284832f18d32be6df2c832a727696cecd6179"
+    },
+    "main_entry_role_review": {
+      "path": "bench/review-checkpoints/2026-10-23/reference-separation/reader-roles.json",
+      "sha256": "dbb183907a35a93d9a95b53987d605557acd86c797c67dd3fde18432e50ce236"
+    },
+    "io_organization_review": {
+      "path": "bench/review-checkpoints/2026-10-23/reference-separation/io-audit.json",
+      "sha256": "da23b024c8d63c7965d9d25b698595bf4746a8eeac31178e984de8de15d3e1c7"
+    }
+  },
+  "affected_tasks": [
+    "attention_score",
+    "attn_fwd_causal",
+    "block_sparse_attn",
+    "chunk_delta_fwd",
+    "chunk_gate_recurrence",
+    "context_attn_llama",
+    "context_attn_mistral",
+    "cross_entropy1",
+    "cross_entropy2",
+    "fast_rms_layernorm",
+    "flash_attn",
+    "fused_rwkv6_kernel",
+    "geglu_tanh_triton",
+    "lightning_attention",
+    "llama_ff_triton",
+    "log_softmax",
+    "matmul_triton2",
+    "parallel_attention",
+    "quant_transpose_kernel",
+    "rmsnorm_fused_llama",
+    "streamk_matmul",
+    "token_attn_llama2",
+    "token_attn_mistral"
+  ],
+  "independent_review": {
+    "path": "/tmp/veritile-reference-separation-20261023/independent/release-review-v2.json",
+    "sha256": "8b1b1bc1387044f083cedd6617ebe7d3493cd49db9eb61ecb9fb2d4376ce8a60"
+  },
+  "owner_reports": [
+    {
+      "path": "/tmp/veritile-reference-separation-20261023/ref04/result.json",
+      "sha256": "d956962445708245001e557b9330b57ecf4096906722ac870ea761462e0e347a"
+    },
+    {
+      "path": "/tmp/veritile-reference-separation-20261023/ref05/result.json",
+      "sha256": "8996ff6dfc57514ca9bf553d1f2bd8fe1d20087452426f077b20e887909fe768"
+    },
+    {
+      "path": "/tmp/veritile-reference-separation-20261023/ref06/result.json",
+      "sha256": "7386e8a9aedc2eb645cfc7d3a8b6b3b7c929658e3dffd81541a9fba584458574"
+    },
+    {
+      "path": "/tmp/veritile-reference-separation-20261023/ref07/result-v2.json",
+      "sha256": "659c1b70dadde66cc8b12f4d64001b70d80364ee8423ada316ed86aa3e62e177"
+    },
+    {
+      "path": "/tmp/veritile-reference-separation-20261023/ref09/result.json",
+      "sha256": "e3f40c94d2111e4aa18b9631e6d8d79a0adfd0919b86bb2bd3c87f675b8f689b"
+    },
+    {
+      "path": "/tmp/veritile-reference-separation-20261023/ref11/result.json",
+      "sha256": "6db2ab7032dab178b6394c0b0e8a974d90a52ce617bf04a62e0bb8c8b8aace6a"
+    }
+  ],
+  "actual_closure_review": {
+    "path": ".veritile-cache/reference-separation-20261023/selected-closure-restored-baseline.json",
+    "sha256": "76f7b1b7e8d65e6d5d76646b52a9064879e14a0e2367024698cbf12d0254dd58"
+  },
+  "scope": "Reference responsibility cleanup; unchanged mathematical and numerical scope. Other task reviews are reused.",
+  "container_pointer_finalization": {
+    "script": {
+      "path": ".veritile-cache/reference-separation-20261023/finalize_container_pointers.py",
+      "sha256": "763e699e0fe9e27000bb06098b1da380fb4c1dad331f0fc6ed659165d6402ac0"
+    },
+    "evidence": {
+      "path": ".veritile-cache/reference-separation-20261023/container-pointer-finalization.json",
+      "sha256": "6f9791a165fe79b8c4c96823963b2455acf6493a5f26a136b8c32d141030fd86"
+    },
+    "ledger_after": {
+      "path": "bench/tritonbench_g/task_progress.json",
+      "sha256": "f8a8af72bbae6622abe16a936eaf7e3574201879d5b7530444a8b0f7d83b4f5f"
+    },
+    "prior_publication": {
+      "path": ".veritile-cache/reference-separation-20261023/publication-before-container-finalization.json",
+      "sha256": "ad70b4e8f828ca0d95fa4f4cdec03b21a002f344b82747c96a649fa6c40daa9d"
+    }
+  },
+  "final_cli_validation": {
+    "path": "bench/review-checkpoints/2026-10-23/reference-separation/command-validation.json",
+    "sha256": "b012ebd899328adaf147bcfcc1fb72fff40771b108675279ba91c3229e5d608a"
+  },
+  "kernel_revision_counts": {
+    "verified": 182,
+    "verified_with_deferred_numerics": 1
+  }
+}

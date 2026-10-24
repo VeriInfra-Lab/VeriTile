@@ -1,4 +1,5 @@
 import VeriTile.Triton
+import bench.tritonbench_g.relu_strided_buffer.Proofs.WholeSource
 
 /-!
 ## Translation-surface blocker
@@ -117,3 +118,25 @@ def relu_forward_kernel_rank_1_grid_stride_surface
 
 end Candidate
 end VeriTile.Bench.TritonBenchG.ReluStridedBuffer
+
+namespace VeriTile.Bench.TritonBenchG.ReluStridedBuffer.Whole
+open VeriTile.Triton FP.Structural HostPlan
+
+/-- Original rank-one source, selected FP32 storage, signed block-pointer
+lowering and both complete branches. This is the source used by both entries. -/
+def kernel (a : Arguments) : ComputeKernel :=
+  StructuralTile.kernelSource (StructuralHost.views a) a.oneTile a.T
+
+/-- Wrapper preparation, original launch and returned out0. No allocator call
+occurs in this wrapper: output ownership is supplied by its explicit caller. -/
+noncomputable abbrev runHost {α : Type} [Inhabited α] (M : Algebra α) (input output : Buffer)
+    (guardSucceeds : Bool) (s : State α) : StructuralHost.Result α :=
+  StructuralHost.execute M input output guardSucceeds s
+
+/-- The host launch uses precisely the shared kernel surface. -/
+theorem host_uses_shared_kernel {α : Type} [Inhabited α] (M : Algebra α)
+    (a : Arguments) (s : State α) :
+    StructuralHost.executeArguments M a s =
+      StructuralControl.runPrograms M (kernel a).surfaceBody a.C (List.range a.C) s := rfl
+
+end VeriTile.Bench.TritonBenchG.ReluStridedBuffer.Whole

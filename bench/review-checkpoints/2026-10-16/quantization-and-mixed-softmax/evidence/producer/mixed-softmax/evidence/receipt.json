@@ -1,0 +1,235 @@
+{
+  "schema": 1,
+  "kind": "selected_mixed_output_token_softmax_source_package",
+  "status": "compiled_partial_selected_routes_pending_root_review",
+  "recorded_at_utc": "2026-10-15T19:05:09.176801+00:00",
+  "head_at_freeze": "25070582c24c7e0f2e597e5fc263c3c5e31794eb",
+  "modules": {
+    "bench/tritonbench_g/token_softmax_bloom/Proofs/MixedSource.lean": "7792e628dc4169bb365dc62da1af085fc022bd590df4fb081968b136277b9ad2",
+    "bench/tritonbench_g/token_softmax_bloom/Proofs/MixedContract.lean": "9ef94d288fb25e10268084b302776637c73193fe933b1b142b7576cfd98b23e0",
+    "bench/tritonbench_g/token_softmax_bloom/Proofs/MixedIO.lean": "edb0060a47a14d88ed6b0558e58c2e9d3b33becf49edf05a32377cf2c2d7826f",
+    "bench/tritonbench_g/token_softmax_bloom/Proofs/MixedShape.lean": "af65e1f8aff8eeef595b0118bca574379f9c56236aa8739ed9353ca9c91de2bf",
+    "bench/tritonbench_g/token_softmax_bloom/MixedFPCorrect.lean": "9981ea2673b9b21a2e1a94eea7a21604073c090c4859bc10f5d61acc82bc3238",
+    "bench/tritonbench_g/token_softmax_llama/Proofs/MixedShape.lean": "7ed35273d402466639328fc4c46c18c00f4fa5324f22d8696df5b087464b626c",
+    "bench/tritonbench_g/token_softmax_llama/MixedFPCorrect.lean": "1194d01c0dced472ba94fef3bf2db2754e694afaaf4f0763cf5e5a0b55b49398"
+  },
+  "public_declarations": [
+    {
+      "task": "token_softmax_bloom",
+      "file": "bench/tritonbench_g/token_softmax_bloom/MixedFPCorrect.lean",
+      "declaration": "token_softmax_mixed_output_typed_correctness",
+      "kind": "specification",
+      "statement_sha256": "a1eb7235dd5798b85aab36b6d94efcefdbd8a0bb74a64b87f4127cca0d4146f4",
+      "role": "parametric_value_contract",
+      "model_kind": "backend_value_contract",
+      "scope_relation": "full_declared_stage",
+      "dtype_scope_relation": "selected_explicit_profiles_only",
+      "selected_storage_pairs": [
+        {
+          "input": "fp16",
+          "output": "fp16"
+        },
+        {
+          "input": "fp16",
+          "output": "bf16"
+        },
+        {
+          "input": "fp16",
+          "output": "fp32"
+        },
+        {
+          "input": "bf16",
+          "output": "fp16"
+        },
+        {
+          "input": "bf16",
+          "output": "bf16"
+        },
+        {
+          "input": "bf16",
+          "output": "fp32"
+        },
+        {
+          "input": "fp32",
+          "output": "fp16"
+        },
+        {
+          "input": "fp32",
+          "output": "bf16"
+        },
+        {
+          "input": "fp32",
+          "output": "fp32"
+        }
+      ],
+      "covers_stages": [
+        "complete_per_program_mixed_floating_row_value_and_frame"
+      ],
+      "whole_original_program_accepted": false
+    },
+    {
+      "task": "token_softmax_llama",
+      "file": "bench/tritonbench_g/token_softmax_llama/MixedFPCorrect.lean",
+      "declaration": "token_softmax_mixed_output_typed_correctness",
+      "kind": "specification",
+      "statement_sha256": "a1eb7235dd5798b85aab36b6d94efcefdbd8a0bb74a64b87f4127cca0d4146f4",
+      "role": "parametric_value_contract",
+      "model_kind": "backend_value_contract",
+      "scope_relation": "full_declared_stage",
+      "dtype_scope_relation": "selected_explicit_profiles_only",
+      "selected_storage_pairs": [
+        {
+          "input": "fp16",
+          "output": "fp16"
+        },
+        {
+          "input": "fp16",
+          "output": "bf16"
+        },
+        {
+          "input": "fp16",
+          "output": "fp32"
+        },
+        {
+          "input": "bf16",
+          "output": "fp16"
+        },
+        {
+          "input": "bf16",
+          "output": "bf16"
+        },
+        {
+          "input": "bf16",
+          "output": "fp32"
+        },
+        {
+          "input": "fp32",
+          "output": "fp16"
+        },
+        {
+          "input": "fp32",
+          "output": "bf16"
+        },
+        {
+          "input": "fp32",
+          "output": "fp32"
+        }
+      ],
+      "covers_stages": [
+        "complete_per_program_mixed_floating_row_value_and_frame"
+      ],
+      "whole_original_program_accepted": false
+    }
+  ],
+  "scope_review_sha256": "386df4028e6e5c400ad2b0355bd09f9eb231a3396cb21d9d3b667be23f402363",
+  "verification": {
+    "final_successful_modules": 7,
+    "total_attempts": 16,
+    "failed_compilation_attempts": 2,
+    "named_axiom_checks": 9,
+    "noncircularity_checks": 1,
+    "module_audits": 7,
+    "dependency_source_files": 174,
+    "imported_project_oleans": 167,
+    "before_after_dependency_snapshots_identical": true
+  },
+  "source_evidence": {
+    "exact_original_kernel_extractions": 2,
+    "original_kernel_asts_identical": true,
+    "successful_raw_frontend_profiles": 18,
+    "connected_scalar_graph_audits": 18,
+    "target": "sm90",
+    "block_size": 1024,
+    "num_warps": 4,
+    "native_backend_compilations": 0,
+    "gpu_executions": 0
+  },
+  "existing_task_files_preserved": 15,
+  "descriptive_numerical_followup_families": 9,
+  "exact_numerical_registrations_added": 0,
+  "current_repository_integrated": false,
+  "whole_program_completion_increment": 0,
+  "independent_review": "pending",
+  "artifacts": {
+    "README.md": "c5c99c01487543997436f1158364bd5bfe98f488928e5b3cd88a4eda27d97a66",
+    "audit_graph.py": "eba489554dd65d2408e229ab556b8ac942780ba592166286a109200964119edb",
+    "bench/tritonbench_g/token_softmax_bloom/MixedFPCorrect.lean": "9981ea2673b9b21a2e1a94eea7a21604073c090c4859bc10f5d61acc82bc3238",
+    "bench/tritonbench_g/token_softmax_bloom/Proofs/MixedContract.lean": "9ef94d288fb25e10268084b302776637c73193fe933b1b142b7576cfd98b23e0",
+    "bench/tritonbench_g/token_softmax_bloom/Proofs/MixedIO.lean": "edb0060a47a14d88ed6b0558e58c2e9d3b33becf49edf05a32377cf2c2d7826f",
+    "bench/tritonbench_g/token_softmax_bloom/Proofs/MixedShape.lean": "af65e1f8aff8eeef595b0118bca574379f9c56236aa8739ed9353ca9c91de2bf",
+    "bench/tritonbench_g/token_softmax_bloom/Proofs/MixedSource.lean": "7792e628dc4169bb365dc62da1af085fc022bd590df4fb081968b136277b9ad2",
+    "bench/tritonbench_g/token_softmax_llama/MixedFPCorrect.lean": "1194d01c0dced472ba94fef3bf2db2754e694afaaf4f0763cf5e5a0b55b49398",
+    "bench/tritonbench_g/token_softmax_llama/Proofs/MixedShape.lean": "7ed35273d402466639328fc4c46c18c00f4fa5324f22d8696df5b087464b626c",
+    "dependencies.py": "8035453728f89761c5df334681b4a9575ff90ef745d2a87069e1b1245ce8bd33",
+    "evidence/attempts/0001-MixedSource.lean.txt": "a8bc9144bb6512971d347bad15e7701bc067815b35184bcecfb4014f2fb80f12",
+    "evidence/attempts/0001-MixedSource.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/attempts/0002-MixedContract.lean.txt": "9ef94d288fb25e10268084b302776637c73193fe933b1b142b7576cfd98b23e0",
+    "evidence/attempts/0002-MixedContract.log": "2e3091a812e32ffdfd477d0aa10b8bfe53ac9d1927066134bd82db58e83fee50",
+    "evidence/attempts/0003-MixedContract.lean.txt": "9ef94d288fb25e10268084b302776637c73193fe933b1b142b7576cfd98b23e0",
+    "evidence/attempts/0003-MixedContract.log": "ed38a424d82f1f6daa35b62d6015df2123d6448e40d851775482d352824673e7",
+    "evidence/attempts/0004-MixedIO.lean.txt": "edb0060a47a14d88ed6b0558e58c2e9d3b33becf49edf05a32377cf2c2d7826f",
+    "evidence/attempts/0004-MixedIO.log": "c6866250404c67fd2920731e69d09ef8b3dacd7b9c9bc046e85ca64dfd07e9c2",
+    "evidence/attempts/0005-MixedShape.lean.txt": "af65e1f8aff8eeef595b0118bca574379f9c56236aa8739ed9353ca9c91de2bf",
+    "evidence/attempts/0005-MixedShape.log": "912ff3619707ad7e5b797483d048419e57d0b536bace5de369a8c567c412dcb9",
+    "evidence/attempts/0006-MixedFPCorrect.lean.txt": "9981ea2673b9b21a2e1a94eea7a21604073c090c4859bc10f5d61acc82bc3238",
+    "evidence/attempts/0006-MixedFPCorrect.log": "17aae67afad2f7c3fcb93d8bfd76b4dca1cf8983fe6e2b0669d03d71555cf921",
+    "evidence/attempts/0007-MixedShape.lean.txt": "7ed35273d402466639328fc4c46c18c00f4fa5324f22d8696df5b087464b626c",
+    "evidence/attempts/0007-MixedShape.log": "ebf48a2e69dfccc85654b6ea5bb0de8485b3413920d15ecc2703bb1602997cb3",
+    "evidence/attempts/0008-MixedFPCorrect.lean.txt": "1194d01c0dced472ba94fef3bf2db2754e694afaaf4f0763cf5e5a0b55b49398",
+    "evidence/attempts/0008-MixedFPCorrect.log": "4a542ba4341f2e8a0067516f2bee9671345462b89ee2978920a63b51a9022e5b",
+    "evidence/attempts/0009-MixedSource.lean.txt": "2a08c56fb35ce077250b505e4d5a2cf48bb44180028236c458255676b58350b4",
+    "evidence/attempts/0009-MixedSource.log": "118d8616e3c74bbca1fe8cd438c995e5e219b844ffc54dcb423303aa869886e9",
+    "evidence/attempts/0010-MixedSource.lean.txt": "7792e628dc4169bb365dc62da1af085fc022bd590df4fb081968b136277b9ad2",
+    "evidence/attempts/0010-MixedSource.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/attempts/0011-MixedContract.lean.txt": "9ef94d288fb25e10268084b302776637c73193fe933b1b142b7576cfd98b23e0",
+    "evidence/attempts/0011-MixedContract.log": "ed38a424d82f1f6daa35b62d6015df2123d6448e40d851775482d352824673e7",
+    "evidence/attempts/0012-MixedIO.lean.txt": "edb0060a47a14d88ed6b0558e58c2e9d3b33becf49edf05a32377cf2c2d7826f",
+    "evidence/attempts/0012-MixedIO.log": "c6866250404c67fd2920731e69d09ef8b3dacd7b9c9bc046e85ca64dfd07e9c2",
+    "evidence/attempts/0013-MixedShape.lean.txt": "af65e1f8aff8eeef595b0118bca574379f9c56236aa8739ed9353ca9c91de2bf",
+    "evidence/attempts/0013-MixedShape.log": "912ff3619707ad7e5b797483d048419e57d0b536bace5de369a8c567c412dcb9",
+    "evidence/attempts/0014-MixedFPCorrect.lean.txt": "9981ea2673b9b21a2e1a94eea7a21604073c090c4859bc10f5d61acc82bc3238",
+    "evidence/attempts/0014-MixedFPCorrect.log": "17aae67afad2f7c3fcb93d8bfd76b4dca1cf8983fe6e2b0669d03d71555cf921",
+    "evidence/attempts/0015-MixedShape.lean.txt": "7ed35273d402466639328fc4c46c18c00f4fa5324f22d8696df5b087464b626c",
+    "evidence/attempts/0015-MixedShape.log": "ebf48a2e69dfccc85654b6ea5bb0de8485b3413920d15ecc2703bb1602997cb3",
+    "evidence/attempts/0016-MixedFPCorrect.lean.txt": "1194d01c0dced472ba94fef3bf2db2754e694afaaf4f0763cf5e5a0b55b49398",
+    "evidence/attempts/0016-MixedFPCorrect.log": "4a542ba4341f2e8a0067516f2bee9671345462b89ee2978920a63b51a9022e5b",
+    "evidence/build-environment.json": "380697cebe56371b344a6b1816f9aa827b087ea6cc57d6fa98e8f0876c8d06d8",
+    "evidence/final-dependencies-after.json": "4f6ab7dd0fd8a2167303243b0bb3964101f67bef9e72189e0f633efa0463ec23",
+    "evidence/final-dependencies-before.json": "4f6ab7dd0fd8a2167303243b0bb3964101f67bef9e72189e0f633efa0463ec23",
+    "evidence/frontend/receipt.json": "31d796ea608a0a87aff9aea8319529090759b9fb6ce063b1a1daa5ec9f5b69ef",
+    "evidence/frontend/token_softmax_bloom__bf16__bf16.raw.ttir": "a28893af974697705e9aa7f73a14e9a65024e36205554aaa532c5fabdba58f77",
+    "evidence/frontend/token_softmax_bloom__bf16__fp16.raw.ttir": "7136d33905b675848606843617eca8aa0d9545b5e7f8630df686c23d95a26a3e",
+    "evidence/frontend/token_softmax_bloom__bf16__fp32.raw.ttir": "a6b55bbf68483441c360bcecbd2a88e4c1b52421716119d19858debca59c7664",
+    "evidence/frontend/token_softmax_bloom__fp16__bf16.raw.ttir": "e4a88436f945b70453417e55a5d5ab9326c828b9c1edbb005d989e289a777b7c",
+    "evidence/frontend/token_softmax_bloom__fp16__fp16.raw.ttir": "da2dbd61208f80b74be8da59beb379636afd4177d0a0a42df6a444e6f70b16b9",
+    "evidence/frontend/token_softmax_bloom__fp16__fp32.raw.ttir": "ed9d8691fbb1b4abde145f944603614421e586b013738004834b08b39545d1f6",
+    "evidence/frontend/token_softmax_bloom__fp32__bf16.raw.ttir": "f22b1fbbd7ff3a19df01b00b67014ef5685ecb06bafd45017cf4e9ee93ddb51a",
+    "evidence/frontend/token_softmax_bloom__fp32__fp16.raw.ttir": "8da3a0fe142714967d859c3f650ba972d65c61a8cb700b98acb9fc29ecfa1435",
+    "evidence/frontend/token_softmax_bloom__fp32__fp32.raw.ttir": "13e184c187ca247c8a123a6a9cca3d6c1f579b82af03faf1d49add8c07a89ee1",
+    "evidence/frontend/token_softmax_bloom_kernel.py": "e7a9580ea795481afad959f0585907111ebd44f161528096a22ea1df09771e7a",
+    "evidence/frontend/token_softmax_llama__bf16__bf16.raw.ttir": "10e881b03afb4c1f4b2e1906aab82a0bfbf31deb9bffc56eaa4c046ed9a8b563",
+    "evidence/frontend/token_softmax_llama__bf16__fp16.raw.ttir": "c1e54ce0eadad0154f6cce2b94d871c0c2e01cb718423398c597fe363f5933dc",
+    "evidence/frontend/token_softmax_llama__bf16__fp32.raw.ttir": "2ca0bbb9cbec648bee3e9d1c543db20fa7e5e6024a2fb6b50e8bd9b38525dc8c",
+    "evidence/frontend/token_softmax_llama__fp16__bf16.raw.ttir": "ff7b955d150c1da60f3ee7f20a3cefd4ac3da929f862f135fb4788b3a8e2ee0d",
+    "evidence/frontend/token_softmax_llama__fp16__fp16.raw.ttir": "8493f057231f970ec00bca54194e71598031b25f8469468a608196bb456106f0",
+    "evidence/frontend/token_softmax_llama__fp16__fp32.raw.ttir": "3106a1399682fd1ad17c7275c1aeb8321a5e1b48ea14695dcf87de10fd297f98",
+    "evidence/frontend/token_softmax_llama__fp32__bf16.raw.ttir": "a8c8d45092bce4b5a070628d4c68b0945c3f5927ff5bf0c1b45dba3d2b980250",
+    "evidence/frontend/token_softmax_llama__fp32__fp16.raw.ttir": "187aa7a238abfa280149fd75e5355762159b04854ecf5a833ea085d1429343e5",
+    "evidence/frontend/token_softmax_llama__fp32__fp32.raw.ttir": "663cff155a95253d03625fbbdf3af02bb14d318de2d187f3c12876ef0c235109",
+    "evidence/frontend/token_softmax_llama_kernel.py": "e7a9580ea795481afad959f0585907111ebd44f161528096a22ea1df09771e7a",
+    "evidence/frontend-probe.log": "f624319bc3ed74a37cd39f64df38dd12e106b19ff0514a20f18d7e539b6043dc",
+    "evidence/import-resolution.json": "8f4616f7a40313fedafe479d04449ea99a39a8520d2e9e4b9fcabb1bfd55d2c4",
+    "evidence/launch-environment-attempts.json": "9379b0e352cb106eb44a58533f41b67b8ba6ac3110d0d7eb387891f0e59d8bbb",
+    "evidence/preexisting-source-hashes.json": "5dc79637735c5b939494d35eab759bbd863865b65d897a5b88e7ddd251a60183",
+    "evidence/scalar-graph-audit.json": "8e306982487cd06a4bbca595825b1c76ca47d71eb2067e76ee51cee7342e2bb9",
+    "evidence/scope-review.json": "386df4028e6e5c400ad2b0355bd09f9eb231a3396cb21d9d3b667be23f402363",
+    "evidence/verification-attempts.json": "08d50a25e29697ae5442eb36dfea7efecdc57e82c8b603ad3e236beeb3fc5fb4",
+    "evidence/verification-results.json": "96ac96ede43ebf4b83712979b8edf0b47f4e155b315fa413b9f457876cead9a8",
+    "freeze.py": "1fb3ab0b5cc27181fc845138fd164cf09ed44f894c6717c2f2ebd8616780387f",
+    "modules.json": "446a0d443ad982b5a22f4cbc0e7346f58e73229350059e88a0c4d746569c6a21",
+    "numerical-followup.json": "803c8add14a4b9aec79fa2e3f564c927bf82f5b32cc45386c66724d1f34f0391",
+    "probe_source.py": "4e59cf9c804adcb62cc8cec8edba9d4dc1b124f19bf4fafc2778a95f41945f05",
+    "verify.py": "852205b335c6ccc578c4e249533317d6a709a6b4352674e09350c2543addbe00"
+  },
+  "acceptance_boundary": "Two successful source-coupled typed value/frame contracts close the independent destination dtype gap for the selected nine floating pairs. Original host/grid coverage and remaining dtype/admission routes are not accepted; native numerical validation and compiler refinement are not inferred."
+}

@@ -1,0 +1,41 @@
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/KernelOnly/Inputs.lean:85:16: error: unexpected token 'true'; expected term
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/KernelOnly/Inputs.lean:90:31: error: unexpected token 'true'; expected term
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/KernelOnly/Inputs.lean:105:43: error: unexpected token ';'; expected '{' or tactic
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/KernelOnly/Inputs.lean:105:31: error: unsolved goals
+c : Call
+⊢ Bool
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/KernelOnly/Inputs.lean:106:39: error: unexpected token 'true'; expected term
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/KernelOnly/Inputs.lean:108:24: error(lean.invalidField): Invalid field `checked`: The environment does not contain `VeriTile.Bench.Repairs.AttentionKernelAligned.KernelOnly.InputContract.checked`, so it is not possible to project the field `checked` from an expression
+  hc
+of type `InputContract c`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/KernelOnly/Inputs.lean:119:44: error: unexpected token 'true'; expected term
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/KernelOnly/Inputs.lean:131:38: error(lean.invalidField): Invalid field `shapes`: The environment does not contain `VeriTile.Bench.Repairs.AttentionKernelAligned.KernelOnly.InputContract.shapes`, so it is not possible to project the field `shapes` from an expression
+  hc
+of type `InputContract c`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/KernelOnly/Inputs.lean:149:95: error: unsolved goals
+α : Type
+read : ℕ → α
+c : Call
+hc : InputContract c
+laws : TensorLaws c
+b h n d : ℕ
+valid : Valid (parameters c) Buffer.bias b h n d
+live : Whole.Nonempty (parameters c)
+⊢ read
+      (base c Buffer.bias +
+        2 *
+          (b * (c.tensors Buffer.bias).strides.batch + h * (c.tensors Buffer.bias).strides.head +
+              n * (c.tensors Buffer.bias).strides.row +
+            d)) =
+    read
+      (base c Buffer.bias +
+        2 *
+          (b * (c.tensors Buffer.bias).strides.batch + h * (c.tensors Buffer.bias).strides.head +
+              n * (c.tensors Buffer.bias).strides.row +
+            d * (c.tensors Buffer.bias).strides.dim))
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/KernelOnly/Inputs.lean:155:0: error: VeriTile.Bench.Repairs.AttentionKernelAligned.KernelOnly.check_iff: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/KernelOnly/Inputs.lean:156:0: error: VeriTile.Bench.Repairs.AttentionKernelAligned.KernelOnly.actual_address: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/KernelOnly/Inputs.lean:157:0: error: VeriTile.Bench.Repairs.AttentionKernelAligned.KernelOnly.actual_read: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel_aligned/KernelOnly/Inputs.lean:158:0: error: VeriTile.Bench.Repairs.AttentionKernelAligned.KernelOnly.bias_read: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.Repairs.AttentionKernelAligned.KernelOnly.InputContract: definition does not reference [VeriTile.Bench.Repairs.AttentionKernelAligned.Whole.runPrograms,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓

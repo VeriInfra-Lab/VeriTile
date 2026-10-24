@@ -1,0 +1,13 @@
+import VeriTile.Meta.StatementAudit
+import bench.repairs.tritonbench_g.diag_ssm_triton.Contract
+import bench.repairs.tritonbench_g.diag_ssm_triton.Correct
+import bench.repairs.tritonbench_g.diag_ssm_triton.FPEquiv
+
+#axiomsClean VeriTile.Bench.Repairs.DiagSsmTriton.Correctness.forward_region_correctness
+#axiomsClean VeriTile.Bench.Repairs.DiagSsmTriton.Correctness.backward_region_correctness
+#axiomsClean VeriTile.Bench.Repairs.DiagSsmTriton.Correctness.complex_forward_region_correctness
+#axiomsClean VeriTile.Bench.Repairs.DiagSsmTriton.Correctness.complex_backward_region_correctness
+#axiomsClean VeriTile.Bench.Repairs.DiagSsmTriton.FPEquivalence.forward_equiv
+#axiomsClean VeriTile.Bench.Repairs.DiagSsmTriton.FPEquivalence.backward_equiv
+#axiomsClean VeriTile.Bench.Repairs.DiagSsmTriton.FPEquivalence.complexForward_equiv
+#axiomsClean VeriTile.Bench.Repairs.DiagSsmTriton.FPEquivalence.complexBackward_equiv

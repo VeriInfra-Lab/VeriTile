@@ -1,0 +1,74 @@
+{
+  "status": "passed",
+  "syntax_parsed": [
+    "check_prepare_plan.py",
+    "common.py",
+    "finalize.py",
+    "install.py",
+    "lint_candidates.py",
+    "preflight.py",
+    "prepare.py",
+    "progress_docs.py",
+    "rebind.py",
+    "record_phase.py",
+    "run_checks.py",
+    "stage.py",
+    "transforms.py"
+  ],
+  "adapter_ast_preservation": [
+    {
+      "path": "/tmp/veritile-standardization-20261015/next-source-integration-scripts-wip/lint-output/mul2_finite_numerical_extension.py",
+      "sha256": "52243a554dfbc13fbf997fc81c989a20b46ccc5768e840dd20f4cae74e12b02e",
+      "original_sha256": "58d93734acd2988e7d804b66e5b3bf973da9c546ffd1bf15164385a2d35173fc",
+      "ast_preservation": "passed"
+    },
+    {
+      "path": "/tmp/veritile-standardization-20261015/next-source-integration-scripts-wip/lint-output/relu_actual_numerical_extension.py",
+      "sha256": "6f7aaa249533e452c9ad2ffd63a0e8fb8c31f0f2bb7774e0b5d3be705e4f890d",
+      "original_sha256": "e63079d2fe513cea98009c2ee0962159aea2f593c14974ab252f226d52aeb24b",
+      "ast_preservation": "passed"
+    },
+    {
+      "path": "/tmp/veritile-standardization-20261015/next-source-integration-scripts-wip/lint-output/custom_native_numerical_extension.py",
+      "sha256": "bf60dafa89e5135e36e434f730f96e261286e0ce0ae9cf94528d1a2c2c526419",
+      "original_sha256": "cd6b288196b275faff7b52dbabe6db532747e06c4e1383ed65ee9d514ccc8082",
+      "ast_preservation": "passed"
+    },
+    {
+      "path": "/tmp/veritile-standardization-20261015/next-source-integration-scripts-wip/lint-output/add_example_numerical_extension.py",
+      "sha256": "3e212e10b119fc15f6aaf3c4f58f8dbd282e9dcea156d50f19f37405c50cb68d",
+      "original_sha256": "39117579b86241a0d2dd2942aaed52327db78ef6fdd459ebf5d3317d6763e4bd",
+      "ast_preservation": "passed"
+    }
+  ],
+  "dispatcher_ast_preservation": "passed",
+  "generated_test_syntax": "passed",
+  "archive_mapping_cases": [
+    ".lean",
+    ".olean",
+    ".olean.private",
+    ".olean.server",
+    ".ilean",
+    ".ir",
+    ".pyc",
+    ".json",
+    ".lean.txt",
+    ".pyc.bin"
+  ],
+  "add_example_selected_definitions": {
+    "bench/tritonbench_g/add_example/Kernels.lean": [
+      "add_kernel"
+    ],
+    "bench/tritonbench_g/add_example/Proofs/FiniteSource.lean": [
+      "lowerBody",
+      "runProgram"
+    ],
+    "bench/tritonbench_g/add_example/Proofs/FiniteHost.lean": [
+      "sourceHost",
+      "sourceAllocated"
+    ]
+  },
+  "active_source_trailing_whitespace": [],
+  "integration_executed": false,
+  "build_and_gate_results": "not_run_by_script_preparation"
+}

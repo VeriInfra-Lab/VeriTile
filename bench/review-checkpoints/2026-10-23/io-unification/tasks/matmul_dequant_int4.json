@@ -1,0 +1,393 @@
+{
+  "schema": 1,
+  "task": "matmul_dequant_int4",
+  "status": "consolidated",
+  "owner": {
+    "path": ".veritile-cache/io-unification-20261023/queue09/result-metadata-supplement.json",
+    "sha256": "2e5c7cdc538b520260d0163b8913e527de562cfed21f5bd015176120cda7d626",
+    "task_index": 6
+  },
+  "reason": "The original memory IO and complete logical input/output view now share the task IO.lean; original namespaces, encodings/stages and definitions are retained; proof connections remain in Proofs.",
+  "selected_public_entries": [
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Contract.lean",
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Correct.lean",
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/FPEquiv.lean"
+  ],
+  "previous_semantic_review": {
+    "manifest": {
+      "path": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json",
+      "sha256": "5df771b8603eaf5d9f08b4fde0c5b938c18087c00092f5348b47eb54d33a8225"
+    },
+    "task": "matmul_dequant_int4"
+  },
+  "changed_files": [
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/IO.lean",
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Proofs/LogicalReader.lean"
+  ],
+  "removed_files": [
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/LogicalIO.lean"
+  ],
+  "moved_declarations": [
+    {
+      "from": "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/LogicalIO.lean",
+      "to": "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/IO.lean",
+      "declaration_names": [
+        "VeriTile.Bench.Repairs.MatmulDequantInt4GridYChecked.ReaderIO.Inputs",
+        "VeriTile.Bench.Repairs.MatmulDequantInt4GridYChecked.ReaderIO.inputs",
+        "VeriTile.Bench.Repairs.MatmulDequantInt4GridYChecked.ReaderIO.outputs",
+        "VeriTile.Bench.Repairs.MatmulDequantInt4GridYChecked.ReaderIO.view"
+      ],
+      "body_sha256": "904d73c6c0bdb15f995e7fd588bf67f613e7922f5c56d415d2157887f54de7ef",
+      "byte_identical": true
+    }
+  ],
+  "preservation": {
+    "evidence": {
+      "path": ".veritile-cache/io-unification-20261023/queue09/source-preservation.json",
+      "sha256": "17c7342caa6fb24ea081d4ef30b05bff7774be00d799760f073c758490b30c47"
+    },
+    "moved_definition_bodies": "byte-identical chunks with the same namespace and public declaration names",
+    "complete_judgments": "all selected Contract/Correct/FPEquiv files are byte-identical; all LogicalReader non-import bodies, including full judgment equivalences, are byte-identical",
+    "selected_public_files": {
+      "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Contract.lean": {
+        "before": "97851a4c50281e2a1116f916addb8b2a9e28e69382084de5b07cf663e20a8bce",
+        "current": "97851a4c50281e2a1116f916addb8b2a9e28e69382084de5b07cf663e20a8bce"
+      },
+      "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Correct.lean": {
+        "before": "434b1bd147219c179c02ecc2c03790d61f90c08a4fa3319a4b6046904dd28f43",
+        "current": "434b1bd147219c179c02ecc2c03790d61f90c08a4fa3319a4b6046904dd28f43"
+      },
+      "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/FPEquiv.lean": {
+        "before": "697e46bdc0711d3e473f666a99610684bc7dadebe690fa506eb2f12c38ecca4a",
+        "current": "697e46bdc0711d3e473f666a99610684bc7dadebe690fa506eb2f12c38ecca4a"
+      }
+    },
+    "connection_proof_nonimport_body_equal": true,
+    "kernels_unchanged": {
+      "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Kernels.lean": "36c2137007f127ab5af965718c43936755711911d550641e4bc580cc4a165481"
+    }
+  },
+  "verification": [
+    {
+      "kind": "fresh-targeted-build",
+      "phase": "io",
+      "module": "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/IO.lean",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue09/build.py",
+        "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/IO.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue09/logs/1792686350937563357-IO.log",
+      "log_sha256": "219f692a7db0ed7d6cf0b2ea94b3d8584ef71066de0a084a1f8fe21c6dfe8f99",
+      "execution_mode": "compiler-invoked"
+    },
+    {
+      "kind": "fresh-targeted-build",
+      "phase": "chain",
+      "module": "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Proofs/LogicalReader.lean",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue09/build.py",
+        "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Proofs/LogicalReader.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue09/logs/1792686494255260723-LogicalReader.log",
+      "log_sha256": "f947571e711b282b07460571bb97e0c8820edf3ff6a57d626ca5c47986afb41d",
+      "execution_mode": "compiler-invoked"
+    },
+    {
+      "kind": "fresh-targeted-build",
+      "phase": "public",
+      "module": "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Correct.lean",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue09/build.py",
+        "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Correct.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue09/logs/1792686969057768733-Correct.log",
+      "log_sha256": "3c8907a19d21861225efd0cb5e1e03039a71c181993e5587bdb176d9a28c5852",
+      "execution_mode": "compiler-invoked"
+    },
+    {
+      "kind": "fresh-targeted-build",
+      "phase": "public",
+      "module": "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/FPEquiv.lean",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue09/build.py",
+        "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue09/logs/1792686976948908906-FPEquiv.log",
+      "log_sha256": "33d501ce3c14a17b46977bf001e3f2021f27f6ff465ff3eba52d237c6efabcd7",
+      "execution_mode": "compiler-invoked"
+    },
+    {
+      "kind": "fresh-public-joint-check",
+      "task": "matmul_dequant_int4",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue09/build.py",
+        "--check",
+        ".veritile-cache/io-unification-20261023/queue09/joint/matmul_dequant_int4.lean"
+      ],
+      "exit_code": 0,
+      "source": ".veritile-cache/io-unification-20261023/queue09/joint/matmul_dequant_int4.lean",
+      "source_sha256": "05c45b708ad01f716b2a8e7676b89b36054abcaf85d4a5e1d08c6571d3b058f9",
+      "log": ".veritile-cache/io-unification-20261023/queue09/logs/joint-matmul_dequant_int4.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "kind": "fresh-public-joint-check",
+      "task": "Joint",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue09/build.py",
+        "--check",
+        ".veritile-cache/io-unification-20261023/queue09/Joint.lean"
+      ],
+      "exit_code": 0,
+      "source": ".veritile-cache/io-unification-20261023/queue09/Joint.lean",
+      "source_sha256": "7c21915b98fd1e3c4e803eb57c2295e6401ac9e65d78b85a6cdcbcf297d08d29",
+      "log": ".veritile-cache/io-unification-20261023/queue09/logs/joint-Joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "kind": "fresh-source-preservation-check",
+      "command": [
+        "python",
+        ".veritile-cache/io-unification-20261023/queue09/audit-source.py"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue09/logs/final-audit-source.py.log",
+      "log_sha256": "2f6e406be3ff22c83a1b2cd54135bcca753f5a11172c69f2a55d6937c4c0d2cf"
+    },
+    {
+      "kind": "verify-current-source-object-dependency-receipts",
+      "command": [
+        "python",
+        ".veritile-cache/io-unification-20261023/queue09/verify-receipts.py"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue09/logs/final-verify-receipts.py.log",
+      "log_sha256": "82e995adfa69340d11a484c34037038b7c5454ca9623e050cffe94d1c373d64b"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Contract.lean": "97851a4c50281e2a1116f916addb8b2a9e28e69382084de5b07cf663e20a8bce",
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Correct.lean": "434b1bd147219c179c02ecc2c03790d61f90c08a4fa3319a4b6046904dd28f43",
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/FPEquiv.lean": "697e46bdc0711d3e473f666a99610684bc7dadebe690fa506eb2f12c38ecca4a",
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/IO.lean": "77a557aa4349f57300d8c0eba6f262025475ad018e5c55c523d8f287437cb337",
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Proofs/LogicalReader.lean": "921e72f0cf1e492a928f834b4c793f69ef08342b2a3c7c699a476b6ce4aea9a8",
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Proofs/ScalarIO.lean": "b3ebbb1b4058b2b99226eece77e77b221b38ce9b0db00d1740e866c9acc9b750",
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Kernels.lean": "36c2137007f127ab5af965718c43936755711911d550641e4bc580cc4a165481",
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Proofs/Grid.lean": "6519f94a679a8b7c2bc90342937beb5ddb2ab0ed1ed534139be94e0711267735",
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Proofs/UnitStrideEquivalence.lean": "5e2af7b5b2ac22349be8c2837227cfeab36665894e4f56cb01de731ca3a15062",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8",
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Spec.lean": "47d341d71663831f5a5d03406003d08e6cd246288e455983efe37cb64c734476",
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/DSL.lean": "26b4b63fe05cf0088e21507b019082ab88fb6e37f592eed801109a824f9c10af",
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Misc/Whole.lean": "b1b64338200b8e4996d37ee6031244383693e4996fb26162581f3bc0a8ae0688",
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Misc/NativeCorrect.lean": "8a4ebf776c5631228d0b267aebc0aa32f1c3708d0d4a7822a3a77172225f64ce",
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Misc/TensorBridge.lean": "934d4c3dc7d866d5bdabaecb7097dc7587cc366e3edb85b99bebd351b311fae4",
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Proofs/Source.lean": "b2ce1768a4eb0fe4f2b706b41adb5dea38bd49fdea95eb8d93beb04f323685f1",
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Proofs/KernelInterface.lean": "3d7a510735ec882809ef4140c3cbb2e5f5da82196662a35505f53acfdd2925b9",
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Proofs/AccessSafety.lean": "d4b3a00fd34c2469d0b8583d6717b7502dfd555752dd8cf0e976e2a67cb37b9e",
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Proofs/Tensor.lean": "d69154e2b7dc4d6b9fa68661c6d8671bf7db8f0ab2301c0f7797aae674a4616c",
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Proofs/NativeResults.lean": "8efcab002997b1b0f3726682c4c25fa32baede4e18d8be8d596125f48b9a16d9",
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Proofs/Raw.lean": "cf42b1e2369b84bb02b4bae16e070be9a4fe4987b4d746ddd111ae06b3d43d52",
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Proofs/TensorResults.lean": "7287765d3781d80d5fcb47f2f1a65581fe22925e3446082501d36473d214608b",
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Proofs/Frames.lean": "fbdba9f20722a089b08bd685a158de1ccf559f20931d959e8e626b70a73b057c",
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Proofs/Safety.lean": "81371acd91f122cf4c2fa40c56bb3619cd1d0a6cd9dd126fbfb597ec09521c60",
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Proofs/RealResults.lean": "6e5def8dd0a0cdefa266e25c57008626041792caa5240840d9c754bc0e99d5c4",
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Proofs/RawTensor.lean": "70649fbecc57f2b90d04786828570ea411d870851ee3b3dd35e3e7b80ba84cea",
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Proofs/S1.lean": "8725799ac0c9466220fc0e5e2ba6173a77a3fdb170150636e7873cd88304998f",
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Proofs/RawLifting.lean": "0e7b8f2ca67dc324716f968db1b373f27459a1fb30460f49806dc3d36409bc7c",
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Proofs/PublicIO.lean": "e50dda78909c0aa37243fcd305f50af2cdcf41993f583ae4df1808cb4da284cf"
+  },
+  "source_pin_provenance": {
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Contract.lean": {
+      "owner_tasks": [
+        "matmul_dequant_int4"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Correct.lean": {
+      "owner_tasks": [
+        "matmul_dequant_int4"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/FPEquiv.lean": {
+      "owner_tasks": [
+        "matmul_dequant_int4"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/IO.lean": {
+      "owner_tasks": [
+        "matmul_dequant_int4"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Proofs/LogicalReader.lean": {
+      "owner_tasks": [
+        "matmul_dequant_int4"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Proofs/ScalarIO.lean": {
+      "owner_tasks": [
+        "matmul_dequant_int4"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Kernels.lean": {
+      "owner_tasks": [
+        "matmul_dequant_int4"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Proofs/Grid.lean": {
+      "owner_tasks": [
+        "matmul_dequant_int4"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Proofs/UnitStrideEquivalence.lean": {
+      "owner_tasks": [
+        "matmul_dequant_int4"
+      ]
+    },
+    "VeriTile/Triton/Memory/LogicalIO.lean": {
+      "owner_tasks": [
+        "mixed_sparse_attention",
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Spec.lean": {
+      "owner_tasks": [
+        "matmul_dequant_int4"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/DSL.lean": {
+      "owner_tasks": [
+        "matmul_dequant_int4"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Misc/Whole.lean": {
+      "owner_tasks": [
+        "matmul_dequant_int4"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Misc/NativeCorrect.lean": {
+      "owner_tasks": [
+        "matmul_dequant_int4"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Misc/TensorBridge.lean": {
+      "owner_tasks": [
+        "matmul_dequant_int4"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Proofs/Source.lean": {
+      "owner_tasks": [
+        "matmul_dequant_int4"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Proofs/KernelInterface.lean": {
+      "owner_tasks": [
+        "matmul_dequant_int4"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Proofs/AccessSafety.lean": {
+      "owner_tasks": [
+        "matmul_dequant_int4"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Proofs/Tensor.lean": {
+      "owner_tasks": [
+        "matmul_dequant_int4"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Proofs/NativeResults.lean": {
+      "owner_tasks": [
+        "matmul_dequant_int4"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Proofs/Raw.lean": {
+      "owner_tasks": [
+        "matmul_dequant_int4"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Proofs/TensorResults.lean": {
+      "owner_tasks": [
+        "matmul_dequant_int4"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Proofs/Frames.lean": {
+      "owner_tasks": [
+        "matmul_dequant_int4"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Proofs/Safety.lean": {
+      "owner_tasks": [
+        "matmul_dequant_int4"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Proofs/RealResults.lean": {
+      "owner_tasks": [
+        "matmul_dequant_int4"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Proofs/RawTensor.lean": {
+      "owner_tasks": [
+        "matmul_dequant_int4"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Proofs/S1.lean": {
+      "owner_tasks": [
+        "matmul_dequant_int4"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Proofs/RawLifting.lean": {
+      "owner_tasks": [
+        "matmul_dequant_int4"
+      ]
+    },
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/Proofs/PublicIO.lean": {
+      "owner_tasks": [
+        "matmul_dequant_int4"
+      ]
+    }
+  },
+  "retired_current_source_pins": {
+    "bench/repairs/tritonbench_g/matmul_dequant_int4_grid_y_checked/LogicalIO.lean": "e4f74a2053a86043538b4b1604cd3b8bfa66facb4c2edcde2e33d99e54a29219"
+  },
+  "limits": [
+    "Untouched dependencies and Contract objects are reused from the recorded successful queue09 baseline; this is a targeted IO/import verification, not a fresh rebuild of the full proof closure.",
+    "No new numerical experiments, GPU runs, native/host correctness checks, or global proof-completion claims."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/io-unification-20261023/queue16/result.json",
+    "sha256": "12f6dd5ed523e9f723fee3847af964fd8987958c2cb997aa572210c04de5bc84"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

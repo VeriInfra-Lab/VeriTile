@@ -21,15 +21,27 @@ def swiglu_fused (X Y OUT : RegionName) (ncols BLOCK_N : Nat) : ComputeKernel :=
   tl.store(OUT + cols, (out).to(tl.bfloat16), mask=cols < $(ncols))
 }
 
-/-- Step A of the unfused pipeline: materialize `silu(x)` into the bf16
-tensor `S`. -/
-def silu_step (X S : RegionName) (ncols BLOCK_N : Nat) : ComputeKernel := triton {
+/-- Parsed step A before making its default fp32 arithmetic explicit. -/
+def silu_step_source (X S : RegionName) (ncols BLOCK_N : Nat) : ComputeKernel := triton {
   start_col = tl.program_id(0) * $(BLOCK_N)
   cols = start_col + tl.arange(0, $(BLOCK_N))
   x = tl.load(X + cols, mask=cols < $(ncols), other=0.0)
   s = x * tl.sigmoid(x)
   tl.store(S + cols, (s).to(tl.bfloat16), mask=cols < $(ncols))
 }
+
+/-- The `s` assignment uses the same fp32 arithmetic as the fused expression.
+This annotation changes no operation, cast, load, store or statement order. -/
+def siluPrecision : ComputeStmt → ComputeStmt
+  | .assign .real shape "s" (.alg e) =>
+      .assign .real shape "s" (.alg (.withPrecision .real .fp32 e))
+  | stmt => stmt
+
+/-- Step A of the unfused pipeline, with its source default precision explicit.
+The intermediate bf16 store remains after the sigmoid and multiplication. -/
+def silu_step (X S : RegionName) (ncols BLOCK_N : Nat) : ComputeKernel :=
+  match silu_step_source X S ncols BLOCK_N with
+  | .mk inputs outputs body => .mk inputs outputs (body.map siluPrecision)
 
 /-- Step B of the unfused pipeline: load the bf16 intermediate back and
 multiply by `y`. The `S` load is bf16-typed (it reads bf16 cells); the

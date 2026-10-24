@@ -89,9 +89,8 @@ theorem source_inline (scale : ℝ) (skn svk N SP BM BN BD : Nat)
     (causal candidate : Bool) (s : BlockState) :
     stepStmts (FP8RealSource.loopBody Bool.true scale skn svk N SP BM BN BD causal candidate) s =
       stepStmts (inlineLoop scale skn svk N SP BM BN BD causal candidate) s := by
-  simp only [FP8RealSource.loopBody, inlineLoop, ProgramRewrite.append, ProgramRewrite.constant_branch]
-  cases stepStmts ((alLoopPrefixG scale N BM BN BD).flatMap
-      (FP8RealSource.lowerLoad Bool.true)) s <;> rfl
+  simp only [FP8RealSource.loopBody, inlineLoop, ProgramRewrite.append, ProgramRewrite.constant_branch,
+    FP8RealSource.sourceTail_lower_step, Option.bind_assoc]
 
 /-- A complete source iteration simulates the same real recurrence on decoded
 K/V inputs. The real arithmetic registers may contain arbitrary values; this
@@ -151,7 +150,7 @@ theorem memory_frame (scale : ℝ) (skn svk N SP BM BN BD : Nat)
     t.mem = s.mem := by
   apply storeFree_stepStmts_mem _ s t _ hrun
   cases candidate <;>
-    simp [FP8RealSource.loopBody, alLoopPrefixG, alLoopTailG, alCausalWhereStmt,
+    simp [FP8RealSource.loopBody, FP8RealSource.sourceTail, alLoopPrefixG, alLoopTailG, alCausalWhereStmt,
       FP8RealSource.lowerLoad, FP8RealSource.byteLoad?, storeFree]
 
 #guard_msgs (drop info) in

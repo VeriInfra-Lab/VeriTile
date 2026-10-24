@@ -187,10 +187,20 @@ def flattenOp (A : FlatAlloc) :
   | _, _, .numPrograms ax => .numPrograms ax
   | _, _, .ref d sh n => .ref d sh n
   | _, _, .arange n => .arange n
+  | _, _, .philox4x32 cfg plan field seed c0 c1 c2 c3 =>
+      .philox4x32 cfg plan field (A.flattenOp seed)
+        (A.flattenOp c0) (A.flattenOp c1) (A.flattenOp c2) (A.flattenOp c3)
+  | _, _, .uniform32 word => .uniform32 (A.flattenOp word)
+  | _, _, .rand cfg seed offsets => .rand cfg (A.flattenOp seed) (A.flattenOp offsets)
+  | _, _, .randTensor cfg seed offsets => .randTensor cfg (A.flattenOp seed) (A.flattenOp offsets)
   | _, _, .broadcast e sh => .broadcast (A.flattenOp e) sh
   | _, _, .full sh e => .full sh (A.flattenOp e)
   | _, _, .withPrecision dtype precision a => .withPrecision dtype precision (A.flattenOp a)
   | _, _, .castFloat src dst a => .castFloat src dst (A.flattenOp a)
+  | _, _, .negFloat dtype a => .negFloat dtype (A.flattenOp a)
+  | _, _, .absFloat dtype a => .absFloat dtype (A.flattenOp a)
+  | _, _, .floatToInt precision src width a => .floatToInt precision src width (A.flattenOp a)
+  | _, _, .floatToNat precision src width a => .floatToNat precision src width (A.flattenOp a)
   | _, _, .castNatToInt a => .castNatToInt (A.flattenOp a)
   | _, _, .castIntToNat a => .castIntToNat (A.flattenOp a)
   | _, _, .castRealToInt8 a => .castRealToInt8 (A.flattenOp a)
@@ -237,17 +247,23 @@ def flattenOp (A : FlatAlloc) :
   | _, _, .boolOr bc a b => .boolOr bc (A.flattenOp a) (A.flattenOp b)
   | _, _, .boolNot a => .boolNot (A.flattenOp a)
   | _, _, .max2 bc a b => .max2 bc (A.flattenOp a) (A.flattenOp b)
+  | _, _, .maximumFloat dtype bc a b => .maximumFloat dtype bc (A.flattenOp a) (A.flattenOp b)
+  | _, _, .minimumFloat dtype bc a b => .minimumFloat dtype bc (A.flattenOp a) (A.flattenOp b)
   | _, _, .pow bc a b => .pow bc (A.flattenOp a) (A.flattenOp b)
+  | _, _, .libdevicePowi bc a b => .libdevicePowi bc (A.flattenOp a) (A.flattenOp b)
   | _, _, .where c a b => .where (A.flattenOp c) (A.flattenOp a) (A.flattenOp b)
   | _, _, .ite c a b => .ite (A.flattenOp c) (A.flattenOp a) (A.flattenOp b)
+  | _, _, .reduceMin ax kd a => .reduceMin ax kd (A.flattenOp a)
   | _, _, .reduceMax ax kd a => .reduceMax ax kd (A.flattenOp a)
   | _, _, .reduceMaxNat ax kd a => .reduceMaxNat ax kd (A.flattenOp a)
   | _, _, .reduceMaxInt ax kd a => .reduceMaxInt ax kd (A.flattenOp a)
   | _, _, .reduceSum ax kd a => .reduceSum ax kd (A.flattenOp a)
+  | _, _, .reduceSumBool ax kd a => .reduceSumBool ax kd (A.flattenOp a)
   | _, _, .reduceSumTyped dtype ax kd a => .reduceSumTyped dtype ax kd (A.flattenOp a)
   | _, _, .reduceMaxTyped dtype ax kd a => .reduceMaxTyped dtype ax kd (A.flattenOp a)
   | _, _, .scan op ax dir a => .scan op ax dir (A.flattenOp a)
   | _, _, .argMax ax a => .argMax ax (A.flattenOp a)
+  | _, _, .argMaxInt ax a => .argMaxInt ax (A.flattenOp a)
   | _, _, .argMaxTyped dtype ax a p => .argMaxTyped dtype ax (A.flattenOp a) p
   | _, _, .indexedMaxValue dtype ax a => .indexedMaxValue dtype ax (A.flattenOp a)
   | _, _, .argMin ax a => .argMin ax (A.flattenOp a)
@@ -496,11 +512,20 @@ def Op.FlattenOk : Op dtype shape → Prop
   | .numPrograms _ => True
   | .ref _ _ _ => True
   | .arange _ => True
+  | .philox4x32 _ _ _ seed c0 c1 c2 c3 =>
+      seed.FlattenOk ∧ c0.FlattenOk ∧ c1.FlattenOk ∧ c2.FlattenOk ∧ c3.FlattenOk
+  | .uniform32 word => word.FlattenOk
+  | .rand _ seed offsets => seed.FlattenOk ∧ offsets.FlattenOk
+  | .randTensor _ seed offsets => seed.FlattenOk ∧ offsets.FlattenOk
   | .broadcast e _ => e.FlattenOk
   | .full _ e => e.FlattenOk
   | .withPrecision _ _ e => e.FlattenOk
   | .castFloat _ _ e => e.FlattenOk
   | .castNatToInt e => e.FlattenOk
+  | .negFloat _ e => e.FlattenOk
+  | .absFloat _ e => e.FlattenOk
+  | .floatToInt _ _ _ e => e.FlattenOk
+  | .floatToNat _ _ _ e => e.FlattenOk
   | .castIntToNat e => e.FlattenOk
   | .castRealToInt8 e => e.FlattenOk
   | .decodeFloat8E5 _ e => e.FlattenOk
@@ -546,17 +571,23 @@ def Op.FlattenOk : Op dtype shape → Prop
   | .boolOr _ a b => a.FlattenOk ∧ b.FlattenOk
   | .boolNot a => a.FlattenOk
   | .max2 _ a b => a.FlattenOk ∧ b.FlattenOk
+  | .maximumFloat _ _ a b => a.FlattenOk ∧ b.FlattenOk
+  | .minimumFloat _ _ a b => a.FlattenOk ∧ b.FlattenOk
   | .pow _ a b => a.FlattenOk ∧ b.FlattenOk
+  | .libdevicePowi _ a b => a.FlattenOk ∧ b.FlattenOk
   | .where c a b => c.FlattenOk ∧ a.FlattenOk ∧ b.FlattenOk
   | .ite c a b => c.FlattenOk ∧ a.FlattenOk ∧ b.FlattenOk
+  | .reduceMin _ _ a => a.FlattenOk
   | .reduceMax _ _ a => a.FlattenOk
   | .reduceMaxNat _ _ a => a.FlattenOk
   | .reduceMaxInt _ _ a => a.FlattenOk
   | .reduceSum _ _ a => a.FlattenOk
+  | .reduceSumBool _ _ a => a.FlattenOk
   | .reduceSumTyped _ _ _ a => a.FlattenOk
   | .reduceMaxTyped _ _ _ a => a.FlattenOk
   | .scan _ _ _ a => a.FlattenOk
   | .argMax _ a => a.FlattenOk
+  | .argMaxInt _ a => a.FlattenOk
   | .argMaxTyped _ _ a _ => a.FlattenOk
   | .indexedMaxValue _ _ a => a.FlattenOk
   | .argMin _ a => a.FlattenOk
@@ -615,11 +646,20 @@ def Op.FlattenOkR : Op dtype shape → Prop
   | .numPrograms _ => True
   | .ref _ _ _ => True
   | .arange _ => True
+  | .philox4x32 _ _ _ seed c0 c1 c2 c3 =>
+      seed.FlattenOkR ∧ c0.FlattenOkR ∧ c1.FlattenOkR ∧ c2.FlattenOkR ∧ c3.FlattenOkR
+  | .uniform32 word => word.FlattenOkR
+  | .rand _ seed offsets => seed.FlattenOkR ∧ offsets.FlattenOkR
+  | .randTensor _ seed offsets => seed.FlattenOkR ∧ offsets.FlattenOkR
   | .broadcast e _ => e.FlattenOkR
   | .full _ e => e.FlattenOkR
   | .withPrecision _ _ e => e.FlattenOkR
   | .castFloat _ _ e => e.FlattenOkR
   | .castNatToInt e => e.FlattenOkR
+  | .negFloat _ e => e.FlattenOkR
+  | .absFloat _ e => e.FlattenOkR
+  | .floatToInt _ _ _ e => e.FlattenOkR
+  | .floatToNat _ _ _ e => e.FlattenOkR
   | .castIntToNat e => e.FlattenOkR
   | .castRealToInt8 e => e.FlattenOkR
   | .decodeFloat8E5 _ e => e.FlattenOkR
@@ -665,17 +705,23 @@ def Op.FlattenOkR : Op dtype shape → Prop
   | .boolOr _ a b => a.FlattenOkR ∧ b.FlattenOkR
   | .boolNot a => a.FlattenOkR
   | .max2 _ a b => a.FlattenOkR ∧ b.FlattenOkR
+  | .maximumFloat _ _ a b => a.FlattenOkR ∧ b.FlattenOkR
+  | .minimumFloat _ _ a b => a.FlattenOkR ∧ b.FlattenOkR
   | .pow _ a b => a.FlattenOkR ∧ b.FlattenOkR
+  | .libdevicePowi _ a b => a.FlattenOkR ∧ b.FlattenOkR
   | .where c a b => c.FlattenOkR ∧ a.FlattenOkR ∧ b.FlattenOkR
   | .ite c a b => c.FlattenOkR ∧ a.FlattenOkR ∧ b.FlattenOkR
+  | .reduceMin _ _ a => a.FlattenOkR
   | .reduceMax _ _ a => a.FlattenOkR
   | .reduceMaxNat _ _ a => a.FlattenOkR
   | .reduceMaxInt _ _ a => a.FlattenOkR
   | .reduceSum _ _ a => a.FlattenOkR
+  | .reduceSumBool _ _ a => a.FlattenOkR
   | .reduceSumTyped _ _ _ a => a.FlattenOkR
   | .reduceMaxTyped _ _ _ a => a.FlattenOkR
   | .scan _ _ _ a => a.FlattenOkR
   | .argMax _ a => a.FlattenOkR
+  | .argMaxInt _ a => a.FlattenOkR
   | .argMaxTyped _ _ a _ => a.FlattenOkR
   | .indexedMaxValue _ _ a => a.FlattenOkR
   | .argMin _ a => a.FlattenOkR
@@ -885,11 +931,20 @@ def Op.SafeAt (bounds : RegionBounds) (s : BlockState) : Op dtype shape → Prop
   | .numPrograms _ => True
   | .ref _ _ _ => True
   | .arange _ => True
+  | .philox4x32 _ _ _ seed c0 c1 c2 c3 =>
+      seed.SafeAt bounds s ∧ c0.SafeAt bounds s ∧ c1.SafeAt bounds s ∧ c2.SafeAt bounds s ∧ c3.SafeAt bounds s
+  | .uniform32 word => word.SafeAt bounds s
+  | .rand _ seed offsets => seed.SafeAt bounds s ∧ offsets.SafeAt bounds s
+  | .randTensor _ seed offsets => seed.SafeAt bounds s ∧ offsets.SafeAt bounds s
   | .broadcast e _ => e.SafeAt bounds s
   | .full _ e => e.SafeAt bounds s
   | .withPrecision _ _ e => e.SafeAt bounds s
   | .castFloat _ _ e => e.SafeAt bounds s
   | .castNatToInt e => e.SafeAt bounds s
+  | .negFloat _ e => e.SafeAt bounds s
+  | .absFloat _ e => e.SafeAt bounds s
+  | .floatToInt _ _ _ e => e.SafeAt bounds s
+  | .floatToNat _ _ _ e => e.SafeAt bounds s
   | .castIntToNat e => e.SafeAt bounds s
   | .castRealToInt8 e => e.SafeAt bounds s
   | .decodeFloat8E5 _ e => e.SafeAt bounds s
@@ -935,17 +990,23 @@ def Op.SafeAt (bounds : RegionBounds) (s : BlockState) : Op dtype shape → Prop
   | .boolOr _ a b => a.SafeAt bounds s ∧ b.SafeAt bounds s
   | .boolNot a => a.SafeAt bounds s
   | .max2 _ a b => a.SafeAt bounds s ∧ b.SafeAt bounds s
+  | .maximumFloat _ _ a b => a.SafeAt bounds s ∧ b.SafeAt bounds s
+  | .minimumFloat _ _ a b => a.SafeAt bounds s ∧ b.SafeAt bounds s
   | .pow _ a b => a.SafeAt bounds s ∧ b.SafeAt bounds s
+  | .libdevicePowi _ a b => a.SafeAt bounds s ∧ b.SafeAt bounds s
   | .where c a b => c.SafeAt bounds s ∧ a.SafeAt bounds s ∧ b.SafeAt bounds s
   | .ite c a b => c.SafeAt bounds s ∧ a.SafeAt bounds s ∧ b.SafeAt bounds s
+  | .reduceMin _ _ a => a.SafeAt bounds s
   | .reduceMax _ _ a => a.SafeAt bounds s
   | .reduceMaxNat _ _ a => a.SafeAt bounds s
   | .reduceMaxInt _ _ a => a.SafeAt bounds s
   | .reduceSum _ _ a => a.SafeAt bounds s
+  | .reduceSumBool _ _ a => a.SafeAt bounds s
   | .reduceSumTyped _ _ _ a => a.SafeAt bounds s
   | .reduceMaxTyped _ _ _ a => a.SafeAt bounds s
   | .scan _ _ _ a => a.SafeAt bounds s
   | .argMax _ a => a.SafeAt bounds s
+  | .argMaxInt _ a => a.SafeAt bounds s
   | .argMaxTyped _ _ a _ => a.SafeAt bounds s
   | .indexedMaxValue _ _ a => a.SafeAt bounds s
   | .argMin _ a => a.SafeAt bounds s
@@ -1040,6 +1101,43 @@ theorem FlatAlloc.evalOp_flatten (A : FlatAlloc) (hd : A.Disjoint)
       simp only [flattenOp, evalOp]; rfl
   | _, _, .arange n, s, _, _, _ => by
       simp only [flattenOp, evalOp, Option.map_some]; rfl
+  | _, _, .philox4x32 cfg plan field seed c0 c1 c2 c3, s, hms, hok, hu => by
+      simp only [Op.SafeAt] at hms
+      simp only [Op.FlattenOk] at hok
+      simp only [flattenOp, evalOp,
+        evalOp_flatten A hd hcov seed s hms.1 hok.1 hu,
+        evalOp_flatten A hd hcov c0 s hms.2.1 hok.2.1 hu,
+        evalOp_flatten A hd hcov c1 s hms.2.2.1 hok.2.2.1 hu,
+        evalOp_flatten A hd hcov c2 s hms.2.2.2.1 hok.2.2.2.1 hu,
+        evalOp_flatten A hd hcov c3 s hms.2.2.2.2 hok.2.2.2.2 hu,
+        A.trTileFun_data (d := .int) (by decide) (by decide),
+        A.trTileFun_data (d := .nat) (by decide) (by decide),
+        Option.map_id, id_eq]
+  | _, _, .uniform32 word, s, hms, hok, hu => by
+      simp only [Op.SafeAt] at hms
+      simp only [Op.FlattenOk] at hok
+      simp only [flattenOp, evalOp, evalOp_flatten A hd hcov word s hms hok hu,
+        A.trTileFun_data (d := .nat) (by decide) (by decide),
+        A.trTileFun_data (d := .real) (by decide) (by decide),
+        Option.map_id, id_eq]
+  | _, _, .rand cfg seed offsets, s, hms, hok, hu => by
+      simp only [Op.SafeAt] at hms
+      simp only [Op.FlattenOk] at hok
+      simp only [flattenOp, evalOp,
+        evalOp_flatten A hd hcov seed s hms.1 hok.1 hu,
+        evalOp_flatten A hd hcov offsets s hms.2 hok.2 hu,
+        A.trTileFun_data (d := .int) (by decide) (by decide),
+        A.trTileFun_data (d := .real) (by decide) (by decide),
+        Option.map_id, id_eq]
+  | _, _, .randTensor cfg seed offsets, s, hms, hok, hu => by
+      simp only [Op.SafeAt] at hms
+      simp only [Op.FlattenOk] at hok
+      simp only [flattenOp, evalOp,
+        evalOp_flatten A hd hcov seed s hms.1 hok.1 hu,
+        evalOp_flatten A hd hcov offsets s hms.2 hok.2 hu,
+        A.trTileFun_data (d := .int) (by decide) (by decide),
+        A.trTileFun_data (d := .real) (by decide) (by decide),
+        Option.map_id, id_eq]
   | _, _, .broadcast e sh, s, hms, hok, hu => by
       simp only [Op.SafeAt] at hms
       simp only [Op.FlattenOk] at hok
@@ -1054,6 +1152,18 @@ theorem FlatAlloc.evalOp_flatten (A : FlatAlloc) (hd : A.Disjoint)
       simp only [Op.SafeAt] at hms
       simp only [Op.FlattenOk] at hok
       simpa only [flattenOp, evalOp] using evalOp_flatten A hd hcov a s hms hok hu
+  | _, _, .negFloat dtype a, s, hms, hok, hu => by
+      simp only [Op.SafeAt] at hms
+      simp only [Op.FlattenOk] at hok
+      simp only [flattenOp, evalOp, evalOp_flatten A hd hcov a s hms hok hu,
+        A.trTileFun_data dtype.toTileDType_ne_ptr dtype.toTileDType_ne_blockPtr, Option.map_id, id_eq]
+  | _, _, .absFloat dtype a, s, hms, hok, hu => by
+      simp only [Op.SafeAt] at hms
+      simp only [Op.FlattenOk] at hok
+      simp only [flattenOp, evalOp, evalOp_flatten A hd hcov a s hms hok hu,
+        A.trTileFun_data dtype.toTileDType_ne_ptr dtype.toTileDType_ne_blockPtr, Option.map_id, id_eq]
+  | _, _, .floatToInt .., s, hms, hok, hu => by simp only [flattenOp, evalOp, Option.map_none]
+  | _, _, .floatToNat .., s, hms, hok, hu => by simp only [flattenOp, evalOp, Option.map_none]
   | _, _, .castFloat src dst a, s, hms, hok, hu => by
       simp only [Op.SafeAt] at hms
       simp only [Op.FlattenOk] at hok
@@ -1261,6 +1371,26 @@ theorem FlatAlloc.evalOp_flatten (A : FlatAlloc) (hd : A.Disjoint)
         evalOp_flatten A hd hcov b s hmb hkb hu,
         A.trTileFun_data (d := .real) (by decide) (by decide),
         Option.map_id, id_eq]
+  | _, _, .maximumFloat dtype bc a b, s, hms, hok, hu => by
+      simp only [Op.SafeAt] at hms
+      simp only [Op.FlattenOk] at hok
+      obtain ⟨hma, hmb⟩ := hms
+      obtain ⟨hka, hkb⟩ := hok
+      simp only [flattenOp, evalOp,
+        evalOp_flatten A hd hcov a s hma hka hu,
+        evalOp_flatten A hd hcov b s hmb hkb hu,
+        A.trTileFun_data dtype.toTileDType_ne_ptr dtype.toTileDType_ne_blockPtr,
+        Option.map_id, id_eq]
+  | _, _, .minimumFloat dtype bc a b, s, hms, hok, hu => by
+      simp only [Op.SafeAt] at hms
+      simp only [Op.FlattenOk] at hok
+      obtain ⟨hma, hmb⟩ := hms
+      obtain ⟨hka, hkb⟩ := hok
+      simp only [flattenOp, evalOp,
+        evalOp_flatten A hd hcov a s hma hka hu,
+        evalOp_flatten A hd hcov b s hmb hkb hu,
+        A.trTileFun_data dtype.toTileDType_ne_ptr dtype.toTileDType_ne_blockPtr,
+        Option.map_id, id_eq]
   | _, _, .pow bc a b, s, hms, hok, hu => by
       simp only [Op.SafeAt] at hms
       simp only [Op.FlattenOk] at hok
@@ -1270,6 +1400,17 @@ theorem FlatAlloc.evalOp_flatten (A : FlatAlloc) (hd : A.Disjoint)
         evalOp_flatten A hd hcov a s hma hka hu,
         evalOp_flatten A hd hcov b s hmb hkb hu,
         A.trTileFun_data (d := .real) (by decide) (by decide),
+        Option.map_id, id_eq]
+  | _, _, .libdevicePowi bc a b, s, hms, hok, hu => by
+      simp only [Op.SafeAt] at hms
+      simp only [Op.FlattenOk] at hok
+      obtain ⟨hma, hmb⟩ := hms
+      obtain ⟨hka, hkb⟩ := hok
+      simp only [flattenOp, evalOp,
+        evalOp_flatten A hd hcov a s hma hka hu,
+        evalOp_flatten A hd hcov b s hmb hkb hu,
+        A.trTileFun_data (d := .real) (by decide) (by decide),
+        A.trTileFun_data (d := .int) (by decide) (by decide),
         Option.map_id, id_eq]
   | _, _, .dot a b _, s, hms, hok, hu => by
       simp only [Op.SafeAt] at hms
@@ -1509,6 +1650,13 @@ theorem FlatAlloc.evalOp_flatten (A : FlatAlloc) (hd : A.Disjoint)
         A.trTileFun_data (d := .real) (by decide) (by decide),
         A.trTileFun_data (d := .nat) (by decide) (by decide),
         Option.map_id, id_eq]
+  | _, _, .argMaxInt ax a, s, hms, hok, hu => by
+      simp only [Op.SafeAt] at hms
+      simp only [Op.FlattenOk] at hok
+      simp only [flattenOp, evalOp, evalOp_flatten A hd hcov a s hms hok hu,
+        A.trTileFun_data (d := .int) (by decide) (by decide),
+        A.trTileFun_data (d := .nat) (by decide) (by decide),
+        Option.map_id, id_eq]
   | _, _, .argMaxTyped dtype ax a _, s, hms, hok, hu => by
       simp only [Op.SafeAt] at hms
       simp only [Op.FlattenOk] at hok
@@ -1522,6 +1670,12 @@ theorem FlatAlloc.evalOp_flatten (A : FlatAlloc) (hd : A.Disjoint)
       simp only [flattenOp, evalOp, evalOp_flatten A hd hcov a s hms hok hu,
         A.trTileFun_data (d := .real) (by decide) (by decide),
         A.trTileFun_data (d := .nat) (by decide) (by decide),
+        Option.map_id, id_eq]
+  | _, _, .reduceMin ax kd a, s, hms, hok, hu => by
+      simp only [Op.SafeAt] at hms
+      simp only [Op.FlattenOk] at hok
+      simp only [flattenOp, evalOp, evalOp_flatten A hd hcov a s hms hok hu,
+        A.trTileFun_data (d := .real) (by decide) (by decide),
         Option.map_id, id_eq]
   | _, _, .reduceMax ax kd a, s, hms, hok, hu => by
       simp only [Op.SafeAt] at hms
@@ -1546,6 +1700,13 @@ theorem FlatAlloc.evalOp_flatten (A : FlatAlloc) (hd : A.Disjoint)
       simp only [Op.FlattenOk] at hok
       simp only [flattenOp, evalOp, evalOp_flatten A hd hcov a s hms hok hu,
         A.trTileFun_data (d := .real) (by decide) (by decide),
+        Option.map_id, id_eq]
+  | _, _, .reduceSumBool ax kd a, s, hms, hok, hu => by
+      simp only [Op.SafeAt] at hms
+      simp only [Op.FlattenOk] at hok
+      simp only [flattenOp, evalOp, evalOp_flatten A hd hcov a s hms hok hu,
+        A.trTileFun_data (d := .bool) (by decide) (by decide),
+        A.trTileFun_data (d := .nat) (by decide) (by decide),
         Option.map_id, id_eq]
   | _, _, .reduceSumTyped dtype ax kd a, s, hms, hok, hu => by
       simp only [Op.SafeAt] at hms

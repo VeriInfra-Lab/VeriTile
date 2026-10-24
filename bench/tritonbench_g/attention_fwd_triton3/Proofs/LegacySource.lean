@@ -25,6 +25,10 @@ correctness or FP-equivalence proofs of the Python kernel. The historical
 be counted as completion of this benchmark. The complete replacement is in `Kernels.lean`, with separate real and FP
 specifications. See README.md for the source review and current scope.
 
+The historical maximum is explicitly written as comparison/select so this altered
+model retains its original AST when the actual floating maximum frontend changes.
+This is preservation of the historical model, not migration of the Python source.
+
 Within this model, the four mathematical summaries cover sliding,
 complementary, unmasked and resumed attention. Their formulas depend on input
 memory and use symbolic dimensions. The IO statements add their displayed
@@ -118,7 +122,7 @@ def attention_fwd_triton3_surface
       }
       qk = tl.where(mask, qk, float("-inf"))
     }
-    m_ij = tl.maximum(m_i, tl.max(qk, 1))
+    m_ij = tl.where(m_i > tl.max(qk, 1), m_i, tl.max(qk, 1))
     qk = qk - m_ij[:, None]
     p = tl.math.exp2(qk)
     if $(_SLIDING_WINDOW) != $(0) {

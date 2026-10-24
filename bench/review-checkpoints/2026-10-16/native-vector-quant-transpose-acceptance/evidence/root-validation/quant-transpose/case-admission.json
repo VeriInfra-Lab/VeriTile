@@ -1,0 +1,16 @@
+{
+  "command": [
+    "/tmp/veritile-lean-toolchain/bin/lean",
+    "--root=/tmp/veritile-standardization-20261015/quant-transpose-revision2-root-validation/build-attempt001",
+    "/tmp/veritile-standardization-20261015/quant-transpose-revision2-root-validation/build-attempt001/AdmissionCases.lean",
+    "-o",
+    "/tmp/veritile-standardization-20261015/quant-transpose-revision2-root-validation/build-attempt001/AdmissionCases.olean"
+  ],
+  "exit_code": 0,
+  "LEAN_PATH": "/tmp/veritile-standardization-20261015/quant-transpose-revision2-root-validation/build-attempt001:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean",
+  "source_sha256": "ca12afdd2391b97b2f2e4a2e317add4852243150178fb8e35815248dd1d052f2",
+  "mapping_sha256": "9796bbbe0f0618aa604826c0cff7ff464df16c7184033a50c600543af449757b",
+  "scope_cases": 1144,
+  "profiles": 1024,
+  "log_sha256": "805d7b95db87ea7b54e243268049db75f09d25ad6b3199c13114ee2a5145508b"
+}

@@ -38,9 +38,9 @@ def expectedStore (pointer name : RegName) (storage : Storage) (B : Nat) : Compu
         (.withPrecision .real .fp32 (.ref .real [B] name)))))
       (.mask (.ref .bool [B] "mask"))
   | .fp16 => .store .fp16 [B] (storeAddress pointer .fp16 B)
-      (.alg (.castFloat .real .fp16 (.ref .real [B] name))) (.mask (.ref .bool [B] "mask"))
+      (.alg (.castFloat .real .fp16 (.withPrecision .real .fp32 (.ref .real [B] name)))) (.mask (.ref .bool [B] "mask"))
   | .bf16 => .store .bf16 [B] (storeAddress pointer .bf16 B)
-      (.alg (.castFloat .real .bf16 (.ref .real [B] name))) (.mask (.ref .bool [B] "mask"))
+      (.alg (.castFloat .real .bf16 (.withPrecision .real .fp32 (.ref .real [B] name)))) (.mask (.ref .bool [B] "mask"))
 
 theorem bwd_x_load_precision (storage gradient : Storage) (v : Bool) (X DY DX : RegionName)
     (stride N : Nat) (eps : ℝ) (B : Nat) :

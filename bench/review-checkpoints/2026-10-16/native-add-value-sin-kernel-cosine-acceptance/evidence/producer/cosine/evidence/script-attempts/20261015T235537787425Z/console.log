@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/propose.py", line 128, in <module>
+    if __name__=='__main__':generate()
+                            ^^^^^^^^^^
+  File "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/propose.py", line 112, in generate
+    declaration_scope(declaration,inventory);validate_deferrals(TASK,deferrals,{'rules':list(rules.values())})
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/check_original_program_scope.py", line 94, in declaration_scope
+    raise ValueError('execution evidence branch belongs to an uncovered stage')
+ValueError: execution evidence branch belongs to an uncovered stage

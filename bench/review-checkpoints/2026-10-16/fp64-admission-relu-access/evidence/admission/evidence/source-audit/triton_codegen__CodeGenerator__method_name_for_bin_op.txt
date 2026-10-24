@@ -1,0 +1,14 @@
+    _method_name_for_bin_op: Dict[Type[ast.operator], str] = {
+        ast.Add: '__add__',
+        ast.Sub: '__sub__',
+        ast.Mult: '__mul__',
+        ast.Div: '__truediv__',
+        ast.FloorDiv: '__floordiv__',
+        ast.Mod: '__mod__',
+        ast.Pow: '__pow__',
+        ast.LShift: '__lshift__',
+        ast.RShift: '__rshift__',
+        ast.BitAnd: '__and__',
+        ast.BitOr: '__or__',
+        ast.BitXor: '__xor__',
+    }

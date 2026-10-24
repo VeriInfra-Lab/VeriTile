@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "kind": "root_independent_exact_numerical_prototype_review",
+  "recorded_at_utc": "2026-10-15T18:16:41.445360+00:00",
+  "status": "passed_for_frozen_prototype_only",
+  "receipt_sha256": "b8161b53b34e0a048ed3c19f98615c7d6a712be9eed989945714d47562cae038",
+  "artifact_hashes_checked": 22,
+  "source_derived_authority_and_queue_reproduced": true,
+  "legacy_rules_preserved": 11,
+  "legacy_inputs_checked": 99,
+  "new_positive_negative_tests_observed": 28,
+  "existing_scope_tests_observed": 42,
+  "tests_rerun_by_reviewer": false,
+  "reviewed_code": [
+    "exact_numerical_bindings.py",
+    "exact_scope_gate.py",
+    "scope-checker-proposal.diff",
+    "check_and_test.py",
+    "run_legacy_compatibility.py",
+    "run_relocation_check.py"
+  ],
+  "resolved_findings": [
+    "Lazy import resolves real production-module circular dependency; actual same-name import and CLI help were exercised.",
+    "Pinned legacy collector/checker/queue and independent full legacy reproduction preserve all 99 input bindings.",
+    "Required binding references enforce each scalar port in addition to callback-name inventory.",
+    "Actual source/premise/receipt/candidate/legacy mutations are rejected; queue-only mutations are not the sole negative tests.",
+    "Actual copied-root collection forbids old data reads and rejects missing relocated original source."
+  ],
+  "boundaries": [
+    "Production roots and CLI propagation remain unintegrated in this package.",
+    "Missing archived route receipt must be retained in subsequent production evidence before repo-only collection.",
+    "All 18 new families and 86 ports remain unvalidated; the 58 cases cover only frozen frontend configurations.",
+    "Structural blockers remain mandatory; no original-program acceptance or native execution increment."
+  ],
+  "summary": {
+    "new_scalar_families": 18,
+    "fp64_families": 15,
+    "relu_families": 3,
+    "scope_bindings": 86,
+    "fp64_ports": 73,
+    "fp64_declaration_port_bindings": 120,
+    "relu_ports": 13,
+    "relu_declaration_port_bindings": 13,
+    "declaration_cases": 58,
+    "registered_declarations": 3,
+    "unvalidated_numeric_instances": 86,
+    "original_program_completion_increment": 0,
+    "native_executions": 0
+  }
+}

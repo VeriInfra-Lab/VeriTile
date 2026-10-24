@@ -196,13 +196,13 @@ theorem second_dtype_is_observable :
 
 private def unsupported : KernelIO₁ₓ₂ :=
   { forwardIO with
-    kernel := .mk ["x"] ["mean", "variance"] [.effectMarker "tl.debug_barrier"]
+    kernel := .mk ["x"] ["mean", "variance"] [.alg (.ifThen (.constBool Bool.false) [])]
     projection := by rfl }
 
 theorem failed_runs_cannot_certify : ¬ IO₁ₓ₂Equiv unsupported unsupported := by
   intro h
   obtain ⟨a, _, ha, _⟩ := h.2.2 Nat M initial
-  simp [unsupported, FP.Structural.exec, run, step] at ha
+  simp [unsupported, FP.Structural.exec, run, step, stepAlg] at ha
 
 theorem output_neighbor_stays_framed :
     ¬ IO₁ₓ₂Frame forwardIO initial (initial.write "variance" 1 (.mk .real 9)) := by

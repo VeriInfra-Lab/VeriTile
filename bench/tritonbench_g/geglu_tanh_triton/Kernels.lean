@@ -1,3 +1,12 @@
+/-
+Source-audit target: _geglu_tanh_forward_kernel
+Source-audit Lean: gegluForward%
+Source-audit args: aType=tl.float32, bType=tl.float32, version=original
+Selected lexical source view only; this metadata is not all-profile certification.
+Original forward address order, fp32 input/partner/output; the tanh call remains present.
+The backward JIT and all other dtype/transform profiles require separate views.
+-/
+
 import VeriTile.Triton.DSL
 import VeriTile.Meta.StatementAudit
 

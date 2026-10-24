@@ -1,5 +1,6 @@
 import bench.tritonbench_g.bmm_optimized.Kernels
 import bench.tritonbench_g.bmm_optimized.Proofs.RealContract
+import bench.tritonbench_g.bmm_optimized.Proofs.HostDefect
 import VeriTile.Meta.StatementAudit
 
 /-! Real correctness of the complete batched matrix multiply and its dot-first
@@ -16,7 +17,13 @@ The source's masked loads omit `other`. This real contract explicitly uses
 zero unspecified load values, inherited from the shared IO contract; the
 source does not guarantee that behavior. Proofs/UndefinedTail.lean refutes
 removing that premise on a supported 32×32 tile with K=33. Address arithmetic
-is mathematical; fixed-width overflow and launch-wide races are separate. -/
+is mathematical; fixed-width overflow and launch-wide races are separate.
+
+The original host also accepts contiguous lazy-negative Torch views without
+resolving their logical values. The concrete FP32 host counterexample below
+uses fully divisible dimensions for all twelve configurations and therefore
+does not depend on the omitted-other issue. Physical-memory correctness and
+logical-Torch-input correctness must remain separate claims. -/
 namespace VeriTile.Bench.TritonBenchG.BmmOptimized.Correctness
 open VeriTile.Triton
 open scoped VeriTile.Bench.TritonBenchG.BmmOptimized.RealIO
@@ -79,6 +86,20 @@ specification bmm_dot_first_correctness :
     RealContract.implements Bool.true BM BN BK p ⟨hBM,hBN,hBK,hGroup,hDivM,hDivN,hDivK⟩
 
 end
+
+/-- A contiguous lazy-negative FP32 A with shape [1,128,32] and ordinary B=1
+with shape [1,32,128] is forwarded unchanged by `A.contiguous()`. The supported
+128×128×32/group2 final launch has one program, finite disjoint allocations and
+no masked loads. Its complete Real source execution stores +32 while the
+independent logical tensor product is -32. This is not a native GPU result. -/
+specification bmm_optimized_unresolved_negative_view : Spec.Real (
+    ∃ t, exec (HostDefect.allocation.flattenKernel
+        (RealProgram.kernel Bool.false 128 128 32 HostDefect.parameters).toAlgKernel)
+        (HostDefect.allocation.flattenState HostDefect.initial) = some t ∧
+      t.readMem HostDefect.allocation.flat (HostDefect.allocation.addr "O" 0) ≠
+        HostDefect.logicalExpected 0 0) :=
+  HostDefect.source_disagrees_with_logical_input
+
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end

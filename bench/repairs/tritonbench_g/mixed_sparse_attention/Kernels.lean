@@ -1,0 +1,402 @@
+import VeriTile.Triton
+import VeriTile.Triton.Float.Structural
+namespace VeriTile.Bench.Repairs.MixedSparseAttention.Whole002.TypedSource
+open VeriTile.Triton FP.Structural
+noncomputable section
+set_option maxRecDepth 30000
+set_option maxHeartbeats 8000000
+set_option linter.unusedVariables false
+inductive Storage where | fp16 | bf16 deriving DecidableEq
+ def Storage.float : Storage → FloatDType | .fp16=>.fp16 | .bf16=>.bf16
+ def Storage.tile (s : Storage) : TileDType := s.float.toTileDType
+/- FP32 memory and low-format compute constexpr. The explicit final FP32 cast
+expands Triton semantic._store_legacy pointer-element coercion; it is implicit
+in the Python tl.store, and is checked by the source-binding audit. -/
+namespace FP16
+def source
+    (Q K V : RegionName) (seqlens : Region .nat) (sm_scale : ℝ)
+    (block_count block_offset column_count column_index : Region .nat)
+    (Out : RegionName)
+    (stride_qz stride_qh stride_qm stride_qk
+      stride_kz stride_kh stride_kn stride_kk
+      stride_vz stride_vh stride_vn stride_vk
+      stride_oz stride_oh stride_om stride_ok
+      Z H N_CTX NUM_ROWS NNZ_S NNZ_V
+      BLOCK_M BLOCK_N BLOCK_DMODEL : Nat)
+    :
+    ComputeKernel := triton {
+  tl.region Q = tl.float32, K = tl.float32, V = tl.float32, Out = tl.float32
+  start_m = tl.program_id(0)
+  off_hz = tl.program_id(1)
+
+  seqlen = tl.load(seqlens + off_hz // $(H))
+  if start_m * $(BLOCK_M) >= seqlen {
+    return
+  }
+
+  offs_m = start_m * $(BLOCK_M) + tl.arange(0, $(BLOCK_M))
+  offs_n = tl.arange(0, $(BLOCK_N))
+  offs_d = tl.arange(0, $(BLOCK_DMODEL))
+
+  qo_offset = (off_hz // $(H)) * $(stride_qz) + (off_hz % $(H)) * $(stride_qh)
+  kv_offset = (off_hz // $(H)) * $(stride_kz) + (off_hz % $(H)) * $(stride_kh)
+
+  q_ptrs = Q + qo_offset + offs_m[:, None] * $(stride_qm) + offs_d[None, :] * $(stride_qk)
+  k_ptrs = K + kv_offset + offs_d[:, None] * $(stride_kk)
+  v_ptrs = V + kv_offset + offs_d[None, :] * $(stride_vk)
+  o_ptrs = Out + qo_offset + offs_m[:, None] * $(stride_om) + offs_d[None, :] * $(stride_ok)
+
+  num_blks = tl.load(block_count + off_hz * $(NUM_ROWS) + start_m)
+  blks_ptr = block_offset + (off_hz * $(NUM_ROWS) + start_m) * $(NNZ_S)
+  num_cols = tl.load(column_count + off_hz * $(NUM_ROWS) + start_m)
+  cols_ptr = column_index + (off_hz * $(NUM_ROWS) + start_m) * $(NNZ_V)
+
+  m_i = tl.zeros([$(BLOCK_M)], dtype=tl.float32) - float("inf")
+  l_i = tl.zeros([$(BLOCK_M)], dtype=tl.float32)
+  acc = tl.zeros([$(BLOCK_M), $(BLOCK_DMODEL)], dtype=tl.float32)
+  qk_scale = tl.full([], $((sm_scale : ℝ)), dtype=tl.float32) * 1.44269504
+  q = tl.load(q_ptrs, mask=offs_m[:, None] < seqlen, other=0.0)
+  q = (q * qk_scale).to(tl.float16)
+
+  m_mask = offs_m[:, None] < seqlen
+
+  max_num_blks = num_blks
+  for block_index in range(max_num_blks) {
+    cond = block_index < num_blks
+    start_n = tl.load(blks_ptr + block_index, mask=cond, other=0)
+    cols = start_n + offs_n
+    n_mask = (cols < seqlen) & cond
+    k = tl.load(k_ptrs + cols[None, :] * $(stride_kn), mask=n_mask[None, :], other=0.0).to(tl.float16)
+    v = tl.load(v_ptrs + cols[:, None] * $(stride_vn), mask=n_mask[:, None], other=0.0).to(tl.float16)
+    qk = tl.zeros([$(BLOCK_M), $(BLOCK_N)], dtype=tl.float32)
+    causal_mask = cols[None, :] <= offs_m[:, None]
+    qk = tl.where(m_mask & n_mask[None, :] & causal_mask, qk, float("-inf"))
+    qk += tl.dot(q, k)
+    m_i_new = tl.maximum(m_i, tl.max(qk, 1))
+    m_safe = tl.where(m_i_new == float("-inf"), 0.0, m_i_new)
+    alpha = tl.math.exp2(m_i - m_safe)
+    p = tl.math.exp2(qk - m_safe[:, None])
+    acc_scale = l_i * 0 + alpha
+    acc *= acc_scale[:, None]
+    acc += tl.dot((p).to(tl.float16), v)
+    l_i = l_i * alpha + tl.sum(p, 1)
+    m_i = m_i_new
+  }
+
+  max_num_cols = num_cols
+  for start_n in range($(0), max_num_cols, $(BLOCK_N)) {
+    cond = start_n < num_cols
+    n_mask = (start_n + offs_n < num_cols) & cond
+    cols = tl.load(cols_ptr + start_n + offs_n, mask=n_mask, other=0)
+    k = tl.load(k_ptrs + cols[None, :] * $(stride_kn), mask=n_mask[None, :], other=0.0).to(tl.float16)
+    v = tl.load(v_ptrs + cols[:, None] * $(stride_vn), mask=n_mask[:, None], other=0.0).to(tl.float16)
+    qk = tl.zeros([$(BLOCK_M), $(BLOCK_N)], dtype=tl.float32)
+    qk = tl.where(m_mask & n_mask, qk, float("-inf"))
+    qk += tl.dot(q, k)
+    m_i_new = tl.maximum(m_i, tl.max(qk, 1))
+    m_safe = tl.where(m_i_new == float("-inf"), 0.0, m_i_new)
+    alpha = tl.math.exp2(m_i - m_safe)
+    p = tl.math.exp2(qk - m_safe[:, None])
+    acc_scale = l_i * 0 + alpha
+    acc *= acc_scale[:, None]
+    acc += tl.dot((p).to(tl.float16), v)
+    l_i = l_i * alpha + tl.sum(p, 1)
+    m_i = m_i_new
+  }
+
+  acc = tl.where(l_i[:, None] == 0, 0.0, acc / l_i[:, None])
+  tl.store(o_ptrs, (acc).to(tl.float16).to(tl.float32), mask=m_mask)
+}
+
+
+/-- Fuse the sparse-column zero tile and masked score initialization. -/
+def fusedMask
+    (Q K V : RegionName) (seqlens : Region .nat) (sm_scale : ℝ)
+    (block_count block_offset column_count column_index : Region .nat)
+    (Out : RegionName)
+    (stride_qz stride_qh stride_qm stride_qk
+      stride_kz stride_kh stride_kn stride_kk
+      stride_vz stride_vh stride_vn stride_vk
+      stride_oz stride_oh stride_om stride_ok
+      Z H N_CTX NUM_ROWS NNZ_S NNZ_V
+      BLOCK_M BLOCK_N BLOCK_DMODEL : Nat)
+    :
+    ComputeKernel := triton {
+  tl.region Q = tl.float32, K = tl.float32, V = tl.float32, Out = tl.float32
+  start_m = tl.program_id(0)
+  off_hz = tl.program_id(1)
+
+  seqlen = tl.load(seqlens + off_hz // $(H))
+  if start_m * $(BLOCK_M) >= seqlen {
+    return
+  }
+
+  offs_m = start_m * $(BLOCK_M) + tl.arange(0, $(BLOCK_M))
+  offs_n = tl.arange(0, $(BLOCK_N))
+  offs_d = tl.arange(0, $(BLOCK_DMODEL))
+
+  qo_offset = (off_hz // $(H)) * $(stride_qz) + (off_hz % $(H)) * $(stride_qh)
+  kv_offset = (off_hz // $(H)) * $(stride_kz) + (off_hz % $(H)) * $(stride_kh)
+
+  q_ptrs = Q + qo_offset + offs_m[:, None] * $(stride_qm) + offs_d[None, :] * $(stride_qk)
+  k_ptrs = K + kv_offset + offs_d[:, None] * $(stride_kk)
+  v_ptrs = V + kv_offset + offs_d[None, :] * $(stride_vk)
+  o_ptrs = Out + qo_offset + offs_m[:, None] * $(stride_om) + offs_d[None, :] * $(stride_ok)
+
+  num_blks = tl.load(block_count + off_hz * $(NUM_ROWS) + start_m)
+  blks_ptr = block_offset + (off_hz * $(NUM_ROWS) + start_m) * $(NNZ_S)
+  num_cols = tl.load(column_count + off_hz * $(NUM_ROWS) + start_m)
+  cols_ptr = column_index + (off_hz * $(NUM_ROWS) + start_m) * $(NNZ_V)
+
+  m_i = tl.zeros([$(BLOCK_M)], dtype=tl.float32) - float("inf")
+  l_i = tl.zeros([$(BLOCK_M)], dtype=tl.float32)
+  acc = tl.zeros([$(BLOCK_M), $(BLOCK_DMODEL)], dtype=tl.float32)
+  qk_scale = tl.full([], $((sm_scale : ℝ)), dtype=tl.float32) * 1.44269504
+  q = tl.load(q_ptrs, mask=offs_m[:, None] < seqlen, other=0.0)
+  q = (q * qk_scale).to(tl.float16)
+
+  m_mask = offs_m[:, None] < seqlen
+
+  max_num_blks = num_blks
+  for block_index in range(max_num_blks) {
+    cond = block_index < num_blks
+    start_n = tl.load(blks_ptr + block_index, mask=cond, other=0)
+    cols = start_n + offs_n
+    n_mask = (cols < seqlen) & cond
+    k = tl.load(k_ptrs + cols[None, :] * $(stride_kn), mask=n_mask[None, :], other=0.0).to(tl.float16)
+    v = tl.load(v_ptrs + cols[:, None] * $(stride_vn), mask=n_mask[:, None], other=0.0).to(tl.float16)
+    qk = tl.zeros([$(BLOCK_M), $(BLOCK_N)], dtype=tl.float32)
+    causal_mask = cols[None, :] <= offs_m[:, None]
+    qk = tl.where(m_mask & n_mask[None, :] & causal_mask, qk, float("-inf"))
+    qk += tl.dot(q, k)
+    m_i_new = tl.maximum(m_i, tl.max(qk, 1))
+    m_safe = tl.where(m_i_new == float("-inf"), 0.0, m_i_new)
+    alpha = tl.math.exp2(m_i - m_safe)
+    p = tl.math.exp2(qk - m_safe[:, None])
+    acc_scale = l_i * 0 + alpha
+    acc *= acc_scale[:, None]
+    acc += tl.dot((p).to(tl.float16), v)
+    l_i = l_i * alpha + tl.sum(p, 1)
+    m_i = m_i_new
+  }
+
+  max_num_cols = num_cols
+  for start_n in range($(0), max_num_cols, $(BLOCK_N)) {
+    cond = start_n < num_cols
+    n_mask = (start_n + offs_n < num_cols) & cond
+    cols = tl.load(cols_ptr + start_n + offs_n, mask=n_mask, other=0)
+    k = tl.load(k_ptrs + cols[None, :] * $(stride_kn), mask=n_mask[None, :], other=0.0).to(tl.float16)
+    v = tl.load(v_ptrs + cols[:, None] * $(stride_vn), mask=n_mask[:, None], other=0.0).to(tl.float16)
+    qk = tl.where(m_mask & n_mask, tl.zeros([$(BLOCK_M), $(BLOCK_N)], dtype=tl.float32), float("-inf"))
+    qk += tl.dot(q, k)
+    m_i_new = tl.maximum(m_i, tl.max(qk, 1))
+    m_safe = tl.where(m_i_new == float("-inf"), 0.0, m_i_new)
+    alpha = tl.math.exp2(m_i - m_safe)
+    p = tl.math.exp2(qk - m_safe[:, None])
+    acc_scale = l_i * 0 + alpha
+    acc *= acc_scale[:, None]
+    acc += tl.dot((p).to(tl.float16), v)
+    l_i = l_i * alpha + tl.sum(p, 1)
+    m_i = m_i_new
+  }
+
+  acc = tl.where(l_i[:, None] == 0, 0.0, acc / l_i[:, None])
+  tl.store(o_ptrs, (acc).to(tl.float16).to(tl.float32), mask=m_mask)
+}
+
+end FP16
+namespace BF16
+def source
+    (Q K V : RegionName) (seqlens : Region .nat) (sm_scale : ℝ)
+    (block_count block_offset column_count column_index : Region .nat)
+    (Out : RegionName)
+    (stride_qz stride_qh stride_qm stride_qk
+      stride_kz stride_kh stride_kn stride_kk
+      stride_vz stride_vh stride_vn stride_vk
+      stride_oz stride_oh stride_om stride_ok
+      Z H N_CTX NUM_ROWS NNZ_S NNZ_V
+      BLOCK_M BLOCK_N BLOCK_DMODEL : Nat)
+    :
+    ComputeKernel := triton {
+  tl.region Q = tl.float32, K = tl.float32, V = tl.float32, Out = tl.float32
+  start_m = tl.program_id(0)
+  off_hz = tl.program_id(1)
+
+  seqlen = tl.load(seqlens + off_hz // $(H))
+  if start_m * $(BLOCK_M) >= seqlen {
+    return
+  }
+
+  offs_m = start_m * $(BLOCK_M) + tl.arange(0, $(BLOCK_M))
+  offs_n = tl.arange(0, $(BLOCK_N))
+  offs_d = tl.arange(0, $(BLOCK_DMODEL))
+
+  qo_offset = (off_hz // $(H)) * $(stride_qz) + (off_hz % $(H)) * $(stride_qh)
+  kv_offset = (off_hz // $(H)) * $(stride_kz) + (off_hz % $(H)) * $(stride_kh)
+
+  q_ptrs = Q + qo_offset + offs_m[:, None] * $(stride_qm) + offs_d[None, :] * $(stride_qk)
+  k_ptrs = K + kv_offset + offs_d[:, None] * $(stride_kk)
+  v_ptrs = V + kv_offset + offs_d[None, :] * $(stride_vk)
+  o_ptrs = Out + qo_offset + offs_m[:, None] * $(stride_om) + offs_d[None, :] * $(stride_ok)
+
+  num_blks = tl.load(block_count + off_hz * $(NUM_ROWS) + start_m)
+  blks_ptr = block_offset + (off_hz * $(NUM_ROWS) + start_m) * $(NNZ_S)
+  num_cols = tl.load(column_count + off_hz * $(NUM_ROWS) + start_m)
+  cols_ptr = column_index + (off_hz * $(NUM_ROWS) + start_m) * $(NNZ_V)
+
+  m_i = tl.zeros([$(BLOCK_M)], dtype=tl.float32) - float("inf")
+  l_i = tl.zeros([$(BLOCK_M)], dtype=tl.float32)
+  acc = tl.zeros([$(BLOCK_M), $(BLOCK_DMODEL)], dtype=tl.float32)
+  qk_scale = tl.full([], $((sm_scale : ℝ)), dtype=tl.float32) * 1.44269504
+  q = tl.load(q_ptrs, mask=offs_m[:, None] < seqlen, other=0.0)
+  q = (q * qk_scale).to(tl.bfloat16)
+
+  m_mask = offs_m[:, None] < seqlen
+
+  max_num_blks = num_blks
+  for block_index in range(max_num_blks) {
+    cond = block_index < num_blks
+    start_n = tl.load(blks_ptr + block_index, mask=cond, other=0)
+    cols = start_n + offs_n
+    n_mask = (cols < seqlen) & cond
+    k = tl.load(k_ptrs + cols[None, :] * $(stride_kn), mask=n_mask[None, :], other=0.0).to(tl.bfloat16)
+    v = tl.load(v_ptrs + cols[:, None] * $(stride_vn), mask=n_mask[:, None], other=0.0).to(tl.bfloat16)
+    qk = tl.zeros([$(BLOCK_M), $(BLOCK_N)], dtype=tl.float32)
+    causal_mask = cols[None, :] <= offs_m[:, None]
+    qk = tl.where(m_mask & n_mask[None, :] & causal_mask, qk, float("-inf"))
+    qk += tl.dot(q, k)
+    m_i_new = tl.maximum(m_i, tl.max(qk, 1))
+    m_safe = tl.where(m_i_new == float("-inf"), 0.0, m_i_new)
+    alpha = tl.math.exp2(m_i - m_safe)
+    p = tl.math.exp2(qk - m_safe[:, None])
+    acc_scale = l_i * 0 + alpha
+    acc *= acc_scale[:, None]
+    acc += tl.dot((p).to(tl.bfloat16), v)
+    l_i = l_i * alpha + tl.sum(p, 1)
+    m_i = m_i_new
+  }
+
+  max_num_cols = num_cols
+  for start_n in range($(0), max_num_cols, $(BLOCK_N)) {
+    cond = start_n < num_cols
+    n_mask = (start_n + offs_n < num_cols) & cond
+    cols = tl.load(cols_ptr + start_n + offs_n, mask=n_mask, other=0)
+    k = tl.load(k_ptrs + cols[None, :] * $(stride_kn), mask=n_mask[None, :], other=0.0).to(tl.bfloat16)
+    v = tl.load(v_ptrs + cols[:, None] * $(stride_vn), mask=n_mask[:, None], other=0.0).to(tl.bfloat16)
+    qk = tl.zeros([$(BLOCK_M), $(BLOCK_N)], dtype=tl.float32)
+    qk = tl.where(m_mask & n_mask, qk, float("-inf"))
+    qk += tl.dot(q, k)
+    m_i_new = tl.maximum(m_i, tl.max(qk, 1))
+    m_safe = tl.where(m_i_new == float("-inf"), 0.0, m_i_new)
+    alpha = tl.math.exp2(m_i - m_safe)
+    p = tl.math.exp2(qk - m_safe[:, None])
+    acc_scale = l_i * 0 + alpha
+    acc *= acc_scale[:, None]
+    acc += tl.dot((p).to(tl.bfloat16), v)
+    l_i = l_i * alpha + tl.sum(p, 1)
+    m_i = m_i_new
+  }
+
+  acc = tl.where(l_i[:, None] == 0, 0.0, acc / l_i[:, None])
+  tl.store(o_ptrs, (acc).to(tl.bfloat16).to(tl.float32), mask=m_mask)
+}
+
+
+/-- Fuse the sparse-column zero tile and masked score initialization. -/
+def fusedMask
+    (Q K V : RegionName) (seqlens : Region .nat) (sm_scale : ℝ)
+    (block_count block_offset column_count column_index : Region .nat)
+    (Out : RegionName)
+    (stride_qz stride_qh stride_qm stride_qk
+      stride_kz stride_kh stride_kn stride_kk
+      stride_vz stride_vh stride_vn stride_vk
+      stride_oz stride_oh stride_om stride_ok
+      Z H N_CTX NUM_ROWS NNZ_S NNZ_V
+      BLOCK_M BLOCK_N BLOCK_DMODEL : Nat)
+    :
+    ComputeKernel := triton {
+  tl.region Q = tl.float32, K = tl.float32, V = tl.float32, Out = tl.float32
+  start_m = tl.program_id(0)
+  off_hz = tl.program_id(1)
+
+  seqlen = tl.load(seqlens + off_hz // $(H))
+  if start_m * $(BLOCK_M) >= seqlen {
+    return
+  }
+
+  offs_m = start_m * $(BLOCK_M) + tl.arange(0, $(BLOCK_M))
+  offs_n = tl.arange(0, $(BLOCK_N))
+  offs_d = tl.arange(0, $(BLOCK_DMODEL))
+
+  qo_offset = (off_hz // $(H)) * $(stride_qz) + (off_hz % $(H)) * $(stride_qh)
+  kv_offset = (off_hz // $(H)) * $(stride_kz) + (off_hz % $(H)) * $(stride_kh)
+
+  q_ptrs = Q + qo_offset + offs_m[:, None] * $(stride_qm) + offs_d[None, :] * $(stride_qk)
+  k_ptrs = K + kv_offset + offs_d[:, None] * $(stride_kk)
+  v_ptrs = V + kv_offset + offs_d[None, :] * $(stride_vk)
+  o_ptrs = Out + qo_offset + offs_m[:, None] * $(stride_om) + offs_d[None, :] * $(stride_ok)
+
+  num_blks = tl.load(block_count + off_hz * $(NUM_ROWS) + start_m)
+  blks_ptr = block_offset + (off_hz * $(NUM_ROWS) + start_m) * $(NNZ_S)
+  num_cols = tl.load(column_count + off_hz * $(NUM_ROWS) + start_m)
+  cols_ptr = column_index + (off_hz * $(NUM_ROWS) + start_m) * $(NNZ_V)
+
+  m_i = tl.zeros([$(BLOCK_M)], dtype=tl.float32) - float("inf")
+  l_i = tl.zeros([$(BLOCK_M)], dtype=tl.float32)
+  acc = tl.zeros([$(BLOCK_M), $(BLOCK_DMODEL)], dtype=tl.float32)
+  qk_scale = tl.full([], $((sm_scale : ℝ)), dtype=tl.float32) * 1.44269504
+  q = tl.load(q_ptrs, mask=offs_m[:, None] < seqlen, other=0.0)
+  q = (q * qk_scale).to(tl.bfloat16)
+
+  m_mask = offs_m[:, None] < seqlen
+
+  max_num_blks = num_blks
+  for block_index in range(max_num_blks) {
+    cond = block_index < num_blks
+    start_n = tl.load(blks_ptr + block_index, mask=cond, other=0)
+    cols = start_n + offs_n
+    n_mask = (cols < seqlen) & cond
+    k = tl.load(k_ptrs + cols[None, :] * $(stride_kn), mask=n_mask[None, :], other=0.0).to(tl.bfloat16)
+    v = tl.load(v_ptrs + cols[:, None] * $(stride_vn), mask=n_mask[:, None], other=0.0).to(tl.bfloat16)
+    qk = tl.zeros([$(BLOCK_M), $(BLOCK_N)], dtype=tl.float32)
+    causal_mask = cols[None, :] <= offs_m[:, None]
+    qk = tl.where(m_mask & n_mask[None, :] & causal_mask, qk, float("-inf"))
+    qk += tl.dot(q, k)
+    m_i_new = tl.maximum(m_i, tl.max(qk, 1))
+    m_safe = tl.where(m_i_new == float("-inf"), 0.0, m_i_new)
+    alpha = tl.math.exp2(m_i - m_safe)
+    p = tl.math.exp2(qk - m_safe[:, None])
+    acc_scale = l_i * 0 + alpha
+    acc *= acc_scale[:, None]
+    acc += tl.dot((p).to(tl.bfloat16), v)
+    l_i = l_i * alpha + tl.sum(p, 1)
+    m_i = m_i_new
+  }
+
+  max_num_cols = num_cols
+  for start_n in range($(0), max_num_cols, $(BLOCK_N)) {
+    cond = start_n < num_cols
+    n_mask = (start_n + offs_n < num_cols) & cond
+    cols = tl.load(cols_ptr + start_n + offs_n, mask=n_mask, other=0)
+    k = tl.load(k_ptrs + cols[None, :] * $(stride_kn), mask=n_mask[None, :], other=0.0).to(tl.bfloat16)
+    v = tl.load(v_ptrs + cols[:, None] * $(stride_vn), mask=n_mask[:, None], other=0.0).to(tl.bfloat16)
+    qk = tl.where(m_mask & n_mask, tl.zeros([$(BLOCK_M), $(BLOCK_N)], dtype=tl.float32), float("-inf"))
+    qk += tl.dot(q, k)
+    m_i_new = tl.maximum(m_i, tl.max(qk, 1))
+    m_safe = tl.where(m_i_new == float("-inf"), 0.0, m_i_new)
+    alpha = tl.math.exp2(m_i - m_safe)
+    p = tl.math.exp2(qk - m_safe[:, None])
+    acc_scale = l_i * 0 + alpha
+    acc *= acc_scale[:, None]
+    acc += tl.dot((p).to(tl.bfloat16), v)
+    l_i = l_i * alpha + tl.sum(p, 1)
+    m_i = m_i_new
+  }
+
+  acc = tl.where(l_i[:, None] == 0, 0.0, acc / l_i[:, None])
+  tl.store(o_ptrs, (acc).to(tl.bfloat16).to(tl.float32), mask=m_mask)
+}
+
+end BF16
+end
+end VeriTile.Bench.Repairs.MixedSparseAttention.Whole002.TypedSource

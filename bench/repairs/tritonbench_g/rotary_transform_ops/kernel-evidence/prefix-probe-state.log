@@ -1,0 +1,36 @@
+case refine_2
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+s : Shape
+cumulative64 offsets64 : Bool
+initial : State α
+hv : s.varlen = «false»
+ht : s.offsetTensor = «false»
+hi : s.interleaved = «false»
+hc : s.conjugate = «false»
+⊢ run M
+      (List.take 6
+        (KernelSource.source64_64 (outputRegion s) { name := "x" } { name := "cos" } { name := "sin" } { name := "cu" }
+            { name := "offsets" } (↑s.scalarOffset) (↑s.maximum) (2 * s.half) s.coefficientRows
+            (if s.varlen = «true» then 0 else s.maximum * s.heads * s.width) (s.heads * s.width) s.width 1
+            (if s.varlen = «true» then 0 else s.maximum * s.heads * s.width) (s.heads * s.width) s.width 1 s.blockK
+            s.blockM s.offsetTensor s.varlen s.interleaved s.conjugate).surfaceBody)
+      initial =
+    some ?refine_1
+
+case refine_1
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+s : Shape
+cumulative64 offsets64 : Bool
+initial : State α
+hv : s.varlen = «false»
+ht : s.offsetTensor = «false»
+hi : s.interleaved = «false»
+hc : s.conjugate = «false»
+⊢ State α
+VeriTile.Bench.Repairs.RotaryTransformOps.PrefixProbe.execution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

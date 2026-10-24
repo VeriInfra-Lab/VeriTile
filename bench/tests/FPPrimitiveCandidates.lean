@@ -1,6 +1,7 @@
 import VeriTile.Triton.Float.Maximum
 import VeriTile.Triton.Float.Exponential
 import VeriTile.Triton.Float.CountConversion
+import VeriTile.Triton.Float.CountAdmission
 import VeriTile.Triton.DSL
 import VeriTile.Meta.StatementAudit
 
@@ -69,7 +70,7 @@ example : ¬ Exponential.Atom.exp_sub.Available := by decide
 example : Exponential.Atom.exp_sub.matches ExpAdmission.fp32_exp_sub =
     Bool.false := by decide
 
--- Constants prefer tl.exp; both accepted backends remain independently usable.
+-- Constants prefer tl.exp; both strict backends remain independently usable.
 example (b : Exponential.Backend) :
     (Exponential.Atom.exp_zero b).Available ∧
     (Exponential.Atom.exp_neg_inf_sub b).Available := by cases b <;> decide
@@ -79,7 +80,7 @@ example : Exponential.Atom.exp_zero.matches ExpAdmission.fp32_exp_zero_libdevice
     Exponential.Atom.exp_neg_inf_sub.matches ExpAdmission.fp32_exp_neg_inf_sub_libdevice = Bool.false ∧
     (Exponential.Atom.exp_neg_inf_sub .libdevice).matches ExpAdmission.fp32_exp_neg_inf_sub = Bool.false := by decide
 
-example : (Exponential.candidates.filterMap Exponential.Atom.entry?).length = 5 := rfl
+example : (Exponential.candidates.filterMap Exponential.Atom.entry?).length = 1 := rfl
 
 example (a : Maximum.Atom) : (Maximum.lhs a).guards = (Maximum.rhs a).guards := by
   cases a <;> rfl
@@ -99,8 +100,10 @@ example : Maximum.Atom.max_commute.matches { row with report := { row.report wit
 example : Reciprocal.Format.fp32.matches SupplementalAdmission.fp64_fp64_fp32_div_mul_rcp = Bool.false ∧
     Reciprocal.Format.fp64_fp32.matches SupplementalAdmission.fp32_div_mul_rcp = Bool.false ∧
     Reciprocal.Format.fp32.matches { SupplementalAdmission.fp32_div_mul_rcp with guards := [] } = Bool.false := by decide
-example : CountConversion.Atom.successor.matches { CountAdmission.successor with input := "fp32" } = Bool.false ∧
-    CountConversion.Atom.successor.matches CountAdmission.zero = Bool.false := by decide
+-- Historical count metadata still distinguishes int32 input and successor;
+-- current strict count rules do not select reports.
+example : CountAdmission.successor.input ≠ "fp32" ∧
+    CountAdmission.successor.ruleID ≠ CountAdmission.zero.ruleID := by decide
 
 -- A conditional proof can be written before an experiment accepts its candidate.
 theorem intrinsic_when_selected (R : Exponential.Rules)
@@ -108,27 +111,34 @@ theorem intrinsic_when_selected (R : Exponential.Rules)
     [Exponential.Atom.exp_sub.lhs] ≡[R] [Exponential.Atom.exp_sub.rhs] :=
   Exponential.rewrite R .exp_sub h
 
-theorem selected_exp_zero (R : Exponential.Rules) :
-    [Exponential.Atom.exp_zero.lhs] ≡[R] [Exponential.Atom.exp_zero.rhs] :=
-  Exponential.rewrite R .exp_zero (by decide)
+theorem selected_exp_zero :
+    [Exponential.Atom.exp_zero.lhs] ≡[([] : Spec.Assumptions GuardedFragment)]
+      [Exponential.Atom.exp_zero.rhs] :=
+  Spec.FloatingPoint.ofDerivation rfl trivial
+    (Guarded.strict_derivation [] (Exponential.strict_exp_zero .tl))
 
-theorem selected_exp_zero_libdevice (R : Exponential.Rules) :
-    [(Exponential.Atom.exp_zero .libdevice).lhs] ≡[R]
+theorem selected_exp_zero_libdevice :
+    [(Exponential.Atom.exp_zero .libdevice).lhs] ≡[([] : Spec.Assumptions GuardedFragment)]
       [(Exponential.Atom.exp_zero .libdevice).rhs] :=
-  Exponential.rewrite R (.exp_zero .libdevice) (by decide)
+  Spec.FloatingPoint.ofDerivation rfl trivial
+    (Guarded.strict_derivation [] (Exponential.strict_exp_zero .libdevice))
 
-theorem selected_exp_neg_inf_sub (R : Exponential.Rules) :
-    [Exponential.Atom.exp_neg_inf_sub.lhs] ≡[R] [Exponential.Atom.exp_neg_inf_sub.rhs] :=
-  Exponential.rewrite R .exp_neg_inf_sub (by decide)
+theorem selected_exp_neg_inf_sub :
+    [Exponential.Atom.exp_neg_inf_sub.lhs] ≡[([] : Spec.Assumptions GuardedFragment)]
+      [Exponential.Atom.exp_neg_inf_sub.rhs] :=
+  Spec.FloatingPoint.ofDerivation rfl trivial
+    (Guarded.strict_derivation [] (Exponential.strict_exp_neg_inf_sub .tl))
 
-theorem selected_exp_neg_inf_sub_libdevice (R : Exponential.Rules) :
-    [(Exponential.Atom.exp_neg_inf_sub .libdevice).lhs] ≡[R]
+theorem selected_exp_neg_inf_sub_libdevice :
+    [(Exponential.Atom.exp_neg_inf_sub .libdevice).lhs] ≡[([] : Spec.Assumptions GuardedFragment)]
       [(Exponential.Atom.exp_neg_inf_sub .libdevice).rhs] :=
-  Exponential.rewrite R (.exp_neg_inf_sub .libdevice) (by decide)
+  Spec.FloatingPoint.ofDerivation rfl trivial
+    (Guarded.strict_derivation [] (Exponential.strict_exp_neg_inf_sub .libdevice))
 
-theorem selected_maximum (R : Maximum.Rules) :
-    [Maximum.lhs .max_commute] ≡[R] [Maximum.rhs .max_commute] :=
-  Maximum.rewrite R .max_commute (by decide)
+theorem selected_maximum :
+    [Maximum.lhs .max_commute] ≡[([] : Spec.Assumptions GuardedFragment)]
+      [Maximum.rhs .max_commute] :=
+  Maximum.strict_rewrite .max_commute
 
 #print_fp_assumptions selected_maximum
 #print_fp_assumptions selected_exp_zero
@@ -141,5 +151,10 @@ theorem selected_maximum (R : Maximum.Rules) :
 #axiomsClean CountConversion.admitted
 #axiomsClean Maximum.admitted
 #axiomsClean intrinsic_when_selected
+#axiomsClean selected_maximum
+#axiomsClean selected_exp_zero
+#axiomsClean selected_exp_zero_libdevice
+#axiomsClean selected_exp_neg_inf_sub
+#axiomsClean selected_exp_neg_inf_sub_libdevice
 
 end FPPrimitiveCandidatesTests

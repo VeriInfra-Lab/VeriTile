@@ -26,6 +26,8 @@
 # Usage:
 #   bench/audit_trust.sh                 # audit the whole bench corpus
 #   bench/audit_trust.sh <kernel> ...    # audit only named tritonbench_g kernels
+#   bench/audit_trust.sh --catalog PATH [<kernel> ...]
+#     Use the explicit current catalog for multi-entry/typed source layouts.
 #   AUDIT_TRUST_JOBS=4 bench/audit_trust.sh
 #   AUDIT_TRUST_SHARD_COUNT=4 AUDIT_TRUST_SHARD_INDEX=0 bench/audit_trust.sh
 # Shards use zero-based indices; every shard must pass to audit the full corpus.
@@ -43,7 +45,28 @@ PORTS_ROOT="bench/tritonbench_g"
 EXAMPLES_ROOT="bench/examples"
 TESTS_ROOT="bench/tests"
 
+catalog=''
+catalog_sha256=''
+if [ "${1-}" = '--catalog' ]; then
+  if [ "$#" -lt 2 ] || [ -z "$2" ] || [[ "$2" = --* ]]; then
+    printf 'Usage: %s [--catalog PATH] [<kernel> ...]\n' "$0" >&2
+    exit 2
+  fi
+  catalog="$2"
+  catalog_sha256="$(sha256sum -- "${catalog}")" || exit "$?"
+  shift 2
+fi
+
 select_targets() {
+  if [ -n "${catalog}" ]; then
+    python3 bench/current_source_catalog.py targets --root "${PROJECT_ROOT}" \
+      --catalog "${catalog}" "$@" || return $?
+    if [ "$#" -eq 0 ]; then
+      find "${EXAMPLES_ROOT}" -type f -name '*.lean' | sort || return $?
+      find "${TESTS_ROOT}" -maxdepth 1 -type f -name '*.lean' | sort || return $?
+    fi
+    return
+  fi
   if [ "$#" -eq 0 ]; then
     python3 bench/port_layout.py all-proofs "${PORTS_ROOT}" || return $?
     find "${EXAMPLES_ROOT}" -type f -name '*.lean' | sort
@@ -129,6 +152,20 @@ fi
 expected="$(printf '%s\n' "${target_list}" | sed "s|^${PROJECT_ROOT}/||")"
 if ! python3 "${SCRIPT_DIR}/check_worker_results.py" "${expected}" "${results}"; then
   exit 1
+fi
+
+# A worker snapshot must not hide edits after initial catalog selection. The
+# normal checks below still require every selected worker to pass independently.
+if [ -n "${catalog}" ]; then
+  if [ "$(sha256sum -- "${catalog}")" != "${catalog_sha256}" ]; then
+    printf 'Current source catalog changed during trust audit\n' >&2
+    exit 1
+  fi
+  if ! python3 bench/current_source_catalog.py targets --root "${PROJECT_ROOT}" \
+      --catalog "${catalog}" "$@" > /dev/null; then
+    printf 'Current source catalog changed during trust audit\n' >&2
+    exit 1
+  fi
 fi
 
 printf '%s\n' "${results}" | sort

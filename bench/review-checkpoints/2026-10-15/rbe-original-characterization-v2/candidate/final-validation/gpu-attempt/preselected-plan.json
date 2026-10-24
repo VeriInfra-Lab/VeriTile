@@ -1,0 +1,45 @@
+{
+  "reference_sha256": "aae4e8b2bdab9a92462449ed324bb07a93057faa9f8362b4afa54a79bc8e91fe",
+  "mode": "run",
+  "requested_archs": null,
+  "profiles": {
+    "wrapper_default": {
+      "THETA": 10000.0,
+      "BLOCK_SIZE_M": 2,
+      "BLOCK_SIZE_K": 1024
+    },
+    "old_backend_witness": {
+      "THETA": 10000.0,
+      "BLOCK_SIZE_M": 1,
+      "BLOCK_SIZE_K": 2
+    },
+    "nonperiod_tile": {
+      "THETA": 10000.0,
+      "BLOCK_SIZE_M": 2,
+      "BLOCK_SIZE_K": 64
+    },
+    "period_tile": {
+      "THETA": 10000.0,
+      "BLOCK_SIZE_M": 4,
+      "BLOCK_SIZE_K": 128
+    }
+  },
+  "case_ids": [
+    "wrapper_pos0",
+    "wrapper_pos1",
+    "wrapper_pos2",
+    "wrapper_pos3",
+    "odd_tail_all_payloads",
+    "strided_dual_mask",
+    "period_large_position",
+    "inplace_same_storage",
+    "signed_position_wrap",
+    "old_backend_witness"
+  ],
+  "fusion_values": [
+    false,
+    true
+  ],
+  "numeric_reference": "NOT_ESTABLISHED",
+  "no_posthoc_profile_selection": true
+}

@@ -1,0 +1,52 @@
+"""Read shipped queue rows, reject omitted references before an authority sentinel."""
+from pathlib import Path
+from copy import deepcopy
+import ast,gzip,hashlib,json,time
+W=Path(__file__).resolve().parent
+R=Path('/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile')
+ns={'__file__':str(W/'test_candidates.py')}
+exec((W/'test_candidates.py').read_text().split('\ndef test(',1)[0],ns)
+sources,make_runner=ns['sources'],ns['make_runner']
+queue_path=R/'bench/tritonbench_g/deferred_numerical_experiments.json.gz'
+expected=json.loads((W/'evidence/input-pins-before.json').read_text())[str(queue_path)]
+assert hashlib.sha256(queue_path.read_bytes()).hexdigest()==expected
+with gzip.open(queue_path,'rt') as f:queue=json.load(f)
+usage_source=(R/'bench/tests/test_exact_numerical_bindings.py').read_text()
+usage_fn=next(ast.get_source_segment(usage_source,n) for n in ast.parse(usage_source).body if isinstance(n,ast.FunctionDef) and n.name=='usage')
+ns.update(authority={'requirements':queue['exact_callback_requirements'],'rules':[r for r in queue['rules'] if 'scope_bindings' in r]})
+exec(usage_fn,ns)
+checks=[];start=time.monotonic();omissions=0;valid_paths=0
+for table in queue['exact_callback_requirements'][8:]:
+ case=next(c for c in table['cases'] if c['required_binding_refs'])
+ row,public,proof_cases=ns['usage'](table['task'],lambda t,c:t['declaration']==table['declaration'] and c==case)
+ fixture={'task':table['task'],'row':row,'public':public,'proof_cases':proof_cases,'queue':queue,'root':R}
+ # A sound-looking production row must not take a successful shortcut: all four reach the unchanged authority entry.
+ for label in sources:
+  run,counts,trace=make_runner(sources[label],fixture,sentinel=True);result=run()
+  assert result['type']=='AuthorityReached' and counts['derive_authority']==1 and counts['validated_exact_requirements']==1,(label,result,counts)
+  valid_paths+=1
+ for index in range(len(row['deferred_numerical_assumptions'])):
+  changed=deepcopy(row);omitted=changed['deferred_numerical_assumptions'].pop(index)
+  trial={**fixture,'row':changed}
+  results={};calls={}
+  for label in ('B','AB'):
+   run,counts,trace=make_runner(sources[label],trial,sentinel=True);result=run()
+   assert result=={'ok':False,'type':'ValueError','error':'callback is incompatible with registered numerical rule'},(table['task'],index,label,result)
+   assert counts['derive_authority']==counts['validated_exact_requirements']==0
+   results[label]=result;calls[label]=dict(counts)
+  if index==0:
+   for label in ('baseline','A'):
+    run,counts,trace=make_runner(sources[label],trial,sentinel=True);result=run()
+    assert result['type']=='AuthorityReached' and counts['derive_authority']==1,(label,result)
+    results[label]=result;calls[label]=dict(counts)
+  checks.append({'task':table['task'],'declaration':table['declaration'],'omitted':{k:omitted[k] for k in ('assumption_id','scope_binding_id')},'passed':True,'results':results,'calls':calls})
+  omissions+=1
+assert hashlib.sha256(queue_path.read_bytes()).hexdigest()==expected
+report={'status':'passed','production_tables':len(queue['exact_callback_requirements'][8:]),'omitted_deferral_cases':omissions,
+ 'fast_rejection_executions':2*omissions,'valid_shaped_rows_reach_authority_entry':valid_paths,
+ 'baseline_and_A_missing_reference_entry_comparisons':2*len(queue['exact_callback_requirements'][8:]),
+ 'queue_sha256':expected,'queue_rule_count':len(queue['rules']),'queue_declaration_cases':sum(len(t['cases']) for t in queue['exact_callback_requirements']),
+ 'seconds':time.monotonic()-start,'checks':checks,'full_authority_run':False,'production_acceptance_claimed':False,
+ 'scope':'Exact shipped production queue and original test usage generator. All next_batch_required_port_omissions rows are checked. Candidate B and AB reject each omitted deferral before the unchanged authority entry. Baseline/A reach an explicit sentinel for one omission per table. Valid-shaped rows also reach that sentinel for all four implementations; no positive production result or full authority derivation is claimed.'}
+(W/'evidence/production-row-tests.json').write_text(json.dumps(report,indent=2)+'\n')
+print(json.dumps({k:v for k,v in report.items() if k!='checks'},indent=2))

@@ -1,0 +1,15 @@
+{
+  "script": "audit_grid_cases.py",
+  "source_snapshot": "evidence/script-attempts/0004-audit_grid_cases.py.txt",
+  "source_sha256": "9505e6ef9e04ea317e07ab3e9eac75cd4e3d68537a35ed413a62c0f4be31efe9",
+  "source_unchanged": true,
+  "command": [
+    "/usr/local/bin/python",
+    "-B",
+    "/tmp/veritile-standardization-20261015/triton-mul2-finite-acceptance-revision2-wip/audit_grid_cases.py"
+  ],
+  "exit_code": 0,
+  "seconds": 0.5734882729593664,
+  "log": "evidence/script-attempts/0004-audit_grid_cases.log",
+  "log_sha256": "041c2b9090529f82aec267cba31591fdeb096490209e3bd0fb23b20b83aacdf2"
+}

@@ -1,0 +1,49 @@
+{
+  "schema": 1,
+  "kind": "scope_review_integration_validation",
+  "base_commit": "74cb67ae99cd5cf77096dc74868d8adcb243b46a",
+  "status": "review_integration_passed_whole_scope_pending",
+  "scope_gate": {
+    "command": [
+      "/usr/local/bin/python3",
+      "-B",
+      "bench/check_original_program_scope.py",
+      "--root",
+      "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile",
+      "--catalog",
+      "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/review-checkpoints/2026-10-16/fp64-admission-relu-access/current-source-catalog.json",
+      "--ledger",
+      "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/original_program_scope.json",
+      "--output",
+      "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/review-checkpoints/2026-10-16/original-scope-review-24/scope-gate.json"
+    ],
+    "exit_code": 1,
+    "result_sha256": "03fb84e49bfaec70af2e3cdd8bd895b3ef48e1433e145ec035a293428e02da09",
+    "log_sha256": "03fb84e49bfaec70af2e3cdd8bd895b3ef48e1433e145ec035a293428e02da09"
+  },
+  "progress": {
+    "original_programs": 183,
+    "accepted": 0,
+    "pending": 183,
+    "structural_gaps_confirmed": 66,
+    "scope_review_pending": 117
+  },
+  "current_declarations_indexed": 936,
+  "retained_historical_coordinate_differences": 55,
+  "checked_source_input_count": 324,
+  "new_lean_runs": 0,
+  "file_sha256": {
+    "bench/original_program_scope.json": "583268f13f291b54d1313744175de53490d99c1625820df0b2df0380b5985ff1",
+    "bench/review-checkpoints/2026-10-16/original-scope-review-24/README.md": "6e3007ab7d20d09dcc673e4ae5b17a05690e20caf72390ab6a2ae42799b3fabd",
+    "bench/review-checkpoints/2026-10-16/original-scope-review-24/current-declaration-index.json": "c7641ccc041b1d3fbf8e035973eb88d402d7be3eab400b5ae0b201a4a70a6028",
+    "bench/review-checkpoints/2026-10-16/original-scope-review-24/evidence/batch-01-review.json": "14637a2817702322b8d71d4c0194fb14deac9d31dba91038918db781008fdc65",
+    "bench/review-checkpoints/2026-10-16/original-scope-review-24/evidence/destindex_copy_kv1.json": "06dd9595f169a05ce9d3efb82f083599f5443a44a638b85ab659f586da25802e",
+    "bench/review-checkpoints/2026-10-16/original-scope-review-24/evidence/destindex_copy_kv2.json": "59ff7867a0ef236d83f306bdb4568f046b2c81ddd21fc08ea0cfc36c1ab7fd6d",
+    "bench/review-checkpoints/2026-10-16/original-scope-review-24/evidence/square_matrix.json": "16a14ee664016eb6197b83783830c176f242941c3a99f868dfabdb66edd0d4fd",
+    "bench/review-checkpoints/2026-10-16/original-scope-review-24/evidence/var_len_copy.json": "791b755953e8e53b682d30ad695beca9e09686886304266942ed8070bab38af4",
+    "bench/review-checkpoints/2026-10-16/original-scope-review-24/integrate.py": "fb14734c8f51b3f497509cfbff47b167d3d8dc7e12de0601f8a528ec2be0c857",
+    "bench/review-checkpoints/2026-10-16/original-scope-review-24/root-review.json": "03456fc1f1cbf53382038c8512b5d29ef148ca28b72d60988b58fbaa51030b7b",
+    "bench/review-checkpoints/2026-10-16/original-scope-review-24/scope-gate.json": "03fb84e49bfaec70af2e3cdd8bd895b3ef48e1433e145ec035a293428e02da09",
+    "bench/review-checkpoints/2026-10-16/original-scope-review-24/scope-gate.log": "03fb84e49bfaec70af2e3cdd8bd895b3ef48e1433e145ec035a293428e02da09"
+  }
+}

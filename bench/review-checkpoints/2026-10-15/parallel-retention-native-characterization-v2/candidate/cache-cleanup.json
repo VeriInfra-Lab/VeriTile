@@ -1,0 +1,7 @@
+[
+  {
+    "path": "offline-v1/cache",
+    "regular_files": 192,
+    "reason": "duplicate compiler/bytecode cache only; actual compiler graph artifacts preserved; producer terminal"
+  }
+]

@@ -38,7 +38,7 @@ def statistics {α : Type} (M : Algebra α) (xs : Fin n → α) (t : ReductionTr
 /-- The arithmetic of the original loop, including fromNat at fp32 precision. -/
 def update {α : Type} (M : Algebra α) (i : Nat) (x : α) (acc : α × α) : α × α :=
   (Welford.nextMean M x acc.1 (M.fromNat (some .fp32) i),
-    add M acc.2 (Welford.increment M x acc.1 (M.fromNat (some .fp32) i)))
+    ScalarArithmetic.add M acc.2 (Welford.increment M x acc.1 (M.fromNat (some .fp32) i)))
 
 def state {α : Type} (M : Algebra α) (xs : Nat → α) : Nat → α × α
   | 0 => (zero M, zero M)
@@ -50,7 +50,7 @@ It has no default instance and is not a whole-row equality. -/
 structure CountConversion {α : Type} (M : Algebra α) (N : Nat) : Prop where
   zero : M.fromNat (some .fp32) 0 = ScalarArithmetic.zero M
   successor : ∀ i, i < N → M.fromNat (some .fp32) (i + 1) =
-    add M (M.fromNat (some .fp32) i) (one M)
+    ScalarArithmetic.add M (M.fromNat (some .fp32) i) (one M)
 
 theorem CountConversion.restrict {α : Type} {M : Algebra α} {N k : Nat}
     (h : CountConversion M N) (hk : k ≤ N) : CountConversion M k :=
@@ -110,7 +110,7 @@ theorem state_statistics (xs : Nat → α) (empty : ReductionTree 0) (N : Nat)
       rw [state, hprev]
       unfold update
       rw [converted_count R M D hM s empty (n + 2) hc hd.initial.zero (n + 1) (by omega)]
-      change (Welford.nextMean M (xs (n + 1)) _ _, add M _ (Welford.increment M _ _ _)) = _
+      change (Welford.nextMean M (xs (n + 1)) _ _, ScalarArithmetic.add M _ (Welford.increment M _ _ _)) = _
       rw [rowPrefix_succ xs (n + 1)]
       exact Prod.ext
         (WelfordAppend.mean_append R M D hM s _ _ _
@@ -121,9 +121,9 @@ theorem state_statistics (xs : Nat → α) (empty : ReductionTree 0) (N : Nat)
 side and bound to the explicit tree count on the batch side. -/
 theorem normalized_statistics (xs : Nat → α) (empty : ReductionTree 0) (N : Nat)
     (hN : 0 < N) (hc : CountConversion M N) (hd : IterationDomain M D xs empty N) :
-    ((state M xs N).1, div M (state M xs N).2 (M.fromNat (some .fp32) N)) =
+    ((state M xs N).1, ScalarArithmetic.div M (state M xs N).2 (M.fromNat (some .fp32) N)) =
       (mean M (rowPrefix xs N) (tree empty N),
-        div M (statistics M (rowPrefix xs N) (tree empty N)).2 (count M (tree empty N))) := by
+        ScalarArithmetic.div M (statistics M (rowPrefix xs N) (tree empty N)).2 (count M (tree empty N))) := by
   rw [state_statistics R M D hM s xs empty N hN hc hd,
     converted_count R M D hM s empty N hc hd.initial.zero N le_rfl]
   rfl

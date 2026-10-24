@@ -49,6 +49,7 @@ theorem original_matches_transcription :
       BT BD NT STORE IFCOND).toAlgKernel := by
   rw [erased_kernel _ (by rfl)]
   simp only [TypedSource.original, attention_fwd_kernel_surface,
+    ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel,
     ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?,
     ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Except.bind, bind]

@@ -1,0 +1,33 @@
+{
+  "all_unchanged": true,
+  "scope": "201 imported project source/object pairs and37 external objects unchanged; final nine-module source snapshot unchanged",
+  "captures": {
+    "evidence/dependencies-before.json": {
+      "sha256": "d0f31473fc054050f1088996fa0fd57a76741c764ccc600342000ce95a571921",
+      "verified_unchanged": true
+    },
+    "evidence/dependencies-final-before.json": {
+      "sha256": "3177b7fbcc11b44491c71457d39f2ba8e27680212f01c50e64193198904d126e",
+      "verified_unchanged": true
+    }
+  },
+  "project_sources_and_objects": 201,
+  "external_objects": 37,
+  "new_module_changes_before_final_capture": {
+    "bench/tritonbench_g/cosine_compute/Proofs/NativeHostMath.lean": {
+      "earlier": "697f39e1263ae1f3e5ba7831a8512786125e9ff9587f04f09344da10edca3535",
+      "final": "66ef9d74a7bdd0bd1ac380f47c9857b01e171d81d300909e95c64025d2f5a13a",
+      "reason": "NativeHostMath trust-boundary comments or NativeScalar/NativeSource lint-only proof syntax; prior complete source snapshots retained in lean-attempts."
+    },
+    "bench/tritonbench_g/cosine_compute/Proofs/NativeScalar.lean": {
+      "earlier": "d6e0670281a8204270168acab53b9ace1d53fe4aab7386f17acde6f986271b8c",
+      "final": "fd6c141964d7435f8d4bcc08632818027cae72f32fb4f3224a8ace9ae5922d4e",
+      "reason": "NativeHostMath trust-boundary comments or NativeScalar/NativeSource lint-only proof syntax; prior complete source snapshots retained in lean-attempts."
+    },
+    "bench/tritonbench_g/cosine_compute/Proofs/NativeSource.lean": {
+      "earlier": "3c5cccd4a1e2a1a797db993643e1d25f38e641e5389c71c902d755bf268a2961",
+      "final": "87445193384e787ad863e71514b4d21b87cfd62baef46954b83fc037d6fab554",
+      "reason": "NativeHostMath trust-boundary comments or NativeScalar/NativeSource lint-only proof syntax; prior complete source snapshots retained in lean-attempts."
+    }
+  }
+}

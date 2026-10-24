@@ -1,0 +1,10 @@
+--- bench/tritonbench_g/vector_addition/Proofs/NativeAdmission.lean
++++ bench/tritonbench_g/vector_addition_custom/Proofs/NativeAdmission.lean
+@@ -1,6 +1,7 @@
+ import bench.tritonbench_g.vector_addition.Proofs.NativeArithmetic
+ 
+ namespace VeriTile.Bench.TritonBenchG.VectorAddition.Native
++open VeriTile.Bench.TritonBenchG.VectorAddition
+ open DTypeScope TypedHost
+ set_option maxHeartbeats 10000000
+ set_option maxRecDepth 24000

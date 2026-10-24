@@ -13,7 +13,17 @@ including the previous-state branch and both output component stores. -/
 theorem source_parts (s y gx gy : RegionName) (length batch dim B : Nat) :
     ComplexBackwardSource.body s y gx gy length batch dim B =
       ComplexBackwardLoads.source gy length batch dim B ++
-      ComplexBackwardPrevious.source s y batch dim B ++ ComplexBackwardUpdate.source gx B := rfl
+      ComplexBackwardPrevious.source s y batch dim B ++ ComplexBackwardUpdate.source gx B := by
+  simp [ComplexBackwardLoads.source,ComplexBackwardPrevious.source,
+    ComplexBackwardUpdate.source,ComplexBackwardSource.body,Erasure.complexBackward,
+    ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeKernel.surfaceBody,
+    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
+    ComputeKernel.eraseDType,ComputeKernel.fromKernelBody,ComputeDType.eraseDType,
+    Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
+    Op.eraseDType,MemAccess.eraseDType,MaskOpt.eraseDType,NumericDType.eraseDType,
+    ComparableDType.eraseDType,IntegralDType.eraseDType,
+    Op.eraseDType.eq_def,VeriTile.Triton.eraseDType,FloatDType.toTileDType,
+    Except.bind,bind]
 
 theorem body_step (s y gx gy : RegionName) (length batch dim B k : Nat) (u : BlockState)
     (col : TileIndex [B] → Nat) (mask : TileIndex [B] → Bool)

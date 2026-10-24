@@ -22,9 +22,10 @@ def sumLeft : Program :=
   { original dtype out_dtype s o T BT with
     kernel := TypedSource.sumLeft dtype out_dtype s o T BT }
 
-specification chunk_sum_left_equiv (R : FP.ScalarArithmetic.Rules) :
-    original dtype out_dtype s o T BT ≡[R] sumLeft dtype out_dtype s o T BT := by
-  exact FPEquivProofs.sum_left_equiv dtype out_dtype s o T BT R
+specification chunk_sum_left_equiv :
+    original dtype out_dtype s o T BT ≡[([] : Spec.Assumptions FP.GuardedFragment)]
+      sumLeft dtype out_dtype s o T BT := by
+  exact FPEquivProofs.sum_left_equiv dtype out_dtype s o T BT
 end
 #print_fp_assumptions chunk_sum_left_equiv
 #guard_msgs (drop info) in

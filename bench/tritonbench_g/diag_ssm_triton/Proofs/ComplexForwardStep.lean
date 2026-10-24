@@ -56,7 +56,7 @@ theorem body_step (x y : RegionName) (batch dim B t : Nat) (u : BlockState)
       some (result u x y (offset batch dim t col) mask state transition) := by
   simp only [ComplexForwardSource.body,Erasure.complexForward,
     ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeKernel.surfaceBody,
-    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,
+    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
     Except.bind,bind,Bool.false_eq_true,↓reduceIte,List.drop]
   simp only [stepStmts,stepStmt,evalOp,evalOp.eq_def,Option.bind,bind,pure,
     Option.map,Option.pure_def,Broadcast.leftIndex,Broadcast.rightIndex,Tile.vec,

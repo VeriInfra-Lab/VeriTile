@@ -1,0 +1,104 @@
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FinitePhysicalExecution.lean:25:4: error: No goals to be solved
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FinitePhysicalExecution.lean:64:19: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  if offset c pid lane < a.numel then ?m.70 else ?m.71
+in the target expression
+  (if offset c pid lane < (parameters a alloc x).n then
+      match readCell d (snapshot (parameters a alloc x).x (offset c pid lane)) with
+      | none => Except.error (Fault.inputUnavailable (offset c pid lane))
+      | some x_1 =>
+        match Expr.eval b x_1 v (source d) with
+        | none => Except.error (Fault.conversionUndefined (offset c pid lane))
+        | some z =>
+          runLanes b d (parameters a alloc x) snapshot v c pid lanes
+            (write working (parameters a alloc x).output (offset c pid lane) (some (Cell.mk Storage.i8 z)))
+    else runLanes b d (parameters a alloc x) snapshot v c pid lanes working) =
+    Except.ok final
+
+case pos
+b : Numerics
+d : Storage
+a : Input
+alloc : Allocations
+p : PhysicalLayout
+x : String
+fresh : alloc.Fresh x
+snapshot : Memory
+v : Word (compute d)
+c : Config
+pid : ℕ
+final : Memory
+lane : ℕ
+lanes : List ℕ
+ih :
+  ∀ (working : Memory),
+    runLanes b d (parameters a alloc x) snapshot v c pid lanes working = Except.ok final →
+      PhysicalStores a alloc p working (externalMemory d a alloc p working) final (externalMemory d a alloc p final)
+working : Memory
+run :
+  (if offset c pid lane < (parameters a alloc x).n then
+      match readCell d (snapshot (parameters a alloc x).x (offset c pid lane)) with
+      | none => Except.error (Fault.inputUnavailable (offset c pid lane))
+      | some x_1 =>
+        match Expr.eval b x_1 v (source d) with
+        | none => Except.error (Fault.conversionUndefined (offset c pid lane))
+        | some z =>
+          runLanes b d (parameters a alloc x) snapshot v c pid lanes
+            (write working (parameters a alloc x).output (offset c pid lane) (some (Cell.mk Storage.i8 z)))
+    else runLanes b d (parameters a alloc x) snapshot v c pid lanes working) =
+    Except.ok final
+active : offset c pid lane < a.numel
+⊢ PhysicalStores a alloc p working (externalMemory d a alloc p working) final (externalMemory d a alloc p final)
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FinitePhysicalExecution.lean:76:19: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  if offset c pid lane < a.numel then ?m.92 else ?m.93
+in the target expression
+  (if offset c pid lane < (parameters a alloc x).n then
+      match readCell d (snapshot (parameters a alloc x).x (offset c pid lane)) with
+      | none => Except.error (Fault.inputUnavailable (offset c pid lane))
+      | some x_1 =>
+        match Expr.eval b x_1 v (source d) with
+        | none => Except.error (Fault.conversionUndefined (offset c pid lane))
+        | some z =>
+          runLanes b d (parameters a alloc x) snapshot v c pid lanes
+            (write working (parameters a alloc x).output (offset c pid lane) (some (Cell.mk Storage.i8 z)))
+    else runLanes b d (parameters a alloc x) snapshot v c pid lanes working) =
+    Except.ok final
+
+case neg
+b : Numerics
+d : Storage
+a : Input
+alloc : Allocations
+p : PhysicalLayout
+x : String
+fresh : alloc.Fresh x
+snapshot : Memory
+v : Word (compute d)
+c : Config
+pid : ℕ
+final : Memory
+lane : ℕ
+lanes : List ℕ
+ih :
+  ∀ (working : Memory),
+    runLanes b d (parameters a alloc x) snapshot v c pid lanes working = Except.ok final →
+      PhysicalStores a alloc p working (externalMemory d a alloc p working) final (externalMemory d a alloc p final)
+working : Memory
+run :
+  (if offset c pid lane < (parameters a alloc x).n then
+      match readCell d (snapshot (parameters a alloc x).x (offset c pid lane)) with
+      | none => Except.error (Fault.inputUnavailable (offset c pid lane))
+      | some x_1 =>
+        match Expr.eval b x_1 v (source d) with
+        | none => Except.error (Fault.conversionUndefined (offset c pid lane))
+        | some z =>
+          runLanes b d (parameters a alloc x) snapshot v c pid lanes
+            (write working (parameters a alloc x).output (offset c pid lane) (some (Cell.mk Storage.i8 z)))
+    else runLanes b d (parameters a alloc x) snapshot v c pid lanes working) =
+    Except.ok final
+active : ¬offset c pid lane < a.numel
+⊢ PhysicalStores a alloc p working (externalMemory d a alloc p working) final (externalMemory d a alloc p final)
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FinitePhysicalExecution.lean:124:0: error: QuantizeGlobalFinite.output_store_commutes: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FinitePhysicalExecution.lean:125:0: error: QuantizeGlobalFinite.lanes_physical: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FinitePhysicalExecution.lean:126:0: error: QuantizeGlobalFinite.grid_physical: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FinitePhysicalExecution.lean:127:0: error: QuantizeGlobalFinite.quantize_global_trial_physical_execution: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FinitePhysicalExecution.lean:129:0: error: QuantizeGlobalFinite.quantize_global_trial_physical_execution: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

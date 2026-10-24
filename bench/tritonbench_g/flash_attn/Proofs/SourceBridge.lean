@@ -24,6 +24,20 @@ theorem full_source_erasure (input output : Storage) (swapped : Bool)
   rw [Erasure.body]
   cases swapped <;> rfl
 
+theorem actual_full_source_erasure (input : Storage) (swapped : Bool)
+    (Q K V L O : RegionName) (p : Layout)
+    (stride_q_bs stride_k_bs stride_k_head stride_v_bs stride_v_head stride_v_seqlen
+      stride_o_bs stride_o_head BS HEAD : Nat) :
+    (actualKernel input swapped Q K V L O p.sm_scale
+      stride_q_bs p.stride_q_head p.stride_q_seqlen p.stride_q_dim
+      stride_k_bs stride_k_head p.stride_k_seqlen p.stride_k_dim
+      stride_v_bs stride_v_head stride_v_seqlen p.stride_v_dim
+      stride_o_bs stride_o_head p.stride_o_seqlen p.stride_o_dim
+      BS HEAD p.SEQLEN p.BLOCK_M p.DIM p.BLOCK_N p.causal).eraseDType.toAlgKernel =
+    Candidate.source swapped Q K V L O p := by
+  rw [Erasure.actual_body]
+  cases swapped <;> rfl
+
 theorem source_real_correct (swapped : Bool) (Q K V L O : RegionName)
     (p : Layout) (s : BlockState) (hBN : 0 < p.BLOCK_N)
     (hhi : 0 < hi p (s.pids 0)) :

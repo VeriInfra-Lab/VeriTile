@@ -1,0 +1,89 @@
+{
+  "official_url": "https://docs.nvidia.com/cuda/archive/12.6.3/cuda-c-programming-guide/index.html#shared-memory-8-x",
+  "official_full_source": {
+    "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/token-attn-reducev-kernel-evidence/cuda-programming-guide-12.6.3.html",
+    "sha256": "808cabfe90cbfc757ae806193de6e5e3bd631208d9d6601fc1042f3b82e68659"
+  },
+  "official_excerpt": {
+    "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/kernel-evidence/official-sm80-shared-memory.html",
+    "sha256": "64027c7b36f3aba2423f9996e4e822df1961e6833016867ba84ee9c3861e0dad"
+  },
+  "compute_capability": "8.0",
+  "maximum_shared_bytes_per_block": 166912,
+  "source_text": "Devices of compute capability 8.0 and 8.7 allow a single thread block to address up to 163 KB of shared memory",
+  "classification": "External hardware/runtime applicability condition, not a source/math defect or numerical experiment obligation. No stronger Python guard added; no runtime-internal resource proof. Static compilation does not imply device execution succeeds.",
+  "profiles": [
+    {
+      "name": "float16_N1_D16_M16_K16_W8_S4",
+      "shared_bytes": 1568,
+      "within_sm80_per_block_shared_limit": true,
+      "static_compilation": "compiled",
+      "runtime_success_claim": false
+    },
+    {
+      "name": "float16_N129_D128_M128_K128_W4_S4",
+      "shared_bytes": 231424,
+      "within_sm80_per_block_shared_limit": false,
+      "static_compilation": "compiled",
+      "runtime_success_claim": false
+    },
+    {
+      "name": "float16_N129_D128_M128_K128_W8_S4",
+      "shared_bytes": 229632,
+      "within_sm80_per_block_shared_limit": false,
+      "static_compilation": "compiled",
+      "runtime_success_claim": false
+    },
+    {
+      "name": "float16_N97_D64_M128_K16_W4_S1",
+      "shared_bytes": 22528,
+      "within_sm80_per_block_shared_limit": true,
+      "static_compilation": "compiled",
+      "runtime_success_claim": false
+    },
+    {
+      "name": "float16_N65_D32_M16_K128_W8_S4",
+      "shared_bytes": 54272,
+      "within_sm80_per_block_shared_limit": true,
+      "static_compilation": "compiled",
+      "runtime_success_claim": false
+    },
+    {
+      "name": "bfloat16_N1_D16_M16_K16_W8_S4",
+      "shared_bytes": 1568,
+      "within_sm80_per_block_shared_limit": true,
+      "static_compilation": "compiled",
+      "runtime_success_claim": false
+    },
+    {
+      "name": "bfloat16_N129_D128_M128_K128_W4_S4",
+      "shared_bytes": 231424,
+      "within_sm80_per_block_shared_limit": false,
+      "static_compilation": "compiled",
+      "runtime_success_claim": false
+    },
+    {
+      "name": "bfloat16_N129_D128_M128_K128_W8_S4",
+      "shared_bytes": 229632,
+      "within_sm80_per_block_shared_limit": false,
+      "static_compilation": "compiled",
+      "runtime_success_claim": false
+    },
+    {
+      "name": "bfloat16_N97_D64_M128_K16_W4_S1",
+      "shared_bytes": 22528,
+      "within_sm80_per_block_shared_limit": true,
+      "static_compilation": "compiled",
+      "runtime_success_claim": false
+    },
+    {
+      "name": "bfloat16_N65_D32_M16_K128_W8_S4",
+      "shared_bytes": 54272,
+      "within_sm80_per_block_shared_limit": true,
+      "static_compilation": "compiled",
+      "runtime_success_claim": false
+    }
+  ],
+  "GPU_execution": false,
+  "source_unchanged": true
+}

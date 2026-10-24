@@ -1,0 +1,5484 @@
+[
+  {
+    "dtype": "bool",
+    "size": 0,
+    "status": "returned",
+    "x": {
+      "shape": [
+        0
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 0,
+      "dtype": "torch.bool",
+      "storage_offset": 0,
+      "data_ptr": 0,
+      "storage_base": 0,
+      "storage_bytes": 0,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        0
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 0,
+      "dtype": "torch.bool",
+      "storage_offset": 0,
+      "data_ptr": 0,
+      "storage_base": 0,
+      "storage_bytes": 0,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        0
+      ],
+      "n": 0,
+      "block": 1024,
+      "x": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.bool",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.bool",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "device": "cpu"
+      },
+      "output_id": 139656669213744
+    }
+  },
+  {
+    "dtype": "bool",
+    "size": 1,
+    "status": "returned",
+    "x": {
+      "shape": [
+        1
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 1,
+      "dtype": "torch.bool",
+      "storage_offset": 0,
+      "data_ptr": 94490076995840,
+      "storage_base": 94490076995840,
+      "storage_bytes": 1,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        1
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 1,
+      "dtype": "torch.bool",
+      "storage_offset": 0,
+      "data_ptr": 94490077035904,
+      "storage_base": 94490077035904,
+      "storage_bytes": 1,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        1
+      ],
+      "n": 1,
+      "block": 1024,
+      "x": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.bool",
+        "storage_offset": 0,
+        "data_ptr": 94490076995840,
+        "storage_base": 94490076995840,
+        "storage_bytes": 1,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.bool",
+        "storage_offset": 0,
+        "data_ptr": 94490077035904,
+        "storage_base": 94490077035904,
+        "storage_bytes": 1,
+        "device": "cpu"
+      },
+      "output_id": 139656669213344
+    }
+  },
+  {
+    "dtype": "bool",
+    "size": 5,
+    "status": "returned",
+    "x": {
+      "shape": [
+        5
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 5,
+      "dtype": "torch.bool",
+      "storage_offset": 0,
+      "data_ptr": 94490077161792,
+      "storage_base": 94490077161792,
+      "storage_bytes": 5,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        5
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 5,
+      "dtype": "torch.bool",
+      "storage_offset": 0,
+      "data_ptr": 94490077453824,
+      "storage_base": 94490077453824,
+      "storage_bytes": 5,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        1
+      ],
+      "n": 5,
+      "block": 1024,
+      "x": {
+        "shape": [
+          5
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 5,
+        "dtype": "torch.bool",
+        "storage_offset": 0,
+        "data_ptr": 94490077161792,
+        "storage_base": 94490077161792,
+        "storage_bytes": 5,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          5
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 5,
+        "dtype": "torch.bool",
+        "storage_offset": 0,
+        "data_ptr": 94490077453824,
+        "storage_base": 94490077453824,
+        "storage_bytes": 5,
+        "device": "cpu"
+      },
+      "output_id": 139656669213824
+    }
+  },
+  {
+    "dtype": "int8",
+    "size": 0,
+    "status": "returned",
+    "x": {
+      "shape": [
+        0
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 0,
+      "dtype": "torch.int8",
+      "storage_offset": 0,
+      "data_ptr": 0,
+      "storage_base": 0,
+      "storage_bytes": 0,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        0
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 0,
+      "dtype": "torch.int8",
+      "storage_offset": 0,
+      "data_ptr": 0,
+      "storage_base": 0,
+      "storage_bytes": 0,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        0
+      ],
+      "n": 0,
+      "block": 1024,
+      "x": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.int8",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.int8",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "device": "cpu"
+      },
+      "output_id": 139656669213744
+    }
+  },
+  {
+    "dtype": "int8",
+    "size": 1,
+    "status": "returned",
+    "x": {
+      "shape": [
+        1
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 1,
+      "dtype": "torch.int8",
+      "storage_offset": 0,
+      "data_ptr": 94490077222784,
+      "storage_base": 94490077222784,
+      "storage_bytes": 1,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        1
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 1,
+      "dtype": "torch.int8",
+      "storage_offset": 0,
+      "data_ptr": 94490077353216,
+      "storage_base": 94490077353216,
+      "storage_bytes": 1,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        1
+      ],
+      "n": 1,
+      "block": 1024,
+      "x": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.int8",
+        "storage_offset": 0,
+        "data_ptr": 94490077222784,
+        "storage_base": 94490077222784,
+        "storage_bytes": 1,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.int8",
+        "storage_offset": 0,
+        "data_ptr": 94490077353216,
+        "storage_base": 94490077353216,
+        "storage_bytes": 1,
+        "device": "cpu"
+      },
+      "output_id": 139656669213344
+    }
+  },
+  {
+    "dtype": "int8",
+    "size": 5,
+    "status": "returned",
+    "x": {
+      "shape": [
+        5
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 5,
+      "dtype": "torch.int8",
+      "storage_offset": 0,
+      "data_ptr": 94490077377216,
+      "storage_base": 94490077377216,
+      "storage_bytes": 5,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        5
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 5,
+      "dtype": "torch.int8",
+      "storage_offset": 0,
+      "data_ptr": 94490077534016,
+      "storage_base": 94490077534016,
+      "storage_bytes": 5,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        1
+      ],
+      "n": 5,
+      "block": 1024,
+      "x": {
+        "shape": [
+          5
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 5,
+        "dtype": "torch.int8",
+        "storage_offset": 0,
+        "data_ptr": 94490077377216,
+        "storage_base": 94490077377216,
+        "storage_bytes": 5,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          5
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 5,
+        "dtype": "torch.int8",
+        "storage_offset": 0,
+        "data_ptr": 94490077534016,
+        "storage_base": 94490077534016,
+        "storage_bytes": 5,
+        "device": "cpu"
+      },
+      "output_id": 139656669213824
+    }
+  },
+  {
+    "dtype": "uint8",
+    "size": 0,
+    "status": "returned",
+    "x": {
+      "shape": [
+        0
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 0,
+      "dtype": "torch.uint8",
+      "storage_offset": 0,
+      "data_ptr": 0,
+      "storage_base": 0,
+      "storage_bytes": 0,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        0
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 0,
+      "dtype": "torch.uint8",
+      "storage_offset": 0,
+      "data_ptr": 0,
+      "storage_base": 0,
+      "storage_bytes": 0,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        0
+      ],
+      "n": 0,
+      "block": 1024,
+      "x": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.uint8",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.uint8",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "device": "cpu"
+      },
+      "output_id": 139656669213744
+    }
+  },
+  {
+    "dtype": "uint8",
+    "size": 1,
+    "status": "returned",
+    "x": {
+      "shape": [
+        1
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 1,
+      "dtype": "torch.uint8",
+      "storage_offset": 0,
+      "data_ptr": 94490077141760,
+      "storage_base": 94490077141760,
+      "storage_bytes": 1,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        1
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 1,
+      "dtype": "torch.uint8",
+      "storage_offset": 0,
+      "data_ptr": 94490077217792,
+      "storage_base": 94490077217792,
+      "storage_bytes": 1,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        1
+      ],
+      "n": 1,
+      "block": 1024,
+      "x": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.uint8",
+        "storage_offset": 0,
+        "data_ptr": 94490077141760,
+        "storage_base": 94490077141760,
+        "storage_bytes": 1,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.uint8",
+        "storage_offset": 0,
+        "data_ptr": 94490077217792,
+        "storage_base": 94490077217792,
+        "storage_bytes": 1,
+        "device": "cpu"
+      },
+      "output_id": 139656669213344
+    }
+  },
+  {
+    "dtype": "uint8",
+    "size": 5,
+    "status": "returned",
+    "x": {
+      "shape": [
+        5
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 5,
+      "dtype": "torch.uint8",
+      "storage_offset": 0,
+      "data_ptr": 94490077252928,
+      "storage_base": 94490077252928,
+      "storage_bytes": 5,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        5
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 5,
+      "dtype": "torch.uint8",
+      "storage_offset": 0,
+      "data_ptr": 94490077001408,
+      "storage_base": 94490077001408,
+      "storage_bytes": 5,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        1
+      ],
+      "n": 5,
+      "block": 1024,
+      "x": {
+        "shape": [
+          5
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 5,
+        "dtype": "torch.uint8",
+        "storage_offset": 0,
+        "data_ptr": 94490077252928,
+        "storage_base": 94490077252928,
+        "storage_bytes": 5,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          5
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 5,
+        "dtype": "torch.uint8",
+        "storage_offset": 0,
+        "data_ptr": 94490077001408,
+        "storage_base": 94490077001408,
+        "storage_bytes": 5,
+        "device": "cpu"
+      },
+      "output_id": 139656669213824
+    }
+  },
+  {
+    "dtype": "int16",
+    "size": 0,
+    "status": "returned",
+    "x": {
+      "shape": [
+        0
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 0,
+      "dtype": "torch.int16",
+      "storage_offset": 0,
+      "data_ptr": 0,
+      "storage_base": 0,
+      "storage_bytes": 0,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        0
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 0,
+      "dtype": "torch.int16",
+      "storage_offset": 0,
+      "data_ptr": 0,
+      "storage_base": 0,
+      "storage_bytes": 0,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        0
+      ],
+      "n": 0,
+      "block": 1024,
+      "x": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.int16",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.int16",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "device": "cpu"
+      },
+      "output_id": 139656669213744
+    }
+  },
+  {
+    "dtype": "int16",
+    "size": 1,
+    "status": "returned",
+    "x": {
+      "shape": [
+        1
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 1,
+      "dtype": "torch.int16",
+      "storage_offset": 0,
+      "data_ptr": 94490077073728,
+      "storage_base": 94490077073728,
+      "storage_bytes": 2,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        1
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 1,
+      "dtype": "torch.int16",
+      "storage_offset": 0,
+      "data_ptr": 94489963476096,
+      "storage_base": 94489963476096,
+      "storage_bytes": 2,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        1
+      ],
+      "n": 1,
+      "block": 1024,
+      "x": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.int16",
+        "storage_offset": 0,
+        "data_ptr": 94490077073728,
+        "storage_base": 94490077073728,
+        "storage_bytes": 2,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.int16",
+        "storage_offset": 0,
+        "data_ptr": 94489963476096,
+        "storage_base": 94489963476096,
+        "storage_bytes": 2,
+        "device": "cpu"
+      },
+      "output_id": 139656669213344
+    }
+  },
+  {
+    "dtype": "int16",
+    "size": 5,
+    "status": "returned",
+    "x": {
+      "shape": [
+        5
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 5,
+      "dtype": "torch.int16",
+      "storage_offset": 0,
+      "data_ptr": 94490076892672,
+      "storage_base": 94490076892672,
+      "storage_bytes": 10,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        5
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 5,
+      "dtype": "torch.int16",
+      "storage_offset": 0,
+      "data_ptr": 94490076982336,
+      "storage_base": 94490076982336,
+      "storage_bytes": 10,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        1
+      ],
+      "n": 5,
+      "block": 1024,
+      "x": {
+        "shape": [
+          5
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 5,
+        "dtype": "torch.int16",
+        "storage_offset": 0,
+        "data_ptr": 94490076892672,
+        "storage_base": 94490076892672,
+        "storage_bytes": 10,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          5
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 5,
+        "dtype": "torch.int16",
+        "storage_offset": 0,
+        "data_ptr": 94490076982336,
+        "storage_base": 94490076982336,
+        "storage_bytes": 10,
+        "device": "cpu"
+      },
+      "output_id": 139656669213824
+    }
+  },
+  {
+    "dtype": "uint16",
+    "size": 0,
+    "status": "returned",
+    "x": {
+      "shape": [
+        0
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 0,
+      "dtype": "torch.uint16",
+      "storage_offset": 0,
+      "data_ptr": 0,
+      "storage_base": 0,
+      "storage_bytes": 0,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        0
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 0,
+      "dtype": "torch.uint16",
+      "storage_offset": 0,
+      "data_ptr": 0,
+      "storage_base": 0,
+      "storage_bytes": 0,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        0
+      ],
+      "n": 0,
+      "block": 1024,
+      "x": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.uint16",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.uint16",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "device": "cpu"
+      },
+      "output_id": 139656669213744
+    }
+  },
+  {
+    "dtype": "uint16",
+    "size": 1,
+    "status": "returned",
+    "x": {
+      "shape": [
+        1
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 1,
+      "dtype": "torch.uint16",
+      "storage_offset": 0,
+      "data_ptr": 94490077066560,
+      "storage_base": 94490077066560,
+      "storage_bytes": 2,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        1
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 1,
+      "dtype": "torch.uint16",
+      "storage_offset": 0,
+      "data_ptr": 94490077303360,
+      "storage_base": 94490077303360,
+      "storage_bytes": 2,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        1
+      ],
+      "n": 1,
+      "block": 1024,
+      "x": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.uint16",
+        "storage_offset": 0,
+        "data_ptr": 94490077066560,
+        "storage_base": 94490077066560,
+        "storage_bytes": 2,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.uint16",
+        "storage_offset": 0,
+        "data_ptr": 94490077303360,
+        "storage_base": 94490077303360,
+        "storage_bytes": 2,
+        "device": "cpu"
+      },
+      "output_id": 139656669213344
+    }
+  },
+  {
+    "dtype": "uint16",
+    "size": 5,
+    "status": "returned",
+    "x": {
+      "shape": [
+        5
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 5,
+      "dtype": "torch.uint16",
+      "storage_offset": 0,
+      "data_ptr": 94490077357248,
+      "storage_base": 94490077357248,
+      "storage_bytes": 10,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        5
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 5,
+      "dtype": "torch.uint16",
+      "storage_offset": 0,
+      "data_ptr": 94490077568192,
+      "storage_base": 94490077568192,
+      "storage_bytes": 10,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        1
+      ],
+      "n": 5,
+      "block": 1024,
+      "x": {
+        "shape": [
+          5
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 5,
+        "dtype": "torch.uint16",
+        "storage_offset": 0,
+        "data_ptr": 94490077357248,
+        "storage_base": 94490077357248,
+        "storage_bytes": 10,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          5
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 5,
+        "dtype": "torch.uint16",
+        "storage_offset": 0,
+        "data_ptr": 94490077568192,
+        "storage_base": 94490077568192,
+        "storage_bytes": 10,
+        "device": "cpu"
+      },
+      "output_id": 139656669213824
+    }
+  },
+  {
+    "dtype": "int32",
+    "size": 0,
+    "status": "returned",
+    "x": {
+      "shape": [
+        0
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 0,
+      "dtype": "torch.int32",
+      "storage_offset": 0,
+      "data_ptr": 0,
+      "storage_base": 0,
+      "storage_bytes": 0,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        0
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 0,
+      "dtype": "torch.int32",
+      "storage_offset": 0,
+      "data_ptr": 0,
+      "storage_base": 0,
+      "storage_bytes": 0,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        0
+      ],
+      "n": 0,
+      "block": 1024,
+      "x": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.int32",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.int32",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "device": "cpu"
+      },
+      "output_id": 139656669213744
+    }
+  },
+  {
+    "dtype": "int32",
+    "size": 1,
+    "status": "returned",
+    "x": {
+      "shape": [
+        1
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 1,
+      "dtype": "torch.int32",
+      "storage_offset": 0,
+      "data_ptr": 94490076851264,
+      "storage_base": 94490076851264,
+      "storage_bytes": 4,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        1
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 1,
+      "dtype": "torch.int32",
+      "storage_offset": 0,
+      "data_ptr": 94490076851392,
+      "storage_base": 94490076851392,
+      "storage_bytes": 4,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        1
+      ],
+      "n": 1,
+      "block": 1024,
+      "x": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.int32",
+        "storage_offset": 0,
+        "data_ptr": 94490076851264,
+        "storage_base": 94490076851264,
+        "storage_bytes": 4,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.int32",
+        "storage_offset": 0,
+        "data_ptr": 94490076851392,
+        "storage_base": 94490076851392,
+        "storage_bytes": 4,
+        "device": "cpu"
+      },
+      "output_id": 139656669213344
+    }
+  },
+  {
+    "dtype": "int32",
+    "size": 5,
+    "status": "returned",
+    "x": {
+      "shape": [
+        5
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 5,
+      "dtype": "torch.int32",
+      "storage_offset": 0,
+      "data_ptr": 94490077067840,
+      "storage_base": 94490077067840,
+      "storage_bytes": 20,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        5
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 5,
+      "dtype": "torch.int32",
+      "storage_offset": 0,
+      "data_ptr": 94490077067968,
+      "storage_base": 94490077067968,
+      "storage_bytes": 20,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        1
+      ],
+      "n": 5,
+      "block": 1024,
+      "x": {
+        "shape": [
+          5
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 5,
+        "dtype": "torch.int32",
+        "storage_offset": 0,
+        "data_ptr": 94490077067840,
+        "storage_base": 94490077067840,
+        "storage_bytes": 20,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          5
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 5,
+        "dtype": "torch.int32",
+        "storage_offset": 0,
+        "data_ptr": 94490077067968,
+        "storage_base": 94490077067968,
+        "storage_bytes": 20,
+        "device": "cpu"
+      },
+      "output_id": 139656669213824
+    }
+  },
+  {
+    "dtype": "uint32",
+    "size": 0,
+    "status": "returned",
+    "x": {
+      "shape": [
+        0
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 0,
+      "dtype": "torch.uint32",
+      "storage_offset": 0,
+      "data_ptr": 0,
+      "storage_base": 0,
+      "storage_bytes": 0,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        0
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 0,
+      "dtype": "torch.uint32",
+      "storage_offset": 0,
+      "data_ptr": 0,
+      "storage_base": 0,
+      "storage_bytes": 0,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        0
+      ],
+      "n": 0,
+      "block": 1024,
+      "x": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.uint32",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.uint32",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "device": "cpu"
+      },
+      "output_id": 139656669213744
+    }
+  },
+  {
+    "dtype": "uint32",
+    "size": 1,
+    "status": "returned",
+    "x": {
+      "shape": [
+        1
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 1,
+      "dtype": "torch.uint32",
+      "storage_offset": 0,
+      "data_ptr": 94490077198400,
+      "storage_base": 94490077198400,
+      "storage_bytes": 4,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        1
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 1,
+      "dtype": "torch.uint32",
+      "storage_offset": 0,
+      "data_ptr": 94490077198464,
+      "storage_base": 94490077198464,
+      "storage_bytes": 4,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        1
+      ],
+      "n": 1,
+      "block": 1024,
+      "x": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.uint32",
+        "storage_offset": 0,
+        "data_ptr": 94490077198400,
+        "storage_base": 94490077198400,
+        "storage_bytes": 4,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.uint32",
+        "storage_offset": 0,
+        "data_ptr": 94490077198464,
+        "storage_base": 94490077198464,
+        "storage_bytes": 4,
+        "device": "cpu"
+      },
+      "output_id": 139656669213344
+    }
+  },
+  {
+    "dtype": "uint32",
+    "size": 5,
+    "status": "returned",
+    "x": {
+      "shape": [
+        5
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 5,
+      "dtype": "torch.uint32",
+      "storage_offset": 0,
+      "data_ptr": 94490077144128,
+      "storage_base": 94490077144128,
+      "storage_bytes": 20,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        5
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 5,
+      "dtype": "torch.uint32",
+      "storage_offset": 0,
+      "data_ptr": 94490077144320,
+      "storage_base": 94490077144320,
+      "storage_bytes": 20,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        1
+      ],
+      "n": 5,
+      "block": 1024,
+      "x": {
+        "shape": [
+          5
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 5,
+        "dtype": "torch.uint32",
+        "storage_offset": 0,
+        "data_ptr": 94490077144128,
+        "storage_base": 94490077144128,
+        "storage_bytes": 20,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          5
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 5,
+        "dtype": "torch.uint32",
+        "storage_offset": 0,
+        "data_ptr": 94490077144320,
+        "storage_base": 94490077144320,
+        "storage_bytes": 20,
+        "device": "cpu"
+      },
+      "output_id": 139656669213824
+    }
+  },
+  {
+    "dtype": "int64",
+    "size": 0,
+    "status": "returned",
+    "x": {
+      "shape": [
+        0
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 0,
+      "dtype": "torch.int64",
+      "storage_offset": 0,
+      "data_ptr": 0,
+      "storage_base": 0,
+      "storage_bytes": 0,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        0
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 0,
+      "dtype": "torch.int64",
+      "storage_offset": 0,
+      "data_ptr": 0,
+      "storage_base": 0,
+      "storage_bytes": 0,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        0
+      ],
+      "n": 0,
+      "block": 1024,
+      "x": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.int64",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.int64",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "device": "cpu"
+      },
+      "output_id": 139656669213744
+    }
+  },
+  {
+    "dtype": "int64",
+    "size": 1,
+    "status": "returned",
+    "x": {
+      "shape": [
+        1
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 1,
+      "dtype": "torch.int64",
+      "storage_offset": 0,
+      "data_ptr": 94490077272192,
+      "storage_base": 94490077272192,
+      "storage_bytes": 8,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        1
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 1,
+      "dtype": "torch.int64",
+      "storage_offset": 0,
+      "data_ptr": 94490077272384,
+      "storage_base": 94490077272384,
+      "storage_bytes": 8,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        1
+      ],
+      "n": 1,
+      "block": 1024,
+      "x": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.int64",
+        "storage_offset": 0,
+        "data_ptr": 94490077272192,
+        "storage_base": 94490077272192,
+        "storage_bytes": 8,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.int64",
+        "storage_offset": 0,
+        "data_ptr": 94490077272384,
+        "storage_base": 94490077272384,
+        "storage_bytes": 8,
+        "device": "cpu"
+      },
+      "output_id": 139656669213344
+    }
+  },
+  {
+    "dtype": "int64",
+    "size": 5,
+    "status": "returned",
+    "x": {
+      "shape": [
+        5
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 5,
+      "dtype": "torch.int64",
+      "storage_offset": 0,
+      "data_ptr": 94490077267072,
+      "storage_base": 94490077267072,
+      "storage_bytes": 40,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        5
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 5,
+      "dtype": "torch.int64",
+      "storage_offset": 0,
+      "data_ptr": 94490077075584,
+      "storage_base": 94490077075584,
+      "storage_bytes": 40,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        1
+      ],
+      "n": 5,
+      "block": 1024,
+      "x": {
+        "shape": [
+          5
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 5,
+        "dtype": "torch.int64",
+        "storage_offset": 0,
+        "data_ptr": 94490077267072,
+        "storage_base": 94490077267072,
+        "storage_bytes": 40,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          5
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 5,
+        "dtype": "torch.int64",
+        "storage_offset": 0,
+        "data_ptr": 94490077075584,
+        "storage_base": 94490077075584,
+        "storage_bytes": 40,
+        "device": "cpu"
+      },
+      "output_id": 139656669213824
+    }
+  },
+  {
+    "dtype": "uint64",
+    "size": 0,
+    "status": "returned",
+    "x": {
+      "shape": [
+        0
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 0,
+      "dtype": "torch.uint64",
+      "storage_offset": 0,
+      "data_ptr": 0,
+      "storage_base": 0,
+      "storage_bytes": 0,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        0
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 0,
+      "dtype": "torch.uint64",
+      "storage_offset": 0,
+      "data_ptr": 0,
+      "storage_base": 0,
+      "storage_bytes": 0,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        0
+      ],
+      "n": 0,
+      "block": 1024,
+      "x": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.uint64",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.uint64",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "device": "cpu"
+      },
+      "output_id": 139656669213744
+    }
+  },
+  {
+    "dtype": "uint64",
+    "size": 1,
+    "status": "returned",
+    "x": {
+      "shape": [
+        1
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 1,
+      "dtype": "torch.uint64",
+      "storage_offset": 0,
+      "data_ptr": 94490077267200,
+      "storage_base": 94490077267200,
+      "storage_bytes": 8,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        1
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 1,
+      "dtype": "torch.uint64",
+      "storage_offset": 0,
+      "data_ptr": 94490077075712,
+      "storage_base": 94490077075712,
+      "storage_bytes": 8,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        1
+      ],
+      "n": 1,
+      "block": 1024,
+      "x": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.uint64",
+        "storage_offset": 0,
+        "data_ptr": 94490077267200,
+        "storage_base": 94490077267200,
+        "storage_bytes": 8,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.uint64",
+        "storage_offset": 0,
+        "data_ptr": 94490077075712,
+        "storage_base": 94490077075712,
+        "storage_bytes": 8,
+        "device": "cpu"
+      },
+      "output_id": 139656669213344
+    }
+  },
+  {
+    "dtype": "uint64",
+    "size": 5,
+    "status": "returned",
+    "x": {
+      "shape": [
+        5
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 5,
+      "dtype": "torch.uint64",
+      "storage_offset": 0,
+      "data_ptr": 94490077113984,
+      "storage_base": 94490077113984,
+      "storage_bytes": 40,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        5
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 5,
+      "dtype": "torch.uint64",
+      "storage_offset": 0,
+      "data_ptr": 94490077114112,
+      "storage_base": 94490077114112,
+      "storage_bytes": 40,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        1
+      ],
+      "n": 5,
+      "block": 1024,
+      "x": {
+        "shape": [
+          5
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 5,
+        "dtype": "torch.uint64",
+        "storage_offset": 0,
+        "data_ptr": 94490077113984,
+        "storage_base": 94490077113984,
+        "storage_bytes": 40,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          5
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 5,
+        "dtype": "torch.uint64",
+        "storage_offset": 0,
+        "data_ptr": 94490077114112,
+        "storage_base": 94490077114112,
+        "storage_bytes": 40,
+        "device": "cpu"
+      },
+      "output_id": 139656669213824
+    }
+  },
+  {
+    "dtype": "float16",
+    "size": 0,
+    "status": "returned",
+    "x": {
+      "shape": [
+        0
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 0,
+      "dtype": "torch.float16",
+      "storage_offset": 0,
+      "data_ptr": 0,
+      "storage_base": 0,
+      "storage_bytes": 0,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        0
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 0,
+      "dtype": "torch.float16",
+      "storage_offset": 0,
+      "data_ptr": 0,
+      "storage_base": 0,
+      "storage_bytes": 0,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        0
+      ],
+      "n": 0,
+      "block": 1024,
+      "x": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.float16",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.float16",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "device": "cpu"
+      },
+      "output_id": 139656669213744
+    }
+  },
+  {
+    "dtype": "float16",
+    "size": 1,
+    "status": "returned",
+    "x": {
+      "shape": [
+        1
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 1,
+      "dtype": "torch.float16",
+      "storage_offset": 0,
+      "data_ptr": 94490077151744,
+      "storage_base": 94490077151744,
+      "storage_bytes": 2,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        1
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 1,
+      "dtype": "torch.float16",
+      "storage_offset": 0,
+      "data_ptr": 94490077151872,
+      "storage_base": 94490077151872,
+      "storage_bytes": 2,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        1
+      ],
+      "n": 1,
+      "block": 1024,
+      "x": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.float16",
+        "storage_offset": 0,
+        "data_ptr": 94490077151744,
+        "storage_base": 94490077151744,
+        "storage_bytes": 2,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.float16",
+        "storage_offset": 0,
+        "data_ptr": 94490077151872,
+        "storage_base": 94490077151872,
+        "storage_bytes": 2,
+        "device": "cpu"
+      },
+      "output_id": 139656669213344
+    }
+  },
+  {
+    "dtype": "float16",
+    "size": 5,
+    "status": "returned",
+    "x": {
+      "shape": [
+        5
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 5,
+      "dtype": "torch.float16",
+      "storage_offset": 0,
+      "data_ptr": 94490076859008,
+      "storage_base": 94490076859008,
+      "storage_bytes": 10,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        5
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 5,
+      "dtype": "torch.float16",
+      "storage_offset": 0,
+      "data_ptr": 94490076859200,
+      "storage_base": 94490076859200,
+      "storage_bytes": 10,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        1
+      ],
+      "n": 5,
+      "block": 1024,
+      "x": {
+        "shape": [
+          5
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 5,
+        "dtype": "torch.float16",
+        "storage_offset": 0,
+        "data_ptr": 94490076859008,
+        "storage_base": 94490076859008,
+        "storage_bytes": 10,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          5
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 5,
+        "dtype": "torch.float16",
+        "storage_offset": 0,
+        "data_ptr": 94490076859200,
+        "storage_base": 94490076859200,
+        "storage_bytes": 10,
+        "device": "cpu"
+      },
+      "output_id": 139656669213824
+    }
+  },
+  {
+    "dtype": "bfloat16",
+    "size": 0,
+    "status": "returned",
+    "x": {
+      "shape": [
+        0
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 0,
+      "dtype": "torch.bfloat16",
+      "storage_offset": 0,
+      "data_ptr": 0,
+      "storage_base": 0,
+      "storage_bytes": 0,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        0
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 0,
+      "dtype": "torch.bfloat16",
+      "storage_offset": 0,
+      "data_ptr": 0,
+      "storage_base": 0,
+      "storage_bytes": 0,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        0
+      ],
+      "n": 0,
+      "block": 1024,
+      "x": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.bfloat16",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.bfloat16",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "device": "cpu"
+      },
+      "output_id": 139656669213744
+    }
+  },
+  {
+    "dtype": "bfloat16",
+    "size": 1,
+    "status": "returned",
+    "x": {
+      "shape": [
+        1
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 1,
+      "dtype": "torch.bfloat16",
+      "storage_offset": 0,
+      "data_ptr": 94490077214848,
+      "storage_base": 94490077214848,
+      "storage_bytes": 2,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        1
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 1,
+      "dtype": "torch.bfloat16",
+      "storage_offset": 0,
+      "data_ptr": 94490077215040,
+      "storage_base": 94490077215040,
+      "storage_bytes": 2,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        1
+      ],
+      "n": 1,
+      "block": 1024,
+      "x": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.bfloat16",
+        "storage_offset": 0,
+        "data_ptr": 94490077214848,
+        "storage_base": 94490077214848,
+        "storage_bytes": 2,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.bfloat16",
+        "storage_offset": 0,
+        "data_ptr": 94490077215040,
+        "storage_base": 94490077215040,
+        "storage_bytes": 2,
+        "device": "cpu"
+      },
+      "output_id": 139656669213344
+    }
+  },
+  {
+    "dtype": "bfloat16",
+    "size": 5,
+    "status": "returned",
+    "x": {
+      "shape": [
+        5
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 5,
+      "dtype": "torch.bfloat16",
+      "storage_offset": 0,
+      "data_ptr": 94490077451392,
+      "storage_base": 94490077451392,
+      "storage_bytes": 10,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        5
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 5,
+      "dtype": "torch.bfloat16",
+      "storage_offset": 0,
+      "data_ptr": 94490077451456,
+      "storage_base": 94490077451456,
+      "storage_bytes": 10,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        1
+      ],
+      "n": 5,
+      "block": 1024,
+      "x": {
+        "shape": [
+          5
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 5,
+        "dtype": "torch.bfloat16",
+        "storage_offset": 0,
+        "data_ptr": 94490077451392,
+        "storage_base": 94490077451392,
+        "storage_bytes": 10,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          5
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 5,
+        "dtype": "torch.bfloat16",
+        "storage_offset": 0,
+        "data_ptr": 94490077451456,
+        "storage_base": 94490077451456,
+        "storage_bytes": 10,
+        "device": "cpu"
+      },
+      "output_id": 139656669213824
+    }
+  },
+  {
+    "dtype": "float32",
+    "size": 0,
+    "status": "returned",
+    "x": {
+      "shape": [
+        0
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 0,
+      "dtype": "torch.float32",
+      "storage_offset": 0,
+      "data_ptr": 0,
+      "storage_base": 0,
+      "storage_bytes": 0,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        0
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 0,
+      "dtype": "torch.float32",
+      "storage_offset": 0,
+      "data_ptr": 0,
+      "storage_base": 0,
+      "storage_bytes": 0,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        0
+      ],
+      "n": 0,
+      "block": 1024,
+      "x": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.float32",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.float32",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "device": "cpu"
+      },
+      "output_id": 139656669213744
+    }
+  },
+  {
+    "dtype": "float32",
+    "size": 1,
+    "status": "returned",
+    "x": {
+      "shape": [
+        1
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 1,
+      "dtype": "torch.float32",
+      "storage_offset": 0,
+      "data_ptr": 94490076986624,
+      "storage_base": 94490076986624,
+      "storage_bytes": 4,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        1
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 1,
+      "dtype": "torch.float32",
+      "storage_offset": 0,
+      "data_ptr": 94490076986816,
+      "storage_base": 94490076986816,
+      "storage_bytes": 4,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        1
+      ],
+      "n": 1,
+      "block": 1024,
+      "x": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.float32",
+        "storage_offset": 0,
+        "data_ptr": 94490076986624,
+        "storage_base": 94490076986624,
+        "storage_bytes": 4,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.float32",
+        "storage_offset": 0,
+        "data_ptr": 94490076986816,
+        "storage_base": 94490076986816,
+        "storage_bytes": 4,
+        "device": "cpu"
+      },
+      "output_id": 139656669213344
+    }
+  },
+  {
+    "dtype": "float32",
+    "size": 5,
+    "status": "returned",
+    "x": {
+      "shape": [
+        5
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 5,
+      "dtype": "torch.float32",
+      "storage_offset": 0,
+      "data_ptr": 94490077026304,
+      "storage_base": 94490077026304,
+      "storage_bytes": 20,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        5
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 5,
+      "dtype": "torch.float32",
+      "storage_offset": 0,
+      "data_ptr": 94490077026496,
+      "storage_base": 94490077026496,
+      "storage_bytes": 20,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        1
+      ],
+      "n": 5,
+      "block": 1024,
+      "x": {
+        "shape": [
+          5
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 5,
+        "dtype": "torch.float32",
+        "storage_offset": 0,
+        "data_ptr": 94490077026304,
+        "storage_base": 94490077026304,
+        "storage_bytes": 20,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          5
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 5,
+        "dtype": "torch.float32",
+        "storage_offset": 0,
+        "data_ptr": 94490077026496,
+        "storage_base": 94490077026496,
+        "storage_bytes": 20,
+        "device": "cpu"
+      },
+      "output_id": 139656669213824
+    }
+  },
+  {
+    "dtype": "float64",
+    "size": 0,
+    "status": "returned",
+    "x": {
+      "shape": [
+        0
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 0,
+      "dtype": "torch.float64",
+      "storage_offset": 0,
+      "data_ptr": 0,
+      "storage_base": 0,
+      "storage_bytes": 0,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        0
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 0,
+      "dtype": "torch.float64",
+      "storage_offset": 0,
+      "data_ptr": 0,
+      "storage_base": 0,
+      "storage_bytes": 0,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        0
+      ],
+      "n": 0,
+      "block": 1024,
+      "x": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.float64",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.float64",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "device": "cpu"
+      },
+      "output_id": 139656669213744
+    }
+  },
+  {
+    "dtype": "float64",
+    "size": 1,
+    "status": "returned",
+    "x": {
+      "shape": [
+        1
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 1,
+      "dtype": "torch.float64",
+      "storage_offset": 0,
+      "data_ptr": 94490077400576,
+      "storage_base": 94490077400576,
+      "storage_bytes": 8,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        1
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 1,
+      "dtype": "torch.float64",
+      "storage_offset": 0,
+      "data_ptr": 94490077400704,
+      "storage_base": 94490077400704,
+      "storage_bytes": 8,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        1
+      ],
+      "n": 1,
+      "block": 1024,
+      "x": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.float64",
+        "storage_offset": 0,
+        "data_ptr": 94490077400576,
+        "storage_base": 94490077400576,
+        "storage_bytes": 8,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.float64",
+        "storage_offset": 0,
+        "data_ptr": 94490077400704,
+        "storage_base": 94490077400704,
+        "storage_bytes": 8,
+        "device": "cpu"
+      },
+      "output_id": 139656669213344
+    }
+  },
+  {
+    "dtype": "float64",
+    "size": 5,
+    "status": "returned",
+    "x": {
+      "shape": [
+        5
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 5,
+      "dtype": "torch.float64",
+      "storage_offset": 0,
+      "data_ptr": 94490076880128,
+      "storage_base": 94490076880128,
+      "storage_bytes": 40,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        5
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 5,
+      "dtype": "torch.float64",
+      "storage_offset": 0,
+      "data_ptr": 94490076880256,
+      "storage_base": 94490076880256,
+      "storage_bytes": 40,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        1
+      ],
+      "n": 5,
+      "block": 1024,
+      "x": {
+        "shape": [
+          5
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 5,
+        "dtype": "torch.float64",
+        "storage_offset": 0,
+        "data_ptr": 94490076880128,
+        "storage_base": 94490076880128,
+        "storage_bytes": 40,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          5
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 5,
+        "dtype": "torch.float64",
+        "storage_offset": 0,
+        "data_ptr": 94490076880256,
+        "storage_base": 94490076880256,
+        "storage_bytes": 40,
+        "device": "cpu"
+      },
+      "output_id": 139656669213824
+    }
+  },
+  {
+    "dtype": "float8_e4m3fn",
+    "size": 0,
+    "status": "returned",
+    "x": {
+      "shape": [
+        0
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 0,
+      "dtype": "torch.float8_e4m3fn",
+      "storage_offset": 0,
+      "data_ptr": 0,
+      "storage_base": 0,
+      "storage_bytes": 0,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        0
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 0,
+      "dtype": "torch.float8_e4m3fn",
+      "storage_offset": 0,
+      "data_ptr": 0,
+      "storage_base": 0,
+      "storage_bytes": 0,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        0
+      ],
+      "n": 0,
+      "block": 1024,
+      "x": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.float8_e4m3fn",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.float8_e4m3fn",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "device": "cpu"
+      },
+      "output_id": 139656669213744
+    }
+  },
+  {
+    "dtype": "float8_e4m3fn",
+    "size": 1,
+    "status": "returned",
+    "x": {
+      "shape": [
+        1
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 1,
+      "dtype": "torch.float8_e4m3fn",
+      "storage_offset": 0,
+      "data_ptr": 94490077054464,
+      "storage_base": 94490077054464,
+      "storage_bytes": 1,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        1
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 1,
+      "dtype": "torch.float8_e4m3fn",
+      "storage_offset": 0,
+      "data_ptr": 94490077054656,
+      "storage_base": 94490077054656,
+      "storage_bytes": 1,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        1
+      ],
+      "n": 1,
+      "block": 1024,
+      "x": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.float8_e4m3fn",
+        "storage_offset": 0,
+        "data_ptr": 94490077054464,
+        "storage_base": 94490077054464,
+        "storage_bytes": 1,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.float8_e4m3fn",
+        "storage_offset": 0,
+        "data_ptr": 94490077054656,
+        "storage_base": 94490077054656,
+        "storage_bytes": 1,
+        "device": "cpu"
+      },
+      "output_id": 139656669213344
+    }
+  },
+  {
+    "dtype": "float8_e4m3fn",
+    "size": 5,
+    "status": "returned",
+    "x": {
+      "shape": [
+        5
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 5,
+      "dtype": "torch.float8_e4m3fn",
+      "storage_offset": 0,
+      "data_ptr": 94490077032192,
+      "storage_base": 94490077032192,
+      "storage_bytes": 5,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        5
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 5,
+      "dtype": "torch.float8_e4m3fn",
+      "storage_offset": 0,
+      "data_ptr": 94490077032256,
+      "storage_base": 94490077032256,
+      "storage_bytes": 5,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        1
+      ],
+      "n": 5,
+      "block": 1024,
+      "x": {
+        "shape": [
+          5
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 5,
+        "dtype": "torch.float8_e4m3fn",
+        "storage_offset": 0,
+        "data_ptr": 94490077032192,
+        "storage_base": 94490077032192,
+        "storage_bytes": 5,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          5
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 5,
+        "dtype": "torch.float8_e4m3fn",
+        "storage_offset": 0,
+        "data_ptr": 94490077032256,
+        "storage_base": 94490077032256,
+        "storage_bytes": 5,
+        "device": "cpu"
+      },
+      "output_id": 139656669213824
+    }
+  },
+  {
+    "dtype": "float8_e5m2",
+    "size": 0,
+    "status": "returned",
+    "x": {
+      "shape": [
+        0
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 0,
+      "dtype": "torch.float8_e5m2",
+      "storage_offset": 0,
+      "data_ptr": 0,
+      "storage_base": 0,
+      "storage_bytes": 0,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        0
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 0,
+      "dtype": "torch.float8_e5m2",
+      "storage_offset": 0,
+      "data_ptr": 0,
+      "storage_base": 0,
+      "storage_bytes": 0,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        0
+      ],
+      "n": 0,
+      "block": 1024,
+      "x": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.float8_e5m2",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.float8_e5m2",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "device": "cpu"
+      },
+      "output_id": 139656669213744
+    }
+  },
+  {
+    "dtype": "float8_e5m2",
+    "size": 1,
+    "status": "returned",
+    "x": {
+      "shape": [
+        1
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 1,
+      "dtype": "torch.float8_e5m2",
+      "storage_offset": 0,
+      "data_ptr": 94490077164096,
+      "storage_base": 94490077164096,
+      "storage_bytes": 1,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        1
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 1,
+      "dtype": "torch.float8_e5m2",
+      "storage_offset": 0,
+      "data_ptr": 94490077164224,
+      "storage_base": 94490077164224,
+      "storage_bytes": 1,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        1
+      ],
+      "n": 1,
+      "block": 1024,
+      "x": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.float8_e5m2",
+        "storage_offset": 0,
+        "data_ptr": 94490077164096,
+        "storage_base": 94490077164096,
+        "storage_bytes": 1,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.float8_e5m2",
+        "storage_offset": 0,
+        "data_ptr": 94490077164224,
+        "storage_base": 94490077164224,
+        "storage_bytes": 1,
+        "device": "cpu"
+      },
+      "output_id": 139656669213344
+    }
+  },
+  {
+    "dtype": "float8_e5m2",
+    "size": 5,
+    "status": "returned",
+    "x": {
+      "shape": [
+        5
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 5,
+      "dtype": "torch.float8_e5m2",
+      "storage_offset": 0,
+      "data_ptr": 94490077380928,
+      "storage_base": 94490077380928,
+      "storage_bytes": 5,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        5
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 5,
+      "dtype": "torch.float8_e5m2",
+      "storage_offset": 0,
+      "data_ptr": 94490077381120,
+      "storage_base": 94490077381120,
+      "storage_bytes": 5,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        1
+      ],
+      "n": 5,
+      "block": 1024,
+      "x": {
+        "shape": [
+          5
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 5,
+        "dtype": "torch.float8_e5m2",
+        "storage_offset": 0,
+        "data_ptr": 94490077380928,
+        "storage_base": 94490077380928,
+        "storage_bytes": 5,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          5
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 5,
+        "dtype": "torch.float8_e5m2",
+        "storage_offset": 0,
+        "data_ptr": 94490077381120,
+        "storage_base": 94490077381120,
+        "storage_bytes": 5,
+        "device": "cpu"
+      },
+      "output_id": 139656669213824
+    }
+  },
+  {
+    "dtype": "float8_e4m3fnuz",
+    "size": 0,
+    "status": "returned",
+    "x": {
+      "shape": [
+        0
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 0,
+      "dtype": "torch.float8_e4m3fnuz",
+      "storage_offset": 0,
+      "data_ptr": 0,
+      "storage_base": 0,
+      "storage_bytes": 0,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        0
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 0,
+      "dtype": "torch.float8_e4m3fnuz",
+      "storage_offset": 0,
+      "data_ptr": 0,
+      "storage_base": 0,
+      "storage_bytes": 0,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        0
+      ],
+      "n": 0,
+      "block": 1024,
+      "x": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.float8_e4m3fnuz",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.float8_e4m3fnuz",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "device": "cpu"
+      },
+      "output_id": 139656669213744
+    }
+  },
+  {
+    "dtype": "float8_e4m3fnuz",
+    "size": 1,
+    "status": "returned",
+    "x": {
+      "shape": [
+        1
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 1,
+      "dtype": "torch.float8_e4m3fnuz",
+      "storage_offset": 0,
+      "data_ptr": 94490077438080,
+      "storage_base": 94490077438080,
+      "storage_bytes": 1,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        1
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 1,
+      "dtype": "torch.float8_e4m3fnuz",
+      "storage_offset": 0,
+      "data_ptr": 94490077438272,
+      "storage_base": 94490077438272,
+      "storage_bytes": 1,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        1
+      ],
+      "n": 1,
+      "block": 1024,
+      "x": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.float8_e4m3fnuz",
+        "storage_offset": 0,
+        "data_ptr": 94490077438080,
+        "storage_base": 94490077438080,
+        "storage_bytes": 1,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.float8_e4m3fnuz",
+        "storage_offset": 0,
+        "data_ptr": 94490077438272,
+        "storage_base": 94490077438272,
+        "storage_bytes": 1,
+        "device": "cpu"
+      },
+      "output_id": 139656669213344
+    }
+  },
+  {
+    "dtype": "float8_e4m3fnuz",
+    "size": 5,
+    "status": "returned",
+    "x": {
+      "shape": [
+        5
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 5,
+      "dtype": "torch.float8_e4m3fnuz",
+      "storage_offset": 0,
+      "data_ptr": 94490077209856,
+      "storage_base": 94490077209856,
+      "storage_bytes": 5,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        5
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 5,
+      "dtype": "torch.float8_e4m3fnuz",
+      "storage_offset": 0,
+      "data_ptr": 94490077209984,
+      "storage_base": 94490077209984,
+      "storage_bytes": 5,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        1
+      ],
+      "n": 5,
+      "block": 1024,
+      "x": {
+        "shape": [
+          5
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 5,
+        "dtype": "torch.float8_e4m3fnuz",
+        "storage_offset": 0,
+        "data_ptr": 94490077209856,
+        "storage_base": 94490077209856,
+        "storage_bytes": 5,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          5
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 5,
+        "dtype": "torch.float8_e4m3fnuz",
+        "storage_offset": 0,
+        "data_ptr": 94490077209984,
+        "storage_base": 94490077209984,
+        "storage_bytes": 5,
+        "device": "cpu"
+      },
+      "output_id": 139656669213824
+    }
+  },
+  {
+    "dtype": "float8_e5m2fnuz",
+    "size": 0,
+    "status": "returned",
+    "x": {
+      "shape": [
+        0
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 0,
+      "dtype": "torch.float8_e5m2fnuz",
+      "storage_offset": 0,
+      "data_ptr": 0,
+      "storage_base": 0,
+      "storage_bytes": 0,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        0
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 0,
+      "dtype": "torch.float8_e5m2fnuz",
+      "storage_offset": 0,
+      "data_ptr": 0,
+      "storage_base": 0,
+      "storage_bytes": 0,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        0
+      ],
+      "n": 0,
+      "block": 1024,
+      "x": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.float8_e5m2fnuz",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.float8_e5m2fnuz",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "device": "cpu"
+      },
+      "output_id": 139656669213744
+    }
+  },
+  {
+    "dtype": "float8_e5m2fnuz",
+    "size": 1,
+    "status": "returned",
+    "x": {
+      "shape": [
+        1
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 1,
+      "dtype": "torch.float8_e5m2fnuz",
+      "storage_offset": 0,
+      "data_ptr": 94490076856704,
+      "storage_base": 94490076856704,
+      "storage_bytes": 1,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        1
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 1,
+      "dtype": "torch.float8_e5m2fnuz",
+      "storage_offset": 0,
+      "data_ptr": 94490076856896,
+      "storage_base": 94490076856896,
+      "storage_bytes": 1,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        1
+      ],
+      "n": 1,
+      "block": 1024,
+      "x": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.float8_e5m2fnuz",
+        "storage_offset": 0,
+        "data_ptr": 94490076856704,
+        "storage_base": 94490076856704,
+        "storage_bytes": 1,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.float8_e5m2fnuz",
+        "storage_offset": 0,
+        "data_ptr": 94490076856896,
+        "storage_base": 94490076856896,
+        "storage_bytes": 1,
+        "device": "cpu"
+      },
+      "output_id": 139656669213344
+    }
+  },
+  {
+    "dtype": "float8_e5m2fnuz",
+    "size": 5,
+    "status": "returned",
+    "x": {
+      "shape": [
+        5
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 5,
+      "dtype": "torch.float8_e5m2fnuz",
+      "storage_offset": 0,
+      "data_ptr": 94490076857024,
+      "storage_base": 94490076857024,
+      "storage_bytes": 5,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        5
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 5,
+      "dtype": "torch.float8_e5m2fnuz",
+      "storage_offset": 0,
+      "data_ptr": 94490077215936,
+      "storage_base": 94490077215936,
+      "storage_bytes": 5,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        1
+      ],
+      "n": 5,
+      "block": 1024,
+      "x": {
+        "shape": [
+          5
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 5,
+        "dtype": "torch.float8_e5m2fnuz",
+        "storage_offset": 0,
+        "data_ptr": 94490076857024,
+        "storage_base": 94490076857024,
+        "storage_bytes": 5,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          5
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 5,
+        "dtype": "torch.float8_e5m2fnuz",
+        "storage_offset": 0,
+        "data_ptr": 94490077215936,
+        "storage_base": 94490077215936,
+        "storage_bytes": 5,
+        "device": "cpu"
+      },
+      "output_id": 139656669213824
+    }
+  },
+  {
+    "dtype": "complex32",
+    "size": 0,
+    "status": "returned",
+    "x": {
+      "shape": [
+        0
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 0,
+      "dtype": "torch.complex32",
+      "storage_offset": 0,
+      "data_ptr": 0,
+      "storage_base": 0,
+      "storage_bytes": 0,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        0
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 0,
+      "dtype": "torch.complex32",
+      "storage_offset": 0,
+      "data_ptr": 0,
+      "storage_base": 0,
+      "storage_bytes": 0,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        0
+      ],
+      "n": 0,
+      "block": 1024,
+      "x": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.complex32",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.complex32",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "device": "cpu"
+      },
+      "output_id": 139656669213744
+    }
+  },
+  {
+    "dtype": "complex32",
+    "size": 1,
+    "status": "returned",
+    "x": {
+      "shape": [
+        1
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 1,
+      "dtype": "torch.complex32",
+      "storage_offset": 0,
+      "data_ptr": 94490077217792,
+      "storage_base": 94490077217792,
+      "storage_bytes": 4,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        1
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 1,
+      "dtype": "torch.complex32",
+      "storage_offset": 0,
+      "data_ptr": 94490077198400,
+      "storage_base": 94490077198400,
+      "storage_bytes": 4,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        1
+      ],
+      "n": 1,
+      "block": 1024,
+      "x": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.complex32",
+        "storage_offset": 0,
+        "data_ptr": 94490077217792,
+        "storage_base": 94490077217792,
+        "storage_bytes": 4,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.complex32",
+        "storage_offset": 0,
+        "data_ptr": 94490077198400,
+        "storage_base": 94490077198400,
+        "storage_bytes": 4,
+        "device": "cpu"
+      },
+      "output_id": 139656669213344
+    }
+  },
+  {
+    "dtype": "complex32",
+    "size": 5,
+    "status": "returned",
+    "x": {
+      "shape": [
+        5
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 5,
+      "dtype": "torch.complex32",
+      "storage_offset": 0,
+      "data_ptr": 94490077075584,
+      "storage_base": 94490077075584,
+      "storage_bytes": 20,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        5
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 5,
+      "dtype": "torch.complex32",
+      "storage_offset": 0,
+      "data_ptr": 94490077026496,
+      "storage_base": 94490077026496,
+      "storage_bytes": 20,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        1
+      ],
+      "n": 5,
+      "block": 1024,
+      "x": {
+        "shape": [
+          5
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 5,
+        "dtype": "torch.complex32",
+        "storage_offset": 0,
+        "data_ptr": 94490077075584,
+        "storage_base": 94490077075584,
+        "storage_bytes": 20,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          5
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 5,
+        "dtype": "torch.complex32",
+        "storage_offset": 0,
+        "data_ptr": 94490077026496,
+        "storage_base": 94490077026496,
+        "storage_bytes": 20,
+        "device": "cpu"
+      },
+      "output_id": 139656669213824
+    }
+  },
+  {
+    "dtype": "complex64",
+    "size": 0,
+    "status": "returned",
+    "x": {
+      "shape": [
+        0
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 0,
+      "dtype": "torch.complex64",
+      "storage_offset": 0,
+      "data_ptr": 0,
+      "storage_base": 0,
+      "storage_bytes": 0,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        0
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 0,
+      "dtype": "torch.complex64",
+      "storage_offset": 0,
+      "data_ptr": 0,
+      "storage_base": 0,
+      "storage_bytes": 0,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        0
+      ],
+      "n": 0,
+      "block": 1024,
+      "x": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.complex64",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.complex64",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "device": "cpu"
+      },
+      "output_id": 139656669213744
+    }
+  },
+  {
+    "dtype": "complex64",
+    "size": 1,
+    "status": "returned",
+    "x": {
+      "shape": [
+        1
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 1,
+      "dtype": "torch.complex64",
+      "storage_offset": 0,
+      "data_ptr": 94490077073728,
+      "storage_base": 94490077073728,
+      "storage_bytes": 8,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        1
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 1,
+      "dtype": "torch.complex64",
+      "storage_offset": 0,
+      "data_ptr": 94490077066560,
+      "storage_base": 94490077066560,
+      "storage_bytes": 8,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        1
+      ],
+      "n": 1,
+      "block": 1024,
+      "x": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.complex64",
+        "storage_offset": 0,
+        "data_ptr": 94490077073728,
+        "storage_base": 94490077073728,
+        "storage_bytes": 8,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.complex64",
+        "storage_offset": 0,
+        "data_ptr": 94490077066560,
+        "storage_base": 94490077066560,
+        "storage_bytes": 8,
+        "device": "cpu"
+      },
+      "output_id": 139656669213344
+    }
+  },
+  {
+    "dtype": "complex64",
+    "size": 5,
+    "status": "returned",
+    "x": {
+      "shape": [
+        5
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 5,
+      "dtype": "torch.complex64",
+      "storage_offset": 0,
+      "data_ptr": 94490077357248,
+      "storage_base": 94490077357248,
+      "storage_bytes": 40,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        5
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 5,
+      "dtype": "torch.complex64",
+      "storage_offset": 0,
+      "data_ptr": 94490077303360,
+      "storage_base": 94490077303360,
+      "storage_bytes": 40,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        1
+      ],
+      "n": 5,
+      "block": 1024,
+      "x": {
+        "shape": [
+          5
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 5,
+        "dtype": "torch.complex64",
+        "storage_offset": 0,
+        "data_ptr": 94490077357248,
+        "storage_base": 94490077357248,
+        "storage_bytes": 40,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          5
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 5,
+        "dtype": "torch.complex64",
+        "storage_offset": 0,
+        "data_ptr": 94490077303360,
+        "storage_base": 94490077303360,
+        "storage_bytes": 40,
+        "device": "cpu"
+      },
+      "output_id": 139656669213824
+    }
+  },
+  {
+    "dtype": "complex128",
+    "size": 0,
+    "status": "returned",
+    "x": {
+      "shape": [
+        0
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 0,
+      "dtype": "torch.complex128",
+      "storage_offset": 0,
+      "data_ptr": 0,
+      "storage_base": 0,
+      "storage_bytes": 0,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        0
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 0,
+      "dtype": "torch.complex128",
+      "storage_offset": 0,
+      "data_ptr": 0,
+      "storage_base": 0,
+      "storage_bytes": 0,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        0
+      ],
+      "n": 0,
+      "block": 1024,
+      "x": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.complex128",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.complex128",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "device": "cpu"
+      },
+      "output_id": 139656669213744
+    }
+  },
+  {
+    "dtype": "complex128",
+    "size": 1,
+    "status": "returned",
+    "x": {
+      "shape": [
+        1
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 1,
+      "dtype": "torch.complex128",
+      "storage_offset": 0,
+      "data_ptr": 94490076982336,
+      "storage_base": 94490076982336,
+      "storage_bytes": 16,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        1
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 1,
+      "dtype": "torch.complex128",
+      "storage_offset": 0,
+      "data_ptr": 94489963476096,
+      "storage_base": 94489963476096,
+      "storage_bytes": 16,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        1
+      ],
+      "n": 1,
+      "block": 1024,
+      "x": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.complex128",
+        "storage_offset": 0,
+        "data_ptr": 94490076982336,
+        "storage_base": 94490076982336,
+        "storage_bytes": 16,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.complex128",
+        "storage_offset": 0,
+        "data_ptr": 94489963476096,
+        "storage_base": 94489963476096,
+        "storage_bytes": 16,
+        "device": "cpu"
+      },
+      "output_id": 139656669213344
+    }
+  },
+  {
+    "dtype": "complex128",
+    "size": 5,
+    "status": "returned",
+    "x": {
+      "shape": [
+        5
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 5,
+      "dtype": "torch.complex128",
+      "storage_offset": 0,
+      "data_ptr": 94490077216128,
+      "storage_base": 94490077216128,
+      "storage_bytes": 80,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        5
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 5,
+      "dtype": "torch.complex128",
+      "storage_offset": 0,
+      "data_ptr": 94490077164096,
+      "storage_base": 94490077164096,
+      "storage_bytes": 80,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        1
+      ],
+      "n": 5,
+      "block": 1024,
+      "x": {
+        "shape": [
+          5
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 5,
+        "dtype": "torch.complex128",
+        "storage_offset": 0,
+        "data_ptr": 94490077216128,
+        "storage_base": 94490077216128,
+        "storage_bytes": 80,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          5
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 5,
+        "dtype": "torch.complex128",
+        "storage_offset": 0,
+        "data_ptr": 94490077164096,
+        "storage_base": 94490077164096,
+        "storage_bytes": 80,
+        "device": "cpu"
+      },
+      "output_id": 139656669213824
+    }
+  },
+  {
+    "dtype": "float8_e8m0fnu",
+    "size": 0,
+    "status": "returned",
+    "x": {
+      "shape": [
+        0
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 0,
+      "dtype": "torch.float8_e8m0fnu",
+      "storage_offset": 0,
+      "data_ptr": 0,
+      "storage_base": 0,
+      "storage_bytes": 0,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        0
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 0,
+      "dtype": "torch.float8_e8m0fnu",
+      "storage_offset": 0,
+      "data_ptr": 0,
+      "storage_base": 0,
+      "storage_bytes": 0,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        0
+      ],
+      "n": 0,
+      "block": 1024,
+      "x": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.float8_e8m0fnu",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.float8_e8m0fnu",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "device": "cpu"
+      },
+      "output_id": 139656669213744
+    }
+  },
+  {
+    "dtype": "float8_e8m0fnu",
+    "size": 1,
+    "status": "returned",
+    "x": {
+      "shape": [
+        1
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 1,
+      "dtype": "torch.float8_e8m0fnu",
+      "storage_offset": 0,
+      "data_ptr": 94490077067840,
+      "storage_base": 94490077067840,
+      "storage_bytes": 1,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        1
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 1,
+      "dtype": "torch.float8_e8m0fnu",
+      "storage_offset": 0,
+      "data_ptr": 94490077067968,
+      "storage_base": 94490077067968,
+      "storage_bytes": 1,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        1
+      ],
+      "n": 1,
+      "block": 1024,
+      "x": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.float8_e8m0fnu",
+        "storage_offset": 0,
+        "data_ptr": 94490077067840,
+        "storage_base": 94490077067840,
+        "storage_bytes": 1,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.float8_e8m0fnu",
+        "storage_offset": 0,
+        "data_ptr": 94490077067968,
+        "storage_base": 94490077067968,
+        "storage_bytes": 1,
+        "device": "cpu"
+      },
+      "output_id": 139656669213344
+    }
+  },
+  {
+    "dtype": "float8_e8m0fnu",
+    "size": 5,
+    "status": "returned",
+    "x": {
+      "shape": [
+        5
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 5,
+      "dtype": "torch.float8_e8m0fnu",
+      "storage_offset": 0,
+      "data_ptr": 94490076851264,
+      "storage_base": 94490076851264,
+      "storage_bytes": 5,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        5
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 5,
+      "dtype": "torch.float8_e8m0fnu",
+      "storage_offset": 0,
+      "data_ptr": 94490076851392,
+      "storage_base": 94490076851392,
+      "storage_bytes": 5,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        1
+      ],
+      "n": 5,
+      "block": 1024,
+      "x": {
+        "shape": [
+          5
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 5,
+        "dtype": "torch.float8_e8m0fnu",
+        "storage_offset": 0,
+        "data_ptr": 94490076851264,
+        "storage_base": 94490076851264,
+        "storage_bytes": 5,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          5
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 5,
+        "dtype": "torch.float8_e8m0fnu",
+        "storage_offset": 0,
+        "data_ptr": 94490076851392,
+        "storage_base": 94490076851392,
+        "storage_bytes": 5,
+        "device": "cpu"
+      },
+      "output_id": 139656669213824
+    }
+  },
+  {
+    "dtype": "float4_e2m1fn_x2",
+    "size": 0,
+    "status": "returned",
+    "x": {
+      "shape": [
+        0
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 0,
+      "dtype": "torch.float4_e2m1fn_x2",
+      "storage_offset": 0,
+      "data_ptr": 0,
+      "storage_base": 0,
+      "storage_bytes": 0,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        0
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 0,
+      "dtype": "torch.float4_e2m1fn_x2",
+      "storage_offset": 0,
+      "data_ptr": 0,
+      "storage_base": 0,
+      "storage_bytes": 0,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        0
+      ],
+      "n": 0,
+      "block": 1024,
+      "x": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.float4_e2m1fn_x2",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.float4_e2m1fn_x2",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "device": "cpu"
+      },
+      "output_id": 139656669213744
+    }
+  },
+  {
+    "dtype": "float4_e2m1fn_x2",
+    "size": 1,
+    "status": "returned",
+    "x": {
+      "shape": [
+        1
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 1,
+      "dtype": "torch.float4_e2m1fn_x2",
+      "storage_offset": 0,
+      "data_ptr": 94490076856704,
+      "storage_base": 94490076856704,
+      "storage_bytes": 1,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        1
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 1,
+      "dtype": "torch.float4_e2m1fn_x2",
+      "storage_offset": 0,
+      "data_ptr": 94490076856896,
+      "storage_base": 94490076856896,
+      "storage_bytes": 1,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        1
+      ],
+      "n": 1,
+      "block": 1024,
+      "x": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.float4_e2m1fn_x2",
+        "storage_offset": 0,
+        "data_ptr": 94490076856704,
+        "storage_base": 94490076856704,
+        "storage_bytes": 1,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          1
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 1,
+        "dtype": "torch.float4_e2m1fn_x2",
+        "storage_offset": 0,
+        "data_ptr": 94490076856896,
+        "storage_base": 94490076856896,
+        "storage_bytes": 1,
+        "device": "cpu"
+      },
+      "output_id": 139656669213344
+    }
+  },
+  {
+    "dtype": "float4_e2m1fn_x2",
+    "size": 5,
+    "status": "returned",
+    "x": {
+      "shape": [
+        5
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 5,
+      "dtype": "torch.float4_e2m1fn_x2",
+      "storage_offset": 0,
+      "data_ptr": 94490077572992,
+      "storage_base": 94490077572992,
+      "storage_bytes": 5,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        5
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 5,
+      "dtype": "torch.float4_e2m1fn_x2",
+      "storage_offset": 0,
+      "data_ptr": 94490077573184,
+      "storage_base": 94490077573184,
+      "storage_bytes": 5,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        1
+      ],
+      "n": 5,
+      "block": 1024,
+      "x": {
+        "shape": [
+          5
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 5,
+        "dtype": "torch.float4_e2m1fn_x2",
+        "storage_offset": 0,
+        "data_ptr": 94490077572992,
+        "storage_base": 94490077572992,
+        "storage_bytes": 5,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          5
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 5,
+        "dtype": "torch.float4_e2m1fn_x2",
+        "storage_offset": 0,
+        "data_ptr": 94490077573184,
+        "storage_base": 94490077573184,
+        "storage_bytes": 5,
+        "device": "cpu"
+      },
+      "output_id": 139656669213824
+    }
+  },
+  {
+    "case": "scalar",
+    "status": "returned",
+    "x": {
+      "shape": [],
+      "strides": [],
+      "numel": 1,
+      "dtype": "torch.float32",
+      "storage_offset": 0,
+      "data_ptr": 94490077573248,
+      "storage_base": 94490077573248,
+      "storage_bytes": 4,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [],
+      "strides": [],
+      "numel": 1,
+      "dtype": "torch.float32",
+      "storage_offset": 0,
+      "data_ptr": 94490077573056,
+      "storage_base": 94490077573056,
+      "storage_bytes": 4,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        1
+      ],
+      "n": 1,
+      "block": 1024,
+      "x": {
+        "shape": [],
+        "strides": [],
+        "numel": 1,
+        "dtype": "torch.float32",
+        "storage_offset": 0,
+        "data_ptr": 94490077573248,
+        "storage_base": 94490077573248,
+        "storage_bytes": 4,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [],
+        "strides": [],
+        "numel": 1,
+        "dtype": "torch.float32",
+        "storage_offset": 0,
+        "data_ptr": 94490077573056,
+        "storage_base": 94490077573056,
+        "storage_bytes": 4,
+        "device": "cpu"
+      },
+      "output_id": 139656669213744
+    }
+  },
+  {
+    "case": "transpose",
+    "status": "returned",
+    "x": {
+      "shape": [
+        3,
+        2
+      ],
+      "strides": [
+        1,
+        3
+      ],
+      "numel": 6,
+      "dtype": "torch.float32",
+      "storage_offset": 0,
+      "data_ptr": 94490077573440,
+      "storage_base": 94490077573440,
+      "storage_bytes": 24,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        3,
+        2
+      ],
+      "strides": [
+        1,
+        3
+      ],
+      "numel": 6,
+      "dtype": "torch.float32",
+      "storage_offset": 0,
+      "data_ptr": 94490077075584,
+      "storage_base": 94490077075584,
+      "storage_bytes": 24,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        1
+      ],
+      "n": 6,
+      "block": 1024,
+      "x": {
+        "shape": [
+          3,
+          2
+        ],
+        "strides": [
+          1,
+          3
+        ],
+        "numel": 6,
+        "dtype": "torch.float32",
+        "storage_offset": 0,
+        "data_ptr": 94490077573440,
+        "storage_base": 94490077573440,
+        "storage_bytes": 24,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          3,
+          2
+        ],
+        "strides": [
+          1,
+          3
+        ],
+        "numel": 6,
+        "dtype": "torch.float32",
+        "storage_offset": 0,
+        "data_ptr": 94490077075584,
+        "storage_base": 94490077075584,
+        "storage_bytes": 24,
+        "device": "cpu"
+      },
+      "output_id": 139656669213824
+    }
+  },
+  {
+    "case": "offset",
+    "status": "returned",
+    "x": {
+      "shape": [
+        4
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 4,
+      "dtype": "torch.float32",
+      "storage_offset": 3,
+      "data_ptr": 94490077573772,
+      "storage_base": 94490077573760,
+      "storage_bytes": 64,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        4
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 4,
+      "dtype": "torch.float32",
+      "storage_offset": 0,
+      "data_ptr": 94490077198400,
+      "storage_base": 94490077198400,
+      "storage_bytes": 16,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        1
+      ],
+      "n": 4,
+      "block": 1024,
+      "x": {
+        "shape": [
+          4
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 4,
+        "dtype": "torch.float32",
+        "storage_offset": 3,
+        "data_ptr": 94490077573772,
+        "storage_base": 94490077573760,
+        "storage_bytes": 64,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          4
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 4,
+        "dtype": "torch.float32",
+        "storage_offset": 0,
+        "data_ptr": 94490077198400,
+        "storage_base": 94490077198400,
+        "storage_bytes": 16,
+        "device": "cpu"
+      },
+      "output_id": 139656669213744
+    }
+  },
+  {
+    "case": "sliced",
+    "status": "returned",
+    "x": {
+      "shape": [
+        10
+      ],
+      "strides": [
+        2
+      ],
+      "numel": 10,
+      "dtype": "torch.float32",
+      "storage_offset": 3,
+      "data_ptr": 94490077272204,
+      "storage_base": 94490077272192,
+      "storage_bytes": 120,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        10
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 10,
+      "dtype": "torch.float32",
+      "storage_offset": 0,
+      "data_ptr": 94489963476096,
+      "storage_base": 94489963476096,
+      "storage_bytes": 40,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        1
+      ],
+      "n": 10,
+      "block": 1024,
+      "x": {
+        "shape": [
+          10
+        ],
+        "strides": [
+          2
+        ],
+        "numel": 10,
+        "dtype": "torch.float32",
+        "storage_offset": 3,
+        "data_ptr": 94490077272204,
+        "storage_base": 94490077272192,
+        "storage_bytes": 120,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          10
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 10,
+        "dtype": "torch.float32",
+        "storage_offset": 0,
+        "data_ptr": 94489963476096,
+        "storage_base": 94489963476096,
+        "storage_bytes": 40,
+        "device": "cpu"
+      },
+      "output_id": 139656669213824
+    }
+  },
+  {
+    "case": "broadcast",
+    "status": "returned",
+    "x": {
+      "shape": [
+        5
+      ],
+      "strides": [
+        0
+      ],
+      "numel": 5,
+      "dtype": "torch.float32",
+      "storage_offset": 0,
+      "data_ptr": 94490077214848,
+      "storage_base": 94490077214848,
+      "storage_bytes": 4,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        5
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 5,
+      "dtype": "torch.float32",
+      "storage_offset": 0,
+      "data_ptr": 94490077303360,
+      "storage_base": 94490077303360,
+      "storage_bytes": 20,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        1
+      ],
+      "n": 5,
+      "block": 1024,
+      "x": {
+        "shape": [
+          5
+        ],
+        "strides": [
+          0
+        ],
+        "numel": 5,
+        "dtype": "torch.float32",
+        "storage_offset": 0,
+        "data_ptr": 94490077214848,
+        "storage_base": 94490077214848,
+        "storage_bytes": 4,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          5
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 5,
+        "dtype": "torch.float32",
+        "storage_offset": 0,
+        "data_ptr": 94490077303360,
+        "storage_base": 94490077303360,
+        "storage_bytes": 20,
+        "device": "cpu"
+      },
+      "output_id": 139656669213744
+    }
+  },
+  {
+    "case": "empty_stride",
+    "status": "returned",
+    "x": {
+      "shape": [
+        0,
+        3
+      ],
+      "strides": [
+        7,
+        2
+      ],
+      "numel": 0,
+      "dtype": "torch.float32",
+      "storage_offset": 0,
+      "data_ptr": 0,
+      "storage_base": 0,
+      "storage_bytes": 0,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        0,
+        3
+      ],
+      "strides": [
+        7,
+        2
+      ],
+      "numel": 0,
+      "dtype": "torch.float32",
+      "storage_offset": 0,
+      "data_ptr": 0,
+      "storage_base": 0,
+      "storage_bytes": 0,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        0
+      ],
+      "n": 0,
+      "block": 1024,
+      "x": {
+        "shape": [
+          0,
+          3
+        ],
+        "strides": [
+          7,
+          2
+        ],
+        "numel": 0,
+        "dtype": "torch.float32",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          0,
+          3
+        ],
+        "strides": [
+          7,
+          2
+        ],
+        "numel": 0,
+        "dtype": "torch.float32",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "device": "cpu"
+      },
+      "output_id": 139656669213824
+    }
+  },
+  {
+    "case": "empty_transpose",
+    "status": "returned",
+    "x": {
+      "shape": [
+        0,
+        3
+      ],
+      "strides": [
+        1,
+        1
+      ],
+      "numel": 0,
+      "dtype": "torch.float32",
+      "storage_offset": 0,
+      "data_ptr": 0,
+      "storage_base": 0,
+      "storage_bytes": 0,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        0,
+        3
+      ],
+      "strides": [
+        1,
+        1
+      ],
+      "numel": 0,
+      "dtype": "torch.float32",
+      "storage_offset": 0,
+      "data_ptr": 0,
+      "storage_base": 0,
+      "storage_bytes": 0,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        0
+      ],
+      "n": 0,
+      "block": 1024,
+      "x": {
+        "shape": [
+          0,
+          3
+        ],
+        "strides": [
+          1,
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.float32",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          0,
+          3
+        ],
+        "strides": [
+          1,
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.float32",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "device": "cpu"
+      },
+      "output_id": 139656669213744
+    }
+  },
+  {
+    "case": "empty_huge_shape",
+    "status": "returned",
+    "x": {
+      "shape": [
+        34359738368,
+        0
+      ],
+      "strides": [
+        1,
+        1
+      ],
+      "numel": 0,
+      "dtype": "torch.float32",
+      "storage_offset": 0,
+      "data_ptr": 0,
+      "storage_base": 0,
+      "storage_bytes": 0,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        34359738368,
+        0
+      ],
+      "strides": [
+        1,
+        1
+      ],
+      "numel": 0,
+      "dtype": "torch.float32",
+      "storage_offset": 0,
+      "data_ptr": 0,
+      "storage_base": 0,
+      "storage_bytes": 0,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        0
+      ],
+      "n": 0,
+      "block": 1024,
+      "x": {
+        "shape": [
+          34359738368,
+          0
+        ],
+        "strides": [
+          1,
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.float32",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          34359738368,
+          0
+        ],
+        "strides": [
+          1,
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.float32",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "device": "cpu"
+      },
+      "output_id": 139656669213824
+    }
+  },
+  {
+    "case": "empty_huge_offset",
+    "status": "returned",
+    "x": {
+      "shape": [
+        0
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 0,
+      "dtype": "torch.float32",
+      "storage_offset": 1000000,
+      "data_ptr": 0,
+      "storage_base": 94490076880320,
+      "storage_bytes": 16,
+      "device": "cpu"
+    },
+    "output": {
+      "shape": [
+        0
+      ],
+      "strides": [
+        1
+      ],
+      "numel": 0,
+      "dtype": "torch.float32",
+      "storage_offset": 0,
+      "data_ptr": 0,
+      "storage_base": 0,
+      "storage_bytes": 0,
+      "device": "cpu"
+    },
+    "launch": {
+      "grid": [
+        0
+      ],
+      "n": 0,
+      "block": 1024,
+      "x": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.float32",
+        "storage_offset": 1000000,
+        "data_ptr": 0,
+        "storage_base": 94490076880320,
+        "storage_bytes": 16,
+        "device": "cpu"
+      },
+      "output": {
+        "shape": [
+          0
+        ],
+        "strides": [
+          1
+        ],
+        "numel": 0,
+        "dtype": "torch.float32",
+        "storage_offset": 0,
+        "data_ptr": 0,
+        "storage_base": 0,
+        "storage_bytes": 0,
+        "device": "cpu"
+      },
+      "output_id": 139656669213744
+    }
+  }
+]

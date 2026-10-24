@@ -1,0 +1,8 @@
+{
+  "script": "test_candidates.py",
+  "source_sha256": "8e93d80fd23ea3dd263d9ae9f76bf56a2264eb4f6fdb74eaa652568eef612944",
+  "exit_code": 0,
+  "log": "evidence/script-attempts/0003-test_candidates.log",
+  "log_sha256": "9c0e5b62f18b9cecaf3d9a4dd7eda98a79ea9db7e372b73e586b0c8bc60f5c4d",
+  "seconds": 2.9702267970424145
+}

@@ -1,0 +1,112 @@
+{
+  "status": "passed",
+  "task": "mean_reduction",
+  "review": {
+    "path": "bench/review-checkpoints/2026-10-22/mean-logical-io/review.json",
+    "sha256": "d87299b7ff1dff175f77db4596f7b585c803a9c6f8de87708aad4392529fec5d"
+  },
+  "targeted_lean": {
+    "status": "targeted_passed",
+    "isolated_build_receipts": [
+      {
+        "path": ".veritile-cache/mean-logical-io-20261022/build/lib/lean/VeriTile/Triton/Memory/LogicalScheduledKernelIO.workspace-build.json",
+        "sha256": "941c1b4c1a7f182017f4a6971996f33986c8cbc4c1f30d97c4328e8192e68cc4"
+      },
+      {
+        "path": ".veritile-cache/mean-logical-io-20261022/build/lib/lean/bench/repairs/tritonbench_g/mean_reduction/IO.workspace-build.json",
+        "sha256": "9b1a5e0c373e2f82527ba46da2f1d7406ce570f0a4647222395aa8d457174599"
+      },
+      {
+        "path": ".veritile-cache/mean-logical-io-20261022/build/lib/lean/bench/repairs/tritonbench_g/mean_reduction/Proofs/RealIO.workspace-build.json",
+        "sha256": "ff97e9d5205a2eed0309ff2e129b7e859343ef427ce8ce7eb5c566bc07b26292"
+      },
+      {
+        "path": ".veritile-cache/mean-logical-io-20261022/build/lib/lean/bench/repairs/tritonbench_g/mean_reduction/Correct.workspace-build.json",
+        "sha256": "b722da7691858bb2de84f17dd8360d61c75f0f4b43407b7a2ab6670f5ac6b333"
+      },
+      {
+        "path": ".veritile-cache/mean-logical-io-20261022/build/lib/lean/bench/repairs/tritonbench_g/mean_reduction/FPEquiv.workspace-build.json",
+        "sha256": "d3fe08cd89ce94712ff6d607a71d1eab7cded4119440ecb715053bab16de7404"
+      }
+    ],
+    "logs": [
+      {
+        "path": ".veritile-cache/mean-logical-io-20261022/build-final.log",
+        "sha256": "f13370d3cfadf2ea841b1f4558bff42c9bd7821fa447f38af59bf8a6284c017b"
+      },
+      {
+        "path": ".veritile-cache/mean-logical-io-20261022/preservation-joint.log",
+        "sha256": "6a7675dbc69dd2078c827e4ae3bf3b3a873ce62b2e829ba7327b343a25dafaa8"
+      }
+    ],
+    "joint_and_preservation_source": {
+      "path": ".veritile-cache/mean-logical-io-20261022/Preservation.lean",
+      "sha256": "02a8c7af60d52fc0162158b757e674b7ca85ca9e9b75fb9581dc918c5a7d1c4d"
+    },
+    "axioms": "New connection proofs and both main entries have only the standard base axioms."
+  },
+  "guards": [
+    {
+      "check": "formulas",
+      "exit_code": 0,
+      "result": {
+        "tasks": 183,
+        "readers": 367,
+        "counts": {
+          "unchanged": 15,
+          "fixed": 168
+        },
+        "errors": [],
+        "status": "passed",
+        "scope": "Pinned per-task formula/domain/scope review and targeted proof evidence; no automatic semantic inference, full-source replay or GPU run"
+      },
+      "path": ".veritile-cache/mean-logical-io-20261022/check-formulas.log",
+      "sha256": "cb1eecd43330986f62ae9019b35054a959a005abe73d384169febd7528b59b7a"
+    },
+    {
+      "check": "roles",
+      "exit_code": 0,
+      "result": {
+        "tasks": 183,
+        "readers": 367,
+        "headlines": 449,
+        "errors": [],
+        "status": "passed",
+        "scope": "Pinned semantic role review plus current repository import guard; no Lean replay or GPU run"
+      },
+      "path": ".veritile-cache/mean-logical-io-20261022/check-roles.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "check": "io",
+      "exit_code": 0,
+      "result": {
+        "tasks": 183,
+        "readers": 367,
+        "io_source_files": 334,
+        "errors": [],
+        "status": "passed",
+        "scope": "Reviewed canonical IO sharing and reader placement; no full-source replay or GPU experiment"
+      },
+      "path": ".veritile-cache/mean-logical-io-20261022/check-io.log",
+      "sha256": "eff04796409c9a7e868e54e6136cd4e03885222c3fd4bbf27d92bd7f84cf9b5b"
+    },
+    {
+      "check": "python bench/task_progress.py --check",
+      "exit_code": 0,
+      "path": ".veritile-cache/mean-logical-io-20261022/check-ledger.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    }
+  ],
+  "completion": {
+    "verified": 182,
+    "verified_with_deferred_numerics": 1,
+    "changed": false
+  },
+  "limits": [
+    "Only mean_reduction is reviewed under the clarified logical-coordinate standard in this followup; no new all-183 readability acceptance.",
+    "Existing applicable internal proof objects reused; no full transitive source replay.",
+    "No GPU execution or numerical experiments.",
+    "Original frozen reports and build families are not rewritten. Current manifests refresh this task and record this followup separately from the prior aggregate independent acceptance."
+  ]
+}

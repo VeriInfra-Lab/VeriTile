@@ -1,0 +1,29 @@
+{
+  "native_binding": "not established",
+  "source_version": "triton 3.8.0",
+  "maximum_default": "PropagateNan.NONE; floating maximum uses create_maxnumf",
+  "task_local_expansion": "Restore exactly active statements 21/body10 and 23/body8, named m_i_new, to Op.max2 at some fp32; preserve every other AST statement",
+  "reason": "comparison+where is not maxnum on NaNs and signed-zero ties",
+  "scale_argument": "Source scalar sm_scale explicitly typed fp32; Q/K/V/output bound to accepted fp16 storage",
+  "sources": [
+    {
+      "path": "/opt/conda/lib/python3.11/site-packages/triton/language/core.py",
+      "sha256": "b4966729f21f0db6f20fa4cb9b2b5402c5735e1424ffba05dbd8f480dedee790"
+    },
+    {
+      "path": "/opt/conda/lib/python3.11/site-packages/triton/language/semantic.py",
+      "sha256": "0d99c1f30bdb86bd718c98bf026ced2a84a878f79630fa9b3fe099ce46e86ebd"
+    }
+  ],
+  "selected_source": {
+    "path": "Proofs/MAXIMUM_SOURCE.txt",
+    "sha256": "421456a7bf48208d8af663357740fd4108bf01f954a39be5002130bb7e8706c9"
+  },
+  "accepted_source_scope": {
+    "storage": "fp16 Q/K/V/output, fp32 scale and accumulators",
+    "active_program": "rowStart < sequenceLength",
+    "block_loop": "eight fixed iterations including inactive metadata undef",
+    "column_loop": "one iteration under BLOCK_N >= 16",
+    "column_index_mask": "Original scalar cond[:, None] is normalized to a scalar broadcast by the existing accepted frontend port; this is not a proof of native JIT shape validity."
+  }
+}

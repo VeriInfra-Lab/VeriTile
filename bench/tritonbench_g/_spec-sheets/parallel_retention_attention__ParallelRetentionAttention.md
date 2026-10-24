@@ -238,7 +238,8 @@ noncomputable def praVGuarded (s : BlockState) (v : RegionName)
   if t < T ∧ praIv s V BV * BV + p < V then
     s.readMem v (s.pids 2 * s_vo_h + t * s_vo_t
       + (praIv s V BV * BV + p) * s_vo_d)
-  else 0
+  else s.undef v (s.pids 2 * s_vo_h + t * s_vo_t
+      + (praIv s V BV * BV + p) * s_vo_d)
 ```
 </details>
 
@@ -266,7 +267,8 @@ def praIk (s : BlockState) (V BV : Nat) : Nat := s.pids 0 / praNV V BV
 
 ```
 /-- The scaled, guarded `b_q` lane `(a, e)`: row `i_c·BTL + a` of the `(T, K)`
-parent, column `i_k·BK + e`, times `scale`; `0` outside the window. -/
+parent, column `i_k·BK + e`, times `scale`; the selected `undef` value
+outside the window is scaled in the same way. -/
 ```
 ```lean
 noncomputable def praQGuarded (s : BlockState) (q : RegionName)
@@ -275,7 +277,8 @@ noncomputable def praQGuarded (s : BlockState) (q : RegionName)
   if s.pids 1 * BTL + a < T ∧ praIk s V BV * BK + e < K then
     s.readMem q (s.pids 2 * s_qk_h + (s.pids 1 * BTL + a) * s_qk_t
       + (praIk s V BV * BK + e) * s_qk_d) * scale
-  else 0
+  else s.undef q (s.pids 2 * s_qk_h + (s.pids 1 * BTL + a) * s_qk_t
+      + (praIk s V BV * BK + e) * s_qk_d) * scale
 ```
 </details>
 
@@ -291,7 +294,8 @@ noncomputable def praKGuarded (s : BlockState) (k : RegionName)
   if praIk s V BV * BK + e < K ∧ t < T then
     s.readMem k (s.pids 2 * s_qk_h + (praIk s V BV * BK + e) * s_qk_d
       + t * s_qk_t)
-  else 0
+  else s.undef k (s.pids 2 * s_qk_h + (praIk s V BV * BK + e) * s_qk_d
+      + t * s_qk_t)
 ```
 </details>
 
@@ -476,8 +480,9 @@ def prbDkOffset (i_bh i_c i_k i_v B H s_qk_h s_qk_t s_qk_d BTL BK : Nat)
 ```
 /-- **The stored `dk` lane** — the retention key-gradient closed form. Over
 the full key sweep (up to the larger of the streamed top `cdiv(T,BTS)·BTS`
-and the diagonal end `(i_c+1)·BTL`; loads beyond `T` read as zero, so the
-tail summands vanish), every causally kept key `t ≥ i_c·BTL + r` contributes
+and the diagonal end `(i_c+1)·BTL`), every causally kept key
+`t ≥ i_c·BTL + r` contributes. Loads beyond `T` use `s.undef`; their tail
+summands remain part of this source-faithful formula. Each key contributes
 its decayed, scaled dscore times the transposed-`q` lane:
 `Σ_t 2^((t − (i_c·BTL+r))·b_b) · scale · (v[r]·doᵀ[t]) · q[e, t]`. -/
 ```
@@ -602,7 +607,7 @@ noncomputable def prbQGuarded (s : BlockState) (q : RegionName)
     (e t : Nat) : ℝ :=
   if i_k * BK + e < K ∧ t < T then
     s.readMem q (i_bh * s_qk_h + (i_k * BK + e) * s_qk_d + t * s_qk_t)
-  else 0
+  else s.undef q (i_bh * s_qk_h + (i_k * BK + e) * s_qk_d + t * s_qk_t)
 ```
 </details>
 
@@ -633,7 +638,7 @@ noncomputable def prbDoGuarded (s : BlockState) (do_ : RegionName)
     (p t : Nat) : ℝ :=
   if i_v * BV + p < V ∧ t < T then
     s.readMem do_ (i_bh * s_vo_h + (i_v * BV + p) * s_vo_d + t * s_vo_t)
-  else 0
+  else s.undef do_ (i_bh * s_vo_h + (i_v * BV + p) * s_vo_d + t * s_vo_t)
 ```
 </details>
 
@@ -649,7 +654,8 @@ noncomputable def prbVGuarded (s : BlockState) (v : RegionName)
   if i_c * BTL + r < T ∧ i_v * BV + p < V then
     s.readMem v (i_bh * s_vo_h + (i_c * BTL + r) * s_vo_t
       + (i_v * BV + p) * s_vo_d)
-  else 0
+  else s.undef v (i_bh * s_vo_h + (i_c * BTL + r) * s_vo_t
+      + (i_v * BV + p) * s_vo_d)
 ```
 </details>
 
@@ -665,6 +671,7 @@ noncomputable def prbKGuarded (s : BlockState) (k : RegionName)
   if i_c * BTL + r < T ∧ i_k * BK + e < K then
     s.readMem k (i_bh * s_qk_h + (i_c * BTL + r) * s_qk_t
       + (i_k * BK + e) * s_qk_d)
-  else 0
+  else s.undef k (i_bh * s_qk_h + (i_c * BTL + r) * s_qk_t
+      + (i_k * BK + e) * s_qk_d)
 ```
 </details>

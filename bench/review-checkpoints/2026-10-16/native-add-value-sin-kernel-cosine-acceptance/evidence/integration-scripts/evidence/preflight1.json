@@ -1,0 +1,95 @@
+{
+  "schema": 1,
+  "status": "passed_for_frozen_input_preflight_only",
+  "spec_sha256": "50490b7af9c7b81899ec872b0c3e4c158677a37bce2cc6ba20d8f3165a8f81b8",
+  "packages": [
+    {
+      "task": "add_value",
+      "receipt_bound_archive_records": 807,
+      "module_sources": 7,
+      "largest_artifact_bytes": 48267125,
+      "largest_artifact_path": "/tmp/veritile-standardization-20261015/add-value-finite-acceptance-revision1-wip/evidence/queue-payload-proposal.json",
+      "total_archive_bytes": 76707147,
+      "all_artifact_pins_verified": true,
+      "families": 15,
+      "bindings": 41,
+      "cases": 238,
+      "table_cases": [
+        238
+      ],
+      "callback_unions": [
+        15
+      ],
+      "declaration_port_bindings": 41
+    },
+    {
+      "task": "sin_kernel",
+      "receipt_bound_archive_records": 905,
+      "module_sources": 8,
+      "largest_artifact_bytes": 47159121,
+      "largest_artifact_path": "/tmp/veritile-standardization-20261015/sin-kernel-finite-acceptance-wip/evidence/queue-payload-proposal.json",
+      "total_archive_bytes": 76633227,
+      "all_artifact_pins_verified": true,
+      "families": 2,
+      "bindings": 2,
+      "cases": 52,
+      "table_cases": [
+        52
+      ],
+      "callback_unions": [
+        2
+      ],
+      "declaration_port_bindings": 2
+    },
+    {
+      "task": "cosine_compute",
+      "receipt_bound_archive_records": 755,
+      "module_sources": 9,
+      "largest_artifact_bytes": 99731817,
+      "largest_artifact_path": "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/evidence/queue-payload-proposal.json",
+      "total_archive_bytes": 132537243,
+      "all_artifact_pins_verified": true,
+      "families": 17,
+      "bindings": 534,
+      "cases": 268,
+      "table_cases": [
+        268
+      ],
+      "callback_unions": [
+        17
+      ],
+      "declaration_port_bindings": 534
+    }
+  ],
+  "future_base_commit": null,
+  "baseline_counts": {
+    "accepted": 8,
+    "pending": 175,
+    "public_declarations": 961,
+    "rules": 239,
+    "bindings": 2366,
+    "cases": 22317,
+    "tables": 12
+  },
+  "expected_counts": {
+    "accepted": 11,
+    "pending": 172,
+    "new_modules": 24,
+    "public_declarations": 964,
+    "task_modules": 3690,
+    "registered_modules": 4121,
+    "supplemental_contracts": 71,
+    "supplemental_execution_contracts": 65,
+    "supplemental_protocol_contracts": 6,
+    "numerical_rules": 273,
+    "exact_bindings": 2943,
+    "declaration_cases": 22875,
+    "numerical_declarations": 15
+  },
+  "active_paths_require_gzip": true,
+  "historical_deletions_authorized": false,
+  "repository_modified": false,
+  "source_integration_executed": false,
+  "primary_completion_increment": 0,
+  "legacy_acceptance_increment_before_integration": 0
+}

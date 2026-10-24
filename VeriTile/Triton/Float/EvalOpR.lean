@@ -35,6 +35,35 @@ noncomputable def evalOpR (R : RoundingModel) :
   | .numPrograms axis, s => some (Tile.scalar (s.numPids axis))
   | .ref dtype shape name, s => s.regs dtype shape name
   | .arange n, _ => some (Tile.vec (fun i => i.val))
+  | .philox4x32 cfg plan field seed c0 c1 c2 c3, s => do
+      let vs ← evalOpR R seed s
+      let v0 ← evalOpR R c0 s
+      let v1 ← evalOpR R c1 s
+      let v2 ← evalOpR R c2 s
+      let v3 ← evalOpR R c3 s
+      let result ← Random.Direct.evalField cfg plan field (vs.data PUnit.unit)
+        ⟨v0.data, v1.data, v2.data, v3.data⟩
+      return ⟨result⟩
+  | .uniform32 word, s => do
+      let v ← evalOpR R word s
+      if Random.Direct.uniformInputsValid v.data then
+        some ⟨fun i => some (Random.uniformReal (BitVec.ofNat 32 (v.data i)))⟩
+      else none
+  | .rand cfg seed offsets, s => do
+      let vs ← evalOpR R seed s
+      let vo ← evalOpR R offsets s
+      let seedValue := vs.data PUnit.unit
+      if cfg.inputsValid seedValue vo.data then
+        some ⟨fun i => some (Random.randReal seedValue (vo.data i)
+          cfg.offsetType.offsetWidth cfg.nRounds)⟩
+      else none
+  | .randTensor cfg seed offsets, s => do
+      let vs ← evalOpR R seed s
+      let vo ← evalOpR R offsets s
+      if cfg.tensorInputsValid vs.data vo.data then
+        some ⟨fun i => some (Random.randReal (vs.data i) (vo.data i)
+          cfg.offsetType.offsetWidth cfg.nRounds)⟩
+      else none
   | .broadcast e shape, s => do
       let v ← evalOpR R e s
       some ⟨fun _ => v.data PUnit.unit⟩
@@ -45,6 +74,14 @@ noncomputable def evalOpR (R : RoundingModel) :
   | .castFloat src dst a, s => do
       let va ← evalOpR R a s
       some ⟨fun i => R.cast src dst (va.data i)⟩
+  | .negFloat dtype a, s => do
+      let va ← evalOpR R a s
+      some ⟨fun i => dtype.ofWithBot ((dtype.toWithBot (va.data i)).map (fun x => -x))⟩
+  | .absFloat dtype a, s => do
+      let va ← evalOpR R a s
+      some ⟨fun i => dtype.ofWithBot ((dtype.toWithBot (va.data i)).map (fun x => |x|))⟩
+  | .floatToInt .., _ => none
+  | .floatToNat .., _ => none
   | .castNatToInt a, s => do
       let va ← evalOpR R a s
       some ⟨fun i => Int.ofNat (va.data i)⟩
@@ -127,10 +164,27 @@ noncomputable def evalOpR (R : RoundingModel) :
       let va ← evalOpR R a s
       let vb ← evalOpR R b s
       some (Tile.bop max bc va vb)
+  | .maximumFloat dtype bc a b, s => do
+      let va ← evalOpR R a s
+      let vb ← evalOpR R b s
+      some (Tile.bop (fun x y => dtype.ofWithBot
+        (max (dtype.toWithBot x) (dtype.toWithBot y))) bc va vb)
+  | .minimumFloat dtype bc a b, s => do
+      let va ← evalOpR R a s
+      let vb ← evalOpR R b s
+      some (Tile.bop (fun x y => dtype.ofWithBot
+        (min (dtype.toWithBot x) (dtype.toWithBot y))) bc va vb)
   | .pow bc a b, s => do
       let va ← evalOpR R a s
       let vb ← evalOpR R b s
       some (Tile.bop WithBot.realPow bc va vb)
+  | .libdevicePowi bc a b, s => do
+      let va ← evalOpR R a s
+      let vb ← evalOpR R b s
+      if Int32Bits.valuesValid vb.data then some (Tile.libdevicePowi bc va vb) else none
+  | .reduceMin axis keepDims a, s => do
+      let va ← evalOpR R a s
+      Tile.reduceMin axis keepDims va
   | .reduceMax axis keepDims a, s => do
       let va ← evalOpR R a s
       Tile.reduceMax axis keepDims va
@@ -141,12 +195,18 @@ noncomputable def evalOpR (R : RoundingModel) :
       let va ← evalOpR R a s
       Tile.reduceMaxInt axis keepDims va
   | .reduceSum axis keepDims a, s => return Tile.reduceSum axis keepDims (← evalOpR R a s)
+  | .reduceSumBool axis keepDims a, s => do
+      let v ← evalOpR R a s
+      return ⟨TileShape.discreteBoolSum axis keepDims v.data⟩
   | .reduceSumTyped dtype axis keepDims a, s =>
       return Tile.reduceSumTyped dtype axis keepDims (← evalOpR R a s)
   | .reduceMaxTyped dtype axis keepDims a, s => do
       Tile.reduceMaxTyped dtype axis keepDims (← evalOpR R a s)
   | .scan op axis dir a, s => return Tile.scan op axis dir (← evalOpR R a s)
   | .argMax axis a, s => return Tile.argMaxDrop axis (← evalOpR R a s)
+  | .argMaxInt axis a, s => do
+      let v ← evalOpR R a s
+      return ⟨TileShape.discreteIntArgMax axis v.data⟩
   | .argMaxTyped dtype axis a _, s => return Tile.argMaxTyped dtype axis (← evalOpR R a s)
   | .indexedMaxValue dtype axis a, s => do
       Tile.reduceMaxTyped dtype axis Bool.false (← evalOpR R a s)
@@ -317,6 +377,10 @@ theorem evalOpR_triv : ∀ {dtype : TileDType} {shape : TileShape} (op : Op dtyp
       simpa only [evalOpR, evalOp] using evalOpR_triv a s
   | _, _, .castFloat src dst a, s => by
       simp only [evalOpR, evalOp, evalOpR_triv a s, RoundingModel.triv_cast]
+  | _, _, .negFloat dtype a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
+  | _, _, .absFloat dtype a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
+  | _, _, .floatToInt .., _ => by simp only [evalOpR, evalOp]
+  | _, _, .floatToNat .., _ => by simp only [evalOpR, evalOp]
   | _, _, .castNatToInt a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
   | _, _, .castIntToNat a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
   | _, _, .castRealToInt8 a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
@@ -335,6 +399,15 @@ theorem evalOpR_triv : ∀ {dtype : TileDType} {shape : TileShape} (op : Op dtyp
       simp only [evalOpR, evalOp, evalOpR_triv a s, evalOpR_triv b s]
   | _, _, .bitAnd _ a b, s => by
       simp only [evalOpR, evalOp, evalOpR_triv a s, evalOpR_triv b s]
+  | _, _, .philox4x32 _ _ _ seed c0 c1 c2 c3, s => by
+      simp only [evalOpR, evalOp, evalOpR_triv seed s,
+        evalOpR_triv c0 s, evalOpR_triv c1 s, evalOpR_triv c2 s, evalOpR_triv c3 s]
+  | _, _, .uniform32 word, s => by
+      simp only [evalOpR, evalOp, evalOpR_triv word s]
+  | _, _, .rand _ seed offsets, s => by
+      simp only [evalOpR, evalOp, evalOpR_triv seed s, evalOpR_triv offsets s]
+  | _, _, .randTensor _ seed offsets, s => by
+      simp only [evalOpR, evalOp, evalOpR_triv seed s, evalOpR_triv offsets s]
   | _, _, .bitOr _ a b, s => by
       simp only [evalOpR, evalOp, evalOpR_triv a s, evalOpR_triv b s]
   | _, _, .bitXor _ a b, s => by
@@ -383,16 +456,25 @@ theorem evalOpR_triv : ∀ {dtype : TileDType} {shape : TileShape} (op : Op dtyp
   | _, _, .boolNot a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
   | _, _, .max2 _ a b, s => by
       simp only [evalOpR, evalOp, evalOpR_triv a s, evalOpR_triv b s]
+  | _, _, .maximumFloat _ _ a b, s => by
+      simp only [evalOpR, evalOp, evalOpR_triv a s, evalOpR_triv b s]
+  | _, _, .minimumFloat _ _ a b, s => by
+      simp only [evalOpR, evalOp, evalOpR_triv a s, evalOpR_triv b s]
   | _, _, .pow _ a b, s => by
       simp only [evalOpR, evalOp, evalOpR_triv a s, evalOpR_triv b s]
+  | _, _, .libdevicePowi _ a b, s => by
+      simp only [evalOpR, evalOp, evalOpR_triv a s, evalOpR_triv b s]
+  | _, _, .reduceMin _ _ a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
   | _, _, .reduceMax _ _ a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
   | _, _, .reduceMaxNat _ _ a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
   | _, _, .reduceMaxInt _ _ a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
   | _, _, .reduceSum _ _ a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
+  | _, _, .reduceSumBool _ _ a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
   | _, _, .reduceSumTyped _ _ _ a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
   | _, _, .reduceMaxTyped _ _ _ a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
   | _, _, .scan _ _ _ a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
   | _, _, .argMax _ a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
+  | _, _, .argMaxInt _ a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
   | _, _, .argMaxTyped _ _ a _, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
   | _, _, .indexedMaxValue _ _ a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
   | _, _, .argMin _ a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]

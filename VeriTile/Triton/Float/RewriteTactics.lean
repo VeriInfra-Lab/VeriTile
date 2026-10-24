@@ -81,6 +81,15 @@ private def contextPlan (lhs rhs : Expr) : MetaM (Option (Name × Nat)) := do
       return some (``ProfiledRewrite.contextual_then, 1)
     if ← same left[1]! right[1]! then
       return some (``ProfiledRewrite.contextual_else, 2)
+    -- If both arms differ, only a literal condition lets us ignore the
+    -- unreachable arm. The selected arm still needs its declared guard.
+    let condition ← whnf left[0]!
+    if condition.isAppOfArity ``Op.constBool 1 then
+      let value ← whnf condition.getAppArgs[0]!
+      if value.isConstOf ``Bool.true then
+        return some (``ProfiledRewrite.contextual_constant_then, 1)
+      if value.isConstOf ``Bool.false then
+        return some (``ProfiledRewrite.contextual_constant_else, 2)
   return none
 
 /-- Descend through ranges and matching conditional arms only when the declared

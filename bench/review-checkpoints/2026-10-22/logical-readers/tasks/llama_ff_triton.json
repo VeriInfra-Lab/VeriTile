@@ -1,0 +1,120 @@
+{
+  "schema": 1,
+  "task": "llama_ff_triton",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue09/result.json",
+    "sha256": "d3044f04d5d54ca9192fc48af4b7e45f6ff6fef98b03ff13785e6812e7152b4f",
+    "task_index": 0
+  },
+  "finding": "Displayed formula still selected raw storage by flat address; merely naming seven storage arrays would retain that defect.",
+  "resolution": "Actual row/k x, k RMS and column/k weight fields are connected by a unique decode graph to all seven original backing arrays; finite output matrix Equiv and full domain-preserving judgment iff.",
+  "mathematical_target": [
+    {
+      "name": "kernel_correct",
+      "statement": "Spec.Real (ReaderIO.view p ⊨{ReaderIO.byteDomain} fun xs row column =>\n      let rho"
+    }
+  ],
+  "conditions_and_scope": {
+    "actual_scope": "Complete selected original source grid and both half/int8 storage branches; every logical [rows,columns] output and exact exterior typed-cell frame. Empty outputs and nondivisible inner tails are retained.",
+    "retained_conditions": [
+      "Parameters retains rows, columns, inner, byte and epsilon without new restrictions.",
+      "ArrayProgramIO input binding/read windows and ordinary safety bounds remain in the judgment.",
+      "Interface.byteDomain retains signed-int8 admissibility for all three byte channels, including unused storage-branch ports. Contract.admitted_iff remains the original Python-check correspondence."
+    ],
+    "parameter_audit": "All original specification parameter prefixes equal modulo whitespace; see parameter-audit.json."
+  },
+  "proof_connection": "ReaderProof.target_eq and judgment_iff preserve the original complete ArrayProgramIO.ImplementsOn judgment, original half/int8 byteDomain and full source-grid schedule. Arrays use Nat coordinates with the displayed logical extents; backing retains unused branches and suffix storage.",
+  "fp_review": {
+    "source": "unchanged byte-for-byte from before snapshot",
+    "pair": "PairIO.original a g p versus PairIO.candidate a g p; the existing candidate commutes only the output-row integer multiplication in both complete source branches.",
+    "scope": "Full ArrayProgramIO grids, arbitrary Arithmetic/GateInstructions, original half/int8 domain; both safe successful schedules, all outputs and dual exact frames.",
+    "interpretation": "Original typed operations, precision, conversions, order, domains, schedule and frame remain. Empty experimental R may rely on the fixed strict software theory; no universal opaque-model or hardware equality is inferred."
+  },
+  "numerical_dependencies": {
+    "new_rule_or_experiment_count": 0,
+    "actual_FP_dependencies": "Empty experimental R; exact discrete execution/safety transport via PairIO.equivalent and PairExecution. Source precision, E5M2->FP32->FP16 weights, half products, K16 instruction stream, FP32 accumulation and final half store are retained.",
+    "current_main_experimental_rule_instances": [],
+    "retained_pending_experiments": []
+  },
+  "previous_formula_scope": {
+    "mathematical_target": "rho = 1/sqrt((sum_{k<inner} x[k]^2)/inner+epsilon); u=sum(x*rms*W1)*rho; v=sum(x*rms*W3)*rho; output=(u/(1+exp(-u)))*v. Half or E5M2 decoding is selected by Reference.realInput.",
+    "required_conditions": [
+      "Parameters retains rows, columns, inner, byte and epsilon without new restrictions.",
+      "ArrayProgramIO input binding/read windows and ordinary safety bounds remain in the judgment.",
+      "Interface.byteDomain retains signed-int8 admissibility for all three byte channels, including unused storage-branch ports. Contract.admitted_iff remains the original Python-check correspondence."
+    ],
+    "scope": "Complete selected original source grid and both half/int8 storage branches; every logical [rows,columns] output and exact exterior typed-cell frame. Empty outputs and nondivisible inner tails are retained.",
+    "canonical_connection": [
+      "kernel_correct contains a local target equality and finite-sum induction connecting the displayed Finset sums to Reference.realFormula/LlamaFF.realTarget.",
+      "Interface.Result.real: input_reads/bytes, RealGrid.complete, source schedule run connection, program_safe and output_frame."
+    ],
+    "fp_program_pair": {
+      "fp_pair": "PairIO.original a g p versus PairIO.candidate a g p; the existing candidate commutes only the output-row integer multiplication in both complete source branches.",
+      "fp_scope": "Full ArrayProgramIO grids, arbitrary Arithmetic/GateInstructions, original half/int8 domain; both safe successful schedules, all outputs and dual exact frames."
+    },
+    "numerical_dependencies": "Empty experimental R; exact discrete execution/safety transport via PairIO.equivalent and PairExecution. Source precision, E5M2->FP32->FP16 weights, half products, K16 instruction stream, FP32 accumulation and final half store are retained."
+  },
+  "verification": [
+    {
+      "kind": "validate_current_targeted_compiler_receipts_and_unchanged_FP_Contract_objects",
+      "command": [
+        "python",
+        ".veritile-cache/logical-reader-review-20261022/queue09/verify-receipts.py"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue09/verified-receipts.log",
+      "log_sha256": "8450288bd288828f3a671e55276af8205457512dc32a7d50e76db613efa1dc0f"
+    },
+    {
+      "kind": "joint_import_36_selected_public_entries",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue09/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue09/Joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue09/joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "kind": "preserved_all_16_original_parameter_prefixes_modulo_whitespace",
+      "command": [
+        "python",
+        ".veritile-cache/logical-reader-review-20261022/queue09/audit-parameters.py"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue09/parameter-audit.log",
+      "log_sha256": "029e5c767dd5644931d7ec3c332990352c88ddd3c640a65fd4561d74ce27305b"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Contract.lean": "a65f65d4a3932739847052bb09dcadb0ec3431c2391fa4bcfec73e139b240a96",
+    "bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Correct.lean": "7c23bbc9d9011fb420f70dd042218131ee2c94b1ea566e42c7e36f5cf6b4913a",
+    "bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/FPEquiv.lean": "d38adbb143c97c2a383e616b75036ffd8097858ee5203a7873c2c14eef0c3ae3",
+    "bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/LogicalIO.lean": "493e189c25bd838f7c8afe9d9e396a8490f43b379a1645d378f62676f69163d4",
+    "bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/IOResults.lean": "9fbb0da3702c3b58875b491942aebf5d370057b5bbc998ac32073e9ed0156d19",
+    "bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/LogicalReader.lean": "ded529fbdaaa1dde5733d2e6c0b9ae61c108f0ec6f2c8332bc99c6654f058f6b",
+    "bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Reference.lean": "d0ab4b1b55ff33dd68dece0eecdcd1c9656146d9a7b34e00a93eb61c31ec13ff",
+    "bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/SourceIO.lean": "4679328c781d77fb3f16dd0cc334ee040c4f71ecad2adec78d07d26e17258063",
+    "bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Kernels.lean": "26bb6ca753be07a35ec9805e1b52b85b93943695a557837bd6aca8a6cb539478",
+    "bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/PairIO.lean": "260c352fc16fa324b62cddc02552dbd2116f4bbd1bd7ed0d7ee114e523f32fa2",
+    "bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/Source.lean": "165665377daca3caaf30e53e440ae33afb9e7fe34fb44deb691ecfe5fecba96b",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [
+    "Unchanged FP and Contract objects were reused only after exact source/receipt/object matching; joint imports passed. Internal/optional native, host and Tensor closures were not replayed; no hardware conformance or new numerical experiment is claimed."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

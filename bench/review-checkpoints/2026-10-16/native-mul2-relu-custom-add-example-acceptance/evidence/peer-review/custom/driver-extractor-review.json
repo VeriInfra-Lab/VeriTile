@@ -1,0 +1,80 @@
+{
+  "status": "passed",
+  "source_driver_sha256": "835f068cf517d237dc62be91275261e260c2bae985a9242fd28866303c1e5a60",
+  "exact_function_sha256": "38589411aa71000343ef48c2e8bbc57e389e7d298c2561ac07c3ab3ebda2eade",
+  "command": [
+    "cc",
+    "-shared",
+    "-fPIC",
+    "-O2",
+    "-I/usr/local/include/python3.12",
+    "/tmp/veritile-standardization-20261015/vector-custom-revision1-independent-review/driver-extractor-001/extract_i32.c",
+    "-o",
+    "/tmp/veritile-standardization-20261015/vector-custom-revision1-independent-review/driver-extractor-001/extract_i32.so"
+  ],
+  "records": [
+    {
+      "host_dimension": 0,
+      "actual_i32": 0
+    },
+    {
+      "host_dimension": 1,
+      "actual_i32": 1
+    },
+    {
+      "host_dimension": 15,
+      "actual_i32": 15
+    },
+    {
+      "host_dimension": 16,
+      "actual_i32": 16
+    },
+    {
+      "host_dimension": 17,
+      "actual_i32": 17
+    },
+    {
+      "host_dimension": 2147483647,
+      "actual_i32": 2147483647
+    },
+    {
+      "host_dimension": 2147483648,
+      "actual_i32": -2147483648
+    },
+    {
+      "host_dimension": 2147483649,
+      "actual_i32": -2147483647
+    },
+    {
+      "host_dimension": 4294967295,
+      "actual_i32": -1
+    },
+    {
+      "host_dimension": 4294967296,
+      "actual_i32": 0
+    },
+    {
+      "host_dimension": 4294967297,
+      "actual_i32": 1
+    },
+    {
+      "host_dimension": 34359738352,
+      "actual_i32": -16
+    },
+    {
+      "host_dimension": 34359738353,
+      "actual_i32": -15
+    },
+    {
+      "host_dimension": 9223372036854775807,
+      "actual_i32": -1
+    }
+  ],
+  "outside_declared_dimension_2pow63": "OverflowError",
+  "GPU_launches": 0,
+  "artifacts": {
+    "build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "extract_i32.c": "7c50afa8954d5754afb79fcfc877bea4f01b0e77329479fa0fb123b47caf7d39",
+    "extract_i32.so": "a1e5456d519aefa86a7a14aee0ddaaf7207ff83036282f36559f726f1e473ed5"
+  }
+}

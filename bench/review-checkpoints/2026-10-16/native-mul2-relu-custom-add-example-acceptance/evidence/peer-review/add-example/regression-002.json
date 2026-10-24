@@ -1,0 +1,14 @@
+{
+  "command": [
+    "/tmp/veritile-lean-toolchain/bin/lean",
+    "--root=/tmp/veritile-standardization-20261015/add-example-independent-review/isolated",
+    "/tmp/veritile-standardization-20261015/add-example-independent-review/isolated/IndependentRegression.lean",
+    "-o",
+    "/tmp/veritile-standardization-20261015/add-example-independent-review/isolated/IndependentRegression.olean"
+  ],
+  "source_sha256": "b99689e40d5327b8f705ba8254cfc2be9fc53e607322ebbbb9d2405d4440d634",
+  "exit_code": 0,
+  "log_sha256": "629dd1d8e10f92eab323884f2dc42e8d36aa3266ec7173d23c7338ef5a86136b",
+  "log": "regression-002.log",
+  "LEAN_PATH": "/tmp/veritile-standardization-20261015/add-example-independent-review/isolated:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean"
+}

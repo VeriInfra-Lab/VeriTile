@@ -1,0 +1,167 @@
+{
+  "schema": 1,
+  "task": "bmm_chunk_bwd",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue02/result.json",
+    "sha256": "6313bc4c19a098ef093b809d9e781b5fcf735f96ac8c070354d6e6d8279fda8f",
+    "task_index": 5
+  },
+  "finding": "The full-grid product formula decoded List.get from the flattened IO lane enumeration.",
+  "resolution": "Named per-job Dout/A/residual arrays and explicit row/column axes; chunkLength preserves the original shortened-chunk mask.",
+  "mathematical_target": "For each actual output lane, the finite Dout-transpose times A sum over the true shortened chunk length, plus the optional initial residual.",
+  "conditions_and_scope": {
+    "scope": "Complete original three-axis source grid and all nine configurations for the selected FP32 A/Dout mathematical branch; strided/tail masks and optional residual remain explicit.",
+    "preserved_conditions": [
+      "h.aStorage=.fp32 and h.doutStorage=.fp32",
+      "RealViews.OutputDistinct",
+      "HostGrid.InputsSeparate",
+      "HostGrid.SeparateWrites over PublicIO.jobs",
+      "PreparedAlgorithmProgramIO retains actual source projection, complete schedule, all access bounds, successful execution, active outputs and exterior frame"
+    ],
+    "all_original_masks_schedules_safety_success_and_frames_retained": true
+  },
+  "proof_connection": {
+    "complete_previous_new_judgment_iff": "VeriTile.Bench.Repairs.BmmChunkBwd.PublicIO.logical_iff",
+    "path": "bench/repairs/tritonbench_g/bmm_chunk_bwd/Proofs/LogicalReader.lean",
+    "domain_and_target_transport": "The full original judgment, including observer/exact-cell/regional/scheduled scope where present, is instantiated unchanged; bijective input/output views transport its complete formula and domain.",
+    "input_output_bijections": "bench/repairs/tritonbench_g/bmm_chunk_bwd/LogicalIO.lean",
+    "proof_helpers_do_not_depend_on_Misc": true
+  },
+  "fp_review": {
+    "pair": "FPEquiv.original versus FPEquiv.candidate, using complete Kernels.fp32Source and Kernels.indexCommuted quotations at every tuning choice.",
+    "scope_and_conditions": "Primary comparison is the whole selected kernel invocation for arbitrary HostCall and all nine choices, changing only the integer head product. KernelInterface.versions_eq is the retained full-grid execution connection; the primary pair itself does not pretend to be a new whole-grid ProgramIO statement.",
+    "source_unchanged": true
+  },
+  "numerical_dependencies": {
+    "experimental_rule_instances": [],
+    "new_experiments_or_deferrals": 0,
+    "strict_model_context": "Empty assumptions list; exact integer multiplication commutation under the retained ProfiledRewrite engine, preserving all floating operations/casts/order."
+  },
+  "previous_formula_scope": {
+    "mathematical_target": "For each actual output lane, the finite Dout-transpose times A sum over the true shortened chunk length, plus the optional initial residual.",
+    "required_conditions": {
+      "public_conditions": [
+        "h.aStorage=.fp32 and h.doutStorage=.fp32",
+        "RealViews.OutputDistinct",
+        "HostGrid.InputsSeparate",
+        "HostGrid.SeparateWrites over PublicIO.jobs",
+        "PreparedAlgorithmProgramIO retains actual source projection, complete schedule, all access bounds, successful execution, active outputs and exterior frame"
+      ],
+      "contract_domain_source": "Contract and HostContract retain the direct FP32 caller-buffer ABI, shape/stride checks and physical input metadata. PublicIO.inputMask distinguishes full Dout chunk reads from shortened residual/store masks; no new dtype or host acceptance work is introduced."
+    },
+    "scope": "Complete original three-axis source grid and all nine configurations for the selected FP32 A/Dout mathematical branch; strided/tail masks and optional residual remain explicit.",
+    "canonical_connection": {
+      "canonical_target": "PublicIO.mathematical",
+      "display_equality": "Proof-local canonical equality in the main specification proof; no auxiliary theorem is left in the reader. Correct.mathematical_eq",
+      "implementation": "PublicIO.implements",
+      "scope_connection": "PublicIO jobs enumerate HostGrid.programs; IOResult composes exact source projection, full schedule, real output and frame using the public distinct/separate/write conditions"
+    },
+    "fp_program_pair": {
+      "fp_pair": "FPEquiv.original versus FPEquiv.candidate, using complete Kernels.fp32Source and Kernels.indexCommuted quotations at every tuning choice.",
+      "fp_scope_and_conditions": "Primary comparison is the whole selected kernel invocation for arbitrary HostCall and all nine choices, changing only the integer head product. KernelInterface.versions_eq is the retained full-grid execution connection; the primary pair itself does not pretend to be a new whole-grid ProgramIO statement."
+    },
+    "numerical_dependencies": "Empty assumptions list; exact integer multiplication commutation under the retained ProfiledRewrite engine, preserving all floating operations/casts/order."
+  },
+  "verification": [
+    {
+      "task": "bmm_chunk_bwd",
+      "kind": "logical IO / complete iff / Correct final receipt",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue02/build.py",
+        "bench/repairs/tritonbench_g/bmm_chunk_bwd/LogicalIO.lean",
+        "bench/repairs/tritonbench_g/bmm_chunk_bwd/Proofs/LogicalReader.lean",
+        "bench/repairs/tritonbench_g/bmm_chunk_bwd/Correct.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue02/bmm_chunk_bwd-logical-final.log",
+      "log_sha256": "9d0702e5e0bedbf28bf5c5902e1c0af72b96f15e10d287df787221f44b254818"
+    },
+    {
+      "task": "bmm_chunk_bwd",
+      "kind": "FPEquiv source",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue02/build.py",
+        "bench/repairs/tritonbench_g/bmm_chunk_bwd/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue02/bmm_chunk_bwd-fp.log",
+      "log_sha256": "097cf86005590809a9e37415d94eeba7da0592cc537d285b653fd544cd0018f6"
+    },
+    {
+      "task": "bmm_chunk_bwd",
+      "kind": "per-task Correct + FPEquiv joint imports",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue02/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue02/fixtures/bmm_chunk_bwd_joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue02/bmm_chunk_bwd-joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fixture": ".veritile-cache/logical-reader-review-20261022/queue02/fixtures/bmm_chunk_bwd_joint.lean",
+      "fixture_sha256": "b9bd989c7fffbdc28922ab55b23c4cd4f237bc51b500a6458d7b464bc6f45ef3"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/bmm_chunk_bwd/Contract.lean": "f9ba3a1ee64343500b7f0d3302cc7b3d0bb61befd0d3f3202e5ea10e9b022125",
+    "bench/repairs/tritonbench_g/bmm_chunk_bwd/Correct.lean": "8673cc8d2832f2ead59ea4e727734b293d223a4b8283bfc1054e2830c22079bb",
+    "bench/repairs/tritonbench_g/bmm_chunk_bwd/FPEquiv.lean": "da17416adcbf79b038992f6d2b839fa061cc76aa27fbf6ca08738083a23fd23f",
+    "bench/repairs/tritonbench_g/bmm_chunk_bwd/IO.lean": "7cc415e26e233cc9e97eff16c967aa13ed2107426366dc1b5e437170b80b0c8e",
+    "bench/repairs/tritonbench_g/bmm_chunk_bwd/LogicalIO.lean": "618338d974ce1f127764a8e5515591e532787d3f686218308eafdb06c9542da3",
+    "bench/repairs/tritonbench_g/bmm_chunk_bwd/Proofs/IOResult.lean": "c8371294a8374f26ed3e7255cfbf1a0a28cb898e93567daf0e642565551095d7",
+    "bench/repairs/tritonbench_g/bmm_chunk_bwd/Proofs/LogicalReader.lean": "0ad1ee579b7f4c7aade518c774fe2c82c624410dfdac390524cefb7f8d296c9f",
+    "bench/repairs/tritonbench_g/bmm_chunk_bwd/Kernels.lean": "a2dc73ff43c0d5c7cef8c8460878202813730de30dc0f7fb8050814cb585d108",
+    "bench/repairs/tritonbench_g/bmm_chunk_bwd/Proofs/HostContract.lean": "f18d749384857d98df78ebe6bee313cddaa3f4fdddf778742689b73c5c89abcf",
+    "bench/repairs/tritonbench_g/bmm_chunk_bwd/Proofs/HostGrid.lean": "2a45331cfbb803525753578d885f8cda0f19456fcc71370b24280691340c8b45",
+    "bench/repairs/tritonbench_g/bmm_chunk_bwd/Proofs/IOSource.lean": "d917c30a2bbc070f6f4a5c6f66ab1bd8f7d8ba558594ea87cabc2094fc66c7b3",
+    "bench/repairs/tritonbench_g/bmm_chunk_bwd/Proofs/KernelRewrite.lean": "3eb2fb61bb4a214a76a0471c1163561361acf2327eb5a89b75dee1ae7e6c30fd",
+    "bench/repairs/tritonbench_g/bmm_chunk_bwd/Source.lean": "4d52dd0c5485faefee1702fb9782ca01808a017ea95f4f5343831bceae524d2c",
+    "bench/tritonbench_g/bmm_chunk_bwd/Kernels.lean": "86da5e7ed2a2a1845faa502ab660f3b8be963125423d0965c13fdc7f7fa1e815",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/RealAccess.lean": "2fe087acda3005ab8634e8b6a14ab521194f887faa69fec7b03d7614cf8b34a8",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/RealContract.lean": "62b7a933c8324974eaa45720124f8af4487fe0d4b6e3bf5e336a6bc9795786fc",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/RealDot.lean": "4375ef5818220e573aa8263d2632cd2dd785d009aa54e35cfa750c8ab2f331a9",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/RealFinish.lean": "4ec4291c831d9691accdf26b00e9ce0e8af687c8c50f0c8f1b77c8d0b90add90",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/RealFinishSafety.lean": "6f6b058b2cdf1ae7a5b8fae7ebfb0d5c9850ce6946966cf0fcadb69d04170ef7",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/RealIO.lean": "1b40a99717fb65a8c32abf103a352d583e5ae2d13f107e17755924544838c991",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/RealIOBridge.lean": "3595ab7356b004ab186fa73b39ad9c3741d2c12acbf669b724147f9be65c7afc",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/RealInputs.lean": "8b1eba4b3b884bfd96074540bf1e893ce8d20ed17dc4c9e82fa9aaa5085830f4",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/RealLoads.lean": "82f38d2d60cf5b139281e68d0e8f2192bff5380fd814e4193637f21e128e7370",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/RealLoop.lean": "d3ff104ee2cca4e67f2729e806b3c4fd3b06ad71ad30e92bda9ad77684d4da36",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/RealLoopSafety.lean": "77b3f7279d60bb49e3bb9e9feb19bd540a5540f263f39cc0d3e3b849810118d1",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/RealMath.lean": "47ff70f205c6a2e0aaf7c5924091741bc9c10b888c0b61c4aec915f2c90666da",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/RealMemory.lean": "81890fa94836844695e32f02a871fe21251acb8403cc82e88a7f384c18edd882",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/RealProgram.lean": "e5d3393cb8e0cd804c31bf9a478412c368186ea24c8148291574b66483e04da4",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/RealPureSafety.lean": "bb2d2bf3ca6bb66bd2d4a6eaf8c1f1774114bafc92364e1531b837bdbc640c1b",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/RealResidual.lean": "2efe346f9b72514341e276f6f5c31217c1e998285d60c5bdc3ae3340a5b139a3",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/RealResidualSafety.lean": "ffe43c33c3a85162e8c586062c4195be6c4ee35bfa5392161364f210fbfd3626",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/RealSafety.lean": "c237720e6941975be62eed545b39b21fbccc179464869e19a4bddffed9024e7f",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/RealSetup.lean": "65e9c60b55decd6ecb14035e541c2cb914e4343ab889ee0d8af156c97145d175",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/RealSource.lean": "65e0cb7ea0ba561ce055e2df6d386b0ce269d90c2ce138c4f5980d7ebc01ca86",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/RealStep.lean": "11ac750ae0fe0fb3cb9fbe2e9399ca12231026fb0107c5081e21b007c254ef6a",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/RealStore.lean": "12e067a49196481bc8e66b73f1b9228e32e8f3c0cecb4e13e3dd883c7e649154",
+    "bench/tritonbench_g/bmm_chunk_bwd/Proofs/RealViews.lean": "120fbe1626f5b00fecb6e217e55773926c4c2be456d1eec952239bce197f95df",
+    "bench/tritonbench_g/triton_softmax/Proofs/IndexRewrite.lean": "6974aea2cc58c98cad73a7040959929909d770e433c24e9aa524405147d94626",
+    "bench/repairs/tritonbench_g/bmm_chunk_bwd/Proofs/KernelInterface.lean": "191f35c52dfef6ca1ed7f1b1056b91a6f1172363d3fd7e0503bc444d90a93a0f",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [
+    "The accepted unchanged implementation/native proof closure is reused read-only; this campaign compiles new coordinate data, full-judgment connections, Correct and unchanged FPEquiv readers, plus per-task joint imports. No new hardware/native/host/numerical obligation is inferred."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

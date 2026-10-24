@@ -12,6 +12,397 @@ from bench import audit_source as source
 
 
 class SourceSelectionTests(unittest.TestCase):
+    def test_explicit_source_selector_avoids_legacy_and_other_python_jits(self):
+        lean = '''/-!
+Source-audit target: actual_jit
+Source-audit Lean: typed%
+-/
+def legacy : ComputeKernel := triton { x = tl.load(X) }
+syntax "typed%" ident : term
+macro_rules
+  | `(typed% $version:ident) => do
+    let update : TSyntax `tritonStmt ← if version.getId == `original then
+      `(tritonStmt| x = tl.load(X).to(tl.float32))
+      else `(tritonStmt| x = tl.load(X).to(tl.float16))
+    `(fun (X : RegionName) => ComputeKernel.mk [X] [] (triton { $update }).surfaceBody)
+'''
+        selected = source.select_lean_audit_source(lean)
+        self.assertNotIn('def legacy', selected)
+        body = source.lean_first_triton_body(selected)
+        self.assertEqual(source.cast_sequence(body), ['float32'])
+        python = '''@triton.jit
+def helper(X):
+    x = tl.load(X).to(tl.float16)
+@triton.jit
+def actual_jit(X):
+    x = tl.load(X).to(tl.float32)
+'''
+        self.assertEqual(source.cast_sequence(source.python_audit_kernel_body(python, selected)),
+                         ['float32'])
+        with self.assertRaisesRegex(ValueError, 'not a Python JIT'):
+            source.python_audit_kernel_body(python, selected.replace('target: actual_jit', 'target: typo'))
+
+    def test_source_selectors_fail_closed(self):
+        body = 'def actual : ComputeKernel := triton { x = tl.load(X) }\n'
+        for header, diagnostic in [
+            ('Source-audit Lean: typo', 'found 0'),
+            ('Source-audit Lean: actual\nSource-audit Lean: actual', 'Duplicate'),
+            ('Source-audit Lean:   ', 'Empty'),
+        ]:
+            with self.subTest(header=header), self.assertRaisesRegex(ValueError, diagnostic):
+                source.select_lean_audit_source('/-!\n' + header + '\n-/\n' + body)
+        with self.assertRaisesRegex(ValueError, 'found 2'):
+            source.select_lean_audit_source('/-!\nSource-audit Lean: actual\n-/\n' + body * 2)
+        with self.assertRaisesRegex(ValueError, 'no literal Triton body'):
+            source.select_lean_audit_source('/-!\nSource-audit Lean: wrapper\n-/\n'
+                                            'def wrapper := actual\n' + body)
+        with self.assertRaisesRegex(ValueError, 'Duplicate'):
+            source.target_kernel_candidates('Source-audit target: a\nSource-audit target: b\n')
+        for key in ('target', 'args'):
+            with self.subTest(key=key), self.assertRaisesRegex(ValueError, 'Empty'):
+                source.source_audit_metadata('Source-audit ' + key + ':  \n', key)
+        for command in ('specification later', 'example', 'opaque later', 'instance'):
+            with self.subTest(command=command), self.assertRaisesRegex(ValueError, 'no literal Triton body'):
+                source.select_lean_audit_source('/-!\nSource-audit Lean: wrapper\n-/\n'
+                                                'def wrapper := actual\n'
+                                                f'{command} := triton {{ tl.store(Y, wrong) }}\n')
+
+    def test_macro_arguments_and_array_splices_keep_nested_stores_and_masks(self):
+        template = '''/-!
+Source-audit args: version=original, single=1, storage=tl.float32
+-/
+macro_rules
+  | `(source%[$storage:tritonDType, $version:ident] $single:num) => do
+    let original := version.getId == `original || version.getId == `actualOriginal
+    let offset : TSyntax `tritonStmt ← if original then
+      `(tritonStmt| i = pid * $(B)) else `(tritonStmt| i = $(B) * pid)
+    let tail : Array (TSyntax `tritonStmt) := #[offset,
+      ← `(tritonStmt| x = tl.load(X + i, mask=active, other=0)),
+      ← `(tritonStmt| tl.store(Y + i, (x + f(a, b)).to($storage), mask=active))]
+    let branch : Array (TSyntax `tritonStmt) ← if single.getNat = 1 then
+      pure (#[← `(tritonStmt| pid = tl.program_id(0))] ++ tail)
+      else pure #[← `(tritonStmt| for j in range(0, $(T)) { $tail:tritonStmt* })]
+    `(fun (X Y : RegionName) (B T : Nat) => ComputeKernel.mk [X] [Y] (triton {
+      tl.region X = $storage, Y = $storage
+      $branch:tritonStmt*
+    }).surfaceBody)
+'''
+        body = source.lean_first_triton_body(template)
+        self.assertIn('i = pid * $(B)', body)
+        self.assertNotIn('$branch', body)
+        self.assertNotIn('for j', body)
+        self.assertEqual(source.cast_sequence(body), ['float32'])
+        self.assertEqual(source.tl_calls(body, 'store'),
+                         ['tl.store(Y + i, (x + f(a, b)).to(tl.float32), mask=active)'])
+        multiple = source.lean_first_triton_body(template.replace('single=1', 'single=0'))
+        self.assertIn('for j', multiple)
+        self.assertEqual(source.tl_calls(multiple, 'store'), source.tl_calls(body, 'store'))
+        for extra in ['unknown=true', 'original=true', 'tail=other', 'single=0, single=1']:
+            with self.subTest(extra=extra), self.assertRaises(ValueError):
+                source.lean_first_triton_body(template.replace('storage=tl.float32', 'storage=tl.float32, ' + extra))
+        with self.assertRaises(ValueError):
+            source.lean_first_triton_body(template.replace('single=1', 'single=original'))
+        with self.assertRaises(source.UnresolvedSourceMacro):
+            source.lean_first_triton_body(template.replace('single=1, ', ''))
+
+    def test_unknown_helpers_and_statement_splices_are_not_empty_bodies(self):
+        unknown = '''let same := promotedCode data cos == data
+let store : TSyntax `tritonStmt ← if same then `(tritonStmt| tl.store(Y, x))
+  else `(tritonStmt| tl.store(Y, x.to(tl.float32)))
+`(fun (X Y : RegionName) => ComputeKernel.mk [X] [Y] (triton { $store }).surfaceBody)
+'''
+        with self.assertRaises(source.UnresolvedSourceMacro):
+            source.lean_first_triton_body(unknown)
+        with self.assertRaisesRegex(source.UnresolvedSourceMacro, 'missing'):
+            source.lean_first_triton_body('def k := triton {\n$missing\n}')
+        with self.assertRaisesRegex(source.UnresolvedSourceMacro, 'missing'):
+            source.lean_first_triton_body('def k := triton { if active { $missing } }')
+        dtype_match = '''macro_rules
+  | `(typed% $input:tritonDType) => do
+    let half := match input with
+      | `(tritonDType| tl.float16) => Bool.true
+      | _ => Bool.false
+    let store : TSyntax `tritonStmt ← if half then `(tritonStmt| tl.store(Y, x))
+      else `(tritonStmt| tl.store(Y, x.to(tl.float16)))
+    `(triton { tl.region X = $input
+      $store })
+'''
+        with self.assertRaisesRegex(source.UnresolvedSourceMacro, 'match input with'):
+            source.lean_first_triton_body(dtype_match)
+
+    def test_comment_blanking_preserves_offsets_and_quoted_strings(self):
+        text = '-- triton { decoy }\n/- nested /- triton { decoy } -/ -/\n' + \
+               'def kernel := triton { x = float("--inf") }'
+        self.assertEqual(len(source.strip_lean_comments(text)), len(text))
+        self.assertEqual(source.lean_first_triton_body(text), ' x = float("--inf") ')
+        self.assertNotIn('def kernel', source.lean_first_preamble(text).split(':=')[-1])
+
+    def test_dtype_match_tuple_alternatives_and_monadic_boole_keep_source_stores(self):
+        template = '''/-!
+Source-audit args: input=tl.float32, weight=tl.float64, output=tl.float16
+-/
+macro_rules
+  | `(typed%[$input:tritonDType, $weight:tritonDType,
+      $output:tritonDType]) => do
+    let wide : Bool ← match input, weight with
+      | `(tritonDType| tl.float64), _
+      | _, `(tritonDType| tl.float64) => pure Bool.true
+      | _, _ => pure Bool.false
+    let same : Bool ← match output with
+      | `(tritonDType| tl.float64) => pure wide
+      | `(tritonDType| tl.float32) => pure (!wide)
+      | _ => pure Bool.false
+    let store : TSyntax `tritonStmt ← if same then
+      `(tritonStmt| tl.store(Y + i, x, mask=i < $(N)))
+      else `(tritonStmt| tl.store(Y + i, x.to($output), mask=i < $(N)))
+    `(triton { $store })
+'''
+        body = source.lean_first_triton_body(template)
+        self.assertIn('x.to(tl.float16), mask=i < $(N)', body)
+        wide = source.lean_first_triton_body(template.replace('output=tl.float16', 'output=tl.float64'))
+        self.assertEqual(source.tl_calls(wide, 'store'), ['tl.store(Y + i, x, mask=i < $(N))'])
+        with self.assertRaisesRegex(source.UnresolvedSourceMacro, 'match input, weight with'):
+            source.lean_first_triton_body(template.replace('weight=tl.float64, ', ''))
+        with self.assertRaisesRegex(source.UnresolvedSourceMacro, 'Unsupported source dtype pattern'):
+            source.lean_first_triton_body(template.replace('| _, _ =>', '| unexpected, _ =>'))
+        with self.assertRaises(source.UnresolvedSourceMacro):
+            source.lean_first_triton_body(template.replace('pure Bool.false', 'pure unknownHelper'))
+        with self.assertRaisesRegex(ValueError, 'dtype literal'):
+            source.lean_first_triton_body(template.replace('output=tl.float16', 'output=tl.flaot16'))
+
+    def test_statement_dtype_matches_keep_both_arm_syntax_and_inline_masks(self):
+        template = '''/-!\nSource-audit args: output=tl.float32\n-/
+macro_rules
+  | `(typed% $output:tritonDType) => do
+    let store : TSyntax `tritonStmt ← match output with
+      | `(tritonDType| tl.float32) => `(tritonStmt| tl.store(Y, x, mask=active))
+      | _ => `(tritonStmt| tl.store(Y, x.to($output), mask=active))
+    `(triton { if enabled { $store } })
+'''
+        body = source.lean_first_triton_body(template)
+        self.assertIn('if enabled', body)
+        self.assertEqual(source.tl_calls(body, 'store'), ['tl.store(Y, x, mask=active)'])
+        narrow = source.lean_first_triton_body(template.replace('output=tl.float32', 'output=tl.float16'))
+        self.assertEqual(source.tl_calls(narrow, 'store'), ['tl.store(Y, x.to(tl.float16), mask=active)'])
+        with self.assertRaises(source.UnresolvedSourceMacro):
+            source.lean_first_triton_body(template.replace('| _ => `(tritonStmt|', '| _ => unknown `(tritonStmt|'))
+        with self.assertRaisesRegex(source.UnresolvedSourceMacro, 'unresolvedStmt'):
+            source.lean_first_triton_body(template.replace(
+                'tl.store(Y, x.to($output), mask=active)', '$unresolvedStmt'))
+
+    def test_local_scalar_helpers_use_exact_reachable_definitions(self):
+        template = '''/-!
+Source-audit Lean: typed%
+Source-audit args: data=tl.float32, other=tl.float16
+-/
+namespace N
+private def dtypeCode (stx : TSyntax `tritonDType) : MacroM Nat :=
+  match stx with
+  | `(tritonDType| tl.float32) => pure 0
+  | `(tritonDType| tl.float16) => pure 2
+  | _ => Macro.throwError "unsupported dtype"
+private def promotedCode (a b : Nat) : Nat :=
+  if a=0 || b=0 then 0 else if a=b then a else 2
+syntax "typed%" : term
+macro_rules
+  | `(typed%[$data:tritonDType, $other:tritonDType]) => do
+    let d ← dtypeCode data
+    let c ← dtypeCode other
+    let same := promotedCode (promotedCode d c) d == d
+    let store : TSyntax `tritonStmt ← if same then `(tritonStmt| tl.store(Y, x, mask=active))
+      else `(tritonStmt| tl.store(Y, x.to($data), mask=active))
+    `(triton { $store })
+end N
+'''
+        extract = lambda text: source.lean_first_triton_body(source.select_lean_audit_source(text))
+        self.assertEqual(source.tl_calls(extract(template), 'store'), ['tl.store(Y, x, mask=active)'])
+        changed = template.replace('then 0 else', 'then 2 else')
+        self.assertEqual(source.cast_sequence(extract(changed)), ['float32'])
+        for bad, diagnostic in [
+            (template.replace('data=tl.float32', 'data=tl.int32'), 'rejected by dtype helper'),
+            (template.replace('let d ← dtypeCode data', 'let d ← undefinedHelper data'), 'Unresolved'),
+            (template.replace('pure 0', 'pure undefinedValue'), 'Unresolved'),
+            (template.replace('if a=0', 'if unknown a=0'), 'Unresolved'),
+            (template.replace('dtypeCode data', 'dtypeCode data other'), 'arity'),
+            (template.replace('pure 0', 'dtypeCode stx'), 'Circular'),
+            (template.replace('let d ← dtypeCode data', 'let d ← promotedCode data other'), 'type differs'),
+            (template.replace('let same :=', 'let d := Bool.false\n    let same :='), 'Shadowed'),
+        ]:
+            with self.subTest(diagnostic=diagnostic), self.assertRaisesRegex(source.UnresolvedSourceMacro, diagnostic):
+                extract(bad)
+        duplicate = template.replace('syntax "typed%" : term',
+                                     'private def dtypeCode (stx : TSyntax `tritonDType) : MacroM Nat := pure 9\n'
+                                     'syntax "typed%" : term')
+        with self.assertRaisesRegex(source.UnresolvedSourceMacro, 'Ambiguous'):
+            extract(duplicate)
+        inaccessible = template.replace('syntax "typed%" : term', 'end N\nnamespace Other\nsyntax "typed%" : term')
+        with self.assertRaisesRegex(source.UnresolvedSourceMacro, 'Inaccessible'):
+            extract(inaccessible)
+        # A section ends without ending its containing namespace.
+        section = template.replace('namespace N\n', 'namespace N\nnoncomputable section\n').replace(
+            'syntax "typed%" : term', 'end\nsyntax "typed%" : term')
+        self.assertEqual(source.tl_calls(extract(section), 'store'), ['tl.store(Y, x, mask=active)'])
+        local_function = template.replace('let d ← dtypeCode data',
+            'let promotedCode (a b : Nat) : Nat := 9\n    let d ← dtypeCode data')
+        with self.assertRaises(source.UnresolvedSourceMacro):
+            extract(local_function)
+        with self.assertRaisesRegex(source.UnresolvedSourceMacro, 'missingArm'):
+            extract(template.replace('tl.store(Y, x.to($data), mask=active)', '$missingArm'))
+
+    def test_later_local_bindings_cannot_change_earlier_macro_expressions(self):
+        for global_binding, earlier, later in [
+            ('def flag : Bool := true', 'if flag then', 'let flag := Bool.false'),
+            ('def initial : Nat := 0', 'if initial == 0 then', 'let initial := 1'),
+        ]:
+            template = f'''{global_binding}
+macro_rules
+  | `(typed% $version:ident) => do
+    let write : TSyntax `tritonStmt ← {earlier}
+      `(tritonStmt| tl.store(O, 1)) else `(tritonStmt| tl.store(O, 2))
+    {later}
+    `(triton {{ $write }})
+'''
+            with self.subTest(global_binding=global_binding), self.assertRaisesRegex(
+                    source.UnresolvedSourceMacro, 'Forward reference'):
+                source.lean_first_triton_body(template)
+
+    def test_array_concatenation_does_not_mutate_an_earlier_binding(self):
+        template = '''macro_rules
+  | `(typed% $version:ident) => do
+    let before : Array (TSyntax `tritonStmt) := #[← `(tritonStmt| tl.store(O, 1))]
+    let combined : Array (TSyntax `tritonStmt) := before ++ #[← `(tritonStmt| tl.store(O, 2))]
+    `(triton { $combined*\n$before* })
+'''
+        self.assertEqual(source.tl_calls(source.lean_first_triton_body(template), 'store'),
+                         ['tl.store(O, 1)', 'tl.store(O, 2)', 'tl.store(O, 1)'])
+
+    def test_quoted_identifiers_are_not_forward_local_references(self):
+        template = '''/-!\nSource-audit args: weight=half\n-/
+macro_rules
+  | `(typed% $weight:ident) => do
+    unless weight.getId == `half || weight.getId == `fp8 do
+      Macro.throwError "expected half or fp8"
+    let fp8 := weight.getId == `fp8
+    let store : TSyntax `tritonStmt ← if fp8 then `(tritonStmt| tl.store(O, 1))
+      else `(tritonStmt| tl.store(O, 2))
+    `(triton { $store })
+'''
+        self.assertEqual(source.tl_calls(source.lean_first_triton_body(template), 'store'),
+                         ['tl.store(O, 2)'])
+        self.assertEqual(source.tl_calls(source.lean_first_triton_body(template.replace('weight=half', 'weight=fp8')), 'store'),
+                         ['tl.store(O, 1)'])
+
+    def test_mutable_statement_arrays_preserve_order_masks_and_admission(self):
+        template = '''/-!\nSource-audit args: dm=no, dn=no, version=original\n-/
+macro_rules
+  | `(typed%[$dm:ident, $dn:ident, $version:ident]) => do
+    for flag in [dm, dn] do
+      unless flag.getId == `yes || flag.getId == `no do
+        Macro.throwError "expected divisibility flag"
+    unless version.getId == `original || version.getId == `candidate do
+      Macro.throwError "expected version"
+    let m := dm.getId == `yes
+    let n := dn.getId == `yes
+    let mut masks : Array (TSyntax `tritonStmt) := #[]
+    if !m then masks := masks.push (← `(tritonStmt| mask_m = rows < $(M)))
+    if !n then masks := masks.push (← `(tritonStmt| mask_n = cols < $(N)))
+    if !m && !n then masks := masks.push (← `(tritonStmt| mask = mask_m[:, None] & mask_n[None, :]))
+    else if !m then masks := masks.push (← `(tritonStmt| mask = mask_m[:, None]))
+    else if !n then masks := masks.push (← `(tritonStmt| mask = mask_n[None, :]))
+    let store : TSyntax `tritonStmt ← if m && n then `(tritonStmt| tl.store(Y, x))
+      else `(tritonStmt| tl.store(Y, x, mask=mask))
+    `(triton { $masks*\n$store })
+'''
+        for m in ('no', 'yes'):
+            for n in ('no', 'yes'):
+                text = template.replace('dm=no', 'dm=' + m).replace('dn=no', 'dn=' + n)
+                body = source.lean_first_triton_body(text)
+                self.assertEqual('mask_m = rows' in body, m == 'no')
+                self.assertEqual('mask_n = cols' in body, n == 'no')
+                self.assertEqual('mask=mask' in body, m == 'no' or n == 'no')
+                self.assertEqual('mask_m[:, None] & mask_n[None, :]' in body, m == n == 'no')
+                self.assertEqual(len(source.tl_calls(body, 'store')), 1)
+        for bad in [template.replace('dm=no', 'dm=typo'),
+                    template.replace('version=original', 'version=typo')]:
+            with self.assertRaisesRegex(source.UnresolvedSourceMacro, 'admission guard'):
+                source.lean_first_triton_body(bad)
+        for bad in [template.replace('masks.push', 'masks.pop'),
+                    template.replace('if !m then masks', 'if missing then masks'),
+                    template.replace('if !m then masks', 'else if !m then masks'),
+                    template.replace('let m :=', 'let dm :='),
+                    template.replace('for flag in [dm, dn] do', 'for flag in computeFlags dm dn do'),
+                    template.replace('Macro.throwError "expected version"', 'unknownGuardEffect')]:
+            with self.assertRaises(source.UnresolvedSourceMacro):
+                source.lean_first_triton_body(bad)
+        delayed_mutation = template.replace('let store : TSyntax',
+            'let later := Bool.true\n    if later then masks := masks.push (← `(tritonStmt| tl.store(Y, 99)))\n'
+            '    let store : TSyntax')
+        with self.assertRaises(source.UnresolvedSourceMacro):
+            source.lean_first_triton_body(delayed_mutation)
+        effect = template.replace('let m :=', 'unknownMacroEffect\n    let m :=')
+        with self.assertRaises(source.UnresolvedSourceMacro):
+            source.lean_first_triton_body(effect)
+        continued_guard = template.replace('|| version.getId', '||\n        version.getId')
+        self.assertEqual(source.tl_calls(source.lean_first_triton_body(continued_guard), 'store'),
+                         ['tl.store(Y, x, mask=mask)'])
+
+    def test_shape_dtype_attribute_normalization_retains_wrong_types(self):
+        lean = 'tl.region out = $storage\nx = tl.full([$(B)], 0.0, dtype=$storage:tritonDType)'
+        normalize = source.normalize_shape_ctor_call
+        expected = normalize(source.tl_calls(lean, 'full')[0])
+        for attribute in ('out.dtype.element_ty', 'out.type.element_ty'):
+            py = 'x = tl.full([B], 0.0, dtype=' + attribute + ')'
+            resolved = source.resolve_source_dtype_attributes(py, lean)
+            self.assertEqual(normalize(source.tl_calls(resolved, 'full')[0]), expected)
+        for dtype in ('missing.dtype.element_ty', 'tl.float16', '$wrong'):
+            py = 'x = tl.full([B], 0.0, dtype=' + dtype + ')'
+            resolved = source.resolve_source_dtype_attributes(py, lean)
+            self.assertNotEqual(normalize(source.tl_calls(resolved, 'full')[0]), expected)
+
+    def test_dtype_resolution_rejects_rebound_load_tensors_and_inline_aliases(self):
+        lean = 'tl.region X = tl.float16, O = tl.float16\nv = tl.load(X)\n'
+        for update in ['v = v.to(tl.float32)', 'v = other', 'v += other', 'v *= other']:
+            self.assertEqual(source.resolve_source_dtype_attributes('x.to(v.dtype)', lean + update),
+                             'x.to(v.dtype)')
+        py = 'p = out + off; p = other + off\ntl.store(p, value)'
+        lean = 'tl.region out = tl.float16, other = tl.float32\ntl.store(p, value.to(tl.float16))'
+        self.assertEqual(source.store_calls_with_explicit_destination_casts(py, lean),
+                         ['tl.store(p, value)'])
+        self.assertEqual(source.resolve_source_dtype_attributes('x.to(p.dtype.element_ty)',
+                         lean + '\np = out + off; p = other + off'), 'x.to(p.dtype.element_ty)')
+
+    def test_implicit_store_cast_rejects_incomplete_alias_write_inventory(self):
+        lean = 'tl.region out = tl.float16, other = tl.float32\ntl.store(p, value.to(tl.float16))'
+        for update in ['if active: p = other + off', 'p //= stride',
+                       'p = out + off; p = other + off', 'p = choose(out, other)']:
+            python = 'p = out + off\n' + update + '\ntl.store(p, value)'
+            with self.subTest(update=update):
+                self.assertEqual(source.store_calls_with_explicit_destination_casts(python, lean),
+                                 ['tl.store(p, value)'])
+        for decoy in ['"p = out + off"', '"""\np = out + off\n"""']:
+            python = 'message = ' + decoy + '\ntl.store(p, value)'
+            self.assertEqual(source.store_calls_with_explicit_destination_casts(python, lean),
+                             ['tl.store(p, value)'])
+        python = 'p = out + off\nmessage = "p = other + off"\n# p = other + off\ntl.store(p, value)'
+        self.assertEqual(source.store_calls_with_explicit_destination_casts(python, lean),
+                         ['tl.store(p, value.to(tl.float16))'])
+
+    def test_string_and_character_contents_are_not_triton_syntax(self):
+        for literal in ['"triton { x = tl.load(wrong) }"',
+                        'r"triton { x = tl.load(wrong) }"',
+                        'r##"triton { \\" -- /- x = tl.load(wrong) }"##']:
+            text = f'def doc := {literal}\ndef actual := triton {{ x = float("{{") }}\n'
+            self.assertEqual(source.lean_first_triton_body(text), ' x = float("{") ')
+            self.assertEqual(source.lean_triton_bodies(text), [' x = float("{") '])
+            with self.assertRaisesRegex(ValueError, 'no literal Triton body'):
+                source.select_lean_audit_source('/-!\nSource-audit Lean: doc\n-/\n' + text)
+        text = "def brace := '{'\ndef quote := '\"'\ndef actual := triton { x = 1 }"
+        self.assertEqual(source.lean_first_triton_body(text), ' x = 1 ')
+        self.assertEqual(len(source.lean_code_mask(text)), len(text))
+        for broken in ['def doc := "unterminated', 'def doc := r#"unterminated"']:
+            with self.subTest(broken=broken), self.assertRaises(ValueError):
+                source.lean_first_triton_body(broken)
+
     def test_placeholder_scan_distinguishes_admission_field_from_tactic(self):
         script = (ROOT / 'bench/audit_tritonbench_g.sh').read_text()
         start = script.index("<<'PY'\n", script.index('# Placeholder-proof scan.')) + len("<<'PY'\n")
@@ -382,7 +773,219 @@ y = tl.load(Y)
             self.assertNotIn(hidden, code)
 
 
+class SourceParameterMapTests(unittest.TestCase):
+    python = '''@triton.jit
+def kernel(input_ptr, output_ptr, BLOCK_SIZE: tl.constexpr, enabled=True):
+    cols = tl.arange(0, BLOCK_SIZE)
+    if enabled:
+        x = tl.load(input_ptr + cols, mask=cols < BLOCK_SIZE, other=0)
+        tl.store(output_ptr + cols, x, mask=cols < BLOCK_SIZE)
+'''
+    lean = '''/-!
+Source-audit target: kernel
+Source-audit Lean: typed
+Source-audit params: input_ptr=X, output_ptr=Y, BLOCK_SIZE=B, enabled=ACTIVE
+-/
+def legacy (Wrong : RegionName) : ComputeKernel := triton { tl.store(Wrong, 0) }
+def typed (X Y : RegionName) (B : Nat) (ACTIVE : Bool) : ComputeKernel := triton {
+  tl.region X = tl.float32, Y = tl.float32
+  cols = tl.arange(0, $(B))
+  if ACTIVE {
+    x = tl.load(X + cols, mask=cols < $(B), other=0)
+    tl.store(Y + cols, x, mask=cols < $(B))
+  }
+}
+'''
+
+    def test_exact_parameter_map_preserves_all_runtime_branches(self):
+        body = source.python_audit_kernel_body(self.python, self.lean)
+        self.assertIn('if ACTIVE:', body)
+        self.assertIn('tl.arange(0, B)', body)
+        self.assertIn('tl.load(X + cols, mask=cols < B, other=0)', body)
+        self.assertIn('tl.store(Y + cols, x, mask=cols < B)', body)
+        self.assertEqual(source.python_source_parameter_names(self.python, self.lean), ['X', 'Y', 'B', 'ACTIVE'])
+        self.assertEqual(source.lean_source_parameter_names(self.lean), ['X', 'Y', 'B', 'ACTIVE'])
+        partial = self.lean.replace(', enabled=ACTIVE', '')
+        self.assertEqual(source.python_source_parameter_names(self.python, partial)[-1], 'enabled')
+        self.assertNotIn('enabled', source.lean_source_parameter_names(partial))
+
+    def test_mapping_changes_only_parameter_name_tokens_in_selected_body(self):
+        prefix = '@triton.jit\ndef helper(input_ptr):\n    return input_ptr\n'
+        python = self.python.replace('enabled=True', 'enabled=default_enabled').replace(
+            '    cols =', '    note = "BLOCK_SIZE input_ptr enabled"  # input_ptr\n'
+            '    other = obj.BLOCK_SIZE\n'
+            '    tag = "文"; debug(BLOCK_SIZE=BLOCK_SIZE)\n    cols =')
+        text = source.python_source_with_parameter_map(prefix + python, self.lean)
+        self.assertTrue(text.startswith(prefix))
+        self.assertIn('BLOCK_SIZE: tl.constexpr, enabled=default_enabled', text)
+        self.assertIn('"BLOCK_SIZE input_ptr enabled"  # input_ptr', text)
+        self.assertIn('obj.BLOCK_SIZE', text)
+        self.assertIn('"文"; debug(BLOCK_SIZE=B)', text)
+        self.assertIn('tl.load(X + cols', text)
+        self.assertIn('@triton.jit\ndef kernel(input_ptr, output_ptr,', text)
+
+    def test_parameter_permutations_are_simultaneous_and_capture_free(self):
+        python = '@triton.jit\ndef kernel(X, Y):\n    tl.store(X, tl.load(Y))\n'
+        lean = '''/-!\nSource-audit target: kernel\nSource-audit Lean: typed
+Source-audit params: X=Y, Y=X
+-/\ndef typed (X Y : RegionName) := triton { tl.store(Y, tl.load(X)) }
+'''
+        self.assertEqual(source.tl_calls(source.python_audit_kernel_body(python, lean), 'store'),
+                         ['tl.store(Y, tl.load(X))'])
+        with self.assertRaisesRegex(ValueError, 'not injective'):
+            source.source_parameter_map(python, lean.replace(', Y=X', ''))
+        for statement in ['B = 7', 'debug(B)', 'for B in range(2):\n        debug(B)']:
+            captured = self.python.replace('    cols =', '    ' + statement + '\n    cols =')
+            with self.subTest(statement=statement), self.assertRaisesRegex(ValueError, 'capture'):
+                source.source_parameter_map(captured, self.lean)
+
+    def test_invalid_maps_and_ambiguous_source_scopes_fail_closed(self):
+        for old, new, diagnostic in [
+            ('BLOCK_SIZE=B', 'missing=B', 'not Python parameters'),
+            ('BLOCK_SIZE=B', 'BLOCK_SIZE=Wrong', 'not selected Lean binders'),
+            ('BLOCK_SIZE=B', 'BLOCK_SIZE=B, BLOCK_SIZE=B', 'duplicate'),
+            ('BLOCK_SIZE=B', 'BLOCK_SIZE=X', 'not injective'),
+            ('BLOCK_SIZE=B', 'BLOCK_SIZE=16', 'Invalid'),
+            ('enabled=ACTIVE', 'enabled=false', 'not selected Lean binders'),
+            ('enabled=ACTIVE', 'enabled=False', 'identifier'),
+            ('Source-audit target: kernel', 'Source-audit target: typo', 'unique Python JIT'),
+            ('Source-audit target: kernel\n', '', 'explicit target'),
+            ('Source-audit Lean: typed\n', '', 'explicit target'),
+            ('(X Y : RegionName)', '(X X Y : RegionName)', 'Duplicate selected Lean'),
+        ]:
+            with self.subTest(new=new), self.assertRaisesRegex(ValueError, diagnostic):
+                source.source_parameter_map(self.python, self.lean.replace(old, new))
+        for suffix in ['\n' + self.python, '\ndef kernel():\n    return 0\n']:
+            with self.assertRaisesRegex(ValueError, 'unique Python JIT'):
+                source.source_parameter_map(self.python + suffix, self.lean)
+        with self.assertRaisesRegex(ValueError, 'Duplicate Source-audit params'):
+            source.source_parameter_map(self.python, self.lean.replace('-/\n', 'Source-audit params: input_ptr=X\n-/\n', 1))
+        with self.assertRaisesRegex(ValueError, 'Empty'):
+            source.source_parameter_map(self.python, re.sub(r'Source-audit params:[^\n]+', 'Source-audit params: ', self.lean))
+
+    def test_indirect_python_bindings_and_nested_scopes_are_not_rewritten(self):
+        for statement in [
+            'f = lambda B: input_ptr + B',
+            'def nested(B):\n        return input_ptr + B',
+            'values = [input_ptr for B in range(2)]',
+            'import other as B',
+            'global B',
+            'match unknown:\n        case B:\n            debug(input_ptr)',
+        ]:
+            python = self.python.replace('    cols =', '    ' + statement + '\n    cols =')
+            with self.subTest(statement=statement), self.assertRaisesRegex(ValueError, 'nested scopes or indirect'):
+                source.source_parameter_map(python, self.lean)
+        with self.assertRaisesRegex(ValueError, 'variadic'):
+            source.source_parameter_map(self.python.replace('enabled=True', '*extras, enabled=True'), self.lean)
+
+    def test_selected_macro_binders_and_comments_do_not_create_fake_targets(self):
+        lean = self.lean.replace('Source-audit Lean: typed', 'Source-audit Lean: typed%')
+        lean = lean[:lean.index('def legacy')] + '''macro_rules
+  | `(typed% $storage:tritonDType) => do
+    `(fun (X Y : RegionName) (B : Nat) (ACTIVE : Bool) =>
+      ComputeKernel.mk [X] [Y] (triton { tl.region X = $storage, Y = $storage
+        tl.store(Y, tl.load(X), mask=ACTIVE) }).surfaceBody)
+'''
+        self.assertEqual(source.lean_source_parameter_names(lean), ['X', 'Y', 'B', 'ACTIVE'])
+        self.assertEqual(len(source.source_parameter_map(self.python, lean)), 4)
+        decoy = self.lean.replace(':= triton {\n', ':=\n  let message := "`(fun (Fake : Nat) =>"\n  triton {\n')
+        self.assertEqual(source.lean_source_parameter_names(decoy), ['X', 'Y', 'B', 'ACTIVE'])
+        with self.assertRaisesRegex(ValueError, 'not selected Lean binders'):
+            source.source_parameter_map(self.python, decoy.replace('BLOCK_SIZE=B', 'BLOCK_SIZE=Fake'))
+
+    def production_gates(self):
+        script = (ROOT / 'bench/audit_tritonbench_g.sh').read_text()
+        gates = re.findall(r'if python3[^\n]*<<\'PY\'\n.*?\nPY\nthen\n.*?\nfi', script, re.S)
+        diagnostics = ['extractable source views', 'Python kernel params missing from Lean',
+                       'tl.{fn} call expression mismatch', 'tl.arange call mismatch']
+        selected = []
+        for diagnostic in diagnostics:
+            matches = [gate for gate in gates if diagnostic in gate]
+            self.assertEqual(len(matches), 1, diagnostic)
+            selected.append(matches[0])
+        conclusion = re.search(r'if "\$\{source_only\}"; then\n.*?\nfi', script, re.S)[0]
+        return ('failures=0\nsource_only=true\nPORTS_ROOT="$1"\n' + '\n'.join(selected) + '\n' + conclusion)
+
+    def test_production_gates_accept_explicit_maps_and_reject_source_mutations(self):
+        command = self.production_gates()
+        fixtures = [(self.lean, True),
+                    (self.lean.replace('X + cols, mask', 'Y + cols, mask'), False),
+                    (self.lean.replace('x, mask=cols < $(B)', 'x, mask=cols > $(B)'), False),
+                    (self.lean.replace('tl.arange(0, $(B))', 'tl.arange(1, $(B))'), False),
+                    (self.lean.replace('x, mask=cols < $(B)', 'x + 1, mask=cols < $(B)'), False),
+                    (self.lean.replace('BLOCK_SIZE=B', 'BLOCK_SIZE=Wrong'), False),
+                    (self.lean.replace(', enabled=ACTIVE', ''), False)]
+        for lean, allowed in fixtures:
+            with self.subTest(lean=lean), tempfile.TemporaryDirectory() as temp:
+                port = Path(temp) / 'fixture'
+                port.mkdir()
+                (port / 'Fixture.lean').write_text(lean)
+                (port / 'fixture.py').write_text(self.python)
+                result = subprocess.run(['bash', '-c', command, 'audit-fixture', temp],
+                                        cwd=ROOT, text=True, capture_output=True, timeout=20)
+                self.assertEqual(result.returncode == 0, allowed, result.stdout + result.stderr)
+                if 'BLOCK_SIZE=Wrong' in lean:
+                    self.assertIn('FAIL source-view extraction scan', result.stdout)
+                    self.assertIn('ok tl.load/store call expression scan', result.stdout)
+
+    def test_production_store_gate_rejects_inline_pointer_rebinding(self):
+        command = self.production_gates()
+        python = ('@triton.jit\n'
+                  'def kernel(out, other, off, active, value):\n'
+                  '    p = out + off\n'
+                  '{update}'
+                  '    tl.store(p, value)\n')
+        lean = ('/-\nSource-audit target: kernel\nSource-audit Lean: kernel\n'
+                'Source-audit params: out=out, other=other, off=off, active=active, value=value\n-/\n'
+                'def kernel (out other : RegionName) (off value : Nat) (active : Bool) := triton {{\n'
+                '  tl.region out = tl.float16, other = tl.float32\n'
+                '  p = out + off\n'
+                '{update}'
+                '  tl.store(p, value.to(tl.float16))\n}}\n')
+        fixtures = [('', '', True),
+                    ('    if active: p = other + off\n',
+                     '  if active { p = other + off }\n', False)]
+        for py_update, lean_update, allowed in fixtures:
+            with self.subTest(update=py_update), tempfile.TemporaryDirectory() as temp:
+                port = Path(temp) / 'fixture'
+                port.mkdir()
+                (port / 'fixture.py').write_text(python.format(update=py_update))
+                (port / 'Fixture.lean').write_text(lean.format(update=lean_update))
+                result = subprocess.run(['bash', '-c', command, 'audit-fixture', temp],
+                                        cwd=ROOT, text=True, capture_output=True, timeout=20)
+                self.assertEqual(result.returncode == 0, allowed, result.stdout + result.stderr)
+                if not allowed:
+                    self.assertIn('tl.store call expression mismatch', result.stdout)
+
+
 class AuditRuleIntegrationTests(unittest.TestCase):
+    def test_extraction_failure_cannot_pass_the_aggregate_after_rules_skip_it(self):
+        script = (ROOT / 'bench/audit_tritonbench_g.sh').read_text()
+        gates = re.findall(r'if python3[^\n]*<<\'PY\'\n.*?\nPY\nthen\n.*?\nfi', script, re.S)
+        extraction = next(gate for gate in gates if 'extractable source views' in gate)
+        masks = next(gate for gate in gates if 'tl.{fn} mask presence mismatch' in gate)
+        conclusion = re.search(r'if "\$\{source_only\}"; then\n.*?\nfi', script, re.S)[0]
+        fixtures = [
+            'def kernel := triton {\n$unresolved\n}\n',
+            'def legacy := triton { tl.store(Y, x) }\n'
+            'macro_rules\n  | `(typed%) => `(triton { tl.store(Y, x, mask=mask) })\n',
+        ]
+        for fixture in fixtures:
+            with self.subTest(fixture=fixture), tempfile.TemporaryDirectory() as temp:
+                port = Path(temp) / 'fixture'
+                port.mkdir()
+                (port / 'Fixture.lean').write_text(fixture)
+                (port / 'fixture.py').write_text('@triton.jit\ndef kernel(Y, x, mask):\n'
+                                                 '    tl.store(Y, x, mask=mask)\n')
+                command = ('failures=0\nsource_only=true\nPORTS_ROOT="$1"\n' + extraction +
+                           '\n' + masks + '\n' + conclusion)
+                result = subprocess.run(['bash', '-c', command, 'audit-fixture', temp],
+                                        cwd=ROOT, text=True, capture_output=True, timeout=20)
+                self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+                self.assertIn('FAIL source-view extraction scan', result.stdout)
+                self.assertIn('ok tl.load/store mask presence scan', result.stdout)
+                self.assertNotIn('source gates passed', result.stdout)
+
     def run_rule(self, diagnostic, lean_body):
         # Run the production shell's actual rule body. A missing shared import
         # or changed call-selection option must not turn mismatches into passes.

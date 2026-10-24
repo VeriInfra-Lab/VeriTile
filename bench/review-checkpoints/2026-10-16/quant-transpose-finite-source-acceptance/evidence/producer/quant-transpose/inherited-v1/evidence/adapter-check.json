@@ -1,0 +1,12 @@
+{
+  "status": "passed",
+  "adapter_layout": "explicit .lean to .lean.txt checkpoint mapping",
+  "old_authority_preserved": true,
+  "wrong_receipt_and_wrong_mapping_rejected": 2,
+  "conflicting_preexisting_input_rejected": true,
+  "new_inputs_use_repo_prefix": true,
+  "case_links_checked": 735,
+  "omitted_port_mutations_rejected": 140,
+  "source": "temporary synthetic receipt layout, not a root review or final integration",
+  "global_exact_queue_equality": "unchanged; full root integration remains pending"
+}

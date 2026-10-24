@@ -12,7 +12,7 @@ theorem scale_eval (p : Layout) (swapped : Bool) (scale : ℝ) (v : Tile .real [
   cases swapped <;> simp [scaling,scaled,evalOp_mul,hv]
 
 theorem sentinel_eval (p : Layout) (u : BlockState) :
-    evalOp (Op.broadcast (.sub .real .nil (.const (0.0 : ℝ)) (.const (100000000.0 : ℝ))) [p.BM,p.BN]) u =
+    evalOp (Op.broadcast (.const (-100000000.0 : ℝ)) [p.BM,p.BN]) u =
       some (Tile.mat (dtype := .real) (fun _ _ => some (-100000000 : ℝ))) := by
   norm_num [evalOp.eq_def,Tile.bop,Tile.scalar,Tile.mat,NumericDType.sub,WithBot.realSub,
     Broadcast.leftIndex,Broadcast.rightIndex,Option.bind_eq_bind,Option.bind,-Tile.scalar_eta]
@@ -41,7 +41,7 @@ theorem executes (p : Layout) (r : Regions) (swapped : Bool) (scale : ℝ)
     (by simp [s3,s2,s1,hp]) (by simp [s3,s2,s1,hs])
   have hqk3 : s3.regs .real [p.BM,p.BN] "qk" = some (scaled p swapped scale (dotAdded p q k)) := by simp [s3]
   have h4 : evalOp (.where (causalMask p) (.ref .real [p.BM,p.BN] "qk")
-      (.broadcast (.sub .real .nil (.const (0.0 : ℝ)) (.const (100000000.0 : ℝ))) [p.BM,p.BN])) s3 =
+      (.broadcast (.const (-100000000.0 : ℝ)) [p.BM,p.BN])) s3 =
       some (result p swapped scale rows prompt sn q k) := by
     rw [evalOp_where,hc,evalOp_ref,hqk3,sentinel_eval]
     rfl

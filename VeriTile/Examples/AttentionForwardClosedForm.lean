@@ -1,6 +1,7 @@
 import VeriTile.Triton.Core
 import VeriTile.Triton.Semantics
 import VeriTile.Triton.Float
+import VeriTile.Triton.Float.MaximumPrimitive
 import VeriTile.Triton.DSL
 import VeriTile.Triton.Math.Attention
 import VeriTile.Triton.KernelLemmas
@@ -447,6 +448,28 @@ theorem mij_op_eval (s : BlockState) (BM BN : Nat)
   rw [evalOp_where]
   simp only [evalOp_gt, evalOp_ref, hmi, hrmax, Option.bind_eq_bind, Option.bind_some]
 
+/-- The compatibility here is restricted to the WithBot Real interpreter.
+Floating execution uses the independent maximum callback. -/
+private theorem math_maximum_select (BM : Nat) (x y : Op .real [BM]) (s : BlockState) :
+    evalOp (.maximumFloat .real (.consSame .nil) x y) s =
+      evalOp (.where (.gt .real (.consSame .nil) x y) x y) s := by
+  have h := evalOp_maximumFloat_real_select (Broadcast.consSame Broadcast.nil) x y s
+  simp only [FloatDType.toTileDType] at h
+  refine h.trans ?_
+  cases hx : evalOp x s <;> cases hy : evalOp y s <;>
+    simp [evalOp, hx, hy, Tile.remap, Broadcast.leftIndex, Broadcast.rightIndex]
+
+private theorem mij_primitive_op_eval (s : BlockState) (BM BN : Nat)
+    (mtile : Tile .real [BM]) (qktile : Tile .real [BM, BN]) (rmaxT : Tile .real [BM])
+    (hmi : s.regs .real [BM] "m_i" = some mtile)
+    (hqk : s.regs .real [BM, BN] "qk" = some qktile)
+    (hrm : Tile.reduceMaxDrop (⟨1, by simp⟩ : Fin [BM,BN].length) qktile = some rmaxT) :
+    @evalOp .real [BM] (Op.maximumFloat .real (.consSame .nil)
+      (Op.ref .real [BM] "m_i")
+      (Op.reduceMax (⟨1, by simp⟩ : Fin [BM,BN].length) Bool.false (Op.ref .real [BM,BN] "qk"))) s =
+      some (Tile.select (Tile.cop ComparableDType.real.gt (Broadcast.consSame Broadcast.nil) mtile rmaxT) mtile rmaxT) := by
+  exact (math_maximum_select BM _ _ s).trans (mij_op_eval s BM BN mtile qktile rmaxT hmi hqk hrm)
+
 /-- **`p` statement eval** (`tl.math.exp2(qk)`): `Tile.uop realExp2` over `qk`. -/
 theorem p_op_eval (s : BlockState) (BM BN : Nat) (qk2tile : Tile .real [BM,BN])
     (hqk : s.regs .real [BM,BN] "qk" = some qk2tile) :
@@ -514,9 +537,9 @@ theorem acc1_op_eval (s : BlockState) (BM BD : Nat) (hax : 1 < [BM].length.succ)
 /-- **`p`-to-fp16 statement eval** (`(p).to(tl.float16)`): pointwise float cast. -/
 theorem pfp16_op_eval (s : BlockState) (BM BN : Nat) (ptile : Tile .real [BM,BN])
     (hp : s.regs .real [BM,BN] "p" = some ptile) :
-    evalOp (Op.castFloat .real .fp16 (Op.ref .real [BM,BN] "p")) s
+    evalOp (Op.castFloat .real .fp16 (Op.withPrecision .real .fp32 (Op.ref .real [BM,BN] "p"))) s
       = some (⟨fun i => FloatDType.real.cast FloatDType.fp16 (ptile.data i)⟩ : Tile .fp16 [BM,BN]) := by
-  rw [evalOp_castFloat]; simp [hp]
+  rw [evalOp_castFloat]; simp [evalOp.eq_def, hp]
 
 /-- **Pointer-advance statement eval** (`K_ptrs += BLOCK_N · HEAD_DIM`, also `V_ptrs`):
 `ptrAdd` of the register by the scalar `BLOCK_N · HEAD_DIM`. -/
@@ -1674,10 +1697,7 @@ def attnLoopBody (BLOCK_M BLOCK_N BLOCK_DMODEL HEAD_ACTIVE HEAD_DIM numKVBlocks 
           (Op.ref .real [] "q_scale"))
         (Op.ref .real [] "k_scale")),
     Stmt.assign .real [BLOCK_M] "m_ij"
-      (Op.where
-        (Op.gt .real (.consSame .nil) (Op.ref .real [BLOCK_M] "m_i")
-          (Op.reduceMax ⟨1, by simp⟩ Bool.false (Op.ref .real [BLOCK_M, BLOCK_N] "qk")))
-        (Op.ref .real [BLOCK_M] "m_i")
+      (Op.maximumFloat .real (.consSame .nil) (Op.ref .real [BLOCK_M] "m_i")
         (Op.reduceMax ⟨1, by simp⟩ Bool.false (Op.ref .real [BLOCK_M, BLOCK_N] "qk"))),
     Stmt.assign .real [BLOCK_M, BLOCK_N] "qk"
       (Op.sub .real (.consSame (.consR .nil)) (Op.ref .real [BLOCK_M, BLOCK_N] "qk")
@@ -1699,7 +1719,7 @@ def attnLoopBody (BLOCK_M BLOCK_N BLOCK_DMODEL HEAD_ACTIVE HEAD_DIM numKVBlocks 
           (Op.lt .nat .scalarR (Op.expandDim ⟨1, by simp⟩ (Op.ref .nat [BLOCK_N] "offs_n"))
             (Op.sub .nat .nil (Op.constNat (BLOCK_N * numKVBlocks)) (Op.ref .nat [] "start_n")))
           (Op.expandDim ⟨0, by simp⟩ (Op.lt .nat .scalarR (Op.arange BLOCK_DMODEL) (Op.constNat HEAD_ACTIVE)))))),
-    Stmt.assign .fp16 [BLOCK_M, BLOCK_N] "p" (Op.castFloat .real .fp16 (Op.ref .real [BLOCK_M, BLOCK_N] "p")),
+    Stmt.assign .fp16 [BLOCK_M, BLOCK_N] "p" (Op.castFloat .real .fp16 (Op.withPrecision .real .fp32 (Op.ref .real [BLOCK_M, BLOCK_N] "p"))),
     Stmt.assign .real [BLOCK_M, BLOCK_DMODEL] "acc"
       (Op.add .real (.consSame (.consSame .nil)) (Op.ref .real [BLOCK_M, BLOCK_DMODEL] "acc")
         (Op.castFloat .fp16 .real (Op.dotTyped .fp16 .real .fp16 (options := { outDType := some .fp16 }) (batch := []) (Op.ref .fp16 [BLOCK_M, BLOCK_N] "p") (Op.ref .real [BLOCK_N, BLOCK_DMODEL] "v")))),
@@ -1827,7 +1847,7 @@ theorem attn_loopBody_steps (BM BN BD NC HA HD : Nat) (hBN : 0 < BN)
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (load_ptr_mask_real (Op.ref .ptr [BD, BN] "K_ptrs") _ _ Kptr kmaskT (by rw [evalOp_ref]; simp [hKp]) (by rw [evalOp_ref]; simp [hkm]) (by intro rg o; simp [hundef])))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (load_ptr_none_real (Op.ref .ptr [] "K_scale_ptr") _ Ksptr (by rw [evalOp_ref]; simp [hKs])))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (qk_op_eval _ BM BN BD qtile kloadT qsv ksv (by simp [hq]) (by simp [hkl]) (by simp [hqs]) (by simp [hksv]; ext z; rfl)))]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some (mij_op_eval _ BM BN mtile qkT rmaxT (by simp [hmi]) (by simp [hqk]) hrm))]
+  rw [stepStmts.cons_some (stepStmt_assign_eq_some (mij_primitive_op_eval _ BM BN mtile qkT rmaxT (by simp [hmi]) (by simp [hqk]) hrm))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (qk2_op_eval _ BM BN hax qkT mijT (by simp [hqk]) (by simp [hmij])))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (p_op_eval _ BM BN qk2T (by simp [hqk2])))]
   rw [stepStmts.cons_some (@stepStmt_assign_eq_some .real [BM] "l_ij" (Op.reduceSum (⟨1, by simp⟩ : Fin [BM,BN].length) Bool.false (Op.ref .real [BM,BN] "p")) _ lijT (lij_op_eval _ BM BN pT (by simp [hpT])))]
@@ -1835,7 +1855,7 @@ theorem attn_loopBody_steps (BM BN BD NC HA HD : Nat) (hBN : 0 < BN)
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (li_op_eval _ BM ltile alphaT lijT (by simp [hli]) (by simp [hal]) (by simp [hlij])))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (acc1_op_eval _ BM BD hax acctile alphaT (by simp [hacc]) (by simp [hal])))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (load_ptr_mask_real (Op.ref .ptr [BN, BD] "V_ptrs") _ _ Vptr vmaskT (by rw [evalOp_ref]; simp [hVp]) (vmask_eval _ BN BD (BN * NC) SN HA (by simp [hoffs]) (by simp)) (by intro rg o; simp [hundef])))]
-  rw [stepStmts.cons_some (@stepStmt_assign_eq_some TileDType.fp16 [BM,BN] "p" (Op.castFloat .real .fp16 (Op.ref .real [BM,BN] "p")) _ (⟨fun i => FloatDType.real.cast FloatDType.fp16 (pT.data i)⟩ : Tile .fp16 [BM,BN]) (pfp16_op_eval _ BM BN pT (by simp [hpT])))]
+  rw [stepStmts.cons_some (@stepStmt_assign_eq_some TileDType.fp16 [BM,BN] "p" (Op.castFloat .real .fp16 (Op.withPrecision .real .fp32 (Op.ref .real [BM,BN] "p"))) _ (⟨fun i => FloatDType.real.cast FloatDType.fp16 (pT.data i)⟩ : Tile .fp16 [BM,BN]) (pfp16_op_eval _ BM BN pT (by simp [hpT])))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (acc2_op_eval _ BM BN BD acc1T pT vloadT (by simp [hacc1]) (by simp [hpT]) (by simp [hvl])))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (show evalOp (Op.ref .real [BM] "m_ij") _ = some mijT from by rw [evalOp_ref]; simp [hmij]))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (kptr_adv_eval _ BD BN BN HD Kptr "K_ptrs" (by simp [hKp])))]

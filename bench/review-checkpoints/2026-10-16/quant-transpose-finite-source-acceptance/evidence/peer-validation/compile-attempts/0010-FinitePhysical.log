@@ -1,0 +1,22 @@
+QuantTransposeFinite.InputBytes: definition does not reference [QuantTransposeFinite.executeAPI,
+ QuantTransposeFinite.execute,
+ QuantTransposeFinite.prepare,
+ QuantTransposeFinite.runTrials,
+ QuantTransposeFinite.runGrid,
+ QuantTransposeFinite.runProgram,
+ QuantTransposeFinite.runLanes] — non-circular ✓
+QuantTransposeFinite.PhysicalResult: definition does not reference [QuantTransposeFinite.executeAPI,
+ QuantTransposeFinite.execute,
+ QuantTransposeFinite.prepare,
+ QuantTransposeFinite.runTrials,
+ QuantTransposeFinite.runGrid,
+ QuantTransposeFinite.runProgram,
+ QuantTransposeFinite.runLanes,
+ QuantTransposeFinite.externalBytes] — non-circular ✓
+QuantTransposeFinite.quant_transpose_physical_accesses: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+QuantTransposeFinite.quant_transpose_external_result: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+QuantTransposeFinite.quant_transpose_physical_lane_accesses: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -22,7 +22,7 @@ theorem forward_memory (storage : Storage) (swapped : Bool) (A : FlatAlloc)
     refine ⟨?_, ?_, ?_⟩
     rotate_left
     · simp only [Erasure.forward,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeKernel.surfaceBody,
-        ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,Except.bind,bind,ite_false,Bool.false_eq_true,↓reduceIte]
+        ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.bind,bind,ite_false,Bool.false_eq_true,↓reduceIte]
       simp only [FlatAlloc.flattenStmts,FlatAlloc.flattenStmt,FlatAlloc.flattenOp,
         stepStmts,stepStmt,evalOp,evalOp.eq_def,Option.bind,bind,pure,
         Option.map,Option.pure_def,Broadcast.leftIndex,Broadcast.rightIndex,Tile.vec,
@@ -51,7 +51,7 @@ theorem complex_forward_memory (swapped : Bool) (A : FlatAlloc)
     refine ⟨?_, ?_, ?_⟩
     rotate_left
     · simp only [Erasure.complexForward,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeKernel.surfaceBody,
-        ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,Except.bind,bind,ite_false,Bool.false_eq_true,↓reduceIte]
+        ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.bind,bind,ite_false,Bool.false_eq_true,↓reduceIte]
       simp only [FlatAlloc.flattenStmts,FlatAlloc.flattenStmt,FlatAlloc.flattenOp,
         stepStmts,stepStmt,evalOp,evalOp.eq_def,Option.bind,bind,pure,
         Option.map,Option.pure_def,Broadcast.leftIndex,Broadcast.rightIndex,Tile.vec,

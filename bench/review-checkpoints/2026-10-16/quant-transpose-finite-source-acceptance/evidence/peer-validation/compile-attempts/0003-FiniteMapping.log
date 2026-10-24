@@ -1,0 +1,4 @@
+QuantTransposeFinite.inverse_tile: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+QuantTransposeFinite.tile_bounds: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+QuantTransposeFinite.tile_injective: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+QuantTransposeFinite.coordinate_preimage: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])

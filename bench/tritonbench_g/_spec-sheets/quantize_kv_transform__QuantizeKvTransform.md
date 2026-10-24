@@ -102,17 +102,6 @@ def scaleOutOffset
 
 <details><summary><code>destindex_copy_quantize_kv_transform_real_surface</code></summary>
 
-```
-/-- Real-valued surface of `quantize_kv_transform.py`'s
-`_fwd_kernel_destindex_copy_quantize_kv`.
-
-This preserves destination-indexed addressing, the `head_num/head_dim` mask,
-`tl.abs`, per-head scale computation, value writeback, and scale writeback. The
-Python kernel casts the scale to `OutScale.dtype.element_ty`; that cast is
-represented explicitly. The final quotient cast to int8 is preserved as a
-surface dtype annotation and lowers through the DSL's fixed-width cast
-surface. -/
-```
 ```lean
 def destindex_copy_quantize_kv_transform_real_surface
     (K : RegionName) (DestLoc : Region .nat) (Out OutScale : RegionName)
@@ -120,7 +109,7 @@ def destindex_copy_quantize_kv_transform_real_surface
       stride_o_bs stride_o_h stride_o_d
       stride_os_bs stride_os_h _stride_os_d
       head_num head_dim BLOCK_DMODEL BLOCK_HEAD : Nat) :
-    ComputeKernel := triton {
+    ComputeKernel := legacy_real_int8% triton {
   cur_index = tl.program_id(0)
   offs_h = tl.arange(0, $(BLOCK_HEAD))
   offs_d = tl.arange(0, $(BLOCK_DMODEL))
@@ -393,17 +382,6 @@ noncomputable def scaleCellXs (BLOCK_HEAD BLOCK_DMODEL head_num head_dim : Nat)
 
 <details><summary><code>destindex_copy_quantize_kv_transform_real_surface</code></summary>
 
-```
-/-- Real-valued surface of `quantize_kv_transform.py`'s
-`_fwd_kernel_destindex_copy_quantize_kv`.
-
-This preserves destination-indexed addressing, the `head_num/head_dim` mask,
-`tl.abs`, per-head scale computation, value writeback, and scale writeback. The
-Python kernel casts the scale to `OutScale.dtype.element_ty`; that cast is
-represented explicitly. The final quotient cast to int8 is preserved as a
-surface dtype annotation and lowers through the DSL's fixed-width cast
-surface. -/
-```
 ```lean
 def destindex_copy_quantize_kv_transform_real_surface
     (K : RegionName) (DestLoc : Region .nat) (Out OutScale : RegionName)
@@ -411,7 +389,7 @@ def destindex_copy_quantize_kv_transform_real_surface
       stride_o_bs stride_o_h stride_o_d
       stride_os_bs stride_os_h _stride_os_d
       head_num head_dim BLOCK_DMODEL BLOCK_HEAD : Nat) :
-    ComputeKernel := triton {
+    ComputeKernel := legacy_real_int8% triton {
   cur_index = tl.program_id(0)
   offs_h = tl.arange(0, $(BLOCK_HEAD))
   offs_d = tl.arange(0, $(BLOCK_DMODEL))

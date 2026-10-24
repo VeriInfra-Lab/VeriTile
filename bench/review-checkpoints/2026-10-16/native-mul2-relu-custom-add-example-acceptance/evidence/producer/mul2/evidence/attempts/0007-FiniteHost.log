@@ -1,0 +1,76 @@
+/tmp/veritile-standardization-20261015/triton-mul2-finite-acceptance-revision2-wip/bench/tritonbench_g/triton_mul2/Proofs/FiniteHost.lean:84:17: error: Type mismatch
+  output
+has type
+  PointerBinding setup.access output✝ setup.output
+of sort `Prop` but is expected to have type
+  Tensor
+of sort `Type`
+/tmp/veritile-standardization-20261015/triton-mul2-finite-acceptance-revision2-wip/bench/tritonbench_g/triton_mul2/Proofs/FiniteHost.lean:147:4: error: Function expected at
+  PointerSetupBinding
+but this term has type
+  ?m.11
+
+Note: Expected a function because this term is being applied to the argument
+  current
+
+Hint: The identifier `PointerSetupBinding` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.
+/tmp/veritile-standardization-20261015/triton-mul2-finite-acceptance-revision2-wip/bench/tritonbench_g/triton_mul2/Proofs/FiniteHost.lean:240:17: warning: This simp argument is unused:
+  prepend
+
+Hint: Omit it from the simp argument list.
+  simp only [̵p̵r̵e̵p̵e̵n̵d̵]̵ ̵at h
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/triton-mul2-finite-acceptance-revision2-wip/bench/tritonbench_g/triton_mul2/Proofs/FiniteHost.lean:245:21: warning: This simp argument is unused:
+  prepend
+
+Hint: Omit it from the simp argument list.
+  simp only [̵p̵r̵e̵p̵e̵n̵d̵]̵ ̵at h
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/triton-mul2-finite-acceptance-revision2-wip/bench/tritonbench_g/triton_mul2/Proofs/FiniteHost.lean:248:23: warning: This simp argument is unused:
+  prepend
+
+Hint: Omit it from the simp argument list.
+  simp only [̵p̵r̵e̵p̵e̵n̵d̵]̵ ̵at h
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/triton-mul2-finite-acceptance-revision2-wip/bench/tritonbench_g/triton_mul2/Proofs/FiniteHost.lean:251:25: warning: This simp argument is unused:
+  prepend
+
+Hint: Omit it from the simp argument list.
+  simp only [̵p̵r̵e̵p̵e̵n̵d̵]̵ ̵at h
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/triton-mul2-finite-acceptance-revision2-wip/bench/tritonbench_g/triton_mul2/Proofs/FiniteHost.lean:254:27: warning: This simp argument is unused:
+  prepend
+
+Hint: Omit it from the simp argument list.
+  simp only [̵p̵r̵e̵p̵e̵n̵d̵]̵ ̵at h
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/triton-mul2-finite-acceptance-revision2-wip/bench/tritonbench_g/triton_mul2/Proofs/FiniteHost.lean:274:73: error: Function expected at
+  RuntimeContract
+but this term has type
+  ?m.1
+
+Note: Expected a function because this term is being applied to the argument
+  rt
+
+Hint: The identifier `RuntimeContract` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.
+TritonMul2Finite.referenceHost: definition does not reference [TritonMul2Finite.executeHost,
+ TritonMul2Finite.sourceLaunch,
+ TritonMul2Finite.sourceGrid,
+ TritonMul2Finite.executeGrid,
+ TritonMul2Finite.executeProgram,
+ TritonMul2Finite.applyWrites,
+ TritonMul2Finite.source,
+ TritonMul2Finite.Expr.eval] — non-circular ✓
+TritonMul2Finite.ReturnedMetadata: definition does not reference [TritonMul2Finite.executeHost,
+ TritonMul2Finite.referenceHost,
+ TritonMul2Finite.sourceLaunch,
+ TritonMul2Finite.applyWrites] — non-circular ✓
+TritonMul2Finite.parse_name: axiom footprint ⊆ standard base ✓  ([propext])
+TritonMul2Finite.host_correspondence: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
+TritonMul2Finite.division_order: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
+/tmp/veritile-standardization-20261015/triton-mul2-finite-acceptance-revision2-wip/bench/tritonbench_g/triton_mul2/Proofs/FiniteHost.lean:293:0: error: TritonMul2Finite.host_returned_metadata: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

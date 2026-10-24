@@ -21,7 +21,12 @@ theorem block_safe (bounds : RegionBounds) (s : BlockState) (Y T O : RegionName)
       (s.setReg "i" .int [] (Tile.scalar (current : Int))) := by
   by_cases hR : reduction = 0
   all_goals cases logTarget <;>
-    simp [body, forward, forwardSurface, ComputeKernel.surfaceBody,
+    simp [body, forward, forwardSurface, ComputeKernel.eraseDType, ComputeKernel.fromKernelBody,
+      ComputeKernel.toAlgKernel_fromKernelBody, Kernel.eraseDType,
+      Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def,
+      MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def,
+      NumericDType.eraseDType, ComparableDType.eraseDType, ComputeDType.eraseDType,
+      VeriTile.Triton.eraseDType, ComputeKernel.surfaceBody,
       ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeStmt.listToAlgorithm?,
       ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
       Stmt.TraceSafeListR, Stmt.TraceSafeR, Op.SafeAtR.eq_def,
@@ -52,7 +57,12 @@ theorem prefix_safe (bounds : RegionBounds) (s : BlockState) (Y T O : RegionName
     Stmt.TraceSafeListR .triv bounds
       ((forward Y T O sy st so N B eps logTarget reduction).body.take 6) s := by
   cases logTarget <;>
-    simp [forward, forwardSurface, ComputeKernel.surfaceBody,
+    simp [forward, forwardSurface, ComputeKernel.eraseDType, ComputeKernel.fromKernelBody,
+      ComputeKernel.toAlgKernel_fromKernelBody, Kernel.eraseDType,
+      Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def,
+      MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def,
+      NumericDType.eraseDType, ComparableDType.eraseDType, ComputeDType.eraseDType,
+      VeriTile.Triton.eraseDType, ComputeKernel.surfaceBody,
       ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeStmt.listToAlgorithm?,
       ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
       Stmt.TraceSafeListR, Stmt.TraceSafeR, Op.SafeAtR.eq_def,
@@ -64,13 +74,18 @@ theorem element_finish_safe (bounds : RegionBounds) (s : BlockState) (Y T O : Re
     (sy st so N B : Nat) (eps : ℝ) (logTarget : Bool) :
     Stmt.TraceSafeListR .triv bounds
       ((forward Y T O sy st so N B eps logTarget 0).body.drop 7) s := by
-  simp [forward, forwardSurface, ComputeKernel.surfaceBody,
+  cases logTarget <;> simp [forward, forwardSurface, ComputeKernel.eraseDType, ComputeKernel.fromKernelBody,
+      ComputeKernel.toAlgKernel_fromKernelBody, Kernel.eraseDType,
+      Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def,
+      MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def,
+      NumericDType.eraseDType, ComparableDType.eraseDType, ComputeDType.eraseDType,
+      VeriTile.Triton.eraseDType, ComputeKernel.surfaceBody,
     ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeStmt.listToAlgorithm?,
     ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
     Stmt.TraceSafeListR, Stmt.TraceSafeR, Op.SafeAtR.eq_def,
     evalOpR_triv, evalOp.eq_def, Tile.cop, ComparableDType.ne,
     Tile.scalar, -Tile.scalar_eta, Except.bind, bind]
-  split <;> trivial
+  all_goals split <;> trivial
 
 /-- Every nonzero mode performs the single final scalar store, including for N=0. -/
 theorem reduction_finish_safe (bounds : RegionBounds) (s : BlockState) (Y T O : RegionName)
@@ -80,7 +95,12 @@ theorem reduction_finish_safe (bounds : RegionBounds) (s : BlockState) (Y T O : 
     (hbo : outputBase < bounds O) :
     Stmt.TraceSafeListR .triv bounds
       ((forward Y T O sy st so N B eps logTarget reduction).body.drop 7) s := by
-  simp [forward, forwardSurface, ComputeKernel.surfaceBody,
+  cases logTarget <;> simp [forward, forwardSurface, ComputeKernel.eraseDType, ComputeKernel.fromKernelBody,
+      ComputeKernel.toAlgKernel_fromKernelBody, Kernel.eraseDType,
+      Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def,
+      MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def,
+      NumericDType.eraseDType, ComparableDType.eraseDType, ComputeDType.eraseDType,
+      VeriTile.Triton.eraseDType, ComputeKernel.surfaceBody,
     ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeStmt.listToAlgorithm?,
     ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
     Stmt.TraceSafeListR, Stmt.TraceSafeR, Op.SafeAtR.eq_def,
@@ -88,7 +108,7 @@ theorem reduction_finish_safe (bounds : RegionBounds) (s : BlockState) (Y T O : 
     memAccessActiveAddressSafeR, evalOpR_triv, evalOp.eq_def,
     Tile.cop, ComparableDType.ne, hR, hO, hbo,
     Tile.scalar, -Tile.scalar_eta, Region.cast, Except.bind, bind]
-  constructor <;> split <;> trivial
+  all_goals constructor <;> split <;> trivial
 
 end VeriTile.Bench.TritonBenchG.KldivOps.FullForward
 #guard_msgs (drop info) in

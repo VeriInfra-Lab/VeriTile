@@ -1,0 +1,56 @@
+/tmp/veritile-standardization-20261015/relu-finite-acceptance-revision1-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ActualGrid.lean:56:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  runGrid b d pointers undef X O n rest
+    (applyWrites (programWrites b d input.pointer output.pointer n pid initial) current)
+in the target expression
+  (do
+      let next ← some (applyWrites (programWrites b d input.pointer output.pointer n pid initial) current)
+      runGrid b d pointers undef X O n rest next) =
+    some (applyWrites (gridWrites b d input.pointer output.pointer n (pid :: rest) initial) current)
+
+case cons
+b : Numerics
+d : Storage
+pointers : RegionName → BitVec 64
+undef : Word d
+X O : RegionName
+input output : PhysicalView
+ctx : AccessContext
+n : ℕ
+initial : ByteMemory.Memory
+hx : pointers X = input.pointer
+ho : pointers O = output.pointer
+sep : input.Disjoint output
+pid : ℕ
+rest : List ℕ
+ih :
+  ∀ (current : ByteMemory.Memory),
+    Preserved output current initial →
+      GridSafe ctx d input output n rest →
+        runGrid b d pointers undef X O n rest current =
+          some (applyWrites (gridWrites b d input.pointer output.pointer n rest initial) current)
+current : ByteMemory.Memory
+same : Preserved output current initial
+safe : GridSafe ctx d input output n (pid :: rest)
+hp : ProgramSafe ctx d input output n pid
+hr : GridSafe ctx d input output n rest
+⊢ (do
+      let next ← some (applyWrites (programWrites b d input.pointer output.pointer n pid initial) current)
+      runGrid b d pointers undef X O n rest next) =
+    some (applyWrites (gridWrites b d input.pointer output.pointer n (pid :: rest) initial) current)
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.gridFormula: definition does not reference [VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.runGrid,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.runProgram,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.executeBody,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.step,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.applyWrites] — non-circular ✓
+/tmp/veritile-standardization-20261015/relu-finite-acceptance-revision1-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ActualGrid.lean:127:0: error: VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.source_grid_correspondence: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/relu-finite-acceptance-revision1-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ActualGrid.lean:128:0: error: VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.source_grid_formula: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.grid_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.stores32_exact: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.launched_stores_only_first: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.empty_grid: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

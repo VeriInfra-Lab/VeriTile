@@ -1,0 +1,368 @@
+{
+  "task": "multinomial_sampling",
+  "status": "targeted_compile_and_axioms_pass",
+  "overlay": "/tmp/veritile-multinomial-fp-20261014",
+  "public": [
+    {
+      "file": "bench/tritonbench_g/multinomial_sampling/FPCorrect.lean",
+      "name": "VeriTile.Bench.TritonBenchG.MultinomialSampling.FPCorrect.multinomial_full_backend_correctness",
+      "kind": "parameterized_complete_backend_value_contract",
+      "role": "parametric_value_contract",
+      "statement": "specification multinomial_full_backend_correctness\n    {\u03b1 : Type} [Inhabited \u03b1] (rest : Algebra \u03b1) (P : Primitives \u03b1)\n    (d : Storage) (p : Parameters) (initial : State \u03b1) (hseed : SeedDomain p initial) :\n    \u2203 final, FP.Structural.exec (backend rest P) (source d p) initial=some final \u2227\n      final.mem=(written P d p initial).mem \u2227\n      (\u2200 i : Row p, active p initial i \u2192 final.mem p.output (row p initial i)=\n        .mk .int ((rounds P d p initial (count p)).output i)) \u2227\n      (\u2200 r o, (r\u2260p.output \u2228 \u2200 i : Row p, active p initial i \u2192 o\u2260row p initial i) \u2192\n        final.mem r o=initial.mem r o)",
+      "statement_sha256": "ecd1ff3f13d3cd700c51717282ea69403dea06b375ba49d181c10e82acbc8910"
+    },
+    {
+      "file": "bench/tritonbench_g/multinomial_sampling/FPCorrect.lean",
+      "name": "VeriTile.Bench.TritonBenchG.MultinomialSampling.FPCorrect.multinomial_full_software_correctness",
+      "kind": "parameterized_complete_software_bit_value_contract",
+      "role": "parametric_value_contract",
+      "statement": "specification multinomial_full_software_correctness\n    (rest : Algebra Word) (d : Storage) (plans : Plans) (p : Parameters)\n    (initial : State Word) (hseed : SeedDomain p initial) :\n    \u2203 final, FP.Structural.exec (backend rest (software d plans)) (source d p) initial=some final \u2227\n      final.mem=(written (software d plans) d p initial).mem \u2227\n      (\u2200 i : Row p, active p initial i \u2192 final.mem p.output (row p initial i)=\n        .mk .int ((rounds (software d plans) d p initial (count p)).output i)) \u2227\n      (\u2200 r o, (r\u2260p.output \u2228 \u2200 i : Row p, active p initial i \u2192 o\u2260row p initial i) \u2192\n        final.mem r o=initial.mem r o)",
+      "statement_sha256": "d3a47a44eee12eba9db0979b6bbdc3359eb3e07f52ebd851acfdb6d3b5a9509c"
+    }
+  ],
+  "scope": "Complete original kernel: 11-statement prologue, all 12-statement raw token-loop iterations, final masked store. All four Scores storage profiles fp16/bf16/fp32/fp64; arbitrary batch/token counts, program id, nonnegative strides and logical input/index/output aliases. Positive power-of-two BLOCK/BLOCK_N at most1048576; includes wrapper8/128.",
+  "scope_exclusions": [
+    "Host num_tokens==1 early return and host tensor allocation are separate from the kernel theorem.",
+    "Natural-number addresses do not establish native signed i32/i64 nonoverflow, byte-pointer aliasing, or cross-program scheduling."
+  ],
+  "input_conditions": [
+    {
+      "name": "SeedDomain",
+      "classification": "ordinary_signed64_storage_typing",
+      "meaning": "Every seed result used by source RNG, including masked-load undef, lies in signed64 range. Every legal signed64 undef payload is allowed."
+    },
+    {
+      "name": "Parameters.blockDomain/tokensDomain",
+      "classification": "ordinary_Triton_arange_configuration",
+      "meaning": "Both block sizes are positive powers of two at most1048576."
+    }
+  ],
+  "native_typing_domain": "Native states use zeroextended16/32bit or full64bit score encodings and signed64 seed/offset/index/output cells. The structural theorem extends other carriers to arbitrary Word/Int states and does not impose finite/nonnegative/normalized scores.",
+  "extra_numeric_laws": [],
+  "reference": "Independent initial-memory scores/indices/seeds/offsets; full padded fp32 scan, rounded cumulative add/sub, maxnum-based accumulator update, strict-lower/inclusive-upper interval tests, uint32-modular Boolean count, smallest-tied int32 argmax, last-matching-block overwrite; full final memory equality, every active output and complete frame.",
+  "numeric_profile": {
+    "word": "BitVec64 carrier; real storage tags for fp32/fp64 are erasures with actual bit interpretations, not Real evaluators. fp64 load has explicit child precision.",
+    "storage": "Explicit binary16 decode and round, bf16/fp32 bit library, explicit1/11/52 binary64 decode with bias1023 and exact rational RNE narrowing. Negative zero/Inf/subnormal preserved; conversions canonicalize NaNs except fp32 same-format source cast preserves bits.",
+    "scalar": "Concrete FP32 IEEE-value add/sub/ordered lt/le; gradual underflow, canonical arithmetic NaNs. No opaque floating primitive remains in software specialization.",
+    "rng": "Concrete10-round Philox Random.rand with i64 seed and original offset low32bits signed32 cast; bit-exact fp32 sample embedding.",
+    "scan": "Checked nonempty binary tree per prefix length; each prefix input appears once, including padding; no artificial zero seed or associativity law. Plans may be selected per kernel configuration; ascending software instance provided.",
+    "maximum": "Checked tree over every scan lane; maxnum singleNaN selects numeric, doubleNaN canonical, mixedzero selects+0. Matches local Triton operation family only, not proven native payload/schedule.",
+    "discrete": "Concrete modulo2^32 true-count and smallest-tied integer argmax. Native integer-width/ABI and reductions remain a binding obligation.",
+    "residual_backend": "The full final-memory result is independent of every remaining Algebra callback, for arbitrary rest."
+  },
+  "source_binding": {
+    "original_python_sha256": "3bd5a7c11f42ade4e2ae69b58019888a419990bfbf3fe1d54d877e50e36de336",
+    "jit_ast_unchanged": true,
+    "lean_source_sha256": "7c56931c3edd6839a5db20aa065303e5104caa8116d78cb9d0bffa161b1117b6",
+    "shape_proof_sha256": "370cb11aa62d50c68adf8fd8b7664af271aa5782b84e3c6feb8b9ed21821e7b4",
+    "rfl_bridges": [
+      "fp32_source_exact",
+      "fp16_source_exact",
+      "bf16_source_exact",
+      "fp64_source_exact"
+    ],
+    "translation_scaffolding": "Two checked constexpr bindings and equivalent zero-shape expression; full source body retained.",
+    "boundary": "Exact Lean probe equality and pinned unchanged JIT/compiler artifacts are separate evidence. No general Python-to-Lean or compiler correctness theorem."
+  },
+  "known_source_behavior": {
+    "kind": "rounded_interval_overlap_and_last_match_overwrite",
+    "not_an_extra_numeric_assumption": true,
+    "witness": "Seed0/offset1 sample3d63666a; first block selects41, later rounded lower bound overlaps the sample and second block replaces it with99. Complete execution has batch and token tails and Indices=Outputs.",
+    "probability_distribution_correctness_established": false
+  },
+  "witnesses": [
+    {
+      "name": "witness_seed_domain",
+      "role": "supporting_concrete_check"
+    },
+    {
+      "name": "overlap_values",
+      "role": "supporting_concrete_check"
+    },
+    {
+      "name": "alias_overlap_execution",
+      "role": "supporting_execution_witness"
+    },
+    {
+      "name": "storage_boundary_vectors",
+      "role": "supporting_concrete_check"
+    },
+    {
+      "name": "maxnum_vectors",
+      "role": "supporting_concrete_check"
+    }
+  ],
+  "native": {
+    "status": "pending",
+    "gpu_executed": false,
+    "numerical_conformance_established": false,
+    "offline_compile_count": 8,
+    "offline_artifacts_rechecked": 40,
+    "offline_audit": "/tmp/multinomial-fp-20261014/final/native-audit.json",
+    "offline_audit_sha256": "75984a9e2774294c68089828b301fdc11c8df76d599a38a9071871f6e21cccf3",
+    "required_primitives": [
+      "Four input storage formats and narrowing casts, including NaN payloads and subnormals",
+      "FP32 add/sub/ordered comparisons and native FTZ options",
+      "Exact scan prefix trees and maxnum reduction trees/zero ties",
+      "Philox seed/offset ABI and fp32 sample conversion",
+      "Boolean uint32 count and left-tied int32 argmax",
+      "Masked signed64 index loads/stores and legal undef typing",
+      "Host allocation, launch, native addresses and inter-program refinement"
+    ],
+    "ftz_boundary": "Frozen native compile options enable_reflect_ftz=true; software ieeeValue gradual underflow is not asserted equal to that native execution."
+  },
+  "compile": [
+    {
+      "file": "bench/tritonbench_g/multinomial_sampling/Proofs/FPSource.lean",
+      "command": [
+        "lean",
+        "-o",
+        ".lake/build/lib/lean/bench/tritonbench_g/multinomial_sampling/Proofs/FPSource.olean",
+        "bench/tritonbench_g/multinomial_sampling/Proofs/FPSource.lean"
+      ],
+      "cwd": "/tmp/veritile-multinomial-fp-20261014",
+      "source_sha256": "7c56931c3edd6839a5db20aa065303e5104caa8116d78cb9d0bffa161b1117b6",
+      "exit_code": 0,
+      "elapsed_seconds": 4.599130572009017,
+      "log": "/tmp/multinomial-fp-20261014/final/FPSource.log",
+      "log_sha256": "daf4957609d0e257c2ab42b242942063e410f1ef9d44435b52f46a173d5180fb",
+      "axiom_checks": 2,
+      "noncircular_checks": 0,
+      "olean_sha256": "a91eadb9a712cf1cedfd1d790539f91e23a8a18d703de588afd06c91f77526b2"
+    },
+    {
+      "file": "bench/tritonbench_g/multinomial_sampling/Proofs/FPBackend.lean",
+      "command": [
+        "lean",
+        "-o",
+        ".lake/build/lib/lean/bench/tritonbench_g/multinomial_sampling/Proofs/FPBackend.olean",
+        "bench/tritonbench_g/multinomial_sampling/Proofs/FPBackend.lean"
+      ],
+      "cwd": "/tmp/veritile-multinomial-fp-20261014",
+      "source_sha256": "b6abf900fb12864bf6d4d07b28a6dd261e2ce7459dc837b69be3fe84f397eb28",
+      "exit_code": 0,
+      "elapsed_seconds": 2.927770195994526,
+      "log": "/tmp/multinomial-fp-20261014/final/FPBackend.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "axiom_checks": 0,
+      "noncircular_checks": 0,
+      "olean_sha256": "07ae3b59d98629dbd256e973740f8aff362df9b368b6dcea5fe179e72ed2b130"
+    },
+    {
+      "file": "bench/tritonbench_g/multinomial_sampling/Proofs/FPReference.lean",
+      "command": [
+        "lean",
+        "-o",
+        ".lake/build/lib/lean/bench/tritonbench_g/multinomial_sampling/Proofs/FPReference.olean",
+        "bench/tritonbench_g/multinomial_sampling/Proofs/FPReference.lean"
+      ],
+      "cwd": "/tmp/veritile-multinomial-fp-20261014",
+      "source_sha256": "6d0e009b6198d67502ea98d9718d7841e214ad6b6efe0c9ccfe9484633ffa676",
+      "exit_code": 0,
+      "elapsed_seconds": 2.8689790000062203,
+      "log": "/tmp/multinomial-fp-20261014/final/FPReference.log",
+      "log_sha256": "1cb614e02a43cbd86a52696c0defa30801019e9ad5941611d64b036bfe0fc802",
+      "axiom_checks": 0,
+      "noncircular_checks": 1,
+      "olean_sha256": "bf17ce159b83b12d86593c1f5044f4cc3ae90c400bd7091d9f58147c48c1f98b"
+    },
+    {
+      "file": "bench/tritonbench_g/multinomial_sampling/Proofs/FPInvariant.lean",
+      "command": [
+        "lean",
+        "-o",
+        ".lake/build/lib/lean/bench/tritonbench_g/multinomial_sampling/Proofs/FPInvariant.olean",
+        "bench/tritonbench_g/multinomial_sampling/Proofs/FPInvariant.lean"
+      ],
+      "cwd": "/tmp/veritile-multinomial-fp-20261014",
+      "source_sha256": "14b6e72b108dae14b9f413295be1ff160369bb8a7dd23e8a9de79cc7b86c5d29",
+      "exit_code": 0,
+      "elapsed_seconds": 2.6329443249996984,
+      "log": "/tmp/multinomial-fp-20261014/final/FPInvariant.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "axiom_checks": 0,
+      "noncircular_checks": 0,
+      "olean_sha256": "3533bb0933c73f30c38cdf94594663501202060ec25f8e8ea8d5d8e3f94333b6"
+    },
+    {
+      "file": "bench/tritonbench_g/multinomial_sampling/Proofs/FPPrologue.lean",
+      "command": [
+        "lean",
+        "-o",
+        ".lake/build/lib/lean/bench/tritonbench_g/multinomial_sampling/Proofs/FPPrologue.olean",
+        "bench/tritonbench_g/multinomial_sampling/Proofs/FPPrologue.lean"
+      ],
+      "cwd": "/tmp/veritile-multinomial-fp-20261014",
+      "source_sha256": "00274d1ecff7360ff645e9876b6b704f23de1b6e997c8919575951e8a7c8ce54",
+      "exit_code": 0,
+      "elapsed_seconds": 8.961955671999021,
+      "log": "/tmp/multinomial-fp-20261014/final/FPPrologue.log",
+      "log_sha256": "e9362f154b8435a7ed02de9f11b50fe3db6615e1276dba8aaaaab4bcd5c8039b",
+      "axiom_checks": 7,
+      "noncircular_checks": 0,
+      "olean_sha256": "2a8d92a067c573b8d2679352751e1b06feb8a0ed5a413eccdf4a69eaca483ff9"
+    },
+    {
+      "file": "bench/tritonbench_g/multinomial_sampling/Proofs/FPBody.lean",
+      "command": [
+        "lean",
+        "-o",
+        ".lake/build/lib/lean/bench/tritonbench_g/multinomial_sampling/Proofs/FPBody.olean",
+        "bench/tritonbench_g/multinomial_sampling/Proofs/FPBody.lean"
+      ],
+      "cwd": "/tmp/veritile-multinomial-fp-20261014",
+      "source_sha256": "71eeeb06ca6f8825e12e15402093f4cd7f97e6ac5b51f9e45071a27316274869",
+      "exit_code": 0,
+      "elapsed_seconds": 17.091236888998537,
+      "log": "/tmp/multinomial-fp-20261014/final/FPBody.log",
+      "log_sha256": "8212469e2f128caa271da1b9916afe9f53a2b27bae45209e09e9cfaadfdf8687",
+      "axiom_checks": 2,
+      "noncircular_checks": 0,
+      "olean_sha256": "cba703533143afaaaf815262ce5cad4003de74ac9443b015eaedd55c1a06cbd8"
+    },
+    {
+      "file": "bench/tritonbench_g/multinomial_sampling/Proofs/FPComplete.lean",
+      "command": [
+        "lean",
+        "-o",
+        ".lake/build/lib/lean/bench/tritonbench_g/multinomial_sampling/Proofs/FPComplete.olean",
+        "bench/tritonbench_g/multinomial_sampling/Proofs/FPComplete.lean"
+      ],
+      "cwd": "/tmp/veritile-multinomial-fp-20261014",
+      "source_sha256": "bc85bcb2c173c7c0a0b9d9b6e1a530ffe0a608d3335b9dc99aca6b4aeb837aa8",
+      "exit_code": 0,
+      "elapsed_seconds": 4.074781995994272,
+      "log": "/tmp/multinomial-fp-20261014/final/FPComplete.log",
+      "log_sha256": "41874c656e8915c35061dc7f9c2f8527cadfb25181a1b3285517f020796d4071",
+      "axiom_checks": 4,
+      "noncircular_checks": 0,
+      "olean_sha256": "af3e9db92628e2260eaca4e66eb95314804c1a8b2bceec40b1bc300ed8f2bef6"
+    },
+    {
+      "file": "bench/tritonbench_g/multinomial_sampling/Proofs/FPStorage.lean",
+      "command": [
+        "lean",
+        "-o",
+        ".lake/build/lib/lean/bench/tritonbench_g/multinomial_sampling/Proofs/FPStorage.olean",
+        "bench/tritonbench_g/multinomial_sampling/Proofs/FPStorage.lean"
+      ],
+      "cwd": "/tmp/veritile-multinomial-fp-20261014",
+      "source_sha256": "1d7034c38cc29ee84fb9e816344a6c9245f0731d01a39ba895683835004145ef",
+      "exit_code": 0,
+      "elapsed_seconds": 2.8297422409959836,
+      "log": "/tmp/multinomial-fp-20261014/final/FPStorage.log",
+      "log_sha256": "dfd879f1eb51b756d10bb8a404a0d039d1dd1f6dfe42acc1114cb1429b2dd446",
+      "axiom_checks": 1,
+      "noncircular_checks": 0,
+      "olean_sha256": "5ccd103a0fcaffb113126ac7df54d2c78e92d481a3b44ff5f151af536c735ee9"
+    },
+    {
+      "file": "bench/tritonbench_g/multinomial_sampling/Proofs/FPSoftware.lean",
+      "command": [
+        "lean",
+        "-o",
+        ".lake/build/lib/lean/bench/tritonbench_g/multinomial_sampling/Proofs/FPSoftware.olean",
+        "bench/tritonbench_g/multinomial_sampling/Proofs/FPSoftware.lean"
+      ],
+      "cwd": "/tmp/veritile-multinomial-fp-20261014",
+      "source_sha256": "06d69784886928c0ed6602bdf77dfdcbf4d7f3c0cdf86e4f6dbf5523ca167945",
+      "exit_code": 0,
+      "elapsed_seconds": 2.983345852990169,
+      "log": "/tmp/multinomial-fp-20261014/final/FPSoftware.log",
+      "log_sha256": "f0e3dab1319648b586bbea2e863fc8cb958d404b46a5736892c9ebbf46522b45",
+      "axiom_checks": 3,
+      "noncircular_checks": 0,
+      "olean_sha256": "38cbbbfa99fb71137685a3509bf0892fe86d1ca49a0004ec69f22d58fe7742db"
+    },
+    {
+      "file": "bench/tritonbench_g/multinomial_sampling/Proofs/FPShape.lean",
+      "command": [
+        "lean",
+        "-o",
+        ".lake/build/lib/lean/bench/tritonbench_g/multinomial_sampling/Proofs/FPShape.olean",
+        "bench/tritonbench_g/multinomial_sampling/Proofs/FPShape.lean"
+      ],
+      "cwd": "/tmp/veritile-multinomial-fp-20261014",
+      "source_sha256": "370cb11aa62d50c68adf8fd8b7664af271aa5782b84e3c6feb8b9ed21821e7b4",
+      "exit_code": 0,
+      "elapsed_seconds": 3.2453949549963,
+      "log": "/tmp/multinomial-fp-20261014/final/FPShape.log",
+      "log_sha256": "5d0fa2a5bb693587897c53bee602075a1082a35e023a65f23eea5332b2e06792",
+      "axiom_checks": 5,
+      "noncircular_checks": 0,
+      "olean_sha256": "a988dea461ec3795a293adc0e66b0a83035202a557a1486a2a854317a7c156aa"
+    },
+    {
+      "file": "bench/tritonbench_g/multinomial_sampling/FPCorrect.lean",
+      "command": [
+        "lean",
+        "-o",
+        ".lake/build/lib/lean/bench/tritonbench_g/multinomial_sampling/FPCorrect.olean",
+        "bench/tritonbench_g/multinomial_sampling/FPCorrect.lean"
+      ],
+      "cwd": "/tmp/veritile-multinomial-fp-20261014",
+      "source_sha256": "4ace17b6cbec9180d5b68552ffc57ded977bf78c51043e4a97abd337913c502f",
+      "exit_code": 0,
+      "elapsed_seconds": 3.0593099200050347,
+      "log": "/tmp/multinomial-fp-20261014/final/FPCorrect.log",
+      "log_sha256": "431a7b86fcbf1f383c78b39662d6cb24fbf9de9812e360668c00e73818fc7be7",
+      "axiom_checks": 2,
+      "noncircular_checks": 0,
+      "olean_sha256": "9ecc8ad95c957686b39a0adb1a94fcb73b90b75ca6b1f2103e7694654b5820fa"
+    },
+    {
+      "file": "bench/tritonbench_g/multinomial_sampling/Proofs/FPWitness.lean",
+      "command": [
+        "lean",
+        "-o",
+        ".lake/build/lib/lean/bench/tritonbench_g/multinomial_sampling/Proofs/FPWitness.olean",
+        "bench/tritonbench_g/multinomial_sampling/Proofs/FPWitness.lean"
+      ],
+      "cwd": "/tmp/veritile-multinomial-fp-20261014",
+      "source_sha256": "6da86211f19c9d882a71792fc59259cd8bc3a9a87f9d7b141077898628acad2b",
+      "exit_code": 0,
+      "elapsed_seconds": 3.2267921780003235,
+      "log": "/tmp/multinomial-fp-20261014/final/FPWitness.log",
+      "log_sha256": "8e55b166467f6ad7dd623b07cc4cf35650a7998067601ccfbff8e812f46807bf",
+      "axiom_checks": 3,
+      "noncircular_checks": 0,
+      "olean_sha256": "31f84a9fa0b0aec10f2c08c72309cdad7dc70d03f376de57f590de6c213d7882"
+    }
+  ],
+  "task_module_count": 12,
+  "axiom_check_count": 29,
+  "noncircular_check_count": 1,
+  "inputs_unchanged": true,
+  "input_count": 74,
+  "dependencies_sha256": "d27a3d565a33f7af7d7afb0c3a0841c2a7fff87c9c1c4e4ec6ebdac7c39c345f",
+  "inputs_zip_sha256": "3008849771bd72c6d501aece1637e2fa264dceac215930db9690f35a8a4ba6fb",
+  "audit_scripts_sha256": {
+    "prepare.py": "0bcc82447ff30e398515c03d36f65ca1f2f56b10d7a6024bdfc2f0b2f43969c3",
+    "compile.py": "5dc87bbde36a2426f99dc70bf73389a1ae17060efe9c434d9a1b6959c70d664a",
+    "finalize.py": "fe6b780f9e942115d8f1ef5c7d26c99ad3d8750c689f6643ccf70d151270c29a"
+  },
+  "full_library_build": false,
+  "gpu_experiments_run": false,
+  "workspace_or_common_iso_modified": false,
+  "shared_core_or_metadata_modified": false,
+  "reproducibility": {
+    "lean_path": "/tmp/veritile-multinomial-fp-20261014/.lake/build/lib/lean:/tmp/veritile-int16-frontend-20261014/.lake/build/lib/lean:/tmp/veritile-combined-frontend-20261014/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/tmp/veritile-fp-full-precheck/.lake/build/lib/lean:/tmp/lean-4.29.0-linux/lib/lean",
+    "compiler": "Lean (version 4.29.0, x86_64-unknown-linux-gnu, commit 98dc76e3c0a9b856c9b98726b713fb04fab16740, Release)",
+    "lean_binary_sha256": "3e0d0d3d801675359f2d4cf9815bfdb417b20b92fdd9d48b3b14c95bbae28bbf",
+    "module_order": [
+      "FPSource",
+      "FPBackend",
+      "FPReference",
+      "FPInvariant",
+      "FPPrologue",
+      "FPBody",
+      "FPComplete",
+      "FPStorage",
+      "FPSoftware",
+      "FPShape",
+      "FPCorrect",
+      "FPWitness"
+    ],
+    "commands": "prepare.py before compilation; compile.py Proofs/NAME for helpers and compile.py FPCorrect for public, in module_order; finalize.py rejects current source/dependency/artifact drift."
+  }
+}

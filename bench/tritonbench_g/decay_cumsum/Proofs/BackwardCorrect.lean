@@ -115,11 +115,14 @@ theorem original_correct (source gate : Storage) (DQInner DQInter DKInner DKInte
   obtain ⟨v,he,hv,hf⟩ := h A hd hr hc p₀ p₁ p₂ xs u hp₀ hp₁ hp₂ hu hread hwrite hin
   change exec (A.flattenKernel (RealReference.bwd_decay_global_cumsum_surface DQInner DQInter DKInner DKInter Q K G DG sH DK BT BK).toAlgKernel)
     (A.flattenState u) = some v at he
-  rw [BackwardExecution.flat A source gate DQInner DQInter DKInner DKInter Q K G DG sH sT sD B H T BT BK DK scale] at he
-  obtain ⟨w,hw,rfl⟩ := Option.map_eq_some_iff.mp he
+  have he' := congrArg (Option.map BackwardLoop.norm) he
+  rw [BackwardExecution.flat A source gate DQInner DQInter DKInner DKInter Q K G DG sH sT sD B H T BT BK DK scale hBT] at he'
+  obtain ⟨w,hw,hn⟩ := Option.map_eq_some_iff.mp he'
+  have hmem : w.mem = v.mem := by
+    simpa only [BackwardLoop.norm] using congrArg BlockState.mem hn
   refine ⟨w,hw,?_,?_⟩
-  · simpa only [BackwardRegisterFrame.setOffs,BlockState.setReg_readMem] using hv
-  · simpa only [BackwardRegisterFrame.setOffs,BlockState.setReg_mem] using hf
+  · simpa only [BlockState.readMem,hmem] using hv
+  · simpa only [hmem] using hf
 
 theorem index_commuted_correct (source gate : Storage) (DQInner DQInter DKInner DKInter Q K G DG : RegionName)
     (sH sT sD B H T DK BT BK : Nat) (scale : ℝ)

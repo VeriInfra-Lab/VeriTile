@@ -5,10 +5,13 @@ both Lean and Python source fingerprints by `bench/coverage_review.py` and
 rendered into `proof_gap_manifest.tsv` by `bench/check_proof_gap_manifest.py`.
 The [browsable coverage table](https://lizn-zn.github.io/VeriTile/proofs/coverage/)
 shows exact theorem statements, IO definitions, Python functions, numeric
-models, and limitations for all 431 headlines across 173 ports.
+models, and limitations for all 668 headlines across 173 imported ports in the
+2026-10-13 integrated snapshot.
 
-The current review records 141 `full_value_candidate`, 258 `specialization`,
-27 `precomputed_input_slice`, 3 `pre_rounding_slice`, and 2 `blocked_summary` rows. A candidate is subject to its model and explicit assumptions; a scope
+The integrated review records 254 `full_value_candidate`, 379 `specialization`,
+4 `projection_only`, 26 `precomputed_input_slice`, 3 `pre_rounding_slice`, and
+2 `blocked_summary` rows. A candidate is subject to its model and explicit
+assumptions; a scope
 review is not an independent certification of the Python translation or GPU
 execution. Source changes require a new review rather than automatically
 retaining a favorable label. Explicit source annotations cannot be overridden
@@ -19,8 +22,9 @@ also contains a full producer surface or projection proof. For example,
 `flash_decode2_llama`, `flash_decode2_phi`, and
 `layer_norm_ops` include writeback contracts whose inputs are already computed.
 The inventory records the actual headline's scope, without transferring claims
-from neighboring declarations. `rotary_emb` proves separate store contracts;
-its full-surface projection does not itself compose them into one full IO proof.
+from neighboring declarations. `rotary_emb` now composes its complete Q/K source
+execution, independent formulas, actual safety and full raw frame in the public
+contract; native source-domain boundaries and independent replay remain open.
 
 The quantization gaps remain explicit: `int8_quantization` takes `ScalePre`;
 `quantize_global` and `rowwise_quantization_triton` have pre-rounding claims;
@@ -34,6 +38,42 @@ Its broad “discharged” and “full-value” labels must not replace the curr
 per-statement inventory. The sections below track additional named-surface,
 frame, and translation limitations. The mechanical translation scan remains
 a consistency gate, not a substitute for review against `review_criteria.md`.
+
+## BGMV general floating-point equivalence
+
+The completed aggregate build exits 1 after reaching 4727/4727 jobs. Its only
+listed failed module is the previously reopened
+`bgmv_expand_slice.Proofs.FP` and fails at its old locator-presence and general
+equivalence proofs. Its arbitrary-output theorem is not implied by the
+fp32-only scalar rules: `bgmv_expand_slice/Proofs/GeneralCountermodel.lean`
+provides a logical countermodel, while `Proofs/SupportedFP32.lean` proves only
+the separately stated fp32-output scope. New source-audit selector comments
+do not change these statements or supply the missing admissions. This remains
+a build and contract blocker for the full corpus.
+
+## Source comparison residuals
+
+The latest frozen source-only audit extracts all 173 explicitly selected views,
+but ten comparison gates fail in `pow_scalar_tensor`. Its 3019 input hashes
+remain stable, including per-port READMEs, source tools and CI configuration.
+Earlier frozen snapshots had failures across 23, 17 and then seven ports.
+Reviewed parameter maps, dtype handling and boolean constexpr profiles are now
+joined by five recorded epsilon ABI profiles and exact FlagGems helper
+expansion. The runtime evidence admits only Python-float/fp32 comparison;
+FlagGems retains symbolic storage. No translation exemptions were added.
+All 142 combined regression tests pass, alongside 36 independent helper cases,
+four helper production expectations and eighteen runtime expectations.
+
+Pow retains parameter, helper-dispatch, branch, dtype and memory-call
+differences. Its twelve original parameters require nine retained mappings,
+one boolean selection and two wrapper-derived rank-one stride-order constants.
+Its imported native power helper needs explicit dispatch evidence, rather than
+unreviewed alias normalization. These comparisons are not assumed equivalent.
+The 43 existing translation markers remain unchanged, and only 130 selected
+views enter detailed comparison. Unselected JITs/profiles and later edits remain
+outside this snapshot's evidence. The exact gate-to-port list is
+`/tmp/veritile-source-audit-runtime-helpers-final-receipt.json`; the full log is
+`/tmp/veritile-source-audit-runtime-helpers.log`. The complete corpus audit still fails.
 
 ## Block-sparse public contract
 
@@ -58,19 +98,25 @@ replayed all 59 case/test files, checked 480 named declarations and 2,709 kernel
 theorem targets, and verified all 953 snapshot input hashes. The case is
 complete for the displayed contracts; see [the case notes](block_sparse_attn/README.md).
 
-## FlashAttention historical AST equalities
+## FlashAttention historical AST equalities and native stores
 
-Fresh compilation of `flash_attn/Proofs/LegacyReal.lean` still rejects
-`flashLoopBody_eq_tail` and `flashLoopBodyG_eq_tail`: their retained statements
-use `Op.load`'s default `.zero` padding, whereas the faithful source loop uses
-`.unspecified`. The adjacent `_source` statements explicitly retain that
-padding. These are AST equality claims, so equality of unmasked load execution
-does not prove the retained statements. No new axiom or altered historical
-statement has been substituted. The five historical public declarations remain
-in the legacy proof module until this incompatibility is resolved; their old
-coverage entry path also needs migration. The fresh failure log is
-`/private/tmp/flash-legacy-public-migration.log`. This port is not added to the
-locally completed list.
+The conflicting historical AST equalities have been resolved. The legacy
+unchecked K/V load representation retains explicit zero padding, while the
+actual typed source retains unspecified padding. Two newer `_source`
+decomposition statements were corrected to match the legacy representation;
+all 215 pre-checkpoint declaration headers and 209 docstrings remain intact,
+as do all 211 checkpoint docstrings. Five historical specifications are now
+physically discoverable in `Correct.lean`. The final public build passes
+3496 jobs and the standard-axiom/non-circularity audit passes.
+
+The actual source keeps `tl.store(O_block_ptr, out_buffer.to(tl.float16))`.
+Native block stores require matching element types: O must be fp16, as must K/V
+for the dot operands. The earlier formal family adds destination casts and is
+retained as projection-only coverage. Six floating Q profiles with fp16 O,
+both causal flags, exact-source flat IO/FP and typed exact-real executions are
+checked. Triton 3.7.1/sm90 admission is recorded for one shape; integer/bool Q,
+other runtime scales, signed strides, general native shape/width admission,
+host/grid/races, IEEE behavior and independent replay remain unresolved.
 
 ## Raw-copy mixed payload conversions
 
@@ -94,18 +140,47 @@ certify value correctness.
 
 `rmsnorm_triton` calls `libdevice.pow(x.to(tl.float32), 2)`. Pinned Triton 3.5.1
 dispatches fp32/int32 to `__nv_powif` and fp64/int32 to `__nv_powi`, separately
-from floating-exponent `powf`/`pow`. The current literal-two DSL expansion uses
-multiplication. An exact-real square identity therefore cannot establish
-source floating-operation fidelity for this port. A separate integer-power
-AST operation and precision-aware backend callback are designed in
-`docs/superpowers/specs/2026-10-13-libdevice-integer-power-design.md`; design
-confirmation is pending, and no source FP completion is claimed.
+from floating-exponent `powf`/`pow`. The shared AST, exact/rounded evaluators,
+typed backend and DSL now preserve the native integer-power operation and its
+width provenance. The port's actual typed source, 216-profile precision checks,
+full real IO/FP, finite and typed numerical witnesses compile; the old
+mathematical square source is retained separately. Dynamic integer powers also
+check signed32 bounds and fail on out-of-range modeled values. These local
+results do not establish native libdevice accuracy or independent replay.
 
 The same port's wrapper has no floating-only dtype validation. A direct
 stored-int32-load followed by `.to(tl.float32)` currently fails DSL expansion
 with "signed integer casts are not modeled yet". This separate conversion
 obligation remains open alongside the mixed-copy conversion gaps. The six-format
 floating family must not be described as exhaustive wrapper coverage.
+
+## Migrated source scopes with remaining obligations
+
+Five former textual-scan exceptions no longer have active markers and have
+been removed from the exemption lists. Their semantic scope remains explicit:
+
+- `llama_ff_triton` now retains both half and byte-weight source arms, native
+  integer power, the actual ceiling loop, all decodes and output casts. Full
+  padded-input real IO, typed executions and raw frames pass locally. Native
+  admission, signed/discrete domains, host/grid/races and replay remain open.
+- `rms_matmul_rbe` now covers both weight arms and all three Q/K/V callees with
+  their different output dtypes, retained unused parameters and padded K reads.
+  Full value/frame composition and typed executions pass; native/domain/IEEE
+  boundaries and replay remain open.
+- `rms_rbe_matmul` now covers both weight arms of the second Python JIT,
+  `rms_matmul_rbe`, retaining its unused parameters and actual loop. Its separate
+  `rbe_triton` JIT still lacks `get_freq_multi_tokens`; source-domain/native
+  boundaries and replay also remain open.
+- `pow_scalar_tensor` now covers floating and dynamic int32 exponent families,
+  both one-tile/grid-stride branches, full flat IO/FP and negative-power/failure
+  witnesses. Signed block-pointer strides, integer base conversion, nonfloating
+  outputs, native/IEEE behavior, host/grid/races and replay remain open.
+- `softmax_flaggems` now retains all four source families and both traversal
+  branches, with independent real IO, typed FP equivalence and execution
+  witnesses. Its explicitly selected source view now passes all textual
+  comparison gates with symbolic storage preserved. Other source profiles
+  and independent replay remain unverified; the old single-tile-only
+  description is obsolete.
 
 ## Correctness-Surface Blockers
 
@@ -188,14 +263,21 @@ is tracked separately in `verification_round.md`.
 `int_scaled_matmul`, `matmul_dequant_int4`, `matmul_dequantize`,
 `matmul_dequantize_int4`.
 
-These are blocked on missing library surface, not on proof effort: **every one
-of the 61 skins declares its streamed inputs and its terminal output as a plain
-`RegionName`** — the `.real` channel. The only typed field anywhere in the skin
-family is `sty : Fin nMeta → ChanTy`, and that types the *metadata scalar
-slots*, never the data. A port whose GEMM operands or output ride a
-`Region .int` / `Region .nat` channel therefore has no skin to fit, at any
-arity. Unlocking this family means a typed-channel streaming skin — one lever
-that would move all eight, and the highest-leverage item on this list.
+The earlier diagnosis of a missing typed IO foundation is obsolete.
+[`KernelCore.lean`](../../VeriTile/Triton/Memory/KernelCore.lean) now gives
+`UKernelIO` independent `ity` and `oty` fields with float, bool, nat and int
+channels. `ChanTy.read_flattenState` covers every channel, and
+`UKernelIO.ImplementsAt` / `Implements3D` preserve typed output observations
+and the complete raw memory frame. Their assembly theorems require successful
+projection, actual trace safety and the region-level execution/value/frame
+proofs; they do not restrict the kernel to a loop-free body.
+
+Each port still needs its own channel/window declarations, independent input
+formula, actual loop and store execution, access bounds and full frame. A
+convenient named-field wrapper may improve readability, but adding one alone
+does not discharge those obligations. Native fixed-width conversion, overflow
+and numerical/source-domain boundaries remain separate. None of the eight
+frame-free legacy headlines is upgraded by the shared typed foundation.
 
 
 ## Translation-Surface Blockers
@@ -359,18 +441,6 @@ unless stated:
   weight/zero-point regions are `Region .nat`
   (`matmul_dequantize_int4` precedent). The `triton.autotune` sweep and
   the host launch are the trusted boundary.
-- `llama_ff_triton` — the `USE_FP8` constexpr arm is dropped entirely
-  (parameter + branches): that path bit-reinterprets int8 weight bytes as
-  `tl.float8e5` (`.to(tl.float8e5, bitcast=True)`) — a bit-level decode with
-  no value-level ℝ transcription (the fixed-width-cast ℝ-model limit family),
-  so only the `USE_FP8 = False` (fp16-weights) arm is transcribed
-  (`sgmv_expand_slice` dropped-arm precedent). The loop trip count
-  `tl.cdiv(K, BLOCK_SIZE_K)` is the antiquoted `numKBlocks`
-  (`K = BLOCK_SIZE_K · numKBlocks`; the loads are unmasked, so the exact
-  presentation is required). The store's implicit fp16 cast (the host
-  allocates `out` at `x.dtype = float16`) is spelled
-  `(accumulator).to(tl.float16)` (`f8_conversion_utils` precedent). The
-  K-loop counter is spelled `_i` for Python's `_`.
 - `matmul_dequant_int4` — two disclosed surface deviations, neither
   semantic, plus a dead-kernel disclosure. The target JIT is the file's
   **second** kernel, `dequantize_kernel` — the only one any host launches
@@ -531,30 +601,6 @@ unless stated:
   the inline `.int`-hop dequant respell and `$(n)` antiquoting; the
   masked loads keep `other=0.0` faithfully. The autotune sweeps and the
   three host launches are the trusted boundary.
-- `rms_matmul_rbe` — the second kernel `rms_matmul_rbe_qkv` (the only one
-  any host function launches) is a **cross-JIT caller**: its body invokes
-  `rms_matmul_rbe(...)` three times (Q/K/V). The DSL has no jit-to-jit
-  call surface, so the callee body is inlined three times (`attn_fwd`
-  inline precedent); the callee's unused parameters
-  (`start_token_position` / `RBE_EPILOGUE` / `THETA`) vanish under
-  inlining. The `USE_FP8` constexpr arm is dropped (`bitcast=True`
-  bit-reinterpretation, the ℝ-model-limit family). The loop trip count
-  `tl.cdiv(K, BLOCK_SIZE_K)` is the antiquoted `numKBlocks` (unmasked
-  loads); the stores' implicit fp16 casts are spelled
-  `(accumulator).to(tl.float16)`; loop counters `_i` for Python's `_`.
-- `rms_rbe_matmul` — the target JIT is the file's **second** kernel,
-  `rms_matmul_rbe`; the first, `rbe_triton`, is dead code in this file (no
-  host function launches it, and it calls `get_freq_multi_tokens`, which
-  the file never defines — the upstream file itself cannot run it) and is
-  not modeled. The `USE_FP8` constexpr arm is dropped (parameter +
-  branches; `.to(tl.float8e5, bitcast=True)` bit-reinterpretation, the
-  ℝ-model-limit family; `llama_ff_triton` precedent). The unused
-  parameters `start_token_position` / `RBE_EPILOGUE` / `THETA` are dropped
-  (`sgmv_expand_slice` unused-param precedent). The loop trip count
-  `tl.cdiv(K, BLOCK_SIZE_K)` is the antiquoted `numKBlocks` (unmasked
-  loads). The store's implicit fp16 cast is spelled
-  `(accumulator).to(tl.float16)` (`f8_conversion_utils` precedent). The
-  K-loop counter is spelled `_i` for Python's `_`.
 - `triton_matmul` — the constexpr epilogue branch
   `if (c_ptr.dtype.element_ty == tl.float8e4nv):` (a compile-time dispatch
   on the output buffer's element dtype) is split into two Lean surfaces
@@ -593,10 +639,6 @@ unless stated:
 - `matmul_tma` — the `OUTPUT_F16` constexpr branch is split into two Lean
   surfaces (f32 and f16), so that parameter/branch/cast is absent from the
   first surface.
-- `softmax_flaggems` — value correctness targets the `ONE_TILE_PER_CTA = true`
-  single-tile specializations; the multi-tile fallback branches (pointer `+=`
-  advances, online recurrences) are not transcribed. This one is a genuine
-  partial-coverage scope restriction, not just a notational rewrite.
 - `softmax_triton3` — the typed fp16/bf16 output store spells the implicit
   destination conversion explicitly because `output_row_start_ptr`/`output_ptrs`
   aliases lose their storage annotation in the current DSL. The fp32 store is
@@ -610,14 +652,6 @@ unless stated:
   = 0`, their only rank-1 value) are instantiated in the
   `boundary_check=(...)` / `order=(...)` slots. Both branches are fully
   value-verified (including the multi-iteration grid-stride loop).
-- `pow_scalar_tensor` — the `one_tile_per_cta` constexpr branch is split
-  into two Lean surfaces (one-tile and grid-stride); the
-  `pow_func_scalar_tensor` helper JIT (`_pow(x.to(tl.float32), exponent)`)
-  is inlined at its single call site per branch as
-  `tl.extra.cuda.libdevice.pow($((val0 : ℝ)).to(tl.float32), in0)`; the
-  rank-1 stride-order constexprs (`= 0`) are instantiated in the
-  `boundary_check=(...)` / `order=(...)` slots. Both branches are fully
-  value-verified.
 - `fused_recurrent_delta` — the Python conditional-expression pointer
   increments (`p_beta += V if IS_HEADWISE_BETA else 1`, `p_dbeta` analogue)
   and conditional definitions are spelled as `if IS_HEADWISE_BETA { … } else
@@ -625,11 +659,6 @@ unless stated:
   control-flow count and repeats the `p_beta`/`p_dbeta` lhs per arm);
   `do` → `do_` (Lean keyword), `_` loop vars → `_i`; scalar-beta `… + T - 1`
   pointer inits parenthesized into the ℕ domain.
-- `fused_recurrent_retention` — the four dead stride parameters in the
-  Python kernel signatures (`s_qk_t`, `s_qk_d`, `s_vo_t`, `s_vo_d` — never
-  used in either kernel body) are omitted from the Lean surface binders
-  (`fused_rwkv6_kernel`/`fused_recurrent_hgrn` precedent); both bodies are
-  otherwise transcribed verbatim.
 - `triton_linear_activation` — the `K_LOAD_MASK_NEEDED` constexpr branch is
   specialized to its `@triton.heuristics` value `True` (exact-multiple `K`;
   `SPLIT_K = 1` is the only launched value), so the descending

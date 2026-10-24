@@ -1,0 +1,113 @@
+{
+  "schema": 1,
+  "task": "triton_argmax",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue15/release-result.json",
+    "sha256": "8a77b0f84470ab4da972410dbbbda5acec548d388b18f6f9a69f4a2366f55ee6",
+    "task_index": 1
+  },
+  "finding": "Both Real entries exposed singleton selectors, TileIndex tuples and integer-output packing.",
+  "resolution": "Global input is a logical vector with a scalar Int output; dimension input is a curried M×N×K tensor with logical active-row selection and Fin BM → Int output. The final reader also moves IO assembly into Proofs/ReaderCorrect.lean while retaining all mathematical definitions and complete specification signatures.",
+  "mathematical_target": "Least maximizing logical index, independently defining maximality and first-index ties, for both global and dimension branches.",
+  "conditions_and_scope": "Global complete first grid plus second stage, requested scratch kind, all original coverage/alias premises and index64; dimension one complete actual CTA with arbitrary BM/BN/base/pid, whole N loop and original positive BN/N/K.",
+  "proof_connection": "IO.global_iff and IO.dimension_iff transport the full previous ProgramIO.Implements formulas, including discrete Int outputs. The firstMaximum definition remains independent; Proofs.ReaderCorrect.firstMaximum_eq proves its equality to Math.argmax, and the two assembly theorems transport the complete IO judgments. Role cleanup keeps all complete specification signatures unchanged; seven aggregate current/before declaration-type iff results across the five supplemented tasks are proved by Iff.rfl.",
+  "fp_review": "Complete global and dimension grid source pairs unchanged for all 13 requested formats, first-NaN/tie behavior, lossy scratch, initialized gather tail and index-width branches; empty experimental rule set.",
+  "numerical_dependencies": "No new numerical rule, experiment or hardware claim. Main FP experimental rule set remains empty; existing strict source models/certificates and explicit primitive/domain premises are reused.",
+  "previous_formula_scope": {
+    "mathematical_target": "Least i attaining max_j xs[j], with tie condition xs[j]=xs[i] -> i≤j; Int.ofNat index. Both global and dimension headlines explicitly select this independent firstMaximum.",
+    "required_conditions": [
+      "Global: X≠V, X≠cast I, V≠cast I; Math.GlobalCoverage has positive logical size/block/count, complete trees, full size coverage, each first CTA active, and mid scratch fit",
+      "Dimension: 0<BN, 0<N, 0<K; original BM/base/pid/index64 and original active row mask",
+      "FP global retains Request.Casts/Kind and BoundSource.Binding for all thirteen requested scratch formats, Native.GlobalPrograms, positive block/midBlock, active CTAs and NativeIO.initialized gather tail",
+      "FP dimension retains nonempty reduction extent, original DimConfig, index-width branch and all raw words"
+    ],
+    "scope": "Real global: all logical c.size values, complete first-grid plus second stage. Real dimension: one actual dimension CTA with full N reduction and active BM rows at ((pid+base)/K)*BM+j, inner coordinate (pid+base)%K. FP global/dimension entries retain their complete grids and empty-outer cases.",
+    "canonical_connection": "Correct.firstMaximum explicitly chooses from quantified maximum/tie conditions; local firstMaximum_eq in both main proofs uses existing Reduction.least_maximum_unique to prove equality to Math.argmax using Math.argmax_spec. The two headlines connect to RealIO.implements / RealDimensionIO.implements by that equality.",
+    "fp_program_pair": "originalGlobal vs shiftedGlobal: complete first grid + second stage, shift strength reduction at fixed BLOCK_SIZE=1024 with generic fallback. originalDimension vs shiftedDimension: all CTAs/full N loop, fixed-128 shift with fallback.",
+    "numerical_dependencies": "Empty experimental set, no FP numerical rewrite. Exact native casts, lossy scratch comparison, first-NaN selection, original-value reread and initialized gather/frame preserved."
+  },
+  "verification": [
+    {
+      "task": "triton_argmax",
+      "kind": "main",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue15/role-supplement/build.py",
+        "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/ReaderCorrect.lean",
+        "bench/repairs/tritonbench_g/triton_argmax_nan_first/Correct.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue15/role-supplement/logs/triton_argmax-main.log",
+      "log_sha256": "d6d921a1fcd9365972093a89699cb91e286313491af664cf671091bf43536ad7",
+      "evidence_source": "frozen_role_supplement"
+    },
+    {
+      "task": "triton_argmax",
+      "kind": "complete-old-new-iff",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue15/role-supplement/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue15/role-supplement/checks/triton_argmax-preservation.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue15/role-supplement/logs/triton_argmax-complete-old-new-iff.log",
+      "log_sha256": "0ac0ccf4d49365c4f85160bce6dcf66a3862e9d419fbeb52b52741af1b459fd9",
+      "evidence_source": "frozen_role_supplement"
+    },
+    {
+      "task": "triton_argmax",
+      "kind": "fp-source",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue15/role-supplement/build.py",
+        "--check",
+        "bench/repairs/tritonbench_g/triton_argmax_nan_first/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue15/role-supplement/logs/triton_argmax-fp-source.log",
+      "log_sha256": "d695954d9a7eb67167f98dddfc10f1525030b3004069893c6f19e395b2fb576f",
+      "evidence_source": "frozen_role_supplement"
+    },
+    {
+      "task": "triton_argmax",
+      "kind": "joint",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue15/role-supplement/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue15/role-supplement/checks/triton_argmax-joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue15/role-supplement/logs/triton_argmax-joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "evidence_source": "frozen_role_supplement"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/triton_argmax_nan_first/Contract.lean": "902df4527ebdaa922f63f46083eb1fd2f2c1d62965864f468c5c93274eb54ba9",
+    "bench/repairs/tritonbench_g/triton_argmax_nan_first/Correct.lean": "7d6e71f931de9ce0b22ee8c3d34daf1f8641590b015c7a07f7fe2918b3caa793",
+    "bench/repairs/tritonbench_g/triton_argmax_nan_first/DimensionIO.lean": "898ec924fb404da2f04ca3e3bbb82fd46b09a7ecaf668e933f77c0e74c5c7eb0",
+    "bench/repairs/tritonbench_g/triton_argmax_nan_first/FPEquiv.lean": "de69f7044a6de531fde7ae24047432fcd9ab191966ba9536f526b8fed94fb149",
+    "bench/repairs/tritonbench_g/triton_argmax_nan_first/IO.lean": "9daa8550ad2a4804c62197b7a28bae7af5e11e9551321d5d9d3c7d1a10981c98",
+    "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/LogicalIO.lean": "deaf50f3038d209ba5e89f11bd15fc5a9f73ae3b6c447713ead8ca6323649726",
+    "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/ReaderCorrect.lean": "69eefc5e18af53e7bf4fee9835579355735d066341d7488700d30161fecaa48a",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

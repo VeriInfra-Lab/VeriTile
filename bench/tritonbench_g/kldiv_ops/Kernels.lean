@@ -1,5 +1,15 @@
 import VeriTile.Triton
 
+/-!
+Source-audit target: _kldiv_kernel_forward
+Source-audit Lean: klOpsForward%
+Source-audit runtime: {"python":{"eps":{"object":"float","abi":"fp32"}},"lean":{"source":"klOpsForward%","args":{"pred":"tl.float32","target":"tl.float32","output":"tl.float32","branch":"defaultTarget"}},"native":{"profile":"kldiv_ops","sha256":"b51f2e6e2e6ac04d3a25e7f479f0901c1d337de52470c180c96c91949218c120"}}
+Source-audit params: y_ptr=Y, y_stride=sy, gt_ptr=T, gt_stride=st, loss_ptr=O, loss_stride=so, n_cols=N, BLOCK_SIZE=B
+Source-audit constexpr: {"python":{"log_target":false},"lean":{"source":"klOpsForward%","args":{"pred":"tl.float32","target":"tl.float32","output":"tl.float32","branch":"defaultTarget"}}}
+Source-audit args: pred=tl.float32, target=tl.float32, output=tl.float32, branch=defaultTarget
+Selected fp32 default-target forward profile only; logarithmic, backward and other storage profiles remain separate obligations.
+-/
+
 /-! Complete KL-divergence ops source families. Runtime Python-float epsilon is
 represented at fp32. The accumulator initializer is the original `0.0` in every
 profile; frontend-inadmissible fp64 reduction carries are not silently widened.

@@ -1,0 +1,27 @@
+[
+  {
+    "installed": "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/driver.py",
+    "copy": "runtime-source/driver.py",
+    "sha256": "992ba21e12ee170a904f3a1caca24a78ce3dd66b661087faea5973b995480f63"
+  },
+  {
+    "installed": "/usr/local/lib/python3.12/site-packages/triton/language/extra/cuda/libdevice.py",
+    "copy": "runtime-source/libdevice.py",
+    "sha256": "27b2a5d1e8db008bacefe6019f63922bbd65926de90bb1b527ee597477d2f365"
+  },
+  {
+    "installed": "/usr/local/lib/python3.12/site-packages/triton/runtime/jit.py",
+    "copy": "runtime-source/jit.py",
+    "sha256": "5fe46fbfac257a2b8645b7a2cc709232273d42dd5e1d55de9770b412a9476d77"
+  },
+  {
+    "installed": "/usr/local/lib/python3.12/site-packages/triton/runtime/autotuner.py",
+    "copy": "runtime-source/autotuner.py",
+    "sha256": "40f5e142806219942585a16742e9f3721d5bfef88145b571cf389f9aec6460bb"
+  },
+  {
+    "installed": "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/driver.c",
+    "copy": "runtime-source/driver.c",
+    "sha256": "835f068cf517d237dc62be91275261e260c2bae985a9242fd28866303c1e5a60"
+  }
+]

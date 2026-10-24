@@ -1,0 +1,17 @@
+/tmp/veritile-standardization-20261015/batched-vecmat-wip/bench/tritonbench_g/batched_vecmat_mult/Proofs/HostAccess.lean:42:4: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+/tmp/veritile-standardization-20261015/batched-vecmat-wip/bench/tritonbench_g/batched_vecmat_mult/Proofs/HostAccess.lean:45:4: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+/tmp/veritile-standardization-20261015/batched-vecmat-wip/bench/tritonbench_g/batched_vecmat_mult/Proofs/HostAccess.lean:56:4: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs.tiled_coordinate_lt: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs.row_major_bound: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs.all_unmasked_addresses_in_declared_extents: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs.complete_output_coverage: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.BatchedVecmatMult.ValueProofs.complete_inner_coverage: axiom footprint ⊆ standard base ✓  ([propext])

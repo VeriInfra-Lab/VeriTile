@@ -1,0 +1,7 @@
+import VeriTile.Meta.StatementAudit
+import bench.repairs.tritonbench_g.attention_fwd_triton2.Contract
+import bench.repairs.tritonbench_g.attention_fwd_triton2.Correct
+import bench.repairs.tritonbench_g.attention_fwd_triton2.FPEquiv
+
+#axiomsClean VeriTile.Bench.Repairs.AttentionFwdTriton2.Correct.kernel_raw_correct
+#axiomsClean VeriTile.Bench.Repairs.AttentionFwdTriton2.FPEquiv.grid_equiv

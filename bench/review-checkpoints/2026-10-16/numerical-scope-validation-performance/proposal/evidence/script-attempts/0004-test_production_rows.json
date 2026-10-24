@@ -1,0 +1,8 @@
+{
+  "script": "test_production_rows.py",
+  "source_sha256": "c8a1d7a7f29d0ed9c3bae3c83397be641cde0b8a91ea377af5c0b7ce24b32365",
+  "exit_code": 1,
+  "log": "evidence/script-attempts/0004-test_production_rows.log",
+  "log_sha256": "2e92e242cc25fb171d5af44cb5e3edcb1b1985f1be46ab93b093e7f5df97d63b",
+  "seconds": 1.9434612111654133
+}

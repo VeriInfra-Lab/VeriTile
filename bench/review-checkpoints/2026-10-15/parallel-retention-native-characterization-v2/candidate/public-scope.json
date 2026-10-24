@@ -1,0 +1,67 @@
+{
+  "schema": 1,
+  "statements": {
+    "forward_fp32": {
+      "file": "FPCorrect.lean",
+      "header": "specification forward_fp32 {\u03b1 : Type} [Inhabited \u03b1] (M : Algebra \u03b1) (D : DotPrimitive \u03b1)\n    (c : ForwardConfig) (s : State \u03b1) :\n    \u2203 final, FP.Structural.exec (withDot M D) (forwardKernel c) s = some final \u2227\n      final.mem = (outputMemory M c s (forwardValues M D c s)).mem ",
+      "header_sha256": "231711a92906cb2fd34f065174097d1ecc326d3d5e188ae8b31018cef65f5ac0"
+    },
+    "backward_fp32": {
+      "file": "FPCorrect.lean",
+      "header": "specification backward_fp32 {\u03b1 : Type} [Inhabited \u03b1] (M : Algebra \u03b1) (D : DotPrimitive \u03b1)\n    (c : BackwardConfig) (s : State \u03b1) :\n    \u2203 final, FP.Structural.exec (withDot M D) (backwardKernel c) s = some final \u2227\n      final.mem = (backwardOutputMemory M c s (backwardValues M D c s)).mem ",
+      "header_sha256": "d5d3d5f02a65e59dd12cb1ba4c1fd2bdac01fbed0de5991979dea127746d16fb"
+    },
+    "pra_fwd_o_exec_genuine": {
+      "file": "ParallelRetentionAttention.lean",
+      "header": "specification pra_fwd_o_exec_genuine\n    (s : BlockState) (q k v o : RegionName)\n    (s_qk_h s_qk_t s_qk_d s_vo_h s_vo_t s_vo_d : Nat) (scale : \u211d)\n    (B H T K V BTL BTS BK BV : Nat)\n    (hSd : s_vo_d = 1) (h\u03c3 : BV \u2264 s_vo_t)\n    (hBTS : BTL % BTS = 0) (hBTSpos : 0 < BTS) :\n    \u2203 sF, exec (pra_fwd_surface q k v o s_qk_h s_qk_t s_qk_d s_vo_h s_vo_t\n        s_vo_d scale B H T K V BTL BTS BK BV).toAlgKernel s = some sF\n      \u2227 (\u2200 idx : TileIndex [BTL, BV], praOActive s T V BV BTL idx \u2192\n          sF.readMem o (praOOffset s B H s_vo_h s_vo_t s_vo_d V BV BTL idx)\n            = praOOut s q k v s_qk_h s_qk_t s_qk_d s_vo_h s_vo_t s_vo_d scale\n                H T K V BTL BK BV idx.1.val idx.2.1.val) ",
+      "header_sha256": "cf78c428509939aec5ecdd0ad58aeb912b2ec66009644457df5036256800c806"
+    },
+    "pra_bwd_dkv_exec_genuine": {
+      "file": "ParallelRetentionAttention.lean",
+      "header": "specification pra_bwd_dkv_exec_genuine\n    (s : BlockState) (q k v do_ dk dv : RegionName)\n    (i_bh i_c i_k i_v i_h : Nat)\n    (s_qk_h s_qk_t s_qk_d s_vo_h s_vo_t s_vo_d : Nat) (scale : \u211d)\n    (B H T K V BTL BTS BK BV : Nat)\n    (hDkDv : dk \u2260 dv) (hSkd : s_qk_d = 1) (hSvd : s_vo_d = 1)\n    (h\u03c3k : BK \u2264 s_qk_t) (h\u03c3v : BV \u2264 s_vo_t)\n    (hBTS : BTL % BTS = 0) (hBTSpos : 0 < BTS) :\n    \u2203 sF, exec (pra_bwd_dkv_surface q k v do_ dk dv i_bh i_c i_k i_v i_h\n        s_qk_h s_qk_t s_qk_d s_vo_h s_vo_t s_vo_d scale\n        B H T K V BTL BTS BK BV).toAlgKernel s = some sF\n      \u2227 (\u2200 idx : TileIndex [BTL, BK], prbDkActive i_c i_k T K BTL BK idx \u2192\n          sF.readMem dk\n              (prbDkOffset i_bh i_c i_k i_v B H s_qk_h s_qk_t s_qk_d BTL BK idx)\n            = prbDkOut s q k v do_ s_qk_h s_qk_t s_qk_d s_vo_h s_vo_t s_vo_d\n                i_bh i_c i_k i_v i_h scale T K V BTL BTS BK BV\n                idx.1.val idx.2.1.val)\n      \u2227 (\u2200 idx : TileIndex [BTL, BV], prbDvActive i_c i_v T V BTL BV idx \u2192\n          sF.readMem dv\n              (prbDvOffset i_bh i_c i_k i_v B H s_vo_h s_vo_t s_vo_d BTL BV idx)\n            = prbDvOut s q k v do_ s_qk_h s_qk_t s_qk_d s_vo_h s_vo_t s_vo_d\n                i_bh i_c i_k i_v i_h scale T K V BTL BTS BK BV\n                idx.1.val idx.2.1.val) ",
+      "header_sha256": "f8318b477e4435f65fb62cd3926e7cf19250f3c6a1024d0c1aca7b116dd20623"
+    }
+  },
+  "all_input_file_sha256": {
+    "FPCorrect.lean": "f02316704ac79cef63ef9fc15d8266961226650a7e4cde53b2d585be1b49280c",
+    "FP_CORRECTNESS.md": "696f4b6ec39701fc00ac8e7a2100bd6a2eed49c8d874fa25b090f887084b2eda",
+    "ParallelRetentionAttention.lean": "c13bf012ba2c331f4888153f775d988c7c90988dd7610717c962f84641722ade",
+    "parallel_retention_attention.py": "c53a98d10fb11a5d35b68d7019ac99b7bf4186ecdbc4f25d059ae510fdf78f4a",
+    "README.md": "c9cbe68efbd912e65cf490af875e8ebf8703c717b383bcd6b07e66724ff9c22c",
+    "Proofs/FPBackwardWhole.lean": "231f22d0834f5916ac07c7653185bc5ad6a81cf5bd15f1336a096af9211963da",
+    "Proofs/FPBackwardLoop.lean": "5c652847f777e8820e6d74cd89670b96080f48cebc7cefe94b85febf312b3348",
+    "Proofs/FPForwardLoop.lean": "6af42add5189acd4d75c35d5d88881fd59321ef59488f6c48aef1d040d5af38d",
+    "Proofs/FPForwardGraph.lean": "761eb27c8f8175a15975d1d3c784eea7a1476386267c34b3a5b7d353a9b1bc73",
+    "Proofs/FPSources.lean": "759e2a4121914f9cf4b7937c420c09b0bd6058b82465cbc08c31a8aebd9d5cf0",
+    "Proofs/FPShape.lean": "76f0463e909e76df1be4874d5c5a7c9ff6d6946404bfcc3e4719f779300796c3",
+    "Proofs/FPBackwardGraph.lean": "ec45e266d82c936c7a2a7112403ff65592212d91aadc5f9926aadb1b5400b104",
+    "Proofs/FPForwardWhole.lean": "9d322fd91914b40801c2efa2d837f2a97cd9f56ef94008e8aa2674e3a477c5f8"
+  },
+  "old_math_conditions": {
+    "forward": [
+      "s_vo_d = 1",
+      "BV <= s_vo_t",
+      "BTL % BTS = 0",
+      "0 < BTS"
+    ],
+    "backward": [
+      "dk != dv",
+      "s_qk_d = 1",
+      "s_vo_d = 1",
+      "BK <= s_qk_t",
+      "BV <= s_vo_t",
+      "BTL % BTS = 0",
+      "0 < BTS"
+    ]
+  },
+  "current_fp_contracts": "Full final-memory equality for arbitrary backend M/D and initial state, including both loop phases, typed fp32 and unspecified padding. No numeric software closure.",
+  "not_covered": [
+    "DQ helper",
+    "backward shell composition",
+    "host NK/NV reduction",
+    "autograd wrapper",
+    "cross-program concurrency",
+    "native ABI/numeric implementation"
+  ],
+  "source_host_fixture_observation": "Original test_case_2/3 change q head dimension but reuse old k; test_case_4 increases q batch but reuses smaller k/v. These host fixtures do not give shape-consistent inputs, and some exceed backing allocations under q-derived strides. This tool does not execute source-file import-time tests; it extracts unmodified JIT functions and supplies independently specified shape-consistent finite cases. No original proof is changed."
+}

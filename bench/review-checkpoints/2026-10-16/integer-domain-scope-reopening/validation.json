@@ -1,0 +1,29 @@
+{
+  "status": "passed_for_acceptance_withdrawal",
+  "scope_check_expected_exit_code": 1,
+  "scope_counts": {
+    "not_accepted": 181,
+    "verified": 1,
+    "verified_with_deferred_numerics": 1
+  },
+  "scope_errors": [
+    "181 original-program scopes remain unaccepted"
+  ],
+  "scope_unit_tests": 42,
+  "changed_task_rows": [
+    "add_value",
+    "relu_triton_kernel",
+    "vector_addition",
+    "vector_addition_custom"
+  ],
+  "all_other_179_rows_unchanged": true,
+  "source_proofs_queue_catalog_and_checkers_unchanged": true,
+  "input_inventory_numeric_callback_bindings_preserved": true,
+  "preserved_evidence_files": 85,
+  "verification_sha256": {
+    "integer-scope-check.json": "14c9bacb0dce70bbada4b6c23ee1cf0b22ba0b7fb20a3916435624607ec24aac",
+    "integer-scope-unit.log": "0349318d6956ce1a398157dac8be306511531ea3d2ef88e25f68e90c3e3e7e97"
+  },
+  "lean_build_required": false,
+  "reason": "Only current acceptance metadata and documentary evidence changed; bounded Lean proofs and active catalog remain unchanged."
+}

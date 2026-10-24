@@ -1,0 +1,16 @@
+{
+  "original_sha256": "071fcf7573745300a9581d39845c0632d00e12d97cd880d1dcbe08d9ad6078dc",
+  "final_sha256": "986d5bb5d4007cf8f5327fc8b2a1ce6972d8f1799fb73415160598956cb6575f",
+  "python_source_modified": false,
+  "both_complete_source_surface_definitions_unchanged": true,
+  "public_changes": {
+    "forward": "hypotheses unchanged; guarded references now use actual address-indexed unspecified inputs",
+    "backward": "removed the old global zero-undef premise; eight guarded input references, including masked dz, use initial-state unspecified values"
+  },
+  "source_casts_and_options": "retained source real carrier casts and all allow_tf32=false dot options",
+  "regression": "pa_unspecified_padding_correct: complete actual exec stores o[0]=z[0]=(u*u)*(u*u) on a ragged BK=2/head=1 fixture",
+  "proof_receipt": "../parallel-attention-final/receipt.json",
+  "proof_status": "passed: 3431 jobs, 143 unchanged captured inputs",
+  "module_axiom_gate": "../parallel-attention-final/module-audit/receipt.json",
+  "module_axiom_status": "passed: all 247 module theorems, 3 headlines; 4 output definitions noncircular"
+}

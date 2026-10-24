@@ -1,0 +1,1558 @@
+⚠ [788/805] Replayed VeriTile.Triton.DSL.Expansion.Common
+warning: VeriTile/Triton/DSL/Expansion/Common.lean:177:29: unused variable `ctx`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [3343/3483] Replayed VeriTile.Triton.Semantics.EvalOp
+warning: VeriTile/Triton/Semantics/EvalOp.lean:390:8: This simp argument is unused:
+  evalOp
+
+Hint: Omit it from the simp argument list.
+  simp ̵[̵e̵v̵a̵l̵O̵p̵]̵
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Semantics/EvalOp.lean:398:8: This simp argument is unused:
+  evalOp
+
+Hint: Omit it from the simp argument list.
+  simp [e̵v̵a̵l̵O̵p̵,̵ ̵h]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Semantics/EvalOp.lean:594:8: This simp argument is unused:
+  evalOp
+
+Hint: Omit it from the simp argument list.
+  simp ̵[̵e̵v̵a̵l̵O̵p̵]̵
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Semantics/EvalOp.lean:599:9: unused variable `hName`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: VeriTile/Triton/Semantics/EvalOp.lean:609:8: This simp argument is unused:
+  evalOp
+
+Hint: Omit it from the simp argument list.
+  simp [e̵v̵a̵l̵O̵p̵,̵ ̵BlockState.setReg]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Semantics/EvalOp.lean:616:8: This simp argument is unused:
+  evalOp
+
+Hint: Omit it from the simp argument list.
+  simp [e̵v̵a̵l̵O̵p̵,̵ ̵h]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Semantics/EvalOp.lean:622:8: This simp argument is unused:
+  evalOp
+
+Hint: Omit it from the simp argument list.
+  simp [e̵v̵a̵l̵O̵p̵,̵ ̵hName, h]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Semantics/EvalOp.lean:628:8: This simp argument is unused:
+  evalOp
+
+Hint: Omit it from the simp argument list.
+  simp [e̵v̵a̵l̵O̵p̵,̵ ̵hName, hDType, h]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Semantics/EvalOp.lean:643:9: unused variable `hName`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: VeriTile/Triton/Semantics/EvalOp.lean:659:14: This simp argument is unused:
+  evalOp
+
+Hint: Omit it from the simp argument list.
+  simp [e̵v̵a̵l̵O̵p̵,̵ ̵BlockState.setReg]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Semantics/EvalOp.lean:660:14: This simp argument is unused:
+  evalOp
+
+Hint: Omit it from the simp argument list.
+  simp [e̵v̵a̵l̵O̵p̵,̵ ̵BlockState.setReg, hShape]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Semantics/EvalOp.lean:661:12: This simp argument is unused:
+  evalOp
+
+Hint: Omit it from the simp argument list.
+  simp [e̵v̵a̵l̵O̵p̵,̵ ̵BlockState.setReg, hDType]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Semantics/EvalOp.lean:662:10: This simp argument is unused:
+  evalOp
+
+Hint: Omit it from the simp argument list.
+  simp [e̵v̵a̵l̵O̵p̵,̵ ̵BlockState.setReg, hName]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+⚠ [3345/3483] Replayed VeriTile.Triton.Semantics.Step
+warning: VeriTile/Triton/Semantics/Step.lean:971:25: 'subst_vars' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: VeriTile/Triton/Semantics/Step.lean:971:37: 'simp_wf' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: VeriTile/Triton/Semantics/Step.lean:992:25: 'subst_vars' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: VeriTile/Triton/Semantics/Step.lean:992:37: 'simp_wf' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: VeriTile/Triton/Semantics/Step.lean:1013:25: 'subst_vars' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: VeriTile/Triton/Semantics/Step.lean:1013:37: 'simp_wf' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: VeriTile/Triton/Semantics/Step.lean:1036:8: This simp argument is unused:
+  evalOp
+
+Hint: Omit it from the simp argument list.
+  simp [e̵v̵a̵l̵O̵p̵,̵ ̵Tile.bop, NumericDType.add]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+⚠ [3355/3483] Replayed VeriTile.Triton.Semantics.BlockPtrEval
+warning: VeriTile/Triton/Semantics/BlockPtrEval.lean:82:54: This simp argument is unused:
+  Option.bind_some
+
+Hint: Omit it from the simp argument list.
+  simp only [List.map_cons, List.mapM_cons, hc, O̵p̵t̵i̵o̵n̵.̵b̵i̵n̵d̵_̵s̵o̵m̵e̵,̵ ̵Tile.scalar, ih]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Semantics/BlockPtrEval.lean:97:25: This simp argument is unused:
+  Option.bind
+
+Hint: Omit it from the simp argument list.
+  simp only [evalOp, hp,̵ ̵O̵p̵t̵i̵o̵n̵.̵b̵i̵n̵d̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+⚠ [3356/3483] Replayed VeriTile.Triton.Math.Attention
+warning: VeriTile/Triton/Math/Attention.lean:442:46: `Fin.coe_cast` has been deprecated: Use `Fin.val_cast` instead
+⚠ [3367/3483] Replayed VeriTile.Triton.Memory.Flatten
+warning: VeriTile/Triton/Memory/Flatten.lean:1923:44: This simp argument is unused:
+  Op.PointerAddressesSafeOn
+
+Hint: Omit it from the simp argument list.
+  simp only [MemAccess.ActiveAddressSafe, m̵e̵m̵A̵c̵c̵e̵s̵s̵A̵c̵t̵i̵v̵e̵A̵d̵d̵r̵e̵s̵s̵S̵a̵f̵e̵,̵ ̵O̵p̵.̵P̵o̵i̵n̵t̵e̵r̵A̵d̵d̵r̵e̵s̵s̵e̵s̵S̵a̵f̵e̵O̵n̵]̵m̲e̲m̲A̲c̲c̲e̲s̲s̲A̲c̲t̲i̲v̲e̲A̲d̲d̲r̲e̲s̲s̲S̲a̲f̲e̲]̲ at haddr
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/Flatten.lean:1931:72: This simp argument is unused:
+  evalOp
+
+Hint: Omit it from the simp argument list.
+  simp [FlatAlloc.flattenAccess, FlatAlloc.flattenMask, e̵v̵a̵l̵O̵p̵,̵evalOp_shiftAdd, IHoff,
+  ̲  ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲hoffs]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/Flatten.lean:1932:20: This simp argument is unused:
+  evalOp_shiftAdd
+
+Hint: Omit it from the simp argument list.
+  simp [FlatAlloc.flattenAccess, FlatAlloc.flattenMask, evalOp, e̵v̵a̵l̵O̵p̵_̵s̵h̵i̵f̵t̵A̵d̵d̵,̵ ̵IHoff, hoffs]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/Flatten.lean:1954:44: This simp argument is unused:
+  Op.PointerAddressesSafeOn
+
+Hint: Omit it from the simp argument list.
+  simp only [MemAccess.ActiveAddressSafe, m̵e̵m̵A̵c̵c̵e̵s̵s̵A̵c̵t̵i̵v̵e̵A̵d̵d̵r̵e̵s̵s̵S̵a̵f̵e̵,̵ ̵O̵p̵.̵P̵o̵i̵n̵t̵e̵r̵A̵d̵d̵r̵e̵s̵s̵e̵s̵S̵a̵f̵e̵O̵n̵]̵m̲e̲m̲A̲c̲c̲e̲s̲s̲A̲c̲t̲i̲v̲e̲A̲d̲d̲r̲e̲s̲s̲S̲a̲f̲e̲]̲ at haddr
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/Flatten.lean:1968:20: This simp argument is unused:
+  evalOp_shiftAdd
+
+Hint: Omit it from the simp argument list.
+  simp [FlatAlloc.flattenAccess, FlatAlloc.flattenMask, evalOp, e̵v̵a̵l̵O̵p̵_̵s̵h̵i̵f̵t̵A̵d̵d̵,̵ ̵IHoff, hoffs]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/Flatten.lean:1973:32: This simp argument is unused:
+  evalOp_shiftAdd
+
+Hint: Omit it from the simp argument list.
+  simp [FlatAlloc.flattenAccess, FlatAlloc.flattenMask, evalOp, e̵v̵a̵l̵O̵p̵_̵s̵h̵i̵f̵t̵A̵d̵d̵,̵ ̵IHoff, hoffs,
+  ̲  ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲IHm, hm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/Flatten.lean:2005:44: This simp argument is unused:
+  Op.PointerAddressesSafeOn
+
+Hint: Omit it from the simp argument list.
+  simp only [MemAccess.ActiveAddressSafe, m̵e̵m̵A̵c̵c̵e̵s̵s̵A̵c̵t̵i̵v̵e̵A̵d̵d̵r̵e̵s̵s̵S̵a̵f̵e̵,̵ ̵O̵p̵.̵P̵o̵i̵n̵t̵e̵r̵A̵d̵d̵r̵e̵s̵s̵e̵s̵S̵a̵f̵e̵O̵n̵]̵m̲e̲m̲A̲c̲c̲e̲s̲s̲A̲c̲t̲i̲v̲e̲A̲d̲d̲r̲e̲s̲s̲S̲a̲f̲e̲]̲ at haddr
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/Flatten.lean:2023:20: This simp argument is unused:
+  evalOp_shiftAdd
+
+Hint: Omit it from the simp argument list.
+  simp [FlatAlloc.flattenAccess, FlatAlloc.flattenMask, evalOp, e̵v̵a̵l̵O̵p̵_̵s̵h̵i̵f̵t̵A̵d̵d̵,̵ ̵IHoff, hoffs]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/Flatten.lean:2028:32: This simp argument is unused:
+  evalOp_shiftAdd
+
+Hint: Omit it from the simp argument list.
+  simp [FlatAlloc.flattenAccess, FlatAlloc.flattenMask, evalOp, e̵v̵a̵l̵O̵p̵_̵s̵h̵i̵f̵t̵A̵d̵d̵,̵ ̵IHoff, hoffs,
+  ̲  ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲IHm, hm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/Flatten.lean:2033:36: This simp argument is unused:
+  evalOp_shiftAdd
+
+Hint: Omit it from the simp argument list.
+  simp [FlatAlloc.flattenAccess, FlatAlloc.flattenMask, evalOp, e̵v̵a̵l̵O̵p̵_̵s̵h̵i̵f̵t̵A̵d̵d̵,̵ ̵IHoff,
+  ̲  ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲hoffs, IHm, hm, IHo, ho]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/Flatten.lean:2077:58: This simp argument is unused:
+  Region.cast_cast
+
+Hint: Omit it from the simp argument list.
+  simp only [reduceIte, FlatAlloc.trTile, R̵e̵g̵i̵o̵n̵.̵c̵a̵s̵t̵_̵c̵a̵s̵t̵,̵ ̵Region.cast_self]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/Flatten.lean:2077:76: This simp argument is unused:
+  Region.cast_self
+
+Hint: Omit it from the simp argument list.
+  simp only [reduceIte, FlatAlloc.trTile, Region.cast_cast,̵ ̵R̵e̵g̵i̵o̵n̵.̵c̵a̵s̵t̵_̵s̵e̵l̵f̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/Flatten.lean:2113:62: This simp argument is unused:
+  Region.cast_cast
+
+Hint: Omit it from the simp argument list.
+  simp only [reduceIte, FlatAlloc.trTile, R̵e̵g̵i̵o̵n̵.̵c̵a̵s̵t̵_̵c̵a̵s̵t̵,̵ ̵Region.cast_self]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/Flatten.lean:2113:80: This simp argument is unused:
+  Region.cast_self
+
+Hint: Omit it from the simp argument list.
+  simp only [reduceIte, FlatAlloc.trTile, Region.cast_cast,̵ ̵R̵e̵g̵i̵o̵n̵.̵c̵a̵s̵t̵_̵s̵e̵l̵f̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/Flatten.lean:2168:66: This simp argument is unused:
+  Region.cast_cast
+
+Hint: Omit it from the simp argument list.
+  simp only [reduceIte, FlatAlloc.trTile, R̵e̵g̵i̵o̵n̵.̵c̵a̵s̵t̵_̵c̵a̵s̵t̵,̵ ̵Region.cast_self]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/Flatten.lean:2168:84: This simp argument is unused:
+  Region.cast_self
+
+Hint: Omit it from the simp argument list.
+  simp only [reduceIte, FlatAlloc.trTile, Region.cast_cast,̵ ̵R̵e̵g̵i̵o̵n̵.̵c̵a̵s̵t̵_̵s̵e̵l̵f̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/Flatten.lean:2193:44: This simp argument is unused:
+  Op.PointerAddressesSafeOn
+
+Hint: Omit it from the simp argument list.
+  simp only [MemAccess.ActiveAddressSafe, m̵e̵m̵A̵c̵c̵e̵s̵s̵A̵c̵t̵i̵v̵e̵A̵d̵d̵r̵e̵s̵s̵S̵a̵f̵e̵,̵ ̵O̵p̵.̵P̵o̵i̵n̵t̵e̵r̵A̵d̵d̵r̵e̵s̵s̵e̵s̵S̵a̵f̵e̵O̵n̵]̵m̲e̲m̲A̲c̲c̲e̲s̲s̲A̲c̲t̲i̲v̲e̲A̲d̲d̲r̲e̲s̲s̲S̲a̲f̲e̲]̲ at haddr
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/Flatten.lean:2203:29: This simp argument is unused:
+  reduceIte
+
+Hint: Omit it from the simp argument list.
+  simp only [r̵e̵d̵u̵c̵e̵I̵t̵e̵,̵ ̵FlatAlloc.trTile, Region.cast_cast, Region.cast_self]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/Flatten.lean:2203:58: This simp argument is unused:
+  Region.cast_cast
+
+Hint: Omit it from the simp argument list.
+  simp only [reduceIte, FlatAlloc.trTile, R̵e̵g̵i̵o̵n̵.̵c̵a̵s̵t̵_̵c̵a̵s̵t̵,̵ ̵Region.cast_self]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/Flatten.lean:2203:76: This simp argument is unused:
+  Region.cast_self
+
+Hint: Omit it from the simp argument list.
+  simp only [reduceIte, FlatAlloc.trTile, Region.cast_cast,̵ ̵R̵e̵g̵i̵o̵n̵.̵c̵a̵s̵t̵_̵s̵e̵l̵f̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/Flatten.lean:2230:44: This simp argument is unused:
+  Op.PointerAddressesSafeOn
+
+Hint: Omit it from the simp argument list.
+  simp only [MemAccess.ActiveAddressSafe, m̵e̵m̵A̵c̵c̵e̵s̵s̵A̵c̵t̵i̵v̵e̵A̵d̵d̵r̵e̵s̵s̵S̵a̵f̵e̵,̵ ̵O̵p̵.̵P̵o̵i̵n̵t̵e̵r̵A̵d̵d̵r̵e̵s̵s̵e̵s̵S̵a̵f̵e̵O̵n̵]̵m̲e̲m̲A̲c̲c̲e̲s̲s̲A̲c̲t̲i̲v̲e̲A̲d̲d̲r̲e̲s̲s̲S̲a̲f̲e̲]̲ at haddr
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/Flatten.lean:2250:33: This simp argument is unused:
+  reduceIte
+
+Hint: Omit it from the simp argument list.
+  simp only [r̵e̵d̵u̵c̵e̵I̵t̵e̵,̵ ̵FlatAlloc.trTile, Region.cast_cast, Region.cast_self]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/Flatten.lean:2250:62: This simp argument is unused:
+  Region.cast_cast
+
+Hint: Omit it from the simp argument list.
+  simp only [reduceIte, FlatAlloc.trTile, R̵e̵g̵i̵o̵n̵.̵c̵a̵s̵t̵_̵c̵a̵s̵t̵,̵ ̵Region.cast_self]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/Flatten.lean:2250:80: This simp argument is unused:
+  Region.cast_self
+
+Hint: Omit it from the simp argument list.
+  simp only [reduceIte, FlatAlloc.trTile, Region.cast_cast,̵ ̵R̵e̵g̵i̵o̵n̵.̵c̵a̵s̵t̵_̵s̵e̵l̵f̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/Flatten.lean:2287:44: This simp argument is unused:
+  Op.PointerAddressesSafeOn
+
+Hint: Omit it from the simp argument list.
+  simp only [MemAccess.ActiveAddressSafe, m̵e̵m̵A̵c̵c̵e̵s̵s̵A̵c̵t̵i̵v̵e̵A̵d̵d̵r̵e̵s̵s̵S̵a̵f̵e̵,̵ ̵O̵p̵.̵P̵o̵i̵n̵t̵e̵r̵A̵d̵d̵r̵e̵s̵s̵e̵s̵S̵a̵f̵e̵O̵n̵]̵m̲e̲m̲A̲c̲c̲e̲s̲s̲A̲c̲t̲i̲v̲e̲A̲d̲d̲r̲e̲s̲s̲S̲a̲f̲e̲]̲ at haddr
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/Flatten.lean:2317:37: This simp argument is unused:
+  reduceIte
+
+Hint: Omit it from the simp argument list.
+  simp only [r̵e̵d̵u̵c̵e̵I̵t̵e̵,̵ ̵FlatAlloc.trTile, Region.cast_cast, Region.cast_self]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/Flatten.lean:2317:66: This simp argument is unused:
+  Region.cast_cast
+
+Hint: Omit it from the simp argument list.
+  simp only [reduceIte, FlatAlloc.trTile, R̵e̵g̵i̵o̵n̵.̵c̵a̵s̵t̵_̵c̵a̵s̵t̵,̵ ̵Region.cast_self]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/Flatten.lean:2317:84: This simp argument is unused:
+  Region.cast_self
+
+Hint: Omit it from the simp argument list.
+  simp only [reduceIte, FlatAlloc.trTile, Region.cast_cast,̵ ̵R̵e̵g̵i̵o̵n̵.̵c̵a̵s̵t̵_̵s̵e̵l̵f̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/Flatten.lean:2569:27: 'simp_wf' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: VeriTile/Triton/Memory/Flatten.lean:2583:27: 'simp_wf' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: VeriTile/Triton/Memory/Flatten.lean:2596:27: 'simp_wf' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: VeriTile/Triton/Memory/Flatten.lean:3175:19: This simp argument is unused:
+  FlatAlloc.trCarrier_blockPtr_region
+
+Hint: Omit it from the simp argument list.
+  simp only [FlatAlloc.trTile, F̵l̵a̵t̵A̵l̵l̵o̵c̵.̵t̵r̵C̵a̵r̵r̵i̵e̵r̵_̵b̵l̵o̵c̵k̵P̵t̵r̵_̵r̵e̵g̵i̵o̵n̵,̵FlatAlloc.trCarrier_blockPtr_address,
+                     FlatAlloc.trCarrier_blockPtr_inBounds]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/Flatten.lean:3177:19: This simp argument is unused:
+  FlatAlloc.trCarrier_blockPtr_inBounds
+
+Hint: Omit it from the simp argument list.
+  simp only [FlatAlloc.trTile, FlatAlloc.trCarrier_blockPtr_region,
+                     F̵l̵a̵t̵A̵l̵l̵o̵c̵.̵t̵r̵C̵a̵r̵r̵i̵e̵r̵_̵b̵l̵o̵c̵k̵P̵t̵r̵_̵a̵d̵d̵r̵e̵s̵s̵,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵F̵l̵a̵t̵A̵l̵l̵o̵c̵.̵t̵r̵C̵a̵r̵r̵i̵e̵r̵_̵b̵l̵o̵c̵k̵P̵t̵r̵_̵i̵n̵B̵o̵u̵n̵d̵s̵]̵F̲l̲a̲t̲A̲l̲l̲o̲c̲.̲t̲r̲C̲a̲r̲r̲i̲e̲r̲_̲b̲l̲o̲c̲k̲P̲t̲r̲_̲a̲d̲d̲r̲e̲s̲s̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/Flatten.lean:3179:16: '(
+  funext i
+  simp only [FlatAlloc.trTile, FlatAlloc.trCarrier_blockPtr_region, FlatAlloc.trCarrier_blockPtr_address,
+    FlatAlloc.trCarrier_blockPtr_inBounds])' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: VeriTile/Triton/Memory/Flatten.lean:3179:16: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: VeriTile/Triton/Memory/Flatten.lean:3901:27: 'simp_wf' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: VeriTile/Triton/Memory/Flatten.lean:3927:27: 'simp_wf' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: VeriTile/Triton/Memory/Flatten.lean:3952:27: 'simp_wf' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: VeriTile/Triton/Memory/Flatten.lean:3989:10: This simp argument is unused:
+  Op.PointerAddressesSafeOn
+
+Hint: Omit it from the simp argument list.
+  simp only [MemAccess.ActiveAddressSafe, memAccessActiveAddressSafe,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵O̵p̵.̵P̵o̵i̵n̵t̵e̵r̵A̵d̵d̵r̵e̵s̵s̵e̵s̵S̵a̵f̵e̵O̵n̵] at haddr
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/Flatten.lean:4029:10: This simp argument is unused:
+  Op.PointerAddressesSafeOn
+
+Hint: Omit it from the simp argument list.
+  simp only [MemAccess.ActiveAddressSafe, memAccessActiveAddressSafe,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵O̵p̵.̵P̵o̵i̵n̵t̵e̵r̵A̵d̵d̵r̵e̵s̵s̵e̵s̵S̵a̵f̵e̵O̵n̵] at haddr
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/Flatten.lean:4052:10: This simp argument is unused:
+  Op.PointerAddressesSafeOn
+
+Hint: Omit it from the simp argument list.
+  simp only [MemAccess.ActiveAddressSafe, memAccessActiveAddressSafe,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵O̵p̵.̵P̵o̵i̵n̵t̵e̵r̵A̵d̵d̵r̵e̵s̵s̵e̵s̵S̵a̵f̵e̵O̵n̵] at haddr
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/Flatten.lean:4106:10: This simp argument is unused:
+  Op.PointerAddressesSafeOn
+
+Hint: Omit it from the simp argument list.
+  simp only [MemAccess.ActiveAddressSafe, memAccessActiveAddressSafe,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵O̵p̵.̵P̵o̵i̵n̵t̵e̵r̵A̵d̵d̵r̵e̵s̵s̵e̵s̵S̵a̵f̵e̵O̵n̵] at haddr
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/Flatten.lean:4139:10: This simp argument is unused:
+  Op.PointerAddressesSafeOn
+
+Hint: Omit it from the simp argument list.
+  simp only [MemAccess.ActiveAddressSafe, memAccessActiveAddressSafe,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵O̵p̵.̵P̵o̵i̵n̵t̵e̵r̵A̵d̵d̵r̵e̵s̵s̵e̵s̵S̵a̵f̵e̵O̵n̵] at haddr
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/Flatten.lean:4193:10: This simp argument is unused:
+  Op.PointerAddressesSafeOn
+
+Hint: Omit it from the simp argument list.
+  simp only [MemAccess.ActiveAddressSafe, memAccessActiveAddressSafe,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵O̵p̵.̵P̵o̵i̵n̵t̵e̵r̵A̵d̵d̵r̵e̵s̵s̵e̵s̵S̵a̵f̵e̵O̵n̵] at haddr
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/Flatten.lean:4231:10: This simp argument is unused:
+  Op.PointerAddressesSafeOn
+
+Hint: Omit it from the simp argument list.
+  simp only [MemAccess.ActiveAddressSafe, memAccessActiveAddressSafe,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵O̵p̵.̵P̵o̵i̵n̵t̵e̵r̵A̵d̵d̵r̵e̵s̵s̵e̵s̵S̵a̵f̵e̵O̵n̵] at haddr
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/Flatten.lean:4303:10: This simp argument is unused:
+  Op.PointerAddressesSafeOn
+
+Hint: Omit it from the simp argument list.
+  simp only [MemAccess.ActiveAddressSafe, memAccessActiveAddressSafe,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵O̵p̵.̵P̵o̵i̵n̵t̵e̵r̵A̵d̵d̵r̵e̵s̵s̵e̵s̵S̵a̵f̵e̵O̵n̵] at haddr
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/Flatten.lean:4346:10: This simp argument is unused:
+  Op.PointerAddressesSafeOn
+
+Hint: Omit it from the simp argument list.
+  simp only [MemAccess.ActiveAddressSafe, memAccessActiveAddressSafe,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵O̵p̵.̵P̵o̵i̵n̵t̵e̵r̵A̵d̵d̵r̵e̵s̵s̵e̵s̵S̵a̵f̵e̵O̵n̵] at haddr
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/Flatten.lean:4432:10: This simp argument is unused:
+  Op.PointerAddressesSafeOn
+
+Hint: Omit it from the simp argument list.
+  simp only [MemAccess.ActiveAddressSafe, memAccessActiveAddressSafe,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵O̵p̵.̵P̵o̵i̵n̵t̵e̵r̵A̵d̵d̵r̵e̵s̵s̵e̵s̵S̵a̵f̵e̵O̵n̵] at haddr
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/Flatten.lean:4482:10: This simp argument is unused:
+  Op.PointerAddressesSafeOn
+
+Hint: Omit it from the simp argument list.
+  simp only [MemAccess.ActiveAddressSafe, memAccessActiveAddressSafe,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵O̵p̵.̵P̵o̵i̵n̵t̵e̵r̵A̵d̵d̵r̵e̵s̵s̵e̵s̵S̵a̵f̵e̵O̵n̵] at haddr
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/Flatten.lean:4568:10: This simp argument is unused:
+  Op.PointerAddressesSafeOn
+
+Hint: Omit it from the simp argument list.
+  simp only [MemAccess.ActiveAddressSafe, memAccessActiveAddressSafe,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵O̵p̵.̵P̵o̵i̵n̵t̵e̵r̵A̵d̵d̵r̵e̵s̵s̵e̵s̵S̵a̵f̵e̵O̵n̵] at haddr
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/Flatten.lean:4635:25: This simp argument is unused:
+  Option.bind_eq_bind
+
+Hint: Omit it from the simp argument list.
+  simp only [Option.bind_e̵q̵_̵b̵i̵n̵d̵,̵ ̵O̵p̵t̵i̵o̵n̵.̵b̵i̵n̵d̵_̵some]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/Flatten.lean:4639:29: This simp argument is unused:
+  Option.bind_eq_bind
+
+Hint: Omit it from the simp argument list.
+  simp only [Option.bind_e̵q̵_̵b̵i̵n̵d̵,̵ ̵O̵p̵t̵i̵o̵n̵.̵b̵i̵n̵d̵_̵some]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/Flatten.lean:4646:33: This simp argument is unused:
+  Option.bind_eq_bind
+
+Hint: Omit it from the simp argument list.
+  simp only [̵O̵p̵t̵i̵o̵n̵.̵b̵i̵n̵d̵_̵e̵q̵_̵b̵i̵n̵d̵,̵ ̵O̵p̵t̵i̵o̵n̵.̵m̵a̵p̵_̵s̵o̵m̵e̵,̵[̲O̲p̲t̲i̲o̲n̲.̲m̲a̲p̲_̲s̲o̲m̲e̲,̲ Option.bind_some]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/Flatten.lean:4860:27: 'simp_wf' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: VeriTile/Triton/Memory/Flatten.lean:4901:27: 'simp_wf' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: VeriTile/Triton/Memory/Flatten.lean:4941:27: 'simp_wf' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+⚠ [3369/3483] Replayed VeriTile.Triton.Memory.FlattenR
+warning: VeriTile/Triton/Memory/FlattenR.lean:1288:58: This simp argument is unused:
+  Region.cast_cast
+
+Hint: Omit it from the simp argument list.
+  simp only [reduceIte, FlatAlloc.trTile, R̵e̵g̵i̵o̵n̵.̵c̵a̵s̵t̵_̵c̵a̵s̵t̵,̵ ̵Region.cast_self]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/FlattenR.lean:1288:76: This simp argument is unused:
+  Region.cast_self
+
+Hint: Omit it from the simp argument list.
+  simp only [reduceIte, FlatAlloc.trTile, Region.cast_cast,̵ ̵R̵e̵g̵i̵o̵n̵.̵c̵a̵s̵t̵_̵s̵e̵l̵f̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/FlattenR.lean:1324:62: This simp argument is unused:
+  Region.cast_cast
+
+Hint: Omit it from the simp argument list.
+  simp only [reduceIte, FlatAlloc.trTile, R̵e̵g̵i̵o̵n̵.̵c̵a̵s̵t̵_̵c̵a̵s̵t̵,̵ ̵Region.cast_self]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/FlattenR.lean:1324:80: This simp argument is unused:
+  Region.cast_self
+
+Hint: Omit it from the simp argument list.
+  simp only [reduceIte, FlatAlloc.trTile, Region.cast_cast,̵ ̵R̵e̵g̵i̵o̵n̵.̵c̵a̵s̵t̵_̵s̵e̵l̵f̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/FlattenR.lean:1379:66: This simp argument is unused:
+  Region.cast_cast
+
+Hint: Omit it from the simp argument list.
+  simp only [reduceIte, FlatAlloc.trTile, R̵e̵g̵i̵o̵n̵.̵c̵a̵s̵t̵_̵c̵a̵s̵t̵,̵ ̵Region.cast_self]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/FlattenR.lean:1379:84: This simp argument is unused:
+  Region.cast_self
+
+Hint: Omit it from the simp argument list.
+  simp only [reduceIte, FlatAlloc.trTile, Region.cast_cast,̵ ̵R̵e̵g̵i̵o̵n̵.̵c̵a̵s̵t̵_̵s̵e̵l̵f̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/FlattenR.lean:1414:29: This simp argument is unused:
+  reduceIte
+
+Hint: Omit it from the simp argument list.
+  simp only [r̵e̵d̵u̵c̵e̵I̵t̵e̵,̵ ̵FlatAlloc.trTile, Region.cast_cast, Region.cast_self]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/FlattenR.lean:1414:58: This simp argument is unused:
+  Region.cast_cast
+
+Hint: Omit it from the simp argument list.
+  simp only [reduceIte, FlatAlloc.trTile, R̵e̵g̵i̵o̵n̵.̵c̵a̵s̵t̵_̵c̵a̵s̵t̵,̵ ̵Region.cast_self]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/FlattenR.lean:1414:76: This simp argument is unused:
+  Region.cast_self
+
+Hint: Omit it from the simp argument list.
+  simp only [reduceIte, FlatAlloc.trTile, Region.cast_cast,̵ ̵R̵e̵g̵i̵o̵n̵.̵c̵a̵s̵t̵_̵s̵e̵l̵f̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/FlattenR.lean:1461:33: This simp argument is unused:
+  reduceIte
+
+Hint: Omit it from the simp argument list.
+  simp only [r̵e̵d̵u̵c̵e̵I̵t̵e̵,̵ ̵FlatAlloc.trTile, Region.cast_cast, Region.cast_self]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/FlattenR.lean:1461:62: This simp argument is unused:
+  Region.cast_cast
+
+Hint: Omit it from the simp argument list.
+  simp only [reduceIte, FlatAlloc.trTile, R̵e̵g̵i̵o̵n̵.̵c̵a̵s̵t̵_̵c̵a̵s̵t̵,̵ ̵Region.cast_self]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/FlattenR.lean:1461:80: This simp argument is unused:
+  Region.cast_self
+
+Hint: Omit it from the simp argument list.
+  simp only [reduceIte, FlatAlloc.trTile, Region.cast_cast,̵ ̵R̵e̵g̵i̵o̵n̵.̵c̵a̵s̵t̵_̵s̵e̵l̵f̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/FlattenR.lean:1528:37: This simp argument is unused:
+  reduceIte
+
+Hint: Omit it from the simp argument list.
+  simp only [r̵e̵d̵u̵c̵e̵I̵t̵e̵,̵ ̵FlatAlloc.trTile, Region.cast_cast, Region.cast_self]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/FlattenR.lean:1528:66: This simp argument is unused:
+  Region.cast_cast
+
+Hint: Omit it from the simp argument list.
+  simp only [reduceIte, FlatAlloc.trTile, R̵e̵g̵i̵o̵n̵.̵c̵a̵s̵t̵_̵c̵a̵s̵t̵,̵ ̵Region.cast_self]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/FlattenR.lean:1528:84: This simp argument is unused:
+  Region.cast_self
+
+Hint: Omit it from the simp argument list.
+  simp only [reduceIte, FlatAlloc.trTile, Region.cast_cast,̵ ̵R̵e̵g̵i̵o̵n̵.̵c̵a̵s̵t̵_̵s̵e̵l̵f̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/FlattenR.lean:1651:27: 'simp_wf' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: VeriTile/Triton/Memory/FlattenR.lean:1665:27: 'simp_wf' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: VeriTile/Triton/Memory/FlattenR.lean:1678:27: 'simp_wf' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: VeriTile/Triton/Memory/FlattenR.lean:2380:27: 'simp_wf' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: VeriTile/Triton/Memory/FlattenR.lean:2406:27: 'simp_wf' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: VeriTile/Triton/Memory/FlattenR.lean:2431:27: 'simp_wf' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: VeriTile/Triton/Memory/FlattenR.lean:3285:27: 'simp_wf' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: VeriTile/Triton/Memory/FlattenR.lean:3326:27: 'simp_wf' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: VeriTile/Triton/Memory/FlattenR.lean:3366:27: 'simp_wf' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+ℹ [3388/3483] Replayed VeriTile.Triton.Float.WordIntegerDot
+info: VeriTile/Triton/Float/WordIntegerDot.lean:74:0: VeriTile.Triton.FP.IntegerDot.backend_supported: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: VeriTile/Triton/Float/WordIntegerDot.lean:75:0: VeriTile.Triton.FP.IntegerDot.backend_rejects_invalid: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: VeriTile/Triton/Float/WordIntegerDot.lean:76:0: VeriTile.Triton.FP.IntegerDot.fold_is_low32: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+info: VeriTile/Triton/Float/WordIntegerDot.lean:77:0: VeriTile.Triton.FP.IntegerDot.accumulation_wraps: axiom footprint ⊆ standard base ✓  ([propext])
+info: VeriTile/Triton/Float/WordIntegerDot.lean:78:0: VeriTile.Triton.FP.IntegerDot.signed_product_nonzero: axiom footprint ⊆ standard base ✓  ([propext])
+ℹ [3398/3483] Replayed VeriTile.Triton.Float.ScalarBackend
+info: VeriTile/Triton/Float/ScalarBackend.lean:106:0: VeriTile.Triton.FP.Software.scalarFP32_zero: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: VeriTile/Triton/Float/ScalarBackend.lean:107:0: VeriTile.Triton.FP.Software.scalarFP32_one: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+info: VeriTile/Triton/Float/ScalarBackend.lean:108:0: VeriTile.Triton.FP.Software.scalarFP32_add: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+info: VeriTile/Triton/Float/ScalarBackend.lean:109:0: VeriTile.Triton.FP.Software.scalarFP32_mul: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+info: VeriTile/Triton/Float/ScalarBackend.lean:110:0: VeriTile.Triton.FP.Software.scalarFP32_fma: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+info: VeriTile/Triton/Float/ScalarBackend.lean:111:0: VeriTile.Triton.FP.Software.scalarFP32_neg: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+info: VeriTile/Triton/Float/ScalarBackend.lean:112:0: VeriTile.Triton.FP.Software.scalarFP32_abs: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+info: VeriTile/Triton/Float/ScalarBackend.lean:113:0: VeriTile.Triton.FP.Software.scalarFP32_cast_same: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+ℹ [3399/3483] Replayed VeriTile.Triton.Float.MaximumExact
+info: VeriTile/Triton/Float/MaximumExact.lean:259:0: VeriTile.Triton.FP.MaximumExact.Generic.finite_iff_toRat: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: VeriTile/Triton/Float/MaximumExact.lean:260:0: VeriTile.Triton.FP.MaximumExact.Generic.maximum_finite: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: VeriTile/Triton/Float/MaximumExact.lean:261:0: VeriTile.Triton.FP.MaximumExact.Generic.max_commute: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: VeriTile/Triton/Float/MaximumExact.lean:262:0: VeriTile.Triton.FP.MaximumExact.Generic.max_assoc: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: VeriTile/Triton/Float/MaximumExact.lean:263:0: VeriTile.Triton.FP.MaximumExact.Generic.max_idem: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: VeriTile/Triton/Float/MaximumExact.lean:264:0: VeriTile.Triton.FP.MaximumExact.Generic.max_neg_inf: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: VeriTile/Triton/Float/MaximumExact.lean:265:0: VeriTile.Triton.FP.MaximumExact.Generic.zero_boundaries: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+info: VeriTile/Triton/Float/MaximumExact.lean:266:0: VeriTile.Triton.FP.MaximumExact.Generic.maximumValue_commute: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: VeriTile/Triton/Float/MaximumExact.lean:267:0: VeriTile.Triton.FP.MaximumExact.Generic.maximumValue_assoc: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: VeriTile/Triton/Float/MaximumExact.lean:268:0: VeriTile.Triton.FP.MaximumExact.Generic.maximumValue_idem: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: VeriTile/Triton/Float/MaximumExact.lean:269:0: VeriTile.Triton.FP.MaximumExact.Generic.maximumValue_neg_inf: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+⚠ [3400/3483] Replayed VeriTile.Triton.Float.ScalarOpsLaws
+warning: VeriTile/Triton/Float/ScalarOpsLaws.lean:51:48: This simp argument is unused:
+  ha
+
+Hint: Omit it from the simp argument list.
+  simp [ha̵,̵ ̵h̵b, hz, sign, _root_.mul_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Float/ScalarOpsLaws.lean:51:52: This simp argument is unused:
+  hb
+
+Hint: Omit it from the simp argument list.
+  simp [ha, hb̵,̵ ̵h̵z, sign, _root_.mul_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Float/ScalarOpsLaws.lean:51:56: This simp argument is unused:
+  hz
+
+Hint: Omit it from the simp argument list.
+  simp [ha, hb, h̵z̵,̵ ̵sign, _root_.mul_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+info: VeriTile/Triton/Float/ScalarOpsLaws.lean:105:0: VeriTile.Triton.FP.ScalarOpsLaws.add_comm: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+info: VeriTile/Triton/Float/ScalarOpsLaws.lean:106:0: VeriTile.Triton.FP.ScalarOpsLaws.mul_comm: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+info: VeriTile/Triton/Float/ScalarOpsLaws.lean:107:0: VeriTile.Triton.FP.ScalarOpsLaws.fma_mul_comm: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: VeriTile/Triton/Float/ScalarOpsLaws.lean:108:0: VeriTile.Triton.FP.ScalarOpsLaws.one_decode: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: VeriTile/Triton/Float/ScalarOpsLaws.lean:109:0: VeriTile.Triton.FP.ScalarOpsLaws.prepare_one: axiom footprint ⊆ standard base ✓  ([propext])
+info: VeriTile/Triton/Float/ScalarOpsLaws.lean:110:0: VeriTile.Triton.FP.ScalarOpsLaws.mul_one_cast: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: VeriTile/Triton/Float/ScalarOpsLaws.lean:111:0: VeriTile.Triton.FP.ScalarOpsLaws.one_mul_cast: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: VeriTile/Triton/Float/ScalarOpsLaws.lean:112:0: VeriTile.Triton.FP.ScalarOpsLaws.div_one_cast: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: VeriTile/Triton/Float/ScalarOpsLaws.lean:113:0: VeriTile.Triton.FP.ScalarOpsLaws.add_positive_zero_fp32: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: VeriTile/Triton/Float/ScalarOpsLaws.lean:114:0: VeriTile.Triton.FP.ScalarOpsLaws.positive_zero_value_fp32: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: VeriTile/Triton/Float/ScalarOpsLaws.lean:115:0: VeriTile.Triton.FP.ScalarOpsLaws.abs_positive_zero_fp32: axiom footprint ⊆ standard base ✓  ([])
+info: VeriTile/Triton/Float/ScalarOpsLaws.lean:116:0: VeriTile.Triton.FP.ScalarOpsLaws.add_one_comm_fp32: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+ℹ [3401/3483] Replayed VeriTile.Triton.Float.ExponentialExact
+info: VeriTile/Triton/Float/ExponentialExact.lean:143:0: VeriTile.Triton.FP.ExponentialExact.finite_iff_toRat: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: VeriTile/Triton/Float/ExponentialExact.lean:144:0: VeriTile.Triton.FP.ExponentialExact.neg_inf_sub: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: VeriTile/Triton/Float/ExponentialExact.lean:145:0: VeriTile.Triton.FP.ExponentialExact.special_zero: axiom footprint ⊆ standard base ✓  ([])
+info: VeriTile/Triton/Float/ExponentialExact.lean:146:0: VeriTile.Triton.FP.ExponentialExact.special_neg_inf: axiom footprint ⊆ standard base ✓  ([])
+info: VeriTile/Triton/Float/ExponentialExact.lean:147:0: VeriTile.Triton.FP.ExponentialExact.special_pos_inf: axiom footprint ⊆ standard base ✓  ([])
+info: VeriTile/Triton/Float/ExponentialExact.lean:148:0: VeriTile.Triton.FP.ExponentialExact.special_nan: axiom footprint ⊆ standard base ✓  ([propext])
+info: VeriTile/Triton/Float/ExponentialExact.lean:149:0: VeriTile.Triton.FP.ExponentialExact.tl_exp_zero: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: VeriTile/Triton/Float/ExponentialExact.lean:150:0: VeriTile.Triton.FP.ExponentialExact.tl_exp_neg_inf: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: VeriTile/Triton/Float/ExponentialExact.lean:151:0: VeriTile.Triton.FP.ExponentialExact.libdevice_exp_zero: axiom footprint ⊆ standard base ✓  ([])
+info: VeriTile/Triton/Float/ExponentialExact.lean:152:0: VeriTile.Triton.FP.ExponentialExact.libdevice_exp_neg_inf: axiom footprint ⊆ standard base ✓  ([])
+info: VeriTile/Triton/Float/ExponentialExact.lean:153:0: VeriTile.Triton.FP.ExponentialExact.tl_exp_neg_inf_sub: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: VeriTile/Triton/Float/ExponentialExact.lean:154:0: VeriTile.Triton.FP.ExponentialExact.libdevice_exp_neg_inf_sub: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+ℹ [3409/3483] Replayed VeriTile.Triton.Float.BitValueLaws
+info: VeriTile/Triton/Float/BitValueLaws.lean:191:0: VeriTile.Triton.FP.BitValueLaws.pow2_pos: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+info: VeriTile/Triton/Float/BitValueLaws.lean:192:0: VeriTile.Triton.FP.BitValueLaws.scaled_exponent_estimate: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: VeriTile/Triton/Float/BitValueLaws.lean:193:0: VeriTile.Triton.FP.BitValueLaws.exact_scale_step: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+info: VeriTile/Triton/Float/BitValueLaws.lean:194:0: VeriTile.Triton.FP.BitValueLaws.round_scaled: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: VeriTile/Triton/Float/BitValueLaws.lean:195:0: VeriTile.Triton.FP.BitValueLaws.round_of_decode_finite: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+ℹ [3410/3483] Replayed VeriTile.Triton.Float.CastExact.SameFormat
+info: VeriTile/Triton/Float/CastExact/SameFormat.lean:81:0: VeriTile.Triton.FP.CastExact.cast_same_of_decode_finite: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: VeriTile/Triton/Float/CastExact/SameFormat.lean:82:0: VeriTile.Triton.FP.CastExact.cast_same_of_finite: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: VeriTile/Triton/Float/CastExact/SameFormat.lean:83:0: VeriTile.Triton.FP.CastExact.cast_same: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+info: VeriTile/Triton/Float/CastExact/SameFormat.lean:84:0: VeriTile.Triton.FP.CastExact.cast_same_idempotent: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+ℹ [3411/3483] Replayed VeriTile.Triton.Float.ScalarArithmetic
+info: VeriTile/Triton/Float/ScalarArithmetic.lean:278:0: VeriTile.Triton.FP.ScalarArithmetic.strict_certificate: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: VeriTile/Triton/Float/ScalarArithmetic.lean:279:0: VeriTile.Triton.FP.ScalarArithmetic.strict_admitted: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+ℹ [3419/3523] Built bench.repairs.tritonbench_g.cross_entropy1.Proofs.TensorModel (1.5s)
+info: bench/repairs/tritonbench_g/cross_entropy1/Proofs/TensorModel.lean:124:0: VeriTile.Bench.Repairs.CrossEntropy1.TensorModel.logicalAdd: definition does not reference [VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Triton.FP.Structural.run] — non-circular ✓
+info: bench/repairs/tritonbench_g/cross_entropy1/Proofs/TensorModel.lean:125:0: VeriTile.Bench.Repairs.CrossEntropy1.TensorModel.ReturnedValues: definition does not reference [VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Triton.FP.Structural.run] — non-circular ✓
+info: bench/repairs/tritonbench_g/cross_entropy1/Proofs/TensorModel.lean:126:0: VeriTile.Bench.Repairs.CrossEntropy1.TensorModel.SameMetadata.numel: axiom footprint ⊆ standard base ✓  ([propext])
+info: bench/repairs/tritonbench_g/cross_entropy1/Proofs/TensorModel.lean:127:0: VeriTile.Bench.Repairs.CrossEntropy1.TensorModel.Preserves.trans: axiom footprint ⊆ standard base ✓  ([])
+info: bench/repairs/tritonbench_g/cross_entropy1/Proofs/TensorModel.lean:128:0: VeriTile.Bench.Repairs.CrossEntropy1.TensorModel.Preserves.value: axiom footprint ⊆ standard base ✓  ([])
+✔ [3420/3523] Built bench.repairs.tritonbench_g.cross_entropy1.Kernels (2.6s)
+✔ [3421/3523] Built bench.repairs.tritonbench_g.llama_ff_triton_scalar_cast.Kernels (3.8s)
+⚠ [3422/3523] Built VeriTile.Triton.Memory.Frame.Basic (3.6s)
+warning: VeriTile/Triton/Memory/Frame/Basic.lean:371:21: This simp argument is unused:
+  hmem
+
+Hint: Omit it from the simp argument list.
+  simp [h,̵ ̵h̵m̵e̵m̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+✔ [3423/3523] Built VeriTile.Triton.Memory.KernelSpec.TileIndex (3.5s)
+✔ [3424/3523] Built VeriTile.Triton.Float.StateErasure (3.5s)
+✔ [3425/3523] Built VeriTile.Triton.KernelLemmas.EvalHelpers (3.7s)
+⚠ [3426/3523] Built VeriTile.Triton.Memory.View (3.8s)
+warning: VeriTile/Triton/Memory/View.lean:226:33: This simp argument is unused:
+  evalOp
+
+Hint: Omit it from the simp argument list.
+  simp [observeTileAt, stepStmt, e̵v̵a̵l̵O̵p̵,̵ ̵hPtrs, hVal, Tile.ofReal,
+  ̵  ̵ ̵ ̵BlockState.writeMemTyped_real,
+  ̲  ̲ ̲ ̲Offset.rowMajor2D, Offset.strided]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Memory/View.lean:254:33: This simp argument is unused:
+  evalOp
+
+Hint: Omit it from the simp argument list.
+  simp [observeTileAt, stepStmt, e̵v̵a̵l̵O̵p̵,̵ ̵hPtrs, hVal, Tile.ofReal,
+  ̵  ̵ ̵ ̵BlockState.writeMemTyped_real,
+  ̲  ̲ ̲ ̲Offset.rowMajor2D, Offset.strided]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+✔ [3427/3523] Built VeriTile.Triton.Memory.Layout (3.7s)
+✔ [3428/3523] Built VeriTile.Triton.KernelLemmas.ScatterStore (3.8s)
+✔ [3429/3523] Built VeriTile.Triton.KernelLemmas.LoopInvariant (3.7s)
+✔ [3430/3523] Built VeriTile.Triton.Memory.FlattenTolerant (3.9s)
+✔ [3431/3523] Built bench.repairs.tritonbench_g.cross_entropy1.Proofs.NativeSupport (2.2s)
+⚠ [3432/3523] Built VeriTile.Triton.Launch.Grid (4.1s)
+warning: VeriTile/Triton/Launch/Grid.lean:199:8: This simp argument is unused:
+  evalOp
+
+Hint: Omit it from the simp argument list.
+  simp ̵[̵e̵v̵a̵l̵O̵p̵]̵
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Launch/Grid.lean:206:8: This simp argument is unused:
+  evalOp
+
+Hint: Omit it from the simp argument list.
+  simp [e̵v̵a̵l̵O̵p̵,̵ ̵h]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+✔ [3433/3523] Built VeriTile.Triton.Float.UnsignedCast (4.0s)
+✔ [3434/3523] Built VeriTile.Triton.Memory.KernelSpec.BooleanMasked (4.2s)
+✔ [3435/3523] Built VeriTile.Triton.KernelLemmas.Matmul (4.1s)
+✔ [3436/3523] Built VeriTile.Triton.Float.ScalarArithmeticLaws (4.0s)
+✔ [3437/3523] Built VeriTile.Triton.Memory.KernelSpec.Stream (4.5s)
+ℹ [3438/3523] Built bench.repairs.tritonbench_g.llama_ff_triton_scalar_cast.Proofs.Source (1.9s)
+info: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/Source.lean:43:0: VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.partition: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/Source.lean:44:0: VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.signed_cdiv: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+✔ [3439/3523] Built VeriTile.Triton.Memory.KernelSpec.StreamAttentionMetadata (4.9s)
+ℹ [3440/3523] Built bench.repairs.tritonbench_g.cross_entropy1.Proofs.Execution (2.5s)
+info: bench/repairs/tritonbench_g/cross_entropy1/Proofs/Execution.lean:136:0: VeriTile.Bench.Repairs.CrossEntropy1.Program.forward_outputs: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/cross_entropy1/Proofs/Execution.lean:137:0: VeriTile.Bench.Repairs.CrossEntropy1.Program.forward_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/cross_entropy1/Proofs/Execution.lean:138:0: VeriTile.Bench.Repairs.CrossEntropy1.Program.backward_ignored: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/cross_entropy1/Proofs/Execution.lean:139:0: VeriTile.Bench.Repairs.CrossEntropy1.Program.backward_output: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/cross_entropy1/Proofs/Execution.lean:140:0: VeriTile.Bench.Repairs.CrossEntropy1.Program.backward_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+✔ [3441/3523] Built VeriTile.Triton.Memory.KernelSpec.Gather (5.3s)
+✔ [3442/3523] Built VeriTile.Triton.Memory.KernelSpec.Scatter (5.5s)
+✔ [3443/3523] Built VeriTile.Triton.Memory.KernelSpec.Grouped (5.7s)
+⚠ [3444/3523] Built VeriTile.Triton.Memory.KernelSpec.StreamEmit (5.7s)
+warning: VeriTile/Triton/Memory/KernelSpec/StreamEmit.lean:1273:12: unused variable `pid₀`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: VeriTile/Triton/Memory/KernelSpec/StreamEmit.lean:1273:17: unused variable `pid₁`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: VeriTile/Triton/Memory/KernelSpec/StreamEmit.lean:1273:22: unused variable `pid₂`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: VeriTile/Triton/Memory/KernelSpec/StreamEmit.lean:1344:12: unused variable `pid₀`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: VeriTile/Triton/Memory/KernelSpec/StreamEmit.lean:1344:17: unused variable `pid₁`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: VeriTile/Triton/Memory/KernelSpec/StreamEmit.lean:1344:22: unused variable `pid₂`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+✔ [3445/3523] Built VeriTile.Triton.Memory.KernelSpec.StreamAttention (5.0s)
+✔ [3446/3523] Built VeriTile.Triton.Memory.Frame.Kernel (2.5s)
+⚠ [3447/3523] Built bench.repairs.tritonbench_g.cross_entropy1.Proofs.Native (2.2s)
+warning: bench/repairs/tritonbench_g/cross_entropy1/Proofs/Native.lean:95:2: 'norm_num at addressSpace ⊢' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+info: bench/repairs/tritonbench_g/cross_entropy1/Proofs/Native.lean:161:0: VeriTile.Bench.Repairs.CrossEntropy1.Native.scalar_output_word: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/cross_entropy1/Proofs/Native.lean:162:0: VeriTile.Bench.Repairs.CrossEntropy1.Native.all_lane_index_signed: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/cross_entropy1/Proofs/Native.lean:163:0: VeriTile.Bench.Repairs.CrossEntropy1.Native.shifted_label: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/cross_entropy1/Proofs/Native.lean:164:0: VeriTile.Bench.Repairs.CrossEntropy1.Native.ignored_label_shift: axiom footprint ⊆ standard base ✓  ([propext])
+info: bench/repairs/tritonbench_g/cross_entropy1/Proofs/Native.lean:165:0: VeriTile.Bench.Repairs.CrossEntropy1.Native.source_mask: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+info: bench/repairs/tritonbench_g/cross_entropy1/Proofs/Native.lean:166:0: VeriTile.Bench.Repairs.CrossEntropy1.Native.element_word: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/cross_entropy1/Proofs/Native.lean:167:0: VeriTile.Bench.Repairs.CrossEntropy1.Native.backed_address: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+info: bench/repairs/tritonbench_g/cross_entropy1/Proofs/Native.lean:168:0: VeriTile.Bench.Repairs.CrossEntropy1.Native.fp32_index_signed: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+info: bench/repairs/tritonbench_g/cross_entropy1/Proofs/Native.lean:169:0: VeriTile.Bench.Repairs.CrossEntropy1.Native.row_address_injective: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+info: bench/repairs/tritonbench_g/cross_entropy1/Proofs/Native.lean:170:0: VeriTile.Bench.Repairs.CrossEntropy1.Native.tile_lane_unique: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+⚠ [3448/3523] Built bench.repairs.tritonbench_g.cross_entropy1.Proofs.Math (3.9s)
+warning: bench/repairs/tritonbench_g/cross_entropy1/Proofs/Math.lean:166:12: This simp argument is unused:
+  blockSum
+
+Hint: Omit it from the simp argument list.
+  simp [̵b̵l̵o̵c̵k̵S̵u̵m̵,̵h̵,̵h̵t̵]̵[̲h̲,̲ ̲h̲t̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+info: bench/repairs/tritonbench_g/cross_entropy1/Proofs/Math.lean:181:0: VeriTile.Bench.Repairs.CrossEntropy1.Math.partition_target: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/cross_entropy1/Proofs/Math.lean:182:0: VeriTile.Bench.Repairs.CrossEntropy1.Math.partition: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/cross_entropy1/Proofs/Math.lean:183:0: VeriTile.Bench.Repairs.CrossEntropy1.Math.local_lse_composition: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/cross_entropy1/Proofs/Math.lean:184:0: VeriTile.Bench.Repairs.CrossEntropy1.Math.rank_lse_composition: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/cross_entropy1/Proofs/Math.lean:185:0: VeriTile.Bench.Repairs.CrossEntropy1.Math.block_target: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+ℹ [3449/3523] Built bench.repairs.tritonbench_g.llama_ff_triton_scalar_cast.Proofs.Lowering (1.8s)
+info: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/Lowering.lean:64:0: VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.source_dot_sites: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/Lowering.lean:65:0: VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.source_weight_cast_sites: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+✔ [3450/3523] Built VeriTile.Triton.Float.GuardedRewrite (2.8s)
+✔ [3451/3523] Built VeriTile.Triton.Memory.Frame.Stmt (3.7s)
+⚠ [3452/3523] Built VeriTile.Triton.Float.FixedInteger (3.3s)
+warning: VeriTile/Triton/Float/FixedInteger.lean:54:15: This simp argument is unused:
+  hx
+
+Hint: Omit it from the simp argument list.
+  simp only [hx̵,̵ ̵h̵y, bind, pure, Option.bind_none, Option.bind_some]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Float/FixedInteger.lean:54:19: This simp argument is unused:
+  hy
+
+Hint: Omit it from the simp argument list.
+  simp only [hx, h̵y̵,̵ ̵bind, pure, Option.bind_none, Option.bind_some]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Float/FixedInteger.lean:105:15: This simp argument is unused:
+  hx
+
+Hint: Omit it from the simp argument list.
+  simp only [hx̵,̵ ̵h̵y, bind, pure, Option.bind_none, Option.bind_some]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Float/FixedInteger.lean:105:19: This simp argument is unused:
+  hy
+
+Hint: Omit it from the simp argument list.
+  simp only [hx, h̵y̵,̵ ̵bind, pure, Option.bind_none, Option.bind_some]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Float/FixedInteger.lean:124:15: This simp argument is unused:
+  Op.unsignedToInt
+
+Hint: Omit it from the simp argument list.
+  simp only [̵O̵p̵.̵u̵n̵s̵i̵g̵n̵e̵d̵T̵o̵I̵n̵t̵,̵ ̵O̵p̵.̵n̵a̵t̵T̵o̵U̵n̵s̵i̵g̵n̵e̵d̵,̵[̲O̲p̲.̲n̲a̲t̲T̲o̲U̲n̲s̲i̲g̲n̲e̲d̲,̲ FP.Structural.evalOp, h, bind, pure, Option.bind_none,
+  ̲  ̲ ̲ ̲ ̲ ̲Option.bind_some, FP.Structural.numeric, FP.Structural.bop, FP.Structural.integralMod,
+  ̲  ̲ ̲ ̲ ̲ ̲FP.Structural.numericLt, FP.Structural.natLt, IntegerExpr.same_left, IntegerExpr.same_right,
+        IntegerExpr.signedBits, decide_eq_true_eq]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Float/FixedInteger.lean:124:33: This simp argument is unused:
+  Op.natToUnsigned
+
+Hint: Omit it from the simp argument list.
+  simp only [Op.unsignedToInt, O̵p̵.̵n̵a̵t̵T̵o̵U̵n̵s̵i̵g̵n̵e̵d̵,̵ ̵FP.Structural.evalOp, h, bind, pure, Option.bind_none,
+  ̲  ̲ ̲ ̲ ̲ ̲Option.bind_some, FP.Structural.numeric, FP.Structural.bop, FP.Structural.integralMod,
+  ̲  ̲ ̲ ̲ ̲ ̲FP.Structural.numericLt, FP.Structural.natLt, IntegerExpr.same_left, IntegerExpr.same_right,
+        IntegerExpr.signedBits, decide_eq_true_eq]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Float/FixedInteger.lean:140:15: This simp argument is unused:
+  Op.intShiftRight
+
+Hint: Omit it from the simp argument list.
+  simp only [̵O̵p̵.̵i̵n̵t̵S̵h̵i̵f̵t̵R̵i̵g̵h̵t̵,̵ ̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵e̵v̵a̵l̵O̵p̵,̵[̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲e̲v̲a̲l̲O̲p̲,̲ hx, hy, bind, pure, Option.bind_none, Option.bind_some,
+  ̲  ̲ ̲ ̲ ̲ ̲FP.Structural.bop, FP.Structural.integralFloorDiv, IntegerExpr.same_left,
+  ̲  ̲ ̲ ̲ ̲ ̲IntegerExpr.same_right]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Float/FixedInteger.lean:142:38: This simp argument is unused:
+  IntegerExpr.same_left
+
+Hint: Omit it from the simp argument list.
+  simp only [Op.intShiftRight, FP.Structural.evalOp, hx, hy, bind, pure, Option.bind_none,
+  ̲  ̲ ̲ ̲ ̲ ̲Option.bind_some, FP.Structural.bop, FP.Structural.integralFloorDiv, I̵n̵t̵e̵g̵e̵r̵E̵x̵p̵r̵.̵s̵a̵m̵e̵_̵l̵e̵f̵t̵,̵ ̵IntegerExpr.same_right]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Float/FixedInteger.lean:158:35: This simp argument is unused:
+  FP.Structural.eval_intToUnsigned
+
+Hint: Omit it from the simp argument list.
+  simp only [FP.Structural.evalOp,̵ ̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵e̵v̵a̵l̵_̵i̵n̵t̵T̵o̵U̵n̵s̵i̵g̵n̵e̵d̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Float/FixedInteger.lean:161:15: This simp argument is unused:
+  hx
+
+Hint: Omit it from the simp argument list.
+  simp only [hx̵,̵ ̵h̵y, bind, pure, Option.bind_none, Option.bind_some]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Float/FixedInteger.lean:161:19: This simp argument is unused:
+  hy
+
+Hint: Omit it from the simp argument list.
+  simp only [hx, h̵y̵,̵ ̵bind, pure, Option.bind_none, Option.bind_some]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+✔ [3453/3523] Built VeriTile.Triton.Memory.KernelSpec.TileGather (4.1s)
+✔ [3454/3523] Built VeriTile.Triton.Memory.KernelSpec.MaskedND (8.1s)
+✔ [3455/3523] Built VeriTile.Triton.Memory.KernelSpec.TileMetadata (4.7s)
+✔ [3456/3523] Built VeriTile.Triton.Memory.KernelSpec.Metadata (8.3s)
+✔ [3457/3523] Built VeriTile.Triton.Memory.KernelSpec.TileND (5.2s)
+✔ [3458/3523] Built VeriTile.Triton.Memory.KernelSpec.Tile (5.2s)
+✔ [3459/3523] Built VeriTile.Triton.Memory.Frame (2.2s)
+ℹ [3460/3523] Built bench.repairs.tritonbench_g.cross_entropy1.Proofs.Grid (3.1s)
+info: bench/repairs/tritonbench_g/cross_entropy1/Proofs/Grid.lean:79:0: VeriTile.Bench.Repairs.CrossEntropy1.Schedule.freeze_reads: axiom footprint ⊆ standard base ✓  ([propext])
+info: bench/repairs/tritonbench_g/cross_entropy1/Proofs/Grid.lean:80:0: VeriTile.Bench.Repairs.CrossEntropy1.Schedule.fixed_output: axiom footprint ⊆ standard base ✓  ([propext])
+info: bench/repairs/tritonbench_g/cross_entropy1/Proofs/Grid.lean:81:0: VeriTile.Bench.Repairs.CrossEntropy1.Schedule.fixed_frame: axiom footprint ⊆ standard base ✓  ([propext])
+info: bench/repairs/tritonbench_g/cross_entropy1/Proofs/Grid.lean:259:0: VeriTile.Bench.Repairs.CrossEntropy1.Grid.forward_outputs: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/cross_entropy1/Proofs/Grid.lean:260:0: VeriTile.Bench.Repairs.CrossEntropy1.Grid.forward_complete_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/cross_entropy1/Proofs/Grid.lean:261:0: VeriTile.Bench.Repairs.CrossEntropy1.Grid.forward_frozen: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+⚠ [3461/3523] Built VeriTile.Triton.Float.SignedCast (2.5s)
+warning: VeriTile/Triton/Float/SignedCast.lean:23:15: This simp argument is unused:
+  h
+
+Hint: Omit it from the simp argument list.
+  simp only [h̵,̵ ̵bind, pure, Option.bind_none, Option.bind_some]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Float/SignedCast.lean:35:15: This simp argument is unused:
+  h
+
+Hint: Omit it from the simp argument list.
+  simp only [h̵,̵ ̵bind, pure, Option.bind_none, Option.bind_some]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Float/SignedCast.lean:48:15: This simp argument is unused:
+  h
+
+Hint: Omit it from the simp argument list.
+  simp only [h̵,̵ ̵bind, pure, Option.bind_none, Option.bind_some]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Float/SignedCast.lean:76:15: This simp argument is unused:
+  Op.boolToInt
+
+Hint: Omit it from the simp argument list.
+  simp only [̵O̵p̵.̵b̵o̵o̵l̵T̵o̵I̵n̵t̵,̵ ̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵e̵v̵a̵l̵O̵p̵,̵[̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲e̲v̲a̲l̲O̲p̲,̲ h, bind, pure, Option.bind_none, Option.bind_some]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+✔ [3462/3523] Built VeriTile.Triton.Float.ProfiledRewrite (3.9s)
+✔ [3463/3523] Built VeriTile.Triton.Memory.KernelSpec (2.2s)
+✔ [3464/3523] Built VeriTile.Triton.Memory.Footprint (2.4s)
+✔ [3465/3523] Built VeriTile.Triton.Concurrency.Trace (2.6s)
+ℹ [3466/3523] Built bench.repairs.tritonbench_g.dequantize_matmul.Proofs.Rect (2.3s)
+info: bench/repairs/tritonbench_g/dequantize_matmul/Proofs/Rect.lean:126:0: VeriTile.Bench.Repairs.DequantizeMatmul.Window.coordinates: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+info: bench/repairs/tritonbench_g/dequantize_matmul/Proofs/Rect.lean:127:0: VeriTile.Bench.Repairs.DequantizeMatmul.Rect.frozen: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/dequantize_matmul/Proofs/Rect.lean:128:0: VeriTile.Bench.Repairs.DequantizeMatmul.Rect.output: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/dequantize_matmul/Proofs/Rect.lean:129:0: VeriTile.Bench.Repairs.DequantizeMatmul.Rect.frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+✔ [3467/3523] Built VeriTile.Triton.Launch.Composition (2.3s)
+✔ [3468/3523] Built VeriTile.Triton.Concurrency.Discipline (2.2s)
+✔ [3469/3523] Built VeriTile.Triton.Launch (2.1s)
+✔ [3470/3523] Built VeriTile.Triton.Concurrency.Refinement (2.2s)
+⚠ [3471/3523] Built VeriTile.Triton.Concurrency.Atomic (3.1s)
+warning: VeriTile/Triton/Concurrency/Atomic.lean:211:10: This simp argument is unused:
+  evalOp
+
+Hint: Omit it from the simp argument list.
+  simp [e̵v̵a̵l̵O̵p̵,̵ ̵hOffsets]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Concurrency/Atomic.lean:212:10: This simp argument is unused:
+  evalOp
+
+Hint: Omit it from the simp argument list.
+  simp [e̵v̵a̵l̵O̵p̵,̵ ̵hValues]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: VeriTile/Triton/Concurrency/Atomic.lean:235:37: This simp argument is unused:
+  evalOp
+
+Hint: Omit it from the simp argument list.
+  simp [atomicTraceEvents, evalMask, e̵v̵a̵l̵O̵p̵,̵ ̵hOffsets, hValues, hMasks]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+✔ [3472/3523] Built VeriTile.Triton.Concurrency.ProducerConsumer (2.2s)
+✔ [3473/3523] Built VeriTile.Triton.Concurrency (2.1s)
+⚠ [3474/3523] Built bench.repairs.tritonbench_g.llama_ff_triton_scalar_cast.Proofs.Prefix (16s)
+warning: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/Prefix.lean:72:17: 'congr 1' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+info: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/Prefix.lean:86:0: VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.prefixIndices: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+✔ [3475/3523] Built VeriTile.Triton.Memory.Locality (56s)
+✔ [3476/3523] Built VeriTile.Triton.Memory (2.2s)
+✔ [3477/3523] Built VeriTile.Triton.Correctness (2.7s)
+✔ [3478/3523] Built VeriTile.Triton.KernelLemmas.CarryFold (2.4s)
+✔ [3479/3523] Built VeriTile.Triton.Float.Refine (2.5s)
+✔ [3480/3523] Built VeriTile.Triton.KernelLemmas (2.1s)
+✔ [3481/3523] Built VeriTile.Triton.Float.Pipeline (2.4s)
+✔ [3482/3523] Built VeriTile.Triton.Float (2.2s)
+✔ [3483/3523] Built VeriTile.Triton (2.2s)
+ℹ [3484/3523] Built bench.repairs.tritonbench_g.dequantize_matmul.Proofs.Plan (3.0s)
+info: bench/repairs/tritonbench_g/dequantize_matmul/Proofs/Plan.lean:134:0: VeriTile.Bench.Repairs.DequantizeMatmul.Plan.eval_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/dequantize_matmul/Proofs/Plan.lean:135:0: VeriTile.Bench.Repairs.DequantizeMatmul.Plan.real_complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/dequantize_matmul/Proofs/Plan.lean:136:0: VeriTile.Bench.Repairs.DequantizeMatmul.Plan.local_to_complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+⚠ [3485/3523] Built bench.repairs.tritonbench_g.int_scaled_matmul.revision001.Kernels (3.3s)
+warning: bench/repairs/tritonbench_g/int_scaled_matmul/revision001/Kernels.lean:85:17: unused variable `stride_s1n`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+✔ [3486/3523] Built bench.tritonbench_g.kcache_copy_triton.KcacheCopyTriton (5.5s)
+ℹ [3487/3523] Built bench.repairs.tritonbench_g.dequantize_matmul.Proofs.Source (3.0s)
+info: bench/repairs/tritonbench_g/dequantize_matmul/Proofs/Source.lean:159:0: VeriTile.Bench.Repairs.DequantizeMatmul.dequant_output: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/dequantize_matmul/Proofs/Source.lean:160:0: VeriTile.Bench.Repairs.DequantizeMatmul.producer_to_consumer: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/dequantize_matmul/Proofs/Source.lean:161:0: VeriTile.Bench.Repairs.DequantizeMatmul.output: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/dequantize_matmul/Proofs/Source.lean:162:0: VeriTile.Bench.Repairs.DequantizeMatmul.frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+ℹ [3488/3523] Built bench.repairs.tritonbench_g.dequantize_matmul.Proofs.Logical (2.7s)
+info: bench/repairs/tritonbench_g/dequantize_matmul/Proofs/Logical.lean:55:0: VeriTile.Bench.Repairs.DequantizeMatmul.result_words: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+info: bench/repairs/tritonbench_g/dequantize_matmul/Proofs/Logical.lean:56:0: VeriTile.Bench.Repairs.DequantizeMatmul.reference_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/dequantize_matmul/Proofs/Logical.lean:57:0: VeriTile.Bench.Repairs.DequantizeMatmul.real_complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+ℹ [3489/3523] Built bench.repairs.tritonbench_g.dequantize_matmul.Proofs.FPReference (2.6s)
+info: bench/repairs/tritonbench_g/dequantize_matmul/Proofs/FPReference.lean:82:0: VeriTile.Bench.Repairs.DequantizeMatmul.NumericLeaves.correspondence: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/dequantize_matmul/Proofs/FPReference.lean:83:0: VeriTile.Bench.Repairs.DequantizeMatmul.fp_complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/dequantize_matmul/Proofs/FPReference.lean:112:0: VeriTile.Bench.Repairs.DequantizeMatmul.PrimitiveLeaves.numeric: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+✔ [3490/3523] Built bench.tritonbench_g.int_scaled_matmul.IntScaledMatmul (19s)
+⚠ [3491/3523] Built bench.tritonbench_g.kcache_copy_triton.Proofs.TypedCopy (14s)
+warning: bench/tritonbench_g/kcache_copy_triton/Proofs/TypedCopy.lean:166:58: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+info: bench/tritonbench_g/kcache_copy_triton/Proofs/TypedCopy.lean:251:0: VeriTile.Bench.TritonBenchG.KcacheCopyTriton.TypedCopy.source_projection: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/tritonbench_g/kcache_copy_triton/Proofs/TypedCopy.lean:252:0: VeriTile.Bench.TritonBenchG.KcacheCopyTriton.TypedCopy.execution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/tritonbench_g/kcache_copy_triton/Proofs/TypedCopy.lean:253:0: VeriTile.Bench.TritonBenchG.KcacheCopyTriton.TypedCopy.execution_memory: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/tritonbench_g/kcache_copy_triton/Proofs/TypedCopy.lean:254:0: VeriTile.Bench.TritonBenchG.KcacheCopyTriton.TypedCopy.readback: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/tritonbench_g/kcache_copy_triton/Proofs/TypedCopy.lean:255:0: VeriTile.Bench.TritonBenchG.KcacheCopyTriton.TypedCopy.frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/tritonbench_g/kcache_copy_triton/Proofs/TypedCopy.lean:256:0: VeriTile.Bench.TritonBenchG.KcacheCopyTriton.TypedCopy.correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+⚠ [3492/3523] Built bench.repairs.tritonbench_g.int_scaled_matmul.revision001.Proofs.BlockWordSource (2.0s)
+warning: bench/repairs/tritonbench_g/int_scaled_matmul/revision001/Proofs/BlockWordSource.lean:14:40: unused variable `m`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: bench/repairs/tritonbench_g/int_scaled_matmul/revision001/Proofs/BlockWordSource.lean:14:44: unused variable `k`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: bench/repairs/tritonbench_g/int_scaled_matmul/revision001/Proofs/BlockWordSource.lean:14:48: unused variable `n`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+info: bench/repairs/tritonbench_g/int_scaled_matmul/revision001/Proofs/BlockWordSource.lean:28:0: VeriTile.Bench.Repairs.IntScaledMatmul.Revision001.BlockWord.original_decomposition: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/int_scaled_matmul/revision001/Proofs/BlockWordSource.lean:29:0: VeriTile.Bench.Repairs.IntScaledMatmul.Revision001.BlockWord.source_boundaries: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+ℹ [3493/3523] Built bench.repairs.tritonbench_g.int_scaled_matmul.revision001.Proofs.BlockWordReference (2.5s)
+info: bench/repairs/tritonbench_g/int_scaled_matmul/revision001/Proofs/BlockWordReference.lean:88:0: VeriTile.Bench.Repairs.IntScaledMatmul.Revision001.BlockWord.before_stop: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+⚠ [3494/3523] Built bench.repairs.tritonbench_g.int_scaled_matmul.revision001.Proofs.LogicalSum (2.7s)
+warning: bench/repairs/tritonbench_g/int_scaled_matmul/revision001/Proofs/LogicalSum.lean:25:32: This simp argument is unused:
+  Nat.add_assoc
+
+Hint: Omit it from the simp argument list.
+  simp [sum, ih, N̵a̵t̵.̵a̵d̵d̵_̵a̵s̵s̵o̵c̵,̵ ̵Int.add_assoc]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: bench/repairs/tritonbench_g/int_scaled_matmul/revision001/Proofs/LogicalSum.lean:35:31: This simp argument is unused:
+  hnext
+
+Hint: Omit it from the simp argument list.
+  simp [sum, ih, hn, hmin,̵ ̵h̵n̵e̵x̵t̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+info: bench/repairs/tritonbench_g/int_scaled_matmul/revision001/Proofs/LogicalSum.lean:70:0: VeriTile.Bench.Repairs.IntScaledMatmul.Revision001.LogicalSum.sum_congr: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+info: bench/repairs/tritonbench_g/int_scaled_matmul/revision001/Proofs/LogicalSum.lean:71:0: VeriTile.Bench.Repairs.IntScaledMatmul.Revision001.LogicalSum.fin_fold: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+info: bench/repairs/tritonbench_g/int_scaled_matmul/revision001/Proofs/LogicalSum.lean:72:0: VeriTile.Bench.Repairs.IntScaledMatmul.Revision001.LogicalSum.sum_add: axiom footprint ⊆ standard base ✓  ([propext])
+info: bench/repairs/tritonbench_g/int_scaled_matmul/revision001/Proofs/LogicalSum.lean:73:0: VeriTile.Bench.Repairs.IntScaledMatmul.Revision001.LogicalSum.sum_padding: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/int_scaled_matmul/revision001/Proofs/LogicalSum.lean:74:0: VeriTile.Bench.Repairs.IntScaledMatmul.Revision001.LogicalSum.chunks_eq: axiom footprint ⊆ standard base ✓  ([propext])
+info: bench/repairs/tritonbench_g/int_scaled_matmul/revision001/Proofs/LogicalSum.lean:75:0: VeriTile.Bench.Repairs.IntScaledMatmul.Revision001.LogicalSum.ceil_cover: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+info: bench/repairs/tritonbench_g/int_scaled_matmul/revision001/Proofs/LogicalSum.lean:76:0: VeriTile.Bench.Repairs.IntScaledMatmul.Revision001.LogicalSum.ceil_exact: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+ℹ [3495/3523] Built bench.repairs.tritonbench_g.int_scaled_matmul.revision001.Proofs.GroupedGrid (4.5s)
+info: bench/repairs/tritonbench_g/int_scaled_matmul/revision001/Proofs/GroupedGrid.lean:108:0: VeriTile.Bench.Repairs.IntScaledMatmul.Revision001.GroupedGrid.facts: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+info: bench/repairs/tritonbench_g/int_scaled_matmul/revision001/Proofs/GroupedGrid.lean:109:0: VeriTile.Bench.Repairs.IntScaledMatmul.Revision001.GroupedGrid.bounds: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+info: bench/repairs/tritonbench_g/int_scaled_matmul/revision001/Proofs/GroupedGrid.lean:110:0: VeriTile.Bench.Repairs.IntScaledMatmul.Revision001.GroupedGrid.row_group: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+info: bench/repairs/tritonbench_g/int_scaled_matmul/revision001/Proofs/GroupedGrid.lean:111:0: VeriTile.Bench.Repairs.IntScaledMatmul.Revision001.GroupedGrid.injective: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+info: bench/repairs/tritonbench_g/int_scaled_matmul/revision001/Proofs/GroupedGrid.lean:112:0: VeriTile.Bench.Repairs.IntScaledMatmul.Revision001.GroupedGrid.bijective: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+info: bench/repairs/tritonbench_g/int_scaled_matmul/revision001/Proofs/GroupedGrid.lean:113:0: VeriTile.Bench.Repairs.IntScaledMatmul.Revision001.GroupedGrid.covers: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+ℹ [3496/3523] Built bench.repairs.tritonbench_g.int_scaled_matmul.revision001.Proofs.GridExecution (2.5s)
+info: bench/repairs/tritonbench_g/int_scaled_matmul/revision001/Proofs/GridExecution.lean:65:0: VeriTile.Bench.Repairs.IntScaledMatmul.Revision001.GridExecution.compose: axiom footprint ⊆ standard base ✓  ([Quot.sound,
+ propext,
+ Classical.choice])
+ℹ [3497/3523] Built bench.repairs.tritonbench_g.int_scaled_matmul.revision001.Proofs.Geometry (3.3s)
+info: bench/repairs/tritonbench_g/int_scaled_matmul/revision001/Proofs/Geometry.lean:122:0: VeriTile.Bench.Repairs.IntScaledMatmul.Revision001.Geometry.lane_injective: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+info: bench/repairs/tritonbench_g/int_scaled_matmul/revision001/Proofs/Geometry.lean:123:0: VeriTile.Bench.Repairs.IntScaledMatmul.Revision001.Geometry.offset_injective: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+info: bench/repairs/tritonbench_g/int_scaled_matmul/revision001/Proofs/Geometry.lean:124:0: VeriTile.Bench.Repairs.IntScaledMatmul.Revision001.Geometry.covers: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/int_scaled_matmul/revision001/Proofs/Geometry.lean:125:0: VeriTile.Bench.Repairs.IntScaledMatmul.Revision001.Geometry.owner_unique: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/int_scaled_matmul/revision001/Proofs/Geometry.lean:126:0: VeriTile.Bench.Repairs.IntScaledMatmul.Revision001.Geometry.stores_disjoint: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+⚠ [3498/3523] Built bench.repairs.tritonbench_g.int8_dequant_matmul.Proofs.Math (4.0s)
+warning: bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/Math.lean:53:70: This simp argument is unused:
+  Nat.add_assoc
+
+Hint: Omit it from the simp argument list.
+  simp [̵r̵s̵u̵m̵,̵i̵h̵,̵N̵a̵t̵.̵a̵d̵d̵_̵a̵s̵s̵o̵c̵,̵a̵d̵d̵_̵a̵s̵s̵o̵c̵]̵[̲r̲s̲u̲m̲,̲ ̲i̲h̲,̲ ̲a̲d̲d̲_̲a̲s̲s̲o̲c̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/Math.lean:92:23: This simp argument is unused:
+  ← Nat.add_assoc
+
+Hint: Omit it from the simp argument list.
+  simp only [̵s̵o̵u̵r̵c̵e̵K̵,̵←̵N̵a̵t̵.̵a̵d̵d̵_̵a̵s̵s̵o̵c̵,̵N̵a̵t̵.̵a̵d̵d̵_̵a̵s̵s̵o̵c̵]̵[̲s̲o̲u̲r̲c̲e̲K̲,̲ ̲N̲a̲t̲.̲a̲d̲d̲_̲a̲s̲s̲o̲c̲]̲ at h
+
+Note: Simp arguments with `←` have the additional effect of removing the other direction from the simp set, even if the simp argument itself is unused. If the hint above does not work, try replacing `←` with `-` to only get that effect and silence this warning.
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/Math.lean:111:60: unused variable `ht`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/Math.lean:112:5: unused variable `hz`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/Math.lean:112:18: unused variable `hl`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+info: bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/Math.lean:160:0: VeriTile.Bench.Repairs.Int8DequantMatmul.split_partition: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/Math.lean:161:0: VeriTile.Bench.Repairs.Int8DequantMatmul.sourceK_unique: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+info: bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/Math.lean:162:0: VeriTile.Bench.Repairs.Int8DequantMatmul.source_mask: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+info: bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/Math.lean:163:0: VeriTile.Bench.Repairs.Int8DequantMatmul.even_active: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/int8_dequant_matmul/Proofs/Math.lean:164:0: VeriTile.Bench.Repairs.Int8DequantMatmul.partials_target: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+ℹ [3499/3523] Built bench.repairs.tritonbench_g.llama_ff_triton.Proofs.Core (2.5s)
+info: bench/repairs/tritonbench_g/llama_ff_triton/Proofs/Core.lean:156:0: VeriTile.Bench.Repairs.LlamaFF.value_reference: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+info: bench/repairs/tritonbench_g/llama_ff_triton/Proofs/Core.lean:158:0: VeriTile.Bench.Repairs.LlamaFF.accumulation_reference: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+info: bench/repairs/tritonbench_g/llama_ff_triton/Proofs/Core.lean:159:0: VeriTile.Bench.Repairs.LlamaFF.moment_reference: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+info: bench/repairs/tritonbench_g/llama_ff_triton/Proofs/Core.lean:160:0: VeriTile.Bench.Repairs.LlamaFF.projection_reference: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+ℹ [3500/3523] Built bench.repairs.tritonbench_g.llama_ff_triton.Proofs.Selected (2.5s)
+info: bench/repairs/tritonbench_g/llama_ff_triton/Proofs/Selected.lean:18:0: VeriTile.Bench.Repairs.LlamaFF.orderedK16: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+info: bench/repairs/tritonbench_g/llama_ff_triton/Proofs/Selected.lean:19:0: VeriTile.Bench.Repairs.LlamaFF.butterfly64: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
+ℹ [3501/3523] Built bench.repairs.tritonbench_g.llama_ff_triton.Proofs.Real (3.6s)
+info: bench/repairs/tritonbench_g/llama_ff_triton/Proofs/Real.lean:132:0: VeriTile.Bench.Repairs.LlamaFF.value_real: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+info: bench/repairs/tritonbench_g/llama_ff_triton/Proofs/Real.lean:134:0: VeriTile.Bench.Repairs.LlamaFF.dotBlock_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/llama_ff_triton/Proofs/Real.lean:135:0: VeriTile.Bench.Repairs.LlamaFF.accumulation_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/llama_ff_triton/Proofs/Real.lean:136:0: VeriTile.Bench.Repairs.LlamaFF.k_partition: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+info: bench/repairs/tritonbench_g/llama_ff_triton/Proofs/Real.lean:137:0: VeriTile.Bench.Repairs.LlamaFF.moment_sum: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+✔ [3502/3523] Built bench.repairs.tritonbench_g.llama_ff_triton_scalar_cast.Proofs.Arithmetic (3.2s)
+ℹ [3503/3523] Built bench.repairs.tritonbench_g.llama_ff_triton_scalar_cast.Proofs.Native (2.5s)
+info: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/Native.lean:49:0: VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.epilogue_partition: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+ℹ [3504/3523] Built bench.repairs.tritonbench_g.llama_ff_triton_scalar_cast.Proofs.RealArithmetic (2.7s)
+info: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/RealArithmetic.lean:46:0: VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.decodeReal_zero: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/RealArithmetic.lean:47:0: VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.chain64_ordered: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+✔ [3505/3523] Built bench.repairs.tritonbench_g.llama_ff_triton_scalar_cast.Proofs.Reference (3.3s)
+ℹ [3506/3523] Built bench.repairs.tritonbench_g.llama_ff_triton_scalar_cast.Proofs.Output (2.6s)
+info: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/Output.lean:55:0: VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.active_injective: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/Output.lean:56:0: VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.sourceOutput: definition does not reference [VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.source,
+ VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.body,
+ VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.prelude,
+ VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.compiledBody,
+ VeriTile.Triton.FP.Structural.run,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+ℹ [3507/3523] Built bench.repairs.tritonbench_g.llama_ff_triton_scalar_cast.Proofs.Geometry (2.7s)
+info: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/Geometry.lean:66:0: VeriTile.Bench.Repairs.LlamaFFScalarCast.Grid.address_injective: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/Geometry.lean:67:0: VeriTile.Bench.Repairs.LlamaFFScalarCast.Grid.covers: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/Geometry.lean:68:0: VeriTile.Bench.Repairs.LlamaFFScalarCast.Grid.active_index: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+ℹ [3508/3523] Built bench.repairs.tritonbench_g.llama_ff_triton_scalar_cast.Proofs.Epilogue (5.6s)
+info: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/Epilogue.lean:75:0: VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.epilogueMemory: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/Epilogue.lean:76:0: VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.epiloguePost: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+⚠ [3509/3523] Built bench.repairs.tritonbench_g.llama_ff_triton_scalar_cast.Proofs.GateSource (9.6s)
+warning: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/GateSource.lean:42:94: This simp argument is unused:
+  FP.Structural.bop
+
+Hint: Omit it from the simp argument list.
+  simp [gateCode, ̲gateBackend, ̲gateExecution, ̲gateValue, ̲run, ̲step, ̲evalExpr, ̲evalComputeOp,
+        evalOp_unfold, ̲ComputeDType.eraseDType, ̲numeric, ̲Arithmetic.model, ̲h1, ̲h3, ̲hr, ̲ofFloat,t̵o̵F̵l̵o̵a̵t̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵b̵o̵p̵,̵
+        t̲o̲F̲l̲o̲a̲t̲,̲ ̲Broadcast.leftIndex, ̲Broadcast.rightIndex, ̲State.setReg]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+info: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/GateSource.lean:71:0: VeriTile.Bench.Repairs.LlamaFFScalarCast.NativeStages.gate_exact: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/GateSource.lean:72:0: VeriTile.Bench.Repairs.LlamaFFScalarCast.NativeStages.gate_site: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/GateSource.lean:73:0: VeriTile.Bench.Repairs.LlamaFFScalarCast.NativeStages.gate_safe: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+ℹ [3510/3523] Built bench.repairs.tritonbench_g.llama_ff_triton_scalar_cast.Proofs.Store (4.9s)
+info: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/Store.lean:80:0: VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.storeMemory: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/Store.lean:81:0: VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.storePost: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+ℹ [3511/3523] Built bench.repairs.tritonbench_g.llama_ff_triton_scalar_cast.Proofs.NativeEpilogue (3.3s)
+info: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/NativeEpilogue.lean:82:0: VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.normPost: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/NativeEpilogue.lean:83:0: VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.terminalExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/NativeEpilogue.lean:84:0: VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.nativeOutput: definition does not reference [VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.source,
+ VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.body,
+ VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.prelude,
+ VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.compiledBody,
+ VeriTile.Triton.FP.Structural.run,
+ VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.nativeExecution,
+ VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.gateExecution] — non-circular ✓
+ℹ [3512/3523] Built bench.repairs.tritonbench_g.llama_ff_triton_scalar_cast.Proofs.Logical (2.8s)
+info: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/Logical.lean:114:0: VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.accumulation_row: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/Logical.lean:115:0: VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.moment_row: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/Logical.lean:116:0: VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.sourceOutput_logical: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/Logical.lean:117:0: VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.nativeOutput_logical: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/Logical.lean:118:0: VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.logicalSource: definition does not reference [VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.source,
+ VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.body,
+ VeriTile.Triton.FP.Structural.run,
+ VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.sourceOutput,
+ VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.accumulation,
+ VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.moment] — non-circular ✓
+info: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/Logical.lean:119:0: VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.logicalNative: definition does not reference [VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.source,
+ VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.body,
+ VeriTile.Triton.FP.Structural.run,
+ VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.nativeExecution,
+ VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.nativeOutput,
+ VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.gateValue,
+ VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.accumulation,
+ VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.moment] — non-circular ✓
+✔ [3513/3523] Built bench.repairs.tritonbench_g.llama_ff_triton_scalar_cast.Proofs.Iteration (20s)
+ℹ [3514/3523] Built bench.repairs.tritonbench_g.llama_ff_triton_scalar_cast.Proofs.Preservation (2.5s)
+info: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/Preservation.lean:56:0: VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.byteValues_preserved: axiom footprint ⊆ standard base ✓  ([propext])
+info: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/Preservation.lean:57:0: VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.logical_preserved: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+ℹ [3515/3523] Built bench.repairs.tritonbench_g.llama_ff_triton_scalar_cast.Proofs.Real (3.0s)
+info: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/Real.lean:103:0: VeriTile.Bench.Repairs.LlamaFFScalarCast.Real.accumulation: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/Real.lean:104:0: VeriTile.Bench.Repairs.LlamaFFScalarCast.Real.moment: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/Real.lean:105:0: VeriTile.Bench.Repairs.LlamaFFScalarCast.Real.norm: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/Real.lean:106:0: VeriTile.Bench.Repairs.LlamaFFScalarCast.Real.source_formula: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/Real.lean:107:0: VeriTile.Bench.Repairs.LlamaFFScalarCast.Real.target: definition does not reference [VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.source,
+ VeriTile.Triton.FP.Structural.run,
+ VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.logicalSource,
+ VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.rowAcc,
+ VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.rowMoment] — non-circular ✓
+⚠ [3516/3523] Built bench.repairs.tritonbench_g.llama_ff_triton_scalar_cast.Proofs.IterationInvariant (21s)
+warning: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/IterationInvariant.lean:33:2: 'all_goals rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/IterationInvariant.lean:33:12: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+info: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/IterationInvariant.lean:35:0: VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.bodyInvariant: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+ℹ [3517/3523] Built bench.repairs.tritonbench_g.llama_ff_triton_scalar_cast.Proofs.Loop (3.4s)
+info: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/Loop.lean:48:0: VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.loopExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/Loop.lean:49:0: VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.countEvaluation: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+ℹ [3518/3523] Built bench.repairs.tritonbench_g.llama_ff_triton_scalar_cast.Proofs.NativeComplete (2.0s)
+info: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/NativeComplete.lean:39:0: VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.countedExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/NativeComplete.lean:40:0: VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.nativeComplete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+ℹ [3519/3523] Built bench.repairs.tritonbench_g.llama_ff_triton_scalar_cast.Proofs.Complete (2.8s)
+info: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/Complete.lean:35:0: VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.sourceComplete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+ℹ [3520/3523] Built bench.repairs.tritonbench_g.llama_ff_triton_scalar_cast.Proofs.Grid (3.4s)
+info: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/Grid.lean:88:0: VeriTile.Bench.Repairs.LlamaFFScalarCast.Grid.single: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/Grid.lean:89:0: VeriTile.Bench.Repairs.LlamaFFScalarCast.Grid.whole: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/Grid.lean:90:0: VeriTile.Bench.Repairs.LlamaFFScalarCast.Grid.empty_grid: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/Grid.lean:91:0: VeriTile.Bench.Repairs.LlamaFFScalarCast.Grid.target: definition does not reference [VeriTile.Bench.Repairs.LlamaFFScalarCast.Grid.grid,
+ VeriTile.Bench.Repairs.LlamaFFScalarCast.Grid.one,
+ VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.source,
+ VeriTile.Triton.FP.Structural.run,
+ VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.nativeExecution,
+ VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.sourceOutput,
+ VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.nativeOutput] — non-circular ✓
+ℹ [3521/3523] Built bench.repairs.tritonbench_g.llama_ff_triton_scalar_cast.Proofs.RealGrid (2.9s)
+info: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/Proofs/RealGrid.lean:22:0: VeriTile.Bench.Repairs.LlamaFFScalarCast.RealGrid.complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+ℹ [3522/3523] Built bench.repairs.tritonbench_g.llama_ff_triton_scalar_cast.IO (2.8s)
+info: bench/repairs/tritonbench_g/llama_ff_triton_scalar_cast/IO.lean:172:0: VeriTile.Bench.Repairs.LlamaFFScalarCast.Reference.realFormula: definition does not reference [VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution.source,
+ VeriTile.Triton.FP.Structural.run,
+ VeriTile.Bench.Repairs.LlamaFFScalarCast.Grid.grid,
+ VeriTile.Bench.Repairs.LlamaFFScalarCast.Grid.one] — non-circular ✓
+✔ [3523/3523] Built bench.repairs.tritonbench_g.llama_ff_triton_scalar_cast.Proofs.SourceSafety (26s)
+Build completed successfully (3523 jobs).

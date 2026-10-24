@@ -22,7 +22,7 @@ def kStoreBody (p : Parameters) (Q K Cos Sin : RegionName) : List Stmt :=
 The second set of trigonometric loads belongs to the K load segment. -/
 theorem source_parts (p : Parameters) (Q K Cos Sin : RegionName) :
     (mathKernel p Q K Cos Sin).body =
-      prefix p ++ qIndexBody p Q K Cos Sin ++ qLoadBody p Q K Cos Sin ++
+      «prefix» p ++ qIndexBody p Q K Cos Sin ++ qLoadBody p Q K Cos Sin ++
       qArithmeticBody p Q K Cos Sin ++ qStoreBody p Q K Cos Sin ++
       kIndexBody p Q K Cos Sin ++ kLoadBody p Q K Cos Sin ++
       kArithmeticBody p Q K Cos Sin ++ kStoreBody p Q K Cos Sin := rfl
@@ -56,7 +56,7 @@ theorem k_index_run (p : Parameters) (Q K Cos Sin : RegionName) (s : BlockState)
     (v := p.trigOffsets s Bool.false) (by solveRotaryKIndex))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (v := p.trigOffsets s Bool.true) (by solveRotaryKIndex))]
-  rfl
+  exact stepStmts.nil
 
 /-- The second phase really reloads trigonometric values after Q stores.
 These definitions intentionally sample that intermediate memory. -/
@@ -74,10 +74,13 @@ noncomputable def kLoadState (p : Parameters) (s : BlockState)
     [p.blockSeq,1,p.dimension/2] (p.trigValues t Sin Bool.true)
 
 macro "solveRotaryKLoad" : tactic => `(tactic|
-  simp [evalOp.eq_def, kIndexState, qStoreState, qArithmeticState, qLoadState,
+  (simp [evalOp.eq_def, kIndexState, qStoreState, qArithmeticState, qLoadState,
     qIndexState, prefixState, Parameters.dataOffsets, Parameters.trigOffsets,
     Parameters.dataValues, Parameters.trigValues, address, trigAddress, sequence,
-    head, dimension, active, range, dims, tile_elementwise, Bool.and_eq_true])
+    head, dimension, active, range, dims, tile_elementwise, Bool.and_eq_true, Option.bind,
+    Tile.remap, TileShape.insertAxis, TileShape.dropInsertedIndex,
+    Broadcast.leftIndex, Broadcast.rightIndex, apply_ite]
+   <;> (funext i; split_ifs <;> rfl)))
 
 theorem k_load_run (p : Parameters) (Q K Cos Sin : RegionName) (s : BlockState) :
     stepStmts (kLoadBody p Q K Cos Sin) (kIndexState p s Q Cos Sin) =
@@ -98,7 +101,7 @@ theorem k_load_run (p : Parameters) (Q K Cos Sin : RegionName) (s : BlockState) 
     (v := p.trigValues (qStoreState p s Q Cos Sin) Cos Bool.true) (by solveRotaryKLoad))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (v := p.trigValues (qStoreState p s Q Cos Sin) Sin Bool.true) (by solveRotaryKLoad))]
-  rfl
+  exact stepStmts.nil
 
 noncomputable def kArithmeticState (p : Parameters) (s : BlockState)
     (Q K Cos Sin : RegionName) : BlockState :=
@@ -113,7 +116,7 @@ set_option hygiene false in
 macro "solveRotaryKArithmetic" : tactic => `(tactic|
   (simp only [evalOp.eq_def, kLoadState, BlockState.setReg_same,
     BlockState.setReg_ne_name, String.reduceEq, not_false_eq_true, ne_eq,
-    Option.bind_some, Option.map_some]
+    bind, Option.bind, Option.map_some]
    congr 1
    apply Tile.ext
    intro i
@@ -121,9 +124,9 @@ macro "solveRotaryKArithmetic" : tactic => `(tactic|
    all_goals
      by_cases hh : head (qStoreState p s Q Cos Sin) p.blockHead i < p.headsK
      all_goals
-       simp only [sequence, head] at hs hh
+       simp only [sequence, head, q_store_state_pids] at hs hh
        simp [Parameters.dataValues, Parameters.trigValues, Parameters.resultValues,
-         expected, active, sequence, head, trigAddress, dimension, tile_elementwise,
+         expected, active, address, sequence, head, trigAddress, dimension, tile_elementwise,
          WithBot.realMul, WithBot.realSub, WithBot.realAdd, hs, hh]))
 
 theorem k_arithmetic_run (p : Parameters) (Q K Cos Sin : RegionName) (s : BlockState) :
@@ -137,7 +140,7 @@ theorem k_arithmetic_run (p : Parameters) (Q K Cos Sin : RegionName) (s : BlockS
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (v := p.resultValues (qStoreState p s Q Cos Sin) K Cos Sin
       p.kBatch p.kHead p.kDim p.headsK Bool.true) (by solveRotaryKArithmetic))]
-  rfl
+  exact stepStmts.nil
 
 noncomputable def kStoreState (p : Parameters) (s : BlockState)
     (Q K Cos Sin : RegionName) : BlockState :=

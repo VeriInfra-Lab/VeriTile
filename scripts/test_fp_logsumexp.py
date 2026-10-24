@@ -131,11 +131,15 @@ import bench.examples.StableLogSumExp.FPEquiv
 #print_fp_assumptions VeriTile.Bench.Examples.StableLogSumExpFPEquiv.logsumexp_equiv
 """)
         self.assertEqual(output.splitlines()[0], 'FP assumptions used by logsumexp_equiv:')
-        self.assertEqual(set(line.strip() for line in output.splitlines()[1:]), {
+        empirical, separator, strict = output.partition('Strict model certificates used by ')
+        self.assertEqual(set(line.strip() for line in empirical.splitlines()[1:]), {
             'log_mul_split(tl.log)', 'log_exp_cancel(tl.log, libdevice.exp)',
-            'exp_sub(libdevice.exp)', 'div_mul_rcp', 'mul_commute', 'add_commute', 'add_zero',
-            'cancel', 'add_assoc', 'mul_distrib', 'mul_assoc', 'mul_rcp_cancel', 'mul_one',
+            'exp_sub(libdevice.exp)', 'div_mul_rcp', 'add_zero',
+            'cancel', 'add_assoc', 'mul_distrib', 'mul_assoc', 'mul_rcp_cancel',
         })
+        self.assertTrue(separator)
+        for atom in ('addCommute', 'mulCommute', 'mulOne'):
+            self.assertIn(f'ScalarArithmetic.Atom.{atom}', strict)
 
     def test_opaque_conditional_certificate_is_not_reported_as_proved(self):
         output = self.check_lean("""

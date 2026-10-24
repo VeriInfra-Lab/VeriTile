@@ -1,0 +1,42 @@
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision1-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeRefinement.lean:84:29: warning: This simp argument is unused:
+  requireSome
+
+Hint: Omit it from the simp argument list.
+  simp [hv,̵r̵e̵q̵u̵i̵r̵e̵S̵o̵m̵e̵] at h
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision1-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeRefinement.lean:87:38: warning: This simp argument is unused:
+  requireSome
+
+Hint: Omit it from the simp argument list.
+  simp [̵h̵v̵,̵r̵e̵q̵u̵i̵r̵e̵S̵o̵m̵e̵,̵h̵t̵]̵[̲h̲v̲,̲ ̲h̲t̲]̲ at h
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision1-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeRefinement.lean:89:28: warning: This simp argument is unused:
+  requireSome
+
+Hint: Omit it from the simp argument list.
+  simp only [̵h̵v̵,̵r̵e̵q̵u̵i̵r̵e̵S̵o̵m̵e̵,̵n̵a̵t̵i̵v̵e̵_̵b̵i̵n̵d̵_̵o̵k̵,̵h̵t̵,̵n̵a̵t̵i̵v̵e̵_̵p̵u̵r̵e̵,̵E̵x̵c̵e̵p̵t̵.̵o̵k̵.̵i̵n̵j̵E̵q̵]̵[̲h̲v̲,̲ ̲n̲a̲t̲i̲v̲e̲_̲b̲i̲n̲d̲_̲o̲k̲,̲ ̲h̲t̲,̲ ̲n̲a̲t̲i̲v̲e̲_̲p̲u̲r̲e̲,̲ ̲E̲x̲c̲e̲p̲t̲.̲o̲k̲.̲i̲n̲j̲E̲q̲]̲ at h
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision1-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeRefinement.lean:107:24: warning: This simp argument is unused:
+  ite_false
+
+Hint: Omit it from the simp argument list.
+  simp only [mask,̵i̵t̵e̵_̵f̵a̵l̵s̵e̵] at h
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+QuantTransposeFinite.loaded_at_refines: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+QuantTransposeFinite.native_program_logical: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+QuantTransposeFinite.native_read_of_bytes: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+QuantTransposeFinite.native_host_input_word: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+QuantTransposeFinite.native_load_tile_members: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+QuantTransposeFinite.native_tile_write_members: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

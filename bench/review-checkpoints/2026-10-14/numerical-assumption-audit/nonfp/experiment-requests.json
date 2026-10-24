@@ -1,0 +1,135 @@
+{
+  "schema": 1,
+  "requests": [
+    {
+      "id": "BGMV-ADD-fp64-real",
+      "parent_family": "BGMV-NATIVE-ADD-COMMUTE",
+      "operation": "add_commute",
+      "precision": "fp64",
+      "dtype": "real",
+      "source_configurations": 12,
+      "formula": "∀ finite a b, engine.binary fp64 .real .add a b = engine.binary fp64 .real .add b a",
+      "domain": "Reached actual final accumulation operands; all evaluated lanes; source reduction, old-output load and casts unchanged.",
+      "status": "missing_exact_native_binding",
+      "affected": [
+        {
+          "file": "bench/tritonbench_g/bgmv_expand_slice/FPEquiv.lean",
+          "declaration": "bgmv_output_first_equiv",
+          "line": 22,
+          "sha256": "6b06bf8c5ef8a389c336ce8e4eabff512b5e950ef134620781d7b67419de95ac"
+        }
+      ],
+      "question": "Compile the exact dtype/precision operation from the actual source path, compare swapped operands over collected operands plus finite boundary/zero/subnormal/extreme values, preserve compiler/GPU/options and generated IR/binary. Confirm the abstract observation and finite-domain interpretation. Sampling supports empirical evidence; it does not prove the quantified equation.",
+      "existing_evidence": "Typed fp32/bf16 widened probe reports do not alone supply this distinct native primitive profile."
+    },
+    {
+      "id": "BGMV-ADD-fp32-real",
+      "parent_family": "BGMV-NATIVE-ADD-COMMUTE",
+      "operation": "add_commute",
+      "precision": "fp32",
+      "dtype": "real",
+      "source_configurations": 12,
+      "formula": "∀ finite a b, engine.binary fp32 .real .add a b = engine.binary fp32 .real .add b a",
+      "domain": "Reached actual final accumulation operands; all evaluated lanes; source reduction, old-output load and casts unchanged.",
+      "status": "existing_fp32_rule_can_supply_conditionally",
+      "affected": [
+        {
+          "file": "bench/tritonbench_g/bgmv_expand_slice/FPEquiv.lean",
+          "declaration": "bgmv_output_first_equiv",
+          "line": 22,
+          "sha256": "6b06bf8c5ef8a389c336ce8e4eabff512b5e950ef134620781d7b67419de95ac"
+        }
+      ],
+      "question": "Compile the exact dtype/precision operation from the actual source path, compare swapped operands over collected operands plus finite boundary/zero/subnormal/extreme values, preserve compiler/GPU/options and generated IR/binary. Confirm the abstract observation and finite-domain interpretation. Sampling supports empirical evidence; it does not prove the quantified equation.",
+      "existing_evidence": "NativeFP.fp32_scalar_of_rules, conditional on exact fp32 Rules model"
+    },
+    {
+      "id": "BGMV-ADD-default-fp16",
+      "parent_family": "BGMV-NATIVE-ADD-COMMUTE",
+      "operation": "add_commute",
+      "precision": null,
+      "dtype": "fp16",
+      "source_configurations": 28,
+      "formula": "∀ finite a b, engine.binary none .fp16 .add a b = engine.binary none .fp16 .add b a",
+      "domain": "Reached actual final accumulation operands; all evaluated lanes; source reduction, old-output load and casts unchanged.",
+      "status": "missing_exact_native_binding",
+      "affected": [
+        {
+          "file": "bench/tritonbench_g/bgmv_expand_slice/FPEquiv.lean",
+          "declaration": "bgmv_output_first_equiv",
+          "line": 22,
+          "sha256": "6b06bf8c5ef8a389c336ce8e4eabff512b5e950ef134620781d7b67419de95ac"
+        }
+      ],
+      "question": "Compile the exact dtype/precision operation from the actual source path, compare swapped operands over collected operands plus finite boundary/zero/subnormal/extreme values, preserve compiler/GPU/options and generated IR/binary. Confirm the abstract observation and finite-domain interpretation. Sampling supports empirical evidence; it does not prove the quantified equation.",
+      "existing_evidence": "Typed fp32/bf16 widened probe reports do not alone supply this distinct native primitive profile."
+    },
+    {
+      "id": "BGMV-ADD-default-bf16",
+      "parent_family": "BGMV-NATIVE-ADD-COMMUTE",
+      "operation": "add_commute",
+      "precision": null,
+      "dtype": "bf16",
+      "source_configurations": 4,
+      "formula": "∀ finite a b, engine.binary none .bf16 .add a b = engine.binary none .bf16 .add b a",
+      "domain": "Reached actual final accumulation operands; all evaluated lanes; source reduction, old-output load and casts unchanged.",
+      "status": "missing_exact_native_binding",
+      "affected": [
+        {
+          "file": "bench/tritonbench_g/bgmv_expand_slice/FPEquiv.lean",
+          "declaration": "bgmv_output_first_equiv",
+          "line": 22,
+          "sha256": "6b06bf8c5ef8a389c336ce8e4eabff512b5e950ef134620781d7b67419de95ac"
+        }
+      ],
+      "question": "Compile the exact dtype/precision operation from the actual source path, compare swapped operands over collected operands plus finite boundary/zero/subnormal/extreme values, preserve compiler/GPU/options and generated IR/binary. Confirm the abstract observation and finite-domain interpretation. Sampling supports empirical evidence; it does not prove the quantified equation.",
+      "existing_evidence": "Typed fp32/bf16 widened probe reports do not alone supply this distinct native primitive profile."
+    },
+    {
+      "id": "BGMV-ADD-default-fp32",
+      "parent_family": "BGMV-NATIVE-ADD-COMMUTE",
+      "operation": "add_commute",
+      "precision": null,
+      "dtype": "fp32",
+      "source_configurations": 8,
+      "formula": "∀ finite a b, engine.binary none .fp32 .add a b = engine.binary none .fp32 .add b a",
+      "domain": "Reached actual final accumulation operands; all evaluated lanes; source reduction, old-output load and casts unchanged.",
+      "status": "missing_exact_native_binding",
+      "affected": [
+        {
+          "file": "bench/tritonbench_g/bgmv_expand_slice/FPEquiv.lean",
+          "declaration": "bgmv_output_first_equiv",
+          "line": 22,
+          "sha256": "6b06bf8c5ef8a389c336ce8e4eabff512b5e950ef134620781d7b67419de95ac"
+        }
+      ],
+      "question": "Compile the exact dtype/precision operation from the actual source path, compare swapped operands over collected operands plus finite boundary/zero/subnormal/extreme values, preserve compiler/GPU/options and generated IR/binary. Confirm the abstract observation and finite-domain interpretation. Sampling supports empirical evidence; it does not prove the quantified equation.",
+      "existing_evidence": "Typed fp32/bf16 widened probe reports do not alone supply this distinct native primitive profile."
+    },
+    {
+      "id": "BGMV-ADD-default-real",
+      "parent_family": "BGMV-NATIVE-ADD-COMMUTE",
+      "operation": "add_commute",
+      "precision": null,
+      "dtype": "real",
+      "source_configurations": 8,
+      "formula": "∀ finite a b, engine.binary none .real .add a b = engine.binary none .real .add b a",
+      "domain": "Reached actual final accumulation operands; all evaluated lanes; source reduction, old-output load and casts unchanged.",
+      "status": "existing_fp32_rule_can_supply_conditionally",
+      "affected": [
+        {
+          "file": "bench/tritonbench_g/bgmv_expand_slice/FPEquiv.lean",
+          "declaration": "bgmv_output_first_equiv",
+          "line": 22,
+          "sha256": "6b06bf8c5ef8a389c336ce8e4eabff512b5e950ef134620781d7b67419de95ac"
+        }
+      ],
+      "question": "Compile the exact dtype/precision operation from the actual source path, compare swapped operands over collected operands plus finite boundary/zero/subnormal/extreme values, preserve compiler/GPU/options and generated IR/binary. Confirm the abstract observation and finite-domain interpretation. Sampling supports empirical evidence; it does not prove the quantified equation.",
+      "existing_evidence": "NativeFP.fp32_scalar_of_rules, conditional on exact fp32 Rules model"
+    }
+  ],
+  "not_experiment_jobs": [
+    "ROUND-FP16-ID is globally refuted for ordinary binary16; must revise theorem/domain rather than sample to confirm.",
+    "ROUNDING-MODEL-STRUCTURE is one shared model validation obligation, not 33 independent per-kernel experiments."
+  ]
+}

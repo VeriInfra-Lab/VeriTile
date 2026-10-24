@@ -1,0 +1,109 @@
+import bench.tritonbench_g.softmax_flaggems.Proofs.RealForwardInnerAll
+import bench.tritonbench_g.softmax_flaggems.Proofs.RealForwardNonInnerAll
+import bench.tritonbench_g.softmax_flaggems.Proofs.RealBackwardInnerAll
+import bench.tritonbench_g.softmax_flaggems.Proofs.RealBackwardNonInnerAll
+
+namespace VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid
+open VeriTile Triton FullSource
+set_option maxHeartbeats 1000000
+
+abbrev Program := Nat × Nat
+
+def grid (gx gy : Nat) : List Program :=
+  (List.range gx).flatMap fun x ↦ (List.range gy).map fun y ↦ (x,y)
+
+theorem mem_grid {gx gy x y : Nat} : (x,y) ∈ grid gx gy ↔ x<gx ∧ y<gy := by
+  simp [grid]
+
+def setup (gx gy : Nat) (p : Program) (s : BlockState) : BlockState :=
+  { s with regs := fun _ _ _ ↦ none
+           pids := fun a ↦ if a=0 then p.1 else if a=1 then p.2 else 0
+           numPids := fun a ↦ if a=0 then gx else if a=1 then gy else 1 }
+
+/-- Every scheduled CTA executes the actual kernel, with fresh registers and
+actual program IDs/grid extents. Memory and undefined padding pass between CTAs. -/
+noncomputable def run (k : Kernel) (gx gy : Nat) : List Program → BlockState → Option BlockState
+  | [], s => some s
+  | p::ps, s => (exec k (setup gx gy p s)).bind (run k gx gy ps)
+
+def writes (F : Program → WriteFootprint) (ps : List Program) : WriteFootprint :=
+  fun a ↦ ∃ p ∈ ps, F p a
+
+def Preserved (Y : RegionName) (base s : BlockState) : Prop :=
+  (∀ R, R ≠ Y → s.mem R = base.mem R) ∧ s.undef = base.undef
+
+theorem preserved_refl (Y : RegionName) (s : BlockState) : Preserved Y s s :=
+  ⟨fun _ _ ↦ rfl, rfl⟩
+
+theorem read_eq {s t : BlockState} {R : RegionName} (h : s.mem R = t.mem R) (o : Nat) :
+    s.readMem R o = t.readMem R o := by simp only [BlockState.readMem, h]
+
+/-- The induction hypothesis contains only unchanged input cells and unchanged
+undefined samples. No execution or final output is supplied by the caller of a
+concrete softmax theorem. -/
+theorem run_io (k : Kernel) (gx gy : Nat) (Y : RegionName)
+    (F : Program → WriteFootprint) (value : MemCellAddr → ℝ)
+    (base : BlockState)
+    (hregion : ∀ p a, F p a → a.1=Y)
+    (step : ∀ p s, Preserved Y base s →
+      ∃ t, exec k (setup gx gy p s)=some t ∧
+        BlockState.WriteWithin (F p) s t ∧
+        (∀ a, F p a → t.readMem a.1 a.2=value a) ∧ t.undef=s.undef)
+    (ps : List Program) (s : BlockState) (hs : Preserved Y base s) :
+    ∃ t, run k gx gy ps s=some t ∧
+      BlockState.WriteWithin (writes F ps) s t ∧
+      (∀ a, writes F ps a → t.readMem a.1 a.2=value a) ∧ t.undef=s.undef := by
+  induction ps generalizing s with
+  | nil =>
+    refine ⟨s,rfl,BlockState.writeWithin_refl _ _,?_,rfl⟩
+    simp [writes]
+  | cons p ps ih =>
+    obtain ⟨u,he,hf,hv,hu⟩ := step p s hs
+    have hp : Preserved Y base u := by
+      refine ⟨?_,hu.trans hs.2⟩
+      intro R hR
+      calc
+        u.mem R = s.mem R := hf.mem_eq_of_region_not_written (fun o h ↦ hR (hregion p (R,o) h))
+        _ = base.mem R := hs.1 R hR
+    obtain ⟨t,ht,ft,vt,ut⟩ := ih u hp
+    refine ⟨t,?_,?_,?_,ut.trans hu⟩
+    · simp only [run,he,Option.bind_some,ht]
+    · intro R o hn
+      have hn₁ : ¬F p (R,o) := fun h ↦ hn ⟨p,List.mem_cons_self,h⟩
+      have hn₂ : ¬writes F ps (R,o) := by
+        rintro ⟨q,hq,hqf⟩
+        exact hn ⟨q,List.mem_cons_of_mem p hq,hqf⟩
+      exact (hf R o hn₁).trans (ft R o hn₂)
+    · intro a ha
+      by_cases htail : writes F ps a
+      · exact vt a htail
+      · obtain ⟨q,hq,hqa⟩ := ha
+        have hqeq : q=p := by
+          rcases List.mem_cons.mp hq with h|h
+          · exact h
+          · exact (htail ⟨q,h,hqa⟩).elim
+        subst q
+        have hr : t.readMem a.1 a.2 = u.readMem a.1 a.2 := by
+          simp only [BlockState.readMem, ← ft a.1 a.2 htail]
+        exact hr.trans (hv a hqa)
+
+/-- Decoding is used only in the specification, never to execute the grid. -/
+theorem decode_inner {N r n : Nat} (hn : n<N) :
+    (r*N+n)/N=r ∧ (r*N+n)%N=n := by
+  constructor
+  · rw [Nat.add_comm, Nat.add_mul_div_right _ _ (by omega : 0<N), Nat.div_eq_of_lt hn]
+    omega
+  · exact Nat.mul_add_mod_of_lt hn
+
+theorem decode_noninner {N K r n k : Nat} (hn : n<N) (hk : k<K) :
+    (r*N*K+n*K+k)/K/N=r ∧ (r*N*K+n*K+k)/K%N=n ∧
+      (r*N*K+n*K+k)%K=k := by
+  have h : r*N*K+n*K+k=(r*N+n)*K+k := by ring
+  rw [h]
+  have hd := decode_inner (r:=r*N+n) hk
+  rw [hd.1,hd.2]
+  exact ⟨(decode_inner hn).1,(decode_inner hn).2,rfl⟩
+
+#guard_msgs (drop info) in
+#auditModuleAxioms
+end VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid

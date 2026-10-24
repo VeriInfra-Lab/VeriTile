@@ -1,0 +1,52 @@
+{
+  "recorded_at_utc": "2026-10-13T16:19:55.776468+00:00",
+  "scope": "Unsigned integer cast and random source-profile frontend checkpoint. This is not acceptance of any complete benchmark task or independent comparator replay.",
+  "toolchain": "Lean 4.29.0, commit 98dc76e3c0a9b856c9b98726b713fb04fab16740",
+  "verification": {
+    "core_build_jobs": 3426,
+    "unsigned_cast_axiom_checks": 15,
+    "source_regression_tests": 112,
+    "random_frontend_exit_code": 0,
+    "signed_load_exit_code": 0,
+    "comparator_exit_code": 1,
+    "comparator_failure": "No systemd user manager: container PID 1 is tini, and systemd --user refuses because the system was not booted with systemd. Official comparator/exporter/landrun were installed successfully."
+  },
+  "hash_capture": "Post-run hashes of the changed sources and explicit test inputs; no assertion of a frozen full dependency/build-input snapshot.",
+  "post_run_source_sha256": {
+    "VeriTile/Triton/Core/Integer.lean": "ef1c0c34a0038ce6538f2d02f3a3941bb1a4a631fdb5e089f0dae063f26efe57",
+    "VeriTile/Triton/DSL/RandomProfile.lean": "f7704622063dbaed4d3de60e7a9a49d3aaecffcb1949b70c5fbbc3d8f0c02f37",
+    "VeriTile/Triton/DSL/Expansion/Main.lean": "d2a0120cc29b868280642f7ab64edec9314ced6514380a9bac7c8f56f32ca155",
+    "VeriTile/Triton/Float/UnsignedCast.lean": "297f5a3cd7b5911ea8995a46b8c4d5f4dec4f9596475bcb6003ea27cdeb56b9d",
+    "bench/tests/UnsignedIntegerCast.lean": "6295ea5d12c674745d43486a0803d98c4f6bd0d9daad5d4a12445435b3f67743",
+    "bench/tests/RandomFrontend.lean": "4d588e680e33e35b5bb4099a0dfddf09243e734b9925d9d1113217f4e93bfcbc",
+    "bench/tests/SignedLoadCast.lean": "4d1f9c67915127db702932edd70e7a7846012fbcb24405c9b44dc445b488c31c",
+    "lean-toolchain": "651c8accb402b0c071cd336e9d3dc0a55516b1bfb434ddc4801f14936785b1d2",
+    "lake-manifest.json": "de981cfa9d3ed8d548669570dde19d20b103c081d0772c0184d6e401f9fe96f7"
+  },
+  "logs": {
+    "unsigned-axiom-audit.log": {
+      "exit_code": 0,
+      "sha256": "071084575ce37442aec8526bf350cc27ad6bc666794bacf50b7045926c63a130"
+    },
+    "random-frontend.log": {
+      "exit_code": 0,
+      "sha256": "214516e532b8aa88fea9e6cff77c73afc0041920be2b9d66cfae335109cf1160"
+    },
+    "signed-load.log": {
+      "exit_code": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "core-build.log": {
+      "exit_code": 0,
+      "sha256": "353a2bd374d4dae3723f00a7f5eabad6011c73ca1b61280bd89eff49150b97e7"
+    },
+    "source-regressions.log": {
+      "exit_code": 0,
+      "sha256": "5e30136d03472952963bcb8ae11b29cb642037f56c1a006f73c1423c3d037596"
+    },
+    "comparator-tools.log": {
+      "exit_code": 1,
+      "sha256": "d01053480fb404b0b3b596d2d61a64362ab0dfa667e29d0d049ee98244e20a9c"
+    }
+  }
+}

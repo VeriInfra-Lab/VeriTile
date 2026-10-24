@@ -1,0 +1,32 @@
+/tmp/veritile-standardization-20261015/relu-fp64-source-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/FP64Host.lean:48:45: error: unsolved goals
+case x_1
+p : TypedValue.Profile
+⊢ profileDType p = "float64" → False
+
+case x_2
+p : TypedValue.Profile
+⊢ profileDType p = "float8_e4m3fn" → False
+
+case x_3
+p : TypedValue.Profile
+⊢ profileDType p = "float8_e5m2" → False
+
+case x_4
+p : TypedValue.Profile
+⊢ profileDType p = "float8_e4m3fnuz" → False
+
+case x_5
+p : TypedValue.Profile
+⊢ profileDType p = "float8_e5m2fnuz" → False
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.FP64Host.finite_inventory: axiom footprint ⊆ standard base ✓  ([propext])
+/tmp/veritile-standardization-20261015/relu-fp64-source-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/FP64Host.lean:170:0: error: VeriTile.Bench.TritonBenchG.ReluTritonKernel.FP64Host.admission_typed: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/relu-fp64-source-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/FP64Host.lean:171:0: error: VeriTile.Bench.TritonBenchG.ReluTritonKernel.FP64Host.relu_typed_success: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.FP64Host.relu_fp64_success: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.FP64Host.relu_comparison_rejection: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.FP64Host.relu_signature_rejection: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

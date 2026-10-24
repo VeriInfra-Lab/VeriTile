@@ -162,8 +162,8 @@ theorem sentinel_skips (optimized : Bool) :
 
 private def addArm := ((Source.conditional? (body Bool.false) (fun _ => Bool.true)).map (·.yes)).getD []
 
-private def sumOperand : Op .real [2] :=
-  .reduceSum ⟨1, by decide⟩ Bool.false (.castFloat .bf16 .real
+private def sumOperand : Op .fp16 [2] :=
+  .castFloat .bf16 .fp16 (.reduceSumTyped .bf16 ⟨1, by decide⟩ Bool.false
     (.mul .bf16 (.leadL (.consSame .nil)) (.ref .bf16 [4] "tiled_a")
       (.ref .bf16 [2,4] "tiled_b")))
 
@@ -174,19 +174,33 @@ private theorem original_domain : original.domain =
       (.range prologue "n" (.constNat 0) (.ref .nat [] "split_n_length") (.constNat 2)
         (body Bool.false)
         (.branch ((body Bool.false).take 4) (.constBool Bool.true) Bool.true
-          (.add (Source.prefixBefore addArm "accumulator") [2] sumOperand
-            (.castFloat .fp16 .real (.ref .fp16 [2] "tiled_out")))))] := by rfl
+          (.add (Source.prefixBefore addArm "accumulator") (some .fp32) .fp16 [2] sumOperand
+            (.ref .fp16 [2] "tiled_out"))))] := by rfl
 
 theorem domain_inhabited : ∀ site ∈ original.domain, site.Holds model domain (initial 1) := by
   rw [original_domain]
-  simp [Site.Holds, domain]
+  simp [NativeFP.Site.Holds, domain]
+
+/-- The additional native scalar premises have a nonempty consistent model.
+This supplies an abstract semantic witness, not an IEEE validation report. -/
+theorem native_law_inhabited : NativeFP.NativeAdditionCommutes model domain original.kernel := by
+  intro site hs a b ha hb
+  exact _root_.add_comm a b
+
+theorem matched_execution :
+    FP.Structural.exec (engine model) original.kernel (initial 1) =
+      FP.Structural.exec (engine model) candidate.kernel (initial 1) :=
+  FPEquivProofs.output_first_equiv .fp32 .bf16 Bool.true .fp16
+    "X" "W" "Y" 5 3 ⟨"Index"⟩ 3 1 15 3 1 5 1 0 2 4 2 Bool.false Bool.true
+    model domain native_law_inhabited (initial 1) domain_inhabited
 
 theorem consistent_execution (R : FP.ScalarArithmetic.Rules) :
     FP.Guarded.Models R.assumptions model domain ∧
+    NativeFP.NativeAdditionCommutes model domain original.kernel ∧
     (∃ t, FP.Structural.exec (engine model) original.kernel (initial 1) = some t) ∧
     (∃ t, FP.Structural.exec (engine model) candidate.kernel (initial 1) = some t) ∧
     (∀ site ∈ original.domain, site.Holds model domain (initial 1)) := by
-  exact ⟨model_satisfies_rules R, source_executes Bool.false,
+  exact ⟨model_satisfies_rules R, native_law_inhabited, source_executes Bool.false,
     source_executes Bool.true, domain_inhabited⟩
 
 #guard_msgs (drop info) in

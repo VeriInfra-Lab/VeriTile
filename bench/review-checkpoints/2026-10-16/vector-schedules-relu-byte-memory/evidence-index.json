@@ -1,0 +1,287 @@
+{
+  "schema": 1,
+  "kind": "vector_schedules_relu_byte_memory_evidence",
+  "new_source_sha256": {
+    "bench/tritonbench_g/vector_addition/Proofs/PointwiseSchedule.lean": "b2b8db86a0bbe3c22f5dd54b934566b4048b9380e522851371c463d9bceb164b",
+    "bench/tritonbench_g/vector_addition/Proofs/ValueSchedules.lean": "ccad8e919c55ac563210904ce0f5c5107ac574c365e6d4222aaf4d6c432205c7",
+    "bench/tritonbench_g/vector_addition/ValueScheduleCorrect.lean": "9e76424a0d61cc42bc093f1cdfb5a865e0f6c0aff522e3a0227641974701b116",
+    "bench/tritonbench_g/relu_triton_kernel/Proofs/ByteCodec.lean": "1524c55f059d152ab4ff36b8f27e5cc86c46360a9b7cfa045b5c8f91cd8ff712",
+    "bench/tritonbench_g/relu_triton_kernel/Proofs/ByteStores.lean": "69450c5c328332cac6757d3445de508c2c84263da094582ec9756492803b326f",
+    "bench/tritonbench_g/relu_triton_kernel/Proofs/ByteView.lean": "090d4cb4a70b3e78cb90ccac714a464b5c447968b569bc666ea61dbefbb18f1b",
+    "bench/tritonbench_g/relu_triton_kernel/ByteGridCorrect.lean": "75559f4cd4f9ef3b4abb0d1b2aae4be07489cf7413b2fdbdd3d4a144047c2c7a"
+  },
+  "retained_exact_artifacts": {
+    "relu_bytes/README.md": {
+      "path": "evidence/relu_bytes/README.md",
+      "sha256": "a865973d2e0fd980f6e88801aa86961e5df7f1ae9e160788f27abdc1369076b4",
+      "producer_path": "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/README.md"
+    },
+    "relu_bytes/evidence/attempts/0001-ByteCodec.lean.txt": {
+      "path": "evidence/relu_bytes/evidence/attempts/0001-ByteCodec.lean.txt",
+      "sha256": "63a690cdf40569e9ce66e3a0b536cada37f65865a1ad4ac8010bee97929ab487",
+      "producer_path": "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/evidence/attempts/0001-ByteCodec.lean.txt"
+    },
+    "relu_bytes/evidence/attempts/0001-ByteCodec.log": {
+      "path": "evidence/relu_bytes/evidence/attempts/0001-ByteCodec.log",
+      "sha256": "4494bdbb541bada80a73ba014d759bf99b88fc020c2ef5cfb9900e2430b60049",
+      "producer_path": "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/evidence/attempts/0001-ByteCodec.log"
+    },
+    "relu_bytes/evidence/attempts/0002-ByteCodec.lean.txt": {
+      "path": "evidence/relu_bytes/evidence/attempts/0002-ByteCodec.lean.txt",
+      "sha256": "fdec6601e7be3356b519c7ce3293c2802ddd22e3f762cb70f4b2cb8e6a45e1e5",
+      "producer_path": "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/evidence/attempts/0002-ByteCodec.lean.txt"
+    },
+    "relu_bytes/evidence/attempts/0002-ByteCodec.log": {
+      "path": "evidence/relu_bytes/evidence/attempts/0002-ByteCodec.log",
+      "sha256": "303bcc6b943f192c1ec649f3ad50cae13a447971ee560ca4d43c214709d00da9",
+      "producer_path": "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/evidence/attempts/0002-ByteCodec.log"
+    },
+    "relu_bytes/evidence/attempts/0003-ByteStores.lean.txt": {
+      "path": "evidence/relu_bytes/evidence/attempts/0003-ByteStores.lean.txt",
+      "sha256": "3541bd20614c2272d3a933831d785e80ccdd2ef319eefb9ae1823fb9a6c14905",
+      "producer_path": "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/evidence/attempts/0003-ByteStores.lean.txt"
+    },
+    "relu_bytes/evidence/attempts/0003-ByteStores.log": {
+      "path": "evidence/relu_bytes/evidence/attempts/0003-ByteStores.log",
+      "sha256": "e69bcdf1ffbf0d245e6cda55ac0805f40c0287f086e71ea9ce82b3f1e00a8deb",
+      "producer_path": "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/evidence/attempts/0003-ByteStores.log"
+    },
+    "relu_bytes/evidence/attempts/0004-ByteStores.lean.txt": {
+      "path": "evidence/relu_bytes/evidence/attempts/0004-ByteStores.lean.txt",
+      "sha256": "298823fcc637c4cffacfb626475e5a3fc6cd55aa63b4ffd2b204f6a8af15e1c4",
+      "producer_path": "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/evidence/attempts/0004-ByteStores.lean.txt"
+    },
+    "relu_bytes/evidence/attempts/0004-ByteStores.log": {
+      "path": "evidence/relu_bytes/evidence/attempts/0004-ByteStores.log",
+      "sha256": "a712d3ba26cf319ab174d57e7217165533e57025dc41ec08378db56600c61620",
+      "producer_path": "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/evidence/attempts/0004-ByteStores.log"
+    },
+    "relu_bytes/evidence/attempts/0005-ByteCodec.lean.txt": {
+      "path": "evidence/relu_bytes/evidence/attempts/0005-ByteCodec.lean.txt",
+      "sha256": "1524c55f059d152ab4ff36b8f27e5cc86c46360a9b7cfa045b5c8f91cd8ff712",
+      "producer_path": "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/evidence/attempts/0005-ByteCodec.lean.txt"
+    },
+    "relu_bytes/evidence/attempts/0005-ByteCodec.log": {
+      "path": "evidence/relu_bytes/evidence/attempts/0005-ByteCodec.log",
+      "sha256": "dd4f53411205678a910ed5999a7919210118e7db2eed64f38d67f15005bcb228",
+      "producer_path": "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/evidence/attempts/0005-ByteCodec.log"
+    },
+    "relu_bytes/evidence/attempts/0006-ByteStores.lean.txt": {
+      "path": "evidence/relu_bytes/evidence/attempts/0006-ByteStores.lean.txt",
+      "sha256": "69450c5c328332cac6757d3445de508c2c84263da094582ec9756492803b326f",
+      "producer_path": "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/evidence/attempts/0006-ByteStores.lean.txt"
+    },
+    "relu_bytes/evidence/attempts/0006-ByteStores.log": {
+      "path": "evidence/relu_bytes/evidence/attempts/0006-ByteStores.log",
+      "sha256": "ed962fcdec29406fa5d1d97b32efe9e8ef74ae54813224968d6c355e97c14e87",
+      "producer_path": "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/evidence/attempts/0006-ByteStores.log"
+    },
+    "relu_bytes/evidence/attempts/0007-ByteView.lean.txt": {
+      "path": "evidence/relu_bytes/evidence/attempts/0007-ByteView.lean.txt",
+      "sha256": "a35daabd596912dd3f1a6547bbf46b1b1c803c48ddd04c255e9220817c066ce1",
+      "producer_path": "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/evidence/attempts/0007-ByteView.lean.txt"
+    },
+    "relu_bytes/evidence/attempts/0007-ByteView.log": {
+      "path": "evidence/relu_bytes/evidence/attempts/0007-ByteView.log",
+      "sha256": "a306dfcdfcbe08a5f7da228179e16901014325576c08f6cd8ae8681a6a81c044",
+      "producer_path": "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/evidence/attempts/0007-ByteView.log"
+    },
+    "relu_bytes/evidence/attempts/0008-ByteView.lean.txt": {
+      "path": "evidence/relu_bytes/evidence/attempts/0008-ByteView.lean.txt",
+      "sha256": "090d4cb4a70b3e78cb90ccac714a464b5c447968b569bc666ea61dbefbb18f1b",
+      "producer_path": "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/evidence/attempts/0008-ByteView.lean.txt"
+    },
+    "relu_bytes/evidence/attempts/0008-ByteView.log": {
+      "path": "evidence/relu_bytes/evidence/attempts/0008-ByteView.log",
+      "sha256": "5c22286933fdb1ee9f3be015b8fa9b266236a6b2af62f4741fd16739cb1132cc",
+      "producer_path": "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/evidence/attempts/0008-ByteView.log"
+    },
+    "relu_bytes/evidence/attempts/0009-ByteGridCorrect.lean.txt": {
+      "path": "evidence/relu_bytes/evidence/attempts/0009-ByteGridCorrect.lean.txt",
+      "sha256": "75559f4cd4f9ef3b4abb0d1b2aae4be07489cf7413b2fdbdd3d4a144047c2c7a",
+      "producer_path": "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/evidence/attempts/0009-ByteGridCorrect.lean.txt"
+    },
+    "relu_bytes/evidence/attempts/0009-ByteGridCorrect.log": {
+      "path": "evidence/relu_bytes/evidence/attempts/0009-ByteGridCorrect.log",
+      "sha256": "b759a52bd086280e925bca38bdba47557cf87701d472aa868ce5b940108901f7",
+      "producer_path": "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/evidence/attempts/0009-ByteGridCorrect.log"
+    },
+    "relu_bytes/evidence/attempts/0010-ByteCodec.lean.txt": {
+      "path": "evidence/relu_bytes/evidence/attempts/0010-ByteCodec.lean.txt",
+      "sha256": "1524c55f059d152ab4ff36b8f27e5cc86c46360a9b7cfa045b5c8f91cd8ff712",
+      "producer_path": "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/evidence/attempts/0010-ByteCodec.lean.txt"
+    },
+    "relu_bytes/evidence/attempts/0010-ByteCodec.log": {
+      "path": "evidence/relu_bytes/evidence/attempts/0010-ByteCodec.log",
+      "sha256": "dd4f53411205678a910ed5999a7919210118e7db2eed64f38d67f15005bcb228",
+      "producer_path": "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/evidence/attempts/0010-ByteCodec.log"
+    },
+    "relu_bytes/evidence/attempts/0011-ByteStores.lean.txt": {
+      "path": "evidence/relu_bytes/evidence/attempts/0011-ByteStores.lean.txt",
+      "sha256": "69450c5c328332cac6757d3445de508c2c84263da094582ec9756492803b326f",
+      "producer_path": "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/evidence/attempts/0011-ByteStores.lean.txt"
+    },
+    "relu_bytes/evidence/attempts/0011-ByteStores.log": {
+      "path": "evidence/relu_bytes/evidence/attempts/0011-ByteStores.log",
+      "sha256": "ed962fcdec29406fa5d1d97b32efe9e8ef74ae54813224968d6c355e97c14e87",
+      "producer_path": "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/evidence/attempts/0011-ByteStores.log"
+    },
+    "relu_bytes/evidence/attempts/0012-ByteView.lean.txt": {
+      "path": "evidence/relu_bytes/evidence/attempts/0012-ByteView.lean.txt",
+      "sha256": "090d4cb4a70b3e78cb90ccac714a464b5c447968b569bc666ea61dbefbb18f1b",
+      "producer_path": "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/evidence/attempts/0012-ByteView.lean.txt"
+    },
+    "relu_bytes/evidence/attempts/0012-ByteView.log": {
+      "path": "evidence/relu_bytes/evidence/attempts/0012-ByteView.log",
+      "sha256": "5c22286933fdb1ee9f3be015b8fa9b266236a6b2af62f4741fd16739cb1132cc",
+      "producer_path": "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/evidence/attempts/0012-ByteView.log"
+    },
+    "relu_bytes/evidence/attempts/0013-ByteGridCorrect.lean.txt": {
+      "path": "evidence/relu_bytes/evidence/attempts/0013-ByteGridCorrect.lean.txt",
+      "sha256": "75559f4cd4f9ef3b4abb0d1b2aae4be07489cf7413b2fdbdd3d4a144047c2c7a",
+      "producer_path": "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/evidence/attempts/0013-ByteGridCorrect.lean.txt"
+    },
+    "relu_bytes/evidence/attempts/0013-ByteGridCorrect.log": {
+      "path": "evidence/relu_bytes/evidence/attempts/0013-ByteGridCorrect.log",
+      "sha256": "b759a52bd086280e925bca38bdba47557cf87701d472aa868ce5b940108901f7",
+      "producer_path": "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/evidence/attempts/0013-ByteGridCorrect.log"
+    },
+    "relu_bytes/evidence/final-dependencies-after.json": {
+      "path": "evidence/relu_bytes/evidence/final-dependencies-after.json",
+      "sha256": "88c050dd3c3226b9d98bd5de4895cc9fb56086a1de9ba3e34df413a33a7cb29b",
+      "producer_path": "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/evidence/final-dependencies-after.json"
+    },
+    "relu_bytes/evidence/final-dependencies-before.json": {
+      "path": "evidence/relu_bytes/evidence/final-dependencies-before.json",
+      "sha256": "88c050dd3c3226b9d98bd5de4895cc9fb56086a1de9ba3e34df413a33a7cb29b",
+      "producer_path": "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/evidence/final-dependencies-before.json"
+    },
+    "relu_bytes/evidence/receipt.json": {
+      "path": "evidence/relu_bytes/evidence/receipt.json",
+      "sha256": "3623d3f83bb16d279d601ad8ce5a8a87c4e9565e84ba7be073cc76b165bec40b",
+      "producer_path": "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/evidence/receipt.json"
+    },
+    "relu_bytes/evidence/scope-review.json": {
+      "path": "evidence/relu_bytes/evidence/scope-review.json",
+      "sha256": "a1cac8990de499ec700642d1609405b1d76bbcd2d223e5d1dcb6e22fe3bdcee3",
+      "producer_path": "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/evidence/scope-review.json"
+    },
+    "relu_bytes/evidence/verification-attempts.json": {
+      "path": "evidence/relu_bytes/evidence/verification-attempts.json",
+      "sha256": "a0578a99a63378bd449c1c27c2952c709ed4126ec7821bcf8dcef87d744d791f",
+      "producer_path": "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/evidence/verification-attempts.json"
+    },
+    "relu_bytes/evidence/verification-results.json": {
+      "path": "evidence/relu_bytes/evidence/verification-results.json",
+      "sha256": "dd84e8ca9f0819e1cb69aebc4e0434db137de398c2894a2b03a472825d4a5963",
+      "producer_path": "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/evidence/verification-results.json"
+    },
+    "relu_bytes/finalize.py": {
+      "path": "evidence/relu_bytes/finalize.py",
+      "sha256": "706d8803da1423f31c822d2b979841d70683d156436d236586d02ffcc868f382",
+      "producer_path": "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/finalize.py"
+    },
+    "relu_bytes/freeze.py": {
+      "path": "evidence/relu_bytes/freeze.py",
+      "sha256": "b82905c2e7da1d67604379469b66de8d87b9ac8a9a6600e6c1c7fb15fb28fbe0",
+      "producer_path": "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/freeze.py"
+    },
+    "relu_bytes/independent-review.json": {
+      "path": "evidence/relu_bytes/independent-review.json",
+      "sha256": "a97e044c616dfbee27cc622329a8bad41d4ce2c97b8acf6418faf7d85c891b86",
+      "producer_path": "/tmp/veritile-standardization-20261015/relu-byte-memory-independent-review.json"
+    },
+    "relu_bytes/independent-review.py": {
+      "path": "evidence/relu_bytes/independent-review.py",
+      "sha256": "797d3e4449161c8d40bc7ba1f966f05ad78c9713082b092313eae8002e33f055",
+      "producer_path": "/tmp/veritile-standardization-20261015/review_relu_byte_frozen.py"
+    },
+    "relu_bytes/verify.py": {
+      "path": "evidence/relu_bytes/verify.py",
+      "sha256": "be467447e58283c312e5347dc6b95db825672e3c02628a618a9a800f54332384",
+      "producer_path": "/tmp/veritile-standardization-20261015/relu-byte-memory-wip/verify.py"
+    },
+    "vector_schedule/README.md": {
+      "path": "evidence/vector_schedule/README.md",
+      "sha256": "6140574d54f5103013b598eacf37a18f90f78530a7e80f12abef3f5acf8c01a3",
+      "producer_path": "/tmp/veritile-standardization-20261015/vector-pointwise-schedule-wip/README.md"
+    },
+    "vector_schedule/evidence/PointwiseSchedule.compile.log": {
+      "path": "evidence/vector_schedule/evidence/PointwiseSchedule.compile.log",
+      "sha256": "0225e16689e5573754a4e1524b65805b5f7d680be47b80b845a0b4e571f8199c",
+      "producer_path": "/tmp/veritile-standardization-20261015/vector-pointwise-schedule-wip/evidence/PointwiseSchedule.compile.log"
+    },
+    "vector_schedule/evidence/ValueScheduleCorrect.compile.log": {
+      "path": "evidence/vector_schedule/evidence/ValueScheduleCorrect.compile.log",
+      "sha256": "b9445067186d53d9374d3998f07346157f7340f3554589e8eac236f5e5f3f629",
+      "producer_path": "/tmp/veritile-standardization-20261015/vector-pointwise-schedule-wip/evidence/ValueScheduleCorrect.compile.log"
+    },
+    "vector_schedule/evidence/ValueSchedules.compile.log": {
+      "path": "evidence/vector_schedule/evidence/ValueSchedules.compile.log",
+      "sha256": "b9270fd330a59e9931111bf22397f4253e6016db5c0b50ca0fc8782a647c45ff",
+      "producer_path": "/tmp/veritile-standardization-20261015/vector-pointwise-schedule-wip/evidence/ValueSchedules.compile.log"
+    },
+    "vector_schedule/evidence/final-dependencies-after.json": {
+      "path": "evidence/vector_schedule/evidence/final-dependencies-after.json",
+      "sha256": "6f0c6c851e0aafed7de1a98020e63798a3832041999ef29072f1704b3f33051f",
+      "producer_path": "/tmp/veritile-standardization-20261015/vector-pointwise-schedule-wip/evidence/final-dependencies-after.json"
+    },
+    "vector_schedule/evidence/final-dependencies-before.json": {
+      "path": "evidence/vector_schedule/evidence/final-dependencies-before.json",
+      "sha256": "6f0c6c851e0aafed7de1a98020e63798a3832041999ef29072f1704b3f33051f",
+      "producer_path": "/tmp/veritile-standardization-20261015/vector-pointwise-schedule-wip/evidence/final-dependencies-before.json"
+    },
+    "vector_schedule/evidence/receipt.json": {
+      "path": "evidence/vector_schedule/evidence/receipt.json",
+      "sha256": "2ca1a8a6e3d60ed80ed96834029f161100d89d7cdd9e255595170464171cbd8a",
+      "producer_path": "/tmp/veritile-standardization-20261015/vector-pointwise-schedule-wip/evidence/receipt.json"
+    },
+    "vector_schedule/evidence/scope-review.json": {
+      "path": "evidence/vector_schedule/evidence/scope-review.json",
+      "sha256": "30d591b5a08ad48c77320664b7003950473ad0e355b9b4a75c6ce0a35e9a3643",
+      "producer_path": "/tmp/veritile-standardization-20261015/vector-pointwise-schedule-wip/evidence/scope-review.json"
+    },
+    "vector_schedule/evidence/verification-results.json": {
+      "path": "evidence/vector_schedule/evidence/verification-results.json",
+      "sha256": "e265c6a9a34f34b9e5f5a735144fa07164d59d86a46d82ec6d7397c101e9813f",
+      "producer_path": "/tmp/veritile-standardization-20261015/vector-pointwise-schedule-wip/evidence/verification-results.json"
+    },
+    "vector_schedule/evidence/whitespace-check.json": {
+      "path": "evidence/vector_schedule/evidence/whitespace-check.json",
+      "sha256": "95864f3738425fdd4402819a9f67c5171b8792590440c6b8fd75d5e3ce12fc36",
+      "producer_path": "/tmp/veritile-standardization-20261015/vector-pointwise-schedule-wip/evidence/whitespace-check.json"
+    },
+    "vector_schedule/finalize.py": {
+      "path": "evidence/vector_schedule/finalize.py",
+      "sha256": "c097394746d7a6b9b786172f59d4c0d474737c47d5b1cd74409f43ca43baafe6",
+      "producer_path": "/tmp/veritile-standardization-20261015/vector-pointwise-schedule-wip/finalize.py"
+    },
+    "vector_schedule/independent-review.json": {
+      "path": "evidence/vector_schedule/independent-review.json",
+      "sha256": "fc71f561697aae38238466ba1ce420e626c3730a8c55af353df689d46d7c9316",
+      "producer_path": "/tmp/veritile-standardization-20261015/vector-pointwise-schedule-independent-review.json"
+    },
+    "vector_schedule/verify_final.py": {
+      "path": "evidence/vector_schedule/verify_final.py",
+      "sha256": "7c7c37dd22ca50f676477707a0601dc149e28a967b621e4d9abb4e04fe244ea8",
+      "producer_path": "/tmp/veritile-standardization-20261015/vector-pointwise-schedule-wip/verify_final.py"
+    },
+    "integration-schema-check.json": {
+      "path": "evidence/integration-schema-check.json",
+      "sha256": "cc9ae0e8ad558cf2376d3fb74f193ec82c1f6a2a15d1f9b99881b6aa74d79379",
+      "producer_path": "/tmp/veritile-standardization-20261015/vector-schedules-relu-byte-memory-integration-draft/prepare_batch.py"
+    },
+    "preparation-state.json": {
+      "path": "evidence/preparation-state.json",
+      "sha256": "f85d34b6e67c0b563ca3f1de9023b753a3f5e0d13c064a5622b95a8bfdaa3fa3",
+      "producer_path": "/tmp/veritile-standardization-20261015/vector-schedules-relu-byte-memory-integration-draft/prepare_batch.py"
+    }
+  },
+  "raw_receipt_path_policy": "Exact producer records retain temporary paths and all actual byte compilation attempts. New Lean sources live once at repository paths; no olean, cache or symlink is copied.",
+  "metadata_baseline_reused": "bench/review-checkpoints/2026-10-15/original-scope-extensions/metadata-baseline",
+  "whole_task_acceptance": {
+    "accepted": 0,
+    "requested": 183
+  },
+  "integration_build_or_global_audit_claimed": false
+}

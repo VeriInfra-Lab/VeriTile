@@ -1,19 +1,58 @@
 # rmsnorm_implementation
 
-The complete dependency-aware real/FP public-entry build passes (3447 jobs). All four public contracts and the separate trace-safety theorem use only standard axioms; the FP assumption list is empty. Source/support fingerprints are validated and the contracts are registered as `test-gap`; independent comparator replay remains pending.
+Public-entry cleanup (2026-10-14): the current benchmark specifications are the `specification` declarations in [Correct.lean](Correct.lean) and [FPEquiv.lean](FPEquiv.lean). Superseded entries have been retired; reusable mathematical facts remain ordinary helper theorems, and unused output-summary declarations have been removed. Historical preservation counts below describe the earlier snapshots. This cleanup adds no proof coverage or task acceptance.
 
-The typed source retains both `range(0, N_SIZE, BLOCK_N_SIZE)` loops, both program IDs, all seven strides, every load and the masked in-loop store. Its 216 profiles independently choose input, weight and output storage from fp32, fp64, fp16, bf16 and the two supported fp8 carriers. The Python wrapper uses the subset whose output storage equals input storage.
+This port proves both complete two-pass RMSNorm programs in its floating,
+nonnegative-stride model. The five public contracts comprise two preserved
+historical real headlines, the earlier typed real contract, a stronger
+`full_real_correct` contract, and full structural FP equivalence. The named
+`FullExactIO` contract combines actual trace safety, successful finite flat
+execution, the independent full-row output formula, and a frame for every other
+raw cell. The entire source domain and independent comparator replay remain
+unfinished; see `source_scope.md` for explicit boundaries.
 
-Pass one converts input to fp32 before accumulating squares. The sum, division by N and square root stay fp32. Pass two reloads input without that cast, divides by the fp32 standard deviation, then multiplies by the uncast weight. Those operations can promote to fp64 independently; precision checks inspect the local scopes and the final output conversion. The weight load retains its missing `other` argument. Input loads retain their explicit zero padding.
-
-The candidate commutes the natural multiplication forming the first term of `offset_m`. It retains both complete loops. The FP contract compares complete executions for an arbitrary backend, including failures, undefined masked values, aliases, registers and all memory. It requires no numerical rewrite atom. Numerical examples use an exact-real backend with actual square root and addition, and identity casts; they are not IEEE rounding results.
+The source retains both loops, both program IDs, all seven strides and all
+memory operations. Its 216 profiles independently choose input, weight and
+output floating storage. Pass one casts input to fp32 and accumulates squares
+there; sum, division and sqrt stay fp32. Pass two reloads the original input,
+divides by the fp32 standard deviation and multiplies the uncast weight. Either
+operation may promote to fp64, and the final store converts to its destination
+storage. Input loads specify zero padding; the masked weight load retains its
+missing `other` argument. `Proofs/Precision.lean` checks the exact load,
+arithmetic and store prescriptions for every profile and variant.
 
 The independent real formula is
 
 `x[t,j] / sqrt(sum_{u,e : u*B+e<N} x[u,e]^2 / N + eps) * w[t,j]`.
 
-The exact-real contract covers successful flat execution, active bounds, every active output and the full frame. `Proofs/Safety.lean` separately proves actual execution-trace safety for both complete erased-real programs by transporting local access safety and execution through the variance loop and the address-prefix rewrite. It assumes positive block size, positive output column stride and output distinct from both inputs, allowing arbitrary logical row lengths across multiple tiles. The real projection uses zero undefined padding as its stated memory-model convention; the source weight load has not acquired a zero-padding argument. Positive epsilon implies a positive denominator; the general real theorem retains Lean's total division convention.
+The dimension-general real contract makes finite allocation, access bounds,
+positive block/output strides, output/input separation and the exact model's
+zero-undefined convention explicit. Positive epsilon implies a positive
+denominator; the general formula retains Lean's total division convention.
 
-The pointer geometry currently uses nonnegative natural strides and addresses, as in the retained legacy proof. Negative signed strides are an explicit untranslated boundary, not covered by this contract. Cross-program scheduling and races remain outside this per-program result. The old mathematical `RoundingModel` contracts are preserved without interpreting their erased-real cast identity as an IEEE guarantee.
+The candidate commutes one natural address multiplication. The FP theorem
+compares complete executions for an arbitrary backend, including failures,
+aliases, undefined masked values, all registers and all memory. It uses no
+numerical rewrite assumption.
 
-`Proofs/Precision.lean` checks both source loops and load/arithmetic/store profiles. `Proofs/Execution.lean` supplies two-tile mixed-storage executions for both candidates and both fp64-promotion locations (input division or later weight multiplication), with both program IDs nonzero, nonunit strides and a masked final lane. All 216 storage combinations pass exact AST checks for both variants. Four full numerical executions pass, and all 110 legacy declaration headers and adjacent docstrings are retained exactly. Independent source/formula review found no blocking defect; final repository integration and native source replay remain separate gates.
+`Proofs/FiniteWitness.lean` discharges every real IO premise for all 216 profiles
+and both variants: two nonzero program IDs, N=3/B=2, nonunit strides, finite
+X/W/O allocations of 18/10/32 cells, three outputs equal to 2, integer-37
+sentinels in a stride gap and masked tails, and the complete raw frame.
+`Proofs/Execution.lean` separately executes the genuine typed programs with
+actual sum/square-root arithmetic and identity casts. Four complete runs cover
+both variants and both fp64-promotion locations; all produce standard deviation
+3 and three bf16 output cells equal to 2 while preserving every other typed cell.
+These are exact-real backend witnesses, not IEEE or GPU tests.
+
+The native compiler receipt checks the unchanged AST on Triton 3.7.1 / sm90:
+32/36 floating wrapper profiles and four additional floating destinations
+compile with expected precision; four fp8/fp64 wrapper profiles fail on
+unsupported conversions. Four admitted integer/Boolean probes expose remaining
+unmodeled source paths. No native dtype guard is invented.
+
+`Proofs/Audit.lean` checks public and support axioms, independent specifications,
+FP assumptions and every theorem in the port. All 111 historical declaration
+headers and 50 adjacent docstrings from the pre-split source remain unchanged.
+The public entries reach 13 local modules; the separate audit reaches all 14.
+`completion_audit.md` records the final build and review receipts.

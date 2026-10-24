@@ -1,0 +1,8 @@
+{
+  "prior_receipt": "/tmp/veritile-standardization-20261015/add-value-finite-acceptance-wip/evidence/receipt.json",
+  "prior_receipt_sha256": "0ba656d2df77a707a3faf1b82e46bb5304e0801aeca81082a9295528061d1373",
+  "prior_root_review": "/tmp/veritile-standardization-20261015/add-value-finite-root-validation",
+  "scope_gap_receipt_sha256": "0cc8683df7cf0ee9a3497c00082e93f4d125cde63f9c4c5e3ef55af98d8bbb00",
+  "old_candidate_registration": false,
+  "policy": "Preserve the frozen five-module bounded candidate and root checks as historical evidence. New native proposal has no dependency on its uninstalled modules and corrects actual annotated i32/full-domain behavior."
+}

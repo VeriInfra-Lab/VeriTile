@@ -1,0 +1,173 @@
+{
+  "task": "add_example",
+  "status": "pending",
+  "input_sha256": {
+    "lean": {
+      "bench/tritonbench_g/add_example/Correct.lean": "77338ee0c538ad02263292f834c21b288998d5cf7f6202e5ce2f324077b6bf3b",
+      "bench/tritonbench_g/add_example/FPEquiv.lean": "e45deb167127ad04cfa9522ab0be784f31cac9e435fdf14296a3af0fb8abf511",
+      "bench/tritonbench_g/add_example/Kernels.lean": "ec10be22a043c5e9f430112831ca6b1c4aafdebd10c24f3d342a4186ce697050",
+      "bench/tritonbench_g/add_example/Proofs/Real.lean": "97165c6396464d51bd70f050934e8988a6947d58e8ee75890af6b692f78e26ec"
+    },
+    "python": {
+      "bench/tritonbench_g/add_example/add_example.py": "4f2314d163aed2aab3a0dce796534c0c24145d506750da93349044640e62f913"
+    }
+  },
+  "source_inventory": {
+    "stages": [
+      {
+        "id": "stage:bench/tritonbench_g/add_example/add_example.py:7:add_kernel",
+        "path": "bench/tritonbench_g/add_example/add_example.py",
+        "function": "add_kernel",
+        "line": 7,
+        "end_line": 21,
+        "decorators": [
+          "triton.jit"
+        ],
+        "may_be_test_harness": false
+      },
+      {
+        "id": "stage:bench/tritonbench_g/add_example/add_example.py:23:add_wrapper",
+        "path": "bench/tritonbench_g/add_example/add_example.py",
+        "function": "add_wrapper",
+        "line": 23,
+        "end_line": 35,
+        "decorators": [],
+        "may_be_test_harness": false
+      },
+      {
+        "id": "stage:bench/tritonbench_g/add_example/add_example.py:44:test_add_kernel",
+        "path": "bench/tritonbench_g/add_example/add_example.py",
+        "function": "test_add_kernel",
+        "line": 44,
+        "end_line": 71,
+        "decorators": [],
+        "may_be_test_harness": true
+      }
+    ],
+    "dtypes": [
+      {
+        "id": "dtype-domain:bench/tritonbench_g/add_example/add_example.py",
+        "path": "bench/tritonbench_g/add_example/add_example.py",
+        "literal_mentions": [
+          "tl.int32"
+        ],
+        "requirement": "All original input/output/compute dtype dispatches and implicit dtype parameters."
+      }
+    ],
+    "branches": []
+  },
+  "coverage": {
+    "stages": [
+      {
+        "id": "stage:bench/tritonbench_g/add_example/add_example.py:7:add_kernel",
+        "status": "unreviewed",
+        "explanation": null,
+        "dtype_profile": null,
+        "configuration": {},
+        "proofs": []
+      },
+      {
+        "id": "stage:bench/tritonbench_g/add_example/add_example.py:23:add_wrapper",
+        "status": "unreviewed",
+        "explanation": null,
+        "dtype_profile": null,
+        "configuration": {},
+        "proofs": []
+      },
+      {
+        "id": "stage:bench/tritonbench_g/add_example/add_example.py:44:test_add_kernel",
+        "status": "unreviewed",
+        "explanation": null,
+        "dtype_profile": null,
+        "configuration": {},
+        "proofs": []
+      }
+    ],
+    "dtypes": [
+      {
+        "id": "dtype-domain:bench/tritonbench_g/add_example/add_example.py",
+        "status": "unreviewed",
+        "explanation": null,
+        "dtype_profile": null,
+        "configuration": {},
+        "proofs": []
+      }
+    ],
+    "branches": []
+  },
+  "structural_gaps": [
+    {
+      "id": "ADD_EXAMPLE-S1",
+      "kind": "host_initialization_and_grid",
+      "finding": "add_wrapper allocates zeros_like and computes (numel+3)//4 before returning all blocks results.",
+      "why_blocks_full_original_scope": "Current addIO states only one program window; initial output and complete returned buffer are not assembled.",
+      "can_defer_as_numeric_assumption": false,
+      "evidence": [
+        {
+          "line": 23,
+          "end_line": 35,
+          "path": "bench/tritonbench_g/add_example/add_example.py",
+          "sha256": "4f2314d163aed2aab3a0dce796534c0c24145d506750da93349044640e62f913",
+          "excerpt": "def add_wrapper(x, y):\n    out = torch.zeros_like(x)\n    \n    BLOCK_SIZE = 4\n    n_elements = x.numel()\n\n    # Calculate the number of blocks needed\n    num_blocks = (n_elements + BLOCK_SIZE - 1) // BLOCK_SIZE\n\n    # Launch the kernel\n    add_kernel[(num_blocks,)](x, y, out, n_elements, BLOCK_SIZE)\n\n    return out"
+        },
+        {
+          "line": 15,
+          "end_line": 33,
+          "path": "bench/tritonbench_g/add_example/Correct.lean",
+          "sha256": "77338ee0c538ad02263292f834c21b288998d5cf7f6202e5ce2f324077b6bf3b",
+          "excerpt": "def addIO (in_ptr0 in_ptr1 out_ptr : RegionName)\n    (n_elements BLOCK_SIZE : Nat) : MaskedKernelIO\u2082 where\n  kernel := add_kernel in_ptr0 in_ptr1 out_ptr n_elements BLOCK_SIZE\n  in1 := in_ptr0\n  in2 := in_ptr1\n  out := out_ptr\n  B := BLOCK_SIZE\n  read1 := fun pid => pid * BLOCK_SIZE\n  read2 := fun pid => pid * BLOCK_SIZE\n  write := fun pid => pid * BLOCK_SIZE\n  mask := fun pid j => pid * BLOCK_SIZE + j.val < n_elements\n\n\n/-- Original source implements mathematical pointwise addition. -/\nspecification add_kernel_correctness\n    (in_ptr0 in_ptr1 out_ptr : RegionName)\n    (n_elements BLOCK_SIZE : Nat) :\n    Spec.Real (addIO in_ptr0 in_ptr1 out_ptr n_elements BLOCK_SIZE\n      \u22a8 fun xs ys i => xs i + ys i) := by"
+        }
+      ]
+    },
+    {
+      "id": "ADD_EXAMPLE-S2",
+      "kind": "mixed_dtype_promotion",
+      "finding": "No input dtype guards enforce the uniform real/fp32 arithmetic route used by the Lean kernel.",
+      "why_blocks_full_original_scope": "Mixed input promotion and conversion into x-typed output are missing source execution paths.",
+      "can_defer_as_numeric_assumption": false,
+      "evidence": [
+        {
+          "line": 18,
+          "end_line": 24,
+          "path": "bench/tritonbench_g/add_example/add_example.py",
+          "sha256": "4f2314d163aed2aab3a0dce796534c0c24145d506750da93349044640e62f913",
+          "excerpt": "    x = tl.load(in_ptr0 + offsets, mask=mask)\n    y = tl.load(in_ptr1 + offsets, mask=mask)\n    output = x + y\n    tl.store(out_ptr + offsets, output, mask=mask)\n\ndef add_wrapper(x, y):\n    out = torch.zeros_like(x)"
+        },
+        {
+          "line": 12,
+          "end_line": 24,
+          "path": "bench/tritonbench_g/add_example/Kernels.lean",
+          "sha256": "ec10be22a043c5e9f430112831ca6b1c4aafdebd10c24f3d342a4186ce697050",
+          "excerpt": "def add_kernel\n    (in_ptr0 in_ptr1 out_ptr : RegionName)\n    (n_elements BLOCK_SIZE : Nat) :\n    ComputeKernel := triton {\n  pid = tl.program_id(axis=0)\n  block_start = pid * $(BLOCK_SIZE)\n  offsets = block_start + tl.arange(0, $(BLOCK_SIZE))\n  mask = offsets < $(n_elements)\n  x = tl.load(in_ptr0 + offsets, mask=mask)\n  y = tl.load(in_ptr1 + offsets, mask=mask)\n  output = x + y\n  tl.store(out_ptr + offsets, output, mask=mask)\n}"
+        },
+        {
+          "line": 19,
+          "end_line": 25,
+          "path": "bench/tritonbench_g/add_example/FPEquiv.lean",
+          "sha256": "e45deb167127ad04cfa9522ab0be784f31cac9e435fdf14296a3af0fb8abf511",
+          "excerpt": "def additionSite (in_ptr0 in_ptr1 out_ptr : RegionName) (n B : Nat) : Site :=\n  .add (Source.prefixBefore (add_kernel in_ptr0 in_ptr1 out_ptr n B).surfaceBody \"output\") [B]\n    (.ref .real [B] \"x\") (.ref .real [B] \"y\")\n\ndef original (in_ptr0 in_ptr1 out_ptr : RegionName) (n B : Nat) : Program where\n  kernel := add_kernel in_ptr0 in_ptr1 out_ptr n B\n  domain := [additionSite in_ptr0 in_ptr1 out_ptr n B]"
+        }
+      ]
+    }
+  ],
+  "initial_assessment": "structural_gaps_confirmed",
+  "deferred_numerical_assumptions": [],
+  "potential_numeric_ids_not_yet_accepted": [
+    "fp32_add_commute_real"
+  ],
+  "callback_assumptions": {},
+  "review": null,
+  "initial_structural_gaps": [
+    {
+      "kind": "unverified_scope",
+      "finding": "Historical selected source replay explicitly did not perform all-JIT comparison; current catalog/TSV preserve selected public scope, not proof of full Python stages/dtypes/branches. Inspect each recorded function/branch against the recorded declarations before acceptance.",
+      "can_defer_as_numeric_assumption": false
+    }
+  ],
+  "scope_gap_review": {
+    "path": "bench/review-checkpoints/2026-10-16/original-scope-review-24/evidence/batch-01-review.json",
+    "sha256": "14637a2817702322b8d71d4c0194fb14deac9d31dba91038918db781008fdc65",
+    "task": "add_example",
+    "status": "reviewed_gaps_not_acceptance"
+  }
+}

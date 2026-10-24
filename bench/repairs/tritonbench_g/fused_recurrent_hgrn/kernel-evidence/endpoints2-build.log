@@ -1,0 +1,100 @@
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/KernelTensor.lean:45:49: error: Tactic `decide` failed for proposition
+  recognized { name := name Role.x }
+because its `Decidable` instance
+  propDecidable (recognized { name := name Role.x })
+did not reduce to `isTrue` or `isFalse`.
+
+After unfolding the instance `propDecidable`, reduction got stuck at the `Decidable` instance
+  choice ⋯
+
+Hint: Reduction got stuck on `choice`, which indicates that a `Decidable` instance is defined using classical reasoning, proving an instance exists rather than giving a concrete construction. The `decide` tactic works by evaluating a decision procedure via reduction, and it cannot make progress with such instances. This can occur due to the `open scoped Classical` command, which enables the instance `propDecidable`.
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/KernelTensor.lean:45:49: error: Tactic `decide` failed for proposition
+  recognized { name := name Role.g }
+because its `Decidable` instance
+  propDecidable (recognized { name := name Role.g })
+did not reduce to `isTrue` or `isFalse`.
+
+After unfolding the instance `propDecidable`, reduction got stuck at the `Decidable` instance
+  choice ⋯
+
+Hint: Reduction got stuck on `choice`, which indicates that a `Decidable` instance is defined using classical reasoning, proving an instance exists rather than giving a concrete construction. The `decide` tactic works by evaluating a decision procedure via reduction, and it cannot make progress with such instances. This can occur due to the `open scoped Classical` command, which enables the instance `propDecidable`.
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/KernelTensor.lean:45:49: error: Tactic `decide` failed for proposition
+  recognized { name := name Role.h0 }
+because its `Decidable` instance
+  propDecidable (recognized { name := name Role.h0 })
+did not reduce to `isTrue` or `isFalse`.
+
+After unfolding the instance `propDecidable`, reduction got stuck at the `Decidable` instance
+  choice ⋯
+
+Hint: Reduction got stuck on `choice`, which indicates that a `Decidable` instance is defined using classical reasoning, proving an instance exists rather than giving a concrete construction. The `decide` tactic works by evaluating a decision procedure via reduction, and it cannot make progress with such instances. This can occur due to the `open scoped Classical` command, which enables the instance `propDecidable`.
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/KernelTensor.lean:45:49: error: Tactic `decide` failed for proposition
+  recognized { name := name Role.o }
+because its `Decidable` instance
+  propDecidable (recognized { name := name Role.o })
+did not reduce to `isTrue` or `isFalse`.
+
+After unfolding the instance `propDecidable`, reduction got stuck at the `Decidable` instance
+  choice ⋯
+
+Hint: Reduction got stuck on `choice`, which indicates that a `Decidable` instance is defined using classical reasoning, proving an instance exists rather than giving a concrete construction. The `decide` tactic works by evaluating a decision procedure via reduction, and it cannot make progress with such instances. This can occur due to the `open scoped Classical` command, which enables the instance `propDecidable`.
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/KernelTensor.lean:45:49: error: Tactic `decide` failed for proposition
+  recognized { name := name Role.ht }
+because its `Decidable` instance
+  propDecidable (recognized { name := name Role.ht })
+did not reduce to `isTrue` or `isFalse`.
+
+After unfolding the instance `propDecidable`, reduction got stuck at the `Decidable` instance
+  choice ⋯
+
+Hint: Reduction got stuck on `choice`, which indicates that a `Decidable` instance is defined using classical reasoning, proving an instance exists rather than giving a concrete construction. The `decide` tactic works by evaluating a decision procedure via reduction, and it cannot make progress with such instances. This can occur due to the `open scoped Classical` command, which enables the instance `propDecidable`.
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/KernelTensor.lean:45:49: error: Tactic `decide` failed for proposition
+  recognized { name := name Role.incoming }
+because its `Decidable` instance
+  propDecidable (recognized { name := name Role.incoming })
+did not reduce to `isTrue` or `isFalse`.
+
+After unfolding the instance `propDecidable`, reduction got stuck at the `Decidable` instance
+  choice ⋯
+
+Hint: Reduction got stuck on `choice`, which indicates that a `Decidable` instance is defined using classical reasoning, proving an instance exists rather than giving a concrete construction. The `decide` tactic works by evaluating a decision procedure via reduction, and it cannot make progress with such instances. This can occur due to the `open scoped Classical` command, which enables the instance `propDecidable`.
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/KernelTensor.lean:45:49: error: Tactic `decide` failed for proposition
+  recognized { name := name Role.dht }
+because its `Decidable` instance
+  propDecidable (recognized { name := name Role.dht })
+did not reduce to `isTrue` or `isFalse`.
+
+After unfolding the instance `propDecidable`, reduction got stuck at the `Decidable` instance
+  choice ⋯
+
+Hint: Reduction got stuck on `choice`, which indicates that a `Decidable` instance is defined using classical reasoning, proving an instance exists rather than giving a concrete construction. The `decide` tactic works by evaluating a decision procedure via reduction, and it cannot make progress with such instances. This can occur due to the `open scoped Classical` command, which enables the instance `propDecidable`.
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/KernelTensor.lean:45:49: error: Tactic `decide` failed for proposition
+  recognized { name := name Role.dx }
+because its `Decidable` instance
+  propDecidable (recognized { name := name Role.dx })
+did not reduce to `isTrue` or `isFalse`.
+
+After unfolding the instance `propDecidable`, reduction got stuck at the `Decidable` instance
+  choice ⋯
+
+Hint: Reduction got stuck on `choice`, which indicates that a `Decidable` instance is defined using classical reasoning, proving an instance exists rather than giving a concrete construction. The `decide` tactic works by evaluating a decision procedure via reduction, and it cannot make progress with such instances. This can occur due to the `open scoped Classical` command, which enables the instance `propDecidable`.
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/KernelTensor.lean:45:49: error: Tactic `decide` failed for proposition
+  recognized { name := name Role.dg }
+because its `Decidable` instance
+  propDecidable (recognized { name := name Role.dg })
+did not reduce to `isTrue` or `isFalse`.
+
+After unfolding the instance `propDecidable`, reduction got stuck at the `Decidable` instance
+  choice ⋯
+
+Hint: Reduction got stuck on `choice`, which indicates that a `Decidable` instance is defined using classical reasoning, proving an instance exists rather than giving a concrete construction. The `decide` tactic works by evaluating a decision procedure via reduction, and it cannot make progress with such instances. This can occur due to the `open scoped Classical` command, which enables the instance `propDecidable`.
+VeriTile.Bench.Repairs.FusedRecurrentHgrn.KernelTensor.coordinates: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FusedRecurrentHgrn.KernelTensor.logical_read: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FusedRecurrentHgrn.KernelTensor.result_eq: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FusedRecurrentHgrn.KernelTensor.Arguments: definition does not reference [VeriTile.Bench.Repairs.FusedRecurrentHgrn.Execution.gridRun,
+ VeriTile.Bench.Repairs.FusedRecurrentHgrn.state,
+ VeriTile.Bench.Repairs.FusedRecurrentHgrn.dx,
+ VeriTile.Bench.Repairs.FusedRecurrentHgrn.dg] — non-circular ✓

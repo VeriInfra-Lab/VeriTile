@@ -6,7 +6,8 @@ open Lean VeriTile.Triton TypedSource
 set_option maxHeartbeats 3000000
 set_option maxRecDepth 20000
 
-/-- Canonical real body: identity precision conversions are absent after erasure. -/
+/-- Mathematical real reference: floating regions use the unannotated real carrier.
+The keep-mask storage remains typed; `body` proves the source erasure bridge. -/
 syntax "dropoutReference%" "[" tritonDType "," tritonDType "," ident "]" : term
 set_option hygiene false in
 macro_rules
@@ -18,7 +19,7 @@ macro_rules
       else `(tritonStmt| block_start = pid * $(BLOCK_SIZE))
     `(fun (x_ptr x_keep_ptr output_ptr : RegionName) (n_elements BLOCK_SIZE : Nat) (p : ℝ) =>
       ComputeKernel.mk [x_ptr, x_keep_ptr] [output_ptr] (triton {
-  tl.region x_ptr = $storage, x_keep_ptr = $keep, output_ptr = $storage
+  tl.region x_keep_ptr = $keep
   pid = tl.program_id(axis=0)
   $blockStart
   offsets = block_start + tl.arange(0, $(BLOCK_SIZE))

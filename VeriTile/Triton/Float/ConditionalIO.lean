@@ -38,9 +38,10 @@ def ConditionalEquivalent₁ (R : Spec.Assumptions GuardedFragment)
 
 instance : Spec.ProgramSyntax ConditionalIO₁ where
   Statement := GuardedFragment
+  theory := Guarded.fp32Theory
   Signature := IO₁Signature × Profile × (Schedules → GuardExpression.Condition) × List Comparison
   signature p := (io₁Signature p.io, p.profile, p.domain, p.comparisons)
-  body p := [⟨[], p.io.kernel.surfaceBody⟩]
+  body p := [⟨[], p.io.kernel.surfaceBody, .real, none⟩]
   structural := some (fun _ _ => False)
   numerical := ConditionalEquivalent₁
   sameContext := fun lhs rhs => lhs = rhs

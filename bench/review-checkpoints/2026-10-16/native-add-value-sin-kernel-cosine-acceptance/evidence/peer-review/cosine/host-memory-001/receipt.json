@@ -1,0 +1,30 @@
+{
+  "status": "passed",
+  "wrapper_AST_traces": 11,
+  "CPU_metadata_cases": 10,
+  "exact_current_C_parser_cases": 3,
+  "exact_current_C_i32_extractor_cases": 9,
+  "compiled_C_pointer_comparisons": 174,
+  "dtype_widths": [
+    "BF16:2",
+    "FP32:4"
+  ],
+  "source_sha256": "363fe81932ce7a18a907f330311e1214130e1c5cad0c0f7c91b476e6eca13d7a",
+  "driver_sha256": "835f068cf517d237dc62be91275261e260c2bae985a9242fd28866303c1e5a60",
+  "parser_source_sha256": "001613b865e61f8e5f55a556a1dd6b9c347b7bda36dea2975456c3fea697d9e5",
+  "extractor_source_sha256": "e48f4823d2ae0b76b6d22cdaa5f4f98a24d11d99db5e22206b7674eb09d51133",
+  "parser_reachability": "infrastructure only; oversized cosine blocks reject compilation before such overflowing grids",
+  "GPU_launches": 0,
+  "large_allocations": 0,
+  "artifacts": {
+    "build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "metadata.json": "f03a722c434c259c8e5602335f0e20789d4c86d89902df335e80287d0ce28932",
+    "wrapper-traces.json": "e92cb7e604c626f768c83bba62794417d5a9594860b6d08be7c0337c490b11d7",
+    "instrument.c": "e211ab5b8384c91fc2e6cdd9dc4ca8e425cc8b6f648cde39b895fcfe1195a7d2",
+    "i32.json": "a26004b4522012323d5a3fb50196231751f18bbdd3eb30b91cca500d83a3e48d",
+    "pointers.json": "6dacaa29dbba576991430d790e453efd319184a54e0532570611adabded1f721",
+    "driver.c.txt": "835f068cf517d237dc62be91275261e260c2bae985a9242fd28866303c1e5a60",
+    "parser.json": "25cdcdc196bbb1b5f2e2ac5d66dbb51ddba6b04218458bdcbdd2f7a5f9adb9bd",
+    "instrument.so": "120695b922993dd3587d66d10d143e162e17a01030abfd14c319b0700c5050c1"
+  }
+}

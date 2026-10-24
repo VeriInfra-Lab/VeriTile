@@ -44,10 +44,13 @@ externally checked. See [Triton subset and gaps](./documents/TritonSubset.md).
   `ComputeCorrect.Realizes_without_Rounding`) at the trivial model. See the
   fused-vs-unfused SwiGLU showcase
   [`bench/examples/FusedSwiglu/Proofs/LegacyRealEquiv.lean`](./bench/examples/FusedSwiglu/Proofs/LegacyRealEquiv.lean).
-- **Examples**: 173 ported TritonBench-G kernels with proofs (source of truth:
-  [`bench/tritonbench_g/completion_audit.md`](./bench/tritonbench_g/completion_audit.md);
-  see the [per-theorem coverage table](https://lizn-zn.github.io/VeriTile/proofs/coverage/)
-  for configured models, slices, and remaining gaps) plus FlashAttention-1
+- **Examples**: 184 TritonBench-G task directories, with original-source
+  proof contracts in the declared scopes of 183 tasks and one repaired-only
+  candidate. The [development progress audit](./bench/review-checkpoints/2026-10-15/development-progress-audit/README.md)
+  separates mathematical proofs, implementation equivalence, software bit-value
+  contracts and remaining acceptance work. See the
+  [current source inventory](./bench/current_source_acceptance.md) for checked
+  inputs and reproduction commands. Additional examples include FlashAttention-1
   forward, online softmax, Welford, LayerNorm, log-sum-exp.
 - **CI gates**: `.github/workflows/bench-audit.yml` runs the full library build,
   Python↔Lean faithfulness scans, proof-gap manifest checks, and library

@@ -1,0 +1,158 @@
+{
+  "schema": 1,
+  "task": "softmax_flaggems",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue13/release-result.json",
+    "sha256": "629bffaa864c24e7cc37f10e32b29c72132c01318546dff04e43bb7c16ac013a",
+    "task_index": 9
+  },
+  "finding": "Whole-grid forward/backward formulas used flat addresses, bounds and raw output channels instead of logical M×N×K coordinates.",
+  "resolution": "Tensor/logicalForwardIO expose M×N×K input and output tensors. BackwardInputs names saved and gradient tensors. Headline forward normalization and backward VJP now sum exactly over Fin N at logical row/n/column coordinates.",
+  "mathematical_target": "Forward: mass(q[o])/sum_{n<d.N} mass(q[row,n,col]), mass(-∞)=0 and mass(x)=exp(x). Backward saved-output VJP: p[o]*(g[o]-sum_{n<d.N} p[row,n,col]*g[row,n,col]).",
+  "conditions_and_scope": {
+    "scope": "Real: actual full M×N×K grid for both distinct forward/backward results. FP: complete selected source kernel for each inner/noninner and one/multiple-tile branch, not an invented host result.",
+    "conditions": [
+      "Positive N,K,B,C; c.one=oneTile d.N c.B. Forward X≠Y; backward P≠Y and G≠Y.",
+      "ForwardDomain: at least one finite logit in each logical N-column; remaining values may be -∞. This mathematical interpretation is separate from wrapper all-word admission.",
+      "IO channels cover count=M*N*K, actual forwardJobs/backwardJobs enumerate the original grid; total extension only serves valid logical addresses.",
+      "The public IO judgment quantifies over logical inputs, physical memory binding and capacity bounds; source safety, successful execution, output values and exact exterior frame are conclusions, not caller premises."
+    ],
+    "preservation": "Logical input/output maps are full equivalences, retaining unused/inactive/padded and entry-output values. Exact previous judgment is fixed as the logical view type parameter/core; no callback oracle or new caller premise."
+  },
+  "proof_connection": {
+    "theorem": "Interface.logical_forward_iff; Interface.logical_backward_iff",
+    "detail": "Both complete previous ProgramIO judgments are iff the logical versions. tensorIndex_address, forward/saved/gradient read lemmas and Target coordinate results prove equality of every output; the exact finite-column forward domain, full grids, positivity/separation/oneTile conditions, safety, execution and frame remain."
+  },
+  "fp_review": {
+    "source_unchanged": true,
+    "actual_pair": {
+      "original": [
+        "SourcePair.forwardOriginal",
+        "SourcePair.backwardOriginal"
+      ],
+      "candidate": [
+        "SourcePair.forwardAddressCommuted",
+        "SourcePair.backwardAddressCommuted"
+      ],
+      "transformation": "Exact natural pointer-product commute.",
+      "scope": "Both complete selected branch sources; FP32 arithmetic/casts/reductions and store order unchanged; no separate full-grid native result newly required.",
+      "connection": "SourcePair.forward_equivalent/backward_equivalent covering all selected branches"
+    },
+    "review": "Read the selected FPEquiv source and actual original/candidate scopes. Existing precision, conversions, FMA versus separate operations, reduction order, domains and observers retained; no self-comparison or new candidate."
+  },
+  "numerical_dependencies": {
+    "experimental_rules": [],
+    "binding": "FP.ProfiledRewrite Program, assumptions=[]; strict existing integer rewrite theory; no numerical rewrite or renewed experiment."
+  },
+  "previous_formula_scope": {
+    "mathematical_target": "Forward: mass(q[o])/sum_{n<d.N} mass(q[row,n,col]), mass(-∞)=0 and mass(x)=exp(x). Backward saved-output VJP: p[o]*(g[o]-sum_{n<d.N} p[row,n,col]*g[row,n,col]).",
+    "required_conditions": [
+      "Positive N,K,B,C; c.one=oneTile d.N c.B. Forward X≠Y; backward P≠Y and G≠Y.",
+      "ForwardDomain: at least one finite logit in each logical N-column; remaining values may be -∞. This mathematical interpretation is separate from wrapper all-word admission.",
+      "IO channels cover count=M*N*K, actual forwardJobs/backwardJobs enumerate the original grid; total extension only serves valid logical addresses.",
+      "The public IO judgment quantifies over logical inputs, physical memory binding and capacity bounds; source safety, successful execution, output values and exact exterior frame are conclusions, not caller premises."
+    ],
+    "scope": "Real: actual full M×N×K grid for both distinct forward/backward results. FP: complete selected source kernel for each inner/noninner and one/multiple-tile branch, not an invented host result.",
+    "canonical_connection": [
+      "forwardResult/backwardResult expose normalized mass and VJP, with sum range d.N rather than tile B.",
+      "Each main proof uses a local rfl equality to the canonical Interface formula/Target.flatForward or flatBackward; no independent equality theorem remains in the reader.",
+      "forward_real/backward_real connect full actual grids, safety, all outputs and exterior frame."
+    ],
+    "fp_program_pair": {
+      "original": [
+        "SourcePair.forwardOriginal",
+        "SourcePair.backwardOriginal"
+      ],
+      "candidate": [
+        "SourcePair.forwardAddressCommuted",
+        "SourcePair.backwardAddressCommuted"
+      ],
+      "transformation": "Exact natural pointer-product commute.",
+      "scope": "Both complete selected branch sources; FP32 arithmetic/casts/reductions and store order unchanged; no separate full-grid native result newly required.",
+      "connection": "SourcePair.forward_equivalent/backward_equivalent covering all selected branches"
+    },
+    "numerical_dependencies": {
+      "experimental_rules": [],
+      "binding": "FP.ProfiledRewrite Program, assumptions=[]; strict existing integer rewrite theory; no numerical rewrite or renewed experiment."
+    }
+  },
+  "verification": [
+    {
+      "kind": "targeted_readers",
+      "command": [
+        "python3",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue13/build.py",
+        "bench/repairs/tritonbench_g/softmax_flaggems_finite_seed_v2/KernelInterface/IO.lean",
+        "bench/repairs/tritonbench_g/softmax_flaggems_finite_seed_v2/KernelInterface/Proofs/LogicalResult.lean",
+        "bench/repairs/tritonbench_g/softmax_flaggems_finite_seed_v2/KernelInterface/Correct.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue13/softmax_flaggems-targeted_readers-final.log",
+      "log_sha256": "92edeb616483ad58535d92c0d6d17ab3707609c5a21195195ac5512d6c55cb84",
+      "source_report": ".veritile-cache/logical-reader-review-20261022/queue13/result.json",
+      "source_report_sha256": "354f79af2a6d84fca6ecbe886fb61a9754848b6ae49c88a93657f7822671cfb4",
+      "evidence_scope": "current_unsupplemented_task"
+    },
+    {
+      "kind": "fp_source",
+      "command": [
+        "python3",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue13/build.py",
+        "bench/repairs/tritonbench_g/softmax_flaggems_finite_seed_v2/KernelInterface/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue13/softmax_flaggems-fp_source-final.log",
+      "log_sha256": "6302fef73c9ba3a03ebef46bad25be2614865a79de458bc835af62074261a369",
+      "source_report": ".veritile-cache/logical-reader-review-20261022/queue13/result.json",
+      "source_report_sha256": "354f79af2a6d84fca6ecbe886fb61a9754848b6ae49c88a93657f7822671cfb4",
+      "evidence_scope": "current_unsupplemented_task"
+    },
+    {
+      "kind": "joint",
+      "command": [
+        "python3",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue13/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue13/softmax_flaggems-joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue13/softmax_flaggems-joint-final.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_report": ".veritile-cache/logical-reader-review-20261022/queue13/result.json",
+      "source_report_sha256": "354f79af2a6d84fca6ecbe886fb61a9754848b6ae49c88a93657f7822671cfb4",
+      "evidence_scope": "current_unsupplemented_task"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/softmax_flaggems_finite_seed_v2/Contract.lean": "c3af4b760f5adbde39b6014388ccdfe87ec0b7a26300d5bdbe7ff2259ef0d23d",
+    "bench/repairs/tritonbench_g/softmax_flaggems_finite_seed_v2/KernelInterface/Correct.lean": "0483073a3260a257b9570d9b27bd9a1b3fa4ed9bc8c036cf6a74fbb3fe24967c",
+    "bench/repairs/tritonbench_g/softmax_flaggems_finite_seed_v2/KernelInterface/FPEquiv.lean": "250e672eb64b3abdbcf79db3e2ececdb0330a5caf27d8861342a54704bd69032",
+    "bench/repairs/tritonbench_g/softmax_flaggems_finite_seed_v2/KernelInterface/IO.lean": "74b6281b5d56e536134dc6a3f49f371d0db3c284dc644fabff18fbb294bca27a",
+    "bench/repairs/tritonbench_g/softmax_flaggems_finite_seed_v2/KernelInterface/Proofs/LogicalResult.lean": "f96283088475315937724c86aff8ab32ffd5270c3a73650c35d6a4c1b84371fc",
+    "bench/repairs/tritonbench_g/softmax_flaggems_finite_seed_v2/KernelInterface/GridIO.lean": "8dd0caf0bffcccb8bc6801e4cfa6672ff4afe0138961fb3869a50553dfc79360",
+    "bench/repairs/tritonbench_g/softmax_flaggems_finite_seed_v2/KernelInterface/PairIO.lean": "9dc670bfd4346722aa959e1366755c4ffe62cdb4c4e79e230b29e99d9149a4f9",
+    "bench/repairs/tritonbench_g/softmax_flaggems_finite_seed_v2/KernelInterface/Proofs/RealResults.lean": "1b82cbe4b35c45a067a24c53a912754a6e6eafa170bc0efe66a000803a3c3b07",
+    "bench/repairs/tritonbench_g/softmax_flaggems_finite_seed_v2/KernelInterface/Proofs/SourcePair.lean": "f54d63c3f918374e20c91cf7282476b07623824fc8dc682861f3f7d35de0444f",
+    "bench/repairs/tritonbench_g/softmax_flaggems_finite_seed_v2/Kernels.lean": "0adf6f8df55956481b2ba28b25d8e2759f7128cd4974612649f229c03da1f657",
+    "bench/repairs/tritonbench_g/softmax_flaggems_finite_seed/Target.lean": "19943ce24ad1c68c134c588df0fa8e52063326134302fe2822ee8491b4c52be8",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [
+    "Targeted changed IO/helper/Correct sources compiled in this queue; final builds may reuse successful receipts only when source and direct import-object hashes match. Unchanged internal proof objects are reused, except exact stale/missing owners rebuilt in this queue; this is not an all-helper or full-library replay.",
+    "Real specifies the independent mathematical interpretation. Existing empty-R FP conclusions use their explicitly fixed software theories/models; no new hardware consistency or numerical experiment claim."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

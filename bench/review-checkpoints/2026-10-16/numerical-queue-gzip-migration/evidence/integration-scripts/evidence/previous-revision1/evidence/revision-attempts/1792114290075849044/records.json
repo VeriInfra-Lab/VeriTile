@@ -1,0 +1,14 @@
+[
+  {
+    "name": "revision-audit",
+    "command": [
+      "/usr/local/bin/python",
+      "-B",
+      "/tmp/veritile-standardization-20261015/queue-gzip-integration-scripts-revision1-wip/audit_revision.py"
+    ],
+    "exit_code": 1,
+    "seconds": 0.119,
+    "log": "evidence/revision-attempts/1792114290075849044/revision-audit.log",
+    "log_sha256": "9adf4c5561500ae2b7bac10ac1c47d0ecd211dee5e1acc49b8da0a8f46c0578c"
+  }
+]

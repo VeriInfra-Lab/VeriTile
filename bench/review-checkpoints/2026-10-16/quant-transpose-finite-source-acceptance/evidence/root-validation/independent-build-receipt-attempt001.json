@@ -1,0 +1,32 @@
+{
+  "producer_receipt_sha256": "63392bac5342812d467c2bc499e7870e2609d49fa74faaf01731c1391b1dcf83",
+  "records": [
+    {
+      "module": "bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteScalar.lean",
+      "source_sha256": "583a1eb51eca8d8092d096116dc36012573b2af5ef2121ea2b7cc259e3f45f25",
+      "source_unchanged": true,
+      "command": [
+        "/tmp/veritile-lean-toolchain/bin/lean",
+        "--root=/tmp/veritile-standardization-20261015/quant-transpose-revision1-root-validation/build-attempt001",
+        "/tmp/veritile-standardization-20261015/quant-transpose-revision1-root-validation/build-attempt001/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteScalar.lean",
+        "-o",
+        "/tmp/veritile-standardization-20261015/quant-transpose-revision1-root-validation/build-attempt001/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteScalar.olean"
+      ],
+      "LEAN_PATH": "/tmp/veritile-standardization-20261015/quant-transpose-revision1-root-validation/build-attempt001:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean",
+      "exit_code": 1,
+      "seconds": 0.113,
+      "log": "build-attempt001-01-FiniteScalar.log",
+      "log_sha256": "62a2eca71e8bbeec6826e0ce2796b7afe0e3c55cd3f50a0054b2da3ea5860db6",
+      "object_sha256": null
+    }
+  ],
+  "all_passed": false,
+  "dependencies_unchanged": true,
+  "dependency_snapshot_sha256": "e3b7a45c11101022105a925547907b4b72eee7e0b3b85653fa01433fba1c5485",
+  "additional_dependency_capture": {
+    "Mathlib.Data.List.Range": {
+      "olean": "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean/Mathlib/Data/List/Range.olean",
+      "sha256": "257e2dbf36bc8f07b5b3647845b75da3013a098d40f80552dc9654099898906f"
+    }
+  }
+}

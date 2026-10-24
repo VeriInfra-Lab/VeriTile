@@ -1,0 +1,10 @@
+QuantTransposeFinite.output_store_commutes: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+QuantTransposeFinite.PhysicalStores.logical_frame: axiom footprint ⊆ standard base ✓  ([propext])
+QuantTransposeFinite.PhysicalStores.byte_frame: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+QuantTransposeFinite.lanes_physical: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+QuantTransposeFinite.grid_physical: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+QuantTransposeFinite.quant_transpose_trial_physical_execution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

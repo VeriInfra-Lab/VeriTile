@@ -1,0 +1,13 @@
+{
+  "phase": "rebind",
+  "accepted": 8,
+  "pending": 175,
+  "unrelated_rows_unchanged": 175,
+  "exact": {
+    "status": "passed",
+    "exact_bindings": 2366,
+    "declaration_cases": 22317,
+    "native_executions": 0,
+    "structural_acceptance": false
+  }
+}

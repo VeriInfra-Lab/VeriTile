@@ -1,0 +1,85 @@
+{
+  "recorded_at_utc": "2026-10-15T07:53:38.018864+00:00",
+  "kind": "staged_export_publication_validation",
+  "export_command": [
+    "git",
+    "checkout-index",
+    "--all",
+    "--prefix=/tmp/veritile-fp-examples-export/"
+  ],
+  "checks": [
+    {
+      "label": "publication-catalog",
+      "command": [
+        "python3",
+        "-B",
+        "-c",
+        "import sys,json; from pathlib import Path; sys.path.insert(0,\"bench\"); from current_source_catalog import validate_catalog; root=Path.cwd(); c=json.loads((root/\"bench/review-checkpoints/2026-10-15/retention-query-source-proof/current-source-catalog.json\").read_text()); print(json.dumps(validate_catalog(root,c),indent=2))"
+      ],
+      "started_at_utc": "2026-10-15T07:52:59.868880+00:00",
+      "exit_code": 0,
+      "elapsed_seconds": 9.972,
+      "log": "publication-catalog.log",
+      "log_sha256": "fb16e693d22b075bfbd53a40b72e52ae116f045dee6dc8de42cbb7986cbf298d",
+      "cwd": "/tmp/veritile-fp-examples-export"
+    },
+    {
+      "label": "publication-value-registry",
+      "command": [
+        "python3",
+        "-B",
+        "bench/fp_value_extensions.py",
+        "--check"
+      ],
+      "started_at_utc": "2026-10-15T07:52:59.841192+00:00",
+      "exit_code": 0,
+      "elapsed_seconds": 7.372,
+      "log": "publication-value-registry.log",
+      "log_sha256": "8eae6dd1148c022e9b6739024e062e97d9848a2e9f5b383270d9d47444ea9b97",
+      "cwd": "/tmp/veritile-fp-examples-export"
+    },
+    {
+      "label": "publication-numerical-queue",
+      "command": [
+        "python3",
+        "-B",
+        "bench/deferred_numerical_experiments.py",
+        "--check"
+      ],
+      "started_at_utc": "2026-10-15T07:52:59.889171+00:00",
+      "exit_code": 0,
+      "elapsed_seconds": 0.368,
+      "log": "publication-numerical-queue.log",
+      "log_sha256": "72a9b115cea3a8fe887a9450748217e2ea2f8670896b5c7d3c48f20e2af1e1da",
+      "cwd": "/tmp/veritile-fp-examples-export"
+    }
+  ],
+  "input_validation": {
+    "kind": "staged_export_input_validation",
+    "export_root": "/tmp/veritile-fp-examples-export",
+    "recorded_at_utc": "2026-10-15T07:53:00.079627+00:00",
+    "audited_inputs": 4154,
+    "input_errors": [],
+    "requested_backward_checkpoint_files": 35,
+    "backward_checkpoint_errors": [],
+    "exit_code": 0
+  },
+  "scope": "Checks run against an export of the Git index without access to untracked workspace evidence. All 4154 previously audited inputs match. The full Lean build was not repeated in the export; its inputs are unchanged. Publication receipts and this documentation are added after the export.",
+  "whitespace_check": {
+    "command": [
+      "git",
+      "diff",
+      "--cached",
+      "--no-renames",
+      "--check",
+      "--",
+      ".",
+      ":(exclude)bench/review-checkpoints/**"
+    ],
+    "exit_code": 2,
+    "log": "staged-source-diff-check.log",
+    "log_sha256": "169e8be9e182911dcbbd6205f37b6f3cd57a97f0d859031b32fbcfea63d92fdb",
+    "recorded_at_utc": "2026-10-15T07:54:08.440827+00:00",
+    "interpretation": "Existing newly staged sources contain trailing whitespace and blank EOF lines. Preserved verbatim because source/evidence hashes were reviewed; no conflict-marker errors."
+  }
+}

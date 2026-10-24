@@ -1,5 +1,7 @@
 import bench.examples.OnlineSoftmax.Kernels
-/- Complete two-pass online softmax versus the batch output. Both use libdevice.exp: the measured tl.exp exp-sub relation
+/- Complete two-pass online softmax versus the batch output, using the shared
+strict scalar theory and admitted numerical relaxations. Both use libdevice.exp:
+the measured tl.exp exp-sub relation
 failed the configured bias gate (0.1608954387 ULP > 0.05). -/
 import bench.examples.OnlineSoftmax.Proofs.FP
 import VeriTile.Triton.Float.Kernel
@@ -45,7 +47,8 @@ def online (x y : RegionName) (N : Nat) : FP.Kernel₁ :=
   { batch x y N with io := (batch x y N).io.withKernel (onlineSoftmaxKernel x y N) }
 
 /-- Both kernels terminate, store the same normalized output row, and
-preserve every other memory cell. The row length remains symbolic and positive. -/
+preserve every other memory cell. The row length remains symbolic and positive;
+`R` records the numerical relaxations beyond the fixed strict scalar theory. -/
 specification online_softmax_equiv (N : Nat) (hN : 0 < N) (R : Rules) :
     batch "x" "y" N ≡[R] online "x" "y" N := by
   apply Spec.FloatingPoint.ofNumerical

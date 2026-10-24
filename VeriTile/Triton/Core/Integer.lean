@@ -35,6 +35,16 @@ def sameShape : (sh : TileShape) → Broadcast sh sh sh
 end IntegerExpr
 open IntegerExpr
 
+/-- An unsigned machine cast keeps the low `width` bits. Euclidean remainder
+is essential here: a negative signed input must wrap, not truncate to zero.
+The source's width/range remains a separate input-domain obligation. -/
+abbrev Op.intToUnsigned (width : Nat) (value : Op .int shape) : Op .nat shape :=
+  .castIntToNat (.mod .int (sameShape shape) value (.full shape (.constInt (2^width))))
+
+/-- Unsigned narrowing, also valid for a mathematical Nat carrier. -/
+abbrev Op.natToUnsigned (width : Nat) (value : Op .nat shape) : Op .nat shape :=
+  .mod .nat (sameShape shape) value (.full shape (.constNat (2^width)))
+
 /-- Runtime signed division truncates toward zero. The existing Euclidean
 primitive is reused only after making the dividend nonnegative. -/
 abbrev Op.truncDiv {a b out : TileShape} (bc : Broadcast a b out)

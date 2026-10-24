@@ -1,0 +1,10 @@
+VeriTile.Bench.TritonBenchG.LoraExpandGemv.Host.prepare_exhaustive: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.LoraExpandGemv.Host.input_dtype_rejected: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.LoraExpandGemv.Host.weight_dtype_rejected: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.LoraExpandGemv.Host.squeeze_branch_equivalent: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.LoraExpandGemv.Host.singleton_assert_rejected: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.LoraExpandGemv.Host.rank_assert_rejected: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.LoraExpandGemv.Host.zero_inner_rejected: axiom footprint ⊆ standard base ✓  ([propext])

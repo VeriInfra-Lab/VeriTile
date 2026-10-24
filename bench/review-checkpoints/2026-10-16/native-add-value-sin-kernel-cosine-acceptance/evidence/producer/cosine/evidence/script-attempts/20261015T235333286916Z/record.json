@@ -1,0 +1,8 @@
+{
+  "script": "audit_setup_order.py",
+  "exit_code": 0,
+  "artifacts": {
+    "audit_setup_order.py.txt": "71c232d7b10e3c557d0c75427d5ec5890317d87efa02aa3e404f3678428367ca",
+    "console.log": "d1ae04eba948bdf68667435bfe57b1c4332229695ac318ea7519fbde0861e96e"
+  }
+}

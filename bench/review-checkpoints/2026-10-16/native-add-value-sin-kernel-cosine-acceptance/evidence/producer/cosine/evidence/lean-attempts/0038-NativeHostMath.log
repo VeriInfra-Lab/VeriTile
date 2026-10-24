@@ -1,0 +1,6 @@
+CosineNative.HostMath.zero_fails: axiom footprint ⊆ standard base ✓  ([propext])
+CosineNative.HostMath.ordinary_profile: axiom footprint ⊆ standard base ✓  ([propext])
+CosineNative.HostMath.two31_profile: axiom footprint ⊆ standard base ✓  ([propext])
+CosineNative.HostMath.largest_admitted_boundary: axiom footprint ⊆ standard base ✓  ([propext])
+CosineNative.HostMath.rounded_boundary: axiom footprint ⊆ standard base ✓  ([propext])
+CosineNative.HostMath.maximum_profile: axiom footprint ⊆ standard base ✓  ([propext])

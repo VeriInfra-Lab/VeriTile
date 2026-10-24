@@ -14,7 +14,12 @@ theorem forward_finish (s : BlockState) (Y T O : RegionName)
     stepStmts ((forward Y T O sy st so N B eps logTarget reduction).body.drop 7) s =
       some (if reduction = 0 then s else s.writeMem O outputAddress acc) := by
   by_cases h : reduction = 0
-  all_goals simp [forward, forwardSurface, ComputeKernel.surfaceBody,
+  all_goals cases logTarget <;> simp [forward, forwardSurface, ComputeKernel.eraseDType, ComputeKernel.fromKernelBody,
+      ComputeKernel.toAlgKernel_fromKernelBody, Kernel.eraseDType,
+      Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def,
+      MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def,
+      NumericDType.eraseDType, ComparableDType.eraseDType, ComputeDType.eraseDType,
+      VeriTile.Triton.eraseDType,  ComputeKernel.surfaceBody,
     ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeStmt.listToAlgorithm?,
     ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
     stepStmts, stepStmt, evalOp.eq_def, h, hptr, hacc, Tile.cop,

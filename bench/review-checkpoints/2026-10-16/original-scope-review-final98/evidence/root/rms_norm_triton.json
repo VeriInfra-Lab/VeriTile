@@ -1,0 +1,184 @@
+{
+  "schema": 1,
+  "kind": "original_scope_gap_review",
+  "reviewer": "root",
+  "task": "rms_norm_triton",
+  "reviewed_at_utc": "2026-10-15T19:04:21.125027+00:00",
+  "reviewed_base_commit": "25070582c24c7e0f2e597e5fc263c3c5e31794eb",
+  "catalog": {
+    "path": "bench/review-checkpoints/2026-10-16/relu-source-grid-and-exact-numerics/current-source-catalog.json",
+    "sha256": "ef0da28a4c601f9841664431013d72e565ec5497cf21ba3e7be692c440d1a3fe"
+  },
+  "status": "structural_gaps_confirmed",
+  "whole_original_program_accepted": false,
+  "completion_increment": 0,
+  "source_sha256": {
+    "bench/tritonbench_g/rms_norm_triton/Correct.lean": "67eb70010a74cbb512f1a5538890057d40eb4ac0ea9b34e9e1d6fc15a470b3ba",
+    "bench/tritonbench_g/rms_norm_triton/FPEquiv.lean": "1250d9f485e38bb9c3bdc86604ff36483ceb8bb7eee2355a34e0933e97726c40",
+    "bench/tritonbench_g/rms_norm_triton/Kernels.lean": "639f6f38c2a342779e24bb7fee7c2fbd6c989fa0f07247fcb09c0e6458763459",
+    "bench/tritonbench_g/rms_norm_triton/Proofs/Candidate.lean": "a03444caaad3f1d502da4d9f50425a0747ea9ed7cae2e0943544ce136c9fdde6",
+    "bench/tritonbench_g/rms_norm_triton/Proofs/Execution.lean": "86963b2e0714824988325e0d6d089966c269372b1d9c5fb13bd9d657342c0b9e",
+    "bench/tritonbench_g/rms_norm_triton/Proofs/FP.lean": "b9a403b8de199d5bf6c30d53358b59d7aa83c696d70a9fe06ecaf6b46c7f95ca",
+    "bench/tritonbench_g/rms_norm_triton/Proofs/Math.lean": "a8cb8bf38e80bf4847bf972b005d5c2acab50b9f1e942bfab73da0c26f4b33fd",
+    "bench/tritonbench_g/rms_norm_triton/Proofs/Real.lean": "6dfe02f7ea17933d1633d7835e03af4368ea1985b661c0d9d2798b6f77e990fe",
+    "bench/tritonbench_g/rms_norm_triton/Proofs/Source.lean": "393f2e92edd368af9674eda70cf83e404d3ba5d0e7963cad825f44c492fc8fdc",
+    "bench/tritonbench_g/rms_norm_triton/Proofs/SourceChecks.lean": "39c78062c50dc34a1e0703fe9a661f299137e025aa93961276f34e0197a70341",
+    "bench/tritonbench_g/rms_norm_triton/rms_norm_triton.py": "dce88560afff1c21715628bab92d4ed89d0070ce6d3f343aa31e7c47c643498c"
+  },
+  "all_input_sha256": {
+    "lean": {
+      "bench/tritonbench_g/rms_norm_triton/Correct.lean": "67eb70010a74cbb512f1a5538890057d40eb4ac0ea9b34e9e1d6fc15a470b3ba",
+      "bench/tritonbench_g/rms_norm_triton/FPEquiv.lean": "1250d9f485e38bb9c3bdc86604ff36483ceb8bb7eee2355a34e0933e97726c40",
+      "bench/tritonbench_g/rms_norm_triton/Kernels.lean": "639f6f38c2a342779e24bb7fee7c2fbd6c989fa0f07247fcb09c0e6458763459",
+      "bench/tritonbench_g/rms_norm_triton/Proofs/Candidate.lean": "a03444caaad3f1d502da4d9f50425a0747ea9ed7cae2e0943544ce136c9fdde6",
+      "bench/tritonbench_g/rms_norm_triton/Proofs/Execution.lean": "86963b2e0714824988325e0d6d089966c269372b1d9c5fb13bd9d657342c0b9e",
+      "bench/tritonbench_g/rms_norm_triton/Proofs/FP.lean": "b9a403b8de199d5bf6c30d53358b59d7aa83c696d70a9fe06ecaf6b46c7f95ca",
+      "bench/tritonbench_g/rms_norm_triton/Proofs/Math.lean": "a8cb8bf38e80bf4847bf972b005d5c2acab50b9f1e942bfab73da0c26f4b33fd",
+      "bench/tritonbench_g/rms_norm_triton/Proofs/Real.lean": "6dfe02f7ea17933d1633d7835e03af4368ea1985b661c0d9d2798b6f77e990fe",
+      "bench/tritonbench_g/rms_norm_triton/Proofs/Source.lean": "393f2e92edd368af9674eda70cf83e404d3ba5d0e7963cad825f44c492fc8fdc",
+      "bench/tritonbench_g/rms_norm_triton/Proofs/SourceChecks.lean": "39c78062c50dc34a1e0703fe9a661f299137e025aa93961276f34e0197a70341"
+    },
+    "python": {
+      "bench/tritonbench_g/rms_norm_triton/rms_norm_triton.py": "dce88560afff1c21715628bab92d4ed89d0070ce6d3f343aa31e7c47c643498c"
+    }
+  },
+  "public_declarations_checked": [
+    {
+      "file": "bench/tritonbench_g/rms_norm_triton/Correct.lean",
+      "declaration": "candidate_real_correct",
+      "statement_sha256": "808c96ea21734bfd998669e4bf2a51af253aefd0c8196a08a2f21504409df1dd",
+      "line": 112,
+      "sha256": "67eb70010a74cbb512f1a5538890057d40eb4ac0ea9b34e9e1d6fc15a470b3ba",
+      "statement": "specification candidate_real_correct (storage weight : Storage) (Y X W : RegionName)\n    (ysr ysc xsr xsc N : Nat) (eps : ℝ) (B : Nat)\n    (hN : 0 < N) (hNB : N ≤ B) (hyc : 0 < ysc) :\n    Spec.Real (typedIO storage weight Bool.true Y X W ysr ysc xsr xsc N eps B ⊨\n      fun _ _ xs ws i => rowFormula N B eps xs ws i)"
+    },
+    {
+      "file": "bench/tritonbench_g/rms_norm_triton/Correct.lean",
+      "declaration": "original_real_correct",
+      "statement_sha256": "dbcf48ee3e58e3d091e7e5df368ab60bd4ff3cf1420337f05ae1af776b8cfe9b",
+      "line": 105,
+      "sha256": "67eb70010a74cbb512f1a5538890057d40eb4ac0ea9b34e9e1d6fc15a470b3ba",
+      "statement": "specification original_real_correct (storage weight : Storage) (Y X W : RegionName)\n    (ysr ysc xsr xsc N : Nat) (eps : ℝ) (B : Nat)\n    (hN : 0 < N) (hNB : N ≤ B) (hyc : 0 < ysc) :\n    Spec.Real (typedIO storage weight Bool.false Y X W ysr ysc xsr xsc N eps B ⊨\n      fun _ _ xs ws i => rowFormula N B eps xs ws i)"
+    },
+    {
+      "file": "bench/tritonbench_g/rms_norm_triton/Correct.lean",
+      "declaration": "typed_real_correct",
+      "statement_sha256": "3dfb0ab48af26204a659b54cd81780737d85c504be6cbf6e724c86661b34215a",
+      "line": 91,
+      "sha256": "67eb70010a74cbb512f1a5538890057d40eb4ac0ea9b34e9e1d6fc15a470b3ba",
+      "statement": "specification typed_real_correct (storage weight : Storage) (commuted : Bool)\n    (Y X W : RegionName) (ysr ysc xsr xsc N : Nat) (eps : ℝ) (B : Nat)\n    (_hN : 0 < N) (_hNB : N ≤ B) (hyc : 0 < ysc) :\n    Spec.Real (typedIO storage weight commuted Y X W ysr ysc xsr xsc N eps B ⊨\n      fun _ _ xs ws i => rowFormula N B eps xs ws i)"
+    },
+    {
+      "file": "bench/tritonbench_g/rms_norm_triton/FPEquiv.lean",
+      "declaration": "source_equivalence",
+      "statement_sha256": "f88d8afe918b8329e6ba2d7894cf0eae72871968a1d248eb2265f54c5ab4f731",
+      "line": 21,
+      "sha256": "1250d9f485e38bb9c3bdc86604ff36483ceb8bb7eee2355a34e0933e97726c40",
+      "statement": "specification source_equivalence (storage weight : Storage) (Y X W : RegionName)\n    (ysr ysc xsr xsc N : Nat) (eps : ℝ) (B : Nat) :\n    program storage weight Bool.false Y X W ysr ysc xsr xsc N eps B ≡[assumptions]\n      program storage weight Bool.true Y X W ysr ysc xsr xsc N eps B"
+    }
+  ],
+  "existing_proofs_preserved": "Complete row normalization, fp32 input conversion/runtime epsilon, zero padding, sqrt/division and the pre-weight destination cast are preserved across sixteen floating storage/weight pairs. Three public Real contracts include successful flattened execution and frame; typed address commutation preserves states/failure without numerical rules. SourceChecks proves all eleven statements and cast position. The mixed fp16/bf16 nonzero-pid witness uses exact Real arithmetic and identity casts.",
+  "production_stage_mapping": [
+    {
+      "function": "rms_norm_kernel",
+      "path": "bench/tritonbench_g/rms_norm_triton/rms_norm_triton.py",
+      "sha256": "dce88560afff1c21715628bab92d4ed89d0070ce6d3f343aa31e7c47c643498c",
+      "line": 7,
+      "end_line": 32,
+      "coverage": "Full typed row graph, Real output and relative equivalence for sixteen storage/weight pairs."
+    },
+    {
+      "function": "rms_norm",
+      "path": "bench/tritonbench_g/rms_norm_triton/rms_norm_triton.py",
+      "sha256": "dce88560afff1c21715628bab92d4ed89d0070ce6d3f343aa31e7c47c643498c",
+      "line": 52,
+      "end_line": 53,
+      "coverage": "Autograd apply dispatch to forward is not in public kernel contracts."
+    },
+    {
+      "function": "forward",
+      "path": "bench/tritonbench_g/rms_norm_triton/rms_norm_triton.py",
+      "sha256": "dce88560afff1c21715628bab92d4ed89d0070ce6d3f343aa31e7c47c643498c",
+      "line": 37,
+      "end_line": 49,
+      "coverage": "RmsNorm.forward computes M/N, next_power_of_two, contiguous copies, allocation and all-row launch; not composed."
+    }
+  ],
+  "test_harness_classification": "The top-level test_* helper only constructs examples and calls production; production does not call it. It remains in the hashed source inventory and is explicitly classified as a harness for this review.",
+  "dtype_review": "Input/output share storage as required by empty_like; weight is independent. Four storage constructors cover sixteen floating pairs; the original x and weight have no equivalent dtype guard.",
+  "branch_review": "Zero padding, masked stores, pre-weight cast and all floating pair promotion choices remain credited. N<=B matches the valid wrapper tile, not a one-block omission. Host shape/copy/dispatch remains separate.",
+  "structural_gaps": [
+    {
+      "id": "rms_norm_triton:general_typed_value",
+      "kind": "typed_value_execution",
+      "finding": "Public correctness uses typedIO with eraseDType; its source-equivalence theorem is relative. Execution.full_numerical_execution is a concrete exact-Real identity-cast witness. There is no general original value/frame theorem for the rounded sixteen-route graph.",
+      "why_blocks_full_original_scope": "The omitted source behavior needs an executing correspondence and coverage statement; a scalar numerical binding alone cannot supply it.",
+      "can_defer_as_numeric_assumption": false,
+      "evidence": [
+        {
+          "path": "bench/tritonbench_g/rms_norm_triton/Correct.lean",
+          "line": 82,
+          "end_line": 86,
+          "sha256": "67eb70010a74cbb512f1a5538890057d40eb4ac0ea9b34e9e1d6fc15a470b3ba",
+          "excerpt": "def typedIO (storage weight : Storage) (commuted : Bool) (Y X W : RegionName)\n    (ysr ysc xsr xsc N : Nat) (eps : ℝ) (B : Nat) : Masked2DKernelIO₂ :=\n  { rmsNormIO Y X W ysr ysc xsr xsc N eps B with\n    kernel := (typed storage weight commuted Y X W ysr ysc xsr xsc N eps B).eraseDType\n    projection := typed_supported storage weight commuted Y X W ysr ysc xsr xsc N eps B }"
+        },
+        {
+          "path": "bench/tritonbench_g/rms_norm_triton/Proofs/Execution.lean",
+          "line": 101,
+          "end_line": 105,
+          "sha256": "86963b2e0714824988325e0d6d089966c269372b1d9c5fb13bd9d657342c0b9e",
+          "excerpt": "theorem full_numerical_execution (commuted : Bool) :\n    ∃ t, FP.Structural.exec (engine model)\n      (typed .fp16 .bf16 commuted \"Y\" \"X\" \"W\" 6 2 3 2 1 7 2) initial = some t ∧\n      t.mem \"Y\" 6 = Cell.mk .fp16 (some (3/2 : ℝ)) ∧\n      t.mem \"Y\" 8 = Cell.mk .fp16 (some 99) := by"
+        }
+      ]
+    },
+    {
+      "id": "rms_norm_triton:full_storage_domain",
+      "kind": "dtype_domain",
+      "finding": "Storage only enumerates fp32/fp16/bf16/fp64, while forward accepts unrestricted x and weight tensors before contiguous copies and empty_like output. Remaining source-admitted paths or exact rejection behavior are unreviewed.",
+      "why_blocks_full_original_scope": "The omitted source behavior needs an executing correspondence and coverage statement; a scalar numerical binding alone cannot supply it.",
+      "can_defer_as_numeric_assumption": false,
+      "evidence": [
+        {
+          "path": "bench/tritonbench_g/rms_norm_triton/Kernels.lean",
+          "line": 82,
+          "end_line": 84,
+          "sha256": "639f6f38c2a342779e24bb7fee7c2fbd6c989fa0f07247fcb09c0e6458763459",
+          "excerpt": "inductive Storage where\n  | fp32 | fp16 | bf16 | fp64\n  deriving DecidableEq, Repr"
+        },
+        {
+          "path": "bench/tritonbench_g/rms_norm_triton/rms_norm_triton.py",
+          "line": 37,
+          "end_line": 45,
+          "sha256": "dce88560afff1c21715628bab92d4ed89d0070ce6d3f343aa31e7c47c643498c",
+          "excerpt": "    def forward(ctx, x, normalized_shape, weight, eps=1e-5):\n        dim = x.ndim - len(normalized_shape)\n        M = math.prod(x.shape[:dim])\n        N = math.prod(normalized_shape)\n\n        BLOCK_SIZE = triton.next_power_of_2(N)\n        x = x.contiguous()\n        weight = weight.contiguous()\n        y = torch.empty_like(x)"
+        }
+      ]
+    },
+    {
+      "id": "rms_norm_triton:autograd_shape_grid",
+      "kind": "host_stage_composition",
+      "finding": "The original computes M and N from normalized_shape, copies x/weight contiguously, allocates y, enters the CUDA device, launches M programs with N row strides and returns through RmsNorm.apply. Public row IO does not compose those stages.",
+      "why_blocks_full_original_scope": "The omitted source behavior needs an executing correspondence and coverage statement; a scalar numerical binding alone cannot supply it.",
+      "can_defer_as_numeric_assumption": false,
+      "evidence": [
+        {
+          "path": "bench/tritonbench_g/rms_norm_triton/rms_norm_triton.py",
+          "line": 35,
+          "end_line": 53,
+          "sha256": "dce88560afff1c21715628bab92d4ed89d0070ce6d3f343aa31e7c47c643498c",
+          "excerpt": "class RmsNorm(torch.autograd.Function):\n    @staticmethod\n    def forward(ctx, x, normalized_shape, weight, eps=1e-5):\n        dim = x.ndim - len(normalized_shape)\n        M = math.prod(x.shape[:dim])\n        N = math.prod(normalized_shape)\n\n        BLOCK_SIZE = triton.next_power_of_2(N)\n        x = x.contiguous()\n        weight = weight.contiguous()\n        y = torch.empty_like(x)\n\n        with torch.cuda.device(x.device):\n            rms_norm_kernel[M,](y, x, weight, N, 1, N, 1, N, eps, BLOCK_SIZE)\n        return y\n\n\ndef rms_norm(x, normalized_shape, weight, eps=1e-5):\n    return RmsNorm.apply(x, normalized_shape, weight, eps)"
+        }
+      ]
+    }
+  ],
+  "numerical_boundary": "Runtime epsilon, sqrt, ordered arithmetic and conversion conformance may be bound numerically; a concrete witness with identity casts does not supply a general typed value theorem.",
+  "precondition_assessment": "Per-program bounds, positive reduction width and injective/nonoverlapping output maps are legitimate selected-domain premises, not defects by themselves. Source-domain exclusions and absent host composition are recorded separately.",
+  "verification": {
+    "manual_production_functions_read": 3,
+    "actual_public_statements_reparsed": 4,
+    "key_source_helpers_read": true,
+    "new_lean_runs": 0,
+    "new_frontend_runs": 0,
+    "gpu_runs": 0,
+    "numerical_deferrals_registered": 0
+  }
+}

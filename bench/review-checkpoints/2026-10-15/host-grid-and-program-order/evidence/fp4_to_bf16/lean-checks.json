@@ -1,0 +1,30 @@
+[
+  {
+    "module": "bench/tritonbench_g/fp4_to_bf16/Proofs/HostSchedule.lean",
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lean",
+      "--root=/tmp/veritile-standardization-20261015/fp4-schedule-wip",
+      "-o",
+      "/tmp/veritile-standardization-20261015/fp4-schedule-wip/bench/tritonbench_g/fp4_to_bf16/Proofs/HostSchedule.olean",
+      "/tmp/veritile-standardization-20261015/fp4-schedule-wip/bench/tritonbench_g/fp4_to_bf16/Proofs/HostSchedule.lean"
+    ],
+    "exit_code": 0,
+    "source_sha256": "a1c7ab7477729d88a55e588bd3fabc95452589d3a905ecd18d6aab5138f3891b",
+    "log": "HostSchedule-final.log",
+    "log_sha256": "1665fea5c3754f3c82ac58e26673fb030518fcf9287068b1a7332d369aecdfbd"
+  },
+  {
+    "module": "bench/tritonbench_g/fp4_to_bf16/ScheduleCorrect.lean",
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lean",
+      "--root=/tmp/veritile-standardization-20261015/fp4-schedule-wip",
+      "-o",
+      "/tmp/veritile-standardization-20261015/fp4-schedule-wip/bench/tritonbench_g/fp4_to_bf16/ScheduleCorrect.olean",
+      "/tmp/veritile-standardization-20261015/fp4-schedule-wip/bench/tritonbench_g/fp4_to_bf16/ScheduleCorrect.lean"
+    ],
+    "exit_code": 0,
+    "source_sha256": "85929f3d191b0d1247b319765b1176fc79f26c442c273621d0b76a46a6c52a26",
+    "log": "ScheduleCorrect-final.log",
+    "log_sha256": "024da6dbb37a6569802480fd15bda0757f6291cfcdacd52bbbc68a005ca2a78c"
+  }
+]

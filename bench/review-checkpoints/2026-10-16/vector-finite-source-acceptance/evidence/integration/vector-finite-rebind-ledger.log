@@ -1,0 +1,21 @@
+{
+  "verified": 1,
+  "verified_with_deferred_numerics": 2,
+  "pending": 180,
+  "accepted_total": 3,
+  "catalog_public_declarations": 954,
+  "new_numerical_rules": 43,
+  "total_numerical_rules": 84,
+  "accepted_reviews_rebound": [
+    "matrix_transpose",
+    "relu_triton_kernel"
+  ],
+  "unrelated_scope_rows_unchanged": 180,
+  "exact_queue": {
+    "status": "passed",
+    "exact_bindings": 786,
+    "declaration_cases": 2999,
+    "native_executions": 0,
+    "structural_acceptance": false
+  }
+}

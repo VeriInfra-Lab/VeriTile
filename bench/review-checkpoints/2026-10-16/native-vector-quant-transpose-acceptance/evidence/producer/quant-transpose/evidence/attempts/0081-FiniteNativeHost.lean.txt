@@ -1,0 +1,244 @@
+import bench.tritonbench_g.quant_transpose_kernel.Proofs.FiniteNativeGrid
+
+namespace QuantTransposeFinite
+set_option maxHeartbeats 10000000
+set_option maxRecDepth 24000
+set_option linter.unusedSimpArgs false
+noncomputable section
+open Classical
+
+inductive NativeDiagnostic where
+  | host (failure : HostFailure)
+  | setup (failure : Rejected)
+  | backend (stage : Stage) (detail : String)
+  | cpuPointer
+  | gridLimit (requested : Nat)
+  | observation (issue : NativeIssue)
+
+structure NativeReturned where
+  memory : ByteMemory
+  tensors : Tensor × Tensor
+
+/-- Ordered ordinary launch primitives from the installed CUDA driver.
+Grid `PyArg_ParseTuple` precedes entry hook and all pointer extractors. This
+classifier states a first failure and never asserts postfailure GPU memory.
+In particular an exit-hook failure may follow native kernel side effects. -/
+def nativeLaunchAdmission (env : Environment) (device : Device) (M N : Nat) :
+    Except Rejected Unit := do
+  let check := fun stage => match env stage with
+    | none => Except.ok ()
+    | some detail => Except.error (Rejected.mk stage (.primitive detail))
+  check .driverContext
+  if ¬gridM M*gridN N<2^31 then throw ⟨.gridParse,.gridLimit (gridM M*gridN N)⟩
+  check .launchEnterHook
+  check .pointerPacking
+  if device==.cpu then throw ⟨.pointerPacking,.cpuPointer⟩
+  check .launch
+  check .launchExitHook
+
+/-- Source-first finite admission with the actual two dimensions. All host
+primitives and dtype gates precede driver setup; CPU membership is never a
+wrapper assertion. Oversized-grid parse failure precedes CPU pointer failure. -/
+def nativeAdmission (env : Environment) (device : Device) (d : DType)
+    (n rank : Nat) (unitStride : Bool) (M N : Nat) : Except Rejected Storage := do
+  let check := fun stage => match env stage with
+    | none => Except.ok ()
+    | some detail => Except.error (Rejected.mk stage (.primitive detail))
+  check .abs
+  if !absSupported device d then throw ⟨.abs,.unsupportedAbs⟩
+  check .maximum
+  if n=0 then throw ⟨.maximum,.emptyMaximum⟩
+  if !maxSupported d then throw ⟨.maximum,.unsupportedMaximum⟩
+  check .unsqueeze
+  check .reciprocal
+  if rank≠2 then throw ⟨.shapeUnpack,.shapeUnpack⟩
+  check .outputAllocation
+  if !unitStride then throw ⟨.inputStrideAssertion,.inputStrideAssertion⟩
+  check .signature
+  if d=.c32 ∨ d=.c64 ∨ d=.c128 then throw ⟨.signature,.unsupportedSignature⟩
+  check .compilation
+  if d=.fp16 ∨ d=.bf16 then throw ⟨.compilation,.unsupportedLlrint⟩
+  nativeLaunchAdmission env device M N
+  match route d with
+  | some r => pure r
+  | none => throw ⟨.signature,.unsupportedSignature⟩
+
+theorem native_admitted_route (d : Storage) (n M N : Nat) (hn : 0<n)
+    (hg : gridM M*gridN N<2^31) :
+    nativeAdmission (fun _ => none) .cuda (dtype d) n 2 Bool.true M N=.ok d := by
+  have hgrid : gridM M*gridN N<2147483648 := hg
+  cases d <;> simp [nativeAdmission,nativeLaunchAdmission,absSupported,maxSupported,dtype,route,Nat.ne_of_gt hn,hgrid,Nat.not_le.mpr hgrid] <;> rfl
+
+theorem native_grid_rejection (d : Storage) (n M N : Nat) (hn : 0<n)
+    (hg : ¬gridM M*gridN N<2^31) :
+    nativeAdmission (fun _ => none) .cuda (dtype d) n 2 Bool.true M N=
+      .error ⟨.gridParse,.gridLimit (gridM M*gridN N)⟩ := by
+  have hgrid : 2147483648≤gridM M*gridN N := by omega
+  cases d <;> simp [nativeAdmission,nativeLaunchAdmission,absSupported,maxSupported,dtype,route,Nat.ne_of_gt hn,hgrid] <;> rfl
+
+theorem native_small_dtype_inventory :
+    profiles.map (fun d => nativeAdmission (fun _ => none) .cuda d 3 2 Bool.true 3 1)=observedCuda := by decide +kernel
+
+/-- Grid parsing does not inspect pointer/launch outcomes, so simultaneous
+failures cannot reverse source precedence. The context primitive still runs first. -/
+theorem native_grid_before_pointer (env : Environment) (device : Device) (M N : Nat)
+    (hc : env .driverContext=none) (hg : ¬gridM M*gridN N<2^31) :
+    nativeLaunchAdmission env device M N=.error ⟨.gridParse,.gridLimit (gridM M*gridN N)⟩ := by
+  have hgrid : 2147483648≤gridM M*gridN N := by omega
+  simp [nativeLaunchAdmission,hc,hgrid]
+  rfl
+
+theorem cpu_oversized_grid_first_error :
+    nativeAdmission (fun _ => none) .cpu .fp32 (2^38) 2 Bool.true (2^38) 1=
+      .error ⟨.gridParse,.gridLimit (2^31)⟩ := by decide +kernel
+
+theorem cpu_small_grid_pointer_error :
+    nativeAdmission (fun _ => none) .cpu .fp32 4 2 Bool.true 4 1=
+      .error ⟨.pointerPacking,.cpuPointer⟩ := by decide +kernel
+
+theorem cpu_half_compilation_before_oversized_grid :
+    nativeAdmission (fun _ => none) .cpu .fp16 (2^38) 2 Bool.true (2^38) 1=
+      .error ⟨.compilation,.unsupportedLlrint⟩ := by decide +kernel
+
+theorem native_cpu_pointer_before_launch (env : Environment) (M N : Nat)
+    (hc : env .driverContext=none) (he : env .launchEnterHook=none)
+    (hp : env .pointerPacking=none) (hg : gridM M*gridN N<2^31) :
+    nativeLaunchAdmission env .cpu M N=.error ⟨.pointerPacking,.cpuPointer⟩ := by
+  have hgrid : gridM M*gridN N<2147483648 := hg
+  simp [nativeLaunchAdmission,hc,he,hp,Nat.not_le.mpr hgrid]
+  rfl
+
+theorem native_context_before_grid (env : Environment) (device : Device) (M N : Nat)
+    (detail : String) (hc : env .driverContext=some detail) :
+    nativeLaunchAdmission env device M N=.error ⟨.driverContext,.primitive detail⟩ := by
+  simp [nativeLaunchAdmission,hc]
+  rfl
+
+/-- The original producer executes before its exact finite-address launches.
+The observed undefined/access branches make no claim about native exceptions
+or post-failure memory. The target grid limit is a launch prerequisite. -/
+def executeNativeHost (b : Numerics) (env : Environment) (d : Storage) (a : Input)
+    (alloc : Allocations) (m : Memory) (x : String) (p : PhysicalLayout)
+    (trials : List Config) (last : Config) : Except NativeDiagnostic NativeReturned :=
+  match prepare b env d a alloc m x with
+  | .error issue => .error (.host issue)
+  | .ok prepared => match env .signature,env .compilation with
+    | some issue,_ => .error (.backend .signature issue)
+    | none,some issue => .error (.backend .compilation issue)
+    | none,none => match nativeLaunchAdmission env (if a.isCuda then .cuda else .cpu) a.M a.N with
+      | .error issue => .error (.setup issue)
+      | .ok () => match executeNativeTrials b d a alloc p (trials++[last])
+          (hostPhysical d p prepared.maximum prepared.inverse) with
+        | .error issue => .error (.observation issue)
+        | .ok memory => .ok ⟨memory,(outputTensor a alloc,maximumTensor d a alloc)⟩
+
+inductive NativeAPIResult where
+  | rejected (why : Rejected)
+  | attempted (route : Storage) (outcome : Except NativeDiagnostic NativeReturned)
+
+/-- Exact canonical dtype/source-first admission, followed by actual-address
+execution on each admitted route. Admission never depends on final values. -/
+def executeNativeAPI (b : Numerics) (env : Environment) (dt : DType) (a : Input)
+    (alloc : Allocations) (m : Memory) (x : String) (p : PhysicalLayout)
+    (trials : List Config) (last : Config) : NativeAPIResult :=
+  match nativeAdmission env (if a.isCuda then .cuda else .cpu) dt a.numel a.shape.length
+      (decide (a.sam=1 ∨ a.san=1)) a.M a.N with
+  | .error issue => .rejected issue
+  | .ok d => .attempted d (executeNativeHost b env d a alloc m x p trials last)
+
+/-- Independent successful-byte specification. The trace is determined by
+all programs, all masks, actual-address reads and independent numerical values.
+Every untouched byte retains its original allocated or host-produced content. -/
+def NativeResult (b : Numerics) (d : Storage) (a : Input) (alloc : Allocations)
+    (p : PhysicalLayout) (maximum : Word d) (trials : List Config) (last : Config)
+    (ret : NativeReturned) : Prop :=
+  ret.tensors=(outputTensor a alloc,maximumTensor d a alloc) ∧
+  ∃ writes, nativeTrialsPlan b d a alloc p (hostPhysical d p maximum (b.reciprocal d maximum))
+      (trials++[last])=.ok writes ∧
+    ret.memory=applyNativeWrites writes (hostPhysical d p maximum (b.reciprocal d maximum)) ∧
+    (∀ address, ret.memory address=nativeByteResult writes
+      (hostPhysical d p maximum (b.reciprocal d maximum)) address) ∧
+    OutsideOutput p ret.memory (hostPhysical d p maximum (b.reciprocal d maximum))
+
+theorem native_rejected_source_outcome (b : Numerics) (env : Environment) (dt : DType)
+    (a : Input) (alloc : Allocations) (m : Memory) (x : String) (p : PhysicalLayout)
+    (trials : List Config) (last : Config) (why : Rejected)
+    (h : nativeAdmission env (if a.isCuda then .cuda else .cpu) dt a.numel a.shape.length
+      (decide (a.sam=1 ∨ a.san=1)) a.M a.N=.error why) :
+    executeNativeAPI b env dt a alloc m x p trials last=.rejected why := by
+  rw [executeNativeAPI,h]
+
+theorem native_host_all_outcomes (b : Numerics) (d : Storage) (a : Input)
+    (alloc : Allocations) (m : Memory) (x : String) (logical : List (Word d))
+    (xs : Nat → Word d) (p : PhysicalLayout) (D : Domain d a alloc m x logical xs)
+    (P : PhysicalBinding d a alloc m x p) (nonempty : 0<a.numel)
+    (rank : a.shape.length=2) (stride : a.sam=1 ∨ a.san=1) (cuda : a.isCuda=Bool.true)
+    (trials : List Config) (last : Config) :
+    ∃ maximum, produced b d logical=some maximum ∧
+      ((¬gridSupported a ∧ executeNativeAPI b (fun _ => none) (dtype d) a alloc m x p trials last=
+          .rejected ⟨.gridParse,.gridLimit (gridM a.M*gridN a.N)⟩) ∨
+       (gridSupported a ∧ ∃ issue,
+          nativeTrialsPlan b d a alloc p (hostPhysical d p maximum (b.reciprocal d maximum))
+            (trials++[last])=.error issue ∧
+          executeNativeAPI b (fun _ => none) (dtype d) a alloc m x p trials last=
+            .attempted d (.error (.observation issue))) ∨
+       (gridSupported a ∧ ∃ ret,
+          executeNativeAPI b (fun _ => none) (dtype d) a alloc m x p trials last=.attempted d (.ok ret) ∧
+          NativeResult b d a alloc p maximum trials last ret)) := by
+  have hlen : a.logicalOffsets.length=logical.length := List.Forall₂.length_eq D.logical
+  have hne : logical≠[] := by
+    intro he
+    have hz : a.logicalOffsets.length=0 := by simpa only [he,List.length_nil] using hlen
+    have hc := D.metadataCount
+    omega
+  cases logical with
+  | nil => exact (hne rfl).elim
+  | cons head tail =>
+    let maximum := b.maximum d (b.abs d head) (tail.map (b.abs d))
+    have hm : produced b d (head::tail)=some maximum := rfl
+    refine ⟨maximum,hm,?_⟩
+    have hp := prepare_success b d a alloc m x (head::tail) maximum D.logical hm rank stride
+    by_cases hg : gridSupported a
+    · have hgrid : gridM a.M*gridN a.N<2147483648 := hg
+      have hr := native_admitted_route d a.numel a.M a.N nonempty hg
+      have hc := native_trials_correspondence b d a alloc p
+        (hostPhysical d p maximum (b.reciprocal d maximum)) P.inputOutput P.inverseOutput
+        (trials++[last]) _ (outside_output_refl p _)
+      cases ht : nativeTrialsPlan b d a alloc p
+          (hostPhysical d p maximum (b.reciprocal d maximum)) (trials++[last]) with
+      | error issue =>
+        right; left
+        refine ⟨hg,issue,rfl,?_⟩
+        simp only [ht,Except.map] at hc
+        simp [executeNativeAPI,cuda,rank,stride,hr,executeNativeHost,hp,hg,hc,nativeLaunchAdmission,gridSupported,Nat.not_le.mpr hgrid]
+      | ok writes =>
+        right; right
+        simp only [ht,Except.map] at hc
+        refine ⟨hg,⟨applyNativeWrites writes (hostPhysical d p maximum (b.reciprocal d maximum)),
+          (outputTensor a alloc,maximumTensor d a alloc)⟩,?_,?_⟩
+        · simp [executeNativeAPI,cuda,rank,stride,hr,executeNativeHost,hp,hg,hc,nativeLaunchAdmission,gridSupported,Nat.not_le.mpr hgrid]
+        · refine ⟨rfl,writes,ht,rfl,?_,?_⟩
+          · exact writes_pointwise writes _
+          · exact writes_outside_output p writes _
+              (native_trials_write_bounds b d a alloc p _ _ writes ht)
+    · left
+      have hr := native_grid_rejection d a.numel a.M a.N nonempty hg
+      refine ⟨hg,?_⟩
+      simp [executeNativeAPI,cuda,rank,stride,hr]
+
+#specNonCircular NativeResult avoiding [executeNativeAPI,executeNativeHost,executeNativeTrials,executeNativeGrid,executeNativeProgram,source,Expr.eval]
+#axiomsClean native_host_all_outcomes
+#axiomsClean native_cpu_pointer_before_launch
+#axiomsClean native_context_before_grid
+#axiomsClean native_admitted_route
+#axiomsClean native_grid_rejection
+#axiomsClean native_small_dtype_inventory
+#axiomsClean native_grid_before_pointer
+#axiomsClean cpu_oversized_grid_first_error
+#axiomsClean cpu_small_grid_pointer_error
+#axiomsClean cpu_half_compilation_before_oversized_grid
+#axiomsClean native_rejected_source_outcome
+#guard_msgs (drop info) in
+#auditModuleAxioms
+end
+end QuantTransposeFinite

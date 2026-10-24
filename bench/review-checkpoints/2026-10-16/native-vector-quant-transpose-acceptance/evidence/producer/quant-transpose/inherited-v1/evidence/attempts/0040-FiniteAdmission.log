@@ -1,0 +1,4 @@
+QuantTransposeFinite.quant_transpose_dtype_admission_inventory: axiom footprint ⊆ standard base ✓  ([propext])
+QuantTransposeFinite.admitted_route: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+QuantTransposeFinite.route_signature: axiom footprint ⊆ standard base ✓  ([propext])
+QuantTransposeFinite.first_primitive_failure: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])

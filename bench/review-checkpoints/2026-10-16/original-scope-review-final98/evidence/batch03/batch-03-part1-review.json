@@ -1,0 +1,785 @@
+{
+  "schema": 1,
+  "kind": "original_scope_batch_review",
+  "batch": 3,
+  "part": "part1",
+  "reviewer": "/root/scope_remaining_cohort",
+  "reviewed_base_commit": "fc183f5dae5e3f09f549b8151a9a1e4c366beb02",
+  "catalog_sha256": "ef0da28a4c601f9841664431013d72e565ec5497cf21ba3e7be692c440d1a3fe",
+  "source_ledger_snapshot_sha256": "1ab85dd84363a55b2ae495806c0ef894106061a57dbf25921f403bd559adc137",
+  "task_count": 4,
+  "structural_gaps_confirmed": 4,
+  "whole_original_program_accepted": 0,
+  "completion_increment": 0,
+  "public_declarations_checked": 12,
+  "structural_gap_count": 10,
+  "catalog_declaration_metadata_discrepancies": [],
+  "integration_note": "Read-only source scope audit. Existing partial proofs remain credited. No numerical deferrals or original-program acceptance registered. Root substantive review is required before integration.",
+  "tasks": [
+    {
+      "schema": 1,
+      "kind": "original_scope_gap_review",
+      "reviewer": "/root/scope_remaining_cohort",
+      "reviewed_at_utc": "2026-10-15T19:01:21.030372+00:00",
+      "reviewed_base_commit": "fc183f5dae5e3f09f549b8151a9a1e4c366beb02",
+      "catalog": {
+        "path": "bench/review-checkpoints/2026-10-16/relu-source-grid-and-exact-numerics/current-source-catalog.json",
+        "sha256": "ef0da28a4c601f9841664431013d72e565ec5497cf21ba3e7be692c440d1a3fe"
+      },
+      "task": "chunk_gla_simple",
+      "status": "structural_gaps_confirmed",
+      "whole_original_program_accepted": false,
+      "completion_increment": 0,
+      "existing_proofs_preserved": "Complete K-block loop, history and local-score dots, exponential gates, causal mask, value cast/dot, scale and output store are represented. Real IO proves tile results and frame with explicit zero unspecified-value premise. Relative FP equivalence and a complete mixed fp16/bf16 abstract two-iteration execution with nonzero pids and tails remain credited; its dot/exp callbacks returning one are not native validation.",
+      "production_stage_mapping": [
+        {
+          "function": "chunk_simple_gla_fwd_kernel_o",
+          "coverage": "Complete per-program body and all K iterations are represented for selected typed profiles.",
+          "path": "bench/tritonbench_g/chunk_gla_simple/chunk_gla_simple.py",
+          "line": 14,
+          "end_line": 66,
+          "sha256": "4822daca85e4b72d0aef46583ec015901e63a783739035caecc4df273c157ba8",
+          "stage_id": "stage:bench/tritonbench_g/chunk_gla_simple/chunk_gla_simple.py:14:chunk_simple_gla_fwd_kernel_o"
+        },
+        {
+          "function": "chunk_fwd_o_fn",
+          "coverage": "Allocation, BK/BV selection, strides and complete (NV, NT, B*H) launch are not composed into a returned-tensor theorem.",
+          "path": "bench/tritonbench_g/chunk_gla_simple/chunk_gla_simple.py",
+          "line": 68,
+          "end_line": 85,
+          "sha256": "4822daca85e4b72d0aef46583ec015901e63a783739035caecc4df273c157ba8",
+          "stage_id": "stage:bench/tritonbench_g/chunk_gla_simple/chunk_gla_simple.py:68:chunk_fwd_o_fn"
+        }
+      ],
+      "dtype_review": "The 27 dot/value/gate profiles use fp32/fp16/bf16; q,k,h share dotStorage and output is FloatDType. Original supplied tensors are not guarded by these equality/type restrictions. Other admitted or rejected combinations need an explicit boundary.",
+      "branch_review": "The causal branch and tail masks are retained. The real formula is proved under zero unspecified values; original boundary_checked loads omit padding_option. This is not a claim that Triton supplies zeros.",
+      "structural_gaps": [
+        {
+          "id": "CHUNK_GLA_SIMPLE-S1",
+          "kind": "wrapper_allocation_and_grid",
+          "finding": "The public IO observes one value/chunk/head program; the wrapper allocates o and selects/launches all NV by NT by B*H programs.",
+          "why_blocks_full_original_scope": "No returned-tensor composition relates wrapper strides and selected blocks to all output cells.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 68,
+              "end_line": 85,
+              "path": "bench/tritonbench_g/chunk_gla_simple/chunk_gla_simple.py",
+              "sha256": "4822daca85e4b72d0aef46583ec015901e63a783739035caecc4df273c157ba8",
+              "excerpt": "def chunk_fwd_o_fn(h, q, k, v, g, BT, scale):\n    # Kernel call\n    B, H, T, K, V = *k.shape, v.shape[-1]\n    o = torch.empty_like(v)\n    BK = min(triton.next_power_of_2(K), 64)\n    BV = min(triton.next_power_of_2(V), 64)\n    NV = triton.cdiv(V, BV)\n    NT = triton.cdiv(T, BT)\n    grid = (NV, NT, B * H)\n    chunk_simple_gla_fwd_kernel_o[grid](\n        q, k, v, h, g, o,\n        q.stride(1), q.stride(2),\n        v.stride(1), v.stride(2),\n        h.stride(1), h.stride(2),\n        scale,\n        T=T, K=K, V=V, BT=BT, BK=BK, BV=BV\n    )\n    return o"
+            },
+            {
+              "line": 20,
+              "end_line": 31,
+              "path": "bench/tritonbench_g/chunk_gla_simple/Correct.lean",
+              "sha256": "bf56aa16f2210e881fd01ca9fe56762ae22099b21505ac25bff0cb6893b0ba82",
+              "excerpt": "def original (p : Layout) (r : Regions) (dot value gate : Storage) (out : FloatDType) (scale : ℝ) :\n    IO Launch Inputs (TileIndex [p.BT,p.BV]) where\n  kernel := (ChunkGlaSimple.original dot value gate out r.query r.key r.value r.history r.gate r.output\n    p.keyHead p.keyTime p.valueHead p.valueTime p.historyHead p.historyKey scale p.T p.K p.V p.BT p.BK p.BV).eraseDType\n  projection := RealIO.projection p r dot value gate out scale Bool.false\n  grid := fun s => ⟨s.pids 0,s.pids 1,s.pids 2⟩\n  read := fun s => ⟨s.readMem r.query,s.readMem r.key,s.readMem r.value,s.readMem r.history,s.readMem r.gate⟩\n  valid := fun s => NoCollision p (launch s)\n  bounds := fun s => Safe.Bounds p (launch s) r\n  out := r.output\n  write := fun l i => l.head*p.valueHead+(l.chunk*p.BT+i.1.val)*p.valueTime+(l.value*p.BV+i.2.1.val)\n  mask := fun l i => l.chunk*p.BT+i.1.val < p.T ∧ l.value*p.BV+i.2.1.val < p.V"
+            }
+          ]
+        },
+        {
+          "id": "CHUNK_GLA_SIMPLE-S2",
+          "kind": "dtype_and_operand_sharing_admission",
+          "finding": "Formal q,k,h share one of three Storage constructors, while source accepts independently supplied tensors without such guard.",
+          "why_blocks_full_original_scope": "Missing routes or explicit source admission/rejection cases are structural before any dot/cast assumptions can be deferred.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 15,
+              "end_line": 17,
+              "path": "bench/tritonbench_g/chunk_gla_simple/Kernels.lean",
+              "sha256": "374064e91a018398dac1e1f5df8f6d0a4c3b946663c37508649669dcda91b0dd",
+              "excerpt": "inductive Storage where\n  | fp32 | fp16 | bf16\n  deriving DecidableEq"
+            },
+            {
+              "line": 29,
+              "end_line": 34,
+              "path": "bench/tritonbench_g/chunk_gla_simple/Kernels.lean",
+              "sha256": "374064e91a018398dac1e1f5df8f6d0a4c3b946663c37508649669dcda91b0dd",
+              "excerpt": "    `(fun (out_dtype : FloatDType) (q k v h g o : RegionName)\n        (s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t : Nat)\n        (scale : ℝ) (T K V BT BK BV : Nat) =>\n      ComputeKernel.mk [q,k,v,h,g] [o] (triton {\n        tl.region q = $dotTy, k = $dotTy, h = $dotTy, v = $vTy, g = $gTy, o = OUT_DTYPE\n        i_v = tl.program_id(0)"
+            },
+            {
+              "line": 68,
+              "end_line": 83,
+              "path": "bench/tritonbench_g/chunk_gla_simple/chunk_gla_simple.py",
+              "sha256": "4822daca85e4b72d0aef46583ec015901e63a783739035caecc4df273c157ba8",
+              "excerpt": "def chunk_fwd_o_fn(h, q, k, v, g, BT, scale):\n    # Kernel call\n    B, H, T, K, V = *k.shape, v.shape[-1]\n    o = torch.empty_like(v)\n    BK = min(triton.next_power_of_2(K), 64)\n    BV = min(triton.next_power_of_2(V), 64)\n    NV = triton.cdiv(V, BV)\n    NT = triton.cdiv(T, BT)\n    grid = (NV, NT, B * H)\n    chunk_simple_gla_fwd_kernel_o[grid](\n        q, k, v, h, g, o,\n        q.stride(1), q.stride(2),\n        v.stride(1), v.stride(2),\n        h.stride(1), h.stride(2),\n        scale,\n        T=T, K=K, V=V, BT=BT, BK=BK, BV=BV"
+            }
+          ]
+        },
+        {
+          "id": "CHUNK_GLA_SIMPLE-S3",
+          "kind": "unspecified_padding_scope",
+          "finding": "Current flat Real theorem requires s.undef=0; the original block loads use boundary_check without padding_option.",
+          "why_blocks_full_original_scope": "The original partial-tile behavior needs an arbitrary-padding characterization or a proved independence/admission condition; a numerical rounding registration cannot imply zero padding.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 48,
+              "end_line": 57,
+              "path": "bench/tritonbench_g/chunk_gla_simple/chunk_gla_simple.py",
+              "sha256": "4822daca85e4b72d0aef46583ec015901e63a783739035caecc4df273c157ba8",
+              "excerpt": "        b_q = tl.load(p_q, boundary_check=(0, 1))\n        # [BK, BT]\n        b_k = tl.load(p_k, boundary_check=(0, 1))\n        # [BK, BV]\n        b_h = tl.load(p_h, boundary_check=(0, 1))\n        b_o += tl.dot(b_q, b_h, allow_tf32=False)\n        b_s += tl.dot(b_q, b_k, allow_tf32=False)\n\n    p_g = tl.make_block_ptr(g + i_bh * T, (T,), (1,), (i_t * BT,), (BT,), (0,))\n    b_g = tl.load(p_g, boundary_check=(0,))"
+            },
+            {
+              "line": 33,
+              "end_line": 38,
+              "path": "bench/tritonbench_g/chunk_gla_simple/Proofs/RealFlat.lean",
+              "sha256": "4f01ee713e8763d1d460409aa466b70fced3c6d3abb30a489c94a862639a9430",
+              "excerpt": "  · simp only [FlatAlloc.flattenState,if_neg hr]\n\ntheorem source_executes (p : Layout) (r : Regions) (dot value gate : Storage) (out : FloatDType) (scale : ℝ)\n    (swapped : Bool) (alloc : FlatAlloc) (hd : alloc.Disjoint)\n    (hcov : ∀ r, r ∉ alloc.regions → alloc.extent r = 0) (s : BlockState)\n    (hu : s.undef = fun _ _ => 0) (hinj : NoCollision p (launch s))"
+            }
+          ]
+        }
+      ],
+      "numerical_items_eligible_for_explicit_deferral": [
+        "Represented dot schedules, exp, casts, accumulation and scale commute assumptions may be registered per exact profile. Unspecified-padding behavior is a separate source-semantic question."
+      ],
+      "precondition_assessment": "The existing bounds, nonoverlap, positive tile size and valid-address premises are legitimate selected-domain assumptions. No unrestricted invalid-input behavior or hypothetical hardware defect is demanded. Missing wrapper composition and dtype admission are separate structural questions.",
+      "source_sha256": {
+        "bench/tritonbench_g/chunk_gla_simple/chunk_gla_simple.py": "4822daca85e4b72d0aef46583ec015901e63a783739035caecc4df273c157ba8",
+        "bench/tritonbench_g/chunk_gla_simple/Correct.lean": "bf56aa16f2210e881fd01ca9fe56762ae22099b21505ac25bff0cb6893b0ba82",
+        "bench/tritonbench_g/chunk_gla_simple/FPEquiv.lean": "6774d20a182f79cea943e59123651a212593b4e302bd1ff05081e8631f4fa359",
+        "bench/tritonbench_g/chunk_gla_simple/Kernels.lean": "374064e91a018398dac1e1f5df8f6d0a4c3b946663c37508649669dcda91b0dd",
+        "bench/tritonbench_g/chunk_gla_simple/Proofs/RealFlat.lean": "4f01ee713e8763d1d460409aa466b70fced3c6d3abb30a489c94a862639a9430",
+        "bench/tritonbench_g/chunk_gla_simple/Proofs/TypedExecution.lean": "707e3a08ae28901c018da6cfdf64c9e5b7776bd10649325567935a64d9884978"
+      },
+      "all_input_sha256": {
+        "lean": {
+          "bench/tritonbench_g/chunk_gla_simple/Correct.lean": "bf56aa16f2210e881fd01ca9fe56762ae22099b21505ac25bff0cb6893b0ba82",
+          "bench/tritonbench_g/chunk_gla_simple/FPEquiv.lean": "6774d20a182f79cea943e59123651a212593b4e302bd1ff05081e8631f4fa359",
+          "bench/tritonbench_g/chunk_gla_simple/Kernels.lean": "374064e91a018398dac1e1f5df8f6d0a4c3b946663c37508649669dcda91b0dd",
+          "bench/tritonbench_g/chunk_gla_simple/Proofs/FP.lean": "717f0753f835152712ab62ca0f0f9a82631d39e61a930f7d8a1f03dcfeb13960",
+          "bench/tritonbench_g/chunk_gla_simple/Proofs/RealExecution.lean": "0a130eb98579b1535e8347152218595fe77074c292f2772a703db240f23b52a4",
+          "bench/tritonbench_g/chunk_gla_simple/Proofs/RealFlat.lean": "4f01ee713e8763d1d460409aa466b70fced3c6d3abb30a489c94a862639a9430",
+          "bench/tritonbench_g/chunk_gla_simple/Proofs/RealMath.lean": "832ce6029ecf90212682da92fdec214d74417164564b92f3257c239baf5168ce",
+          "bench/tritonbench_g/chunk_gla_simple/Proofs/RealProgram.lean": "bb775ac828f4bc161f74eb7087a13a7793aa607b7b4d048bb86d9f474eb33b86",
+          "bench/tritonbench_g/chunk_gla_simple/Proofs/RealSafety.lean": "9f6cb052db81a26f82bb7510d45a89aaa526e1a74dd064d17bf18df93ac39cea",
+          "bench/tritonbench_g/chunk_gla_simple/Proofs/RealStep.lean": "5ce732f5a137561378f9facba13558736163195bb3b2a0159533a9c27ee4d8e7",
+          "bench/tritonbench_g/chunk_gla_simple/Proofs/TypedExecution.lean": "707e3a08ae28901c018da6cfdf64c9e5b7776bd10649325567935a64d9884978"
+        },
+        "python": {
+          "bench/tritonbench_g/chunk_gla_simple/chunk_gla_simple.py": "4822daca85e4b72d0aef46583ec015901e63a783739035caecc4df273c157ba8"
+        }
+      },
+      "public_declarations_checked": [
+        {
+          "file": "bench/tritonbench_g/chunk_gla_simple/Correct.lean",
+          "declaration": "original_correct",
+          "parser_name": "original_correct",
+          "line": 53,
+          "sha256": "bf56aa16f2210e881fd01ca9fe56762ae22099b21505ac25bff0cb6893b0ba82",
+          "statement_sha256": "f2878da5f2adbfa0ea84895cd39470a5314dfb5dc680bf19d09bdd8837ba9263",
+          "statement": "specification original_correct (p : Layout) (r : Regions) (dot value gate : Storage) (out : FloatDType) (scale : ℝ) :\n    original p r dot value gate out scale ⊨ formula p scale"
+        },
+        {
+          "file": "bench/tritonbench_g/chunk_gla_simple/Correct.lean",
+          "declaration": "scaleFirst_correct",
+          "parser_name": "scaleFirst_correct",
+          "line": 57,
+          "sha256": "bf56aa16f2210e881fd01ca9fe56762ae22099b21505ac25bff0cb6893b0ba82",
+          "statement_sha256": "9ec0d6a36eda624739c9ee38150b45acfee2372bc4a090deff94cfb92ddf3754",
+          "statement": "specification scaleFirst_correct (p : Layout) (r : Regions) (dot value gate : Storage) (out : FloatDType) (scale : ℝ) :\n    scaleFirst p r dot value gate out scale ⊨ formula p scale"
+        },
+        {
+          "file": "bench/tritonbench_g/chunk_gla_simple/FPEquiv.lean",
+          "declaration": "scale_equiv",
+          "parser_name": "scale_equiv",
+          "line": 32,
+          "sha256": "6774d20a182f79cea943e59123651a212593b4e302bd1ff05081e8631f4fa359",
+          "statement_sha256": "803203e6578e16d93679c002b2e8bdcb98c745d9b08fe2a19da9b21ee29f6b09",
+          "statement": "specification scale_equiv (R : FP.ScalarArithmetic.Rules) :\n    original dotStorage valueStorage gateStorage out q k v h g o\n      s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t scale T K V BT BK BV ≡[R]\n    scaleFirst dotStorage valueStorage gateStorage out q k v h g o\n      s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t scale T K V BT BK BV"
+        }
+      ],
+      "catalog_declaration_metadata_discrepancies": [],
+      "dtype_scope_caveat": "No unsupported dtype is assumed to compile merely because a Python wrapper admits it. Missing-route findings require either the actual supported conversion route or a precise admission/rejection contract; they do not demand arbitrary compiler internals.",
+      "verification": {
+        "manual_original_production_functions_read": 2,
+        "actual_public_statements_reparsed_and_hash_checked": 3,
+        "key_source_and_referenced_definition_review": true,
+        "source_matches_baseline_scope_inputs": true,
+        "generated_selector_check": null,
+        "new_lean_runs": 0,
+        "new_frontend_runs": 0,
+        "gpu_runs": 0,
+        "numerical_deferrals_registered_by_this_read_only_review": 0
+      }
+    },
+    {
+      "schema": 1,
+      "kind": "original_scope_gap_review",
+      "reviewer": "/root/scope_remaining_cohort",
+      "reviewed_at_utc": "2026-10-15T19:01:21.075129+00:00",
+      "reviewed_base_commit": "fc183f5dae5e3f09f549b8151a9a1e4c366beb02",
+      "catalog": {
+        "path": "bench/review-checkpoints/2026-10-16/relu-source-grid-and-exact-numerics/current-source-catalog.json",
+        "sha256": "ef0da28a4c601f9841664431013d72e565ec5497cf21ba3e7be692c440d1a3fe"
+      },
+      "task": "softmax_triton3",
+      "status": "structural_gaps_confirmed",
+      "whole_original_program_accepted": false,
+      "completion_increment": 0,
+      "existing_proofs_preserved": "Both masked and unmasked complete stable-softmax bodies, explicit fp32 input/mask conversions, output storage cast, successful execution, active values and frame are proved in erased Real semantics for all nine fp32/fp16/bf16 input/mask profiles. Relative reciprocal equivalence retains the explicit division assumption.",
+      "production_stage_mapping": [
+        {
+          "function": "softmax_kernel",
+          "coverage": "Both has-mask branches and all reduction/normalization/store stages are represented.",
+          "path": "bench/tritonbench_g/softmax_triton3/softmax_triton3.py",
+          "line": 8,
+          "end_line": 37,
+          "sha256": "35319b17855a19c2cc7a8d39be0cbb4ee8f8cebb94d080dd17f59f04f583020d",
+          "stage_id": "stage:bench/tritonbench_g/softmax_triton3/softmax_triton3.py:8:softmax_kernel"
+        },
+        {
+          "function": "softmax",
+          "coverage": "Shape/dim checks, view branches, warp thresholds and two row-count dispatches remain outside a whole wrapper theorem.",
+          "path": "bench/tritonbench_g/softmax_triton3/softmax_triton3.py",
+          "line": 39,
+          "end_line": 82,
+          "sha256": "35319b17855a19c2cc7a8d39be0cbb4ee8f8cebb94d080dd17f59f04f583020d",
+          "stage_id": "stage:bench/tritonbench_g/softmax_triton3/softmax_triton3.py:39:softmax"
+        }
+      ],
+      "dtype_review": "Storage lists fp32/fp16/bf16 for input and mask; output inherits input. Source has no corresponding three-type guard, so other admitted/rejected load-conversion-store routes remain unbound.",
+      "branch_review": "Mask None/present is already proved in the kernel. For num_rows>350000 the source passes n_rows and BLOCK_M, absent from softmax_kernel parameters; this branch must be characterized as written, including actual rejection if applicable, rather than silently repaired to a tiled algorithm.",
+      "structural_gaps": [
+        {
+          "id": "SOFTMAX_TRITON3-S1",
+          "kind": "host_branch_and_dispatch_behavior",
+          "finding": "The >350000-row branch passes n_rows and BLOCK_M although softmax_kernel has neither parameter; no public contract covers this branch or wrapper assertions/views.",
+          "why_blocks_full_original_scope": "The user requires every original branch, including this exact launch behavior; existing per-row proofs do not establish a successful or rejecting wrapper outcome.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 8,
+              "end_line": 8,
+              "path": "bench/tritonbench_g/softmax_triton3/softmax_triton3.py",
+              "sha256": "35319b17855a19c2cc7a8d39be0cbb4ee8f8cebb94d080dd17f59f04f583020d",
+              "excerpt": "def softmax_kernel(output_ptr, input_ptr, row_stride, n_cols, mask_ptr, BLOCK_SIZE: tl.constexpr):"
+            },
+            {
+              "line": 39,
+              "end_line": 50,
+              "path": "bench/tritonbench_g/softmax_triton3/softmax_triton3.py",
+              "sha256": "35319b17855a19c2cc7a8d39be0cbb4ee8f8cebb94d080dd17f59f04f583020d",
+              "excerpt": "def softmax(input: torch.Tensor, mask: torch.Tensor = None, dim=-1) -> torch.Tensor:\n    if mask is not None:\n        # assert input[-1] == mask[-1], \"the last dimentions should be the same for input and mask\"\n        assert input.shape[-1] == mask.shape[-1], \"the last dimensions should be the same for input and mask\"\n    assert dim == -1 or dim == len(input.shape) - 1, \"currently softmax layer only support last dimention\"\n\n    hidden_dim = input.shape[-1]\n    output = torch.empty_like(input)\n    input = input.view(-1, hidden_dim)\n    if mask is not None:\n        mask = mask.view(-1, hidden_dim)\n        assert input.shape[0] == mask.shape[0], \"the fist dimention of mask and input should be the same\""
+            },
+            {
+              "line": 52,
+              "end_line": 82,
+              "path": "bench/tritonbench_g/softmax_triton3/softmax_triton3.py",
+              "sha256": "35319b17855a19c2cc7a8d39be0cbb4ee8f8cebb94d080dd17f59f04f583020d",
+              "excerpt": "    num_rows, num_cols = input.shape\n    block_size = max(triton.next_power_of_2(num_cols), 2)\n    num_warps = 16\n    if block_size >= 4096:\n        num_warps = 16\n    elif block_size >= 2048:\n        num_warps = 8\n    else:\n        num_warps = 4\n\n    if num_rows <= 350000:\n        grid = (num_rows,)\n        softmax_kernel[grid](\n            output, input, input.stride(0), num_cols, mask, BLOCK_SIZE=block_size, num_warps=num_warps\n        )\n    else:\n        grid = lambda meta: (triton.cdiv(num_rows, meta[\"BLOCK_M\"]),)\n\n        softmax_kernel[grid](\n            output_ptr=output,\n            input_ptr=input,\n            row_stride=input.stride(0),\n            n_rows=num_rows,\n            n_cols=num_cols,\n            mask_ptr=mask,\n            # currently manually setting up size\n            BLOCK_M=32,\n            BLOCK_SIZE=block_size,\n        )\n\n    return output"
+            },
+            {
+              "line": 136,
+              "end_line": 153,
+              "path": "bench/tritonbench_g/softmax_triton3/Correct.lean",
+              "sha256": "f367a2b6349d788aea7b43fc0fd99e43503c39a04e662144ca78bbae1b9db597",
+              "excerpt": "def typedIO (inputType maskType : Storage) (reciprocal : Bool) (out inp mask : RegionName)\n    (stride n B : Nat) : MaskedKernelIO₁ where\n  kernel := (typedKernel inputType maskType reciprocal out inp mask stride n B Bool.false).eraseDType\n  projection := typed_supported ..\n  inp := inp\n  out := out\n  B := B\n  read := fun pid => pid * stride\n  write := fun pid => pid * stride\n  mask := fun _ j => j.val < n\n\n/-- Both complete typed sources implement mathematical softmax, including\ntermination, active-address safety and preservation of every other memory cell. -/\nspecification softmax_typed_real_correct (inputType maskType : Storage) (reciprocal : Bool)\n    (out inp mask : RegionName) (stride n B : Nat) (hB : 0 < B) :\n    Spec.Real (typedIO inputType maskType reciprocal out inp mask stride n B ⊨\n      fun xs i => Real.exp (xs i) /\n        ∑ j : Fin B, if j.val < n then Real.exp (xs j) else 0) := by"
+            }
+          ]
+        },
+        {
+          "id": "SOFTMAX_TRITON3-S2",
+          "kind": "remaining_storage_admission",
+          "finding": "The typed family has three input/mask storage constructors while original inputs have no such restriction.",
+          "why_blocks_full_original_scope": "Precise supported routes or rejection cases are required; fp32 exp/division assumptions alone do not provide dtype dispatch.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 117,
+              "end_line": 124,
+              "path": "bench/tritonbench_g/softmax_triton3/Kernels.lean",
+              "sha256": "509f215a7f4392dd240d305ca95edb32f34a9f8ec7008def83f7968f36767b64",
+              "excerpt": "inductive Storage where\n  | fp32 | fp16 | bf16\n  deriving DecidableEq\n\nabbrev Source := RegionName → RegionName → RegionName → Nat → Nat → Nat → Bool → ComputeKernel\n\ndef typedKernel (inputType maskType : Storage) (reciprocal : Bool) : Source :=\n  match inputType, maskType, reciprocal with"
+            },
+            {
+              "line": 20,
+              "end_line": 29,
+              "path": "bench/tritonbench_g/softmax_triton3/softmax_triton3.py",
+              "sha256": "35319b17855a19c2cc7a8d39be0cbb4ee8f8cebb94d080dd17f59f04f583020d",
+              "excerpt": "    row = tl.load(input_ptrs, mask=col_offsets < n_cols, other=-float(\"inf\")).to(tl.float32)\n    row_minus_max = row - tl.max(row, axis=0)\n\n    if mask_ptr is not None:\n        # load mask into SRAM\n        mask_ptrs = (mask_ptr + (row_idx * row_stride)) + col_offsets\n        mask = tl.load(mask_ptrs, mask=col_offsets < n_cols, other=0).to(tl.float32)\n\n        # update\n        row_minus_max = row_minus_max + mask"
+            },
+            {
+              "line": 39,
+              "end_line": 46,
+              "path": "bench/tritonbench_g/softmax_triton3/softmax_triton3.py",
+              "sha256": "35319b17855a19c2cc7a8d39be0cbb4ee8f8cebb94d080dd17f59f04f583020d",
+              "excerpt": "def softmax(input: torch.Tensor, mask: torch.Tensor = None, dim=-1) -> torch.Tensor:\n    if mask is not None:\n        # assert input[-1] == mask[-1], \"the last dimentions should be the same for input and mask\"\n        assert input.shape[-1] == mask.shape[-1], \"the last dimensions should be the same for input and mask\"\n    assert dim == -1 or dim == len(input.shape) - 1, \"currently softmax layer only support last dimention\"\n\n    hidden_dim = input.shape[-1]\n    output = torch.empty_like(input)"
+            }
+          ]
+        }
+      ],
+      "numerical_items_eligible_for_explicit_deferral": [
+        "Numerical max/exp/sum/division and the represented input/mask/output casts may be deferred with exact profile bindings."
+      ],
+      "precondition_assessment": "The existing bounds, nonoverlap, positive tile size and valid-address premises are legitimate selected-domain assumptions. No unrestricted invalid-input behavior or hypothetical hardware defect is demanded. Missing wrapper composition and dtype admission are separate structural questions.",
+      "source_sha256": {
+        "bench/tritonbench_g/softmax_triton3/softmax_triton3.py": "35319b17855a19c2cc7a8d39be0cbb4ee8f8cebb94d080dd17f59f04f583020d",
+        "bench/tritonbench_g/softmax_triton3/Correct.lean": "f367a2b6349d788aea7b43fc0fd99e43503c39a04e662144ca78bbae1b9db597",
+        "bench/tritonbench_g/softmax_triton3/FPEquiv.lean": "60f5e5ab31491dd2bc2c8e9eea0b112c5b4f35ee544d5d8af2d7f9d32b5a99fa",
+        "bench/tritonbench_g/softmax_triton3/Kernels.lean": "509f215a7f4392dd240d305ca95edb32f34a9f8ec7008def83f7968f36767b64",
+        "bench/tritonbench_g/softmax_triton3/Proofs/Real.lean": "4fb39fa840baf59f4e4601f6b3f8ca56fadb10a7b4356617e7f87f5955252b21"
+      },
+      "all_input_sha256": {
+        "lean": {
+          "bench/tritonbench_g/softmax_triton3/Correct.lean": "f367a2b6349d788aea7b43fc0fd99e43503c39a04e662144ca78bbae1b9db597",
+          "bench/tritonbench_g/softmax_triton3/FPEquiv.lean": "60f5e5ab31491dd2bc2c8e9eea0b112c5b4f35ee544d5d8af2d7f9d32b5a99fa",
+          "bench/tritonbench_g/softmax_triton3/Kernels.lean": "509f215a7f4392dd240d305ca95edb32f34a9f8ec7008def83f7968f36767b64",
+          "bench/tritonbench_g/softmax_triton3/Proofs/FP.lean": "08d696644a988faad93ad0e0c483f50fd9b8094203599d2df907a9ac37d89302",
+          "bench/tritonbench_g/softmax_triton3/Proofs/Real.lean": "4fb39fa840baf59f4e4601f6b3f8ca56fadb10a7b4356617e7f87f5955252b21",
+          "bench/tritonbench_g/softmax_triton3/Proofs/Source.lean": "1accd16ad9757bac6e521c4ed9f22eacaa7e657c0d310e04179f72df7d09ec5a",
+          "bench/tritonbench_g/softmax_triton3/Proofs/Spec.lean": "0cb245466b6547f1e1d82373df0c98e59e873e0402348bc4cd6c235232894770"
+        },
+        "python": {
+          "bench/tritonbench_g/softmax_triton3/softmax_triton3.py": "35319b17855a19c2cc7a8d39be0cbb4ee8f8cebb94d080dd17f59f04f583020d"
+        }
+      },
+      "public_declarations_checked": [
+        {
+          "file": "bench/tritonbench_g/softmax_triton3/Correct.lean",
+          "declaration": "softmax_typed_real_correct",
+          "parser_name": "softmax_typed_real_correct",
+          "line": 149,
+          "sha256": "f367a2b6349d788aea7b43fc0fd99e43503c39a04e662144ca78bbae1b9db597",
+          "statement_sha256": "4c966e8d63bd7f75cbb52e889e1618eb03b104ea6375151b4cde856ca6537bea",
+          "statement": "specification softmax_typed_real_correct (inputType maskType : Storage) (reciprocal : Bool)\n    (out inp mask : RegionName) (stride n B : Nat) (hB : 0 < B) :\n    Spec.Real (typedIO inputType maskType reciprocal out inp mask stride n B ⊨\n      fun xs i => Real.exp (xs i) /\n        ∑ j : Fin B, if j.val < n then Real.exp (xs j) else 0)"
+        },
+        {
+          "file": "bench/tritonbench_g/softmax_triton3/Correct.lean",
+          "declaration": "softmax_typed_masked_real_correct",
+          "parser_name": "softmax_typed_masked_real_correct",
+          "line": 185,
+          "sha256": "f367a2b6349d788aea7b43fc0fd99e43503c39a04e662144ca78bbae1b9db597",
+          "statement_sha256": "0d9b74028047724b34ded9bfd25d44822b68f209f67e17682af5909deb0907ea",
+          "statement": "specification softmax_typed_masked_real_correct (inputType maskType : Storage) (reciprocal : Bool)\n    (out inp mask : RegionName) (stride n B : Nat) (hB : 0 < B) :\n    Spec.Real (typedMaskedIO inputType maskType reciprocal out inp mask stride n B ⊨\n      fun xs ms i => Real.exp (xs i + ms i) /\n        ∑ j : Fin B, if j.val < n then Real.exp (xs j + ms j) else 0)"
+        },
+        {
+          "file": "bench/tritonbench_g/softmax_triton3/FPEquiv.lean",
+          "declaration": "softmax_reciprocal_equiv",
+          "parser_name": "softmax_reciprocal_equiv",
+          "line": 31,
+          "sha256": "60f5e5ab31491dd2bc2c8e9eea0b112c5b4f35ee544d5d8af2d7f9d32b5a99fa",
+          "statement_sha256": "15167db82a42a9fdfdf351079589158f7446ce6d804be82c2b269e7cfbacbb71",
+          "statement": "specification softmax_reciprocal_equiv (inputType maskType : Storage)\n    (out inp mask : RegionName) (stride n B : Nat) (hasMask : Bool)\n    (R : FP.ScalarArithmetic.Rules) :\n    original inputType maskType out inp mask stride n B hasMask ≡[R]\n      reciprocal inputType maskType out inp mask stride n B hasMask"
+        }
+      ],
+      "catalog_declaration_metadata_discrepancies": [],
+      "dtype_scope_caveat": "No unsupported dtype is assumed to compile merely because a Python wrapper admits it. Missing-route findings require either the actual supported conversion route or a precise admission/rejection contract; they do not demand arbitrary compiler internals.",
+      "verification": {
+        "manual_original_production_functions_read": 2,
+        "actual_public_statements_reparsed_and_hash_checked": 3,
+        "key_source_and_referenced_definition_review": true,
+        "source_matches_baseline_scope_inputs": true,
+        "generated_selector_check": null,
+        "new_lean_runs": 0,
+        "new_frontend_runs": 0,
+        "gpu_runs": 0,
+        "numerical_deferrals_registered_by_this_read_only_review": 0
+      }
+    },
+    {
+      "schema": 1,
+      "kind": "original_scope_gap_review",
+      "reviewer": "/root/scope_remaining_cohort",
+      "reviewed_at_utc": "2026-10-15T19:01:21.116565+00:00",
+      "reviewed_base_commit": "fc183f5dae5e3f09f549b8151a9a1e4c366beb02",
+      "catalog": {
+        "path": "bench/review-checkpoints/2026-10-16/relu-source-grid-and-exact-numerics/current-source-catalog.json",
+        "sha256": "ef0da28a4c601f9841664431013d72e565ec5497cf21ba3e7be692c440d1a3fe"
+      },
+      "task": "attention_fwd_triton1",
+      "status": "structural_gaps_confirmed",
+      "whole_original_program_accepted": false,
+      "completion_increment": 0,
+      "existing_proofs_preserved": "The complete time-chunk recurrence, history stores under STORE, both IFCOND paths including i=0, all output stores and a carry/output formula are proved for arbitrary NT full chunks. FP scalar-left equivalence retains the entire dynamic source loop and flags.",
+      "production_stage_mapping": [
+        {
+          "function": "attention_fwd_kernel",
+          "coverage": "All loop and STORE/IFCOND branch structure exists, with public value correctness specialized to full contiguous fp32 chunks.",
+          "path": "bench/tritonbench_g/attention_fwd_triton1/attention_fwd_triton1.py",
+          "line": 6,
+          "end_line": 60,
+          "sha256": "249646723b9de72ad5d489a34de7be4649d84543699ded14a60cceee12ef78fa",
+          "stage_id": "stage:bench/tritonbench_g/attention_fwd_triton1/attention_fwd_triton1.py:6:attention_fwd_kernel"
+        },
+        {
+          "function": "forward",
+          "coverage": "Scale, BT=32, NT=ceil(seq_len/BT), stage selection, allocations and batch/head launch remain uncomposed.",
+          "path": "bench/tritonbench_g/attention_fwd_triton1/attention_fwd_triton1.py",
+          "line": 66,
+          "end_line": 86,
+          "sha256": "249646723b9de72ad5d489a34de7be4649d84543699ded14a60cceee12ef78fa",
+          "stage_id": "stage:bench/tritonbench_g/attention_fwd_triton1/attention_fwd_triton1.py:66:forward"
+        }
+      ],
+      "dtype_review": "TypedSource declares every region fp32 and replaces source dtype-directed casts with fp32. Python derives h/o from q and accepts independent q/k/v types without a matching fp32 contract.",
+      "branch_review": "No missing STORE/IFCOND claim: both flags are universally quantified. Public IO sets T=NT*BT, stride time=BD and dim=1; original wrapper passes actual seq_len/strides and can choose a final partial chunk although loads have no boundary checks. That actual supported/rejected/error behavior is not characterized.",
+      "structural_gaps": [
+        {
+          "id": "ATTENTION_FWD_TRITON1-S1",
+          "kind": "full_chunk_specialization_and_wrapper",
+          "finding": "The value theorem fixes T=NT*BT and contiguous inner strides, while forward passes seq_len, its actual strides and NT=ceil(seq_len/32), then launches all heads.",
+          "why_blocks_full_original_scope": "Wrapper composition must relate the valid full-chunk case and characterize the remaining source paths instead of treating all seq_len as the proved specialization.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 24,
+              "end_line": 28,
+              "path": "bench/tritonbench_g/attention_fwd_triton1/Correct.lean",
+              "sha256": "1398a0e93ae6d727cf467faf93b0615e0024c6f8d8ed951baf5de4f35a6d8bcb",
+              "excerpt": "def originalIO (Q K V H O : RegionName) (s_qh s_hh s_ht : Nat)\n    (scale : ℝ) (BT BD NT : Nat) (STORE IFCOND : Bool) : StreamMasked3DKernelIO₃ₓ₂ where\n  kernel := (TypedSource.original Q K V H O s_qh BD 1 s_hh s_ht (NT * BT)\n    scale BT BD NT STORE IFCOND).eraseDType\n  projection := RealProjection.original_projection_supported .."
+            },
+            {
+              "line": 29,
+              "end_line": 44,
+              "path": "bench/tritonbench_g/attention_fwd_triton1/attention_fwd_triton1.py",
+              "sha256": "249646723b9de72ad5d489a34de7be4649d84543699ded14a60cceee12ef78fa",
+              "excerpt": "    for i in range(0, tl.cdiv(T, BT)):\n        p_q = tl.make_block_ptr(q + i_bh * s_qh, (T, BD), (s_qt, s_qd), (i * BT, 0), (BT, BD), (1, 0))\n        p_k = tl.make_block_ptr(k + i_bh * s_qh, (BD, T), (s_qd, s_qt), (0, i * BT), (BD, BT), (0, 1))\n        p_v = tl.make_block_ptr(v + i_bh * s_qh, (T, BD), (s_qt, s_qd), (i * BT, 0), (BT, BD), (1, 0))\n        p_h = tl.make_block_ptr(h + i_bh * s_hh, (NT * BD, BD), (s_ht, s_qd), (i * BD, 0), (BD, BD), (1, 0))\n        p_o = tl.make_block_ptr(o + i_bh * s_qh, (T, BD), (s_qt, s_qd), (i * BT, 0), (BT, BD), (1, 0))\n\n        if STORE:\n            tl.store(p_h, b_h.to(p_h.dtype.element_ty))\n        # [BT, BD]\n        b_q = tl.load(p_q)\n        b_q = (b_q * scale).to(b_q.dtype)\n        # [BD, BT]\n        b_k = tl.load(p_k)\n        # [BT, BD]\n        b_v = tl.load(p_v)"
+            },
+            {
+              "line": 66,
+              "end_line": 86,
+              "path": "bench/tritonbench_g/attention_fwd_triton1/attention_fwd_triton1.py",
+              "sha256": "249646723b9de72ad5d489a34de7be4649d84543699ded14a60cceee12ef78fa",
+              "excerpt": "    def forward(ctx, q, k, v, store=False, ifcond=False):\n        batch_size, n_heads, seq_len, d_head = q.shape\n        scale = d_head ** -0.5\n        BD = q.shape[-1]\n        BT = 32\n        NT = triton.cdiv(seq_len, BT)\n        num_stages = 3 if d_head <= 64 else 2\n        num_warps = 4\n\n        h = q.new_empty(batch_size, n_heads, NT * BD, BD)\n        o = torch.empty_like(q)\n        grid = (batch_size * n_heads,)\n        attention_fwd_kernel[grid](\n            q, k, v, h, o,\n            q.stride(1), q.stride(2), q.stride(3), h.stride(1), h.stride(2),\n            seq_len, scale,\n            BT=BT, BD=BD, NT=NT, STORE=store, IFCOND=ifcond,\n            num_warps=num_warps,\n            num_stages=num_stages\n        )\n        return o"
+            }
+          ]
+        },
+        {
+          "id": "ATTENTION_FWD_TRITON1-S2",
+          "kind": "fp32_only_source_family",
+          "finding": "All five formal buffers and casts are fp32 although q/k/v source types are tensor-dependent.",
+          "why_blocks_full_original_scope": "Other admitted source storage/promotion cases or precise rejection boundary are missing, separately from numerical dot/cast accuracy.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 25,
+              "end_line": 30,
+              "path": "bench/tritonbench_g/attention_fwd_triton1/Kernels.lean",
+              "sha256": "833be95d145d8babf2127b4aacdd5fb04b33947854ac1d40614d2780583da7b3",
+              "excerpt": "def original\n    (q k v h o : RegionName)\n    (s_qh s_qt s_qd s_hh s_ht T : Nat) (scale : ℝ)\n    (BT BD NT : Nat) (STORE IFCOND : Bool) :\n    ComputeKernel := triton {\n  tl.region q = tl.float32, k = tl.float32, v = tl.float32, h = tl.float32, o = tl.float32"
+            },
+            {
+              "line": 50,
+              "end_line": 59,
+              "path": "bench/tritonbench_g/attention_fwd_triton1/Kernels.lean",
+              "sha256": "833be95d145d8babf2127b4aacdd5fb04b33947854ac1d40614d2780583da7b3",
+              "excerpt": "    if STORE {\n      tl.store(p_h, (b_h).to(tl.float32))\n    }\n    b_q = tl.load(p_q)\n    b_q = (b_q * $((scale : ℝ))).to(tl.float32)\n    b_k = tl.load(p_k)\n    b_v = tl.load(p_v)\n\n    b_s = tl.dot(b_q, b_k, allow_tf32=false)\n    b_o = tl.dot((b_s).to(tl.float32), b_v, allow_tf32=false)"
+            },
+            {
+              "line": 37,
+              "end_line": 49,
+              "path": "bench/tritonbench_g/attention_fwd_triton1/attention_fwd_triton1.py",
+              "sha256": "249646723b9de72ad5d489a34de7be4649d84543699ded14a60cceee12ef78fa",
+              "excerpt": "            tl.store(p_h, b_h.to(p_h.dtype.element_ty))\n        # [BT, BD]\n        b_q = tl.load(p_q)\n        b_q = (b_q * scale).to(b_q.dtype)\n        # [BD, BT]\n        b_k = tl.load(p_k)\n        # [BT, BD]\n        b_v = tl.load(p_v)\n\n        # [BT, BT]\n        b_s = tl.dot(b_q, b_k, allow_tf32=False)\n        # [BT, BD]\n        b_o = tl.dot(b_s.to(b_q.dtype), b_v, allow_tf32=False)"
+            },
+            {
+              "line": 75,
+              "end_line": 82,
+              "path": "bench/tritonbench_g/attention_fwd_triton1/attention_fwd_triton1.py",
+              "sha256": "249646723b9de72ad5d489a34de7be4649d84543699ded14a60cceee12ef78fa",
+              "excerpt": "        h = q.new_empty(batch_size, n_heads, NT * BD, BD)\n        o = torch.empty_like(q)\n        grid = (batch_size * n_heads,)\n        attention_fwd_kernel[grid](\n            q, k, v, h, o,\n            q.stride(1), q.stride(2), q.stride(3), h.stride(1), h.stride(2),\n            seq_len, scale,\n            BT=BT, BD=BD, NT=NT, STORE=store, IFCOND=ifcond,"
+            }
+          ]
+        }
+      ],
+      "numerical_items_eligible_for_explicit_deferral": [
+        "For represented source profiles, dot accumulation, scaling/casts and the scalar-left rewrite can be explicitly deferred."
+      ],
+      "precondition_assessment": "The existing bounds, nonoverlap, positive tile size and valid-address premises are legitimate selected-domain assumptions. No unrestricted invalid-input behavior or hypothetical hardware defect is demanded. Missing wrapper composition and dtype admission are separate structural questions.",
+      "source_sha256": {
+        "bench/tritonbench_g/attention_fwd_triton1/attention_fwd_triton1.py": "249646723b9de72ad5d489a34de7be4649d84543699ded14a60cceee12ef78fa",
+        "bench/tritonbench_g/attention_fwd_triton1/Correct.lean": "1398a0e93ae6d727cf467faf93b0615e0024c6f8d8ed951baf5de4f35a6d8bcb",
+        "bench/tritonbench_g/attention_fwd_triton1/FPEquiv.lean": "bca0c094dca8082e8bf521a4c784115b9a6c63211a3e6cf847069ced2f92a558",
+        "bench/tritonbench_g/attention_fwd_triton1/Kernels.lean": "833be95d145d8babf2127b4aacdd5fb04b33947854ac1d40614d2780583da7b3",
+        "bench/tritonbench_g/attention_fwd_triton1/Proofs/RealIO.lean": "10fd5c99606e802e42cc8d7fd03bad075fca5fc33ee557cc947188df59b0688e"
+      },
+      "all_input_sha256": {
+        "lean": {
+          "bench/tritonbench_g/attention_fwd_triton1/Correct.lean": "1398a0e93ae6d727cf467faf93b0615e0024c6f8d8ed951baf5de4f35a6d8bcb",
+          "bench/tritonbench_g/attention_fwd_triton1/FPEquiv.lean": "bca0c094dca8082e8bf521a4c784115b9a6c63211a3e6cf847069ced2f92a558",
+          "bench/tritonbench_g/attention_fwd_triton1/Kernels.lean": "833be95d145d8babf2127b4aacdd5fb04b33947854ac1d40614d2780583da7b3",
+          "bench/tritonbench_g/attention_fwd_triton1/Proofs/FP.lean": "09e784722c84818adfea4d086a8f9e193876d083e1d5782821fa1572589bff66",
+          "bench/tritonbench_g/attention_fwd_triton1/Proofs/FPModel.lean": "53647db074002595c79d7ca66c196781968c28f99d0dd3889653fe0ecbd09712",
+          "bench/tritonbench_g/attention_fwd_triton1/Proofs/Legacy.lean": "3362c51bf7f89cef26c81a890370a4cd4888f6cf3eeb8eae347fbc21af49844c",
+          "bench/tritonbench_g/attention_fwd_triton1/Proofs/RealBranch.lean": "566f286cd14636f620a1a9afb5078187b0bc19033bd6adf115dbd4e4b1c5a2ae",
+          "bench/tritonbench_g/attention_fwd_triton1/Proofs/RealCandidate.lean": "d3dd30d7f74a9e2dcac2a2ddf300fc542451a12dc4351a53e9db6eaec0e4f6d1",
+          "bench/tritonbench_g/attention_fwd_triton1/Proofs/RealExecution.lean": "9b25bc354a44c8c95ec9f635d7f172b9324922751046b17d5c6500728d34597e",
+          "bench/tritonbench_g/attention_fwd_triton1/Proofs/RealIO.lean": "10fd5c99606e802e42cc8d7fd03bad075fca5fc33ee557cc947188df59b0688e",
+          "bench/tritonbench_g/attention_fwd_triton1/Proofs/RealIteration.lean": "8e71ebf2a6135ae94bb59995cf5b830cfb2119016ba134656b916e8b497a5368",
+          "bench/tritonbench_g/attention_fwd_triton1/Proofs/RealLoop.lean": "0b2b3c2c49c421864a3d65f0ccc78e58f79af785c78a0e2dcb983b5d73cca8da",
+          "bench/tritonbench_g/attention_fwd_triton1/Proofs/RealProjection.lean": "247c807946be61ac76559229958a3c7dc708006cebcab396fdae8841a340f204",
+          "bench/tritonbench_g/attention_fwd_triton1/Proofs/RealSafety.lean": "362d2a7e0d1990006f2b9e189bf4c548ad479c52c6b94eea1cbb9c6466e726c4",
+          "bench/tritonbench_g/attention_fwd_triton1/Proofs/RealStore.lean": "aea74af5740a3456ba17be183740f087d3351c36b535091033d9ee63c039c7be",
+          "bench/tritonbench_g/attention_fwd_triton1/Proofs/TypedExecution.lean": "e821fe8113d424afc925c57596f66511236a76fd181303b33cdc465f8c663352"
+        },
+        "python": {
+          "bench/tritonbench_g/attention_fwd_triton1/attention_fwd_triton1.py": "249646723b9de72ad5d489a34de7be4649d84543699ded14a60cceee12ef78fa"
+        }
+      },
+      "public_declarations_checked": [
+        {
+          "file": "bench/tritonbench_g/attention_fwd_triton1/Correct.lean",
+          "declaration": "linear_attention_correctness",
+          "parser_name": "linear_attention_correctness",
+          "line": 99,
+          "sha256": "1398a0e93ae6d727cf467faf93b0615e0024c6f8d8ed951baf5de4f35a6d8bcb",
+          "statement_sha256": "4c81210aec4fe2e85ca37524c8dbbea2adc8fdecf4b2d5400b2e8d98b6cfd961",
+          "statement": "specification linear_attention_correctness (Q K V H O : RegionName) (s_qh s_hh s_ht : Nat)\n    (scale : ℝ) (BT BD NT : Nat) (STORE IFCOND : Bool)\n    (hBT : 0 < BT) (hstride : BD ≤ s_ht) :\n    Spec.Real (originalIO Q K V H O s_qh s_hh s_ht scale BT BD NT STORE IFCOND ⊨\n      fun _ _ _ xs ys zs => expected scale NT BT BD xs ys zs)"
+        },
+        {
+          "file": "bench/tritonbench_g/attention_fwd_triton1/Correct.lean",
+          "declaration": "linear_attention_scalar_left_correctness",
+          "parser_name": "linear_attention_scalar_left_correctness",
+          "line": 108,
+          "sha256": "1398a0e93ae6d727cf467faf93b0615e0024c6f8d8ed951baf5de4f35a6d8bcb",
+          "statement_sha256": "850b2c31806643747a49dfd203c8257d6038f0377a9c89e3bcca465e322e2ff5",
+          "statement": "specification linear_attention_scalar_left_correctness (Q K V H O : RegionName) (s_qh s_hh s_ht : Nat)\n    (scale : ℝ) (BT BD NT : Nat) (STORE IFCOND : Bool)\n    (hBT : 0 < BT) (hstride : BD ≤ s_ht) :\n    Spec.Real (scalarLeftIO Q K V H O s_qh s_hh s_ht scale BT BD NT STORE IFCOND ⊨\n      fun _ _ _ xs ys zs => expected scale NT BT BD xs ys zs)"
+        },
+        {
+          "file": "bench/tritonbench_g/attention_fwd_triton1/FPEquiv.lean",
+          "declaration": "linear_attention_equiv",
+          "parser_name": "linear_attention_equiv",
+          "line": 46,
+          "sha256": "bca0c094dca8082e8bf521a4c784115b9a6c63211a3e6cf847069ced2f92a558",
+          "statement_sha256": "bf93bf2fc275224b4159b8022f96e333cdc2dfa9bcbc408f753a97574c768ebe",
+          "statement": "specification linear_attention_equiv (R : Rules) :\n    original q k v h o s_qh s_qt s_qd s_hh s_ht T scale BT BD NT STORE IFCOND ≡[R]\n    scalarLeft q k v h o s_qh s_qt s_qd s_hh s_ht T scale BT BD NT STORE IFCOND"
+        }
+      ],
+      "catalog_declaration_metadata_discrepancies": [],
+      "dtype_scope_caveat": "No unsupported dtype is assumed to compile merely because a Python wrapper admits it. Missing-route findings require either the actual supported conversion route or a precise admission/rejection contract; they do not demand arbitrary compiler internals.",
+      "verification": {
+        "manual_original_production_functions_read": 2,
+        "actual_public_statements_reparsed_and_hash_checked": 3,
+        "key_source_and_referenced_definition_review": true,
+        "source_matches_baseline_scope_inputs": true,
+        "generated_selector_check": null,
+        "new_lean_runs": 0,
+        "new_frontend_runs": 0,
+        "gpu_runs": 0,
+        "numerical_deferrals_registered_by_this_read_only_review": 0
+      }
+    },
+    {
+      "schema": 1,
+      "kind": "original_scope_gap_review",
+      "reviewer": "/root/scope_remaining_cohort",
+      "reviewed_at_utc": "2026-10-15T19:01:21.166586+00:00",
+      "reviewed_base_commit": "fc183f5dae5e3f09f549b8151a9a1e4c366beb02",
+      "catalog": {
+        "path": "bench/review-checkpoints/2026-10-16/relu-source-grid-and-exact-numerics/current-source-catalog.json",
+        "sha256": "ef0da28a4c601f9841664431013d72e565ec5497cf21ba3e7be692c440d1a3fe"
+      },
+      "task": "chunk_delta_fwd",
+      "status": "structural_gaps_confirmed",
+      "whole_original_program_accepted": false,
+      "completion_increment": 0,
+      "existing_proofs_preserved": "Complete outer NT loop and inner ceil(BT/BC) loop, optional initial load and final store, history snapshots, corrected values and final state are proved in Real semantics with frame. All four state-switch combinations and 81 selected kd/value/initial/final storage profiles are retained. A mixed complete abstract typed witness and an explicit nonzero-tail counterexample are preserved.",
+      "production_stage_mapping": [
+        {
+          "function": "chunk_delta_rule_fwd_kernel_h",
+          "coverage": "Entire recurrence and both optional state branches are represented; Real result retains explicit zero unspecified values.",
+          "path": "bench/tritonbench_g/chunk_delta_fwd/chunk_delta_fwd.py",
+          "line": 18,
+          "end_line": 73,
+          "sha256": "e440d0b109b4498b030bef6afa996423d0ae892d7518962d3a7c27b0a22de585",
+          "stage_id": "stage:bench/tritonbench_g/chunk_delta_fwd/chunk_delta_fwd.py:18:chunk_delta_rule_fwd_kernel_h"
+        },
+        {
+          "function": "chunk_fwd_h_fn",
+          "coverage": "BK<=256/NK==1 assertions, BV/BC branches, allocations, option-to-flag binding and complete grid/return are uncomposed.",
+          "path": "bench/tritonbench_g/chunk_delta_fwd/chunk_delta_fwd.py",
+          "line": 75,
+          "end_line": 100,
+          "sha256": "e440d0b109b4498b030bef6afa996423d0ae892d7518962d3a7c27b0a22de585",
+          "stage_id": "stage:bench/tritonbench_g/chunk_delta_fwd/chunk_delta_fwd.py:75:chunk_fwd_h_fn"
+        }
+      ],
+      "dtype_review": "Formal kd combines key, delta and history storage; each of four roles has fp32/fp16/bf16. Source k,w,u,initial_state,final_state are independent tensors, h inherits k and v_new inherits u; actual dtype admission/rejection beyond this family is absent.",
+      "branch_review": "Both optional state flags and nested loops are already proved. K<=BK matches the wrapper NK==1 selected domain and is not by itself a gap. Omitted load padding is not zero by definition: retained UndefinedTail proves a concrete Real-semantic final cell 15 versus zero when inactive time lanes are one.",
+      "structural_gaps": [
+        {
+          "id": "CHUNK_DELTA_FWD-S1",
+          "kind": "wrapper_state_flags_allocation_and_grid",
+          "finding": "The wrapper selects block sizes with several BK cases, asserts BK<=256/NK==1, allocates h/v_new, derives optional-state flags and launches all value/head programs.",
+          "why_blocks_full_original_scope": "Public one-program IO is not a theorem for this exact tuple-returning wrapper and its branches.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 75,
+              "end_line": 100,
+              "path": "bench/tritonbench_g/chunk_delta_fwd/chunk_delta_fwd.py",
+              "sha256": "e440d0b109b4498b030bef6afa996423d0ae892d7518962d3a7c27b0a22de585",
+              "excerpt": "def chunk_fwd_h_fn(k, w, u, BT, initial_state, final_state):\n    B, H, T, K, V = *k.shape, u.shape[-1]\n\n    BK = triton.next_power_of_2(K)\n    assert BK <= 256, \"current kernel does not support head dimension larger than 256.\"\n    BV = 16 if BK > 128 else 32        \n    BV = 64 if BK <= 64 else BV\n    BC = 16 if BK > 128 else 32 \n    BC = 64 if BK <= 64 else BC\n    BC = min(BT, BC)\n    NT, NK, NV = triton.cdiv(T, BT), triton.cdiv(K, BK), triton.cdiv(V, BV)\n    assert NK == 1, 'NK > 1 is not supported because it involves time-consuming synchronization'\n\n    h = k.new_empty(B, H, NT * K, V)\n    grid = (NK, NV, B * H)\n    v_new = torch.empty_like(u)\n    chunk_delta_rule_fwd_kernel_h[grid](\n        k, u, w, v_new, h, initial_state, final_state,\n        k.stride(1), k.stride(2), k.stride(3),\n        u.stride(1), u.stride(2), u.stride(3),\n        h.stride(1), h.stride(2),\n        H=H, T=T, K=K, V=V, BT=BT, BC=BC, BK=BK, BV=BV, NT=NT,\n        USE_INITIAL_STATE=initial_state is not None,\n        STORE_FINAL_STATE=final_state is not None,\n        )\n    return h, v_new"
+            },
+            {
+              "line": 29,
+              "end_line": 49,
+              "path": "bench/tritonbench_g/chunk_delta_fwd/Correct.lean",
+              "sha256": "f19abb98bce63a613131d6f3164e99a4053a73fd578a5724842d7c7bd864da66",
+              "excerpt": "def originalIO (p : Layout) (r : Regions) (kd value initial final : TypedSource.Storage)\n    (useSeed storeFinal : Bool) : RealIO.IO p where\n  kernel := (TypedSource.original kd value initial final r.key r.value r.delta r.corrected r.history r.initial r.final\n    p.keyHead p.keyTime p.keyDim p.valueHead p.valueTime p.valueDim p.historyHead p.historyTime\n    p.H p.T p.K p.V p.BT p.BC p.BK p.BV p.NT useSeed storeFinal).eraseDType\n  projection := RealIO.projection p r kd value initial final Bool.false useSeed storeFinal\n  read := fun s => ⟨s.readMem r.key,s.readMem r.delta,s.readMem r.value⟩\n  seed := fun s => s.readMem r.initial\n  valid := fun s => s.pids 0 = 0 ∧ RealInnerLoop.NoCollision p (RealInit.launch s) ∧\n    RealOuterLoop.HistoryNoCollision p (RealInit.launch s) ∧\n    (storeFinal = Bool.true → RealStateStore.NoCollision p (RealInit.launch s) (RealInit.base p (RealInit.launch s)) p.V)\n  bounds := fun s => RealSafety.Bounds p (RealInit.launch s) r useSeed storeFinal\n  history := r.history\n  corrected := r.corrected\n  final := r.final\n  storeFinal := storeFinal\n  historyWindow := fun l c e j => RealOuterStep.historyAddress p l c e.val j.val\n  valueWindow := fun l t j => valueAddress p l t j.val\n  finalWindow := fun l e j => RealStateStore.address p l (RealInit.base p l) p.V e.val j.val\n  stateMask := fun l e j => RealStateStore.active p l e.val j.val\n  valueMask := fun l t j => activeValue p l t j.val"
+            }
+          ]
+        },
+        {
+          "id": "CHUNK_DELTA_FWD-S2",
+          "kind": "storage_role_admission",
+          "finding": "Formal k/d/h share kd in a three-storage family; original w is supplied independently and no equivalent dtype guard appears.",
+          "why_blocks_full_original_scope": "Missing supported conversion routes or rejection cases cannot be replaced by a numerical recurrence assumption.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 30,
+              "end_line": 37,
+              "path": "bench/tritonbench_g/chunk_delta_fwd/Kernels.lean",
+              "sha256": "5da51c4bc2716a9aaefd77c7d5e1a0a19fe8d9611386817f9575beec2f2f1829",
+              "excerpt": "    `(fun (dtype out_dtype : FloatDType)\n        (k v d v_new h initial_state final_state : RegionName)\n        (s_qk_h s_qk_t s_qk_d s_vo_h s_vo_t s_vo_d s_h_h s_h_t\n          H T K V BT BC BK BV NT : Nat)\n        (USE_INITIAL_STATE STORE_FINAL_STATE : Bool) =>\n      ComputeKernel.mk [k, v, d, initial_state] [v_new, h, final_state] (triton {\n        tl.region k = DTYPE, d = DTYPE, h = DTYPE, v = $valueTy,\n          v_new = $valueTy, initial_state = OUT_DTYPE, final_state = $finalTy"
+            },
+            {
+              "line": 90,
+              "end_line": 100,
+              "path": "bench/tritonbench_g/chunk_delta_fwd/Kernels.lean",
+              "sha256": "5da51c4bc2716a9aaefd77c7d5e1a0a19fe8d9611386817f9575beec2f2f1829",
+              "excerpt": "inductive Storage where\n  | fp32 | fp16 | bf16\n  deriving DecidableEq\n\ndef Storage.dtype : Storage → FloatDType\n  | .fp32 => .fp32 | .fp16 => .fp16 | .bf16 => .bf16\n\ndef specialize (kd value initial final : Storage) (swapped : Bool) :=\n  let dtype := kd.dtype\n  let out_dtype := initial.dtype\n  match value, final, swapped with"
+            },
+            {
+              "line": 91,
+              "end_line": 98,
+              "path": "bench/tritonbench_g/chunk_delta_fwd/chunk_delta_fwd.py",
+              "sha256": "e440d0b109b4498b030bef6afa996423d0ae892d7518962d3a7c27b0a22de585",
+              "excerpt": "    chunk_delta_rule_fwd_kernel_h[grid](\n        k, u, w, v_new, h, initial_state, final_state,\n        k.stride(1), k.stride(2), k.stride(3),\n        u.stride(1), u.stride(2), u.stride(3),\n        h.stride(1), h.stride(2),\n        H=H, T=T, K=K, V=V, BT=BT, BC=BC, BK=BK, BV=BV, NT=NT,\n        USE_INITIAL_STATE=initial_state is not None,\n        STORE_FINAL_STATE=final_state is not None,"
+            }
+          ]
+        },
+        {
+          "id": "CHUNK_DELTA_FWD-S3",
+          "kind": "arbitrary_tail_behavior",
+          "finding": "Public IO requires zero unspecified values while original time/key/value boundary loads omit padding_option; the project already proves a nonzero-tail counterexample.",
+          "why_blocks_full_original_scope": "Full original scope must retain or characterize that behavior; zero-tail matrix recurrence is only a conditional theorem, not an unconditional source result.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 47,
+              "end_line": 56,
+              "path": "bench/tritonbench_g/chunk_delta_fwd/Proofs/RealIO.lean",
+              "sha256": "1701e5cecc758215c2fa374219387b5e2b5089b0dd039ece67992f2be976b393",
+              "excerpt": "  ∀ A : FlatAlloc, A.Disjoint → (∀ r, r ∉ A.regions → A.extent r = 0) →\n  ∀ s : BlockState, s.undef = (fun _ _ => 0) → io.valid s → io.bounds s A.extent →\n    ∃ v, exec (A.flattenKernel io.kernel.toAlgKernel) (A.flattenState s) = some v ∧\n      (∀ c e j, c < p.NT → io.stateMask (RealInit.launch s) e j →\n        v.readMem A.flat (A.addr io.history (io.historyWindow (RealInit.launch s) c e j)) =\n          (f (RealInit.launch s) (io.read s) (io.seed s)).history c e j) ∧\n      (∀ t j, io.valueMask (RealInit.launch s) t j →\n        v.readMem A.flat (A.addr io.corrected (io.valueWindow (RealInit.launch s) t j)) =\n          (f (RealInit.launch s) (io.read s) (io.seed s)).corrected t j) ∧\n      (io.storeFinal = Bool.true → ∀ e j, io.stateMask (RealInit.launch s) e j →"
+            },
+            {
+              "line": 63,
+              "end_line": 69,
+              "path": "bench/tritonbench_g/chunk_delta_fwd/chunk_delta_fwd.py",
+              "sha256": "e440d0b109b4498b030bef6afa996423d0ae892d7518962d3a7c27b0a22de585",
+              "excerpt": "            b_k = tl.load(p_k, boundary_check=(0, 1))\n            b_d = tl.load(p_d, boundary_check=(0, 1))\n            b_v = tl.load(p_v, boundary_check=(0, 1))\n            b_v -= tl.dot(b_d, b_h.to(b_k.dtype), allow_tf32=False)\n            tl.store(p_v_new, b_v.to(p_v_new.dtype.element_ty), boundary_check=(0, 1))\n            b_h_cumsum += tl.dot(b_k, b_v.to(b_k.dtype), allow_tf32=False)\n        b_h += b_h_cumsum      "
+            },
+            {
+              "line": 5,
+              "end_line": 8,
+              "path": "bench/tritonbench_g/chunk_delta_fwd/Proofs/UndefinedTail.lean",
+              "sha256": "1eee8e6e55acd5b22077b52c231c82301cdeeeb454ae5b2505bf21046c29f59a",
+              "excerpt": "/-! Removing the zero-unspecified-value premise is false for the original\nfull real source. T=1, all actual inputs are zero, and K/V time-tail lanes\nreturn one. The final valid state cell is 15 instead of the formula's zero.\nThis is a Lean real-semantics counterexample, not an observed GPU result. -/"
+            },
+            {
+              "line": 45,
+              "end_line": 45,
+              "path": "bench/tritonbench_g/chunk_delta_fwd/Proofs/UndefinedTail.lean",
+              "sha256": "1eee8e6e55acd5b22077b52c231c82301cdeeeb454ae5b2505bf21046c29f59a",
+              "excerpt": "  rfl"
+            }
+          ]
+        }
+      ],
+      "numerical_items_eligible_for_explicit_deferral": [
+        "Dot/cast/accumulation precision and sum-left rewriting may be deferred for represented cases. The explicit unspecified-tail counterexample is source semantics, not numerical uncertainty."
+      ],
+      "precondition_assessment": "The existing bounds, nonoverlap, positive tile size and valid-address premises are legitimate selected-domain assumptions. No unrestricted invalid-input behavior or hypothetical hardware defect is demanded. Missing wrapper composition and dtype admission are separate structural questions.",
+      "source_sha256": {
+        "bench/tritonbench_g/chunk_delta_fwd/chunk_delta_fwd.py": "e440d0b109b4498b030bef6afa996423d0ae892d7518962d3a7c27b0a22de585",
+        "bench/tritonbench_g/chunk_delta_fwd/Correct.lean": "f19abb98bce63a613131d6f3164e99a4053a73fd578a5724842d7c7bd864da66",
+        "bench/tritonbench_g/chunk_delta_fwd/FPEquiv.lean": "38fdccb296bb97a319003890e122d8cf7b532e20959099bb3ddc93b5d64acef7",
+        "bench/tritonbench_g/chunk_delta_fwd/Kernels.lean": "5da51c4bc2716a9aaefd77c7d5e1a0a19fe8d9611386817f9575beec2f2f1829",
+        "bench/tritonbench_g/chunk_delta_fwd/Proofs/RealIO.lean": "1701e5cecc758215c2fa374219387b5e2b5089b0dd039ece67992f2be976b393",
+        "bench/tritonbench_g/chunk_delta_fwd/Proofs/UndefinedTail.lean": "1eee8e6e55acd5b22077b52c231c82301cdeeeb454ae5b2505bf21046c29f59a",
+        "bench/tritonbench_g/chunk_delta_fwd/Proofs/TypedExecution.lean": "4843bf61704ea0958cbeed8061d3ee29e91766fb0a1764db7e35dce47a133676"
+      },
+      "all_input_sha256": {
+        "lean": {
+          "bench/tritonbench_g/chunk_delta_fwd/Correct.lean": "f19abb98bce63a613131d6f3164e99a4053a73fd578a5724842d7c7bd864da66",
+          "bench/tritonbench_g/chunk_delta_fwd/FPEquiv.lean": "38fdccb296bb97a319003890e122d8cf7b532e20959099bb3ddc93b5d64acef7",
+          "bench/tritonbench_g/chunk_delta_fwd/Kernels.lean": "5da51c4bc2716a9aaefd77c7d5e1a0a19fe8d9611386817f9575beec2f2f1829",
+          "bench/tritonbench_g/chunk_delta_fwd/Proofs/FP.lean": "ad62369aad627c6f0415110df2ec9741cb7cb618c16eee5a1baef8f09639bb25",
+          "bench/tritonbench_g/chunk_delta_fwd/Proofs/LegacyReal.lean": "8425dd1823a5ecbbf99b972460e70896043d6ae76660031f2a002dbada814a0a",
+          "bench/tritonbench_g/chunk_delta_fwd/Proofs/RealCandidate.lean": "bae59c81a7f44faab221f0856f24ca0a11c34c49333b9d54363e90147008b81d",
+          "bench/tritonbench_g/chunk_delta_fwd/Proofs/RealExecution.lean": "b7a7878e750d57404bbe0bd9254685e0235326e6de40da5a3aff21c99a210e98",
+          "bench/tritonbench_g/chunk_delta_fwd/Proofs/RealFinal.lean": "9b32f41b16f47c4c314b60ed76e05c14db698eac76db73d727d42d27aad1ff7d",
+          "bench/tritonbench_g/chunk_delta_fwd/Proofs/RealFlat.lean": "2beed297459a9877d395f3d6fbee5557d30714217397618ccd41d77e86f30519",
+          "bench/tritonbench_g/chunk_delta_fwd/Proofs/RealIO.lean": "1701e5cecc758215c2fa374219387b5e2b5089b0dd039ece67992f2be976b393",
+          "bench/tritonbench_g/chunk_delta_fwd/Proofs/RealInit.lean": "eac5758d803ec81aba7f3d91a8170b8ff20f74ca11c284c9c24ef508f0f62699",
+          "bench/tritonbench_g/chunk_delta_fwd/Proofs/RealInnerLoop.lean": "b43fc3fa17cd89b1ebd0fa3c176292414ea94c1077aca8391d674fa6c180edbf",
+          "bench/tritonbench_g/chunk_delta_fwd/Proofs/RealInnerSafety.lean": "e43a7c4eb5b6d38e6b2a425707aa65fbe4cdf9592fe3962f42ae2b8280938d28",
+          "bench/tritonbench_g/chunk_delta_fwd/Proofs/RealMath.lean": "409129e1b348dd658a7984a763b91b59187f7875c5a9258a5de41e615396b165",
+          "bench/tritonbench_g/chunk_delta_fwd/Proofs/RealOuterLoop.lean": "e0f2092861759cd4d7e349b6b56afe3a7c2126c58ea33038dff0076a66d5494a",
+          "bench/tritonbench_g/chunk_delta_fwd/Proofs/RealOuterSafety.lean": "118e151d5b6c6daea69e9c37261a83af877d4dd488b8d6c64b18239691612301",
+          "bench/tritonbench_g/chunk_delta_fwd/Proofs/RealOuterStep.lean": "509fe74bf08d43569073b19a9ba46895e328070ed16167951ca0feebe874c59f",
+          "bench/tritonbench_g/chunk_delta_fwd/Proofs/RealProgram.lean": "d09d90475ccef964b75c0748af0e7bcc132c2dd3ac4843aaf83141c108be4044",
+          "bench/tritonbench_g/chunk_delta_fwd/Proofs/RealSafety.lean": "350f71ef5453a2d3817d5405dd92f352a4fe7aaad5c82f054b74acca435261cd",
+          "bench/tritonbench_g/chunk_delta_fwd/Proofs/RealSource.lean": "342ef6eef1b277da6620de29209ca0c135c165e9c2fd8ca25fdbee38f5e75d4d",
+          "bench/tritonbench_g/chunk_delta_fwd/Proofs/RealStateSafety.lean": "bcfdd4e84b0b0e33cdcafda0cfbeeab4b40fce5b60a7a537b5ea8f0aacbea297",
+          "bench/tritonbench_g/chunk_delta_fwd/Proofs/RealStateStore.lean": "b582d5f6133bb839e693706c10c580e8497432e26b490d07b0644071d83c3c75",
+          "bench/tritonbench_g/chunk_delta_fwd/Proofs/RealStep.lean": "779561c1fd7fc87d71e90fca99da6640190772a485612d7fb2410fbd9f8cde03",
+          "bench/tritonbench_g/chunk_delta_fwd/Proofs/RealValues.lean": "dfb443b2a25aa6f1c3fdbcce88170c5dc2c078c904fc0107e1c001d87703aba7",
+          "bench/tritonbench_g/chunk_delta_fwd/Proofs/RealWindow.lean": "ead729c9a802ea699f853d9293ba0536f5fdfb6bdfcb40cce06c878300eff57f",
+          "bench/tritonbench_g/chunk_delta_fwd/Proofs/TypedExecution.lean": "4843bf61704ea0958cbeed8061d3ee29e91766fb0a1764db7e35dce47a133676",
+          "bench/tritonbench_g/chunk_delta_fwd/Proofs/UndefinedTail.lean": "1eee8e6e55acd5b22077b52c231c82301cdeeeb454ae5b2505bf21046c29f59a",
+          "bench/tritonbench_g/chunk_delta_fwd/Proofs/UndefinedTailStep.lean": "828816b10ab6e9d8b741737f8d22d78d0db4639f9fa2a978a4a78d295aa0aaed"
+        },
+        "python": {
+          "bench/tritonbench_g/chunk_delta_fwd/chunk_delta_fwd.py": "e440d0b109b4498b030bef6afa996423d0ae892d7518962d3a7c27b0a22de585"
+        }
+      },
+      "public_declarations_checked": [
+        {
+          "file": "bench/tritonbench_g/chunk_delta_fwd/Correct.lean",
+          "declaration": "chunk_delta_correctness",
+          "parser_name": "chunk_delta_correctness",
+          "line": 83,
+          "sha256": "f19abb98bce63a613131d6f3164e99a4053a73fd578a5724842d7c7bd864da66",
+          "statement_sha256": "c145742d7177018f715d9a08f39ba5593e12b01c25542169e6fa4517d75c7fe2",
+          "statement": "specification chunk_delta_correctness (p : Parameters) (r : Regions)\n    (kd value initial final : TypedSource.Storage) (useSeed storeFinal : Bool)\n    (hK : p.K ≤ p.BK) (hBT : 0 < p.BT) (hBC : 0 < p.BC) (hcover : p.T ≤ p.NT*p.BT)\n    (hs : RealOuterStep.Separate r)\n    (hfsep : storeFinal = Bool.true → r.history ≠ r.final ∧ r.corrected ≠ r.final) :\n    Spec.Real (originalIO p r kd value initial final useSeed storeFinal ⊨ expected p useSeed)"
+        },
+        {
+          "file": "bench/tritonbench_g/chunk_delta_fwd/Correct.lean",
+          "declaration": "chunk_sum_left_correctness",
+          "parser_name": "chunk_sum_left_correctness",
+          "line": 91,
+          "sha256": "f19abb98bce63a613131d6f3164e99a4053a73fd578a5724842d7c7bd864da66",
+          "statement_sha256": "17f4926e283e67576235e6dcbf63afe8e45ce8a8e9b66bce79ff59a04f5c7939",
+          "statement": "specification chunk_sum_left_correctness (p : Parameters) (r : Regions)\n    (kd value initial final : TypedSource.Storage) (useSeed storeFinal : Bool)\n    (hK : p.K ≤ p.BK) (hBT : 0 < p.BT) (hBC : 0 < p.BC) (hcover : p.T ≤ p.NT*p.BT)\n    (hs : RealOuterStep.Separate r)\n    (hfsep : storeFinal = Bool.true → r.history ≠ r.final ∧ r.corrected ≠ r.final) :\n    Spec.Real (sumLeftIO p r kd value initial final useSeed storeFinal ⊨ expected p useSeed)"
+        },
+        {
+          "file": "bench/tritonbench_g/chunk_delta_fwd/FPEquiv.lean",
+          "declaration": "chunk_sum_left_equiv",
+          "parser_name": "chunk_sum_left_equiv",
+          "line": 37,
+          "sha256": "38fdccb296bb97a319003890e122d8cf7b532e20959099bb3ddc93b5d64acef7",
+          "statement_sha256": "96427bd97f79c7ac354a1d27153c8f8d149f44b0b36508ef159eb4461f2a1b25",
+          "statement": "specification chunk_sum_left_equiv (R : FP.ScalarArithmetic.Rules) :\n    original kd value initial final k v d v_new h initial_state final_state\n      s_qk_h s_qk_t s_qk_d s_vo_h s_vo_t s_vo_d s_h_h s_h_t\n      H T K V BT BC BK BV NT USE_INITIAL_STATE STORE_FINAL_STATE ≡[R]\n    sumLeft kd value initial final k v d v_new h initial_state final_state\n      s_qk_h s_qk_t s_qk_d s_vo_h s_vo_t s_vo_d s_h_h s_h_t\n      H T K V BT BC BK BV NT USE_INITIAL_STATE STORE_FINAL_STATE"
+        }
+      ],
+      "catalog_declaration_metadata_discrepancies": [],
+      "dtype_scope_caveat": "No unsupported dtype is assumed to compile merely because a Python wrapper admits it. Missing-route findings require either the actual supported conversion route or a precise admission/rejection contract; they do not demand arbitrary compiler internals.",
+      "verification": {
+        "manual_original_production_functions_read": 2,
+        "actual_public_statements_reparsed_and_hash_checked": 3,
+        "key_source_and_referenced_definition_review": true,
+        "source_matches_baseline_scope_inputs": true,
+        "generated_selector_check": null,
+        "new_lean_runs": 0,
+        "new_frontend_runs": 0,
+        "gpu_runs": 0,
+        "numerical_deferrals_registered_by_this_read_only_review": 0
+      }
+    }
+  ]
+}

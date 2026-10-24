@@ -1,0 +1,8 @@
+{
+  "Views": "bench/tritonbench_g/vector_addition/Proofs/FiniteViews.lean",
+  "Memory": "bench/tritonbench_g/vector_addition/Proofs/FiniteMemory.lean",
+  "Routes": "bench/tritonbench_g/vector_addition/Proofs/FiniteRoutes.lean",
+  "Schedule": "bench/tritonbench_g/vector_addition/Proofs/FiniteSchedule.lean",
+  "Indices": "bench/tritonbench_g/vector_addition/Proofs/FiniteIndices.lean",
+  "FullScope": "bench/tritonbench_g/vector_addition/FiniteCorrect.lean"
+}

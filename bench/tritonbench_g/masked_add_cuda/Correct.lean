@@ -2,6 +2,11 @@ import bench.tritonbench_g.masked_add_cuda.Proofs.Real
 import bench.tritonbench_g.masked_add_cuda.Proofs.IntegerReal
 import VeriTile.Meta.StatementAudit
 
+/-! Historical mathematical and slice contracts in this file are ordinary helper
+theorems. Only the retained `specification` entries below are public source contracts.
+The helpers retain their statements and proofs for downstream reuse. -/
+
+
 namespace VeriTile.Bench.TritonBenchG.MaskedAddCuda
 open VeriTile.Triton
 open scoped VeriTile.Triton.BoolMasked2DKernelIO₂
@@ -57,7 +62,7 @@ every other memory cell — including the in-bounds lanes vetoed by `p_mask` —
 is unchanged. Proof: `BoolMasked2DKernelIO₂.Implements.intro` assembles the
 region-model masked in-place triple with the flat-memory bridge side
 conditions. -/
-specification masked_add_kernel_correctness
+theorem masked_add_kernel_correctness
     (grad_ptr p_ptr p_mask_ptr : RegionName)
     (n_elements : Nat) (alpha : ℝ) (BLOCK_SIZE : Nat) :
     maskedAddIO grad_ptr p_ptr p_mask_ptr n_elements alpha BLOCK_SIZE
@@ -81,7 +86,7 @@ def boolCommutedIO (g p m : RegionName) (n : Nat) (alpha : ℝ) (B : Nat) :
     kernel := masked_add_commuted_kernel g p m n alpha B
     projection := by rfl }
 
-specification masked_add_bool_commuted_real_correct (g p m : RegionName)
+theorem masked_add_bool_commuted_real_correct (g p m : RegionName)
     (n : Nat) (alpha : ℝ) (B : Nat) :
     Spec.Real (boolCommutedIO g p m n alpha B ⊨
       fun _ _ _ xs ys j => ys j + xs j * alpha) := by

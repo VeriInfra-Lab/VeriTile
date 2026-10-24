@@ -1,0 +1,2358 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "task": "int8_matmul_quantization maximum primitive migration",
+  "frozen_at_utc": "2026-10-14T20:30:37.034514+00:00",
+  "integration_status": "Private overlay only. Workspace and common isolated dependencies untouched. Apply frozen core patch before task patch; parent owns integration and full rebuild.",
+  "required_core_receipt_sha256": "a1f2ce4adbf80b5ea3aac8b769c849eaa7eec7128648a59db2caada1f32b8395",
+  "required_core_patch_sha256": "061d9eef2b330a44dc2c9416568700264ef65f17245514f36b47feeb8668f339",
+  "changed_files": [
+    {
+      "path": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "before_sha256": "b98eb9f581126fb0497ab1f0b2ecd69b3eff0dd212f633674a4e243292ea19cc",
+      "after_sha256": "90c4538198507790c1d30d656402657ad9f677993df0199c3c1c8235b2dc790b"
+    },
+    {
+      "path": "bench/tritonbench_g/int8_matmul_quantization/Proofs/MaximumMigration.md",
+      "before_sha256": null,
+      "after_sha256": "77f07cc2985483ca7af17663e9e98cc1ae4cfbd51f419cc07a6ee294122de056"
+    },
+    {
+      "path": "bench/tritonbench_g/int8_matmul_quantization/Proofs/QuantizeDomainCompat.lean",
+      "before_sha256": null,
+      "after_sha256": "da77b23157a0c281911cff1a0b0fc9c66c6d1aa174d25097d247ffbd02a46e83"
+    },
+    {
+      "path": "bench/tritonbench_g/int8_matmul_quantization/Proofs/QuantizeShape.lean",
+      "before_sha256": "c7a14c4b9d6dfeae8a5a46a9d631bec0dac8ba1f72a9bd69c65622100209ad93",
+      "after_sha256": "aade215ecc0b874aae0e0ba942966a79b68a3334bb4a7eec026ab02f0f0d05af"
+    },
+    {
+      "path": "bench/tritonbench_g/int8_matmul_quantization/Proofs/QuantizeSource.lean",
+      "before_sha256": "2ae9c11b2262b04e1c861d5bc2e9eb611b5ed2315bd86934e39c74fcd8c39d79",
+      "after_sha256": "6795e0727ec69f49cbc47655554222347a804b38d67e0a9b1a32cead1983b407"
+    }
+  ],
+  "patch": "migration.patch",
+  "patch_sha256": "c717a23576156ebcc75c2ae966217324f7ff4b5efccaae17f3d4732ddee15da9",
+  "compiled": [
+    {
+      "module": "VeriTile.Triton.Memory.View",
+      "source": "VeriTile/Triton/Memory/View.lean",
+      "source_sha256": "81902179bc5303b70f7e76fa8896df3d3ac0c130e7b25950ab21c546f286f077",
+      "baseline_source_sha256": "81902179bc5303b70f7e76fa8896df3d3ac0c130e7b25950ab21c546f286f077",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.View.log",
+      "log_sha256": "18be43de83742fed98fbf06156e32a50c34cbfcc5101fad82b051332a801d08f",
+      "olean_sha256": "0b07e47b59d6a44d635862d47f4d86918421713ddca2f40ef1ea19ba9b9520a9",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Frame.Basic",
+      "source": "VeriTile/Triton/Memory/Frame/Basic.lean",
+      "source_sha256": "14e010c95c718cb6b994031fab88ee85da4fe0ad623c8adeadf3bb755bc1c593",
+      "baseline_source_sha256": "14e010c95c718cb6b994031fab88ee85da4fe0ad623c8adeadf3bb755bc1c593",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.Frame.Basic.log",
+      "log_sha256": "eb8b2ebe657d99dfb4ddf7888e2991e3408b44a6bc7159b3cd55bd1076fb5f5d",
+      "olean_sha256": "b85a506795b344b2b06d91654cc43feee2837a527f9d02f793de1fc28c09beba",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Frame.Stmt",
+      "source": "VeriTile/Triton/Memory/Frame/Stmt.lean",
+      "source_sha256": "98a4a4032c574773dc719d85d79452c1d1c745f11db296da9ce78019cddbf116",
+      "baseline_source_sha256": "98a4a4032c574773dc719d85d79452c1d1c745f11db296da9ce78019cddbf116",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.Frame.Stmt.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "42ee6fe6d606c083c873509264db8c6628821bf2f00696c6976364a2229d1c6b",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Frame.Kernel",
+      "source": "VeriTile/Triton/Memory/Frame/Kernel.lean",
+      "source_sha256": "d15f68b693226f9d4d6ac64428fca447e973a0141b5310e98026c755a293c0ee",
+      "baseline_source_sha256": "d15f68b693226f9d4d6ac64428fca447e973a0141b5310e98026c755a293c0ee",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.Frame.Kernel.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "7c29f4b8c76cbe52fd8478743333e7e7bcc003e8dedf51e4c65dbde74b7aaef8",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Frame",
+      "source": "VeriTile/Triton/Memory/Frame.lean",
+      "source_sha256": "69ceb0d4ffea1563dcd1dd3a1ea1ca12f7d4f7a1bca192edd7c6a300091ad49e",
+      "baseline_source_sha256": "69ceb0d4ffea1563dcd1dd3a1ea1ca12f7d4f7a1bca192edd7c6a300091ad49e",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.Frame.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "f86d117fa906a7d87ccff6e3fe778676207940f6e2c953277c1ca1f5794b96de",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Footprint",
+      "source": "VeriTile/Triton/Memory/Footprint.lean",
+      "source_sha256": "ef80d79ae760c927093577188f384f31aae7f54527dc67358308389ee0af7eb2",
+      "baseline_source_sha256": "ef80d79ae760c927093577188f384f31aae7f54527dc67358308389ee0af7eb2",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.Footprint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "d90f32433ae68998401c5c492c55a458708da41ed4604fdf6e84c68a332b99dc",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Typing",
+      "source": "VeriTile/Triton/Memory/Typing.lean",
+      "source_sha256": "20ed89f4c6e4040275af913ce63ecc706bcbdb9a5b20ce4cbaed493cdc6542b6",
+      "baseline_source_sha256": "20ed89f4c6e4040275af913ce63ecc706bcbdb9a5b20ce4cbaed493cdc6542b6",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.Typing.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "8a95f89912a78f5d885086541e1abce52e7bd75a0d872d70018e5e9dff9c6db2",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.FlattenTolerant",
+      "source": "VeriTile/Triton/Memory/FlattenTolerant.lean",
+      "source_sha256": "3465fcb1233e1ad47c3f7c89c3377fae203cd168f9cf47c34485ea480f71a66a",
+      "baseline_source_sha256": "3465fcb1233e1ad47c3f7c89c3377fae203cd168f9cf47c34485ea480f71a66a",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.FlattenTolerant.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "861f5f0428874f9810d6a50a57d33ab835fe7d5d2b6a4c4f8401ad089925cd1f",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Layout",
+      "source": "VeriTile/Triton/Memory/Layout.lean",
+      "source_sha256": "e0532314b8f5de6b4abc349368cdf2fd369280ee2ce97eedf364cd12f847996a",
+      "baseline_source_sha256": "e0532314b8f5de6b4abc349368cdf2fd369280ee2ce97eedf364cd12f847996a",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.Layout.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "76254a07f1217e29023d7f9d3df04e4980f4694f5f4c458ce1bc7c3dcef9928d",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.MaskedND",
+      "source": "VeriTile/Triton/Memory/KernelSpec/MaskedND.lean",
+      "source_sha256": "e4056b3085024808ab8fc1e04d3af2381a879fea9374ab0f4751ba9fbdf15532",
+      "baseline_source_sha256": "e4056b3085024808ab8fc1e04d3af2381a879fea9374ab0f4751ba9fbdf15532",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.KernelSpec.MaskedND.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "b446119e6b0b84abbe7f215eedb25e076c026a306cd8ce606b421f58fdf2141d",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.BooleanMasked",
+      "source": "VeriTile/Triton/Memory/KernelSpec/BooleanMasked.lean",
+      "source_sha256": "7dc158c61ed167c2d6dcd50ebfb2285094ee5862195d2f50fe6446ed6fe628fb",
+      "baseline_source_sha256": "7dc158c61ed167c2d6dcd50ebfb2285094ee5862195d2f50fe6446ed6fe628fb",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.KernelSpec.BooleanMasked.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "854b7870a1e65458c6d8e62caedda452b638957392a3dee7ecfe3a4c66273cc0",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Metadata",
+      "source": "VeriTile/Triton/Memory/KernelSpec/Metadata.lean",
+      "source_sha256": "27672a7a080cce048c2556e3f9705abba985fc4c20b3e378e0ea31e929c01009",
+      "baseline_source_sha256": "27672a7a080cce048c2556e3f9705abba985fc4c20b3e378e0ea31e929c01009",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.KernelSpec.Metadata.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "8089851794b910e5534252755a4343d640ac48db2fc30809b84626c062ea8d32",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Scatter",
+      "source": "VeriTile/Triton/Memory/KernelSpec/Scatter.lean",
+      "source_sha256": "e32c3d321b97105b4ce5d192d87c94bed970c38b750f5b26ff10d71a237a4b24",
+      "baseline_source_sha256": "e32c3d321b97105b4ce5d192d87c94bed970c38b750f5b26ff10d71a237a4b24",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.KernelSpec.Scatter.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "80cd3933d784484e7dedd291908f12f2470d921489b93fcca3f25b3f6e45062c",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Gather",
+      "source": "VeriTile/Triton/Memory/KernelSpec/Gather.lean",
+      "source_sha256": "aa6b2a6a0b9cfc873d3194a9ce4c8cad9c1f881e6c0e7454000065d0101ae457",
+      "baseline_source_sha256": "aa6b2a6a0b9cfc873d3194a9ce4c8cad9c1f881e6c0e7454000065d0101ae457",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.KernelSpec.Gather.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "52208b56018457626e3966f4f36bdc69bf2d6279bcfc9d70577fd449ff927f6c",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Grouped",
+      "source": "VeriTile/Triton/Memory/KernelSpec/Grouped.lean",
+      "source_sha256": "809d66cfa5021f0ffc7f569ef5aa1b91edea5afafb56d123f8093ab24c18850f",
+      "baseline_source_sha256": "809d66cfa5021f0ffc7f569ef5aa1b91edea5afafb56d123f8093ab24c18850f",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.KernelSpec.Grouped.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "f9d1889f12c4f0ceba72df61bb7e48eb00b6af02776e3d8a31673c6dac5bec69",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Stream",
+      "source": "VeriTile/Triton/Memory/KernelSpec/Stream.lean",
+      "source_sha256": "308da848372ad8982ece008ea561836d1b2f96bac711cef3436cc859c2aa254e",
+      "baseline_source_sha256": "308da848372ad8982ece008ea561836d1b2f96bac711cef3436cc859c2aa254e",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.KernelSpec.Stream.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "ef760db10a5bbed35d0366e281856c0a6cfa14417e14b29ada6608fbec66a295",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.StreamEmit",
+      "source": "VeriTile/Triton/Memory/KernelSpec/StreamEmit.lean",
+      "source_sha256": "e723e4737a7384bd4ed69011b5d7135d8630f7c540c1848be3d18a8f1c94c02a",
+      "baseline_source_sha256": "e723e4737a7384bd4ed69011b5d7135d8630f7c540c1848be3d18a8f1c94c02a",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.KernelSpec.StreamEmit.log",
+      "log_sha256": "bf6d540f0ceaddcbf4395622aed7f2681d144543dedb56d082bc004de5fa2974",
+      "olean_sha256": "38cf761afb3888a79a9a0c09a5c9b67c90811d148a9ee2fa3144b71b1e752f86",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.StreamAttention",
+      "source": "VeriTile/Triton/Memory/KernelSpec/StreamAttention.lean",
+      "source_sha256": "a3d9812b4dea7ab67edffe5d338f108f91464f79910fb88abed54b9dff2f7a30",
+      "baseline_source_sha256": "a3d9812b4dea7ab67edffe5d338f108f91464f79910fb88abed54b9dff2f7a30",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.KernelSpec.StreamAttention.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "2de3a66af8bbf1cf9cbac8b21bb73f381a87e24bec5918326794e5ce3b479e91",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.StreamAttentionMetadata",
+      "source": "VeriTile/Triton/Memory/KernelSpec/StreamAttentionMetadata.lean",
+      "source_sha256": "c4d582356c4ced27762da21e73b7d22ffea362c2014dd336d1522de988998a99",
+      "baseline_source_sha256": "c4d582356c4ced27762da21e73b7d22ffea362c2014dd336d1522de988998a99",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.KernelSpec.StreamAttentionMetadata.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "5427a8e184ed5efedbe0c375b4a3a53dad3c3cdf33574173639dd52ee88d79fc",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.TileIndex",
+      "source": "VeriTile/Triton/Memory/KernelSpec/TileIndex.lean",
+      "source_sha256": "07294995905ab00ee3c4981cbae5e18bf50796815cd9bd49e93b8d427e72c8b1",
+      "baseline_source_sha256": "07294995905ab00ee3c4981cbae5e18bf50796815cd9bd49e93b8d427e72c8b1",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.KernelSpec.TileIndex.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "b6523b28b41b7d0d28a79e60c7a2bedd3db09bc2f689e78ee46c1d0946bcde07",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Tile",
+      "source": "VeriTile/Triton/Memory/KernelSpec/Tile.lean",
+      "source_sha256": "6056b7cf40200213a953c9249bfc1ecdb81534363fc5686a7538220fbea66872",
+      "baseline_source_sha256": "6056b7cf40200213a953c9249bfc1ecdb81534363fc5686a7538220fbea66872",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.KernelSpec.Tile.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "7e8a9f17374a5098d302cf393d8ec20f61bcdec701b72450e67c088da0131d19",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.TileND",
+      "source": "VeriTile/Triton/Memory/KernelSpec/TileND.lean",
+      "source_sha256": "d1b1fd6fd0be7fb1741e34d6bffec81b1f46db04eb7866db363e2d8cb7b4645a",
+      "baseline_source_sha256": "d1b1fd6fd0be7fb1741e34d6bffec81b1f46db04eb7866db363e2d8cb7b4645a",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.KernelSpec.TileND.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "e924557f3fad17406085eee90f3efc8ff3fff435890a77b77e8e7b83f777be7e",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.TileMetadata",
+      "source": "VeriTile/Triton/Memory/KernelSpec/TileMetadata.lean",
+      "source_sha256": "c457a30724b6288584a6e2e5e8533bcdbf59300eb4b20f8d82ca9be36efbe77c",
+      "baseline_source_sha256": "c457a30724b6288584a6e2e5e8533bcdbf59300eb4b20f8d82ca9be36efbe77c",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.KernelSpec.TileMetadata.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "0a22a2075a0c6da00670e1b480108474919d675c3f47d56ccbac4f11681bd122",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.TileGather",
+      "source": "VeriTile/Triton/Memory/KernelSpec/TileGather.lean",
+      "source_sha256": "964d1e68747a97b25d3f65d1728efc51d913d937ef5cb08e40ba991e99dbf0a9",
+      "baseline_source_sha256": "964d1e68747a97b25d3f65d1728efc51d913d937ef5cb08e40ba991e99dbf0a9",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.KernelSpec.TileGather.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "32b40858c2e2eae1c9e8278f4c8e14361cdd4fe9bae8bb3319902f1f0eba272d",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec",
+      "source": "VeriTile/Triton/Memory/KernelSpec.lean",
+      "source_sha256": "f6e211da67da821f3853b0dbf6ce13b648bdb5df98816193024b94170758dbe3",
+      "baseline_source_sha256": "f6e211da67da821f3853b0dbf6ce13b648bdb5df98816193024b94170758dbe3",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.KernelSpec.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "8e2b57c41662b550f6f392c9ea293f3505ce4d82fb3cfe1cab1b11082e90a95b",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory",
+      "source": "VeriTile/Triton/Memory.lean",
+      "source_sha256": "95ded98671abf69963028f62c116ea94ad838d2e784fe59f350f688f1c0618f0",
+      "baseline_source_sha256": "95ded98671abf69963028f62c116ea94ad838d2e784fe59f350f688f1c0618f0",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "13b8aef98ec86b726acf6f4e43dd4dcc9ab25aa74dc25411d958d86bac8279d2",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.KernelLemmas.EvalHelpers",
+      "source": "VeriTile/Triton/KernelLemmas/EvalHelpers.lean",
+      "source_sha256": "4a19550e09aabcadc3434134e8f6fdccf0dbcc3d634820c7b491d3bc3cecb9d9",
+      "baseline_source_sha256": "4a19550e09aabcadc3434134e8f6fdccf0dbcc3d634820c7b491d3bc3cecb9d9",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.KernelLemmas.EvalHelpers.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "85a75fbb25bb4c268a77022352fd704d297108a72165fb6118b0bb751a783129",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.KernelLemmas.Matmul",
+      "source": "VeriTile/Triton/KernelLemmas/Matmul.lean",
+      "source_sha256": "93eee78a5a29fe9526eada5beb986df35c6f9a24768a20ff9c9a64f8b156ce80",
+      "baseline_source_sha256": "93eee78a5a29fe9526eada5beb986df35c6f9a24768a20ff9c9a64f8b156ce80",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.KernelLemmas.Matmul.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "da012e28328a4e22d6cb0d16667b6dc312608645291c18b72ae4e56ab0dfe946",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.KernelLemmas.ScatterStore",
+      "source": "VeriTile/Triton/KernelLemmas/ScatterStore.lean",
+      "source_sha256": "b48c2d047c8ffc611d7791c14d4f98128bf17208f5a134edffe9c8678da7ff17",
+      "baseline_source_sha256": "b48c2d047c8ffc611d7791c14d4f98128bf17208f5a134edffe9c8678da7ff17",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.KernelLemmas.ScatterStore.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "97389129a7ed9703ce3ded8a80076c925b48848baab40bf3cc327dfe49c3cf0d",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.KernelLemmas.LoopInvariant",
+      "source": "VeriTile/Triton/KernelLemmas/LoopInvariant.lean",
+      "source_sha256": "ed17ccd8157fd3fd026d950a6b73eccd04fa13626048792e2d93ae7fcdf564f0",
+      "baseline_source_sha256": "ed17ccd8157fd3fd026d950a6b73eccd04fa13626048792e2d93ae7fcdf564f0",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.KernelLemmas.LoopInvariant.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "a2e427c3df632db334fc09904e50bcf8a93491d729c87ea4ff3de3f384abe125",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Float.StateErasure",
+      "source": "VeriTile/Triton/Float/StateErasure.lean",
+      "source_sha256": "d87d2d39b9cff48d8f7011f451329afefc3bc76ae600776bd599ec5b62b3b93e",
+      "baseline_source_sha256": "d87d2d39b9cff48d8f7011f451329afefc3bc76ae600776bd599ec5b62b3b93e",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Float.StateErasure.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "d545b5841a8c40cb9ef4f5b1de6a6af8496aa06d0ddcac9a4b55f284210f3e11",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.ExternalCheck",
+      "source": "VeriTile/Triton/ExternalCheck.lean",
+      "source_sha256": "df0c83664a16531f22d5c4c7898d358dffbae95a64173cddc2ace6257feabb95",
+      "baseline_source_sha256": "df0c83664a16531f22d5c4c7898d358dffbae95a64173cddc2ace6257feabb95",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.ExternalCheck.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "e84af70d4e226dda18a6b7009a8e442ac961186fc16cf03a934c410cc175fb89",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Correctness",
+      "source": "VeriTile/Triton/Correctness.lean",
+      "source_sha256": "0e5c59fe03bdf99aa94059eb533b44bd5764fa48e844751e9603891b730a03ce",
+      "baseline_source_sha256": "0e5c59fe03bdf99aa94059eb533b44bd5764fa48e844751e9603891b730a03ce",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Correctness.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "e53773ccacdc1cb5b30c0d4867c9444ef047bb9aae380e256bfed975aa57d392",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.KernelLemmas.CarryFold",
+      "source": "VeriTile/Triton/KernelLemmas/CarryFold.lean",
+      "source_sha256": "652e516656ffb90b3e85d37f47942c4bfe1a26f1fbc98218879f5a47da03bd49",
+      "baseline_source_sha256": "652e516656ffb90b3e85d37f47942c4bfe1a26f1fbc98218879f5a47da03bd49",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.KernelLemmas.CarryFold.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "3619566e63902550d18cdb3225d719ff51cabaea1db8d3bda5dc4542acee998c",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.KernelLemmas",
+      "source": "VeriTile/Triton/KernelLemmas.lean",
+      "source_sha256": "22dba3bab9b64beb95ccae479e1e4fd0df8982a30751b814bbd38cd8bac87d9d",
+      "baseline_source_sha256": "22dba3bab9b64beb95ccae479e1e4fd0df8982a30751b814bbd38cd8bac87d9d",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.KernelLemmas.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "07badf8ce7af9b35fd12577b69f808a503d5c243b8ed55a282a5f2ee445e734e",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Float.Refine",
+      "source": "VeriTile/Triton/Float/Refine.lean",
+      "source_sha256": "fa767a47f0f9e79c951c2b5d074455612c3464438220ee829de29f17e5eabc83",
+      "baseline_source_sha256": "fa767a47f0f9e79c951c2b5d074455612c3464438220ee829de29f17e5eabc83",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Float.Refine.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "578129691695e9d16bf43e12572ce41aab68d29be8ebf95e53513984645899a3",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Float.Pipeline",
+      "source": "VeriTile/Triton/Float/Pipeline.lean",
+      "source_sha256": "5a892afbc554b181bcff18de0901bef31fa70f659fe420274e6c8cfcd5975646",
+      "baseline_source_sha256": "5a892afbc554b181bcff18de0901bef31fa70f659fe420274e6c8cfcd5975646",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Float.Pipeline.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "73be878c1ca3dcb51e6c253d70b830d319eadf16d272691c110777241fb0bf71",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Float",
+      "source": "VeriTile/Triton/Float.lean",
+      "source_sha256": "92d888b138f8b593d5337806b3128af63832e8c2a1ab482efceedbd432821b7d",
+      "baseline_source_sha256": "92d888b138f8b593d5337806b3128af63832e8c2a1ab482efceedbd432821b7d",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Float.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "f4a8a5d99d3371c750f93e9ee496e0f80eaef414d7907ac48c07c108ac3d3d56",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Launch.Grid",
+      "source": "VeriTile/Triton/Launch/Grid.lean",
+      "source_sha256": "74c1c565e02dc30e35751531333bd59ba16f4f9305f40a7ca591e4b24e251925",
+      "baseline_source_sha256": "74c1c565e02dc30e35751531333bd59ba16f4f9305f40a7ca591e4b24e251925",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Launch.Grid.log",
+      "log_sha256": "8ecab4082a49010d4f59c08436ee4d0262e60ac57f7fb20e5e2a2b24969524b7",
+      "olean_sha256": "3e62ce6cbfb45ca277cf96b9381920b3582fe70d1ff87a8aefabb4421ea0ad0d",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Launch.Composition",
+      "source": "VeriTile/Triton/Launch/Composition.lean",
+      "source_sha256": "1a4db9f31530ff88a9727478b8cfa1df9de9934168c759a2934c4367877090a3",
+      "baseline_source_sha256": "1a4db9f31530ff88a9727478b8cfa1df9de9934168c759a2934c4367877090a3",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Launch.Composition.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "1aa7ce43cc7edeac38cd1339ec61d9b8de864ac601e3080da9ef4b541284e9ce",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Launch",
+      "source": "VeriTile/Triton/Launch.lean",
+      "source_sha256": "2dd3ea1acf4cecd1ba4f24dee9868bf5089fa898ca9bf73a6074b4717241b4e6",
+      "baseline_source_sha256": "2dd3ea1acf4cecd1ba4f24dee9868bf5089fa898ca9bf73a6074b4717241b4e6",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Launch.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "dcb2bd8c6bfd67c9d34ce7cae289252df42d9bdbff453aeaafd2ae57cf5ef09e",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Concurrency.Trace",
+      "source": "VeriTile/Triton/Concurrency/Trace.lean",
+      "source_sha256": "85b2f0867c77795663ca6de96344f8896014bb919e9632ea400479138cc52c8c",
+      "baseline_source_sha256": "85b2f0867c77795663ca6de96344f8896014bb919e9632ea400479138cc52c8c",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Concurrency.Trace.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "959ff12791dff190d9a0787a5967e4956b63a1d00ca4003d0aa4d9814c2b1f28",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Concurrency.Discipline",
+      "source": "VeriTile/Triton/Concurrency/Discipline.lean",
+      "source_sha256": "3901bcbadeaf513cb0723a0db9c77f23e8f4700bf6b076cb9da0869abf17395a",
+      "baseline_source_sha256": "3901bcbadeaf513cb0723a0db9c77f23e8f4700bf6b076cb9da0869abf17395a",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Concurrency.Discipline.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "2d994077b3a762f4367eb7863435ae81bfb7fe4b6a386342021abc9442d16e60",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Concurrency.Refinement",
+      "source": "VeriTile/Triton/Concurrency/Refinement.lean",
+      "source_sha256": "0baf4b34389f4d1b1ea978e8fd4525e306e8110733a33c9793f3cad851b93196",
+      "baseline_source_sha256": "0baf4b34389f4d1b1ea978e8fd4525e306e8110733a33c9793f3cad851b93196",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Concurrency.Refinement.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "22d68f9546acbfe7e73e6da703982dcfb2b8b9c9ef688536f30d0238b78beddd",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Concurrency.ProducerConsumer",
+      "source": "VeriTile/Triton/Concurrency/ProducerConsumer.lean",
+      "source_sha256": "0ba0c4c59a75b83b52782a2bc7f58880af134e9c2718e03fd8e5ca831d8de06a",
+      "baseline_source_sha256": "0ba0c4c59a75b83b52782a2bc7f58880af134e9c2718e03fd8e5ca831d8de06a",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Concurrency.ProducerConsumer.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "d4118d267f1c9f431b512d0da65929a66c9aac0806507aa70d5864d083ba9304",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Concurrency.Atomic",
+      "source": "VeriTile/Triton/Concurrency/Atomic.lean",
+      "source_sha256": "03dc2a7547ff4c90ca22d3af13867ca243306fbb06e73ddc424d41545129da52",
+      "baseline_source_sha256": "03dc2a7547ff4c90ca22d3af13867ca243306fbb06e73ddc424d41545129da52",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Concurrency.Atomic.log",
+      "log_sha256": "8f42f9f70b56271c5c27b8a94701f60ff39f27b3d51fc028a36b9cec45f1e0c1",
+      "olean_sha256": "4b7c8600558b0897501716b930dba698bd20419ad222472af2dc91bc6172ebe7",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Concurrency",
+      "source": "VeriTile/Triton/Concurrency.lean",
+      "source_sha256": "b6312bcc71e3596bb9fbfd039b11b412a22df3a4cbcd6e740c703c9271739f6e",
+      "baseline_source_sha256": "b6312bcc71e3596bb9fbfd039b11b412a22df3a4cbcd6e740c703c9271739f6e",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Concurrency.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "28412cf13053906592ad3f13749029c692e3ac24c59974fca6af1f792e32999e",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton",
+      "source": "VeriTile/Triton.lean",
+      "source_sha256": "0937879a78c271cce7beda0e77d0b0bcf90a23a2ce90485ab011a5472d75f9a0",
+      "baseline_source_sha256": "0937879a78c271cce7beda0e77d0b0bcf90a23a2ce90485ab011a5472d75f9a0",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "d249fd2b9199806ebcc323be3b6a7a57d3cd8ee13aea3283320057a7932df9e9",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Float.ScalarBackend",
+      "source": "VeriTile/Triton/Float/ScalarBackend.lean",
+      "source_sha256": "b53529209e20d55de6dbde031c19d5baf76032c1377ef84df6583d93295d2b0a",
+      "baseline_source_sha256": "b53529209e20d55de6dbde031c19d5baf76032c1377ef84df6583d93295d2b0a",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Float.ScalarBackend.log",
+      "log_sha256": "87b0f7859d8d7cadb65b04d474526151d02e2be1ee5f7f3a4488d005f99e19f2",
+      "olean_sha256": "efb060cdbe8620637a01df038ccd6fc63919eeb90fd62407a2c26fb02d3c4db8",
+      "axiom_checks": 7
+    },
+    {
+      "module": "VeriTile.Triton.Float.LegacyRealInt8",
+      "source": "VeriTile/Triton/Float/LegacyRealInt8.lean",
+      "source_sha256": "23e468061b3bd66234309d7d354a68a2d7a8675feedc13ed68995f2cbeea9197",
+      "baseline_source_sha256": "23e468061b3bd66234309d7d354a68a2d7a8675feedc13ed68995f2cbeea9197",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Float.LegacyRealInt8.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "8a3caf9352b30a080b3a7cd252658442c8b20e40ee1607b4a0c9206bd2fa6ecd",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Float.IntegerConversion",
+      "source": "VeriTile/Triton/Float/IntegerConversion.lean",
+      "source_sha256": "0a826b55abcd01350f0eb9832a54929d1e1481c2ea4e928bf3ba0888de7921c0",
+      "baseline_source_sha256": "0a826b55abcd01350f0eb9832a54929d1e1481c2ea4e928bf3ba0888de7921c0",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Float.IntegerConversion.log",
+      "log_sha256": "7f834ba7db55b296401086fb038bf0ea0fa07681164eb00ff1709dcaeab2bf58",
+      "olean_sha256": "1cd971ecd1988a390b2eda9b5ec6ff4d5e7c7ce5243c670d2ee6bdd579d448b2",
+      "axiom_checks": 6
+    },
+    {
+      "module": "VeriTile.Triton.Float.IntegerConversionTotal",
+      "source": "VeriTile/Triton/Float/IntegerConversionTotal.lean",
+      "source_sha256": "3f36ef1b3ff8dfb3fd3a2f4a4456ac7072190853d402ea256470b6e7960d282d",
+      "baseline_source_sha256": "3f36ef1b3ff8dfb3fd3a2f4a4456ac7072190853d402ea256470b6e7960d282d",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Float.IntegerConversionTotal.log",
+      "log_sha256": "47b20d22bde4a1601371701115f4f5104a9b8197b99c8f27e305d5666ae9c4d9",
+      "olean_sha256": "838fe7bbc9c5f6c54d34fcbb56229707188f646680ee0587ec9f9fd1b74118cf",
+      "axiom_checks": 4
+    },
+    {
+      "module": "VeriTile.Triton.Source",
+      "source": "VeriTile/Triton/Source.lean",
+      "source_sha256": "41482321a17d14a5a2fe783f489d2aa95fc483e21760eb828c292d9785705f88",
+      "baseline_source_sha256": "41482321a17d14a5a2fe783f489d2aa95fc483e21760eb828c292d9785705f88",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Source.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "fe69f79ce68048a94a401d1273726811ead220a2c0ce6bc438fdb9bd3e366fb5",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Float.ScalarArithmeticLaws",
+      "source": "VeriTile/Triton/Float/ScalarArithmeticLaws.lean",
+      "source_sha256": "f1fd02ebbb34e2384c459a09ab2013837752133940f5ecd57809ed96cb240dad",
+      "baseline_source_sha256": "f1fd02ebbb34e2384c459a09ab2013837752133940f5ecd57809ed96cb240dad",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Float.ScalarArithmeticLaws.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "058e0381ebf06b593d85f83e58bab8117ec29f04dd594ed3735050079f3c9b72",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Float.GuardedRewrite",
+      "source": "VeriTile/Triton/Float/GuardedRewrite.lean",
+      "source_sha256": "f350311fea97fdf25597b2c5ebae9415718ad55e65a74e28b2331a27252b0854",
+      "baseline_source_sha256": "f350311fea97fdf25597b2c5ebae9415718ad55e65a74e28b2331a27252b0854",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Float.GuardedRewrite.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "c31aaba5c69cdc39f62e8a8e1c1b574fb817f8a93e68616a9a4285710e81d6fe",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Float.Loop",
+      "source": "VeriTile/Triton/Float/Loop.lean",
+      "source_sha256": "3b67954d45467ed5755158c9ef280e078c9fe911b5c906c34020249edc412336",
+      "baseline_source_sha256": "3b67954d45467ed5755158c9ef280e078c9fe911b5c906c34020249edc412336",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Float.Loop.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "8a030ffd722b2fad0432fd68a739e8c8d6a7421746b01352b9f67cc0a08423fc",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Float.ProfiledRewrite",
+      "source": "VeriTile/Triton/Float/ProfiledRewrite.lean",
+      "source_sha256": "3e6460ceec521965b756c66fa7a186a495b61a6f683da7044c1c410b6a3ba18b",
+      "baseline_source_sha256": "3e6460ceec521965b756c66fa7a186a495b61a6f683da7044c1c410b6a3ba18b",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Float.ProfiledRewrite.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "10f890ddde7a15b3c1d02a9ddb5224bb54a14330fe801eff5df79b5d3fc66081",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Float.IntegerDot",
+      "source": "VeriTile/Triton/Float/IntegerDot.lean",
+      "source_sha256": "c8aaf78b76b9b8ff27f835c18830f298911deecf040ca29c78e84ebdc0859251",
+      "baseline_source_sha256": "c8aaf78b76b9b8ff27f835c18830f298911deecf040ca29c78e84ebdc0859251",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Float.IntegerDot.log",
+      "log_sha256": "5ccfc676bdf17e368722a509b88ca023ed8675b719b7b1608ead5a4dc1a7b18b",
+      "olean_sha256": "48e14eef42d57e996f43dcb38b6d1b7a2851f761fd70976a4c4cb71ffbc2887c",
+      "axiom_checks": 5
+    },
+    {
+      "module": "VeriTile.Triton.Float.UnsignedCast",
+      "source": "VeriTile/Triton/Float/UnsignedCast.lean",
+      "source_sha256": "297f5a3cd7b5911ea8995a46b8c4d5f4dec4f9596475bcb6003ea27cdeb56b9d",
+      "baseline_source_sha256": "297f5a3cd7b5911ea8995a46b8c4d5f4dec4f9596475bcb6003ea27cdeb56b9d",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Float.UnsignedCast.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "992c5e12076506ba83b4c1335b0e41f902259ca6727438633d0a96631a9222de",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Float.FixedInteger",
+      "source": "VeriTile/Triton/Float/FixedInteger.lean",
+      "source_sha256": "376b99eb05cb9fa3433ea9fb3ebe3edb4aa90b535323b71eac600300bc40fdda",
+      "baseline_source_sha256": "376b99eb05cb9fa3433ea9fb3ebe3edb4aa90b535323b71eac600300bc40fdda",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Float.FixedInteger.log",
+      "log_sha256": "0f26c1631becf2033c19dda3edc53351be0f218be239fef2d38367f69f8e5f81",
+      "olean_sha256": "f6b5cfc071194e7ef3346f04a34dccb81baf589fee99ae395d04871fdbeb87a8",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Float.SignedCast",
+      "source": "VeriTile/Triton/Float/SignedCast.lean",
+      "source_sha256": "79fb0af591b285287bc861973fe18571f5ae8528605f0ee783d1417c6bbe8c6c",
+      "baseline_source_sha256": "79fb0af591b285287bc861973fe18571f5ae8528605f0ee783d1417c6bbe8c6c",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Float.SignedCast.log",
+      "log_sha256": "b9a5caae01d933e142a6965cb5aa85c9f4206c36c295883cf96b951103f67adc",
+      "olean_sha256": "34f3dd45b160c80c49ac3f361d8e236a84413ec285665eca5a3a9fc0f1ddfff5",
+      "axiom_checks": 0
+    },
+    {
+      "module": "bench.tritonbench_g.int8_matmul_quantization.Int8MatmulQuantization",
+      "source": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "source_sha256": "90c4538198507790c1d30d656402657ad9f677993df0199c3c1c8235b2dc790b",
+      "baseline_source_sha256": "b98eb9f581126fb0497ab1f0b2ecd69b3eff0dd212f633674a4e243292ea19cc",
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.int8_matmul_quantization.Int8MatmulQuantization.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "7a7e12a99ed64d10e7ceaca92e971c217c04d244b77887d334c9c8f3e54ea252",
+      "axiom_checks": 0
+    },
+    {
+      "module": "bench.tritonbench_g.matrix_reduction.Proofs.TypedSource",
+      "source": "bench/tritonbench_g/matrix_reduction/Proofs/TypedSource.lean",
+      "source_sha256": "6e4a769a7b871e50b630b7b8c80d024c8e5fc743279174a0d48b22ed6460ae8e",
+      "baseline_source_sha256": "6e4a769a7b871e50b630b7b8c80d024c8e5fc743279174a0d48b22ed6460ae8e",
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.matrix_reduction.Proofs.TypedSource.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "e8be188a8ce15bde811a16dbe702a3a0d049b96773a348232995ed15e2aa0278",
+      "axiom_checks": 0
+    },
+    {
+      "module": "bench.tritonbench_g.matrix_reduction.Proofs.MachineMax",
+      "source": "bench/tritonbench_g/matrix_reduction/Proofs/MachineMax.lean",
+      "source_sha256": "695a899065f4b1202c2e6a6057b1e6d303e8b4bb475caab70c7b7a032185fe20",
+      "baseline_source_sha256": "695a899065f4b1202c2e6a6057b1e6d303e8b4bb475caab70c7b7a032185fe20",
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.matrix_reduction.Proofs.MachineMax.log",
+      "log_sha256": "d0edf82c4c7357712bff996645cc2ab14b04a25af0eb53a8d1ad39c483de2851",
+      "olean_sha256": "06392e37d4b2a4c87aee19f9042714af062ccf5aa202b4fb31eb8ad9ee66b9d3",
+      "axiom_checks": 3
+    },
+    {
+      "module": "bench.tritonbench_g.quantize_kv_copy.Proofs.FP32Profile",
+      "source": "bench/tritonbench_g/quantize_kv_copy/Proofs/FP32Profile.lean",
+      "source_sha256": "0904e9bba00cdab5a00aeb9a6b179be0e679bd15ad44029db9998edba6bc35eb",
+      "baseline_source_sha256": "0904e9bba00cdab5a00aeb9a6b179be0e679bd15ad44029db9998edba6bc35eb",
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.quantize_kv_copy.Proofs.FP32Profile.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "bcfd415b326c44da498652b365c43a0980d04579559594803a9b53f5a557fad1",
+      "axiom_checks": 0
+    },
+    {
+      "module": "bench.tritonbench_g.quantize_kv_transform.Proofs.MixedBits",
+      "source": "bench/tritonbench_g/quantize_kv_transform/Proofs/MixedBits.lean",
+      "source_sha256": "5d774c65adefd8e9c46073c4d94a257ad8b57fbb8a7bcc6ebfe1df88e30513c3",
+      "baseline_source_sha256": "5d774c65adefd8e9c46073c4d94a257ad8b57fbb8a7bcc6ebfe1df88e30513c3",
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.quantize_kv_transform.Proofs.MixedBits.log",
+      "log_sha256": "6cf06a0e2892ad8daf377b87df0f4825c8d0d1471e3566b60ed5637d555b290f",
+      "olean_sha256": "7565a737d6cefbc3b0bce6b3c22f71cb3177ae1da2eb4d93e01180678f0c9512",
+      "axiom_checks": 2
+    },
+    {
+      "module": "bench.tritonbench_g.kcache_copy_triton.KcacheCopyTriton",
+      "source": "bench/tritonbench_g/kcache_copy_triton/KcacheCopyTriton.lean",
+      "source_sha256": "fb16f21d28e45b01dff210b98a37029c4d623b8710d6a91b43edea53f967bb74",
+      "baseline_source_sha256": "fb16f21d28e45b01dff210b98a37029c4d623b8710d6a91b43edea53f967bb74",
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.kcache_copy_triton.KcacheCopyTriton.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "f2b205914ec275d74b1cc57bf941835c1a71404c29d819d2ba3fdf8c4e65e416",
+      "axiom_checks": 0
+    },
+    {
+      "module": "bench.tritonbench_g.kcache_copy_triton.Proofs.TypedCopy",
+      "source": "bench/tritonbench_g/kcache_copy_triton/Proofs/TypedCopy.lean",
+      "source_sha256": "727b75143b5d44732b8240aadd0a5e62ab1bd4ba81cd37420d89e02b1a73ca34",
+      "baseline_source_sha256": "727b75143b5d44732b8240aadd0a5e62ab1bd4ba81cd37420d89e02b1a73ca34",
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.kcache_copy_triton.Proofs.TypedCopy.log",
+      "log_sha256": "7ff5a374161857ec094ed90a2d58572faeeb5c3afe17ad06f44eb6745be61f98",
+      "olean_sha256": "2a3f06fd1662c1929f6aef1444d37026fdcf1bc7dbfdedd7b52d60972a6062be",
+      "axiom_checks": 6
+    },
+    {
+      "module": "bench.tritonbench_g.int8_matmul_quantization.Proofs.QuantizeSource",
+      "source": "bench/tritonbench_g/int8_matmul_quantization/Proofs/QuantizeSource.lean",
+      "source_sha256": "6795e0727ec69f49cbc47655554222347a804b38d67e0a9b1a32cead1983b407",
+      "baseline_source_sha256": "2ae9c11b2262b04e1c861d5bc2e9eb611b5ed2315bd86934e39c74fcd8c39d79",
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.int8_matmul_quantization.Proofs.QuantizeSource.log",
+      "log_sha256": "96456277e91bd0336efad1fc96e61132f9f6d3073dd9949dd5aa9c67ae9e4172",
+      "olean_sha256": "9de1c07c03680e7748507cc986ded65fa5675934427a3e9d7940473fd3f3d1ed",
+      "axiom_checks": 1
+    },
+    {
+      "module": "bench.tritonbench_g.int8_matmul_quantization.Proofs.QuantizeDomainCompat",
+      "source": "bench/tritonbench_g/int8_matmul_quantization/Proofs/QuantizeDomainCompat.lean",
+      "source_sha256": "da77b23157a0c281911cff1a0b0fc9c66c6d1aa174d25097d247ffbd02a46e83",
+      "baseline_source_sha256": null,
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.int8_matmul_quantization.Proofs.QuantizeDomainCompat.log",
+      "log_sha256": "394450d9a95d66ad9a68c1ce4350406bd380a0a44fe6caa19bb4d68f5d58a7b2",
+      "olean_sha256": "bb8dfc86fc2f0085c250308aa33830672df1425d49932f0d69d52fc6cc64e9fb",
+      "axiom_checks": 4
+    },
+    {
+      "module": "bench.tritonbench_g.int8_matmul_quantization.Proofs.QuantizeShape",
+      "source": "bench/tritonbench_g/int8_matmul_quantization/Proofs/QuantizeShape.lean",
+      "source_sha256": "aade215ecc0b874aae0e0ba942966a79b68a3334bb4a7eec026ab02f0f0d05af",
+      "baseline_source_sha256": "c7a14c4b9d6dfeae8a5a46a9d631bec0dac8ba1f72a9bd69c65622100209ad93",
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.int8_matmul_quantization.Proofs.QuantizeShape.log",
+      "log_sha256": "3085b49ec9cade0dd7c733c9654681ef69cafd21b3be7fc6c19bee58e0cc2389",
+      "olean_sha256": "001ed2a1ec2801b9bc5d85eb91c87bceece573ae1b978392f11f2240207f84f9",
+      "axiom_checks": 8
+    },
+    {
+      "module": "bench.tritonbench_g.int8_matmul_quantization.Proofs.QuantizeFirstPass",
+      "source": "bench/tritonbench_g/int8_matmul_quantization/Proofs/QuantizeFirstPass.lean",
+      "source_sha256": "6e6017a8b58e8297276239429e866308b030571c5e94b76f9ae45dc225b6ed24",
+      "baseline_source_sha256": "6e6017a8b58e8297276239429e866308b030571c5e94b76f9ae45dc225b6ed24",
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.int8_matmul_quantization.Proofs.QuantizeFirstPass.log",
+      "log_sha256": "49f8c26acdfe524a406406d3f2c3ae55ccc21221bf4760dd97065e559138c9ee",
+      "olean_sha256": "a4dd059bb259d1a824af0fa39dfafa2b1cf6c0679c3e3a53dcf86e201ca02fd7",
+      "axiom_checks": 5
+    },
+    {
+      "module": "bench.tritonbench_g.int8_matmul_quantization.Proofs.QuantizeWrites",
+      "source": "bench/tritonbench_g/int8_matmul_quantization/Proofs/QuantizeWrites.lean",
+      "source_sha256": "516744f84db1e8251bcb6ea7bd2dd19fb13db0c4232244685c43de516a293cf4",
+      "baseline_source_sha256": "516744f84db1e8251bcb6ea7bd2dd19fb13db0c4232244685c43de516a293cf4",
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.int8_matmul_quantization.Proofs.QuantizeWrites.log",
+      "log_sha256": "3e0f25c9e588d3cd23eacaa8f46cfed6dfdc1e6ae68609f6d1df7b70b1172819",
+      "olean_sha256": "bb380e2bca8e2f262f14b28cd777e3362c64a65037fae94b78b9a062b6e5505a",
+      "axiom_checks": 4
+    },
+    {
+      "module": "bench.tritonbench_g.int8_matmul_quantization.Proofs.QuantizeSecondPass",
+      "source": "bench/tritonbench_g/int8_matmul_quantization/Proofs/QuantizeSecondPass.lean",
+      "source_sha256": "3318a0d1ae266b6b26df90e6d28246680cf5c69b2330d059f5dae1fcdaa55fa0",
+      "baseline_source_sha256": "3318a0d1ae266b6b26df90e6d28246680cf5c69b2330d059f5dae1fcdaa55fa0",
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.int8_matmul_quantization.Proofs.QuantizeSecondPass.log",
+      "log_sha256": "591ea77b1658be237fabc916a372e3dffff1448369cc28ac466f736f4d694434",
+      "olean_sha256": "0b381bb3606dd38a9d08982546ceb2a4632b7ca70f1e6e7313b2abe2154e2211",
+      "axiom_checks": 4
+    },
+    {
+      "module": "bench.tritonbench_g.int8_matmul_quantization.Proofs.QuantizeComplete",
+      "source": "bench/tritonbench_g/int8_matmul_quantization/Proofs/QuantizeComplete.lean",
+      "source_sha256": "49ec5af1ab6bdb1636218eece58eb6ac27d638db604e95ae5d8e6f7dc5b66b0b",
+      "baseline_source_sha256": "49ec5af1ab6bdb1636218eece58eb6ac27d638db604e95ae5d8e6f7dc5b66b0b",
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.int8_matmul_quantization.Proofs.QuantizeComplete.log",
+      "log_sha256": "2882b16923ab8baa14c721b6d9d1149685830c66763ec1c009cf0ffcd972112c",
+      "olean_sha256": "054bf2c3d9398cd85fbf028499bdc3cc481d473f5e6415ab53be824a2933608e",
+      "axiom_checks": 8
+    },
+    {
+      "module": "bench.tritonbench_g.int8_matmul_quantization.Proofs.QuantizeContract",
+      "source": "bench/tritonbench_g/int8_matmul_quantization/Proofs/QuantizeContract.lean",
+      "source_sha256": "1d429af86dd4a19b7b75423652e075498456ce88e3f63861ce005c3af033e655",
+      "baseline_source_sha256": "1d429af86dd4a19b7b75423652e075498456ce88e3f63861ce005c3af033e655",
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.int8_matmul_quantization.Proofs.QuantizeContract.log",
+      "log_sha256": "66ace012a56f795b5bb8267037de894128b05d8c6c6a7be5a9b695a583370494",
+      "olean_sha256": "099e84aad12d752097bacd665d84c6e99eaf5503b3b3c60264267531128da8ca",
+      "axiom_checks": 6
+    },
+    {
+      "module": "bench.tritonbench_g.int8_matmul_quantization.Proofs.QuantizeWitness",
+      "source": "bench/tritonbench_g/int8_matmul_quantization/Proofs/QuantizeWitness.lean",
+      "source_sha256": "d9829f84f73d776f16727c43abf677db0f215c47cba04465242ad779234e6d5f",
+      "baseline_source_sha256": "d9829f84f73d776f16727c43abf677db0f215c47cba04465242ad779234e6d5f",
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.int8_matmul_quantization.Proofs.QuantizeWitness.log",
+      "log_sha256": "64bd1b742affb76149853140125bc5bfb465c9c393de86f85b008517d15de762",
+      "olean_sha256": "de88d6b9a810b96bfe23defcc6e6bd9d1e6a110617eea56f7c1b8ce410559e54",
+      "axiom_checks": 3
+    },
+    {
+      "module": "bench.tritonbench_g.int8_matmul_quantization.Proofs.MatmulSource",
+      "source": "bench/tritonbench_g/int8_matmul_quantization/Proofs/MatmulSource.lean",
+      "source_sha256": "0e440697b4573cb2ac5596a00201ebb8072a767befe18b2a870e52c9c6ebc388",
+      "baseline_source_sha256": "0e440697b4573cb2ac5596a00201ebb8072a767befe18b2a870e52c9c6ebc388",
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.int8_matmul_quantization.Proofs.MatmulSource.log",
+      "log_sha256": "aac6504e593364cefed6f489c9f94a244a6796da8ec6911b26224d19354d048e",
+      "olean_sha256": "9468aa35b72695e4ce0cca67fc26eeaf2f195dd4dd676aec32ad11778b603be5",
+      "axiom_checks": 1
+    },
+    {
+      "module": "bench.tritonbench_g.int8_matmul_quantization.Proofs.MatmulShape",
+      "source": "bench/tritonbench_g/int8_matmul_quantization/Proofs/MatmulShape.lean",
+      "source_sha256": "5781f411276622d23006d254455b98a74904cc1045887f6452f88d67e0288d00",
+      "baseline_source_sha256": "5781f411276622d23006d254455b98a74904cc1045887f6452f88d67e0288d00",
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.int8_matmul_quantization.Proofs.MatmulShape.log",
+      "log_sha256": "dee884542ffe528dc51749993741c5d57e0487616f9829a1600a45076b77ec20",
+      "olean_sha256": "db23ed512483dc84df72299c2dc4a6ae727ef8e320018cb7a557bd71f9ec3efb",
+      "axiom_checks": 5
+    },
+    {
+      "module": "bench.tritonbench_g.int8_matmul_quantization.Proofs.MatmulExecution",
+      "source": "bench/tritonbench_g/int8_matmul_quantization/Proofs/MatmulExecution.lean",
+      "source_sha256": "1a219412261fcaac209a257804ceb889588c753fd70bc520a2deedb618141f62",
+      "baseline_source_sha256": "1a219412261fcaac209a257804ceb889588c753fd70bc520a2deedb618141f62",
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.int8_matmul_quantization.Proofs.MatmulExecution.log",
+      "log_sha256": "c715f9c173f430f890f4b58e56550e0f259203ff09b771af0e16205a685b1e49",
+      "olean_sha256": "cb62eb6156df047b791baeadb5cc4098fc7961561d3fb5a8ca9aafca030b404a",
+      "axiom_checks": 4
+    },
+    {
+      "module": "bench.tritonbench_g.int8_matmul_quantization.Proofs.MatmulComplete",
+      "source": "bench/tritonbench_g/int8_matmul_quantization/Proofs/MatmulComplete.lean",
+      "source_sha256": "d762457c37f69afde133e88eeb29b00b5db7ac690ddc31d4e4adf6de43497922",
+      "baseline_source_sha256": "d762457c37f69afde133e88eeb29b00b5db7ac690ddc31d4e4adf6de43497922",
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.int8_matmul_quantization.Proofs.MatmulComplete.log",
+      "log_sha256": "1eb501e26c100229243f8fe2063e08508d696075835a6ba9c10f4eddaa17c0a9",
+      "olean_sha256": "5db1d9d0d0c48df61d435e3cb808819081dbea74103cca41103b1b1d80505f0a",
+      "axiom_checks": 4
+    },
+    {
+      "module": "bench.tritonbench_g.int8_matmul_quantization.Proofs.MatmulContract",
+      "source": "bench/tritonbench_g/int8_matmul_quantization/Proofs/MatmulContract.lean",
+      "source_sha256": "b6beb5131e2d1338ce4b1acecd7130b2fa883160053b5a9c4d02d4cae00240a8",
+      "baseline_source_sha256": "b6beb5131e2d1338ce4b1acecd7130b2fa883160053b5a9c4d02d4cae00240a8",
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.int8_matmul_quantization.Proofs.MatmulContract.log",
+      "log_sha256": "25f5bf3676e0b3b84f143e465a3ddad0c04fa54a1a4e1d72277e85a9ced2e285",
+      "olean_sha256": "193a846954a71307cdb22cff930fe41c01c9fe2be5a7d9da4123e731f62e9bec",
+      "axiom_checks": 6
+    },
+    {
+      "module": "bench.tritonbench_g.int8_matmul_quantization.Proofs.MatmulWitness",
+      "source": "bench/tritonbench_g/int8_matmul_quantization/Proofs/MatmulWitness.lean",
+      "source_sha256": "e160110f4729a8406f290b458e4e06f101e7f9f8447a10b4ce0e07fe6fc5dad4",
+      "baseline_source_sha256": "e160110f4729a8406f290b458e4e06f101e7f9f8447a10b4ce0e07fe6fc5dad4",
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.int8_matmul_quantization.Proofs.MatmulWitness.log",
+      "log_sha256": "6bd75cd2aacd793f97c2446eb001ab3bb866f8df3055ba34a37c7a0057cb1dfa",
+      "olean_sha256": "58501e3085779efde4a3defbb364f71e2ef2bef8f10444f1bc84b7969fb4fc15",
+      "axiom_checks": 2
+    },
+    {
+      "module": "bench.tritonbench_g.int8_matmul_quantization.FPCorrect",
+      "source": "bench/tritonbench_g/int8_matmul_quantization/FPCorrect.lean",
+      "source_sha256": "b72f1f050a102b386f39eafd261ba0f54f46dfa80e80239734decb3468760a10",
+      "baseline_source_sha256": "b72f1f050a102b386f39eafd261ba0f54f46dfa80e80239734decb3468760a10",
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.int8_matmul_quantization.FPCorrect.log",
+      "log_sha256": "2ba9e21da425dfdcdaca77a7e076c8f1dffeaa249162f976f7d166f664d4cfbc",
+      "olean_sha256": "045aee0b6eaaf709c68f636a2afa95b73263e60c27d553feb6b59e617b48e628",
+      "axiom_checks": 2
+    }
+  ],
+  "build_order": [
+    "VeriTile.Triton.Memory.View",
+    "VeriTile.Triton.Memory.Frame.Basic",
+    "VeriTile.Triton.Memory.Frame.Stmt",
+    "VeriTile.Triton.Memory.Frame.Kernel",
+    "VeriTile.Triton.Memory.Frame",
+    "VeriTile.Triton.Memory.Footprint",
+    "VeriTile.Triton.Memory.Typing",
+    "VeriTile.Triton.Memory.FlattenTolerant",
+    "VeriTile.Triton.Memory.Layout",
+    "VeriTile.Triton.Memory.KernelSpec.MaskedND",
+    "VeriTile.Triton.Memory.KernelSpec.BooleanMasked",
+    "VeriTile.Triton.Memory.KernelSpec.Metadata",
+    "VeriTile.Triton.Memory.KernelSpec.Scatter",
+    "VeriTile.Triton.Memory.KernelSpec.Gather",
+    "VeriTile.Triton.Memory.KernelSpec.Grouped",
+    "VeriTile.Triton.Memory.KernelSpec.Stream",
+    "VeriTile.Triton.Memory.KernelSpec.StreamEmit",
+    "VeriTile.Triton.Memory.KernelSpec.StreamAttention",
+    "VeriTile.Triton.Memory.KernelSpec.StreamAttentionMetadata",
+    "VeriTile.Triton.Memory.KernelSpec.TileIndex",
+    "VeriTile.Triton.Memory.KernelSpec.Tile",
+    "VeriTile.Triton.Memory.KernelSpec.TileND",
+    "VeriTile.Triton.Memory.KernelSpec.TileMetadata",
+    "VeriTile.Triton.Memory.KernelSpec.TileGather",
+    "VeriTile.Triton.Memory.KernelSpec",
+    "VeriTile.Triton.Memory",
+    "VeriTile.Triton.KernelLemmas.EvalHelpers",
+    "VeriTile.Triton.KernelLemmas.Matmul",
+    "VeriTile.Triton.KernelLemmas.ScatterStore",
+    "VeriTile.Triton.KernelLemmas.LoopInvariant",
+    "VeriTile.Triton.Float.StateErasure",
+    "VeriTile.Triton.ExternalCheck",
+    "VeriTile.Triton.Correctness",
+    "VeriTile.Triton.KernelLemmas.CarryFold",
+    "VeriTile.Triton.KernelLemmas",
+    "VeriTile.Triton.Float.Refine",
+    "VeriTile.Triton.Float.Pipeline",
+    "VeriTile.Triton.Float",
+    "VeriTile.Triton.Launch.Grid",
+    "VeriTile.Triton.Launch.Composition",
+    "VeriTile.Triton.Launch",
+    "VeriTile.Triton.Concurrency.Trace",
+    "VeriTile.Triton.Concurrency.Discipline",
+    "VeriTile.Triton.Concurrency.Refinement",
+    "VeriTile.Triton.Concurrency.ProducerConsumer",
+    "VeriTile.Triton.Concurrency.Atomic",
+    "VeriTile.Triton.Concurrency",
+    "VeriTile.Triton",
+    "VeriTile.Triton.Float.ScalarBackend",
+    "VeriTile.Triton.Float.LegacyRealInt8",
+    "VeriTile.Triton.Float.IntegerConversion",
+    "VeriTile.Triton.Float.IntegerConversionTotal",
+    "VeriTile.Triton.Source",
+    "VeriTile.Triton.Float.ScalarArithmeticLaws",
+    "VeriTile.Triton.Float.GuardedRewrite",
+    "VeriTile.Triton.Float.Loop",
+    "VeriTile.Triton.Float.ProfiledRewrite",
+    "VeriTile.Triton.Float.IntegerDot",
+    "VeriTile.Triton.Float.UnsignedCast",
+    "VeriTile.Triton.Float.FixedInteger",
+    "VeriTile.Triton.Float.SignedCast",
+    "bench.tritonbench_g.int8_matmul_quantization.Int8MatmulQuantization",
+    "bench.tritonbench_g.matrix_reduction.Proofs.TypedSource",
+    "bench.tritonbench_g.matrix_reduction.Proofs.MachineMax",
+    "bench.tritonbench_g.quantize_kv_copy.Proofs.FP32Profile",
+    "bench.tritonbench_g.quantize_kv_transform.Proofs.MixedBits",
+    "bench.tritonbench_g.kcache_copy_triton.KcacheCopyTriton",
+    "bench.tritonbench_g.kcache_copy_triton.Proofs.TypedCopy",
+    "bench.tritonbench_g.int8_matmul_quantization.Proofs.QuantizeSource",
+    "bench.tritonbench_g.int8_matmul_quantization.Proofs.QuantizeDomainCompat",
+    "bench.tritonbench_g.int8_matmul_quantization.Proofs.QuantizeShape",
+    "bench.tritonbench_g.int8_matmul_quantization.Proofs.QuantizeFirstPass",
+    "bench.tritonbench_g.int8_matmul_quantization.Proofs.QuantizeWrites",
+    "bench.tritonbench_g.int8_matmul_quantization.Proofs.QuantizeSecondPass",
+    "bench.tritonbench_g.int8_matmul_quantization.Proofs.QuantizeComplete",
+    "bench.tritonbench_g.int8_matmul_quantization.Proofs.QuantizeContract",
+    "bench.tritonbench_g.int8_matmul_quantization.Proofs.QuantizeWitness",
+    "bench.tritonbench_g.int8_matmul_quantization.Proofs.MatmulSource",
+    "bench.tritonbench_g.int8_matmul_quantization.Proofs.MatmulShape",
+    "bench.tritonbench_g.int8_matmul_quantization.Proofs.MatmulExecution",
+    "bench.tritonbench_g.int8_matmul_quantization.Proofs.MatmulComplete",
+    "bench.tritonbench_g.int8_matmul_quantization.Proofs.MatmulContract",
+    "bench.tritonbench_g.int8_matmul_quantization.Proofs.MatmulWitness",
+    "bench.tritonbench_g.int8_matmul_quantization.FPCorrect"
+  ],
+  "named_declarations": [
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "eval_precision_scope",
+      "kind": "theorem",
+      "line": 145,
+      "statement_sha256": "f0cd7071d2ab1b9c3d6c33c4af8fa60a7f2370a0f2837276fe5bbde78c23f1b9",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "int8_matmul_quantization_quantize_surface_toAlgorithm_supported",
+      "kind": "theorem",
+      "line": 192,
+      "statement_sha256": "3dc520771a282061961289bb655bf64a4cf298244be8593719195d3230d845d6",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "qWrapOffs_eq_qOffs",
+      "kind": "theorem",
+      "line": 246,
+      "statement_sha256": "a80c2ed70a0bb89a31053ba786ac111d5e67cd12e0eeb4d220c6b02300b2462e",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "qAAddr_eq_qAAddrK",
+      "kind": "theorem",
+      "line": 265,
+      "statement_sha256": "f288ed13bda461280dff80b0094497dc6d56c92df6b949c5a72f47ab052ebcf9",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "qFpaPtrs_succ",
+      "kind": "theorem",
+      "line": 279,
+      "statement_sha256": "af3da8008f05727dee36a9b6770833c38a92563ce85e482da3073ee29ec3d78a",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "qAPtrs_succ",
+      "kind": "theorem",
+      "line": 290,
+      "statement_sha256": "853d258fb6bc7a76ffe8fabfa4a18af70f03acb6c63d4cfe57ddb9e9f709ceb5",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "q_body_eq",
+      "kind": "theorem",
+      "line": 466,
+      "statement_sha256": "1acc376f4b23935b12a9be4f6e71df09c5ad54c9089be40391d18ae360aaf2e1",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "q_setReg_mem",
+      "kind": "theorem",
+      "line": 483,
+      "statement_sha256": "30bf1123af8905dc6ac077d1dc3ecfc7a2655a724d6d5e1c43555aaaca9087b6",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "q_scalar_data",
+      "kind": "theorem",
+      "line": 489,
+      "statement_sha256": "e7062d6c4e2b4f41cb1f777c6beed6a79869a4daa7c26f5385d0351e96cba97a",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "q_addTile_eval",
+      "kind": "theorem",
+      "line": 493,
+      "statement_sha256": "c978acf6702706e9c8bd515f77efc02f1266413f72ef88130c0cd7892e98eaa2",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "q_subTile_eval",
+      "kind": "theorem",
+      "line": 502,
+      "statement_sha256": "99176a2061f188d5f40a905e25fb825ffdc1c9e2f84ecc7f177a780cfbb3ba0d",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "q_mulTile_eval",
+      "kind": "theorem",
+      "line": 511,
+      "statement_sha256": "fe8d0a75fba7720a118183575bdef39e48de008dd63d19e99dcaf86034551a6e",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "q_divTile_eval",
+      "kind": "theorem",
+      "line": 520,
+      "statement_sha256": "5293defeac31403575f67072aaa0e39c0cb73bd7fc68e0b3dfd21a38cb85bf80",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "q_ltTile_eval",
+      "kind": "theorem",
+      "line": 529,
+      "statement_sha256": "acf97effdfc06c90bfb905ce80a0c8a52a668046f0cc2efef1cfe4d69f12a79c",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "q_gtTile_eval",
+      "kind": "theorem",
+      "line": 538,
+      "statement_sha256": "730df55758cf53df81207b0d6929b41817f8bff3105eae8124b9b2dd2700b709",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "q_where_eval",
+      "kind": "theorem",
+      "line": 547,
+      "statement_sha256": "d3dfb0eb7012daa391a4d7f5886f948c10d9c1357f73f7a21b14bee3da8f0406",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "q_expandDim_eval",
+      "kind": "theorem",
+      "line": 556,
+      "statement_sha256": "44a8445c5cf2e9b6c39bd83f9f123585287e50b9b56433b4cf4039acf61eebd1",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "q_full_eval",
+      "kind": "theorem",
+      "line": 563,
+      "statement_sha256": "fbe685c8d50dda2c4dd0001cbd381864977a5f33035fd3cac7ba03181b999440",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "q_mod_eval",
+      "kind": "theorem",
+      "line": 570,
+      "statement_sha256": "2f68b2370bfd0b7ede5b091611d015923cb99faf80193d82a4eb0bde90b8d31c",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "q_ptrAdd_eval",
+      "kind": "theorem",
+      "line": 579,
+      "statement_sha256": "97f77cef72288d9589066ba6ea80312118a9588ad420cd50375a2c797391b9b2",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "q_ptrAddBase_eval",
+      "kind": "theorem",
+      "line": 589,
+      "statement_sha256": "e9af631f0c9c60c3b28298a9673c3da2da0a9ff57799d0f3323500f9473ebc4b",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "q_mulScalarNat_eval",
+      "kind": "theorem",
+      "line": 597,
+      "statement_sha256": "b3f33a7ebc49c9118fd87b52be663c13ba2028586519daa7cc06e32691b31a12",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "q_mulRef_eval",
+      "kind": "theorem",
+      "line": 605,
+      "statement_sha256": "2754f5bfa0e5179e382ffb93c47605d401fb67ba6bd8339a7a16380e9b371f76",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "q_offs_eval",
+      "kind": "theorem",
+      "line": 614,
+      "statement_sha256": "08c8efcaaf97f31b2021183fde2d65659f8b968a72aee2bc8e89c2c810f6d423",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "q_offsAm_eval",
+      "kind": "theorem",
+      "line": 630,
+      "statement_sha256": "106070cc7d054b48f9043c2df727f6f3a8e4c26047f39888d138afbe49ae2523",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "q_fpaPtrsInit_eval",
+      "kind": "theorem",
+      "line": 648,
+      "statement_sha256": "e21c0f5215198b55fef2555145b92cfcf41dd16eaf5114f18567722176221772",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "q_aPtrsInit_eval",
+      "kind": "theorem",
+      "line": 679,
+      "statement_sha256": "867245d3f9f759cb45783e2985ff1c9ff4d69d989d964c4328bd9cbaf45ad51d",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "q_readMem_congr",
+      "kind": "theorem",
+      "line": 710,
+      "statement_sha256": "200c630a5b5246aa7887a4ef33d55267f87766ed90b9a1c036a7ec40062061ca",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "q_evalOp_expandDim_zero_nat",
+      "kind": "theorem",
+      "line": 717,
+      "statement_sha256": "d654e665d9b25d68cd7da05881980f47905610f63c36d286e3b422b6b32ead19",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "q_evalOp_remap",
+      "kind": "theorem",
+      "line": 726,
+      "statement_sha256": "33745c9878f1015e0255bd5194f3faa5397ed5c3caa379716eddd98f15c014e4",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "qKMaskOp_eval",
+      "kind": "theorem",
+      "line": 736,
+      "statement_sha256": "e7d8be5e7ada0950cd734fe899e15409206d58a0f6630fdcf15cea1f514ed88b",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "q_constBroadcast_eval",
+      "kind": "theorem",
+      "line": 764,
+      "statement_sha256": "2b8c583f7adef4945731a57b052bd1c2818bbb9ae4d254e75a2e035d0bc79472",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "q_load_maskOther_eval",
+      "kind": "theorem",
+      "line": 772,
+      "statement_sha256": "bb29ed7525d52b60bb7c46c942971ce2c25ccc1d02a76ac77e26ece2f1588a88",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "q_fpaLoad_eq",
+      "kind": "theorem",
+      "line": 787,
+      "statement_sha256": "efe70d16a7725a78af11a7b5e23dfd74702b8a35dec476d20d0f635b841dbeb6",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "q_abs_eval",
+      "kind": "theorem",
+      "line": 828,
+      "statement_sha256": "ee6e42418d312205c30635c2d739964a56c1f9af21de3f25d82ae6f83799a78e",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "q_reduce_eval",
+      "kind": "theorem",
+      "line": 869,
+      "statement_sha256": "59c5db3732a9dc75d09b53ca7e30dad02cef500fccf7842afa7ef355ddbe68f5",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "q_absMax_eval",
+      "kind": "theorem",
+      "line": 900,
+      "statement_sha256": "2d95872b122f914efe9cc9e153dd1a45989a7e0efcff54856fc0ce957b22e9f9",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "qInv1_setReg_k",
+      "kind": "theorem",
+      "line": 943,
+      "statement_sha256": "2f8c2bd008f5afced3ca13081a3b39eb080061b90119b1738a0f19851ccfedfc",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "qLoop1Body_run",
+      "kind": "theorem",
+      "line": 955,
+      "statement_sha256": "af20e43608c1ad5f770ddbb3e27a32bef52e895e5e0ef0d94a8f1edcd4814bcf",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "qLoop1_collapse",
+      "kind": "theorem",
+      "line": 997,
+      "statement_sha256": "20ab3795fb75854be1440c2882a98e92ca7cfd56984af663f21cde480ff1fe1d",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "qPrologue_run",
+      "kind": "theorem",
+      "line": 1020,
+      "statement_sha256": "f8922b332714a11cb91e05d80384379a436036daa1aeb40da58d4bc7d5dedf92",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "q_writeMemTyped_mem_other",
+      "kind": "theorem",
+      "line": 1068,
+      "statement_sha256": "ea26ea59b0b80b63a73711f759542e588b4b6d2b1e81f3ebf5336a54b848c1c4",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "q_writeMemTyped_int_mem_self",
+      "kind": "theorem",
+      "line": 1077,
+      "statement_sha256": "ab781f732fb0121f3ac568e2fbd3551f53a49fa64a8f297096968320a93b4682",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "q_writeMemTyped_regs",
+      "kind": "theorem",
+      "line": 1085,
+      "statement_sha256": "7c789a47abc6368886ea6447fd4dcfff0a30f21e59c72108a4e602b92c419942",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "q_writeMemTyped_pids",
+      "kind": "theorem",
+      "line": 1091,
+      "statement_sha256": "17d9072fe707e9cd3d67ce4877bdaf0ea7e98617573e4d31167d2e9c67b4d766",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "q_foldl_write_regs",
+      "kind": "theorem",
+      "line": 1097,
+      "statement_sha256": "51ba0ec504396131137efc27c861cd255357ae0e0acc935388308ef3c8f0fed8",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "q_foldl_write_pids",
+      "kind": "theorem",
+      "line": 1114,
+      "statement_sha256": "7831951b67963b752d1ef9e0d6101e73714e2567f7353c44a645fb453f4c0de7",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "q_foldl_write_mem_preserve",
+      "kind": "theorem",
+      "line": 1132,
+      "statement_sha256": "7e9c8c25f839da375a271fda4a06fc17192f7228d68918d0c1e0217cc60ff15e",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "q_scatter_int_mem",
+      "kind": "theorem",
+      "line": 1154,
+      "statement_sha256": "05a92548ead4e65aebe2805b60d16f0e0c81a144cc641efe42bdbbcae8bb120e",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "q_inta_eval",
+      "kind": "theorem",
+      "line": 1186,
+      "statement_sha256": "74afe430ace7855a0f412ec9b6c9b8956fb415f50f1a2e1c5c5239aa177e9cbf",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "q_store_eq",
+      "kind": "theorem",
+      "line": 1240,
+      "statement_sha256": "f7f51fbd1350a700c78b8b9ae3b905ba084aabe6c8e40f07bcb6f773eb503678",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "qInv2_setReg_k",
+      "kind": "theorem",
+      "line": 1290,
+      "statement_sha256": "6308de58da90b0d6098db0299032b0e1e2eda96541dde1a4114b7cd6d03dd401",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "qLoop2Body_run",
+      "kind": "theorem",
+      "line": 1304,
+      "statement_sha256": "fc2ed4605d835bc12f169ac03f0285b98557bd2eef67185ddfcfe90a8ae1a591",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "qLoop2_collapse",
+      "kind": "theorem",
+      "line": 1477,
+      "statement_sha256": "f9fc784372e54536f03c4f58b9e85dbac4d8ac99aa52cb62a913e7b901975f35",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "q_scale_eval",
+      "kind": "theorem",
+      "line": 1505,
+      "statement_sha256": "74620db542a06f6c1d4baa26c39bc0ff176772d8b4ee0ce2f9c07a7c3fc78a43",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "qMid_run",
+      "kind": "theorem",
+      "line": 1525,
+      "statement_sha256": "9006150770587574cd587b70b2b2778d18e16d0f22936157867d9dda02dd4505",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "q_asOffs_eval",
+      "kind": "theorem",
+      "line": 1557,
+      "statement_sha256": "66468439581e7f325531a410d3db88d8800f6d449692a2a939fc37861d4fcbb2",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "q_foldl_write_mem_preserve'",
+      "kind": "theorem",
+      "line": 1576,
+      "statement_sha256": "a744a63b62cc4f2f6187b20b4723d402ad9c653f80f395779bf8cc1ba99b6dc9",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "q_scaleStore_eq",
+      "kind": "theorem",
+      "line": 1591,
+      "statement_sha256": "4b11f5851dd641666bc55ea216f2b5bc65b8e1578514206df58aab9af83ed13d",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "q_asAddr_injective",
+      "kind": "theorem",
+      "line": 1622,
+      "statement_sha256": "74e45585b5106757554b013ea462bcecdb803611759a0823ba15da17cc716301",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "qTail_run",
+      "kind": "theorem",
+      "line": 1633,
+      "statement_sha256": "7feebc18e77bd73a924cc6142286c3d77d2f7467546300181001e5e6d9207af3",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "int8_matmul_quantization_quantize_exec_genuine",
+      "kind": "specification",
+      "line": 1705,
+      "statement_sha256": "20fb5d9e647730c3241a9eb43062302e7dd9639d783eb4e9e2789ff5b13e92c0",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "int8_matmul_quantization_matmul_surface_toAlgorithm_supported",
+      "kind": "theorem",
+      "line": 1840,
+      "statement_sha256": "3797afd1386cab18575bcbef6fa2c8f24f557584c621a2e19a875fe24ef809be",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mmAccSpec_range",
+      "kind": "theorem",
+      "line": 1936,
+      "statement_sha256": "642638f3451aa1352b111f7418dbed1e1f42d91aa77a2802868a6573b4b2af36",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mmAccSpec_eq_finK",
+      "kind": "theorem",
+      "line": 1965,
+      "statement_sha256": "4ed27d5006fb02fb3301952cd97853deebc5ed92d17a92be3d06a4730369f2b9",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_body_eq",
+      "kind": "theorem",
+      "line": 2198,
+      "statement_sha256": "ad31791e149a554e65835d2f1652c5ae4d1a42ba8c45956fd221e998b6ed30be",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mmAPtrs_succ",
+      "kind": "theorem",
+      "line": 2247,
+      "statement_sha256": "71fc7f79d97c12c47d1bb4f1e49b4499a86044a69bb5dbd83dc3157f6690b7f4",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mmBPtrs_succ",
+      "kind": "theorem",
+      "line": 2259,
+      "statement_sha256": "5e93b44bcf75ea132352543bb7be25d0d5ef52ab36735fa141a035f7d86b6b2c",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mmAAddr_eq",
+      "kind": "theorem",
+      "line": 2272,
+      "statement_sha256": "5fc9c4600ab1f604aa4134e792c7e7775cca82c24aa0e430dfe807d3eb3ea71e",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mmBAddr_eq",
+      "kind": "theorem",
+      "line": 2281,
+      "statement_sha256": "c6c454272df8c4efe1679d9c3f90b89ec72aaf0c9a72e89f9f5c9a2485a0b461",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mmATile_data",
+      "kind": "theorem",
+      "line": 2307,
+      "statement_sha256": "f63637cfac82a6b3feb942fedf981fd37c94017c0d2e06c83a33465964c20ad0",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mmBTile_data",
+      "kind": "theorem",
+      "line": 2315,
+      "statement_sha256": "c9c77210aaca223c80fc7bd8ade5ebfb9deb891855f5116c18b6f25d27bb60b0",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mmAccTile_zero",
+      "kind": "theorem",
+      "line": 2359,
+      "statement_sha256": "6043f02f76672bda2a7dc69c39fb64ce68d2a0bb05e587d19f0e4b3617663215",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_ite_mul_ite",
+      "kind": "theorem",
+      "line": 2369,
+      "statement_sha256": "69d83308813111da55689dfc6c80443cfa2b20722dfed3700c1debdbd0cb3eb1",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mmAccTile_dotInt_succ",
+      "kind": "theorem",
+      "line": 2377,
+      "statement_sha256": "f8ac681195dfcb1d684df86ecfc9f798a6e53af4cd7fbe04bf3569aa853e5689",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_load_ptr_maskOther",
+      "kind": "theorem",
+      "line": 2410,
+      "statement_sha256": "a002b095bb0785601cc1e9e9affcada332780c111ad6b6e7c56d06dd0b764ce4",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_remap_eval",
+      "kind": "theorem",
+      "line": 2426,
+      "statement_sha256": "3e362bd97c43a210036749c926b78cc57c37e811ff2e455022bce74d5c80a35c",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_broadcastReal_eval",
+      "kind": "theorem",
+      "line": 2435,
+      "statement_sha256": "165d9e927c0b7a680fefeee8e46356e2e9432165a9904b9c16dfc2cd72c9ccaf",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_broadcastInt_eval",
+      "kind": "theorem",
+      "line": 2442,
+      "statement_sha256": "27557be8ecd54d0dba9c99d330d36d5957d096bc4c641ff08747e56c1e763ebd",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_ptrAdd_eval",
+      "kind": "theorem",
+      "line": 2449,
+      "statement_sha256": "1b5a22b472908687c1d9d23f552087886d453f4c9db14d138117cc80ab4810d3",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_mod_eval",
+      "kind": "theorem",
+      "line": 2460,
+      "statement_sha256": "8cb1ed4bef82f7816d457936b6d90f55d1e108d528c464279f4edeb1619b354f",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_floorDiv_eval",
+      "kind": "theorem",
+      "line": 2470,
+      "statement_sha256": "34449c2d702730b6e14cee4ac061d901dd107fa3a1407465d8b2b7352c91ef56",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_divTile_eval",
+      "kind": "theorem",
+      "line": 2480,
+      "statement_sha256": "a3da408a66c6033d75b4ea19147d0be9da858258889a722c3f7910d84312f718",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_ltTile_eval",
+      "kind": "theorem",
+      "line": 2490,
+      "statement_sha256": "9deaaa3b20a2cecbbeb71db9642abf90e2fb76556964b55a5c0d273d9e9e6ae6",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_where_eval",
+      "kind": "theorem",
+      "line": 2500,
+      "statement_sha256": "30be350b093cc447e259149cb8835d253b644986473dd07621c68c6505056814",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_full_eval",
+      "kind": "theorem",
+      "line": 2510,
+      "statement_sha256": "23c7ddafeb8173239fefae0eca34da3f54f9d8eaafae280c169ab703d6c38dad",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_constInt_eval",
+      "kind": "theorem",
+      "line": 2518,
+      "statement_sha256": "ac20baa64e852ba2ba8ee95fe72ce8809a200d49ef3e38c93f3e4637471119b7",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_ptrAddBase_eval",
+      "kind": "theorem",
+      "line": 2523,
+      "statement_sha256": "bba252848199033c303fb4f2d8203d92e969c5117e32a09a97bb22d91d0a78b0",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_mulTile_eval",
+      "kind": "theorem",
+      "line": 2532,
+      "statement_sha256": "ecde4b13bff2912ed446ece851660df4433ee111679523f826222b7b1ea2849b",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_addTile_eval",
+      "kind": "theorem",
+      "line": 2542,
+      "statement_sha256": "97f2dee376b3b0f2987c4108c793bfe7de1816f33edfccd99198e222592bd134",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_subTile_eval",
+      "kind": "theorem",
+      "line": 2552,
+      "statement_sha256": "c552acdaee8490487f416feea67ae42693e84e3b3f3c66f5d2172a7b36b5101b",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_expandDim_eval",
+      "kind": "theorem",
+      "line": 2562,
+      "statement_sha256": "eea8fca3031b7b45ee7fe8b936dadf9cac0eec49938dadfe0630cc22910eb3d8",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_intToReal_eval",
+      "kind": "theorem",
+      "line": 2571,
+      "statement_sha256": "340f43f8badbd0d01ce217cb791b416b4b195ce435f073c0d03a8f26f3d75f89",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_castFp16_eval",
+      "kind": "theorem",
+      "line": 2579,
+      "statement_sha256": "0cbae34688389eacfae6e206757fb75b617f51f1e95898a38802ad15ce504022",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_dotInt_eval",
+      "kind": "theorem",
+      "line": 2590,
+      "statement_sha256": "6ca4f80761e5af41589f93e955e5bde2206678c3e9b7138fd8258f3e84960853",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_boolAnd_eval",
+      "kind": "theorem",
+      "line": 2599,
+      "statement_sha256": "ecf02e4ff8528b4b7a4795d998ba1a1bbc0b47e601d25de740e99893ef30fdab",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_mulScalarNat_eval",
+      "kind": "theorem",
+      "line": 2610,
+      "statement_sha256": "0234c08a62405237de1e741034a109772fbe32ff2a5135124a289ff3aabb6309",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_addScalarNat_eval",
+      "kind": "theorem",
+      "line": 2617,
+      "statement_sha256": "7d60bd8f3e1e8ea0a3ad9d495964e31956d99ce0e48fe0f4693a8d1726900d6a",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_subScalarNat_eval",
+      "kind": "theorem",
+      "line": 2624,
+      "statement_sha256": "9701fbab9c516fcf79f48be641b4b6d7900fc047c51e31d97748a86234ce1147",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_divScalarNat_eval",
+      "kind": "theorem",
+      "line": 2631,
+      "statement_sha256": "e712987a6c65b72c45d478addb1050d84aac37e18ba9a29532ec6de32d6ba41e",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_modScalarNat_eval",
+      "kind": "theorem",
+      "line": 2638,
+      "statement_sha256": "3b79489d782d10b103750e5c96aa5ab2e4212f6e6a042789d9eb7f90e231d3ea",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_floorDivScalar_eval",
+      "kind": "theorem",
+      "line": 2646,
+      "statement_sha256": "303dcadac593b2d053ab0a97d78eef25565c5fd59b2163d8d3383d28c9bfcceb",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_ltScalarNat_eval",
+      "kind": "theorem",
+      "line": 2654,
+      "statement_sha256": "8106a42b56f0895fed9e27f0513da3ce53f0fac2b5864fc5b24bcafbc84d2fcd",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_whereScalarNat_eval",
+      "kind": "theorem",
+      "line": 2662,
+      "statement_sha256": "642b72746978e5885334b4cb96ecb9b0124c888bbaaa2976bfe57f4058840b82",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_mulRef_eval",
+      "kind": "theorem",
+      "line": 2672,
+      "statement_sha256": "8a85337a00b3367f2606e3f8fc2a706e1f0265441e3683d42f1f34c3dded3344",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_min_as_where",
+      "kind": "theorem",
+      "line": 2681,
+      "statement_sha256": "35a56fde537dc17fb03c355fae4bb7d96994f9b25628c43c4c6d19e5bf91c500",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_setReg_mem",
+      "kind": "theorem",
+      "line": 2689,
+      "statement_sha256": "8cb63b9fa1d272469f70d0f25438d0f44a22085d5ca93d458d2ce1d87fa60dd1",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_aMask_eval",
+      "kind": "theorem",
+      "line": 2698,
+      "statement_sha256": "3c01b000d2a4a8651e217ad14df98a4bbfca0aa193e72315f70adef309b3130e",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_bMask_eval",
+      "kind": "theorem",
+      "line": 2719,
+      "statement_sha256": "b8e401d1e28b81345b81308714188d8805aa0c3b6daacfbc7e445e6a4751c4f7",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_aLoad_eq",
+      "kind": "theorem",
+      "line": 2742,
+      "statement_sha256": "d2cb4bd419f2474bad0dfcf9fa35ed4a352cb49a1fd1b9b3eb6202551fa360d0",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_bLoad_eq",
+      "kind": "theorem",
+      "line": 2770,
+      "statement_sha256": "f64e52b3e85300d6269ae4efb7a8946dbc63d532c2ed27f2167de9cfea585b0a",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_aScale_eval",
+      "kind": "theorem",
+      "line": 2800,
+      "statement_sha256": "bf8bea6a0f5ef74f5457948a8c22508f3e7b55519c87885adb89274cbb9d3eee",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_bScale_eval",
+      "kind": "theorem",
+      "line": 2830,
+      "statement_sha256": "8792ffbf54449636541262ba21936de913ce4ab4f883f136db9c1a0dfb1eacd4",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_cdiv_eval",
+      "kind": "theorem",
+      "line": 2861,
+      "statement_sha256": "f34c9a1471de11c55542f6506c8cad88c42e7c852536575a02552d47d45f2bb5",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_width_eval",
+      "kind": "theorem",
+      "line": 2873,
+      "statement_sha256": "1e218ff3079a271a6312548a40ccc63723f47adbb2dbf7d998ba2510794b3b4e",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_groupId_eval",
+      "kind": "theorem",
+      "line": 2882,
+      "statement_sha256": "717100892b0867a6336559f693fcbec023f5c27f3403758170919d842fa9af23",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_firstPidM_eval",
+      "kind": "theorem",
+      "line": 2895,
+      "statement_sha256": "b1f3ad61cb6d73128c74d131e974f5a52a15ca7a3f8c98181e3a318bb342ae1d",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_groupSize_eval",
+      "kind": "theorem",
+      "line": 2904,
+      "statement_sha256": "ee5674428de2a7a71ad9ed0dfe6abda2f46de29ce900ea19706e756d14330d19",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_pidM_eval",
+      "kind": "theorem",
+      "line": 2930,
+      "statement_sha256": "f07b2806d8b3cbb8daff202c2bf176c7c4f6a442cbde8669281ed25214513ba2",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_pidN_eval",
+      "kind": "theorem",
+      "line": 2947,
+      "statement_sha256": "aad517642d595ce3baa1106dad7a41af15d10c7df4bf1dfdd61a833af1a273bf",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_offs_eval",
+      "kind": "theorem",
+      "line": 2968,
+      "statement_sha256": "217163fcb6c3920cd493fc41692e3e348a79f13fe32fd76d22b452abafaf2a9b",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_wrapOffs_eval",
+      "kind": "theorem",
+      "line": 2986,
+      "statement_sha256": "93704a3081b0cc7c1ffa2ef94ef8bf6c384da55ca28fe5e8262526462327b034",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_offsK_eval",
+      "kind": "theorem",
+      "line": 3004,
+      "statement_sha256": "8309f136d5b79cca9b148017a242f32f7ea9878825042f312a14b4b8560d0c73",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_aPtrsInit_eval",
+      "kind": "theorem",
+      "line": 3015,
+      "statement_sha256": "61674d23fb84e4218c16e6dad4a6710207fe16b2d26a60dcd21ce6d54cd4b571",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_bPtrsInit_eval",
+      "kind": "theorem",
+      "line": 3047,
+      "statement_sha256": "a1a92d17d2d2ae87e2dd3bc7cc539e1f194d5f513ea2718ab804834325d0fa63",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_asPtrsInit_eval",
+      "kind": "theorem",
+      "line": 3079,
+      "statement_sha256": "438f5cbd6c570c60f1296c590ade5fcbc763dfeec1991eb1d8eda363bc081246",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_bsPtrsInit_eval",
+      "kind": "theorem",
+      "line": 3097,
+      "statement_sha256": "5df178160803502cf66178300ae5f99b790402641e4c381d94cd5e9866dc1faa",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mmInv_setReg_k",
+      "kind": "theorem",
+      "line": 3148,
+      "statement_sha256": "52f78e815eda5ea930b850803da1a44f953a365f7f53488186886ed38057d12d",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mmLoopBody_run",
+      "kind": "theorem",
+      "line": 3169,
+      "statement_sha256": "a7b938c5173917ab0217b212c3172d072084b8b75da19660e0784a22e7189823",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mmLoop_collapse",
+      "kind": "theorem",
+      "line": 3250,
+      "statement_sha256": "2d6f743fff8f1b0bd61af8ea8a8faaa58629267c45f3507ccb6e64aa08801f2e",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mmPreLoopScalars_run",
+      "kind": "theorem",
+      "line": 3279,
+      "statement_sha256": "4f36dffa11c603128a54642ea94f00414736f885f65b39d26f3e66fc8e5eda71",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mmPreLoopTiles_run",
+      "kind": "theorem",
+      "line": 3309,
+      "statement_sha256": "9683320e9644fcada88c3bedc25a9fd6d54e6c572e4d4cbb5f9eeb5cbdb9dc15",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_c_eval",
+      "kind": "theorem",
+      "line": 3405,
+      "statement_sha256": "4ed38ccecaba991fefc591b62760d3ab2ed7e26e2c28a483d6dffae103968a7d",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_cPtrsInit_eval",
+      "kind": "theorem",
+      "line": 3502,
+      "statement_sha256": "219e4955e870c57adab10bdb8aa3c939ba9b5630a0dd1cfa9b43d573e93856fa",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_cMask_eval",
+      "kind": "theorem",
+      "line": 3532,
+      "statement_sha256": "a92c7e6857b38ca69289242f076853b6f60bfa1209a1a76136cc04c18c6e80ba",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_store_eq",
+      "kind": "theorem",
+      "line": 3560,
+      "statement_sha256": "bdf668296cd8270b97b6eef9b36675cadbf970586836a367b5282de07302d3a7",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mm_store_props",
+      "kind": "theorem",
+      "line": 3589,
+      "statement_sha256": "423c5a58341fd5e5f9e220d3efe108ad379341b6a81195d944d3db09badb4a70",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mmCAddr_injective",
+      "kind": "theorem",
+      "line": 3612,
+      "statement_sha256": "1cbc3ca6e7dff135f368813bf1bb47d95d1cfbf6ec7cddc6ebcd12539abe0a1c",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "mmPostLoop_run",
+      "kind": "theorem",
+      "line": 3660,
+      "statement_sha256": "98d6986d2de5091c022f9c7c05c994f7a7fb52ad0bc19fb98d939594697d518e",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean",
+      "name": "int8_matmul_quantization_matmul_exec_genuine",
+      "kind": "specification",
+      "line": 3773,
+      "statement_sha256": "1e116376b7536dc3e5c3722c1f92e0d8b330348c56daa856c2b31511759c0c67",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Proofs/QuantizeDomainCompat.lean",
+      "name": "div_nan_left",
+      "kind": "theorem",
+      "line": 27,
+      "statement_sha256": "8d7c3494c48c80deb73d0035c3ee2bae7139e7415ab240cae1706ea20823b559",
+      "existing_statement_unchanged": null
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Proofs/QuantizeDomainCompat.lean",
+      "name": "defined_div_not_nan",
+      "kind": "theorem",
+      "line": 32,
+      "statement_sha256": "11b05648893902b23b250eedaf8a6334bab8db61056920d02157544576d43bb7",
+      "existing_statement_unchanged": null
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Proofs/QuantizeDomainCompat.lean",
+      "name": "abs_nan_flag",
+      "kind": "theorem",
+      "line": 41,
+      "statement_sha256": "81ac58e701b07922bbb6e8ee9d59452e72b5d4ab8204e2a5650aeb0a643b7b03",
+      "existing_statement_unchanged": null
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Proofs/QuantizeDomainCompat.lean",
+      "name": "legacy_loaded_not_nan",
+      "kind": "theorem",
+      "line": 54,
+      "statement_sha256": "beb96839e3bb964c12294d6cbee0f9c4e4b567ab9b644eeae227186eb20df355",
+      "existing_statement_unchanged": null
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Proofs/QuantizeDomainCompat.lean",
+      "name": "legacy_block_not_nan",
+      "kind": "theorem",
+      "line": 62,
+      "statement_sha256": "60e780ae988e3181d5b8a76eb10453736c4b08a69e7bfb12dcb1d567f1677410",
+      "existing_statement_unchanged": null
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Proofs/QuantizeDomainCompat.lean",
+      "name": "legacy_running_compat",
+      "kind": "theorem",
+      "line": 76,
+      "statement_sha256": "2c771fa713caf9f9ed9045f2d9b6ab5f2c02708267abb72877763bb21228a10d",
+      "existing_statement_unchanged": null
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Proofs/QuantizeDomainCompat.lean",
+      "name": "legacy_scale_compat",
+      "kind": "theorem",
+      "line": 98,
+      "statement_sha256": "3718045772ce4a35fd3caaa14b882d20b3b9bb19e68a8d688c3f0e98666e9e48",
+      "existing_statement_unchanged": null
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Proofs/QuantizeDomainCompat.lean",
+      "name": "legacy_quotient_compat",
+      "kind": "theorem",
+      "line": 103,
+      "statement_sha256": "90665f16b5c061dee4d852d9b280295e168b7a8e97cdcafbf97b782ece11f7c2",
+      "existing_statement_unchanged": null
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Proofs/QuantizeDomainCompat.lean",
+      "name": "legacy_input_domain_preserved",
+      "kind": "theorem",
+      "line": 110,
+      "statement_sha256": "4645c16370af648e2af1571c0b383329533fbfc0b09698ee0a25a205e35d0fb7",
+      "existing_statement_unchanged": null
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Proofs/QuantizeShape.lean",
+      "name": "prelude_projection",
+      "kind": "theorem",
+      "line": 9,
+      "statement_sha256": "8af1be95c53505c5113acb7a47dbf7e0dd7102dcb143396845ad255997433b67",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Proofs/QuantizeShape.lean",
+      "name": "first_load_projection",
+      "kind": "theorem",
+      "line": 22,
+      "statement_sha256": "b2d899676c66a36435965044a1b723521ef60cf568e22176d6f1681c62533d72",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Proofs/QuantizeShape.lean",
+      "name": "second_load_projection",
+      "kind": "theorem",
+      "line": 34,
+      "statement_sha256": "2200b5947dbdeed6832f2ca4af15b0670e3d31b5726df872708683ad2744acd6",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Proofs/QuantizeShape.lean",
+      "name": "first_pointer_projection",
+      "kind": "theorem",
+      "line": 46,
+      "statement_sha256": "b4e72b223dca0a95da61fd31dd3ff754db599bde726835032599222cbbd198d5",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Proofs/QuantizeShape.lean",
+      "name": "second_pointers_projection",
+      "kind": "theorem",
+      "line": 58,
+      "statement_sha256": "d9701fee076f8044b71f0aaa9b727f96218e5b23bb3c41012974a2fe1be76aaf",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Proofs/QuantizeShape.lean",
+      "name": "first_maximum_primitive",
+      "kind": "theorem",
+      "line": 72,
+      "statement_sha256": "823c9d9347752bbff5edf0ff8961f191c5619f207cc667ec623485079a102677",
+      "existing_statement_unchanged": null
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Proofs/QuantizeShape.lean",
+      "name": "maximum_callback",
+      "kind": "theorem",
+      "line": 80,
+      "statement_sha256": "fd7f88f1b116cf0c6ff924dd4e6f00cedd8c426d5fac8555cb1f808deba20e73",
+      "existing_statement_unchanged": null
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/Proofs/QuantizeShape.lean",
+      "name": "maximum_nan_regression",
+      "kind": "theorem",
+      "line": 87,
+      "statement_sha256": "38af58a22069876f96adb4601723a6c9afa836b3327eda35422fe2227105280a",
+      "existing_statement_unchanged": null
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/FPCorrect.lean",
+      "name": "int8_matmul_quantization_producer_machine_correctness",
+      "kind": "specification",
+      "line": 15,
+      "statement_sha256": "f14fe88a7a8487c79c88548193b3f157391cdfcc955979a27e5deeda25907a40",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/int8_matmul_quantization/FPCorrect.lean",
+      "name": "int8_matmul_quantization_consumer_machine_correctness",
+      "kind": "specification",
+      "line": 32,
+      "statement_sha256": "ab172f25db35e2140bd6aabedae39448474b865d941bf4dd99ca830f6236b7e5",
+      "existing_statement_unchanged": true
+    }
+  ],
+  "unchanged_anchors": {
+    "FPCorrect.lean": {
+      "before_sha256": "b72f1f050a102b386f39eafd261ba0f54f46dfa80e80239734decb3468760a10",
+      "after_sha256": "b72f1f050a102b386f39eafd261ba0f54f46dfa80e80239734decb3468760a10",
+      "whole_file_byte_identical": true,
+      "all_public_specification_declarations_identical": true
+    },
+    "InputDefined": {
+      "declaration_text_sha256": "1375acc533a9cde93087090974c252325ebca3b3982401ee44c6c418c0f70fda",
+      "entire_definition_text_identical": true,
+      "formula": "forall k, k < p.steps -> forall i, active p k i -> (toSigned 8 (quotient cfg p initial k i)).isSome",
+      "scope_bridge": "QuantizeDomainCompat proves LegacyInputDefined -> InputDefined and old/new running maximum, scale and quotient equality, with only existing hw:0<blockColumns. No extra nonNaN premise. Exact old definitions checked modulo legacy renaming/whitespace."
+    }
+  },
+  "scope": "Original full two-pass producer, symbolic steps/block widths, all K positions under existing coverage, masked tails/extra iterations, real half scale encoding and exact readback/frame. Existing grouped SPLIT_K=1 GEMM consumer unchanged.",
+  "model": "Concrete software bit contract. Pointwise binary max uses explicit max-number profile (single NaN suppressed, two NaNs canonicalized, ordered ties select right); actual source shape and callback are proved. Axis1 deterministic MachineMax reduction profile unchanged.",
+  "native_and_scope_limits": [
+    "Native maximum/reduction equality required on actual reachable operands; software payload and tie policies are explicit, no universal nonNaN law is inserted.",
+    "Original fp32 rounding/flush, division, integer-conversion and half-encoding native bindings remain; fixed witness is not GPU refinement.",
+    "Original InputDefined domain preservation is proved by legacy_input_domain_preserved; legacy_running_compat, legacy_scale_compat and legacy_quotient_compat prove old outputs retained. No extra nonNaN/finite-input premise.",
+    "Historical main uses mathematical WithBot Real max bridge only; it is not a floating comparison/select identity."
+  ],
+  "native_source": [
+    {
+      "path": "bench/tritonbench_g/int8_matmul_quantization/int8_matmul_quantization.py",
+      "sha256": "af66c9bf98a319d032110ab1f28c20f8bae4c3659fb3249288135011dab802b0",
+      "maximum_lines": [
+        36
+      ]
+    }
+  ],
+  "axiom_checks": 100,
+  "public_specification_count": 2,
+  "validation": "Every listed module directly compiled after frozen maximum core in private overlay; successful dependent chain and ordinary bit witnesses; no sorry or native-decision axiom admitted."
+}

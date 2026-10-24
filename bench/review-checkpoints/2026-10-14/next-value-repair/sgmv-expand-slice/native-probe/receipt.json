@@ -1,0 +1,225 @@
+{
+  "schema_version": 1,
+  "triton_version": "3.8.0",
+  "original_source": "bench/tritonbench_g/sgmv_expand_slice/sgmv_expand_slice.py",
+  "original_source_sha256": "a3643842b99a76379b1a8c8be29b2f531186c776ddc3d0d1583edaccc7e1a281",
+  "kernel_line_range": [
+    7,
+    84
+  ],
+  "a_ptr_line_range": [
+    49,
+    50
+  ],
+  "a_ptr_is_singleton_tuple": true,
+  "extraction": "Original kernel source text plus its imports; host wrapper/tests excluded from import. Kernel AST unchanged.",
+  "candidate": "Only delete the a_ptr singleton-tuple comma. No gate/grid/body edits. Success, if any, belongs only to this candidate.",
+  "records": [
+    {
+      "source_variant": "original",
+      "dtype": "fp16",
+      "signature": {
+        "input_ptr": "*fp16",
+        "lora_ptr": "*fp16",
+        "out_ptr": "*fp16",
+        "N": "i32",
+        "K": "i32",
+        "b_seq_start_loc": "*i32",
+        "seq_lens": "*i32",
+        "lora_indices": "*i32",
+        "xm_stride": "i32",
+        "xk_stride": "i32",
+        "l0_stride": "i32",
+        "lora_k_stride": "i32",
+        "lora_n_stride": "i32",
+        "cm_stride": "i32",
+        "cn_stride": "i32",
+        "slice_offset": "i32"
+      },
+      "constants": {
+        "BLOCK_M": 32,
+        "BLOCK_N": 32,
+        "BLOCK_K": 16,
+        "EVEN_K": true,
+        "ADD_INPUTS": false,
+        "CAST_TYPE": false
+      },
+      "target": {
+        "backend": "cuda",
+        "arch": 90,
+        "warp_size": 32
+      },
+      "options": {
+        "enable_fp_fusion": false
+      },
+      "gpu_executed": false,
+      "compile_status": "FAIL",
+      "error_type": "CompilationError",
+      "error": "at 50:22:\n    offset_k = tl.arange(0, BLOCK_K)\n    ram = tl.max_contiguous(tl.multiple_of(offset_m % M, BLOCK_M), BLOCK_M)\n    rbn = tl.max_contiguous(tl.multiple_of(offset_n % N, BLOCK_N), BLOCK_N)\n\n    a_ptr = (input_ptr + cur_seq_start * xm_stride + ram[:, None] * xm_stride +\n             offset_k[None, :] * xk_stride, )\n    b_ptr = (lora_ptr + l0_stride * lora_index +\n             offset_k[:, None] * lora_n_stride + rbn[None, :] * lora_k_stride)\n    accumulator = tl.zeros((BLOCK_M, BLOCK_N), dtype=tl.float32)\n    for k in range(tl.cdiv(K, BLOCK_K)):\n        if EVEN_K:\n            tiled_a = tl.load(a_ptr)\n                      ^\n'tuple_type' object has no attribute 'scalar'",
+      "log": "original-fp16.log",
+      "log_sha256": "10b0e51ee090a0eb3d0d93f8ff57c5a80b89dac295890c1d23554ffff70d657b"
+    },
+    {
+      "source_variant": "original",
+      "dtype": "bf16",
+      "signature": {
+        "input_ptr": "*bf16",
+        "lora_ptr": "*bf16",
+        "out_ptr": "*bf16",
+        "N": "i32",
+        "K": "i32",
+        "b_seq_start_loc": "*i32",
+        "seq_lens": "*i32",
+        "lora_indices": "*i32",
+        "xm_stride": "i32",
+        "xk_stride": "i32",
+        "l0_stride": "i32",
+        "lora_k_stride": "i32",
+        "lora_n_stride": "i32",
+        "cm_stride": "i32",
+        "cn_stride": "i32",
+        "slice_offset": "i32"
+      },
+      "constants": {
+        "BLOCK_M": 32,
+        "BLOCK_N": 32,
+        "BLOCK_K": 16,
+        "EVEN_K": true,
+        "ADD_INPUTS": false,
+        "CAST_TYPE": false
+      },
+      "target": {
+        "backend": "cuda",
+        "arch": 90,
+        "warp_size": 32
+      },
+      "options": {
+        "enable_fp_fusion": false
+      },
+      "gpu_executed": false,
+      "compile_status": "FAIL",
+      "error_type": "CompilationError",
+      "error": "at 50:22:\n    offset_k = tl.arange(0, BLOCK_K)\n    ram = tl.max_contiguous(tl.multiple_of(offset_m % M, BLOCK_M), BLOCK_M)\n    rbn = tl.max_contiguous(tl.multiple_of(offset_n % N, BLOCK_N), BLOCK_N)\n\n    a_ptr = (input_ptr + cur_seq_start * xm_stride + ram[:, None] * xm_stride +\n             offset_k[None, :] * xk_stride, )\n    b_ptr = (lora_ptr + l0_stride * lora_index +\n             offset_k[:, None] * lora_n_stride + rbn[None, :] * lora_k_stride)\n    accumulator = tl.zeros((BLOCK_M, BLOCK_N), dtype=tl.float32)\n    for k in range(tl.cdiv(K, BLOCK_K)):\n        if EVEN_K:\n            tiled_a = tl.load(a_ptr)\n                      ^\n'tuple_type' object has no attribute 'scalar'",
+      "log": "original-bf16.log",
+      "log_sha256": "10b0e51ee090a0eb3d0d93f8ff57c5a80b89dac295890c1d23554ffff70d657b"
+    },
+    {
+      "source_variant": "remove-singleton-comma",
+      "dtype": "fp16",
+      "signature": {
+        "input_ptr": "*fp16",
+        "lora_ptr": "*fp16",
+        "out_ptr": "*fp16",
+        "N": "i32",
+        "K": "i32",
+        "b_seq_start_loc": "*i32",
+        "seq_lens": "*i32",
+        "lora_indices": "*i32",
+        "xm_stride": "i32",
+        "xk_stride": "i32",
+        "l0_stride": "i32",
+        "lora_k_stride": "i32",
+        "lora_n_stride": "i32",
+        "cm_stride": "i32",
+        "cn_stride": "i32",
+        "slice_offset": "i32"
+      },
+      "constants": {
+        "BLOCK_M": 32,
+        "BLOCK_N": 32,
+        "BLOCK_K": 16,
+        "EVEN_K": true,
+        "ADD_INPUTS": false,
+        "CAST_TYPE": false
+      },
+      "target": {
+        "backend": "cuda",
+        "arch": 90,
+        "warp_size": 32
+      },
+      "options": {
+        "enable_fp_fusion": false
+      },
+      "gpu_executed": false,
+      "compile_status": "PASS",
+      "artifacts": {
+        "remove-singleton-comma-fp16.source": "310fa1232f63c1b47f998dbff5401017393c3f4d7b22f7a7570896946cb9216a",
+        "remove-singleton-comma-fp16.ttir": "7f2eb65de4a6b5140ad775a536fb2846706e214755dfae19b8cc1d1e9238d0e5",
+        "remove-singleton-comma-fp16.ttgir": "0e65659c55dee258b6958171e85c812fbb28330f18e1036fc10a4e26c0e1675c",
+        "remove-singleton-comma-fp16.llir": "b4e67cd119547931b581f93d8587fef0559ac0cf8dbe0c77d83b6b19c77c29f7",
+        "remove-singleton-comma-fp16.ptx": "6a721493a0cb8b7ab602477e23fc0904fcbd49c8fce984d25e3705ef996a82e5",
+        "remove-singleton-comma-fp16.cubin": "6d5f942ce005f7021417305442b2e4443a8866afaec5772a26b3496f9e18f9da"
+      }
+    },
+    {
+      "source_variant": "remove-singleton-comma",
+      "dtype": "bf16",
+      "signature": {
+        "input_ptr": "*bf16",
+        "lora_ptr": "*bf16",
+        "out_ptr": "*bf16",
+        "N": "i32",
+        "K": "i32",
+        "b_seq_start_loc": "*i32",
+        "seq_lens": "*i32",
+        "lora_indices": "*i32",
+        "xm_stride": "i32",
+        "xk_stride": "i32",
+        "l0_stride": "i32",
+        "lora_k_stride": "i32",
+        "lora_n_stride": "i32",
+        "cm_stride": "i32",
+        "cn_stride": "i32",
+        "slice_offset": "i32"
+      },
+      "constants": {
+        "BLOCK_M": 32,
+        "BLOCK_N": 32,
+        "BLOCK_K": 16,
+        "EVEN_K": true,
+        "ADD_INPUTS": false,
+        "CAST_TYPE": false
+      },
+      "target": {
+        "backend": "cuda",
+        "arch": 90,
+        "warp_size": 32
+      },
+      "options": {
+        "enable_fp_fusion": false
+      },
+      "gpu_executed": false,
+      "compile_status": "PASS",
+      "artifacts": {
+        "remove-singleton-comma-bf16.source": "6d1a2d2cbc65a12bc6ccf02c5266e818af69221d684958e335e7bc1c6a73d018",
+        "remove-singleton-comma-bf16.ttir": "786902015381d3d31d55b8a68c93dba461f3b58abd2e7f1168678e6b038ffd50",
+        "remove-singleton-comma-bf16.ttgir": "df74ce2c5f77216b3f2508a51506a071693e3429a19155097c9c3263736763a1",
+        "remove-singleton-comma-bf16.llir": "9f8c35ccafda14b9e2c5a57222239657e575d9e75a65d8ad96b9d3feb73409a2",
+        "remove-singleton-comma-bf16.ptx": "3032a6b1ee05339aa2043a24525f7fb4e471d88526b66da009aa3cb114c7a64a",
+        "remove-singleton-comma-bf16.cubin": "46fceecd5b3fbe734704fba477a70e36be0e830d3c59855bdfac4c2715394433"
+      }
+    }
+  ],
+  "artifacts": {
+    "remove-singleton-comma-bf16.llir": "9f8c35ccafda14b9e2c5a57222239657e575d9e75a65d8ad96b9d3feb73409a2",
+    "a_ptr.ast.txt": "964b3a7392546c6fa4eada2b42e3288521b6fbaf82d2f2697d7b9c205c0defa9",
+    "remove-singleton-comma-bf16.ttgir": "df74ce2c5f77216b3f2508a51506a071693e3429a19155097c9c3263736763a1",
+    "original-bf16.log": "10b0e51ee090a0eb3d0d93f8ff57c5a80b89dac295890c1d23554ffff70d657b",
+    "original.py": "7f4ce661a6c2edb4ba2698f840964d662e06eb4e041531720fdf6e6afae38a4a",
+    "original-fp16.log": "10b0e51ee090a0eb3d0d93f8ff57c5a80b89dac295890c1d23554ffff70d657b",
+    "remove-singleton-comma-fp16.ptx": "6a721493a0cb8b7ab602477e23fc0904fcbd49c8fce984d25e3705ef996a82e5",
+    "remove-singleton-comma-bf16.cubin": "46fceecd5b3fbe734704fba477a70e36be0e830d3c59855bdfac4c2715394433",
+    "remove-singleton-comma.py": "95d90150355d0051cafb70150bf32b0055fa8b798a1727a9ce3ecd671006f1d0",
+    "probe.py": "cd62aeb53edc53bba8fd96177bd242a97c68d67e65f22b5b9972487625ad2fbb",
+    "remove-singleton-comma-bf16.ttir": "786902015381d3d31d55b8a68c93dba461f3b58abd2e7f1168678e6b038ffd50",
+    "remove-singleton-comma-fp16.source": "310fa1232f63c1b47f998dbff5401017393c3f4d7b22f7a7570896946cb9216a",
+    "remove-singleton-comma-fp16.ttgir": "0e65659c55dee258b6958171e85c812fbb28330f18e1036fc10a4e26c0e1675c",
+    "remove-singleton-comma-fp16.cubin": "6d5f942ce005f7021417305442b2e4443a8866afaec5772a26b3496f9e18f9da",
+    "remove-singleton-comma-bf16.ptx": "3032a6b1ee05339aa2043a24525f7fb4e471d88526b66da009aa3cb114c7a64a",
+    "remove-singleton-comma-fp16.llir": "b4e67cd119547931b581f93d8587fef0559ac0cf8dbe0c77d83b6b19c77c29f7",
+    "candidate.patch": "78fdfeace06ea4b6cdb897ba2b0764bc589662d3fd21c108fac323747855db74",
+    "remove-singleton-comma-fp16.ttir": "7f2eb65de4a6b5140ad775a536fb2846706e214755dfae19b8cc1d1e9238d0e5",
+    "remove-singleton-comma-bf16.source": "6d1a2d2cbc65a12bc6ccf02c5266e818af69221d684958e335e7bc1c6a73d018",
+    "run.log": "70f2259db57eaf4c1827b8a5f1a973a248bfbaea1c515810ea4fbd6dc9dc6ca4"
+  }
+}

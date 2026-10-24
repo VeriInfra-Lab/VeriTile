@@ -1,0 +1,318 @@
+{
+  "schema": 1,
+  "kind": "independent_historical_six_public_comparator_evidence_review",
+  "reviewer": "/root/full_scope_audit",
+  "reviewed_at_utc": "2026-10-15T15:10:25.302413+00:00",
+  "decision": "accept_historical_six_public_source_replay_evidence_only",
+  "status": "independently_reviewed",
+  "blocking_findings": [],
+  "historical_commit": "93d38e399ac513eb98aa3624d9aeb1c21858757a",
+  "current_head_acceptance": false,
+  "whole_program_acceptance": false,
+  "standard_accepted": false,
+  "original_program_completion_count_change": 0,
+  "package": {
+    "archive": "/tmp/veritile-comparator-restore-20261015/public-entrypoints-93d38e39-evidence.tar.gz",
+    "directory": "/tmp/veritile-comparator-restore-20261015/public-entrypoints-93d38e39-evidence",
+    "sha256": "1ba741709746f29d0499d1560820f1bece91b99e70bde5934419c2db6bc67150",
+    "bytes": 1473577,
+    "artifact_receipt_sha256": "6857574900d6434983acc4b11385e5af3b17cf67a7f3ba060f6a6c9ea08e0ecf",
+    "verification_sha256": "8185fe0a8ecfa9bcb08b592537530e6b08e0bf842e73fd57395f3e08189356e4",
+    "guest_collection_receipt_sha256": "99a0a066ef7200894b43bc48a5c8dd03bf2ad9c8b1c5e4b77c7db313c7f828cf"
+  },
+  "independent_static_verification": {
+    "path": "/tmp/veritile-standardization-20261015/comparator-six-public-static-verification.json",
+    "sha256": "dfa72d78aa9d4d4b926a3af27d049a704c1d5c599ee2019a9e69bb74887ff0fd",
+    "script": "/tmp/veritile-standardization-20261015/comparator-six-public-static-audit.py",
+    "script_sha256": "451781318ef7f88233ced61eb13743376b2c8c86eca28b3c4b9edb354cd5fd4f",
+    "final_exit_code": 0,
+    "historical_replay_reexecuted": false,
+    "reviewer_script_correction": "An initial reviewer check used a truncated transcription of the collection-receipt hash and failed before verification. Corrected to the full supplied 64-character SHA256; the final complete static audit exited zero. No producer file was changed."
+  },
+  "archive_review": {
+    "members": 117,
+    "regular_files": 99,
+    "directories": 18,
+    "safe_relative_paths": true,
+    "unique_member_names": true,
+    "symlinks_or_hardlinks": false,
+    "special_files": false,
+    "all_archived_bytes_match_readonly_expanded_package": true,
+    "sha256sums_entries_verified": 98,
+    "artifact_receipt_payload_files_verified": 97,
+    "guest_collection_payload_files_verified": 49,
+    "original_guest_transport_archive": {
+      "path": "/tmp/veritile-comparator-restore-20261015/current-targeted-evidence.tar.gz",
+      "sha256": "ce27a6015b63197f9ca14ffd6b8895146e90afb2d7c72245fa6179b58531a4d4",
+      "regular_files": 50,
+      "all_bytes_match_retained_raw_files": true
+    },
+    "hash_manifest_coverage": "SHA256SUMS covers every regular file except itself; artifact receipt covers every regular file except itself and SHA256SUMS; original guest receipt covers every raw payload except the receipt itself."
+  },
+  "source_binding_review": {
+    "frozen_snapshot_base_head": "9327d49ade58b9895672d462e230fe686626ebd2",
+    "snapshot_bound_to_commit": "93d38e399ac513eb98aa3624d9aeb1c21858757a",
+    "source_manifest_sha256": "9f5f85939ecec5988732f24124468acb4bba03e2d19c816d5126d2e17c00095d",
+    "independently_rehashed_git_blobs": 7177,
+    "git_blob_bytes_rehashed": 502010768,
+    "exact_commit_path_set_matches_manifest": true,
+    "retained_postrun_source_hashes_match_frozen_manifest": 7177,
+    "retained_official_postrun_hashes_match_original_official_inputs": 4303,
+    "all_official_input_hashes_match_frozen_manifest": true,
+    "official_snapshot_normalization": "Reviewed collector allows exactly one unchanged official runner append for the VeriTileComparator lean_lib registration in lakefile.toml, requires byte equality to frozen lakefile plus that append, removes only that append for hashing, and asserts every resulting hash equals both the original official input map and frozen source manifest.",
+    "source_manifest_and_receipts_consistent": true,
+    "official_runner_sources_identical_to_historical_git_blobs": true,
+    "six_source_wrappers_reconstructed_exactly": true,
+    "wrapper_reconstruction": "Reconstructed each Source.lean from its historical Git blob, frozen kernel manifest, reviewed audit_trust_prep transformation, and unchanged runner INVENTORY footer. All six reconstructed byte strings equal retained Source.lean files.",
+    "registered_declaration_statement_hashes_verified": 11,
+    "declaration_hash_parser": "Only reviewed pure declaration_scan/split_decls/trim_decl/split_statement helpers and required regex constants from the pinned vendored catalog parser were used. These provide source binding; actual theorem inventory comes from Lean, not regex discovery."
+  },
+  "replay_results": {
+    "entrypoint_files": 6,
+    "accepted_files": 6,
+    "actual_theorem_targets": 26,
+    "registered_public_declarations": 11,
+    "all_official_runner_exit_codes": 0,
+    "all_comparator_exit_codes": 0,
+    "runs": [
+      {
+        "file": "bench/tritonbench_g/attention_kernel_aligned/FullCorrect.lean",
+        "targets": 2,
+        "registered_declarations": 2,
+        "official_exit": 0,
+        "comparator_exit": 0,
+        "result_sha256": "a80f45cb29b658022b03378249ae51d6bcd817de2989fdce6dd43fdad0cda600",
+        "source_wrapper_sha256": "66c3559c5760e3fb4197955a8cfeacc28969c41ccb015d42ea8331691ec33ce3",
+        "source_wrapper_matches_pinned_runner": true,
+        "build_log_sha256": "caf5003b5200a6d2a15d1434fa3afb416af240209fcf933d792ce424c10abdb3",
+        "build_log_lines": 887,
+        "comparator_log_sha256": "33c284e4ed46a9c75b2aaf8835e2c3beb96c380fcef05906a88d1b3729ba2128",
+        "comparator_log_lines": 1789
+      },
+      {
+        "file": "bench/tritonbench_g/fp4_to_bf16/HostCorrect.lean",
+        "targets": 6,
+        "registered_declarations": 1,
+        "official_exit": 0,
+        "comparator_exit": 0,
+        "result_sha256": "f9a9eab37a4d5dbf7c7c79ccc06895c49523bc2380d4cecff1675fc59761f95e",
+        "source_wrapper_sha256": "f0c470132fe6ab88cd58e9609662a681fb78bf2bd6e55dc546b6231c5f91a29b",
+        "source_wrapper_matches_pinned_runner": true,
+        "build_log_sha256": "15b5073c908bb6701a13144dc4a7bf64378eb9043f82014baefdeb6351f7ba95",
+        "build_log_lines": 1015,
+        "comparator_log_sha256": "1bb0d45b9b77fb8d3e12334754fd36307338fb397e4a1443ec4b7b313983edf6",
+        "comparator_log_lines": 2045
+      },
+      {
+        "file": "bench/tritonbench_g/kcache_copy_triton/DiscreteCorrect.lean",
+        "targets": 4,
+        "registered_declarations": 1,
+        "official_exit": 0,
+        "comparator_exit": 0,
+        "result_sha256": "d3ac187449dea02a8a15b3ba2e3c14dad7c8917934e533ab101ca0a816faec44",
+        "source_wrapper_sha256": "4805386e0ab5d6603b14d78361cb4edb6f6b23f8383d128308ed79360feee918",
+        "source_wrapper_matches_pinned_runner": true,
+        "build_log_sha256": "154b5fb7f82f2ef13d02551b9bcb9f10387f01cc3a8fe4251d93a9667c360ef4",
+        "build_log_lines": 793,
+        "comparator_log_sha256": "75e17a0d1971e433d72b2ee2139ccbc511a85c628b05e4b68cf5fc67c051014c",
+        "comparator_log_lines": 1601
+      },
+      {
+        "file": "bench/tritonbench_g/kcache_copy_triton/SignedCorrect.lean",
+        "targets": 8,
+        "registered_declarations": 1,
+        "official_exit": 0,
+        "comparator_exit": 0,
+        "result_sha256": "5ccbfebcb0dd19c13c259f0b763d2057daabc71482665f433f01c12797fbea11",
+        "source_wrapper_sha256": "733e68af40b51f3b9dd94742417ebc545c35ec26c2312126330b5dfd0b6be0fc",
+        "source_wrapper_matches_pinned_runner": true,
+        "build_log_sha256": "5d26ab2f1f19d32d8916155db01bf6bcd02f6f7b7ab31b1a404b8865f3f38755",
+        "build_log_lines": 880,
+        "comparator_log_sha256": "94b9588a546e9f0374aa6bd15dc5497ffb9515d823c77b0423d85e657fb9014f",
+        "comparator_log_lines": 1775
+      },
+      {
+        "file": "bench/tritonbench_g/multinomial_sampling/HostCorrect.lean",
+        "targets": 4,
+        "registered_declarations": 4,
+        "official_exit": 0,
+        "comparator_exit": 0,
+        "result_sha256": "9959bbf4c581c48e123a167a87847f32d7e4ba793eb5668277174a05b58110d7",
+        "source_wrapper_sha256": "2e4e53a9db79dae85c6ad48dac5f2d380ae34f88c7145deaad6aeda65d65dfca",
+        "source_wrapper_matches_pinned_runner": true,
+        "build_log_sha256": "6d0b433f99b019e1af4a2d51f2cd80db66b09e17ce131f21b42592c7ec4d0c3b",
+        "build_log_lines": 361,
+        "comparator_log_sha256": "38164295c5e7d8f5a0a0974057917d9770092dae6ff889ab3c9508896e67ebe6",
+        "comparator_log_lines": 737
+      },
+      {
+        "file": "bench/tritonbench_g/triton_conv2d_fwd/BranchesCorrect.lean",
+        "targets": 2,
+        "registered_declarations": 2,
+        "official_exit": 0,
+        "comparator_exit": 0,
+        "result_sha256": "507e9e7b5db9e01fa28e3202ff459bf4bd2fa7b002dfb7aa9f8e9bd25b850c89",
+        "source_wrapper_sha256": "a2d8df8d8b3ce222a7ce5cf89cc1b4658e03687ad71f333cf770b26a603f4022",
+        "source_wrapper_matches_pinned_runner": true,
+        "build_log_sha256": "7bd42ec80e5140a2c1f54a5052437619c62d920ed6972107c2ac8f4f05f0b6a7",
+        "build_log_lines": 1031,
+        "comparator_log_sha256": "0c64b7971e30f58afe998be5ddb6571b11842f65b416fd6acf84ceb2eaf07992",
+        "comparator_log_lines": 2077
+      }
+    ],
+    "target_mapping_matches_complete_original_inventories": true,
+    "all_11_declarations_have_one_unique_inventory_match": true,
+    "declarations": [
+      {
+        "file": "bench/tritonbench_g/attention_kernel_aligned/FullCorrect.lean",
+        "declaration": "attention_aligned_all_lengths_backend_correctness",
+        "theorem": "VeriTile.Bench.TritonBenchG.AttentionKernelAligned.FullCorrect.attention_aligned_all_lengths_backend_correctness",
+        "statement_sha256": "8c919059e02a6eb5991edfe6c14e3f6af23a512f0766ddcfb2bbd319969c32e7"
+      },
+      {
+        "file": "bench/tritonbench_g/attention_kernel_aligned/FullCorrect.lean",
+        "declaration": "attention_aligned_all_lengths_scalar_bit_correctness",
+        "theorem": "VeriTile.Bench.TritonBenchG.AttentionKernelAligned.FullCorrect.attention_aligned_all_lengths_scalar_bit_correctness",
+        "statement_sha256": "c08bf578af48cae5330e7fad12cce79d101c186cea48248ae14fae7147120fe1"
+      },
+      {
+        "file": "bench/tritonbench_g/fp4_to_bf16/HostCorrect.lean",
+        "declaration": "fp4_to_bf16_host_grid_correctness",
+        "theorem": "VeriTile.Bench.TritonBenchG.Fp4ToBf16.HostCorrect.fp4_to_bf16_host_grid_correctness",
+        "statement_sha256": "25030aca38d5fc89f7ff045ffca713e3213d22933b3a4228016cb995e39f79df"
+      },
+      {
+        "file": "bench/tritonbench_g/kcache_copy_triton/DiscreteCorrect.lean",
+        "declaration": "all_tokens_discrete_correctness",
+        "theorem": "VeriTile.Bench.TritonBenchG.KcacheCopyTriton.DiscreteCorrect.all_tokens_discrete_correctness",
+        "statement_sha256": "001053af90bd36102ffb4851040ac7045db876eef3dc0e76b5a7de772ba737eb"
+      },
+      {
+        "file": "bench/tritonbench_g/kcache_copy_triton/SignedCorrect.lean",
+        "declaration": "all_tokens_five_format_raw_bit_correctness",
+        "theorem": "VeriTile.Bench.TritonBenchG.KcacheCopyTriton.SignedRawBits.all_tokens_five_format_raw_bit_correctness",
+        "statement_sha256": "93953a42eecc1399800bb33c5d6b599e5d46432b6553fe54d5e0cfb01f22cf30"
+      },
+      {
+        "file": "bench/tritonbench_g/multinomial_sampling/HostCorrect.lean",
+        "declaration": "multinomial_grid_backend_correctness",
+        "theorem": "VeriTile.Bench.TritonBenchG.MultinomialSampling.HostCorrect.multinomial_grid_backend_correctness",
+        "statement_sha256": "892fc63a5e73db0092d5b757a22a01db5fa394165f6615ffe49ae036691df9ae"
+      },
+      {
+        "file": "bench/tritonbench_g/multinomial_sampling/HostCorrect.lean",
+        "declaration": "multinomial_grid_software_correctness",
+        "theorem": "VeriTile.Bench.TritonBenchG.MultinomialSampling.HostCorrect.multinomial_grid_software_correctness",
+        "statement_sha256": "d3c33b47678b0410d8b925bec554513d9f5c2a6c87c5bc4da601fe9684a224a3"
+      },
+      {
+        "file": "bench/tritonbench_g/multinomial_sampling/HostCorrect.lean",
+        "declaration": "multinomial_int64_indices_host_correctness",
+        "theorem": "VeriTile.Bench.TritonBenchG.MultinomialSampling.HostCorrect.multinomial_int64_indices_host_correctness",
+        "statement_sha256": "52b597c6b2f3c81c5a9509ab7640838876794d96317b894378e34760bb38379d"
+      },
+      {
+        "file": "bench/tritonbench_g/multinomial_sampling/HostCorrect.lean",
+        "declaration": "multinomial_single_token_host_correctness",
+        "theorem": "VeriTile.Bench.TritonBenchG.MultinomialSampling.HostCorrect.multinomial_single_token_host_correctness",
+        "statement_sha256": "cc8766e25dc28bf9b49499034856b373330a3dbeea1513c7b8bc411f7bf87e7c"
+      },
+      {
+        "file": "bench/tritonbench_g/triton_conv2d_fwd/BranchesCorrect.lean",
+        "declaration": "all_fp16_branches_backend_correctness",
+        "theorem": "VeriTile.Bench.TritonBenchG.TritonConv2dFwd.BranchesCorrect.all_fp16_branches_backend_correctness",
+        "statement_sha256": "a9f129f7cbff001224163b73d9967a3662180308a0d7b7ab6b5702b42b5fd002"
+      },
+      {
+        "file": "bench/tritonbench_g/triton_conv2d_fwd/BranchesCorrect.lean",
+        "declaration": "all_fp16_branches_software_correctness",
+        "theorem": "VeriTile.Bench.TritonBenchG.TritonConv2dFwd.BranchesCorrect.all_fp16_branches_software_correctness",
+        "statement_sha256": "81e3bfda7cd8ea76cc9176562c39a4a821a1cc51c96d9904dc80ce40f0c0dcf3"
+      }
+    ],
+    "complete_log_evidence": "All six complete build/comparator logs are retained and hash-bound to original guest collection. Each build ends with successful completion; comparator logs begin with the systemd unit and include challenge/solution exports, Lean default kernel acceptance, success text, service exit status 0/SUCCESS and final resource statistics. No failure marker was found. Six command logs, configurations, inventories and original result receipts are also retained.",
+    "target_count_interpretation": "26 counts all original theorem objects enumerated by Lean in these six modules, including generated/private helpers; it is not 26 public declarations or 26 original programs."
+  },
+  "comparator_configuration_review": {
+    "official_comparator_sha256": "112d9982e984d0da0a618dc27b61f0fd0e13ea84d9b309904e4d439dce9b6789",
+    "official_comparator_revision": "2a00b30df5e9173e70c4e4ec669fdf03da3163b9",
+    "command_mode": "python3 scripts/check_comparator.py --file FILE --trust --workspace /home/judge/current-library-workspace",
+    "challenge_and_solution": "Same generated historical source-replay module, as intended by unchanged repository replay runner.",
+    "permitted_axioms": [
+      "propext",
+      "Quot.sound",
+      "Classical.choice"
+    ],
+    "enable_nanoda": false,
+    "kernel": "Lean default kernel acceptance is recorded; no separate Nanoda acceptance is claimed.",
+    "trust_gates": "--trust adds the unchanged standalone axiom/spec audit transformation. Six logs preserve its actual coverage output; this review does not reinterpret zero independentSpec counts as full program correctness."
+  },
+  "isolation_review": {
+    "guest_uid": 2000,
+    "kernel": "6.12.111+deb13-cloud-amd64",
+    "landlock_abi": 6,
+    "retained_probe_results": [
+      {
+        "label": "unrestricted AF_UNIX succeeds",
+        "exit": 0
+      },
+      {
+        "label": "systemd RestrictAddressFamilies denies AF_UNIX",
+        "exit": 1
+      },
+      {
+        "label": "unrestricted sentinel write succeeds",
+        "exit": 0
+      },
+      {
+        "label": "Landlock read-only root denies sentinel write",
+        "exit": 1
+      },
+      {
+        "label": "unchanged official preflight",
+        "exit": 0
+      }
+    ],
+    "retained_official_comparator_control_results": [
+      {
+        "case": "positive",
+        "exit": 0
+      },
+      {
+        "case": "changed-statement",
+        "exit": 1
+      },
+      {
+        "case": "sorry",
+        "exit": 1
+      },
+      {
+        "case": "source-write",
+        "exit": 1
+      }
+    ],
+    "control_sources_and_expected_diagnostic_markers_checked": true,
+    "controls_challenge_before_after_hashes_equal": true,
+    "pinned_tool_hashes_match_isolation_probe_media_hashes": true,
+    "official_preflight_and_runner_have_no_fallback_bypass": true,
+    "read_only_media_and_independent_judge_cache": "Launch/media provenance and unchanged snapshot_project implementation reviewed; isolated source/cache copies and original source guards are retained.",
+    "scope": "Static independent review of retained original controls and replay evidence; the VM and successful historical runs were not rerun."
+  },
+  "prior_library_context": {
+    "checkpoint": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/review-checkpoints/2026-10-15/comparator-original-scope-library",
+    "verification_sha256": "c2dd4a1e7e381a49f176931d9805ffb9e161f45e0f527ab3fee642af9be53d30",
+    "delivery_result_exactly_matches_committed_library_verification": true,
+    "scope": "Separate prior 118-target, eight-module library result at the same commit. Used only as existing provenance/context and driver start condition; not rerun or merged into this six-file count."
+  },
+  "remaining_scope_limits": [
+    "Acceptance applies only to the six named public entrypoint files at frozen commit 93d38e399ac513eb98aa3624d9aeb1c21858757a.",
+    "This is historical same-source theorem replay, not a current-head run and not a theorem/spec equivalence check against a separately supplied original-program specification.",
+    "The 11 declarations retain their exact frozen premises, dtype/stage/branch limits, numerical callbacks and unresolved native bindings.",
+    "It does not establish acceptance of all 30 first-batch modules, later LoRA/matrix/host/view batches, the current corpus, or any additional complete original program.",
+    "Existing structural gaps remain nondeferrable under the user standard; this evidence introduces no numerical deferral and changes no source/catalog claim."
+  ],
+  "numerical_deferrals_added": [],
+  "repository_mutation": false,
+  "frozen_package_mutation": false,
+  "conclusion": "No blocking inconsistency found. Accept this package as complete, hash-bound historical evidence that the unchanged official comparator accepted the six recorded files and all 26 discovered theorem targets, including all 11 registered public declarations, at the exact frozen commit. Do not promote this evidence into current-head or whole-program acceptance."
+}

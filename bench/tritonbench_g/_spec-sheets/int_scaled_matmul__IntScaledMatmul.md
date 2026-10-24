@@ -7,21 +7,10 @@
 <details><summary>docstring</summary>
 
 ```
-/-- **Genuine, dimension-general correctness of
-`matmul_kernel_with_block_pointers`.** For every launch state, the kernel
-runs to completion and every in-range output lane of `C` holds the `.int`
-memory cell carrying the exact ℤ GEMM
-
-`mmSpec = ∑ kk < K, A[row, kk] · B[kk, col]`
-
-at the block-pointer address `row·stride_cm + col·stride_cn`. No
-divisibility of `K` is assumed: the `boundary_check=(0, 1)` loads zero-fill
-every lane past `K` (and past `M`/`K` in the row axes), so the ragged tail
-contributes nothing — the only loop hypothesis is `0 < BLOCK_K` (a
-`range(0, K, BLOCK_K)` step must be positive). `hInj` says distinct output
-lanes get distinct `C` addresses — `mmCAddr_injective_rowMajor` discharges
-it for a row-major `C`. The grid is 1-D, so there is no auxiliary
-program-id hypothesis. -/
+/-- Complete execution and independent padded-output formula for the first
+source kernel. Positive BLOCK_K and output-address injectivity are the existing
+premises; no zero-oracle or K-divisibility condition is assumed. The oracle
+contribution is part of the conclusion and is read only from the initial state. -/
 ```
 </details>
 
@@ -44,7 +33,7 @@ specification int_scaled_matmul_matmul_exec_genuine
             ∧ mmPidN s M N BM BN GM * BN + idx.2.1.val < N) →
           sF.mem c_ptr (mmCAddr stride_cm stride_cn BM BN (mmPidM s M N BM BN GM)
               (mmPidN s M N BM BN GM) idx)
-            = MemCell.of .int (mmSpec s a_ptr b_ptr K stride_am stride_ak
+            = MemCell.of .int (mmPaddedSpec s a_ptr b_ptr K (mmSpan K BK) stride_am stride_ak
                 stride_bk stride_bn
                 (mmPidM s M N BM BN GM * BM + idx.1.val)
                 (mmPidN s M N BM BN GM * BN + idx.2.1.val))
@@ -53,7 +42,7 @@ specification int_scaled_matmul_matmul_exec_genuine
 **Assumptions / layout contracts:**
 - `hBK : 0 < BK`
 
-**Closed-form spec defs (transitive):** `mmCAddr`, `mmPidM`, `mmPidN`, `int_scaled_matmul_matmul_surface`, `mmSpec`, `mmFirstPidM`, `mmGroupSize`, `mmNumPidInGroup`, `mmAElem`, `mmBElem`, `mmGroupId`, `mmNumPidM`, `mmNumPidN`
+**Closed-form spec defs (transitive):** `mmCAddr`, `mmPidM`, `mmPidN`, `int_scaled_matmul_matmul_surface`, `mmPaddedSpec`, `mmSpan`, `mmFirstPidM`, `mmGroupSize`, `mmNumPidInGroup`, `mmSpec`, `mmPaddingTail`, `mmGroupId`, `mmNumPidM`, `mmNumPidN`, `mmAElem`, `mmBElem`, `mmPad`
 
 <details><summary><code>mmCAddr</code></summary>
 
@@ -139,17 +128,26 @@ def int_scaled_matmul_matmul_surface
 ```
 </details>
 
-<details><summary><code>mmSpec</code></summary>
+<details><summary><code>mmPaddedSpec</code></summary>
 
 ```
-/-- **The kernel-1 stored value**: the genuine ℤ GEMM
-`∑ kk < K, A[row, kk] · B[kk, col]`. -/
+/-- The actual source result is GEMM plus the unspecified padded tail. -/
 ```
 ```lean
-def mmSpec (s : BlockState) (a_ptr b_ptr : Region .int)
-    (K sam sak sbk sbn : Nat) (row col : Nat) : ℤ :=
-  ∑ kk : Fin K, mmAElem s a_ptr sam sak row kk.val
-    * mmBElem s b_ptr sbk sbn kk.val col
+noncomputable def mmPaddedSpec (s : BlockState) (a_ptr b_ptr : Region .int)
+    (K F sam sak sbk sbn row col : Nat) : Int :=
+  mmSpec s a_ptr b_ptr K sam sak sbk sbn row col +
+    mmPaddingTail s a_ptr b_ptr K F sam sak sbk sbn row col
+```
+</details>
+
+<details><summary><code>mmSpan</code></summary>
+
+```
+/-- Number of K lanes swept by the positive-step source loop. -/
+```
+```lean
+def mmSpan (K BK : Nat) : Nat := ((K+BK-1)/BK)*BK
 ```
 </details>
 
@@ -185,28 +183,32 @@ def mmNumPidInGroup (N BN GM : Nat) : Nat := GM * mmNumPidN N BN
 ```
 </details>
 
-<details><summary><code>mmAElem</code></summary>
+<details><summary><code>mmSpec</code></summary>
 
 ```
-/-- `A[row, kk]` — a signed `.int`-channel read of the launch state (the
-host's `torch.int8` input; widths erased, kernel-1 disclosure (1)). -/
+/-- The ordinary, unpadded GEMM term. The actual source additionally
+contributes `mmPaddingTail` when K is ragged. -/
 ```
 ```lean
-def mmAElem (s : BlockState) (a_ptr : Region .int) (sam sak : Nat)
-    (row kk : Nat) : ℤ :=
-  s.readMemValue .int (Region.cast a_ptr) (row * sam + kk * sak)
+def mmSpec (s : BlockState) (a_ptr b_ptr : Region .int)
+    (K sam sak sbk sbn : Nat) (row col : Nat) : ℤ :=
+  ∑ kk : Fin K, mmAElem s a_ptr sam sak row kk.val
+    * mmBElem s b_ptr sbk sbn kk.val col
 ```
 </details>
 
-<details><summary><code>mmBElem</code></summary>
+<details><summary><code>mmPaddingTail</code></summary>
 
 ```
-/-- `B[kk, col]` — same on `B`. -/
+/-- The padded K-tail contribution. It is a formula over the initial oracle,
+not an assumption about the final output. -/
 ```
 ```lean
-def mmBElem (s : BlockState) (b_ptr : Region .int) (sbk sbn : Nat)
-    (kk col : Nat) : ℤ :=
-  s.readMemValue .int (Region.cast b_ptr) (kk * sbk + col * sbn)
+noncomputable def mmPaddingTail (s : BlockState) (a_ptr b_ptr : Region .int)
+    (K F sam sak sbk sbn row col : Nat) : Int :=
+  ∑ e ∈ Finset.range (F-K),
+    mmPad s (Region.cast a_ptr) (row*sam+(K+e)*sak) *
+      mmPad s (Region.cast b_ptr) ((K+e)*sbk+col*sbn)
 ```
 </details>
 
@@ -238,6 +240,43 @@ def mmNumPidM (M BM : Nat) : Nat := (M + BM - 1) / BM
 ```
 ```lean
 def mmNumPidN (N BN : Nat) : Nat := (N + BN - 1) / BN
+```
+</details>
+
+<details><summary><code>mmAElem</code></summary>
+
+```
+/-- `A[row, kk]` — a signed `.int`-channel read of the launch state (the
+host's `torch.int8` input; widths erased, kernel-1 disclosure (1)). -/
+```
+```lean
+def mmAElem (s : BlockState) (a_ptr : Region .int) (sam sak : Nat)
+    (row kk : Nat) : ℤ :=
+  s.readMemValue .int (Region.cast a_ptr) (row * sam + kk * sak)
+```
+</details>
+
+<details><summary><code>mmBElem</code></summary>
+
+```
+/-- `B[kk, col]` — same on `B`. -/
+```
+```lean
+def mmBElem (s : BlockState) (b_ptr : Region .int) (sbk sbn : Nat)
+    (kk col : Nat) : ℤ :=
+  s.readMemValue .int (Region.cast b_ptr) (kk * sbk + col * sbn)
+```
+</details>
+
+<details><summary><code>mmPad</code></summary>
+
+```
+/-- The actual omitted-padding integer value, independently determined by
+  the launch state's unspecified-value oracle at the computed address. -/
+```
+```lean
+noncomputable def mmPad (s : BlockState) (r : RegionName) (addr : Nat) : Int :=
+  Int.floor (s.undef r addr)
 ```
 </details>
 

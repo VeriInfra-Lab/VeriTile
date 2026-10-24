@@ -1,0 +1,10 @@
+#loc = loc("/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/fused_recurrent_hgrn_repaired.py":25:0)
+#loc2 = loc("x"(#loc))
+#loc3 = loc("g"(#loc))
+#loc4 = loc("o"(#loc))
+module {
+  tt.func public @fused_recurrent_hgrn_fwd_kernel(%x: !tt.ptr<f32> {tt.divisibility = 16 : i32} loc("x"(#loc)), %g: !tt.ptr<f32> {tt.divisibility = 16 : i32} loc("g"(#loc)), %o: !tt.ptr<f32> {tt.divisibility = 16 : i32} loc("o"(#loc))) attributes {noinline = false} {
+    tt.return loc(#loc1)
+  } loc(#loc)
+} loc(#loc)
+#loc1 = loc("/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/fused_recurrent_hgrn_repaired.py":59:4)

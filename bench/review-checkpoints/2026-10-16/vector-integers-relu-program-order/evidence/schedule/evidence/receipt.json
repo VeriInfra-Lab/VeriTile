@@ -1,0 +1,46 @@
+{
+  "schema": 1,
+  "kind": "vector_addition_typed_arbitrary_sequential_order",
+  "producer": "root",
+  "base_commit": "51553adc8a48ca90810ee4aef11f362e96e37edb",
+  "status": "lean_verified_pending_independent_review_and_integration",
+  "modules": {
+    "bench/tritonbench_g/vector_addition/Proofs/TypedSchedule.lean": "c9d0a4eff696f4eb6b2661cff89d3ef84dad4634df58f5a842d8d810004942c2",
+    "bench/tritonbench_g/vector_addition/TypedScheduleCorrect.lean": "b774817830e99ba6332103fa10e85b33cef4007ed2490f7a41ad9d5d4a3c9ec9"
+  },
+  "artifacts": {
+    "README.md": "11e20fddd46eb5507ed7d13f063b6f068c5d49d618501dcfcbad7d31c2ba0850",
+    "verify.py": "16820e4bcfdb61cd4eb8fa9c10c090e1c5eaf64ff54db3de03182480a927ef27",
+    "freeze.py": "389f30d978c141a0ad999e64243d6f89c3d96b18b18b1f09a39ccd441e1b20c4",
+    "evidence/final-dependencies-before.json": "aa7ac6f57cd2445b3c5d8c8f586504e6c0d6f0de1c500713984e459dd77bcd9c",
+    "evidence/final-dependencies-after.json": "aa7ac6f57cd2445b3c5d8c8f586504e6c0d6f0de1c500713984e459dd77bcd9c",
+    "evidence/verification-results.json": "18c3b31b41e99383b22feba9fb9db233bb024dae4900b9e61c1085f8e3db102d",
+    "evidence/TypedSchedule.compile.log": "ef7fdd8aa6544b83d28565e8707b58acd6a5c33e363fdc44ccaafca640bb70c4",
+    "evidence/TypedScheduleCorrect.compile.log": "6db2d4650de125c92b08ca77c321a827de43490e4e8d066bd8de5cc7d52988f2"
+  },
+  "public_specification": {
+    "file": "bench/tritonbench_g/vector_addition/TypedScheduleCorrect.lean",
+    "declaration": "vector_addition_typed_program_order_correctness",
+    "statement_sha256": "4c7fe4547b0d364fb972bb1764d070bb19c4c2fd72701a3f726ddea0a9341591"
+  },
+  "checks": {
+    "actual_exit_codes": [
+      0,
+      0
+    ],
+    "axiom_checks": 8,
+    "noncircularity_checks": 1,
+    "source_fingerprints": 156,
+    "stable_source_fingerprints": true
+  },
+  "scope": {
+    "dtype_profiles": 25,
+    "whole_programs_accepted": 0,
+    "requires_positive_natural_block_size": true,
+    "complete_schedule": "List.Perm of List.range gridCount; actual executions in given order",
+    "logical_aliases": "Equal input/output region names at identical natural flat offsets are allowed. No physical-byte alias claim.",
+    "new_numerical_laws": 0,
+    "native_refinement": false,
+    "official_comparator_replay": false
+  }
+}

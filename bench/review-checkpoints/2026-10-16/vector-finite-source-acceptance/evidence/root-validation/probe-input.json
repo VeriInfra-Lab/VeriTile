@@ -1,0 +1,6 @@
+{
+  "source": "/tmp/veritile-standardization-20261015/vector-finite-acceptance-wip/probe_views.py",
+  "sha256": "d3d5850aaa89065170aa0dd30aae5dd5cfcfecca9a0ac0de03f3da5fb3ccad90",
+  "producer_not_yet_frozen": true,
+  "must_match_final_frozen_script_before_review": true
+}

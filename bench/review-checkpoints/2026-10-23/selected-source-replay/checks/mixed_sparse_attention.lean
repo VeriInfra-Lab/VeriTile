@@ -1,0 +1,7 @@
+import VeriTile.Meta.StatementAudit
+import bench.repairs.tritonbench_g.mixed_sparse_attention.Contract
+import bench.repairs.tritonbench_g.mixed_sparse_attention.Correct
+import bench.repairs.tritonbench_g.mixed_sparse_attention.FPEquiv
+
+#axiomsClean VeriTile.Bench.Repairs.MixedSparseAttention.kernel_real
+#axiomsClean VeriTile.Bench.Repairs.MixedSparseAttention.FPEquiv.fused_mask_equiv

@@ -1,0 +1,7 @@
+import VeriTile.Meta.StatementAudit
+import bench.repairs.tritonbench_g.matmul_dequantize_int4.Contract
+import bench.repairs.tritonbench_g.matmul_dequantize_int4.Correct
+import bench.repairs.tritonbench_g.matmul_dequantize_int4.FPEquiv
+
+#axiomsClean VeriTile.Bench.Repairs.MatmulDequantizeInt4.Correct.correct
+#axiomsClean VeriTile.Bench.Repairs.MatmulDequantizeInt4.FPEquiv.group_extent_equiv

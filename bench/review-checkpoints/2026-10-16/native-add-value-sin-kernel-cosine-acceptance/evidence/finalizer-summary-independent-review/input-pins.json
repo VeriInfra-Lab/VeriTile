@@ -1,0 +1,566 @@
+{
+  "/tmp/veritile-standardization-20261015/next-three-finalizer-summary-correction-001/candidate-receipt.json": {
+    "sha256": "0b84bf2e898e7dc81e65bf1df7306ce9048f13e9bc1a1791b2acb605692c9921",
+    "size": 1014
+  },
+  "/tmp/veritile-standardization-20261015/next-three-finalizer-summary-correction-001/README.md": {
+    "sha256": "2e09ff5ecaa0735e6ec72c8af062e2b5b41088fbdce032ee3df280f340166776",
+    "size": 1630
+  },
+  "/tmp/veritile-standardization-20261015/next-three-finalizer-summary-correction-001/finalize.patch": {
+    "sha256": "0ca8f00d5732b6de8c3ea8ea953a93dee8ac5806946e51dea3ba129e46d7ff2e",
+    "size": 5919
+  },
+  "/tmp/veritile-standardization-20261015/next-three-finalizer-summary-correction-001/finalize.py": {
+    "sha256": "3e13c254200badce91e5ed67a9dc9418f7c4389589d9132b547e7f24f1190935",
+    "size": 11358
+  },
+  "/tmp/veritile-standardization-20261015/next-three-finalizer-summary-correction-001/input-pins.json": {
+    "sha256": "0b2581fc8f598f822c4d48e945306a46d8890ba0c63b991892b3277f71edb98b",
+    "size": 207
+  },
+  "/tmp/veritile-standardization-20261015/next-three-finalizer-summary-correction-001/observed-completed-tests.json": {
+    "sha256": "10b118bf1c13ee733968cdd46ae46d00193b1da7cf9560fb47ef07f4d368c3eb",
+    "size": 566
+  },
+  "/tmp/veritile-standardization-20261015/next-three-finalizer-summary-correction-001/test_summary.py": {
+    "sha256": "728dcca8801317da625022503fde27234f5ba9c95a685222ea9cb617a430497d",
+    "size": 1842
+  },
+  "/tmp/veritile-standardization-20261015/next-three-finalizer-summary-correction-001/tests.log": {
+    "sha256": "8d7f40319538575c8d7752635f1920703ecfd00874d14c70eb1437b8bdf6dfbb",
+    "size": 637
+  },
+  "/tmp/veritile-standardization-20261015/next-three-finalizer-summary-correction-001/unittest_summary.py": {
+    "sha256": "012fbcb941966790eb69ae6918ff451496febf2cfca87afb802cda77dc495f8a",
+    "size": 688
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/candidate-receipt.json": {
+    "sha256": "e223b9f4ca0aa5810383acfd4fe7068786041467c4058a8ab71bd76a13cf7512",
+    "size": 18336
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/PLAN.md": {
+    "sha256": "59c3d537531ffa64b192185a1ae8820c8ac6a02b0d6b2b5133546e4cccdf9023",
+    "size": 6079
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/README.md": {
+    "sha256": "9cb2f050886196eb726e4cbd371f346f986f89b3ea5eff5875a0de0820663888",
+    "size": 5841
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/check_prepare_plan.py": {
+    "sha256": "2473f0043b2ff213c71ed728061ed8c33e496edd7ad035ed2c5ef8a53b6fbefb",
+    "size": 1824
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/common.py": {
+    "sha256": "e717679e1044148aa3f2131b43e6358eb5adf9c3514630d358ceea3172f9b404",
+    "size": 27302
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/design-origin.json": {
+    "sha256": "d5e5be3a7c2c3e7c6f93987f24afdefa56602fab2d8aec111af1d3aee7204d34",
+    "size": 1058
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/design-origin/common.py": {
+    "sha256": "d5075b19f0073b199b1c4e47d13564cb108224b76f7861f83d1eb4ddf064813c",
+    "size": 18054
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/design-origin/finalize.py": {
+    "sha256": "1df90d82ed0ff08c52ad09babdbd2ed39a8fbc365b43767b6cd0b57b6aedbc99",
+    "size": 10023
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/design-origin/install.py": {
+    "sha256": "01c6ab89434f10fcd6fad39844e9fb7c25a02e3900a7c0dffa80d84f62f3feb8",
+    "size": 2023
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/design-origin/prepare.py": {
+    "sha256": "f24866ac675249485564731d194f0d73581e9a27180539b3f3a73c41edbaca61",
+    "size": 11250
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/design-origin/rebind.py": {
+    "sha256": "308c2d0223dafe6e5970b348dc5e682e941798062696059a99b00b1970b50ab1",
+    "size": 5885
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/design-origin/record_phase.py": {
+    "sha256": "4a287b5223adc19c263a9afdfc7befb4e2b67b8b69dbcf8eec80c875d944ae2c",
+    "size": 1770
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/design-origin/run_checks.py": {
+    "sha256": "34c464f3b0270b8c2f3ad650f2697125e6816a52eb314b2101fcc01937db7c5f",
+    "size": 4548
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/design-origin/stage.py": {
+    "sha256": "57183bc2507bce2e23d1cfe9f21db49cc2d8d247e257c5168ddc2922db01a30f",
+    "size": 4893
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/design-origin/transforms.py": {
+    "sha256": "331bddd906e34de67f62045c0acc2105a6e986e77ca9ab53d6f3e1b8b7f54027",
+    "size": 5184
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/final-checks.json": {
+    "sha256": "227a06f37cd600748050871d003526990227a2d7338526e0a775ba31426f9656",
+    "size": 6307
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/lint-attempt1/add_value_native_numerical_extension.py": {
+    "sha256": "9e176131bc041fd5cfeec6e6f26e9d5cdca4f50de74d3e72be123b38a105cbbe",
+    "size": 4475
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/lint-attempt1/cosine_native_numerical_extension.py": {
+    "sha256": "39444bb584486aeea49dd4829c101417332ef1cfd613297f2ba8476cbed28625",
+    "size": 4897
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/lint-attempt1/current_source_acceptance.md": {
+    "sha256": "a823dfec7e451ccff5c986b62b31eff32764612a9c3ae16c0dd42a6f1fb472ff",
+    "size": 3282
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/lint-attempt1/original_program_scope.md": {
+    "sha256": "c264a001f91cb5c2e836afa01c5457ae228c8b4dc847498e7f303d24304a7169",
+    "size": 6718
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/lint-attempt1/primary-version-applicability.json": {
+    "sha256": "c03f3dd17975b396b89f67830c6247e8c006b079417257037759f2b047f75053",
+    "size": 5428
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/lint-attempt1/primary-version-applicability.md": {
+    "sha256": "0440a0359d3b626ae73b16d2afb5f7d4c7b04ca489c3e137121ec9f973b1eb63",
+    "size": 989
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/lint-attempt1/report.json": {
+    "sha256": "4941a419c040aad35f8298432f4e7ad4e6a35a7735ca31366d8a4af88734bed0",
+    "size": 1683
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/lint-attempt1/reviewed_numerical_extensions.py": {
+    "sha256": "1b3134161fb2662c863a4dfc3b7de0ac661d460348fc48b7d1fa0f866207f562",
+    "size": 19170
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/lint-attempt1/sin_kernel_numerical_extension.py": {
+    "sha256": "11a9f0d30b6a1dff1f5ffdabfc47abfb9bfbc58ae41ef5085441c6e8297d59c2",
+    "size": 6551
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/lint-attempt1/source-views.json": {
+    "sha256": "bbaa3411f3b1b015b854f5eacc6dd86dd1628430912c1539e540643622bdb5b1",
+    "size": 13065
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/lint-attempt1/test_exact_numerical_bindings.py": {
+    "sha256": "c8b2e4138f1ac4718dc67175cd74b0d9453aece78045fe83061a1eb5a4c155ab",
+    "size": 22733
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/lint-attempt1.log": {
+    "sha256": "4941a419c040aad35f8298432f4e7ad4e6a35a7735ca31366d8a4af88734bed0",
+    "size": 1683
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/lint-final/add_value_native_numerical_extension.py": {
+    "sha256": "9e176131bc041fd5cfeec6e6f26e9d5cdca4f50de74d3e72be123b38a105cbbe",
+    "size": 4475
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/lint-final/cosine_native_numerical_extension.py": {
+    "sha256": "39444bb584486aeea49dd4829c101417332ef1cfd613297f2ba8476cbed28625",
+    "size": 4897
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/lint-final/current_source_acceptance.md": {
+    "sha256": "a823dfec7e451ccff5c986b62b31eff32764612a9c3ae16c0dd42a6f1fb472ff",
+    "size": 3282
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/lint-final/original_program_scope.md": {
+    "sha256": "c264a001f91cb5c2e836afa01c5457ae228c8b4dc847498e7f303d24304a7169",
+    "size": 6718
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/lint-final/primary-version-applicability.json": {
+    "sha256": "c03f3dd17975b396b89f67830c6247e8c006b079417257037759f2b047f75053",
+    "size": 5428
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/lint-final/primary-version-applicability.md": {
+    "sha256": "0440a0359d3b626ae73b16d2afb5f7d4c7b04ca489c3e137121ec9f973b1eb63",
+    "size": 989
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/lint-final/report.json": {
+    "sha256": "96518b9720fb894783026354c939c9876c3c0b41dbf131bf1759419f8104eda4",
+    "size": 1737
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/lint-final/reviewed_numerical_extensions.py": {
+    "sha256": "1b3134161fb2662c863a4dfc3b7de0ac661d460348fc48b7d1fa0f866207f562",
+    "size": 19170
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/lint-final/sin_kernel_numerical_extension.py": {
+    "sha256": "11a9f0d30b6a1dff1f5ffdabfc47abfb9bfbc58ae41ef5085441c6e8297d59c2",
+    "size": 6551
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/lint-final/source-views.json": {
+    "sha256": "bbaa3411f3b1b015b854f5eacc6dd86dd1628430912c1539e540643622bdb5b1",
+    "size": 13065
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/lint-final/test_exact_numerical_bindings.py": {
+    "sha256": "c8b2e4138f1ac4718dc67175cd74b0d9453aece78045fe83061a1eb5a4c155ab",
+    "size": 22733
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/lint-final.log": {
+    "sha256": "96518b9720fb894783026354c939c9876c3c0b41dbf131bf1759419f8104eda4",
+    "size": 1737
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/preflight1.json": {
+    "sha256": "e5517191e6fbad2cb14024e9f78bea5b60d9a057b90dbe81cf926cfbbc7b268d",
+    "size": 2785
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/preflight1.log": {
+    "sha256": "e5517191e6fbad2cb14024e9f78bea5b60d9a057b90dbe81cf926cfbbc7b268d",
+    "size": 2785
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/preparation-checks-1792115057983961410/lint/add_value_native_numerical_extension.py": {
+    "sha256": "9e176131bc041fd5cfeec6e6f26e9d5cdca4f50de74d3e72be123b38a105cbbe",
+    "size": 4475
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/preparation-checks-1792115057983961410/lint/cosine_native_numerical_extension.py": {
+    "sha256": "39444bb584486aeea49dd4829c101417332ef1cfd613297f2ba8476cbed28625",
+    "size": 4897
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/preparation-checks-1792115057983961410/lint/current_source_acceptance.md": {
+    "sha256": "a823dfec7e451ccff5c986b62b31eff32764612a9c3ae16c0dd42a6f1fb472ff",
+    "size": 3282
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/preparation-checks-1792115057983961410/lint/original_program_scope.md": {
+    "sha256": "c264a001f91cb5c2e836afa01c5457ae228c8b4dc847498e7f303d24304a7169",
+    "size": 6718
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/preparation-checks-1792115057983961410/lint/primary-version-applicability.json": {
+    "sha256": "c03f3dd17975b396b89f67830c6247e8c006b079417257037759f2b047f75053",
+    "size": 5428
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/preparation-checks-1792115057983961410/lint/primary-version-applicability.md": {
+    "sha256": "0440a0359d3b626ae73b16d2afb5f7d4c7b04ca489c3e137121ec9f973b1eb63",
+    "size": 989
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/preparation-checks-1792115057983961410/lint/report.json": {
+    "sha256": "f915c5c10e243a692563be0a5fa1df73a44b4a3973aae81ca4eafcd24ce22461",
+    "size": 1787
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/preparation-checks-1792115057983961410/lint/reviewed_numerical_extensions.py": {
+    "sha256": "1b3134161fb2662c863a4dfc3b7de0ac661d460348fc48b7d1fa0f866207f562",
+    "size": 19170
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/preparation-checks-1792115057983961410/lint/sin_kernel_numerical_extension.py": {
+    "sha256": "11a9f0d30b6a1dff1f5ffdabfc47abfb9bfbc58ae41ef5085441c6e8297d59c2",
+    "size": 6551
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/preparation-checks-1792115057983961410/lint/source-views.json": {
+    "sha256": "bbaa3411f3b1b015b854f5eacc6dd86dd1628430912c1539e540643622bdb5b1",
+    "size": 13065
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/preparation-checks-1792115057983961410/lint/test_exact_numerical_bindings.py": {
+    "sha256": "c8b2e4138f1ac4718dc67175cd74b0d9453aece78045fe83061a1eb5a4c155ab",
+    "size": 22733
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/preparation-checks-1792115057983961410/lint.log": {
+    "sha256": "f915c5c10e243a692563be0a5fa1df73a44b4a3973aae81ca4eafcd24ce22461",
+    "size": 1787
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/preparation-checks-1792115057983961410/preflight.json": {
+    "sha256": "e5517191e6fbad2cb14024e9f78bea5b60d9a057b90dbe81cf926cfbbc7b268d",
+    "size": 2785
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/preparation-checks-1792115057983961410/preflight.log": {
+    "sha256": "e5517191e6fbad2cb14024e9f78bea5b60d9a057b90dbe81cf926cfbbc7b268d",
+    "size": 2785
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/preparation-checks-1792115057983961410/records.json": {
+    "sha256": "6ed978ab8ea196fd7e8c63fcebb327be07aee7f5b91ab99f5ede151c9757c94b",
+    "size": 1649
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/preparation-checks-1792115057983961410/unit-tests.log": {
+    "sha256": "73ab28197314eddbff3d490d50afd46696cd857274ca612917f526ba1682ad61",
+    "size": 1058
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/preparation-checks-1792118165088787091/lint/add_value_native_numerical_extension.py": {
+    "sha256": "9e176131bc041fd5cfeec6e6f26e9d5cdca4f50de74d3e72be123b38a105cbbe",
+    "size": 4475
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/preparation-checks-1792118165088787091/lint/cosine_native_numerical_extension.py": {
+    "sha256": "39444bb584486aeea49dd4829c101417332ef1cfd613297f2ba8476cbed28625",
+    "size": 4897
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/preparation-checks-1792118165088787091/lint/current_source_acceptance.md": {
+    "sha256": "a823dfec7e451ccff5c986b62b31eff32764612a9c3ae16c0dd42a6f1fb472ff",
+    "size": 3282
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/preparation-checks-1792118165088787091/lint/original_program_scope.md": {
+    "sha256": "b4bfadfe3440f5133a07af53c9ac9acc31de7b105cb48f112aaff323387cd1c9",
+    "size": 6724
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/preparation-checks-1792118165088787091/lint/primary-version-applicability.json": {
+    "sha256": "c03f3dd17975b396b89f67830c6247e8c006b079417257037759f2b047f75053",
+    "size": 5428
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/preparation-checks-1792118165088787091/lint/primary-version-applicability.md": {
+    "sha256": "0440a0359d3b626ae73b16d2afb5f7d4c7b04ca489c3e137121ec9f973b1eb63",
+    "size": 989
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/preparation-checks-1792118165088787091/lint/report.json": {
+    "sha256": "62bda1af8653bc1338c5a400c747beeead51330b18097f3b2457549e7feaf1b6",
+    "size": 1813
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/preparation-checks-1792118165088787091/lint/reviewed_numerical_extensions.py": {
+    "sha256": "1b3134161fb2662c863a4dfc3b7de0ac661d460348fc48b7d1fa0f866207f562",
+    "size": 19170
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/preparation-checks-1792118165088787091/lint/sin_kernel_numerical_extension.py": {
+    "sha256": "11a9f0d30b6a1dff1f5ffdabfc47abfb9bfbc58ae41ef5085441c6e8297d59c2",
+    "size": 6551
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/preparation-checks-1792118165088787091/lint/source-views.json": {
+    "sha256": "bbaa3411f3b1b015b854f5eacc6dd86dd1628430912c1539e540643622bdb5b1",
+    "size": 13065
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/preparation-checks-1792118165088787091/lint/test_exact_numerical_bindings.py": {
+    "sha256": "c8b2e4138f1ac4718dc67175cd74b0d9453aece78045fe83061a1eb5a4c155ab",
+    "size": 22733
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/preparation-checks-1792118165088787091/lint.log": {
+    "sha256": "62bda1af8653bc1338c5a400c747beeead51330b18097f3b2457549e7feaf1b6",
+    "size": 1813
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/preparation-checks-1792118165088787091/preflight.json": {
+    "sha256": "e5517191e6fbad2cb14024e9f78bea5b60d9a057b90dbe81cf926cfbbc7b268d",
+    "size": 2785
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/preparation-checks-1792118165088787091/preflight.log": {
+    "sha256": "e5517191e6fbad2cb14024e9f78bea5b60d9a057b90dbe81cf926cfbbc7b268d",
+    "size": 2785
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/preparation-checks-1792118165088787091/records.json": {
+    "sha256": "70ac1d4add950e57cd745a6c577f74efddd15569e930a67bc1ab7280e43e8d96",
+    "size": 1679
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/preparation-checks-1792118165088787091/unit-tests.log": {
+    "sha256": "73ab28197314eddbff3d490d50afd46696cd857274ca612917f526ba1682ad61",
+    "size": 1058
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/revision1-final-checks.json": {
+    "sha256": "f6f65d46268fb49b58a70c042d66cf7a4c37353fab02d791e4494c93c3651f12",
+    "size": 6089
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/stage-controls/new-baseline/bench/active-source.py": {
+    "sha256": "adcf4a15c4cb9fbd54cd8d398c05d1fbbcab0646afca85f761e42089be936568",
+    "size": 32
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/stage-controls/new-baseline/bench/review-checkpoints/synthetic/evidence/frozen.txt": {
+    "sha256": "74f2715105387630169afc946bb881d25865db1ccdb96a260339dc9afb7af9b3",
+    "size": 19
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/stage-controls/new-baseline/bench/review-checkpoints/synthetic/staging-review.json": {
+    "sha256": "9d5553d0d18e5ad919e94f6f3a72b5848b59c888fedb3b3e814b8970c2b45b4f",
+    "size": 1165
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/stage-controls/new-baseline/bench/review-checkpoints/synthetic/validation.json": {
+    "sha256": "8dc6ac2967afd4f10d0f979a9bbbf3bcf326ed00e5efe54c8ba545368ed655e6",
+    "size": 549
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/stage-controls/new-baseline/bench/tritonbench_g/deferred_numerical_experiments.json.gz": {
+    "sha256": "adcf4a15c4cb9fbd54cd8d398c05d1fbbcab0646afca85f761e42089be936568",
+    "size": 32
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/stage-controls/new-extra/bench/active-source.py": {
+    "sha256": "adcf4a15c4cb9fbd54cd8d398c05d1fbbcab0646afca85f761e42089be936568",
+    "size": 32
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/stage-controls/new-extra/bench/review-checkpoints/synthetic/evidence/frozen.txt": {
+    "sha256": "74f2715105387630169afc946bb881d25865db1ccdb96a260339dc9afb7af9b3",
+    "size": 19
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/stage-controls/new-extra/bench/review-checkpoints/synthetic/post-finalize-unlisted.txt": {
+    "sha256": "3c90125371bacdb1db70e53277de8ac0a22add0f79c67a3383ca70be4417e073",
+    "size": 30
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/stage-controls/new-extra/bench/review-checkpoints/synthetic/validation.json": {
+    "sha256": "8dc6ac2967afd4f10d0f979a9bbbf3bcf326ed00e5efe54c8ba545368ed655e6",
+    "size": 549
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/stage-controls/new-extra/bench/tritonbench_g/deferred_numerical_experiments.json.gz": {
+    "sha256": "adcf4a15c4cb9fbd54cd8d398c05d1fbbcab0646afca85f761e42089be936568",
+    "size": 32
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/stage-controls/new-index-failure/bench/active-source.py": {
+    "sha256": "adcf4a15c4cb9fbd54cd8d398c05d1fbbcab0646afca85f761e42089be936568",
+    "size": 32
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/stage-controls/new-index-failure/bench/review-checkpoints/synthetic/evidence/frozen.txt": {
+    "sha256": "74f2715105387630169afc946bb881d25865db1ccdb96a260339dc9afb7af9b3",
+    "size": 19
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/stage-controls/new-index-failure/bench/review-checkpoints/synthetic/validation.json": {
+    "sha256": "8dc6ac2967afd4f10d0f979a9bbbf3bcf326ed00e5efe54c8ba545368ed655e6",
+    "size": 549
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/stage-controls/new-index-failure/bench/tritonbench_g/deferred_numerical_experiments.json.gz": {
+    "sha256": "adcf4a15c4cb9fbd54cd8d398c05d1fbbcab0646afca85f761e42089be936568",
+    "size": 32
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/stage-controls/new-missing/bench/active-source.py": {
+    "sha256": "adcf4a15c4cb9fbd54cd8d398c05d1fbbcab0646afca85f761e42089be936568",
+    "size": 32
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/stage-controls/new-missing/bench/review-checkpoints/synthetic/validation.json": {
+    "sha256": "8dc6ac2967afd4f10d0f979a9bbbf3bcf326ed00e5efe54c8ba545368ed655e6",
+    "size": 549
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/stage-controls/new-missing/bench/tritonbench_g/deferred_numerical_experiments.json.gz": {
+    "sha256": "adcf4a15c4cb9fbd54cd8d398c05d1fbbcab0646afca85f761e42089be936568",
+    "size": 32
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/stage-controls/new-post-write-extra/bench/active-source.py": {
+    "sha256": "adcf4a15c4cb9fbd54cd8d398c05d1fbbcab0646afca85f761e42089be936568",
+    "size": 32
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/stage-controls/new-post-write-extra/bench/review-checkpoints/synthetic/evidence/frozen.txt": {
+    "sha256": "74f2715105387630169afc946bb881d25865db1ccdb96a260339dc9afb7af9b3",
+    "size": 19
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/stage-controls/new-post-write-extra/bench/review-checkpoints/synthetic/post-finalize-unlisted.txt": {
+    "sha256": "192a41415511f2e83374a33716b780c855fc571d3fca0ada8d0cd05cc24ab8ef",
+    "size": 41
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/stage-controls/new-post-write-extra/bench/review-checkpoints/synthetic/staging-review.json": {
+    "sha256": "34943b6417b3338a46b625f8457bd7dedc93afcfc70983d6f10f93209eafb4ba",
+    "size": 1165
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/stage-controls/new-post-write-extra/bench/review-checkpoints/synthetic/validation.json": {
+    "sha256": "8dc6ac2967afd4f10d0f979a9bbbf3bcf326ed00e5efe54c8ba545368ed655e6",
+    "size": 549
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/stage-controls/new-post-write-extra/bench/tritonbench_g/deferred_numerical_experiments.json.gz": {
+    "sha256": "adcf4a15c4cb9fbd54cd8d398c05d1fbbcab0646afca85f761e42089be936568",
+    "size": 32
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/stage-controls/old-extra/bench/active-source.py": {
+    "sha256": "adcf4a15c4cb9fbd54cd8d398c05d1fbbcab0646afca85f761e42089be936568",
+    "size": 32
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/stage-controls/old-extra/bench/review-checkpoints/synthetic/evidence/frozen.txt": {
+    "sha256": "74f2715105387630169afc946bb881d25865db1ccdb96a260339dc9afb7af9b3",
+    "size": 19
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/stage-controls/old-extra/bench/review-checkpoints/synthetic/post-finalize-unlisted.txt": {
+    "sha256": "3c90125371bacdb1db70e53277de8ac0a22add0f79c67a3383ca70be4417e073",
+    "size": 30
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/stage-controls/old-extra/bench/review-checkpoints/synthetic/staging-review.json": {
+    "sha256": "8a2defc188fcbaac2683ac270439073f84a0b64f503d1f94a47876289ad3eb06",
+    "size": 1298
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/stage-controls/old-extra/bench/review-checkpoints/synthetic/validation.json": {
+    "sha256": "8dc6ac2967afd4f10d0f979a9bbbf3bcf326ed00e5efe54c8ba545368ed655e6",
+    "size": 549
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/stage-controls/old-extra/bench/tritonbench_g/deferred_numerical_experiments.json.gz": {
+    "sha256": "adcf4a15c4cb9fbd54cd8d398c05d1fbbcab0646afca85f761e42089be936568",
+    "size": 32
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/stage-controls/results.json": {
+    "sha256": "826cfc7d34427cf3fb99bbb200686f3b8f8a747a025cd4e73ee33c48a193f63c",
+    "size": 2531
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/unit-attempt1-test.py.txt": {
+    "sha256": "53ca6959423f5705be1d9cfe7e7ae33b40c39f11ea2117d8886093dbb63362ec",
+    "size": 5552
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/unit-attempt1.log": {
+    "sha256": "e6fe81b13bfb6e42a3a1c6f2bf4b9e987e6c56ad51e4cce45eb376498d35da33",
+    "size": 1216
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/evidence/unit-final.log": {
+    "sha256": "73ab28197314eddbff3d490d50afd46696cd857274ca612917f526ba1682ad61",
+    "size": 1058
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/finalize.py": {
+    "sha256": "d61f18481c105485fffc7dc735f39a275e7e631caad5e1c6506d9e975f9d0663",
+    "size": 10087
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/freeze.py": {
+    "sha256": "c01c64f6bcb4ac2819a5bc8d98ed2b53046cfd98bee50d9e9cc2785bf96a57ee",
+    "size": 2947
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/future-protected-pins.json": {
+    "sha256": "35f83e5526c810f7f079c87c5941e48ebf9e0a30f3c31918a2f81411776a2fe7",
+    "size": 1638
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/install.py": {
+    "sha256": "01c6ab89434f10fcd6fad39844e9fb7c25a02e3900a7c0dffa80d84f62f3feb8",
+    "size": 2023
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/lint_candidates.py": {
+    "sha256": "8b0fd80dbb2117c2dbd80bb69e5b8b871aad2b22f9a9478c4347001c082b0360",
+    "size": 4130
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/preflight.py": {
+    "sha256": "6be10b9d8a0c3d22d47c69d428ac196e2dbf553a705f668c6d2b1a54c7439f9d",
+    "size": 1803
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/prepare.py": {
+    "sha256": "9593b039fe1585549cfec1d6413cbac5cef49355e90be15b9af0653a1789fe35",
+    "size": 10050
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/progress_docs.py": {
+    "sha256": "eff215f64da8a0161605a3179df1ac59b4482382f66fb6f88bc12be91bb47053",
+    "size": 3419
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/rebind.py": {
+    "sha256": "b148f42660df1c0ee9de1a4eba870ea41c0eb45365af6cac39e321c8a571a210",
+    "size": 5884
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/record_phase.py": {
+    "sha256": "e7150b018a07cc442d6f114a51fc8296cdfe720f87a6acdbaaa8e0a11f93625a",
+    "size": 2020
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/revision-input-pins.json": {
+    "sha256": "a4acd61b7c898dcfe97b19760bf4e33f92070caf299fc882f81114c3b14db5f3",
+    "size": 349
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/revision1-candidate-receipt.json": {
+    "sha256": "9923db3c3f5775e0b4aae35997507e2f1433e1b8c677bab46016f190ea463bfa",
+    "size": 10219
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/revision2-validation-summary.json": {
+    "sha256": "b0a2014a0c654a8a36496ef50ee281728c56f247c1436e35abf3883db7432967",
+    "size": 944
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/revision2.patch": {
+    "sha256": "44b044c4c63139bb1612062e5c12b860fd00c28a23c7c5927be4a800a3fc72cd",
+    "size": 17955
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/run_checks.py": {
+    "sha256": "7548e2b6a244b45e98817a16a4ca02a45450faf5ad7e6f5ab4bbcb8c5c01d884",
+    "size": 4534
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/run_preparation_checks.py": {
+    "sha256": "c4bfd0255fbb299b1b04d3a553508a956da2e1a9eea0695a1cf10c58aa1cb010",
+    "size": 2630
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/specs.json": {
+    "sha256": "50490b7af9c7b81899ec872b0c3e4c158677a37bce2cc6ba20d8f3165a8f81b8",
+    "size": 4185
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/stage.py": {
+    "sha256": "04e5455837751f9aea1be257eb00faef399f468d6d56d373c4e09b1b154b4c5f",
+    "size": 5715
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/test_candidate.py": {
+    "sha256": "78a33593f567fae3148b7f18a562b26d44a433facec2c5cd7e826265275c84fc",
+    "size": 4970
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/test_stage_seal.py": {
+    "sha256": "2bf25d433447d8699051af2d5df68f2fd2cb9150ab15b0c19c33f16d6c5795b6",
+    "size": 7564
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/transform-preimages.json": {
+    "sha256": "06b10076d26ef58c323dc4349dab5c7eaca9913b0882778e6ccf3f01be3ee1d1",
+    "size": 340
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/transforms.py": {
+    "sha256": "040539f7a6e3494e844534c62fd0d5f3410d6a58bf4d0325cb7d5aa6b38e854c",
+    "size": 4382
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-run-001/005-verify/bench-tests.log": {
+    "sha256": "0cab6cffcc1355c24b4a218703d0fa2f3d722eb8295eb3567e05ed84d08a9b3b",
+    "size": 44122
+  },
+  "/tmp/veritile-standardization-20261015/next-three-source-integration-run-001/005-verify/shard-tests.log": {
+    "sha256": "a6ae4719de3c047eab3c68ef92919c2c7d4385610b455a0c547ef61cefb967d8",
+    "size": 138
+  }
+}

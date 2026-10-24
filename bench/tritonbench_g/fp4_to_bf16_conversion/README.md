@@ -1,13 +1,9 @@
 # fp4_to_bf16_conversion
 
-- Source file: `fp4_to_bf16_conversion.py` (upstream `data/TritonBench_G_v1/fp4_to_bf16_conversion.py`)
-- Corpus: TritonBench-G v1
-- Size: 275 lines, 2 `@triton.jit` kernel(s)
-- Status: BLOCKED — not imported. Every other `tl.*` form it uses is in the DSL
-  surface, but it needs: `tl.interleave`.
-  See [`../tritonbench_coverage.md`](../tritonbench_coverage.md) for the
-  ranked unlock levers.
+The shared Triton DSL now represents the repaired scaled-kernel candidate. Its two public theorems cover backend and software bit semantics for packed uint8 e2m1/e8m0 to bf16 with `mx_block_size = 32`. The original Python compilation failure is retained; these theorems establish the candidate contract, and the original-source proof remains missing.
 
-This directory is the per-kernel workspace for the TritonBench-G
-full-formalization roadmap. It is currently a placeholder: the upstream
-Python source has **not** been imported.
+Public proof entries: [FPCorrect.lean](FPCorrect.lean).
+
+Native GPU correspondence remains unestablished. Offline compilation and Lean proofs have separate meanings; current scope and experimental obligations are recorded in the [184-task review](../../review-checkpoints/2026-10-14/next-value-repair/final-acceptance/tasks-184.tsv) and [experiment handoff](../../review-checkpoints/2026-10-14/next-value-repair/native-experiment-handoff/EXPERIMENT-HANDOFF.md).
+
+The previous import-status note is preserved in the [documentation history](../../review-checkpoints/2026-10-14/next-value-repair/documentation-update/before/bench/tritonbench_g/fp4_to_bf16_conversion/README.md).

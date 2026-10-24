@@ -1,0 +1,126 @@
+{
+  "schema": 1,
+  "kind": "logical_host_and_lora_extension_batch_validation",
+  "recorded_at_utc": "2026-10-15T14:14:28.284653+00:00",
+  "base_commit": "93d38e399ac513eb98aa3624d9aeb1c21858757a",
+  "status": "partial_extensions_validated_full_standard_incomplete",
+  "scope": {
+    "original_programs": 183,
+    "whole_programs_accepted": 0,
+    "pending": 183,
+    "extended_tasks_this_batch": 2,
+    "extended_tasks_cumulative": 7,
+    "new_public_execution_contracts": 2,
+    "cumulative_public_execution_contracts": 13,
+    "new_registered_lean_modules": 13,
+    "subsequent_host_grid_wip_included": false
+  },
+  "inventory": {
+    "tasks": 184,
+    "public_declarations": 906,
+    "task_modules": 3452,
+    "registered_modules": 3883
+  },
+  "checked_input_sha256": {
+    ".github/workflows/bench-audit.yml": "38faca5adffcb508a0f4648898b6df1fbe928a0f13dea46b9f7f63bfaa11a505",
+    "bench/audit_trust.sh": "e476cd55146fd8524df0b16f923ba7666ce6ed90d09477b12140a369aaa00b22",
+    "bench/check_original_program_scope.py": "1943461cf9fad149ef285144de9dda5128724dec9b62428b4be6a649e4d8836d",
+    "bench/current_source_audit.py": "c26ccf28fec250fce3940fe554738bd2267d1b8389d8d23b979736d47b6a3710",
+    "bench/current_source_catalog.py": "87d4642855036cc1397640d47b4a51c8032a1ab115c24be86b0c74082210b4e5",
+    "bench/current_source_selections.json": "4bbf787dfdb2e804da5b181f7ed9584733d57337351ec81967d9325a60423f17",
+    "bench/current_value_metadata.py": "cc523706dde7864b706de0cec9e1f51116852997b4bffdc8c5fde7151e896a6d",
+    "bench/deferred_numerical_experiments.py": "28629417e2cb81907f46a66102c414773751d00a5ef04a707eb40ca04f73239d",
+    "bench/original_program_scope.json": "da236a64ab1d4da5e30c6b59bafd3e32a5abe44d71f491423387f0cc2ea4a018",
+    "bench/review-checkpoints/2026-10-15/host-and-lora-scope-extensions/catalog-supplement.json": "c312e80bf55f1288ba3491d23907816a413719939a5d987b6d313e3f6f3a6537",
+    "bench/review-checkpoints/2026-10-15/host-and-lora-scope-extensions/current-source-catalog.json": "81b86a21b6c623b78acfebafca3aceebfc49405b6c1cf5a7c2566b44f684519f",
+    "bench/review-checkpoints/2026-10-15/host-and-lora-scope-extensions/evidence-index.json": "ffbf2a28d3f9564d814ea9a1b4a036219e4ec3898e04ae177a605b3bfbcafa98",
+    "bench/review-checkpoints/2026-10-15/host-and-lora-scope-extensions/numerical-followup.json": "c5f7dc6de9ec33d0101423a5730bc6c2bf9a5c6e84facb5cffa8fc4a0c39513a",
+    "bench/review-checkpoints/2026-10-15/host-and-lora-scope-extensions/root-review.json": "1853ad77ccab0c0811fd2c9261100da92c44c8cf9f7811f55345d551a00fb783",
+    "bench/review-checkpoints/2026-10-15/original-scope-extensions/metadata-baseline/input-sha256.json": "a898cb04b06112f4d7bd0983560e172d7daf5657a0c6c3517e800ec624ba17b2",
+    "bench/review-checkpoints/2026-10-15/original-scope-extensions/metadata-baseline/inputs.zip": "a732792b3bb9f709795c5a5767120f672aa0b0b18cf4de2f38a8ba7956740c76",
+    "bench/review-checkpoints/2026-10-15/original-scope-extensions/metadata-baseline/receipt.json": "207d0fc6f6fd80c3dd15b54908e87c4c72a5fc6e7bf5ebac08d9344ed890ddd3",
+    "bench/tritonbench_g/current_completion_inventory.json": "cec711711cd91b48d1f2483786d2a23015914cb47e1f51a71be68ca4ed3800d2",
+    "bench/tritonbench_g/deferred_numerical_experiments.json": "d06f5ac80e386bea8ad85db1dcf133796417af1614e2a766e4998183c73b706f",
+    "lake-manifest.json": "de981cfa9d3ed8d548669570dde19d20b103c081d0772c0184d6e401f9fe96f7",
+    "lakefile.toml": "20460b43804d1d62302642c2d88b1d01656954254a46f8e2f17617ad0830be2e",
+    "lean-toolchain": "651c8accb402b0c071cd336e9d3dc0a55516b1bfb434ddc4801f14936785b1d2",
+    "scripts/check_comparator.py": "879c9bcd03e6b75d71dabeac159aed9a717495940d6b583d68b59bef6e7e1dae",
+    "scripts/test_audit_shards.py": "331fae59d7c59e97664415848ad9a18910fd0d56f98860d420f21669ee32e14e"
+  },
+  "catalog_bound_source_hashes_rechecked": {
+    "build_inputs": 3886,
+    "python_inputs": 191,
+    "root_review_inputs": 21
+  },
+  "integration_build": {
+    "status": "passed",
+    "exit_code": 0,
+    "jobs": 7244,
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lake",
+      "build",
+      "VeriTile",
+      "VeriTileMath",
+      "VeriTileFull",
+      "TritonBenchGVerified",
+      "TritonBenchGInProgress",
+      "TritonBenchGLegacy",
+      "TritonBenchSpecExamples",
+      "FPFrontendRegressions"
+    ],
+    "log": {
+      "local_path": "/tmp/veritile-standardization-20261015/host-and-lora-integration-build.log",
+      "sha256": "2a19938502b0f71e88064ca247de9f223cb0269784d450e8a27424fe2fc043f0",
+      "retained_in_checkpoint": false
+    },
+    "boundary": "Lean compilation/proof and registered audits; not independent comparator or GPU execution."
+  },
+  "python_tests": {
+    "audit_sharding": {
+      "status": "passed",
+      "exit_code": 0,
+      "tests": 25,
+      "log": {
+        "local_path": "/tmp/veritile-standardization-20261015/host-and-lora-shard-tests.log",
+        "sha256": "3d379f301d77d3df5220e3de767db10c1d464b5ee800ee8731bf15cbd365cc18",
+        "retained_in_checkpoint": false
+      }
+    },
+    "benchmark_tools": {
+      "status": "not_rerun_this_batch",
+      "earlier_result": "210 passed in predecessor batch; audit tool/test sources unchanged in this batch",
+      "predecessor_validation": "bench/review-checkpoints/2026-10-15/original-scope-extensions/validation.json",
+      "predecessor_validation_sha256": "450da232fe5e2f88402ab70fc55d46ed5d88bd678b01db81300aa130e3f02839",
+      "earlier_log_sha256": "3c2cb170f01a5c66915681e1d9a32c12de5305e902c5df2409b96cf9a4fef76a"
+    }
+  },
+  "global_gates": {
+    "status": "failed",
+    "exit_code": 1,
+    "receipt": {
+      "path": "evidence/global-gates/receipt.json",
+      "sha256": "860ad2472f6ef4578aa4c255e39e8bd8ca08dc97635c6b17ddab047cbbf22c1b"
+    },
+    "gates": {
+      "source_tools": "passed",
+      "structure": "passed",
+      "baseline": "passed",
+      "catalog_reproduction": "passed",
+      "scope_review": "failed",
+      "legacy_source": "passed",
+      "value_metadata": "passed",
+      "deferred_numerics": "passed",
+      "comparator_preflight": "failed",
+      "library_replay": "failed",
+      "unchanged_inputs": "passed"
+    },
+    "expected_failures": {
+      "scope_review": "All 183 original-program scope reviews remain pending.",
+      "comparator_preflight": "The global-runner host does not have the official comparator available.",
+      "library_replay": "Did not execute: same comparator preflight failure."
+    },
+    "separate_isolated_replay": "The isolated comparator is pinned to preceding commit 93d38e39. It does not include this batch, and no acceptance for this batch is claimed."
+  },
+  "evidence_retention": "Individual proof/review receipts, CPU wrapper probe, compact final global receipt/logs/value result are retained. Full build/test logs remain at the recorded local /tmp paths; their hashes do not preserve unavailable artifacts.",
+  "acceptance_boundary": "No whole original program is newly accepted. Structural/native/source obligations cannot be deferred as numerical assumptions."
+}

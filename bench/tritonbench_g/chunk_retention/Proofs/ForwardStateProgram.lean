@@ -2,58 +2,7 @@ import VeriTile.Triton
 import VeriTile.Meta.StatementAudit
 import bench.tritonbench_g.chunk_retention.Proofs.Source
 
-/-! Independent real decay formulas. Integer offsets are signed: no truncation
-is applied to a last-chunk lane or an off-diagonal score exponent. -/
-namespace VeriTile.Bench.TritonBenchG.ChunkRetention.Decay
-open VeriTile.Triton
-noncomputable section
-
-def exp2 (x : ℝ) : ℝ := Real.exp (x * Real.log 2)
-def headBase (H head : Nat) : ℝ :=
-  Real.log (1 - exp2 (-5 - (head % H : Nat))) / Real.log 2
-
-def factor (base exponent : ℝ) : ℝ := exp2 (exponent * base)
-def query (base : ℝ) (row : Nat) : ℝ := factor base (row + 1)
-def key (base : ℝ) (length row : Nat) : ℝ := factor base ((length : ℝ) - row - 1)
-def score (base : ℝ) (row column : Nat) : ℝ :=
-  if column ≤ row then factor base ((row : ℝ) - column) else 0
-
-def chunkLength (T BT NT chunk : Nat) : Nat :=
-  if chunk = NT - 1 ∧ T % BT ≠ 0 then T % BT else BT
-
-theorem factor_pos (base exponent : ℝ) : 0 < factor base exponent :=
-  Real.exp_pos _
-
-theorem key_signed (base : ℝ) (length row : Nat) :
-    key base length row = factor base (((length : Int) - row - 1 : Int) : ℝ) := by
-  simp [key]
-
-theorem score_signed (base : ℝ) (row column : Nat) :
-    score base row column =
-      if column ≤ row then factor base (((row : Int) - column : Int) : ℝ) else 0 := by
-  simp [score]
-
-theorem tail_offset_negative (length row : Nat) (h : length ≤ row) :
-    (length : Int) - row - 1 < 0 := by omega
-
-theorem complete_chunk (T BT NT chunk : Nat)
-    (h : chunk ≠ NT - 1 ∨ T % BT = 0) : chunkLength T BT NT chunk = BT := by
-  rcases h with h | h <;> simp [chunkLength,h]
-
-theorem final_partial_chunk (T BT NT : Nat) (h : T % BT ≠ 0) :
-    chunkLength T BT NT (NT - 1) = T % BT := by simp [chunkLength,h]
-
-/-- The head rate is in (0,1) for every natural head index, so its logarithm
-has a positive argument. No extra distributional assumption is needed. -/
-theorem head_rate_positive (H head : Nat) : 0 < 1 - exp2 (-5 - (head % H : Nat)) := by
-  have hlog : (0 : ℝ) < Real.log 2 := Real.log_pos (by norm_num)
-  have hindex : (0 : ℝ) ≤ (head % H : Nat) := Nat.cast_nonneg _
-  have he : (-5 - (head % H : Nat) : ℝ) * Real.log 2 < 0 :=
-    mul_neg_of_neg_of_pos (by linarith) hlog
-  exact sub_pos.mpr (by simpa [exp2] using Real.exp_lt_one_iff.mpr he)
-
-end
-end VeriTile.Bench.TritonBenchG.ChunkRetention.Decay
+import bench.tritonbench_g.chunk_retention.Proofs.IndexEvaluation
 
 namespace VeriTile.Bench.TritonBenchG.ChunkRetention.RealHMath
 open scoped BigOperators
@@ -202,7 +151,7 @@ def decayLane (BT : Nat) (length : Op .nat []) : Op .real [BT] :=
 def setupDecay (p : Layout) : List Stmt :=
   [.assign .nat [] "i_h" (.mod .nat .nil (.ref .nat [] "i_bh") (.constNat p.H)),
    .assign .real [] "b_b" baseOp,
-   .assign .int [p.BT] "o_i" (.castNatToInt (.arange p.BT)),
+   .assign .int [p.BT] "o_i" (.intToSigned 32 (.castNatToInt (.arange p.BT))),
    .assign .real [] "d_b" (.exp2 (.mul .real .nil (.const p.BT) (.ref .real [] "b_b"))),
    .assign .real [p.BT] "d_i" (decayLane p.BT (.constNat p.BT))]
 
@@ -262,6 +211,7 @@ theorem source_body (p : Layout) (r : Regions) (dot : Storage)
       body p r hasSeed storeFinal swapped := by
   unfold source
   rw [RealHSource.storage_erasure]
+  simp only [ComputeKernel.eraseDType, RealHSource.projects, ComputeKernel.toAlgKernel_fromKernelBody, Kernel.eraseDType]
   cases swapped
   all_goals simp only [RealHSource.source, Bool.false_eq_true, ↓reduceIte,
     forwardH, forwardHDotLeft, forwardHSource,
@@ -591,7 +541,7 @@ set_option maxRecDepth 16000
 set_option maxHeartbeats 3000000
 set_option linter.unusedSimpArgs false
 
-def indices (BT : Nat) : Tile .int [BT] := ⟨fun i => (i.1.val : Int)⟩
+def indices (BT : Nat) : Tile .int [BT] := ⟨fun i => Decay.index32 i.1.val⟩
 def weights (BT length : Nat) (base : ℝ) : Tile .real [BT] :=
   Tile.vec (fun i => some (Decay.key base length i.val))
 
@@ -677,9 +627,8 @@ theorem partial_factor_eval (T BT : Nat) (base : ℝ) (u : BlockState)
   rfl
 
 theorem indices_eval (BT : Nat) (u : BlockState) :
-    evalOp (.castNatToInt (.arange BT)) u = some (indices BT) := by
-  simp only [evalOp,bind,Option.bind]
-  rfl
+    evalOp (.intToSigned 32 (.castNatToInt (.arange BT))) u = some (indices BT) :=
+  signed32_lane_eval BT u
 
 theorem standard_executes (p : Layout) (l : Launch) (u : BlockState)
     (hh : u.regs .nat [] "i_bh" = some (Tile.scalar l.head)) :
@@ -864,7 +813,7 @@ def scoreOp (BT : Nat) : Op .real [BT,BT] :=
 def query (BT : Nat) (base : ℝ) : Tile .real [BT] :=
   Tile.vec (fun i => some (Decay.query base i.val))
 def mask (BT : Nat) : Tile .bool [BT,BT] :=
-  Tile.mat (fun i j => decide (j.val ≤ i.val))
+  Tile.mat (fun i j => decide (Decay.index32 j.val ≤ Decay.index32 i.val))
 def score (BT : Nat) (base : ℝ) : Tile .real [BT,BT] :=
   Tile.mat (fun i j => some (Decay.score base i.val j.val))
 

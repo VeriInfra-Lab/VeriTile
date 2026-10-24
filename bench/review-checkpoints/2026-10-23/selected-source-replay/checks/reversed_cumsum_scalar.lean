@@ -1,0 +1,7 @@
+import VeriTile.Meta.StatementAudit
+import bench.repairs.tritonbench_g.reversed_cumsum_scalar.Contract
+import bench.repairs.tritonbench_g.reversed_cumsum_scalar.Correct
+import bench.repairs.tritonbench_g.reversed_cumsum_scalar.FPEquiv
+
+#axiomsClean VeriTile.Bench.Repairs.ReversedCumsumScalar.Correctness.reversed_cumsum_scalar_correctness
+#axiomsClean VeriTile.Bench.Repairs.ReversedCumsumScalar.Equivalence.reversed_cumsum_scalar_equiv

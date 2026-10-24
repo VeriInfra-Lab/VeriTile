@@ -1,3 +1,13 @@
+/-
+Source-audit target: kldivergence_kernel
+Source-audit Lean: kldivSource%
+Source-audit params: x_ptr=X, y_ptr=Y, output_ptr=O, n_elements=N, BLOCK_SIZE=B
+Source-audit args: xType=tl.float32, yType=tl.float32, outType=tl.float32, version=original
+Selected lexical source view only; this metadata is not all-profile certification.
+Original elementwise x * log(x / y), fp32 inputs and output.
+Other dtype profiles and the commuted address candidate require separate views.
+-/
+
 import VeriTile.Triton
 import VeriTile.Examples.Common
 

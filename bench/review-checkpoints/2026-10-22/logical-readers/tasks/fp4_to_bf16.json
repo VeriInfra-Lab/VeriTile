@@ -1,0 +1,102 @@
+{
+  "schema": 1,
+  "task": "fp4_to_bf16",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue06/result.json",
+    "sha256": "7ae7b1cff07a7eae50c418a92a90a26cc367270bb529c13f49c0bf8e5d0f06ea",
+    "task_index": 0
+  },
+  "finding": "The Real headline encoded the singleton output channel using Fin.cases and exposed byte/nibble indexing through the raw channel interface.",
+  "resolution": "Use bijective byteCoordinates and realCoordinates to present a finite packed-byte vector and a finite Option Real output vector. Keep the independent E2M1 nibble formula adjacent to the reader; high/low nibble selection and its bounds are confined to logical IO.",
+  "mathematical_target": "fp4_to_bf16_real: logicalRealIO implements, on LogicalByteDomain, xs ↦ (j ↦ some (nibbleReal (logicalNibble xs j))).",
+  "conditions_and_scope": "Complete finite-ABI grid; Finite.Storage, distinct input/output regions, signed32-safe grid and any complete schedule permutation remain explicit. Each byte is below 256. Every BF16 observation is finite (some), with source safety, successful execution and full exterior frame. High nibble precedes low nibble; native signed-zero behavior is unchanged.",
+  "proof_connection": "ConversionIO.logical_real_iff transports the entire original domain-indexed ProgramIO judgment for arbitrary independent nibble interpretation f. logical_real_implements applies existing real_implements; the coordinate equivalences have both inverse proofs.",
+  "fp_review": "Unchanged actual ScheduleIO.original h a ≡[assumptions] ScheduleIO.candidate h b, comparing complete schedule permutations. uint8/signed32 payload operations, FP32 bitcast and BF16 conversion are retained; no experimental rule instance.",
+  "numerical_dependencies": {
+    "experimental_rule_instances": [],
+    "strict_rewrite_certificates": [],
+    "classification": "Empty experimental rule set. Exact model/source structure and any listed strict software theorem are retained; no new hardware-conformance claim."
+  },
+  "previous_formula_scope": {
+    "mathematical_target": "For every packed uint8 byte, output high nibble then low nibble. With u=q%8, e=u/2, m=u%2, magnitude is m/2 for e=0 and (1+m/2)*2^(e-1) otherwise; sign is q<8. Every BF16 observation is some(value), hence finite.",
+    "required_conditions": {
+      "public_conditions": [
+        "Finite.Storage count",
+        "input != output",
+        "grid <= 2147483647",
+        "jobs.Perm (List.range grid)",
+        "ProgramIO input domain ByteDomain: every discrete input <256",
+        "ProgramIO memory binding and InBounds remain in the public judgment"
+      ],
+      "contract_and_domain_correspondence": "Contract accepts contiguous nonnegative-view CUDA uint8 Tensor storage. The discrete byte domain is visible in the headline; Finite.Storage, signed PID/count safety and schedule/freshness remain explicit. Real observation does not introduce a finite floating input premise because there are no floating input channels."
+    },
+    "scope": "Complete finite-ABI CTA grid; exactly 2*count outputs, all 256 input bytes, masked final CTA, both zero signs at the native-bit endpoint, safe source accesses and exterior frame.",
+    "canonical_connection": "ConversionIO.real_implements -> PublicIO implements -> full native source bit conversion -> RealSpec.expected_real. New nibbleReal is definitionally the canonical RealSpec.e2m1; full old/new headline Iff.rfl checks the channel/nibble assembly.",
+    "fp_program_pair": {
+      "fp_actual_pair": "ScheduleIO.original h a versus ScheduleIO.candidate h b: two actual complete invocation schedules of the same existing conversion source. a and b are independent permutations, so schedule reordering is the actual comparison.",
+      "fp_conditions_and_model_binding": [
+        "Same uint8/INT32 payload -> FP32 bitcast -> BF16 cast model",
+        "Both complete schedule permutations, byte domain, Finite.Storage and fresh output",
+        "Unchanged exact-bit handling of signed zeros; no arithmetic rewrite"
+      ]
+    },
+    "numerical_dependencies": {
+      "experimental_rule_instances": [],
+      "strict_rewrite_certificates": [],
+      "classification": "Empty experimental rule set. Exact model/source structure and any listed strict software theorem are retained; no new hardware-conformance claim."
+    }
+  },
+  "verification": [
+    {
+      "kind": "targeted_current_sources",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue06/build.py",
+        "bench/repairs/tritonbench_g/fp4_to_bf16/LogicalIO.lean",
+        "bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/LogicalCoordinates.lean",
+        "bench/repairs/tritonbench_g/fp4_to_bf16/Correct.lean",
+        "bench/repairs/tritonbench_g/fp4_to_bf16/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue06/fp4_to_bf16.targeted.log",
+      "log_sha256": "9b44ed6887b6697c06f3f620f8f881af3c2aa96dc4e047510e3eb514f9cd7f11"
+    },
+    {
+      "kind": "task_joint_import",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue06/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue06/fp4_to_bf16.joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue06/fp4_to_bf16.joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/fp4_to_bf16/Contract.lean": "12d9e4a87c9692c9b9f2500bbec567506e78fbc3d867d9e540c94b29ccd86e2f",
+    "bench/repairs/tritonbench_g/fp4_to_bf16/Correct.lean": "5e002702225e8ab4af5023f8f43997be9c1a3f35673c45c44a4b95b62f4c1b3c",
+    "bench/repairs/tritonbench_g/fp4_to_bf16/FPEquiv.lean": "f61159807d386a32e485164bd997fa3623c85597dfd62c33eaa54c580c2aa2e1",
+    "bench/repairs/tritonbench_g/fp4_to_bf16/IO.lean": "0e6bf474985f663bf4b9ef11ff18addeaf2e14b7daf36ab38acc43e38b1c6888",
+    "bench/repairs/tritonbench_g/fp4_to_bf16/LogicalIO.lean": "6db3039ce24baa2f9de3d14432fce5fe299fc8d5a0536b01e39eb6c8fb660f7d",
+    "bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/LogicalCoordinates.lean": "42a54013cc9711b8d386fe66a0f3a8a154e93edb810e19f0d8c9e7af3a3d11c5",
+    "bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/PublicIO.lean": "3b619f53c46754baafb93a9dd18701a52ca9c0cd8a8f81e283788c36c4e2485c",
+    "bench/repairs/tritonbench_g/fp4_to_bf16/Proofs/ScheduleEquivalence.lean": "834e6bd0536b7fcddbc0ed43909eeb9075eeb06d38d1247767143d0c0a35e10c",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

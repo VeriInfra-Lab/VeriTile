@@ -1,0 +1,298 @@
+{
+  "status": "passed_independent_reanalysis",
+  "profiles": [
+    {
+      "id": "sm80-fp16-b32-w4-fusion0",
+      "exp_chains": 1,
+      "division_spans": {
+        "STRAIGHT_REGISTER_SPAN": 1,
+        "CONTROL_OR_SYNCHRONIZATION_NOT_PROVED": 0
+      }
+    },
+    {
+      "id": "sm80-fp16-b32-w4-fusion1",
+      "exp_chains": 1,
+      "division_spans": {
+        "STRAIGHT_REGISTER_SPAN": 1,
+        "CONTROL_OR_SYNCHRONIZATION_NOT_PROVED": 0
+      }
+    },
+    {
+      "id": "sm80-fp16-b2048-w8-fusion0",
+      "exp_chains": 8,
+      "division_spans": {
+        "STRAIGHT_REGISTER_SPAN": 0,
+        "CONTROL_OR_SYNCHRONIZATION_NOT_PROVED": 8
+      }
+    },
+    {
+      "id": "sm80-fp16-b2048-w8-fusion1",
+      "exp_chains": 8,
+      "division_spans": {
+        "STRAIGHT_REGISTER_SPAN": 0,
+        "CONTROL_OR_SYNCHRONIZATION_NOT_PROVED": 8
+      }
+    },
+    {
+      "id": "sm80-fp16-b4096-w16-fusion0",
+      "exp_chains": 8,
+      "division_spans": {
+        "STRAIGHT_REGISTER_SPAN": 0,
+        "CONTROL_OR_SYNCHRONIZATION_NOT_PROVED": 8
+      }
+    },
+    {
+      "id": "sm80-fp16-b4096-w16-fusion1",
+      "exp_chains": 8,
+      "division_spans": {
+        "STRAIGHT_REGISTER_SPAN": 0,
+        "CONTROL_OR_SYNCHRONIZATION_NOT_PROVED": 8
+      }
+    },
+    {
+      "id": "sm80-bf16-b32-w4-fusion0",
+      "exp_chains": 1,
+      "division_spans": {
+        "STRAIGHT_REGISTER_SPAN": 1,
+        "CONTROL_OR_SYNCHRONIZATION_NOT_PROVED": 0
+      }
+    },
+    {
+      "id": "sm80-bf16-b32-w4-fusion1",
+      "exp_chains": 1,
+      "division_spans": {
+        "STRAIGHT_REGISTER_SPAN": 1,
+        "CONTROL_OR_SYNCHRONIZATION_NOT_PROVED": 0
+      }
+    },
+    {
+      "id": "sm80-bf16-b2048-w8-fusion0",
+      "exp_chains": 8,
+      "division_spans": {
+        "STRAIGHT_REGISTER_SPAN": 0,
+        "CONTROL_OR_SYNCHRONIZATION_NOT_PROVED": 8
+      }
+    },
+    {
+      "id": "sm80-bf16-b2048-w8-fusion1",
+      "exp_chains": 8,
+      "division_spans": {
+        "STRAIGHT_REGISTER_SPAN": 0,
+        "CONTROL_OR_SYNCHRONIZATION_NOT_PROVED": 8
+      }
+    },
+    {
+      "id": "sm80-bf16-b4096-w16-fusion0",
+      "exp_chains": 8,
+      "division_spans": {
+        "STRAIGHT_REGISTER_SPAN": 0,
+        "CONTROL_OR_SYNCHRONIZATION_NOT_PROVED": 8
+      }
+    },
+    {
+      "id": "sm80-bf16-b4096-w16-fusion1",
+      "exp_chains": 8,
+      "division_spans": {
+        "STRAIGHT_REGISTER_SPAN": 0,
+        "CONTROL_OR_SYNCHRONIZATION_NOT_PROVED": 8
+      }
+    },
+    {
+      "id": "sm80-fp32-b32-w4-fusion0",
+      "exp_chains": 1,
+      "division_spans": {
+        "STRAIGHT_REGISTER_SPAN": 1,
+        "CONTROL_OR_SYNCHRONIZATION_NOT_PROVED": 0
+      }
+    },
+    {
+      "id": "sm80-fp32-b32-w4-fusion1",
+      "exp_chains": 1,
+      "division_spans": {
+        "STRAIGHT_REGISTER_SPAN": 1,
+        "CONTROL_OR_SYNCHRONIZATION_NOT_PROVED": 0
+      }
+    },
+    {
+      "id": "sm80-fp32-b2048-w8-fusion0",
+      "exp_chains": 8,
+      "division_spans": {
+        "STRAIGHT_REGISTER_SPAN": 0,
+        "CONTROL_OR_SYNCHRONIZATION_NOT_PROVED": 8
+      }
+    },
+    {
+      "id": "sm80-fp32-b2048-w8-fusion1",
+      "exp_chains": 8,
+      "division_spans": {
+        "STRAIGHT_REGISTER_SPAN": 0,
+        "CONTROL_OR_SYNCHRONIZATION_NOT_PROVED": 8
+      }
+    },
+    {
+      "id": "sm80-fp32-b4096-w16-fusion0",
+      "exp_chains": 8,
+      "division_spans": {
+        "STRAIGHT_REGISTER_SPAN": 0,
+        "CONTROL_OR_SYNCHRONIZATION_NOT_PROVED": 8
+      }
+    },
+    {
+      "id": "sm80-fp32-b4096-w16-fusion1",
+      "exp_chains": 8,
+      "division_spans": {
+        "STRAIGHT_REGISTER_SPAN": 0,
+        "CONTROL_OR_SYNCHRONIZATION_NOT_PROVED": 8
+      }
+    },
+    {
+      "id": "sm90-fp16-b32-w4-fusion0",
+      "exp_chains": 1,
+      "division_spans": {
+        "STRAIGHT_REGISTER_SPAN": 1,
+        "CONTROL_OR_SYNCHRONIZATION_NOT_PROVED": 0
+      }
+    },
+    {
+      "id": "sm90-fp16-b32-w4-fusion1",
+      "exp_chains": 1,
+      "division_spans": {
+        "STRAIGHT_REGISTER_SPAN": 1,
+        "CONTROL_OR_SYNCHRONIZATION_NOT_PROVED": 0
+      }
+    },
+    {
+      "id": "sm90-fp16-b2048-w8-fusion0",
+      "exp_chains": 8,
+      "division_spans": {
+        "STRAIGHT_REGISTER_SPAN": 0,
+        "CONTROL_OR_SYNCHRONIZATION_NOT_PROVED": 8
+      }
+    },
+    {
+      "id": "sm90-fp16-b2048-w8-fusion1",
+      "exp_chains": 8,
+      "division_spans": {
+        "STRAIGHT_REGISTER_SPAN": 0,
+        "CONTROL_OR_SYNCHRONIZATION_NOT_PROVED": 8
+      }
+    },
+    {
+      "id": "sm90-fp16-b4096-w16-fusion0",
+      "exp_chains": 8,
+      "division_spans": {
+        "STRAIGHT_REGISTER_SPAN": 0,
+        "CONTROL_OR_SYNCHRONIZATION_NOT_PROVED": 8
+      }
+    },
+    {
+      "id": "sm90-fp16-b4096-w16-fusion1",
+      "exp_chains": 8,
+      "division_spans": {
+        "STRAIGHT_REGISTER_SPAN": 0,
+        "CONTROL_OR_SYNCHRONIZATION_NOT_PROVED": 8
+      }
+    },
+    {
+      "id": "sm90-bf16-b32-w4-fusion0",
+      "exp_chains": 1,
+      "division_spans": {
+        "STRAIGHT_REGISTER_SPAN": 1,
+        "CONTROL_OR_SYNCHRONIZATION_NOT_PROVED": 0
+      }
+    },
+    {
+      "id": "sm90-bf16-b32-w4-fusion1",
+      "exp_chains": 1,
+      "division_spans": {
+        "STRAIGHT_REGISTER_SPAN": 1,
+        "CONTROL_OR_SYNCHRONIZATION_NOT_PROVED": 0
+      }
+    },
+    {
+      "id": "sm90-bf16-b2048-w8-fusion0",
+      "exp_chains": 8,
+      "division_spans": {
+        "STRAIGHT_REGISTER_SPAN": 0,
+        "CONTROL_OR_SYNCHRONIZATION_NOT_PROVED": 8
+      }
+    },
+    {
+      "id": "sm90-bf16-b2048-w8-fusion1",
+      "exp_chains": 8,
+      "division_spans": {
+        "STRAIGHT_REGISTER_SPAN": 0,
+        "CONTROL_OR_SYNCHRONIZATION_NOT_PROVED": 8
+      }
+    },
+    {
+      "id": "sm90-bf16-b4096-w16-fusion0",
+      "exp_chains": 8,
+      "division_spans": {
+        "STRAIGHT_REGISTER_SPAN": 0,
+        "CONTROL_OR_SYNCHRONIZATION_NOT_PROVED": 8
+      }
+    },
+    {
+      "id": "sm90-bf16-b4096-w16-fusion1",
+      "exp_chains": 8,
+      "division_spans": {
+        "STRAIGHT_REGISTER_SPAN": 0,
+        "CONTROL_OR_SYNCHRONIZATION_NOT_PROVED": 8
+      }
+    },
+    {
+      "id": "sm90-fp32-b32-w4-fusion0",
+      "exp_chains": 1,
+      "division_spans": {
+        "STRAIGHT_REGISTER_SPAN": 1,
+        "CONTROL_OR_SYNCHRONIZATION_NOT_PROVED": 0
+      }
+    },
+    {
+      "id": "sm90-fp32-b32-w4-fusion1",
+      "exp_chains": 1,
+      "division_spans": {
+        "STRAIGHT_REGISTER_SPAN": 1,
+        "CONTROL_OR_SYNCHRONIZATION_NOT_PROVED": 0
+      }
+    },
+    {
+      "id": "sm90-fp32-b2048-w8-fusion0",
+      "exp_chains": 8,
+      "division_spans": {
+        "STRAIGHT_REGISTER_SPAN": 0,
+        "CONTROL_OR_SYNCHRONIZATION_NOT_PROVED": 8
+      }
+    },
+    {
+      "id": "sm90-fp32-b2048-w8-fusion1",
+      "exp_chains": 8,
+      "division_spans": {
+        "STRAIGHT_REGISTER_SPAN": 0,
+        "CONTROL_OR_SYNCHRONIZATION_NOT_PROVED": 8
+      }
+    },
+    {
+      "id": "sm90-fp32-b4096-w16-fusion0",
+      "exp_chains": 8,
+      "division_spans": {
+        "STRAIGHT_REGISTER_SPAN": 0,
+        "CONTROL_OR_SYNCHRONIZATION_NOT_PROVED": 8
+      }
+    },
+    {
+      "id": "sm90-fp32-b4096-w16-fusion1",
+      "exp_chains": 8,
+      "division_spans": {
+        "STRAIGHT_REGISTER_SPAN": 0,
+        "CONTROL_OR_SYNCHRONIZATION_NOT_PROVED": 8
+      }
+    }
+  ],
+  "profile_count": 36,
+  "exponent_chains": 204,
+  "tool_sha256": "009f7d98a9dacdce41dc8d86a9cae5b46a3db2fc63e73a7e7271b29d696231cd",
+  "native_execution": false,
+  "formal_compiler_refinement": false
+}

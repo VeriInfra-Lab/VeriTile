@@ -1,0 +1,15 @@
+/tmp/veritile-standardization-20261015/lora-host-wip/bench/tritonbench_g/lora_expand_gemv/Proofs/HostProperties.lean:52:38: warning: This simp argument is unused:
+  require
+
+Hint: Omit it from the simp argument list.
+  simp [̵r̵e̵q̵u̵i̵r̵e̵]̵ ̵at h
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.TritonBenchG.LoraExpandGemv.Host.prepare_fields: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.LoraExpandGemv.Host.prepared_inner_dimension: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.LoraExpandGemv.Host.prepare_positive_block: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.LoraExpandGemv.Host.prepared_split_length_one: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

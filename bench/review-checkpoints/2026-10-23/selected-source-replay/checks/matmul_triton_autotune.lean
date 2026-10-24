@@ -1,0 +1,7 @@
+import VeriTile.Meta.StatementAudit
+import bench.repairs.tritonbench_g.matmul_triton_autotune.Contract
+import bench.repairs.tritonbench_g.matmul_triton_autotune.Correct
+import bench.repairs.tritonbench_g.matmul_triton_autotune.FPEquiv
+
+#axiomsClean VeriTile.Bench.TritonBenchG.MatmulTritonAutotune.Repair.Kernel.mathematical_kernel
+#axiomsClean VeriTile.Bench.TritonBenchG.MatmulTritonAutotune.Repair.Kernel.matmul_equiv

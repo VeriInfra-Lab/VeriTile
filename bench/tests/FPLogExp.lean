@@ -38,6 +38,7 @@ private noncomputable def model : Algebra ℚ where
   negInf := 0
   binary := fun _ _ _ a b => a - b
   unary := fun _ op a => match op with
+    | .abs _ => if a < 0 then -a else a
     | .libdeviceExpm1 => a + 10
     | .libdeviceLog1p => a + 100
     | .libdeviceExp => a + 1000
@@ -69,8 +70,8 @@ theorem piecewise_execution (a : ℚ) :
   norm_num [evalOp_unfold, FP.LogExp.expression, FP.LogExp.Backend.log, FP.LogExp.Backend.exp,
     FP.LogExp.useIdentity, FP.LogExp.absolute,
     FP.LogExp.input, numeric, numericLt, numericLe,
-    State.setReg, bop, model]
-  split <;> simp_all <;> ring
+    State.setReg, bop, ofFloat, toFloat, model]
+  split <;> simp_all [bop] <;> ring
 
 -- Both signs at 0.5 use fallback, both signs at 80 return a, and the
 -- near-zero and extreme negative inputs still execute the original calls.

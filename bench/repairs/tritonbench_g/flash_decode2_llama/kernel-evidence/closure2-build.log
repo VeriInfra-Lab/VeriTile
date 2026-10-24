@@ -1,0 +1,238 @@
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/KernelNative.lean:96:89: error: unsolved goals
+p : Ops
+c : Call
+a b : Term
+⊢ (if «false» = «true» then
+      p.mul
+        (eval
+          { literal := fun x x_1 x_2 => 0,
+            binary := fun x x_1 op x_2 y =>
+              match op with
+              | Binary.add => 0
+              | Binary.sub => p.sub x_2 y
+              | Binary.mul => p.mul x_2 y
+              | Binary.div => p.div x_2 y
+              | Binary.max => p.max x_2 y
+              | x => 0,
+            unary := fun x op x_1 =>
+              match op with
+              | Unary.exp => p.exp32 x_1
+              | x => 0,
+            cast := fun x x_1 x_2 x_3 => 0, fromNat := fun x x_1 => 0, fromInt := fun x x_1 => 0, fmaRN := p.fmaRN }
+          { fusion := fun x => Fusion.left,
+            swap := fun s =>
+              match s with
+              | Shape.binary (some ComputeDType.fp32) FloatDType.real Binary.mul a b =>
+                swapped c &&
+                  match a with
+                  | Shape.literal precision dtype => «true»
+                  | Shape.binary precision dtype Binary.add a b => «true»
+                  | x => «false»
+              | x => «false» }
+          b)
+        (p.exp32
+          (eval
+            { literal := fun x x_1 x_2 => 0,
+              binary := fun x x_1 op x_2 y =>
+                match op with
+                | Binary.add => 0
+                | Binary.sub => p.sub x_2 y
+                | Binary.mul => p.mul x_2 y
+                | Binary.div => p.div x_2 y
+                | Binary.max => p.max x_2 y
+                | x => 0,
+              unary := fun x op x_1 =>
+                match op with
+                | Unary.exp => p.exp32 x_1
+                | x => 0,
+              cast := fun x x_1 x_2 x_3 => 0, fromNat := fun x x_1 => 0, fromInt := fun x x_1 => 0, fmaRN := p.fmaRN }
+            { fusion := fun x => Fusion.left,
+              swap := fun s =>
+                match s with
+                | Shape.binary (some ComputeDType.fp32) FloatDType.real Binary.mul a b =>
+                  swapped c &&
+                    match a with
+                    | Shape.literal precision dtype => «true»
+                    | Shape.binary precision dtype Binary.add a b => «true»
+                    | x => «false»
+                | x => «false» }
+            a))
+    else
+      p.mul
+        (p.exp32
+          (eval
+            { literal := fun x x_1 x_2 => 0,
+              binary := fun x x_1 op x_2 y =>
+                match op with
+                | Binary.add => 0
+                | Binary.sub => p.sub x_2 y
+                | Binary.mul => p.mul x_2 y
+                | Binary.div => p.div x_2 y
+                | Binary.max => p.max x_2 y
+                | x => 0,
+              unary := fun x op x_1 =>
+                match op with
+                | Unary.exp => p.exp32 x_1
+                | x => 0,
+              cast := fun x x_1 x_2 x_3 => 0, fromNat := fun x x_1 => 0, fromInt := fun x x_1 => 0, fmaRN := p.fmaRN }
+            { fusion := fun x => Fusion.left,
+              swap := fun s =>
+                match s with
+                | Shape.binary (some ComputeDType.fp32) FloatDType.real Binary.mul a b =>
+                  swapped c &&
+                    match a with
+                    | Shape.literal precision dtype => «true»
+                    | Shape.binary precision dtype Binary.add a b => «true»
+                    | x => «false»
+                | x => «false» }
+            a))
+        (eval
+          { literal := fun x x_1 x_2 => 0,
+            binary := fun x x_1 op x_2 y =>
+              match op with
+              | Binary.add => 0
+              | Binary.sub => p.sub x_2 y
+              | Binary.mul => p.mul x_2 y
+              | Binary.div => p.div x_2 y
+              | Binary.max => p.max x_2 y
+              | x => 0,
+            unary := fun x op x_1 =>
+              match op with
+              | Unary.exp => p.exp32 x_1
+              | x => 0,
+            cast := fun x x_1 x_2 x_3 => 0, fromNat := fun x x_1 => 0, fromInt := fun x x_1 => 0, fmaRN := p.fmaRN }
+          { fusion := fun x => Fusion.left,
+            swap := fun s =>
+              match s with
+              | Shape.binary (some ComputeDType.fp32) FloatDType.real Binary.mul a b =>
+                swapped c &&
+                  match a with
+                  | Shape.literal precision dtype => «true»
+                  | Shape.binary precision dtype Binary.add a b => «true»
+                  | x => «false»
+              | x => «false» }
+          b)) =
+    p.mul
+      (p.exp32
+        (eval
+          { literal := fun x x_1 x_2 => 0,
+            binary := fun x x_1 op x_2 y =>
+              match op with
+              | Binary.add => 0
+              | Binary.sub => p.sub x_2 y
+              | Binary.mul => p.mul x_2 y
+              | Binary.div => p.div x_2 y
+              | Binary.max => p.max x_2 y
+              | x => 0,
+            unary := fun x op x_1 =>
+              match op with
+              | Unary.exp => p.exp32 x_1
+              | x => 0,
+            cast := fun x x_1 x_2 x_3 => 0, fromNat := fun x x_1 => 0, fromInt := fun x x_1 => 0, fmaRN := p.fmaRN }
+          { fusion := fun x => Fusion.left,
+            swap := fun s =>
+              match s with
+              | Shape.binary (some ComputeDType.fp32) FloatDType.real Binary.mul a b =>
+                swapped c &&
+                  match a with
+                  | Shape.literal precision dtype => «true»
+                  | Shape.binary precision dtype Binary.add a b => «true»
+                  | x => «false»
+              | x => «false» }
+          a))
+      (eval
+        { literal := fun x x_1 x_2 => 0,
+          binary := fun x x_1 op x_2 y =>
+            match op with
+            | Binary.add => 0
+            | Binary.sub => p.sub x_2 y
+            | Binary.mul => p.mul x_2 y
+            | Binary.div => p.div x_2 y
+            | Binary.max => p.max x_2 y
+            | x => 0,
+          unary := fun x op x_1 =>
+            match op with
+            | Unary.exp => p.exp32 x_1
+            | x => 0,
+          cast := fun x x_1 x_2 x_3 => 0, fromNat := fun x x_1 => 0, fromInt := fun x x_1 => 0, fmaRN := p.fmaRN }
+        { fusion := fun x => Fusion.left,
+          swap := fun s =>
+            match s with
+            | Shape.binary (some ComputeDType.fp32) FloatDType.real Binary.mul a b =>
+              swapped c &&
+                match a with
+                | Shape.literal precision dtype => «true»
+                | Shape.binary precision dtype Binary.add a b => «true»
+                | x => «false»
+            | x => «false» }
+        b)
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/KernelNative.lean:135:14: error: unsolved goals
+case succ
+p : Ops
+c : Call
+heap : KernelTensor.Heap
+other : State Term
+row : ℕ
+hx :
+  ∀ (j : ℕ),
+    logvalue algebra (Grid.setup (Checked.batches ↑c) (Checked.heads ↑c) row (entry c heap other)) (Checked.heads ↑c)
+        (Checked.capacity ↑c) j =
+      (Term.leaf { name := "E" } (row * Checked.capacity ↑c + j)
+          (KernelTensor.word c heap { name := "E" } (row * Checked.capacity ↑c + j))).load
+hv :
+  ∀ (j : ℕ) (k : TileIndex [Checked.block ↑c]),
+    FlashDecode2.value algebra (Grid.setup (Checked.batches ↑c) (Checked.heads ↑c) row (entry c heap other)) (↑c).masked
+        (Checked.heads ↑c) (Checked.capacity ↑c) (Checked.width ↑c) j k =
+      (Term.leaf { name := "M" } (row * Checked.capacity ↑c * Checked.width ↑c + j * Checked.width ↑c + lane k)
+          (KernelTensor.word c heap { name := "M" }
+            (row * Checked.capacity ↑c * Checked.width ↑c + j * Checked.width ↑c + lane k))).load
+n : ℕ
+ih :
+  eval (lower p) (schedule c)
+        (values algebra (Grid.setup (Checked.batches ↑c) (Checked.heads ↑c) row (entry c heap other)) (↑c).masked
+            (Checked.heads ↑c) (Checked.capacity ↑c) (Checked.width ↑c) (Checked.block ↑c) n).m =
+      (scan p c (fun j => KernelTensor.word c heap { name := "E" } (row * Checked.capacity ↑c + j))
+          (fun j d =>
+            KernelTensor.word c heap { name := "M" }
+              (row * Checked.capacity ↑c * Checked.width ↑c + j * Checked.width ↑c + d))
+          n).maximum ∧
+    eval (lower p) (schedule c)
+          (values algebra (Grid.setup (Checked.batches ↑c) (Checked.heads ↑c) row (entry c heap other)) (↑c).masked
+              (Checked.heads ↑c) (Checked.capacity ↑c) (Checked.width ↑c) (Checked.block ↑c) n).z =
+        (scan p c (fun j => KernelTensor.word c heap { name := "E" } (row * Checked.capacity ↑c + j))
+            (fun j d =>
+              KernelTensor.word c heap { name := "M" }
+                (row * Checked.capacity ↑c * Checked.width ↑c + j * Checked.width ↑c + d))
+            n).denominator ∧
+      ∀ (k : TileIndex [Checked.block ↑c]),
+        eval (lower p) (schedule c)
+            ((values algebra (Grid.setup (Checked.batches ↑c) (Checked.heads ↑c) row (entry c heap other)) (↑c).masked
+                  (Checked.heads ↑c) (Checked.capacity ↑c) (Checked.width ↑c) (Checked.block ↑c) n).a
+              k) =
+          (scan p c (fun j => KernelTensor.word c heap { name := "E" } (row * Checked.capacity ↑c + j))
+                (fun j d =>
+                  KernelTensor.word c heap { name := "M" }
+                    (row * Checked.capacity ↑c * Checked.width ↑c + j * Checked.width ↑c + d))
+                n).numerator
+            (lane k)
+shapes :
+  accumulatorShape
+        (shape
+          (values algebra (Grid.setup (Checked.batches ↑c) (Checked.heads ↑c) row (entry c heap other)) (↑c).masked
+              (Checked.heads ↑c) (Checked.capacity ↑c) (Checked.width ↑c) (Checked.block ↑c) n).z) =
+      «true» ∧
+    ∀ (k : TileIndex [Checked.block ↑c]),
+      accumulatorShape
+          (shape
+            ((values algebra (Grid.setup (Checked.batches ↑c) (Checked.heads ↑c) row (entry c heap other)) (↑c).masked
+                  (Checked.heads ↑c) (Checked.capacity ↑c) (Checked.width ↑c) (Checked.block ↑c) n).a
+              k)) =
+        «true»
+⊢ True ∧ True ∧ ∀ (k : TileIndex [Checked.block ↑c]), True
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/KernelNative.lean:159:0: error: VeriTile.Bench.Repairs.FlashDecode2Llama.KernelNative.recurrence: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/KernelNative.lean:160:0: error: VeriTile.Bench.Repairs.FlashDecode2Llama.KernelNative.value: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelNative.target: definition does not reference [VeriTile.Bench.Repairs.FlashDecode2Llama.KernelModel.run,
+ VeriTile.Bench.Repairs.FlashDecode2.Grid.source,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.FlashDecode2.values,
+ VeriTile.Bench.Repairs.FlashDecode2.Native.eval] — non-circular ✓

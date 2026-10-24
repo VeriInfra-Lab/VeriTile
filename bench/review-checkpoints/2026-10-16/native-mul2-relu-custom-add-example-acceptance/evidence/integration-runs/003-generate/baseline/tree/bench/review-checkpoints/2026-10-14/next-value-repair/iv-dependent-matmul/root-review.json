@@ -1,0 +1,27 @@
+{
+  "reviewer": "root",
+  "status": "complete_accepted_pre_load_source_and_compiled_graph_review_pass_pending_integration",
+  "receipt_sha256": "68840f07882bd0093e6cf0243091df96e15488a1cd5382ffaceba6357baf66ef",
+  "manifest_files_verified": 380,
+  "compiled_records_verified": 71,
+  "dependency_sources_verified": 196,
+  "old_theorem_and_spec_headers_verified": 53,
+  "old_main_byte_identical": true,
+  "native_artifacts_verified": 12,
+  "reference_audit": {
+    "source": "IVValueReferenceAudit.lean",
+    "source_sha256": "c66937fd73c21c2bdcb1f831dd89b46df4bba7b52da4fab867eea52c3ca8fce2",
+    "log": "iv-dependent-matmul-reference-audit.log",
+    "log_sha256": "2a960623817170961337b524c44f95490682894da661175647ef577267e8703c",
+    "noncircular_checks": 6
+  },
+  "findings": [
+    "All accepted pre_load exact-K blocks and genuine edge output masks are retained. Full initial-memory/output/frame contracts require the old output minor stride1 and BLOCK_N <= output row stride; no fitting-tile, numerical-domain or region-separation restriction was added. Other four schedules remain outside the old accepted scope.",
+    "Physical fp32 inputs and fp32 output use a concrete intermediate fp16 narrowing and fp32 widening. The full execution reference is independent of typed source and Structural.exec, checked at six definitions.",
+    "Two full-scope callback contracts separately model source zero-seeded dot plus outer add and compiler live dotAcc. Two additional full-scope software contracts specify increasing-K fp32 separate mul/add or FMA. Software sequential accumulation is not a proof of native TF32 MMA.",
+    "Both original offline SM90 pre_load fusion profiles pass; twelve native artifacts are hash-verified. Native TF32 conversion/MMA, configuration/FTZ/NaN/casts and physical addressing/launch bindings remain pending.",
+    "Old main whole-file hash and53 theorem/specification headers, including2 public specifications, are unchanged. Fixed2-block edge-mask/alias and cast witnesses support the universal software contracts but are not hardware experiments."
+  ],
+  "native_execution": false,
+  "canonical_acceptance_updated": false
+}

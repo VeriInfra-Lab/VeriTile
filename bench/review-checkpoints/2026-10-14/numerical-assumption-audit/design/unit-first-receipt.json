@@ -1,0 +1,18 @@
+{
+  "command": [
+    "python",
+    "-m",
+    "unittest",
+    "scripts.test_numerical_obligations",
+    "-v"
+  ],
+  "exit_code": 0,
+  "tests": 32,
+  "result": "PASS",
+  "source_sha256": {
+    "bench/numerical_obligations.py": "a65ebf188d758442eb4866cb5b5779ee09fd3bd877ecbf3e1f27b561cb5a930f",
+    "scripts/test_numerical_obligations.py": "876e21b5dce750c88664f538f10260d910d7a4fc1aa6ac1b4a8af104b8729a67",
+    "scripts/spec_sheet.py": "70e65de2801f1f1cb76f5cfebf3e97020d7b0f63cc0510229ebaf56282e1dcf3"
+  },
+  "log_sha256": "e839ede6b8110d2105dac3ab4dc238225637864bc034061b5352b0ba61bba0ef"
+}

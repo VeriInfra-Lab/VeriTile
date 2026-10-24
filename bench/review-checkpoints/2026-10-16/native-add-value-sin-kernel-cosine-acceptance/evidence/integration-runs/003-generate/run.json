@@ -1,0 +1,86 @@
+{
+  "schema": 1,
+  "kind": "actual_integration_run",
+  "phase": "generate",
+  "base_commit": "f2759fe5d07ede00763aa7875d5c174d0d06affc",
+  "started_at_utc": "2026-10-16T02:52:26.982485+00:00",
+  "state": "completed",
+  "commands": [
+    {
+      "name": "prepare-baseline",
+      "command": [
+        "/usr/local/bin/python",
+        "-B",
+        "bench/current_source_catalog.py",
+        "prepare-baseline",
+        "--package",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/review-checkpoints/2026-10-15/original-scope-extensions/metadata-baseline",
+        "--output",
+        "/tmp/veritile-standardization-20261015/next-three-source-integration-run-001/003-generate/baseline"
+      ],
+      "cwd": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile",
+      "started_at_utc": "2026-10-16T02:52:26.982992+00:00",
+      "state": "completed",
+      "log": "prepare-baseline.log",
+      "exit_code": 0,
+      "log_sha256": "da79489d6c6082c07202e8c09ebfb4d8f576d1c539d11c55223130eb5ba11749",
+      "finished_at_utc": "2026-10-16T02:52:28.001502+00:00"
+    },
+    {
+      "name": "catalog",
+      "command": [
+        "/usr/local/bin/python",
+        "-B",
+        "bench/current_source_catalog.py",
+        "--root",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile",
+        "--baseline",
+        "/tmp/veritile-standardization-20261015/next-three-source-integration-run-001/003-generate/baseline",
+        "--source-map",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/current_source_selections.json",
+        "--legacy-inventory",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/current_completion_inventory.json",
+        "--evidence-root",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/review-checkpoints",
+        "--review-manifest",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/review-checkpoints/2026-10-15/raw-copy-software-metadata/catalog-review-rebased.json",
+        "--supplement",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/review-checkpoints/2026-10-16/native-add-value-sin-kernel-cosine-acceptance/catalog-supplement.json.gz",
+        "--output",
+        "/tmp/veritile-standardization-20261015/next-three-source-integration-run-001/003-generate/current-source-catalog.json.gz"
+      ],
+      "cwd": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile",
+      "started_at_utc": "2026-10-16T02:52:28.001800+00:00",
+      "state": "completed",
+      "log": "catalog.log",
+      "exit_code": 0,
+      "log_sha256": "823ce25b9ab4bba23791d0f7c108866e05928330b17134052f5310c69065b87f",
+      "finished_at_utc": "2026-10-16T02:53:56.304632+00:00"
+    },
+    {
+      "name": "queue",
+      "command": [
+        "/usr/local/bin/python",
+        "-B",
+        "bench/deferred_numerical_experiments.py",
+        "--root",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile"
+      ],
+      "cwd": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile",
+      "started_at_utc": "2026-10-16T02:53:56.322406+00:00",
+      "state": "completed",
+      "log": "queue.log",
+      "exit_code": 0,
+      "log_sha256": "48b0f1b57db376e8303ef5acde327a45edb9d23a9720d786df97e39e9f8d005a",
+      "finished_at_utc": "2026-10-16T02:54:52.596377+00:00"
+    }
+  ],
+  "pythonpath": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tests:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/scripts:",
+  "python_executable": "/usr/local/bin/python",
+  "generated_sha256": {
+    "bench/review-checkpoints/2026-10-16/native-add-value-sin-kernel-cosine-acceptance/current-source-catalog.json.gz": "d7e8ad71fe52e6a80059ad1df1fdb3f4af64ac96146707f9442f53327e3d88c4",
+    "bench/tritonbench_g/deferred_numerical_experiments.json.gz": "450a1464548b39059b1b46168f3c73a382c3ec9f1f4fd5acabdaa7999f5a63eb",
+    "bench/tritonbench_g/deferred_numerical_experiments.md": "189766dc4229b16b3158df539b6a83942f56da88a5e013a36a50a086290ce145"
+  },
+  "finished_at_utc": "2026-10-16T02:54:52.610273+00:00"
+}

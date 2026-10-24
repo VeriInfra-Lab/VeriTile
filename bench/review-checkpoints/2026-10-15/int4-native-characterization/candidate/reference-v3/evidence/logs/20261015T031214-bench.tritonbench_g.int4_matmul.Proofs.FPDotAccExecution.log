@@ -1,0 +1,24 @@
+/tmp/veritile-int4-dotacc-closure-20261015/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccExecution.lean:87:2: warning: 'all_goals try dsimp only [aValue, aOffset]' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/veritile-int4-dotacc-closure-20261015/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccExecution.lean:88:2: warning: 'all_goals try simp only [Nat.add_assoc]' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/veritile-int4-dotacc-closure-20261015/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccExecution.lean:94:2: warning: 'all_goals rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/veritile-int4-dotacc-closure-20261015/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccExecution.lean:94:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+VeriTile.Bench.TritonBenchG.Int4Matmul.FPDotAcc.preludeExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.Int4Matmul.FPDotAcc.preludeInvariant: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.Int4Matmul.FPDotAcc.bodyExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.Int4Matmul.FPDotAcc.bodyInvariant: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

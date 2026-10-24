@@ -1,0 +1,536 @@
+QuantTransposeFinite.result: definition does not reference [QuantTransposeFinite.source,
+ QuantTransposeFinite.Expr.eval] — non-circular ✓
+QuantTransposeFinite.LlrintDefined: definition does not reference [QuantTransposeFinite.source,
+ QuantTransposeFinite.Expr.eval,
+ QuantTransposeFinite.llrint] — non-circular ✓
+QuantTransposeFinite.source_scalar: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+QuantTransposeFinite.defined_result: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+QuantTransposeFinite.special_conversions: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+QuantTransposeFinite.conversion_boundaries: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+
+{
+  "source": "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteScalar.lean",
+  "source_sha256": "583a1eb51eca8d8092d096116dc36012573b2af5ef2121ea2b7cc259e3f45f25",
+  "source_unchanged": true,
+  "command": [
+    "/tmp/veritile-lean-toolchain/bin/lean",
+    "--root=/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip",
+    "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteScalar.lean",
+    "-o",
+    "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteScalar.olean"
+  ],
+  "LEAN_PATH": "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean",
+  "exit_code": 0,
+  "seconds": 2.379,
+  "log": "evidence/attempts/0082-FiniteScalar.log",
+  "log_sha256": "8feeaf5f5299e9b2620c939391270788a76a3b64ce4c38940ff4bf82bbad440a"
+}
+QuantTransposeFinite.inverse_tile: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+QuantTransposeFinite.tile_bounds: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+QuantTransposeFinite.tile_injective: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+QuantTransposeFinite.coordinate_preimage: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+
+{
+  "source": "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteMapping.lean",
+  "source_sha256": "eeebd0128f1d75420e6f2923448cc4ad68b113307882ac83404618f5b1e45b42",
+  "source_unchanged": true,
+  "command": [
+    "/tmp/veritile-lean-toolchain/bin/lean",
+    "--root=/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip",
+    "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteMapping.lean",
+    "-o",
+    "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteMapping.olean"
+  ],
+  "LEAN_PATH": "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean",
+  "exit_code": 0,
+  "seconds": 6.41,
+  "log": "evidence/attempts/0083-FiniteMapping.log",
+  "log_sha256": "5feed6c202c0b24df8c09b11461230c0cdc0f3958ee769d75b661e55aa4bef0b"
+}
+QuantTransposeFinite.reference: definition does not reference [QuantTransposeFinite.runTrials,
+ QuantTransposeFinite.runGrid,
+ QuantTransposeFinite.runProgram,
+ QuantTransposeFinite.runLanes,
+ QuantTransposeFinite.source,
+ QuantTransposeFinite.Expr.eval] — non-circular ✓
+QuantTransposeFinite.Defined: definition does not reference [QuantTransposeFinite.runTrials,
+ QuantTransposeFinite.runGrid,
+ QuantTransposeFinite.runProgram,
+ QuantTransposeFinite.runLanes,
+ QuantTransposeFinite.source,
+ QuantTransposeFinite.Expr.eval] — non-circular ✓
+QuantTransposeFinite.trials_correct: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+QuantTransposeFinite.complete_grid: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+QuantTransposeFinite.lane_bounds: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+QuantTransposeFinite.output_ownership: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+
+{
+  "source": "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteGrid.lean",
+  "source_sha256": "f5a16646c17c5a67f66d280d2895966de3ad4ed2e373506b81dffe3fce5a591a",
+  "source_unchanged": true,
+  "command": [
+    "/tmp/veritile-lean-toolchain/bin/lean",
+    "--root=/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip",
+    "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteGrid.lean",
+    "-o",
+    "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteGrid.olean"
+  ],
+  "LEAN_PATH": "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean",
+  "exit_code": 0,
+  "seconds": 3.166,
+  "log": "evidence/attempts/0084-FiniteGrid.log",
+  "log_sha256": "eb494e8af9090c19bfb2c7d4f5e3ae5340f2808b6e042881fd471be18085244d"
+}
+QuantTransposeFinite.Result: definition does not reference [QuantTransposeFinite.execute,
+ QuantTransposeFinite.prepare,
+ QuantTransposeFinite.runTrials,
+ QuantTransposeFinite.runGrid,
+ QuantTransposeFinite.runProgram,
+ QuantTransposeFinite.runLanes,
+ QuantTransposeFinite.source,
+ QuantTransposeFinite.Expr.eval] — non-circular ✓
+QuantTransposeFinite.produced: definition does not reference [QuantTransposeFinite.execute,
+ QuantTransposeFinite.prepare,
+ QuantTransposeFinite.runTrials,
+ QuantTransposeFinite.runGrid,
+ QuantTransposeFinite.runProgram,
+ QuantTransposeFinite.runLanes,
+ QuantTransposeFinite.source,
+ QuantTransposeFinite.Expr.eval] — non-circular ✓
+QuantTransposeFinite.quant_transpose_finite_host_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+
+{
+  "source": "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteHost.lean",
+  "source_sha256": "fae8b57f0abd7b98d306c7c2116f47c77dcbe8f1afa30516ec899bc1f6b36d93",
+  "source_unchanged": true,
+  "command": [
+    "/tmp/veritile-lean-toolchain/bin/lean",
+    "--root=/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip",
+    "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteHost.lean",
+    "-o",
+    "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteHost.olean"
+  ],
+  "LEAN_PATH": "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean",
+  "exit_code": 0,
+  "seconds": 2.778,
+  "log": "evidence/attempts/0085-FiniteHost.log",
+  "log_sha256": "d99ad51b9dd91fb12bfca2367f79b5e8c9683df5227de84eeebd8f62d345875f"
+}
+QuantTransposeFinite.quant_transpose_dtype_admission_inventory: axiom footprint ⊆ standard base ✓  ([propext])
+QuantTransposeFinite.admitted_route: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+QuantTransposeFinite.route_signature: axiom footprint ⊆ standard base ✓  ([propext])
+QuantTransposeFinite.first_primitive_failure: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+
+{
+  "source": "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteAdmission.lean",
+  "source_sha256": "9ee6151152645bdb61a3c9fe2b0a74e9e43ed43df10a377262f6fd8a663f9fc8",
+  "source_unchanged": true,
+  "command": [
+    "/tmp/veritile-lean-toolchain/bin/lean",
+    "--root=/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip",
+    "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteAdmission.lean",
+    "-o",
+    "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteAdmission.olean"
+  ],
+  "LEAN_PATH": "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean",
+  "exit_code": 0,
+  "seconds": 3.535,
+  "log": "evidence/attempts/0086-FiniteAdmission.log",
+  "log_sha256": "9f2856eb8ee3e70dc842d416db72b60a2df0a7070ce910b1e671de9ccc0699a7"
+}
+QuantTransposeFinite.scalar_legacy: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+QuantTransposeFinite.existing_fp32_primitive: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+
+{
+  "source": "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteLegacy.lean",
+  "source_sha256": "b7ddaf5a22bd073f27407581f540ab7291f5626e2e339711deaa20bdadf93cc5",
+  "source_unchanged": true,
+  "command": [
+    "/tmp/veritile-lean-toolchain/bin/lean",
+    "--root=/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip",
+    "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteLegacy.lean",
+    "-o",
+    "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteLegacy.olean"
+  ],
+  "LEAN_PATH": "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean",
+  "exit_code": 0,
+  "seconds": 4.278,
+  "log": "evidence/attempts/0087-FiniteLegacy.log",
+  "log_sha256": "906882a346904137465bd8681efb606eab872fbf937103e9aa291800e82e2407"
+}
+QuantTransposeFinite.Safe: definition does not reference [QuantTransposeFinite.executeAPI,
+ QuantTransposeFinite.execute,
+ QuantTransposeFinite.prepare,
+ QuantTransposeFinite.runTrials,
+ QuantTransposeFinite.runGrid,
+ QuantTransposeFinite.runProgram,
+ QuantTransposeFinite.runLanes,
+ QuantTransposeFinite.source,
+ QuantTransposeFinite.Expr.eval] — non-circular ✓
+QuantTransposeFinite.quant_transpose_complete_finite_execution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+QuantTransposeFinite.quant_transpose_rejected_source_outcome: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+QuantTransposeFinite.quant_transpose_undefined_conversion: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+QuantTransposeFinite.quant_transpose_source_address_domain: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+QuantTransposeFinite.quant_transpose_finite_source_outcomes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+
+{
+  "source": "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/FiniteCorrect.lean",
+  "source_sha256": "e040d2e034e8c3ce67b7e0acb709d6ffa790ccaa72265eefa014b2dfbab5c564",
+  "source_unchanged": true,
+  "command": [
+    "/tmp/veritile-lean-toolchain/bin/lean",
+    "--root=/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip",
+    "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/FiniteCorrect.lean",
+    "-o",
+    "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/FiniteCorrect.olean"
+  ],
+  "LEAN_PATH": "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean",
+  "exit_code": 0,
+  "seconds": 4.138,
+  "log": "evidence/attempts/0088-FiniteCorrect.log",
+  "log_sha256": "a51c1bed4df7a49d3cfbbe826418bb6c10dd499dd37f06b7973ab84ca8eec4bc"
+}
+QuantTransposeFinite.lanes_outcome: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+QuantTransposeFinite.grid_outcome: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+QuantTransposeFinite.trials_outcome: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+QuantTransposeFinite.quant_transpose_all_finite_value_outcomes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+
+{
+  "source": "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteOutcomes.lean",
+  "source_sha256": "ced791b9455ee5e00392fa3b5cdbc8356ac27b6315fd20d3458d507658793a92",
+  "source_unchanged": true,
+  "command": [
+    "/tmp/veritile-lean-toolchain/bin/lean",
+    "--root=/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip",
+    "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteOutcomes.lean",
+    "-o",
+    "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteOutcomes.olean"
+  ],
+  "LEAN_PATH": "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean",
+  "exit_code": 0,
+  "seconds": 4.239,
+  "log": "evidence/attempts/0089-FiniteOutcomes.log",
+  "log_sha256": "3362667e8a5c32d3c65850570c7bc4b757928b4e15b9757b13bce9fa4f2b6960"
+}
+QuantTransposeFinite.InputBytes: definition does not reference [QuantTransposeFinite.executeAPI,
+ QuantTransposeFinite.execute,
+ QuantTransposeFinite.prepare,
+ QuantTransposeFinite.runTrials,
+ QuantTransposeFinite.runGrid,
+ QuantTransposeFinite.runProgram,
+ QuantTransposeFinite.runLanes] — non-circular ✓
+QuantTransposeFinite.PhysicalResult: definition does not reference [QuantTransposeFinite.executeAPI,
+ QuantTransposeFinite.execute,
+ QuantTransposeFinite.prepare,
+ QuantTransposeFinite.runTrials,
+ QuantTransposeFinite.runGrid,
+ QuantTransposeFinite.runProgram,
+ QuantTransposeFinite.runLanes,
+ QuantTransposeFinite.externalBytes] — non-circular ✓
+QuantTransposeFinite.quant_transpose_physical_accesses: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+QuantTransposeFinite.quant_transpose_external_result: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+QuantTransposeFinite.quant_transpose_physical_lane_accesses: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+
+{
+  "source": "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FinitePhysical.lean",
+  "source_sha256": "d21e2606b072dfec0c998381059e128efde20c18e597eac41fa6dab5eca7562e",
+  "source_unchanged": true,
+  "command": [
+    "/tmp/veritile-lean-toolchain/bin/lean",
+    "--root=/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip",
+    "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FinitePhysical.lean",
+    "-o",
+    "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FinitePhysical.olean"
+  ],
+  "LEAN_PATH": "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean",
+  "exit_code": 0,
+  "seconds": 4.779,
+  "log": "evidence/attempts/0090-FinitePhysical.log",
+  "log_sha256": "b600ac873653f7bde06e4d8ea80bfd2a91990c61a5d82b5e09643e21d4863e50"
+}
+QuantTransposeFinite.output_store_commutes: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+QuantTransposeFinite.PhysicalStores.logical_frame: axiom footprint ⊆ standard base ✓  ([propext])
+QuantTransposeFinite.PhysicalStores.byte_frame: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+QuantTransposeFinite.lanes_physical: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+QuantTransposeFinite.grid_physical: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+QuantTransposeFinite.quant_transpose_trial_physical_execution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+
+{
+  "source": "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FinitePhysicalExecution.lean",
+  "source_sha256": "a137af94fa279f9cd66c4847ab205d5e59042ca3d7a6de90340a47a8a1cf3a82",
+  "source_unchanged": true,
+  "command": [
+    "/tmp/veritile-lean-toolchain/bin/lean",
+    "--root=/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip",
+    "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FinitePhysicalExecution.lean",
+    "-o",
+    "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FinitePhysicalExecution.olean"
+  ],
+  "LEAN_PATH": "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean",
+  "exit_code": 0,
+  "seconds": 4.349,
+  "log": "evidence/attempts/0091-FinitePhysicalExecution.log",
+  "log_sha256": "8694c5130d4f20b2b5af154ce8a1443e81be4c0483955a0dbb5ae59c3587109a"
+}
+QuantTransposeFinite.constant_and_runtime_division: axiom footprint ⊆ standard base ✓  ([propext])
+QuantTransposeFinite.ArithmeticRefines: definition does not reference [QuantTransposeFinite.executeAPI,
+ QuantTransposeFinite.execute,
+ QuantTransposeFinite.runGrid,
+ QuantTransposeFinite.runLanes] — non-circular ✓
+QuantTransposeFinite.metadata_specializations: axiom footprint ⊆ standard base ✓  ([propext])
+QuantTransposeFinite.singleton_active_wide_strides: axiom footprint ⊆ standard base ✓  ([propext])
+QuantTransposeFinite.narrow_product_before_extension: axiom footprint ⊆ standard base ✓  ([propext])
+
+{
+  "source": "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeArithmetic.lean",
+  "source_sha256": "7f14fc25a54b5b9d025d7f958480081c13f19079ad0d25dd0c79bccfb502afac",
+  "source_unchanged": true,
+  "command": [
+    "/tmp/veritile-lean-toolchain/bin/lean",
+    "--root=/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip",
+    "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeArithmetic.lean",
+    "-o",
+    "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeArithmetic.olean"
+  ],
+  "LEAN_PATH": "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean",
+  "exit_code": 0,
+  "seconds": 4.179,
+  "log": "evidence/attempts/0092-FiniteNativeArithmetic.log",
+  "log_sha256": "4abe6562a374c27fce7939069d900fbda15afff16297e07ef34c099fba2e835d"
+}
+QuantTransposeFinite.nativeByteResult: definition does not reference [QuantTransposeFinite.applyNativeWrites] — non-circular ✓
+QuantTransposeFinite.native_read_congr: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+QuantTransposeFinite.native_read_outside_output: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+QuantTransposeFinite.writes_pointwise: axiom footprint ⊆ standard base ✓  ([propext])
+QuantTransposeFinite.writes_outside_output: axiom footprint ⊆ standard base ✓  ([propext])
+
+{
+  "source": "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeBytes.lean",
+  "source_sha256": "94bd17da5149d9be639fb88f956fa28365e1cb6a0b0e8e1f4c6b8a016057768e",
+  "source_unchanged": true,
+  "command": [
+    "/tmp/veritile-lean-toolchain/bin/lean",
+    "--root=/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip",
+    "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeBytes.lean",
+    "-o",
+    "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeBytes.olean"
+  ],
+  "LEAN_PATH": "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean",
+  "exit_code": 0,
+  "seconds": 4.148,
+  "log": "evidence/attempts/0093-FiniteNativeBytes.log",
+  "log_sha256": "1f66b2104f0e6649865953c962fa46b036691d669e4951cb27472cbf3c9f6876"
+}
+QuantTransposeFinite.nativeProgramPlan: definition does not reference [QuantTransposeFinite.executeNativeProgram,
+ QuantTransposeFinite.executeNativeTileWrites,
+ QuantTransposeFinite.applyNativeWrites,
+ QuantTransposeFinite.source,
+ QuantTransposeFinite.Expr.eval] — non-circular ✓
+QuantTransposeFinite.native_program_correspondence: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+QuantTransposeFinite.native_program_plan_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+QuantTransposeFinite.native_program_write_bounds: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+
+{
+  "source": "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeProgram.lean",
+  "source_sha256": "29362e83d9f417eb31ffc60a0c2e4ec12ac8e734b62383c1d0e255e6f30dbff5",
+  "source_unchanged": true,
+  "command": [
+    "/tmp/veritile-lean-toolchain/bin/lean",
+    "--root=/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip",
+    "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeProgram.lean",
+    "-o",
+    "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeProgram.olean"
+  ],
+  "LEAN_PATH": "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean",
+  "exit_code": 0,
+  "seconds": 4.645,
+  "log": "evidence/attempts/0094-FiniteNativeProgram.log",
+  "log_sha256": "e5f3fc186654b504e375eee53f766661c0a357b7293b3f960ee82e5bb7caceb3"
+}
+QuantTransposeFinite.nativeTrialsPlan: definition does not reference [QuantTransposeFinite.executeNativeTrials,
+ QuantTransposeFinite.executeNativeLaunch,
+ QuantTransposeFinite.executeNativeGrid,
+ QuantTransposeFinite.executeNativeProgram,
+ QuantTransposeFinite.applyNativeWrites,
+ QuantTransposeFinite.source,
+ QuantTransposeFinite.Expr.eval] — non-circular ✓
+QuantTransposeFinite.native_grid_correspondence: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+QuantTransposeFinite.native_trials_correspondence: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+QuantTransposeFinite.native_trials_write_bounds: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+
+{
+  "source": "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeGrid.lean",
+  "source_sha256": "2155fbcf75a2d95010bc4a59944c49658f6bee12f7b4a6519b21a2830a1969bc",
+  "source_unchanged": true,
+  "command": [
+    "/tmp/veritile-lean-toolchain/bin/lean",
+    "--root=/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip",
+    "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeGrid.lean",
+    "-o",
+    "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeGrid.olean"
+  ],
+  "LEAN_PATH": "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean",
+  "exit_code": 0,
+  "seconds": 4.075,
+  "log": "evidence/attempts/0095-FiniteNativeGrid.log",
+  "log_sha256": "94b466ea86dc66be4dbc445d3ec8add064bf47a22e112696c06ccd80299d5a9c"
+}
+QuantTransposeFinite.NativeResult: definition does not reference [QuantTransposeFinite.executeNativeAPI,
+ QuantTransposeFinite.executeNativeHost,
+ QuantTransposeFinite.executeNativeTrials,
+ QuantTransposeFinite.executeNativeGrid,
+ QuantTransposeFinite.executeNativeProgram,
+ QuantTransposeFinite.source,
+ QuantTransposeFinite.Expr.eval] — non-circular ✓
+QuantTransposeFinite.native_host_all_outcomes: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+QuantTransposeFinite.native_cpu_pointer_before_launch: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+QuantTransposeFinite.native_context_before_grid: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+QuantTransposeFinite.native_admitted_route: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+QuantTransposeFinite.native_grid_rejection: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+QuantTransposeFinite.native_small_dtype_inventory: axiom footprint ⊆ standard base ✓  ([propext])
+QuantTransposeFinite.native_grid_before_pointer: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+QuantTransposeFinite.cpu_oversized_grid_first_error: axiom footprint ⊆ standard base ✓  ([propext])
+QuantTransposeFinite.cpu_small_grid_pointer_error: axiom footprint ⊆ standard base ✓  ([propext])
+QuantTransposeFinite.cpu_half_compilation_before_oversized_grid: axiom footprint ⊆ standard base ✓  ([propext])
+QuantTransposeFinite.native_rejected_source_outcome: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+
+{
+  "source": "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeHost.lean",
+  "source_sha256": "51f5bbd5e5d8eadb7807a52a398e52af4e966b5e3927562fdf760c6c55c2e165",
+  "source_unchanged": true,
+  "command": [
+    "/tmp/veritile-lean-toolchain/bin/lean",
+    "--root=/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip",
+    "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeHost.lean",
+    "-o",
+    "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeHost.olean"
+  ],
+  "LEAN_PATH": "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean",
+  "exit_code": 0,
+  "seconds": 5.302,
+  "log": "evidence/attempts/0096-FiniteNativeHost.log",
+  "log_sha256": "e17ba4ded8fa061aa63176b82f53d1ab3b3d42ab3d7815e3d612cb1ab2cf4ec1"
+}
+QuantTransposeFinite.native_returned_scalar_bytes: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+QuantTransposeFinite.native_grid_logical: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
+QuantTransposeFinite.native_trials_logical: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
+QuantTransposeFinite.native_logical_transpose_refinement: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+QuantTransposeFinite.loaded_at_refines: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+QuantTransposeFinite.native_program_logical: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+QuantTransposeFinite.native_read_of_bytes: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+QuantTransposeFinite.native_host_input_word: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+QuantTransposeFinite.native_load_tile_members: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+QuantTransposeFinite.native_tile_write_members: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+
+{
+  "source": "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeRefinement.lean",
+  "source_sha256": "46c651eebf07a7f2cbaed59a47009ab0d0ef9490cb69ed220bf4d49327f96072",
+  "source_unchanged": true,
+  "command": [
+    "/tmp/veritile-lean-toolchain/bin/lean",
+    "--root=/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip",
+    "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeRefinement.lean",
+    "-o",
+    "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeRefinement.olean"
+  ],
+  "LEAN_PATH": "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean",
+  "exit_code": 0,
+  "seconds": 5.152,
+  "log": "evidence/attempts/0097-FiniteNativeRefinement.log",
+  "log_sha256": "8a68e6f6dd581198043ab38868fe89653fd49e5b534fa025a0efe827b168e4b8"
+}
+QuantTransposeFinite.singleton_all_masks: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+QuantTransposeFinite.safe_wrapped_active_addresses: axiom footprint ⊆ standard base ✓  ([propext])
+QuantTransposeFinite.active_wrapping_not_refinement: axiom footprint ⊆ standard base ✓  ([propext])
+QuantTransposeFinite.unsafe_wrapped_active_address: axiom footprint ⊆ standard base ✓  ([propext])
+
+{
+  "source": "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeExamples.lean",
+  "source_sha256": "698419ada4afc340b740c0afa4efd9b73bf789de1f5a210772435e7fbdc099c9",
+  "source_unchanged": true,
+  "command": [
+    "/tmp/veritile-lean-toolchain/bin/lean",
+    "--root=/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip",
+    "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeExamples.lean",
+    "-o",
+    "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeExamples.olean"
+  ],
+  "LEAN_PATH": "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean",
+  "exit_code": 0,
+  "seconds": 4.444,
+  "log": "evidence/attempts/0098-FiniteNativeExamples.log",
+  "log_sha256": "3245b924580dabed06ad17e2213c0b7341a88f556a13ea332e662fe51eb6fb20"
+}
+QuantTransposeFinite.quant_transpose_finite_acceptance: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+
+{
+  "source": "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/FiniteAcceptance.lean",
+  "source_sha256": "53bd9a744b517298613f4434af14f791f2539303bc092e9cb3d6490b4ef54665",
+  "source_unchanged": true,
+  "command": [
+    "/tmp/veritile-lean-toolchain/bin/lean",
+    "--root=/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip",
+    "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/FiniteAcceptance.lean",
+    "-o",
+    "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip/bench/tritonbench_g/quant_transpose_kernel/FiniteAcceptance.olean"
+  ],
+  "LEAN_PATH": "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision2-wip:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean",
+  "exit_code": 0,
+  "seconds": 3.99,
+  "log": "evidence/attempts/0099-FiniteAcceptance.log",
+  "log_sha256": "c3210dcc5358d677e6c08dc482de36173ac684265b16953b54e8ecd47d187bab"
+}

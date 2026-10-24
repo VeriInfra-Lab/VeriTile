@@ -1,0 +1,38 @@
+/tmp/veritile-standardization-20261015/triton-mul2-finite-acceptance-wip/bench/tritonbench_g/triton_mul2/Proofs/FiniteRefinement.lean:37:21: error: unsolved goals
+case cons
+b : Numerics
+d : Storage
+p : Layout
+block pid : ℕ
+rest : List ℕ
+ih : ∀ (state : State), executeGrid b d p (2 ^ 31) block rest state = Except.ok state
+state : State
+⊢ (do
+      let next ← executeProgram b d p 2147483648 block pid state
+      executeGrid b d p 2147483648 block rest next) =
+    Except.ok state
+/tmp/veritile-standardization-20261015/triton-mul2-finite-acceptance-wip/bench/tritonbench_g/triton_mul2/Proofs/FiniteRefinement.lean:37:42: warning: This simp argument is unused:
+  minimum_program_no_access
+
+Hint: Omit it from the simp argument list.
+  simp [̵e̵x̵e̵c̵u̵t̵e̵G̵r̵i̵d̵,̵m̵i̵n̵i̵m̵u̵m̵_̵p̵r̵o̵g̵r̵a̵m̵_̵n̵o̵_̵a̵c̵c̵e̵s̵s̵,̵i̵h̵]̵[̲e̲x̲e̲c̲u̲t̲e̲G̲r̲i̲d̲,̲ ̲i̲h̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/triton-mul2-finite-acceptance-wip/bench/tritonbench_g/triton_mul2/Proofs/FiniteRefinement.lean:37:68: warning: This simp argument is unused:
+  ih
+
+Hint: Omit it from the simp argument list.
+  simp [executeGrid, ̲minimum_program_no_access,̵i̵h̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+TritonMul2Finite.LaunchResult: definition does not reference [TritonMul2Finite.sourceLaunch,
+ TritonMul2Finite.sourceGrid,
+ TritonMul2Finite.executeGrid,
+ TritonMul2Finite.executeProgram,
+ TritonMul2Finite.applyWrites,
+ TritonMul2Finite.source,
+ TritonMul2Finite.Expr.eval] — non-circular ✓
+TritonMul2Finite.minimum_size_all_masked: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+/tmp/veritile-standardization-20261015/triton-mul2-finite-acceptance-wip/bench/tritonbench_g/triton_mul2/Proofs/FiniteRefinement.lean:70:0: error: TritonMul2Finite.minimum_launch_no_access: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+TritonMul2Finite.zero_grid_no_access: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+TritonMul2Finite.successful_launch_result: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])

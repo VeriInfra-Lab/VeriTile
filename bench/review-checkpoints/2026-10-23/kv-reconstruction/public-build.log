@@ -1,0 +1,385 @@
+⚠ [8264/8326] Replayed VeriTile.Triton.DSL.Expansion.Common
+warning: VeriTile/Triton/DSL/Expansion/Common.lean:177:29: unused variable `ctx`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+ℹ [8291/8326] Replayed VeriTile.Triton.Float.ProgramEquivalenceSyntax
+info: VeriTile/Triton/Float/ProgramEquivalenceSyntax.lean:93:0: VeriTile.Triton.FP.Structural.ProgramIO.Implementation.of_equivalentOn: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: VeriTile/Triton/Float/ProgramEquivalenceSyntax.lean:94:0: VeriTile.Triton.FP.Structural.ProgramIO.Implementation.of_equivalentOnCells: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+ℹ [8292/8326] Replayed VeriTile.Triton.Float.ScalarBackend
+info: VeriTile/Triton/Float/ScalarBackend.lean:106:0: VeriTile.Triton.FP.Software.scalarFP32_zero: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: VeriTile/Triton/Float/ScalarBackend.lean:107:0: VeriTile.Triton.FP.Software.scalarFP32_one: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+info: VeriTile/Triton/Float/ScalarBackend.lean:108:0: VeriTile.Triton.FP.Software.scalarFP32_add: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+info: VeriTile/Triton/Float/ScalarBackend.lean:109:0: VeriTile.Triton.FP.Software.scalarFP32_mul: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+info: VeriTile/Triton/Float/ScalarBackend.lean:110:0: VeriTile.Triton.FP.Software.scalarFP32_fma: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+info: VeriTile/Triton/Float/ScalarBackend.lean:111:0: VeriTile.Triton.FP.Software.scalarFP32_neg: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+info: VeriTile/Triton/Float/ScalarBackend.lean:112:0: VeriTile.Triton.FP.Software.scalarFP32_abs: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+info: VeriTile/Triton/Float/ScalarBackend.lean:113:0: VeriTile.Triton.FP.Software.scalarFP32_cast_same: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+ℹ [8293/8326] Replayed VeriTile.Triton.Float.IntegerConversion
+info: VeriTile/Triton/Float/IntegerConversion.lean:140:0: VeriTile.Triton.FP.IntegerConversion.truncate_spec: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: VeriTile/Triton/Float/IntegerConversion.lean:141:0: VeriTile.Triton.FP.IntegerConversion.truncate_unique: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: VeriTile/Triton/Float/IntegerConversion.lean:142:0: VeriTile.Triton.FP.IntegerConversion.toSigned_spec: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: VeriTile/Triton/Float/IntegerConversion.lean:143:0: VeriTile.Triton.FP.IntegerConversion.toUnsigned_spec: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: VeriTile/Triton/Float/IntegerConversion.lean:144:0: VeriTile.Triton.FP.IntegerConversion.fp32Backend_signed: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: VeriTile/Triton/Float/IntegerConversion.lean:145:0: VeriTile.Triton.FP.IntegerConversion.fp32Backend_unsigned: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+ℹ [8294/8326] Replayed bench.repairs.tritonbench_g.kv_cache_filling.Proofs.PtxCast
+info: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/PtxCast.lean:145:0: VeriTile.Bench.Repairs.KvCacheFilling.PtxCast.cvtU16_spec: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/PtxCast.lean:146:0: VeriTile.Bench.Repairs.KvCacheFilling.PtxCast.cvtU16_bound: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/PtxCast.lean:147:0: VeriTile.Bench.Repairs.KvCacheFilling.PtxCast.cvtU16_unique: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/PtxCast.lean:148:0: VeriTile.Bench.Repairs.KvCacheFilling.PtxCast.nan: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/PtxCast.lean:149:0: VeriTile.Bench.Repairs.KvCacheFilling.PtxCast.infinity: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/PtxCast.lean:150:0: VeriTile.Bench.Repairs.KvCacheFilling.PtxCast.agrees_on_defined_u8: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/PtxCast.lean:151:0: VeriTile.Bench.Repairs.KvCacheFilling.PtxCast.finite_near_zero: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/PtxCast.lean:152:0: VeriTile.Bench.Repairs.KvCacheFilling.PtxCast.pack8: axiom footprint ⊆ standard base ✓  ([propext])
+info: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/PtxCast.lean:153:0: VeriTile.Bench.Repairs.KvCacheFilling.PtxCast.pack16_low8: axiom footprint ⊆ standard base ✓  ([propext])
+info: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/PtxCast.lean:154:0: VeriTile.Bench.Repairs.KvCacheFilling.PtxCast.boundary_examples: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/PtxCast.lean:155:0: VeriTile.Bench.Repairs.KvCacheFilling.PtxCast.backend_u8: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+⚠ [8303/8326] Replayed bench.repairs.tritonbench_g.kv_cache_filling.Proofs.Real
+warning: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/Real.lean:121:79: 'rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/Real.lean:121:79: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/Real.lean:120:74: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [8304/8326] Replayed bench.repairs.tritonbench_g.kv_cache_filling.Proofs.QuantReal
+warning: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantReal.lean:95:29: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+warning: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantReal.lean:99:29: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+warning: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantReal.lean:111:27: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+warning: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantReal.lean:115:27: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+info: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantReal.lean:131:0: VeriTile.Bench.Repairs.KvCacheFilling.QuantReal.pair_pad_extrema: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantReal.lean:132:0: VeriTile.Bench.Repairs.KvCacheFilling.QuantReal.code_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantReal.lean:177:0: VeriTile.Bench.Repairs.KvCacheFilling.SharedTarget.real_value_independent: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+⚠ [8305/8326] Replayed bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.IO
+warning: bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/IO.lean:146:45: This simp argument is unused:
+  Interface.outputs
+
+Hint: Omit it from the simp argument list.
+  simp [Interface.inputs,̵I̵n̵t̵e̵r̵f̵a̵c̵e̵.̵o̵u̵t̵p̵u̵t̵s̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/IO.lean:146:107: This simp argument is unused:
+  Interface.outputs
+
+Hint: Omit it from the simp argument list.
+  simp [Interface.inputs,̵I̵n̵t̵e̵r̵f̵a̵c̵e̵.̵o̵u̵t̵p̵u̵t̵s̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/IO.lean:147:44: This simp argument is unused:
+  Interface.outputs
+
+Hint: Omit it from the simp argument list.
+  simp [Interface.inputs,̵I̵n̵t̵e̵r̵f̵a̵c̵e̵.̵o̵u̵t̵p̵u̵t̵s̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/IO.lean:147:119: This simp argument is unused:
+  Interface.outputs
+
+Hint: Omit it from the simp argument list.
+  simp [Interface.inputs,̵I̵n̵t̵e̵r̵f̵a̵c̵e̵.̵o̵u̵t̵p̵u̵t̵s̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/IO.lean:164:37: This simp argument is unused:
+  Interface.inputs
+
+Hint: Omit it from the simp argument list.
+  simp [Interface.i̵n̵p̵u̵t̵s̵,̵I̵n̵t̵e̵r̵f̵a̵c̵e̵.̵outputs]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/IO.lean:164:112: This simp argument is unused:
+  Interface.inputs
+
+Hint: Omit it from the simp argument list.
+  simp [Interface.i̵n̵p̵u̵t̵s̵,̵I̵n̵t̵e̵r̵f̵a̵c̵e̵.̵outputs]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/IO.lean:165:27: This simp argument is unused:
+  Interface.inputs
+
+Hint: Omit it from the simp argument list.
+  simp [Interface.i̵n̵p̵u̵t̵s̵,̵I̵n̵t̵e̵r̵f̵a̵c̵e̵.̵outputs]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/IO.lean:165:102: This simp argument is unused:
+  Interface.inputs
+
+Hint: Omit it from the simp argument list.
+  simp [Interface.i̵n̵p̵u̵t̵s̵,̵I̵n̵t̵e̵r̵f̵a̵c̵e̵.̵outputs]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ℹ [8308/8326] Replayed bench.repairs.tritonbench_g.kv_cache_filling.Proofs.CopyExecution
+info: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/CopyExecution.lean:163:0: VeriTile.Bench.Repairs.KvCacheFilling.CopyExecution.execute: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/CopyExecution.lean:164:0: VeriTile.Bench.Repairs.KvCacheFilling.CopyExecution.result_read: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/CopyExecution.lean:165:0: VeriTile.Bench.Repairs.KvCacheFilling.CopyExecution.result_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/CopyExecution.lean:166:0: VeriTile.Bench.Repairs.KvCacheFilling.CopyExecution.same_result: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+⚠ [8309/8326] Replayed bench.repairs.tritonbench_g.kv_cache_filling.Proofs.QuantExecution
+warning: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantExecution.lean:43:44: unused variable `a`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantExecution.lean:47:6: unused variable `kp`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantExecution.lean:48:6: unused variable `vp`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantExecution.lean:265:12: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantExecution.lean:265:2: 'all_goals rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+info: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantExecution.lean:296:0: VeriTile.Bench.Repairs.KvCacheFilling.QuantExecution.execute8: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantExecution.lean:298:0: VeriTile.Bench.Repairs.KvCacheFilling.QuantExecution.value8_execute: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantExecution.lean:299:0: VeriTile.Bench.Repairs.KvCacheFilling.QuantExecution.stores8_execute: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantExecution.lean:301:0: VeriTile.Bench.Repairs.KvCacheFilling.QuantExecution.key8_execute: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantExecution.lean:303:0: VeriTile.Bench.Repairs.KvCacheFilling.QuantExecution.load8_execute: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantExecution.lean:305:0: VeriTile.Bench.Repairs.KvCacheFilling.QuantExecution.scalarLoads8_execute: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantExecution.lean:307:0: VeriTile.Bench.Repairs.KvCacheFilling.QuantExecution.inputs_execute: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+⚠ [8310/8326] Replayed bench.repairs.tritonbench_g.kv_cache_filling.Proofs.QuantExecution4
+warning: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantExecution4.lean:62:6: unused variable `v1`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantExecution4.lean:63:6: unused variable `v2`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantExecution4.lean:81:6: unused variable `k1`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantExecution4.lean:82:6: unused variable `k2`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantExecution4.lean:135:12: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantExecution4.lean:135:2: 'all_goals rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+info: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantExecution4.lean:137:0: VeriTile.Bench.Repairs.KvCacheFilling.QuantExecution.load4_execute: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+warning: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantExecution4.lean:154:12: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantExecution4.lean:155:12: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantExecution4.lean:154:2: 'all_goals norm_num' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantExecution4.lean:155:2: 'all_goals rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+info: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantExecution4.lean:157:0: VeriTile.Bench.Repairs.KvCacheFilling.QuantExecution.reduce4_execute: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+warning: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantExecution4.lean:160:35: unused variable `hk`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantExecution4.lean:160:51: unused variable `hv`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+info: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantExecution4.lean:177:0: VeriTile.Bench.Repairs.KvCacheFilling.QuantExecution.key4_execute: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+warning: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantExecution4.lean:180:35: unused variable `hk`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantExecution4.lean:180:51: unused variable `hv`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+info: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantExecution4.lean:197:0: VeriTile.Bench.Repairs.KvCacheFilling.QuantExecution.value4_execute: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+warning: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantExecution4.lean:200:35: unused variable `hk`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantExecution4.lean:200:51: unused variable `hv`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+info: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantExecution4.lean:217:0: VeriTile.Bench.Repairs.KvCacheFilling.QuantExecution.pack4_execute: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+warning: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantExecution4.lean:235:12: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantExecution4.lean:235:2: 'all_goals rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+info: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantExecution4.lean:272:0: VeriTile.Bench.Repairs.KvCacheFilling.QuantExecution.stores4_execute: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantExecution4.lean:273:0: VeriTile.Bench.Repairs.KvCacheFilling.QuantExecution.execute4: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+ℹ [8311/8326] Replayed bench.repairs.tritonbench_g.kv_cache_filling.Proofs.QuantStores
+info: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantStores.lean:75:0: VeriTile.Bench.Repairs.KvCacheFilling.QuantStores.scatter_read: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantStores.lean:76:0: VeriTile.Bench.Repairs.KvCacheFilling.QuantStores.scatter_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+info: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantStores.lean:77:0: VeriTile.Bench.Repairs.KvCacheFilling.QuantStores.metadata_read: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+info: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantStores.lean:78:0: VeriTile.Bench.Repairs.KvCacheFilling.QuantStores.metadata_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+ℹ [8312/8326] Replayed bench.repairs.tritonbench_g.kv_cache_filling.Proofs.QuantValues
+info: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantValues.lean:68:0: VeriTile.Bench.Repairs.KvCacheFilling.QuantValues.observes_finished: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantValues.lean:69:0: VeriTile.Bench.Repairs.KvCacheFilling.QuantValues.finished_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+info: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantValues.lean:70:0: VeriTile.Bench.Repairs.KvCacheFilling.QuantValues.observe8: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantValues.lean:71:0: VeriTile.Bench.Repairs.KvCacheFilling.QuantValues.observe4: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+ℹ [8313/8326] Replayed bench.repairs.tritonbench_g.kv_cache_filling.Proofs.SharedExecution
+info: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/SharedExecution.lean:43:0: VeriTile.Bench.Repairs.KvCacheFilling.SharedExecution.executed: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+ℹ [8314/8326] Replayed bench.repairs.tritonbench_g.kv_cache_filling.Proofs.SharedReadback
+info: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/SharedReadback.lean:49:0: VeriTile.Bench.Repairs.KvCacheFilling.SharedReadback.frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+ℹ [8315/8326] Replayed bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.Proofs.AccessSafety
+info: bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Proofs/AccessSafety.lean:115:0: VeriTile.Bench.Repairs.KvCacheFilling.IOSafety.copy: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Proofs/AccessSafety.lean:116:0: VeriTile.Bench.Repairs.KvCacheFilling.IOSafety.quant8: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Proofs/AccessSafety.lean:117:0: VeriTile.Bench.Repairs.KvCacheFilling.IOSafety.quant4: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+ℹ [8318/8326] Replayed bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.Proofs.IOCorrect
+info: bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Proofs/IOCorrect.lean:59:0: VeriTile.Bench.Repairs.KvCacheFilling.Interface.implements: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+ℹ [8319/8326] Replayed bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.Proofs.IOReal
+info: bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Proofs/IOReal.lean:19:0: VeriTile.Bench.Repairs.KvCacheFilling.Interface.real_implements: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+ℹ [8320/8326] Replayed bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.Proofs.LogicalIO
+info: bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Proofs/LogicalIO.lean:22:0: VeriTile.Bench.Repairs.KvCacheFilling.LogicalIO.judgment_iff: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Proofs/LogicalIO.lean:23:0: VeriTile.Bench.Repairs.KvCacheFilling.LogicalIO.real_implements: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+ℹ [8322/8326] Replayed bench.repairs.tritonbench_g.kv_cache_filling.Proofs.NativeProfile
+info: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/NativeProfile.lean:111:0: VeriTile.Bench.Repairs.KvCacheFilling.NativeProfile.source_literals: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/NativeProfile.lean:112:0: VeriTile.Bench.Repairs.KvCacheFilling.NativeProfile.quant_source: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/NativeProfile.lean:113:0: VeriTile.Bench.Repairs.KvCacheFilling.NativeProfile.scalarBackend_div: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/NativeProfile.lean:114:0: VeriTile.Bench.Repairs.KvCacheFilling.NativeProfile.scalarBackend_cast: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/NativeProfile.lean:115:0: VeriTile.Bench.Repairs.KvCacheFilling.NativeProfile.code: definition does not reference [VeriTile.Bench.Repairs.KvCacheFilling.sourceQuant,
+ VeriTile.Bench.Repairs.KvCacheFilling.runQuantSource] — non-circular ✓
+ℹ [8323/8326] Replayed bench.repairs.tritonbench_g.kv_cache_filling.Proofs.QuantNative
+info: bench/repairs/tritonbench_g/kv_cache_filling/Proofs/QuantNative.lean:42:0: VeriTile.Bench.Repairs.KvCacheFilling.QuantNative.native_primitives: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+ℹ [8324/8326] Replayed bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.Proofs.IONative
+info: bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Proofs/IONative.lean:15:0: VeriTile.Bench.Repairs.KvCacheFilling.Interface.equivalent: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+ℹ [8325/8326] Replayed bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.FPEquiv
+info: bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/FPEquiv.lean:24:0: FP assumptions used by kernel_native:
+info: bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/FPEquiv.lean:24:0: none
+info: bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/FPEquiv.lean:25:0: VeriTile.Bench.Repairs.KvCacheFilling.FPEquiv.kernel_native: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+ℹ [8326/8326] Built bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.Correct (5.8s)
+info: bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Correct.lean:53:0: VeriTile.Bench.Repairs.KvCacheFilling.Correct.formula: definition does not reference [VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.KvCacheFilling.Shared.original,
+ VeriTile.Bench.Repairs.KvCacheFilling.Shared.candidate,
+ VeriTile.Bench.Repairs.KvCacheFilling.SharedTarget.value,
+ VeriTile.Bench.Repairs.KvCacheFilling.QuantProfile.row4,
+ VeriTile.Bench.Repairs.KvCacheFilling.QuantProfile.row8] — non-circular ✓
+info: bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Correct.lean:55:0: VeriTile.Bench.Repairs.KvCacheFilling.Correct.whole_shared_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Correct.lean:56:0: VeriTile.Bench.Repairs.KvCacheFilling.Correct.whole_shared_real: statement's project surface ⊆ allowlist ✓
+Build completed successfully (8326 jobs).

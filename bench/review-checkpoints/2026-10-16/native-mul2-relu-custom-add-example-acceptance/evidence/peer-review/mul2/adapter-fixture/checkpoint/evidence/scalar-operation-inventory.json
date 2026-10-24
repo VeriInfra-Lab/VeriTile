@@ -1,0 +1,139 @@
+{
+  "task": "triton_mul2",
+  "source": "bench/tritonbench_g/triton_mul2/triton_mul2.py",
+  "source_sha256": "6a7ae6ed4f9c83c4206b78778630c25b72fd10cb785d01a85e1b9c0d19f46238",
+  "scalar_module": "bench/tritonbench_g/triton_mul2/Proofs/FiniteScalar.lean",
+  "scalar_sha256": "9cc819949f3d7761c6ff8dfefd5d45818f6a062c49e989bd3beab38afd8a84a3",
+  "profiles": [
+    {
+      "dtype": "bool",
+      "compute": "int32",
+      "numerical_operations": [],
+      "structural": "rawbyte!=0 then i32 multiply2 then rawbyte0/2"
+    },
+    {
+      "dtype": "uint8",
+      "compute": "uint8",
+      "numerical_operations": [],
+      "structural": "modulo storage-width integer multiply2"
+    },
+    {
+      "dtype": "int8",
+      "compute": "int8",
+      "numerical_operations": [],
+      "structural": "modulo storage-width integer multiply2"
+    },
+    {
+      "dtype": "int16",
+      "compute": "int16",
+      "numerical_operations": [],
+      "structural": "modulo storage-width integer multiply2"
+    },
+    {
+      "dtype": "uint16",
+      "compute": "uint16",
+      "numerical_operations": [],
+      "structural": "modulo storage-width integer multiply2"
+    },
+    {
+      "dtype": "int32",
+      "compute": "int32",
+      "numerical_operations": [],
+      "structural": "modulo storage-width integer multiply2"
+    },
+    {
+      "dtype": "uint32",
+      "compute": "uint32",
+      "numerical_operations": [],
+      "structural": "modulo storage-width integer multiply2"
+    },
+    {
+      "dtype": "int64",
+      "compute": "int64",
+      "numerical_operations": [],
+      "structural": "modulo storage-width integer multiply2"
+    },
+    {
+      "dtype": "uint64",
+      "compute": "uint64",
+      "numerical_operations": [],
+      "structural": "modulo storage-width integer multiply2"
+    },
+    {
+      "dtype": "float16",
+      "compute": "fp16",
+      "numerical_operations": [
+        {
+          "callback": "TritonMul2Finite.Numerics.multiply",
+          "format": "fp16",
+          "operation": "multiply",
+          "input_types": [
+            "fp16",
+            "fp16"
+          ],
+          "output_type": "fp16",
+          "literal_left_bits": 16384
+        }
+      ],
+      "structural": "storage-width float multiply with exact literal2 bits"
+    },
+    {
+      "dtype": "bfloat16",
+      "compute": "bf16",
+      "numerical_operations": [
+        {
+          "callback": "TritonMul2Finite.Numerics.multiply",
+          "format": "bf16",
+          "operation": "multiply",
+          "input_types": [
+            "bf16",
+            "bf16"
+          ],
+          "output_type": "bf16",
+          "literal_left_bits": 16384
+        }
+      ],
+      "structural": "storage-width float multiply with exact literal2 bits"
+    },
+    {
+      "dtype": "float32",
+      "compute": "fp32",
+      "numerical_operations": [
+        {
+          "callback": "TritonMul2Finite.Numerics.multiply",
+          "format": "fp32",
+          "operation": "multiply",
+          "input_types": [
+            "fp32",
+            "fp32"
+          ],
+          "output_type": "fp32",
+          "literal_left_bits": 1073741824
+        }
+      ],
+      "structural": "storage-width float multiply with exact literal2 bits"
+    },
+    {
+      "dtype": "float64",
+      "compute": "fp64",
+      "numerical_operations": [
+        {
+          "callback": "TritonMul2Finite.Numerics.multiply",
+          "format": "fp64",
+          "operation": "multiply",
+          "input_types": [
+            "fp64",
+            "fp64"
+          ],
+          "output_type": "fp64",
+          "literal_left_bits": 4611686018427387904
+        }
+      ],
+      "structural": "storage-width float multiply with exact literal2 bits"
+    }
+  ],
+  "float_to_integer_conversions": 0,
+  "all_admitted_storage_bit_patterns_defined": true,
+  "integer_and_bool_numerical_deferrals": 0,
+  "native_scalar_validation": false
+}

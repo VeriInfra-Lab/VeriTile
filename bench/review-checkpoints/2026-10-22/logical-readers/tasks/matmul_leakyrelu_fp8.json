@@ -1,0 +1,119 @@
+{
+  "schema": 1,
+  "task": "matmul_leakyrelu_fp8",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue09/result.json",
+    "sha256": "d3044f04d5d54ca9192fc48af4b7e45f6ff6fef98b03ff13785e6812e7152b4f",
+    "task_index": 11
+  },
+  "finding": "The historical fp8 reader still selected raw scalar-cast channels in its matrix formula.",
+  "resolution": "Actual finite A/B matrices and logical finite output, explicit matrix sum and optional activation; existing selected FP32 source/model laws retained.",
+  "mathematical_target": [
+    {
+      "name": "kernel_correct",
+      "statement": "VeriTile.Spec.Real (ReaderIO.view M g b ⊨ fun xs r c =>\n      let value"
+    }
+  ],
+  "conditions_and_scope": {
+    "actual_scope": "Complete selected grouped source grid, K=0 and both activation branches, every logical output and exact exterior frame; selected source actually reads raw FP32 despite the historical fp8 task name.",
+    "retained_conditions": [
+      "Execution.ScalarLaws M realOps and KernelBuffers.Layout g b remain public. These bind the explicit selected scalar model/source IO and physical layout, not a desired output.",
+      "Original geometry, arbitrary valid view strides, input/output region separation, typed binding and bounds remain; no native positiveK auxiliary condition is added to Real correctness.",
+      "Contract retains signed ABI/storage metadata and actual Tensor alias reader scope."
+    ],
+    "parameter_audit": "All original specification parameter prefixes equal modulo whitespace; see parameter-audit.json."
+  },
+  "proof_connection": "ReaderProof.target_eq/judgment_iff preserve exact complete IO.matmulIO under ScalarLaws and KernelBuffers.Layout; no precision claim inferred from historical filename.",
+  "fp_review": {
+    "source": "unchanged byte-for-byte from before snapshot",
+    "pair": "original (Pair.fp32Algebra cfg rest) ops g b layout vs rightSlope with only FP32 activation slope multiplication operand order reversed.",
+    "scope": "Complete grouped grid, all original geometry/layout premises and FP32 payloads, ordered live dot model and FP16 output conversion, both safe successful schedules, all outputs and dual exact frames.",
+    "interpretation": "Original typed operations, precision, conversions, order, domains, schedule and frame remain. Empty experimental R may rely on the fixed strict software theory; no universal opaque-model or hardware equality is inferred."
+  },
+  "numerical_dependencies": {
+    "new_rule_or_experiment_count": 0,
+    "actual_FP_dependencies": "R=[]; shared strict concrete-model FP32 multiplication commutativity, including exceptional words. Other ordered dot/cast primitives remain explicit model parameters. No hardware-conformance or numerical relaxation claim is added.",
+    "current_main_experimental_rule_instances": [],
+    "retained_pending_experiments": [],
+    "strict_certificates": "Shared strict FP32 multiplication commutativity for all words, including NaNs/infinities/signed zeros, in its selected software model."
+  },
+  "previous_formula_scope": {
+    "mathematical_target": "value=sum_{k<K} A[i,k]*B[k,j]; optional Leaky ReLU with slope 1/100 for negative values.",
+    "required_conditions": [
+      "Execution.ScalarLaws M realOps and KernelBuffers.Layout g b remain public. These bind the explicit selected scalar model/source IO and physical layout, not a desired output.",
+      "Original geometry, arbitrary valid view strides, input/output region separation, typed binding and bounds remain; no native positiveK auxiliary condition is added to Real correctness.",
+      "Contract retains signed ABI/storage metadata and actual Tensor alias reader scope."
+    ],
+    "scope": "Complete selected grouped source grid, K=0 and both activation branches, every logical output and exact exterior frame; selected source actually reads raw FP32 despite the historical fp8 task name.",
+    "canonical_connection": [
+      "The displayed formula is definitionally Target.mathematical through Real.activate; the main specification directly applies IOResults.real, which connects source_run_real, independent Real.output and FormulaCongruence logical inputs using IOImplements safety/run/output/frame."
+    ],
+    "fp_program_pair": {
+      "fp_pair": "original (Pair.fp32Algebra cfg rest) ops g b layout vs rightSlope with only FP32 activation slope multiplication operand order reversed.",
+      "fp_scope": "Complete grouped grid, all original geometry/layout premises and FP32 payloads, ordered live dot model and FP16 output conversion, both safe successful schedules, all outputs and dual exact frames."
+    },
+    "numerical_dependencies": "R=[]; shared strict concrete-model FP32 multiplication commutativity, including exceptional words. Other ordered dot/cast primitives remain explicit model parameters. No hardware-conformance or numerical relaxation claim is added."
+  },
+  "verification": [
+    {
+      "kind": "validate_current_targeted_compiler_receipts_and_unchanged_FP_Contract_objects",
+      "command": [
+        "python",
+        ".veritile-cache/logical-reader-review-20261022/queue09/verify-receipts.py"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue09/verified-receipts.log",
+      "log_sha256": "8450288bd288828f3a671e55276af8205457512dc32a7d50e76db613efa1dc0f"
+    },
+    {
+      "kind": "joint_import_36_selected_public_entries",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue09/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue09/Joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue09/joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "kind": "preserved_all_16_original_parameter_prefixes_modulo_whitespace",
+      "command": [
+        "python",
+        ".veritile-cache/logical-reader-review-20261022/queue09/audit-parameters.py"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue09/parameter-audit.log",
+      "log_sha256": "029e5c767dd5644931d7ec3c332990352c88ddd3c640a65fd4561d74ce27305b"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Contract.lean": "5fe984d136b5f9c39fd79cc93a0cb7a09b7a6e5853230902f80c15534a2d6cc4",
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Correct.lean": "f417247b364e7eb91eb114eb8e5d11c52747a3e94f35e60c6222c7528a47b980",
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/FPEquiv.lean": "96a584da546df93e1072a1feda66425284d30a13dc5d4e28003e675deb599b6d",
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/IO.lean": "bdcd503f9238e77eee73e5b754ea7a99f2c396e0bc5b593d9782273cdba78006",
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/LogicalIO.lean": "96aa92565db0bb2ad0c3d32a4bdc2591e9c42a8194611895cf553aedb642a92a",
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Proofs/IOResults.lean": "59da4d41a769951ad81e0fd0c5d31a6eabc08754657715535e8e935e31748287",
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Proofs/LogicalReader.lean": "7cf7b50a03440f8d67e47e815b72195098dcad64db9082df973f05c22ef8a4d5",
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Kernels.lean": "74c9b79020b44aa7d836051e38fc5c6bf49028036b2898c92f91224720213235",
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Target.lean": "6a4dc6eed0641ece9b48a5ac197f93ea1ac130d363c24eeaac12cc371efc29e3",
+    "bench/repairs/tritonbench_g/matmul_leakyrelu_fp8_scalar_cast/Proofs/PairIO.lean": "0688de597ef6ad58923f3a96868f6fcca5e0c825fa9ed555268939d828373787",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [
+    "Unchanged FP and Contract objects were reused only after exact source/receipt/object matching; joint imports passed. Internal/optional native, host and Tensor closures were not replayed; no hardware conformance or new numerical experiment is claimed."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

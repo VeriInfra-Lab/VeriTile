@@ -199,8 +199,9 @@ theorem original_runs_under_exp {α : Type} [Inhabited α] (R : Rules) (M : Alge
   exact (hva i).trans ((congrArg (Cell.mk .bf16)
     (original_values R M D hM s plans hExp xs hd' i)).trans (hvb i).symm)
 
-/-- Bind the admitted exponential and arithmetic atoms to both complete
-executions, retaining the numerical domain, bf16 outputs and memory frames. -/
+/-- Combine the fixed strict scalar theory with the admitted exponential
+and arithmetic relaxations in both complete executions, retaining the
+numerical domain, bf16 outputs and memory frames. -/
 theorem equivalent (B : Nat) (hB : 0 < B) (R : FP.Exponential.Rules) :
     FP.Scheduled.Equivalent₁ R.assumptions (stable "x" "y" B) (naive "x" "y" B) := by
   refine ⟨by simp [stable, IO₁PrivateScratch, stableIO, naiveIO],

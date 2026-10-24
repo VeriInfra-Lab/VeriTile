@@ -28,8 +28,9 @@ set_option linter.unusedSimpArgs false
 
 section Correct_without_Rounding
 
-/-- Faithful DSL port of `attention_fwd_triton1.py`'s
-`attention_fwd_kernel`.
+/-- Mathematical dtype-erased view of the complete `attention_fwd_kernel`
+quotation. The typed source and its explicit casts remain in `Kernels.lean`;
+this historical real/rounding proof uses their checked mathematical erasure.
 
 The Python kernel uses block pointers plus two constexpr gates, `STORE` and
 `IFCOND`. The `order` metadata is accepted by the DSL and erased into the same
@@ -38,7 +39,7 @@ def attention_fwd_kernel_surface
     (q k v h o : RegionName)
     (s_qh s_qt s_qd s_hh s_ht T : Nat) (scale : ℝ)
     (BT BD NT : Nat) (STORE IFCOND : Bool) :
-    ComputeKernel := triton {
+    ComputeKernel := (triton {
   i_bh = tl.program_id(0)
   b_h = tl.zeros([$(BD), $(BD)], dtype=tl.float32)
   for i in range($(0), tl.cdiv($(T), $(BT))) {
@@ -82,7 +83,7 @@ def attention_fwd_kernel_surface
 
     tl.store(p_o, (b_o).to(p_o.dtype.element_ty))
   }
-}
+}).eraseDType
 
 /-- The full Python-shaped forward surface lowers to the algorithm layer,
 including the block-pointer loop, optional H-state store, dot products, and
@@ -93,7 +94,7 @@ theorem attention_fwd_kernel_surface_toAlgorithm_supported
     (BT BD NT : Nat) (STORE IFCOND : Bool) :
     ∃ alg, (attention_fwd_kernel_surface q k v h o s_qh s_qt s_qd s_hh
       s_ht T scale BT BD NT STORE IFCOND).toAlgorithm? = Except.ok alg := by
-  simp [attention_fwd_kernel_surface, ComputeExpr.toAlgorithm?,
+  simp [attention_fwd_kernel_surface, ComputeKernel.eraseDType, ComputeExpr.toAlgorithm?,
     ComputeOp.toAlgorithm?]
 
 /-! ## Genuine closed form for the linear-attention output
@@ -457,7 +458,7 @@ theorem aft1BhTileG_zero (s : BlockState) (K V : RegionName) (s_qh BT BD : Nat) 
 
 /-- General erased loop body of `attention_fwd_kernel_surface` at the contiguous
 layout (`s_qt = BD`, `s_qd = 1`, K strides `(1, BD)`). Checked against the
-lowered surface by `rfl` in `attention_fwd_triton1_body_splitG`. -/
+dtype-erased surface in `attention_fwd_triton1_body_splitG`. -/
 noncomputable def aft1LoopBodyG (Q K V H O : RegionName)
     (s_qh s_hh s_ht : Nat) (scale : ℝ) (BT BD NT : Nat)
     (STORE IFCOND : Bool) : List Stmt :=
@@ -540,7 +541,7 @@ def aft1StopOpG (BT NT : Nat) : Op .nat [] :=
     (Op.constNat BT)
 
 set_option maxRecDepth 8000 in
-/-- **General body split (by `rfl`).** -/
+/-- General body split after checked mathematical dtype erasure. -/
 theorem attention_fwd_triton1_body_splitG
     (Q K V H O : RegionName) (s_qh s_hh s_ht : Nat) (scale : ℝ)
     (BT BD NT : Nat) (STORE IFCOND : Bool) :
@@ -549,6 +550,17 @@ theorem attention_fwd_triton1_body_splitG
       = aft1PrologueG BD
         ++ [Stmt.forRangeDyn "i" (Op.constNat 0) (aft1StopOpG BT NT) (Op.constNat 1)
               (aft1LoopBodyG Q K V H O s_qh s_hh s_ht scale BT BD NT STORE IFCOND)] := by
+  simp only [attention_fwd_kernel_surface, ComputeKernel.eraseDType,
+    ComputeKernel.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?,
+    ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Except.bind, bind,
+    ComputeKernel.toAlgKernel_fromKernelBody]
+  simp only [Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType]
+  simp only [Op.eraseDType, MemAccess.eraseDType, MaskOpt.eraseDType,
+    VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType,
+    List.map_cons, List.map_nil]
+  simp only [Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def,
+    VeriTile.Triton.eraseDType, NumericDType.eraseDType, FloatDType.toTileDType,
+    ComputeDType.eraseDType]
   rfl
 
 /-- General `b_k` load = `aft1BkTileG`. -/
@@ -1235,6 +1247,9 @@ def attentionFwdTriton1KernelIO (Q K V H O : RegionName)
     StreamEmitMasked2DKernelIO₃ where
   kernel := attention_fwd_kernel_surface Q K V H O s_qh BD 1 s_hh s_ht (NT * BT)
     scale BT BD NT Bool.false Bool.false
+  projection := by
+    simp [attention_fwd_kernel_surface, ComputeKernel.eraseDType, ComputeExpr.toAlgorithm?,
+      ComputeOp.toAlgorithm?]
   inp1 := Q
   inp2 := K
   inp3 := V

@@ -1,0 +1,33 @@
+import bench.repairs.tritonbench_g.parallel_attention.Proofs.Source
+import bench.repairs.tritonbench_g.parallel_attention.Proofs.SourceCorrect
+import bench.repairs.tritonbench_g.parallel_attention.Proofs.HistoricalFPEquiv
+import bench.repairs.tritonbench_g.parallel_attention.Proofs.PublicReal
+
+namespace VeriTile.Bench.Repairs.ParallelAttention
+#axiomsClean compiled_source_correct
+#axiomsClean sourceCorrect
+#axiomsClean public_forward
+#axiomsClean returned_vjp
+#axiomsClean returned_normalized_vjp
+#axiomsClean normalized_vjp
+#axiomsClean fp32_public_words
+#axiomsClean fp32_backend_equiv
+#axiomsClean Public.forward_correct
+#axiomsClean Public.both_vjp
+#axiomsClean Public.normalized_vjp
+#axiomsClean Public.raw_vjp
+#axiomsClean Public.fp32_forward
+#axiomsClean Public.fp32_returned_context
+#axiomsClean Public.fp32_both_context
+#axiomsClean Public.Run.layout
+#axiomsClean Public.query_addresses
+#axiomsClean Public.pointers
+#axiomsClean HostNative.forward_frame
+#axiomsClean HostNative.backward_frame
+#axiomsClean HostNative.single_frame
+#axiomsClean HostNative.forward_preserves_saved
+#axiomsClean HostNative.empty_forward
+#axiomsClean HostNative.empty_backward
+#axiomsClean HostNative.empty_single_backward
+#specNonCircular mathematicalResult avoiding [kernelRun,combinedRun,combinedScratch,combinedHost,scratchValue,wordReference]
+end VeriTile.Bench.Repairs.ParallelAttention

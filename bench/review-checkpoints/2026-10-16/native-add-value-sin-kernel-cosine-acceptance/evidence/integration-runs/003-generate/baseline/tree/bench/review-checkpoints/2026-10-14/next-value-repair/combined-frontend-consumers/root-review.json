@@ -1,0 +1,22 @@
+{
+  "reviewer": "root",
+  "status": "targeted_combined_frontend_and_consumer_review_pass",
+  "receipt_sha256": "6caed076bdc08a121d119acc967cf8c79e9ef0a1a0c572726b8d145a9b8b464e",
+  "manifest_files_verified": 417,
+  "compiled_modules_verified": 317,
+  "changed_sources_verified": 42,
+  "old_statement_audit": {
+    "count": 165,
+    "unchanged": 164,
+    "intentional_parser_shape_assertion_updates": 1,
+    "new_input_or_numeric_premises": false
+  },
+  "workspace_integration": false,
+  "native_execution": false,
+  "canonical_counts_updated": false,
+  "limits": [
+    "Other maximum users and Nat-to-int32 users are outside this targeted consumer pass. The separate int32 audit includes genuine old-domain incompatibilities; this is not a global compatibility claim.",
+    "No GPU execution, native equivalence, new184-task acceptance count or full8-library build is asserted.",
+    "Changes remain in the private combined overlay; integration and canonical metadata remain pending."
+  ]
+}

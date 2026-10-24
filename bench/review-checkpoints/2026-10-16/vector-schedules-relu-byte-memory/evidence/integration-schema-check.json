@@ -1,0 +1,35 @@
+{
+  "vector_schedule": {
+    "review_schema": "compact-independent-review-v1; no invented script/input map/rerun",
+    "dependency_hashes_rechecked": 178,
+    "imported_olean_hashes_rechecked": 171,
+    "module_count": 3,
+    "public_contract_count": 5,
+    "modules_with_axiom_audit": 3,
+    "audit_directive_count": 5,
+    "audit_directives_by_module": {
+      "bench/tritonbench_g/vector_addition/Proofs/PointwiseSchedule.lean": 1,
+      "bench/tritonbench_g/vector_addition/Proofs/ValueSchedules.lean": 3,
+      "bench/tritonbench_g/vector_addition/ValueScheduleCorrect.lean": 1
+    },
+    "independent_review_input_map_present": false,
+    "boundary": "Preparation validates frozen evidence; it does not claim a new Lean, comparator or native run."
+  },
+  "relu_bytes": {
+    "review_schema": "schema1_accepted_status_checker_and_absolute_reviewed_input_and_olean_maps",
+    "dependency_hashes_rechecked": 180,
+    "imported_olean_hashes_rechecked": 172,
+    "module_count": 4,
+    "public_contract_count": 1,
+    "modules_with_axiom_audit": 4,
+    "audit_directive_count": 4,
+    "audit_directives_by_module": {
+      "bench/tritonbench_g/relu_triton_kernel/Proofs/ByteCodec.lean": 1,
+      "bench/tritonbench_g/relu_triton_kernel/Proofs/ByteStores.lean": 1,
+      "bench/tritonbench_g/relu_triton_kernel/Proofs/ByteView.lean": 1,
+      "bench/tritonbench_g/relu_triton_kernel/ByteGridCorrect.lean": 1
+    },
+    "independent_review_input_map_present": true,
+    "boundary": "Preparation validates frozen evidence; it does not claim a new Lean, comparator or native run."
+  }
+}

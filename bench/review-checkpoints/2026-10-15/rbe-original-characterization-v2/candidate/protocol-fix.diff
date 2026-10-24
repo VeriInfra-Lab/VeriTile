@@ -1,0 +1,129 @@
+--- v1/src/run.py
++++ v2/src/run.py
+@@ -38,6 +38,22 @@
+     u.need(r['profiles']==c.PROFILES and r['numeric_acceptance'] is False and r['native_numeric_reference']=='NOT_ESTABLISHED','unsupported numeric claim')
+     return r,cases
+ 
++DRIVER_QUERY_COMMAND=['nvidia-smi','--query-gpu=uuid,driver_version,name','--format=csv,noheader']
++def environment_binding_complete(report):
++    # A complete native environment binding is separate from numerical success.
++    # Offline and nonexecuted reports cannot claim it. Recompute from evidence,
++    # never accept a report's environment_binding_complete flag as its premise.
++    if report.get('mode')!='run' or report.get('native_execution') is not True:return False
++    uuid=report.get('device_uuid');query=report.get('driver_query',{})
++    if not isinstance(uuid,str) or not uuid or uuid=='unavailable' or not isinstance(query,dict):return False
++    if query.get('command')!=DRIVER_QUERY_COMMAND or query.get('exit_code')!=0:return False
++    output=query.get('stdout')
++    if not isinstance(output,str):return False
++    for line in output.splitlines():
++        columns=[x.strip() for x in line.split(',')]
++        if len(columns)==3 and columns[0]==uuid and columns[1] and columns[2]:return True
++    return False
++
+ def collect(reference,out,mode,archs,device):
+     r,cases=validate(reference);u.need(not out.exists(),'fresh output required');out.mkdir(parents=True);shutil.copytree(reference,out/'reference');(out/'tools').mkdir()
+     for n in tools():shutil.copy2(HERE/n,out/'tools'/n)
+@@ -61,9 +77,8 @@
+             if archs:u.need(archs==[arch],'requested target differs from actual device')
+             archs=[arch];uuid=str(getattr(prop,'uuid','unavailable'));report.update(device_index=idx,device_uuid=uuid,gpu=prop.name,capability=[prop.major,prop.minor])
+             try:
+-                x=subprocess.run(['nvidia-smi','--query-gpu=uuid,driver_version,name','--format=csv,noheader'],capture_output=True,text=True)
++                x=subprocess.run(DRIVER_QUERY_COMMAND,capture_output=True,text=True)
+                 report['driver_query']={'command':x.args,'exit_code':x.returncode,'stdout':x.stdout,'stderr':x.stderr}
+-                report['environment_binding_complete']=uuid!='unavailable' and x.returncode==0 and any(s.split(',')[0].strip()==uuid for s in x.stdout.splitlines())
+             except Exception as e:report['driver_query_error']=repr(e)
+         else:u.need(archs and len(set(archs))==len(archs) and all(a in (80,90) for a in archs),'unique SM80/SM90 archs required')
+         environment=u.compiler_environment(archs);u.dump(out/'compiler-environment-before.json',environment)
+@@ -123,6 +138,7 @@
+                 changed=[p for p,h in environment['file_sha256'].items() if not Path(p).is_file() or u.sha(Path(p))!=h]
+                 u.dump(out/'compiler-environment-after.json',{'files_checked':len(environment['file_sha256']),'changed':changed,'before_sha256':u.sha(out/'compiler-environment-before.json')});u.need(not changed,'compiler environment drift')
+         except Exception as e:report['status']='BINDING_ERROR';report['binding_error']=repr(e);code=1
++        report['environment_binding_complete']=environment_binding_complete(report)
+         report['exit_code']=code;report['artifact_sha256']={p.relative_to(out).as_posix():u.sha(p) for p in out.rglob('*') if p.is_file() and not any(x in p.relative_to(out).parts for x in ['cache','pycache','__pycache__'])};u.dump(out/'report.json',report)
+     return code,{'status':report['status'],'records':len(report['records']),'native_execution':report['native_execution'],'numeric_acceptance':False}
+ 
+--- v1/src/verify_capture.py
++++ v2/src/verify_capture.py
+@@ -17,12 +17,21 @@
+     for name,h in r['tools_sha256'].items():u.need(u.sha(out/'tools'/name)==h,'captured tool differs')
+     plan=u.load(out/'preselected-plan.json');u.need(u.sha(out/'preselected-plan.json')==r['preselected_plan_sha256'],'preselection differs')
+     u.need(plan['reference_sha256']==r['reference_sha256'] and plan['mode']==r['mode'] and plan['profiles']==c.PROFILES and plan['case_ids']==list(cases) and plan['fusion_values']==[False,True] and plan['numeric_reference']=='NOT_ESTABLISHED' and plan['no_posthoc_profile_selection'] is True,'plan incomplete/changed')
++    requested=plan['requested_archs']
++    u.need(requested is None or (isinstance(requested,list) and requested and
++      len(set(requested))==len(requested) and all(type(a) is int and a in (80,90) for a in requested)),
++      'invalid requested architectures')
++    if r['mode']=='compile':u.need(requested is not None,'compile requires preselected architectures')
++    u.need(r.get('environment_binding_complete') is m.environment_binding_complete(r),
++      'environment binding flag lacks matching native UUID/driver evidence')
+     if r['status']=='NOT_RUN':
+         u.need(r['mode']=='run' and r['exit_code']==2 and not r['records'] and r['native_execution'] is False and r['native_launch_attempted'] is False,'NOT_RUN falsely contains execution')
+         return {'status':'VERIFIED_NOT_RUN','records':0,'numeric_acceptance':False}
+     u.need(r['mode'] in ('compile','run') and r['status'] in ('COMPILED_ONLY','CHARACTERIZATION_NUMERICS_UNBOUND'),'failed/unrecognized capture status')
+     resolved=r['resolved_plan'];archs=resolved['archs'];items=list(c.PROFILES) if r['mode']=='compile' else list(cases)
+     u.need(archs and len(set(archs))==len(archs) and all(a in (80,90) for a in archs),'wrong targets')
++    if r['mode']=='compile' or requested is not None:
++        u.need(archs==requested,'resolved architectures differ from preselected request')
+     u.need(resolved['items']==items and resolved['expected_records']==len(archs)*len(items)*2,'plan coverage differs')
+     expected={(a,i,f) for a in archs for i in items for f in (False,True)}
+     keys=[(x['target']['arch'],x['item'],x['options']['enable_fp_fusion']) for x in r['records']]
+--- v1/src/test_runner.py
++++ v2/src/test_runner.py
+@@ -123,7 +123,7 @@
+         with tempfile.TemporaryDirectory() as td:
+             out=Path(td)/'mock';mods=synthetic_modules(self.cases,fault);fn=types.SimpleNamespace(arg_names=self.ref['source_extraction']['kernel_arguments'],src='MOCK',cache_key='MOCK')
+             env={'file_sha256':{str(HERE/'test_runner.py'):m.u.sha(HERE/'test_runner.py')},'boundary':'MOCK ONLY'}
+-            query=types.SimpleNamespace(args=['mock'],returncode=0,stdout='MOCK_UUID, mock, mock',stderr='')
++            query=types.SimpleNamespace(args=m.DRIVER_QUERY_COMMAND,returncode=0,stdout='MOCK_UUID, mock, mock',stderr='')
+             with patch.dict(sys.modules,mods),patch.object(m.u,'checked_module',return_value=types.SimpleNamespace(rbe_triton=fn,get_freq_multi_tokens=fn)),patch.object(m.u,'compiler_environment',return_value=env),patch.object(m.subprocess,'run',return_value=query),patch.dict(os.environ,os.environ.copy()),patch.object(sys,'pycache_prefix',sys.pycache_prefix):
+                 code,result=m.collect(REF,out,'run',None,'cuda:0')
+             r=m.u.load(out/'report.json')
+@@ -137,4 +137,33 @@
+         code,r=self.runtime('origin');self.assertEqual(code,1);self.assertFalse(r['native_launch_attempted'])
+     def test_34_synthetic_launch_failure_preserved(self):
+         code,r=self.runtime('launch');self.assertEqual(code,1);self.assertEqual(r['status'],'EXECUTION_ERROR');self.assertFalse(r['native_execution'])
++    def test_35_requested_architecture_cannot_disappear(self):
++        def change(q,r):
++            r['resolved_plan']['archs']=[90];r['resolved_plan']['expected_records']=8
++            r['records']=[x for x in r['records'] if x['target']['arch']==90]
++        self.mutate(change)
++    def test_36_requested_architecture_order_preserved(self):
++        self.mutate(lambda q,r:r['resolved_plan'].__setitem__('archs',[90,80]))
++    def test_37_offline_environment_binding_cannot_be_true(self):
++        self.mutate(lambda q,r:r.__setitem__('environment_binding_complete',True))
++    def test_38_notrun_environment_binding_cannot_be_true(self):
++        self.mutate(lambda q,r:r.__setitem__('environment_binding_complete',True),GPU)
++    def environment_report(self):
++        return {'mode':'run','native_execution':True,'device_uuid':'GPU-CPU-TEST',
++          'driver_query':{'command':m.DRIVER_QUERY_COMMAND,'exit_code':0,
++            'stdout':'GPU-CPU-TEST, TEST-DRIVER, CPU TEST DOUBLE\n'}}
++    def test_39_native_environment_exact_uuid_valid(self):
++        self.assertTrue(m.environment_binding_complete(self.environment_report()))
++    def test_40_native_environment_wrong_uuid(self):
++        r=self.environment_report();r['device_uuid']='GPU-DIFFERENT';self.assertFalse(m.environment_binding_complete(r))
++    def test_41_native_environment_failed_query(self):
++        r=self.environment_report();r['driver_query']['exit_code']=1;self.assertFalse(m.environment_binding_complete(r))
++    def test_42_native_environment_wrong_query(self):
++        r=self.environment_report();r['driver_query']['command']=['different'];self.assertFalse(m.environment_binding_complete(r))
++    def test_43_native_environment_empty_driver(self):
++        r=self.environment_report();r['driver_query']['stdout']='GPU-CPU-TEST, , name';self.assertFalse(m.environment_binding_complete(r))
++    def test_44_native_environment_requires_execution(self):
++        r=self.environment_report();r['native_execution']=False;self.assertFalse(m.environment_binding_complete(r))
++    def test_45_synthetic_runtime_environment_verified(self):
++        code,r=self.runtime();self.assertEqual(code,0);self.assertTrue(r['environment_binding_complete'])
+ if __name__=='__main__':unittest.main(verbosity=2)
+--- v1/verify.py
++++ v2/verify.py
+@@ -19,11 +19,11 @@
+             q=ROOT/'src'/Path(path).name
+             if q.is_file():assert sha(q)==h
+         checks+=1
+-    assert 'Ran 34 tests' in (ROOT/'final-validation/tests.log').read_text()
++    assert 'Ran 45 tests' in (ROOT/'final-validation/tests.log').read_text()
+     obs=json.loads((ROOT/'compiler-observations.json').read_text());assert obs['capture_report_sha256']==sha(ROOT/'final-validation/offline/report.json') and len(obs['records'])==16
+     assert all(x['pow_TTIR'] and x['counts']['pow_exit_labels']>0 and x['counts']['sin_approx']==x['counts']['cos_approx']==0 for x in obs['records'])
+     for x in obs['records']:
+         for ext,h in x['artifact_sha256'].items():assert sha(ROOT/'final-validation/offline'/(x['label']+'.'+ext))==h
+     contracts=json.loads((ROOT/'numeric-obligations.json').read_text());assert len(contracts['contracts'])==7 and contracts['closed_software_bit_theorem_added'] is False
+-    print(json.dumps({'status':'verified_capture_tooling','checks':checks,'offline_profiles':16,'tool_tests':34,'native_status':'NOT_RUN','numeric_comparison':'NOT_ESTABLISHED','new_lean_modules':0}));return 0
++    print(json.dumps({'status':'verified_capture_tooling','checks':checks,'offline_profiles':16,'tool_tests':45,'native_status':'NOT_RUN','numeric_comparison':'NOT_ESTABLISHED','new_lean_modules':0}));return 0
+ if __name__=='__main__':raise SystemExit(main())

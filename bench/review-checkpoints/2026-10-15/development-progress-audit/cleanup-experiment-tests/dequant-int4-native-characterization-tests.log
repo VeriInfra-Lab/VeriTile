@@ -1,0 +1,50 @@
+test_01_all_six_full_C_vectors (__main__.Tests.test_01_all_six_full_C_vectors) ... ok
+test_02_each_match_remains_characterization (__main__.Tests.test_02_each_match_remains_characterization) ... ok
+test_03_any_other_match_cannot_satisfy_selected (__main__.Tests.test_03_any_other_match_cannot_satisfy_selected) ... ok
+test_04_unfused_graphs_not_discriminated (__main__.Tests.test_04_unfused_graphs_not_discriminated) ... ok
+test_05_prefix_and_suffix_frame_rejected (__main__.Tests.test_05_prefix_and_suffix_frame_rejected) ... ok
+test_06_every_input_including_unused_capacity_checked (__main__.Tests.test_06_every_input_including_unused_capacity_checked) ... ok
+test_07_wrong_before_rejected (__main__.Tests.test_07_wrong_before_rejected) ... ok
+test_08_missing_allocation_rejected (__main__.Tests.test_08_missing_allocation_rejected) ... ok
+test_09_output_short_or_invalid_word_rejected (__main__.Tests.test_09_output_short_or_invalid_word_rejected) ... ok
+test_10_selection_required_both_branches (__main__.Tests.test_10_selection_required_both_branches) ... ok
+test_11_unknown_or_unselected_profile_rejected (__main__.Tests.test_11_unknown_or_unselected_profile_rejected) ... ok
+test_12_complete_matrix_not_sample (__main__.Tests.test_12_complete_matrix_not_sample) ... ok
+test_13_scalar_fusion_discriminator (__main__.Tests.test_13_scalar_fusion_discriminator) ... ok
+test_14_rne_ties_and_subnormal (__main__.Tests.test_14_rne_ties_and_subnormal) ... ok
+test_15_finite_half_roundtrip (__main__.Tests.test_15_finite_half_roundtrip) ... ok
+test_16_nonfinite_oracle_not_claimed (__main__.Tests.test_16_nonfinite_oracle_not_claimed) ... ok
+test_17_raw_little_endian (__main__.Tests.test_17_raw_little_endian) ... ok
+test_18_explicit_signature_original_order (__main__.Tests.test_18_explicit_signature_original_order) ... ok
+test_19_runtime_signature_missing_rejected (__main__.Tests.test_19_runtime_signature_missing_rejected) ... ok
+test_20_source_AST_and_original_autotune_member (__main__.Tests.test_20_source_AST_and_original_autotune_member) ... ok
+test_21_full_legal_geometry_two_blocks (__main__.Tests.test_21_full_legal_geometry_two_blocks) ... ok
+test_22_changed_case_hash_rejected (__main__.Tests.test_22_changed_case_hash_rejected) ... ok
+test_23_rebound_forged_case_cannot_escape_proof (__main__.Tests.test_23_rebound_forged_case_cannot_escape_proof) ... ok
+test_24_missing_parent_receipt_rejected (__main__.Tests.test_24_missing_parent_receipt_rejected) ... ok
+test_25_root_replay_drift_rejected (__main__.Tests.test_25_root_replay_drift_rejected) ... ok
+test_26_reference_cannot_claim_gpu (__main__.Tests.test_26_reference_cannot_claim_gpu) ... ok
+test_27_bytecode_poison_ignored (__main__.Tests.test_27_bytecode_poison_ignored) ... ok
+test_28_after_load_oracle_drift_rejected (__main__.Tests.test_28_after_load_oracle_drift_rejected) ... ok
+test_29_eight_real_offline_captures (__main__.Tests.test_29_eight_real_offline_captures) ... ok
+test_30_missing_profile_record_rejected (__main__.Tests.test_30_missing_profile_record_rejected) ... ok
+test_31_duplicate_profile_rejected (__main__.Tests.test_31_duplicate_profile_rejected) ... ok
+test_32_offline_cannot_be_native (__main__.Tests.test_32_offline_cannot_be_native) ... ok
+test_33_cannot_claim_numeric_acceptance (__main__.Tests.test_33_cannot_claim_numeric_acceptance) ... ok
+test_34_compiler_artifact_tamper_rejected (__main__.Tests.test_34_compiler_artifact_tamper_rejected) ... ok
+test_35_selection_cannot_change_after_capture (__main__.Tests.test_35_selection_cannot_change_after_capture) ... ok
+test_36_no_gpu_is_not_run (__main__.Tests.test_36_no_gpu_is_not_run) ... ok
+test_37_notrun_cannot_be_pass (__main__.Tests.test_37_notrun_cannot_be_pass) ... ok
+test_38_failed_compile_not_upgraded (__main__.Tests.test_38_failed_compile_not_upgraded) ... ok
+test_39_comparison_exit_uses_preselected_profile (__main__.Tests.test_39_comparison_exit_uses_preselected_profile) ... ok
+test_40_metadata_named_fields (__main__.Tests.test_40_metadata_named_fields) ... ok
+test_41_synthetic_complete_runtime_branch (__main__.Tests.test_41_synthetic_complete_runtime_branch) ... ok
+test_42_synthetic_wrong_selected_graph_not_rescued (__main__.Tests.test_42_synthetic_wrong_selected_graph_not_rescued) ... ok
+test_43_synthetic_input_mutation_and_guard (__main__.Tests.test_43_synthetic_input_mutation_and_guard) ... ok
+test_44_synthetic_wrong_origin_stops_before_launch (__main__.Tests.test_44_synthetic_wrong_origin_stops_before_launch) ... ok
+test_45_synthetic_launch_error_not_notrun (__main__.Tests.test_45_synthetic_launch_error_not_notrun) ... ok
+
+----------------------------------------------------------------------
+Ran 45 tests in 8.682s
+
+OK

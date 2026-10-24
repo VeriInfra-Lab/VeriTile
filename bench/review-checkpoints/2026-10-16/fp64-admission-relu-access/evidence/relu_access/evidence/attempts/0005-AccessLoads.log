@@ -1,0 +1,23 @@
+/tmp/veritile-standardization-20261015/relu-partial-byte-execution-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/AccessLoads.lean:29:16: error: `arg` conv tactic failed, cannot select argument
+/tmp/veritile-standardization-20261015/relu-partial-byte-execution-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/AccessLoads.lean:58:4: error: `simp` made no progress
+/tmp/veritile-standardization-20261015/relu-partial-byte-execution-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/AccessLoads.lean:76:26: warning: This simp argument is unused:
+  Except.bind
+
+Hint: Omit it from the simp argument list.
+  simp only [loadWords, E̵x̵c̵e̵p̵t̵.̵b̵i̵n̵d̵,̵ ̵Nat.add_zero]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessMemory.loadedPrefix: definition does not reference [VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessMemory.loadWords,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessMemory.loadInput,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessMemory.loadLE,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessMemory.readByte] — non-circular ✓
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessMemory.load_input_success: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+/tmp/veritile-standardization-20261015/relu-partial-byte-execution-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/AccessLoads.lean:102:0: error: VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessMemory.load_input_first_unavailable: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/relu-partial-byte-execution-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/AccessLoads.lean:103:0: error: VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessMemory.load_words_success: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/relu-partial-byte-execution-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/AccessLoads.lean:104:0: error: VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessMemory.load_words_first_unavailable: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessMemory.readable_element: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessMemory.active_index: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessMemory.active_count_zero: axiom footprint ⊆ standard base ✓  ([propext])

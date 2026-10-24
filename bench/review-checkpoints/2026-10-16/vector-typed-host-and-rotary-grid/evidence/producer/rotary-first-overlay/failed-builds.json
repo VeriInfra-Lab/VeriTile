@@ -1,0 +1,15 @@
+[
+  {
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lean",
+      "--root=/tmp/veritile-standardization-20261015/rotary-emb-host-grid-wip/frozen/overlay",
+      "/tmp/veritile-standardization-20261015/rotary-emb-host-grid-wip/frozen/overlay/bench/tritonbench_g/rotary_emb/Proofs/HostMetadata.lean",
+      "-o",
+      "/tmp/veritile-standardization-20261015/rotary-emb-host-grid-wip/frozen/overlay/bench/tritonbench_g/rotary_emb/Proofs/HostMetadata.olean"
+    ],
+    "exit_code": 1,
+    "seconds": 0.11,
+    "log": "evidence/HostMetadata.log",
+    "log_sha256": "cd85438bfbe8c790504d28f3f19fa4138237314f706c1c29dbcd883d26777063"
+  }
+]

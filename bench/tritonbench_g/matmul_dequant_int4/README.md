@@ -1,50 +1,37 @@
 # matmul_dequant_int4
 
-- Source file: `matmul_dequant_int4.py` (upstream `data/TritonBench_G_v1/matmul_dequant_int4.py`)
-- Corpus: TritonBench-G v1
-- Size: 302 lines, 2 `@triton.jit` kernels
-- Status: **PORTED** — `MatmulDequantInt4.lean`, main theorem
-  `matmul_dequant_int4_exec_genuine` (`exec`-level, dimension-general,
-  0 `sorry`).
+The accepted public scope is the original standalone `dequantize_kernel`
+(`matmul_dequant_int4.py:137–170`), with both packed arrays stored as int32 and
+scale/output stored as fp16 in the actual tests. The separate matmul kernels
+and host quantizer are outside this existing stage contract.
 
-Target JIT = `dequantize_kernel`, the only kernel any host in the file
-launches (`matmul_dequantize_int4_s1` → `dequantize_int4` →
-`dequantize_kernel[grid]`, then a host-side `torch.mm(a, fp_b)`; the test
-exercises `matmul_dequantize_int4_s1` only). A straight-line int4
-dequantization tile: program `(k_block_idx, n_block_idx)` loads a
-`[BLOCK_SIZE_K, BLOCK_SIZE_N]` tile of packed weight words (`b`, eight 4-bit
-weights per 32-bit word along K), the matching packed zero-point words
-(`zp`, eight 4-bit zero-points per word along N, one group row per
-`group_size` K rows) and the per-group scales, unpacks both nibbles with a
-shift-and-mask, and stores `fp_weight = (nib(b) − nib(zp)) · scale` under
-the shared mask `(offs_n < N) & (offs_k < K)`.
+`Proofs/FPTyped.lean` retains the complete dequantize statement list, all four
+address formulas, group lookup, masks, signed int32 loads, arithmetic right
+shift and 32-bit `& 15`. It materializes the implicit integer-difference-to-fp16
+promotion before multiplying by the fp16 scale. `PackedInputs` records actual
+32-bit initial memory payloads, and active output addresses must be distinct.
+These are input/representation conditions, not additional numerical laws.
 
-The file's first kernel, `matmul4_kernel`, is dead code in this file — no
-host references it, and its body is byte-identical to the kernel already
-ported in the `matmul_dequantize_int4` port — so, per the `rms_rbe_matmul`
-dead-kernel precedent, it is not modeled.
+The independent result decodes the two original 32-bit bit patterns, subtracts
+the unsigned nibble values as signed integers, converts that difference to
+binary16, and multiplies by the initial binary16 scale. The source's arithmetic
+right shift is proved equal to this unsigned nibble interpretation at every
+one of the eight positions, including negative packed words. Each difference
+lies in `[-15,15]`, cannot overflow int32, and has exact binary32 and binary16
+encodings. The retained fp32 evaluation context for its integer-promotion and
+cast is recorded explicitly; the restricted profile supports that exact
+31-value domain, so this compressed half carrier introduces no double rounding.
+The load/store contract additionally supplies successful execution and
+preservation of every cell outside the actual active writes.
 
-Two disclosed surface decisions (the module's `Translation-surface
-blocker:` marker):
+`Proofs/Binary16.lean` supplies a concrete software format with 16 physical bits,
+5 exponent bits, 10 fraction bits, bias 15, direct rational target-format
+rounding, gradual underflow, infinity, NaNs and signed zero. It does not reuse
+bf16 or assume a globally identity real-to-fp16 cast. Its boundary vectors and
+all 31 possible integer differences are checked by Lean's kernel. The native
+Triton/compiler correspondence remains the common external binding boundary.
 
-- **Signed dequant via explicit casts** — the packed containers are
-  `Region .nat` (the DSL's bitwise `>>` / `&` live on that channel), but the
-  nibble difference goes negative and ℕ subtraction truncates, so the
-  subtraction is spelled `tl.cast((int32_b >> b_shift) & 0xF, tl.int32) -
-  tl.cast((zp_b >> bzp_shift) & 0xF, tl.int32)` and the product promotes to
-  ℝ through `Op.intToReal` — the `int4_matmul` signed-dequant respell,
-  applied inline.
-- **Antiquoted integer literals** — the source's `8` / `4` / `0xF` /
-  `group_size` inside index arithmetic are written `$(8)` / `$(4)` /
-  `$(15)` / `$(group_size)` (a bare literal is inferred `.real`; `0xF` keeps
-  its value in decimal spelling — the `int4_matmul` precedent).
-
-The three masked loads keep `other=0.0` faithfully (on the `.nat` channels
-the expander reads `0.0` as the nat constant `0` — value-identical). Every
-dimension, stride, block size and `group_size` stays symbolic, and both
-program ids are free, so the headline covers every autotune config and every
-grid program at once. Nat division is total in Lean, so no `0 < group_size`
-hypothesis is needed, and there is no divisibility side condition (loads and
-store share one mask). The output readback needs distinct lanes at distinct
-`fp_b` addresses (`hInj`); `fpbAddr_injective` discharges it for the host's
-row-major `fp_b`.
+The nonempty witness uses negative packed int32 words at nibble position 7,
+producing difference `-7`, scale bits `0x3555`, and rounded output bits `0xc0aa`
+at address 119, with address 120 and the source word preserved. The exact
+rational product differs from the stored fp16 result.

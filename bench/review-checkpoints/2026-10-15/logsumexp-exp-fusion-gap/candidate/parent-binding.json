@@ -1,0 +1,13 @@
+{
+  "package": "/tmp/veritile-token-softmax-bloom-word-20261015",
+  "receipt_sha256": "5a44de64505a9d9dd2df9def1d9484ca63de11e4c2df9a533696cffb1d73d08e",
+  "reused_theorems": [
+    "multiply_collision",
+    "input_decoding_and_subtraction",
+    "real_exp_A_rounding_cell",
+    "real_exp_B_rounding_cell",
+    "output_cell_decoding",
+    "no_ex2_function_matches_both"
+  ],
+  "new_work": "New complete logsumexp graph refinement and its own D17/B32 load/scale/max/sub reachability; a separate scalar fusion-prefix refutation. No duplicated count of the Bloom Real.exp proof."
+}

@@ -1,0 +1,100 @@
+{
+  "schema": 1,
+  "task": "fused_rotary_embedding",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue06/result.json",
+    "sha256": "7ae7b1cff07a7eae50c418a92a90a26cc367270bb529c13f49c0bf8e5d0f06ea",
+    "task_index": 6
+  },
+  "finding": "The selected tile-checked reader expressed rotation through flat memory/data/coeff accessors instead of mathematical Q/K/V and cosine/sine tensors.",
+  "resolution": "RotaryInputs/Outputs expose finite Q/K/V tensors, cosine/sine matrices, lengths and block tables through true flatMatrix/flatTensor equivalences. Retain every metadata entry and use the exact metadata-domain pullback. The reader displays pure split-half rotation; bounded row-access theorems prove its helpers read the actual named tensor cells.",
+  "mathematical_target": "fused_rotary_embedding_tile_checked.fused_rotary_real: rotaryIO implements Q/K rotation and V copy on logicalMetadataDomain.",
+  "conditions_and_scope": "This assignment selects fused_rotary_embedding_tile_checked. Retains Config.Valid, complete Q/K/V source grid, in-place Q, both cache layouts and original optional/no-launch behavior. Only selected length/table cells are constrained; unused metadata remains unrestricted. Indirect writes, original windows, access bounds and exterior frame are unchanged.",
+  "proof_connection": "PublicIO.logical_iff transports an arbitrary raw target and the exact metadata domain. flat_tensor_read, tensorInput_q/k/v, flat_matrix_read, tensorCos_at and tensorSin_at establish genuine logical-cell access for every bounded coordinate. logical_real reuses existing implements and pair_real_formula.",
+  "fp_review": "Unchanged actual original ≡[[]] candidate over native FP32 payload/instructions and the original metadata domain. Candidate reuses Q first-half addresses; Q/K distinct floating operation orders, conditional K/V work and cache observations are retained.",
+  "numerical_dependencies": {
+    "experimental_rule_instances": [],
+    "strict_rewrite_certificates": [],
+    "classification": "Empty experimental rule set. Exact model/source structure and any listed strict software theorem are retained; no new hardware-conformance claim."
+  },
+  "previous_formula_scope": {
+    "mathematical_target": "Split-half Q/K rotation: low=x_low*cos-x_high*sin, high=x_low*sin+x_high*cos; V is copied. The reader-local rotate definition shows token coefficient row and both formulas, and rotaryFormula attaches Q/K/V logical output coordinates.",
+    "required_conditions": {
+      "public_conditions": [
+        "Config.Valid provides even/valid geometry, cache addressing and write separation",
+        "metadataDomain binds actual context lengths and only the selected block-table entries",
+        "ProgramIO input memory bounds, safe actual accesses and exterior frame remain",
+        "Original checked wrapper tile guard is retained in Contract"
+      ],
+      "contract_and_domain_correspondence": "Contract reuses original checked configuration/metadata and adds only the already existing fullBlock bound on live work. Main metadata domain is an input-array/configuration relation; unused table entries remain unrestricted. No logical width is confused with half/full source tile width."
+    },
+    "scope": "Complete selected Q/K/V source grid including empty input, in-place Q, leader-only K/V work, both cache layouts, indirect int32 metadata and all output/frame cells.",
+    "canonical_connection": "PublicIO.implements -> actual shared source programs and pair_real_formula. New rotate is definitionally the canonical independent formula; full headline Iff.rfl verifies the same metadata-domain target.",
+    "fp_program_pair": {
+      "fp_actual_pair": "FPEquiv.original versus candidate: reuse Q first-half address for the second half, retaining actual full Q/K/V grid and the distinct original Q/K floating instruction orders.",
+      "fp_conditions_and_model_binding": [
+        "Native.Instructions and payload observer remain explicit",
+        "All raw source words, Config.Valid, indirect metadata domain, both layouts and output frames",
+        "No floating transformation or finite-only restriction"
+      ]
+    },
+    "numerical_dependencies": {
+      "experimental_rule_instances": [],
+      "strict_rewrite_certificates": [],
+      "classification": "Empty experimental rule set. Exact model/source structure and any listed strict software theorem are retained; no new hardware-conformance claim."
+    }
+  },
+  "verification": [
+    {
+      "kind": "targeted_current_sources",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue06/build.py",
+        "bench/repairs/tritonbench_g/fused_rotary_embedding_tile_checked/LogicalCoordinates.lean",
+        "bench/repairs/tritonbench_g/fused_rotary_embedding_tile_checked/Proofs/LogicalCoordinates.lean",
+        "bench/repairs/tritonbench_g/fused_rotary_embedding_tile_checked/Correct.lean",
+        "bench/repairs/tritonbench_g/fused_rotary_embedding_tile_checked/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue06/fused_rotary_embedding.targeted.log",
+      "log_sha256": "18527c486f7f271d9f4e8ee9815adb020690b13a1a1d6cdade304bf409d73b74"
+    },
+    {
+      "kind": "task_joint_import",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue06/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue06/fused_rotary_embedding.joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue06/fused_rotary_embedding.joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/fused_rotary_embedding/Proofs/Contract.lean": "71ac4c28b067269c613478530184d41aa6d653997c776f302a75971cc326a524",
+    "bench/repairs/tritonbench_g/fused_rotary_embedding_tile_checked/Contract.lean": "dae71e3e74341e9d6dede1d23fe40410f40525b9a0c65e21fa2d085c812dd4e2",
+    "bench/repairs/tritonbench_g/fused_rotary_embedding_tile_checked/Correct.lean": "b4cc3f74379407032ad87ec3bf76c21cc39c14949899866cda9cb18e6ca19e42",
+    "bench/repairs/tritonbench_g/fused_rotary_embedding_tile_checked/FPEquiv.lean": "484704402d8e9b388d1cbdc712fafcbda9b4df5adeca2a1e86e3bf05f0586b4f",
+    "bench/repairs/tritonbench_g/fused_rotary_embedding_tile_checked/LogicalCoordinates.lean": "8c7819523bc1ccc61172f8c3b2219ad378086c991a2a1b88db348535050048f4",
+    "bench/repairs/tritonbench_g/fused_rotary_embedding_tile_checked/Proofs/IOPair.lean": "1dbd8b17c5fc4ff2aa6ab58b40ecee0ada5b3c04a029b6333afaf68c9e77cbd8",
+    "bench/repairs/tritonbench_g/fused_rotary_embedding_tile_checked/Proofs/LogicalCoordinates.lean": "7fed6ff32b0ff4e43507df8d63736cdd63f791040768152504be490494b970fe",
+    "bench/repairs/tritonbench_g/fused_rotary_embedding_tile_checked/Proofs/PublicIO.lean": "2adf09e9a3e80dd1324a221c4f070239ebfbd10586b5d7cbe22d13f2b25d24f1",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

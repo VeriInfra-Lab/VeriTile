@@ -23,7 +23,7 @@ def prelude (p : Layout) (r : Regions) : List Stmt :=
    .assign .real [p.BT,p.BV] "b_v" (load2 p.BT p.BV "p_v")]
 
 theorem iteration_parts (p : Layout) (r : Regions) (gateK swapped : Bool) :
-    iteration p r gateK swapped = prelude p r ++
+    iterationFlat p r gateK swapped = prelude p r ++
       [.ifThenElse (.constBool gateK) (gateKey p r) (RealHProgram.gateValue p r),
        .assign .real [p.BK,p.BV] "b_h" (updateOp p swapped)] := rfl
 
@@ -136,7 +136,7 @@ theorem executes (p : Layout) (l : Launch) (r : Regions) (a : Inputs)
     change mid.mem = (stored p l r c f u).mem
     exact hm.mem
   refine ⟨v,?_,?_,?_,?_,?_,?_,?_,?_,?_,?_,?_,?_,?_⟩
-  · rw [iteration_parts,stepStmts.append_some hp,stepStmts.cons_some heg,
+  · rw [iteration_exec,iteration_parts,stepStmts.append_some hp,stepStmts.cons_some heg,
       stepStmts.cons_some (stepStmt_assign_eq_some headd),stepStmts.nil]
   · simpa [v,pre,prepared,stored,RealHStore.scatter,pointers,hik] using hm.keyIndex
   · simpa [v,pre,prepared,stored,RealHStore.scatter,pointers,hiv] using hm.valueIndex

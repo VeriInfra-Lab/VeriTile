@@ -1,0 +1,69 @@
+VeriTile.Bench.TritonBenchG.RotaryEmb.HostGrid.Plan.Output: definition does not reference [VeriTile.Bench.TritonBenchG.RotaryEmb.HostGrid.Plan.run,
+ VeriTile.Bench.TritonBenchG.RotaryEmb.HostGrid.Plan.kernel,
+ VeriTile.Triton.exec] — non-circular ✓
+VeriTile.Bench.TritonBenchG.RotaryEmb.HostGrid.prepare_arguments: axiom footprint ⊆ standard base ✓  ([Quot.sound,
+ propext])
+VeriTile.Bench.TritonBenchG.RotaryEmb.HostGrid.dimension_binding: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.RotaryEmb.HostGrid.address_injective: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.RotaryEmb.HostGrid.block_geometry: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.RotaryEmb.HostGrid.block_bounds: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.RotaryEmb.HostGrid.block_disjoint: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.RotaryEmb.HostGrid.result_unchanged: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.RotaryEmb.HostGrid.block_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.RotaryEmb.HostGrid.run_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.RotaryEmb.HostGrid.rotary_emb_host_grid_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+theorem VeriTile.Bench.TritonBenchG.RotaryEmb.HostGrid.rotary_emb_host_grid_correctness : ∀ (op : PythonIntProduct)
+  (a : Request) (c : Plan),
+  prepare op a = some c →
+    ∀ (q k cos sin : FullSource.Storage) (Q K Cos Sin : RegionName) (A : FlatAlloc),
+      A.Disjoint →
+        (∀ r ∉ A.regions, A.extent r = 0) →
+          Domain c A.extent Q K Cos Sin →
+            Q ∈ A.regions →
+              K ∈ A.regions →
+                ∀ (s : BlockState),
+                  c.request = a ∧
+                    a.assertions ∧
+                      op a.q.width a.partialRotaryFactor = some c.signedHeadDim ∧
+                        ↑c.parameters.dimension = c.signedHeadDim ∧
+                          c.parameters.blockHead = 4 ∧
+                            c.parameters.blockSeq = 16 ∧
+                              c.grid.dims = [(a.q.heads + 3) / 4, (a.q.length + 15) / 16] ∧
+                                (c.numWarps = if c.signedHeadDim ≥ 128 then 8 else 4) ∧
+                                  c.numStages = 1 ∧
+                                    c.SafeRun (c.kernel q k cos sin Q K Cos Sin) A.extent c.schedule s ∧
+                                      ∃ t,
+                                        c.run (c.kernel q k cos sin Q K Cos Sin) c.schedule s = some t ∧
+                                          c.Output Q K Cos Sin s t :=
+fun op a c hp q k cos sin Q K Cos Sin A hd hcov D hQr hKr s =>
+  And.casesOn (prepare_arguments op a c hp) fun ha right =>
+    And.casesOn right fun has right =>
+      And.casesOn right fun hop right =>
+        And.casesOn right fun hbh right =>
+          And.casesOn right fun hbs right =>
+            And.casesOn right fun hg right =>
+              And.casesOn right fun hw hst =>
+                And.casesOn (grid_correct c q k cos sin Q K Cos Sin A hd hcov D hQr hKr s) fun hs right =>
+                  Exists.casesOn right fun t h =>
+                    And.casesOn h fun ht hout =>
+                      ⟨ha,
+                        ⟨has,
+                          ⟨hop,
+                            ⟨dimension_binding c D.headDim_nonneg,
+                              ⟨hbh, ⟨hbs, ⟨hg, ⟨hw, ⟨hst, ⟨hs, Exists.intro t ⟨ht, hout⟩⟩⟩⟩⟩⟩⟩⟩⟩⟩⟩

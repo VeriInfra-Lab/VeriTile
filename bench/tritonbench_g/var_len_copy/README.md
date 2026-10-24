@@ -1,5 +1,7 @@
 # var_len_copy
 
+Public-entry cleanup (2026-10-14): the current benchmark specifications are the `specification` declarations in [Correct.lean](Correct.lean) and [FPEquiv.lean](FPEquiv.lean). Superseded entries have been retired; reusable mathematical facts remain ordinary helper theorems, and unused output-summary declarations have been removed. Historical preservation counts below describe the earlier snapshots. This cleanup adds no proof coverage or task acceptance.
+
 Source: `var_len_copy.py` (TritonBench-G v1).
 
 The full-loop real and FP contracts are in `Correct.lean` and `FPEquiv.lean`.

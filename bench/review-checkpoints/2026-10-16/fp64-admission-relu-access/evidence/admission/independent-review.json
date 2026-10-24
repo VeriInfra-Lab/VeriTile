@@ -1,0 +1,98 @@
+{
+  "schema": 1,
+  "status": "accepted_partial_finite_dtype_admission_protocol_model",
+  "reviewer": "root",
+  "reviewed_at_utc": "2026-10-15T17:54:31.577390+00:00",
+  "receipt_sha256": "13237a74d459a1fd6967155bb167bf4418617d3bbf4a2ee1a199e5b10712cf46",
+  "scope_review_sha256": "7d735125f66f10fc09d788a8f1fa57536bd1e45dd70967590ea128a09db2f888",
+  "source_audit_sha256": "c6ce9a938df490f6a6264cee87107cb1f771c646f2456b9bf01f10602a645a83",
+  "reviewed_source_sha256": {
+    "bench/tritonbench_g/vector_addition/Proofs/DTypeAdmission.lean": "1250b7afd0bfd8b04a44ce62b38028ec82d3033c89db85046bc160433f946b5a",
+    "bench/tritonbench_g/vector_addition/DTypeAdmissionCorrect.lean": "cb4fc5ad5f962d7d6849ee3c1aa740cee9add7ec216fa9f1964fd3631bfd6b88"
+  },
+  "checker_sha256": "1eaa3d761133513f9f18bfff47687bc5eccf86109fb38e63075c3db6cc1a5f2a",
+  "proof_defects_found": [],
+  "whole_original_program_accepted": false,
+  "original_program_completion_increment": 0,
+  "execution_contract_increment": 0,
+  "protocol_contract_increment": 4,
+  "value_profile_increment": 0,
+  "verification": {
+    "actual_producer_lean_exits": [
+      0,
+      0
+    ],
+    "independent_lean_rerun": false,
+    "named_axiom_checks": 17,
+    "noncircular_checks": 0,
+    "module_axiom_audits": 2,
+    "warnings": 0,
+    "frozen_artifacts_checked": 70,
+    "source_and_anchor_fingerprints": 154,
+    "project_oleans_checked": 148,
+    "direct_external_oleans_checked": 35,
+    "preserved_failed_compilations": 2,
+    "exact_python_source_units_reextracted": 28,
+    "producer_source_checks_inspected": 24,
+    "finite_rows_independently_recomputed": 289,
+    "staged_blobs_rechecked": 69,
+    "new_frontend_runs": 0,
+    "native_backend_runs": 0,
+    "gpu_runs": 0
+  },
+  "semantic_review": [
+    "Both Lean sources and producer verification, source audit and finalizer read. Finite case proofs have independent exhaustiveness, disjointness and first-error statements. No new axiom or numerical callback is introduced.",
+    "Signature serialization precedes the original no-default kernel body. Pointer element to_ir checks the frozen default sm90 supported fp8 set. The first fnuz rejection is x, otherwise y; output=x and n_elements=i32 add no earlier rejection.",
+    "All 289 actual Lean-exported rows independently recomputed from the inspected promotion rules and compared with retained observations. Partition:189 admitted,64 signature failures,36 addition failures. Standalone promotion217/72 is a different partition;36 promotion failures are preempted by signature failure.",
+    "All four public statements describe a finite protocol model. They do not prove Python/AST semantics, JIT/cache/host reachability, native execution, exception wrapping or GPU memory behavior. They add no executed value profile. All100 rejection cases, including28 promotion-success fnuz cases, stay separate from value coverage.",
+    "The narrowly anchored whitespace attribute preserves the original test_add source bytes. Both failed compiles and the failed pre-exception whitespace check remain recorded."
+  ],
+  "stage_counts": {
+    "admitted": 189,
+    "addition": 36,
+    "signature": 64
+  },
+  "stage_promotion_cross_counts": {
+    "admitted:promoted": 189,
+    "addition:promotion_error": 36,
+    "signature:promotion_error": 36,
+    "signature:promoted": 28
+  },
+  "remaining_structural_obligations": [
+    {
+      "id": "VA-ADMISSION-S1",
+      "gap": "Python/AST-to-model semantic refinement",
+      "deferrable_as_numerical_assumption": false
+    },
+    {
+      "id": "VA-ADMISSION-S2",
+      "gap": "host allocation/assertions and original module/harness effects",
+      "deferrable_as_numerical_assumption": false
+    },
+    {
+      "id": "VA-ADMISSION-S3",
+      "gap": "fresh-ASTSource versus JIT/cache/launch path composition",
+      "deferrable_as_numerical_assumption": false
+    },
+    {
+      "id": "VA-ADMISSION-S4",
+      "gap": "unsupported/noncanonical dtype families and overrides",
+      "deferrable_as_numerical_assumption": false
+    },
+    {
+      "id": "VA-ADMISSION-S5",
+      "gap": "exact exception wrapping",
+      "deferrable_as_numerical_assumption": false
+    },
+    {
+      "id": "VA-ADMISSION-S6",
+      "gap": "native lowering/runtime/debug/sanitizer behavior",
+      "deferrable_as_numerical_assumption": false
+    },
+    {
+      "id": "VA-ADMISSION-S7",
+      "gap": "physical memory and GPU execution",
+      "deferrable_as_numerical_assumption": false
+    }
+  ]
+}

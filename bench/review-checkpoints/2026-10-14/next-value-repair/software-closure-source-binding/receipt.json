@@ -1,0 +1,170 @@
+{
+  "schema": 2,
+  "status": "source_binding_candidate_for_root_review",
+  "source_sha256": {
+    "bench/tritonbench_g/layer_norm_ops/Proofs/FPClosed.lean": "b9efb88354a4051c846ed5effff58edec5f232188a60ce3e12fb352589b97e02",
+    "bench/tritonbench_g/layer_norm_ops/SoftwareCorrect.lean": "ce1aa5820dd86004f789fa6eb16fb906189a324dde683f0eee19c0b9e45e4673",
+    "bench/tritonbench_g/layer_norm_ops/Proofs/FPClosedWitness.lean": "6efcab4c35cec7ecc766c2d1a301badcefa0fd91795aef4139db997fce1ba590",
+    "bench/tritonbench_g/int4_matmul/Proofs/FPClosed.lean": "e02d26ae31158ceac6a2e82594a580758ee32d48d95ac2b584028a59a204b9d1",
+    "bench/tritonbench_g/int4_matmul/SoftwareCorrect.lean": "53a97f59242a534a2e477bfc0ea6d1819613343917cae77234974142c3493ec6",
+    "bench/tritonbench_g/int4_matmul/Proofs/FPDotAccGap.lean": "40573f5040244f0a0447c4771714351c98b7f0e6e0b4fe96af38a1fd5643e9ed",
+    "bench/tritonbench_g/fp4_to_bf16_conversion/Proofs/FPPowi.lean": "942b4d32c28347dc10c7a1e0b5d6a50e3df0e7354a96ea6fd5b4a12109e77188",
+    "bench/tritonbench_g/fp4_to_bf16_conversion/Proofs/FPFormatOracle.lean": "c5fe12c19bfbd4c3b8ac52f710b088fb1cd4cfa493cda47a76711886ad4d4aeb",
+    "bench/tritonbench_g/fp4_to_bf16_conversion/Proofs/FPPhysicalOracle.lean": "fb2bbb387c7567ea65edaf8cd6034669536a34837f7091948fb74406833bf16c"
+  },
+  "origins": {
+    "bench/tritonbench_g/layer_norm_ops/Proofs/FPClosed.lean": {
+      "package": "layernorm-software-closure",
+      "artifact_pointer": [
+        "artifacts",
+        "candidate/after/bench/tritonbench_g/layer_norm_ops/Proofs/FPClosed.lean"
+      ],
+      "before_revision_sha256": "b9efb88354a4051c846ed5effff58edec5f232188a60ce3e12fb352589b97e02"
+    },
+    "bench/tritonbench_g/layer_norm_ops/SoftwareCorrect.lean": {
+      "package": "layernorm-software-closure",
+      "artifact_pointer": [
+        "artifacts",
+        "candidate/after/bench/tritonbench_g/layer_norm_ops/SoftwareCorrect.lean"
+      ],
+      "before_revision_sha256": "ce1aa5820dd86004f789fa6eb16fb906189a324dde683f0eee19c0b9e45e4673"
+    },
+    "bench/tritonbench_g/layer_norm_ops/Proofs/FPClosedWitness.lean": {
+      "package": "layernorm-software-closure",
+      "artifact_pointer": [
+        "artifacts",
+        "candidate/after/bench/tritonbench_g/layer_norm_ops/Proofs/FPClosedWitness.lean"
+      ],
+      "before_revision_sha256": "6efcab4c35cec7ecc766c2d1a301badcefa0fd91795aef4139db997fce1ba590"
+    },
+    "bench/tritonbench_g/int4_matmul/Proofs/FPClosed.lean": {
+      "package": "int4-dotacc-gap",
+      "artifact_pointer": [
+        "artifacts",
+        "candidate/after/bench/tritonbench_g/int4_matmul/Proofs/FPClosed.lean"
+      ],
+      "before_revision_sha256": "e02d26ae31158ceac6a2e82594a580758ee32d48d95ac2b584028a59a204b9d1"
+    },
+    "bench/tritonbench_g/int4_matmul/SoftwareCorrect.lean": {
+      "package": "int4-dotacc-gap",
+      "artifact_pointer": [
+        "artifacts",
+        "candidate/after/bench/tritonbench_g/int4_matmul/SoftwareCorrect.lean"
+      ],
+      "before_revision_sha256": "f08965e301e2be5f4548591f8a833a9a52cdfef1e6d1f746767670d1bc2b73e9",
+      "revision": "int4-revision/receipt.json"
+    },
+    "bench/tritonbench_g/int4_matmul/Proofs/FPDotAccGap.lean": {
+      "package": "int4-dotacc-gap",
+      "artifact_pointer": [
+        "artifacts",
+        "candidate/after/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccGap.lean"
+      ],
+      "before_revision_sha256": "40573f5040244f0a0447c4771714351c98b7f0e6e0b4fe96af38a1fd5643e9ed"
+    },
+    "bench/tritonbench_g/fp4_to_bf16_conversion/Proofs/FPPowi.lean": {
+      "package": "fp4-scaled-algorithm-oracle",
+      "artifact_pointer": [
+        "artifacts",
+        "candidate/after/bench/tritonbench_g/fp4_to_bf16_conversion/Proofs/FPPowi.lean"
+      ],
+      "before_revision_sha256": "942b4d32c28347dc10c7a1e0b5d6a50e3df0e7354a96ea6fd5b4a12109e77188"
+    },
+    "bench/tritonbench_g/fp4_to_bf16_conversion/Proofs/FPFormatOracle.lean": {
+      "package": "fp4-scaled-algorithm-oracle",
+      "artifact_pointer": [
+        "artifacts",
+        "candidate/after/bench/tritonbench_g/fp4_to_bf16_conversion/Proofs/FPFormatOracle.lean"
+      ],
+      "before_revision_sha256": "c5fe12c19bfbd4c3b8ac52f710b088fb1cd4cfa493cda47a76711886ad4d4aeb"
+    },
+    "bench/tritonbench_g/fp4_to_bf16_conversion/Proofs/FPPhysicalOracle.lean": {
+      "package": "fp4-scaled-algorithm-oracle",
+      "artifact_pointer": [
+        "artifacts",
+        "candidate/after/bench/tritonbench_g/fp4_to_bf16_conversion/Proofs/FPPhysicalOracle.lean"
+      ],
+      "before_revision_sha256": "fb2bbb387c7567ea65edaf8cd6034669536a34837f7091948fb74406833bf16c"
+    }
+  },
+  "parent_root_reviews": [
+    {
+      "package": "layernorm-software-closure",
+      "receipt": "bench/review-checkpoints/2026-10-14/next-value-repair/layernorm-software-closure/receipt.json",
+      "receipt_sha256": "8b8afed7fd3dd850497963165368a1a43083685e592c2c6ff85ccf40a3bbb6ff",
+      "root_review": "bench/review-checkpoints/2026-10-14/next-value-repair/layernorm-software-closure/root-review.json",
+      "root_review_sha256": "fa0b87ffbf79cc8096753e124a3b1e7337cf0d8fc89298cbad53c4c1803195a9",
+      "candidate_receipt_sha256": "f690e1e70cd90394254bc7ddcffb21f7a3949d25e60e3ddfecea637625441e92"
+    },
+    {
+      "package": "int4-dotacc-gap",
+      "receipt": "bench/review-checkpoints/2026-10-14/next-value-repair/int4-dotacc-gap/receipt.json",
+      "receipt_sha256": "3242a33fa345e08970e50403d64b5f22b6360e3fff9d06ca2dd8cb13e960e1f2",
+      "root_review": "bench/review-checkpoints/2026-10-14/next-value-repair/int4-dotacc-gap/root-review.json",
+      "root_review_sha256": "f61b59c844659f357863eadfc6f95836a0c72b8490dab08201d99767c060be2f",
+      "candidate_receipt_sha256": "45871e25de03184545a39f866a6b32f985bcbbf3a936872c0c6ba33fa9150a21"
+    },
+    {
+      "package": "fp4-scaled-algorithm-oracle",
+      "receipt": "bench/review-checkpoints/2026-10-14/next-value-repair/fp4-scaled-algorithm-oracle/receipt.json",
+      "receipt_sha256": "46f05f35afb5965279b3d63b09c689e3844b5ce57e6a8ff70b91706a535fcc5a",
+      "root_review": "bench/review-checkpoints/2026-10-14/next-value-repair/fp4-scaled-algorithm-oracle/root-review.json",
+      "root_review_sha256": "aa643648874eaf82b2ded4a12760fddc1442e3e73da8e0996d100076d817dba8",
+      "installation": "bench/review-checkpoints/2026-10-14/next-value-repair/fp4-scaled-algorithm-oracle/installation.json",
+      "installation_sha256": "2c83dddf0e76fcfc984adf2414e594722d93d58e750aa56b45618ee382f42886"
+    }
+  ],
+  "revision_compile_receipt": {
+    "path": "int4-revision/receipt.json",
+    "sha256": "d80109a4784a03e3424101d7d4dfdc116857b80c936a72edc9c92e6bababf967"
+  },
+  "counterexample_recompile_receipt": {
+    "path": "int4-revision/counterexample-recompile-receipt.json",
+    "sha256": "645c3625d33c8bfc30588dfd0ae5bb7df08fb1ce01d594b2c0c592c030fe3712"
+  },
+  "scope": {
+    "layer_norm_ops": {
+      "new_specifications": 9,
+      "full_original_accepted_stages": 9,
+      "closed_numeric_callbacks": true,
+      "stage_domain": "Original fp32 supplied-store and one-row backward stages; no full forward producer or multi-row scope added."
+    },
+    "int4_matmul": {
+      "new_specifications": 0,
+      "ordinary_helper_revision_only": true,
+      "classification_unchanged": true,
+      "compiled_dot_unconditional_separate_add_equivalence": "refuted_for_concrete_software_profiles",
+      "actual_gpu_value": "not_established"
+    },
+    "fp4_to_bf16_conversion": {
+      "new_specifications": 0,
+      "ordinary_helpers_only": true,
+      "classification_unchanged": true,
+      "original_source_complete": false,
+      "native_execution": false
+    }
+  },
+  "classification_delta": {
+    "baseline": [
+      50,
+      133,
+      1
+    ],
+    "current": [
+      51,
+      132,
+      1
+    ],
+    "only_upgraded_task": "layer_norm_ops",
+    "original41": [
+      30,
+      11
+    ],
+    "public_specs": 881
+  },
+  "native_gpu_execution": false,
+  "unified_acceptance": "not_run_for_this_supplement",
+  "previous_binding_receipt_sha256": "f479ce1fecc2a4be5e56dd46b67e0ea07273ac2c3832836d240ca69498239deb",
+  "expected_registered_modules": 3792,
+  "expected_task_modules": 3361
+}

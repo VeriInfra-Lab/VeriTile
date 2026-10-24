@@ -1,0 +1,2 @@
+bench/repairs/tritonbench_g/rotary_transform_ops/kernel-evidence/prefix_probe.lean:40:4: error: `simp` made no progress
+bench/repairs/tritonbench_g/rotary_transform_ops/kernel-evidence/prefix_probe.lean:53:0: error: VeriTile.Bench.Repairs.RotaryTransformOps.PrefixProbe.execution: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

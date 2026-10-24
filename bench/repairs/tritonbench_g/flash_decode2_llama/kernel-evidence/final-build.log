@@ -1,0 +1,88 @@
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelModel.order: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+{"module": "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/KernelOrder.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/KernelOrder.olean"}
+{"module": "bench/repairs/tritonbench_g/flash_decode2_llama/Kernels.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/flash_decode2_llama/Kernels.olean"}
+VeriTile.Bench.Repairs.FlashDecode2Llama.flash_decode2_llama_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2Llama.flash_decode2_llama_grid_order: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2Llama.flash_decode2_llama_reference: definition does not reference [VeriTile.Bench.Repairs.FlashDecode2Llama.KernelModel.run,
+ VeriTile.Bench.Repairs.FlashDecode2.Grid.source,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.FlashDecode2.values,
+ VeriTile.Bench.Repairs.FlashDecode2.Reference.recurrence] — non-circular ✓
+Axiom audit: headlines=0
+headlines: []
+{"module": "bench/repairs/tritonbench_g/flash_decode2_llama/Correct.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/flash_decode2_llama/Correct.olean"}
+VeriTile.Bench.Repairs.FlashDecode2Llama.flash_decode2_llama_fp32: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2Llama.flash_decode2_llama_native_recurrence: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2Llama.flash_decode2_llama_native_reference: definition does not reference [VeriTile.Bench.Repairs.FlashDecode2Llama.KernelModel.run,
+ VeriTile.Bench.Repairs.FlashDecode2.Grid.source,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.FlashDecode2.values,
+ VeriTile.Bench.Repairs.FlashDecode2.Native.eval] — non-circular ✓
+Axiom audit: headlines=0
+headlines: []
+{"module": "bench/repairs/tritonbench_g/flash_decode2_llama/FPEquiv.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/flash_decode2_llama/FPEquiv.olean"}
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelModel.typed: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelModel.count_bound: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelTensor.direct_logical: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelTensor.mid_read: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelTensor.log_read: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelTensor.output_index: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelNative.recurrence: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelReal.value: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelEndpoints.real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelEndpoints.native: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelSafety.pointers: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelSafety.offsets: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelSafety.length_add: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelSafety.maximal_q_once: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelModel.order: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelTensor.Arguments: definition does not reference [VeriTile.Bench.Repairs.FlashDecode2Llama.KernelModel.run,
+ VeriTile.Bench.Repairs.FlashDecode2.Grid.source,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.FlashDecode2Llama.KernelNative.target,
+ VeriTile.Bench.Repairs.FlashDecode2Llama.KernelReal.target] — non-circular ✓
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelNative.Ops: definition does not reference [VeriTile.Bench.Repairs.FlashDecode2Llama.KernelModel.run,
+ VeriTile.Bench.Repairs.FlashDecode2.Grid.source,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.FlashDecode2Llama.KernelNative.target,
+ VeriTile.Bench.Repairs.FlashDecode2Llama.KernelReal.target] — non-circular ✓
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelNative.schedule: definition does not reference [VeriTile.Bench.Repairs.FlashDecode2Llama.KernelTensor.word,
+ VeriTile.Bench.Repairs.FlashDecode2Llama.KernelTensor.lengths,
+ VeriTile.Bench.Repairs.FlashDecode2Llama.KernelNative.entry,
+ VeriTile.Bench.Repairs.FlashDecode2Llama.KernelNative.target] — non-circular ✓
+{"module": "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/KernelAudit.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/KernelAudit.olean"}

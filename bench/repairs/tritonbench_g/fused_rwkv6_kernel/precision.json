@@ -1,0 +1,13 @@
+{
+  "source_sha256": "dfd768e5f6f3c8b439ef7e76b26a1330e2e81c9071c2d4c091fb8b4122221669",
+  "original_sha256": "e7858658e4cd24ccc529b2a8678ce8bf605d1eb58af2785ead319a3a5d2d9086",
+  "kernel_ast_sha256": "f5bdeb85f4d1e0a999470f95a39ed9740aadb23c93d14270ba8e6826983b67af",
+  "lowering_report": "/tmp/veritile-rwkv-lowering/report.json",
+  "native_dtype": "fp32",
+  "num_warps": 1,
+  "num_stages": 1,
+  "enable_fp_fusion": true,
+  "exp": "mul.f32 by 0x3fb8aa3b then ex2.approx.f32; no FTZ in checked profiles",
+  "reduction": "legal padded key tree and host sum0 tree, fixed before values",
+  "gpu_validation": "deferred: local scalar numerical conformance; CUDA unavailable"
+}

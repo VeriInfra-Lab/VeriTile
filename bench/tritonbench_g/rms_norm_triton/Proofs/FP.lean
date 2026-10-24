@@ -1,4 +1,4 @@
-import bench.tritonbench_g.rms_norm_triton.Kernels
+import bench.tritonbench_g.rms_norm_triton.Proofs.LegacyKernels
 import bench.tritonbench_g.cache_transform_triton.Proofs.IndexRewrite
 
 namespace VeriTile.Bench.TritonBenchG.RmsNormTriton.FPProof

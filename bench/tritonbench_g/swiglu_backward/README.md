@@ -1,5 +1,16 @@
 # swiglu_backward
 
+Current checked entry (2026-10-19): [../../repairs/tritonbench_g/swiglu_backward/README.md](../../repairs/tritonbench_g/swiglu_backward/README.md)
+provides explicit FP32 Python guards and derives whole-host ownership and
+finite-index conditions from those guards plus ordinary Tensor storage laws.
+The original Python remains unchanged. The retained whole-source public
+entries and their complete helper closure have also been restored and compile;
+their original `Domain`/`FiniteAdmission` assumptions remain conditional source
+contracts, not claims that the original Python enforces those assumptions.
+The historical per-program notes below retain their original scope.
+
+Public-entry cleanup (2026-10-14): the current benchmark specifications are the `specification` declarations in [Correct.lean](Correct.lean) and [FPEquiv.lean](FPEquiv.lean). Superseded entries have been retired; reusable mathematical facts remain ordinary helper theorems, and unused output-summary declarations have been removed. Historical preservation counts below describe the earlier snapshots. This cleanup adds no proof coverage or task acceptance.
+
 The complete kernel loads X, Y and DOUT before writing DX, DY and then optional
 OUT. Both `RECOMPUTE_OUTPUT` outcomes are retained, including the guarded OUT
 row-pointer update and guarded forward recomputation after the gradient stores.

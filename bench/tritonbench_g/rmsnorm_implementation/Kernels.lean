@@ -1,3 +1,13 @@
+/-
+Source-audit target: rmsnorm_triton
+Source-audit Lean: rmsnormTyped%
+Source-audit params: stride_x_batch=sxb, stride_x_m=sxm, stride_x_k=sxk, stride_rms_w=sw, stride_out_batch=sob, stride_out_m=som, stride_out_k=sok, N_SIZE=N, BLOCK_N_SIZE=B
+Source-audit args: input=tl.float32, weight=tl.float32, output=tl.float32
+Selected lexical source view only; this metadata is not all-profile certification.
+Original fp32 two-loop quotation with both program IDs, all strides and weight padding.
+Other profiles, native conversion admission and the later address candidate remain separate checks.
+-/
+
 import VeriTile.Triton
 
 /-!

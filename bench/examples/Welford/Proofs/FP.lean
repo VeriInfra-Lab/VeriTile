@@ -44,10 +44,11 @@ def initialCode : List ComputeStmt :=
 
 def outputCode (meanReg varReg : RegionName) (N : Nat) : List ComputeStmt :=
   [.store .bf16 [] (.region ⟨meanReg.name⟩ (.constNat 0))
-      (.alg (.castFloat .real .bf16 (realRef "M"))) .none,
+      (.alg (.castFloat .real .bf16 (.withPrecision .real .fp32 (realRef "M")))) .none,
    .store .bf16 [] (.region ⟨varReg.name⟩ (.constNat 0))
       (.alg (.castFloat .real .bf16
-        (.div .real .nil (realRef "S") (.natToReal (.constNat N))))) .none]
+        (.withPrecision .real .fp32
+          (.div .real .nil (realRef "S") (.natToReal (.constNat N)))))) .none]
 
 theorem kernel_body (x m v : RegionName) (N stride : Nat) :
     (onlineWelfordKernel x m v N stride).surfaceBody =
@@ -180,7 +181,8 @@ def meanValue {α : Type} (M : Algebra α) (xs : Fin N → α) : α :=
   M.cast none .real .bf16 (recurrence M xs N).1
 
 def varianceValue {α : Type} (M : Algebra α) (xs : Fin N → α) : α :=
-  M.cast none .real .bf16 (M.binary none .real .div (recurrence M xs N).2 (M.fromNat none N))
+  M.cast none .real .bf16
+    (M.binary (some .fp32) .real .div (recurrence M xs N).2 (M.fromNat (some .fp32) N))
 
 /-- Both original bf16 output cells and every untouched cell are accounted
 for. Output regions must differ; the input may alias either output because all
@@ -525,7 +527,7 @@ theorem same_signature (x mean variance : RegionName) (N stride : Nat) (empty : 
 
 /-- Both original runs, both typed output cells, and both memory frames under
 the syntactic contract. This is a support theorem, not a completed `≡[R]`
-specification: the final composition supplies CountConversion within its admitted bound. -/
+specification: the final composition supplies CountConversion within its certified bound. -/
 theorem original_runs_under_count {α : Type} [Inhabited α] (R : Rules) (M : Algebra α)
     (D : Domain α) (hM : Models R.assumptions M D) (s : State α) (plans : Schedules)
     (x mean variance : RegionName) (N stride : Nat) (hN : 0 < N) (hdistinct : mean ≠ variance)
@@ -546,8 +548,9 @@ theorem original_runs_under_count {α : Type} [Inhabited α] (R : Rules) (M : Al
   exact original_runs R M D hM s plans x mean variance N stride hN hdistinct
     (rowValues s x stride) empty (fun _ => rfl) hc hi hs
 
-/-- Compose bounded count conversion with the two executions and both output
-frames. The nonempty-row and count-bound premises stay explicit. -/
+/-- Compose strictly certified bounded count conversion and the admitted
+arithmetic relaxations with both executions and output frames. The nonempty-row
+and count-bound premises stay explicit. -/
 theorem equivalent (N stride : Nat) (hN : 0 < N) (hBound : N ≤ FP.CountConversion.limit)
     (empty : ReductionPlan 0) (R : FP.CountConversion.Rules) :
     FP.Scheduled.Equivalent₁ₓ₂ R.assumptions

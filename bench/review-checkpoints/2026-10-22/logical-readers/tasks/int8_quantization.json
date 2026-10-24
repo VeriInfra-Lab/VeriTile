@@ -1,0 +1,92 @@
+{
+  "schema": 1,
+  "task": "int8_quantization",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue07/result.json",
+    "sha256": "583e8d793cba1d71d000c2bdd3e45247f36f7ed54dadb5684382c4c861f64a4b",
+    "task_index": 3
+  },
+  "finding": "Headline formulas exposed a block/lane TileIndex, raw code/scale channels and finite-bound tuple proofs.",
+  "resolution": "Logical block×lane input and named codes/scales outputs expose the total quantizer. The original active-lane maximum and explicit total finite-block branch are retained.",
+  "mathematical_target": "per_block_int8_real: nearest-away 127*factor*x/blockMaximum, with scale=blockMaximum/127 and the original zero fallback for invalid blocks.",
+  "conditions_and_scope": "Original width/blockRows positivity and factor equality remain. All query/key branches, logical blocks, active tail masks, exceptional/zero-block behavior, INT8 data and Real scales, full successful source execution and exterior frame are retained; no new input-domain restriction is added.",
+  "proof_connection": "LogicalReader.full_judgment_iff proves iff with the complete old ProgramIO.Implements formula. IO.logicalFiniteBlock is the same explicit finite bound on active transformed lanes, expressed on logical coordinates.",
+  "fp_review": "bias_fold_equiv compares the existing multiplication-by-selected-sign source with direct signed-half selection. The two changed fp32 constant products use the proved fixed software multiplication model; all other primitives remain explicitly bound.",
+  "numerical_dependencies": "Empty experimental rule set. Two local fp32 constant products are strictly proved by BiasFold.model_signs for the explicitly selected software multiplication model; no universal hardware claim or new experiment.",
+  "previous_formula_scope": {
+    "mathematical_target": "For each active logical block, maxAbs of query/key-scaled values, nearestAway(127*scaledInput/maxAbs) codes and maxAbs/127 scales; the original out-of-FP32-range block branch returns zero.",
+    "required_conditions": [
+      "0<width, 0<blockRows and original factor equality RealSpec.factor query channels.",
+      "FiniteBlock is a branch of the total output formula, not a new input restriction; it preserves the original finite-range bound.",
+      "LogicalBlock filters exactly active lanes; padded width is not claimed to be the logical block extent."
+    ],
+    "scope": "Full batches×blocks schedule, original query/key branch and active row/channel tail mask, integer code and FP32 scale outputs, including invalid/zero blocks and exterior frame.",
+    "canonical_connection": "The adjacent blockMaximum/formula definitions expose both channels and are definitionally QuantizationIO.realTarget. QuantizationIO.real_implements uses the established raw/block/finite equalities and full source schedule/frame proof.",
+    "fp_program_pair": {
+      "actual_pair": [
+        "QuantizationIO.original (BiasFold.model rest)",
+        "QuantizationIO.biasFolded (BiasFold.model rest)"
+      ],
+      "actual_scope": "Replaces 0.5*selected ±1 with selected ±0.5, retaining all source stages, precision, classification, exceptional branches, schedules, INT8 casts and both outputs for all words.",
+      "numerical_dependency": "R=[]; reuses strict FP.mul .ieeeValue FP32 certificates BiasFold.half_times_one and half_times_neg_one. Other primitives remain bound. These fixed software-model facts are not a hardware-wide claim.",
+      "current_experimental_rules_used": 0,
+      "new_or_deferred_experiments": 0,
+      "source_unchanged": true
+    },
+    "numerical_dependencies": "R=[]; reuses strict FP.mul .ieeeValue FP32 certificates BiasFold.half_times_one and half_times_neg_one. Other primitives remain bound. These fixed software-model facts are not a hardware-wide claim."
+  },
+  "verification": [
+    {
+      "kind": "final_current_source_build",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue07/build.py",
+        "bench.repairs.tritonbench_g.int8_quantization.IO",
+        "bench.repairs.tritonbench_g.int8_quantization.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.int8_quantization.Correct",
+        "bench.repairs.tritonbench_g.int8_quantization.FPEquiv"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue07/int8_quantization-verified-build.log",
+      "log_sha256": "5b03c6f84e0197663942beb7c5bce83eb018ac873f8f62e2f88ce38bbbe820d8"
+    },
+    {
+      "kind": "joint_import_current_entries",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue07/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue07/int8_quantization-joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue07/int8_quantization-verified-joint-retry.log",
+      "log_sha256": "29b95bbcd8f89b4219baf7bac100f4670cd309423f9068985365853cab760ed2"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/int8_quantization/Contract.lean": "7afd383b9f62ff04a8f4eff02c52dda1e10a1b280257400dc58867a9984ea671",
+    "bench/repairs/tritonbench_g/int8_quantization/Correct.lean": "f2b854ac13a07a3b69b7e4e4034fe7a43f453ffdfa4b083dffcd1f9d7ef0c166",
+    "bench/repairs/tritonbench_g/int8_quantization/FPEquiv.lean": "d5873c81f36141a28252fb72b94c38c16d4eca6dd796365b203475351cbe6d2e",
+    "bench/repairs/tritonbench_g/int8_quantization/IO.lean": "c0aea57d05f0c1b297215fd421d8cfd71f8d540b5f8c6b39178b59fdd74ff713",
+    "bench/repairs/tritonbench_g/int8_quantization/Kernels.lean": "25c18b2f56e67f49c7e928fdf4f17e24b27c332d8fde9dadbe88c2dc13b186a6",
+    "bench/repairs/tritonbench_g/int8_quantization/Proofs/LogicalReader.lean": "964d9d0d460cf09d012d3f0cac6b0b29989034b0b8a6d10b8a40442ef46d77e8",
+    "bench/repairs/tritonbench_g/int8_quantization/Proofs/BiasFoldIO.lean": "d8dfb1dae99ca26ae92f97b23a61be61089b9fcfd997e8e62a96ed47dbdacc6d",
+    "bench/repairs/tritonbench_g/int8_quantization/Proofs/RealInterface.lean": "20513fc81cb860bdad4f4278979053254325b44832d51353a669fea5da6218ff",
+    "bench/repairs/tritonbench_g/int8_quantization/Proofs/BiasFold.lean": "ddcc5d19cba80f5297a008b5a08bea7935f03ec7d008819b931a498c63bbf4de",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

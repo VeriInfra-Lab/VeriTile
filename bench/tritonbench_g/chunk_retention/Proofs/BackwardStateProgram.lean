@@ -125,7 +125,7 @@ def initialization (p : Layout) : List Stmt :=
    .assign .nat [] "i_bh" (.programId 2),
    .assign .nat [] "i_h" (.mod .nat .nil (.ref .nat [] "i_bh") (.constNat p.H)),
    .assign .real [] "b_b" RealHProgram.baseOp,
-   .assign .int [p.BT] "o_i" (.castNatToInt (.arange p.BT)),
+   .assign .int [p.BT] "o_i" (.intToSigned 32 (.castNatToInt (.arange p.BT))),
    .assign .real [] "d_b" (.exp2 (.mul .real .nil (.const p.BT) (.ref .real [] "b_b"))),
    .assign .real [p.BT] "d_i" (RealDecayTiles.queryOp p.BT),
    .assign .real [p.BT,p.BT] "b_dh" (.full [p.BT,p.BT] (.const 0)),
@@ -149,6 +149,7 @@ theorem source_body (p : Layout) (r : Regions) (dot : Storage) (out : FloatDType
     (source p r dot out scale swapped).eraseDType.toAlgKernel.body = body p r swapped := by
   unfold source
   rw [RealDhSource.storage_erasure]
+  simp only [ComputeKernel.eraseDType, RealDhSource.projects, ComputeKernel.toAlgKernel_fromKernelBody, Kernel.eraseDType]
   cases swapped
   all_goals simp only [RealDhSource.source,Bool.false_eq_true,↓reduceIte,
     backwardH,backwardHDotLeft,backwardHSource,

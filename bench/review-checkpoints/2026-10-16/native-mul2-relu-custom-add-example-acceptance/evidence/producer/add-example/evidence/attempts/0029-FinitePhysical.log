@@ -1,0 +1,15 @@
+VeriTile.Bench.TritonBenchG.AddExample.Finite.byteFormula: definition does not reference [VeriTile.Bench.TritonBenchG.AddExample.Finite.applyWrites,
+ VeriTile.Bench.TritonBenchG.AddExample.Finite.runProgram,
+ VeriTile.Bench.TritonBenchG.AddExample.Finite.executeBody,
+ VeriTile.Bench.TritonBenchG.AddExample.Finite.executeInstruction] — non-circular ✓
+VeriTile.Bench.TritonBenchG.AddExample.Finite.writes_preserved: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.AddExample.Finite.translated_load: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.AddExample.Finite.translated_store_byte: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.AddExample.Finite.input_preserved: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.AddExample.Finite.writes_pointwise: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.AddExample.Finite.writes_byte_frame: axiom footprint ⊆ standard base ✓  ([propext])

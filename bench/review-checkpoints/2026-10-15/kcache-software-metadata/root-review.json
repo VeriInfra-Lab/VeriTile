@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "reviewer": "root",
+  "status": "passed_installed_kcache_raw_bit_metadata_and_composed_build",
+  "receipt_sha256": "13608f2fc57eb7a8bbc716a5eb5960509b376ec18ba48440ae52b89da0987ed0",
+  "catalog_sha256": "0191d5c40dc1d1a105b75cb1a0b4ab383bd3fb6b4d64aaaadd7d084d4e0038cc",
+  "independent_installed_review_sha256": "86e9b714e5869af03e29160b81ab590066ae5b8f86314b8fe5db8e475d7ed78a",
+  "checked_current_inputs": 4125,
+  "changed_inputs": [],
+  "native_execution": false,
+  "full_corpus_comparator_passed": false
+}

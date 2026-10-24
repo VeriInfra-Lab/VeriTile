@@ -95,6 +95,11 @@ theorem kernel_math_body (q k cos sin : Storage) (v : Bool) (p : Parameters)
       (headStatement Bool.true p.blockHead)
       (original_supported q k cos sin p Q K Cos Sin) rfl]
     rw [original_math_body q k cos sin p Q K Cos Sin]
+    have hh : (headStatement Bool.true p.blockHead).eraseDType =
+        headStatement Bool.true p.blockHead := by
+      simp [headStatement, Stmt.eraseDType, Op.eraseDType.eq_def,
+        NumericDType.eraseDType, VeriTile.Triton.eraseDType]
+    rw [hh]
     rfl
 
 theorem typed_run (q k cos sin : Storage) (v : Bool) (p : Parameters)

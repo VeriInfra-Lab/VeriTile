@@ -1,0 +1,9 @@
+{
+  "task": "reversed_cumsum",
+  "files": {
+    "bench/tritonbench_g/reversed_cumsum/reversed_cumsum.py": "28e2c4e324b0098cac1aec32d11a0883dbebc491564f20674f6f08f1939fe314",
+    "bench/tritonbench_g/reversed_cumsum/Correct.lean": "e1919007e8fdd6c80ef93bda6d5c92cceabfbec95acbe12895e30ecc45e477ee",
+    "bench/tritonbench_g/reversed_cumsum/FPEquiv.lean": "9bb9b95e0d207f64e1b78ae0b29accc05268fbfc8d611c70ac912e9aa903dbf7",
+    "bench/tritonbench_g/reversed_cumsum/Kernels.lean": "afd7a0ad84dbdfc7e57a0fa6319c81adbee0a1d7d55522d0c1d909172437d804"
+  }
+}

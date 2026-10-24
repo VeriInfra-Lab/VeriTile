@@ -1,0 +1,310 @@
+[
+  {
+    "M": 1,
+    "N": 1,
+    "host_numel": 1,
+    "grid_x": 1,
+    "events": [
+      [
+        "abs",
+        "CPU_input"
+      ],
+      [
+        "max",
+        "abs"
+      ],
+      [
+        "unsqueeze",
+        "maximum",
+        0
+      ],
+      [
+        "reciprocal",
+        1.0,
+        "absmax"
+      ],
+      [
+        "empty",
+        1,
+        1,
+        {
+          "device": "cuda",
+          "dtype": "int8"
+        }
+      ],
+      [
+        "launch_grid",
+        [
+          1
+        ]
+      ]
+    ],
+    "first_error_type": "ValueError",
+    "first_error": "instrumented downstream pointer-packing failure",
+    "downstream_pointer_stage_reached": true
+  },
+  {
+    "M": 128,
+    "N": 128,
+    "host_numel": 16384,
+    "grid_x": 1,
+    "events": [
+      [
+        "abs",
+        "CPU_input"
+      ],
+      [
+        "max",
+        "abs"
+      ],
+      [
+        "unsqueeze",
+        "maximum",
+        0
+      ],
+      [
+        "reciprocal",
+        1.0,
+        "absmax"
+      ],
+      [
+        "empty",
+        128,
+        128,
+        {
+          "device": "cuda",
+          "dtype": "int8"
+        }
+      ],
+      [
+        "launch_grid",
+        [
+          1
+        ]
+      ]
+    ],
+    "first_error_type": "ValueError",
+    "first_error": "instrumented downstream pointer-packing failure",
+    "downstream_pointer_stage_reached": true
+  },
+  {
+    "M": 274877906816,
+    "N": 1,
+    "host_numel": 274877906816,
+    "grid_x": 2147483647,
+    "events": [
+      [
+        "abs",
+        "CPU_input"
+      ],
+      [
+        "max",
+        "abs"
+      ],
+      [
+        "unsqueeze",
+        "maximum",
+        0
+      ],
+      [
+        "reciprocal",
+        1.0,
+        "absmax"
+      ],
+      [
+        "empty",
+        1,
+        274877906816,
+        {
+          "device": "cuda",
+          "dtype": "int8"
+        }
+      ],
+      [
+        "launch_grid",
+        [
+          2147483647
+        ]
+      ]
+    ],
+    "first_error_type": "ValueError",
+    "first_error": "instrumented downstream pointer-packing failure",
+    "downstream_pointer_stage_reached": true
+  },
+  {
+    "M": 274877906817,
+    "N": 1,
+    "host_numel": 274877906817,
+    "grid_x": 2147483648,
+    "events": [
+      [
+        "abs",
+        "CPU_input"
+      ],
+      [
+        "max",
+        "abs"
+      ],
+      [
+        "unsqueeze",
+        "maximum",
+        0
+      ],
+      [
+        "reciprocal",
+        1.0,
+        "absmax"
+      ],
+      [
+        "empty",
+        1,
+        274877906817,
+        {
+          "device": "cuda",
+          "dtype": "int8"
+        }
+      ],
+      [
+        "launch_grid",
+        [
+          2147483648
+        ]
+      ]
+    ],
+    "first_error_type": "OverflowError",
+    "first_error": "signed integer is greater than maximum",
+    "downstream_pointer_stage_reached": false
+  },
+  {
+    "M": 274877906944,
+    "N": 1,
+    "host_numel": 274877906944,
+    "grid_x": 2147483648,
+    "events": [
+      [
+        "abs",
+        "CPU_input"
+      ],
+      [
+        "max",
+        "abs"
+      ],
+      [
+        "unsqueeze",
+        "maximum",
+        0
+      ],
+      [
+        "reciprocal",
+        1.0,
+        "absmax"
+      ],
+      [
+        "empty",
+        1,
+        274877906944,
+        {
+          "device": "cuda",
+          "dtype": "int8"
+        }
+      ],
+      [
+        "launch_grid",
+        [
+          2147483648
+        ]
+      ]
+    ],
+    "first_error_type": "OverflowError",
+    "first_error": "signed integer is greater than maximum",
+    "downstream_pointer_stage_reached": false
+  },
+  {
+    "M": 1,
+    "N": 274877906944,
+    "host_numel": 274877906944,
+    "grid_x": 2147483648,
+    "events": [
+      [
+        "abs",
+        "CPU_input"
+      ],
+      [
+        "max",
+        "abs"
+      ],
+      [
+        "unsqueeze",
+        "maximum",
+        0
+      ],
+      [
+        "reciprocal",
+        1.0,
+        "absmax"
+      ],
+      [
+        "empty",
+        274877906944,
+        1,
+        {
+          "device": "cuda",
+          "dtype": "int8"
+        }
+      ],
+      [
+        "launch_grid",
+        [
+          2147483648
+        ]
+      ]
+    ],
+    "first_error_type": "OverflowError",
+    "first_error": "signed integer is greater than maximum",
+    "downstream_pointer_stage_reached": false
+  },
+  {
+    "M": 1048576,
+    "N": 33554432,
+    "host_numel": 35184372088832,
+    "grid_x": 2147483648,
+    "events": [
+      [
+        "abs",
+        "CPU_input"
+      ],
+      [
+        "max",
+        "abs"
+      ],
+      [
+        "unsqueeze",
+        "maximum",
+        0
+      ],
+      [
+        "reciprocal",
+        1.0,
+        "absmax"
+      ],
+      [
+        "empty",
+        33554432,
+        1048576,
+        {
+          "device": "cuda",
+          "dtype": "int8"
+        }
+      ],
+      [
+        "launch_grid",
+        [
+          2147483648
+        ]
+      ]
+    ],
+    "first_error_type": "OverflowError",
+    "first_error": "signed integer is greater than maximum",
+    "downstream_pointer_stage_reached": false
+  }
+]

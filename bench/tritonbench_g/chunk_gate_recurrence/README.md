@@ -1,5 +1,10 @@
 # chunk_gate_recurrence
 
+A separate [checked FP32 wrapper repair](../../repairs/tritonbench_g/chunk_gate_recurrence/README.md)
+supports actual optional-seed strides and empty sequences, with complete
+forward/backward Real and conditional FP32 wrapper proofs. The original Python
+source and the original proof scope below remain unchanged.
+
 Source: [chunk_gate_recurrence.py](chunk_gate_recurrence.py), TritonBench-G v1.
 Both complete forward and backward sources have independent real correctness
 and admitted FP equivalence proofs. The current whole-case independent replay

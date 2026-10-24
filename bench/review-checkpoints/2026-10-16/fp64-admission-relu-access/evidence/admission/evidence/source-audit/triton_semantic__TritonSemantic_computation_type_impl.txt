@@ -1,0 +1,49 @@
+    def computation_type_impl(self, a_ty: tl.dtype, a_is_scalar: bool, b_ty: tl.dtype, b_is_scalar: bool,
+                              div_or_mod: bool) -> tl.dtype:
+        # 0) For scalars we follow semantics similar to PyTorch, namely:
+        # - If the scalar is of a lower or equal kind (bool < uint < int < fp),
+        #   it doesn't participate in the promotion
+        if a_is_scalar != b_is_scalar:
+            scalar_ty, tensor_ty = (a_ty, b_ty) if a_is_scalar else (b_ty, a_ty)
+            if scalar_ty.kind().value <= tensor_ty.kind().value:
+                # Upcast because of 3) and 4) below!
+                if div_or_mod and (tensor_ty in (tl.float16, tl.bfloat16)):
+                    return tl.float32
+                return tensor_ty
+
+        # 1) if one operand is double, the other is implicitly
+        #    converted to double
+        if a_ty.is_fp64() or b_ty.is_fp64():
+            return tl.float64
+        # 2) if one operand is float, the other is implicitly
+        #    converted to float
+        if a_ty.is_fp32() or b_ty.is_fp32():
+            return tl.float32
+        # 3 ) if one operand is half, the other is implicitly converted to half
+        #     unless we're doing / or %, which do not exist natively in PTX for fp16.
+        #     Supported PTX op: add, sub, mul, fma, neg, abs, min, max, tanh, ex2, setp
+        if a_ty.is_fp16() or b_ty.is_fp16():
+            if div_or_mod:
+                return tl.float32
+            else:
+                return tl.float16
+        # 4) return bf16 only if both operands are of bf16
+        if a_ty.is_bf16() and b_ty.is_bf16():
+            if div_or_mod:
+                return tl.float32
+            else:
+                return tl.bfloat16
+        if a_ty.is_bf16() or b_ty.is_bf16():
+            return tl.float32
+        # 5) return fp16 if operands are different fp8
+        if a_ty.is_fp8() and b_ty.is_fp8():
+            return a_ty if a_ty == b_ty else tl.float16
+        if not a_ty.is_int() or not b_ty.is_int():
+            raise TypeError(f"unexpected type {a_ty} and {b_ty}")
+        # 6 ) both operands are integer and undergo
+        #    integer promotion
+        if div_or_mod and a_ty.int_signedness != b_ty.int_signedness:
+            raise TypeError("Cannot use /, #, or % with " + a_ty.__repr__() + " and " + b_ty.__repr__() +
+                            " because they have different signedness;"
+                            "this is unlikely to result in a useful answer. Cast them to the same signedness.")
+        return self.integer_promote_impl(a_ty, b_ty)

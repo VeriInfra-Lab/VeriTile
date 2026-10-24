@@ -1,0 +1,13 @@
+{
+  "label": "legacy-manifest-status",
+  "command": [
+    "python3",
+    "-B",
+    "bench/check_proof_gap_manifest.py"
+  ],
+  "started_at_utc": "2026-10-15T07:43:25.156414+00:00",
+  "exit_code": 1,
+  "elapsed_seconds": 0.182,
+  "log": "legacy-manifest-status.log",
+  "log_sha256": "e1b6b4392ce60e853c78050c79235ecfa58baae94c6b10033b539338b8442d79"
+}

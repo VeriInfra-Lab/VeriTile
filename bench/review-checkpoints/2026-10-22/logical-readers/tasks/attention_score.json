@@ -1,0 +1,122 @@
+{
+  "schema": 1,
+  "task": "attention_score",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue01/result.json",
+    "sha256": "e83606eb1af11f63258849532abca45e610a46657c5b23bc45277a166000a8ec",
+    "task_index": 11
+  },
+  "finding": "Reader exposed flat Q/K/M indexing and bounds proofs inside the full-N score formula, with an output-coordinate inverse.",
+  "resolution": "Added actual query/key/normalizer arrays with exact backing connection, complete initial-Out input retention, grouped logical key-head mapping and curried batch/head/key output.",
+  "mathematical_target": "N-term signed-window-filtered base-two attention score sum using supplied normalizer, with exact complement/regular window semantics.",
+  "conditions_and_scope": "Full selected source grid including empty dispatch; initialOutput wraps exactly the existing allocator-zero condition for empty work. Complete normalizer backing capacity retained while mathematical input uses N rows. Representation.Domain, B*D≤1048576, grouped heads, signed offsets/sizes and full safe-run/frame judgment retained.",
+  "proof_connection": "Proofs/LogicalReader.statement_iff proves equivalence of the entire original judgment after exact input/output transport, including domain where present. The independently displayed formula connects to the canonical full formula; execution, access safety, output and frame are unchanged.",
+  "fp_review": "Actual complete selected original/scalar-left FP32 scaling pair unchanged under R; TF32 dot, real query-length loop, source conversions and finite reached qk/qk_scale sites retained. Optional unrestricted native theorem not used as the main pair.",
+  "numerical_dependencies": "Existing FP32 MUL-COMMUTE is backed by the strict scalar model certificate (ScalarOpsLaws.mul_comm and CurrentAdmission.StrictSource.scalar) on finite reached operands; no experimental instance for this main rewrite and no new experiment.",
+  "previous_formula_scope": {
+    "mathematical_target": "For each key/grouped KV head, sum over exactly logical N query rows of window-filtered exp2(sum d<D Q*K*(scale*1.4426950408889634)-supplied M(row)). Complement keeps signed distance≥size; regular window is 0≤distance<size.",
+    "required_conditions": [
+      "Whole002.Representation.Domain and live tile bound B*D≤1048576 remain explicit.",
+      "Public initialOutput c only binds input Out=0 for existing empty dispatch (allocator behavior), not successful execution or desired final outputs; nonempty input Out unrestricted.",
+      "Grouped-head mapping, signed offset/size, regular/complement window predicate and supplied M normalizer preserved."
+    ],
+    "scope": "Full shared source grid and finite output channel, including empty dispatch allocator zero. Logical N sum is independent of B block width; full frame/safety/success retained.",
+    "canonical_connection": "Displayed distance/windowAllows/scoreSum/formula are definitionally canonical Reused.RealPhysical.logicalTarget and RealInterface.formula. Existing RealInterface.Proof.implements applies unchanged.",
+    "fp_program_pair": {
+      "floating_point.actual_pair": "SourcePair.original ≡[R] SourcePair.scalarLeft; actual qk*qk_scale becomes qk_scale*qk",
+      "floating_point.scope": "Complete selected source stage with real query-length loop, signed windows, TF32 dot and FP32 storage. Dynamic-range requirements attach finiteness to actual reached qk/scale sites. Full unrestricted native grid result remains optional Misc auxiliary, not substituted for this main pair."
+    },
+    "numerical_dependencies": {
+      "kind": "strict-model-proof",
+      "rule": "MUL-COMMUTE",
+      "precision": {
+        "input": "fp32",
+        "compute": "fp32",
+        "accumulator": "fp32",
+        "output": "fp32"
+      },
+      "domain": "finite reached qk and qk_scale at the actual retained loop site",
+      "source": "VeriTile/Triton/Float/ScalarArithmetic.lean:strict_certificate; ScalarOpsLaws.mul_comm; CurrentAdmission.StrictSource.scalar",
+      "experimental_instance_used": false
+    }
+  },
+  "verification": [
+    {
+      "kind": "targeted_build",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue01/build.py",
+        "bench.repairs.tritonbench_g.attention_kernel_aligned.LogicalIO",
+        "bench.repairs.tritonbench_g.attention_kernel_aligned.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.attention_kernel_aligned.Correct",
+        "bench.repairs.tritonbench_g.attention_llama_scalar_abi_checked.LogicalIO",
+        "bench.repairs.tritonbench_g.attention_llama_scalar_abi_checked.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.attention_llama_scalar_abi_checked.Correct",
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.LogicalIO",
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.Correct"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue01/special-final.log",
+      "log_sha256": "8ba151feb61da29b562ed2d82769863f235b79e631983f9e1332192d3456e227",
+      "module_receipts": [
+        {
+          "path": ".veritile-cache/logical-reader-review-20261022/queue01/build/lib/lean/bench/repairs/tritonbench_g/attention_score_tile_checked/Correct.workspace-build.json",
+          "sha256": "25b8baf1ad72818ed6c441610b0b613deb1a2d1733b632cb92d3b1cbd4dab147"
+        },
+        {
+          "path": ".veritile-cache/logical-reader-review-20261022/queue01/build/lib/lean/bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/LogicalReader.workspace-build.json",
+          "sha256": "771aeaeee8345390c08d0d9eacfdd0f86bc85ce71c3dc7556527bb05e323f529"
+        },
+        {
+          "path": ".veritile-cache/logical-reader-review-20261022/queue01/build/lib/lean/bench/repairs/tritonbench_g/attention_score_tile_checked/LogicalIO.workspace-build.json",
+          "sha256": "c4f2323ad303c5ed0e35f5dd7067e0ea696eb2d59bc05a49f350073ca2fc14bb"
+        }
+      ],
+      "note": "Final successful grouped command reused accepted receipts for these exact source and dependency hashes."
+    },
+    {
+      "task": "attention_score",
+      "kind": "task_joint",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue01/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue01/Joint_attention_score.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue01/Joint_attention_score.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/Contract.lean": "de3a1121736d7a9cb8d86de54967d4955ce9b3491050bf9ea5b8397bf004d745",
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/Correct.lean": "538289fbc3dae195d24dc988c0f64d68905623e50bba04b7c0407a3139522b1c",
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/FPEquiv.lean": "a566f1c608823b91214f5cee8cdb1ec463a0e0756641aaac06f20ff7e9b571f6",
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/RealIO.lean": "34d27487847a3f2ddda637074e20c334541b4d1cb4a1506bd08f2dd9e5d50108",
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/LogicalReader.lean": "20f4d5376f33677cc48ec30300d6c739573108e9e4fc7635c4313ad0fe40194a",
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/LogicalIO.lean": "a192f4557a1f2a21d4fbad9b19d0ead1656043410023b477807ef3cd81a359a3",
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/Kernels.lean": "2f786da4d1da40fd5903ff37e7f45e8fe351be6a026dde253578c96221ac17d8",
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/PairIO.lean": "0e8a81a1e257b2fa066b36e743e537ad71961bd1970db5cde596f4de60e2e68f",
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/SourcePair.lean": "2ed37e242c41870c8788524662d2104a22f466f44b895f2069aa7349a6659e97",
+    "bench/repairs/tritonbench_g/attention_score_tile_checked/Proofs/RealIOProof.lean": "c4fe27bae80a244a1b727db099c483b4c84a058a6a204beb643961ad05b70d02",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [
+    "Unchanged transitive proof closure and FPEquiv objects reused from the accepted read-only baseline; current selected entries passed task-level joint import.",
+    "No optional host/native/Tensor/GPU or numerical task introduced."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

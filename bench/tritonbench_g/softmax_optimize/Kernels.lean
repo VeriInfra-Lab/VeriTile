@@ -3,7 +3,15 @@ import bench.tritonbench_g.softmax_optimize.Proofs.Geometry
 /-! Full signed-loop transcription. The signed helper remains negative at N=0;
 real correctness is stated separately on a meaningful nonempty shape domain.
 Input storage is independent; exp-compatible output/accumulator storage is fp32
-or fp64. Destination conversions spell the source store conversion explicitly. -/
+or fp64. Destination conversions spell the source store conversion explicitly.
+
+Source-audit target: softmax_kernel_online_v2
+Source-audit Lean: softmaxOptimizeFull%
+Source-audit args: version=original
+The source view keeps storage symbolic and retains all four signed loops.
+Its outputType represents output_ptr.dtype.element_ty; that correspondence
+and the expanded prev_multiple_of helper need explicit comparison support.
+-/
 namespace VeriTile.Bench.TritonBenchG.SoftmaxOptimize.FullSource
 open Lean VeriTile.Triton
 set_option linter.unusedVariables false

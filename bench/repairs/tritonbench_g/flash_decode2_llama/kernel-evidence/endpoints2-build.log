@@ -1,0 +1,145 @@
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelTensor.mid_read: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelTensor.log_read: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelTensor.output_index: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelTensor.signed_length: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelTensor.Arguments: definition does not reference [VeriTile.Bench.Repairs.FlashDecode2Llama.KernelModel.run,
+ VeriTile.Bench.Repairs.FlashDecode2.Grid.source,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+{"module": "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/KernelTensor.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/KernelTensor.olean"}
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/KernelNative.lean:62:51: error: Ambiguous term
+  mul
+Possible interpretations:
+  _root_.mul : ∀ (M : Type ?u.1694.3566) (p q : ℕ) [inst : CommMonoid M] [PerfectRing M p] [PerfectRing M q],
+    PerfectRing M (p * q)
+  
+  FlashDecode2.mul : FP.Structural.Algebra ?m.107 → ?m.107 → ?m.107 → ?m.107
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/KernelNative.lean:62:4: error: function expected
+  @none (Term → ℤ → Term) Unary.exp
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/KernelNative.lean:69:8: error: (kernel) application type mismatch
+  FP.Structural.Algebra.mk Term.literal Term.negInf Term.binary fun x => none
+argument has type
+  FloatDType → Option (Term → Term → Term)
+but function has type
+  (IndexComputePrecision → Option (Term → Term → Term → Term)) →
+    (FloatDType → Option (Term → Term → Term)) →
+      (Option ComputeDType → Unary → Term → Term) →
+        (Option ComputeDType → Option (Term → ℤ → Term)) →
+          (FinitePrecision → Option (Term → Bool)) →
+            (Option ComputeDType → FloatDType → Option (Term → Term → Bool)) →
+              (Option ComputeDType → FloatDType → Option (Term → Term → Bool)) →
+                (Option ComputeDType → FloatDType → Option (Term → Term → Bool)) →
+                  (Option IndexComputePrecision → FloatDType → ℕ → Option (Term → Option ℤ)) →
+                    (Option IndexComputePrecision → FloatDType → ℕ → Option (Term → Option ℕ)) →
+                      (Option ComputeDType → FloatDType → FloatDType → Term → Term) →
+                        (Option ComputeDType → ℕ → Term) →
+                          (Option ComputeDType → ℤ → Term) →
+                            (Float32Bits → Term) →
+                              Option (FloatDType → Float8E5Bits → Term) →
+                                (Term → Term) →
+                                  (Option ComputeDType →
+                                      {shape : TileShape} →
+                                        («axis» : Fin (List.length shape)) →
+                                          (keepDims : Bool) →
+                                            Values Term TileDType.real shape →
+                                              Values Term TileDType.real (shape.reduceShape «axis» keepDims)) →
+                                    (Option ComputeDType →
+                                        {shape : TileShape} →
+                                          («axis» : Fin (List.length shape)) →
+                                            (keepDims : Bool) →
+                                              Values Term TileDType.real shape →
+                                                Values Term TileDType.real (shape.reduceShape «axis» keepDims)) →
+                                      (Option ComputeDType →
+                                          (dtype : FloatDType) →
+                                            {shape : TileShape} →
+                                              («axis» : Fin (List.length shape)) →
+                                                (keepDims : Bool) →
+                                                  Values Term dtype.toTileDType shape →
+                                                    Option
+                                                      (Values Term dtype.toTileDType
+                                                        (shape.reduceShape «axis» keepDims))) →
+                                        (Option ComputeDType →
+                                            (dtype : FloatDType) →
+                                              {shape : TileShape} →
+                                                («axis» : Fin (List.length shape)) →
+                                                  (keepDims : Bool) →
+                                                    Values Term dtype.toTileDType shape →
+                                                      Option
+                                                        (Values Term dtype.toTileDType
+                                                          (shape.reduceShape «axis» keepDims))) →
+                                          (Option ComputeDType →
+                                              (dtype : FloatDType) →
+                                                {shape : TileShape} →
+                                                  («axis» : Fin (List.length shape)) →
+                                                    Values Term dtype.toTileDType shape →
+                                                      Option
+                                                        (Values Term dtype.toTileDType (shape.eraseAxis «axis») ×
+                                                          Values Term TileDType.nat (shape.eraseAxis «axis»))) →
+                                            (Option ComputeDType →
+                                                {shape : TileShape} →
+                                                  ScanOp →
+                                                    Fin (List.length shape) →
+                                                      ScanDirection →
+                                                        Values Term TileDType.real shape →
+                                                          Option (Values Term TileDType.real shape)) →
+                                              (Option ComputeDType →
+                                                  {batch : TileShape} →
+                                                    {m k n : ℕ} →
+                                                      Values Term TileDType.real (batch ++ [m, k]) →
+                                                        Values Term TileDType.real (batch ++ [k, n]) →
+                                                          Option (Values Term TileDType.real (batch ++ [m, n]))) →
+                                                (Option ComputeDType →
+                                                    DotOptions →
+                                                      {batch : TileShape} →
+                                                        {m k n : ℕ} →
+                                                          Values Term TileDType.real (batch ++ [m, k]) →
+                                                            Values Term TileDType.real (batch ++ [k, n]) →
+                                                              Option (Values Term TileDType.real (batch ++ [m, n]))) →
+                                                  (Option ComputeDType →
+                                                      (left right out : FloatDType) →
+                                                        DotOptions →
+                                                          {batch : TileShape} →
+                                                            {m k n : ℕ} →
+                                                              Values Term left.toTileDType (batch ++ [m, k]) →
+                                                                Values Term right.toTileDType (batch ++ [k, n]) →
+                                                                  Option
+                                                                    (Values Term out.toTileDType (batch ++ [m, n]))) →
+                                                    (Option ComputeDType →
+                                                        (left right out : FloatDType) →
+                                                          DotOptions →
+                                                            {batch : TileShape} →
+                                                              {m k n : ℕ} →
+                                                                Values Term left.toTileDType (batch ++ [m, k]) →
+                                                                  Values Term right.toTileDType (batch ++ [k, n]) →
+                                                                    Values Term out.toTileDType (batch ++ [m, n]) →
+                                                                      Option
+                                                                        (Values Term out.toTileDType
+                                                                          (batch ++ [m, n]))) →
+                                                      (DotOptions →
+                                                          {batch : TileShape} →
+                                                            {m k n : ℕ} →
+                                                              Values Term TileDType.int (batch ++ [m, k]) →
+                                                                Values Term TileDType.int (batch ++ [k, n]) →
+                                                                  Option
+                                                                    (Values Term TileDType.int (batch ++ [m, n]))) →
+                                                        FP.Structural.Algebra Term
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/KernelNative.lean:81:41: warning: This simp argument is unused:
+  ↓reduceIte
+
+Hint: Omit it from the simp argument list.
+  simp only [̵G̵r̵i̵d̵.̵v̵a̵l̵u̵e̵,̵o̵u̵t̵p̵u̵t̵,̵c̵o̵u̵n̵t̵e̵d̵.̵1̵,̵d̵i̵v̵i̵d̵e̵,̵a̵l̵g̵e̵b̵r̵a̵,̵e̵v̵a̵l̵,̵b̵i̵n̵a̵r̵y̵,̵s̵c̵h̵e̵d̵u̵l̵e̵,̵
+  ̵ ̵ ̵ ̵ ̵l̵o̵w̵e̵r̵,̵N̵u̵m̵e̵r̵i̵c̵a̵l̵.̵l̵o̵w̵e̵r̵,̵B̵o̵o̵l̵.̵f̵a̵l̵s̵e̵_̵a̵n̵d̵,̵↓̵r̵e̵d̵u̵c̵e̵I̵t̵e̵]̵[̲G̲r̲i̲d̲.̲v̲a̲l̲u̲e̲,̲ ̲o̲u̲t̲p̲u̲t̲,̲ ̲c̲o̲u̲n̲t̲e̲d̲.̲1̲,̲ ̲d̲i̲v̲i̲d̲e̲,̲ ̲a̲l̲g̲e̲b̲r̲a̲,̲ ̲e̲v̲a̲l̲,̲ ̲b̲i̲n̲a̲r̲y̲,̲ ̲s̲c̲h̲e̲d̲u̲l̲e̲,̲ ̲l̲o̲w̲e̲r̲,̲
+  ̲ ̲ ̲ ̲ ̲N̲u̲m̲e̲r̲i̲c̲a̲l̲.̲l̲o̲w̲e̲r̲,̲ ̲B̲o̲o̲l̲.̲f̲a̲l̲s̲e̲_̲a̲n̲d̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/KernelNative.lean:84:0: error: VeriTile.Bench.Repairs.FlashDecode2Llama.KernelNative.recurrence: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/KernelNative.lean:85:0: error: VeriTile.Bench.Repairs.FlashDecode2Llama.KernelNative.value: DISALLOWED axioms [VeriTile.Bench.Repairs.FlashDecode2Llama.KernelNative.value] (sorryAx ⇒ fake proof)
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelNative.target: definition does not reference [VeriTile.Bench.Repairs.FlashDecode2Llama.KernelModel.run,
+ VeriTile.Bench.Repairs.FlashDecode2.Grid.source,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.FlashDecode2.values,
+ VeriTile.Bench.Repairs.FlashDecode2.Native.eval] — non-circular ✓

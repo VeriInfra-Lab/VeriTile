@@ -1,0 +1,11 @@
+{
+  "command": [
+    "/usr/local/bin/python3",
+    "-B",
+    "/tmp/veritile-numeric-adapter-4gs1s34u/first/bench/check_original_program_scope.py",
+    "--help"
+  ],
+  "exit_code": 0,
+  "stdout_sha256": "378fabcc139c6c2ca62bb634ab88b539af274e8e791a4653b8b396de5b6a9a19",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

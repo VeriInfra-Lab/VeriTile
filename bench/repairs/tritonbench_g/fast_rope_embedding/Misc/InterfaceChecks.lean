@@ -1,0 +1,36 @@
+import bench.repairs.tritonbench_g.fast_rope_embedding.Correct
+import bench.repairs.tritonbench_g.fast_rope_embedding.Misc.NativeCorrect
+import bench.repairs.tritonbench_g.fast_rope_embedding.Misc.TensorBridge
+import bench.repairs.tritonbench_g.fast_rope_embedding.Proofs.KernelRegressions
+import bench.repairs.tritonbench_g.fast_rope_embedding.Misc.HostCorrect
+import bench.repairs.tritonbench_g.fast_rope_embedding.Misc.HostFPEquiv
+
+namespace VeriTile.Bench.Repairs.FastRopeEmbedding
+#axiomsClean fast_rope_kernel_correctness
+#axiomsClean fast_rope_fp32_correctness
+#axiomsClean TensorBridge.fast_rope_kernel_correct
+#axiomsClean TensorBridge.fast_rope_kernel_fp32
+#axiomsClean TensorBridge.fast_rope_kernel_coverage
+#axiomsClean TensorBridge.fast_rope_no_launch
+#axiomsClean KernelContract.input_binding
+#axiomsClean KernelContract.original_typed_source
+#axiomsClean KernelContract.active_stride
+#axiomsClean KernelContract.actual_bits
+#axiomsClean KernelContract.access
+#axiomsClean KernelContract.store_physical
+#axiomsClean KernelContract.byte_initial
+#axiomsClean KernelContract.byte_store
+#axiomsClean KernelContract.tensor_byte_word
+#axiomsClean KernelContract.nonunit_not_inverse
+#axiomsClean KernelContract.odd_tail
+#axiomsClean KernelContract.other_program_frame
+#axiomsClean KernelContract.source_store_written
+#axiomsClean fast_rope_forward_correct
+#axiomsClean fast_rope_backward_correct
+#axiomsClean fast_rope_forward_fp32
+#axiomsClean fast_rope_backward_fp32
+#specNonCircular KernelContract.realValue avoiding [KernelContract.Call.source,
+  VeriTile.Triton.FP.Structural.exec,KernelContract.physical]
+#specNonCircular KernelContract.nativeValue avoiding [KernelContract.Call.source,
+  VeriTile.Triton.FP.Structural.exec,KernelContract.byteMemory]
+end VeriTile.Bench.Repairs.FastRopeEmbedding

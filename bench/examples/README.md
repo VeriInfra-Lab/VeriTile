@@ -1,5 +1,15 @@
 # Worked examples
 
+There are **19 example groups and 21 public FP specifications**. Ten groups use
+empirical rules and nine use only strict-model or structural proofs; at
+specification level the split is 10 and 11. HyperConnectionsWidth contains a
+strict scalar specification and an empirical matrix specification.
+
+These proofs use **12 of the 36 available empirical instances**, counted with
+their full precision and guards. The 183 task main statements add no further
+instance. See the [current rule-usage guide](../../documents/FPRemainingAdmissionGaps.md)
+for the complete list and proof boundaries; catalogue availability is not proof use.
+
 Each example has its own directory. Start with `Kernels.lean` to read the
 Triton programs, then choose the specification you want to inspect:
 
@@ -21,6 +31,13 @@ memory bounds and real arithmetic belong in `Proofs/Real.lean`; FP execution,
 recurrences and scalar derivations belong in `Proofs/FP.lean`.
 Helper modules do not import reader entries, and real and FP layers remain
 independent. Cross-example proof reuse imports the corresponding helper module.
+
+The same primary split applies to selected TritonBench-G revisions. Optional
+single-source native results, Tensor/host applications and extra audit readers
+belong in a task's `Misc/` directory (for example, `Misc/NativeCorrect.lean` and
+`Misc/TensorBridge.lean`). Helpers needed by the primary Real correctness or
+two-program FP equivalence remain in `Proofs/`; optional results add no FP32
+correctness or host-proof acceptance requirement.
 
 IO windows, masks, scratch regions, precision profiles and numerical domains
 remain visible in the entry files: these determine the statement itself.
@@ -57,15 +74,15 @@ required input/intermediate domains remain part of the FP statements.
 
 | Example | Transformation and existing proof scope |
 | --- | --- |
-| [TritonBenchVectorAddition](TritonBenchVectorAddition/) | Masked TritonBench addition; FP addition commutation. |
-| [VectorAdd](VectorAdd/) | Aligned addition; FP addition commutation. |
-| [FlatVectorAdd](FlatVectorAdd/) | Masked addition; FP addition commutation. |
-| [FloatDTypeAdd](FloatDTypeAdd/) | Explicitly typed addition; FP addition commutation. |
-| [AdamUpdateGridLaunch](AdamUpdateGridLaunch/) | In-place Lion update (the source is named Adam); commute the update's addition. |
-| [HyperConnectionsDepth](HyperConnectionsDepth/) | Symbolic `S/T/D` and normalization count; commute the final pointwise addition. General real matrix formula with bounded flat memory; contextual FP proof uses the two tactics. |
-| [HyperConnectionsWidth](HyperConnectionsWidth/) | Symbolic `S/T/D` and normalization count; replace logit division by reciprocal multiplication, preserving both matrix products. General real formulas with bounded flat memory; the two tactics compose both FP rewrite sites. |
+| [TritonBenchVectorAddition](TritonBenchVectorAddition/) | Masked TritonBench addition; strict FP32 addition commutation with `≡[[]]`. |
+| [VectorAdd](VectorAdd/) | Aligned addition; strict FP32 addition commutation with `≡[[]]`. |
+| [FlatVectorAdd](FlatVectorAdd/) | Masked addition; strict FP32 addition commutation with `≡[[]]`. |
+| [FloatDTypeAdd](FloatDTypeAdd/) | Explicitly typed addition; strict FP32 addition commutation with `≡[[]]`, preserving the output cast. |
+| [AdamUpdateGridLaunch](AdamUpdateGridLaunch/) | In-place Lion update (the source is named Adam); strictly commute the update's addition with `≡[[]]`. |
+| [HyperConnectionsDepth](HyperConnectionsDepth/) | Symbolic `S/T/D` and normalization count; strictly commute the final pointwise addition with `≡[[]]`. General real matrix formula with bounded flat memory; contextual FP proof uses the two tactics. |
+| [HyperConnectionsWidth](HyperConnectionsWidth/) | Scalar specialization strictly commutes two products with `≡[[]]`. The symbolic matrix variant replaces logit division by reciprocal multiplication and retains `R` for `DIV-MUL-RCP`, preserving both matrix products. General real formulas with bounded flat memory; the two tactics compose both FP rewrite sites. |
 | [RowWiseMax](RowWiseMax/) | Inline the maximum computation; structural FP equivalence without numerical assumptions. |
-| [RowWiseSum](RowWiseSum/) | Decompose observable outputs and prove reversed reduction lanes using guarded addition commutation, association and zero identities. |
+| [RowWiseSum](RowWiseSum/) | Prove reversed reduction lanes using strict addition commutation and empirical association/zero identities, with guarded intermediate operands. |
 | [FusedSiLU](FusedSiLU/) | Fuse the pipeline; structural FP equivalence without numerical assumptions. |
 | [FusedSwiglu](FusedSwiglu/) | Fuse the masked pipeline while retaining casts; structural FP equivalence without numerical assumptions. |
 | [SoftmaxReciprocal](SoftmaxReciprocal/) | Replace per-lane division with reciprocal multiplication; unchanged tl.exp prefix, only div_mul_rcp assumed. |
@@ -83,6 +100,22 @@ Each real statement includes successful execution and a memory frame. General mH
 row sum and Lion update; masked FlatVectorAdd and row max retain their stated
 positive-block-size conditions. OnlineSoftmax proves actual stored outputs; the recurrence-only helper remains available separately.
 
+The six addition-commutation examples above contain seven public FP
+specifications, including scalar and matrix HyperConnectionsDepth. Each uses
+the original `Program` and `≡[[]]`, with no empirical `R` parameter.
+`ScalarArithmetic.add_comm_strict` connects the shared `ScalarOpsLaws.add_comm`
+proof to the fixed `Guarded.fp32Theory`; its arithmetic profile is
+`Software.strictFP32` with `.ieeeValue`. Contextual proofs retain source
+precision, casts, computed operands, order, and the unchanged surrounding
+operations. Historical ADD-COMMUTE reports remain historical evidence;
+these specifications do not depend on their admission.
+
+HyperConnectionsWidth's scalar `mhc_width_equiv` likewise uses `≡[[]]` and the
+shared strict multiplication commutation theorem at both sites, preserving
+the actual computed exponential operands and their finite domains. Its matrix
+`mhc_width_matrix_equiv` performs a division-to-reciprocal rewrite instead and
+keeps the empirical `DIV-MUL-RCP` rule in `R`.
+
 The seven local-rewrite examples retain the finite operands of each actual
 rewrite in `GuardedRewrite.Program.domain`. The checked contextual lemmas
 preserve the whole execution result, including all registers and memory.
@@ -93,8 +126,8 @@ still compute the addition before the masked store.
 
 RowWiseSum uses successful execution summaries and explicit reduction trees.
 The domain lists the intermediate operands of both normalization paths; finite
-input leaves alone are insufficient. The proof uses add_commute, add_assoc and
-add_zero, including the zero steps introduced by normalization. Padding stays
+input leaves alone are insufficient. The proof uses strict `add_commute` and
+empirical `add_assoc`/`add_zero`, including normalization's zero steps. Padding stays
 explicit in the original schedules, and row length/stride remain symbolic.
 The generic tactics remain available for syntax derivations and their existing
 IO adapter; see [the tactic guide](../../documents/EquivalenceTactics.md).

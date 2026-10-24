@@ -1,0 +1,23 @@
+{
+  "status": "passed",
+  "positive": "exact unchanged queue checker accepts synthetic reviewed integration",
+  "rejected_tampers": [
+    "wrong_producer_pin",
+    "wrong_review_pin",
+    "changed_current_module",
+    "changed_checkpoint_module",
+    "changed_python",
+    "changed_native_ttir",
+    "changed_dependency_snapshot",
+    "changed_imported_source",
+    "conflicting_existing_input",
+    "producer_cannot_approve",
+    "missing_binding",
+    "altered_callback"
+  ],
+  "review_fixture": "isolated synthetic fixture only; not actual approval",
+  "portable_new_authority_inputs": 187,
+  "omitted_port_mutations_rejected": 68,
+  "case_links_checked": 404,
+  "completion_increment": 0
+}

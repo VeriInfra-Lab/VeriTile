@@ -1,0 +1,108 @@
+{
+  "schema": 1,
+  "task": "attention_forward_triton",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue01/result.json",
+    "sha256": "e83606eb1af11f63258849532abca45e610a46657c5b23bc45277a166000a8ec",
+    "task_index": 4
+  },
+  "finding": "Single-output attention formula exposed Fin.cases and physical stride/address lookup.",
+  "resolution": "Added explicit logical mathematical Arrays for Q/K/V/scales plus full backing-window connection, a genuine input equivalence, and curried batch/head/row/feature output equivalence.",
+  "mathematical_target": "Full-N scaled base-two normalized attention; head dimension 96, Q scales per128 and K scales per64.",
+  "conditions_and_scope": "Complete noncausal grid in any legal order; Separated, OutputInjective and finite RealInputs domain retained. FP16-tagged WithBot output keeps some encoding; all aliases, empty dimensions, physical windows and frame preserved.",
+  "proof_connection": "Proofs/LogicalReader.statement_iff proves iff of the complete previous judgment after input/output transport. The reader supplies its full canonical formula connection; safety/run/output/frame are retained.",
+  "fp_review": "Actual full-grid original/head-mask-hoisted FP32 source pair unchanged; TF32/FP16 graph, native observer and all-word domain retained; zero experimental rules.",
+  "numerical_dependencies": "No new numerical rule or experiment. Existing strict/model bindings retained.",
+  "previous_formula_scope": {
+    "mathematical_target": "Score = 96-feature Q·K times query/key block scales; output = sum over all logical N keys of exp2(score)*V divided by exp2 mass.",
+    "required_conditions": [
+      "Separated and OutputInjective stay explicit in main theorem.",
+      "AttentionIO.RealInputs requires all Real Option payloads isSome; finite channel shape, addresses and scales use logical96 versus padded128 computation. Original grid coverage and all masks retained."
+    ],
+    "scope": "Every logical batch/head/query/output coordinate of the full source grid, any complete grid permutation, five finite input roles and FP16-tagged output; safety, success and exact frame.",
+    "canonical_connection": "Displayed attentionScore/attention equal Proofs/RealMath.score/expected by definitional reduction. Displayed mathematical preserves AttentionIO.mathematical coordinate packing; PublicResult.real_implements applies directly.",
+    "fp_program_pair": {
+      "floating_point.actual_pair": "FPEquiv.original ≡[[]] FPEquiv.candidate; existing invariant head-mask hoist",
+      "floating_point.scope": "Full original/candidate grid and arbitrary complete schedule permutation, original FP32 words, conversion sites and native instruction binding; dual safe successful implementations, all FP16 outputs and both frames."
+    },
+    "numerical_dependencies": {
+      "kind": "strict-program-structure",
+      "rule": "no floating rewrite",
+      "experimental_instance_used": false,
+      "explanation": "The selected source schedule/index/ordered native graph equality is proved with the existing implementation/model binding. Empty experimental rules do not assert equality for arbitrary opaque primitives or GPU conformance."
+    }
+  },
+  "verification": [
+    {
+      "kind": "targeted_build",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue01/build.py",
+        "bench/repairs/tritonbench_g/attention_forward_triton/LogicalIO.lean",
+        "bench/repairs/tritonbench_g/attention_forward_triton/Proofs/LogicalReader.lean",
+        "bench/repairs/tritonbench_g/attention_forward_triton/Correct.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue01/forward-final-build.log",
+      "log_sha256": "568cd5617920ce52c9f499eb988eb1e1036e7518fe6bbb356151d2336d039c0a",
+      "module_receipts": [
+        {
+          "path": ".veritile-cache/logical-reader-review-20261022/queue01/build/lib/lean/bench/repairs/tritonbench_g/attention_forward_triton/Correct.workspace-build.json",
+          "sha256": "e6c8e93acb8eb390b06311555c52bacf55d73a32fac0264157c795d6c047ec4f"
+        },
+        {
+          "path": ".veritile-cache/logical-reader-review-20261022/queue01/build/lib/lean/bench/repairs/tritonbench_g/attention_forward_triton/Proofs/LogicalReader.workspace-build.json",
+          "sha256": "ecd7fe3669d4445756207d5d024c87a8642ed25af388704677730769a45a0470"
+        },
+        {
+          "path": ".veritile-cache/logical-reader-review-20261022/queue01/build/lib/lean/bench/repairs/tritonbench_g/attention_forward_triton/LogicalIO.workspace-build.json",
+          "sha256": "5a5b33bf98637e4de96e34db84f2a879f7f76ddcf8ac82fca4d181b8e40ff6a4"
+        }
+      ],
+      "note": "The final forward command reuses current accepted receipts for these exact source/dependency hashes."
+    },
+    {
+      "task": "attention_forward_triton",
+      "kind": "task_joint",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue01/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue01/Joint_attention_forward_triton.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue01/Joint_attention_forward_triton.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/attention_forward_triton/Contract.lean": "a2801ffaf31d089d91481f7f874532aba5fbbc4cc44a62133f68e53e2b90e6c8",
+    "bench/repairs/tritonbench_g/attention_forward_triton/Correct.lean": "e980bac2929a4b8b5258eae431a33f241d9a94def94fd27af04ad6d913fd24a1",
+    "bench/repairs/tritonbench_g/attention_forward_triton/FPEquiv.lean": "686e7ff65984b6048a9325c15fd371e3b0b36dbb502d108ba47e782c9006b053",
+    "bench/repairs/tritonbench_g/attention_forward_triton/IO.lean": "e09b26be6cad9caaaccee283ccb1568f1362ea03f8071c745066d316b5210452",
+    "bench/repairs/tritonbench_g/attention_forward_triton/LogicalIO.lean": "94d134275053f14d1b34344c53f2063c1063144b07cdafd2545efc545cbd202d",
+    "bench/repairs/tritonbench_g/attention_forward_triton/Proofs/LogicalReader.lean": "55f72edd82b11d9a0e121ce730132315d4e2f8e481ebe9a4e1966b6973c75da3",
+    "bench/repairs/tritonbench_g/attention_forward_triton/Kernels.lean": "86f8010f3892f457a723a243d3cb11c30d052968c2dece2ce66192dcb377dac7",
+    "bench/repairs/tritonbench_g/attention_forward_triton/Proofs/RealMath.lean": "b98eaefcad8015b1d83dd69e480f13c118aea162a4dcd5d2a25ee593f6306cac",
+    "bench/repairs/tritonbench_g/attention_forward_triton/Proofs/PublicResult.lean": "8ab48dc23f594c0d88d950d929dd9298c2300531ac7435b14c3185ee145241d6",
+    "bench/repairs/tritonbench_g/attention_forward_triton/Proofs/HoistedIO.lean": "3bd492768454eb197102cbb2255ec14887330e18059e4b3b3d871f29d541f26b",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [
+    "Unchanged transitive helpers and FPEquiv objects reused from accepted read-only baseline; the task-level joint imports the current selected entries.",
+    "No optional native/host/Tensor or GPU/numerical task was introduced."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

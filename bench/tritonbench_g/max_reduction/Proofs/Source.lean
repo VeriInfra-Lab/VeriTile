@@ -173,7 +173,7 @@ theorem half_stage1_precision (v : Bool) (inp out : RegionName) (M B : Nat) :
           (.castFloat .fp16 .real (.ref .fp16 [B] "inp_val")))))) ∧
     (stage1 .fp16 v inp out M B).surfaceBody[7]? = some
       (.store .fp16 [] (.ptr (.ref .ptr [] "mid_ptr"))
-        (.alg (.castFloat .real .fp16 (.ref .real [] "max_val"))) .none) := by
+        (.alg (.castFloat .real .fp16 (.withPrecision .real .fp32 (.ref .real [] "max_val")))) .none) := by
   cases v <;> exact ⟨rfl, rfl, rfl⟩
 
 /-- Bfloat values use the same fp32 max and exactly one output narrowing. -/
@@ -189,7 +189,7 @@ theorem bfloat_stage2_precision (v : Bool) (inp out : RegionName) (M B : Nat) :
           (.castFloat .bf16 .real (.ref .bf16 [B] "mid_val")))))) ∧
     (stage2 .bf16 v inp out M B).surfaceBody[5]? = some
       (.store .bf16 [] (.region (Region.cast out) (.constNat 0))
-        (.alg (.castFloat .real .bf16 (.ref .real [] "max_val"))) .none) := by
+        (.alg (.castFloat .real .bf16 (.withPrecision .real .fp32 (.ref .real [] "max_val")))) .none) := by
   cases v <;> exact ⟨rfl, rfl, rfl⟩
 
 /-- Exact bf16 value-reduction path: typed load and padding, fp32 maximum,
@@ -206,7 +206,7 @@ theorem bfloat_stage1_precision (v : Bool) (inp out : RegionName) (M B : Nat) :
           (.castFloat .bf16 .real (.ref .bf16 [B] "inp_val")))))) ∧
     (stage1 .bf16 v inp out M B).surfaceBody[7]? = some
       (.store .bf16 [] (.ptr (.ref .ptr [] "mid_ptr"))
-        (.alg (.castFloat .real .bf16 (.ref .real [] "max_val"))) .none) := by
+        (.alg (.castFloat .real .bf16 (.withPrecision .real .fp32 (.ref .real [] "max_val")))) .none) := by
   cases v <;> exact ⟨rfl, rfl, rfl⟩
 
 /-- Half values use the same fp32 max and exactly one output narrowing. -/
@@ -222,7 +222,7 @@ theorem half_stage2_precision (v : Bool) (inp out : RegionName) (M B : Nat) :
           (.castFloat .fp16 .real (.ref .fp16 [B] "mid_val")))))) ∧
     (stage2 .fp16 v inp out M B).surfaceBody[5]? = some
       (.store .fp16 [] (.region (Region.cast out) (.constNat 0))
-        (.alg (.castFloat .real .fp16 (.ref .real [] "max_val"))) .none) := by
+        (.alg (.castFloat .real .fp16 (.withPrecision .real .fp32 (.ref .real [] "max_val")))) .none) := by
   cases v <;> exact ⟨rfl, rfl, rfl⟩
 
 /-- The dimension wrapper stores signed int64 indices; natural index arithmetic
@@ -256,7 +256,7 @@ theorem dimension_bfloat_pair (v : Bool) (inp ov oi : RegionName) (M N K BM BN :
           (.castFloat .bf16 .real (.ref .bf16 [BM,BN] "inp_vals")) (some .fp32)))]) ∧
     (dimensionSource .bf16 v inp ov oi M N K BM BN).surfaceBody[13]? = some
       (.store .bf16 [BM] (.ptr (.ref .ptr [BM] "out_value_ptrs"))
-        (.alg (.castFloat .real .bf16 (.ref .real [BM] "result_value")))
+        (.alg (.castFloat .real .bf16 (.withPrecision .real .fp32 (.ref .real [BM] "result_value"))))
         (.mask (.ref .bool [BM] "mask1"))) := by
   cases v <;> exact ⟨rfl,rfl⟩
 
@@ -297,7 +297,7 @@ theorem f8e4_stage1_precision (v : Bool) (inp out : RegionName) (M B : Nat) :
           (.castFloat .f8e4 .real (.ref .f8e4 [B] "inp_val")))))) ∧
     (stage1 .f8e4 v inp out M B).surfaceBody[7]? = some
       (.store .f8e4 [] (.ptr (.ref .ptr [] "mid_ptr"))
-        (.alg (.castFloat .real .f8e4 (.ref .real [] "max_val"))) .none) := by
+        (.alg (.castFloat .real .f8e4 (.withPrecision .real .fp32 (.ref .real [] "max_val")))) .none) := by
   cases v <;> exact ⟨rfl, rfl, rfl⟩
 
 theorem f8e4_stage2_precision (v : Bool) (inp out : RegionName) (M B : Nat) :
@@ -312,7 +312,7 @@ theorem f8e4_stage2_precision (v : Bool) (inp out : RegionName) (M B : Nat) :
           (.castFloat .f8e4 .real (.ref .f8e4 [B] "mid_val")))))) ∧
     (stage2 .f8e4 v inp out M B).surfaceBody[5]? = some
       (.store .f8e4 [] (.region (Region.cast out) (.constNat 0))
-        (.alg (.castFloat .real .f8e4 (.ref .real [] "max_val"))) .none) := by
+        (.alg (.castFloat .real .f8e4 (.withPrecision .real .fp32 (.ref .real [] "max_val")))) .none) := by
   cases v <;> exact ⟨rfl, rfl, rfl⟩
 
 theorem dimension_f8e4_pair (v : Bool) (inp ov oi : RegionName) (M N K BM BN : Nat) :
@@ -343,7 +343,7 @@ theorem f8e5_stage1_precision (v : Bool) (inp out : RegionName) (M B : Nat) :
           (.castFloat .f8e5 .real (.ref .f8e5 [B] "inp_val")))))) ∧
     (stage1 .f8e5 v inp out M B).surfaceBody[7]? = some
       (.store .f8e5 [] (.ptr (.ref .ptr [] "mid_ptr"))
-        (.alg (.castFloat .real .f8e5 (.ref .real [] "max_val"))) .none) := by
+        (.alg (.castFloat .real .f8e5 (.withPrecision .real .fp32 (.ref .real [] "max_val")))) .none) := by
   cases v <;> exact ⟨rfl, rfl, rfl⟩
 
 theorem f8e5_stage2_precision (v : Bool) (inp out : RegionName) (M B : Nat) :
@@ -358,7 +358,7 @@ theorem f8e5_stage2_precision (v : Bool) (inp out : RegionName) (M B : Nat) :
           (.castFloat .f8e5 .real (.ref .f8e5 [B] "mid_val")))))) ∧
     (stage2 .f8e5 v inp out M B).surfaceBody[5]? = some
       (.store .f8e5 [] (.region (Region.cast out) (.constNat 0))
-        (.alg (.castFloat .real .f8e5 (.ref .real [] "max_val"))) .none) := by
+        (.alg (.castFloat .real .f8e5 (.withPrecision .real .fp32 (.ref .real [] "max_val")))) .none) := by
   cases v <;> exact ⟨rfl, rfl, rfl⟩
 
 theorem dimension_f8e5_pair (v : Bool) (inp ov oi : RegionName) (M N K BM BN : Nat) :

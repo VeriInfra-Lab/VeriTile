@@ -1,0 +1,91 @@
+{
+  "schema": 1,
+  "task": "quantize_kv_transform",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue11/result.json",
+    "sha256": "7a28f136f231639a8f9558b05e0421064795ae4d4006e846103d9cb7137f1b44",
+    "task_index": 9
+  },
+  "finding": "Raw value/output adapters and packed Fin indices appeared in the row formula; metadata injectivity was stated through raw channel access.",
+  "resolution": "Named finite tensor/destination record and signed-code/FP32-scale outputs. Finite logical metadata nonnegativity/injectivity and both row formulas are connected by a full judgment iff, including natural/finite domain equivalence.",
+  "mathematical_target": "kernel_real",
+  "conditions_and_scope": "Positive logical columns, heads<=height, columns<=width, complete supplied token permutation including count=0. Maxima use columns rather than padded tile width. Signed32 metadata, scatter bounds, source precision, safety/success/frame retained.",
+  "proof_connection": "LogicalViewIO contains bijective input/output coordinates. Proofs/LogicalReader proves the full prior/new judgment iff; Proofs/ReaderBefore preserves the exact prior statement and established proof. The new public specification applies this connection.",
+  "fp_review": "Complete original versus existing addressEarly pointer move; same FP32 arithmetic/reduction/conversion/masks and original all-word domain.",
+  "numerical_dependencies": "No new numerical rewrites or experiments. Existing actual FP pairs retain empty experimental rule sets and their original concrete/native/opaque unchanged-primitive interpretations; structural/index/schedule transformations only. Real mathematics remains independent.",
+  "previous_formula_scope": {
+    "mathematical_target": "For each logical row use maximum over p.columns, not padded p.width; scale=M/127 and zero-guarded signed int8 toward-zero code, with explicit floor branch.",
+    "required_conditions": "0<columns, heads<=height, columns<=width and exact schedule coverage retained. Destinations requires nonnegative signed-int32 metadata and injectivity; allocation bounds remain in public IO. Launch parameters are headBlock/columnBlock and existing coverage lemmas establish them from the Contract.",
+    "scope": "Both complete code/FP32-scale scattered outputs for every token/head/logical column, under any order.Perm(range count), including count=0.",
+    "canonical_connection": "The displayed formula is definitionally RealIO.mathematical; shared logicalMaximum is reused with its recurrence documented next to the scalar formula. RealIO.implements connects PublicRealResult.kernel_real and the logical input/output adapters.",
+    "fp_program_pair": {
+      "actual_pair": "Pair.original versus Pair.addressEarly, preserving arbitrary complete token permutation.",
+      "model_and_precision": "Same KernelNativeProfile Arithmetic/rest, all raw FP32 words, signed-byte conversion, FP32 scale conversion, reduction tree and masks; only pure output-pointer formation moves.",
+      "experimental_rules_used": 0,
+      "pending_experiments_for_main_pair": 0,
+      "dependency_note": "Empty experimental rules do not erase the fixed typed interpreter and local compiler/model bindings stated above."
+    },
+    "numerical_dependencies": {
+      "actual_pair": "Pair.original versus Pair.addressEarly, preserving arbitrary complete token permutation.",
+      "model_and_precision": "Same KernelNativeProfile Arithmetic/rest, all raw FP32 words, signed-byte conversion, FP32 scale conversion, reduction tree and masks; only pure output-pointer formation moves.",
+      "experimental_rules_used": 0,
+      "pending_experiments_for_main_pair": 0,
+      "dependency_note": "Empty experimental rules do not erase the fixed typed interpreter and local compiler/model bindings stated above."
+    }
+  },
+  "verification": [
+    {
+      "kind": "targeted_modules_and_fp_reader",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue11/build.py",
+        "bench.repairs.tritonbench_g.quantize_kv_transform.Proofs.ReaderBefore",
+        "bench.repairs.tritonbench_g.quantize_kv_transform.LogicalViewIO",
+        "bench.repairs.tritonbench_g.quantize_kv_transform.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.quantize_kv_transform.Correct",
+        "bench.repairs.tritonbench_g.quantize_kv_transform.FPEquiv",
+        "bench.repairs.tritonbench_g.quantize_kv_transform.Contract"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue11/final/quantize_kv_transform-build.log",
+      "log_sha256": "0bec7c63dafbbbbd24e122696ddbda42238bca48ef59d9e355d8777463841591"
+    },
+    {
+      "kind": "task_local_joint_import",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue11/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue11/final/quantize_kv_transformJoint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue11/final/quantize_kv_transform-joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Correct.lean": "b3e82db81ea97b7ce8abcac54fba545f53bcd48885c45417b0f10d35c8e04ac6",
+    "bench/repairs/tritonbench_g/quantize_kv_transform/FPEquiv.lean": "e2ed1a673814e9768c671af2ef35519d7cbe2541f3f4a65339350e6e35421e48",
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Contract.lean": "13e8349047098828800f450e2f0a78d7ac75c25509ddbb10c0d0f279472b0974",
+    "bench/repairs/tritonbench_g/quantize_kv_transform/LogicalViewIO.lean": "40fa40c6729de64b0efef97b20f7e50fb6660a20fab0b5a47b14a4e110c73b07",
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/ReaderBefore.lean": "49b6592f6c9f81082ade9d6074a944dfb8690b95c5c64dc71fd8809b73dac314",
+    "bench/repairs/tritonbench_g/quantize_kv_transform/Proofs/LogicalReader.lean": "4f5377291f2f345416b75ecdd126d26be3e4e8c3c621f29960a4830faa2cdb5d",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [
+    "Existing applicable internal proof objects reused; no unchanged proof-closure replay. Per-task joint imports were used, not a cross-task aggregate."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

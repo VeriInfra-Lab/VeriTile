@@ -1,0 +1,255 @@
+{
+  "source": "bench/tritonbench_g/flash_attn/flash_attn.py",
+  "source_sha256": "fedc0f296ff2f6c4176ee990c1ea4a29129466998c8ac2fc3f6b1ccc5dfc84a1",
+  "triton_version": "3.7.1",
+  "semantic_sha256": "22b7669ff8ba591fc1540ce01a4030cf54aa2dccfdb21c2d31fa55d5cab77c7c",
+  "target": {
+    "backend": "cuda",
+    "arch": 90,
+    "warp_size": 32
+  },
+  "constexprs": {
+    "BLOCK_M": 128,
+    "BLOCK_N": 64,
+    "DIM": 64
+  },
+  "options": {
+    "num_warps": 4,
+    "num_stages": 4
+  },
+  "scope": "Six Q labels with O fp16; non-fp16 Q=O rejected at the block store; K/V fp16, L fp32, scale fp32, runtime integers i32; offline compilation only.",
+  "results": [
+    {
+      "storage": "fp16",
+      "output": "fp16",
+      "causal": false,
+      "status": "compiled",
+      "ptx_bytes": 123404,
+      "ttir_sha256": "0ed598b31bdee358dc243c67d15bbd422990baf7b721f7114c4a792655066905",
+      "fp64_multiply": false,
+      "expected": "compiled",
+      "matches_expected": true
+    },
+    {
+      "storage": "fp16",
+      "output": "fp16",
+      "causal": true,
+      "status": "compiled",
+      "ptx_bytes": 129803,
+      "ttir_sha256": "645125a0ae4c98781b01f8cdd234ee45bdbf6d21d63c2b602914b07b200d4ecd",
+      "fp64_multiply": false,
+      "expected": "compiled",
+      "matches_expected": true
+    },
+    {
+      "storage": "bf16",
+      "output": "fp16",
+      "causal": false,
+      "status": "compiled",
+      "ptx_bytes": 123467,
+      "ttir_sha256": "a3c7bbcdcb713bec82bcc440a99c09f8de8ca11e257b6c4bd30843d333945eb4",
+      "fp64_multiply": false,
+      "expected": "compiled",
+      "matches_expected": true
+    },
+    {
+      "storage": "bf16",
+      "output": "fp16",
+      "causal": true,
+      "status": "compiled",
+      "ptx_bytes": 129865,
+      "ttir_sha256": "5542171da5a724e18706c48ac7d79ee9691550510e613b8652f26a1e22ed92d2",
+      "fp64_multiply": false,
+      "expected": "compiled",
+      "matches_expected": true
+    },
+    {
+      "storage": "bf16",
+      "output": "bf16",
+      "causal": false,
+      "status": "compile_failure",
+      "error_type": "CompilationError",
+      "error": "at 39:4:\n        out_scale = denom * 0 + alpha\n        out_buffer *= out_scale[:, None]\n        out_buffer += tl.dot(nume.to(tl.float16), v)\n        denom = denom * alpha + tl.sum(nume, 1)\n        max = max_new\n        K_block_ptr = tl.advance(K_block_ptr, (0, BLOCK_N))\n        V_block_ptr = tl.advance(V_block_ptr, (BLOCK_N, 0))\n    out_buffer = out_buffer / denom[:, None]\n    l_ptr = L + off_bs_head * SEQLEN + off_m\n    tl.store(l_ptr, max + tl.math.log2(denom))\n    O_block_ptr = tl.make_block_ptr(base=O + qkv_base_offset, shape=(SEQLEN, DIM), strides=(stride_o_seqlen, stride_o_dim), offsets=(start_m * BLOCK_M, 0), block_shape=(BLOCK_M, DIM), order=(1, 0))\n    tl.store(O_block_ptr, out_buffer.to(tl.float16))\n    ^\nBlock element type(bf16) and value element type(fp16) mismatch",
+      "expected": "block_store_dtype_rejection",
+      "matches_expected": true
+    },
+    {
+      "storage": "bf16",
+      "output": "bf16",
+      "causal": true,
+      "status": "compile_failure",
+      "error_type": "CompilationError",
+      "error": "at 39:4:\n        out_scale = denom * 0 + alpha\n        out_buffer *= out_scale[:, None]\n        out_buffer += tl.dot(nume.to(tl.float16), v)\n        denom = denom * alpha + tl.sum(nume, 1)\n        max = max_new\n        K_block_ptr = tl.advance(K_block_ptr, (0, BLOCK_N))\n        V_block_ptr = tl.advance(V_block_ptr, (BLOCK_N, 0))\n    out_buffer = out_buffer / denom[:, None]\n    l_ptr = L + off_bs_head * SEQLEN + off_m\n    tl.store(l_ptr, max + tl.math.log2(denom))\n    O_block_ptr = tl.make_block_ptr(base=O + qkv_base_offset, shape=(SEQLEN, DIM), strides=(stride_o_seqlen, stride_o_dim), offsets=(start_m * BLOCK_M, 0), block_shape=(BLOCK_M, DIM), order=(1, 0))\n    tl.store(O_block_ptr, out_buffer.to(tl.float16))\n    ^\nBlock element type(bf16) and value element type(fp16) mismatch",
+      "expected": "block_store_dtype_rejection",
+      "matches_expected": true
+    },
+    {
+      "storage": "fp32",
+      "output": "fp16",
+      "causal": false,
+      "status": "compiled",
+      "ptx_bytes": 121440,
+      "ttir_sha256": "110af24ab11ae885b147398749b7942f51ddbc9423922e0c43504caaf8b33e45",
+      "fp64_multiply": false,
+      "expected": "compiled",
+      "matches_expected": true
+    },
+    {
+      "storage": "fp32",
+      "output": "fp16",
+      "causal": true,
+      "status": "compiled",
+      "ptx_bytes": 127841,
+      "ttir_sha256": "438155615073d9924272294632dfed2f6d856ccdcf7484f64e7f8bef2fcd804d",
+      "fp64_multiply": false,
+      "expected": "compiled",
+      "matches_expected": true
+    },
+    {
+      "storage": "fp32",
+      "output": "fp32",
+      "causal": false,
+      "status": "compile_failure",
+      "error_type": "CompilationError",
+      "error": "at 39:4:\n        out_scale = denom * 0 + alpha\n        out_buffer *= out_scale[:, None]\n        out_buffer += tl.dot(nume.to(tl.float16), v)\n        denom = denom * alpha + tl.sum(nume, 1)\n        max = max_new\n        K_block_ptr = tl.advance(K_block_ptr, (0, BLOCK_N))\n        V_block_ptr = tl.advance(V_block_ptr, (BLOCK_N, 0))\n    out_buffer = out_buffer / denom[:, None]\n    l_ptr = L + off_bs_head * SEQLEN + off_m\n    tl.store(l_ptr, max + tl.math.log2(denom))\n    O_block_ptr = tl.make_block_ptr(base=O + qkv_base_offset, shape=(SEQLEN, DIM), strides=(stride_o_seqlen, stride_o_dim), offsets=(start_m * BLOCK_M, 0), block_shape=(BLOCK_M, DIM), order=(1, 0))\n    tl.store(O_block_ptr, out_buffer.to(tl.float16))\n    ^\nBlock element type(fp32) and value element type(fp16) mismatch",
+      "expected": "block_store_dtype_rejection",
+      "matches_expected": true
+    },
+    {
+      "storage": "fp32",
+      "output": "fp32",
+      "causal": true,
+      "status": "compile_failure",
+      "error_type": "CompilationError",
+      "error": "at 39:4:\n        out_scale = denom * 0 + alpha\n        out_buffer *= out_scale[:, None]\n        out_buffer += tl.dot(nume.to(tl.float16), v)\n        denom = denom * alpha + tl.sum(nume, 1)\n        max = max_new\n        K_block_ptr = tl.advance(K_block_ptr, (0, BLOCK_N))\n        V_block_ptr = tl.advance(V_block_ptr, (BLOCK_N, 0))\n    out_buffer = out_buffer / denom[:, None]\n    l_ptr = L + off_bs_head * SEQLEN + off_m\n    tl.store(l_ptr, max + tl.math.log2(denom))\n    O_block_ptr = tl.make_block_ptr(base=O + qkv_base_offset, shape=(SEQLEN, DIM), strides=(stride_o_seqlen, stride_o_dim), offsets=(start_m * BLOCK_M, 0), block_shape=(BLOCK_M, DIM), order=(1, 0))\n    tl.store(O_block_ptr, out_buffer.to(tl.float16))\n    ^\nBlock element type(fp32) and value element type(fp16) mismatch",
+      "expected": "block_store_dtype_rejection",
+      "matches_expected": true
+    },
+    {
+      "storage": "fp64",
+      "output": "fp16",
+      "causal": false,
+      "status": "compiled",
+      "ptx_bytes": 121522,
+      "ttir_sha256": "32f608bbee893a38f33f88f07aea5b633fa08927a35c61eb9c5b6168c1b80e92",
+      "fp64_multiply": true,
+      "expected": "compiled",
+      "matches_expected": true
+    },
+    {
+      "storage": "fp64",
+      "output": "fp16",
+      "causal": true,
+      "status": "compiled",
+      "ptx_bytes": 128035,
+      "ttir_sha256": "fc4eff26b50338cffb1260697901145a4c9b382f4ebb4cf75c1a63dadea3ebb4",
+      "fp64_multiply": true,
+      "expected": "compiled",
+      "matches_expected": true
+    },
+    {
+      "storage": "fp64",
+      "output": "fp64",
+      "causal": false,
+      "status": "compile_failure",
+      "error_type": "CompilationError",
+      "error": "at 39:4:\n        out_scale = denom * 0 + alpha\n        out_buffer *= out_scale[:, None]\n        out_buffer += tl.dot(nume.to(tl.float16), v)\n        denom = denom * alpha + tl.sum(nume, 1)\n        max = max_new\n        K_block_ptr = tl.advance(K_block_ptr, (0, BLOCK_N))\n        V_block_ptr = tl.advance(V_block_ptr, (BLOCK_N, 0))\n    out_buffer = out_buffer / denom[:, None]\n    l_ptr = L + off_bs_head * SEQLEN + off_m\n    tl.store(l_ptr, max + tl.math.log2(denom))\n    O_block_ptr = tl.make_block_ptr(base=O + qkv_base_offset, shape=(SEQLEN, DIM), strides=(stride_o_seqlen, stride_o_dim), offsets=(start_m * BLOCK_M, 0), block_shape=(BLOCK_M, DIM), order=(1, 0))\n    tl.store(O_block_ptr, out_buffer.to(tl.float16))\n    ^\nBlock element type(fp64) and value element type(fp16) mismatch",
+      "expected": "block_store_dtype_rejection",
+      "matches_expected": true
+    },
+    {
+      "storage": "fp64",
+      "output": "fp64",
+      "causal": true,
+      "status": "compile_failure",
+      "error_type": "CompilationError",
+      "error": "at 39:4:\n        out_scale = denom * 0 + alpha\n        out_buffer *= out_scale[:, None]\n        out_buffer += tl.dot(nume.to(tl.float16), v)\n        denom = denom * alpha + tl.sum(nume, 1)\n        max = max_new\n        K_block_ptr = tl.advance(K_block_ptr, (0, BLOCK_N))\n        V_block_ptr = tl.advance(V_block_ptr, (BLOCK_N, 0))\n    out_buffer = out_buffer / denom[:, None]\n    l_ptr = L + off_bs_head * SEQLEN + off_m\n    tl.store(l_ptr, max + tl.math.log2(denom))\n    O_block_ptr = tl.make_block_ptr(base=O + qkv_base_offset, shape=(SEQLEN, DIM), strides=(stride_o_seqlen, stride_o_dim), offsets=(start_m * BLOCK_M, 0), block_shape=(BLOCK_M, DIM), order=(1, 0))\n    tl.store(O_block_ptr, out_buffer.to(tl.float16))\n    ^\nBlock element type(fp64) and value element type(fp16) mismatch",
+      "expected": "block_store_dtype_rejection",
+      "matches_expected": true
+    },
+    {
+      "storage": "fp8e4nv",
+      "output": "fp16",
+      "causal": false,
+      "status": "compiled",
+      "ptx_bytes": 126582,
+      "ttir_sha256": "d068fd4571b9e0a7fb855e5f1dc0659270e5027c073b3faeb62a85ce7dcdf63f",
+      "fp64_multiply": false,
+      "expected": "compiled",
+      "matches_expected": true
+    },
+    {
+      "storage": "fp8e4nv",
+      "output": "fp16",
+      "causal": true,
+      "status": "compiled",
+      "ptx_bytes": 132989,
+      "ttir_sha256": "85dfea7188f96caf53452f370a9591fd110ad7fe215830faeb02a62e07463a62",
+      "fp64_multiply": false,
+      "expected": "compiled",
+      "matches_expected": true
+    },
+    {
+      "storage": "fp8e4nv",
+      "output": "fp8e4nv",
+      "causal": false,
+      "status": "compile_failure",
+      "error_type": "CompilationError",
+      "error": "at 39:4:\n        out_scale = denom * 0 + alpha\n        out_buffer *= out_scale[:, None]\n        out_buffer += tl.dot(nume.to(tl.float16), v)\n        denom = denom * alpha + tl.sum(nume, 1)\n        max = max_new\n        K_block_ptr = tl.advance(K_block_ptr, (0, BLOCK_N))\n        V_block_ptr = tl.advance(V_block_ptr, (BLOCK_N, 0))\n    out_buffer = out_buffer / denom[:, None]\n    l_ptr = L + off_bs_head * SEQLEN + off_m\n    tl.store(l_ptr, max + tl.math.log2(denom))\n    O_block_ptr = tl.make_block_ptr(base=O + qkv_base_offset, shape=(SEQLEN, DIM), strides=(stride_o_seqlen, stride_o_dim), offsets=(start_m * BLOCK_M, 0), block_shape=(BLOCK_M, DIM), order=(1, 0))\n    tl.store(O_block_ptr, out_buffer.to(tl.float16))\n    ^\nBlock element type(fp8e4nv) and value element type(fp16) mismatch",
+      "expected": "block_store_dtype_rejection",
+      "matches_expected": true
+    },
+    {
+      "storage": "fp8e4nv",
+      "output": "fp8e4nv",
+      "causal": true,
+      "status": "compile_failure",
+      "error_type": "CompilationError",
+      "error": "at 39:4:\n        out_scale = denom * 0 + alpha\n        out_buffer *= out_scale[:, None]\n        out_buffer += tl.dot(nume.to(tl.float16), v)\n        denom = denom * alpha + tl.sum(nume, 1)\n        max = max_new\n        K_block_ptr = tl.advance(K_block_ptr, (0, BLOCK_N))\n        V_block_ptr = tl.advance(V_block_ptr, (BLOCK_N, 0))\n    out_buffer = out_buffer / denom[:, None]\n    l_ptr = L + off_bs_head * SEQLEN + off_m\n    tl.store(l_ptr, max + tl.math.log2(denom))\n    O_block_ptr = tl.make_block_ptr(base=O + qkv_base_offset, shape=(SEQLEN, DIM), strides=(stride_o_seqlen, stride_o_dim), offsets=(start_m * BLOCK_M, 0), block_shape=(BLOCK_M, DIM), order=(1, 0))\n    tl.store(O_block_ptr, out_buffer.to(tl.float16))\n    ^\nBlock element type(fp8e4nv) and value element type(fp16) mismatch",
+      "expected": "block_store_dtype_rejection",
+      "matches_expected": true
+    },
+    {
+      "storage": "fp8e5",
+      "output": "fp16",
+      "causal": false,
+      "status": "compiled",
+      "ptx_bytes": 126489,
+      "ttir_sha256": "f6b527ade21aba9aa2bda4cfb2888bc7969f37cadb90785907a3d98f7897d73f",
+      "fp64_multiply": false,
+      "expected": "compiled",
+      "matches_expected": true
+    },
+    {
+      "storage": "fp8e5",
+      "output": "fp16",
+      "causal": true,
+      "status": "compiled",
+      "ptx_bytes": 132896,
+      "ttir_sha256": "41ec5f4b38c7ee78b9e61c9f42f634ec4e152062dab945f690e4b475d4932e95",
+      "fp64_multiply": false,
+      "expected": "compiled",
+      "matches_expected": true
+    },
+    {
+      "storage": "fp8e5",
+      "output": "fp8e5",
+      "causal": false,
+      "status": "compile_failure",
+      "error_type": "CompilationError",
+      "error": "at 39:4:\n        out_scale = denom * 0 + alpha\n        out_buffer *= out_scale[:, None]\n        out_buffer += tl.dot(nume.to(tl.float16), v)\n        denom = denom * alpha + tl.sum(nume, 1)\n        max = max_new\n        K_block_ptr = tl.advance(K_block_ptr, (0, BLOCK_N))\n        V_block_ptr = tl.advance(V_block_ptr, (BLOCK_N, 0))\n    out_buffer = out_buffer / denom[:, None]\n    l_ptr = L + off_bs_head * SEQLEN + off_m\n    tl.store(l_ptr, max + tl.math.log2(denom))\n    O_block_ptr = tl.make_block_ptr(base=O + qkv_base_offset, shape=(SEQLEN, DIM), strides=(stride_o_seqlen, stride_o_dim), offsets=(start_m * BLOCK_M, 0), block_shape=(BLOCK_M, DIM), order=(1, 0))\n    tl.store(O_block_ptr, out_buffer.to(tl.float16))\n    ^\nBlock element type(fp8e5) and value element type(fp16) mismatch",
+      "expected": "block_store_dtype_rejection",
+      "matches_expected": true
+    },
+    {
+      "storage": "fp8e5",
+      "output": "fp8e5",
+      "causal": true,
+      "status": "compile_failure",
+      "error_type": "CompilationError",
+      "error": "at 39:4:\n        out_scale = denom * 0 + alpha\n        out_buffer *= out_scale[:, None]\n        out_buffer += tl.dot(nume.to(tl.float16), v)\n        denom = denom * alpha + tl.sum(nume, 1)\n        max = max_new\n        K_block_ptr = tl.advance(K_block_ptr, (0, BLOCK_N))\n        V_block_ptr = tl.advance(V_block_ptr, (BLOCK_N, 0))\n    out_buffer = out_buffer / denom[:, None]\n    l_ptr = L + off_bs_head * SEQLEN + off_m\n    tl.store(l_ptr, max + tl.math.log2(denom))\n    O_block_ptr = tl.make_block_ptr(base=O + qkv_base_offset, shape=(SEQLEN, DIM), strides=(stride_o_seqlen, stride_o_dim), offsets=(start_m * BLOCK_M, 0), block_shape=(BLOCK_M, DIM), order=(1, 0))\n    tl.store(O_block_ptr, out_buffer.to(tl.float16))\n    ^\nBlock element type(fp8e5) and value element type(fp16) mismatch",
+      "expected": "block_store_dtype_rejection",
+      "matches_expected": true
+    }
+  ]
+}

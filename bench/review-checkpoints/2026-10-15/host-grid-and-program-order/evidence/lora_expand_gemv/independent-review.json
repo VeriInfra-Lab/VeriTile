@@ -1,0 +1,182 @@
+{
+  "schema": 1,
+  "kind": "independent_lora_host_grid_semantic_review",
+  "reviewer": "/root/scope_integration_review",
+  "status": "reviewed_scoped_logical_wrapper_and_sequential_grid_no_proof_defect_found",
+  "integration_recommendation": "Integrate the five frozen modules as one scoped logical wrapper/grid contract after root catalog registration and integration validation. Do not count the original program as whole-task accepted.",
+  "standard_accepted": false,
+  "whole_program_acceptance": false,
+  "repository_sources_modified_by_reviewer": false,
+  "source_root": "/tmp/veritile-standardization-20261015/lora-host-wip",
+  "producer_receipt": {
+    "path": "/tmp/veritile-standardization-20261015/lora-host-wip/evidence/host-wrapper-receipt.json",
+    "sha256": "cfa366a89524d90ad51c6815300d03da021f9c9e64696201faaaa9a13a93a3af",
+    "preserved": true
+  },
+  "reviewed_new_source_sha256": {
+    "bench/tritonbench_g/lora_expand_gemv/LogicalHostCorrect.lean": "45ab846b46f507c1a946c598a82a03216100468463cba0af547ef2d0274e7590",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/HostCases.lean": "d1de03a499f7f87f134d7390c46a443d4df4d8d7b11d7001af1f907e541b6329",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/HostGrid.lean": "45d345a54956d48bdcdd0dd6b1b96a80f4cf56aa6cdacc5b950b796d88c05471",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/HostMetadata.lean": "f1f8436f13d126f7ffbd53c09dbb0022b8bbf369ca9e93704af0091f4f7e4972",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/HostProperties.lean": "1b5f8cc639334fc878efa414ebe8326140dda5f687f71ad6f365f2972c8c5362"
+  },
+  "verified_existing_dependency_sha256": {
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchAssembly.lean": "67c16f9ef82cb1928d81dcbcbadb38ecb8c289b1cc300b77358a7a73e217adb8",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchBody.lean": "9a64b6aaaffd5d0244972aa69d7576a1fc183c6502a6ee3f898dc1e87cb6b640",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchBodyValue.lean": "a9efc21c5b24e13ae29dee126879be76e94d7a16c76f5ce676babdea3b5da615",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchComplete.lean": "6b5dbf61213b0acaf8818b0217cbe0e05bb2cfd6a2bd39ae646f726bd35ed8e6",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchExecution.lean": "1667f26e25b4c4ae69ee6bc940b1a7a61fde5d385dd82ac761826786d2090a6a",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchFrame.lean": "fe60c6204184bc63f9830ef0455d18f1b27fa35e7096c94e9047cc215ebcbe9d",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchLoop.lean": "824238b20a8f27698b79c09ea8e7b480c332ee50504c6fddd4e3554a2b585a33",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchReference.lean": "ec95c5062ce8bd0ed5761ed99fafc797a4431cde18b2dec1884731f03a0f8564",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchShape.lean": "6e9008353729972c7cced8128a2bf267a9ea99f55b173568f66c04bc03b91733",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchSource.lean": "67d35e8009e6c9fa3a7dc60c7de1d7d54dd4ce614ea5c96bdb58f6263a9ce565",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchWitness.lean": "435efc0b0500620b0bb5f6abbe9bae67727493c6fa327983703457e1e279dd55",
+    "bench/tritonbench_g/lora_expand_gemv/BranchCorrect.lean": "2b6da140ee3ad171158012bbe1951fba60b173463882c3a9d3e44611758e4b32",
+    "bench/tritonbench_g/lora_expand_gemv/lora_expand_gemv.py": "212f030cd93c3381dc1fe6aab372d8568fbed9330954772cd49c69670575a3d3",
+    "bench/tritonbench_g/lora_expand_gemv/LoraExpandGemv.lean": "c6eee47ffe5cab7cc42922ec07271871a2bfda249453d763d02a53064f24f1c5",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/FPModel.lean": "3da96951e0e0f73d8a2eaed4216338b8e9cfb5d7e2e34f6c9cceea5d9e870d66",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/FPTypedSource.lean": "55c3f6731b1debd9655b1338536a29a696553cde00171a8d8c524006b6a1eb6d"
+  },
+  "public_contracts": [
+    {
+      "file": "bench/tritonbench_g/lora_expand_gemv/LogicalHostCorrect.lean",
+      "declaration": "lora_expand_logical_wrapper_correctness",
+      "kind": "specification",
+      "statement_sha256": "48a39f2005e4726f522b08e01081cc09f9ffb14c4d6755351a3110b0aa35e598"
+    }
+  ],
+  "public_contracts_added": 1,
+  "original_source": {
+    "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/lora_expand_gemv/lora_expand_gemv.py",
+    "sha256": "212f030cd93c3381dc1fe6aab372d8568fbed9330954772cd49c69670575a3d3",
+    "unchanged": true
+  },
+  "semantic_findings": [
+    {
+      "topic": "Original wrapper order and metadata domain",
+      "result": "HostMetadata.prepare follows the original order of dtype assertions, input.size(1) and weight.size(-1), K equality, input/output contiguity, singleton-4D squeeze or rank3 assertion, post-squeeze weight contiguity, N/K extraction, BLOCK_K, modulo, index batch size and left-to-right stride arguments. Dimensions store sizes/strides together. Contiguous computation ignores singleton strides and treats empty tensors as contiguous. It preserves missing checks for input/output rank or batch adequacy, output shape, and index dtype/stride/shape adequacy.",
+      "limit": "The relation to actual Python/Torch tensor primitives is manually reviewed and finitely probed; there is no general verified Python/Torch lowering theorem. Logical metadata and total memory do not establish bounds or tensor allocation validity."
+    },
+    {
+      "topic": "4D squeeze and K linkage",
+      "result": "The 4D branch requires dimension1=1 and removes exactly that (size,stride) pair, retaining region and dtype. squeeze_branch_equivalent proves equality of the entire prepare result against the 3D view, including all later errors and flags. prepared_inner_dimension links the pre-squeeze equality to the extracted post-squeeze K. prepare_fields supplies N/K shape and exact input, weight, output stride and region provenance.",
+      "limit": "Squeeze metadata/address identity is a logical primitive model, not native storage-offset or tensor-view refinement."
+    },
+    {
+      "topic": "Host specialization and edge cases",
+      "result": "BLOCK_N is 256, SPLIT_N=N, grid=(N,batches), EVEN_K derives from K modulo the computed block size, and CAST_TYPE is true exactly for fp32 input because successful weights are fp16/bf16. ADD_INPUTS uses the actual signature default true. For positive N, prepared_split_length_one proves the source split length is one. K=0 is rejected before index-size and argument-stride access. N=0 yields zero programs and unchanged memory.",
+      "limit": "nextPowerOfTwo matches the installed six bit-shift helper, not an ideal unbounded ceil-power-of-two operator. The theorem does not prove all generated blocks/grids compile or fit native resources."
+    },
+    {
+      "topic": "Complete current-memory grid",
+      "result": "runPrefix executes the complete inherited Branches.source at (k%N,k/N), with fresh registers and previous actual memory. coordinate_bounds and coordinates_cover establish all and only original (N,batches) coordinates in the complete prefix. Every later program rereads indices/input/weights/output from current memory, including aliases and changed sentinel indices. Positive blockRows follows from host computation, rather than a new independent caller assumption.",
+      "limit": "This proves one pid0-fastest sequence of complete program executions. It does not prove arbitrary program order, race freedom or native instruction interleavings."
+    },
+    {
+      "topic": "Independent reference and frame",
+      "result": "referencePrefix advances the previously reviewed scalar/tree Branches.expectedMemory on prior reference memory. It has no dependency on source execution, exec, runPrefix or runLaunch. prefix_correct and launch_correct prove successful actual execution, complete memory equality and the global frame outside the union of potential output addresses. LogicalHostCorrect composes host preparation and grid execution; the error arm returns the modeled error before launch.",
+      "limit": "The error arm is definitional relative to prepare. The frame is outside the potential write union, not a separate maximal characterization of every sentinel-skipped cell; exact final-memory equality still retains those cells."
+    },
+    {
+      "topic": "Output and index dtype boundary",
+      "result": "All six asserted input/weight pairs are modeled. The public hout premise explicitly binds output metadata to fp16/bf16/fp32, giving 18 selected numerical profiles. Unknown output/index tags remain accepted by preparation when original checks accept them, rather than adding an absent source assertion.",
+      "limit": "Index dtype is retained as metadata but is not used to select index load semantics: inherited Parameters.indices and Branches.selected always use mathematical signed Int cells. Thus the theorem does not certify float or arbitrary native index storage despite unconstrained a.indices.dtype. Int32 output and float32 indices in CPU captures only demonstrate host acceptance, not supported compiled semantics."
+    }
+  ],
+  "necessary_changes_before_scoped_integration": [
+    "No Lean source repair is required for the currently stated logical theorem.",
+    "Register the exact specification/source hashes and keep output profiles selected and signed-index cell semantics explicit; do not mark full output/index dtype coverage or full original-program acceptance.",
+    "Carry native metadata, caller-domain, integer/address and concurrency gaps into the root-reviewed scope ledger; numerical bindings require their own exact task/configuration/declaration registrations.",
+    "Integrate only reviewed source/evidence, run the required root checks, and exclude .olean build cache artifacts."
+  ],
+  "remaining_nondeferrable_gaps": [
+    "Unrestricted output/index dtype domain is not closed: output is explicitly bound to fp16/bf16/fp32, and indices use the inherited mathematical signed-cell model. The original Python wrapper has no output/index dtype assertion.",
+    "Logical natural tensor metadata, contiguous checks, squeeze and region data pointers need native tensor/byte-memory/allocation correspondence. Source Python-to-logical-model equivalence is reviewed/probed, not a verified Python compiler theorem.",
+    "Fixed-width integer arithmetic, intermediate overflow, negative active indices, native pointer/address legality and allocated bounds remain open. The total interpreter uses Nat/Int element offsets and may clamp negative pointer offsets.",
+    "Native block/arange/resource legality and JIT/launch admission remain open, including zero-N SPLIT_N=0 and empty grids. The installed six-shift next_power_of_2 is modeled exactly, without asserting an ideal unbounded power-of-two property.",
+    "One explicit pid0-fastest sequential traversal is proved. Native GPU cross-program scheduling, read/write races, byte aliases and schedule independence remain unproved.",
+    "Unmodeled caller features such as arbitrary tensor/device kinds and Python argument types remain outside the logical descriptors. The inference-mode decorator and full Python runtime/exception behavior have no formal correspondence here.",
+    "Output/index metadata acceptance is broader than execution dtype semantics. Native index-width/format binding and physically aliased byte reinterpretations cannot be inferred from abstract signed-cell reads."
+  ],
+  "numerical_bindings_eligible_for_explicit_registration": [
+    "Bind native FP configuration, rounding/FTZ/special values and low-precision operations to the software operations.",
+    "Bind compiled reduction tree, seeds, fusion and reassociation to the supplied valid ReductionPlan.",
+    "Bind native conversion details, including fp16/bf16 cross-conversion via fp32 and NaN/signed-zero behavior."
+  ],
+  "new_numerical_law_hypotheses": [],
+  "supporting_evidence": {
+    "source_freeze": {
+      "path": "/tmp/veritile-standardization-20261015/lora-host-wip/evidence/source-freeze.json",
+      "sha256": "0aadb54b83ca5da2d522ddb8a9448ac4a69825cd203938097b4c9fb1fa0466bf"
+    },
+    "cpu_probe": {
+      "path": "/tmp/veritile-standardization-20261015/lora-host-wip/evidence/source-wrapper-probe.json",
+      "sha256": "41ea38c35d9286ca3dfa76e18b50e0c1fd856b971703f663c86ec1d5d8a5ed1f",
+      "script": "/tmp/veritile-standardization-20261015/lora-host-wip/evidence/source_wrapper_probe.py",
+      "script_sha256": "7f52fb3ac65fec4bf6f904724e732952cd7112dcc622f0db5b410f19519e8c87",
+      "exit_code": 0,
+      "accepted_combinations": 576,
+      "error_checks": 14,
+      "native_compilation": false,
+      "gpu_execution": false
+    },
+    "cpu_accepted_combinations": 576,
+    "cpu_error_checks": 14,
+    "cpu_probe_scope": "Exact original wrapper AST with real CPU tensor metadata and a kernel launch recorder; no Lean cross-evaluation, native compilation or GPU execution is claimed.",
+    "native_helper_inspected": {
+      "path": "/usr/local/lib/python3.12/site-packages/triton/__init__.py",
+      "sha256": "fc8d0ce7535a4773769dfdcdb3a8b7bcee1bf58d3d03cc318529104c1e1431fd",
+      "triton_version": "3.7.1",
+      "torch_version": "2.13.0+cu130",
+      "lines": "73-83",
+      "semantics": "n-1, OR right shifts 1/2/4/8/16/32, then n+1; zero yields zero"
+    },
+    "compiler_logs": [
+      {
+        "path": "/tmp/veritile-standardization-20261015/lora-host-wip/evidence/HostMetadata.log",
+        "sha256": "9ed9e6b80caede0de7d94fbaacedf8f5fea788d65a6d2c04d11958a55d863d79",
+        "producer_observed_exit_code": 0,
+        "named_standard_base_audits": 3
+      },
+      {
+        "path": "/tmp/veritile-standardization-20261015/lora-host-wip/evidence/HostProperties.log",
+        "sha256": "110c32d74e7ab217775639b8aee8e5c4751f94e91561280c753ea00c2cd6bd73",
+        "producer_observed_exit_code": 0,
+        "named_standard_base_audits": 4
+      },
+      {
+        "path": "/tmp/veritile-standardization-20261015/lora-host-wip/evidence/HostGrid.log",
+        "sha256": "46803299df3bf07401d5a7b5d562dc084e0e85450daae862d31595b779e2eda4",
+        "producer_observed_exit_code": 0,
+        "named_standard_base_audits": 6
+      },
+      {
+        "path": "/tmp/veritile-standardization-20261015/lora-host-wip/evidence/HostCases.log",
+        "sha256": "abc18b16180e16249af5f54738d702878f8480420eb17de45882b734639ff387",
+        "producer_observed_exit_code": 0,
+        "named_standard_base_audits": 7
+      },
+      {
+        "path": "/tmp/veritile-standardization-20261015/lora-host-wip/evidence/LogicalHostCorrect.log",
+        "sha256": "418f142041be9de9d9f36f3bde2e1b5ac35bd9df2b7a1bc731a3cba3a731e253",
+        "producer_observed_exit_code": 0,
+        "named_standard_base_audits": 2
+      }
+    ],
+    "named_axiom_checks": 22,
+    "all_exact_bound_hashes_match": true,
+    "catalog_supplement": {
+      "path": "/tmp/veritile-standardization-20261015/lora-host-wip/catalog-supplement-task.json",
+      "sha256": "f8a2a647341a17b59743aaf425e45f14dd360c3e4963b63aede30b25b92adbb1",
+      "registration_status": "proposal_pending_independent_review_and_parent_integration"
+    }
+  },
+  "validation_limits": {
+    "independent_Lean_build_run_by_reviewer": false,
+    "independent_CPU_probe_rerun_by_reviewer": false,
+    "native_compile_or_GPU_execution_run_by_reviewer": false,
+    "proof_hole_scan": "No sorry/admit/custom axiom/unsafe/partial/native_decide found in five new sources.",
+    "note": "Independent source/semantic review, dependency and evidence hash verification, direct installed Triton helper inspection, and inspection of all five compile logs. Compiler exit codes are producer evidence; they were not rerun by this reviewer."
+  }
+}

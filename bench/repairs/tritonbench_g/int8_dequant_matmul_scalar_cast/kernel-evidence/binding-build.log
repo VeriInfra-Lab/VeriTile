@@ -1,0 +1,95 @@
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/SourceBinding.lean:24:20: error: don't know how to synthesize implicit argument `α`
+  @Eq
+    (Code (?m.12 r out c selected divisor events typedIdentity lowered) F
+      (?m.13 r out c selected divisor events typedIdentity lowered) Unit)
+    lowered (program r out c selected divisor events)
+context:
+F : Type
+r : Request
+out : ℕ
+c : Config
+selected : Selection (requestShape r) c
+divisor : F
+events : List (Commit (requestShape r) c)
+parsedJIT : String
+sourceIdentity : parsedJIT = kernelAST
+typed : Triton.ComputeKernel
+typedIdentity : typed = typedJIT r c
+lowered : {I H : Type} → Code I F H Unit
+⊢ Type 1
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/SourceBinding.lean:24:28: error: don't know how to synthesize implicit argument `H`
+  @program F (?m.12 r out c selected divisor events typedIdentity lowered)
+    (?m.13 r out c selected divisor events typedIdentity lowered) r out c selected divisor events
+context:
+F : Type
+r : Request
+out : ℕ
+c : Config
+selected : Selection (requestShape r) c
+divisor : F
+events : List (Commit (requestShape r) c)
+parsedJIT : String
+sourceIdentity : parsedJIT = kernelAST
+typed : Triton.ComputeKernel
+typedIdentity : typed = typedJIT r c
+lowered : {I H : Type} → Code I F H Unit
+⊢ Type
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/SourceBinding.lean:24:28: error: don't know how to synthesize implicit argument `I`
+  @program F (?m.12 r out c selected divisor events typedIdentity lowered)
+    (?m.13 r out c selected divisor events typedIdentity lowered) r out c selected divisor events
+context:
+F : Type
+r : Request
+out : ℕ
+c : Config
+selected : Selection (requestShape r) c
+divisor : F
+events : List (Commit (requestShape r) c)
+parsedJIT : String
+sourceIdentity : parsedJIT = kernelAST
+typed : Triton.ComputeKernel
+typedIdentity : typed = typedJIT r c
+lowered : {I H : Type} → Code I F H Unit
+⊢ Type
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/SourceBinding.lean:24:20: error: don't know how to synthesize implicit argument `H`
+  @lowered (?m.12 r out c selected divisor events typedIdentity lowered)
+    (?m.13 r out c selected divisor events typedIdentity lowered)
+context:
+F : Type
+r : Request
+out : ℕ
+c : Config
+selected : Selection (requestShape r) c
+divisor : F
+events : List (Commit (requestShape r) c)
+parsedJIT : String
+sourceIdentity : parsedJIT = kernelAST
+typed : Triton.ComputeKernel
+typedIdentity : typed = typedJIT r c
+lowered : {I H : Type} → Code I F H Unit
+⊢ Type
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/SourceBinding.lean:24:20: error: don't know how to synthesize implicit argument `I`
+  @lowered (?m.12 r out c selected divisor events typedIdentity lowered)
+    (?m.13 r out c selected divisor events typedIdentity lowered)
+context:
+F : Type
+r : Request
+out : ℕ
+c : Config
+selected : Selection (requestShape r) c
+divisor : F
+events : List (Commit (requestShape r) c)
+parsedJIT : String
+sourceIdentity : parsedJIT = kernelAST
+typed : Triton.ComputeKernel
+typedIdentity : typed = typedJIT r c
+lowered : {I H : Type} → Code I F H Unit
+⊢ Type
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/SourceBinding.lean:26:24: error: type expected, got
+  (CompilerBinding r out c selected divisor events : ?m.9 → Bool → Type 1)
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/SourceBinding.lean:30:31: error: type expected, got
+  (CompilerBinding r out c selected divisor events : ?m.9 → Bool → Type 1)
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/SourceBinding.lean:36:15: error: type expected, got
+  (CompilerBinding r out c selected divisor events : ?m.9 → Bool → Type 1)
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/SourceBinding.lean:43:13: error(lean.unknownIdentifier): Unknown constant `compiled_eq`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/SourceBinding.lean:44:13: error(lean.unknownIdentifier): Unknown constant `bound_typed_preserved`

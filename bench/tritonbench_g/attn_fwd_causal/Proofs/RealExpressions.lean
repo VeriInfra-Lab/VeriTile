@@ -24,7 +24,7 @@ def maskTile (BM BN startM startN : Nat) : Tile .bool [BM,BN] :=
 def penaltyExpr (BM BN : Nat) (mask : RegName) : Op .real [BM,BN] :=
   .add .real (.consSame (.consSame .nil)) (.ref .real [BM,BN] "qk")
     (.where (.ref .bool [BM,BN] mask) (.broadcast (.const 0) [BM,BN])
-      (.broadcast (.sub .real .nil (.const 0.0) (.const 1.0e6)) [BM,BN]))
+      (.broadcast (.const (-1.0e6)) [BM,BN]))
 
 def scoreTile {BM BN : Nat} (scores : Fin BM → Fin BN → ℝ) : Tile .real [BM,BN] :=
   ⟨fun i => some (scores i.1 i.2.1)⟩

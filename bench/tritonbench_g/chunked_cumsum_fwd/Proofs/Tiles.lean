@@ -42,10 +42,8 @@ theorem lowerClamp_eval (p : Layout) (u : BlockState) (f : Fin p.BH → Fin p.BC
   apply congrArg some
   apply Tile.ext
   rintro ⟨i,j,⟨⟩⟩
-  simp [matrix,tile_elementwise,Broadcast.leftIndex,Broadcast.rightIndex]
-  split_ifs with h
-  · rw [max_eq_left (le_of_lt h)]
-  · rw [max_eq_right (le_of_not_gt h)]
+  simp [matrix,tile_elementwise,Broadcast.leftIndex,Broadcast.rightIndex, max_def, apply_ite]
+  by_cases h : f i j ≤ lower <;> simp [h]
 
 theorem clamp_eval (p : Layout) (u : BlockState) (f : Fin p.BH → Fin p.BC → ℝ) (lower : ℝ) (upper : UpperBound)
     (hf : u.regs .real [p.BH,p.BC] "dt" = some (matrix p f)) :

@@ -42,9 +42,7 @@ def diagonal (BM BN : Nat) (mask : RegName) : List Stmt :=
    .assign .real [BM,BN] "qk" (RealExpressions.penaltyExpr BM BN mask)]
 
 def centerExpr (BM BN : Nat) : Op .real [BM] :=
-  .where (.gt .real (.consSame .nil) (.ref .real [BM] "m_i")
-    (.reduceMax ⟨1, by simp⟩ Bool.false (.ref .real [BM,BN] "qk")))
-    (.ref .real [BM] "m_i")
+  .max2 (.consSame .nil) (.ref .real [BM] "m_i")
     (.reduceMax ⟨1, by simp⟩ Bool.false (.ref .real [BM,BN] "qk"))
 
 def center (BM BN : Nat) : List Stmt :=

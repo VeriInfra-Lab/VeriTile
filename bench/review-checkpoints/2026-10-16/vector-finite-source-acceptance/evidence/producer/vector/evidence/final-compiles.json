@@ -1,0 +1,69 @@
+{
+  "status": "passed",
+  "modules": [
+    {
+      "source": "after/bench/tritonbench_g/vector_addition/Proofs/FiniteViews.lean",
+      "source_sha256": "90ed430b3d7c03484494242eb4c17a9b1becfcbde9ee8b65fce0fc1f9e062b59",
+      "receipt": "evidence/attempts/027-staged-FiniteViews.json",
+      "receipt_sha256": "530cd72c1e328bba4db78bf3f311c38deda1545c0b4d2fbc097ff3bcd3ebd236",
+      "log": "evidence/attempts/027-staged-FiniteViews.log",
+      "log_sha256": "9ecaa4e12e6adb042094e185ff980cea40a5301a933c09e564907a39fb435254",
+      "named_axiom_checks": 10,
+      "noncircular_checks": 0
+    },
+    {
+      "source": "after/bench/tritonbench_g/vector_addition/Proofs/FiniteMemory.lean",
+      "source_sha256": "42556296321994f0168ff5dbaffab6442e7408c9a03bf5b5d1cfab2efea9edec",
+      "receipt": "evidence/attempts/028-staged-FiniteMemory.json",
+      "receipt_sha256": "77f817bdbe9ec76e33c07e08836846a3cdcae8787e24907cdd5e0694b592b59f",
+      "log": "evidence/attempts/028-staged-FiniteMemory.log",
+      "log_sha256": "25b32b7ec6e93c21a94715b436d2c527c688390eb596489d217fe29454c2bc28",
+      "named_axiom_checks": 6,
+      "noncircular_checks": 0
+    },
+    {
+      "source": "after/bench/tritonbench_g/vector_addition/Proofs/FiniteRoutes.lean",
+      "source_sha256": "7ac7a15fed74a3333021aaafe812e27e5697cd194b1c6604c639a2f26089873a",
+      "receipt": "evidence/attempts/029-staged-FiniteRoutes.json",
+      "receipt_sha256": "48e13a1bff301c6c1b96cd90f92fe9378b97d74cff3beec75142b0a2db6178cf",
+      "log": "evidence/attempts/029-staged-FiniteRoutes.log",
+      "log_sha256": "8a4f2b89d4e51401e34a3b3a9ad9ed8b6c4a16ff4f973335d3f73bc8c0d66035",
+      "named_axiom_checks": 4,
+      "noncircular_checks": 1
+    },
+    {
+      "source": "after/bench/tritonbench_g/vector_addition/Proofs/FiniteSchedule.lean",
+      "source_sha256": "78452bf1dd2a4972cf596d31a4eb31ccf613acf23b8cac62854c297c0f313e79",
+      "receipt": "evidence/attempts/030-staged-FiniteSchedule.json",
+      "receipt_sha256": "00dbc096cdf578b24e896f80c1f9cd784b7552ee12490cf9397ecb954e0c13aa",
+      "log": "evidence/attempts/030-staged-FiniteSchedule.log",
+      "log_sha256": "f18904528a32755ae10d361ad53c92653f908c0e3a53134e8da449bf2e442e99",
+      "named_axiom_checks": 7,
+      "noncircular_checks": 0
+    },
+    {
+      "source": "after/bench/tritonbench_g/vector_addition/Proofs/FiniteIndices.lean",
+      "source_sha256": "ea5ae762d01dc2e23ed4266a4811fbbed6675c99446532d32d28fb6cca46b8e6",
+      "receipt": "evidence/attempts/031-staged-FiniteIndices.json",
+      "receipt_sha256": "1d91e83a9b7fe4dbd6b7ab91c68f47e73589216405d8695554441841fea43f56",
+      "log": "evidence/attempts/031-staged-FiniteIndices.log",
+      "log_sha256": "bcaff2b1b8cbcf47d8ada4b59f1adf3d64211e0768806c7cc3500fe633bbdcc6",
+      "named_axiom_checks": 6,
+      "noncircular_checks": 0
+    },
+    {
+      "source": "after/bench/tritonbench_g/vector_addition/FiniteCorrect.lean",
+      "source_sha256": "be4e1a0540ff15e640ff0706e4e9ddc241c5e438eea573b0a37f60741faf957e",
+      "receipt": "evidence/attempts/032-staged-FiniteCorrect.json",
+      "receipt_sha256": "b161dd1da1066a01ca04f88678aa875dd19aa6e17c99ceecea15e1eed0bfa272",
+      "log": "evidence/attempts/032-staged-FiniteCorrect.log",
+      "log_sha256": "62447c51d7956c76d4e5bf51b530cb166b00aa4b7f2aa6f2c48d0af06fe49d82",
+      "named_axiom_checks": 7,
+      "noncircular_checks": 0
+    }
+  ],
+  "named_axiom_checks": 40,
+  "noncircular_checks": 1,
+  "dependency_sources_unchanged": 194,
+  "all_failed_lean_attempts_preserved": true
+}

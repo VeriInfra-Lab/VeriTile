@@ -1,0 +1,18 @@
+{
+  "status": "root_review_pass_exact_original_source_supplement",
+  "receipt_sha256": "95fbfde300dd4d1d4092a42159c52cada3966964c32926d77ba9daa302f5366f",
+  "source_sha256": {
+    "bench/tritonbench_g/spinning_lock_reduction/spinning_lock_reduction.py": "1542d9675258944fa64fd3688b5ecd1a3116a9c4e277b38294093d133cadf20c"
+  },
+  "checks": {
+    "artifact_hashes": true,
+    "live_reviewed_parent_bytes": true,
+    "F2_catalog_binding": true,
+    "baseline_and_live_target_absent": true,
+    "independent_review_replay": true
+  },
+  "replay_log_sha256": "2e961e5f2e2fc7e3741e538348cb5504acd095137e2d3ebf6fd03be2a8dfc654",
+  "installation_count": 1,
+  "proof_or_model_changes": false,
+  "native_execution": false
+}

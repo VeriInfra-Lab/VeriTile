@@ -1,0 +1,1950 @@
+## fifth_order_sph_harmonics::fifth_order_fwd_correctness bench/tritonbench_g/fifth_order_sph_harmonics/FifthOrderSphHarmonics.lean:3464
+Forward real-valued harmonic outputs under complete XYZ-coordinate and output-bound premises. The backward kernel and hardware transcendental/numeric behavior are external.
+specification fifth_order_fwd_correctness
+    (coord_ptr output_ptr : RegionName)
+    (block_size coord_numel output_numel col_offset output_stride : Nat)
+    (hStride : 10 < output_stride)
+    (hCover : ∀ (pid₀ : Nat) (j : Fin block_size),
+      j.val * output_stride + block_size * output_stride * pid₀ + col_offset
+        < output_numel →
+      j.val * 3 + block_size * 3 * pid₀ + 2 < coord_numel) :
+    fifthOrderFwdIO coord_ptr output_ptr block_size coord_numel output_numel
+        col_offset output_stride ⊨
+      fun _ _ xs o j =>
+        sphY o (xs ⟨0, by show 0 < 3; decide⟩ j) (xs ⟨1, by show 1 < 3; decide⟩ j)
+          (xs ⟨2, by show 2 < 3; decide⟩ j)
+
+## fused_layernorm_triton::fused_layernorm_triton_normalize_io_correctness bench/tritonbench_g/fused_layernorm_triton/FusedLayernormTriton.lean:1069
+Normalization consumes supplied mean and inverse-variance scalars; their reduction is outside this IO slice.
+specification fused_layernorm_triton_normalize_io_correctness
+    (out_ptr0 in_out_ptr0 in_ptr0 in_ptr1 in_ptr2 out_ptr1 : RegionName)
+    (rnumel RBLOCK : Nat) :
+    fusedNormalizeIO out_ptr0 in_out_ptr0 in_ptr0 in_ptr1 in_ptr2 out_ptr1 rnumel
+        RBLOCK
+      ⊨ fun _p₀ _p₁ m1 m2 xs ws bs i => ((xs i - m1) * m2) * ws i + bs i
+
+## fused_layernorm_triton::fused_layernorm_triton_output_summary_general bench/tritonbench_g/fused_layernorm_triton/FusedLayernormTriton.lean:787
+Bundle of reduction, normalization, and linked-surface facts; the hypotheses connecting intermediate means/variances must hold.
+specification fused_layernorm_triton_output_summary_general
+    (in_out_ptr0 in_ptr0 in_ptr1 in_ptr2 out_ptr0 out_ptr1 : RegionName)
+    (xnumel rnumel XBLOCK RBLOCK : Nat) (hLe : rnumel ≤ RBLOCK)
+    (s : BlockState)
+    (hMeanRstd : out_ptr0 ≠ in_out_ptr0) :
+    -- (1) the full faithful surface lowers to the algorithm layer
+    (∃ alg,
+      (fused_layernorm_triton_surface in_out_ptr0 in_ptr0 in_ptr1 in_ptr2
+        out_ptr0 out_ptr1 xnumel rnumel XBLOCK RBLOCK).toAlgorithm?
+      = Except.ok alg) ∧
+    -- (2) reduction phase: genuine mean and rstd, end-to-end from `in_ptr0`
+    ((ComputeCorrect.Realizes_without_Rounding
+      (kernel := fused_layernorm_triton_reduce_slice in_out_ptr0 in_ptr0
+        out_ptr0 rnumel RBLOCK)
+      (initialState := s)
+      (write := fun _ : PUnit => some (out_ptr0, s.pids 0))
+      (expected := fun _ => rowMeanSpec s in_ptr0 rnumel)) ∧
+    (ComputeCorrect.Realizes_without_Rounding
+      (kernel := fused_layernorm_triton_reduce_slice in_out_ptr0 in_ptr0
+        out_ptr0 rnumel RBLOCK)
+      (initialState := s)
+      (write := fun _ : PUnit => some (in_out_ptr0, s.pids 0))
+      (expected := fun _ => rowRstdSpec s in_ptr0 rnumel))) ∧
+    -- (3) normalize face: genuine `Y` chunk for every mean/rstd-genuine state
+    (∀ s' : BlockState,
+      s'.readMem out_ptr0 (s'.pids 0) = rowMeanSpec s' in_ptr0 rnumel →
+      s'.readMem in_out_ptr0 (s'.pids 0) = rowRstdSpec s' in_ptr0 rnumel →
+      ComputeCorrect.Realizes_without_Rounding
+        (kernel := fused_layernorm_triton_normalize_slice in_out_ptr0 in_ptr0
+          in_ptr1 in_ptr2 out_ptr0 out_ptr1 rnumel RBLOCK)
+        (initialState := s')
+        (write := ComputeCorrect.WriteMap.writeIf
+          (fun i : Fin RBLOCK => activeLane s' rnumel RBLOCK i)
+          (fun i => (out_ptr1, yOffset s' rnumel RBLOCK i)))
+        (expected := fun i : Fin RBLOCK =>
+          rowYSpec s' in_ptr0 in_ptr1 in_ptr2 rnumel (rIndex s' RBLOCK i)))
+
+## fused_recurrent_delta::fused_recurrent_delta_output_step_io_correctness bench/tritonbench_g/fused_recurrent_delta/FusedRecurrentDelta.lean:3620
+Computes one output step from a supplied HNext state and q; the state update/preceding recurrence is outside this IO kernel.
+specification fused_recurrent_delta_output_step_io_correctness
+    (HNext q o : RegionName) (t s_qk_h s_vo_h B H K V BK BV : Nat)
+    (hOutInj : ∀ p₀ p₁ p₂ : Nat, Function.Injective
+      (fun jv : Fin BV =>
+        (p₂ + p₁ * B * H) * s_vo_h + p₀ * BV + jv.val + t * V)) :
+    outputStepIO HNext q o t s_qk_h s_vo_h B H K V BK BV
+      ⊨ fun _p₀ p₁ xs ys jv =>
+          ∑ jk : Fin BK,
+            if p₁ * BK + jk.val < K then
+              xs (jv.1, jk, PUnit.unit) * ys (jk, PUnit.unit)
+            else 0
+
+## fused_recurrent_delta::fused_recurrent_delta_output_summary_general bench/tritonbench_g/fused_recurrent_delta/FusedRecurrentDelta.lean:3253
+Forward/backward recurrence and step facts with state-carry premises. Conjuncts name distinct kernels and do not automatically yield a composed host IO contract.
+specification fused_recurrent_delta_output_summary_general
+    (q k v beta o h0 ht dht dh0 do_ dq dk dv dbeta : RegionName)
+    (HPrev HOut DHPrev HRec : RegionName)
+    (IS_HEADWISE_BETA USE_INITIAL_STATE STORE_FINAL_STATE USE_DH0 USE_DHT : Bool)
+    (m s_qk_h s_vo_h NK B H T K V BK BV : Nat) (scale : ℝ) (s : BlockState)
+    (hBV : BV ≤ V) (hBK : BK ≤ K)
+    (hPrev : ∀ idx : TileIndex [BV, BK],
+      s.readMem HPrev (stateOffset s K V BK BV idx)
+        = deltaState s k v beta h0 IS_HEADWISE_BETA USE_INITIAL_STATE
+            s_qk_h s_vo_h T K V BK BV m idx)
+    -- the post-update carry buffer is the SAME region clause 4 stores into;
+    -- this hypothesis is NOT discharged by clause 4 (see the docstring)
+    (hNext : ∀ idx : TileIndex [BV, BK],
+      s.readMem HOut (stateOffset s K V BK BV idx)
+        = deltaState s k v beta h0 IS_HEADWISE_BETA USE_INITIAL_STATE
+            s_qk_h s_vo_h T K V BK BV (m + 1) idx) :
+    -- (1) the full forward surface lowers to the algorithm layer
+    (∃ alg, (fused_recurrent_delta_fwd_surface q k v beta o h0 ht s_qk_h s_vo_h
+      B H T K V BK BV scale USE_INITIAL_STATE STORE_FINAL_STATE
+      IS_HEADWISE_BETA).toAlgorithm? = Except.ok alg) ∧
+    -- (2) the full backward surface lowers to the algorithm layer
+    (∃ alg, (fused_recurrent_delta_bwd_surface q k v beta dht dh0 do_ dq dk dv
+      dbeta h0 s_qk_h s_vo_h NK B H T K V BK BV scale USE_INITIAL_STATE
+      IS_HEADWISE_BETA USE_DH0 USE_DHT).toAlgorithm? = Except.ok alg) ∧
+    -- (3) the `v_new` writeback realizes the genuine delta `vNewClosed(m)`
+    (ComputeCorrect.Realizes_without_Rounding
+      (kernel := fused_recurrent_delta_vnew_step_slice HPrev k v
+        m s_qk_h s_vo_h K V BK BV)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun jv : Fin BV => activeV s V BV jv)
+        (fun jv => (v, vRowOffset s m s_vo_h V BV jv)))
+      (expected := fun jv : Fin BV =>
+        vNewClosed s k v beta h0 IS_HEADWISE_BETA USE_INITIAL_STATE
+          s_qk_h s_vo_h T K V BK BV m jv)) ∧
+    -- (4) the state-update body realizes the genuine `deltaState(m+1)`
+    (ComputeCorrect.Realizes_without_Rounding
+      (kernel := if IS_HEADWISE_BETA then
+          fused_recurrent_delta_state_step_slice_headwise HPrev k v beta HOut
+            m s_qk_h s_vo_h T K V BK BV
+        else
+          fused_recurrent_delta_state_step_slice_scalarbeta HPrev k v beta HOut
+            m s_qk_h s_vo_h T K V BK BV)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [BV, BK] => activeKV s K V BK BV idx)
+        (fun idx => (HOut, stateOffset s K V BK BV idx)))
+      (expected := fun idx =>
+        deltaState s k v beta h0 IS_HEADWISE_BETA USE_INITIAL_STATE
+          s_qk_h s_vo_h T K V BK BV (m + 1) idx)) ∧
+    -- (5) the output body realizes the genuine `outputClosed(m)` — mask-faithful,
+    --     so it holds for partial tiles and carries no full-tile antecedent
+    (ComputeCorrect.Realizes_without_Rounding
+      (kernel := fused_recurrent_delta_output_step_slice HOut q o
+        m s_qk_h s_vo_h B H K V BK BV scale)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun jv : Fin BV => activeV s V BV jv)
+        (fun jv => (o, outOffset s m s_vo_h B H V BV jv)))
+      (expected := fun jv : Fin BV =>
+        outputClosed s q k v beta h0 IS_HEADWISE_BETA USE_INITIAL_STATE
+          s_qk_h s_vo_h T K V BK BV scale m jv)) ∧
+    -- (6) the backward loop-1 `dk` body realizes the genuine `dkStepSpec` —
+    --     mask-faithful, so no full-tile antecedent
+    (ComputeCorrect.Realizes_without_Rounding
+      (kernel := if IS_HEADWISE_BETA then
+          fused_recurrent_delta_bwd_dk_step_slice_headwise DHPrev q do_ v beta dk
+            m s_qk_h s_vo_h B H T K V BK BV scale
+        else
+          fused_recurrent_delta_bwd_dk_step_slice_scalarbeta DHPrev q do_ v beta dk
+            m s_qk_h s_vo_h B H T K V BK BV scale)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun jk : Fin BK => activeK s K BK jk)
+        (fun jk => (dk, dkRowOffset s m s_qk_h B H K BK jk)))
+      (expected := fun jk : Fin BK =>
+        dkStepSpec s DHPrev q do_ v beta IS_HEADWISE_BETA
+          m s_qk_h s_vo_h T K V BK BV scale jk)) ∧
+    -- (7) the backward loop-1 `dv` body realizes the genuine `dvStepSpec` —
+    --     mask-faithful, so no full-tile antecedent
+    (ComputeCorrect.Realizes_without_Rounding
+      (kernel := if IS_HEADWISE_BETA then
+          fused_recurrent_delta_bwd_dv_step_slice_headwise DHPrev q do_ k beta dv
+            m s_qk_h s_vo_h B H T K V BK BV scale
+        else
+          fused_recurrent_delta_bwd_dv_step_slice_scalarbeta DHPrev q do_ k beta dv
+            m s_qk_h s_vo_h B H T K V BK BV scale)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun jv : Fin BV => activeV s V BV jv)
+        (fun jv => (dv, outOffset s m s_vo_h B H V BV jv)))
+      (expected := fun jv : Fin BV =>
+        dvStepSpec s DHPrev q do_ k beta IS_HEADWISE_BETA
+          m s_qk_h s_vo_h T K V BK BV scale jv)) ∧
+    -- (8) the backward loop-1 headwise `dbeta` body realizes `dbetaStepSpec` —
+    --     mask-faithful, so no full-tile antecedent
+    (ComputeCorrect.Realizes_without_Rounding
+      (kernel := fused_recurrent_delta_bwd_dbeta_step_slice_headwise DHPrev q do_ k v
+        dbeta m s_qk_h s_vo_h NK B H T K V BK BV scale)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun jv : Fin BV => activeV s V BV jv)
+        (fun jv => (dbeta, dbetaRowOffset s m s_vo_h B H NK V BV jv)))
+      (expected := fun jv : Fin BV =>
+        dbetaStepSpec s DHPrev q do_ k v m s_qk_h s_vo_h K V BK BV scale jv)) ∧
+    -- (9) the backward loop-1 scalar `dbeta` body realizes `dbetaScalarStepSpec`
+    --     — mask-faithful (guarded on both nested reductions)
+    (ComputeCorrect.Realizes_without_Rounding
+      (kernel := fused_recurrent_delta_bwd_dbeta_step_slice_scalarbeta DHPrev q do_ k v
+        dbeta m s_qk_h s_vo_h B H T K V BK BV scale)
+      (initialState := s)
+      (write := fun _ : PUnit => some (dbeta, dbetaScalarOffset s m T B H))
+      (expected := fun _ =>
+        dbetaScalarStepSpec s DHPrev q do_ k v m s_qk_h s_vo_h K V BK BV scale)) ∧
+    -- (10) the backward loop-2 `dk` correction body, **sequenced onto the loop-1
+    --      stores**: given that the `dk`/`dv` rows still hold what clauses 6 and 7
+    --      put there, the final `dk` row is `dkCorrClosed`
+    ((∀ jk : Fin BK,
+        s.readMem dk (dkRowOffset s m s_qk_h B H K BK jk)
+          = dkStepSpec s DHPrev q do_ v beta IS_HEADWISE_BETA
+              m s_qk_h s_vo_h T K V BK BV scale jk) →
+      (∀ jv : Fin BV,
+        s.readMem dv (outOffset s m s_vo_h B H V BV jv)
+          = dvStepSpec s DHPrev q do_ k beta IS_HEADWISE_BETA
+              m s_qk_h s_vo_h T K V BK BV scale jv) →
+      ComputeCorrect.Realizes_without_Rounding
+        (kernel := fused_recurrent_delta_bwd_dk_correction_step_slice HRec dv dk
+          m s_qk_h s_vo_h B H K V BK BV)
+        (initialState := s)
+        (write := ComputeCorrect.WriteMap.writeIf
+          (fun jk : Fin BK => activeK s K BK jk)
+          (fun jk => (dk, dkRowOffset s m s_qk_h B H K BK jk)))
+        (expected := fun jk : Fin BK =>
+          dkCorrClosed s DHPrev HRec q do_ k v beta IS_HEADWISE_BETA
+            m s_qk_h s_vo_h T K V BK BV scale jk)) ∧
+    -- (11) the backward loop-2 `dq` body realizes the genuine `dqStepSpec` —
+    --     mask-faithful, so no full-tile antecedent
+    (ComputeCorrect.Realizes_without_Rounding
+      (kernel := if IS_HEADWISE_BETA then
+          fused_recurrent_delta_bwd_dq_step_slice_headwise HRec k v beta do_ dq
+            m s_qk_h s_vo_h B H T K V BK BV scale
+        else
+          fused_recurrent_delta_bwd_dq_step_slice_scalarbeta HRec k v beta do_ dq
+            m s_qk_h s_vo_h B H T K V BK BV scale)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun jk : Fin BK => activeK s K BK jk)
+        (fun jk => (dq, dkRowOffset s m s_qk_h B H K BK jk)))
+      (expected := fun jk : Fin BK =>
+        dqStepSpec s HRec k v beta do_ IS_HEADWISE_BETA
+          m s_qk_h s_vo_h T K V BK BV scale jk))
+
+## fused_recurrent_hgrn::fused_recurrent_hgrn_bwd_dx_io_correctness bench/tritonbench_g/fused_recurrent_hgrn/FusedRecurrentHgrn.lean:1674
+One hand-cut backward timestep adds supplied DHPrev and DO and stores DX. This slice has finite disjoint flat placements, active-lane access bounds, successful execution, output readback, and a memory frame; production of DHPrev and the complete source reverse loop are outside the claim.
+specification fused_recurrent_hgrn_bwd_dx_io_correctness
+    (DHPrev DO DX : RegionName) (i_t T D BD : Nat) :
+    bwdDxIO DHPrev DO DX i_t T D BD
+      ⊨ fun _p₀ _p₁ xs ys o => xs o + ys o
+
+## fused_recurrent_hgrn::fused_recurrent_hgrn_output_summary_general bench/tritonbench_g/fused_recurrent_hgrn/FusedRecurrentHgrn.lean:1412
+Conjunction of full forward-source lowering and hand-cut forward one-step, backward dx/dg one-step, and backward dx two-step facts. Forward BHPrev and backward DHPrev carry values are supplied by hypotheses; the dg slice reads the modeled previous-output/initial-state branch. A separate forward outer-loop theorem is not a complete launched-kernel headline. No complete reverse fold, final-state writeback, or forward/backward host composition is certified. The signed reverse-source typing repair does not upgrade this scope.
+specification fused_recurrent_hgrn_output_summary_general
+    (X G O H0 Ht DX DG DO BHPrev DHPrev : RegionName)
+    (USE_INITIAL_STATE STORE_FINAL_STATE : Bool)
+    (i_t T D BD : Nat) (s : BlockState) (hBD : 0 < BD)
+    (hPrev : ∀ i : Fin BD,
+      s.readMem BHPrev (bhOffset s D BD i)
+        = hgrnStateClosed s X G H0 USE_INITIAL_STATE T D BD i_t i) :
+    -- (1) the full forward surface lowers to the algorithm layer
+    (∃ alg, (fused_recurrent_hgrn_fwd_surface X G O H0 Ht T D BD
+      USE_INITIAL_STATE STORE_FINAL_STATE).toAlgorithm? = Except.ok alg) ∧
+    -- (2) the forward output body realizes the genuine `hgrnStateClosed(i_t+1)`
+    (ComputeCorrect.Realizes_without_Rounding
+      (kernel := fused_recurrent_hgrn_forward_step_store_slice BHPrev X G O
+        i_t T D BD)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (active s D BD)
+        (fun i => (O, outOffset s i_t T D BD i)))
+      (expected := fun i =>
+        hgrnStateClosed s X G H0 USE_INITIAL_STATE T D BD (i_t + 1) i)) ∧
+    -- (3) the backward `dx` body realizes the genuine `dh_prev + do`
+    (ComputeCorrect.Realizes_without_Rounding
+      (kernel := fused_recurrent_hgrn_bwd_dx_step_store_slice DHPrev DO DX
+        i_t T D BD)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (active s D BD)
+        (fun i => (DX, outOffset s i_t T D BD i)))
+      (expected := fun i => bwdDxStepValue s DHPrev DO i_t T D BD i)) ∧
+    -- (4) the backward `dg` body realizes the genuine `(dh_prev+do)·b_o`, with
+    --     Python's three-way previous-row `b_o` branch modeled
+    (ComputeCorrect.Realizes_without_Rounding
+      (kernel := fused_recurrent_hgrn_bwd_dg_step_store_slice DHPrev DO O H0 DG
+        USE_INITIAL_STATE i_t T D BD)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (active s D BD)
+        (fun i => (DG, outOffset s i_t T D BD i)))
+      (expected := fun i =>
+        bwdDgStepValue s DHPrev DO O H0 USE_INITIAL_STATE i_t T D BD i)) ∧
+    -- (5) the backward scan step `b_dh = b_dh * b_g` executed: the two-step body
+    --     realizes the genuine closed form `hgrnBwdDx(i_t)` over `do`, `g`
+    (i_t + 1 < T →
+      (∀ i : Fin BD,
+        s.readMem DHPrev (outOffset s (i_t + 1) T D BD i)
+          = hgrnBwdCarry s DO G T D BD (i_t + 1) i) →
+      ComputeCorrect.Realizes_without_Rounding
+        (kernel := fused_recurrent_hgrn_bwd_dx_two_step_store_slice DHPrev DO G DX
+          i_t T D BD)
+        (initialState := s)
+        (write := ComputeCorrect.WriteMap.writeIf
+          (active s D BD)
+          (fun i => (DX, outOffset s i_t T D BD i)))
+        (expected := fun i => hgrnBwdDx s DO G T D BD i_t i)) ∧
+    -- (6) the same body at the loop's first fold, where the assumed carry is
+    --     only the `tl.zeros` seed
+    (2 ≤ T →
+      (∀ i : Fin BD, s.readMem DHPrev (outOffset s (T - 1) T D BD i) = 0) →
+      ComputeCorrect.Realizes_without_Rounding
+        (kernel := fused_recurrent_hgrn_bwd_dx_two_step_store_slice DHPrev DO G DX
+          (T - 2) T D BD)
+        (initialState := s)
+        (write := ComputeCorrect.WriteMap.writeIf
+          (active s D BD)
+          (fun i => (DX, outOffset s (T - 2) T D BD i)))
+        (expected := fun i => hgrnBwdDx s DO G T D BD (T - 2) i))
+
+## fused_rotary_embedding::decoding_fused_rotary_embedding_q_correctness bench/tritonbench_g/fused_rotary_embedding/FusedRotaryEmbedding.lean:2223
+Separate Q-rotation and V-cache chain contracts. These selected sub-kernels do not by themselves prove the entire fused Q/K/V/cache program or arbitrary aliasing between stages.
+specification decoding_fused_rotary_embedding_q_correctness
+    (q cos sin : RegionName)
+    (q_token_stride q_head_stride head_dim_stride cos_token_stride cos_stride
+      HALF_DIM : Nat)
+    (hstride : 0 < head_dim_stride) :
+    decodingRotaryQIO q cos sin q_token_stride q_head_stride head_dim_stride
+        cos_token_stride cos_stride HALF_DIM ⊨
+      fun _pid₀ _pid₁ xs o j =>
+        let q0 := xs (⟨0, by decide⟩ : Fin 4) j
+        let q1 := xs (⟨1, by decide⟩ : Fin 4) j
+        let c := xs (⟨2, by decide⟩ : Fin 4) j
+        let sn := xs (⟨3, by decide⟩ : Fin 4) j
+        match o with
+        | ⟨0, _⟩ => q0 * c - q1 * sn
+        | ⟨_ + 1, _⟩ => q0 * sn + q1 * c
+
+## fused_rotary_embedding::decoding_fused_rotary_embedding_vcache_chain_correctness bench/tritonbench_g/fused_rotary_embedding/FusedRotaryEmbedding.lean:3037
+Separate Q-rotation and V-cache chain contracts. These selected sub-kernels do not by themselves prove the entire fused Q/K/V/cache program or arbitrary aliasing between stages.
+specification decoding_fused_rotary_embedding_vcache_chain_correctness
+    (v v_cache : RegionName) (BLOCK_TABLES context_lengths : Region .nat)
+    (KV_GROUP_NUM k_token_stride k_head_stride head_dim_stride
+      vcb_stride vch_stride vcs_stride vcd_stride bts_stride btb_stride
+      block_size HEAD_DIM : Nat) :
+    decodingVCacheChainIO v v_cache BLOCK_TABLES context_lengths KV_GROUP_NUM
+        k_token_stride k_head_stride head_dim_stride vcb_stride vch_stride vcs_stride
+        vcd_stride bts_stride btb_stride block_size HEAD_DIM
+      ⊨ decodingVCacheChainSpec
+
+## fused_rwkv6_kernel::fused_recurrent_rwkv6_output_summary_general bench/tritonbench_g/fused_rwkv6_kernel/FusedRwkv6Kernel.lean:1037
+Forward recurrence, step, and conditional final-state facts. The state-step IO theorem starts from a supplied previous state.
+specification fused_recurrent_rwkv6_output_summary_general
+    (q k v w u o h0 ht BHPrev BHOut C : RegionName)
+    (USE_INITIAL_STATE STORE_FINAL_STATE : Bool)
+    (s_k_h s_v_h B H T K V BK BV m : Nat) (scale : ℝ) (s sFinal : BlockState)
+    (hBV : BV ≤ V) (hBK : BK ≤ K) (hBVpos : 0 < BV) :
+    -- (1) the full surface lowers to the algorithm layer
+    (∃ alg, (fused_recurrent_rwkv6_fwd_surface q k v w u o h0 ht
+      s_k_h s_v_h B H T K V BK BV scale USE_INITIAL_STATE STORE_FINAL_STATE
+      Bool.false).toAlgorithm? = Except.ok alg) ∧
+    -- (2) the output body realizes the genuine `outputClosed(m)` — mask-faithful,
+    --     so this holds for partial key/value tiles as well. The pinned carry is a
+    --     clause-local antecedent, so it cannot weaken clause 4.
+    ((∀ idx : TileIndex [BV, BK],
+        s.readMem BHPrev (finalStateOffset s K V BK BV idx)
+          = stateClosed s k v w h0 USE_INITIAL_STATE s_k_h s_v_h K V BK BV m idx) →
+      ComputeCorrect.Realizes_without_Rounding
+        (kernel := fused_recurrent_rwkv6_output_step_slice BHPrev q k v u o
+          m s_k_h s_v_h B H T K V BK BV scale)
+        (initialState := s)
+        (write := ComputeCorrect.WriteMap.writeIf
+          (fun jv : Fin BV => active s V BV jv)
+          (fun jv => (o, outStepOffset s m s_v_h B H V BV jv)))
+        (expected := fun jv : Fin BV =>
+          outputClosed s q k v w u h0 USE_INITIAL_STATE s_k_h s_v_h H K V BK BV
+            scale m jv)) ∧
+    -- (3) the state-update body realizes the genuine `stateClosed(m+1)`, under the
+    --     same clause-local pinned carry
+    ((∀ idx : TileIndex [BV, BK],
+        s.readMem BHPrev (finalStateOffset s K V BK BV idx)
+          = stateClosed s k v w h0 USE_INITIAL_STATE s_k_h s_v_h K V BK BV m idx) →
+      ComputeCorrect.Realizes_without_Rounding
+        (kernel := fused_recurrent_rwkv6_state_step_slice BHPrev k v w BHOut
+          m s_k_h s_v_h K V BK BV)
+        (initialState := s)
+        (write := ComputeCorrect.WriteMap.writeIf
+          (fun idx : TileIndex [BV, BK] => activeKV s K V BK BV idx)
+          (fun idx => (BHOut, finalStateOffset s K V BK BV idx)))
+        (expected := fun idx =>
+          stateClosed s k v w h0 USE_INITIAL_STATE s_k_h s_v_h K V BK BV
+            (m + 1) idx)) ∧
+    -- (4) the **cross-step carry fold**: chaining `T` state slices through one
+    --     shared carry region `C` reaches `stateClosed(T)` from a *single*
+    --     assumption about the initial buffer — no per-step pinned carry at all.
+    --     Its own antecedents keep clauses 2 and 3 free of them.
+    (k ≠ C → v ≠ C → w ≠ C →
+      (∀ idx : TileIndex [BV, BK], activeKV s K V BK BV idx →
+        s.readMem C (finalStateOffset s K V BK BV idx)
+          = stateSeed s h0 USE_INITIAL_STATE K V BK BV idx) →
+      execChain (foldStages
+        (fun j => fused_recurrent_rwkv6_state_step_slice C k v w C
+          j s_k_h s_v_h K V BK BV) T) s = some sFinal →
+      (AgreeOutsideRegion C s sFinal ∧
+        ∀ idx : TileIndex [BV, BK], activeKV s K V BK BV idx →
+          sFinal.readMem C (finalStateOffset s K V BK BV idx)
+            = stateClosed s k v w h0 USE_INITIAL_STATE s_k_h s_v_h K V BK BV T idx))
+
+## fused_rwkv6_kernel::fused_recurrent_rwkv6_state_step_io_correctness bench/tritonbench_g/fused_rwkv6_kernel/FusedRwkv6Kernel.lean:1310
+One state update from supplied BHPrev, k, v, and w; it does not construct BHPrev or compose all recurrent steps.
+specification fused_recurrent_rwkv6_state_step_io_correctness
+    (BHPrev k v w BHOut : RegionName) (t s_k_h s_v_h K V BK BV : Nat)
+    (hOutInj : ∀ p₀ p₁ p₂ : Nat, Function.Injective
+      (fun idx : TileIndex [BV, BK] =>
+        p₂ * K * V + (p₁ * BK + idx.2.1.val) * V + (p₀ * BV + idx.1.val))) :
+    stateStepIO BHPrev k v w BHOut t s_k_h s_v_h K V BK BV
+      ⊨ fun _p₀ _p₁ xs ks vs ws idx =>
+          xs idx * Real.exp (ws (idx.2.1, PUnit.unit))
+            + ks (idx.2.1, PUnit.unit) * vs (idx.1, PUnit.unit)
+
+## int4_matmul::int4_matmul_exec_genuine bench/tritonbench_g/int4_matmul/Int4Matmul.lean:2406
+Selected packed-int4 mathematical decode/matmul surface with the displayed grouping/block assumptions. The exec-existential omits a frame and does not certify fixed-width overflow behavior.
+specification int4_matmul_exec_genuine
+    (a_ptr c_ptr bs_ptr : RegionName) (b_ptr bzp_ptr : Region .nat)
+    (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn
+      stride_bsk stride_bsn stride_bzpk stride_bzpn group_size : Nat)
+    (BM BN BK GM numKBlocks : Nat) (s : BlockState)
+    (hK : K = BK * numKBlocks)
+    (hBK8 : BK % 8 = 0)
+    (hpid1 : s.pids 1 = 0)
+    (hInj : Function.Injective
+      (fun i : TileIndex [BM, BN] => cAddr stride_cm stride_cn BM BN
+        (pidM s M N BM BN GM) (pidN s M N BM BN GM) i)) :
+    ∃ sF, exec (int4_matmul_surface a_ptr c_ptr bs_ptr b_ptr bzp_ptr
+        M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn
+        stride_bsk stride_bsn stride_bzpk stride_bzpn group_size
+        BM BN BK GM numKBlocks).toAlgKernel s = some sF
+      ∧ ∀ idx : TileIndex [BM, BN],
+          (pidM s M N BM BN GM * BM + idx.1.val < M
+            ∧ pidN s M N BM BN GM * BN + idx.2.1.val < N) →
+          sF.readMem c_ptr (cAddr stride_cm stride_cn BM BN (pidM s M N BM BN GM)
+              (pidN s M N BM BN GM) idx)
+            = accSpec s a_ptr bs_ptr b_ptr bzp_ptr group_size stride_am
+                stride_ak stride_bk stride_bn stride_bsk stride_bsn
+                stride_bzpk stride_bzpn BK numKBlocks
+                (pidM s M N BM BN GM * BM + idx.1.val)
+                (pidN s M N BM BN GM * BN + idx.2.1.val)
+
+## int8_dequant_matmul::int8_dequant_matmul_exec_genuine bench/tritonbench_g/int8_dequant_matmul/Int8DequantMatmul.lean:2000
+Selected rowwise dequantizing matmul with optional bias and a typed fp16 output. The exec-existential omits a frame; its mathematical casts are not hardware IEEE conversion.
+specification int8_dequant_matmul_exec_genuine
+    (A B : Region .int) (C bias state_x_ptr state_w_ptr : RegionName)
+    (M N K : Nat) (divfactor : ℝ) (has_bias : Bool)
+    (stride_am stride_ak stride_bk stride_bn stride_cm stride_cn : Nat)
+    (BM BN BK GM numKBlocks : Nat) (s : BlockState)
+    (hK : K = BK * numKBlocks)
+    (hpid1 : s.pids 1 = 0)
+    (hInj : Function.Injective
+      (fun i : TileIndex [BM, BN] => cAddr stride_cm stride_cn BM BN
+        (pidM s M N BM BN GM) (pidN s M N BM BN GM) i)) :
+    ∃ sF, exec (int8_dequant_matmul_surface A B C bias state_x_ptr state_w_ptr
+        M N K divfactor has_bias
+        stride_am stride_ak stride_bk stride_bn stride_cm stride_cn
+        BM BN BK GM numKBlocks).toAlgKernel s = some sF
+      ∧ ∀ idx : TileIndex [BM, BN],
+          (pidM s M N BM BN GM * BM + idx.1.val < M
+            ∧ pidN s M N BM BN GM * BN + idx.2.1.val < N) →
+          sF.mem C (cAddr stride_cm stride_cn BM BN (pidM s M N BM BN GM)
+              (pidN s M N BM BN GM) idx)
+            = MemCell.of .fp16 (FloatDType.real.cast FloatDType.fp16
+                (some (i8Spec s A B bias state_x_ptr state_w_ptr
+                  stride_am stride_ak stride_bk stride_bn BK numKBlocks
+                  divfactor has_bias
+                  (pidM s M N BM BN GM * BM + idx.1.val)
+                  (pidN s M N BM BN GM * BN + idx.2.1.val))))
+
+## int8_matmul_kernel::int8_matmul_kernel_exec_genuine bench/tritonbench_g/int8_matmul_kernel/Int8MatmulKernel.lean:2186
+Integer matmul over the modeled integer carrier and configured tile/reduction layout. The exec-existential omits a frame and does not establish machine overflow semantics.
+specification int8_matmul_kernel_exec_genuine
+    (A : Region .int) (B : Region .nat) (C : RegionName)
+    (M N K : Nat)
+    (stride_am stride_ak stride_bk stride_bn stride_cm stride_cn : Nat)
+    (BM BN BK GM numKBlocks : Nat) (s : BlockState)
+    (hK : K = 4 * (BK * numKBlocks))
+    (hInj : Function.Injective
+      (fun i : TileIndex [BM, BN] => imCAddr stride_cm stride_cn BM BN
+        (pidM s M N BM BN GM) (pidN s M N BM BN GM) i)) :
+    ∃ sF, exec (int8_matmul_kernel_surface A B C M N K
+        stride_am stride_ak stride_bk stride_bn stride_cm stride_cn
+        BM BN BK GM numKBlocks).toAlgKernel s = some sF
+      ∧ ∀ idx : TileIndex [BM, BN],
+          (pidM s M N BM BN GM * BM + idx.1.val < M
+            ∧ pidN s M N BM BN GM * BN + idx.2.1.val < N) →
+          sF.mem C (imCAddr stride_cm stride_cn BM BN (pidM s M N BM BN GM)
+              (pidN s M N BM BN GM) idx)
+            = MemCell.of .int (imSpec s A B stride_am stride_ak stride_bk
+                stride_bn BK numKBlocks
+                (pidM s M N BM BN GM * BM + idx.1.val)
+                (pidN s M N BM BN GM * BN + idx.2.1.val))
+
+## int8_matmul_quantization::int8_matmul_quantization_matmul_exec_genuine bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean:3759
+Separate per-row quantization and matmul stages using the defined mathematical integer/cast operations. No frame conjunct or proof of end-to-end hardware quantization/overflow behavior.
+specification int8_matmul_quantization_matmul_exec_genuine
+    (A : Region .int) (as_ptr : RegionName) (B : Region .int) (bs_ptr C : RegionName)
+    (M N K : Nat)
+    (stride_am stride_ak stride_asm stride_bk stride_bn stride_bsn
+      stride_cm stride_cn : Nat)
+    (BM BN BK GM numKBlocks : Nat) (s : BlockState)
+    (hK : K ≤ numKBlocks * BK)
+    (hpid1 : s.pids 1 = 0)
+    (hInj : Function.Injective
+      (fun i : TileIndex [BM, BN] => mmCAddr stride_cm stride_cn BM BN
+        (mmPidM s M N BM BN GM) (mmPidN s M N BM BN GM) i)) :
+    ∃ sF, exec (int8_matmul_quantization_matmul_surface A as_ptr B bs_ptr C
+        M N K stride_am stride_ak stride_asm stride_bk stride_bn stride_bsn
+        stride_cm stride_cn BM BN BK GM numKBlocks).toAlgKernel s = some sF
+      ∧ ∀ idx : TileIndex [BM, BN],
+          (mmPidM s M N BM BN GM * BM + idx.1.val < M
+            ∧ mmPidN s M N BM BN GM * BN + idx.2.1.val < N) →
+          sF.mem C (mmCAddr stride_cm stride_cn BM BN (mmPidM s M N BM BN GM)
+              (mmPidN s M N BM BN GM) idx)
+            = MemCell.of .fp16 (FloatDType.real.cast FloatDType.fp16
+                (some ((((∑ j : Fin K, mmAElem s A stride_am stride_ak
+                          (mmPidM s M N BM BN GM * BM + idx.1.val) j.val
+                          * mmBElem s B stride_bk stride_bn j.val
+                            (mmPidN s M N BM BN GM * BN + idx.2.1.val)) : ℤ) : ℝ)
+                  * mmAScaleElem s as_ptr stride_asm
+                      (mmPidM s M N BM BN GM * BM + idx.1.val)
+                  * mmBScaleElem s bs_ptr stride_bsn
+                      (mmPidN s M N BM BN GM * BN + idx.2.1.val))))
+
+## int8_matmul_quantization::int8_matmul_quantization_quantize_exec_genuine bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean:1696
+Separate per-row quantization and matmul stages using the defined mathematical integer/cast operations. No frame conjunct or proof of end-to-end hardware quantization/overflow behavior.
+specification int8_matmul_quantization_quantize_exec_genuine
+    (fpa_ptr : RegionName) (a_ptr : Region .int) (as_ptr : RegionName)
+    (M K : Nat)
+    (stride_fpam stride_fpak stride_am stride_ak stride_asm : Nat)
+    (BM BK numKBlocks : Nat) (s : BlockState)
+    (hBK : 0 < BK)
+    (hK : K ≤ numKBlocks * BK)
+    (hFit : s.pids 0 * BM + BM ≤ M)
+    (hFpaNe : fpa_ptr ≠ (Region.cast a_ptr : RegionName))
+    (hAsNe : as_ptr ≠ (Region.cast a_ptr : RegionName))
+    (hInj : Function.Injective (fun p : Fin BM × Fin K =>
+      (s.pids 0 * BM + p.1.val) * stride_am + p.2.val * stride_ak)) :
+    ∃ sF, exec (int8_matmul_quantization_quantize_surface fpa_ptr a_ptr as_ptr
+        M K stride_fpam stride_fpak stride_am stride_ak stride_asm
+        BM BK numKBlocks).toAlgKernel s = some sF
+      ∧ (∀ (r : Fin BM) (kg : Fin K),
+          sF.mem (Region.cast a_ptr)
+              ((s.pids 0 * BM + r.val) * stride_am + kg.val * stride_ak)
+            = MemCell.of .int (qInt8Spec K BK numKBlocks
+                (qFpaElem s fpa_ptr stride_fpam stride_fpak
+                  (s.pids 0 * BM + r.val)) kg.val))
+      ∧ (∀ r : Fin BM,
+          sF.mem as_ptr (s.pids 0 * BM * stride_asm + r.val)
+            = MemCell.of .fp16 (FloatDType.real.cast FloatDType.fp16
+                (some (qScaleSpec K BK numKBlocks
+                  (qFpaElem s fpa_ptr stride_fpam stride_fpak
+                    (s.pids 0 * BM + r.val))))))
+
+## int8_quantization::per_block_int8_correctness bench/tritonbench_g/int8_quantization/Int8Quantization.lean:529
+Q/K store slice with ScalePre input. Scale reduction, sign-dependent bias, and final int8 rounding are not part of the value contract.
+specification per_block_int8_correctness
+    (X ScalePre XInt8 Scale : RegionName)
+    (L C BLK scale_stride : Nat) (preScale : ℝ)
+    (hB : 0 < BLK * C) (hRegions : XInt8 ≠ Scale) :
+    perBlockInt8IO X ScalePre XInt8 Scale L C BLK scale_stride preScale ⊨
+      fun _ _ xs ys =>
+        (fun j => perBlockInt8ValSpec BLK C preScale xs ys j, fun j => ys j)
+
+## int_scaled_matmul::int_scaled_matmul_matmul_exec_genuine bench/tritonbench_g/int_scaled_matmul/IntScaledMatmul.lean:1369
+Complete first-source execution in the unbounded integer model, under the existing positive BK and output-address injectivity premises. The active output is the ordinary K-term GEMM plus the exact initial unspecified-padding contribution for K <= k < ceil(K/BK)*BK, using floor of each oracle value at the actual load address. No zero-oracle or K-divisibility premise is added. This corrects the former zero-padding/GEMM-only conclusion; no frame, finite-allocation, fixed-width overflow, GPU, or host-launch certificate is claimed.
+specification int_scaled_matmul_matmul_exec_genuine
+    (a_ptr b_ptr : Region .int) (c_ptr : RegionName)
+    (M N K : Nat)
+    (stride_am stride_ak stride_bk stride_bn stride_cm stride_cn : Nat)
+    (BM BN BK GM : Nat) (s : BlockState)
+    (hBK : 0 < BK)
+    (hInj : Function.Injective
+      (fun i : TileIndex [BM, BN] => mmCAddr stride_cm stride_cn BM BN
+        (mmPidM s M N BM BN GM) (mmPidN s M N BM BN GM) i)) :
+    ∃ sF, exec (int_scaled_matmul_matmul_surface a_ptr b_ptr c_ptr M N K
+        stride_am stride_ak stride_bk stride_bn stride_cm stride_cn
+        BM BN BK GM).toAlgKernel s = some sF
+      ∧ ∀ idx : TileIndex [BM, BN],
+          (mmPidM s M N BM BN GM * BM + idx.1.val < M
+            ∧ mmPidN s M N BM BN GM * BN + idx.2.1.val < N) →
+          sF.mem c_ptr (mmCAddr stride_cm stride_cn BM BN (mmPidM s M N BM BN GM)
+              (mmPidN s M N BM BN GM) idx)
+            = MemCell.of .int (mmPaddedSpec s a_ptr b_ptr K (mmSpan K BK) stride_am stride_ak
+                stride_bk stride_bn
+                (mmPidM s M N BM BN GM * BM + idx.1.val)
+                (mmPidN s M N BM BN GM * BN + idx.2.1.val))
+
+## int_scaled_matmul::int_scaled_matmul_scaled_exec_genuine bench/tritonbench_g/int_scaled_matmul/IntScaledMatmul.lean:2730
+Complete second-source execution and real-tagged output equal to the integer GEMM times the initial row scale. Covers both EVEN_K arms with the existing K <= numKBlocks*BK premise and exact equality when EVEN_K=true; the masked arm retains explicit other=0 loads. The public theorem is unchanged. Exec readbacks omit a frame and finite-allocation proof; the host int32 container conversion, overflow, GPU execution, and host composition remain outside scope.
+specification int_scaled_matmul_scaled_exec_genuine
+    (a_ptr b_ptr : Region .int) (c_ptr s1_ptr : RegionName)
+    (M N K : Nat)
+    (stride_am stride_ak stride_bk stride_bn stride_cm stride_cn
+      stride_s1m stride_s1n : Nat)
+    (BM BN BK GM : Nat) (EVEN_K : Bool) (numKBlocks : Nat) (s : BlockState)
+    (hCeil : K ≤ numKBlocks * BK)
+    (hEven : EVEN_K = Bool.true → K = numKBlocks * BK) :
+    ∃ sF, exec (int_scaled_matmul_scaled_surface a_ptr b_ptr c_ptr s1_ptr M N K
+        stride_am stride_ak stride_bk stride_bn stride_cm stride_cn
+        stride_s1m stride_s1n BM BN BK GM EVEN_K numKBlocks).toAlgKernel s
+        = some sF
+      ∧ ∀ idx : TileIndex [BM, BN],
+          (smPidM s M N BM BN GM * BM + idx.1.val < M
+            ∧ smPidN s M N BM BN GM * BN + idx.2.1.val < N) →
+          sF.mem c_ptr (smCAddr N BM BN (smPidM s M N BM BN GM)
+              (smPidN s M N BM BN GM) idx)
+            = MemCell.of .real (some
+                (((smSpec s a_ptr b_ptr K stride_am stride_ak stride_bk
+                    stride_bn
+                    (smPidM s M N BM BN GM * BM + idx.1.val)
+                    (smPidN s M N BM BN GM * BN + idx.2.1.val) : ℤ) : ℝ)
+                  * smS1 s s1_ptr (smPidM s M N BM BN GM * BM + idx.1.val)))
+
+## kcache_copy_triton::copy_to_kcache_seqlen_n1_correctness bench/tritonbench_g/kcache_copy_triton/KcacheCopyTriton.lean:940
+Sequence-length-one cache-copy specialization with the explicit block-table and cache layout. It does not cover an arbitrary multi-token Python launch.
+specification copy_to_kcache_seqlen_n1_correctness
+    (K KCache BLOCK_TABLES seq_lengths : RegionName)
+    (SPLIT_X stride_kt stride_kh stride_kd stride_kcb stride_kch
+      stride_kcsplit_x stride_kcs stride_bts stride_btb block_size
+      KCACHE_X : Nat) :
+    kcacheCopyN1IO K KCache BLOCK_TABLES seq_lengths SPLIT_X stride_kt
+        stride_kh stride_kd stride_kcb stride_kch stride_kcsplit_x stride_kcs
+        stride_bts stride_btb block_size KCACHE_X ⊨
+      fun _ _ _ _ xs _ => (xs, xs)
+
+## kv_cache_copy::kv_cache_copy_correctness bench/tritonbench_g/kv_cache_copy/KvCacheCopy.lean:841
+Sequence-length-one KV-cache x-block specialization with supplied block-table/context metadata; validity, cache bounds, and region separation are contract premises.
+specification kv_cache_copy_correctness
+    (K V KCache VCache BLOCK_TABLES context_lengths : RegionName)
+    (SPLIT_X stride_kt stride_kh stride_kd
+      stride_vt stride_vh stride_vd
+      stride_kcb stride_kch stride_kcsplit_x stride_kcs
+      stride_vcb stride_vch stride_vcs stride_vcd
+      stride_bts stride_btb block_size HEAD_DIM KCACHE_X : Nat)
+    (hKV : KCache ≠ VCache) :
+    kvCacheCopyIO K V KCache VCache BLOCK_TABLES context_lengths
+        SPLIT_X stride_kt stride_kh stride_kd stride_vt stride_vh stride_vd
+      stride_kcb stride_kch stride_kcsplit_x stride_kcs stride_vcb stride_vch
+      stride_vcs stride_vcd stride_bts stride_btb block_size HEAD_DIM KCACHE_X
+      ⊨ fun _ _ _ _ xs ys => (xs, ys)
+
+## kv_cache_filling::fill_kv_cache_output_summary_general bench/tritonbench_g/kv_cache_filling/KvCacheFilling.lean:948
+Unquantized K/V tile-copy facts under selected cache metadata and layouts; quantized paths must not be inferred from projection/copy facts.
+specification fill_kv_cache_output_summary_general
+    (KStates VStates KCaches VCaches QStartLoc QSeqLens KVSeqLens
+      BlockOffsets : RegionName)
+    (SIDX BIDX KV_BLOCK_IDX
+      num_heads head_dim head_dim_v stride_kss stride_ksh stride_ksd
+      stride_vss stride_vsh stride_vsd stride_kcn stride_kcb stride_kch
+      stride_kcd stride_vcn stride_vcb stride_vch stride_vcd stride_boff
+      BLOCK BLOCK_D BLOCK_DV BLOCK_H : Nat)
+    (s : BlockState)
+    (hKInj : Function.Injective
+      (fun idx : TileIndex [BLOCK_H, BLOCK_D] =>
+        kCacheOffset s BlockOffsets BIDX KV_BLOCK_IDX stride_kcn stride_kcb
+          stride_kch stride_kcd stride_boff idx))
+    (hVInj : Function.Injective
+      (fun idx : TileIndex [BLOCK_H, BLOCK_DV] =>
+        vCacheOffset s BlockOffsets BIDX KV_BLOCK_IDX stride_vcn stride_vcb
+          stride_vch stride_vcd stride_boff idx)) :
+    (∃ alg, (fill_kv_cache_kernel_surface KStates VStates KCaches VCaches
+      QStartLoc QSeqLens KVSeqLens BlockOffsets num_heads head_dim head_dim_v
+      stride_kss stride_ksh stride_ksd stride_vss stride_vsh stride_vsd
+      stride_kcn stride_kcb stride_kch stride_kcd stride_vcn stride_vcb
+      stride_vch stride_vcd stride_boff BLOCK BLOCK_D BLOCK_DV
+      BLOCK_H).toAlgorithm? = Except.ok alg) ∧
+    (ComputeCorrect.Realizes_without_Rounding
+      (kernel := fill_k_cache_tile KStates KCaches BlockOffsets
+        SIDX BIDX KV_BLOCK_IDX stride_kss stride_ksh stride_ksd
+        stride_kcn stride_kcb stride_kch stride_kcd stride_boff
+        num_heads head_dim BLOCK_H BLOCK_D)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (active s num_heads head_dim BLOCK_H BLOCK_D)
+        (fun idx => (KCaches,
+          kCacheOffset s BlockOffsets BIDX KV_BLOCK_IDX stride_kcn stride_kcb
+            stride_kch stride_kcd stride_boff idx)))
+      (expected := fun idx =>
+        s.readMem KStates
+          (kSourceOffset s SIDX stride_kss stride_ksh stride_ksd idx))) ∧
+    (ComputeCorrect.Realizes_without_Rounding
+      (kernel := fill_v_cache_tile VStates VCaches BlockOffsets
+        SIDX BIDX KV_BLOCK_IDX stride_vss stride_vsh stride_vsd
+        stride_vcn stride_vcb stride_vch stride_vcd stride_boff
+        num_heads head_dim_v BLOCK_H BLOCK_DV)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (active s num_heads head_dim_v BLOCK_H BLOCK_DV)
+        (fun idx => (VCaches,
+          vCacheOffset s BlockOffsets BIDX KV_BLOCK_IDX stride_vcn stride_vcb
+            stride_vch stride_vcd stride_boff idx)))
+      (expected := fun idx =>
+        s.readMem VStates
+          (vSourceOffset s SIDX stride_vss stride_vsh stride_vsd idx)))
+
+## kv_cache_filling::fill_quant_meta_store_io_correctness bench/tritonbench_g/kv_cache_filling/KvCacheFilling.lean:1175
+Stores supplied quantization metadata MetaPre; it does not compute int8/int4 scales, zero points, or quantized cache values.
+specification fill_quant_meta_store_io_correctness
+    (MetaPre MetaOut BlockOffsets : RegionName)
+    (BIDX KV_BLOCK_IDX SZD stride_mn stride_mb stride_mh stride_md stride_boff
+      num_heads BLOCK_H : Nat)
+    (hOutInj : ∀ m : Nat, Function.Injective
+      (fun i : Fin BLOCK_H =>
+        m * stride_mn + BIDX * stride_mb + i.val * stride_mh
+          + SZD * stride_md)) :
+    metaStoreIO MetaPre MetaOut BlockOffsets BIDX KV_BLOCK_IDX SZD stride_mn
+        stride_mb stride_mh stride_md stride_boff num_heads BLOCK_H
+      ⊨ fun _pid _m xs i => xs i
+
+## layer_norm_welfold::layer_norm_welfold_normalize_io_correctness bench/tritonbench_g/layer_norm_welfold/LayerNormWelfold.lean:933
+Normalizes using supplied mean and inverse variance; this IO kernel does not compute those statistics.
+specification layer_norm_welfold_normalize_io_correctness
+    (in_out_ptr0 in_out_ptr1 in_ptr0 in_ptr1 in_ptr2 out_ptr0 : RegionName)
+    (rnumel RBLOCK : Nat) :
+    normalizeIO in_out_ptr0 in_out_ptr1 in_ptr0 in_ptr1 in_ptr2 out_ptr0 rnumel
+        RBLOCK
+      ⊨ fun _p₀ _p₁ m1 m2 xs ws bs i => ((xs i - m1) * m2) * ws i + bs i
+
+## layer_norm_welfold::layer_norm_welfold_output_summary_general bench/tritonbench_g/layer_norm_welfold/LayerNormWelfold.lean:643
+Separate reduction, normalization, and linked-surface facts with explicit intermediate-state premises.
+specification layer_norm_welfold_output_summary_general
+    (in_out_ptr0 in_out_ptr1 in_ptr0 in_ptr1 in_ptr2 out_ptr0 : RegionName)
+    (xnumel rnumel XBLOCK RBLOCK : Nat) (hLe : rnumel ≤ RBLOCK)
+    (s : BlockState)
+    (hMeanRstd : in_out_ptr0 ≠ in_out_ptr1)
+    (hInMean : in_ptr0 ≠ in_out_ptr0) :
+    -- (1) the full faithful surface lowers to the algorithm layer
+    (∃ alg,
+      (layer_norm_welfold_surface in_out_ptr0 in_out_ptr1 in_ptr0 in_ptr1
+        in_ptr2 out_ptr0 xnumel rnumel XBLOCK RBLOCK).toAlgorithm?
+      = Except.ok alg) ∧
+    -- (2) reduction phases: genuine mean and rstd, end-to-end from `in_ptr0`
+    ((ComputeCorrect.Realizes_without_Rounding
+      (kernel := layer_norm_welfold_reduce_slice in_out_ptr0 in_out_ptr1
+        in_ptr0 rnumel RBLOCK)
+      (initialState := s)
+      (write := fun _ : PUnit => some (in_out_ptr0, s.pids 0))
+      (expected := fun _ => rowMeanSpec s in_ptr0 rnumel)) ∧
+    (ComputeCorrect.Realizes_without_Rounding
+      (kernel := layer_norm_welfold_reduce_slice in_out_ptr0 in_out_ptr1
+        in_ptr0 rnumel RBLOCK)
+      (initialState := s)
+      (write := fun _ : PUnit => some (in_out_ptr1, s.pids 0))
+      (expected := fun _ => rowRstdSpec s in_ptr0 rnumel))) ∧
+    -- (3) normalize face: genuine `Y` chunk for every mean/rstd-genuine state
+    (∀ s' : BlockState,
+      s'.readMem in_out_ptr0 (s'.pids 0) = rowMeanSpec s' in_ptr0 rnumel →
+      s'.readMem in_out_ptr1 (s'.pids 0) = rowRstdSpec s' in_ptr0 rnumel →
+      ComputeCorrect.Realizes_without_Rounding
+        (kernel := layer_norm_welfold_normalize_slice in_out_ptr0 in_out_ptr1
+          in_ptr0 in_ptr1 in_ptr2 out_ptr0 rnumel RBLOCK)
+        (initialState := s')
+        (write := ComputeCorrect.WriteMap.writeIf
+          (fun i : Fin RBLOCK => activeLane s' rnumel RBLOCK i)
+          (fun i => (out_ptr0, yOffset s' rnumel RBLOCK i)))
+        (expected := fun i : Fin RBLOCK =>
+          rowYSpec s' in_ptr0 in_ptr1 in_ptr2 rnumel (rIndex s' RBLOCK i)))
+
+## logsumexp_fwd::logsumexp_fwd_kernel_correctness bench/tritonbench_g/logsumexp_fwd/LogsumexpFwd.lean:548
+Per-program active-block log-sum-exp, optionally scaled. A whole-tensor reduction across program blocks is not part of this output contract.
+specification logsumexp_fwd_kernel_correctness
+    (x z : RegionName) (D B : Nat) (HAS_SCALE : Bool) (scale : ℝ)
+    (hB : 0 < B) :
+    logsumexpIO x z D B HAS_SCALE scale ⊨
+      fun _ i_d xs _ =>
+        if i_d * B < D then blockLSE_local D B i_d HAS_SCALE scale xs else 0
+
+## masked_select::masked_select_kernel_correctness bench/tritonbench_g/masked_select/MaskedSelect.lean:472
+Selection-copy stage consumes supplied selection mask and prefix-sum metadata. It does not compute or validate a prefix sum beyond the IO layout/bounds premises.
+specification masked_select_kernel_correctness
+    (inp_ptr select_mask_ptr prefix_sum_ptr out_ptr : RegionName)
+    (n_elements BLOCK_SIZE : Nat) :
+    maskedSelectIO inp_ptr select_mask_ptr prefix_sum_ptr out_ptr n_elements
+      BLOCK_SIZE ⊨ fun _ _ _ _ xs j => xs j
+
+## matmul_dequant_int4::matmul_dequant_int4_exec_genuine bench/tritonbench_g/matmul_dequant_int4/MatmulDequantInt4.lean:348
+The registered headline is the dequantize output stage, despite the file containing a matmul Python function. Its exec-existential omits a frame and uses modeled integer decode semantics.
+specification matmul_dequant_int4_exec_genuine
+    (b_ptr : Region .nat) (b_scale_ptr : RegionName) (b_zp_ptr : Region .nat)
+    (fpb_ptr : RegionName)
+    (K N group_size stride_bk stride_bn stride_bsk stride_bsn
+      stride_bzpk stride_bzpn stride_fpbk stride_fpbn : Nat)
+    (BK BN : Nat) (s : BlockState)
+    (hInj : Function.Injective
+      (fun idx : TileIndex [BK, BN] =>
+        fpbAddr stride_fpbk stride_fpbn BK BN (s.pids 0) (s.pids 1) idx)) :
+    ∃ sF, exec ((matmul_dequant_int4_surface b_ptr b_scale_ptr b_zp_ptr fpb_ptr
+        K N group_size stride_bk stride_bn stride_bsk stride_bsn stride_bzpk
+        stride_bzpn stride_fpbk stride_fpbn BK BN).toAlgKernel) s = some sF
+      ∧ ∀ idx : TileIndex [BK, BN],
+          (s.pids 0 * BK + idx.1.val < K ∧ s.pids 1 * BN + idx.2.1.val < N) →
+          sF.readMem fpb_ptr
+              (fpbAddr stride_fpbk stride_fpbn BK BN (s.pids 0) (s.pids 1) idx)
+            = dequantSpec s b_scale_ptr b_ptr b_zp_ptr group_size stride_bk
+                stride_bn stride_bsk stride_bsn stride_bzpk stride_bzpn
+                (s.pids 0 * BK + idx.1.val) (s.pids 1 * BN + idx.2.1.val)
+
+## matmul_dequantize::matmul_dequantize_dequantize_exec_genuine bench/tritonbench_g/matmul_dequantize/MatmulDequantize.lean:5543
+Complete standalone source dequantizer execution and output readback under output-address injectivity. Packed nibble difference is signed before real scaling; all three loads and the store retain their common mask and explicit zero defaults. Dimensions, strides, and group size are symbolic. The statement omits memory frame, finite-allocation, IEEE/fixed-width behavior, GPU execution, and the wrapper torch.mm pipeline.
+specification matmul_dequantize_dequantize_exec_genuine
+    (b_ptr : Region .nat) (b_scale_ptr : RegionName) (b_zp_ptr : Region .nat)
+    (fpb_ptr : RegionName)
+    (K N group_size stride_bk stride_bn stride_bsk stride_bsn
+      stride_bzpk stride_bzpn stride_fpbk stride_fpbn : Nat)
+    (BK BN : Nat) (s : BlockState)
+    (hInj : Function.Injective
+      (fun idx : TileIndex [BK, BN] =>
+        fpbAddr stride_fpbk stride_fpbn BK BN (s.pids 0) (s.pids 1) idx)) :
+    ∃ sF, exec ((matmul_dequantize_dequantize_surface b_ptr b_scale_ptr b_zp_ptr fpb_ptr
+        K N group_size stride_bk stride_bn stride_bsk stride_bsn stride_bzpk
+        stride_bzpn stride_fpbk stride_fpbn BK BN).toAlgKernel) s = some sF
+      ∧ ∀ idx : TileIndex [BK, BN],
+          (s.pids 0 * BK + idx.1.val < K ∧ s.pids 1 * BN + idx.2.1.val < N) →
+          sF.readMem fpb_ptr
+              (fpbAddr stride_fpbk stride_fpbn BK BN (s.pids 0) (s.pids 1) idx)
+            = dequantSpec s b_scale_ptr b_ptr b_zp_ptr group_size stride_bk
+                stride_bn stride_bsk stride_bsn stride_bzpk stride_bzpn
+                (s.pids 0 * BK + idx.1.val) (s.pids 1 * BN + idx.2.1.val)
+
+## matmul_dequantize::matmul_dequantize_matmul4_exec_genuine bench/tritonbench_g/matmul_dequantize/MatmulDequantize.lean:2900
+Complete matmul4 source execution and output readback for both NO_GROUPS branches, symbolic dimensions/strides/tiles, and injective output addresses. accSpec sums all source loop blocks using the exact initial-memory load addresses, including unmasked K-tail reads; it is not an unconditional ordinary K-term GEMM statement. Dead fp16 c cast is retained while the source stores accumulator. The real-valued model omits frame, finite-allocation, IEEE, fixed-width overflow, GPU, and host-pipeline claims.
+specification matmul_dequantize_matmul4_exec_genuine
+    (a_ptr c_ptr scales_ptr : RegionName) (b_ptr zeros_ptr : Region .nat)
+    (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn
+      stride_scales_g stride_scales_n stride_zeros_g stride_zeros_n
+      groupsize : Nat) (NO_GROUPS : Bool) (BM BN BK GM : Nat) (s : BlockState)
+    (hInj : Function.Injective
+      (fun i : TileIndex [BM, BN] => cAddr stride_cm stride_cn BM BN
+        (pidM s M N BM BN GM) (pidN s M N BM BN GM) i)) :
+    ∃ sF, exec (matmul_dequantize_matmul4_surface a_ptr c_ptr scales_ptr b_ptr zeros_ptr
+        M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn
+        stride_scales_g stride_scales_n stride_zeros_g stride_zeros_n
+        groupsize NO_GROUPS BM BN BK GM).toAlgKernel s = some sF
+      ∧ ∀ idx : TileIndex [BM, BN],
+          (pidM s M N BM BN GM * BM + idx.1.val < M
+            ∧ pidN s M N BM BN GM * BN + idx.2.1.val < N) →
+          sF.readMem c_ptr (cAddr stride_cm stride_cn BM BN (pidM s M N BM BN GM)
+              (pidN s M N BM BN GM) idx)
+            = accSpec s a_ptr scales_ptr b_ptr zeros_ptr NO_GROUPS M K groupsize
+                stride_am stride_ak stride_bk stride_bn stride_scales_g
+                stride_scales_n stride_zeros_g stride_zeros_n BM BN BK
+                (pidM s M N BM BN GM) (pidN s M N BM BN GM)
+                idx.1.val idx.2.1.val
+
+## matmul_dequantize::matmul_dequantize_matmul_exec_genuine bench/tritonbench_g/matmul_dequantize/MatmulDequantize.lean:5251
+Complete source execution and fp16-tagged output readback for the SPLIT_K=1 store arm under the unchanged K=BK*numKBlocks, BK%8=0, pid1=0, and output-injectivity premises. Exact source AST retains fp16 operand casts, dotTyped fp16 fp16 fp32, and the fp32-to-real accumulator cast. The legacy evaluator erases widths; no IEEE equivalence, split-K atomic arm, memory frame, finite-allocation, GPU, or host-pipeline claim is made.
+specification matmul_dequantize_matmul_exec_genuine
+    (a_ptr c_ptr bs_ptr : RegionName) (b_ptr bzp_ptr : Region .nat)
+    (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn
+      stride_bsk stride_bsn stride_bzpk stride_bzpn group_size : Nat)
+    (BM BN BK GM numKBlocks : Nat) (s : BlockState)
+    (hK : K = BK * numKBlocks)
+    (hBK8 : BK % 8 = 0)
+    (hpid1 : s.pids 1 = 0)
+    (hInj : Function.Injective
+      (fun i : TileIndex [BM, BN] => cAddr stride_cm stride_cn BM BN
+        (pidM s M N BM BN GM) (pidN s M N BM BN GM) i)) :
+    ∃ sF, exec (matmul_dequantize_matmul_surface a_ptr c_ptr bs_ptr b_ptr bzp_ptr
+        M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn
+        stride_bsk stride_bsn stride_bzpk stride_bzpn group_size
+        BM BN BK GM numKBlocks).toAlgKernel s = some sF
+      ∧ ∀ idx : TileIndex [BM, BN],
+          (pidM s M N BM BN GM * BM + idx.1.val < M
+            ∧ pidN s M N BM BN GM * BN + idx.2.1.val < N) →
+          sF.mem c_ptr (cAddr stride_cm stride_cn BM BN (pidM s M N BM BN GM)
+              (pidN s M N BM BN GM) idx)
+            = MemCell.of .fp16 (FloatDType.real.cast FloatDType.fp16
+                (some (i4AccSpec s a_ptr bs_ptr b_ptr bzp_ptr group_size
+                  stride_am stride_ak stride_bk stride_bn stride_bsk stride_bsn
+                  stride_bzpk stride_bzpn BK numKBlocks
+                  (pidM s M N BM BN GM * BM + idx.1.val)
+                  (pidN s M N BM BN GM * BN + idx.2.1.val))))
+
+## matmul_dequantize_int4::matmul_dequantize_int4_exec_genuine bench/tritonbench_g/matmul_dequantize_int4/MatmulDequantizeInt4.lean:2779
+Complete matmul4 source execution and output readback for both NO_GROUPS branches, symbolic dimensions/strides/tiles, and injective output addresses. accSpec sums all source loop blocks at the exact initial-memory addresses, including unmasked K-tail reads. The source b.to(a.dtype) remains an explicit real-to-real cast in the algorithm AST. Public premises and conclusion are unchanged. The real-valued model omits frame, finite-allocation, IEEE/fixed-width behavior, GPU, and host-launch claims.
+specification matmul_dequantize_int4_exec_genuine
+    (a_ptr c_ptr scales_ptr : RegionName) (b_ptr zeros_ptr : Region .nat)
+    (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn
+      stride_scales_g stride_scales_n stride_zeros_g stride_zeros_n
+      groupsize : Nat) (NO_GROUPS : Bool) (BM BN BK GM : Nat) (s : BlockState)
+    (hInj : Function.Injective
+      (fun i : TileIndex [BM, BN] => cAddr stride_cm stride_cn BM BN
+        (pidM s M N BM BN GM) (pidN s M N BM BN GM) i)) :
+    ∃ sF, exec (matmul_dequantize_int4_surface a_ptr c_ptr scales_ptr b_ptr zeros_ptr
+        M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn
+        stride_scales_g stride_scales_n stride_zeros_g stride_zeros_n
+        groupsize NO_GROUPS BM BN BK GM).toAlgKernel s = some sF
+      ∧ ∀ idx : TileIndex [BM, BN],
+          (pidM s M N BM BN GM * BM + idx.1.val < M
+            ∧ pidN s M N BM BN GM * BN + idx.2.1.val < N) →
+          sF.readMem c_ptr (cAddr stride_cm stride_cn BM BN (pidM s M N BM BN GM)
+              (pidN s M N BM BN GM) idx)
+            = accSpec s a_ptr scales_ptr b_ptr zeros_ptr NO_GROUPS M K groupsize
+                stride_am stride_ak stride_bk stride_bn stride_scales_g
+                stride_scales_n stride_zeros_g stride_zeros_n BM BN BK
+                (pidM s M N BM BN GM) (pidN s M N BM BN GM)
+                idx.1.val idx.2.1.val
+
+## matrix_reduction::load_reduce_kernel_output_summary bench/tritonbench_g/matrix_reduction/MatrixReduction.lean:148
+One declared matrix tile reduced to the displayed output addresses; positive reduction width is explicit in the IO contract. The theorem does not infer a surrounding host reduction.
+specification load_reduce_kernel_output_summary
+    (x_ptr y_ptr : RegionName)
+    (stride_xm stride_xn stride_y BLOCK_M BLOCK_N : Nat)
+    (s : BlockState) :
+    (∃ alg, (load_reduce_kernel x_ptr y_ptr stride_xm stride_xn stride_y
+        BLOCK_M BLOCK_N).toAlgorithm? = Except.ok alg) ∧
+    ComputeCorrect.Realizes_without_Rounding
+      (kernel := load_reduce_kernel x_ptr y_ptr stride_xm stride_xn stride_y
+        BLOCK_M BLOCK_N)
+      (initialState := s)
+      (write := fun i : Fin BLOCK_M => some (y_ptr, i.val))
+      (expected := fun i =>
+        matrixReduceSpec s x_ptr stride_xm stride_xn BLOCK_M BLOCK_N i)
+
+## matrix_reduction::matrix_reduction_io_correctness bench/tritonbench_g/matrix_reduction/MatrixReduction.lean:400
+One declared matrix tile reduced to the displayed output addresses; positive reduction width is explicit in the IO contract. The theorem does not infer a surrounding host reduction.
+specification matrix_reduction_io_correctness (x_ptr y_ptr : RegionName)
+    (stride_xm stride_xn stride_y BLOCK_M BLOCK_N : Nat) (hBN : 0 < BLOCK_N) :
+    matrixReduceIO x_ptr y_ptr stride_xm stride_xn stride_y BLOCK_M BLOCK_N
+      ⊨ fun _pid xs idx => matrixReduceSpecOf BLOCK_M BLOCK_N xs idx
+
+## matrix_vector_multip::mv_kernel_output_summary_general bench/tritonbench_g/matrix_vector_multip/MatrixVectorMultip.lean:301
+One-block matrix-vector product with BLOCK_M reduction extent and explicit masks/address injectivity. This is not a proof for arbitrary multi-block reduction composition.
+specification mv_kernel_output_summary_general
+    (A B C : RegionName)
+    (N M stride_an stride_am stride_bm stride_cn BLOCK_N BLOCK_M : Nat)
+    (s : BlockState)
+    (hOutInj : Function.Injective
+      (fun i : Fin BLOCK_N => cOffset s stride_cn BLOCK_N i)) :
+    mv_kernel_general_prop A B C N M stride_an stride_am stride_bm stride_cn
+      BLOCK_N BLOCK_M s
+
+## matrix_vector_multip::mv_one_block_io_correctness bench/tritonbench_g/matrix_vector_multip/MatrixVectorMultip.lean:600
+One-block matrix-vector product with BLOCK_M reduction extent and explicit masks/address injectivity. This is not a proof for arbitrary multi-block reduction composition.
+specification mv_one_block_io_correctness (A B C : RegionName)
+    (N M stride_an stride_am stride_bm stride_cn BLOCK_N BLOCK_M : Nat)
+    (hBN : 0 < BLOCK_N) (hBM : 0 < BLOCK_M)
+    (hOutInj : ∀ p₀ : Nat, Function.Injective
+      (fun i : Fin BLOCK_N => (p₀ * BLOCK_N + i.val) * stride_cn)) :
+    mvOneBlockIO A B C N M stride_an stride_am stride_bm stride_cn BLOCK_N
+        BLOCK_M
+      ⊨ fun p₀ _p₁ xs ys k =>
+          mvSpecOf N M BLOCK_N BLOCK_M p₀ xs ys k.1
+
+## mixed_sparse_attention::mixed_sparse_attention_epilogue_io_correctness bench/tritonbench_g/mixed_sparse_attention/MixedSparseAttention.lean:4844
+Epilogue divides a supplied AccPre tile by supplied LPre normalizers and stores active outputs; sparse attention production is outside this IO kernel.
+specification mixed_sparse_attention_epilogue_io_correctness
+    (AccPre LPre : RegionName) (Seqlens : Region .nat) (Out : RegionName)
+    (H stride_qz stride_qh stride_om stride_ok BLOCK_M BLOCK_DMODEL : Nat)
+    (hOutInj : ∀ p₀ p₁ : Nat, Function.Injective
+      (fun idx : TileIndex [BLOCK_M, BLOCK_DMODEL] =>
+        p₁ / H * stride_qz + p₁ % H * stride_qh +
+          (p₀ * BLOCK_M + idx.1.val) * stride_om + idx.2.1.val * stride_ok)) :
+    epilogueIO AccPre LPre Seqlens Out H stride_qz stride_qh stride_om stride_ok
+        BLOCK_M BLOCK_DMODEL
+      ⊨ fun _p₀ _p₁ _m xs ys idx => xs idx / ys (idx.1, PUnit.unit)
+
+## mixed_sparse_attention::mixed_sparse_attention_output_closed_form_summary_general bench/tritonbench_g/mixed_sparse_attention/MixedSparseAttention.lean:4448
+Forward sparse-layout value facts under supplied block/column metadata and the stated bounds; read the referenced sparse specification for the selected support.
+specification mixed_sparse_attention_output_closed_form_summary_general
+    (Q K V Out : RegionName)
+    (Seqlens Blocks BlockOffsets ColCounts Cols : Region .nat) (s : BlockState)
+    (BM BN BD : Nat) (hBN : 0 < BN) (hBN16 : 16 ≤ BN)
+    -- memory-layout strides (Q/K/V/O batch z, head h, row m / key n, channel k)
+    -- and grid/layout sizes, ALL symbolic
+    (NCTX Zc H NR NS NV
+      sqz sqh sqm sqk skz skh skn skk svz svh svn svk soz soh som sok : Nat)
+    -- honest contiguity hypotheses (the natural row-major attention layout):
+    -- channel strides are 1; V reuses K's batch/head base; O channel stride 1 and
+    -- its row stride covers the channel block (BD ≤ stride_om)
+    (hsqk : sqk = 1) (hskk : skk = 1) (hsvk : svk = 1) (hvz : svz = skz) (hvh : svh = skh)
+    (hsok : sok = 1) (hBDsom : BD ≤ som)
+    (sm_scale : ℝ)
+    (hundef : ∀ rg o, s.undef rg o = 0)
+    (hactive : s.pids 0 * BM < seqLen s H (Region.cast Seqlens))
+    (hNCBN : s.readMemValue .nat (Region.cast ColCounts) (s.pids 1 * NR + s.pids 0) ≤ BN)
+    (hpos : ∀ i : Fin BM, s.pids 0 * BM + i.val < seqLen s H (Region.cast Seqlens) →
+      0 < msaDenomUpto BM BN
+        (msaCatScore0GS Q K V Seqlens Blocks BlockOffsets ColCounts Cols BM BN BD
+          H NR NS NV sqz sqh sqm sqk skz skh skn skk s sm_scale) 9 i) :
+    ∃ sF, exec (mixed_sparse_attention_fwd_kernel_surface Q K V Seqlens
+        sm_scale Blocks BlockOffsets ColCounts Cols Out
+        sqz sqh sqm sqk skz skh skn skk svz svh svn svk soz soh som sok
+        Zc H NCTX NR NS NV BM BN BD FloatDType.fp16).toAlgKernel s = some sF
+      ∧ ∀ idx : TileIndex [BM, BD],
+          active s H Seqlens BM idx →
+            sF.readMemValue .fp16 Out (outOffset s H sqz sqh som sok BM idx)
+              = (some (mixedSparseAttnClosedForm s Q K V BlockOffsets Cols H
+                  sqz sqh sqm skz skh skn svz svh svn NR NS NV
+                  (s.readMemValue .nat (Region.cast Blocks) (s.pids 1 * NR + s.pids 0))
+                  (s.readMemValue .nat (Region.cast ColCounts) (s.pids 1 * NR + s.pids 0))
+                  (seqLen s H (Region.cast Seqlens)) BD BM BN sm_scale idx.1 (dIndex idx)) : WithBot ℝ)
+
+## parallel_attention::pa_bwd_dkv_exec_genuine bench/tritonbench_g/parallel_attention/ParallelAttention.lean:4460
+Forward O/Z and backward DK/DV stages at the displayed shape/layout configurations. The DQ stage and whole host pipeline are external; exec-existentials omit a frame. Boundary-checked loads with no padding_option retain unspecified values. Independent input references use the initial state oracle at the actual out-of-range load addresses, and execution preserves that oracle. No zero-padding premise is added; the former implicit-zero reference is corrected. Real identity casts and allow_tf32=false are retained in the source decomposition. Nonzero-padding regression checks the complete forward source. The former global s.undef=0 premise is removed: masked dz tail reads also enter the independent reference through the initial oracle at their actual addresses.
+specification pa_bwd_dkv_exec_genuine
+    (s : BlockState) (q k v do_ dz dk dv : RegionName)
+    (i_bh i_c i_k i_v i_h : Nat)
+    (s_k_h s_k_t s_k_d s_v_h s_v_t s_v_d : Nat) (scale : ℝ)
+    (B H T K V BTL BTS BK BV : Nat)
+    (hDkDv : dk ≠ dv)
+    (hSkd : s_k_d = 1) (hSvd : s_v_d = 1)
+    (hσk : BK ≤ s_k_t) (hσv : BV ≤ s_v_t)
+    (hBTS : BTL % BTS = 0) (hBTSpos : 0 < BTS) :
+    ∃ sF, exec (pa_bwd_dkv_surface q k v do_ dz dk dv i_bh i_c i_k i_v i_h
+        s_k_h s_k_t s_k_d s_v_h s_v_t s_v_d scale
+        B H T K V BTL BTS BK BV).toAlgKernel s = some sF
+      ∧ (∀ idx : TileIndex [BTL, BK], pbDkActive i_c i_k T K BTL BK idx →
+          sF.readMem dk
+              (pbDkOffset i_bh i_c i_k i_v B H s_k_h s_k_t s_k_d BTL BK idx)
+            = pbDkOut s q k v do_ dz s_k_h s_k_t s_k_d s_v_h s_v_t s_v_d i_bh
+                i_c i_k i_v scale T K V BTL BTS BK BV idx.1.val idx.2.1.val)
+      ∧ (∀ idx : TileIndex [BTL, BV], pbDvActive i_c i_v T V BTL BV idx →
+          sF.readMem dv
+              (pbDvOffset i_bh i_c i_k i_v B H s_v_h s_v_t s_v_d BTL BV idx)
+            = pbDvOut s q k do_ s_k_h s_k_t s_k_d s_v_h s_v_t s_v_d i_bh i_c
+                i_k i_v scale T K V BTL BTS BK BV idx.1.val idx.2.1.val)
+
+## parallel_attention::pa_fwd_o_exec_genuine bench/tritonbench_g/parallel_attention/ParallelAttention.lean:2523
+Forward O/Z and backward DK/DV stages at the displayed shape/layout configurations. The DQ stage and whole host pipeline are external; exec-existentials omit a frame. Boundary-checked loads with no padding_option retain unspecified values. Independent input references use the initial state oracle at the actual out-of-range load addresses, and execution preserves that oracle. No zero-padding premise is added; the former implicit-zero reference is corrected. Real identity casts and allow_tf32=false are retained in the source decomposition. Nonzero-padding regression checks the complete forward source.
+specification pa_fwd_o_exec_genuine
+    (s : BlockState) (q k v o z : RegionName)
+    (s_qk_h s_qk_t s_qk_d s_vo_h s_vo_t s_vo_d : Nat) (scale : ℝ)
+    (B H T K V BTL BTS BK BV : Nat)
+    (hOZ : o ≠ z) (hSd : s_vo_d = 1) (hσ : BV ≤ s_vo_t)
+    (hBTS : BTL % BTS = 0) (hBTSpos : 0 < BTS) :
+    ∃ sF, exec (pa_fwd_surface q k v o z s_qk_h s_qk_t s_qk_d s_vo_h s_vo_t
+        s_vo_d scale B H T K V BTL BTS BK BV).toAlgKernel s = some sF
+      ∧ (∀ idx : TileIndex [BTL, BV], paOActive s T V BV BTL idx →
+          sF.readMem o (paOOffset s B H s_vo_h s_vo_t s_vo_d V BV BTL idx)
+            = paOOut s q k v s_qk_h s_qk_t s_qk_d s_vo_h s_vo_t s_vo_d scale
+                T K V BTL BK BV idx.1.val idx.2.1.val)
+      ∧ (∀ a : Fin BTL, s.pids 1 * BTL + a.val < T →
+          sF.readMem z (paZOffset s B H T V BV BTL a)
+            = paZOut s q k s_qk_h s_qk_t s_qk_d scale T K V BTL BK BV a.val)
+
+## parallel_retention_attention::pra_bwd_dkv_exec_genuine bench/tritonbench_g/parallel_retention_attention/ParallelRetentionAttention.lean:4602
+Forward O and backward DK/DV stages for explicit causal/retention and layout parameters. No DQ-stage composition or frame conjunct is established by these headlines. Boundary-checked loads with no padding_option retain unspecified values. Independent input references use the initial state oracle at the actual out-of-range load addresses, and execution preserves that oracle. No zero-padding premise is added; the former implicit-zero reference is corrected. Real identity casts and allow_tf32=false are retained in the source decomposition. Nonzero-padding regression checks the complete forward source.
+specification pra_bwd_dkv_exec_genuine
+    (s : BlockState) (q k v do_ dk dv : RegionName)
+    (i_bh i_c i_k i_v i_h : Nat)
+    (s_qk_h s_qk_t s_qk_d s_vo_h s_vo_t s_vo_d : Nat) (scale : ℝ)
+    (B H T K V BTL BTS BK BV : Nat)
+    (hDkDv : dk ≠ dv) (hSkd : s_qk_d = 1) (hSvd : s_vo_d = 1)
+    (hσk : BK ≤ s_qk_t) (hσv : BV ≤ s_vo_t)
+    (hBTS : BTL % BTS = 0) (hBTSpos : 0 < BTS) :
+    ∃ sF, exec (pra_bwd_dkv_surface q k v do_ dk dv i_bh i_c i_k i_v i_h
+        s_qk_h s_qk_t s_qk_d s_vo_h s_vo_t s_vo_d scale
+        B H T K V BTL BTS BK BV).toAlgKernel s = some sF
+      ∧ (∀ idx : TileIndex [BTL, BK], prbDkActive i_c i_k T K BTL BK idx →
+          sF.readMem dk
+              (prbDkOffset i_bh i_c i_k i_v B H s_qk_h s_qk_t s_qk_d BTL BK idx)
+            = prbDkOut s q k v do_ s_qk_h s_qk_t s_qk_d s_vo_h s_vo_t s_vo_d
+                i_bh i_c i_k i_v i_h scale T K V BTL BTS BK BV
+                idx.1.val idx.2.1.val)
+      ∧ (∀ idx : TileIndex [BTL, BV], prbDvActive i_c i_v T V BTL BV idx →
+          sF.readMem dv
+              (prbDvOffset i_bh i_c i_k i_v B H s_vo_h s_vo_t s_vo_d BTL BV idx)
+            = prbDvOut s q k v do_ s_qk_h s_qk_t s_qk_d s_vo_h s_vo_t s_vo_d
+                i_bh i_c i_k i_v i_h scale T K V BTL BTS BK BV
+                idx.1.val idx.2.1.val)
+
+## parallel_retention_attention::pra_fwd_o_exec_genuine bench/tritonbench_g/parallel_retention_attention/ParallelRetentionAttention.lean:2340
+Forward O and backward DK/DV stages for explicit causal/retention and layout parameters. No DQ-stage composition or frame conjunct is established by these headlines. Boundary-checked loads with no padding_option retain unspecified values. Independent input references use the initial state oracle at the actual out-of-range load addresses, and execution preserves that oracle. No zero-padding premise is added; the former implicit-zero reference is corrected. Real identity casts and allow_tf32=false are retained in the source decomposition. Nonzero-padding regression checks the complete forward source.
+specification pra_fwd_o_exec_genuine
+    (s : BlockState) (q k v o : RegionName)
+    (s_qk_h s_qk_t s_qk_d s_vo_h s_vo_t s_vo_d : Nat) (scale : ℝ)
+    (B H T K V BTL BTS BK BV : Nat)
+    (hSd : s_vo_d = 1) (hσ : BV ≤ s_vo_t)
+    (hBTS : BTL % BTS = 0) (hBTSpos : 0 < BTS) :
+    ∃ sF, exec (pra_fwd_surface q k v o s_qk_h s_qk_t s_qk_d s_vo_h s_vo_t
+        s_vo_d scale B H T K V BTL BTS BK BV).toAlgKernel s = some sF
+      ∧ (∀ idx : TileIndex [BTL, BV], praOActive s T V BV BTL idx →
+          sF.readMem o (praOOffset s B H s_vo_h s_vo_t s_vo_d V BV BTL idx)
+            = praOOut s q k v s_qk_h s_qk_t s_qk_d s_vo_h s_vo_t s_vo_d scale
+                H T K V BTL BK BV idx.1.val idx.2.1.val)
+
+## quant_transpose_kernel::quant_transpose_scaled_store_io_correctness bench/tritonbench_g/quant_transpose_kernel/QuantTransposeKernel.lean:546
+Transposed scaled real-valued store using supplied AbsmaxInv; llrint/int8 rounding and any scale producer are outside the contract.
+specification quant_transpose_scaled_store_io_correctness
+    (A AbsmaxInv B : RegionName)
+    (stride_am stride_an stride_bn stride_bm M N BLOCK_M BLOCK_N : Nat)
+    (scale127 : ℝ)
+    (hM : 0 < BLOCK_M) (hN : 0 < BLOCK_N)
+    (hOutInj : ∀ p₀ p₁ : Nat, Function.Injective
+      (fun idx : TileIndex [BLOCK_M, BLOCK_N] =>
+        (p₀ * BLOCK_M + idx.1.val) * stride_bm
+          + (p₁ * BLOCK_N + idx.2.1.val) * stride_bn)) :
+    quantTransposeScaledIO A AbsmaxInv B stride_am stride_an stride_bn stride_bm
+        M N BLOCK_M BLOCK_N scale127
+      ⊨ fun _p₀ _p₁ xs ys idx => scale127 * (xs idx * ys idx)
+
+## quant_transpose_kernel::quantize_global_transpose_blocked_output_summary_general bench/tritonbench_g/quant_transpose_kernel/QuantTransposeKernel.lean:273
+The faithful quantized transpose has a declared fixed-width rounding/projection blocker; the companion value result describes a scaled real store slice.
+specification quantize_global_transpose_blocked_output_summary_general
+    (A AbsmaxInv B : RegionName)
+    (stride_am stride_an stride_bn stride_bm M N BLOCK_M BLOCK_N GROUP_M : Nat)
+    (scale127 : ℝ)
+    (s : BlockState)
+    (hOutInj : Function.Injective
+      (fun idx : TileIndex [BLOCK_M, BLOCK_N] =>
+        bOffset s stride_bm stride_bn BLOCK_M BLOCK_N idx)) :
+    (∃ err, (quantize_global_transpose_real_surface A AbsmaxInv B
+      stride_am stride_an stride_bn stride_bm M N BLOCK_M BLOCK_N
+      GROUP_M).toAlgorithm? = Except.error err) ∧
+    ComputeCorrect.Realizes_without_Rounding
+      (kernel := quantize_global_transpose_scaled_store_slice A AbsmaxInv B
+        stride_am stride_an stride_bn stride_bm M N BLOCK_M BLOCK_N scale127)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (active s M N BLOCK_M BLOCK_N)
+        (fun idx => (B, bOffset s stride_bm stride_bn BLOCK_M BLOCK_N idx)))
+      (expected := fun idx =>
+        quantTransposeScaledSpec s A AbsmaxInv stride_am stride_an
+          BLOCK_M BLOCK_N scale127 idx)
+
+## quantize_global::quantize_global_correctness bench/tritonbench_g/quantize_global/QuantizeGlobal.lean:320
+Scaled real store using a supplied inverse maximum. The headline explicitly rejects faithful llrint/int8 projection; the rounded quantized result is not proved.
+specification quantize_global_correctness
+    (x_ptr absmax_inv_ptr output_ptr : RegionName)
+    (n_elements BLOCK_SIZE : Nat) (scale127 : ℝ)
+    (hBS : 0 < BLOCK_SIZE) :
+    (∃ err, (quantize_global_surface x_ptr absmax_inv_ptr output_ptr
+        n_elements BLOCK_SIZE).toAlgorithm? = Except.error err) ∧
+    (quantizeGlobalIO x_ptr absmax_inv_ptr output_ptr n_elements BLOCK_SIZE
+        scale127 ⊨ fun _ _ xs ys i => scale127 * (xs i * ys i))
+
+## quantize_kv_copy::destindex_copy_quantize_kv_group_output_summary_general bench/tritonbench_g/quantize_kv_copy/QuantizeKvCopy.lean:802
+Groupwise KV quantization and scale outputs in the mathematical conversion model. Source has repeated Python kernel names; source links identify definitions by line. No concrete int8 hardware guarantee.
+specification destindex_copy_quantize_kv_group_output_summary_general
+    (K DestLoc Out OutScale : RegionName)
+    (stride_k_bs stride_k_h stride_k_g stride_k_d
+      stride_o_bs stride_o_h stride_o_g stride_o_d
+      stride_os_bs stride_os_h stride_os_g
+      group_size BLOCK_GROUP_NUM BLOCK_GROUP_DIM : Nat)
+    (s : BlockState) (hD : 0 < BLOCK_GROUP_DIM) (hOut : Out ≠ OutScale)
+    (hOutInj : Function.Injective
+      (fun idx : TileIndex [BLOCK_GROUP_NUM, BLOCK_GROUP_DIM] =>
+        outOffset s DestLoc stride_o_bs stride_o_h stride_o_g stride_o_d idx))
+    (hScaleInj : Function.Injective
+      (fun i : Fin BLOCK_GROUP_NUM =>
+        scaleOutOffset s DestLoc stride_os_bs stride_os_h i)) :
+    (∃ alg,
+      (destindex_copy_quantize_kv_group_real_surface K DestLoc Out OutScale
+        stride_k_bs stride_k_h stride_k_g stride_k_d stride_o_bs stride_o_h
+        stride_o_g stride_o_d stride_os_bs stride_os_h stride_os_g group_size
+        BLOCK_GROUP_NUM BLOCK_GROUP_DIM).toAlgorithm? =
+          Except.ok alg) ∧
+    ComputeCorrect.Realizes_without_Rounding
+      (kernel := destindex_copy_quantize_kv_group_real_surface K DestLoc Out OutScale
+        stride_k_bs stride_k_h stride_k_g stride_k_d stride_o_bs stride_o_h
+        stride_o_g stride_o_d stride_os_bs stride_os_h stride_os_g group_size
+        BLOCK_GROUP_NUM BLOCK_GROUP_DIM)
+      (initialState := s)
+      (write := fun idx : TileIndex [BLOCK_GROUP_NUM, BLOCK_GROUP_DIM] =>
+        some (Out, outOffset s DestLoc stride_o_bs stride_o_h stride_o_g stride_o_d idx))
+      (expected := fun idx : TileIndex [BLOCK_GROUP_NUM, BLOCK_GROUP_DIM] =>
+        if active s group_size BLOCK_GROUP_NUM BLOCK_GROUP_DIM idx then
+          quantizeKvCopyGroupSurfaceIntValue s K stride_k_bs stride_k_h
+            stride_k_g group_size BLOCK_GROUP_DIM hD idx
+        else s.readMemValue .int Out
+          (outOffset s DestLoc stride_o_bs stride_o_h stride_o_g stride_o_d idx)) ∧
+    ComputeCorrect.Realizes_without_Rounding
+      (kernel := destindex_copy_quantize_kv_group_real_surface K DestLoc Out OutScale
+        stride_k_bs stride_k_h stride_k_g stride_k_d stride_o_bs stride_o_h
+        stride_o_g stride_o_d stride_os_bs stride_os_h stride_os_g group_size
+        BLOCK_GROUP_NUM BLOCK_GROUP_DIM)
+      (initialState := s)
+      (write := fun i : Fin BLOCK_GROUP_NUM =>
+        some (OutScale, scaleOutOffset s DestLoc stride_os_bs stride_os_h i))
+      (expected := fun i : Fin BLOCK_GROUP_NUM =>
+        if scaleActive group_size BLOCK_GROUP_NUM i then
+          quantizeKvCopyGroupScaleCell s K stride_k_bs stride_k_h stride_k_g
+            group_size BLOCK_GROUP_DIM hD i.val
+        else s.readMem OutScale
+          (scaleOutOffset s DestLoc stride_os_bs stride_os_h i))
+
+## quantize_kv_copy::quantize_kv_copy_io_correctness bench/tritonbench_g/quantize_kv_copy/QuantizeKvCopy.lean:1226
+Groupwise KV quantization and scale outputs in the mathematical conversion model. Source has repeated Python kernel names; source links identify definitions by line. No concrete int8 hardware guarantee.
+specification quantize_kv_copy_io_correctness
+    (K : RegionName) (DestLoc : Region .nat) (Out OutScale : RegionName)
+    (stride_k_bs stride_k_h stride_k_g stride_k_d stride_o_bs stride_o_h stride_o_g stride_o_d
+      stride_os_bs stride_os_h stride_os_g
+      group_size BLOCK_GROUP_NUM BLOCK_GROUP_DIM : Nat)
+    (hD : 0 < BLOCK_GROUP_DIM) (hOut : Out ≠ OutScale)
+    (hValInj : Function.Injective
+      (fun idx : TileIndex [BLOCK_GROUP_NUM, BLOCK_GROUP_DIM] =>
+        idx.1.val * stride_o_g + idx.2.1.val)) :
+    quantizeKvCopyIO K DestLoc Out OutScale
+        stride_k_bs stride_k_h stride_k_g stride_k_d stride_o_bs stride_o_h stride_o_g
+        stride_o_d stride_os_bs stride_os_h stride_os_g group_size BLOCK_GROUP_NUM BLOCK_GROUP_DIM
+      ⊨ fun _ _ _ xs =>
+          (fun j => valueXs BLOCK_GROUP_NUM BLOCK_GROUP_DIM group_size hD xs j,
+           fun i => scaleCellXs BLOCK_GROUP_NUM BLOCK_GROUP_DIM group_size hD xs i)
+
+## quantize_kv_transform::destindex_copy_quantize_kv_transform_output_summary_general bench/tritonbench_g/quantize_kv_transform/QuantizeKvTransform.lean:529
+KV quantization/transform and scale outputs for the explicit head-dimension and destination layout. Mathematical casts do not certify fixed-width hardware quantization.
+specification destindex_copy_quantize_kv_transform_output_summary_general
+    (K DestLoc Out OutScale : RegionName)
+    (stride_k_bs stride_k_h stride_k_d stride_o_bs stride_o_h stride_o_d
+      stride_os_bs stride_os_h stride_os_d head_num head_dim BLOCK_DMODEL BLOCK_HEAD : Nat)
+    (s : BlockState) (hD : 0 < BLOCK_DMODEL) (hOut : Out ≠ OutScale)
+    (hValInj : Function.Injective
+      (fun idx : TileIndex [BLOCK_HEAD, BLOCK_DMODEL] =>
+        outOffset s DestLoc stride_o_bs stride_o_h stride_o_d idx))
+    (hScaleInj : Function.Injective
+      (fun i : Fin BLOCK_HEAD => scaleOutOffset s DestLoc stride_os_bs stride_os_h i)) :
+    (∃ alg, (destindex_copy_quantize_kv_transform_real_surface K DestLoc Out OutScale
+        stride_k_bs stride_k_h stride_k_d stride_o_bs stride_o_h stride_o_d
+        stride_os_bs stride_os_h stride_os_d head_num head_dim BLOCK_DMODEL BLOCK_HEAD).toAlgorithm? = Except.ok alg) ∧
+    ComputeCorrect.Realizes_without_Rounding
+      (kernel := destindex_copy_quantize_kv_transform_real_surface K DestLoc Out OutScale
+        stride_k_bs stride_k_h stride_k_d stride_o_bs stride_o_h stride_o_d
+        stride_os_bs stride_os_h stride_os_d head_num head_dim BLOCK_DMODEL BLOCK_HEAD)
+      (initialState := s)
+      (write := fun idx : TileIndex [BLOCK_HEAD, BLOCK_DMODEL] =>
+        some (Out, outOffset s DestLoc stride_o_bs stride_o_h stride_o_d idx))
+      (expected := fun idx : TileIndex [BLOCK_HEAD, BLOCK_DMODEL] =>
+        (if active s head_num head_dim BLOCK_HEAD BLOCK_DMODEL idx then
+            quantizeKvTransformSurfaceIntValue s K stride_k_bs stride_k_h stride_k_d head_num head_dim BLOCK_DMODEL hD idx
+          else s.readMemValue .int Out (outOffset s DestLoc stride_o_bs stride_o_h stride_o_d idx))) ∧
+    ComputeCorrect.Realizes_without_Rounding
+      (kernel := destindex_copy_quantize_kv_transform_real_surface K DestLoc Out OutScale
+        stride_k_bs stride_k_h stride_k_d stride_o_bs stride_o_h stride_o_d
+        stride_os_bs stride_os_h stride_os_d head_num head_dim BLOCK_DMODEL BLOCK_HEAD)
+      (initialState := s)
+      (write := fun i : Fin BLOCK_HEAD =>
+        some (OutScale, scaleOutOffset s DestLoc stride_os_bs stride_os_h i))
+      (expected := fun i : Fin BLOCK_HEAD =>
+        (if scaleActive head_num BLOCK_HEAD i then
+            quantizeKvTransformScaleCell s K stride_k_bs stride_k_h stride_k_d head_num head_dim BLOCK_DMODEL hD i.val
+          else s.readMem OutScale (scaleOutOffset s DestLoc stride_os_bs stride_os_h i)))
+
+## quantize_kv_transform::quantize_kv_transform_io_correctness bench/tritonbench_g/quantize_kv_transform/QuantizeKvTransform.lean:953
+KV quantization/transform and scale outputs for the explicit head-dimension and destination layout. Mathematical casts do not certify fixed-width hardware quantization.
+specification quantize_kv_transform_io_correctness
+    (K : RegionName) (DestLoc : RegionName) (Out OutScale : RegionName)
+    (stride_k_bs stride_k_h stride_k_d stride_o_bs stride_o_h stride_o_d
+      stride_os_bs stride_os_h stride_os_d
+      head_num head_dim BLOCK_DMODEL BLOCK_HEAD : Nat)
+    (hD : 0 < BLOCK_DMODEL) (hOut : Out ≠ OutScale)
+    (hValInj : Function.Injective
+      (fun idx : TileIndex [BLOCK_HEAD, BLOCK_DMODEL] =>
+        stride_o_h * idx.1.val + stride_o_d * idx.2.1.val))
+    (hScaleInj : Function.Injective
+      (fun i : Fin BLOCK_HEAD => stride_os_h * i.val)) :
+    quantizeKvTransformIO K DestLoc Out OutScale
+        stride_k_bs stride_k_h stride_k_d stride_o_bs stride_o_h stride_o_d
+        stride_os_bs stride_os_h stride_os_d head_num head_dim BLOCK_DMODEL BLOCK_HEAD
+      ⊨ fun _ _ _ xs =>
+          (fun j => valueXs BLOCK_HEAD BLOCK_DMODEL head_num head_dim hD xs j,
+           fun i => scaleCellXs BLOCK_HEAD BLOCK_DMODEL head_num head_dim hD xs i)
+
+## rbe_triton_transform::rbe_triton_transform_output_summary_general bench/tritonbench_g/rbe_triton_transform/RbeTritonTransform.lean:1100
+Selected rotary pair outputs using mathematical sin/cos and the declared token-frequency model. Host frequency construction and concrete transcendental behavior are external.
+specification rbe_triton_transform_output_summary_general
+    (x_ptr out_ptr : RegionName)
+    (M K stride_x_batch stride_x_m stride_x_n
+      stride_out_batch stride_out_m stride_out_n
+      start_token_position : Nat)
+    (THETA : ℝ) (DIM BLOCK_SIZE_M BLOCK_SIZE_K : Nat)
+    (s : BlockState)
+    (hOutInj : Function.Injective
+      (fun idx : TileIndex [BLOCK_SIZE_M, BLOCK_SIZE_K / 2] =>
+        outOff s K stride_out_batch stride_out_m stride_out_n BLOCK_SIZE_M
+          BLOCK_SIZE_K idx))
+    (hRI : ∀ idx k : TileIndex [BLOCK_SIZE_M, BLOCK_SIZE_K / 2],
+      outOff s K stride_out_batch stride_out_m stride_out_n BLOCK_SIZE_M
+          BLOCK_SIZE_K idx
+        ≠ outOff s K stride_out_batch stride_out_m stride_out_n BLOCK_SIZE_M
+            BLOCK_SIZE_K k + 1)
+    (hOutInjAll : ∀ s : BlockState, Function.Injective
+      (fun idx : TileIndex [BLOCK_SIZE_M, BLOCK_SIZE_K / 2] =>
+        outOff s K stride_out_batch stride_out_m stride_out_n BLOCK_SIZE_M
+          BLOCK_SIZE_K idx))
+    (hRIAll : ∀ (s : BlockState)
+        (idx k : TileIndex [BLOCK_SIZE_M, BLOCK_SIZE_K / 2]),
+      outOff s K stride_out_batch stride_out_m stride_out_n BLOCK_SIZE_M
+          BLOCK_SIZE_K idx
+        ≠ outOff s K stride_out_batch stride_out_m stride_out_n BLOCK_SIZE_M
+            BLOCK_SIZE_K k + 1) :
+    -- (1) the full faithful surface lowers to the algorithm layer
+    (∃ alg, (rbe_triton_surface x_ptr out_ptr M K stride_x_batch stride_x_m
+      stride_x_n stride_out_batch stride_out_m stride_out_n
+      start_token_position THETA DIM BLOCK_SIZE_M BLOCK_SIZE_K).toAlgorithm?
+        = Except.ok alg) ∧
+    -- (2) even offsets: genuine `x_real·cos − x_imag·sin`
+    ComputeCorrect.Realizes_without_Rounding
+      (kernel := rbe_triton_surface x_ptr out_ptr M K stride_x_batch
+        stride_x_m stride_x_n stride_out_batch stride_out_m stride_out_n
+        start_token_position THETA DIM BLOCK_SIZE_M BLOCK_SIZE_K)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [BLOCK_SIZE_M, BLOCK_SIZE_K / 2] =>
+          activeReal s M K BLOCK_SIZE_M BLOCK_SIZE_K idx)
+        (fun idx => (out_ptr,
+          outOff s K stride_out_batch stride_out_m stride_out_n BLOCK_SIZE_M
+            BLOCK_SIZE_K idx)))
+      (expected := fun idx =>
+        rbeOutRealSpec s x_ptr K stride_x_batch stride_x_m stride_x_n
+          start_token_position DIM BLOCK_SIZE_M BLOCK_SIZE_K THETA idx) ∧
+    -- (3) odd offsets: genuine `x_real·sin + x_imag·cos`
+    ComputeCorrect.Realizes_without_Rounding
+      (kernel := rbe_triton_surface x_ptr out_ptr M K stride_x_batch
+        stride_x_m stride_x_n stride_out_batch stride_out_m stride_out_n
+        start_token_position THETA DIM BLOCK_SIZE_M BLOCK_SIZE_K)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [BLOCK_SIZE_M, BLOCK_SIZE_K / 2] =>
+          activeImag s M K BLOCK_SIZE_M BLOCK_SIZE_K idx)
+        (fun idx => (out_ptr,
+          outOff s K stride_out_batch stride_out_m stride_out_n BLOCK_SIZE_M
+            BLOCK_SIZE_K idx + 1)))
+      (expected := fun idx =>
+        rbeOutImagSpec s x_ptr K stride_x_batch stride_x_m stride_x_n
+          start_token_position DIM BLOCK_SIZE_M BLOCK_SIZE_K THETA idx) ∧
+    -- (4) the flat-memory `⊨` face of both interleaved stores
+    (rbeTritonIO x_ptr out_ptr M K stride_x_batch stride_x_m stride_x_n
+        stride_out_batch stride_out_m stride_out_n start_token_position THETA
+        DIM BLOCK_SIZE_M BLOCK_SIZE_K
+      ⊨ fun _pid₀ pid₁ xs o j =>
+          let xr := xs (⟨0, by decide⟩ : Fin 2) j
+          let xi := xs (⟨1, by decide⟩ : Fin 2) j
+          let f := rbeFreqP pid₁ K start_token_position DIM BLOCK_SIZE_M
+            BLOCK_SIZE_K THETA j
+          match o with
+          | ⟨0, _⟩ =>
+              xr * Real.cos f -
+                (if 1 + rbeColP pid₁ K BLOCK_SIZE_M BLOCK_SIZE_K j < K then xi
+                  else 0) * Real.sin f
+          | ⟨_ + 1, _⟩ => xr * Real.sin f + xi * Real.cos f)
+
+## rope_backward_transform::rope_backward_python_backward_output_summary_general bench/tritonbench_g/rope_backward_transform/RopeBackwardTransform.lean:2144
+Backward full-surface Q/K value facts plus separate head-store IO slices under region/half-window assumptions. The slice frames do not automatically compose into a full-surface IO frame.
+specification rope_backward_python_backward_output_summary_general
+    (Q K COS SIN : RegionName)
+    (q_row_stride k_row_stride cos_row_stride sin_row_stride
+      sl bs n_qh n_kh hd pad_n_qh pad_n_kh pad_hd BLOCK_SIZE : Nat)
+    (HEAD_IDX COS_ROW_IDX HEAD_HALF BLOCK_HALF : Nat)
+    (s : BlockState) (hundef : ∀ rg o, s.undef rg o = 0) (hqk : Q ≠ K) :
+    ComputeCorrect.Realizes_without_Rounding
+      (kernel := triton_rope_surface Q K COS SIN q_row_stride k_row_stride
+        cos_row_stride sin_row_stride sl bs n_qh n_kh hd pad_n_qh pad_n_kh
+        pad_hd BLOCK_SIZE Bool.true)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [pad_n_qh, pad_hd/2] =>
+          activeQFull (pad_n_qh := pad_n_qh) (pad_hd_half := pad_hd/2) n_qh hd idx)
+        (fun idx => (Q, qFullFirstOffset (pad_n_qh := pad_n_qh) (pad_hd_half := pad_hd/2) s q_row_stride hd idx)))
+      (expected := fun idx =>
+        ropeBackwardKernelQ0Spec (pad_n_qh := pad_n_qh) (pad_hd_half := pad_hd/2) s Q COS SIN q_row_stride sl cos_row_stride sin_row_stride hd idx) ∧
+    ComputeCorrect.Realizes_without_Rounding
+      (kernel := triton_rope_surface Q K COS SIN q_row_stride k_row_stride
+        cos_row_stride sin_row_stride sl bs n_qh n_kh hd pad_n_qh pad_n_kh
+        pad_hd BLOCK_SIZE Bool.true)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [pad_n_qh, pad_hd/2] =>
+          activeQFull (pad_n_qh := pad_n_qh) (pad_hd_half := pad_hd/2) n_qh hd idx)
+        (fun idx => (Q, qFullSecondOffset (pad_n_qh := pad_n_qh) (pad_hd_half := pad_hd/2) s q_row_stride hd idx)))
+      (expected := fun idx =>
+        ropeBackwardKernelQ1Spec (pad_n_qh := pad_n_qh) (pad_hd_half := pad_hd/2) s Q COS SIN q_row_stride sl cos_row_stride sin_row_stride hd idx) ∧
+    ComputeCorrect.Realizes_without_Rounding
+      (kernel := triton_rope_surface Q K COS SIN q_row_stride k_row_stride
+        cos_row_stride sin_row_stride sl bs n_qh n_kh hd pad_n_qh pad_n_kh
+        pad_hd BLOCK_SIZE Bool.true)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [pad_n_kh, pad_hd/2] =>
+          activeKFull (pad_n_kh := pad_n_kh) (pad_hd_half := pad_hd/2) n_kh hd idx)
+        (fun idx => (K, kFullFirstOffset (pad_n_kh := pad_n_kh) (pad_hd_half := pad_hd/2) s k_row_stride hd idx)))
+      (expected := fun idx =>
+        ropeBackwardKernelK0Spec (pad_n_kh := pad_n_kh) (pad_hd_half := pad_hd/2) s K COS SIN k_row_stride sl cos_row_stride sin_row_stride hd idx) ∧
+    ComputeCorrect.Realizes_without_Rounding
+      (kernel := triton_rope_surface Q K COS SIN q_row_stride k_row_stride
+        cos_row_stride sin_row_stride sl bs n_qh n_kh hd pad_n_qh pad_n_kh
+        pad_hd BLOCK_SIZE Bool.true)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [pad_n_kh, pad_hd/2] =>
+          activeKFull (pad_n_kh := pad_n_kh) (pad_hd_half := pad_hd/2) n_kh hd idx)
+        (fun idx => (K, kFullSecondOffset (pad_n_kh := pad_n_kh) (pad_hd_half := pad_hd/2) s k_row_stride hd idx)))
+      (expected := fun idx =>
+        ropeBackwardKernelK1Spec (pad_n_kh := pad_n_kh) (pad_hd_half := pad_hd/2) s K COS SIN k_row_stride sl cos_row_stride sin_row_stride hd idx) ∧
+    (ropeBackwardQ0HeadIO Q COS SIN HEAD_IDX COS_ROW_IDX q_row_stride
+        cos_row_stride sin_row_stride hd n_qh HEAD_HALF BLOCK_HALF
+      ⊨ fun _ _ xs _ j =>
+          let q0 := xs (⟨0, by decide⟩ : Fin 4) j
+          let q1 := xs (⟨1, by decide⟩ : Fin 4) j
+          let c := xs (⟨2, by decide⟩ : Fin 4) j
+          let sn := xs (⟨3, by decide⟩ : Fin 4) j
+          q0 * c + q1 * sn) ∧
+    (ropeBackwardQ1HeadIO Q COS SIN HEAD_IDX COS_ROW_IDX q_row_stride
+        cos_row_stride sin_row_stride hd n_qh HEAD_HALF BLOCK_HALF
+      ⊨ fun _ _ xs _ j =>
+          let q0 := xs (⟨0, by decide⟩ : Fin 4) j
+          let q1 := xs (⟨1, by decide⟩ : Fin 4) j
+          let c := xs (⟨2, by decide⟩ : Fin 4) j
+          let sn := xs (⟨3, by decide⟩ : Fin 4) j
+          q1 * c - q0 * sn) ∧
+    (ropeBackwardK0HeadIO K COS SIN HEAD_IDX COS_ROW_IDX k_row_stride
+        cos_row_stride sin_row_stride hd n_kh HEAD_HALF BLOCK_HALF
+      ⊨ fun _ _ xs _ j =>
+          let k0 := xs (⟨0, by decide⟩ : Fin 4) j
+          let k1 := xs (⟨1, by decide⟩ : Fin 4) j
+          let c := xs (⟨2, by decide⟩ : Fin 4) j
+          let sn := xs (⟨3, by decide⟩ : Fin 4) j
+          k0 * c + k1 * sn) ∧
+    (ropeBackwardK1HeadIO K COS SIN HEAD_IDX COS_ROW_IDX k_row_stride
+        cos_row_stride sin_row_stride hd n_kh HEAD_HALF BLOCK_HALF
+      ⊨ fun _ _ xs _ j =>
+          let k0 := xs (⟨0, by decide⟩ : Fin 4) j
+          let k1 := xs (⟨1, by decide⟩ : Fin 4) j
+          let c := xs (⟨2, by decide⟩ : Fin 4) j
+          let sn := xs (⟨3, by decide⟩ : Fin 4) j
+          k1 * c - k0 * sn)
+
+## rope_embedding::rope_embedding_forward_backward_summary_general bench/tritonbench_g/rope_embedding/RopeEmbedding.lean:648
+Four forward/backward half-store contracts plus projection facts for the full surface. Independent half-store proofs do not establish combined in-place execution without composition/disjointness evidence.
+specification rope_embedding_forward_backward_summary_general
+    (Q dY cos sin : RegionName)
+    (Q_row_stride cos_row_stride sin_row_stride seqlen head_dim n_heads
+      ROPE_GROUP_SIZE BLOCK_SIZE : Nat)
+    (sQ sDY : BlockState)
+    (hQF : Function.Injective
+      (fun i : Fin BLOCK_SIZE => qFirstOffset sQ Q_row_stride head_dim ROPE_GROUP_SIZE i))
+    (hQS : Function.Injective
+      (fun i : Fin BLOCK_SIZE => qSecondOffset sQ Q_row_stride head_dim ROPE_GROUP_SIZE i))
+    (hDF : Function.Injective
+      (fun i : Fin BLOCK_SIZE => qFirstOffset sDY Q_row_stride head_dim ROPE_GROUP_SIZE i))
+    (hDS : Function.Injective
+      (fun i : Fin BLOCK_SIZE => qSecondOffset sDY Q_row_stride head_dim ROPE_GROUP_SIZE i)) :
+    (∃ alg, (rope_embedding_surface Q Q_row_stride cos cos_row_stride sin
+      sin_row_stride seqlen head_dim n_heads Bool.false BLOCK_SIZE ROPE_GROUP_SIZE).toAlgorithm? = Except.ok alg) ∧
+    ComputeCorrect.Realizes_without_Rounding
+      (kernel := rope_embedding_forward_first_half Q cos sin Q_row_stride
+        cos_row_stride sin_row_stride seqlen head_dim n_heads ROPE_GROUP_SIZE BLOCK_SIZE)
+      (initialState := sQ)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun i : Fin BLOCK_SIZE => active sQ head_dim n_heads ROPE_GROUP_SIZE BLOCK_SIZE i)
+        (fun i => (Q, qFirstOffset sQ Q_row_stride head_dim ROPE_GROUP_SIZE i)))
+      (expected := fun i => ropeFirstSpec sQ Q cos sin Q_row_stride cos_row_stride
+        sin_row_stride seqlen head_dim ROPE_GROUP_SIZE BLOCK_SIZE i) ∧
+    ComputeCorrect.Realizes_without_Rounding
+      (kernel := rope_embedding_forward_second_half Q cos sin Q_row_stride
+        cos_row_stride sin_row_stride seqlen head_dim n_heads ROPE_GROUP_SIZE BLOCK_SIZE)
+      (initialState := sQ)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun i : Fin BLOCK_SIZE => active sQ head_dim n_heads ROPE_GROUP_SIZE BLOCK_SIZE i)
+        (fun i => (Q, qSecondOffset sQ Q_row_stride head_dim ROPE_GROUP_SIZE i)))
+      (expected := fun i => ropeSecondSpec sQ Q cos sin Q_row_stride cos_row_stride
+        sin_row_stride seqlen head_dim ROPE_GROUP_SIZE BLOCK_SIZE i) ∧
+    (∃ alg, (rope_embedding_surface dY Q_row_stride cos cos_row_stride sin
+      sin_row_stride seqlen head_dim n_heads Bool.true BLOCK_SIZE ROPE_GROUP_SIZE).toAlgorithm? = Except.ok alg) ∧
+    ComputeCorrect.Realizes_without_Rounding
+      (kernel := rope_embedding_backward_first_half dY cos sin Q_row_stride
+        cos_row_stride sin_row_stride seqlen head_dim n_heads ROPE_GROUP_SIZE BLOCK_SIZE)
+      (initialState := sDY)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun i : Fin BLOCK_SIZE => active sDY head_dim n_heads ROPE_GROUP_SIZE BLOCK_SIZE i)
+        (fun i => (dY, qFirstOffset sDY Q_row_stride head_dim ROPE_GROUP_SIZE i)))
+      (expected := fun i => ropeBackwardFirstSpec sDY dY cos sin Q_row_stride
+        cos_row_stride sin_row_stride seqlen head_dim ROPE_GROUP_SIZE BLOCK_SIZE i) ∧
+    ComputeCorrect.Realizes_without_Rounding
+      (kernel := rope_embedding_backward_second_half dY cos sin Q_row_stride
+        cos_row_stride sin_row_stride seqlen head_dim n_heads ROPE_GROUP_SIZE BLOCK_SIZE)
+      (initialState := sDY)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun i : Fin BLOCK_SIZE => active sDY head_dim n_heads ROPE_GROUP_SIZE BLOCK_SIZE i)
+        (fun i => (dY, qSecondOffset sDY Q_row_stride head_dim ROPE_GROUP_SIZE i)))
+      (expected := fun i => ropeBackwardSecondSpec sDY dY cos sin Q_row_stride
+        cos_row_stride sin_row_stride seqlen head_dim ROPE_GROUP_SIZE BLOCK_SIZE i)
+
+## rope_embedding::rope_embedding_io_correctness bench/tritonbench_g/rope_embedding/RopeEmbedding.lean:1408
+Four forward/backward half-store contracts plus projection facts for the full surface. Independent half-store proofs do not establish combined in-place execution without composition/disjointness evidence.
+specification rope_embedding_io_correctness (Q cos sin : RegionName)
+    (Q_row_stride cos_row_stride sin_row_stride seqlen head_dim n_heads
+      ROPE_GROUP_SIZE BLOCK_SIZE : Nat) :
+    (fwd_firstIO Q cos sin Q_row_stride cos_row_stride sin_row_stride seqlen head_dim n_heads
+      ROPE_GROUP_SIZE BLOCK_SIZE
+      ⊨ fun _p₀ _p₁ q1 q2 c1 s1 i => ropeFirstSpecOf q1 q2 c1 s1 i) ∧
+    (fwd_secondIO Q cos sin Q_row_stride cos_row_stride sin_row_stride seqlen head_dim n_heads
+      ROPE_GROUP_SIZE BLOCK_SIZE
+      ⊨ fun _p₀ _p₁ q1 q2 c1 s1 i => ropeSecondSpecOf q1 q2 c1 s1 i) ∧
+    (bwd_firstIO Q cos sin Q_row_stride cos_row_stride sin_row_stride seqlen head_dim n_heads
+      ROPE_GROUP_SIZE BLOCK_SIZE
+      ⊨ fun _p₀ _p₁ q1 q2 c1 s1 i => ropeBackwardFirstSpecOf q1 q2 c1 s1 i) ∧
+    (bwd_secondIO Q cos sin Q_row_stride cos_row_stride sin_row_stride seqlen head_dim n_heads
+      ROPE_GROUP_SIZE BLOCK_SIZE
+      ⊨ fun _p₀ _p₁ q1 q2 c1 s1 i => ropeBackwardSecondSpecOf q1 q2 c1 s1 i)
+
+## rope_transform::rope_transform_output_summary_general bench/tritonbench_g/rope_transform/RopeTransform.lean:2639
+Forward full-surface Q/K value facts plus separate head-store IO contracts. The top bundle distinguishes the full value result from individual slice frames and assumes distinct Q/K buffers.
+specification rope_transform_output_summary_general
+    (Q K COS SIN : RegionName)
+    (q_row_stride k_row_stride cos_row_stride sin_row_stride
+      sl bs n_qh n_kh hd pad_n_qh pad_n_kh pad_hd BLOCK_SIZE : Nat)
+    (HEAD_IDX COS_ROW_IDX HEAD_HALF BLOCK_HALF : Nat)
+    (s : BlockState) (hundef : ∀ rg o, s.undef rg o = 0) (hqk : Q ≠ K) :
+    (ComputeCorrect.Realizes_without_Rounding
+      (kernel := triton_rope_surface Q K COS SIN q_row_stride k_row_stride
+        cos_row_stride sin_row_stride sl bs n_qh n_kh hd pad_n_qh pad_n_kh
+        pad_hd BLOCK_SIZE Bool.false)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [pad_n_qh, pad_hd/2] =>
+          activeQFull (pad_n_qh := pad_n_qh) (pad_hd_half := pad_hd/2) n_qh hd idx)
+        (fun idx => (Q,
+          qFullFirstOffset (pad_n_qh := pad_n_qh) (pad_hd_half := pad_hd/2) s q_row_stride hd idx)))
+      (expected := fun idx =>
+        ropeForwardKernelQ0Spec (pad_n_qh := pad_n_qh) (pad_hd_half := pad_hd/2)
+          s Q COS SIN q_row_stride sl cos_row_stride sin_row_stride hd idx)) ∧
+    (ComputeCorrect.Realizes_without_Rounding
+      (kernel := triton_rope_surface Q K COS SIN q_row_stride k_row_stride
+        cos_row_stride sin_row_stride sl bs n_qh n_kh hd pad_n_qh pad_n_kh
+        pad_hd BLOCK_SIZE Bool.false)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [pad_n_qh, pad_hd/2] =>
+          activeQFull (pad_n_qh := pad_n_qh) (pad_hd_half := pad_hd/2) n_qh hd idx)
+        (fun idx => (Q,
+          qFullSecondOffset (pad_n_qh := pad_n_qh) (pad_hd_half := pad_hd/2) s q_row_stride hd idx)))
+      (expected := fun idx =>
+        ropeForwardKernelQ1Spec (pad_n_qh := pad_n_qh) (pad_hd_half := pad_hd/2)
+          s Q COS SIN q_row_stride sl cos_row_stride sin_row_stride hd idx)) ∧
+    (ComputeCorrect.Realizes_without_Rounding
+      (kernel := triton_rope_surface Q K COS SIN q_row_stride k_row_stride
+        cos_row_stride sin_row_stride sl bs n_qh n_kh hd pad_n_qh pad_n_kh
+        pad_hd BLOCK_SIZE Bool.false)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [pad_n_kh, pad_hd/2] =>
+          activeKFull (pad_n_kh := pad_n_kh) (pad_hd_half := pad_hd/2) n_kh hd idx)
+        (fun idx => (K,
+          kFullFirstOffset (pad_n_kh := pad_n_kh) (pad_hd_half := pad_hd/2) s k_row_stride hd idx)))
+      (expected := fun idx =>
+        ropeForwardKernelK0Spec (pad_n_kh := pad_n_kh) (pad_hd_half := pad_hd/2)
+          s K COS SIN k_row_stride sl cos_row_stride sin_row_stride hd idx)) ∧
+    (ComputeCorrect.Realizes_without_Rounding
+      (kernel := triton_rope_surface Q K COS SIN q_row_stride k_row_stride
+        cos_row_stride sin_row_stride sl bs n_qh n_kh hd pad_n_qh pad_n_kh
+        pad_hd BLOCK_SIZE Bool.false)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [pad_n_kh, pad_hd/2] =>
+          activeKFull (pad_n_kh := pad_n_kh) (pad_hd_half := pad_hd/2) n_kh hd idx)
+        (fun idx => (K,
+          kFullSecondOffset (pad_n_kh := pad_n_kh) (pad_hd_half := pad_hd/2) s k_row_stride hd idx)))
+      (expected := fun idx =>
+        ropeForwardKernelK1Spec (pad_n_kh := pad_n_kh) (pad_hd_half := pad_hd/2)
+          s K COS SIN k_row_stride sl cos_row_stride sin_row_stride hd idx)) ∧
+    (ropeQ0HeadIO Q COS SIN HEAD_IDX COS_ROW_IDX q_row_stride cos_row_stride
+        sin_row_stride hd n_qh HEAD_HALF BLOCK_HALF
+      ⊨ fun _ _ xs _ j =>
+          let q0 := xs (⟨0, by decide⟩ : Fin 4) j
+          let q1 := xs (⟨1, by decide⟩ : Fin 4) j
+          let c := xs (⟨2, by decide⟩ : Fin 4) j
+          let sn := xs (⟨3, by decide⟩ : Fin 4) j
+          q0 * c - q1 * sn) ∧
+    (ropeQ1HeadIO Q COS SIN HEAD_IDX COS_ROW_IDX q_row_stride cos_row_stride
+        sin_row_stride hd n_qh HEAD_HALF BLOCK_HALF
+      ⊨ fun _ _ xs _ j =>
+          let q0 := xs (⟨0, by decide⟩ : Fin 4) j
+          let q1 := xs (⟨1, by decide⟩ : Fin 4) j
+          let c := xs (⟨2, by decide⟩ : Fin 4) j
+          let sn := xs (⟨3, by decide⟩ : Fin 4) j
+          q1 * c + q0 * sn) ∧
+    (ropeK0HeadIO K COS SIN HEAD_IDX COS_ROW_IDX k_row_stride cos_row_stride
+        sin_row_stride hd n_kh HEAD_HALF BLOCK_HALF
+      ⊨ fun _ _ xs _ j =>
+          let k0 := xs (⟨0, by decide⟩ : Fin 4) j
+          let k1 := xs (⟨1, by decide⟩ : Fin 4) j
+          let c := xs (⟨2, by decide⟩ : Fin 4) j
+          let sn := xs (⟨3, by decide⟩ : Fin 4) j
+          k0 * c - k1 * sn) ∧
+    (ropeK1HeadIO K COS SIN HEAD_IDX COS_ROW_IDX k_row_stride cos_row_stride
+        sin_row_stride hd n_kh HEAD_HALF BLOCK_HALF
+      ⊨ fun _ _ xs _ j =>
+          let k0 := xs (⟨0, by decide⟩ : Fin 4) j
+          let k1 := xs (⟨1, by decide⟩ : Fin 4) j
+          let c := xs (⟨2, by decide⟩ : Fin 4) j
+          let sn := xs (⟨3, by decide⟩ : Fin 4) j
+          k1 * c + k0 * sn)
+
+## rotary_emb_nopad::rotary_emb_nopad_output_summary_general bench/tritonbench_g/rotary_emb_nopad/RotaryEmbNopad.lean:3930
+Selected rotary Q and cache sub-surface contracts with explicit head-half/metadata/layout hypotheses. They do not establish arbitrary aliasing or host composition of all fused stages.
+specification rotary_emb_nopad_output_summary_general
+    (Q K Cos Sin KVCache : RegionName)
+    (BlockTables ContextLengths : Region .nat)
+    (surf_q_token_stride surf_q_head_stride surf_k_token_stride surf_k_head_stride
+      surf_head_dim_stride surf_cos_token_stride surf_cos_stride
+      surf_q_total_tokens surf_Q_HEAD_NUM surf_KV_GROUP_NUM surf_HEAD_DIM
+      surf_BLOCK_TOKENS : Nat)
+    (q_token_stride q_head_stride head_dim_stride cos_token_stride cos_stride
+      q_total_tokens Q_HEAD_NUM HEAD_HALF BLOCK_TOKENS : Nat)
+    (k_token_stride k_head_stride k_q_total_tokens KV_GROUP_NUM : Nat)
+    (hQInjFirst : ∀ s : BlockState, Function.Injective
+      (fun idx : TileIndex [BLOCK_TOKENS, 1, HEAD_HALF] =>
+        qFullFirstOffset s q_token_stride q_head_stride head_dim_stride
+          BLOCK_TOKENS idx))
+    (hQInjSecond : ∀ s : BlockState, Function.Injective
+      (fun idx : TileIndex [BLOCK_TOKENS, 1, HEAD_HALF] =>
+        qFullSecondOffset s q_token_stride q_head_stride head_dim_stride
+          BLOCK_TOKENS HEAD_HALF idx))
+    (hQDisjoint : ∀ (s : BlockState)
+        (idx idx' : TileIndex [BLOCK_TOKENS, 1, HEAD_HALF]),
+        qFullFirstOffset s q_token_stride q_head_stride head_dim_stride
+            BLOCK_TOKENS idx ≠
+          qFullSecondOffset s q_token_stride q_head_stride head_dim_stride
+            BLOCK_TOKENS HEAD_HALF idx')
+    (hKInjFirst : ∀ s : BlockState, Function.Injective
+      (fun idx : TileIndex [BLOCK_TOKENS, 1, HEAD_HALF] =>
+        kFullFirstOffset s k_token_stride k_head_stride head_dim_stride
+          KV_GROUP_NUM BLOCK_TOKENS idx))
+    (hKInjSecond : ∀ s : BlockState, Function.Injective
+      (fun idx : TileIndex [BLOCK_TOKENS, 1, HEAD_HALF] =>
+        kFullSecondOffset s k_token_stride k_head_stride head_dim_stride
+          KV_GROUP_NUM BLOCK_TOKENS HEAD_HALF idx))
+    (hKDisjoint : ∀ (s : BlockState)
+        (idx idx' : TileIndex [BLOCK_TOKENS, 1, HEAD_HALF]),
+        kFullFirstOffset s k_token_stride k_head_stride head_dim_stride
+            KV_GROUP_NUM BLOCK_TOKENS idx ≠
+          kFullSecondOffset s k_token_stride k_head_stride head_dim_stride
+            KV_GROUP_NUM BLOCK_TOKENS HEAD_HALF idx')
+    (v2_q_token_stride v2_q_head_stride v2_head_dim_stride v2_cos_token_stride
+      v2_cos_stride v2_q_total_tokens v2_Q_HEAD_NUM v2_HEAD_HALF : Nat)
+    (v2_k_token_stride v2_k_head_stride cacheb_stride cacheh_stride cachebs_stride
+      cached_stride bts_stride btb_stride block_size : Nat)
+    (hV2QInjFirst : ∀ s : BlockState, Function.Injective
+      (fun i : Fin v2_HEAD_HALF =>
+        v2QFirstOffset s v2_q_token_stride v2_q_head_stride v2_head_dim_stride i))
+    (hV2QInjSecond : ∀ s : BlockState, Function.Injective
+      (fun i : Fin v2_HEAD_HALF =>
+        v2QSecondOffset s v2_q_token_stride v2_q_head_stride v2_head_dim_stride
+          v2_HEAD_HALF i))
+    (hV2QDisjoint : ∀ (s : BlockState) (i i' : Fin v2_HEAD_HALF),
+      v2QFirstOffset s v2_q_token_stride v2_q_head_stride v2_head_dim_stride i ≠
+        v2QSecondOffset s v2_q_token_stride v2_q_head_stride v2_head_dim_stride
+          v2_HEAD_HALF i')
+    (hV2CacheDisjoint : ∀ (s : BlockState) (i i' : Fin v2_HEAD_HALF),
+      v2CacheOff0 s BlockTables ContextLengths cacheb_stride cacheh_stride
+          cachebs_stride cached_stride bts_stride btb_stride block_size
+          v2_q_total_tokens i ≠
+        v2CacheOff1 s BlockTables ContextLengths cacheb_stride cacheh_stride
+          cachebs_stride cached_stride bts_stride btb_stride block_size
+          v2_q_total_tokens v2_HEAD_HALF i') :
+    (∃ alg, (rotary_embedding_kernel_surface Q K Cos Sin
+      surf_q_token_stride surf_q_head_stride surf_k_token_stride
+      surf_k_head_stride surf_head_dim_stride surf_cos_token_stride
+      surf_cos_stride surf_q_total_tokens surf_Q_HEAD_NUM surf_KV_GROUP_NUM
+      surf_HEAD_DIM surf_BLOCK_TOKENS).toAlgorithm? = Except.ok alg) ∧
+    (rotaryNopadQIO Q Cos Sin q_token_stride q_head_stride head_dim_stride
+        cos_token_stride cos_stride q_total_tokens Q_HEAD_NUM HEAD_HALF BLOCK_TOKENS
+      ⊨ fun _pid₀ _pid₁ xs o j =>
+          rotaryPair (xs (⟨0, by decide⟩ : Fin 4) j) (xs (⟨1, by decide⟩ : Fin 4) j)
+            (xs (⟨2, by decide⟩ : Fin 4) j) (xs (⟨3, by decide⟩ : Fin 4) j) o) ∧
+    (rotaryNopadKIO K Cos Sin k_token_stride k_head_stride head_dim_stride
+        cos_token_stride cos_stride k_q_total_tokens KV_GROUP_NUM HEAD_HALF BLOCK_TOKENS
+      ⊨ fun _pid₀ _pid₁ xs o j =>
+          rotaryPair (xs (⟨0, by decide⟩ : Fin 4) j) (xs (⟨1, by decide⟩ : Fin 4) j)
+            (xs (⟨2, by decide⟩ : Fin 4) j) (xs (⟨3, by decide⟩ : Fin 4) j) o) ∧
+    (∃ alg, (fused_rotary_embedding_v2_surface Q K Cos Sin KVCache BlockTables
+      ContextLengths surf_q_token_stride surf_q_head_stride surf_k_token_stride
+      surf_k_head_stride surf_head_dim_stride surf_cos_token_stride surf_cos_stride
+      cacheb_stride cacheh_stride cachebs_stride cached_stride bts_stride btb_stride
+      block_size surf_q_total_tokens surf_Q_HEAD_NUM surf_HEAD_DIM).toAlgorithm?
+      = Except.ok alg) ∧
+    (fusedV2QIO Q Cos Sin v2_q_token_stride v2_q_head_stride v2_head_dim_stride
+        v2_cos_token_stride v2_cos_stride v2_q_total_tokens v2_Q_HEAD_NUM v2_HEAD_HALF
+      ⊨ fun _pid₀ pid₁ xs o j =>
+          rotaryPair (xs (⟨0, by decide⟩ : Fin 4) j) (xs (⟨1, by decide⟩ : Fin 4) j)
+            (if pid₁ < v2_q_total_tokens then xs (⟨2, by decide⟩ : Fin 4) j else 0)
+            (if pid₁ < v2_q_total_tokens then xs (⟨3, by decide⟩ : Fin 4) j else 0) o) ∧
+    (ChainMetaGroupedMasked2DKernelIO.Implements
+      (fusedV2CacheIO KVCache K Cos Sin BlockTables ContextLengths v2_k_token_stride
+        v2_k_head_stride v2_head_dim_stride v2_cos_token_stride v2_cos_stride
+        cacheb_stride cacheh_stride cachebs_stride cached_stride bts_stride btb_stride
+        block_size v2_q_total_tokens v2_Q_HEAD_NUM v2_HEAD_HALF)
+      (fun _pid₀ pid₁ _s1 _s2 xs o j =>
+          rotaryPair (xs (⟨0, by decide⟩ : Fin 4) j) (xs (⟨1, by decide⟩ : Fin 4) j)
+            (if pid₁ < v2_q_total_tokens then xs (⟨2, by decide⟩ : Fin 4) j else 0)
+            (if pid₁ < v2_q_total_tokens then xs (⟨3, by decide⟩ : Fin 4) j else 0) o))
+
+## rotary_transform::rotary_transform_meta_implements bench/tritonbench_g/rotary_transform/RotaryTransform.lean:1534
+Selected row/body rotary value facts and a metadata-aware row IO contract. Interleaving, varlen, offsets, and paired-half layout conditions must be read from the chosen statement.
+specification rotary_transform_meta_implements
+    (OUT X COS SIN : RegionName) (CU_SEQLENS : Region .nat)
+    (HEAD_IDX SEQLEN_OFFSETS seqlen rotary_dim_half seqlen_ro
+      stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim
+      stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim
+      BLOCK_M BLOCK_HALF : Nat) (IS_VARLEN : Bool)
+    (hStrideHd : stride_out_headdim ≠ 0)
+    (hHalfBound : BLOCK_HALF ≤ rotary_dim_half) :
+    rotaryMetaIO OUT X COS SIN CU_SEQLENS HEAD_IDX SEQLEN_OFFSETS seqlen rotary_dim_half
+        seqlen_ro stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim
+        stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim BLOCK_M BLOCK_HALF
+        IS_VARLEN
+      ⊨ fun pid₀ _pid₁ _s1 _s2 xs o j =>
+          rotaryMetaF SEQLEN_OFFSETS seqlen_ro rotary_dim_half BLOCK_M pid₀ xs o j
+
+## rotary_transform::rotary_transform_python_output_summary_general bench/tritonbench_g/rotary_transform/RotaryTransform.lean:696
+Selected row/body rotary value facts and a metadata-aware row IO contract. Interleaving, varlen, offsets, and paired-half layout conditions must be read from the chosen statement.
+specification rotary_transform_python_output_summary_general
+    (OUT X COS SIN : RegionName) (CU_SEQLENS SEQLEN_OFFSETS_REGION : Region .nat)
+    (SEQLEN_OFFSETS_SCALAR seqlen_surf nheads rotary_dim seqlen_ro_surf CACHE_KEY_SEQLEN
+      surf_stride_out_batch surf_stride_out_seqlen surf_stride_out_nheads surf_stride_out_headdim
+      surf_stride_x_batch surf_stride_x_seqlen surf_stride_x_nheads surf_stride_x_headdim
+      BLOCK_K BLOCK_M_surf : Nat)
+    (IS_SEQLEN_OFFSETS_TENSOR IS_VARLEN INTERLEAVED CONJUGATE : Bool)
+    (SEQLEN_OFFSETS seqlen rotary_dim_half seqlen_ro
+      stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim
+      stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim
+      BLOCK_M BLOCK_HALF : Nat)
+    (s : BlockState)
+    (hOutInj : Function.Injective
+      (fun i : Fin BLOCK_HALF =>
+        outOffset s stride_out_batch stride_out_seqlen stride_out_nheads
+          stride_out_headdim BLOCK_M i))
+    (hOut1Inj : Function.Injective
+      (fun i : Fin BLOCK_HALF =>
+        out1Offset s stride_out_batch stride_out_seqlen stride_out_nheads
+          stride_out_headdim rotary_dim_half BLOCK_M i))
+    (hStrideHd : stride_out_headdim ≠ 0)
+    (hHalfBound : BLOCK_HALF ≤ rotary_dim_half) :
+    (∃ alg, (rotary_kernel_surface OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS_REGION
+      SEQLEN_OFFSETS_SCALAR seqlen_surf nheads rotary_dim seqlen_ro_surf CACHE_KEY_SEQLEN
+      surf_stride_out_batch surf_stride_out_seqlen surf_stride_out_nheads surf_stride_out_headdim
+      surf_stride_x_batch surf_stride_x_seqlen surf_stride_x_nheads surf_stride_x_headdim
+      BLOCK_K BLOCK_M_surf IS_SEQLEN_OFFSETS_TENSOR IS_VARLEN INTERLEAVED
+      CONJUGATE).toAlgorithm? = Except.ok alg) ∧
+    (ComputeCorrect.Realizes_without_Rounding
+      (kernel := rotary_kernel_o0o1_row OUT X COS SIN SEQLEN_OFFSETS
+        seqlen rotary_dim_half seqlen_ro stride_out_batch stride_out_seqlen
+        stride_out_nheads stride_out_headdim stride_x_batch stride_x_seqlen
+        stride_x_nheads stride_x_headdim BLOCK_M BLOCK_HALF)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun i : Fin BLOCK_HALF => active s seqlen rotary_dim_half BLOCK_M i)
+        (fun i => (OUT,
+          outOffset s stride_out_batch stride_out_seqlen stride_out_nheads
+            stride_out_headdim BLOCK_M i)))
+      (expected := fun i =>
+        rotaryO0Spec s X COS SIN SEQLEN_OFFSETS seqlen_ro stride_x_batch
+          stride_x_seqlen stride_x_nheads stride_x_headdim rotary_dim_half
+          BLOCK_M i)) ∧
+    (ComputeCorrect.Realizes_without_Rounding
+      (kernel := rotary_kernel_o0o1_row OUT X COS SIN SEQLEN_OFFSETS
+        seqlen rotary_dim_half seqlen_ro stride_out_batch stride_out_seqlen
+        stride_out_nheads stride_out_headdim stride_x_batch stride_x_seqlen
+        stride_x_nheads stride_x_headdim BLOCK_M BLOCK_HALF)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun i : Fin BLOCK_HALF => active s seqlen rotary_dim_half BLOCK_M i)
+        (fun i => (OUT,
+          out1Offset s stride_out_batch stride_out_seqlen stride_out_nheads
+            stride_out_headdim rotary_dim_half BLOCK_M i)))
+      (expected := fun i =>
+        rotaryO1Spec s X COS SIN SEQLEN_OFFSETS seqlen_ro stride_x_batch
+          stride_x_seqlen stride_x_nheads stride_x_headdim rotary_dim_half
+          BLOCK_M i))
+
+## rotary_transform_ops::rotary_transform_ops_meta_implements bench/tritonbench_g/rotary_transform_ops/RotaryTransformOps.lean:1588
+Selected rotary body/row facts and metadata-aware IO contract. Flags, paired-half addresses, and variable-length metadata restrict the configured Python path.
+specification rotary_transform_ops_meta_implements
+    (OUT X COS SIN : RegionName) (CU_SEQLENS : Region .nat)
+    (HEAD_IDX SEQLEN_OFFSETS seqlen rotary_dim_half seqlen_ro
+      stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim
+      stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim
+      BLOCK_M BLOCK_HALF : Nat) (IS_VARLEN : Bool)
+    (hStrideHd : stride_out_headdim ≠ 0)
+    (hHalfBound : BLOCK_HALF ≤ rotary_dim_half) :
+    rotaryMetaIO OUT X COS SIN CU_SEQLENS HEAD_IDX SEQLEN_OFFSETS seqlen rotary_dim_half
+        seqlen_ro stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim
+        stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim BLOCK_M BLOCK_HALF
+        IS_VARLEN
+      ⊨ fun pid₀ _pid₁ _s1 _s2 xs o j =>
+          rotaryMetaF SEQLEN_OFFSETS seqlen_ro rotary_dim_half BLOCK_M pid₀ xs o j
+
+## rotary_transform_ops::rotary_transform_ops_output_summary_general bench/tritonbench_g/rotary_transform_ops/RotaryTransformOps.lean:742
+Selected rotary body/row facts and metadata-aware IO contract. Flags, paired-half addresses, and variable-length metadata restrict the configured Python path.
+specification rotary_transform_ops_output_summary_general
+    (OUT X COS SIN : RegionName) (CU_SEQLENS SEQLEN_OFFSETS : Region .nat)
+    (SEQLEN_OFFSETS_SCALAR seqlen rotary_dim seqlen_ro
+      stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim
+      stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim
+      BLOCK_K BLOCK_M : Nat)
+    (IS_SEQLEN_OFFSETS_TENSOR IS_VARLEN INTERLEAVED CONJUGATE : Bool)
+    (body_SEQLEN_OFFSETS body_seqlen body_rotary_dim_half body_seqlen_ro
+      body_stride_out_batch body_stride_out_seqlen body_stride_out_nheads
+      body_stride_out_headdim body_stride_x_batch body_stride_x_seqlen
+      body_stride_x_nheads body_stride_x_headdim body_BLOCK_M BLOCK_HALF : Nat)
+    (s : BlockState)
+    (hOutInj : Function.Injective
+      (fun i : Fin BLOCK_HALF =>
+        outOffset s body_stride_out_batch body_stride_out_seqlen
+          body_stride_out_nheads body_stride_out_headdim body_BLOCK_M i))
+    (hOut1Inj : Function.Injective
+      (fun i : Fin BLOCK_HALF =>
+        out1Offset s body_stride_out_batch body_stride_out_seqlen
+          body_stride_out_nheads body_stride_out_headdim body_rotary_dim_half
+          body_BLOCK_M i))
+    (hStrideHd : body_stride_out_headdim ≠ 0)
+    (hHalfBound : BLOCK_HALF ≤ body_rotary_dim_half) :
+    (∃ alg, (rotary_kernel_surface OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS
+      SEQLEN_OFFSETS_SCALAR seqlen rotary_dim seqlen_ro stride_out_batch
+      stride_out_seqlen stride_out_nheads stride_out_headdim stride_x_batch
+      stride_x_seqlen stride_x_nheads stride_x_headdim BLOCK_K BLOCK_M
+      IS_SEQLEN_OFFSETS_TENSOR IS_VARLEN INTERLEAVED CONJUGATE).toAlgorithm? =
+        Except.ok alg) ∧
+    (ComputeCorrect.Realizes_without_Rounding
+      (kernel := rotary_kernel_o0o1_row OUT X COS SIN
+        body_SEQLEN_OFFSETS body_seqlen body_rotary_dim_half body_seqlen_ro
+        body_stride_out_batch body_stride_out_seqlen body_stride_out_nheads
+        body_stride_out_headdim body_stride_x_batch body_stride_x_seqlen
+        body_stride_x_nheads body_stride_x_headdim body_BLOCK_M BLOCK_HALF)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun i : Fin BLOCK_HALF =>
+          active s body_seqlen body_rotary_dim_half body_BLOCK_M i)
+        (fun i => (OUT,
+          outOffset s body_stride_out_batch body_stride_out_seqlen
+            body_stride_out_nheads body_stride_out_headdim body_BLOCK_M i)))
+      (expected := fun i =>
+        rotaryO0Spec s X COS SIN body_SEQLEN_OFFSETS body_seqlen_ro
+          body_stride_x_batch body_stride_x_seqlen body_stride_x_nheads
+          body_stride_x_headdim body_rotary_dim_half body_BLOCK_M i)) ∧
+    (ComputeCorrect.Realizes_without_Rounding
+      (kernel := rotary_kernel_o0o1_row OUT X COS SIN
+        body_SEQLEN_OFFSETS body_seqlen body_rotary_dim_half body_seqlen_ro
+        body_stride_out_batch body_stride_out_seqlen body_stride_out_nheads
+        body_stride_out_headdim body_stride_x_batch body_stride_x_seqlen
+        body_stride_x_nheads body_stride_x_headdim body_BLOCK_M BLOCK_HALF)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun i : Fin BLOCK_HALF =>
+          active s body_seqlen body_rotary_dim_half body_BLOCK_M i)
+        (fun i => (OUT,
+          out1Offset s body_stride_out_batch body_stride_out_seqlen
+            body_stride_out_nheads body_stride_out_headdim body_rotary_dim_half
+            body_BLOCK_M i)))
+      (expected := fun i =>
+        rotaryO1Spec s X COS SIN body_SEQLEN_OFFSETS body_seqlen_ro
+          body_stride_x_batch body_stride_x_seqlen body_stride_x_nheads
+          body_stride_x_headdim body_rotary_dim_half body_BLOCK_M i))
+
+## rowwise_quantization_triton::quantize_rowwise_correctness bench/tritonbench_g/rowwise_quantization_triton/RowwiseQuantizationTriton.lean:490
+Computes row maximum and real-valued scaled outputs, but omits the faithful CUDA llrint/final-int8 result. The max producer is included; final rounding is not.
+specification quantize_rowwise_correctness
+    (x_ptr inert output_ptr output_maxs : RegionName)
+    (n_elements BLOCK_SIZE P2 : Nat) (hP : 0 < P2)
+    (hRegions : output_ptr ≠ output_maxs) :
+    quantizeRowwiseIO x_ptr inert output_ptr output_maxs n_elements
+        BLOCK_SIZE P2 ⊨
+      fun _ _ xs _ =>
+        (fun i => qrOutSpec BLOCK_SIZE P2 xs i,
+         fun _ => qrMaxSpec BLOCK_SIZE P2 xs)
+
+## token_softmax_bloom::token_softmax_bloom_correctness bench/tritonbench_g/token_softmax_bloom/TokenSoftmaxBloom.lean:697
+Per-sequence token softmax consumes supplied logits and start/length metadata. IO bounds and injective probability addresses are prerequisites.
+specification token_softmax_bloom_correctness
+    (Logics B_Start_Loc B_Seqlen Prob_Out : RegionName)
+    (stride_logic_h stride_logic_bs stride_prob_h stride_prob_bs BLOCK_SIZE : Nat)
+    (hB : 0 < BLOCK_SIZE)
+    (hOutInj : ∀ pid₁ m₁, Function.Injective
+      (fun j : Fin BLOCK_SIZE =>
+        pid₁ * stride_prob_h + (m₁ + j.val) * stride_prob_bs)) :
+    tokenSoftmaxIO Logics B_Start_Loc B_Seqlen Prob_Out
+        stride_logic_h stride_logic_bs stride_prob_h stride_prob_bs BLOCK_SIZE
+      ⊨ fun _ _ _ m₂ xs j => tokenSoftmaxSpecPure m₂ xs j
+
+## token_softmax_llama::token_softmax_llama_correctness bench/tritonbench_g/token_softmax_llama/TokenSoftmaxLlama.lean:681
+Per-sequence token softmax with supplied logits/start/length metadata and explicit output-address injectivity; surrounding attention stages are external.
+specification token_softmax_llama_correctness
+    (Logics B_Start_Loc B_Seqlen Prob_Out : RegionName)
+    (stride_logic_h stride_logic_bs stride_prob_h stride_prob_bs
+      BLOCK_SIZE : Nat)
+    (hB : 0 < BLOCK_SIZE)
+    (hOutInj : ∀ pid₁ m₁ : Nat, Function.Injective
+      (fun i : Fin BLOCK_SIZE =>
+        pid₁ * stride_prob_h + (m₁ + i.val) * stride_prob_bs)) :
+    tokenSoftmaxLlamaIO Logics B_Start_Loc B_Seqlen Prob_Out
+        stride_logic_h stride_logic_bs stride_prob_h stride_prob_bs BLOCK_SIZE
+      ⊨ fun _ _ _ m₂ xs j => tokenSoftmaxRowSpec BLOCK_SIZE m₂ xs j
+
+## triton_argmax::argmax_kernel_1_index_compute_correct bench/tritonbench_g/triton_argmax/TritonArgmax.lean:218
+Separate first-stage value/index, second-stage, and single-block dimension-reduction facts. First-stage IO fixes its flag; the host two-stage composition is not established by the bundle.
+specification argmax_kernel_1_index_compute_correct
+    (inp mid_value : RegionName) (mid_index : Region .int)
+    (M BLOCK_SIZE : Nat)
+    (s : BlockState) :
+    ComputeCorrect.Realizes_without_Rounding
+      (kernel := argmax_kernel_1 inp mid_value mid_index M BLOCK_SIZE Bool.false)
+      (initialState := s)
+      (write := fun _ : PUnit =>
+        some ((Region.cast mid_index : RegionName), s.pid))
+      (expected :=
+        fun _ : PUnit =>
+          (argmaxKernel1IndexSpec s inp M BLOCK_SIZE : Nat))
+
+## triton_argmax::argmax_kernel_1_io_correctness bench/tritonbench_g/triton_argmax/TritonArgmax.lean:790
+Separate first-stage value/index, second-stage, and single-block dimension-reduction facts. First-stage IO fixes its flag; the host two-stage composition is not established by the bundle.
+specification argmax_kernel_1_io_correctness (inp mid_value : RegionName)
+    (mid_index : Region .int) (M BLOCK_SIZE : Nat) (hB : 0 < BLOCK_SIZE)
+    (hRegions : mid_value ≠ (Region.cast mid_index : RegionName)) :
+    ValueIndexTileKernelIO.Implements
+      (argmax1IO inp mid_value mid_index M BLOCK_SIZE)
+      (fun pid xs _ => argmaxValueSpecOf M BLOCK_SIZE pid xs)
+      (fun pid xs _ => argmaxIndexSpecOf M BLOCK_SIZE pid xs)
+
+## triton_argmax::argmax_kernel_1_value_compute_correct bench/tritonbench_g/triton_argmax/TritonArgmax.lean:183
+Separate first-stage value/index, second-stage, and single-block dimension-reduction facts. First-stage IO fixes its flag; the host two-stage composition is not established by the bundle.
+specification argmax_kernel_1_value_compute_correct
+    (inp mid_value : RegionName) (mid_index : Region .int)
+    (M BLOCK_SIZE : Nat)
+    (s : BlockState)
+    (hRegions : mid_value ≠ (Region.cast mid_index : RegionName)) :
+    ComputeCorrect.Realizes_without_Rounding
+      (kernel := argmax_kernel_1 inp mid_value mid_index M BLOCK_SIZE Bool.false)
+      (initialState := s)
+      (write := fun _ : PUnit => some (mid_value, s.pid))
+      (expected := fun _ => argmaxKernel1ValueSpec s inp M BLOCK_SIZE)
+
+## triton_argmax::argmax_kernel_2_compute_correct bench/tritonbench_g/triton_argmax/TritonArgmax.lean:267
+Separate first-stage value/index, second-stage, and single-block dimension-reduction facts. First-stage IO fixes its flag; the host two-stage composition is not established by the bundle.
+specification argmax_kernel_2_compute_correct
+    (mid_value mid_index out : RegionName)
+    (mid_size BLOCK_MID : Nat)
+    (s : BlockState) :
+    ComputeCorrect.Realizes_without_Rounding
+      (kernel := argmax_kernel_2 mid_value mid_index out mid_size BLOCK_MID)
+      (initialState := s)
+      (write := fun _ : PUnit => some (out, 0))
+      (expected := fun _ => argmaxKernel2Spec s mid_value mid_index mid_size BLOCK_MID)
+
+## triton_argmax::argmax_kernel_dim_single_block_compute_correct bench/tritonbench_g/triton_argmax/TritonArgmax.lean:500
+Separate first-stage value/index, second-stage, and single-block dimension-reduction facts. First-stage IO fixes its flag; the host two-stage composition is not established by the bundle.
+specification argmax_kernel_dim_single_block_compute_correct
+    (inp : RegionName) (out_index : Region .int)
+    (M N K BLOCK_M BLOCK_N : Nat)
+    (s : BlockState)
+    (hBN : 0 < BLOCK_N)
+    (hNpos : 0 < N)
+    (hNle : N ≤ BLOCK_N)
+    (hOutInj : Function.Injective
+      (fun i : Fin BLOCK_M => argmaxKernelOutOffset s K BLOCK_M i)) :
+    ComputeCorrect.Realizes_without_Rounding
+      (kernel := argmax_kernel inp out_index M N K BLOCK_M BLOCK_N Bool.false)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun i : Fin BLOCK_M => s.pids 0 * BLOCK_M + i.val < M)
+        (fun i => ((Region.cast out_index : RegionName),
+          argmaxKernelOutOffset s K BLOCK_M i)))
+      (expected := fun i =>
+        argmaxKernelDimSingleBlockSpec s inp M N K BLOCK_M BLOCK_N i)

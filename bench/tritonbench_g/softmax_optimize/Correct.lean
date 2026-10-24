@@ -1,59 +1,16 @@
 import bench.tritonbench_g.softmax_optimize.Proofs.Contracts
 import bench.tritonbench_g.softmax_optimize.Proofs.Witnesses
 
+/-! Historical mathematical and slice contracts in this file are ordinary helper
+theorems. Only the retained `specification` entries below are public source contracts.
+The helpers retain their statements and proofs for downstream reuse. -/
+
+
 namespace VeriTile.Bench.TritonBenchG.SoftmaxOptimize
 open VeriTile.Triton
 open scoped VeriTile.Triton.MaskedTileKernelIO₁
 
-/-- Per-kernel output summary for the one-tile slice of
-`softmax_kernel_online_v2`: the slice lowers to the algorithm layer, and the
-masked store to `output_ptr` is compute-correct — every active lane (`i < N`)
-holds the stable-softmax value `softmaxOptimizeSpec`, out-of-bounds lanes are
-preserved. (Covers the `N ≤ TILE_N` collapsed-loop regime; the full online
-surface's exec-level value correctness is established separately, see
-`softmax_kernel_online_v2_surface_exec_correct`.) -/
-specification softmax_kernel_online_v2_one_tile_output_summary
-    (output_ptr input_ptr : RegionName)
-    (N TILE_N : Nat)
-    (s : BlockState) :
-    (∃ alg, (softmax_kernel_online_v2_one_tile output_ptr input_ptr N TILE_N).toAlgorithm? =
-        Except.ok alg) ∧
-    ComputeCorrect.Realizes_without_Rounding
-      (kernel := softmax_kernel_online_v2_one_tile output_ptr input_ptr N TILE_N)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun i : Fin TILE_N => i.val < N)
-        (fun i => (output_ptr, linearOffset s N i)))
-      (expected := fun i => softmaxOptimizeSpec s input_ptr N TILE_N i) := by
-  refine ⟨⟨_, rfl⟩, ?_⟩
-  exact softmax_kernel_online_v2_one_tile_compute_correct output_ptr input_ptr N TILE_N s
 
-/-- **Public output summary (headline theorem).** The full online-softmax
-surface `softmax_kernel_online_v2_surface` realizes the genuine full-row softmax
-`softmaxOptimizeFullSpec` at every output column `j < N` of row `pid`: the total
-write map sends column `j` to `output_ptr` at `linearOffset s N j`, and the
-value read back there after any successful run is exactly the numerically
-stabilized full-row softmax of the loaded input row. Stated via
-`ComputeCorrect.Realizes_without_Rounding` (per `bench/MAIN_THEOREM_CONVENTIONS.md` §4), wrapping
-the exec-level engine lemma `softmax_kernel_online_v2_surface_exec_correct`. -/
-specification softmax_kernel_online_v2_output_summary
-    (output_ptr input_ptr : RegionName) (M N TILE_N : Nat)
-    (hN : 0 < N) (hT : 0 < TILE_N) (hne : output_ptr ≠ input_ptr)
-    (s : BlockState) :
-    ComputeCorrect.Realizes_without_Rounding
-      (kernel := softmax_kernel_online_v2_surface output_ptr input_ptr M N TILE_N)
-      (initialState := s)
-      (write := fun j : Fin N => some (output_ptr, linearOffset s N j))
-      (expected := fun j : Fin N => softmaxOptimizeFullSpec s input_ptr N j) := by
-  unfold ComputeCorrect.Realizes_without_Rounding
-  apply ComputeKernel.computeCorrect_of_toAlgKernel
-  · simp [softmax_kernel_online_v2_surface, ComputeExpr.toAlgorithm?]
-  intro s0 s' hExec hs0
-  subst s0
-  intro j
-  simp only [ComputeCorrect.OutputReadable.read_real]
-  exact softmax_kernel_online_v2_surface_exec_correct output_ptr input_ptr M N TILE_N
-    hN hT hne s s' hExec j
 
 section IOFace
 
@@ -76,7 +33,7 @@ Dimension-general in `N` and `TILE_N`. **Zero side-conditions on addresses**: th
 window is `pid·N + i`, so injectivity is discharged inline. The one honest
 hypothesis is `0 < TILE_N` — an empty tile makes `tl.max` fault, exactly as in
 Python. -/
-specification softmax_kernel_online_v2_one_tile_io_correctness
+theorem softmax_kernel_online_v2_one_tile_io_correctness
     (output_ptr input_ptr : RegionName) (N TILE_N : Nat) (hT : 0 < TILE_N) :
     oneTileIO output_ptr input_ptr N TILE_N
       ⊨ fun _pid xs idx => softmaxTileSpec N TILE_N xs idx.1 := by

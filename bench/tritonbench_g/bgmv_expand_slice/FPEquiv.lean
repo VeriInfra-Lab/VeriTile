@@ -1,17 +1,17 @@
-import bench.tritonbench_g.bgmv_expand_slice.Kernels
 import bench.tritonbench_g.bgmv_expand_slice.Proofs.FP
 import VeriTile.Meta.StatementAudit
 
-/-! Whole-program FP equivalence of the original and output-first sources in
-Kernels. The only rewrite commutes the actual fp32 reduction result and loaded
-old output inside ADD_INPUTS. Input/weight dtypes, CAST_TYPE and output dtype
-remain explicit; the source keeps all casts, reduction, pointers and stores.
-The domain checks finite actual addition operands along the taken sentinel
-branch and each reached output-loop iteration. It is not an output equation,
-a fixed experiment shape or a claim about concrete IEEE equality. -/
+/-! Full-source output-first equivalence for every input, weight, cast and
+output dtype. The native scalar addition law and finite actual operand domain
+are explicit. Existing fp32 experiment rules discharge the fp32 profile;
+native half/bfloat16 laws remain additional backend premises. This corrects
+the former unsound fp32-only contract without restricting source choices. -/
 namespace VeriTile.Bench.TritonBenchG.BgmvExpandSlice.Equivalence
-open VeriTile Triton FP.Structural FP.ProfiledRewrite
+open VeriTile Triton FP.Structural
 open scoped VeriTile.Spec
+
+abbrev original := FPEquivProofs.original
+abbrev outputFirst := FPEquivProofs.outputFirst
 
 section
 variable (input : TypedSource.InputStorage) (weight : TypedSource.WeightStorage)
@@ -19,27 +19,24 @@ variable (input : TypedSource.InputStorage) (weight : TypedSource.WeightStorage)
     (x w out : RegionName) (N K : Nat) (indices : Region .int)
     (sx sk sw0 swn swk sy syn slice BN BK splits : Nat) (even add : Bool)
 
-def original : Program where
-  kernel := TypedSource.original input weight cast out_dtype x w out N K indices
-    sx sk sw0 swn swk sy syn slice BN BK splits even add
-  domain := FPEquivProofs.requirementsFor (TypedSource.original input weight cast out_dtype x w out N K indices
-    sx sk sw0 swn swk sy syn slice BN BK splits even add)
-
-def outputFirst : Program :=
-  { original input weight cast out_dtype x w out N K indices sx sk sw0 swn swk sy syn slice BN BK splits even add with
-    kernel := TypedSource.outputFirst input weight cast out_dtype x w out N K indices
-      sx sk sw0 swn swk sy syn slice BN BK splits even add }
-
-specification bgmv_output_first_equiv (R : FP.ScalarArithmetic.Rules) :
-    original input weight cast out_dtype x w out N K indices
-      sx sk sw0 swn swk sy syn slice BN BK splits even add ≡[R]
-    outputFirst input weight cast out_dtype x w out N K indices
-      sx sk sw0 swn swk sy syn slice BN BK splits even add := by
+specification bgmv_output_first_equiv {α : Type} [Inhabited α]
+    (M : Algebra α) (D : FP.Guarded.Domain α)
+    (native_add : NativeFP.NativeAdditionCommutes M D
+      (original input weight cast out_dtype x w out N K indices
+        sx sk sw0 swn swk sy syn slice BN BK splits even add).kernel)
+    (s : State α)
+    (finite_operands : ∀ site ∈ (original input weight cast out_dtype x w out N K indices
+      sx sk sw0 swn swk sy syn slice BN BK splits even add).domain, site.Holds M D s) :
+    FP.Structural.exec (FP.ProfiledRewrite.engine M)
+      (original input weight cast out_dtype x w out N K indices
+        sx sk sw0 swn swk sy syn slice BN BK splits even add).kernel s =
+    FP.Structural.exec (FP.ProfiledRewrite.engine M)
+      (outputFirst input weight cast out_dtype x w out N K indices
+        sx sk sw0 swn swk sy syn slice BN BK splits even add).kernel s := by
   exact FPEquivProofs.output_first_equiv input weight cast out_dtype x w out N K indices
-    sx sk sw0 swn swk sy syn slice BN BK splits even add R
-
+    sx sk sw0 swn swk sy syn slice BN BK splits even add M D native_add s finite_operands
 end
-#print_fp_assumptions bgmv_output_first_equiv
+
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end VeriTile.Bench.TritonBenchG.BgmvExpandSlice.Equivalence

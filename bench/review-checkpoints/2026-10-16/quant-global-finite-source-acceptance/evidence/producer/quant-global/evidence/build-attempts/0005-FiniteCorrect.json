@@ -1,0 +1,25 @@
+{
+  "module": "bench.tritonbench_g.quantize_global.FiniteCorrect",
+  "source_sha256": "6ffcf9ce404e247672c52132dc3f46bec1e6fbaab0832c89029e2ec68a2e9170",
+  "saved_source": "evidence/build-attempts/0005-FiniteCorrect.lean.txt",
+  "command": [
+    "/tmp/veritile-lean-toolchain/bin/lean",
+    "--root=/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/frozen-v2/overlay",
+    "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/frozen-v2/overlay/bench/tritonbench_g/quantize_global/FiniteCorrect.lean",
+    "-o",
+    "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/frozen-v2/overlay/bench/tritonbench_g/quantize_global/FiniteCorrect.olean"
+  ],
+  "LEAN_PATH": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/frozen-v2/overlay:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean",
+  "exit_code": 0,
+  "seconds": 2.267419509124011,
+  "log": "evidence/build-attempts/0005-FiniteCorrect.log",
+  "log_sha256": "5f3f84315425d70c234b76465290435cfae3076e4ae26b386e02e16c0a1edc89",
+  "source_unchanged": true,
+  "compiled_artifacts": [
+    {
+      "path": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/frozen-v2/overlay/bench/tritonbench_g/quantize_global/FiniteCorrect.olean",
+      "sha256": "93efc298281c5eaffae32211ac413331da39547b9754ff19a6b5d8dc33b242eb",
+      "bytes": 441560
+    }
+  ]
+}

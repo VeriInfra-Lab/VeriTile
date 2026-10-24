@@ -1,8 +1,9 @@
 import bench.tritonbench_g.bgmv_expand_slice.Kernels
+import bench.tritonbench_g.bgmv_expand_slice.Proofs.NativeFP
 import bench.tritonbench_g.attention_fwd_triton3.Proofs.FPModel
 import VeriTile.Triton.Float.Countermodel
 
-/-! A logical countermodel to the pending fp32-rules-only general BGMV target.
+/-! A logical countermodel to the historical fp32-rules-only general BGMV target.
 This is not an IEEE model or a GPU numerical counterexample. The model changes
 only fp16 addition; every admitted fp32 scalar fragment keeps its interpretation.
 The exact current source is executed on a nonempty one-lane accumulation. -/
@@ -102,8 +103,8 @@ theorem model_satisfies_rules (R : FP.ScalarArithmetic.Rules) :
       exact .cons (arithmetic_atom atom) .nil
 
 
--- These two locators deliberately reproduce the pending FP.lean definitions.
--- That module cannot be imported because its old general theorem does not compile.
+-- These locators preserve the historical FP.lean definitions exactly.
+-- The corrected public contract now uses NativeFP and additional scalar premises.
 def additionSite? (code : List ComputeStmt) : Option Site :=
   let before := Source.prefixBefore code "accumulator"
   match (code.drop before.length).head? with
@@ -298,7 +299,7 @@ theorem candidate_stores_two : observation Bool.true = some 2 := by
   rw [observation, (execution Bool.true).property]
   simp [execution, firstIteration, TileShape.allIndices, List.finRange_succ, State.write, Cell.read]
 
-/-- The fp32-only rule table cannot prove the current general target: a legal,
+/-- The fp32-only rule table cannot prove the historical general target: a legal,
 nonempty half instance has different stored values in a model of every rule.
 This is a logical countermodel, not evidence of a GPU numerical discrepancy. -/
 theorem not_output_first_equiv (R : FP.ScalarArithmetic.Rules) :
@@ -310,6 +311,20 @@ theorem not_output_first_equiv (R : FP.ScalarArithmetic.Rules) :
     congrArg (fun result => result.map (fun t => (t.mem "Y" 0).read .fp16)) he
   rw [original_stores_one, candidate_stores_two] at ho
   norm_num at ho
+
+/-- The corrected native guard locator sees this actual half addition. -/
+theorem corrected_domain_nonempty : (NativeFP.requirementsFor (source Bool.false)).length = 1 := rfl
+
+/-- The new premise excludes the separating backend for the precise reason
+needed by the rewrite: its native half addition is not commutative. -/
+theorem not_corrected_native_law :
+    ¬ NativeFP.NativeAdditionCommutes model domain (source Bool.false) := by
+  intro h
+  have law : NativeFP.ScalarAdditionCommutes model domain none .fp16 :=
+    h _ List.mem_cons_self
+  have bad := law 1 2 trivial trivial
+  change (1 : ℝ) = 2 at bad
+  norm_num at bad
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

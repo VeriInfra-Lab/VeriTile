@@ -1,0 +1,238 @@
+{
+  "schema": 1,
+  "kind": "current_source_global_gates",
+  "catalog_sha256": "aae7abfa21f5f5590ac7a34760268ab09b287036c6924de4495e37959b1672df",
+  "status": "failed",
+  "gates": {
+    "source_tools": {
+      "status": "passed",
+      "missing": []
+    },
+    "structure": {
+      "status": "passed",
+      "checked_task_files": 3565,
+      "task_count": 184,
+      "errors": [],
+      "reviewed_named_surfaces": [
+        {
+          "task": "fp4_to_bf16",
+          "file": "bench/tritonbench_g/fp4_to_bf16/FPCorrect.lean",
+          "declaration": "fp4_to_bf16_unscaled_machine_correctness",
+          "statement_sha256": "64f1a5d43f6f967228e5a15128ff195a58b03b261e7fdf03d85d86ded75064bd",
+          "role": "parametric_value_contract",
+          "source_variant": "original_source_translation",
+          "source_view": "explicit_source_admission",
+          "surface": "typed_execution_memory",
+          "referenced_definition": null
+        },
+        {
+          "task": "fp4_to_bf16_conversion",
+          "file": "bench/tritonbench_g/fp4_to_bf16_conversion/FPCorrect.lean",
+          "declaration": "fp4_to_bf16_scaled_candidate_backend_correctness",
+          "statement_sha256": "fefbd9f6fd3f46e4299c7ecd93355adfcc393f06fc2d2588545afbc95fe05079",
+          "role": "parametric_value_contract",
+          "source_variant": "compile_repaired_candidate",
+          "source_view": "explicit_source_admission",
+          "surface": "typed_execution_memory",
+          "referenced_definition": null
+        },
+        {
+          "task": "layer_norm_triton",
+          "file": "bench/tritonbench_g/layer_norm_triton/SourceCorrect.lean",
+          "declaration": "compiled_forward",
+          "statement_sha256": "935da3b0948fd97b5ec48a95791f11190705ab15c4cab0531246d733c8b8741c",
+          "role": "parametric_value_contract",
+          "source_variant": "original_source_translation",
+          "source_view": "explicit_source_admission",
+          "surface": "sc_compiled_memory",
+          "referenced_definition": null
+        },
+        {
+          "task": "multinomial_sampling",
+          "file": "bench/tritonbench_g/multinomial_sampling/FPCorrect.lean",
+          "declaration": "multinomial_full_backend_correctness",
+          "statement_sha256": "ecd1ff3f13d3cd700c51717282ea69403dea06b375ba49d181c10e82acbc8910",
+          "role": "parametric_value_contract",
+          "source_variant": "original_source_translation",
+          "source_view": "explicit_source_admission",
+          "surface": "typed_execution_memory",
+          "referenced_definition": null
+        },
+        {
+          "task": "spinning_lock_reduction",
+          "file": "bench/tritonbench_g/spinning_lock_reduction/SourceCorrect.lean",
+          "declaration": "compiled_source_backend",
+          "statement_sha256": "5c30dae78b2cf76ade869c1cbb6c3ef5d0a66822fa32b7af55f77d72f2b5e0a8",
+          "role": "parametric_value_contract",
+          "source_variant": "original_source_translation",
+          "source_view": "explicit_source_admission",
+          "surface": "sc_compiled_trace_value",
+          "referenced_definition": null
+        },
+        {
+          "task": "streamk_matmul",
+          "file": "bench/tritonbench_g/streamk_matmul/SourceCorrect.lean",
+          "declaration": "first_wave_source_backend",
+          "statement_sha256": "bd99eac4a9e595b79cf5718465fe4b7da72ee6d7f551e97aababc4142ba912ee",
+          "role": "parametric_value_contract",
+          "source_variant": "original_source_translation",
+          "source_view": "explicit_source_admission",
+          "surface": "sc_trace_value_definition",
+          "referenced_definition": "ValueContract"
+        }
+      ],
+      "boundary": "Structural source checks only; no compilation, axiom, comparator or scope acceptance inferred."
+    },
+    "baseline": {
+      "status": "passed",
+      "exit_code": 0,
+      "command": [
+        "/usr/local/bin/python",
+        "-B",
+        "bench/current_source_catalog.py",
+        "prepare-baseline",
+        "--package",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/review-checkpoints/2026-10-15/original-scope-extensions/metadata-baseline",
+        "--output",
+        "/tmp/veritile-standardization-20261015/matrix-relu-current-global/baseline"
+      ],
+      "log": "baseline.log",
+      "log_sha256": "da79489d6c6082c07202e8c09ebfb4d8f576d1c539d11c55223130eb5ba11749"
+    },
+    "catalog_reproduction": {
+      "status": "passed",
+      "exit_code": 0,
+      "command": [
+        "/usr/local/bin/python",
+        "-B",
+        "bench/current_source_catalog.py",
+        "--root",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile",
+        "--baseline",
+        "/tmp/veritile-standardization-20261015/matrix-relu-current-global/baseline",
+        "--source-map",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/current_source_selections.json",
+        "--legacy-inventory",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/current_completion_inventory.json",
+        "--evidence-root",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/review-checkpoints",
+        "--review-manifest",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/review-checkpoints/2026-10-15/raw-copy-software-metadata/catalog-review-rebased.json",
+        "--check",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/review-checkpoints/2026-10-16/matrix-scope-and-relu-fp64/current-source-catalog.json",
+        "--supplement",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/review-checkpoints/2026-10-16/matrix-scope-and-relu-fp64/catalog-supplement.json"
+      ],
+      "log": "catalog_reproduction.log",
+      "log_sha256": "e14ebf8a0e8431288c4dff6055118ed3c5a43f552488a3dbb8e08b73c6bcdb3a"
+    },
+    "scope_review": {
+      "status": "failed",
+      "exit_code": 1,
+      "command": [
+        "/usr/local/bin/python",
+        "-B",
+        "bench/check_original_program_scope.py",
+        "--root",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile",
+        "--catalog",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/review-checkpoints/2026-10-16/matrix-scope-and-relu-fp64/current-source-catalog.json",
+        "--ledger",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/original_program_scope.json"
+      ],
+      "log": "scope_review.log",
+      "log_sha256": "46ed40317690802ce69410a302c8a1235993b8197a6ede644dd5ba1b5db2b313"
+    },
+    "legacy_source": {
+      "status": "passed",
+      "exit_code": 0,
+      "command": [
+        "/usr/local/bin/python",
+        "-B",
+        "bench/legacy_source_adapter.py",
+        "--root",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile",
+        "--tools-root",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile",
+        "--catalog",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/review-checkpoints/2026-10-16/matrix-scope-and-relu-fp64/current-source-catalog.json",
+        "--output",
+        "/tmp/veritile-standardization-20261015/matrix-relu-current-global/legacy-source"
+      ],
+      "log": "legacy_source.log",
+      "log_sha256": "3e6ab9671ceeff42f5cea76da64689eaa4ed26de0881bda68a8368e245a6c436"
+    },
+    "value_metadata": {
+      "status": "passed",
+      "exit_code": 0,
+      "command": [
+        "/usr/local/bin/python",
+        "-B",
+        "bench/current_value_metadata.py",
+        "--root",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile",
+        "--baseline",
+        "/tmp/veritile-standardization-20261015/matrix-relu-current-global/baseline",
+        "--catalog",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/review-checkpoints/2026-10-16/matrix-scope-and-relu-fp64/current-source-catalog.json",
+        "--source-map",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/current_source_selections.json",
+        "--legacy-inventory",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/current_completion_inventory.json",
+        "--evidence-root",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/review-checkpoints",
+        "--review-manifest",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/review-checkpoints/2026-10-15/raw-copy-software-metadata/catalog-review-rebased.json",
+        "--output",
+        "/tmp/veritile-standardization-20261015/matrix-relu-current-global/value-metadata.json",
+        "--supplement",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/review-checkpoints/2026-10-16/matrix-scope-and-relu-fp64/catalog-supplement.json"
+      ],
+      "log": "value_metadata.log",
+      "log_sha256": "8eb9ec2cdc9752d8c1a387b562fa60c458fc1c884957882a48a525e0c0590e7b"
+    },
+    "deferred_numerics": {
+      "status": "passed",
+      "exit_code": 0,
+      "command": [
+        "/usr/local/bin/python",
+        "-B",
+        "bench/deferred_numerical_experiments.py",
+        "--check"
+      ],
+      "log": "deferred_numerics.log",
+      "log_sha256": "fc62452034af191aad4c937cdd77010dbbd61977c9625e54955dd1fe6821debd"
+    },
+    "comparator_preflight": {
+      "status": "failed",
+      "exit_code": 1,
+      "command": [
+        "/usr/local/bin/python",
+        "-B",
+        "scripts/check_comparator.py",
+        "--check-tools"
+      ],
+      "log": "comparator_preflight.log",
+      "log_sha256": "94a6025973e0bd886d30f7e9f18db058772dad30b0f984e11ae9e70f7e54536b"
+    },
+    "library_replay": {
+      "status": "failed",
+      "exit_code": 1,
+      "command": [
+        "/usr/local/bin/python",
+        "-B",
+        "scripts/check_comparator.py",
+        "--library"
+      ],
+      "log": "library_replay.log",
+      "log_sha256": "94a6025973e0bd886d30f7e9f18db058772dad30b0f984e11ae9e70f7e54536b"
+    },
+    "unchanged_inputs": {
+      "status": "passed"
+    }
+  },
+  "corpus_replay": "not_run_by_global_runner",
+  "integration_build": "not_run_by_global_runner",
+  "native_functional_correctness": "not_established",
+  "whole_task_acceptance": "not_established_by_global_gates_alone"
+}

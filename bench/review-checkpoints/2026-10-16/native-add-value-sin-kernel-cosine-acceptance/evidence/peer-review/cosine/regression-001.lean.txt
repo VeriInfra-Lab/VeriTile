@@ -1,0 +1,76 @@
+import bench.tritonbench_g.cosine_compute.NativeCorrect
+namespace CosineNative.IndependentReview
+open VeriTile.Bench.TritonBenchG.VectorAddition
+open DTypeScope TypedHost Finite
+open HostWrapper (Tensor)
+set_option maxRecDepth 24000
+set_option maxHeartbeats 10000000
+
+theorem integer64_even_ties :
+    HostMath.integer64 (2^53+1)=2^53 ∧ HostMath.integer64 (2^53+3)=2^53+4 := by decide +kernel
+
+theorem real_ceil_is_not_native_ceil :
+    HostMath.ceilSqrt (2^52+1)=2^26 ∧ (2^26)^2<2^52+1 ∧
+    HostMath.block (2^52+2)=2^27 := by decide +kernel
+
+theorem BF16_dynamic_block_boundary :
+    admission (.admitted .bf16) (2^40)=.ok .bf16 ∧
+    admission (.admitted .bf16) (2^40+1)=.error .tensorShape ∧
+    admission (.admitted .bf16) (2^63-1)=.error .blockScalar := by decide +kernel
+
+theorem FP32_source_scalar_order (b : CosineNative.Numerics) (x : Word (.storage .fp32)) (n : Nat) :
+    (compiledScalar .fp32 n).eval b x=some (b.cos32 x) := by
+  rw [compiled_scalar,source_scalar]
+  rfl
+
+theorem BF16_source_scalar_order (b : CosineNative.Numerics) (x : Word (.storage .bf16)) (n : Nat) :
+    (compiledScalar .bf16 n).eval b x=some (b.toBFloat (b.cos32 (b.bfloatTo32 x))) := by
+  rw [compiled_scalar,source_scalar]
+  rfl
+
+theorem BF16_exact_raw_decode :
+    decodeWord .bf16 (fun k => if k=0 then some 128 else some 63)=some ⟨0x3f80#16⟩ := by rfl
+
+theorem BF16_missing_second_byte :
+    decodeWord .bf16 (fun k => if k=0 then some 128 else none)=none := by rfl
+
+theorem BF16_raw_store_bytes :
+    wordByte .bf16 ⟨0x3f80#16⟩ 0=128 ∧ wordByte .bf16 ⟨0x3f80#16⟩ 1=63 := by decide +kernel
+
+theorem negative_offset_reenters_allocated_bytes :
+    pointer (2^33+32) 4 (2^31+1) 32768 0=32 := by decide +kernel
+
+theorem source_all_masked (pid : Nat) : sourceActiveTile (2^31) pid=[] := by
+  rw [source_active_tile,active_tile_empty_at_two31]
+
+def reverseSchedule (n : Nat) : Schedule n :=
+  ⟨(List.range (grid n)).reverse,List.reverse_perm _⟩
+theorem reversed_complete_grid {M : Type} (d : Storage) (ops : Memory M (Word (.storage d)))
+    (b : CosineNative.Numerics) (p : Layout) (n : Nat) (m : M) (hf : p.Fresh) :
+    executeLaunch d ops b p n (reverseSchedule n) m=
+      (launchPlan d ops b p n (reverseSchedule n) m).map (fun ws => applyWrites ops (dtype d) ws m) :=
+  launch_correspondence d ops b p n (reverseSchedule n) m hf
+
+theorem zero_failure_precedes_JIT {M : Type}
+    (ops : (d : Storage) → Memory M (Word (.storage d))) (b : CosineNative.Numerics)
+    (alloc : Allocator M) (env : Environment) (metadata : Metadata) (kind : InputType)
+    (x output : Tensor) (initial allocated : M) (ha : alloc x initial=.ok (output,allocated))
+    (hz : x.numel=0) : executeHost ops b alloc env metadata kind x initial=
+      .failed (checkedTrace x output) (.hostArithmetic .gridDivisionByZero) :=
+  cosine_empty_host_failure ops b alloc env metadata kind x output initial allocated ha hz
+
+#axiomsClean integer64_even_ties
+#axiomsClean real_ceil_is_not_native_ceil
+#axiomsClean BF16_dynamic_block_boundary
+#axiomsClean FP32_source_scalar_order
+#axiomsClean BF16_source_scalar_order
+#axiomsClean BF16_exact_raw_decode
+#axiomsClean BF16_missing_second_byte
+#axiomsClean BF16_raw_store_bytes
+#axiomsClean negative_offset_reenters_allocated_bytes
+#axiomsClean source_all_masked
+#axiomsClean reversed_complete_grid
+#axiomsClean zero_failure_precedes_JIT
+#guard_msgs (drop info) in
+#auditModuleAxioms
+end CosineNative.IndependentReview

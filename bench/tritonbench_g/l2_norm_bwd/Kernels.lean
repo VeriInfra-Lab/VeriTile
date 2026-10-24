@@ -1,3 +1,13 @@
+/-
+Source-audit target: _l2_norm_bwd_kernel
+Source-audit Lean: l2Backward%
+Source-audit runtime: {"python":{"eps":{"object":"float","abi":"fp32"}},"lean":{"source":"l2Backward%","args":{"dtype":"tl.float32","version":"original","grad":"tl.float32"}},"native":{"profile":"l2_norm_bwd","sha256":"bc20a387a3a6f6f3e82b9e6ae21168294f961eec573b671f1d1169e07c56cdfa"}}
+Source-audit args: dtype=tl.float32, version=original, grad=tl.float32
+Selected lexical source view only; this metadata is not all-profile certification.
+Original fp32 input/gradient/output quotation, both reductions and runtime epsilon.
+Explicit epsilon lowering and other dtype/candidate profiles remain separate checks.
+-/
+
 import VeriTile.Triton.DSL
 import VeriTile.Meta.StatementAudit
 namespace VeriTile.Bench.TritonBenchG.L2NormBwd

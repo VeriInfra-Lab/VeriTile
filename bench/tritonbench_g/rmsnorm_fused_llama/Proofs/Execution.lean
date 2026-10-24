@@ -21,14 +21,14 @@ def model : Algebra (WithBot ℝ) where
     | .mul => WithBot.realMul a b
     | .div => WithBot.realDiv a b
     | .max => max a b
-    | .pow => some 0
+    | .pow => WithBot.realPow a b
   unary := fun _ op a ↦ match op with
     | .sqrt => WithBot.realSqrt a
-    | _ => some 0
+    | _ => none
   cast := fun _ _ _ x ↦ x
   fromNat := fun _ n ↦ some n
   fromInt := fun _ n ↦ some n
-  fp32Bits := fun _ ↦ some 0
+  fp32Bits := fun _ ↦ none
   fp32Load := id
   reduceMax := fun _ {_} ax keep v ↦
     ((Tile.reduceMax ax keep ⟨v⟩).getD ⟨fun _ ↦ none⟩).data

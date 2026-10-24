@@ -27,6 +27,17 @@ theorem tail_load_safe (bounds : RegionBounds) (X : RegionName) (N B i p : Nat)
   intro lane hactive
   exact hbound lane.1 (of_decide_eq_true hactive)
 
+
+/-- The source maximum and the remaining arithmetic have no memory accesses. -/
+private theorem source_update_safe (bounds : RegionBounds) (X : RegionName) (N B : Nat)
+    (s : BlockState) :
+    Stmt.TraceSafeList bounds (sourceMaximum B :: (loopAbody X N B).drop 5) s := by
+  apply TraceProofs.all_safe
+  intro st hst t
+  simp only [loopAbody, List.drop, List.mem_cons, List.not_mem_nil, or_false] at hst
+  rcases hst with rfl | rfl | rfl | rfl <;>
+    simp [sourceMaximum, Stmt.TraceSafe, Op.SafeAt, Op.SafeAt.eq_def]
+
 /-- Every full input-loop body is safe from its address facts alone; the
 numerical registers are unrestricted, including missing-register failure. -/
 theorem input_full_safe (bounds : RegionBounds) (X : RegionName) (N B i p : Nat)
@@ -42,11 +53,11 @@ theorem input_full_safe (bounds : RegionBounds) (X : RegionName) (N B i p : Nat)
   subst t
   change Stmt.TraceSafeList bounds
     (.assign .real [B] "inp" (.load .real (.ptr (.ref .ptr [B] "input_ptrs")) .none) ::
-      (loopAbody X N B).drop 4) (prefixIntState X N B i p s)
+      (sourceMaximum B :: (loopAbody X N B).drop 5)) (prefixIntState X N B i p s)
   apply TraceProofs.assign_cons
   · exact full_load_safe bounds X N B i p _ (by simp [prefixIntState]) hbound
   · intro value
-    exact input_full_update_safe bounds X N B _
+    exact source_update_safe bounds X N B _
 
 theorem mask_run (X : RegionName) (N B i p : Nat) (s : BlockState) :
     stepStmt (maskStatement N B) (prefixIntState X N B i p s) =
@@ -76,19 +87,21 @@ theorem input_tail_safe (bounds : RegionBounds) (X : RegionName) (N B i p : Nat)
   have heq := Option.some.inj ((prefix_int_run X N B i p s hpid).symm.trans ht)
   subst t
   change Stmt.TraceSafeList bounds
-    (maskStatement N B :: (loopBbody X N B).drop 4) (prefixIntState X N B i p s)
+    (maskStatement N B ::
+      (((loopBbody X N B).drop 4).take 1 ++ [sourceMaximum B] ++
+        (loopBbody X N B).drop 6)) (prefixIntState X N B i p s)
   rw [TraceProofs.cons_of_run_iff (mask_run X N B i p s)]
   constructor
   · simp [maskStatement, Stmt.TraceSafe, Op.SafeAt, Op.SafeAt.eq_def]
   · change Stmt.TraceSafeList bounds
       (.assign .real [B] "inp" (.load .real (.ptr (.ref .ptr [B] "input_ptrs"))
         (.maskOther (.ref .bool [B] "mask") (Op.negInf.broadcast [B]))) ::
-        (loopBbody X N B).drop 5) _
+        (sourceMaximum B :: (loopBbody X N B).drop 6)) _
     apply TraceProofs.assign_cons
     · exact tail_load_safe bounds X N B i p _ (by simp [prefixIntState])
         (by simp) hbound
     · intro value
-      exact input_tail_update_safe bounds X N B _
+      exact source_update_safe bounds X N B _
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

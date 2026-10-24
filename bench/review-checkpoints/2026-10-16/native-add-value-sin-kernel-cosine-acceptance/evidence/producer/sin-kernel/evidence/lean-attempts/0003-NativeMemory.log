@@ -1,0 +1,6 @@
+SinKernelNative.finalByte: definition does not reference [SinKernelNative.applyWrites] — non-circular ✓
+SinKernelNative.load_outside: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+SinKernelNative.writes_append: axiom footprint ⊆ standard base ✓  ([])
+SinKernelNative.writes_outside: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
+SinKernelNative.writes_byte_frame: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
+SinKernelNative.writes_byte_result: axiom footprint ⊆ standard base ✓  ([Classical.choice, propext, Quot.sound])

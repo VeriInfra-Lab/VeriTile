@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/tmp/veritile-standardization-20261015/next-source-integration-scripts-wip/stage.py", line 31, in <module>
+    require(staged==expected_staged,'Staged inventory mismatch')
+  File "/tmp/veritile-standardization-20261015/next-source-integration-scripts-wip/common.py", line 32, in require
+    if not ok: raise ValueError(message)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: Staged inventory mismatch

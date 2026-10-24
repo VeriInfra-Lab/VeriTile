@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/current_source_catalog.py", line 632, in <module>
+    main()
+  File "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/current_source_catalog.py", line 619, in main
+    result = collect(a.root, baseline(a.baseline), load(a.source_map), load(a.legacy_inventory),
+                             ^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/current_source_catalog.py", line 139, in baseline
+    checked(package / 'tree', name, h)
+  File "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/adapter_common.py", line 63, in checked
+    p = within(root, name)
+        ^^^^^^^^^^^^^^^^^^
+  File "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/adapter_common.py", line 57, in within
+    raise ValueError('missing or escaping file: ' + name)
+ValueError: missing or escaping file: bench/current_source_selections.json

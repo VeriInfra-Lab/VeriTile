@@ -37,10 +37,18 @@ theorem step {B : Nat} (u : BlockState) (gx : RegionName)
   rcases h with ⟨hc,hm,hcr,hci,har,hai,hlr,hli⟩
   simp only [source,ComplexBackwardSource.body,Erasure.complexBackward,
     ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeKernel.surfaceBody,
-    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,
+    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
+    ComputeKernel.eraseDType,ComputeKernel.fromKernelBody,ComputeDType.eraseDType,
+    Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
+    Op.eraseDType,MemAccess.eraseDType,MaskOpt.eraseDType,NumericDType.eraseDType,
+    ComparableDType.eraseDType,IntegralDType.eraseDType,
+    List.map_cons,List.map_nil,Op.eraseDType.eq_def,
+    VeriTile.Triton.eraseDType,FloatDType.toTileDType,
     Except.bind,bind,Bool.false_eq_true,↓reduceIte,List.drop]
+  simp only [eq_mp_eq_cast, eq_mpr_eq_cast, cast_eq, id_eq]
   simp only [stepStmts,stepStmt,evalOp,evalOp.eq_def,Option.bind,bind,pure,
-    Option.map,Option.pure_def,Broadcast.leftIndex,Broadcast.rightIndex,Tile.vec,
+    Option.map,Option.pure_def,FloatDType.ofWithBot,FloatDType.toWithBot,
+    FloatDType.toTileDType,WithBot.map,Broadcast.leftIndex,Broadcast.rightIndex,Tile.vec,
     String.reduceEq,Tile.bop,Tile.cop,Tile.scalar,NumericDType.mul,NumericDType.add,NumericDType.sub,
     WithBot.realMul,WithBot.realAdd,WithBot.realSub,Option.map₂_some_some,
     Region.cast,BlockState.writeMemTyped_real,BlockState.foldl_writeMem_masked_regs,
@@ -51,7 +59,6 @@ theorem step {B : Nat} (u : BlockState) (gx : RegionName)
     FloatDType.storeValue,FloatDType.toWithBot,WithBot.unbotD_some]
   simp only [result,ComplexMemory.store,realTile,imagTile,
     Complex.add_re,Complex.add_im,Complex.mul_re,Complex.mul_im,Complex.conj_re,Complex.conj_im]
-  norm_num only [zero_sub]
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

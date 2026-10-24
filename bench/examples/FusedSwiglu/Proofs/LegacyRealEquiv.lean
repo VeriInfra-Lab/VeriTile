@@ -173,7 +173,7 @@ private theorem silu_step_realizesR (h_x : InputLoadedAt s X BLOCK_N xs) :
           = floatCell .bf16 (R.castTo .bf16 (R.castTo .bf16 (TiledActivation.silu (xs i))))) := by
   unfold InputLoadedAt at h_x
   apply ComputeKernel.computeCorrectR_of_toAlgKernel
-  · simp [silu_step, ComputeExpr.toAlgorithm?]
+  · simp [silu_step, silu_step_source, siluPrecision, ComputeExpr.toAlgorithm?]
   intro s0 s' hExec hs0
   subst s0
   intro i hActive
@@ -184,7 +184,7 @@ private theorem silu_step_realizesR (h_x : InputLoadedAt s X BLOCK_N xs) :
       simpa using hab
     obtain rfl : a = b := Fin.ext (Nat.add_left_cancel hab')
     rfl
-  simp [execR, silu_step, stepStmtsR, stepStmtR, evalOpR.eq_def,
+  simp [execR, silu_step, silu_step_source, siluPrecision, stepStmtsR, stepStmtR, evalOpR.eq_def,
         tile_elementwise, ComputeExpr.toAlgorithm?] at hExec
   subst s'
   simp only [ComputeCorrect.OutputReadable.read_memcell, BlockState.pid_eq]
@@ -202,7 +202,7 @@ private theorem silu_step_preservesR (s' : BlockState)
     (hExec : execR R (silu_step X S ncols BLOCK_N) s = some s') :
     ∀ offset : Nat, s'.mem keepReg offset = s.mem keepReg offset := by
   intro offset
-  simp [execR, silu_step, stepStmtsR, stepStmtR, evalOpR.eq_def,
+  simp [execR, silu_step, silu_step_source, siluPrecision, stepStmtsR, stepStmtR, evalOpR.eq_def,
         tile_elementwise, ComputeExpr.toAlgorithm?] at hExec
   subst s'
   rw [BlockState.foldl_writeMemAsR_preserve_other_region R .bf16 _ _ _
@@ -214,7 +214,7 @@ addressing across the composition). -/
 private theorem silu_step_execR_pids (s1 : BlockState)
     (hExec : execR R (silu_step X S ncols BLOCK_N) s = some s1) :
     s1.pids = s.pids := by
-  simp [execR, silu_step, stepStmtsR, stepStmtR, evalOpR.eq_def,
+  simp [execR, silu_step, silu_step_source, siluPrecision, stepStmtsR, stepStmtR, evalOpR.eq_def,
         tile_elementwise, ComputeExpr.toAlgorithm?] at hExec
   subst s1
   rw [BlockState.foldl_writeMemAsR_masked_pids]
@@ -284,7 +284,7 @@ private theorem swiglu_unfused_realizesR
       -- intermediate `S` cells from step A's realization
       have hAout := ComputeKernel.ExecCorrectR.out
         (silu_step_realizesR X S ncols BLOCK_N s xs R h_x)
-        (by simp [silu_step, ComputeExpr.toAlgorithm?]) hA
+        (by simp [silu_step, silu_step_source, siluPrecision, ComputeExpr.toAlgorithm?]) hA
       have h_z1 : InputCellsLoadedAt s1 S ncols BLOCK_N .bf16 (fun j => R.castTo .bf16 (R.castTo .bf16 (TiledActivation.silu (xs j)))) := by
         intro j hj
         rw [BlockState.pid_eq] at hj
@@ -385,7 +385,7 @@ private theorem silu_step_preserves_unhitR (s' : BlockState)
       programLaneOffset s BLOCK_N i ≠ o)
     (hExec : execR R (silu_step X S ncols BLOCK_N) s = some s') :
     s'.mem S o = s.mem S o := by
-  simp [execR, silu_step, stepStmtsR, stepStmtR, evalOpR.eq_def,
+  simp [execR, silu_step, silu_step_source, siluPrecision, stepStmtsR, stepStmtR, evalOpR.eq_def,
         tile_elementwise, ComputeExpr.toAlgorithm?] at hExec
   subst s'
   rw [BlockState.foldl_writeMemAsR_preserve_masked_prop R .bf16 _ _ _ o _
@@ -410,7 +410,7 @@ private theorem swiglu_fused_execR_isSome :
 /-- Step A terminates under `execR R` from every state. -/
 private theorem silu_step_execR_isSome :
     ∃ s', execR R ((silu_step X S ncols BLOCK_N).toAlgKernel) s = some s' := by
-  simp [execR, silu_step, stepStmtsR, stepStmtR, evalOpR.eq_def,
+  simp [execR, silu_step, silu_step_source, siluPrecision, stepStmtsR, stepStmtR, evalOpR.eq_def,
         tile_elementwise, ComputeExpr.toAlgorithm?]
 
 /-- Step B terminates under `execR R` from every state. -/
@@ -530,7 +530,7 @@ fragment (concatenation adds no new statement forms). -/
 theorem swiglu_unfused_flattenOk :
     ((swiglu_unfused X Y S OUT ncols BLOCK_N).toAlgKernel).FlattenOk := by
   unfold Kernel.FlattenOk
-  simp [swiglu_unfused, silu_step, mul_step, ComputeKernel.toAlgKernel,
+  simp [swiglu_unfused, silu_step, silu_step_source, siluPrecision, mul_step, ComputeKernel.toAlgKernel,
     ComputeExpr.toAlgorithm?,
     StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk.eq_def]
 
@@ -581,7 +581,7 @@ theorem swiglu_unfused_traceSafeR (bounds : RegionBounds)
       ((swiglu_unfused X Y S OUT ncols BLOCK_N).toAlgKernel) s := by
   unfold Kernel.TraceSafeR
   simp only [BlockState.pid_eq] at hx hy hout hs
-  simp [swiglu_unfused, silu_step, mul_step, ComputeKernel.toAlgKernel,
+  simp [swiglu_unfused, silu_step, silu_step_source, siluPrecision, mul_step, ComputeKernel.toAlgKernel,
     ComputeExpr.toAlgorithm?,
     Stmt.TraceSafeListR, Stmt.TraceSafeR, Op.SafeAtR.eq_def,
     MaskOpt.SafeAtR, MemAccess.SafeAtR, stepStmtR, evalOpR.eq_def,

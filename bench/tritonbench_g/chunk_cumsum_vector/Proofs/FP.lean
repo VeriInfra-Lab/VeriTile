@@ -2,7 +2,9 @@ import bench.tritonbench_g.chunk_cumsum_vector.Kernels
 import VeriTile.Triton.Float.RewriteTactics
 import VeriTile.Meta.StatementAudit
 
-/-! The finite domain follows the actual range, store and branch before each carry addition. -/
+/-! The finite domain follows the actual range, store and branch before each
+carry addition. The shared strict FP32 addition certificate supplies the swap
+with an empty empirical assumption set. -/
 namespace VeriTile.Bench.TritonBenchG.ChunkCumsumVector.FPEquivProofs
 open VeriTile Triton FP.Structural FP.ProfiledRewrite
 open scoped VeriTile.Spec
@@ -31,8 +33,9 @@ def sumLeft : Program :=
 theorem requirements_present :
     (original dtype out_dtype s z s_s_h s_s_t s_s_d T S BT BS).domain.length = 1 := rfl
 
-theorem sum_left_equiv (R : FP.ScalarArithmetic.Rules) :
-    original dtype out_dtype s z s_s_h s_s_t s_s_d T S BT BS ≡[R]
+theorem sum_left_equiv :
+    original dtype out_dtype s z s_s_h s_s_t s_s_d T S BT BS
+      ≡[([] : Spec.Assumptions FP.GuardedFragment)]
     sumLeft dtype out_dtype s z s_s_h s_s_t s_s_d T S BT BS := by
   equiv_decompose
   fp_prove

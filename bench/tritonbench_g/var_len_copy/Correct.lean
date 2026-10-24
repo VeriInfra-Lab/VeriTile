@@ -2,54 +2,17 @@ import bench.tritonbench_g.var_len_copy.Proofs.DiscreteRealTyped
 import bench.tritonbench_g.var_len_copy.Proofs.Legacy
 import bench.tritonbench_g.var_len_copy.Proofs.RealTyped
 
+/-! Historical mathematical and slice contracts in this file are ordinary helper
+theorems. Only the retained `specification` entries below are public source contracts.
+The helpers retain their statements and proofs for downstream reuse. -/
+
+
 namespace VeriTile.Bench.TritonBenchG.VarLenCopy
 open VeriTile.Triton
 open scoped VeriTile.Triton.Meta3MaskedTileKernelIO₁
 set_option maxHeartbeats 5000000
 set_option linter.unusedSimpArgs false
 
-/-- Per-kernel output summary for `var_len_copy_kernel_triton` under the
-Python-tested small-length regime `0 < length ≤ BLOCK_SIZE`: the DSL surface
-lowers to the algorithm layer, and the masked segment copy to `new_a_location`
-is compute-correct — every active lane (`< length`) holds the matching
-`old_a_location` lane, out-of-segment lanes are preserved. -/
-specification var_len_copy_kernel_triton_small_length_output_summary
-    (old_a_start old_a_len : Region .nat) (old_a_location : RegionName)
-    (new_a_start : Region .nat) (new_a_location : RegionName)
-    (BLOCK_SIZE : Nat)
-    (s : BlockState)
-    (hBS : 0 < BLOCK_SIZE)
-    (hLen :
-      s.readMemValue .nat (Region.cast old_a_len : RegionName) (s.pids 0)
-        ≤ BLOCK_SIZE)
-    (hLenPos :
-      0 < s.readMemValue .nat (Region.cast old_a_len : RegionName) (s.pids 0))
-    (hOutInj : Function.Injective
-      (fun i : Fin BLOCK_SIZE =>
-        s.readMemValue .nat (Region.cast new_a_start : RegionName) (s.pids 0)
-          + i.val)) :
-    (∃ alg, (var_len_copy_kernel_triton old_a_start old_a_len old_a_location
-        new_a_start new_a_location BLOCK_SIZE).toAlgorithm? = Except.ok alg) ∧
-    ComputeCorrect.Realizes_without_Rounding
-      (kernel := var_len_copy_kernel_triton old_a_start old_a_len old_a_location
-        new_a_start new_a_location BLOCK_SIZE)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun i : Fin BLOCK_SIZE =>
-          i.val < s.readMemValue .nat (Region.cast old_a_len : RegionName) (s.pids 0))
-        (fun i =>
-          (new_a_location,
-            s.readMemValue .nat (Region.cast new_a_start : RegionName) (s.pids 0)
-              + i.val)))
-      (expected := fun i =>
-        s.readMem old_a_location
-          (s.readMemValue .nat (Region.cast old_a_start : RegionName) (s.pids 0)
-            + i.val)) := by
-  refine ⟨?_, ?_⟩
-  · simp [var_len_copy_kernel_triton, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?]
-  · exact var_len_copy_kernel_triton_small_length_compute_correct
-      old_a_start old_a_len old_a_location new_a_start new_a_location BLOCK_SIZE
-      s hBS hLen hLenPos hOutInj
 
 
 section IOFace
@@ -70,7 +33,7 @@ Dimension-general in `BLOCK_SIZE` and the chunk index, with **no**
 side-condition: the destination window is `base + lane`, so the one-chunk
 readback's output-injectivity precondition is discharged by `destOffset_inj`
 rather than assumed. -/
-specification var_len_copy_one_chunk_io_correctness
+theorem var_len_copy_one_chunk_io_correctness
     (old_a_start old_a_len old_a_location new_a_start new_a_location : RegionName)
     (chunk BLOCK_SIZE : Nat) :
     varLenOneChunkIO old_a_start old_a_len old_a_location new_a_start

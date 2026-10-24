@@ -1,0 +1,11 @@
+{
+  "frozen_v1_package": "/tmp/veritile-parallel-retention-native-audit-20261015",
+  "receipt_sha256": "b550e7ddb22a0a33a526987a1edfbff647d260be977b1f43af16e1de7344de87",
+  "old_package_modified": false,
+  "reused_RBE_v2_runner": "/tmp/veritile-rbe-original-characterization-v2-20261015/src/run.py",
+  "reused_RBE_v2_runner_sha256": "baa4f09d155a15ee38fe6b0eeb669758df7a09ab08e26507f32f3c651b5b3eb9",
+  "revision": [
+    "R1 exact preselected/resolved architecture coverage",
+    "R2 evidence-derived native environment binding flag"
+  ]
+}

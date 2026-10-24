@@ -2,6 +2,13 @@ import VeriTile.Triton.DSL
 import VeriTile.Triton.Source
 import VeriTile.Meta.StatementAudit
 
+/-!
+Source-audit target: prefill_cache_kernel
+Source-audit Lean: cachePrefill%
+Source-audit args: cosTy=tl.float32, sinTy=tl.float32, variant=original
+Selected fp32 cosine/sine prefill profile only; decoding_cache_kernel and other storage profiles remain separate obligations.
+-/
+
 /-! Complete typed sources of `cache_transform_triton.py`'s
 `prefill_cache_kernel` and `decoding_cache_kernel`. The
 candidate commutes the scalar natural-number product in token indexing; all

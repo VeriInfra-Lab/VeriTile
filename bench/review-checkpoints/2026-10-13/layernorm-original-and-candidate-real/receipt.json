@@ -1,0 +1,29 @@
+{
+  "scope": "Both public full-source real specifications and their standard-base checks compiled, together with listed safety support. The combined command exited 1 because a separate TypedPrefix proof failed; that failed module is excluded from this checkpoint. No complete finite-memory IO or typed nonempty execution claim.",
+  "combined_root_exit_code": 1,
+  "successful_public_gates": 2,
+  "complete_task": false,
+  "hash_capture": "Listed successful module source hashes captured after root completion; failed TypedPrefix not included.",
+  "recorded_at_utc": "2026-10-13T19:11:27.233918+00:00",
+  "source_sha256": {
+    "VeriTile/Triton/DSL/Expansion/Main.lean": "ffcc36da8e01c711cd565891506cc80db92cf80b4314c506471599b9d8e92f10",
+    "VeriTile/Triton/DSL/Expansion/DType.lean": "e30c5ef703d8c77a3310714d74e8ce54dd75594f4a1abc25ea1476536f983239",
+    "VeriTile/Triton/DSL/Syntax.lean": "9a179dc7be97d18408cf62fb114395e1d3728cccdce50abaaa89218e5aeb57fd",
+    "VeriTile/Triton/DSL/RandomProfile.lean": "37e7fadbcdfe41dc76c68638ab3ed4215c187752b097f38958d03f1255054467",
+    "bench/tritonbench_g/layer_norm_fwd/Correct.lean": "6a96967849e9d1d328e1afb9ff62c86fde0fa2d3ef0451e9989fef6b7d4109ca",
+    "bench/tritonbench_g/layer_norm_fwd/Proofs/CorrectAudit.lean": "0b50199fb1058cab3c43d75f38df9489dc3710404cb5c70be40c84d3f9458c9c",
+    "bench/tritonbench_g/layer_norm_fwd/Proofs/Candidate.lean": "9bb67e505c9dcaf7d80c57a7410d8ee68b702c3e774fb79efa3de3459d022a97",
+    "bench/tritonbench_g/layer_norm_fwd/Proofs/CandidateAudit.lean": "cf18b2d3ab311ce8fd985c2cf203671deee9bc0e47eda5bb598f3af512bc4b1a",
+    "bench/tritonbench_g/layer_norm_fwd/Proofs/Real.lean": "f8ae812e181708b6478024c5c38f5f948efecdb74a9e87a36fe62d2dba38c3a4",
+    "bench/tritonbench_g/layer_norm_fwd/Proofs/Contracts.lean": "302eecc1a191ac80a9f9cc489a51bec8c0c6c88bebf8d5190e57f8b4f16ca287",
+    "bench/tritonbench_g/layer_norm_fwd/Proofs/SafetyPrimitives.lean": "0c37483168318ad614040084f204a939f0eff4ff5be22c1b1c1d22d43bd2d04e",
+    "bench/tritonbench_g/layer_norm_fwd/Proofs/SafetyStreams.lean": "f0f4e176df080a188346925648825f3207204a757dabb59e2816b9fd703afcfc"
+  },
+  "logs": {
+    "combined": {
+      "path": "combined.log.gz",
+      "raw_sha256": "ac7e6cdecbda26e9b22b098f29e017d8a1791d8d9b55e1310bef1cd7ac450f61",
+      "gzip_sha256": "d41013acc624cd7fd34174b2617ed9ffd6a0c427fbdc579394e75d14f69ed8c5"
+    }
+  }
+}

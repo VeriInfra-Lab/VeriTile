@@ -1,0 +1,7 @@
+{
+  "whole_task_decisions": 105,
+  "source_only_decisions": 47,
+  "checked_unique_source_files": 2050,
+  "mismatches": [],
+  "scope": "Final accepted source/delivery/root-log pins; not a recompilation or independent full-source replay."
+}

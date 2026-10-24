@@ -1,0 +1,27 @@
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessMemory.Readable: definition does not reference [VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessMemory.readByte,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessMemory.loadLE,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessMemory.writeByte,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessMemory.writePrefix,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessMemory.storeWords] — non-circular ✓
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessMemory.Writable: definition does not reference [VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessMemory.readByte,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessMemory.loadLE,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessMemory.writeByte,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessMemory.writePrefix,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessMemory.storeWords] — non-circular ✓
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessMemory.load_success: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessMemory.load_first_unavailable: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessMemory.prefix_bytes_step: axiom footprint ⊆ standard base ✓  ([Quot.sound,
+ propext,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessMemory.write_prefix_success: axiom footprint ⊆ standard base ✓  ([Quot.sound,
+ propext,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessMemory.store_words_success: axiom footprint ⊆ standard base ✓  ([Quot.sound,
+ propext,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessMemory.write_prefix_unavailable: axiom footprint ⊆ standard base ✓  ([Quot.sound,
+ propext,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessMemory.with_bytes_access: axiom footprint ⊆ standard base ✓  ([])

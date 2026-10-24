@@ -29,7 +29,7 @@ theorem body (doubleStore swapped : Bool) (Y X : RegionName) (N B : Nat) :
     (source doubleStore swapped Y X N B).toAlgKernel.body =
       indexPrefix swapped B ++ (source doubleStore Bool.false Y X N B).toAlgKernel.body.drop 2 := by
   cases doubleStore <;> cases swapped
-  all_goals simp [source,Erasure.toHalf,Erasure.toFP8,indexPrefix,
+  all_goals simp [source,Erasure.toHalf,Erasure.toFP8,TypedSource.realForward,TypedSource.realReverse,indexPrefix,
     ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,

@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "reviewer": "root",
+  "status": "approved_for_execution_only",
+  "recorded_at_utc": "2026-10-15T23:50:01.800434+00:00",
+  "candidate_receipt_sha256": "f83daffb290b0443e82961dde8e679cf723b6604c3c89a6fca6c23e76e128e4a",
+  "scripts": {
+    "check_prepare_plan.py": "5cdd0b13fb53a27eff433b38497f64ebb9dd7310d79ae4ca800ce55bd983238e",
+    "common.py": "d5075b19f0073b199b1c4e47d13564cb108224b76f7861f83d1eb4ddf064813c",
+    "finalize.py": "1df90d82ed0ff08c52ad09babdbd2ed39a8fbc365b43767b6cd0b57b6aedbc99",
+    "install.py": "01c6ab89434f10fcd6fad39844e9fb7c25a02e3900a7c0dffa80d84f62f3feb8",
+    "lint_candidates.py": "53adaeab8c51249a0a59398fa459280dab871874868c563262c590e083cb3836",
+    "preflight.py": "c65dfb5d21681c23190acd4c2410c83e158f71223ea85d843a86a0fb7a34df4c",
+    "prepare.py": "f24866ac675249485564731d194f0d73581e9a27180539b3f3a73c41edbaca61",
+    "progress_docs.py": "070860072cf73c9243669ab8435a5b40743079182125d2f105e7c102a4f4b3f8",
+    "rebind.py": "308c2d0223dafe6e5970b348dc5e682e941798062696059a99b00b1970b50ab1",
+    "record_phase.py": "4a287b5223adc19c263a9afdfc7befb4e2b67b8b69dbcf8eec80c875d944ae2c",
+    "run_checks.py": "34c464f3b0270b8c2f3ad650f2697125e6816a52eb314b2101fcc01937db7c5f",
+    "stage.py": "57183bc2507bce2e23d1cfe9f21db49cc2d8d247e257c5168ddc2922db01a30f",
+    "transforms.py": "331bddd906e34de67f62045c0acc2105a6e986e77ca9ab53d6f3e1b8b7f54027"
+  },
+  "review": "Read all13 scripts, fixed4-task specifications, explicit archive-only AST transformations, generation/build/test/global runner, preservation/finalization/staging logic and progress-document renderer. Approve add_example source-view selection from the previously reviewed complete9-module source proof. Frozen source/review/queue baselines remain hash-bound and unchanged; no validator predicate is weakened; numerical queue stays plain and under per-file threshold. New gzip catalog/ledger paths are explicit, and only the old active ledger is removed after its exact archive and object equality checks. Earlier document bytes are retained; current counts are rewritten consistently. Actual successful execution and tests are still required before counting or committing8 scopes.",
+  "acceptance_increment": 0
+}

@@ -1,3 +1,4 @@
+import VeriTile.Triton.Math.MaximumProjection
 import bench.tritonbench_g.flash_attn.Proofs.LegacyCompat
 
 /-!
@@ -111,6 +112,24 @@ open VeriTile.Triton
 set_option linter.unusedSimpArgs false
 set_option linter.unusedVariables false
 
+
+private theorem flash_evalOp_precision_scope {d : FloatDType} {shape : TileShape}
+    (precision : IndexComputePrecision) (e : Op d.toTileDType shape) (s : BlockState) :
+    evalOp (.withPrecision d precision e) s = evalOp e s := by
+  rw [evalOp.eq_def]
+
+private theorem flash_evalOp_cast_precision_scope {src dst : FloatDType} {shape : TileShape}
+    (precision : IndexComputePrecision) (e : Op src.toTileDType shape) (s : BlockState) :
+    evalOp (.castFloat src dst (.withPrecision src precision e)) s =
+      evalOp (.castFloat src dst e) s := by
+  rw [evalOp_castFloat, flash_evalOp_precision_scope, evalOp_castFloat]
+
+/- The historical loop decomposition exposes the old zero-padding AST tag.
+K/V loads have no checked axes, so that tag is never consulted: the evaluation
+identity `flash_unchecked_padding` below proves this for arbitrary states.
+Keep the historical representation explicit here. The current typed source
+in Kernels.lean retains the Python source's unspecified-padding tag. -/
+
 /-- Faithful DSL port of `flash_attn.py`'s `_fwd_kernel`. -/
 def flash_attn_fwd_kernel_surface
     (Q K V L O : RegionName) (sm_scale : ℝ)
@@ -154,8 +173,8 @@ def flash_attn_fwd_kernel_surface
   lo = 0
   hi = ((start_m + $(1)) * $(BLOCK_M) if IS_CAUSAL else $(SEQLEN))
   for start_n in range(lo, hi, $(BLOCK_N)) {
-    k = tl.load(K_block_ptr)
-    v = tl.load(V_block_ptr)
+    k = tl.load(K_block_ptr, padding_option="zero")
+    v = tl.load(V_block_ptr, padding_option="zero")
 
     qk = tl.zeros([$(BLOCK_M), $(BLOCK_N)], dtype=tl.float32)
     if IS_CAUSAL {
@@ -1769,7 +1788,8 @@ def flashPreLoop (Q K V : RegionName) (sm_scale : ℝ) (IS_CAUSAL : Bool) : List
       (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [128, 64] "Q_block_ptr") []) MaskOpt.none .unspecified),
     Stmt.assign .fp16 [128, 64] "q"
       (Op.castFloat .real .fp16
-        (Op.mul .real Broadcast.scalarR (Op.ref .real [128, 64] "q") (Op.ref .real [] "qk_scale"))),
+        (Op.withPrecision .real .fp32
+          (Op.mul .real Broadcast.scalarR (Op.ref .real [128, 64] "q") (Op.ref .real [] "qk_scale")))),
     Stmt.assign .nat [] "lo" (Op.constNat 0),
     Stmt.assign .nat [] "hi"
       ((Op.constBool IS_CAUSAL).ite
@@ -1918,11 +1938,12 @@ theorem flash_preLoop_eval
   -- stmt 13: q = (q * qk_scale).to fp16
   erw [stepStmts.cons_some (stepStmt_assign_eq_some
     (show evalOp (Op.castFloat .real .fp16
-        (Op.mul .real Broadcast.scalarR (Op.ref .real [128, 64] "q") (Op.ref .real [] "qk_scale"))) _
+        (Op.withPrecision .real .fp32
+          (Op.mul .real Broadcast.scalarR (Op.ref .real [128, 64] "q") (Op.ref .real [] "qk_scale")))) _
         = some (⟨fun idx : TileIndex [128, 64] =>
             FloatDType.real.cast FloatDType.fp16
               (some (sm_scale * log2e * qTile s Q 8192 64 128 idx))⟩ : Tile .fp16 [128, 64]) from by
-      rw [flash_qscale_op_eval _
+      rw [flash_evalOp_cast_precision_scope, flash_qscale_op_eval _
         (⟨fun idx : TileIndex [128, 64] =>
           some (s.readMem Q (s.pids 1 * 8192 + (s.pids 0 * 128 + idx.1.val) * 64 + idx.2.1.val * 1))⟩
           : Tile .real [128, 64])
@@ -1966,9 +1987,9 @@ theorem flash_preLoop_eval
 (`IS_CAUSAL` parameter only affects the `ifThen` mask, stmt L3). -/
 def flashLoopBody (IS_CAUSAL : Bool) : List Stmt :=
   [ Stmt.assign .real [64, 64] "k"
-      (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [64, 64] "K_block_ptr") []) MaskOpt.none .unspecified),
+      (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [64, 64] "K_block_ptr") []) MaskOpt.none .zero),
     Stmt.assign .real [64, 64] "v"
-      (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [64, 64] "V_block_ptr") []) MaskOpt.none .unspecified),
+      (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [64, 64] "V_block_ptr") []) MaskOpt.none .zero),
     Stmt.assign .real [128, 64] "qk" (Op.full [128, 64] (Op.const 0)),
     Stmt.ifThen (Op.constBool IS_CAUSAL)
       [ Stmt.assign .real [128, 64] "qk"
@@ -1983,10 +2004,7 @@ def flashLoopBody (IS_CAUSAL : Bool) : List Stmt :=
         (Op.ref .real [128, 64] "qk")
         (Op.castFloat .fp32 .real (Op.dotTyped .fp16 .real .fp32 (batch := []) (Op.ref .fp16 [128, 64] "q") (Op.ref .real [64, 64] "k")))),
     Stmt.assign .real [128] "max_new"
-      (Op.where
-        (Op.gt .real (Broadcast.consSame Broadcast.nil) (Op.ref .real [128] "max")
-          (Op.reduceMax (⟨1, by simp⟩ : Fin [128, 64].length) Bool.false (Op.ref .real [128, 64] "qk")))
-        (Op.ref .real [128] "max")
+      (Op.maximumFloat .real (Broadcast.consSame Broadcast.nil) (Op.ref .real [128] "max")
         (Op.reduceMax (⟨1, by simp⟩ : Fin [128, 64].length) Bool.false (Op.ref .real [128, 64] "qk"))),
     Stmt.assign .real [128] "alpha"
       (Op.exp2 (Op.sub .real (Broadcast.consSame Broadcast.nil) (Op.ref .real [128] "max")
@@ -2117,10 +2135,7 @@ def flashLoopBodyTail (IS_CAUSAL : Bool) : List Stmt :=
         (Op.ref .real [128, 64] "qk")
         (Op.castFloat .fp32 .real (Op.dotTyped .fp16 .real .fp32 (batch := []) (Op.ref .fp16 [128, 64] "q") (Op.ref .real [64, 64] "k")))),
     Stmt.assign .real [128] "max_new"
-      (Op.where
-        (Op.gt .real (Broadcast.consSame Broadcast.nil) (Op.ref .real [128] "max")
-          (Op.reduceMax (⟨1, by simp⟩ : Fin [128, 64].length) Bool.false (Op.ref .real [128, 64] "qk")))
-        (Op.ref .real [128] "max")
+      (Op.maximumFloat .real (Broadcast.consSame Broadcast.nil) (Op.ref .real [128] "max")
         (Op.reduceMax (⟨1, by simp⟩ : Fin [128, 64].length) Bool.false (Op.ref .real [128, 64] "qk"))),
     Stmt.assign .real [128] "alpha"
       (Op.exp2 (Op.sub .real (Broadcast.consSame Broadcast.nil) (Op.ref .real [128] "max")
@@ -2164,9 +2179,9 @@ theorem flashLoopBody_eq_tail (IS_CAUSAL : Bool) :
 theorem flashLoopBody_eq_tail_source (IS_CAUSAL : Bool) :
     flashLoopBody IS_CAUSAL
       = (Stmt.assign .real [64, 64] "k"
-          (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [64, 64] "K_block_ptr") []) MaskOpt.none .unspecified))
+          (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [64, 64] "K_block_ptr") []) MaskOpt.none .zero))
         :: (Stmt.assign .real [64, 64] "v"
-          (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [64, 64] "V_block_ptr") []) MaskOpt.none .unspecified))
+          (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [64, 64] "V_block_ptr") []) MaskOpt.none .zero))
         :: (flashQkSeedStmts IS_CAUSAL ++ flashLoopBodyTail IS_CAUSAL) := by
   cases IS_CAUSAL <;> rfl
 
@@ -2321,16 +2336,16 @@ theorem flashLoopBody_steps (IS_CAUSAL : Bool) (sin : BlockState) (SN : Nat)
   rw [flashLoopBody_eq_tail_source]
   -- L0: k = load K_block_ptr  (rewrite directly to ktile)
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
-    (show evalOp (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [64, 64] "K_block_ptr") []) MaskOpt.none .unspecified) sin
+    (show evalOp (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [64, 64] "K_block_ptr") []) MaskOpt.none .zero) sin
         = some ktile from by
-      rw [flash_unchecked_padding, flash_load_K_eval Kreg kbase 64 128 64 64 1 64 kcol
+      rw [flash_load_K_eval Kreg kbase 64 128 64 64 1 64 kcol
         (Op.ref .blockPtr [64, 64] "K_block_ptr") sin (by rw [evalOp_ref]; simp [hKp])]
       refine congrArg some ?_; ext idx; rw [hkload idx]))]
   -- L1: v = load V_block_ptr  (rewrite directly to vtile)
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
-    (show evalOp (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [64, 64] "V_block_ptr") []) MaskOpt.none .unspecified) _
+    (show evalOp (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [64, 64] "V_block_ptr") []) MaskOpt.none .zero) _
         = some vtile from by
-      rw [flash_unchecked_padding, flash_load_Q_eval Vreg vbase 128 64 64 64 64 1 vrow
+      rw [flash_load_Q_eval Vreg vbase 128 64 64 64 64 1 vrow
         (Op.ref .blockPtr [64, 64] "V_block_ptr") _ (by rw [evalOp_ref]; simp [BlockState.setReg_ne_name, hVp])]
       refine congrArg some ?_; ext idx
       simp only [BlockState.setReg_readMem]
@@ -2364,9 +2379,9 @@ theorem flashLoopBody_steps (IS_CAUSAL : Bool) (sin : BlockState) (SN : Nat)
         simp only [WithBot.realAdd, Option.map₂, Option.bind]
         rfl))]
   -- L5: max_new = maximum(max, reduceMax qk 1)
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some
-    (flash_maxnew_op_eval _ 128 64 mtile qkT rmaxT
-      (by simp [BlockState.setReg_ne_name, hmax]) (by rw [BlockState.setReg_same]) hrm))]
+  erw [stepStmts.cons_some (stepStmt_assign_eq_some
+    (evalOp_maximumFloat_real_of_where (flash_maxnew_op_eval _ 128 64 mtile qkT rmaxT
+      (by simp [BlockState.setReg_ne_name, hmax]) (by rw [BlockState.setReg_same]) hrm)))]
   -- L6: alpha = exp2(max - max_new)
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (flash_alpha_op_eval _ 128 mtile mnewT
@@ -2399,6 +2414,7 @@ theorem flashLoopBody_steps (IS_CAUSAL : Bool) (sin : BlockState) (SN : Nat)
   -- L12: max = max_new
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (show evalOp (Op.ref .real [128] "max_new") _ = some mnewT from by
+      simp only [FloatDType.toTileDType]
       rw [evalOp_ref]; simp [BlockState.setReg_ne_name, hmnew]))]
   -- L13: K_block_ptr = advance(K_block_ptr, [0, 64])
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
@@ -3235,7 +3251,7 @@ def flashPostLoop (L O : RegionName) : List Stmt :=
       (Op.makeBlockPtrDynOffsets O (Op.ref .nat [] "qkv_base_offset") [128, 64] [128, 64] [64, 1]
         [Op.mul .nat Broadcast.nil (Op.ref .nat [] "start_m") (Op.constNat 128), Op.constNat 0]),
     Stmt.store .fp16 [128, 64] (MemAccess.blockPtr (Op.ref .blockPtr [128, 64] "O_block_ptr") [])
-      (Op.castFloat .real .fp16 (Op.ref .real [128, 64] "out_buffer")) MaskOpt.none ]
+      (Op.castFloat .real .fp16 (Op.withPrecision .real .fp32 (Op.ref .real [128, 64] "out_buffer"))) MaskOpt.none ]
 
 /-- The lowered body `drop 17` is exactly `flashPostLoop`. -/
 theorem flashPostLoop_check (Q K V L O : RegionName) (sm_scale : ℝ) (IS_CAUSAL : Bool) :
@@ -3477,12 +3493,12 @@ theorem flash_attn_postLoop
             / ((flashStateBot qT kT vT scale IS_CAUSAL qS 128 idx.1 ⟨0, hDIM⟩).2.1 : ℝ)⟩
           : Tile .real [128, 64]) := by
     rw [evalOp_ref]; exact hob20
-  have hval : evalOp (Op.castFloat .real .fp16 (Op.ref .real [128, 64] "out_buffer")) s20
+  have hval : evalOp (Op.castFloat .real .fp16 (Op.withPrecision .real .fp32 (Op.ref .real [128, 64] "out_buffer"))) s20
         = some (⟨oValFn⟩ : Tile .fp16 [128, 64]) := by
-    rw [evalOp_castFloat]; erw [hobref]; rfl
+    rw [flash_evalOp_cast_precision_scope, evalOp_castFloat]; erw [hobref]; rfl
   have hstore21 : stepStmt (Stmt.store .fp16 [128, 64]
       (MemAccess.blockPtr (Op.ref .blockPtr [128, 64] "O_block_ptr") [])
-      (Op.castFloat .real .fp16 (Op.ref .real [128, 64] "out_buffer")) MaskOpt.none) s20
+      (Op.castFloat .real .fp16 (Op.withPrecision .real .fp32 (Op.ref .real [128, 64] "out_buffer"))) MaskOpt.none) s20
       = some ((TileShape.allIndices [128, 64]).foldl
           (fun acc idx => acc.writeMemTyped .fp16 O (oOffFn idx) (oValFn idx)) s20) := by
     have hOpref : @evalOp TileDType.blockPtr [128, 64] (Op.ref .blockPtr [128, 64] "O_block_ptr") s20
@@ -3941,9 +3957,9 @@ theorem flash_outbuf_acc2_op_evalG (s : BlockState) (BM BN DIM : Nat)
 /-- The general (dimension-parameterized) lowered loop body. -/
 def flashLoopBodyG (IS_CAUSAL : Bool) (BLOCK_M BLOCK_N DIM : Nat) : List Stmt :=
   [ Stmt.assign .real [DIM, BLOCK_N] "k"
-      (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [DIM, BLOCK_N] "K_block_ptr") []) MaskOpt.none .unspecified),
+      (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [DIM, BLOCK_N] "K_block_ptr") []) MaskOpt.none .zero),
     Stmt.assign .real [BLOCK_N, DIM] "v"
-      (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [BLOCK_N, DIM] "V_block_ptr") []) MaskOpt.none .unspecified),
+      (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [BLOCK_N, DIM] "V_block_ptr") []) MaskOpt.none .zero),
     Stmt.assign .real [BLOCK_M, BLOCK_N] "qk" (Op.full [BLOCK_M, BLOCK_N] (Op.const 0)),
     Stmt.ifThen (Op.constBool IS_CAUSAL)
       [ Stmt.assign .real [BLOCK_M, BLOCK_N] "qk"
@@ -3958,10 +3974,7 @@ def flashLoopBodyG (IS_CAUSAL : Bool) (BLOCK_M BLOCK_N DIM : Nat) : List Stmt :=
         (Op.ref .real [BLOCK_M, BLOCK_N] "qk")
         (Op.castFloat .fp32 .real (Op.dotTyped .fp16 .real .fp32 (batch := []) (Op.ref .fp16 [BLOCK_M, DIM] "q") (Op.ref .real [DIM, BLOCK_N] "k")))),
     Stmt.assign .real [BLOCK_M] "max_new"
-      (Op.where
-        (Op.gt .real (Broadcast.consSame Broadcast.nil) (Op.ref .real [BLOCK_M] "max")
-          (Op.reduceMax (⟨1, by simp⟩ : Fin [BLOCK_M, BLOCK_N].length) Bool.false (Op.ref .real [BLOCK_M, BLOCK_N] "qk")))
-        (Op.ref .real [BLOCK_M] "max")
+      (Op.maximumFloat .real (Broadcast.consSame Broadcast.nil) (Op.ref .real [BLOCK_M] "max")
         (Op.reduceMax (⟨1, by simp⟩ : Fin [BLOCK_M, BLOCK_N].length) Bool.false (Op.ref .real [BLOCK_M, BLOCK_N] "qk"))),
     Stmt.assign .real [BLOCK_M] "alpha"
       (Op.exp2 (Op.sub .real (Broadcast.consSame Broadcast.nil) (Op.ref .real [BLOCK_M] "max")
@@ -3999,10 +4012,7 @@ def flashLoopBodyTailG (BLOCK_M BLOCK_N DIM : Nat) : List Stmt :=
         (Op.ref .real [BLOCK_M, BLOCK_N] "qk")
         (Op.castFloat .fp32 .real (Op.dotTyped .fp16 .real .fp32 (batch := []) (Op.ref .fp16 [BLOCK_M, DIM] "q") (Op.ref .real [DIM, BLOCK_N] "k")))),
     Stmt.assign .real [BLOCK_M] "max_new"
-      (Op.where
-        (Op.gt .real (Broadcast.consSame Broadcast.nil) (Op.ref .real [BLOCK_M] "max")
-          (Op.reduceMax (⟨1, by simp⟩ : Fin [BLOCK_M, BLOCK_N].length) Bool.false (Op.ref .real [BLOCK_M, BLOCK_N] "qk")))
-        (Op.ref .real [BLOCK_M] "max")
+      (Op.maximumFloat .real (Broadcast.consSame Broadcast.nil) (Op.ref .real [BLOCK_M] "max")
         (Op.reduceMax (⟨1, by simp⟩ : Fin [BLOCK_M, BLOCK_N].length) Bool.false (Op.ref .real [BLOCK_M, BLOCK_N] "qk"))),
     Stmt.assign .real [BLOCK_M] "alpha"
       (Op.exp2 (Op.sub .real (Broadcast.consSame Broadcast.nil) (Op.ref .real [BLOCK_M] "max")
@@ -4046,9 +4056,9 @@ theorem flashLoopBodyG_eq_tail (IS_CAUSAL : Bool) (BLOCK_M BLOCK_N DIM : Nat) :
 theorem flashLoopBodyG_eq_tail_source (IS_CAUSAL : Bool) (BLOCK_M BLOCK_N DIM : Nat) :
     flashLoopBodyG IS_CAUSAL BLOCK_M BLOCK_N DIM
       = (Stmt.assign .real [DIM, BLOCK_N] "k"
-          (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [DIM, BLOCK_N] "K_block_ptr") []) MaskOpt.none .unspecified))
+          (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [DIM, BLOCK_N] "K_block_ptr") []) MaskOpt.none .zero))
         :: (Stmt.assign .real [BLOCK_N, DIM] "v"
-          (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [BLOCK_N, DIM] "V_block_ptr") []) MaskOpt.none .unspecified))
+          (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [BLOCK_N, DIM] "V_block_ptr") []) MaskOpt.none .zero))
         :: (flashQkSeedStmtsG IS_CAUSAL BLOCK_M BLOCK_N ++ flashLoopBodyTailG BLOCK_M BLOCK_N DIM) := by
   cases IS_CAUSAL <;> rfl
 
@@ -4136,16 +4146,16 @@ theorem flashLoopBody_stepsG (IS_CAUSAL : Bool) (sin : BlockState) (BLOCK_M BLOC
   rw [flashLoopBodyG_eq_tail_source]
   -- L0: k = load K_block_ptr
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
-    (show evalOp (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [DIM, BLOCK_N] "K_block_ptr") []) MaskOpt.none .unspecified) sin
+    (show evalOp (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [DIM, BLOCK_N] "K_block_ptr") []) MaskOpt.none .zero) sin
         = some ktile from by
-      rw [flash_unchecked_padding, flash_load_K_eval Kreg kbase DIM kcols DIM BLOCK_N 1 DIM kcol
+      rw [flash_load_K_eval Kreg kbase DIM kcols DIM BLOCK_N 1 DIM kcol
         (Op.ref .blockPtr [DIM, BLOCK_N] "K_block_ptr") sin (by rw [evalOp_ref]; simp [hKp])]
       refine congrArg some ?_; ext idx; rw [hkload idx]))]
   -- L1: v = load V_block_ptr
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
-    (show evalOp (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [BLOCK_N, DIM] "V_block_ptr") []) MaskOpt.none .unspecified) _
+    (show evalOp (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [BLOCK_N, DIM] "V_block_ptr") []) MaskOpt.none .zero) _
         = some vtile from by
-      rw [flash_unchecked_padding, flash_load_Q_eval Vreg vbase vrows DIM BLOCK_N DIM DIM 1 vrow
+      rw [flash_load_Q_eval Vreg vbase vrows DIM BLOCK_N DIM DIM 1 vrow
         (Op.ref .blockPtr [BLOCK_N, DIM] "V_block_ptr") _ (by rw [evalOp_ref]; simp [BlockState.setReg_ne_name, hVp])]
       refine congrArg some ?_; ext idx
       simp only [BlockState.setReg_readMem]
@@ -4179,9 +4189,9 @@ theorem flashLoopBody_stepsG (IS_CAUSAL : Bool) (sin : BlockState) (BLOCK_M BLOC
         simp only [WithBot.realAdd, Option.map₂, Option.bind]
         rfl))]
   -- L5: max_new
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some
-    (flash_maxnew_op_eval _ BLOCK_M BLOCK_N mtile qkT rmaxT
-      (by simp [BlockState.setReg_ne_name, hmax]) (by rw [BlockState.setReg_same]) hrm))]
+  erw [stepStmts.cons_some (stepStmt_assign_eq_some
+    (evalOp_maximumFloat_real_of_where (flash_maxnew_op_eval _ BLOCK_M BLOCK_N mtile qkT rmaxT
+      (by simp [BlockState.setReg_ne_name, hmax]) (by rw [BlockState.setReg_same]) hrm)))]
   -- L6: alpha
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (flash_alpha_op_eval _ BLOCK_M mtile mnewT
@@ -4214,6 +4224,7 @@ theorem flashLoopBody_stepsG (IS_CAUSAL : Bool) (sin : BlockState) (BLOCK_M BLOC
   -- L12: max = max_new
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (show evalOp (Op.ref .real [BLOCK_M] "max_new") _ = some mnewT from by
+      simp only [FloatDType.toTileDType]
       rw [evalOp_ref]; simp [BlockState.setReg_ne_name, hmnew]))]
   -- L13: K_block_ptr advance
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
@@ -4929,7 +4940,7 @@ def flashPostLoopG (L O : RegionName) (SEQLEN BLOCK_M DIM : Nat) : List Stmt :=
       (Op.makeBlockPtrDynOffsets O (Op.ref .nat [] "qkv_base_offset") [SEQLEN, DIM] [BLOCK_M, DIM] [DIM, 1]
         [Op.mul .nat Broadcast.nil (Op.ref .nat [] "start_m") (Op.constNat BLOCK_M), Op.constNat 0]),
     Stmt.store .fp16 [BLOCK_M, DIM] (MemAccess.blockPtr (Op.ref .blockPtr [BLOCK_M, DIM] "O_block_ptr") [])
-      (Op.castFloat .real .fp16 (Op.ref .real [BLOCK_M, DIM] "out_buffer")) MaskOpt.none ]
+      (Op.castFloat .real .fp16 (Op.withPrecision .real .fp32 (Op.ref .real [BLOCK_M, DIM] "out_buffer"))) MaskOpt.none ]
 
 set_option maxHeartbeats 1000000 in
 set_option maxRecDepth 8000 in
@@ -5108,12 +5119,12 @@ theorem flash_attn_postLoopG
             / ((flashStateBot qT kT vT scale IS_CAUSAL qS SEQLEN idx.1 ⟨0, hDIM⟩).2.1 : ℝ)⟩
           : Tile .real [BLOCK_M, DIM]) := by
     rw [evalOp_ref]; exact hob20
-  have hval : evalOp (Op.castFloat .real .fp16 (Op.ref .real [BLOCK_M, DIM] "out_buffer")) s20
+  have hval : evalOp (Op.castFloat .real .fp16 (Op.withPrecision .real .fp32 (Op.ref .real [BLOCK_M, DIM] "out_buffer"))) s20
         = some (⟨oValFn⟩ : Tile .fp16 [BLOCK_M, DIM]) := by
-    rw [evalOp_castFloat]; erw [hobref]; rfl
+    rw [flash_evalOp_cast_precision_scope, evalOp_castFloat]; erw [hobref]; rfl
   have hstore21 : stepStmt (Stmt.store .fp16 [BLOCK_M, DIM]
       (MemAccess.blockPtr (Op.ref .blockPtr [BLOCK_M, DIM] "O_block_ptr") [])
-      (Op.castFloat .real .fp16 (Op.ref .real [BLOCK_M, DIM] "out_buffer")) MaskOpt.none) s20
+      (Op.castFloat .real .fp16 (Op.withPrecision .real .fp32 (Op.ref .real [BLOCK_M, DIM] "out_buffer"))) MaskOpt.none) s20
       = some ((TileShape.allIndices [BLOCK_M, DIM]).foldl
           (fun acc idx => acc.writeMemTyped .fp16 O (oOffFn idx) (oValFn idx)) s20) := by
     have hOpref : @evalOp TileDType.blockPtr [BLOCK_M, DIM] (Op.ref .blockPtr [BLOCK_M, DIM] "O_block_ptr") s20
@@ -5226,7 +5237,8 @@ def flashPreLoopG (Q K V : RegionName) (sm_scale : ℝ) (IS_CAUSAL : Bool)
       (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [BLOCK_M, DIM] "Q_block_ptr") []) MaskOpt.none .unspecified),
     Stmt.assign .fp16 [BLOCK_M, DIM] "q"
       (Op.castFloat .real .fp16
-        (Op.mul .real Broadcast.scalarR (Op.ref .real [BLOCK_M, DIM] "q") (Op.ref .real [] "qk_scale"))),
+        (Op.withPrecision .real .fp32
+          (Op.mul .real Broadcast.scalarR (Op.ref .real [BLOCK_M, DIM] "q") (Op.ref .real [] "qk_scale")))),
     Stmt.assign .nat [] "lo" (Op.constNat 0),
     Stmt.assign .nat [] "hi"
       ((Op.constBool IS_CAUSAL).ite
@@ -5350,11 +5362,12 @@ theorem flash_preLoop_evalG
       simp [BlockState.readMem, BlockState.setReg_mem]))]
   erw [stepStmts.cons_some (stepStmt_assign_eq_some
     (show evalOp (Op.castFloat .real .fp16
-        (Op.mul .real Broadcast.scalarR (Op.ref .real [BLOCK_M, DIM] "q") (Op.ref .real [] "qk_scale"))) _
+        (Op.withPrecision .real .fp32
+          (Op.mul .real Broadcast.scalarR (Op.ref .real [BLOCK_M, DIM] "q") (Op.ref .real [] "qk_scale")))) _
         = some (⟨fun idx : TileIndex [BLOCK_M, DIM] =>
             FloatDType.real.cast FloatDType.fp16
               (some (sm_scale * log2e * qTile s Q stride_q_head DIM BLOCK_M idx))⟩ : Tile .fp16 [BLOCK_M, DIM]) from by
-      rw [flash_qscale_op_evalG _ BLOCK_M DIM
+      rw [flash_evalOp_cast_precision_scope, flash_qscale_op_evalG _ BLOCK_M DIM
         (⟨fun idx : TileIndex [BLOCK_M, DIM] =>
           some (s.readMem Q (s.pids 1 * stride_q_head + (s.pids 0 * BLOCK_M + idx.1.val) * DIM + idx.2.1.val * 1))⟩
           : Tile .real [BLOCK_M, DIM])
@@ -5528,7 +5541,7 @@ theorem flash_attn_exec_general (Q K V L O : RegionName) (s : BlockState) (IS_CA
 set_option maxHeartbeats 1000000 in
 /-- **Genuine GENERAL `O`-store correctness** (both causal cases). Dimension-parameterized
 `flash_attn_genuine_output_compute_correct`. -/
-specification flash_attn_genuine_output_compute_correct_general
+theorem flash_attn_genuine_output_compute_correct_general_legacyProof
     (Q K V L O : RegionName) (s : BlockState) (IS_CAUSAL : Bool)
     (sm_scale : ℝ) (stride_q_head SEQLEN BLOCK_M DIM BLOCK_N : Nat)
     (sqbs skbs svbs sobs sosl sod BS HEAD : Nat)
@@ -5567,7 +5580,7 @@ specification flash_attn_genuine_output_compute_correct_general
 set_option maxHeartbeats 1000000 in
 /-- **Genuine GENERAL `L`-store correctness** (both causal cases). Dimension-parameterized
 `flash_attn_genuine_l_compute_correct`. -/
-specification flash_attn_genuine_l_compute_correct_general
+theorem flash_attn_genuine_l_compute_correct_general_legacyProof
     (Q K V L O : RegionName) (s : BlockState) (IS_CAUSAL : Bool)
     (sm_scale : ℝ) (stride_q_head SEQLEN BLOCK_M DIM BLOCK_N : Nat)
     (sqbs skbs svbs sobs sosl sod BS HEAD : Nat)
@@ -5601,7 +5614,7 @@ specification flash_attn_genuine_l_compute_correct_general
   exact hLrb i
 
 /-- **Python case 1 (causal) GENERAL genuine closed-form correctness.** -/
-specification flash_attn_python_case1_genuine_compute_correct_general
+theorem flash_attn_python_case1_genuine_compute_correct_general_legacyProof
     (Q K V L O : RegionName) (s : BlockState)
     (sm_scale : ℝ) (stride_q_head SEQLEN BLOCK_M DIM BLOCK_N : Nat)
     (sqbs skbs svbs sobs sosl sod BS HEAD : Nat)
@@ -5632,16 +5645,16 @@ specification flash_attn_python_case1_genuine_compute_correct_general
   have hHi : flashHiG s Bool.true SEQLEN BLOCK_M = SEQLEN := by
     simp only [flashHiG, if_true]; exact hAlign
   refine ⟨?_, ?_⟩
-  · have h := flash_attn_genuine_output_compute_correct_general Q K V L O s Bool.true sm_scale
+  · have h := flash_attn_genuine_output_compute_correct_general_legacyProof Q K V L O s Bool.true sm_scale
       stride_q_head SEQLEN BLOCK_M DIM BLOCK_N sqbs skbs svbs sobs sosl sod BS HEAD
       hDIM hBN hBM hBMlen hdvd hSEQ hHi hOL hundef
     simpa using h
-  · exact flash_attn_genuine_l_compute_correct_general Q K V L O s Bool.true sm_scale
+  · exact flash_attn_genuine_l_compute_correct_general_legacyProof Q K V L O s Bool.true sm_scale
       stride_q_head SEQLEN BLOCK_M DIM BLOCK_N sqbs skbs svbs sobs sosl sod BS HEAD
       hDIM hBN hBM hBMlen hdvd hSEQ hHi hOL hundef
 
 /-- **Python case 2 (non-causal) GENERAL genuine closed-form correctness.** -/
-specification flash_attn_python_case2_genuine_compute_correct_general
+theorem flash_attn_python_case2_genuine_compute_correct_general_legacyProof
     (Q K V L O : RegionName) (s : BlockState)
     (sm_scale : ℝ) (stride_q_head SEQLEN BLOCK_M DIM BLOCK_N : Nat)
     (sqbs skbs svbs sobs sosl sod BS HEAD : Nat)
@@ -5671,11 +5684,11 @@ specification flash_attn_python_case2_genuine_compute_correct_general
   have hHi : flashHiG s Bool.false SEQLEN BLOCK_M = SEQLEN := by
     simp only [flashHiG, Bool.false_eq_true, if_false]
   refine ⟨?_, ?_⟩
-  · have h := flash_attn_genuine_output_compute_correct_general Q K V L O s Bool.false sm_scale
+  · have h := flash_attn_genuine_output_compute_correct_general_legacyProof Q K V L O s Bool.false sm_scale
       stride_q_head SEQLEN BLOCK_M DIM BLOCK_N sqbs skbs svbs sobs sosl sod BS HEAD
       hDIM hBN hBM hBMlen hdvd hSEQ hHi hOL hundef
     simpa using h
-  · exact flash_attn_genuine_l_compute_correct_general Q K V L O s Bool.false sm_scale
+  · exact flash_attn_genuine_l_compute_correct_general_legacyProof Q K V L O s Bool.false sm_scale
       stride_q_head SEQLEN BLOCK_M DIM BLOCK_N sqbs skbs svbs sobs sosl sod BS HEAD
       hDIM hBN hBM hBMlen hdvd hSEQ hHi hOL hundef
 
@@ -6255,11 +6268,12 @@ private theorem flashIO_preLoop_evalW
       simp [BlockState.readMem, BlockState.setReg_mem]))]
   erw [stepStmts.cons_some (stepStmt_assign_eq_some
     (show evalOp (Op.castFloat .real .fp16
-        (Op.mul .real Broadcast.scalarR (Op.ref .real [BLOCK_M, DIM] "q") (Op.ref .real [] "qk_scale"))) _
+        (Op.withPrecision .real .fp32
+          (Op.mul .real Broadcast.scalarR (Op.ref .real [BLOCK_M, DIM] "q") (Op.ref .real [] "qk_scale")))) _
         = some (⟨fun idx : TileIndex [BLOCK_M, DIM] =>
             FloatDType.real.cast FloatDType.fp16
               (some (sm_scale * log2e * qTile s Q stride_q_head DIM BLOCK_M idx))⟩ : Tile .fp16 [BLOCK_M, DIM]) from by
-      rw [flash_qscale_op_evalG _ BLOCK_M DIM
+      rw [flash_evalOp_cast_precision_scope, flash_qscale_op_evalG _ BLOCK_M DIM
         (⟨fun idx : TileIndex [BLOCK_M, DIM] =>
           some (s.readMem Q (s.pids 1 * stride_q_head + (s.pids 0 * BLOCK_M + idx.1.val) * DIM + idx.2.1.val * 1))⟩
           : Tile .real [BLOCK_M, DIM])
@@ -6775,6 +6789,13 @@ private theorem flashIO_safeAtR_castFloat (R : RoundingModel) (bounds : RegionBo
     (s : BlockState) {shape : TileShape} (src dst : FloatDType) (a : Op src.toTileDType shape) :
     (Op.castFloat src dst a).SafeAtR R bounds s ↔ a.SafeAtR R bounds s := by simp [Op.SafeAtR]
 
+/-- Precision scope preserves the historical state-indexed memory condition. -/
+private theorem flashIO_safeAtR_withPrecision (R : RoundingModel) (bounds : RegionBounds)
+    (s : BlockState) {shape : TileShape} (d : FloatDType) (p : IndexComputePrecision)
+    (a : Op d.toTileDType shape) :
+    (Op.withPrecision d p a).SafeAtR R bounds s ↔ a.SafeAtR R bounds s := by
+  simp [Op.SafeAtR]
+
 /-- The `L` store is cast-free (`.real` writes never round). -/
 private theorem flashIO_Lstore_castFree (R : RoundingModel) (BLOCK_M : Nat) (u : BlockState) :
     stepStmtR R (Stmt.store .real [BLOCK_M] (MemAccess.ptr (Op.ref .ptr [BLOCK_M] "l_ptr"))
@@ -6864,7 +6885,8 @@ private theorem flashIO_postSafeW (R : RoundingModel) (hfp16 : R.round .fp16 = i
   refine Stmt.TraceSafeListR.cons_intro ?_ (fun _ _ => Stmt.TraceSafeListR.nil_intro)
   simp only [Stmt.TraceSafeR, MemAccess.SafeAtR, MaskOpt.SafeAtR, Op.SafeAtR,
     MaskOpt.ActiveR, MemAccess.ActiveAddressSafeR, memAccessActiveAddressSafeR]
-  refine ⟨trivial, (flashIO_safeAtR_castFloat R bounds _ _ _ _).mpr (by simp [Op.SafeAtR]),
+  refine ⟨trivial, (flashIO_safeAtR_castFloat R bounds _ _ _ _).mpr
+      ((flashIO_safeAtR_withPrecision R bounds _ .real .fp32 _).mpr (by simp [Op.SafeAtR])),
     trivial, ?_⟩
   intro ptrs hptrs idx _
   rw [evalOpR_ref, BlockState.setReg_same] at hptrs
@@ -6939,8 +6961,9 @@ private theorem flashIO_traceSafeR (R : RoundingModel) (hfp16 : R.round .fp16 = 
                   (Op.ref .blockPtr [BLOCK_M, DIM] "Q_block_ptr") []) MaskOpt.none .unspecified),
               Stmt.assign .fp16 [BLOCK_M, DIM] "q"
                 (Op.castFloat .real .fp16
-                  (Op.mul .real Broadcast.scalarR (Op.ref .real [BLOCK_M, DIM] "q")
-                    (Op.ref .real [] "qk_scale"))),
+                  (Op.withPrecision .real .fp32
+                    (Op.mul .real Broadcast.scalarR (Op.ref .real [BLOCK_M, DIM] "q")
+                      (Op.ref .real [] "qk_scale")))),
               Stmt.assign .nat [] "lo" (Op.constNat 0),
               Stmt.assign .nat [] "hi"
                 ((Op.constBool Bool.false).ite
@@ -6975,7 +6998,8 @@ private theorem flashIO_traceSafeR (R : RoundingModel) (hfp16 : R.round .fp16 = 
       obtain ⟨w1v, -, rfl⟩ := stepStmtR_assign_inv hw1
       refine Stmt.TraceSafeListR.cons_intro ?_ (fun w2 hw2 => ?_)
       · simp only [Stmt.TraceSafeR]
-        exact (flashIO_safeAtR_castFloat R bounds _ _ _ _).mpr (by simp [Op.SafeAtR])
+        exact (flashIO_safeAtR_castFloat R bounds _ _ _ _).mpr
+          ((flashIO_safeAtR_withPrecision R bounds _ .real .fp32 _).mpr (by simp [Op.SafeAtR]))
       obtain ⟨w2v, -, rfl⟩ := stepStmtR_assign_inv hw2
       refine Stmt.TraceSafeListR.cons_intro
         (by simp [Stmt.TraceSafeR, Op.SafeAtR]) (fun w3 hw3 => ?_)
@@ -7256,7 +7280,7 @@ generalization), so this holds at every program id.
 **Scope disclosed**: the **causal** (`IS_CAUSAL = true`) io face is
 deliberately deferred (see the section header); it stays on its exact
 headline `flash_attn_python_case1_genuine_compute_correct_general`. -/
-specification flash_attn_io_correctness (R : RoundingModel) (hfp16 : R.round .fp16 = id)
+theorem flash_attn_io_correctness_legacyProof (R : RoundingModel) (hfp16 : R.round .fp16 = id)
     (Q K V L O : RegionName) (sm_scale : ℝ)
     (sqbs skbs svbs sobs BS HEAD SEQLEN BLOCK_M DIM BLOCK_N stride_q_head : Nat)
     (hDIM : 0 < DIM) (hBN : 0 < BLOCK_N) (hSEQ : 0 < SEQLEN) (hdvd : BLOCK_N ∣ SEQLEN)

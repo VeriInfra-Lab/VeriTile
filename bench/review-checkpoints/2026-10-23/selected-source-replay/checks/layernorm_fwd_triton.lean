@@ -1,0 +1,7 @@
+import VeriTile.Meta.StatementAudit
+import bench.repairs.tritonbench_g.layernorm_fwd_triton.Contract
+import bench.repairs.tritonbench_g.layernorm_fwd_triton.Correct
+import bench.repairs.tritonbench_g.layernorm_fwd_triton.FPEquiv
+
+#axiomsClean VeriTile.Bench.Repairs.LayernormFwdTriton.Correctness.layernorm_fwd_triton_kernel_real
+#axiomsClean VeriTile.Bench.Repairs.LayernormFwdTriton.FPEquiv.source_equivalence

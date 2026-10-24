@@ -1,0 +1,79 @@
+[
+  {
+    "module": "bench/tritonbench_g/vector_addition_custom/NativeCorrect.lean",
+    "source_sha256": "1f56f911ae9f15426aaf94cfe32f2ad4f3b6298b08d00ec3113b7cbe190b1a32",
+    "attempt": "evidence/lean-attempts/0018-NativeCorrect.json",
+    "log": "evidence/lean-attempts/0018-NativeCorrect.log",
+    "log_sha256": "1c3308d345239af5d8d09da46ae605a364cd70b8c1224dd267f89b1d7ac905d1",
+    "object": "evidence/final-objects/bench/tritonbench_g/vector_addition_custom/NativeCorrect.olean",
+    "object_sha256": "69125873371537c577d173352757aa52ad31a3275adb6819ddbebe2a94c33c57",
+    "clean_axiom_checks": 8,
+    "noncircular_checks": 2
+  },
+  {
+    "module": "bench/tritonbench_g/vector_addition_custom/Proofs/NativeAdmission.lean",
+    "source_sha256": "68ebe7b783765dfcd9be974b9eed39f8701c59da9cde534b328af7ccbbf24ae5",
+    "attempt": "evidence/lean-attempts/0017-NativeAdmission.json",
+    "log": "evidence/lean-attempts/0017-NativeAdmission.log",
+    "log_sha256": "9d3dbf2e522171b33bb778eca046b0e7f86a1b78c30eba29afadc830c3e8bd47",
+    "object": "evidence/final-objects/bench/tritonbench_g/vector_addition_custom/Proofs/NativeAdmission.olean",
+    "object_sha256": "40f89c6cc017541d1b98aebe28db38fa8a748cf6fcd5c81d3df04b825eed5c4c",
+    "clean_axiom_checks": 5,
+    "noncircular_checks": 0
+  },
+  {
+    "module": "bench/tritonbench_g/vector_addition_custom/Proofs/NativeArithmetic.lean",
+    "source_sha256": "582d69b0e84a12751d5c6177598ef25254072a90c454b92029f225eb82de14e1",
+    "attempt": "evidence/lean-attempts/0012-NativeArithmetic.json",
+    "log": "evidence/lean-attempts/0012-NativeArithmetic.log",
+    "log_sha256": "13639d8e59aa6fea9921546f89b3ec98a3ff2715f74508d50a84133f3c138440",
+    "object": "evidence/final-objects/bench/tritonbench_g/vector_addition_custom/Proofs/NativeArithmetic.olean",
+    "object_sha256": "4822621bb7a28596b3d8b8ed2e30a2370554912d9830a59b86254546c66be462",
+    "clean_axiom_checks": 13,
+    "noncircular_checks": 0
+  },
+  {
+    "module": "bench/tritonbench_g/vector_addition_custom/Proofs/NativeGrid.lean",
+    "source_sha256": "b43e301e105cc5f238aa17386695c42810d82f4dde6ffb5efbf6cffb5413adcc",
+    "attempt": "evidence/lean-attempts/0016-NativeGrid.json",
+    "log": "evidence/lean-attempts/0016-NativeGrid.log",
+    "log_sha256": "d2939c03a79070842a2d463774ca961dc70c0dd37165c1284939a5ccf2c9a392",
+    "object": "evidence/final-objects/bench/tritonbench_g/vector_addition_custom/Proofs/NativeGrid.olean",
+    "object_sha256": "98310585743979482ba54a6c81df9511e163c3af01b8f9632f27bd857fefbfb4",
+    "clean_axiom_checks": 6,
+    "noncircular_checks": 1
+  },
+  {
+    "module": "bench/tritonbench_g/vector_addition_custom/Proofs/NativeMemory.lean",
+    "source_sha256": "1aaf3ea31ebc7ff8b1a92738153f0464d78690ba77d207de3851fea09ed26c7a",
+    "attempt": "evidence/lean-attempts/0014-NativeMemory.json",
+    "log": "evidence/lean-attempts/0014-NativeMemory.log",
+    "log_sha256": "643d765515fb3840084cf842ea94fd64a0e7f2629c79007d79a43f8504d7dd6f",
+    "object": "evidence/final-objects/bench/tritonbench_g/vector_addition_custom/Proofs/NativeMemory.olean",
+    "object_sha256": "b3f5163c105f67f16a7e5f64bdbdd616b5d0af4a95ca3b55fe950754871bb3cc",
+    "clean_axiom_checks": 5,
+    "noncircular_checks": 1
+  },
+  {
+    "module": "bench/tritonbench_g/vector_addition_custom/Proofs/NativeProgram.lean",
+    "source_sha256": "fde7b8669077c832fdba5163da9ec356e918b13633ddc7a5aca8f3847ae13bea",
+    "attempt": "evidence/lean-attempts/0015-NativeProgram.json",
+    "log": "evidence/lean-attempts/0015-NativeProgram.log",
+    "log_sha256": "0ebcbd153d8aa916eb7da73fbf901433d4fcdb5c5b24a0c69cc5e0948bcea281",
+    "object": "evidence/final-objects/bench/tritonbench_g/vector_addition_custom/Proofs/NativeProgram.olean",
+    "object_sha256": "ecccd903b73c51332697274bbdd046cebf5579837f6446a45fc7588d02c8d150",
+    "clean_axiom_checks": 5,
+    "noncircular_checks": 1
+  },
+  {
+    "module": "bench/tritonbench_g/vector_addition_custom/Proofs/NativeScalar.lean",
+    "source_sha256": "8705979544f504e4142136e59f671e5f4e047250293450ab52e2354acc092b13",
+    "attempt": "evidence/lean-attempts/0013-NativeScalar.json",
+    "log": "evidence/lean-attempts/0013-NativeScalar.log",
+    "log_sha256": "76202db6649f06752c3bbbfd0fa272967c43746af1884b6f910cc23c974d4542",
+    "object": "evidence/final-objects/bench/tritonbench_g/vector_addition_custom/Proofs/NativeScalar.olean",
+    "object_sha256": "3a0ce142078ca1dfa6533336eb5f910a5a8a514dbca3e87d62e9437f7f1328ad",
+    "clean_axiom_checks": 2,
+    "noncircular_checks": 1
+  }
+]

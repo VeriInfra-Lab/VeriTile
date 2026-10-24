@@ -1,3 +1,13 @@
+/-
+Source-audit target: _kldiv_kernel_forward
+Source-audit params: y_ptr=Y, y_stride=sy, gt_ptr=T, gt_stride=st, loss_ptr=O, loss_stride=so, n_cols=N, BLOCK_SIZE=B, log_target=logTarget
+Source-audit Lean: klForward%
+Source-audit args: pred=tl.float32, target=tl.float32, output=tl.float32
+Selected lexical source view only; this metadata is not all-profile certification.
+Original fp32 forward loop; logTarget and reduction stay symbolic with both branches.
+The backward JIT, other dtype profiles and candidate transformation are unselected.
+-/
+
 import VeriTile.Triton
 
 /-!

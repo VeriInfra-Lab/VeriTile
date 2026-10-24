@@ -1,0 +1,24 @@
+{
+  "current_catalog": {
+    "path": "bench/review-checkpoints/2026-10-16/quantization-and-mixed-softmax/current-source-catalog.json",
+    "sha256": "74e163ed5e74265d05b061bedc67c81879ec306ab13a7b908959ff78269ec7e1",
+    "canonical_sha256": "5e710316ce4828d9b0d1e6d1edad246b895557aa25baca6893a14c74f68886d7"
+  },
+  "current_supplement": {
+    "path": "bench/review-checkpoints/2026-10-16/quantization-and-mixed-softmax/catalog-supplement.json",
+    "sha256": "20d72b66362a3905d24e851b0f1cc4ec920b3ff1f81e946bb3f8ae11090907b7"
+  },
+  "current_ledger_sha256": "56fbac2655ca87b7822349c171188fd998f3267641323175f1b1c11ed58eeba2",
+  "new_source": {
+    "path": "bench/tritonbench_g/matrix_transpose/FullScope.lean",
+    "sha256": "aa3f1ad58c93fe5e4b108b9c704fd9860b2e248244a06764c4df5383c8313151"
+  },
+  "public_statement": {
+    "file": "bench/tritonbench_g/matrix_transpose/FullScope.lean",
+    "declaration": "matrix_transpose_full_source_outcomes",
+    "statement_sha256": "be5721e3013772a212395dc7a76506faa75fb9430bea0fa0f71222d0395b5cc4"
+  },
+  "new_library_registration": "TritonBenchGVerified through existing matrix_transpose.+ glob; no lakefile edit",
+  "root_review_required": true,
+  "repository_modified_by_producer": false
+}

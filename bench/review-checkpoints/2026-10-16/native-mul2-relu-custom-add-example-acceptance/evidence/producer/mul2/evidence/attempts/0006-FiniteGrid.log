@@ -1,0 +1,17 @@
+/tmp/veritile-standardization-20261015/triton-mul2-finite-acceptance-revision2-wip/bench/tritonbench_g/triton_mul2/Proofs/FiniteGrid.lean:13:7: warning: unused variable `snapshot`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+TritonMul2Finite.launchPlan: definition does not reference [TritonMul2Finite.sourceLaunch,
+ TritonMul2Finite.sourceGrid,
+ TritonMul2Finite.executeGrid,
+ TritonMul2Finite.executeProgram,
+ TritonMul2Finite.applyWrites,
+ TritonMul2Finite.source,
+ TritonMul2Finite.Expr.eval] — non-circular ✓
+TritonMul2Finite.grid_correspondence: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
+TritonMul2Finite.source_grid_correspondence: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+TritonMul2Finite.launch_correspondence: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+TritonMul2Finite.launch_frame: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
+TritonMul2Finite.empty_schedule: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])

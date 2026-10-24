@@ -1,0 +1,49 @@
+/tmp/veritile-standardization-20261015/vector-typed-host-wip/bench/tritonbench_g/vector_addition/Proofs/TypedHostExecution.lean:120:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  mem (wideParameters x y p).x i
+in the target expression
+  (if True ∧ True then do
+      let a ← FP64Memory.readCell x (mem p.x.name i)
+      let c ← FP64Memory.readCell y (mem p.y.name i)
+      let v ← FP64TypedCore.result b x y a c
+      pure (FP64Memory.Cell.mk x v)
+    else mem p.output.name i) =
+    if True ∧ True then FP64Memory.outputCell b x y xs ys i else mem p.output.name i
+
+case pos
+b : FP64TypedCore.Numerics
+x y : FP64TypedCore.Storage
+p : Parameters
+mem : FP64Memory.Memory
+xs : ℕ → FP64TypedCore.Word (FP64TypedCore.RegType.storage x)
+ys : ℕ → FP64TypedCore.Word (FP64TypedCore.RegType.storage y)
+inputs : FP64Memory.InputWords (wideParameters x y p) xs ys mem
+r : String
+i : ℕ
+h : r = p.output.name ∧ i < p.n
+⊢ (if True ∧ True then do
+      let a ← FP64Memory.readCell x (mem p.x.name i)
+      let c ← FP64Memory.readCell y (mem p.y.name i)
+      let v ← FP64TypedCore.result b x y a c
+      pure (FP64Memory.Cell.mk x v)
+    else mem p.output.name i) =
+    if True ∧ True then FP64Memory.outputCell b x y xs ys i else mem p.output.name i
+VeriTile.Bench.TritonBenchG.VectorAddition.TypedHost.expected: definition does not reference [VeriTile.Bench.TritonBenchG.VectorAddition.TypedHost.execute,
+ VeriTile.Bench.TritonBenchG.VectorAddition.IntegerSource.runGrid,
+ VeriTile.Bench.TritonBenchG.VectorAddition.TypedFloat.runGrid,
+ VeriTile.Bench.TritonBenchG.VectorAddition.MixedFP32.runGrid,
+ VeriTile.Bench.TritonBenchG.VectorAddition.MixedSmall.runGrid,
+ VeriTile.Bench.TritonBenchG.VectorAddition.FP64Memory.runGrid] — non-circular ✓
+/tmp/veritile-standardization-20261015/vector-typed-host-wip/bench/tritonbench_g/vector_addition/Proofs/TypedHostExecution.lean:226:0: error: VeriTile.Bench.TritonBenchG.VectorAddition.TypedHost.wideExpected_reference: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.TritonBenchG.VectorAddition.TypedHost.expected_shared_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAddition.TypedHost.wideExpected_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+/tmp/veritile-standardization-20261015/vector-typed-host-wip/bench/tritonbench_g/vector_addition/Proofs/TypedHostExecution.lean:229:0: error: VeriTile.Bench.TritonBenchG.VectorAddition.TypedHost.execute_correct: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.TritonBenchG.VectorAddition.TypedHost.floating_wide_ready: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAddition.TypedHost.wide_failure_retained: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/veritile-standardization-20261015/vector-typed-host-wip/bench/tritonbench_g/vector_addition/Proofs/TypedHostExecution.lean:233:0: error: VeriTile.Bench.TritonBenchG.VectorAddition.TypedHost.execute_correct: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

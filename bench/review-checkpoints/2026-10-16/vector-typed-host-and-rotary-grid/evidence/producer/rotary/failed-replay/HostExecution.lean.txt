@@ -1,0 +1,122 @@
+import HostGeometry
+
+namespace VeriTile.Bench.TritonBenchG.RotaryEmb.HostGrid
+open VeriTile Triton FullMath
+noncomputable section
+
+/-- Independent real formula from the memory before the entire launch. -/
+def Plan.result (c : Plan) (Q K Cos Sin : RegionName) (s : BlockState)
+    (x : Bool) (b : c.PID) (odd : Bool) (i : c.Lane) : ℝ :=
+  let v0 := s.readMem (region Q K x) (c.offset x b Bool.false i)
+  let v1 := s.readMem (region Q K x) (c.offset x b Bool.true i)
+  let cv := s.readMem Cos (c.trig b odd i)
+  let sv := s.readMem Sin (c.trig b odd i)
+  if odd then v0*sv+v1*cv else v0*cv-v1*sv
+
+/-- The original source selected at all four symbolic storage types. Arithmetic
+is explicitly the retained real-erased algorithm, not rounded execution. -/
+def Plan.kernel (c : Plan) (q k cos sin : FullSource.Storage) (Q K Cos Sin : RegionName) : Kernel :=
+  (FullIO.sourceIO c.parameters q k cos sin Bool.false Q K Cos Sin).kernel.eraseDType.toAlgKernel
+
+/-- Actual sequential execution: each program receives the preceding program's
+memory, with fresh local registers and its own source PIDs. -/
+def Plan.run (c : Plan) (kernel : Kernel) : List c.PID → BlockState → Option BlockState
+  | [], s => some s
+  | b::bs, s => (exec kernel (c.at s b)).bind (c.run kernel bs)
+
+/-- Trace safety is checked at each actual intermediate state. -/
+def Plan.SafeRun (c : Plan) (kernel : Kernel) (bounds : RegionBounds) : List c.PID → BlockState → Prop
+  | [], _ => True
+  | b::bs, s => kernel.TraceSafe bounds (c.at s b) ∧
+      ∀ t, exec kernel (c.at s b) = some t → c.SafeRun kernel bounds bs t
+
+def Plan.Results (c : Plan) (Q K Cos Sin : RegionName) (bs : List c.PID)
+    (s t : BlockState) : Prop :=
+  ∀ b ∈ bs, ∀ x odd i, c.active x b i →
+    t.readMem (region Q K x) (c.offset x b odd i) = c.result Q K Cos Sin s x b odd i
+
+private theorem frame_read {P : WriteFootprint} {s t : BlockState}
+    (hf : BlockState.WriteWithin P s t) {r o} (hn : ¬P (r,o)) :
+    t.readMem r o = s.readMem r o :=
+  (BlockState.readMem_congr (hf r o hn)).symm
+
+theorem result_unchanged (c : Plan) {bounds Q K Cos Sin} (D : Domain c bounds Q K Cos Sin)
+    (bs : List c.PID) (b : c.PID) (hb : b∉bs) (s t : BlockState)
+    (hf : BlockState.WriteWithin (c.foot Q K bs) s t)
+    (x odd i) (hi : c.active x b i) :
+    c.result Q K Cos Sin t x b odd i = c.result Q K Cos Sin s x b odd i := by
+  have hx (o) : t.readMem (region Q K x) (c.offset x b o i) =
+      s.readMem (region Q K x) (c.offset x b o i) := by
+    apply frame_read hf
+    rintro ⟨b',hb',hw⟩
+    exact block_disjoint c D b b' (fun h => hb (h.symm ▸ hb')) _ ⟨x,i,o,hi,rfl⟩ hw
+  have hc (r) (hr : r=Cos ∨ r=Sin) (o) : t.readMem r o=s.readMem r o := by
+    apply frame_read hf
+    rintro ⟨b',_,hw⟩
+    rcases hr with rfl|rfl
+    · exact (trig_unwritten c D b' o).1 hw
+    · exact (trig_unwritten c D b' o).2 hw
+  simp only [Plan.result,hx,hc Cos (Or.inl rfl),hc Sin (Or.inr rfl)]
+
+/-- Reuses the retained public full-source specification. Bounds and collision
+freedom are derived from tensor metadata, never assumed as per-program runs. -/
+theorem block_run (c : Plan) (q k cos sin : FullSource.Storage) (Q K Cos Sin : RegionName)
+    (A : FlatAlloc) (hd : A.Disjoint) (hcov : ∀ r, r∉A.regions → A.extent r=0)
+    (D : Domain c A.extent Q K Cos Sin) (hQr : Q∈A.regions) (hKr : K∈A.regions)
+    (s : BlockState) (b : c.PID) :
+    (c.kernel q k cos sin Q K Cos Sin).TraceSafe A.extent (c.at s b) ∧
+    ∃ t, exec (c.kernel q k cos sin Q K Cos Sin) (c.at s b) = some t ∧
+      c.Results Q K Cos Sin [b] s t ∧
+      BlockState.WriteWithin (c.blockFoot Q K b) s t := by
+  have hs := (Correctness.rotary_emb_correctness c.parameters q k cos sin Q K Cos Sin).1
+  obtain ⟨hsafe,⟨t,ht,hq,hk,hf⟩,_⟩ := hs A hd hcov (c.at s b) D.separate
+    (block_geometry c D s b) (block_bounds c D s b) hQr hKr
+  refine ⟨hsafe,t,ht,?_,?_⟩
+  · intro b' hb x odd i hi
+    have he : b'=b := by simpa using hb
+    subst b'
+    cases x
+    · exact hq odd i hi
+    · exact hk odd i hi
+  · rw [source_foot] at hf
+    exact hf
+
+/-- Composition for any duplicate-free scheduling order. Each step executes on
+previous memory; disjointness proves that outputs retain initial-memory formulas. -/
+theorem run_correct (c : Plan) (q k cos sin : FullSource.Storage) (Q K Cos Sin : RegionName)
+    (A : FlatAlloc) (hd : A.Disjoint) (hcov : ∀ r, r∉A.regions → A.extent r=0)
+    (D : Domain c A.extent Q K Cos Sin) (hQr : Q∈A.regions) (hKr : K∈A.regions)
+    (bs : List c.PID) (hnd : bs.Nodup) (s : BlockState) :
+    c.SafeRun (c.kernel q k cos sin Q K Cos Sin) A.extent bs s ∧
+    ∃ t, c.run (c.kernel q k cos sin Q K Cos Sin) bs s = some t ∧
+      c.Results Q K Cos Sin bs s t ∧ BlockState.WriteWithin (c.foot Q K bs) s t := by
+  induction bs generalizing s with
+  | nil =>
+    exact ⟨True.intro,s,rfl,by simp [Plan.Results],by intro r o _; rfl⟩
+  | cons b bs ih =>
+    obtain ⟨hb,hbs⟩ := List.nodup_cons.mp hnd
+    obtain ⟨hsafe,u,hu,hr,hf⟩ := block_run c q k cos sin Q K Cos Sin A hd hcov D hQr hKr s b
+    obtain ⟨htsafe,t,ht,htr,htf⟩ := ih hbs u
+    have hf' : BlockState.WriteWithin (c.foot Q K [b]) s u := by
+      intro r o hn
+      exact hf r o (fun h => hn ⟨b,by simp,h⟩)
+    refine ⟨⟨hsafe,?_⟩,t,?_,?_,?_⟩
+    · intro u' hu'
+      have he : u'=u := Option.some.inj (hu'.symm.trans hu)
+      simpa [he] using htsafe
+    · simp only [Plan.run,hu,Option.bind_some]
+      exact ht
+    · intro b' hb' x odd i hi
+      rcases List.mem_cons.mp hb' with rfl|hb'
+      · have hn : ¬c.foot Q K bs (region Q K x,c.offset x b odd i) := by
+          rintro ⟨j,hj,hw⟩
+          exact block_disjoint c D b j (fun h => hb (h.symm ▸ hj)) _ ⟨x,i,odd,hi,rfl⟩ hw
+        exact (frame_read htf hn).trans (hr b (by simp) x odd i hi)
+      · refine (htr b' hb' x odd i hi).trans ?_
+        exact result_unchanged c D [b] b' (by simp; intro he; exact hb (he ▸ hb')) s u hf' x odd i hi
+    · intro r o hn
+      exact (hf r o (fun h => hn ⟨b,by simp,h⟩)).trans
+        (htf r o (fun ⟨j,hj,hw⟩ => hn ⟨j,List.mem_cons_of_mem b hj,hw⟩))
+
+end
+end VeriTile.Bench.TritonBenchG.RotaryEmb.HostGrid

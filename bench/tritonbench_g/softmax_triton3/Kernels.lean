@@ -1,6 +1,16 @@
+/-
+Source-audit target: softmax_kernel
+Source-audit Lean: softmax3Source%
+Source-audit args: inputType=tl.float32, version=original
+Selected lexical source view only; this metadata is not all-profile certification.
+Original division; input/output fp32, mask dtype and HAS_MASK symbolic with both branches.
+Optional-pointer lowering, other dtypes and reciprocal transformation remain separate checks.
+-/
+
 import VeriTile.Triton.DSL
 
-/- Translation-surface blocker: typed fp16/bf16 output stores spell the implicit
+/-
+Translation-surface blocker: typed fp16/bf16 output stores spell the implicit
 destination conversion explicitly because output pointer aliases currently lose
 the declared storage dtype. Proofs/Source.lean checks the exact carrier and single
 cast for every storage pair, candidate and mask branch; fp32 stores are unchanged. -/

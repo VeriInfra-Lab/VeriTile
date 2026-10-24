@@ -78,7 +78,23 @@ def require_tools():
     for tool in ('lake', 'lean4export', 'landrun', 'systemd-run'):
         if not shutil.which(tool):
             raise ValueError(f'Missing {tool}; see scripts/README.md for setup.')
-    subprocess.run(['systemd-run', '--user', '--pipe', '--wait', '--collect',
-                    '--property=RestrictAddressFamilies=~AF_UNIX', 'true'], check=True,
-                   stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
+    # Check both isolation mechanisms before copying a large proof snapshot.
+    # Executable presence alone does not establish host kernel support.
+    probes = [
+        ('systemd AF_UNIX restriction',
+         ['systemd-run', '--user', '--pipe', '--wait', '--collect',
+          '--property=RestrictAddressFamilies=~AF_UNIX', 'true']),
+        ('Landlock sandbox',
+         ['landrun', '--rox', '/', shutil.which('true') or '/usr/bin/true']),
+    ]
+    failures = []
+    for label, command in probes:
+        result = subprocess.run(command, stdout=subprocess.DEVNULL,
+                                stderr=subprocess.PIPE, text=True)
+        if result.returncode:
+            detail = result.stderr.strip() or f'exit {result.returncode}'
+            failures.append(f'{label}: {detail}')
+    if failures:
+        raise ValueError('Official comparator isolation is unavailable:\n' +
+                         '\n'.join(f'- {failure}' for failure in failures))
     return comparator

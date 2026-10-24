@@ -33,9 +33,7 @@ def scores (BM BN BD context window complement even : Nat) (offset size : Int) :
 
 def probabilities (BM BN context window even : Nat) : List Stmt :=
   [.assign .real [BM] "m_ij"
-     (.where (.gt .real (.consSame .nil) (.ref .real [BM] "m_i")
-       (.reduceMax ⟨1, by simp⟩ Bool.false (.ref .real [BM, BN] "qk")))
-       (.ref .real [BM] "m_i")
+     (.max2 (.consSame .nil) (.ref .real [BM] "m_i")
        (.reduceMax ⟨1, by simp⟩ Bool.false (.ref .real [BM, BN] "qk"))),
    .assign .real [BM, BN] "qk" (.sub .real (.consSame (.consR .nil))
      (.ref .real [BM, BN] "qk") (.expandDim ⟨1, by simp⟩ (.ref .real [BM] "m_ij"))),

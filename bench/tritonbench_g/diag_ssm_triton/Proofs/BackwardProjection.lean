@@ -29,6 +29,15 @@ theorem real_source_body (s l y gs gx gl gy : RegionName) (length batch dim bloc
     (Erasure.backward Bool.false s l y gs gx gl gy length batch dim block).toAlgKernel.body =
       prelude l batch dim block ++ [.forLoop "i" length (loopBody s y gx gy length batch dim block)] ++
         RealReference.diagSsmBackwardPostLoop gs gl block := by
+  simp only [Erasure.backward, Bool.false_eq_true, reduceIte,
+    ComputeKernel.eraseDType, ComputeKernel.surfaceBody,
+    ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody,
+    ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
+    ComputeDType.eraseDType, Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType,
+    Op.eraseDType, MemAccess.eraseDType, MaskOpt.eraseDType, NumericDType.eraseDType,
+    ComparableDType.eraseDType, IntegralDType.eraseDType, FloatDType.toTileDType,
+    VeriTile.Triton.eraseDType, List.map_cons, List.map_nil, Except.bind, bind]
+  simp only [Op.eraseDType.eq_def, VeriTile.Triton.eraseDType, FloatDType.toTileDType]
   rfl
 
 theorem previous_offset (batch dim block : Nat) (u : BlockState) :

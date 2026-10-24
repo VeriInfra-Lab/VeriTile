@@ -1,0 +1,720 @@
+{
+  "task": "cosine_compute",
+  "original_source": {
+    "path": "bench/tritonbench_g/cosine_compute/cosine_compute.py",
+    "sha256": "363fe81932ce7a18a907f330311e1214130e1c5cad0c0f7c91b476e6eca13d7a"
+  },
+  "profiles": [
+    {
+      "dtype": "bool",
+      "compute": "fp32",
+      "operations": [
+        {
+          "port": "cos32",
+          "input_types": [
+            "fp32"
+          ],
+          "output_type": "fp32",
+          "configuration": {
+            "lowering": "math.cos_then_libdevice___nv_cosf",
+            "not_cos_approx": true
+          },
+          "operation": "cos32"
+        },
+        {
+          "port": "FP.IntegerConversion.toSigned",
+          "input_types": [
+            "fp32"
+          ],
+          "output_type": "int8",
+          "configuration": {
+            "width": 8,
+            "rounding": "rtz",
+            "domain": "finite_truncation_in_range",
+            "raw_bool_store": true
+          },
+          "operation": "toSigned"
+        }
+      ],
+      "raw_ttir": {
+        "path": "native-attempts/20261015T231621281851Z/bool.raw.ttir",
+        "sha256": "8747fa1e6280fe2499603732edf43609729075e75b63f64af1d015bccda96c00"
+      }
+    },
+    {
+      "dtype": "uint8",
+      "compute": "fp32",
+      "operations": [
+        {
+          "port": "unsignedTo32",
+          "input_types": [
+            "uint8"
+          ],
+          "output_type": "fp32",
+          "configuration": {
+            "width": 8,
+            "rounding": "rtne"
+          },
+          "operation": "unsignedTo32"
+        },
+        {
+          "port": "cos32",
+          "input_types": [
+            "fp32"
+          ],
+          "output_type": "fp32",
+          "configuration": {
+            "lowering": "math.cos_then_libdevice___nv_cosf",
+            "not_cos_approx": true
+          },
+          "operation": "cos32"
+        },
+        {
+          "port": "FP.IntegerConversion.toUnsigned",
+          "input_types": [
+            "fp32"
+          ],
+          "output_type": "uint8",
+          "configuration": {
+            "width": 8,
+            "rounding": "rtz",
+            "domain": "finite_truncation_in_range",
+            "raw_bool_store": false
+          },
+          "operation": "toUnsigned"
+        }
+      ],
+      "raw_ttir": {
+        "path": "native-attempts/20261015T231621281851Z/uint8.raw.ttir",
+        "sha256": "7d72bd426e76655f0ffbc378d54daa252e3bd16b075bea44362d4690f8c98de5"
+      }
+    },
+    {
+      "dtype": "int8",
+      "compute": "fp32",
+      "operations": [
+        {
+          "port": "signedTo32",
+          "input_types": [
+            "int8"
+          ],
+          "output_type": "fp32",
+          "configuration": {
+            "width": 8,
+            "rounding": "rtne"
+          },
+          "operation": "signedTo32"
+        },
+        {
+          "port": "cos32",
+          "input_types": [
+            "fp32"
+          ],
+          "output_type": "fp32",
+          "configuration": {
+            "lowering": "math.cos_then_libdevice___nv_cosf",
+            "not_cos_approx": true
+          },
+          "operation": "cos32"
+        },
+        {
+          "port": "FP.IntegerConversion.toSigned",
+          "input_types": [
+            "fp32"
+          ],
+          "output_type": "int8",
+          "configuration": {
+            "width": 8,
+            "rounding": "rtz",
+            "domain": "finite_truncation_in_range",
+            "raw_bool_store": false
+          },
+          "operation": "toSigned"
+        }
+      ],
+      "raw_ttir": {
+        "path": "native-attempts/20261015T231621281851Z/int8.raw.ttir",
+        "sha256": "c75cdeef03f0ba8da0912dcf72e665c3213918da8d06158b18c8ace01c82cb88"
+      }
+    },
+    {
+      "dtype": "int16",
+      "compute": "fp32",
+      "operations": [
+        {
+          "port": "signedTo32",
+          "input_types": [
+            "int16"
+          ],
+          "output_type": "fp32",
+          "configuration": {
+            "width": 16,
+            "rounding": "rtne"
+          },
+          "operation": "signedTo32"
+        },
+        {
+          "port": "cos32",
+          "input_types": [
+            "fp32"
+          ],
+          "output_type": "fp32",
+          "configuration": {
+            "lowering": "math.cos_then_libdevice___nv_cosf",
+            "not_cos_approx": true
+          },
+          "operation": "cos32"
+        },
+        {
+          "port": "FP.IntegerConversion.toSigned",
+          "input_types": [
+            "fp32"
+          ],
+          "output_type": "int16",
+          "configuration": {
+            "width": 16,
+            "rounding": "rtz",
+            "domain": "finite_truncation_in_range",
+            "raw_bool_store": false
+          },
+          "operation": "toSigned"
+        }
+      ],
+      "raw_ttir": {
+        "path": "native-attempts/20261015T231621281851Z/int16.raw.ttir",
+        "sha256": "3201cb19f4f68c1675f76b0fed597ef0338e273f66f1a0277d07d76d3a3d3f50"
+      }
+    },
+    {
+      "dtype": "uint16",
+      "compute": "fp32",
+      "operations": [
+        {
+          "port": "unsignedTo32",
+          "input_types": [
+            "uint16"
+          ],
+          "output_type": "fp32",
+          "configuration": {
+            "width": 16,
+            "rounding": "rtne"
+          },
+          "operation": "unsignedTo32"
+        },
+        {
+          "port": "cos32",
+          "input_types": [
+            "fp32"
+          ],
+          "output_type": "fp32",
+          "configuration": {
+            "lowering": "math.cos_then_libdevice___nv_cosf",
+            "not_cos_approx": true
+          },
+          "operation": "cos32"
+        },
+        {
+          "port": "FP.IntegerConversion.toUnsigned",
+          "input_types": [
+            "fp32"
+          ],
+          "output_type": "uint16",
+          "configuration": {
+            "width": 16,
+            "rounding": "rtz",
+            "domain": "finite_truncation_in_range",
+            "raw_bool_store": false
+          },
+          "operation": "toUnsigned"
+        }
+      ],
+      "raw_ttir": {
+        "path": "native-attempts/20261015T231621281851Z/uint16.raw.ttir",
+        "sha256": "e6622353e94c2ef0ce7e8763ca0c47e69cecdc63cd0e4d9102769eed102917ef"
+      }
+    },
+    {
+      "dtype": "int32",
+      "compute": "fp32",
+      "operations": [
+        {
+          "port": "signedTo32",
+          "input_types": [
+            "int32"
+          ],
+          "output_type": "fp32",
+          "configuration": {
+            "width": 32,
+            "rounding": "rtne"
+          },
+          "operation": "signedTo32"
+        },
+        {
+          "port": "cos32",
+          "input_types": [
+            "fp32"
+          ],
+          "output_type": "fp32",
+          "configuration": {
+            "lowering": "math.cos_then_libdevice___nv_cosf",
+            "not_cos_approx": true
+          },
+          "operation": "cos32"
+        },
+        {
+          "port": "FP.IntegerConversion.toSigned",
+          "input_types": [
+            "fp32"
+          ],
+          "output_type": "int32",
+          "configuration": {
+            "width": 32,
+            "rounding": "rtz",
+            "domain": "finite_truncation_in_range",
+            "raw_bool_store": false
+          },
+          "operation": "toSigned"
+        }
+      ],
+      "raw_ttir": {
+        "path": "native-attempts/20261015T231621281851Z/int32.raw.ttir",
+        "sha256": "73e94499b0aadd95f4388a38afea5f267743cd4776aba4a8aedb157dbd29d187"
+      }
+    },
+    {
+      "dtype": "uint32",
+      "compute": "fp32",
+      "operations": [
+        {
+          "port": "unsignedTo32",
+          "input_types": [
+            "uint32"
+          ],
+          "output_type": "fp32",
+          "configuration": {
+            "width": 32,
+            "rounding": "rtne"
+          },
+          "operation": "unsignedTo32"
+        },
+        {
+          "port": "cos32",
+          "input_types": [
+            "fp32"
+          ],
+          "output_type": "fp32",
+          "configuration": {
+            "lowering": "math.cos_then_libdevice___nv_cosf",
+            "not_cos_approx": true
+          },
+          "operation": "cos32"
+        },
+        {
+          "port": "FP.IntegerConversion.toUnsigned",
+          "input_types": [
+            "fp32"
+          ],
+          "output_type": "uint32",
+          "configuration": {
+            "width": 32,
+            "rounding": "rtz",
+            "domain": "finite_truncation_in_range",
+            "raw_bool_store": false
+          },
+          "operation": "toUnsigned"
+        }
+      ],
+      "raw_ttir": {
+        "path": "native-attempts/20261015T231621281851Z/uint32.raw.ttir",
+        "sha256": "1cb6c3eec96b484bf0114e79bdc3a8322fe0f9cc7b0612f30d8f4556610011cc"
+      }
+    },
+    {
+      "dtype": "int64",
+      "compute": "fp32",
+      "operations": [
+        {
+          "port": "signedTo32",
+          "input_types": [
+            "int64"
+          ],
+          "output_type": "fp32",
+          "configuration": {
+            "width": 64,
+            "rounding": "rtne"
+          },
+          "operation": "signedTo32"
+        },
+        {
+          "port": "cos32",
+          "input_types": [
+            "fp32"
+          ],
+          "output_type": "fp32",
+          "configuration": {
+            "lowering": "math.cos_then_libdevice___nv_cosf",
+            "not_cos_approx": true
+          },
+          "operation": "cos32"
+        },
+        {
+          "port": "FP.IntegerConversion.toSigned",
+          "input_types": [
+            "fp32"
+          ],
+          "output_type": "int64",
+          "configuration": {
+            "width": 64,
+            "rounding": "rtz",
+            "domain": "finite_truncation_in_range",
+            "raw_bool_store": false
+          },
+          "operation": "toSigned"
+        }
+      ],
+      "raw_ttir": {
+        "path": "native-attempts/20261015T231621281851Z/int64.raw.ttir",
+        "sha256": "53579f832252d2309cf4b448d4c087e72ccfeba9ce829962422d7c2f97dca878"
+      }
+    },
+    {
+      "dtype": "uint64",
+      "compute": "fp32",
+      "operations": [
+        {
+          "port": "unsignedTo32",
+          "input_types": [
+            "uint64"
+          ],
+          "output_type": "fp32",
+          "configuration": {
+            "width": 64,
+            "rounding": "rtne"
+          },
+          "operation": "unsignedTo32"
+        },
+        {
+          "port": "cos32",
+          "input_types": [
+            "fp32"
+          ],
+          "output_type": "fp32",
+          "configuration": {
+            "lowering": "math.cos_then_libdevice___nv_cosf",
+            "not_cos_approx": true
+          },
+          "operation": "cos32"
+        },
+        {
+          "port": "FP.IntegerConversion.toUnsigned",
+          "input_types": [
+            "fp32"
+          ],
+          "output_type": "uint64",
+          "configuration": {
+            "width": 64,
+            "rounding": "rtz",
+            "domain": "finite_truncation_in_range",
+            "raw_bool_store": false
+          },
+          "operation": "toUnsigned"
+        }
+      ],
+      "raw_ttir": {
+        "path": "native-attempts/20261015T231621281851Z/uint64.raw.ttir",
+        "sha256": "0daae2c67471e18a529b3aa8ccfc3f6b50edce29d02bde5fe4bef59b02957354"
+      }
+    },
+    {
+      "dtype": "float16",
+      "compute": "fp32",
+      "operations": [
+        {
+          "port": "halfTo32",
+          "input_types": [
+            "fp16"
+          ],
+          "output_type": "fp32",
+          "configuration": {
+            "rounding": "rtne"
+          },
+          "operation": "halfTo32"
+        },
+        {
+          "port": "cos32",
+          "input_types": [
+            "fp32"
+          ],
+          "output_type": "fp32",
+          "configuration": {
+            "lowering": "math.cos_then_libdevice___nv_cosf",
+            "not_cos_approx": true
+          },
+          "operation": "cos32"
+        },
+        {
+          "port": "toHalf",
+          "input_types": [
+            "fp32"
+          ],
+          "output_type": "fp16",
+          "configuration": {
+            "rounding": "rtne"
+          },
+          "operation": "toHalf"
+        }
+      ],
+      "raw_ttir": {
+        "path": "native-attempts/20261015T231621281851Z/float16.raw.ttir",
+        "sha256": "83a9fd19bed2bafcc92f30e94433e21e6a43b1eac9dae326fab07f22cccf19f1"
+      }
+    },
+    {
+      "dtype": "bfloat16",
+      "compute": "fp32",
+      "operations": [
+        {
+          "port": "bfloatTo32",
+          "input_types": [
+            "bf16"
+          ],
+          "output_type": "fp32",
+          "configuration": {
+            "rounding": "rtne"
+          },
+          "operation": "bfloatTo32"
+        },
+        {
+          "port": "cos32",
+          "input_types": [
+            "fp32"
+          ],
+          "output_type": "fp32",
+          "configuration": {
+            "lowering": "math.cos_then_libdevice___nv_cosf",
+            "not_cos_approx": true
+          },
+          "operation": "cos32"
+        },
+        {
+          "port": "toBFloat",
+          "input_types": [
+            "fp32"
+          ],
+          "output_type": "bf16",
+          "configuration": {
+            "rounding": "rtne"
+          },
+          "operation": "toBFloat"
+        }
+      ],
+      "raw_ttir": {
+        "path": "native-attempts/20261015T231621281851Z/bfloat16.raw.ttir",
+        "sha256": "b28521ace537cb9b01ee83f0f67ac0285c6e8bd40208947f3dfba8119bcf8852"
+      }
+    },
+    {
+      "dtype": "float32",
+      "compute": "fp32",
+      "operations": [
+        {
+          "port": "cos32",
+          "input_types": [
+            "fp32"
+          ],
+          "output_type": "fp32",
+          "configuration": {
+            "lowering": "math.cos_then_libdevice___nv_cosf",
+            "not_cos_approx": true
+          },
+          "operation": "cos32"
+        }
+      ],
+      "raw_ttir": {
+        "path": "native-attempts/20261015T231621281851Z/float32.raw.ttir",
+        "sha256": "d8c1731d80f3cdfd3d6cb786b83a19c1697badbe386dea4d9d23e2d258167e0d"
+      }
+    },
+    {
+      "dtype": "float64",
+      "compute": "fp32",
+      "operations": [
+        {
+          "port": "doubleTo32",
+          "input_types": [
+            "fp64"
+          ],
+          "output_type": "fp32",
+          "configuration": {
+            "rounding": "rtne"
+          },
+          "operation": "doubleTo32"
+        },
+        {
+          "port": "cos32",
+          "input_types": [
+            "fp32"
+          ],
+          "output_type": "fp32",
+          "configuration": {
+            "lowering": "math.cos_then_libdevice___nv_cosf",
+            "not_cos_approx": true
+          },
+          "operation": "cos32"
+        },
+        {
+          "port": "toDouble",
+          "input_types": [
+            "fp32"
+          ],
+          "output_type": "fp64",
+          "configuration": {
+            "rounding": "rtne"
+          },
+          "operation": "toDouble"
+        }
+      ],
+      "raw_ttir": {
+        "path": "native-attempts/20261015T231621281851Z/float64.raw.ttir",
+        "sha256": "144b50c269bbc9ce54afb00c4dabb6572006e280fe0d51709a33d944ccf1d631"
+      }
+    },
+    {
+      "dtype": "float8_e4m3fn",
+      "compute": "fp32",
+      "operations": [
+        {
+          "port": "e4To32",
+          "input_types": [
+            "fp8e4m3fn"
+          ],
+          "output_type": "fp32",
+          "configuration": {
+            "rounding": "rtne"
+          },
+          "operation": "e4To32"
+        },
+        {
+          "port": "cos32",
+          "input_types": [
+            "fp32"
+          ],
+          "output_type": "fp32",
+          "configuration": {
+            "lowering": "math.cos_then_libdevice___nv_cosf",
+            "not_cos_approx": true
+          },
+          "operation": "cos32"
+        },
+        {
+          "port": "toE4RTNE",
+          "input_types": [
+            "fp32"
+          ],
+          "output_type": "fp8e4m3fn",
+          "configuration": {
+            "rounding": "rtne"
+          },
+          "operation": "toE4RTNE"
+        }
+      ],
+      "raw_ttir": {
+        "path": "native-attempts/20261015T231621281851Z/float8_e4m3fn.raw.ttir",
+        "sha256": "59fd136422bef870ab0a0a1115c7e537264d40cbdca7339f6bca11dbf669e115"
+      }
+    },
+    {
+      "dtype": "float8_e5m2",
+      "compute": "fp32",
+      "operations": [
+        {
+          "port": "e5To32",
+          "input_types": [
+            "fp8e5m2"
+          ],
+          "output_type": "fp32",
+          "configuration": {
+            "rounding": "rtne"
+          },
+          "operation": "e5To32"
+        },
+        {
+          "port": "cos32",
+          "input_types": [
+            "fp32"
+          ],
+          "output_type": "fp32",
+          "configuration": {
+            "lowering": "math.cos_then_libdevice___nv_cosf",
+            "not_cos_approx": true
+          },
+          "operation": "cos32"
+        },
+        {
+          "port": "toE5RTNE",
+          "input_types": [
+            "fp32"
+          ],
+          "output_type": "fp8e5m2",
+          "configuration": {
+            "rounding": "rtne"
+          },
+          "operation": "toE5RTNE"
+        }
+      ],
+      "raw_ttir": {
+        "path": "native-attempts/20261015T231621281851Z/float8_e5m2.raw.ttir",
+        "sha256": "d0c934c2ba1ef2fef62b03a880ba1e4465b0ffb41e47bea4306d782ac3a42b86"
+      }
+    }
+  ],
+  "host_operations": [
+    {
+      "port": "HostMath.integer64",
+      "input_types": [
+        "signed64_nonnegative_integer"
+      ],
+      "output_type": "binary64_represented_integer",
+      "configuration": {
+        "python_version": "3.12.13 (main, Aug 20 2026, 17:28:00) [GCC 11.4.0]",
+        "platform": "Linux-5.10.134-013.8.2.kangaroo.al8.x86_64-x86_64-with-glibc2.35",
+        "math_extension": "/usr/local/lib/python3.12/lib-dynload/math.cpython-312-x86_64-linux-gnu.so",
+        "math_extension_sha256": "741a078136fce2f3f26ca7298a6241c7c8fa4291d40c164cc8f53815cdb36956",
+        "rounding_mode": 0,
+        "input_domain": "0<=n<2^63",
+        "integer_conversion": "CPython_PyLong_to_binary64_round_to_nearest_ties_even",
+        "sqrt": "correctly_rounded_binary64_sqrt_round_to_nearest_ties_even",
+        "floating_environment": "pinned_current_FE_TONEAREST; changes_require_new_native_correspondence",
+        "sample_count": 210943,
+        "sample_status": "nonexhaustive_not_a_refinement_proof"
+      },
+      "operation": "integer64"
+    },
+    {
+      "port": "HostMath.sqrtSignificand",
+      "input_types": [
+        "binary64_represented_integer"
+      ],
+      "output_type": "binary64_sqrt_significand_and_scale",
+      "configuration": {
+        "python_version": "3.12.13 (main, Aug 20 2026, 17:28:00) [GCC 11.4.0]",
+        "platform": "Linux-5.10.134-013.8.2.kangaroo.al8.x86_64-x86_64-with-glibc2.35",
+        "math_extension": "/usr/local/lib/python3.12/lib-dynload/math.cpython-312-x86_64-linux-gnu.so",
+        "math_extension_sha256": "741a078136fce2f3f26ca7298a6241c7c8fa4291d40c164cc8f53815cdb36956",
+        "rounding_mode": 0,
+        "input_domain": "0<=n<2^63",
+        "integer_conversion": "CPython_PyLong_to_binary64_round_to_nearest_ties_even",
+        "sqrt": "correctly_rounded_binary64_sqrt_round_to_nearest_ties_even",
+        "floating_environment": "pinned_current_FE_TONEAREST; changes_require_new_native_correspondence",
+        "sample_count": 210943,
+        "sample_status": "nonexhaustive_not_a_refinement_proof"
+      },
+      "operation": "sqrtSignificand"
+    }
+  ],
+  "kernel_scalar_operations": 42,
+  "host_scalar_families": 2,
+  "bool_structural_casts": "raw_i8_nonzero_to_predicate_to_fp32_0_or_1; store_signed_i8_raw_without_bool_normalization",
+  "native_scalar_validation": false,
+  "scope_policy": "Existing broad evidence preserved. No dtype matrix expansion after user confirmed Real/FP32/BF16 plus source-required types; root maps the new three-line checklist independently."
+}

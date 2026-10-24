@@ -54,7 +54,7 @@ theorem update_fn_kernel_exp_avg_correct
   intro i
   by_cases hB : 0 < BLOCK_SIZE
   · simp [exec, update_fn_kernel, stepStmts, stepStmt, evalOp.eq_def,
-          Tile.bop, Tile.cop, Tile.ptrAdd, Tile.select,
+          WithBot.map, Tile.bop, Tile.cop, Tile.ptrAdd, Tile.select,
           NumericDType.add, NumericDType.mul, NumericDType.sub,
           ComparableDType.lt, ComparableDType.gt, ComparableDType.ne] at hExec
     subst s'
@@ -65,8 +65,8 @@ theorem update_fn_kernel_exp_avg_correct
           p_ptr _ _ _ _ _ _ _ hRegions]
     by_cases hi : s.pids 0 * BLOCK_SIZE + i.val < n_elements
     · simp only [hi, if_true, expAvgFullSpec, TiledOptimizer.lionMomentum,
-        linearOffset, BlockState.pid_eq, Option.map₂, Option.map, Option.bind,
-        WithBot.some_eq_coe, WithBot.unbotD_coe]
+        linearOffset, BlockState.pid_eq, Option.map₂, Option.map, WithBot.map, Option.bind,
+        WithBot.some_eq_coe, ← WithBot.coe_add, ← WithBot.coe_mul, WithBot.unbotD_coe]
       ring
     · simp [hi]
   · exact False.elim (hB (Nat.lt_of_le_of_lt (Nat.zero_le _) i.isLt))
@@ -88,7 +88,7 @@ theorem update_fn_kernel_p_correct
   intro i
   by_cases hB : 0 < BLOCK_SIZE
   · simp [exec, update_fn_kernel, stepStmts, stepStmt, evalOp.eq_def,
-          Tile.bop, Tile.cop, Tile.ptrAdd, Tile.select,
+          WithBot.map, Tile.bop, Tile.cop, Tile.ptrAdd, Tile.select,
           NumericDType.add, NumericDType.mul, NumericDType.sub,
           ComparableDType.lt, ComparableDType.gt, ComparableDType.ne] at hExec
     subst s'
@@ -101,18 +101,18 @@ theorem update_fn_kernel_p_correct
     · -- The realized masked `p` store equals the Lion parameter-update oracle.
       unfold pFullSpec TiledOptimizer.lionParam TiledOptimizer.lionUpdateDir
       simp only [linearOffset, hi, if_true, BlockState.pid_eq,
-        Option.map₂, Option.map, Option.bind]
+        Option.map₂, Option.map, WithBot.map, Option.bind]
       set m := s.readMem exp_avg_ptr (s.pids 0 * BLOCK_SIZE + i.val) with hm
       set g := s.readMem grad_ptr (s.pids 0 * BLOCK_SIZE + i.val) with hg
       set p := s.readMem p_ptr (s.pids 0 * BLOCK_SIZE + i.val) with hp
       have heq : (m - g) * beta1 + g = beta1 * m + (1 - beta1) * g := by ring
       split_ifs with c1 c2
       · have hd : beta1 * m + (1 - beta1) * g = 0 := heq ▸ Option.some_inj.mp c1
-        simp only [WithBot.some_eq_coe, WithBot.unbotD_coe, hd, Real.sign_zero]
+        simp only [WithBot.some_eq_coe, ← WithBot.coe_add, ← WithBot.coe_mul, WithBot.unbotD_coe, hd, Real.sign_zero]
         ring
       · have hd : (0 : ℝ) < beta1 * m + (1 - beta1) * g :=
           heq ▸ WithBot.coe_lt_coe.mp c2
-        simp only [WithBot.some_eq_coe, WithBot.unbotD_coe, Real.sign_of_pos hd]
+        simp only [WithBot.some_eq_coe, ← WithBot.coe_add, ← WithBot.coe_mul, WithBot.unbotD_coe, Real.sign_of_pos hd]
         norm_num
         ring
       · have hne : (m - g) * beta1 + g ≠ 0 := fun hc => c1 (congrArg some hc)
@@ -120,7 +120,7 @@ theorem update_fn_kernel_p_correct
           fun hc => c2 (WithBot.coe_lt_coe.mpr hc)
         have hd : beta1 * m + (1 - beta1) * g < 0 :=
           heq ▸ lt_of_le_of_ne (not_lt.mp hnp) hne
-        simp only [WithBot.some_eq_coe, WithBot.unbotD_coe, Real.sign_of_neg hd]
+        simp only [WithBot.some_eq_coe, ← WithBot.coe_add, ← WithBot.coe_mul, WithBot.unbotD_coe, Real.sign_of_neg hd]
         ring
     · simp [hi]
   · exact False.elim (hB (Nat.lt_of_le_of_lt (Nat.zero_le _) i.isLt))
@@ -134,7 +134,7 @@ theorem adam_exec_isSome
     (exec (update_fn_kernel p_ptr grad_ptr exp_avg_ptr
         lr wd beta1 beta2 n_elements BLOCK_SIZE) s).isSome := by
   simp [exec, update_fn_kernel, stepStmts, stepStmt, evalOp.eq_def,
-        Tile.bop, Tile.cop, Tile.ptrAdd, Tile.select,
+        WithBot.map, Tile.bop, Tile.cop, Tile.ptrAdd, Tile.select,
         NumericDType.add, NumericDType.mul, NumericDType.sub,
         ComparableDType.lt, ComparableDType.gt, ComparableDType.ne]
 
@@ -164,7 +164,7 @@ theorem adam_writeWithin
       (adamWritesFP p_ptr exp_avg_ptr n_elements BLOCK_SIZE s) := by
   intro s' hExec
   simp [exec, update_fn_kernel, stepStmts, stepStmt, evalOp.eq_def,
-        Tile.bop, Tile.cop, Tile.ptrAdd, Tile.select,
+        WithBot.map, Tile.bop, Tile.cop, Tile.ptrAdd, Tile.select,
         NumericDType.add, NumericDType.mul, NumericDType.sub,
         ComparableDType.lt, ComparableDType.gt, ComparableDType.ne] at hExec
   subst s'
@@ -226,7 +226,7 @@ theorem update_fn_kernel_flattenOk
       lr wd beta1 beta2 n_elements BLOCK_SIZE).toAlgKernel).FlattenOk := by
   unfold Kernel.FlattenOk
   simp [update_fn_kernel, ComputeKernel.toAlgKernel,
-    StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk]
+    StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk, Op.FlattenOk.eq_def]
 
 /-- Per-execution safety walk: all three masked loads and both masked
 stores address the same window `pid * BLOCK_SIZE + j`, active only when
@@ -250,9 +250,9 @@ theorem update_fn_kernel_traceSafe
   -- load-free `SafeAt` and reducing the five memory accesses' lane-wise
   -- address obligations to the bounds hypotheses below.
   simp [update_fn_kernel, ComputeKernel.toAlgKernel,
-    Stmt.TraceSafeList, Stmt.TraceSafe, Op.SafeAt, MaskOpt.SafeAt,
+    Stmt.TraceSafeList, Stmt.TraceSafe, Op.SafeAt, Op.SafeAt.eq_def, MaskOpt.SafeAt,
     stepStmt, evalOp.eq_def,
-    Tile.bop, Tile.cop, Tile.ptrAdd, Tile.select,
+    WithBot.map, Tile.bop, Tile.cop, Tile.ptrAdd, Tile.select,
     NumericDType.add, NumericDType.mul, NumericDType.sub,
     ComparableDType.lt, ComparableDType.gt, ComparableDType.ne,
     MemAccess.ActiveAddressSafe, memAccessActiveAddressSafe, MemAccess.SafeAt,
@@ -342,7 +342,7 @@ theorem commuted_exec (p_ptr grad_ptr exp_avg_ptr : RegionName)
     exec (update_commuted_kernel p_ptr grad_ptr exp_avg_ptr lr wd beta1 beta2 n B).toAlgKernel s =
       exec (update_fn_kernel p_ptr grad_ptr exp_avg_ptr lr wd beta1 beta2 n B).toAlgKernel s := by
   simp [update_commuted_kernel, update_fn_kernel, exec, stepStmts, stepStmt, evalOp.eq_def,
-    Tile.bop, Tile.cop, Tile.select, Tile.ptrAdd,
+    WithBot.map, Tile.bop, Tile.cop, Tile.select, Tile.ptrAdd,
     NumericDType.add, NumericDType.mul, NumericDType.sub,
     ComparableDType.lt, ComparableDType.gt, ComparableDType.ne, add_comm, optional_add_comm]
 
@@ -353,7 +353,7 @@ theorem commuted_flattenOk
       lr wd beta1 beta2 n_elements BLOCK_SIZE).toAlgKernel).FlattenOk := by
   unfold Kernel.FlattenOk
   simp [update_commuted_kernel, ComputeKernel.toAlgKernel,
-    StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk]
+    StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk, Op.FlattenOk.eq_def]
 
 theorem commuted_traceSafe
     (p_ptr grad_ptr exp_avg_ptr : RegionName)
@@ -373,9 +373,9 @@ theorem commuted_traceSafe
   -- load-free `SafeAt` and reducing the five memory accesses' lane-wise
   -- address obligations to the bounds hypotheses below.
   simp [update_commuted_kernel, ComputeKernel.toAlgKernel,
-    Stmt.TraceSafeList, Stmt.TraceSafe, Op.SafeAt, MaskOpt.SafeAt,
+    Stmt.TraceSafeList, Stmt.TraceSafe, Op.SafeAt, Op.SafeAt.eq_def, MaskOpt.SafeAt,
     stepStmt, evalOp.eq_def,
-    Tile.bop, Tile.cop, Tile.ptrAdd, Tile.select,
+    WithBot.map, Tile.bop, Tile.cop, Tile.ptrAdd, Tile.select,
     NumericDType.add, NumericDType.mul, NumericDType.sub,
     ComparableDType.lt, ComparableDType.gt, ComparableDType.ne,
     MemAccess.ActiveAddressSafe, memAccessActiveAddressSafe, MemAccess.SafeAt,

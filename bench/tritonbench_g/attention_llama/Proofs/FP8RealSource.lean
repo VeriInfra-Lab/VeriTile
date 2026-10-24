@@ -97,13 +97,38 @@ private theorem lowerList_safe (bounds : RegionBounds) (code : List Stmt) (s : B
   | cons st rest ih =>
     simp only [List.flatMap_cons, TraceRewrite.append_iff, lowerLoad_safe, lowerLoad_fuse, ih]
 
+/-- Erased source maximum is retained as max2; all remaining recurrence
+statements are the same as the real mathematical body. -/
+def sourceTail (skn svk N BM BN BD : Nat) (candidate : Bool) : List Stmt :=
+  Stmt.assign .real [BM] "m_curr"
+    (.max2 Broadcast.nil.consSame
+      (.reduceMax (⟨1, by simp⟩ : Fin [BM, BN].length) Bool.false (.ref .real [BM, BN] "qk"))
+      (.ref .real [BM] "m_prev")) ::
+    (alLoopTailG skn svk N BM BN BD candidate).drop 1
+
+private theorem max_head_step {n : Nat} (x y : Op .real [n])
+    (name : RegName) (rest : List Stmt) (s : BlockState) :
+    stepStmts (.assign .real [n] name (.max2 (.consSame .nil) x y) :: rest) s =
+      stepStmts (.assign .real [n] name (.maximumFloat .real (.consSame .nil) x y) :: rest) s := by
+  simp only [stepStmts, stepStmt, FloatDType.toTileDType]
+  erw [evalOp_maximumFloat_real]
+
+/-- Only the exact real maximum representation changes; byte loads and
+conversion ordering remain in the complete tail. -/
+theorem sourceTail_lower_step (fused : Bool) (skn svk N BM BN BD : Nat)
+    (candidate : Bool) (s : BlockState) :
+    stepStmts ((sourceTail skn svk N BM BN BD candidate).flatMap (lowerLoad fused)) s =
+      stepStmts ((alLoopTailG skn svk N BM BN BD candidate).flatMap (lowerLoad fused)) s := by
+  exact max_head_step _ _ "m_curr"
+    (((alLoopTailG skn svk N BM BN BD candidate).drop 1).flatMap (lowerLoad fused)) s
+
 /-- All original recurrence statements are kept, including the source's
 block-local key mask and its causal direction `key + SP ≤ query`. -/
 def loopBody (fused : Bool) (scale : ℝ) (skn svk N SP BM BN BD : Nat)
     (causal candidate : Bool) : List Stmt :=
   (alLoopPrefixG scale N BM BN BD).flatMap (lowerLoad fused) ++
     .ifThen (.constBool causal) [alCausalWhereStmt SP BM BN] ::
-      (alLoopTailG skn svk N BM BN BD candidate).flatMap (lowerLoad fused)
+      (sourceTail skn svk N BM BN BD candidate).flatMap (lowerLoad fused)
 
 private theorem loop_fuse (scale : ℝ) (skn svk N SP BM BN BD : Nat)
     (causal candidate : Bool) (s : BlockState) :
@@ -201,7 +226,7 @@ theorem flatten_supported :
     (source Q K V Out scale sqz sqh sqm sqk skz skh skn skk svz svh svk svn soz soh som son NH H N SP BM BN BD causal candidate).eraseDType.toAlgKernel.FlattenOk := by
   cases candidate <;>
     simp [Kernel.FlattenOk, source_body, body, alPreLoopG, loopBody, alLoopPrefixG,
-    alLoopTailG, alCausalWhereStmt, alBnEndCausalStmt, alPostLoopG,
+    sourceTail, alLoopTailG, List.drop_succ_cons, List.drop_zero, alCausalWhereStmt, alBnEndCausalStmt, alPostLoopG,
     lowerLoad, byteLoad?, FP8RealLoads.conversion,
     StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk]
   all_goals simp only [Op.FlattenOk.eq_def, true_and, and_true]

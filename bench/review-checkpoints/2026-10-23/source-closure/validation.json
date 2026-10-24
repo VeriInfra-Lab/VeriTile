@@ -1,0 +1,88 @@
+{
+  "schema": 1,
+  "status": "partial_repairs_validated_merge_blocked",
+  "source_commit": "53db2a0847b1a5174822c185f3c92dfaa35ce68d",
+  "cwd": "/tmp/veritile-pr18-source-clean",
+  "checks": [
+    {
+      "command": "lake build VeriTile bench.tests.FPMinimumReduction bench.repairs.tritonbench_g.kv_cache_filling.Proofs.SourcePreservation bench.repairs.tritonbench_g.kv_cache_filling.Proofs.CopyExecution",
+      "source_commit": "82d718b23b44654bb80bdbb951140748b833c538",
+      "exit_code": 1,
+      "result": "RoundTrip kernel recursion; repaired in the next source commit",
+      "log": "clean-build-initial.log.gz",
+      "sha256": "2d39b95176765fa48e5e10a7365633be071cb123240478773574bd57ddb1b51c",
+      "uncompressed_sha256": "1d42d2ed4df9a7f9895be7974d8e71b04b3987fc4a8e502fefefd0b7f3647ce8",
+      "encoding": "gzip"
+    },
+    {
+      "command": "lake build VeriTile bench.tests.FPMinimumReduction bench.repairs.tritonbench_g.kv_cache_filling.Proofs.SourcePreservation bench.repairs.tritonbench_g.kv_cache_filling.Proofs.CopyExecution",
+      "source_commit": "b26509be6f0aefd6b8dd8b14abd518792423b11f",
+      "exit_code": 1,
+      "result": "ScalarProbeExact kernel recursion; repaired in the next source commit",
+      "log": "clean-build-after-roundtrip.log.gz",
+      "sha256": "d0ea757d44bfbeaf6e13448e6dd0db8b6e259a4dc3888b7bbeffcae885174dc7",
+      "uncompressed_sha256": "521a32b93ccf8fedfe5cbdacc8f8f616990965da961b7b84cbf79c82a95916ac",
+      "encoding": "gzip"
+    },
+    {
+      "command": "lake build VeriTile bench.tests.FPMinimumReduction bench.repairs.tritonbench_g.kv_cache_filling.Proofs.SourcePreservation bench.repairs.tritonbench_g.kv_cache_filling.Proofs.CopyExecution",
+      "source_commit": "53db2a0847b1a5174822c185f3c92dfaa35ce68d",
+      "exit_code": 0,
+      "result": "Passed after source fixes in the same isolated checkout",
+      "log": "clean-build.log.gz",
+      "sha256": "d7b2b3250ccd3d2091347db2c844098dc10f6eeee92437900a1f0112ed0b5e84",
+      "uncompressed_sha256": "2f792b3a7355e74f1273389b5af5016dd956275c011cd5ece6ec2002f87ed08b",
+      "encoding": "gzip"
+    },
+    {
+      "command": "lake build bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.Correct bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.FPEquiv",
+      "source_commit": "53db2a0847b1a5174822c185f3c92dfaa35ce68d",
+      "exit_code": 1,
+      "result": "Blocked by missing source files",
+      "log": "public.log",
+      "sha256": "04bda4b69a94e404961e8ba378754d5e46f28dfa6782fe7bf79759c6f77974fd"
+    },
+    {
+      "command": "python3 -B bench/check_main_formula_review.py",
+      "source_commit": "53db2a0847b1a5174822c185f3c92dfaa35ce68d",
+      "exit_code": 1,
+      "result": "Blocked by missing source files",
+      "log": "guard-formula.log",
+      "sha256": "d609ee0b1f0438e7e026c8313d0593c266ce60d1f54bcd13686b2604d9ff03aa"
+    },
+    {
+      "command": "python3 -B bench/check_main_entry_roles.py",
+      "source_commit": "53db2a0847b1a5174822c185f3c92dfaa35ce68d",
+      "exit_code": 1,
+      "result": "Blocked by missing source files",
+      "log": "guard-roles.log",
+      "sha256": "dcc8330a17d7116617b56ccfae9031cfb846a3cca860ce0bc01ea4d78ab268a2"
+    },
+    {
+      "command": "python3 -B bench/check_io_organization.py",
+      "source_commit": "53db2a0847b1a5174822c185f3c92dfaa35ce68d",
+      "exit_code": 1,
+      "result": "Blocked by missing source files",
+      "log": "guard-io.log",
+      "sha256": "47d343e4ca5c2e4398b6498b5d0edd7c5b960a510c441448bb07ce83ec01a2d6"
+    },
+    {
+      "command": "python3 -B bench/task_progress.py --check",
+      "source_commit": "53db2a0847b1a5174822c185f3c92dfaa35ce68d",
+      "exit_code": 1,
+      "result": "Blocked by missing source files",
+      "log": "guard-progress.log",
+      "sha256": "5bb336b69bd854edd26357ebc862eec8a206239b178dd840bb6a56fa745e6ad9"
+    },
+    {
+      "command": "python3 scripts/check_comparator.py --file bench/tests/FPMinimumReduction.lean --trust",
+      "source_commit": "53db2a0847b1a5174822c185f3c92dfaa35ce68d",
+      "exit_code": 1,
+      "result": "Official comparator unavailable",
+      "log": "comparator.log",
+      "sha256": "94a6025973e0bd886d30f7e9f18db058772dad30b0f984e11ae9e70f7e54536b"
+    }
+  ],
+  "no_gpu_experiments_rerun": true,
+  "full_task_acceptance": false
+}

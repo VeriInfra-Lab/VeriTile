@@ -3,7 +3,15 @@ import VeriTile.Meta.StatementAudit
 
 /-! Full nested3 source, retaining all three loops, cached tiles, and pointer updates.
 The candidate normalizes the initial input column multiplication. Signed strides
-use the mathematical Int address channel; no fixed-width overflow claim is made. -/
+use the mathematical Int address channel; no fixed-width overflow claim is made.
+
+Source-audit target: nested3
+Source-audit Lean: nestedCopy%
+Source-audit args: version=original
+Storage remains symbolic in this textual source view. The selection retains
+all three loops and every load, store and signed pointer update; dtype-specific
+execution and the candidate remain separate proof obligations.
+-/
 namespace VeriTile.Bench.TritonBenchG.NestedLoopsProcessing.TypedSource
 open Lean VeriTile.Triton
 

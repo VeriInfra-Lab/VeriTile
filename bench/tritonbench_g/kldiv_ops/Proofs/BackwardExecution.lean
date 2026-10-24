@@ -10,7 +10,7 @@ theorem source_decomposition (T O : RegionName) (st so N B : Nat) (logTarget : B
       (backward T O st so N B logTarget).body.take 5 ++
         [.forRangeInt "i" (.constInt 0) (.constInt N) (.constNat B)
           (body T O st so N B logTarget)] := by
-  rfl
+  cases logTarget <;> rfl
 
 theorem initial_inv (s : BlockState) (T O : RegionName)
     (st so N B : Nat) (logTarget : Bool) :

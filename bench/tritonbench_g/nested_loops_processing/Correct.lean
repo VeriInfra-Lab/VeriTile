@@ -2,6 +2,7 @@ import bench.tritonbench_g.nested_loops_processing.Proofs.Legacy
 import bench.tritonbench_g.nested_loops_processing.Proofs.Contracts
 import bench.tritonbench_g.nested_loops_processing.Proofs.RealExecution
 import bench.tritonbench_g.nested_loops_processing.Proofs.FPExecutionWitness
+import bench.tritonbench_g.nested_loops_processing.Proofs.FiniteWitness
 
 namespace VeriTile.Bench.TritonBenchG.NestedLoopsProcessing
 open VeriTile Triton

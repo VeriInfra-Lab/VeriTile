@@ -1,0 +1,90 @@
+{
+  "schema": 1,
+  "task": "kldiv_ops",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue07/result.json",
+    "sha256": "583e8d793cba1d71d000c2bdd3e45247f36f7ed54dadb5684382c4c861f64a4b",
+    "task_index": 9
+  },
+  "finding": "Forward/backward mathematical readers used flattened matrix coordinates, raw channel projection and result wrappers. Backward documentation incorrectly called the prediction derivative a target derivative.",
+  "resolution": "Forward names prediction/target matrices and exposes row×outputColumns(red) coordinates; backward exposes a target matrix and full derivative matrix. Documentation now says prediction derivative.",
+  "mathematical_target": "forward: pointwise KL loss when red=0, otherwise an unnormalized Fin cols row sum; only raw-target branch clamps to runtime epsilon. backward: -exp(target) in log-target mode, otherwise -target.",
+  "conditions_and_scope": "Full forward/backward row grids, runtime epsilon, all reduction codes, both empty axes and original p.block positivity/output separations remain. Read-only input aliasing, complete chunks/reductions, source success/safety, every output and exterior frame are unchanged.",
+  "proof_connection": "forward_full_iff and backward_full_iff prove iff of both complete prior judgments, including dependent output shape red=0 versus one column per row. finProdFinEquiv transports flattened storage exactly; bounds and raw result wrappers remain in Proofs/IO.",
+  "fp_review": "forward_pair/backward_pair still compare actual complete FP32 programs with only the signed output-row pointer product commuted. All arithmetic, input/epsilon payloads, branches, reduction and stores remain.",
+  "numerical_dependencies": "No experimental rewrite rules or numerical experiments added or used by these main pairs; existing operations/order/source precision are retained.",
+  "previous_formula_scope": {
+    "mathematical_target": "Forward: exp(target)*(target-prediction) for log targets, otherwise target*(log(max(target,epsilon))-prediction); red=0 pointwise else unnormalized full-row sum. Backward prediction derivative: -exp(target) or -target.",
+    "required_conditions": [
+      "0<block and original Y/O and T/O separation for forward, T/O separation for backward.",
+      "Read-only inputs may alias; epsilon remains a runtime scalar binding.",
+      "No finite-payload guard or target-domain narrowing."
+    ],
+    "scope": "Both complete forward/backward grids, all rows and chunks, both target modes, every runtime reduction code, runtime epsilon, both empty axes and exterior frame. Host post-normalization is not part of the kernel target.",
+    "canonical_connection": "Existing adjacent loss/forwardFormula/backwardFormula already display independent mathematics. Ideal.forward/backward connect source IO and Real scalar/row reduction theorems; their formulas are definitionally the displayed targets.",
+    "fp_program_pair": {
+      "actual_pair": [
+        "forwardOriginal ≡[[]] forwardCommuted",
+        "backwardOriginal ≡[[]] backwardCommuted"
+      ],
+      "actual_scope": "Both actual complete grids; only signed output-row multiplication commutes. All FP32 operations, epsilon, modes, masks and reductions remain in source order for all words.",
+      "numerical_dependency": "R=[]; structural address rewriting, no floating numeric law.",
+      "current_experimental_rules_used": 0,
+      "new_or_deferred_experiments": 0,
+      "source_unchanged": true
+    },
+    "numerical_dependencies": "R=[]; structural address rewriting, no floating numeric law."
+  },
+  "verification": [
+    {
+      "kind": "final_current_source_build",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue07/build.py",
+        "bench.repairs.tritonbench_g.kldiv_ops.IO",
+        "bench.repairs.tritonbench_g.kldiv_ops.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.kldiv_ops.Correct",
+        "bench.repairs.tritonbench_g.kldiv_ops.FPEquiv"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue07/kldiv_ops-verified-build.log",
+      "log_sha256": "f65e64a495e2e1260a959373e6395313eab10e78049920c0dfa1b61961df7343"
+    },
+    {
+      "kind": "joint_import_current_entries",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue07/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue07/kldiv_ops-joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue07/kldiv_ops-verified-joint.log",
+      "log_sha256": "9d0ddbdcb474309a0240aa632209f277b839d9ca8ce85f1577279e307720785d"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/kldiv_ops/Contract.lean": "fd552783a2e7b5f496f604215ef6f3de4399e7b46f17265f924d158c960c915b",
+    "bench/repairs/tritonbench_g/kldiv_ops/Correct.lean": "ada1385cb0867671bc5b17001b0eb9841247e17dc0caafd8423cd18879b08b9c",
+    "bench/repairs/tritonbench_g/kldiv_ops/FPEquiv.lean": "f81fd9229f51068ef179266b290c1c6dde5885884b91addb5d627808ed0183b4",
+    "bench/repairs/tritonbench_g/kldiv_ops/IO.lean": "3838d0c42a9337dc071faf646991b38feea802ef2c3999445ff8bec8d7e13371",
+    "bench/repairs/tritonbench_g/kldiv_ops/Kernels.lean": "ea0f72237457679f483ae4f21de90381868f6f1e0c30eec975d94aa0823e4120",
+    "bench/repairs/tritonbench_g/kldiv_ops/Proofs/LogicalReader.lean": "f03caab31d2537df727f0a25ea50e7c9694cb3a685323ad53de726cffe203776",
+    "bench/repairs/tritonbench_g/kldiv_ops/Proofs/IOReal.lean": "70b728776051caf1027c27e929391631748541ba2d3d2279054d693cc1013896",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

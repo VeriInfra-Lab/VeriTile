@@ -1,0 +1,433 @@
+[
+  {
+    "dtype": "bool",
+    "output": "bool",
+    "n_elements": "i32",
+    "BLOCK_SIZE": 1024,
+    "phase": "frontend",
+    "signature": {
+      "x_ptr": "*u1",
+      "output_ptr": "*u1",
+      "n_elements": "i32"
+    },
+    "status": "rejected",
+    "error_type": "CompilationError",
+    "error": "at 11:13:\ndef kernel_function(x_ptr: tl.tensor, output_ptr: tl.tensor, n_elements: tl.int32, BLOCK_SIZE: tl.constexpr):\n    # x_ptr: pointer to input data\n    # output_ptr: pointer to output data\n    # n_elements: number of elements to process\n    # BLOCK_SIZE: block size for Triton kernel\n    pid = tl.program_id(0)\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    output = tl.math.sin(x)\n             ^\nExpected dtype ['fp32', 'fp64'] but got int1"
+  },
+  {
+    "dtype": "int8",
+    "output": "int8",
+    "n_elements": "i32",
+    "BLOCK_SIZE": 1024,
+    "phase": "frontend",
+    "signature": {
+      "x_ptr": "*i8",
+      "output_ptr": "*i8",
+      "n_elements": "i32"
+    },
+    "status": "rejected",
+    "error_type": "CompilationError",
+    "error": "at 11:13:\ndef kernel_function(x_ptr: tl.tensor, output_ptr: tl.tensor, n_elements: tl.int32, BLOCK_SIZE: tl.constexpr):\n    # x_ptr: pointer to input data\n    # output_ptr: pointer to output data\n    # n_elements: number of elements to process\n    # BLOCK_SIZE: block size for Triton kernel\n    pid = tl.program_id(0)\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    output = tl.math.sin(x)\n             ^\nExpected dtype ['fp32', 'fp64'] but got int8"
+  },
+  {
+    "dtype": "uint8",
+    "output": "uint8",
+    "n_elements": "i32",
+    "BLOCK_SIZE": 1024,
+    "phase": "frontend",
+    "signature": {
+      "x_ptr": "*u8",
+      "output_ptr": "*u8",
+      "n_elements": "i32"
+    },
+    "status": "rejected",
+    "error_type": "CompilationError",
+    "error": "at 11:13:\ndef kernel_function(x_ptr: tl.tensor, output_ptr: tl.tensor, n_elements: tl.int32, BLOCK_SIZE: tl.constexpr):\n    # x_ptr: pointer to input data\n    # output_ptr: pointer to output data\n    # n_elements: number of elements to process\n    # BLOCK_SIZE: block size for Triton kernel\n    pid = tl.program_id(0)\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    output = tl.math.sin(x)\n             ^\nExpected dtype ['fp32', 'fp64'] but got uint8"
+  },
+  {
+    "dtype": "int16",
+    "output": "int16",
+    "n_elements": "i32",
+    "BLOCK_SIZE": 1024,
+    "phase": "frontend",
+    "signature": {
+      "x_ptr": "*i16",
+      "output_ptr": "*i16",
+      "n_elements": "i32"
+    },
+    "status": "rejected",
+    "error_type": "CompilationError",
+    "error": "at 11:13:\ndef kernel_function(x_ptr: tl.tensor, output_ptr: tl.tensor, n_elements: tl.int32, BLOCK_SIZE: tl.constexpr):\n    # x_ptr: pointer to input data\n    # output_ptr: pointer to output data\n    # n_elements: number of elements to process\n    # BLOCK_SIZE: block size for Triton kernel\n    pid = tl.program_id(0)\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    output = tl.math.sin(x)\n             ^\nExpected dtype ['fp32', 'fp64'] but got int16"
+  },
+  {
+    "dtype": "uint16",
+    "output": "uint16",
+    "n_elements": "i32",
+    "BLOCK_SIZE": 1024,
+    "phase": "frontend",
+    "signature": {
+      "x_ptr": "*u16",
+      "output_ptr": "*u16",
+      "n_elements": "i32"
+    },
+    "status": "rejected",
+    "error_type": "CompilationError",
+    "error": "at 11:13:\ndef kernel_function(x_ptr: tl.tensor, output_ptr: tl.tensor, n_elements: tl.int32, BLOCK_SIZE: tl.constexpr):\n    # x_ptr: pointer to input data\n    # output_ptr: pointer to output data\n    # n_elements: number of elements to process\n    # BLOCK_SIZE: block size for Triton kernel\n    pid = tl.program_id(0)\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    output = tl.math.sin(x)\n             ^\nExpected dtype ['fp32', 'fp64'] but got uint16"
+  },
+  {
+    "dtype": "int32",
+    "output": "int32",
+    "n_elements": "i32",
+    "BLOCK_SIZE": 1024,
+    "phase": "frontend",
+    "signature": {
+      "x_ptr": "*i32",
+      "output_ptr": "*i32",
+      "n_elements": "i32"
+    },
+    "status": "rejected",
+    "error_type": "CompilationError",
+    "error": "at 11:13:\ndef kernel_function(x_ptr: tl.tensor, output_ptr: tl.tensor, n_elements: tl.int32, BLOCK_SIZE: tl.constexpr):\n    # x_ptr: pointer to input data\n    # output_ptr: pointer to output data\n    # n_elements: number of elements to process\n    # BLOCK_SIZE: block size for Triton kernel\n    pid = tl.program_id(0)\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    output = tl.math.sin(x)\n             ^\nExpected dtype ['fp32', 'fp64'] but got int32"
+  },
+  {
+    "dtype": "uint32",
+    "output": "uint32",
+    "n_elements": "i32",
+    "BLOCK_SIZE": 1024,
+    "phase": "frontend",
+    "signature": {
+      "x_ptr": "*u32",
+      "output_ptr": "*u32",
+      "n_elements": "i32"
+    },
+    "status": "rejected",
+    "error_type": "CompilationError",
+    "error": "at 11:13:\ndef kernel_function(x_ptr: tl.tensor, output_ptr: tl.tensor, n_elements: tl.int32, BLOCK_SIZE: tl.constexpr):\n    # x_ptr: pointer to input data\n    # output_ptr: pointer to output data\n    # n_elements: number of elements to process\n    # BLOCK_SIZE: block size for Triton kernel\n    pid = tl.program_id(0)\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    output = tl.math.sin(x)\n             ^\nExpected dtype ['fp32', 'fp64'] but got uint32"
+  },
+  {
+    "dtype": "int64",
+    "output": "int64",
+    "n_elements": "i32",
+    "BLOCK_SIZE": 1024,
+    "phase": "frontend",
+    "signature": {
+      "x_ptr": "*i64",
+      "output_ptr": "*i64",
+      "n_elements": "i32"
+    },
+    "status": "rejected",
+    "error_type": "CompilationError",
+    "error": "at 11:13:\ndef kernel_function(x_ptr: tl.tensor, output_ptr: tl.tensor, n_elements: tl.int32, BLOCK_SIZE: tl.constexpr):\n    # x_ptr: pointer to input data\n    # output_ptr: pointer to output data\n    # n_elements: number of elements to process\n    # BLOCK_SIZE: block size for Triton kernel\n    pid = tl.program_id(0)\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    output = tl.math.sin(x)\n             ^\nExpected dtype ['fp32', 'fp64'] but got int64"
+  },
+  {
+    "dtype": "uint64",
+    "output": "uint64",
+    "n_elements": "i32",
+    "BLOCK_SIZE": 1024,
+    "phase": "frontend",
+    "signature": {
+      "x_ptr": "*u64",
+      "output_ptr": "*u64",
+      "n_elements": "i32"
+    },
+    "status": "rejected",
+    "error_type": "CompilationError",
+    "error": "at 11:13:\ndef kernel_function(x_ptr: tl.tensor, output_ptr: tl.tensor, n_elements: tl.int32, BLOCK_SIZE: tl.constexpr):\n    # x_ptr: pointer to input data\n    # output_ptr: pointer to output data\n    # n_elements: number of elements to process\n    # BLOCK_SIZE: block size for Triton kernel\n    pid = tl.program_id(0)\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    output = tl.math.sin(x)\n             ^\nExpected dtype ['fp32', 'fp64'] but got uint64"
+  },
+  {
+    "dtype": "float16",
+    "output": "float16",
+    "n_elements": "i32",
+    "BLOCK_SIZE": 1024,
+    "phase": "frontend",
+    "signature": {
+      "x_ptr": "*fp16",
+      "output_ptr": "*fp16",
+      "n_elements": "i32"
+    },
+    "status": "rejected",
+    "error_type": "CompilationError",
+    "error": "at 11:13:\ndef kernel_function(x_ptr: tl.tensor, output_ptr: tl.tensor, n_elements: tl.int32, BLOCK_SIZE: tl.constexpr):\n    # x_ptr: pointer to input data\n    # output_ptr: pointer to output data\n    # n_elements: number of elements to process\n    # BLOCK_SIZE: block size for Triton kernel\n    pid = tl.program_id(0)\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    output = tl.math.sin(x)\n             ^\nExpected dtype ['fp32', 'fp64'] but got fp16"
+  },
+  {
+    "dtype": "bfloat16",
+    "output": "bfloat16",
+    "n_elements": "i32",
+    "BLOCK_SIZE": 1024,
+    "phase": "frontend",
+    "signature": {
+      "x_ptr": "*bf16",
+      "output_ptr": "*bf16",
+      "n_elements": "i32"
+    },
+    "status": "rejected",
+    "error_type": "CompilationError",
+    "error": "at 11:13:\ndef kernel_function(x_ptr: tl.tensor, output_ptr: tl.tensor, n_elements: tl.int32, BLOCK_SIZE: tl.constexpr):\n    # x_ptr: pointer to input data\n    # output_ptr: pointer to output data\n    # n_elements: number of elements to process\n    # BLOCK_SIZE: block size for Triton kernel\n    pid = tl.program_id(0)\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    output = tl.math.sin(x)\n             ^\nExpected dtype ['fp32', 'fp64'] but got bf16"
+  },
+  {
+    "dtype": "float32",
+    "output": "float32",
+    "n_elements": "i32",
+    "BLOCK_SIZE": 1024,
+    "phase": "backend",
+    "signature": {
+      "x_ptr": "*fp32",
+      "output_ptr": "*fp32",
+      "n_elements": "i32"
+    },
+    "frontend": {
+      "path": "float32.frontend.ttir",
+      "sha256": "a0b61e87755989826ac113af46a5728c2f44c8f833b00937cb3194979f0a97b8"
+    },
+    "status": "compiled",
+    "artifacts": {
+      "float32.source": "a0b61e87755989826ac113af46a5728c2f44c8f833b00937cb3194979f0a97b8",
+      "float32.ttir": "681adf274c24b7cdf8059fb9532a95a9c2da5de4b8e115f0ac0d43f4b8b25b12",
+      "float32.ttgir": "784bea431e4cb2f3a6dac47cf778c6f0b34988adccad4c7362d9357174e51a86",
+      "float32.llir": "5e560987eb417e2826836b189e27edd3174e79462397f618abd15c9eed1bfd82",
+      "float32.ptx": "08f2d224029ed6673bffb461928c79ad1c68b917b9bbcae755279f91598b7e9d",
+      "float32.cubin": "e3f24d041b50da00c8c9ddd8cf0d4b300aae7eeb27d7abaa3405b6d6f40bae4b"
+    },
+    "metadata": {
+      "allowed_dot_input_precisions": [
+        "tf32",
+        "tf32x3",
+        "ieee",
+        "bf16x3",
+        "bf16x6"
+      ],
+      "arch": "sm90",
+      "backend_name": "cuda",
+      "debug": false,
+      "default_dot_input_precision": "tf32",
+      "deprecated_fp8_dot_operand_dtypes": [
+        "fp8e4b15"
+      ],
+      "enable_fp_fusion": true,
+      "enable_reflect_ftz": true,
+      "extern_libs": [
+        [
+          "libdevice",
+          "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+        ]
+      ],
+      "global_scratch_align": 1,
+      "global_scratch_size": 0,
+      "hash": "7dc96189fb5a6e5c35d8616322862c06f51a65d46f7d4087aad239d5520e15ae",
+      "instrumentation_mode": "",
+      "ir_override": null,
+      "launch_cooperative_grid": false,
+      "launch_pdl": false,
+      "max_num_imprecise_acc_default": 1073741824,
+      "maxnreg": null,
+      "name": "kernel_function",
+      "num_ctas": 1,
+      "num_stages": 3,
+      "num_warps": 4,
+      "profile_scratch_align": 1,
+      "profile_scratch_size": 0,
+      "ptx_options": null,
+      "ptx_version": null,
+      "sanitize_overflow": true,
+      "shared": 0,
+      "supported_fp8_dtypes": [
+        "fp8e4b15",
+        "fp8e4nv",
+        "fp8e5"
+      ],
+      "target": "GPUTarget(backend='cuda', arch=90, warp_size=32)",
+      "tensordesc_meta": [],
+      "tmem_size": 0,
+      "triton_version": "3.7.1",
+      "warp_size": 32
+    }
+  },
+  {
+    "dtype": "float64",
+    "output": "float64",
+    "n_elements": "i32",
+    "BLOCK_SIZE": 1024,
+    "phase": "backend",
+    "signature": {
+      "x_ptr": "*fp64",
+      "output_ptr": "*fp64",
+      "n_elements": "i32"
+    },
+    "frontend": {
+      "path": "float64.frontend.ttir",
+      "sha256": "a445ead94d3b5e88d54a2749f53a146e79b81fa61d937b8f4d462c43df2a24dd"
+    },
+    "status": "compiled",
+    "artifacts": {
+      "float64.source": "a445ead94d3b5e88d54a2749f53a146e79b81fa61d937b8f4d462c43df2a24dd",
+      "float64.ttir": "9c18bdb95628bd8b64874685734c8bb197c8271ea1cb5974babfeb765f5d3987",
+      "float64.ttgir": "ea533dd0d38bc7947db69c3206b543a16a5559ed3063935368064608e743040c",
+      "float64.llir": "48e73ef9d2881632a460eabf5f0fa1554839aee413bfbdf1ed5c853a722e4942",
+      "float64.ptx": "50a2a9468956380287281994ad50848eae6ad17cc67b328d8c4d8b3fcf42b942",
+      "float64.cubin": "93461e9a80636968d20bdfe0a98169935be43f8f8ab634de66a85f03ad578f45"
+    },
+    "metadata": {
+      "allowed_dot_input_precisions": [
+        "tf32",
+        "tf32x3",
+        "ieee",
+        "bf16x3",
+        "bf16x6"
+      ],
+      "arch": "sm90",
+      "backend_name": "cuda",
+      "debug": false,
+      "default_dot_input_precision": "tf32",
+      "deprecated_fp8_dot_operand_dtypes": [
+        "fp8e4b15"
+      ],
+      "enable_fp_fusion": true,
+      "enable_reflect_ftz": true,
+      "extern_libs": [
+        [
+          "libdevice",
+          "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+        ]
+      ],
+      "global_scratch_align": 1,
+      "global_scratch_size": 0,
+      "hash": "bf3e22c4c0ce8b71fbdd9da31a1ba360a7afc8138b25313c27eac021e86455d3",
+      "instrumentation_mode": "",
+      "ir_override": null,
+      "launch_cooperative_grid": false,
+      "launch_pdl": false,
+      "max_num_imprecise_acc_default": 1073741824,
+      "maxnreg": null,
+      "name": "kernel_function",
+      "num_ctas": 1,
+      "num_stages": 3,
+      "num_warps": 4,
+      "profile_scratch_align": 1,
+      "profile_scratch_size": 0,
+      "ptx_options": null,
+      "ptx_version": null,
+      "sanitize_overflow": true,
+      "shared": 0,
+      "supported_fp8_dtypes": [
+        "fp8e4b15",
+        "fp8e4nv",
+        "fp8e5"
+      ],
+      "target": "GPUTarget(backend='cuda', arch=90, warp_size=32)",
+      "tensordesc_meta": [],
+      "tmem_size": 0,
+      "triton_version": "3.7.1",
+      "warp_size": 32
+    }
+  },
+  {
+    "dtype": "float8_e4m3fn",
+    "output": "float8_e4m3fn",
+    "n_elements": "i32",
+    "BLOCK_SIZE": 1024,
+    "phase": "frontend",
+    "signature": {
+      "x_ptr": "*fp8e4nv",
+      "output_ptr": "*fp8e4nv",
+      "n_elements": "i32"
+    },
+    "status": "rejected",
+    "error_type": "CompilationError",
+    "error": "at 11:13:\ndef kernel_function(x_ptr: tl.tensor, output_ptr: tl.tensor, n_elements: tl.int32, BLOCK_SIZE: tl.constexpr):\n    # x_ptr: pointer to input data\n    # output_ptr: pointer to output data\n    # n_elements: number of elements to process\n    # BLOCK_SIZE: block size for Triton kernel\n    pid = tl.program_id(0)\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    output = tl.math.sin(x)\n             ^\nExpected dtype ['fp32', 'fp64'] but got fp8e4nv"
+  },
+  {
+    "dtype": "float8_e5m2",
+    "output": "float8_e5m2",
+    "n_elements": "i32",
+    "BLOCK_SIZE": 1024,
+    "phase": "frontend",
+    "signature": {
+      "x_ptr": "*fp8e5",
+      "output_ptr": "*fp8e5",
+      "n_elements": "i32"
+    },
+    "status": "rejected",
+    "error_type": "CompilationError",
+    "error": "at 11:13:\ndef kernel_function(x_ptr: tl.tensor, output_ptr: tl.tensor, n_elements: tl.int32, BLOCK_SIZE: tl.constexpr):\n    # x_ptr: pointer to input data\n    # output_ptr: pointer to output data\n    # n_elements: number of elements to process\n    # BLOCK_SIZE: block size for Triton kernel\n    pid = tl.program_id(0)\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < n_elements\n    x = tl.load(x_ptr + offsets, mask=mask)\n    output = tl.math.sin(x)\n             ^\nExpected dtype ['fp32', 'fp64'] but got fp8e5"
+  },
+  {
+    "dtype": "float8_e4m3fnuz",
+    "output": "float8_e4m3fnuz",
+    "n_elements": "i32",
+    "BLOCK_SIZE": 1024,
+    "phase": "frontend",
+    "signature": {
+      "x_ptr": "*fp8e4b8",
+      "output_ptr": "*fp8e4b8",
+      "n_elements": "i32"
+    },
+    "status": "rejected",
+    "error_type": "CompilationError",
+    "error": "at 1:0:\ndef kernel_function(x_ptr: tl.tensor, output_ptr: tl.tensor, n_elements: tl.int32, BLOCK_SIZE: tl.constexpr):\n^\nValueError(\"type fp8e4b8 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")"
+  },
+  {
+    "dtype": "float8_e5m2fnuz",
+    "output": "float8_e5m2fnuz",
+    "n_elements": "i32",
+    "BLOCK_SIZE": 1024,
+    "phase": "frontend",
+    "signature": {
+      "x_ptr": "*fp8e5b16",
+      "output_ptr": "*fp8e5b16",
+      "n_elements": "i32"
+    },
+    "status": "rejected",
+    "error_type": "CompilationError",
+    "error": "at 1:0:\ndef kernel_function(x_ptr: tl.tensor, output_ptr: tl.tensor, n_elements: tl.int32, BLOCK_SIZE: tl.constexpr):\n^\nValueError(\"type fp8e5b16 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")"
+  },
+  {
+    "dtype": "complex32",
+    "output": "complex32",
+    "n_elements": "i32",
+    "BLOCK_SIZE": 1024,
+    "phase": "binder",
+    "status": "rejected",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "dtype": "complex64",
+    "output": "complex64",
+    "n_elements": "i32",
+    "BLOCK_SIZE": 1024,
+    "phase": "binder",
+    "status": "rejected",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "dtype": "complex128",
+    "output": "complex128",
+    "n_elements": "i32",
+    "BLOCK_SIZE": 1024,
+    "phase": "binder",
+    "status": "rejected",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "dtype": "float8_e8m0fnu",
+    "output": "float8_e8m0fnu",
+    "n_elements": "i32",
+    "BLOCK_SIZE": 1024,
+    "phase": "binder",
+    "status": "rejected",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "dtype": "float4_e2m1fn_x2",
+    "output": "float4_e2m1fn_x2",
+    "n_elements": "i32",
+    "BLOCK_SIZE": 1024,
+    "phase": "binder",
+    "status": "rejected",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  }
+]

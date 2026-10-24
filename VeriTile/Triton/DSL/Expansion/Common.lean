@@ -69,22 +69,22 @@ def EOut.scopedFloatingTerm (e : EOut) : MacroM (TSyntax `term) := do
 
 /-- Remove only precision scopes equal to the enclosing explicit context.
 The normalization also runs over the final emitted compute statement tree. -/
-partial def normalizePrecisionScopes (precision : DInfo) (raw : Syntax) : MacroM Syntax := do
+partial def normalizePrecisionScopes (precision : Option DInfo) (raw : Syntax) : MacroM Syntax := do
   let term : TSyntax `term := ⟨raw⟩
   match term with
   | `(Op.withPrecision $dtype IndexComputePrecision.fp32 $op) =>
-      let child : TSyntax `term := ⟨← normalizePrecisionScopes .fp32 op.raw⟩
-      if precision == .fp32 then return child.raw
+      let child : TSyntax `term := ⟨← normalizePrecisionScopes (some .fp32) op.raw⟩
+      if precision == some .fp32 then return child.raw
       return (← `(Op.withPrecision $dtype IndexComputePrecision.fp32 $child)).raw
   | `(Op.withPrecision $dtype IndexComputePrecision.fp64 $op) =>
-      let child : TSyntax `term := ⟨← normalizePrecisionScopes .real op.raw⟩
-      if precision == .real then return child.raw
+      let child : TSyntax `term := ⟨← normalizePrecisionScopes (some .real) op.raw⟩
+      if precision == some .real then return child.raw
       return (← `(Op.withPrecision $dtype IndexComputePrecision.fp64 $child)).raw
   | `(ComputeOp.alg ComputeDType.fp32 $op) =>
-      let child : TSyntax `term := ⟨← normalizePrecisionScopes .fp32 op.raw⟩
+      let child : TSyntax `term := ⟨← normalizePrecisionScopes (some .fp32) op.raw⟩
       return (← `(ComputeOp.alg ComputeDType.fp32 $child)).raw
   | `(ComputeOp.alg ComputeDType.fp64 $op) =>
-      let child : TSyntax `term := ⟨← normalizePrecisionScopes .real op.raw⟩
+      let child : TSyntax `term := ⟨← normalizePrecisionScopes (some .real) op.raw⟩
       return (← `(ComputeOp.alg ComputeDType.fp64 $child)).raw
   | _ =>
       match raw with
@@ -108,15 +108,24 @@ def explicitFloatCast (dst : DInfo) (e : EOut) : MacroM EOut := do
   | .fp32 => return ⟨alg, .real, e.shape,
       some (← `(ComputeExpr.compute (ComputeOp.alg ComputeDType.fp32 $fp))), some .fp32⟩
   | _ =>
-      let normalized : TSyntax `term := ⟨← normalizePrecisionScopes .fp32 fp.raw⟩
-      let ct ← if normalized.raw == alg.raw then pure none
-        else pure (some (← `(ComputeExpr.alg $normalized)))
+      -- Narrow outputs are algorithm-channel values, so there is no outer
+      -- fp32 context in which the child's arithmetic scope can be erased.
+      let ct ← if fp.raw == alg.raw then pure none
+        else pure (some (← `(ComputeExpr.alg $fp)))
       return ⟨alg, dst, e.shape, ct, none⟩
 
 /-- Forget storage width when entering the mathematical integer arithmetic
 channel. In particular, its results cannot later impersonate byte loads. -/
 def EOut.forgetStorageWidth (e : EOut) : EOut :=
-  if e.dtype == .int8 then { e with dtype := .int } else e
+  if e.dtype == .int8 || e.dtype == .int32 then { e with dtype := .int } else e
+
+/-- Preserve a copy of an already-int32 operand through its identity cast.
+Other integer casts do not acquire a native width from the mathematical Int
+carrier; their narrowing behavior requires a separate semantic operation. -/
+def EOut.integerIdentityCast (e : EOut) (dt : TSyntax `tritonDType) : EOut :=
+  match dt with
+  | `(tritonDType| tl.int32) => if e.dtype == .int32 then e else e.forgetStorageWidth
+  | _ => e.forgetStorageWidth
 
 def expandLeanAntiquoteAs? (dtype : DInfo) (e : TSyntax `tritonExpr) :
     MacroM (Option EOut) := do
@@ -392,7 +401,7 @@ def expandComputeDType : TSyntax `tritonDType → MacroM CInfo
 def inferComputeSourceDType (ctx : String) (dtype : DInfo) : MacroM CInfo := do
   match dtype with
   | .nat => pure .uint32
-  | .int => pure .int32
+  | .int | .int32 => pure .int32
   | .real => pure .fp32
   | .fp32 => pure .fp32
   | _ =>
@@ -423,22 +432,48 @@ def computeLiteralPayloadTerm (dtype : CInfo) (bits : Nat) :
   | .int32 => int32BitsTerm bits
   | .fp32 => float32BitsTerm bits
 
+/-- Compile-time predicate from the helper's source dtype, evaluated at
+the actual call site. A bare mathematical Real or symbolic floating tag does
+not establish fp32/fp64 provenance and is rejected. -/
+def finiteHelperIsFP64 (e : EOut) : MacroM Bool := do
+  match e.dtype, e.computeDType? with
+  | .real, some .real => return Bool.true
+  | .real, some .fp32 => return Bool.false
+  | .fp32, _ | .fp16, _ | .bf16, _ | .f8e4, _ | .f8e5, _ => return Bool.false
+  | _, _ => Macro.throwError "finite helper dtype.is_fp64 requires a known concrete floating source dtype"
+
+/-- Build a direct classifier assignment while retaining the complete typed
+input. Reject missing precision evidence instead of inferring fp64 from Real. -/
+def explicitFiniteClassifier (precision : FinitePrecision) (e : EOut) : MacroM EOut := do
+  let expected := match precision with
+    | .fp32 => DInfo.fp32
+    | .fp64 => DInfo.real
+  unless e.dtype == .real && e.computeDType? == some expected do
+    Macro.throwError "finite classification requires its explicit fp32/fp64 operand precision"
+  let some input := e.computeTerm
+    | Macro.throwError "finite classification requires a retained compute operand"
+  let precisionTerm ← match precision with
+    | .fp32 => `(FinitePrecision.fp32)
+    | .fp64 => `(FinitePrecision.fp64)
+  let shape ← e.shape.term
+  -- As with llrint, this term never survives a successful algorithm projection.
+  -- Only the compute assignment is emitted as the executable surface.
+  let unprojected ← `(Op.ref TileDType.bool $shape "__compute_isfinite_unprojected__")
+  pure ⟨unprojected, .bool, e.shape,
+    some (← `(ComputeExpr.isFinite $precisionTerm $input)), none⟩
+
 def ensureAlgorithmOnly (ctx : String) (e : EOut) : MacroM Unit := do
   if e.computeTerm.isSome then
     Macro.throwError
       (ctx ++ ": compute-only expressions such as runtime tl.bitcast must be assigned or stored directly before algorithm-layer composition")
 
 /-- Macro-time IEEE 754 binary32 bit-pattern triage. Throws on encodings
-that AlgorithmCorrect_without_Rounding does not model (subnormal/zero `exp = 0`, NaN/Inf
-`exp = 255`), so the algorithm-side `Op.const` term emitted below is always
+that AlgorithmCorrect_without_Rounding does not model (NaN/Inf `exp = 255`), so the algorithm-side `Op.const` term emitted below is always
 backed by a `decodeRat` value that elaborates to `some _`. This is the
 single point that decides whether a `tl.bitcast` literal is admissible in
 AlgorithmCorrect_without_Rounding — there is no runtime `Except.error` fallback downstream. -/
 def validateFp32BitsForAlg (bits : Nat) : MacroM Unit := do
   let exp := (bits / (2 ^ 23)) % 256
-  if exp = 0 then
-    Macro.throwError
-      "tl.bitcast(..., tl.float32): zero/subnormal fp32 (exponent field 0) is not modeled in AlgorithmCorrect_without_Rounding"
   if exp = 255 then
     Macro.throwError
       "tl.bitcast(..., tl.float32): NaN/Inf fp32 (exponent field 255) is not modeled in AlgorithmCorrect_without_Rounding"
@@ -448,7 +483,7 @@ def validateFp32BitsForAlg (bits : Nat) : MacroM Unit := do
 `Float32Bits.decodeRat` is the single authoritative decoder; the elaborator
 reduces it on the concrete `BitVec 32` literal. The `Option.get` proof
 obligation `(by decide)` is a defense-in-depth check: if `validateFp32BitsForAlg`
-ever lets through an `exp ∈ {0, 255}` pattern, elaboration fails loudly here
+ever lets through an `exp = 255` pattern, elaboration fails loudly here
 rather than silently substituting a placeholder constant. -/
 def fp32ConstFromBitsTerm (bits : Nat) : MacroM (TSyntax `term) := do
   let bitsNat : TSyntax `term := ⟨Syntax.mkNumLit (toString bits)⟩

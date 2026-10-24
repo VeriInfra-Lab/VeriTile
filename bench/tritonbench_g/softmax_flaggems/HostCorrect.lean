@@ -1,0 +1,172 @@
+import bench.tritonbench_g.softmax_flaggems.Proofs.HostGridHost
+
+namespace VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid
+open VeriTile Triton FullSource
+set_option maxHeartbeats 3000000
+
+inductive SourceHostError where
+  | invalidDim | divisionByZero | forwardCompiler | selectedCompiler | kernelFailure
+  | trialCompiler (choice : Fin 6)
+  deriving DecidableEq, Repr
+
+/-- Compiler rejection is an outcome before a kernel executes. The full trial
+sequence is attempted in order; a valid selected config never hides a failing
+trial. This model covers frontend profile rejection, not backend resource limits. -/
+noncomputable def checkedAutograd (shape : List Nat) (ax : Fin shape.length)
+    (input : Storage) (requested : Option Storage) (device sms : Nat) (waves : WavesAboveOne)
+    (layouts : LayoutPrimitives) (inputStrides : List Nat)
+    (trials : List (Fin 6)) (choice : Fin 6) (X P G Y : RegionName) (initial : BlockState)
+    (inputValues emptyOutput gradValues emptyGradient : Nat → ℝ) : Except SourceHostError AutogradResult :=
+  let d := dimensions shape ax
+  let outType := outputStorage input requested
+  let fcfg := forwardConfig waves d sms
+  let pre := prepareForward initial X P shape.prod inputValues emptyOutput
+  if SourceProfileSupported input fcfg.one then
+    match forwardRun input outType P X d fcfg pre with
+    | none => .error .kernelFailure
+    | some mid =>
+      let preb := prepareBackward mid P G Y shape.prod gradValues emptyGradient
+      match checkedTrialRun outType P G Y d trials preb with
+      | .error err => .error (if err.compilerRejected then .trialCompiler err.choice else .kernelFailure)
+      | .ok warmed =>
+        if SourceProfileSupported outType (backwardConfig d choice).one then
+          match backwardRun outType P G Y d (backwardConfig d choice) warmed with
+          | none => .error .kernelFailure
+          | some final =>
+            let out := forwardMetadata layouts inputStrides P shape outType device
+            .ok ⟨mid,final,out,⟨out,ax.val⟩,gradientMetadata layouts inputStrides Y shape outType device,none,none⟩
+        else .error .selectedCompiler
+  else .error .forwardCompiler
+
+theorem checkedAutograd_success (shape : List Nat) (ax : Fin shape.length)
+    (input : Storage) (requested : Option Storage) (device sms : Nat) (waves : WavesAboveOne)
+    (layouts : LayoutPrimitives) (inputStrides : List Nat)
+    (trials : List (Fin 6)) (choice : Fin 6) (X P G Y : RegionName) (initial : BlockState)
+    (inputValues emptyOutput gradValues emptyGradient : Nat → ℝ)
+    (hF : SourceProfileSupported input (forwardConfig waves (dimensions shape ax) sms).one)
+    (hT : TrialsSupported (outputStorage input requested) (dimensions shape ax) trials)
+    (hB : SourceProfileSupported (outputStorage input requested) (backwardConfig (dimensions shape ax) choice).one)
+    (result : AutogradResult)
+    (he : autograd shape ax input requested device sms waves layouts inputStrides trials choice X P G Y initial
+      inputValues emptyOutput gradValues emptyGradient=some result) :
+    checkedAutograd shape ax input requested device sms waves layouts inputStrides trials choice X P G Y initial
+      inputValues emptyOutput gradValues emptyGradient=.ok result := by
+  cases hf : forwardRun input (outputStorage input requested) P X (dimensions shape ax)
+      (forwardConfig waves (dimensions shape ax) sms)
+      (prepareForward initial X P shape.prod inputValues emptyOutput) with
+  | none => simp [autograd,hf] at he
+  | some mid =>
+    cases ht : trialRun (outputStorage input requested) P G Y (dimensions shape ax) trials
+        (prepareBackward mid P G Y shape.prod gradValues emptyGradient) with
+    | none => simp [autograd,hf,tunedBackward,ht] at he
+    | some warm =>
+      have hc := checkedTrialRun_success (outputStorage input requested) P G Y (dimensions shape ax)
+        trials hT (prepareBackward mid P G Y shape.prod gradValues emptyGradient) warm ht
+      cases hb : backwardRun (outputStorage input requested) P G Y (dimensions shape ax)
+          (backwardConfig (dimensions shape ax) choice) warm with
+      | none => simp [autograd,hf,tunedBackward,ht,hb] at he
+      | some final =>
+        simp only [autograd,hf,tunedBackward,ht,bind,Option.bind,hb,Option.pure_def,
+          Option.some.injEq] at he
+        simp only [checkedAutograd,hF,ite_true,hf,hc,hB]
+        rw [hb]
+        exact congrArg Except.ok he
+
+/-- The public source-admitted theorem includes every actual benchmark launch.
+Admission premises concern source frontend types only; no value property or
+execution-result oracle appears among them. Floating-point refinement remains
+a separately named numerical obligation. -/
+specification softmax_autograd_source_admitted_real
+    (shape : List Nat) (ax : Fin shape.length)
+    (input : Storage) (requested : Option Storage) (device sms : Nat) (waves : WavesAboveOne)
+    (layouts : LayoutPrimitives) (inputStrides : List Nat)
+    (trials : List (Fin 6)) (choice : Fin 6) (X P G Y : RegionName) (initial : BlockState)
+    (inputValues emptyOutput gradValues emptyGradient : Nat → ℝ)
+    (hM : 0<(shape.take ax.val).prod) (hN : 0<shape[ax.val])
+    (hK : 0<(dimensions shape ax).K)
+    (hXP : X≠P) (hPY : P≠Y) (hGY : G≠Y)
+    (hF : SourceProfileSupported input (forwardConfig waves (dimensions shape ax) sms).one)
+    (hT : TrialsSupported (outputStorage input requested) (dimensions shape ax) trials)
+    (hB : SourceProfileSupported (outputStorage input requested) (backwardConfig (dimensions shape ax) choice).one) :
+    ∃ result,
+      checkedAutograd shape ax input requested device sms waves layouts inputStrides trials choice X P G Y initial
+        inputValues emptyOutput gradValues emptyGradient=.ok result ∧
+      let d := dimensions shape ax
+      let pre := prepareForward initial X P shape.prod inputValues emptyOutput
+      let beforeBackward := prepareBackward result.forwardState P G Y shape.prod gradValues emptyGradient
+      FlatResult P shape.prod (forwardValue pre X d) pre result.forwardState ∧
+      FlatResult Y shape.prod (backwardValue beforeBackward P G d (backwardConfig d choice))
+        beforeBackward result.finalState ∧
+      (∀ o, beforeBackward.readMem P o=result.forwardState.readMem P o) ∧
+      (∀ o, result.finalState.readMem P o=result.forwardState.readMem P o) ∧
+      result.output=forwardMetadata layouts inputStrides P shape (outputStorage input requested) device ∧
+      result.saved=⟨result.output,ax.val⟩ ∧
+      result.gradient=gradientMetadata layouts inputStrides Y shape (outputStorage input requested) device ∧
+      result.dimGradient=none ∧ result.dtypeGradient=none ∧
+      BlockState.WriteWithin (hostFootprint X P G Y shape.prod) initial result.finalState := by
+  obtain ⟨result,he,hspec⟩ := softmax_autograd_host_grid_real shape ax input requested device sms waves
+    layouts inputStrides trials choice X P G Y initial inputValues emptyOutput gradValues emptyGradient hM hN hK hXP hPY hGY
+  exact ⟨result,checkedAutograd_success shape ax input requested device sms waves layouts inputStrides trials choice X P G Y
+    initial inputValues emptyOutput gradValues emptyGradient hF hT hB result he,hspec⟩
+
+noncomputable def invokeChecked (shape : List Nat) (dim : Int)
+    (input : Storage) (requested : Option Storage) (device sms : Nat) (waves : WavesAboveOne)
+    (layouts : LayoutPrimitives) (inputStrides : List Nat)
+    (trials : List (Fin 6)) (choice : Fin 6) (X P G Y : RegionName) (initial : BlockState)
+    (inputValues emptyOutput gradValues emptyGradient : Nat → ℝ) : Except SourceHostError AutogradResult :=
+  match normalizeDim shape dim with
+  | none => .error .invalidDim
+  | some ax =>
+      let d := dimensions shape ax
+      if d.M=0 ∨ d.N=0 then .error .divisionByZero
+      else checkedAutograd shape ax input requested device sms waves layouts inputStrides trials choice X P G Y initial
+        inputValues emptyOutput gradValues emptyGradient
+
+theorem invokeChecked_normalized (shape : List Nat) (dim : Int) (ax : Fin shape.length)
+    (hnorm : normalizeDim shape dim=some ax)
+    (hM : (dimensions shape ax).M≠0) (hN : (dimensions shape ax).N≠0)
+    (input : Storage) (requested : Option Storage) (device sms : Nat) (waves : WavesAboveOne)
+    (layouts : LayoutPrimitives) (inputStrides : List Nat)
+    (trials : List (Fin 6)) (choice : Fin 6) (X P G Y : RegionName) (initial : BlockState)
+    (inputValues emptyOutput gradValues emptyGradient : Nat → ℝ) :
+    invokeChecked shape dim input requested device sms waves layouts inputStrides trials choice X P G Y initial
+      inputValues emptyOutput gradValues emptyGradient=
+    checkedAutograd shape ax input requested device sms waves layouts inputStrides trials choice X P G Y initial
+      inputValues emptyOutput gradValues emptyGradient := by
+  simp [invokeChecked,hnorm,hM,hN]
+
+def coldChoices : List (Fin 6) := [0,1,2,3,4,5]
+
+theorem fp64_inner_first_trial_rejected (d : Dimensions) (hK : d.K≤1) (hN : 32<d.N) :
+    ¬SourceProfileSupported .fp64 (backwardConfig d 0).one := by
+  simp [SourceProfileSupported,backwardConfig,show ¬1<d.K by omega,autotuneTile,oneTile]
+  omega
+
+theorem fp64_noninner_last_trial_rejected (d : Dimensions) (hK : 1<d.K) (hN : 1<d.N) :
+    ¬SourceProfileSupported .fp64 (backwardConfig d 5).one := by
+  simp [SourceProfileSupported,backwardConfig,hK,autotuneTile,oneTile]
+  omega
+
+theorem cold_fp64_inner_iff (d : Dimensions) (hK : d.K≤1) :
+    TrialsSupported .fp64 d coldChoices ↔ d.N≤32 := by
+  simp [TrialsSupported,coldChoices,SourceProfileSupported,backwardConfig,
+    show ¬1<d.K by omega,autotuneTile,oneTile]
+  omega
+
+theorem cold_fp64_noninner_iff (d : Dimensions) (hK : 1<d.K) :
+    TrialsSupported .fp64 d coldChoices ↔ d.N≤1 := by
+  simp [TrialsSupported,coldChoices,SourceProfileSupported,backwardConfig,hK,autotuneTile,oneTile]
+  omega
+
+#axiomsClean checkedAutograd_success
+#axiomsClean softmax_autograd_source_admitted_real
+#axiomsClean invokeChecked_normalized
+#axiomsClean fp64_inner_first_trial_rejected
+#axiomsClean fp64_noninner_last_trial_rejected
+#axiomsClean cold_fp64_inner_iff
+#axiomsClean cold_fp64_noninner_iff
+#specNonCircular forwardValue avoiding [checkedAutograd,invokeChecked,autograd,forwardRun,backwardRun,trialRun,run,exec]
+#specNonCircular backwardValue avoiding [checkedAutograd,invokeChecked,autograd,forwardRun,backwardRun,trialRun,run,exec]
+#guard_msgs (drop info) in
+#auditModuleAxioms
+end VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid

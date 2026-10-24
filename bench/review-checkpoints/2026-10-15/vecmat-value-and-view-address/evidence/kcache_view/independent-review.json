@@ -1,0 +1,268 @@
+{
+  "schema": 1,
+  "task": "kcache_copy_triton",
+  "reviewer": "/root/full_scope_audit",
+  "reviewed_at_utc": "2026-10-15T15:04:00.076039+00:00",
+  "status": "independently_reviewed_logical_view_address_preservation",
+  "decision": "accept_limited_logical_view_address_helper",
+  "blocking_findings": [],
+  "standard_accepted": false,
+  "whole_program_acceptance": false,
+  "author_package": "/tmp/veritile-standardization-20261015/kcache-view-wip",
+  "author_receipt": {
+    "path": "/tmp/veritile-standardization-20261015/kcache-view-wip/evidence/view-address-receipt.json",
+    "sha256": "5aa239b77ca9478d86768722133a3bbc8a14c4c7eacf818312488e040a4e0b8f"
+  },
+  "original_source": {
+    "path": "bench/tritonbench_g/kcache_copy_triton/kcache_copy_triton.py",
+    "sha256": "50b19d6fb36b87913f8e7a0e4d697be619a6acd2893e3520f136616dc082a63d",
+    "unchanged": true
+  },
+  "frozen_prior_receipt": {
+    "path": "/tmp/veritile-standardization-20261015/kcache-host-wip/evidence/host-grid-receipt.json",
+    "sha256": "7f3e09619c57f347efa9825f871056b4279b7f599001b019282f647a958c7c78"
+  },
+  "new_sources": {
+    "bench/tritonbench_g/kcache_copy_triton/Proofs/HostViewShape.lean": "5b0871a71daf98befc9b4272875a97663d12caaef9a19afd7816df64f67f4e15",
+    "bench/tritonbench_g/kcache_copy_triton/Proofs/HostViewCases.lean": "eeef2db2e15b4f24250d0a446606da8edac0737c06fcae3eddba0695526a6d3a",
+    "bench/tritonbench_g/kcache_copy_triton/Proofs/HostView.lean": "e589a93008303c43d767ba16b7ca15a83975ecbf35dafc5f2ea464dce8cf5ed5"
+  },
+  "dependency_sources": {
+    "bench/tritonbench_g/kcache_copy_triton/Proofs/HostGrid.lean": "e5c04b3e8d96ab55aafd0ccb10845912af19647c767b3392ddae706d0d067055",
+    "bench/tritonbench_g/kcache_copy_triton/Proofs/HostPrepare.lean": "28b40f0830fe058e5c381b4a619b1befe1fac6a355ce1b98b5182e2a084c9c6a",
+    "bench/tritonbench_g/kcache_copy_triton/HostCorrect.lean": "66ed5acbda6c18a12cf33ec34e432873cd7c5dd46f7c30f97f79fa6e301263c2",
+    "bench/tritonbench_g/kcache_copy_triton/Proofs/HostProbe.lean": "cd2699ee833b8c9d0900284a50e08bc58c47945b85015636ddf15096ebef81d0",
+    "bench/tritonbench_g/kcache_copy_triton/Proofs/SignedCopy.lean": "f2e50a59e57a38878e446658c408a732ad05ed03dff7e4591049e7c760adb17d",
+    "bench/tritonbench_g/kcache_copy_triton/Proofs/SignedDiscreteCopy.lean": "4e7af428cbc7d1b3194ecf8fd631eed4a15bb6d94b9a1ee663af85a44cd86a34",
+    "bench/tritonbench_g/kcache_copy_triton/SignedCorrect.lean": "2a4e5cb7dd3738125ff56ba0420c205ddfd4e3b4280890e7efa75c2965ba1725",
+    "bench/tritonbench_g/kcache_copy_triton/DiscreteCorrect.lean": "7be61309004911193eb87f566bc2bd1c9f8d6594c501b42aeded92e2848b2237",
+    "bench/tritonbench_g/kcache_copy_triton/RawBitCorrect.lean": "337123302b9f7b53f5e1e220ce8872353503d0326fba0fe8b087bd2a7d20132e",
+    "bench/tritonbench_g/kcache_copy_triton/KcacheCopyTriton.lean": "fb16f21d28e45b01dff210b98a37029c4d623b8710d6a91b43edea53f967bb74",
+    "bench/tritonbench_g/kcache_copy_triton/FPCorrect.lean": "339ceba53427ee3113c87c6065c8a76d47f955ca61b81a579904857049f97860",
+    "bench/tritonbench_g/kcache_copy_triton/Proofs/SignedRawBitCopy.lean": "160641f00c3acd8cb2f05e917c05ab96df1d8973de561925248c34e3d19bb800",
+    "bench/tritonbench_g/kcache_copy_triton/Proofs/BitWitness.lean": "b7ea47dd684e3daf292a8915d3b607f7ebc9cc8a6da9cc3399392294becdfdab",
+    "bench/tritonbench_g/kcache_copy_triton/Proofs/RawBitMemory.lean": "35c4dcf62542b5bc257de0af357c48de53ee00b63676c8d507652e35a8388b10",
+    "bench/tritonbench_g/kcache_copy_triton/Proofs/SignedWitness.lean": "ecd220175d9a554a0dd6ec2e16e3d43108cd0c5896a936c7c8861a7266f17648",
+    "bench/tritonbench_g/kcache_copy_triton/Proofs/TypedCopy.lean": "727b75143b5d44732b8240aadd0a5e62ab1bd4ba81cd37420d89e02b1a73ca34",
+    "bench/tritonbench_g/kcache_copy_triton/Proofs/RawBitCopy.lean": "02ed841c64ef65aa7a9b08b054c3d7b1bcaef4e2d4f29f43502095815188ecc1",
+    "bench/tritonbench_g/kcache_copy_triton/Proofs/RawBitWitness.lean": "f81887b7619ee6e4c32149651dd7cc76cd74ad1815ebb3a41c639ed3f4e7b30d"
+  },
+  "hash_bindings_verified": true,
+  "independent_verification": {
+    "directory": "/tmp/veritile-standardization-20261015/kcache-view-independent-check",
+    "results_file": "/tmp/veritile-standardization-20261015/kcache-view-independent-check/verification-results.json",
+    "results_sha256": "759ae022cf138f730152c9d274ca9e72fb2d302d88a38121f940f257ecebb303",
+    "compilation": [
+      {
+        "module": "bench/tritonbench_g/kcache_copy_triton/Proofs/HostViewShape.lean",
+        "exit_code": 0,
+        "command": [
+          "/tmp/veritile-lean-toolchain/bin/lean",
+          "--root=/tmp/veritile-standardization-20261015/kcache-view-wip",
+          "/tmp/veritile-standardization-20261015/kcache-view-wip/bench/tritonbench_g/kcache_copy_triton/Proofs/HostViewShape.lean",
+          "-o",
+          "/tmp/veritile-standardization-20261015/kcache-view-independent-check/bench/tritonbench_g/kcache_copy_triton/Proofs/HostViewShape.olean"
+        ],
+        "seconds": 3.497,
+        "source_sha256_before": "5b0871a71daf98befc9b4272875a97663d12caaef9a19afd7816df64f67f4e15",
+        "source_sha256_after": "5b0871a71daf98befc9b4272875a97663d12caaef9a19afd7816df64f67f4e15",
+        "log": "/tmp/veritile-standardization-20261015/kcache-view-independent-check/HostViewShape.log",
+        "log_sha256": "d89c271d2d7ffe0c18e82ac1950407c0644f5a0ce8e5808bd635205e886f9d84",
+        "output_olean": "/tmp/veritile-standardization-20261015/kcache-view-independent-check/bench/tritonbench_g/kcache_copy_triton/Proofs/HostViewShape.olean"
+      },
+      {
+        "module": "bench/tritonbench_g/kcache_copy_triton/Proofs/HostViewCases.lean",
+        "exit_code": 0,
+        "command": [
+          "/tmp/veritile-lean-toolchain/bin/lean",
+          "--root=/tmp/veritile-standardization-20261015/kcache-view-wip",
+          "/tmp/veritile-standardization-20261015/kcache-view-wip/bench/tritonbench_g/kcache_copy_triton/Proofs/HostViewCases.lean",
+          "-o",
+          "/tmp/veritile-standardization-20261015/kcache-view-independent-check/bench/tritonbench_g/kcache_copy_triton/Proofs/HostViewCases.olean"
+        ],
+        "seconds": 14.652,
+        "source_sha256_before": "eeef2db2e15b4f24250d0a446606da8edac0737c06fcae3eddba0695526a6d3a",
+        "source_sha256_after": "eeef2db2e15b4f24250d0a446606da8edac0737c06fcae3eddba0695526a6d3a",
+        "log": "/tmp/veritile-standardization-20261015/kcache-view-independent-check/HostViewCases.log",
+        "log_sha256": "2531c75c822e0a6bb332515a23cbbdb9e273f1160a8fca5f10c4f0e0f05601d8",
+        "output_olean": "/tmp/veritile-standardization-20261015/kcache-view-independent-check/bench/tritonbench_g/kcache_copy_triton/Proofs/HostViewCases.olean"
+      },
+      {
+        "module": "bench/tritonbench_g/kcache_copy_triton/Proofs/HostView.lean",
+        "exit_code": 0,
+        "command": [
+          "/tmp/veritile-lean-toolchain/bin/lean",
+          "--root=/tmp/veritile-standardization-20261015/kcache-view-wip",
+          "/tmp/veritile-standardization-20261015/kcache-view-wip/bench/tritonbench_g/kcache_copy_triton/Proofs/HostView.lean",
+          "-o",
+          "/tmp/veritile-standardization-20261015/kcache-view-independent-check/bench/tritonbench_g/kcache_copy_triton/Proofs/HostView.olean"
+        ],
+        "seconds": 3.686,
+        "source_sha256_before": "e589a93008303c43d767ba16b7ca15a83975ecbf35dafc5f2ea464dce8cf5ed5",
+        "source_sha256_after": "e589a93008303c43d767ba16b7ca15a83975ecbf35dafc5f2ea464dce8cf5ed5",
+        "log": "/tmp/veritile-standardization-20261015/kcache-view-independent-check/HostView.log",
+        "log_sha256": "8003230f87b0c9831dd6300db3122860378637d73aa4fab7a401d5ca88c3110c",
+        "output_olean": "/tmp/veritile-standardization-20261015/kcache-view-independent-check/bench/tritonbench_g/kcache_copy_triton/Proofs/HostView.olean"
+      }
+    ],
+    "environment": "lake env with independent output directory prepended to LEAN_PATH; existing repository bench dependency oleans symlinked into that directory because Lean resolves the bench package at the first matching root; all three new module outputs were independently compiled.",
+    "dependency_oleans": {
+      "bench/tritonbench_g/kcache_copy_triton/Proofs/HostGrid.olean": {
+        "resolved_path": "/tmp/veritile-tritonbench-lake/build/lib/lean/bench/tritonbench_g/kcache_copy_triton/Proofs/HostGrid.olean",
+        "sha256": "229143c79fbf2df863fbfc39f2f7105d590dbf532fc565bca87e75130ae70288"
+      },
+      "bench/tritonbench_g/kcache_copy_triton/Proofs/HostPrepare.olean": {
+        "resolved_path": "/tmp/veritile-tritonbench-lake/build/lib/lean/bench/tritonbench_g/kcache_copy_triton/Proofs/HostPrepare.olean",
+        "sha256": "ca01dcd35679e2918fb0826c5e1568af975a896664fd2e76b1fd6d6d66b2670c"
+      },
+      "bench/tritonbench_g/kcache_copy_triton/HostCorrect.olean": {
+        "resolved_path": "/tmp/veritile-tritonbench-lake/build/lib/lean/bench/tritonbench_g/kcache_copy_triton/HostCorrect.olean",
+        "sha256": "6032a41bcbdea0066ad8379b073839191ed531ed81b3c545f39cf3d2b5989acf"
+      },
+      "bench/tritonbench_g/kcache_copy_triton/Proofs/HostProbe.olean": {
+        "resolved_path": "/tmp/veritile-tritonbench-lake/build/lib/lean/bench/tritonbench_g/kcache_copy_triton/Proofs/HostProbe.olean",
+        "sha256": "973d766a67d2344abf2b3a480aec65550070f365b546fa7a6a2789545ce6de63"
+      },
+      "bench/tritonbench_g/kcache_copy_triton/Proofs/SignedCopy.olean": {
+        "resolved_path": "/tmp/veritile-tritonbench-lake/build/lib/lean/bench/tritonbench_g/kcache_copy_triton/Proofs/SignedCopy.olean",
+        "sha256": "b4f7b672ab18cc4dd3f731c22fa1c7add338ee3912121a5ecdde5f4f0fcdc854"
+      },
+      "bench/tritonbench_g/kcache_copy_triton/Proofs/SignedDiscreteCopy.olean": {
+        "resolved_path": "/tmp/veritile-tritonbench-lake/build/lib/lean/bench/tritonbench_g/kcache_copy_triton/Proofs/SignedDiscreteCopy.olean",
+        "sha256": "8872667b3cbbba89e012c927b4de215fc553dba359785da0d2f73817e5e28682"
+      },
+      "bench/tritonbench_g/kcache_copy_triton/SignedCorrect.olean": {
+        "resolved_path": "/tmp/veritile-tritonbench-lake/build/lib/lean/bench/tritonbench_g/kcache_copy_triton/SignedCorrect.olean",
+        "sha256": "fdf5bd1a029bfdc91bbd11c717a7adea2fd65f6204549f32f197cc5121f0020f"
+      },
+      "bench/tritonbench_g/kcache_copy_triton/DiscreteCorrect.olean": {
+        "resolved_path": "/tmp/veritile-tritonbench-lake/build/lib/lean/bench/tritonbench_g/kcache_copy_triton/DiscreteCorrect.olean",
+        "sha256": "7eae31192947a2a3d1b1106c15086676703b69fcc25062e76071f4e8169d0f44"
+      },
+      "bench/tritonbench_g/kcache_copy_triton/RawBitCorrect.olean": {
+        "resolved_path": "/tmp/veritile-tritonbench-lake/build/lib/lean/bench/tritonbench_g/kcache_copy_triton/RawBitCorrect.olean",
+        "sha256": "85fe693384d6da4ce951440f01d26675e8cfb10f8602a48c8fff1bc778fb8ad5"
+      },
+      "bench/tritonbench_g/kcache_copy_triton/KcacheCopyTriton.olean": {
+        "resolved_path": "/tmp/veritile-tritonbench-lake/build/lib/lean/bench/tritonbench_g/kcache_copy_triton/KcacheCopyTriton.olean",
+        "sha256": "87e524697bacfa7a6d0e0e78939def10f24528405fbe10d80a68d45ac7b7660c"
+      },
+      "bench/tritonbench_g/kcache_copy_triton/FPCorrect.olean": {
+        "resolved_path": "/tmp/veritile-tritonbench-lake/build/lib/lean/bench/tritonbench_g/kcache_copy_triton/FPCorrect.olean",
+        "sha256": "41330cd547cada2e5b40e58c3a1a5ba6d23a9b6d13afa1820a1c2d7bf57fee65"
+      },
+      "bench/tritonbench_g/kcache_copy_triton/Proofs/SignedRawBitCopy.olean": {
+        "resolved_path": "/tmp/veritile-tritonbench-lake/build/lib/lean/bench/tritonbench_g/kcache_copy_triton/Proofs/SignedRawBitCopy.olean",
+        "sha256": "b08a71345e244c4aa7cd09813d0c06cd02ba3339b953862c0bdf6a82276c3476"
+      },
+      "bench/tritonbench_g/kcache_copy_triton/Proofs/BitWitness.olean": {
+        "resolved_path": "/tmp/veritile-tritonbench-lake/build/lib/lean/bench/tritonbench_g/kcache_copy_triton/Proofs/BitWitness.olean",
+        "sha256": "9db8f5bc3021320783f6d45ab324c91b525074b63bab8856128fab87789bf9f9"
+      },
+      "bench/tritonbench_g/kcache_copy_triton/Proofs/RawBitMemory.olean": {
+        "resolved_path": "/tmp/veritile-tritonbench-lake/build/lib/lean/bench/tritonbench_g/kcache_copy_triton/Proofs/RawBitMemory.olean",
+        "sha256": "b8489e0915336c6502993b8a834888df946bc6f1d10b4da57bada56d118748fe"
+      },
+      "bench/tritonbench_g/kcache_copy_triton/Proofs/SignedWitness.olean": {
+        "resolved_path": "/tmp/veritile-tritonbench-lake/build/lib/lean/bench/tritonbench_g/kcache_copy_triton/Proofs/SignedWitness.olean",
+        "sha256": "f60420c80c81baf969f63793cdb14da802f7673af55a544a1c64feb2486c55d7"
+      },
+      "bench/tritonbench_g/kcache_copy_triton/Proofs/TypedCopy.olean": {
+        "resolved_path": "/tmp/veritile-tritonbench-lake/build/lib/lean/bench/tritonbench_g/kcache_copy_triton/Proofs/TypedCopy.olean",
+        "sha256": "b6370fde6beabd6887db0b27893298eb21b4d83d78f01609e90dfb3b61b78560"
+      },
+      "bench/tritonbench_g/kcache_copy_triton/Proofs/RawBitCopy.olean": {
+        "resolved_path": "/tmp/veritile-tritonbench-lake/build/lib/lean/bench/tritonbench_g/kcache_copy_triton/Proofs/RawBitCopy.olean",
+        "sha256": "6cde55d4592ce63fe2fbaabeb08a9c72b89f7c72b5b59c544f049a144ec246b4"
+      },
+      "bench/tritonbench_g/kcache_copy_triton/Proofs/RawBitWitness.olean": {
+        "resolved_path": "/tmp/veritile-tritonbench-lake/build/lib/lean/bench/tritonbench_g/kcache_copy_triton/Proofs/RawBitWitness.olean",
+        "sha256": "c2c6f2eb79551e2ca9bace8583333d294a918de84b3cb6fe46da671009f0e55e"
+      }
+    },
+    "compilation_failures_resolved": [
+      {
+        "cause": "Initial independent compile could not resolve HostPrepare.olean through the first bench package root.",
+        "resolution": "Added only independent-directory symlinks to existing repository bench dependency oleans, then re-ran all three new sources successfully."
+      }
+    ],
+    "source_hashes_unchanged_before_and_after": true,
+    "named_axiom_checks": [
+      "VeriTile.Bench.TritonBenchG.KcacheCopyTriton.Host.View.consume_length",
+      "VeriTile.Bench.TritonBenchG.KcacheCopyTriton.Host.View.chunks_length",
+      "VeriTile.Bench.TritonBenchG.KcacheCopyTriton.Host.View.rank4_view_length",
+      "VeriTile.Bench.TritonBenchG.KcacheCopyTriton.Host.View.coefficients_positive",
+      "VeriTile.Bench.TritonBenchG.KcacheCopyTriton.Host.View.flattened_index_lt",
+      "VeriTile.Bench.TritonBenchG.KcacheCopyTriton.Host.View.rank4_view_address",
+      "VeriTile.Bench.TritonBenchG.KcacheCopyTriton.Host.View.rank4_view_addresses",
+      "VeriTile.Bench.TritonBenchG.KcacheCopyTriton.Host.View.reshape_view_addresses",
+      "VeriTile.Bench.TritonBenchG.KcacheCopyTriton.Host.View.reshape_view_read"
+    ],
+    "named_axiom_check_count": 9,
+    "module_audit_directive_count": 3,
+    "module_audit_scope": "#auditModuleAxioms discovers registered headlines and legacy correctness suffixes, not every declaration. The nine explicit #axiomsClean checks audit the recursive proof dependency footprints of all new public results. Module audit info is suppressed by #guard_msgs (drop info).",
+    "allowed_axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "diagnostics": "Only linter warnings about unnecessary sequencing and unused/unreachable tactics; all final compiler exit codes are zero."
+  },
+  "symbolic_cases": {
+    "dimension_partition": "Each positive dimension is either exactly 1 or arbitrary >1; L denotes arbitrary >1.",
+    "cases": [
+      "1111",
+      "111L",
+      "11L1",
+      "11LL",
+      "1L11",
+      "1L1L",
+      "1LL1",
+      "1LLL",
+      "L111",
+      "L11L",
+      "L1L1",
+      "L1LL",
+      "LL11",
+      "LL1L",
+      "LLL1",
+      "LLLL"
+    ],
+    "count": 16,
+    "finite_probe_substitute": false
+  },
+  "reviewed_proof_chain": [
+    "consume_length establishes the consumed/remaining dimension length invariant of the actual consume algorithm.",
+    "chunks_length and rank4_view_length derive exactly three returned strides from actual inferViewStrides success, including zero-sized metadata.",
+    "coefficients_positive proves every non-singleton stride coefficient from actual chunk inference over all 16 symbolic singleton partitions.",
+    "flattened_index_lt proves ia*b+ib < a*b for arbitrary Fin a and Fin b.",
+    "rank4_view_address and rank4_view_addresses prove forward flattened address preservation at every original indexed coordinate; singleton indices are zero.",
+    "reshape_view_addresses derives the actual returned tensor region, shape and stride list from actual reshape success and result.copied=false, eliminating copy/error branches.",
+    "reshape_view_read derives equal reads for an arbitrary load function and arbitrary common logical Nat storage offset."
+  ],
+  "premise_and_domain_review": {
+    "new_address_equality_assumption": false,
+    "arbitrary_view_mapping_assumption": false,
+    "contiguity_or_injectivity_assumption": false,
+    "no_alias_assumption": false,
+    "finite_size_bound": false,
+    "strides": "Arbitrary Nat values, including zero/broadcast strides and all successful noncontiguous-view patterns admitted by the existing algorithm.",
+    "zero_dimensions": "inferViewStrides metadata results include zero sizes; address/read claims are vacuous when a corresponding Fin domain is empty. Actual reshape rejects h*d=0; successful empty-prefix a=0 or b=0 with positive tail is covered.",
+    "direction": "Forward flattening address preservation at original coordinates; this is not a newly integrated native or whole-wrapper correctness theorem."
+  },
+  "remaining_nondeferrable_gaps": [
+    "Integration and catalog registration are not performed by this review.",
+    "Native Torch reshape/allocator correspondence to the explicit Lean algorithm remains open.",
+    "Physical tensor/region alias mapping, byte pointers and native storage offsets remain open; a common logical offset is not a native correspondence proof.",
+    "Signed/negative strides and finite-width metadata/overflow remain open.",
+    "Full original caller/dtype/error domain, negative n and resource legality remain open; this helper adds no native fp64/raw dtype coverage.",
+    "Original ignored nonunit cache-tail stride, ignored lengths stride and unchecked legacy cache shape remain source behavior.",
+    "GPU concurrency, race freedom and schedule-independent CUDA refinement remain open."
+  ],
+  "numerical_deferrals": [],
+  "repository_mutation": false,
+  "frozen_package_mutation": false,
+  "repository_head_at_review": "64f45784019b5387438b089a0f0e03f83760fedb",
+  "repository_status_at_review": [],
+  "conclusion": "No blocking issue found for this limited logical helper. The new proof closes parameterized successful rank4-to-rank3 view address preservation relative to the existing explicit HostPrepare model. It does not satisfy whole-program acceptance under the user standard, and no structural gap is deferred as a numerical assumption."
+}

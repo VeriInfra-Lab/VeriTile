@@ -1,0 +1,14 @@
+{
+  "source_prefix_sha256": "b214b0a77de7611434fd446e6acee32165c1a71e28748e0cf297b3e572b1aa9a",
+  "torch": "2.13.0+cu130",
+  "cases": 75,
+  "ast_cases": 18,
+  "cpu_metadata_only": true,
+  "fake_launch_records_only": true,
+  "gpu_executed": false,
+  "artifacts": {
+    "probe.py.txt": "edda84440567c8389bb24cd64150ecc788c9cfe186a1127ef8e44bc7dc0122bd",
+    "ast-traces.json": "42025143b7182a063b001b15183efddde3686e119ccd2de2a5a0106dfa3dd012",
+    "records.json": "64d93bc1623a3bd96c89a844291deb73e14add6d4e3e20bdee1d9bd99477822c"
+  }
+}

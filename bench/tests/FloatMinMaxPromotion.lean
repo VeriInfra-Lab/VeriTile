@@ -24,13 +24,12 @@ def literalMax (x : RegionName) (B : Nat) : ComputeKernel := triton {
   m_new = tl.maximum(0.0, inp)
 }
 
-/-- The input remains bf16 storage and is widened at the comparison/select. -/
+/-- The input remains bf16 storage and is widened at the floating maximum. -/
 example (x : RegionName) (B : Nat) :
     (mixedMax x B).surfaceBody.getLast? = some
       (.assign .real [B] "m_new" (.compute (.alg .fp32
-        (.where (.gt .real (.consSame .nil) (.ref .real [B] "m")
-          (.castFloat .bf16 .real (.ref .bf16 [B] "inp")))
-          (.ref .real [B] "m") (.castFloat .bf16 .real (.ref .bf16 [B] "inp")))))) := rfl
+        (.maximumFloat .real (.consSame .nil) (.ref .real [B] "m")
+          (.castFloat .bf16 .real (.ref .bf16 [B] "inp")))))) := rfl
 
 /-- Reversing operand order still promotes the half tensor to fp32. -/
 example (x : RegionName) (B : Nat) :

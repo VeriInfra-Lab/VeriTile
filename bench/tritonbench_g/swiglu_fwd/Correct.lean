@@ -1,7 +1,13 @@
+import bench.tritonbench_g.swiglu_fwd.Proofs.WholeIndex
 import bench.tritonbench_g.swiglu_fwd.Proofs.Precision
 import bench.tritonbench_g.swiglu_fwd.Proofs.Math
 import bench.tritonbench_g.swiglu_fwd.Proofs.Candidate
 import bench.tritonbench_g.swiglu_fwd.Proofs.Real
+
+/-! Historical mathematical and slice contracts in this file are ordinary helper
+theorems. Only the retained `specification` entries below are public source contracts.
+The helpers retain their statements and proofs for downstream reuse. -/
+
 
 namespace VeriTile.Bench.TritonBenchG.SwigluFwd
 
@@ -17,7 +23,7 @@ pointer kernel terminates, every active output lane `j` holds
 `TiledActivation.swiglu (xs j) (ys j)`, and every other memory cell is
 unchanged. Proof: `Masked2DKernelIO₂.Implements.intro` assembles the
 region-model masked triple with the flat-memory bridge side conditions. -/
-specification swiglu_fwd_kernel_correctness
+theorem swiglu_fwd_kernel_correctness
     (X Y OUT : RegionName)
     (stride_x_row stride_y_row stride_out_row ncols BLOCK_N : Nat) :
     swigluIO X Y OUT stride_x_row stride_y_row stride_out_row ncols BLOCK_N
@@ -35,7 +41,7 @@ specification swiglu_fwd_kernel_correctness
     exact ⟨s1, hexec, hval, fun r o hout _ => hframe r o hout⟩
 
 /-- Independent scalar formula for every active output of the complete source. -/
-specification formula_correct (X Y OUT : RegionName) (sx sy so N B : Nat) :
+theorem formula_correct (X Y OUT : RegionName) (sx sy so N B : Nat) :
     swigluIO X Y OUT sx sy so N B ⊨ fun _ _ xs ys i => Math.forward (xs i) (ys i) := by
   simpa only [Math.forward_eq] using swiglu_fwd_kernel_correctness X Y OUT sx sy so N B
 
@@ -62,3 +68,25 @@ specification typed_real_correct (input partner output : Storage) (v : Bool)
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end VeriTile.Bench.TritonBenchG.SwigluFwd
+
+namespace VeriTile.Bench.TritonBenchG.SwigluFwd.Whole
+open VeriTile.Triton
+noncomputable section
+
+/-- Whole original FP32-selected wrapper under its independent Real
+interpretation. Torch metadata/copy/allocation and setup can fail; successful
+results contain the entry-input SwiGLU values at every logical output cell. -/
+specification swiglu_fwd_real_source_outcomes (rt : Runtime ℝ input supplied entry preexisting)
+    (_inputValid : InputDomain input)
+    (valid : ∀ p, rt.prepare = .ok p → checks p = Bool.true → Domain p)
+    (finite : ∀ p (hp : rt.prepare = .ok p) (hc : checks p = Bool.true),
+      FiniteAdmission p (valid p hp hc)) :
+    VeriTile.Spec.Real (HostSpec Math.forward rt (executeHost realAlgebra rt) ∧
+      ∀ p hp hc, IndexCorrespondence p (valid p hp hc) (finite p hp hc)) := by
+  exact ⟨real_host_outcomes rt valid,fun p hp hc => index_correspondence p (valid p hp hc) (finite p hp hc)⟩
+
+#axiomsClean swiglu_fwd_real_source_outcomes
+#guard_msgs (drop info) in
+#auditModuleAxioms
+end
+end VeriTile.Bench.TritonBenchG.SwigluFwd.Whole

@@ -1,0 +1,1899 @@
+0 adam_update_triton::update_fn_kernel_correctness
+(hRegions : p_ptr ≠ exp_avg_ptr)
+1 adam_update_triton::update_commuted_correctness
+(hRegions : p_ptr ≠ exp_avg_ptr)
+2 add_example::add_kernel_correctness
+
+3 add_example::add_commuted_correctness
+
+4 add_value::puzzle1_kernel_correctness
+
+5 add_value::puzzle1_commuted_correctness
+
+6 apply_penalty::apply_penalty_correctness
+
+7 apply_penalty::apply_penalty_reciprocal_correctness
+
+8 attention_forward_triton::attention_correctness
+(hBN : 0 < BLOCK_N)
+(hnum : 0 < numKVBlocks)
+(hActiveLe : HEAD_ACTIVE ≤ BLOCK_DMODEL)
+(hHD : HEAD_ACTIVE ≤ HEAD_DIM)
+9 attention_forward_triton::attention_reciprocal_correctness
+(hBN : 0 < BLOCK_N)
+(hnum : 0 < numKVBlocks)
+(hActiveLe : HEAD_ACTIVE ≤ BLOCK_DMODEL)
+(hHD : HEAD_ACTIVE ≤ HEAD_DIM)
+10 attention_fwd_triton1::linear_attention_correctness
+(s_qh s_hh s_ht : Nat)
+(hBT : 0 < BT)
+(hstride : BD ≤ s_ht)
+11 attention_fwd_triton1::linear_attention_scalar_left_correctness
+(s_qh s_hh s_ht : Nat)
+(hBT : 0 < BT)
+(hstride : BD ≤ s_ht)
+12 attention_fwd_triton2::attention_correctness
+(hBN : 0 < BLOCK_N)
+(hnum : 0 < numKVBlocks)
+(hActiveLe : HEAD_ACTIVE ≤ BLOCK_DMODEL)
+(hHD : HEAD_ACTIVE ≤ HEAD_DIM)
+13 attention_fwd_triton2::attention_reciprocal_correctness
+(hBN : 0 < BLOCK_N)
+(hnum : 0 < numKVBlocks)
+(hActiveLe : HEAD_ACTIVE ≤ BLOCK_DMODEL)
+(hHD : HEAD_ACTIVE ≤ HEAD_DIM)
+14 attention_fwd_triton3::attention_correctness
+(hN : 0 < BN)
+(hflag : p.evenN ≠ 0 → p.layout.kvContext % BN = 0)
+(hd : 0 < p.layout.oDim)
+(hr : BD * p.layout.oDim ≤ p.layout.oRow)
+(hm : p.layout.M ≠ p.layout.Out)
+(hlm : p.layout.L ≠ p.layout.M)
+(hlo : p.layout.L ≠ p.layout.Out)
+15 attention_fwd_triton3::attention_reciprocal_correctness
+(hN : 0 < BN)
+(hflag : p.evenN ≠ 0 → p.layout.kvContext % BN = 0)
+(hd : 0 < p.layout.oDim)
+(hr : BD * p.layout.oDim ≤ p.layout.oRow)
+(hm : p.layout.M ≠ p.layout.Out)
+(hlm : p.layout.L ≠ p.layout.M)
+(hlo : p.layout.L ≠ p.layout.Out)
+16 attention_kernel::attention_correctness
+(hBM : 0 < BM)
+(hBN : 0 < BN)
+(hHD : 0 < HD)
+(hnB : 1 ≤ nB)
+17 attention_kernel::attention_reciprocal_correctness
+(hBM : 0 < BM)
+(hBN : 0 < BN)
+(hHD : 0 < HD)
+(hnB : 1 ≤ nB)
+18 attention_kernel_aligned::attention_kernel_aligned_output_summary_general
+(hKN : 0 < BLOCK_N)
+(hBM : 0 < BLOCK_M)
+(hHD : 0 < HEAD)
+(hnB : 1 ≤ nB)
+(hundef : ∀ rg o, s.undef rg o = 0)
+19 attention_kernel_aligned::attention_kernel_aligned_io_correctness
+(hfp16 : R.round .fp16 = id)
+(hBM : 0 < BLOCK_M)
+(hBN : 0 < BLOCK_N)
+(hHD : 0 < HEAD)
+(hnB : 1 ≤ nB)
+20 attention_llama::attention_correctness
+(hBM : 0 < BM)
+(hBN : 0 < BN)
+(hT : 0 < T)
+(hinj : Function.Injective (fun i : TileIndex [BM, BD] => i.1.val * som + i.2.1.val * son))
+21 attention_llama::attention_fp8_correctness
+(hBM : 0 < BM)
+(hBN : 0 < BN)
+(hT : 0 < T)
+(hQK : Q ≠ K)
+(hQV : Q ≠ V)
+(hOK : Out ≠ K)
+(hOV : Out ≠ V)
+(hinj : Function.Injective (fun i : TileIndex [BM, BD] => i.1.val * som + i.2.1.val * son))
+22 attention_score::score_correctness
+(hB : 0 < B)
+23 attention_score::score_scalar_left_correctness
+(hB : 0 < B)
+24 attn_fwd_causal::attention_correctness
+(hBN : 0 < BN)
+25 attn_fwd_causal::attention_reciprocal_correctness
+(hBN : 0 < BN)
+26 attn_fwd_triton::attention_correctness
+(hBN : 0 < BN)
+27 attn_fwd_triton::attention_reciprocal_correctness
+(hBN : 0 < BN)
+28 batched_vecmat_mult::vecmat_correctness
+(hBK : 0 < BK)
+(hBN : BN ≤ N)
+29 batched_vecmat_mult::vecmat_block_first_correctness
+(hBK : 0 < BK)
+(hBN : BN ≤ N)
+30 bgmv_expand_slice::bgmv_expand_slice_correctness
+(hBN : 0 < p.BN)
+(hstride : 0 < p.outputStride)
+(hK : p.K ≤ p.BK)
+(hsplits : 0 < p.splits)
+(hw : p.weights ≠ p.output)
+31 bgmv_expand_slice::bgmv_output_first_correctness
+(hBN : 0 < p.BN)
+(hstride : 0 < p.outputStride)
+(hK : p.K ≤ p.BK)
+(hsplits : 0 < p.splits)
+(hw : p.weights ≠ p.output)
+32 bgmv_expand_slice::bgmv_output_first_equiv
+[Inhabited α]
+(native_add : NativeFP.NativeAdditionCommutes M D (original input weight cast out_dtype x w out N K indices sx sk sw0 swn swk sy syn slice BN BK splits even add).kernel)
+(finite_operands : ∀ site ∈ (original input weight cast out_dtype x w out N K indices sx sk sw0 swn swk sy syn slice BN BK splits even add).domain, site.Holds M D s)
+33 bgmv_shrink_kernel::bgmv_shrink_correctness
+(hS : 0 < p.BK * p.splits)
+(hstride : 0 < p.outputStride)
+(hN : p.N ≤ p.BN)
+34 bgmv_shrink_kernel::bgmv_scalar_left_correctness
+(hS : 0 < p.BK * p.splits)
+(hstride : 0 < p.outputStride)
+(hN : p.N ≤ p.BN)
+35 block_sparse_attn::block_sparse_attention_correctness
+(hN : 0 < BN)
+(hstride : BD ≤ p.oRow)
+(htwo : 2 ≤ p.blocks → 2 * BD ≤ p.oRow)
+36 block_sparse_attn::block_sparse_scalar_left_correctness
+(hN : 0 < BN)
+(hstride : BD ≤ p.oRow)
+(htwo : 2 ≤ p.blocks → 2 * BD ≤ p.oRow)
+37 bmm_chunk_bwd::bmm_chunk_bwd_correctness
+(hBCS : 0 < BCS)
+(hout : RealViews.OutputDistinct BM BN p)
+38 bmm_chunk_bwd::bmm_residual_left_correctness
+(hBCS : 0 < BCS)
+(hout : RealViews.OutputDistinct BM BN p)
+39 bmm_chunk_fwd::bmm_chunk_fwd_correctness
+(hBK : 0 < BK)
+(hout : RealViews.OutputDistinct BM BN p)
+40 bmm_chunk_fwd::bmm_dot_first_correctness
+(hBK : 0 < BK)
+(hout : RealViews.OutputDistinct BM BN p)
+41 bmm_optimized::bmm_optimized_correctness
+
+42 bmm_optimized::bmm_dot_first_correctness
+
+43 cache_transform_triton::prefill_cache_correctness
+
+44 cache_transform_triton::prefill_index_commuted_correctness
+
+45 cache_transform_triton::decoding_cache_correctness
+
+46 cache_transform_triton::decode_index_commuted_correctness
+
+47 chunk_bwd_dqkg::chunk_bwd_dqkg_correctness
+(hBV : 0 < p.BV)
+(hstride : p.K ≤ p.s_k_t)
+(hDqDk : dqOut ≠ dkOut)
+(hDqDg : dqOut ≠ dgOut)
+(hDkDg : dkOut ≠ dgOut)
+48 chunk_bwd_dqkg::chunk_dot_left_correctness
+(hBV : 0 < p.BV)
+(hstride : p.K ≤ p.s_k_t)
+(hDqDk : dqOut ≠ dkOut)
+(hDqDg : dqOut ≠ dgOut)
+(hDkDg : dkOut ≠ dgOut)
+49 chunk_cumsum_kernel::chunk_cumsum_correctness
+(hSO : o ≠ s)
+(hBT : 0 < BT)
+50 chunk_cumsum_kernel::chunk_sum_left_correctness
+(hSO : o ≠ s)
+(hBT : 0 < BT)
+51 chunk_cumsum_vector::chunk_cumsum_vector_correctness
+(hSO : s ≠ o)
+(hBT : 0 < p.BT)
+(hLayout : noOutputOverlap p)
+52 chunk_cumsum_vector::chunk_sum_left_correctness
+(hSO : s ≠ o)
+(hBT : 0 < p.BT)
+(hLayout : noOutputOverlap p)
+53 chunk_delta_fwd::chunk_delta_correctness
+(hK : p.K ≤ p.BK)
+(hBT : 0 < p.BT)
+(hBC : 0 < p.BC)
+(hcover : p.T ≤ p.NT*p.BT)
+(hs : RealOuterStep.Separate r)
+(hfsep : storeFinal = Bool.true → r.history ≠ r.final ∧ r.corrected ≠ r.final)
+54 chunk_delta_fwd::chunk_sum_left_correctness
+(hK : p.K ≤ p.BK)
+(hBT : 0 < p.BT)
+(hBC : 0 < p.BC)
+(hcover : p.T ≤ p.NT*p.BT)
+(hs : RealOuterStep.Separate r)
+(hfsep : storeFinal = Bool.true → r.history ≠ r.final ∧ r.corrected ≠ r.final)
+55 chunk_gate_recurrence::forward_correctness
+(hasSeed : Bool)
+(hN : 0 < p.N)
+(hBK : p.BK ≤ p.K)
+(hBV : p.BV ≤ p.V)
+(hSO : S ≠ O)
+(hDO : D ≠ O)
+56 chunk_gate_recurrence::forward_sum_left_correctness
+(hasSeed : Bool)
+(hN : 0 < p.N)
+(hBK : p.BK ≤ p.K)
+(hBV : p.BV ≤ p.V)
+(hSO : S ≠ O)
+(hDO : D ≠ O)
+57 chunk_gate_recurrence::backward_correctness
+(hN : 0 < p.N)
+(hBKpos : 0 < p.BK)
+(hBVpos : 0 < p.BV)
+(hBK : p.BK ≤ p.K)
+(hBV : p.BV ≤ p.V)
+(hIDL : DI ≠ DL)
+(hGDL : DG ≠ DL)
+58 chunk_gate_recurrence::backward_sum_left_correctness
+(hN : 0 < p.N)
+(hBKpos : 0 < p.BK)
+(hBVpos : 0 < p.BV)
+(hBK : p.BK ≤ p.K)
+(hBV : p.BV ≤ p.V)
+(hIDL : DI ≠ DL)
+(hGDL : DG ≠ DL)
+59 chunk_gated_attention::cumulative_correctness
+(hinj : cumulativeNoOverlap p)
+60 chunk_gated_attention::cumulative_index_first_correctness
+(hinj : cumulativeNoOverlap p)
+61 chunk_gated_attention::recurrent_correctness
+(dot gate history : TypedSource.Storage)
+(hs : RealHStep.Separate r)
+(hfsep : storeFinal = Bool.true → r.history ≠ r.final)
+62 chunk_gated_attention::recurrent_sum_left_correctness
+(dot gate history : TypedSource.Storage)
+(hs : RealHStep.Separate r)
+(hfsep : storeFinal = Bool.true → r.history ≠ r.final)
+63 chunk_gla_fwd::output_correct
+
+64 chunk_gla_fwd::output_sumLeft_correct
+
+65 chunk_gla_fwd::inter_correct
+
+66 chunk_gla_fwd::inter_dotFirst_correct
+
+67 chunk_gla_fwd::intra_correct
+(hkey : r.key ≠ r.output)
+(hgate : r.gate ≠ r.output)
+(hK : p.K ≤ p.BK)
+68 chunk_gla_fwd::intra_scaleFirst_correct
+(hkey : r.key ≠ r.output)
+(hgate : r.gate ≠ r.output)
+(hK : p.K ≤ p.BK)
+69 chunk_gla_fwd::split_correct
+(hkey : r.key ≠ r.output)
+(hgate : r.gate ≠ r.output)
+70 chunk_gla_fwd::split_scaleFirst_correct
+(hkey : r.key ≠ r.output)
+(hgate : r.gate ≠ r.output)
+71 chunk_gla_fwd::merge_correct
+
+72 chunk_gla_fwd::merge_loadFirst_correct
+
+73 chunk_gla_simple::original_correct
+
+74 chunk_gla_simple::scaleFirst_correct
+
+75 chunk_linear_attn::forwardState_correct
+(hkey : r.key ≠ r.history)
+(hvalue : r.value ≠ r.history)
+(hfinal : storeFinal = Bool.true → r.history ≠ r.final)
+76 chunk_linear_attn::forwardStateDotLeft_correct
+(hkey : r.key ≠ r.history)
+(hvalue : r.value ≠ r.history)
+(hfinal : storeFinal = Bool.true → r.history ≠ r.final)
+77 chunk_linear_attn::forwardOutput_correct
+
+78 chunk_linear_attn::forwardOutputScaleFirst_correct
+
+79 chunk_linear_attn::backwardState_correct
+(hquery : r.query ≠ r.history)
+(hgradient : r.incoming ≠ r.history)
+80 chunk_linear_attn::backwardStateDotLeft_correct
+(hquery : r.query ≠ r.history)
+(hgradient : r.incoming ≠ r.history)
+81 chunk_linear_attn::backwardGradients_correct
+(hv : r.value ≠ r.dv)
+(ho : r.incoming ≠ r.dv)
+(hh : r.history ≠ r.dv)
+(hdh : r.historyGradient ≠ r.dv)
+(hqk : r.dq ≠ r.dk)
+(hqv : r.dq ≠ r.dv)
+(hkv : r.dk ≠ r.dv)
+82 chunk_linear_attn::backwardGradientsDotLeft_correct
+(hv : r.value ≠ r.dv)
+(ho : r.incoming ≠ r.dv)
+(hh : r.history ≠ r.dv)
+(hdh : r.historyGradient ≠ r.dv)
+(hqk : r.dq ≠ r.dk)
+(hqv : r.dq ≠ r.dv)
+(hkv : r.dk ≠ r.dv)
+83 chunk_retention::forwardState_correct
+(hkey : r.key ≠ r.history)
+(hvalue : r.value ≠ r.history)
+(hfinal : storeFinal = Bool.true → r.history ≠ r.final)
+84 chunk_retention::forwardStateDotLeft_correct
+(hkey : r.key ≠ r.history)
+(hvalue : r.value ≠ r.history)
+(hfinal : storeFinal = Bool.true → r.history ≠ r.final)
+85 chunk_retention::forwardOutput_correct
+
+86 chunk_retention::forwardOutputScaleFirst_correct
+
+87 chunk_retention::backwardState_correct
+
+88 chunk_retention::backwardStateDotLeft_correct
+
+89 chunk_retention::backwardGradients_correct
+(hv : r.value ≠ r.dv)
+(ho : r.incoming ≠ r.dv)
+(hh : r.history ≠ r.dv)
+(hdh : r.historyGradient ≠ r.dv)
+(hqk : r.dq ≠ r.dk)
+(hqv : r.dq ≠ r.dv)
+(hkv : r.dk ≠ r.dv)
+90 chunk_retention::backwardGradientsDotLeft_correct
+(hv : r.value ≠ r.dv)
+(ho : r.incoming ≠ r.dv)
+(hh : r.history ≠ r.dv)
+(hdh : r.historyGradient ≠ r.dv)
+(hqk : r.dq ≠ r.dk)
+(hqv : r.dq ≠ r.dv)
+(hkv : r.dk ≠ r.dv)
+91 chunk_retention_ops::forwardState_correct
+(hkey : r.key ≠ r.history)
+(hvalue : r.value ≠ r.history)
+(hfinal : storeFinal = Bool.true → r.history ≠ r.final)
+92 chunk_retention_ops::forwardStateDotLeft_correct
+(hkey : r.key ≠ r.history)
+(hvalue : r.value ≠ r.history)
+(hfinal : storeFinal = Bool.true → r.history ≠ r.final)
+93 chunk_retention_ops::forwardOutput_correct
+
+94 chunk_retention_ops::forwardOutputScaleFirst_correct
+
+95 chunk_retention_ops::backwardState_correct
+(hq : r.query ≠ r.history)
+(hd : r.incoming ≠ r.history)
+96 chunk_retention_ops::backwardStateDotLeft_correct
+(hq : r.query ≠ r.history)
+(hd : r.incoming ≠ r.history)
+97 chunk_retention_ops::backwardGradients_correct
+(hv : r.value ≠ r.dv)
+(ho : r.incoming ≠ r.dv)
+(hh : r.history ≠ r.dv)
+(hdh : r.historyGradient ≠ r.dv)
+(hqk : r.dq ≠ r.dk)
+(hqv : r.dq ≠ r.dv)
+(hkv : r.dk ≠ r.dv)
+98 chunk_retention_ops::backwardGradientsDotLeft_correct
+(hv : r.value ≠ r.dv)
+(ho : r.incoming ≠ r.dv)
+(hh : r.history ≠ r.dv)
+(hdh : r.historyGradient ≠ r.dv)
+(hqk : r.dq ≠ r.dk)
+(hqv : r.dq ≠ r.dv)
+(hkv : r.dk ≠ r.dv)
+99 chunked_cumsum_fwd::original_correct
+(hRA : r.rate ≠ r.out)
+(hOS : r.out ≠ r.sum)
+100 chunked_cumsum_fwd::scaleFirst_correct
+(hRA : r.rate ≠ r.out)
+(hOS : r.out ≠ r.sum)
+101 context_attn_bloom::original_correct
+(hBN : 0 < p.BN)
+102 context_attn_bloom::scaleFirst_correct
+(hBN : 0 < p.BN)
+103 context_attn_fwd::original_correct
+(hBN : 0 < p.BN)
+104 context_attn_fwd::scaleFirst_correct
+(hBN : 0 < p.BN)
+105 context_attn_llama::original_correct
+(hBN : 0 < p.BN)
+106 context_attn_llama::scaleFirst_correct
+(hBN : 0 < p.BN)
+107 context_attn_mistral::original_correct
+(hBN : 0 < p.BN)
+108 context_attn_mistral::scaleFirst_correct
+(hBN : 0 < p.BN)
+109 context_attn_nopad::original_correct
+(hBN : 0 < p.BN)
+110 context_attn_nopad::scaleFirst_correct
+(hBN : 0 < p.BN)
+111 cosine_compute::original_correct
+
+112 cosine_compute::index_commuted_correct
+
+113 cross_entropy1::forward_original_correct
+(hB : 0 < BLOCK_SIZE)
+(hne : lse_ptr ≠ loss_ptr)
+(hLL : lse_ptr ≠ logits_ptr)
+114 cross_entropy1::forward_index_commuted_correct
+(hB : 0 < BLOCK_SIZE)
+(hne : lse_ptr ≠ loss_ptr)
+(hLL : lse_ptr ≠ logits_ptr)
+115 cross_entropy1::backward_original_correct
+
+116 cross_entropy1::backward_index_commuted_correct
+
+117 cross_entropy2::forward_original_correct
+(hB : 0 < BLOCK_SIZE)
+(hne : lse_ptr ≠ loss_ptr)
+(hneZ : lse_ptr ≠ z_loss_ptr)
+(hLL : lse_ptr ≠ logits_ptr)
+(hLZ : loss_ptr ≠ z_loss_ptr)
+118 cross_entropy2::forward_index_commuted_correct
+(hB : 0 < BLOCK_SIZE)
+(hne : lse_ptr ≠ loss_ptr)
+(hneZ : lse_ptr ≠ z_loss_ptr)
+(hLL : lse_ptr ≠ logits_ptr)
+(hLZ : loss_ptr ≠ z_loss_ptr)
+119 cross_entropy2::backward_original_correct
+
+120 cross_entropy2::backward_index_commuted_correct
+
+121 cross_entropy_ops::forward_original_correct
+(hB : 0 < BLOCK_SIZE)
+(hne : lse_ptr ≠ loss_ptr)
+(hneZ : lse_ptr ≠ z_loss_ptr)
+(hLL : lse_ptr ≠ logits_ptr)
+(hLZ : loss_ptr ≠ z_loss_ptr)
+122 cross_entropy_ops::forward_index_commuted_correct
+(hB : 0 < BLOCK_SIZE)
+(hne : lse_ptr ≠ loss_ptr)
+(hneZ : lse_ptr ≠ z_loss_ptr)
+(hLL : lse_ptr ≠ logits_ptr)
+(hLZ : loss_ptr ≠ z_loss_ptr)
+123 cross_entropy_ops::backward_original_correct
+
+124 cross_entropy_ops::backward_index_commuted_correct
+
+125 decay_cumsum::forward_original_correct
+(hne : g≠go)
+(hBK : BK≤DK)
+126 decay_cumsum::forward_index_commuted_correct
+(hne : g≠go)
+(hBK : BK≤DK)
+127 decay_cumsum::prepare_original_correct
+(hQ_QG : Q≠QG)
+(hQ_KG : Q≠KG)
+(hK_QG : K≠QG)
+(hK_KG : K≠KG)
+(hG_QG : G≠QG)
+(hG_KG : G≠KG)
+(hQG_KG : QG≠KG)
+(hBK : BK≤DK)
+(hBT : 0<BT)
+128 decay_cumsum::prepare_index_commuted_correct
+(hQ_QG : Q≠QG)
+(hQ_KG : Q≠KG)
+(hK_QG : K≠QG)
+(hK_KG : K≠KG)
+(hG_QG : G≠QG)
+(hG_KG : G≠KG)
+(hQG_KG : QG≠KG)
+(hBK : BK≤DK)
+(hBT : 0<BT)
+129 decay_cumsum::backward_original_correct
+(hDKInner_DQInter : DKInner ≠ DQInter)
+(hDKInter_DQInter : DKInter ≠ DQInter)
+(hQ_DQInter : Q ≠ DQInter)
+(hQ_DKInter : Q ≠ DKInter)
+(hK_DQInter : K ≠ DQInter)
+(hK_DKInter : K ≠ DKInter)
+(hDQInter_DKInter : DQInter ≠ DKInter)
+(hDQInter_DG : DQInter ≠ DG)
+(hDKInter_DG : DKInter ≠ DG)
+(hG_DQInter : G ≠ DQInter)
+(hG_DKInter : G ≠ DKInter)
+(hG_DG : G ≠ DG)
+(hQ_DG : Q ≠ DG)
+(hK_DG : K ≠ DG)
+(hDQInner_DQInter : DQInner ≠ DQInter)
+(hDQInner_DKInter : DQInner ≠ DKInter)
+(hDQInner_DG : DQInner ≠ DG)
+(hDKInner_DKInter : DKInner ≠ DKInter)
+(hDKInner_DG : DKInner ≠ DG)
+(hBK : BK ≤ DK)
+(hBT : 0 < BT)
+130 decay_cumsum::backward_index_commuted_correct
+(hDKInner_DQInter : DKInner ≠ DQInter)
+(hDKInter_DQInter : DKInter ≠ DQInter)
+(hQ_DQInter : Q ≠ DQInter)
+(hQ_DKInter : Q ≠ DKInter)
+(hK_DQInter : K ≠ DQInter)
+(hK_DKInter : K ≠ DKInter)
+(hDQInter_DKInter : DQInter ≠ DKInter)
+(hDQInter_DG : DQInter ≠ DG)
+(hDKInter_DG : DKInter ≠ DG)
+(hG_DQInter : G ≠ DQInter)
+(hG_DKInter : G ≠ DKInter)
+(hG_DG : G ≠ DG)
+(hQ_DG : Q ≠ DG)
+(hK_DG : K ≠ DG)
+(hDQInner_DQInter : DQInner ≠ DQInter)
+(hDQInner_DKInter : DQInner ≠ DKInter)
+(hDQInner_DG : DQInner ≠ DG)
+(hDKInner_DKInter : DKInner ≠ DKInter)
+(hDKInner_DG : DKInner ≠ DG)
+(hBK : BK ≤ DK)
+(hBT : 0 < BT)
+131 dequantize_matmul::original_correct
+
+132 dequantize_matmul::index_commuted_correct
+
+133 dequantize_rowwise::original_correct
+
+134 dequantize_rowwise::index_commuted_correct
+
+135 destindex_copy::destindex_copy_correctness
+
+136 destindex_copy::index_commuted_correctness
+
+137 destindex_copy_kv1::destindex_copy_kv_correctness
+
+138 destindex_copy_kv1::index_commuted_correctness
+
+139 destindex_copy_kv2::destindex_copy_kv_correctness
+
+140 destindex_copy_kv2::index_commuted_correctness
+
+141 diag_ssm_triton::forward_correctness
+
+142 diag_ssm_triton::forward_index_commuted_correctness
+
+143 diag_ssm_triton::backward_correctness
+
+144 diag_ssm_triton::backward_index_commuted_correctness
+
+145 diag_ssm_triton::complex_forward_correctness
+
+146 diag_ssm_triton::complex_forward_index_commuted_correctness
+
+147 diag_ssm_triton::complex_backward_correctness
+
+148 diag_ssm_triton::complex_backward_index_commuted_correctness
+
+149 dropout_triton::dropout_correctness
+
+150 dropout_triton::index_commuted_correctness
+
+151 embedding_triton_kernel::embedding_correctness
+
+152 embedding_triton_kernel::index_commuted_correctness
+
+153 f8_conversion_utils::f8_to_f16_correctness
+
+154 f8_conversion_utils::f8_to_f16_index_commuted_correctness
+
+155 f8_conversion_utils::to_fp8_correctness
+
+156 f8_conversion_utils::to_fp8_index_commuted_correctness
+
+157 fast_ce_loss::forward_correctness
+
+158 fast_ce_loss::forward_index_commuted_correctness
+
+159 fast_ce_loss::chunked_correctness
+
+160 fast_ce_loss::chunked_index_commuted_correctness
+
+161 fast_ce_loss::backward_correctness
+
+162 fast_ce_loss::backward_index_commuted_correctness
+
+163 fast_layernorm::forward_correctness
+
+164 fast_layernorm::forward_index_commuted_correctness
+
+165 fast_layernorm::backward_correctness
+
+166 fast_layernorm::backward_index_commuted_correctness
+
+167 fast_rms_layernorm::forward_correctness
+
+168 fast_rms_layernorm::forward_index_commuted_correctness
+
+169 fast_rms_layernorm::gemma_correctness
+
+170 fast_rms_layernorm::gemma_index_commuted_correctness
+
+171 fast_rms_layernorm::backward_correctness
+
+172 fast_rms_layernorm::backward_index_commuted_correctness
+
+173 fast_rope_embedding::original_correctness
+
+174 fast_rope_embedding::index_commuted_correctness
+
+175 fifth_order_sph_harmonics::fifth_order_fwd_correctness
+(hStride : 10 < output_stride)
+(hCover : ∀ (pid₀ : Nat) (j : Fin block_size), j.val * output_stride + block_size * output_stride * pid₀ + col_offset < output_numel → j.val * 3 + block_size * 3 * pid₀ + 2 < coord_numel)
+176 flash_attn::original_correctness
+(hBN : 0 < p.BLOCK_N)
+(hhi : 0 < hi p (s.pids 0))
+177 flash_attn::candidate_correctness
+(hBN : 0 < p.BLOCK_N)
+(hhi : 0 < hi p (s.pids 0))
+178 flash_attn::flat_correctness
+(hd : A.Disjoint)
+(hcov : ∀ r, r ∉ A.regions → A.extent r = 0)
+(hb : AddressBounds p s Q K V L O A.extent)
+(hundef : s.undef = fun _ _ => 0)
+(hBN : 0 < p.BLOCK_N)
+(hhi : 0 < hi p (s.pids 0))
+179 flash_attn::full_flat_correctness
+(hd : A.Disjoint)
+(hcov : ∀ r, r ∉ A.regions → A.extent r = 0)
+(hb : AddressBounds p s Q K V L O A.extent)
+(hundef : s.undef = fun _ _ => 0)
+(hBN : 0 < p.BLOCK_N)
+(hhi : 0 < hi p (s.pids 0))
+180 flash_decode2_llama::flash_decode2_llama_normalization_output_summary_general
+(hOutInj : Function.Injective (fun i : Fin BLOCK_DMODEL => outOffset s stride_obs stride_oh stride_od i))
+181 flash_decode2_llama::flash_decode2_llama_running_max_output_summary_general
+
+182 flash_decode2_llama::flash_decode2_llama_final_store_io_correctness
+(hOutInj : ∀ p₀ p₁ : Nat, Function.Injective (fun i : Fin BLOCK_DMODEL => p₀ * stride_obs + p₁ * stride_oh + i.val * stride_od))
+183 flash_decode2_llama::flash_decode2_llama_final_store_io_correctnessR
+(hOutInj : ∀ p₀ p₁ : Nat, Function.Injective (fun i : Fin BLOCK_DMODEL => p₀ * stride_obs + p₁ * stride_oh + i.val * stride_od))
+184 flash_decode2_phi::flash_decode2_phi_masked_accumulator_output_summary_general
+(hAccOutInj : Function.Injective (fun i : Fin BLOCK_DMODEL => accOffset s stride_acc_b stride_acc_h stride_acc_d i))
+185 flash_decode2_phi::flash_decode2_phi_running_max_output_summary_general
+
+186 flash_decode2_phi::flash_decode2_phi_normalization_output_summary_general
+(hOutInj : Function.Injective (fun i : Fin BLOCK_DMODEL => outOffset s stride_obs stride_oh stride_od i))
+187 flash_decode2_phi::flash_decode2_phi_final_store_io_correctness
+(hOutInj : ∀ p₀ p₁ : Nat, Function.Injective (fun i : Fin BLOCK_DMODEL => p₀ * stride_obs + p₁ * stride_oh + i.val * stride_od))
+188 flash_decode2_phi::flash_decode2_phi_final_store_io_correctnessR
+(hOutInj : ∀ p₀ p₁ : Nat, Function.Injective (fun i : Fin BLOCK_DMODEL => p₀ * stride_obs + p₁ * stride_oh + i.val * stride_od))
+189 fused_activation::original_real_correct
+(_hW : 0 < W)
+190 fused_activation::commuted_real_correct
+(_hW : 0 < W)
+191 fused_layernorm_triton::fused_layernorm_triton_output_summary_general
+(hLe : rnumel ≤ RBLOCK)
+(hMeanRstd : out_ptr0 ≠ in_out_ptr0)
+192 fused_layernorm_triton::fused_layernorm_triton_normalize_io_correctness
+
+193 fused_recurrent_delta::fused_recurrent_delta_output_summary_general
+(hBV : BV ≤ V)
+(hBK : BK ≤ K)
+(hPrev : ∀ idx : TileIndex [BV, BK], s.readMem HPrev (stateOffset s K V BK BV idx) = deltaState s k v beta h0 IS_HEADWISE_BETA USE_INITIAL_STATE s_qk_h s_vo_h T K V BK BV m idx)
+(hNext : ∀ idx : TileIndex [BV, BK], s.readMem HOut (stateOffset s K V BK BV idx) = deltaState s k v beta h0 IS_HEADWISE_BETA USE_INITIAL_STATE s_qk_h s_vo_h T K V BK BV (m + 1) idx)
+194 fused_recurrent_delta::fused_recurrent_delta_output_step_io_correctness
+(hOutInj : ∀ p₀ p₁ p₂ : Nat, Function.Injective (fun jv : Fin BV => (p₂ + p₁ * B * H) * s_vo_h + p₀ * BV + jv.val + t * V))
+195 fused_recurrent_hgrn::fused_recurrent_hgrn_output_summary_general
+(hBD : 0 < BD)
+(hPrev : ∀ i : Fin BD, s.readMem BHPrev (bhOffset s D BD i) = hgrnStateClosed s X G H0 USE_INITIAL_STATE T D BD i_t i)
+196 fused_recurrent_hgrn::fused_recurrent_hgrn_bwd_dx_io_correctness
+
+197 fused_recurrent_retention::fused_recurrent_retention_forward_original_real
+
+198 fused_recurrent_retention::fused_recurrent_retention_forward_candidate_real
+
+199 fused_recurrent_retention::fused_recurrent_retention_backward_original_real
+(hasSeed : Bool)
+200 fused_recurrent_retention::fused_recurrent_retention_backward_candidate_real
+(hasSeed : Bool)
+201 fused_recurrent_retention::fused_recurrent_retention_forward_equiv
+
+202 fused_recurrent_retention::fused_recurrent_retention_backward_equiv
+(hasSeed : Bool)
+203 fused_rotary_embedding::decoding_fused_rotary_embedding_q_correctness
+(hstride : 0 < head_dim_stride)
+204 fused_rotary_embedding::decoding_fused_rotary_embedding_vcache_chain_correctness
+
+205 fused_rwkv6_kernel::fused_recurrent_rwkv6_output_summary_general
+(hBV : BV ≤ V)
+(hBK : BK ≤ K)
+(hBVpos : 0 < BV)
+206 fused_rwkv6_kernel::fused_recurrent_rwkv6_state_step_io_correctness
+(hOutInj : ∀ p₀ p₁ p₂ : Nat, Function.Injective (fun idx : TileIndex [BV, BK] => p₂ * K * V + (p₁ * BK + idx.2.1.val) * V + (p₀ * BV + idx.1.val)))
+207 geglu_tanh_triton::forward_typed_real_correct
+(_hB : 0 < BLOCK_SIZE)
+(_hN : n_cols ≤ BLOCK_SIZE)
+208 geglu_tanh_triton::backward_typed_real_correct
+(hab : a ≠ b)
+(_hB : 0 < BLOCK_SIZE)
+(_hN : n_cols ≤ BLOCK_SIZE)
+209 index_select_bwd::source_real_correct
+
+210 index_select_cat::source_real_correct
+
+211 int4_matmul::int4_matmul_exec_genuine
+(hK : K = BK * numKBlocks)
+(hBK8 : BK % 8 = 0)
+(hpid1 : s.pids 1 = 0)
+(hInj : Function.Injective (fun i : TileIndex [BM, BN] => cAddr stride_cm stride_cn BM BN (pidM s M N BM BN GM) (pidN s M N BM BN GM) i))
+212 int8_dequant_matmul::int8_dequant_matmul_exec_genuine
+(has_bias : Bool)
+(hK : K = BK * numKBlocks)
+(hpid1 : s.pids 1 = 0)
+(hInj : Function.Injective (fun i : TileIndex [BM, BN] => cAddr stride_cm stride_cn BM BN (pidM s M N BM BN GM) (pidN s M N BM BN GM) i))
+213 int8_matmul_kernel::int8_matmul_kernel_exec_genuine
+(hK : K = 4 * (BK * numKBlocks))
+(hInj : Function.Injective (fun i : TileIndex [BM, BN] => imCAddr stride_cm stride_cn BM BN (pidM s M N BM BN GM) (pidN s M N BM BN GM) i))
+214 int8_matmul_quantization::int8_matmul_quantization_quantize_exec_genuine
+(hBK : 0 < BK)
+(hK : K ≤ numKBlocks * BK)
+(hFit : s.pids 0 * BM + BM ≤ M)
+(hFpaNe : fpa_ptr ≠ (Region.cast a_ptr : RegionName))
+(hAsNe : as_ptr ≠ (Region.cast a_ptr : RegionName))
+(hInj : Function.Injective (fun p : Fin BM × Fin K => (s.pids 0 * BM + p.1.val) * stride_am + p.2.val * stride_ak))
+215 int8_matmul_quantization::int8_matmul_quantization_matmul_exec_genuine
+(hK : K ≤ numKBlocks * BK)
+(hpid1 : s.pids 1 = 0)
+(hInj : Function.Injective (fun i : TileIndex [BM, BN] => mmCAddr stride_cm stride_cn BM BN (mmPidM s M N BM BN GM) (mmPidN s M N BM BN GM) i))
+216 int8_quantization::per_block_int8_correctness
+(hB : 0 < BLK * C)
+(hRegions : XInt8 ≠ Scale)
+217 int_scaled_matmul::int_scaled_matmul_matmul_exec_genuine
+(hBK : 0 < BK)
+(hInj : Function.Injective (fun i : TileIndex [BM, BN] => mmCAddr stride_cm stride_cn BM BN (mmPidM s M N BM BN GM) (mmPidN s M N BM BN GM) i))
+218 int_scaled_matmul::int_scaled_matmul_scaled_exec_genuine
+(hCeil : K ≤ numKBlocks * BK)
+(hEven : EVEN_K = Bool.true → K = numKBlocks * BK)
+219 isfinite_kernel::original_fp32_correctness
+
+220 isfinite_kernel::original_fp64_correctness
+
+221 isfinite_kernel::index_commuted_fp32_correctness
+
+222 isfinite_kernel::index_commuted_fp64_correctness
+
+223 isfinite_kernel::isfinite_fp32_equiv
+
+224 isfinite_kernel::isfinite_fp64_equiv
+
+225 iv_dependent_matmul::iv_dependent_matmul_closed_form_correct
+(hBK : 0 < BK)
+(hcn : SCN = 1)
+(hbnle : BN ≤ SCM)
+(hmlt : ∀ i : Fin BM, rowIndex (pidM (s.pids 0) N BN) BM i < M)
+(hnlt : ∀ j : Fin BN, colIndex (pidN (s.pids 0) N BN) BN j < N)
+(hundef : ∀ rg o, s.undef rg o = 0)
+226 iv_dependent_matmul::iv_dependent_matmul_io_correctness
+(hBK : 0 < BK)
+(hcn : SCN = 1)
+(hbnle : BN ≤ SCM)
+227 kcache_copy_triton::copy_to_kcache_seqlen_n1_correctness
+
+228 kldiv_compute::typed_real_correct
+(_hSource : sourceSupported x y = Bool.true)
+229 kldiv_ops::kldiv_backward_default_compute_correct
+(hOutInj : Function.Injective (fun i : Fin BLOCK_SIZE => linearOffset s new_grads_stride i))
+230 kldiv_ops::kldiv_backward_log_target_compute_correct
+(hOutInj : Function.Injective (fun i : Fin BLOCK_SIZE => linearOffset s new_grads_stride i))
+231 kldiv_ops::kldiv_forward_default_none_compute_correct
+(hOutInj : Function.Injective (fun i : Fin BLOCK_SIZE => linearOffset s loss_stride i))
+232 kldiv_ops::kldiv_forward_log_target_none_compute_correct
+(hOutInj : Function.Injective (fun i : Fin BLOCK_SIZE => linearOffset s loss_stride i))
+233 kldiv_ops::kldiv_forward_log_target_none_correctness
+
+234 kldiv_ops::kldiv_forward_default_none_correctness
+
+235 kldiv_ops::kldiv_backward_default_correctness
+
+236 kldiv_ops::kldiv_backward_log_target_correctness
+
+237 kldiv_ops::forward_default_element_correct
+(_hSource : ForwardDefaultSupported pred target output 0)
+(hd : A.Disjoint)
+(hO : O ∈ A.regions)
+(hc : ∀ r, r ∉ A.regions → A.extent r = 0)
+(hu : s.undef = fun _ _ ↦ 0)
+(hB : 0 < B)
+(hYO : Y ≠ O)
+(hTO : T ≠ O)
+(hby : ∀ k : Fin N, s.pids 0 * sy + k.val < A.extent Y)
+(hbt : ∀ k : Fin N, s.pids 0 * st + k.val < A.extent T)
+(hbo : ∀ k : Fin N, s.pids 0 * so + k.val < A.extent O)
+238 kldiv_ops::forward_log_element_correct
+(_hSource : ForwardLogSupported pred target output 0)
+(hd : A.Disjoint)
+(hO : O ∈ A.regions)
+(hc : ∀ r, r ∉ A.regions → A.extent r = 0)
+(hu : s.undef = fun _ _ ↦ 0)
+(hB : 0 < B)
+(hYO : Y ≠ O)
+(hTO : T ≠ O)
+(hby : ∀ k : Fin N, s.pids 0 * sy + k.val < A.extent Y)
+(hbt : ∀ k : Fin N, s.pids 0 * st + k.val < A.extent T)
+(hbo : ∀ k : Fin N, s.pids 0 * so + k.val < A.extent O)
+239 kldiv_ops::forward_default_reduction_correct
+(_hSource : ForwardDefaultSupported pred target output reduction)
+(hd : A.Disjoint)
+(hO : O ∈ A.regions)
+(hc : ∀ r, r ∉ A.regions → A.extent r = 0)
+(hu : s.undef = fun _ _ ↦ 0)
+(hB : 0 < B)
+(hR : reduction ≠ 0)
+(hby : ∀ k : Fin N, s.pids 0 * sy + k.val < A.extent Y)
+(hbt : ∀ k : Fin N, s.pids 0 * st + k.val < A.extent T)
+(hbo : s.pids 0 * so < A.extent O)
+240 kldiv_ops::forward_log_reduction_correct
+(_hSource : ForwardLogSupported pred target output reduction)
+(hd : A.Disjoint)
+(hO : O ∈ A.regions)
+(hc : ∀ r, r ∉ A.regions → A.extent r = 0)
+(hu : s.undef = fun _ _ ↦ 0)
+(hB : 0 < B)
+(hR : reduction ≠ 0)
+(hby : ∀ k : Fin N, s.pids 0 * sy + k.val < A.extent Y)
+(hbt : ∀ k : Fin N, s.pids 0 * st + k.val < A.extent T)
+(hbo : s.pids 0 * so < A.extent O)
+241 kldiv_ops::backward_default_correct
+(_hSource : BackwardSourceSupported target output Bool.false)
+(hd : A.Disjoint)
+(hO : O ∈ A.regions)
+(hc : ∀ r, r ∉ A.regions → A.extent r = 0)
+(hu : s.undef = fun _ _ ↦ 0)
+(hB : 0 < B)
+(hTO : T ≠ O)
+(hbt : ∀ k : Fin N, s.pids 0 * st + k.val < A.extent T)
+(hbo : ∀ k : Fin N, s.pids 0 * so + k.val < A.extent O)
+242 kldiv_ops::backward_log_correct
+(_hSource : BackwardSourceSupported target.storage output Bool.true)
+(hd : A.Disjoint)
+(hO : O ∈ A.regions)
+(hc : ∀ r, r ∉ A.regions → A.extent r = 0)
+(hu : s.undef = fun _ _ ↦ 0)
+(hB : 0 < B)
+(hTO : T ≠ O)
+(hbt : ∀ k : Fin N, s.pids 0 * st + k.val < A.extent T)
+(hbo : ∀ k : Fin N, s.pids 0 * so + k.val < A.extent O)
+243 kldiv_triton::kldiv_backward_default_compute_correct
+(hBS : 0 < BLOCK_SIZE)
+(hLen : n_cols ≤ BLOCK_SIZE)
+(hLenPos : 0 < n_cols)
+(hOutInj : Function.Injective (fun i : Fin BLOCK_SIZE => linearOffset s input_stride i))
+244 kldiv_triton::kldiv_backward_log_target_compute_correct
+(hBS : 0 < BLOCK_SIZE)
+(hLen : n_cols ≤ BLOCK_SIZE)
+(hLenPos : 0 < n_cols)
+(hOutInj : Function.Injective (fun i : Fin BLOCK_SIZE => linearOffset s input_stride i))
+245 kldiv_triton::kldiv_forward_default_none_compute_correct
+(hBS : 0 < BLOCK_SIZE)
+(hLen : n_cols ≤ BLOCK_SIZE)
+(hLenPos : 0 < n_cols)
+(hOutInj : Function.Injective (fun i : Fin BLOCK_SIZE => linearOffset s loss_stride i))
+246 kldiv_triton::kldiv_forward_log_target_none_compute_correct
+(hBS : 0 < BLOCK_SIZE)
+(hLen : n_cols ≤ BLOCK_SIZE)
+(hLenPos : 0 < n_cols)
+(hOutInj : Function.Injective (fun i : Fin BLOCK_SIZE => linearOffset s loss_stride i))
+247 kldiv_triton::kldiv_forward_default_none_io_correctness
+(hBS : 0 < BLOCK_SIZE)
+(hly : loss_ptr ≠ y_ptr)
+(hlg : loss_ptr ≠ gt_ptr)
+248 kldiv_triton::typed_forward_real_correct
+(hB : 0 < B)
+(hYO : Y ≠ O)
+(hTO : T ≠ O)
+249 kldiv_triton::typed_backward_default_real_correct
+(hSource : TypedSource.BackwardSourceSupported target)
+(hB : 0 < B)
+(hTO : T ≠ O)
+250 kldiv_triton::typed_backward_log_real_correct
+(hB : 0 < B)
+(hTO : T ≠ O)
+251 ksoftmax_triton::ksoftmax_backward_original_real_correct
+
+252 ksoftmax_triton::ksoftmax_backward_candidate_real_correct
+
+253 ksoftmax_triton::ksoftmax_forward_fp32_original_real_correct
+(hD : 0 < D)
+254 ksoftmax_triton::ksoftmax_forward_fp32_candidate_real_correct
+(hD : 0 < D)
+255 ksoftmax_triton::ksoftmax_backward_index_equiv
+
+256 ksoftmax_triton::ksoftmax_forward_index_equiv
+
+257 kv_cache_copy::kv_cache_copy_correctness
+(hKV : KCache ≠ VCache)
+258 kv_cache_filling::fill_kv_cache_output_summary_general
+(hKInj : Function.Injective (fun idx : TileIndex [BLOCK_H, BLOCK_D] => kCacheOffset s BlockOffsets BIDX KV_BLOCK_IDX stride_kcn stride_kcb stride_kch stride_kcd stride_boff idx))
+(hVInj : Function.Injective (fun idx : TileIndex [BLOCK_H, BLOCK_DV] => vCacheOffset s BlockOffsets BIDX KV_BLOCK_IDX stride_vcn stride_vcb stride_vch stride_vcd stride_boff idx))
+259 kv_cache_filling::fill_quant_meta_store_io_correctness
+(hOutInj : ∀ m : Nat, Function.Injective (fun i : Fin BLOCK_H => m * stride_mn + BIDX * stride_mb + i.val * stride_mh + SZD * stride_md))
+260 l2_norm_bwd::typed_real_correct
+(_hB : 0 < B)
+(_hN : N ≤ B)
+261 l2_norm_bwd::original_real_correct
+(hB : 0 < B)
+(hN : N ≤ B)
+262 l2_norm_bwd::candidate_real_correct
+(hB : 0 < B)
+(hN : N ≤ B)
+263 l2_norm_triton1::typed_real_correct
+(_hB : 0 < B)
+(_hN : N ≤ B)
+264 l2_norm_triton1::original_real_correct
+(hB : 0 < B)
+(hN : N ≤ B)
+265 l2_norm_triton1::candidate_real_correct
+(hB : 0 < B)
+(hN : N ≤ B)
+266 l2_norm_triton2::forward_typed_real_correct
+(_hB : 0 < B)
+(_hN : N ≤ B)
+267 l2_norm_triton2::backward_typed_real_correct
+(_hB : 0 < B)
+(_hN : N ≤ B)
+268 layer_norm_fwd::layer_norm_fwd_original_real
+(hBlock : Random.ArangeSizeDomain block)
+269 layer_norm_fwd::layer_norm_fwd_candidate_real
+(hBlock : Random.ArangeSizeDomain block)
+270 layer_norm_fwd::layer_norm_fwd_fp32_equiv
+(hBlock : Random.ArangeSizeDomain block)
+271 layer_norm_liger::layer_norm_liger_forward_output_summary
+(hYMean : Y ≠ Mean)
+(hYRSTD : Y ≠ RSTD)
+(hMeanY : Mean ≠ Y)
+(hMeanRSTD : Mean ≠ RSTD)
+(hRSTDY : RSTD ≠ Y)
+(hOutInj : Function.Injective (fun i : Fin BLOCK_SIZE => yOffset s Y_row_stride i))
+272 layer_norm_liger::layer_norm_liger_scalar_stores_io_correctness
+
+273 layer_norm_liger::layer_norm_liger_scalar_stores_io_correctnessR
+
+274 layer_norm_ops::layer_norm_ops_fwd_plain_bias_all_outputs_compute_correct_general
+
+275 layer_norm_ops::layer_norm_ops_fwd_rms_bias_all_outputs_compute_correct_general
+
+276 layer_norm_ops::layer_norm_ops_fwd_residual_bias_all_outputs_compute_correct_general
+
+277 layer_norm_ops::layer_norm_ops_bwd_rms_core_outputs_compute_correct_general
+(hDWDX : DW ≠ DX)
+278 layer_norm_ops::layer_norm_ops_bwd_plain_bias_core_outputs_compute_correct_general
+(hDWDX : DW ≠ DX)
+(hDWDB : DW ≠ DB)
+(hDBDX : DB ≠ DX)
+(hDBDW : DB ≠ DW)
+279 layer_norm_ops::layer_norm_ops_bwd_residual_add_all_outputs_compute_correct_general
+(hDXDresIn : DX ≠ DRESIDUAL_IN)
+(hDresInDX : DRESIDUAL_IN ≠ DX)
+280 layer_norm_ops::layer_norm_ops_scalar_stores_io_correctness
+
+281 layer_norm_ops::layer_norm_ops_scalar_stores_io_correctnessR
+
+282 layer_norm_welfold::layer_norm_welfold_output_summary_general
+(hLe : rnumel ≤ RBLOCK)
+(hMeanRstd : in_out_ptr0 ≠ in_out_ptr1)
+(hInMean : in_ptr0 ≠ in_out_ptr0)
+283 layer_norm_welfold::layer_norm_welfold_normalize_io_correctness
+
+284 layernorm_fwd_triton::layernorm_fwd_triton_output_summary
+(hBlockPos : 0 < BLOCK_SIZE)
+(hXYNe : X ≠ Y)
+(hWYNe : W ≠ Y)
+285 layernorm_fwd_triton::layernorm_fwd_triton_io_correctness
+(hBlockPos : 0 < BLOCK_SIZE)
+(hXYNe : X ≠ Y)
+(hWYNe : W ≠ Y)
+286 lightning_attention::lightning_attention_output_summary_general
+(hBM : BLOCK_MODEL ≤ e)
+(hPrev : ∀ idx : TileIndex [d, BLOCK_MODEL], s.readMem KVPrev (kvOffset BLOCK_MODEL idx) = kvClosed s K V n d e BLOCK BLOCK_MODEL m idx.1.val idx.2.1.val)
+(hK : ∀ (idx : TileIndex [d, BLOCK_MODEL]) (j : Fin BLOCK), s.readMem KTrans (idx.1.val * BLOCK + j.val) = fwdKVal s K n d idx.1.val (m * BLOCK + j.val))
+(hV : ∀ (idx : TileIndex [d, BLOCK_MODEL]) (j : Fin BLOCK), s.readMem VTile (j.val * BLOCK_MODEL + idx.2.1.val) = fwdVVal s V n e BLOCK_MODEL idx.2.1.val (m * BLOCK + j.val))
+287 lightning_attention::lightning_attention_bwd_grad_store_io_correctness
+(hOutInj : ∀ p₀ p₁ : Nat, Function.Injective (fun idx : TileIndex [BLOCK, WIDTH] => p₀ * n * width + (p₁ * BLOCK + idx.1.val) * width + idx.2.1.val))
+288 lightning_attention::lightning_attention_bwd_grad_store_io_correctnessR
+(hOutInj : ∀ p₀ p₁ : Nat, Function.Injective (fun idx : TileIndex [BLOCK, WIDTH] => p₀ * n * width + (p₁ * BLOCK + idx.1.val) * width + idx.2.1.val))
+289 llama_ff_triton::fp16_flat_correct
+(hd : alloc.Disjoint)
+(hcov : ∀ r, r ∉ alloc.regions → alloc.extent r = 0)
+(hout : OUT ∈ alloc.regions)
+(hu : ∀ rg o, s.undef rg o = 0)
+(hc : 0 < soutn)
+(hr : N * soutn ≤ soutm)
+(hinput : RealExecution.Inputs s A W1 W3 RMS M N K BM BN BK sam sak sw1k sw1n sw3k sw3n srms xs rs w1 w3)
+(hb : AccessSafety.Reads alloc.extent s A W1 W3 RMS M N K BM BN BK sam sak sw1k sw1n sw3k sw3n srms)
+(ho : ∀ i : TileIndex [BM, BN], active s M N BM BN i → outOffset s N BM BN soutm soutn i < alloc.extent OUT)
+290 llama_ff_triton::fp8_flat_correct
+(hd : alloc.Disjoint)
+(hcov : ∀ r, r ∉ alloc.regions → alloc.extent r = 0)
+(hout : OUT ∈ alloc.regions)
+(hu : ∀ rg o, s.undef rg o = 0)
+(hc : 0 < soutn)
+(hr : N * soutn ≤ soutm)
+(hA1 : A ≠ W1)
+(hA3 : A ≠ W3)
+(hAR : A ≠ RMS)
+(hinput : ByteExecution.Inputs s A W1 W3 RMS M N K BM BN BK sam sak sw1k sw1n sw3k sw3n srms xs rs w1 w3)
+(hb : AccessSafety.Reads alloc.extent s A W1 W3 RMS M N K BM BN BK sam sak sw1k sw1n sw3k sw3n srms)
+(ho : ∀ i : TileIndex [BM, BN], active s M N BM BN i → outOffset s N BM BN soutm soutn i < alloc.extent OUT)
+291 log_softmax::forward_typed_correct
+(hC : 0 < C)
+(hK : 0 < K)
+(hNC : N ≤ C)
+292 log_softmax::backward_typed_correct
+(hK : 0 < K)
+(hNC : N ≤ C)
+293 log_softmax::forward_region_correct
+(hC : 0 < C)
+(hK : 0 < K)
+(hNC : N ≤ C)
+294 log_softmax::backward_region_correct
+(hK : 0 < K)
+295 logsumexp_fwd::logsumexp_fwd_kernel_correctness
+(hB : 0 < B)
+296 lora_expand_gemv::gemv_full_output_summary
+(hBN : 0 < BLOCK_N)
+(hKB : K ≤ BLOCK_K)
+(hol : out_ptr ≠ lora_ptr)
+(hundef : ∀ rg o, s.undef rg o = 0)
+(hcn : 0 < cn_stride)
+297 lora_expand_gemv::gemv_full_io_correctness
+(hBN : 0 < BLOCK_N)
+(hKB : K ≤ BLOCK_K)
+(hsnl : 0 < split_n_length)
+(hol : out_ptr ≠ lora_ptr)
+(hcn : 0 < cn_stride)
+298 masked_add_cuda::masked_add_integer_real_correct
+
+299 masked_add_cuda::masked_add_fp64_integer_real_correct
+
+300 masked_add_cuda::masked_add_typed_integer_real_correct
+
+301 masked_select::masked_select_kernel_correctness
+
+302 matmul_dequant_int4::matmul_dequant_int4_exec_genuine
+(hInj : Function.Injective (fun idx : TileIndex [BK, BN] => fpbAddr stride_fpbk stride_fpbn BK BN (s.pids 0) (s.pids 1) idx))
+303 matmul_dequantize::matmul_dequantize_matmul4_exec_genuine
+(hInj : Function.Injective (fun i : TileIndex [BM, BN] => cAddr stride_cm stride_cn BM BN (pidM s M N BM BN GM) (pidN s M N BM BN GM) i))
+304 matmul_dequantize::matmul_dequantize_matmul_exec_genuine
+(hK : K = BK * numKBlocks)
+(hBK8 : BK % 8 = 0)
+(hpid1 : s.pids 1 = 0)
+(hInj : Function.Injective (fun i : TileIndex [BM, BN] => cAddr stride_cm stride_cn BM BN (pidM s M N BM BN GM) (pidN s M N BM BN GM) i))
+305 matmul_dequantize::matmul_dequantize_dequantize_exec_genuine
+(hInj : Function.Injective (fun idx : TileIndex [BK, BN] => fpbAddr stride_fpbk stride_fpbn BK BN (s.pids 0) (s.pids 1) idx))
+306 matmul_dequantize_int4::matmul_dequantize_int4_exec_genuine
+(hInj : Function.Injective (fun i : TileIndex [BM, BN] => cAddr stride_cm stride_cn BM BN (pidM s M N BM BN GM) (pidN s M N BM BN GM) i))
+307 matmul_kernel::matmul_kernel_closed_form_correct
+(hBN : BN ≤ 4096)
+(hundef : ∀ rg o, s.undef rg o = 0)
+308 matmul_kernel::matmul_kernel_io_correctness
+(hBN : BN ≤ 4096)
+309 matmul_leakyrelu::matmul_leakyrelu_closed_form_correct
+(hBK : 0 < BK)
+(hscn : SCN = 1)
+(hbnle : BN ≤ SCM)
+(hmlt : ∀ i : Fin BM, rowIndex (pidM (s.pids 0) M N BM BN GROUP) BM i < M)
+(hnlt : ∀ j : Fin BN, colIndex (pidN (s.pids 0) M N BM BN GROUP) BN j < N)
+(hundef : ∀ rg o, s.undef rg o = 0)
+310 matmul_leakyrelu::matmul_leakyrelu_io_correctness
+(hBK : 0 < BK)
+(hscn : SCN = 1)
+(hbnle : BN ≤ SCM)
+311 matmul_leakyrelu_fp8::matmul_leakyrelu_fp8_closed_form_correct
+(hBK : 0 < BK)
+(hcn : SCN = 1)
+(hbnle : BN ≤ SCM)
+(hmlt : ∀ i : Fin BM, rowIndex (pidM (s.pids 0) M N BM BN GROUP) BM i < M)
+(hnlt : ∀ j : Fin BN, colIndex (pidN (s.pids 0) M N BM BN GROUP) BN j < N)
+(hundef : ∀ rg o, s.undef rg o = 0)
+312 matmul_leakyrelu_fp8::matmul_leakyrelu_fp8_io_correctness
+(hBK : 0 < BK)
+(hscn : SCN = 1)
+(hbnle : BN ≤ SCM)
+313 matmul_persistent_triton::zero_K_preserves_memory
+(hK : p.K = 0)
+(hBK : 0 < p.BK)
+314 matmul_persistent_triton::real_correct
+(h : RealIO.Admissible p)
+315 matmul_tma::matmul_tma_f32_closed_form_correct
+(hcn : stride_cn = 1)
+(hcm : BLOCK_N ≤ stride_cm)
+316 matmul_tma::matmul_tma_f16_closed_form_correct
+(hcn : stride_cn = 1)
+(hcm : BLOCK_N ≤ stride_cm)
+317 matmul_tma::matmul_tma_f32_io_correctness
+(hInj : Function.Injective (cOffset (BLOCK_M := BLOCK_M) (BLOCK_N := BLOCK_N) stride_cm stride_cn))
+318 matmul_tma::matmul_tma_f16_io_correctnessR
+(hInj : Function.Injective (cOffset (BLOCK_M := BLOCK_M) (BLOCK_N := BLOCK_N) stride_cm stride_cn))
+319 matmul_triton1::matmul_triton1_closed_form_correct
+(hBK : 0 < BLOCK_K)
+(hN : N ≤ NS)
+(hundef : ∀ rg o, s.undef rg o = 0)
+320 matmul_triton1::matmul_triton1_io_correctness
+(hBK : 0 < BLOCK_K)
+(hN : N ≤ NS)
+321 matmul_triton2::matmul_triton2_output_summary_general
+(hBK : 0 < BK)
+(hInj : Function.Injective (cOffset s M N BM BN GM SCM SCN))
+(hundef : ∀ rg o, s.undef rg o = 0)
+322 matmul_triton2::matmul_triton2_io_correctness
+(hBK : 0 < BK)
+(hcn : SCN = 1)
+(hBN : BN ≤ SCM)
+323 matmul_triton_autotune::matmul_autotune_closed_form_correct
+(hK : K = BLOCK_K * numKBlocks)
+(hcn : scn = 1)
+(hbnle : BN ≤ scm)
+(hundef : ∀ rg o, s.undef rg o = 0)
+324 matmul_triton_autotune::matmul_autotune_io_correctness
+(hK : K = BK * numKBlocks)
+(hcn : scn = 1)
+(hBN : BN ≤ scm)
+325 matrix_reduction::load_reduce_kernel_output_summary
+
+326 matrix_reduction::matrix_reduction_io_correctness
+(hBN : 0 < BLOCK_N)
+327 matrix_transpose::transpose_typed_real_correct
+(hOutInj : Function.Injective (fun idx : TileIndex [d, m] => outAddr ox oy idx))
+328 matrix_vector_multip::mv_kernel_output_summary_general
+(hOutInj : Function.Injective (fun i : Fin BLOCK_N => cOffset s stride_cn BLOCK_N i))
+329 matrix_vector_multip::mv_one_block_io_correctness
+(hBN : 0 < BLOCK_N)
+(hBM : 0 < BLOCK_M)
+(hOutInj : ∀ p₀ : Nat, Function.Injective (fun i : Fin BLOCK_N => (p₀ * BLOCK_N + i.val) * stride_cn))
+330 max_reduction::stage2_math_correct
+(hB : 0 < B)
+331 max_reduction::stage1_real_correct
+(hB : 0 < B)
+332 max_reduction::stage2_real_correct
+(hB : 0 < B)
+333 max_reduction::dimension_real_correct
+(hN : 0 < BN)
+(hRegions : ov ≠ oi)
+(hOutInj : Function.Injective (fun i : Fin BM => i.val * K))
+334 mean_reduction::mean_dim_kernel_io_correctness
+(hStepNe : BLOCK_N ≠ 0)
+335 mean_reduction::mean_typed_real_correct
+(_hN : 0 < N)
+(_hM : 0 < BM)
+(hB : 0 < BN)
+336 mixed_sparse_attention::mixed_sparse_attention_output_closed_form_summary_general
+(hBN : 0 < BN)
+(hBN16 : 16 ≤ BN)
+(hsqk : sqk = 1)
+(hskk : skk = 1)
+(hsvk : svk = 1)
+(hvz : svz = skz)
+(hvh : svh = skh)
+(hsok : sok = 1)
+(hBDsom : BD ≤ som)
+(hundef : ∀ rg o, s.undef rg o = 0)
+(hactive : s.pids 0 * BM < seqLen s H (Region.cast Seqlens))
+(hNCBN : s.readMemValue .nat (Region.cast ColCounts) (s.pids 1 * NR + s.pids 0) ≤ BN)
+(hpos : ∀ i : Fin BM, s.pids 0 * BM + i.val < seqLen s H (Region.cast Seqlens) → 0 < msaDenomUpto BM BN (msaCatScore0GS Q K V Seqlens Blocks BlockOffsets ColCounts Cols BM BN BD H NR NS NV sqz sqh sqm sqk skz skh skn skk s sm_scale) 9 i)
+337 mixed_sparse_attention::mixed_sparse_attention_epilogue_io_correctness
+(hOutInj : ∀ p₀ p₁ : Nat, Function.Injective (fun idx : TileIndex [BLOCK_M, BLOCK_DMODEL] => p₁ / H * stride_qz + p₁ % H * stride_qh + (p₀ * BLOCK_M + idx.1.val) * stride_om + idx.2.1.val * stride_ok))
+338 mul_exponent_compensator::mul_kernel_correctness
+(hB : 0 < B)
+339 mul_exponent_compensator::mul_commuted_correctness
+(hB : 0 < B)
+340 nested_loops_processing::nested3_output_summary_general
+(hInj0 : Function.Injective (fun idx : TileIndex [2, 2] => matrixOffset stride_m stride_n idx))
+(hInj2 : Function.Injective (fun idx : TileIndex [2, 2] => matrixOffsetShift stride_m stride_n 2 idx))
+(hInj4 : Function.Injective (fun idx : TileIndex [2, 2] => matrixOffsetShift stride_m stride_n 4 idx))
+(hInj6 : Function.Injective (fun idx : TileIndex [2, 2] => matrixOffsetShift stride_m stride_n 6 idx))
+(hInj8 : Function.Injective (fun idx : TileIndex [2, 2] => matrixOffsetShift stride_m stride_n 8 idx))
+(hInj10 : Function.Injective (fun idx : TileIndex [2, 2] => matrixOffsetShift stride_m stride_n 10 idx))
+(hInj12 : Function.Injective (fun idx : TileIndex [2, 2] => matrixOffsetShift stride_m stride_n 12 idx))
+(hInj14 : Function.Injective (fun idx : TileIndex [2, 2] => matrixOffsetShift stride_m stride_n 14 idx))
+(hInj16 : Function.Injective (fun idx : TileIndex [2, 2] => matrixOffsetShift stride_m stride_n 16 idx))
+(hInj18 : Function.Injective (fun idx : TileIndex [2, 2] => matrixOffsetShift stride_m stride_n 18 idx))
+(hInj20 : Function.Injective (fun idx : TileIndex [2, 2] => matrixOffsetShift stride_m stride_n 20 idx))
+(hInj22 : Function.Injective (fun idx : TileIndex [2, 2] => matrixOffsetShift stride_m stride_n 22 idx))
+(hInj24 : Function.Injective (fun idx : TileIndex [2, 2] => matrixOffsetShift stride_m stride_n 24 idx))
+(hInj26 : Function.Injective (fun idx : TileIndex [2, 2] => matrixOffsetShift stride_m stride_n 26 idx))
+(hInj28 : Function.Injective (fun idx : TileIndex [2, 2] => matrixOffsetShift stride_m stride_n 28 idx))
+(hInj30 : Function.Injective (fun idx : TileIndex [2, 2] => matrixOffsetShift stride_m stride_n 30 idx))
+(hInj32 : Function.Injective (fun idx : TileIndex [2, 2] => matrixOffsetShift stride_m stride_n 32 idx))
+(hInj34 : Function.Injective (fun idx : TileIndex [2, 2] => matrixOffsetShift stride_m stride_n 34 idx))
+(hInj36 : Function.Injective (fun idx : TileIndex [2, 2] => matrixOffsetShift stride_m stride_n 36 idx))
+(hInj38 : Function.Injective (fun idx : TileIndex [2, 2] => matrixOffsetShift stride_m stride_n 38 idx))
+(hInj40 : Function.Injective (fun idx : TileIndex [2, 2] => matrixOffsetShift stride_m stride_n 40 idx))
+(hInj42 : Function.Injective (fun idx : TileIndex [2, 2] => matrixOffsetShift stride_m stride_n 42 idx))
+(hInj44 : Function.Injective (fun idx : TileIndex [2, 2] => matrixOffsetShift stride_m stride_n 44 idx))
+(hInj46 : Function.Injective (fun idx : TileIndex [2, 2] => matrixOffsetShift stride_m stride_n 46 idx))
+341 nested_loops_processing::nested3_first_a1_store_io_correctness
+(hOutInj : Function.Injective (fun idx : TileIndex [2, 2] => idx.1.val * stride_m + idx.2.1.val * stride_n))
+342 nested_loops_processing::nested3_first_a1_store_io_correctnessR
+(hOutInj : Function.Injective (fun idx : TileIndex [2, 2] => idx.1.val * stride_m + idx.2.1.val * stride_n))
+343 nested_loops_processing::original_real_correct
+(hsep : src ≠ dst)
+(hinjective : FullReal.TileInjective sm sn)
+(hsrc : sm + 27 * sn < bounds src)
+(hdst : sm + 47 * sn < bounds dst)
+344 nested_loops_processing::candidate_real_correct
+(hsep : src ≠ dst)
+(hinjective : FullReal.TileInjective sm sn)
+(hsrc : sm + 27 * sn < bounds src)
+(hdst : sm + 47 * sn < bounds dst)
+345 nested_loops_processing::original_flat_real_correct
+(hd : A.Disjoint)
+(hcov : ∀ r, r ∉ A.regions → A.extent r = 0)
+(hsep : src ≠ dst)
+(hinjective : FullReal.TileInjective sm sn)
+(hsrc : sm + 27 * sn < A.extent src)
+(hdst : sm + 47 * sn < A.extent dst)
+(hu : s.undef = fun _ _ ↦ 0)
+346 nested_loops_processing::candidate_flat_real_correct
+(hd : A.Disjoint)
+(hcov : ∀ r, r ∉ A.regions → A.extent r = 0)
+(hsep : src ≠ dst)
+(hinjective : FullReal.TileInjective sm sn)
+(hsrc : sm + 27 * sn < A.extent src)
+(hdst : sm + 47 * sn < A.extent dst)
+(hu : s.undef = fun _ _ ↦ 0)
+347 parallel_attention::pa_fwd_o_exec_genuine
+(hOZ : o ≠ z)
+(hSd : s_vo_d = 1)
+(hσ : BV ≤ s_vo_t)
+(hBTS : BTL % BTS = 0)
+(hBTSpos : 0 < BTS)
+348 parallel_attention::pa_bwd_dkv_exec_genuine
+(i_bh i_c i_k i_v i_h : Nat)
+(hDkDv : dk ≠ dv)
+(hSkd : s_k_d = 1)
+(hSvd : s_v_d = 1)
+(hσk : BK ≤ s_k_t)
+(hσv : BV ≤ s_v_t)
+(hBTS : BTL % BTS = 0)
+(hBTSpos : 0 < BTS)
+349 parallel_retention_attention::pra_fwd_o_exec_genuine
+(hSd : s_vo_d = 1)
+(hσ : BV ≤ s_vo_t)
+(hBTS : BTL % BTS = 0)
+(hBTSpos : 0 < BTS)
+350 parallel_retention_attention::pra_bwd_dkv_exec_genuine
+(i_bh i_c i_k i_v i_h : Nat)
+(hDkDv : dk ≠ dv)
+(hSkd : s_qk_d = 1)
+(hSvd : s_vo_d = 1)
+(hσk : BK ≤ s_qk_t)
+(hσv : BV ≤ s_vo_t)
+(hBTS : BTL % BTS = 0)
+(hBTSpos : 0 < BTS)
+351 pow_scalar_tensor::floating_one_tile_correct
+(hd : alloc.Disjoint)
+(hcov : ∀ r, r ∉ alloc.regions → alloc.extent r = 0)
+(hy : Y ∈ alloc.regions)
+(hstride : 0 < sy)
+(hu : s.undef = fun _ _ => 0)
+(hinput : ∀ i, taskIndex (s.pids 0) B i < N → s.readMem X (taskIndex (s.pids 0) B i * sx) = xs i)
+(hin : ∀ i, taskIndex (s.pids 0) B i < N → taskIndex (s.pids 0) B i * sx < alloc.extent X)
+(hout : ∀ i, taskIndex (s.pids 0) B i < N → taskIndex (s.pids 0) B i * sy < alloc.extent Y)
+352 pow_scalar_tensor::floating_grid_correct
+(hd : alloc.Disjoint)
+(hcov : ∀ r, r ∉ alloc.regions → alloc.extent r = 0)
+(hy : Y ∈ alloc.regions)
+(hstride : 0 < sy)
+(hu : s.undef = fun _ _ => 0)
+(hdisj : X ≠ Y)
+(hgrid : 0 < s.numPids 0)
+(hinput : ∀ j i, taskIndex (s.pids 0 + j.val * s.numPids 0) B i < N → s.readMem X (taskIndex (s.pids 0 + j.val * s.numPids 0) B i * sx) = xs j i)
+(hin : ∀ (j : Fin tiles) i, taskIndex (s.pids 0 + j.val * s.numPids 0) B i < N → taskIndex (s.pids 0 + j.val * s.numPids 0) B i * sx < alloc.extent X)
+(hout : ∀ (j : Fin tiles) i, taskIndex (s.pids 0 + j.val * s.numPids 0) B i < N → taskIndex (s.pids 0 + j.val * s.numPids 0) B i * sy < alloc.extent Y)
+353 pow_scalar_tensor::integer_one_tile_correct
+(hd : alloc.Disjoint)
+(hcov : ∀ r, r ∉ alloc.regions → alloc.extent r = 0)
+(hy : Y ∈ alloc.regions)
+(hstride : 0 < sy)
+(hu : s.undef = fun _ _ => 0)
+(hinput : ∀ i, taskIndex (s.pids 0) B i < N → s.readMemTyped .int X (taskIndex (s.pids 0) B i * sx) = some (xs i))
+(hvalid : ∀ i, taskIndex (s.pids 0) B i < N → Int32Bits.inRange (xs i) = Bool.true)
+(hin : ∀ i, taskIndex (s.pids 0) B i < N → taskIndex (s.pids 0) B i * sx < alloc.extent X)
+(hout : ∀ i, taskIndex (s.pids 0) B i < N → taskIndex (s.pids 0) B i * sy < alloc.extent Y)
+354 pow_scalar_tensor::integer_grid_correct
+(hd : alloc.Disjoint)
+(hcov : ∀ r, r ∉ alloc.regions → alloc.extent r = 0)
+(hy : Y ∈ alloc.regions)
+(hstride : 0 < sy)
+(hu : s.undef = fun _ _ => 0)
+(hdisj : X ≠ Y)
+(hgrid : 0 < s.numPids 0)
+(hinput : ∀ j i, taskIndex (s.pids 0+j.val*s.numPids 0) B i < N → s.readMemTyped .int X (taskIndex (s.pids 0+j.val*s.numPids 0) B i * sx) = some (xs j i))
+(hvalid : ∀ j i, taskIndex (s.pids 0+j.val*s.numPids 0) B i < N → Int32Bits.inRange (xs j i) = Bool.true)
+(hin : ∀ (j : Fin tiles) i, taskIndex (s.pids 0+j.val*s.numPids 0) B i < N → taskIndex (s.pids 0+j.val*s.numPids 0) B i * sx < alloc.extent X)
+(hout : ∀ (j : Fin tiles) i, taskIndex (s.pids 0+j.val*s.numPids 0) B i < N → taskIndex (s.pids 0+j.val*s.numPids 0) B i * sy < alloc.extent Y)
+355 quant_transpose_kernel::quantize_global_transpose_blocked_output_summary_general
+(hOutInj : Function.Injective (fun idx : TileIndex [BLOCK_M, BLOCK_N] => bOffset s stride_bm stride_bn BLOCK_M BLOCK_N idx))
+356 quant_transpose_kernel::quant_transpose_scaled_store_io_correctness
+(hM : 0 < BLOCK_M)
+(hN : 0 < BLOCK_N)
+(hOutInj : ∀ p₀ p₁ : Nat, Function.Injective (fun idx : TileIndex [BLOCK_M, BLOCK_N] => (p₀ * BLOCK_M + idx.1.val) * stride_bm + (p₁ * BLOCK_N + idx.2.1.val) * stride_bn))
+357 quantize_copy_kv::destindex_copy_quantize_kv_output_summary_general
+(hD : 0 < BLOCK_DMODEL)
+(hOut : Out ≠ OutScale)
+(hValInj : Function.Injective (fun idx : TileIndex [BLOCK_HEAD, BLOCK_DMODEL] => outOffset s DestLoc stride_o_bs stride_o_h stride_o_d idx))
+(hScaleInj : Function.Injective (fun i : Fin BLOCK_HEAD => scaleOutOffset1 s DestLoc stride_os_bs stride_os_h i))
+358 quantize_copy_kv::quantize_copy_kv_io_correctness
+(hD : 0 < BLOCK_DMODEL)
+(hOut : Out ≠ OutScale)
+(hValInj : Function.Injective (fun idx : TileIndex [BLOCK_HEAD, BLOCK_DMODEL] => stride_o_h * idx.1.val + stride_o_d * idx.2.1.val))
+(hScaleInj : Function.Injective (fun i : Fin BLOCK_HEAD => stride_os_h * i.val))
+359 quantize_global::quantize_global_correctness
+(hBS : 0 < BLOCK_SIZE)
+360 quantize_kv_copy::destindex_copy_quantize_kv_group_output_summary_general
+(hD : 0 < BLOCK_GROUP_DIM)
+(hOut : Out ≠ OutScale)
+(hOutInj : Function.Injective (fun idx : TileIndex [BLOCK_GROUP_NUM, BLOCK_GROUP_DIM] => outOffset s DestLoc stride_o_bs stride_o_h stride_o_g stride_o_d idx))
+(hScaleInj : Function.Injective (fun i : Fin BLOCK_GROUP_NUM => scaleOutOffset s DestLoc stride_os_bs stride_os_h i))
+361 quantize_kv_copy::quantize_kv_copy_io_correctness
+(hD : 0 < BLOCK_GROUP_DIM)
+(hOut : Out ≠ OutScale)
+(hValInj : Function.Injective (fun idx : TileIndex [BLOCK_GROUP_NUM, BLOCK_GROUP_DIM] => idx.1.val * stride_o_g + idx.2.1.val))
+362 quantize_kv_transform::destindex_copy_quantize_kv_transform_output_summary_general
+(hD : 0 < BLOCK_DMODEL)
+(hOut : Out ≠ OutScale)
+(hValInj : Function.Injective (fun idx : TileIndex [BLOCK_HEAD, BLOCK_DMODEL] => outOffset s DestLoc stride_o_bs stride_o_h stride_o_d idx))
+(hScaleInj : Function.Injective (fun i : Fin BLOCK_HEAD => scaleOutOffset s DestLoc stride_os_bs stride_os_h i))
+363 quantize_kv_transform::quantize_kv_transform_io_correctness
+(hD : 0 < BLOCK_DMODEL)
+(hOut : Out ≠ OutScale)
+(hValInj : Function.Injective (fun idx : TileIndex [BLOCK_HEAD, BLOCK_DMODEL] => stride_o_h * idx.1.val + stride_o_d * idx.2.1.val))
+(hScaleInj : Function.Injective (fun i : Fin BLOCK_HEAD => stride_os_h * i.val))
+364 rbe_triton_transform::rbe_triton_transform_output_summary_general
+(hOutInj : Function.Injective (fun idx : TileIndex [BLOCK_SIZE_M, BLOCK_SIZE_K / 2] => outOff s K stride_out_batch stride_out_m stride_out_n BLOCK_SIZE_M BLOCK_SIZE_K idx))
+(hRI : ∀ idx k : TileIndex [BLOCK_SIZE_M, BLOCK_SIZE_K / 2], outOff s K stride_out_batch stride_out_m stride_out_n BLOCK_SIZE_M BLOCK_SIZE_K idx ≠ outOff s K stride_out_batch stride_out_m stride_out_n BLOCK_SIZE_M BLOCK_SIZE_K k + 1)
+(hOutInjAll : ∀ s : BlockState, Function.Injective (fun idx : TileIndex [BLOCK_SIZE_M, BLOCK_SIZE_K / 2] => outOff s K stride_out_batch stride_out_m stride_out_n BLOCK_SIZE_M BLOCK_SIZE_K idx))
+(hRIAll : ∀ (s : BlockState) (idx k : TileIndex [BLOCK_SIZE_M, BLOCK_SIZE_K / 2]), outOff s K stride_out_batch stride_out_m stride_out_n BLOCK_SIZE_M BLOCK_SIZE_K idx ≠ outOff s K stride_out_batch stride_out_m stride_out_n BLOCK_SIZE_M BLOCK_SIZE_K k + 1)
+365 relu_strided_buffer::original_one_tile_correctness
+(hs : 0 < sy)
+(_hB : 0 < B)
+366 relu_strided_buffer::original_grid_stride_correctness
+(hs : 0 < sy)
+(hxy : x ≠ y)
+(_hB : 0 < B)
+367 relu_strided_buffer::candidate_one_tile_correctness
+(hs : 0 < sy)
+(_hB : 0 < B)
+368 relu_strided_buffer::candidate_grid_stride_correctness
+(hs : 0 < sy)
+(hxy : x ≠ y)
+(_hB : 0 < B)
+369 relu_triton_kernel::relu_kernel_correctness
+(hB : 0 < block_size)
+370 relu_triton_kernel::relu_fused_kernel_correctness
+(hB : 0 < block_size)
+371 reversed_cumsum::reversed_cumsum_original_real
+
+372 reversed_cumsum::reversed_cumsum_candidate_real
+
+373 reversed_cumsum::reversed_cumsum_compare_right_equiv
+
+374 reversed_cumsum_scalar::reversed_cumsum_scalar_correctness
+
+375 reversed_cumsum_scalar::index_commuted_correctness
+
+376 reversed_cumsum_scalar::reversed_cumsum_scalar_equiv
+
+377 rms_matmul_rbe::half_formal_real_correct
+(hd : A.Disjoint)
+(hc : ∀ r, r ∉ A.regions → A.extent r = 0)
+(hu : s.undef = fun _ _ => 0)
+(hcol : 0 < son)
+(hrow : N * son ≤ som)
+(hb : AccessSafety.Reads A.extent s X W RMS M N K BM BN BK sxb sxm sxk swk swn srms)
+(ho : ∀ i : TileIndex [BM, BN], active s M N BM BN i → outOffset s N BM BN sob som son i < A.extent OUT)
+378 rms_matmul_rbe::qkv_half_formal_real_correct
+(hu : s.undef = fun _ _ => 0)
+(hiQ : ∀ i j : TileIndex [BM, BN], active s M N BM BN i → active s M N BM BN j → outOffset s N BM BN sqb sqm sqn i = outOffset s N BM BN sqb sqm sqn j → i = j)
+(hiK : ∀ i j : TileIndex [BM, BN], active s M N BM BN i → active s M N BM BN j → outOffset s N BM BN skb skm skn i = outOffset s N BM BN skb skm skn j → i = j)
+(hiV : ∀ i j : TileIndex [BM, BN], active s M N BM BN i → active s M N BM BN j → outOffset s N BM BN svb svm svn i = outOffset s N BM BN svb svm svn j → i = j)
+(hXQ : X ≠ Q)
+(hRQ : RMS ≠ Q)
+(hKWQ : KW ≠ Q)
+(hVWQ : VW ≠ Q)
+(hXK : X ≠ KOut)
+(hRK : RMS ≠ KOut)
+(hVWK : VW ≠ KOut)
+(hQK : Q ≠ KOut)
+(hQV : Q ≠ V)
+(hKV : KOut ≠ V)
+(hd : A.Disjoint)
+(hc : ∀ r, r ∉ A.regions → A.extent r = 0)
+379 rms_matmul_rbe::fp8_formal_real_correct
+(hd : A.Disjoint)
+(hc : ∀ r, r ∉ A.regions → A.extent r = 0)
+(hu : s.undef = fun _ _ => 0)
+(hcol : 0 < son)
+(hrow : N * son ≤ som)
+(hXW : X ≠ W)
+(hXR : X ≠ RMS)
+(hinput : ByteExecution.Inputs s X W RMS M N K BM BN BK sxb sxm sxk swk swn srms xs rs ws)
+(hb : AccessSafety.Reads A.extent s X W RMS M N K BM BN BK sxb sxm sxk swk swn srms)
+(ho : ∀ i : TileIndex [BM, BN], active s M N BM BN i → outOffset s N BM BN sob som son i < A.extent OUT)
+380 rms_matmul_rbe::qkv_fp8_formal_real_correct
+(hu : s.undef = fun _ _ => 0)
+(hiQ : ∀ i j : TileIndex [BM, BN], active s M N BM BN i → active s M N BM BN j → outOffset s N BM BN sqb sqm sqn i = outOffset s N BM BN sqb sqm sqn j → i = j)
+(hiK : ∀ i j : TileIndex [BM, BN], active s M N BM BN i → active s M N BM BN j → outOffset s N BM BN skb skm skn i = outOffset s N BM BN skb skm skn j → i = j)
+(hiV : ∀ i j : TileIndex [BM, BN], active s M N BM BN i → active s M N BM BN j → outOffset s N BM BN svb svm svn i = outOffset s N BM BN svb svm svn j → i = j)
+(hXQW : X ≠ QW)
+(hXKW : X ≠ KW)
+(hXVW : X ≠ VW)
+(hXR : X ≠ RMS)
+(hXQ : X ≠ Q)
+(hRQ : RMS ≠ Q)
+(hKWQ : KW ≠ Q)
+(hVWQ : VW ≠ Q)
+(hXK : X ≠ KOut)
+(hRK : RMS ≠ KOut)
+(hVWK : VW ≠ KOut)
+(hQK : Q ≠ KOut)
+(hQV : Q ≠ V)
+(hKV : KOut ≠ V)
+(hd : A.Disjoint)
+(hc : ∀ r, r ∉ A.regions → A.extent r = 0)
+381 rms_norm_triton::typed_real_correct
+(_hN : 0 < N)
+(_hNB : N ≤ B)
+(hyc : 0 < ysc)
+382 rms_norm_triton::original_real_correct
+(hN : 0 < N)
+(hNB : N ≤ B)
+(hyc : 0 < ysc)
+383 rms_norm_triton::candidate_real_correct
+(hN : 0 < N)
+(hNB : N ≤ B)
+(hyc : 0 < ysc)
+384 rms_rbe_matmul::half_formal_real_correct
+(hd : A.Disjoint)
+(hc : ∀ r, r ∉ A.regions → A.extent r = 0)
+(hu : s.undef = fun _ _ => 0)
+(hcol : 0 < son)
+(hrow : N * son ≤ som)
+(hb : AccessSafety.Reads A.extent s X W RMS M N K BM BN BK sxb sxm sxk swk swn srms)
+(ho : ∀ i : TileIndex [BM, BN], active s M N BM BN i → outOffset s N BM BN sob som son i < A.extent OUT)
+385 rms_rbe_matmul::fp8_formal_real_correct
+(hd : A.Disjoint)
+(hc : ∀ r, r ∉ A.regions → A.extent r = 0)
+(hu : s.undef = fun _ _ => 0)
+(hcol : 0 < son)
+(hrow : N * son ≤ som)
+(hXW : X ≠ W)
+(hXR : X ≠ RMS)
+(hinput : ByteExecution.Inputs s X W RMS M N K BM BN BK sxb sxm sxk swk swn srms xs rs ws)
+(hb : AccessSafety.Reads A.extent s X W RMS M N K BM BN BK sxb sxm sxk swk swn srms)
+(ho : ∀ i : TileIndex [BM, BN], active s M N BM BN i → outOffset s N BM BN sob som son i < A.extent OUT)
+386 rmsnorm_fused::typed_real_correct
+(hB : 0 < B)
+(hXY : X ≠ Y)
+(hWY : W ≠ Y)
+387 rmsnorm_fused_llama::original_real_correct
+(hB : 0 < B)
+(hXY : X ≠ Y)
+(hWY : W ≠ Y)
+388 rmsnorm_fused_llama::candidate_real_correct
+(hB : 0 < B)
+(hXY : X ≠ Y)
+(hWY : W ≠ Y)
+389 rmsnorm_implementation::typed_real_correct
+(hB : 0 < B)
+(hXO : X ≠ O)
+(hWO : W ≠ O)
+(hsok : 0 < sok)
+390 rmsnorm_implementation::full_real_correct
+(hB : 0 < B)
+(hXO : X ≠ O)
+(hWO : W ≠ O)
+(hsok : 0 < sok)
+391 rmsnorm_triton::rmsnorm_full_output_summary
+(hB : 0 < B)
+(hNpos : 0 < N)
+(hox : o ≠ x)
+(how : o ≠ w)
+(hsok : 0 < sok)
+392 rmsnorm_triton::rmsnorm_full_io_correctness
+(hB : 0 < B)
+(hox : o ≠ x)
+(how : o ≠ w)
+(hsok : 0 < sok)
+393 rmsnorm_triton::typed_real_correct
+(hB : 0 < B)
+(hOX : O ≠ X)
+(hOW : O ≠ W)
+(hsok : 0 < sok)
+394 rope_backward_transform::rope_backward_python_backward_output_summary_general
+(hundef : ∀ rg o, s.undef rg o = 0)
+(hqk : Q ≠ K)
+395 rope_embedding::rope_embedding_forward_backward_summary_general
+(hQF : Function.Injective (fun i : Fin BLOCK_SIZE => qFirstOffset sQ Q_row_stride head_dim ROPE_GROUP_SIZE i))
+(hQS : Function.Injective (fun i : Fin BLOCK_SIZE => qSecondOffset sQ Q_row_stride head_dim ROPE_GROUP_SIZE i))
+(hDF : Function.Injective (fun i : Fin BLOCK_SIZE => qFirstOffset sDY Q_row_stride head_dim ROPE_GROUP_SIZE i))
+(hDS : Function.Injective (fun i : Fin BLOCK_SIZE => qSecondOffset sDY Q_row_stride head_dim ROPE_GROUP_SIZE i))
+396 rope_embedding::rope_embedding_io_correctness
+
+397 rope_transform::rope_transform_output_summary_general
+(hundef : ∀ rg o, s.undef rg o = 0)
+(hqk : Q ≠ K)
+398 rotary_emb::rotary_emb_correctness
+
+399 rotary_emb_nopad::rotary_emb_nopad_output_summary_general
+(hQInjFirst : ∀ s : BlockState, Function.Injective (fun idx : TileIndex [BLOCK_TOKENS, 1, HEAD_HALF] => qFullFirstOffset s q_token_stride q_head_stride head_dim_stride BLOCK_TOKENS idx))
+(hQInjSecond : ∀ s : BlockState, Function.Injective (fun idx : TileIndex [BLOCK_TOKENS, 1, HEAD_HALF] => qFullSecondOffset s q_token_stride q_head_stride head_dim_stride BLOCK_TOKENS HEAD_HALF idx))
+(hQDisjoint : ∀ (s : BlockState) (idx idx' : TileIndex [BLOCK_TOKENS, 1, HEAD_HALF]), qFullFirstOffset s q_token_stride q_head_stride head_dim_stride BLOCK_TOKENS idx ≠ qFullSecondOffset s q_token_stride q_head_stride head_dim_stride BLOCK_TOKENS HEAD_HALF idx')
+(hKInjFirst : ∀ s : BlockState, Function.Injective (fun idx : TileIndex [BLOCK_TOKENS, 1, HEAD_HALF] => kFullFirstOffset s k_token_stride k_head_stride head_dim_stride KV_GROUP_NUM BLOCK_TOKENS idx))
+(hKInjSecond : ∀ s : BlockState, Function.Injective (fun idx : TileIndex [BLOCK_TOKENS, 1, HEAD_HALF] => kFullSecondOffset s k_token_stride k_head_stride head_dim_stride KV_GROUP_NUM BLOCK_TOKENS HEAD_HALF idx))
+(hKDisjoint : ∀ (s : BlockState) (idx idx' : TileIndex [BLOCK_TOKENS, 1, HEAD_HALF]), kFullFirstOffset s k_token_stride k_head_stride head_dim_stride KV_GROUP_NUM BLOCK_TOKENS idx ≠ kFullSecondOffset s k_token_stride k_head_stride head_dim_stride KV_GROUP_NUM BLOCK_TOKENS HEAD_HALF idx')
+(hV2QInjFirst : ∀ s : BlockState, Function.Injective (fun i : Fin v2_HEAD_HALF => v2QFirstOffset s v2_q_token_stride v2_q_head_stride v2_head_dim_stride i))
+(hV2QInjSecond : ∀ s : BlockState, Function.Injective (fun i : Fin v2_HEAD_HALF => v2QSecondOffset s v2_q_token_stride v2_q_head_stride v2_head_dim_stride v2_HEAD_HALF i))
+(hV2QDisjoint : ∀ (s : BlockState) (i i' : Fin v2_HEAD_HALF), v2QFirstOffset s v2_q_token_stride v2_q_head_stride v2_head_dim_stride i ≠ v2QSecondOffset s v2_q_token_stride v2_q_head_stride v2_head_dim_stride v2_HEAD_HALF i')
+(hV2CacheDisjoint : ∀ (s : BlockState) (i i' : Fin v2_HEAD_HALF), v2CacheOff0 s BlockTables ContextLengths cacheb_stride cacheh_stride cachebs_stride cached_stride bts_stride btb_stride block_size v2_q_total_tokens i ≠ v2CacheOff1 s BlockTables ContextLengths cacheb_stride cacheh_stride cachebs_stride cached_stride bts_stride btb_stride block_size v2_q_total_tokens v2_HEAD_HALF i')
+400 rotary_transform::rotary_transform_python_output_summary_general
+(hOutInj : Function.Injective (fun i : Fin BLOCK_HALF => outOffset s stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim BLOCK_M i))
+(hOut1Inj : Function.Injective (fun i : Fin BLOCK_HALF => out1Offset s stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim rotary_dim_half BLOCK_M i))
+(hStrideHd : stride_out_headdim ≠ 0)
+(hHalfBound : BLOCK_HALF ≤ rotary_dim_half)
+401 rotary_transform::rotary_transform_meta_implements
+(hStrideHd : stride_out_headdim ≠ 0)
+(hHalfBound : BLOCK_HALF ≤ rotary_dim_half)
+402 rotary_transform_ops::rotary_transform_ops_output_summary_general
+(hOutInj : Function.Injective (fun i : Fin BLOCK_HALF => outOffset s body_stride_out_batch body_stride_out_seqlen body_stride_out_nheads body_stride_out_headdim body_BLOCK_M i))
+(hOut1Inj : Function.Injective (fun i : Fin BLOCK_HALF => out1Offset s body_stride_out_batch body_stride_out_seqlen body_stride_out_nheads body_stride_out_headdim body_rotary_dim_half body_BLOCK_M i))
+(hStrideHd : body_stride_out_headdim ≠ 0)
+(hHalfBound : BLOCK_HALF ≤ body_rotary_dim_half)
+403 rotary_transform_ops::rotary_transform_ops_meta_implements
+(hStrideHd : stride_out_headdim ≠ 0)
+(hHalfBound : BLOCK_HALF ≤ rotary_dim_half)
+404 rowwise_quantization_triton::quantize_rowwise_correctness
+(hP : 0 < P2)
+(hRegions : output_ptr ≠ output_maxs)
+405 seeded_dropout::seeded_dropout_correctness
+(hB : SourceDomain.LegalBlock B)
+406 seeded_dropout::index_commuted_correctness
+(hB : SourceDomain.LegalBlock B)
+407 sgmv_expand_slice::sgmv_expand_slice_one_row_block_output_summary
+(hBK : 0 < BLOCK_K)
+(hInj : Function.Injective (cOffset s b_seq_start_loc cm_stride cn_stride slice_offset BLOCK_M BLOCK_N))
+(hundef : ∀ rg o, s.undef rg o = 0)
+408 sgmv_expand_slice::sgmv_expand_slice_io_correctness
+(hBK : 0 < BLOCK_K)
+(hInj : ∀ pid₀ pid₁ start : Nat, Function.Injective (fun idx : TileIndex [BLOCK_M, BLOCK_N] => (start + (pid₀ * BLOCK_M + idx.1.val)) * cm_stride + ((pid₁ * BLOCK_N + idx.2.1.val) + slice_offset) * cn_stride))
+409 sin_computation::typed_real_correct
+
+410 sin_kernel::typed_real_correct
+
+411 softmax_flaggems::forward_non_inner_correctness
+(hd : A.Disjoint)
+(hcov : ∀ r, r ∉ A.regions → A.extent r = 0)
+(_hprofile : SourceProfileSupported input one)
+(_hforward : ForwardSourceDomain one N B)
+(h : RealForwardNonInner.ExecutionDomain one X Y N B)
+(hr : s.pids 0 < M)
+(hX : M * N * K ≤ A.extent X)
+(hY : M * N * K ≤ A.extent Y)
+(hYr : Y ∈ A.regions)
+412 softmax_flaggems::forward_inner_correctness
+(hd : A.Disjoint)
+(hcov : ∀ r, r ∉ A.regions → A.extent r = 0)
+(_hprofile : SourceProfileSupported input one)
+(_hforward : ForwardSourceDomain one N B)
+(h : RealForwardInner.ExecutionDomain one X Y N B)
+(hr : s.pids 0 < M)
+(hX : M * N ≤ A.extent X)
+(hY : M * N ≤ A.extent Y)
+(hYr : Y ∈ A.regions)
+413 softmax_flaggems::backward_non_inner_correctness
+(hd : A.Disjoint)
+(hcov : ∀ r, r ∉ A.regions → A.extent r = 0)
+(_hprofile : SourceProfileSupported storage one)
+(h : RealBackwardNonInner.ExecutionDomain one P G Y N B)
+(hr : s.pids 0 < M)
+(hP : M * N * K ≤ A.extent P)
+(hG : M * N * K ≤ A.extent G)
+(hY : M * N * K ≤ A.extent Y)
+(hYr : Y ∈ A.regions)
+414 softmax_flaggems::backward_inner_correctness
+(hd : A.Disjoint)
+(hcov : ∀ r, r ∉ A.regions → A.extent r = 0)
+(_hprofile : SourceProfileSupported storage one)
+(h : RealBackwardInner.ExecutionDomain one P G Y N B)
+(hP : M * N ≤ A.extent P)
+(hG : M * N ≤ A.extent G)
+(hY : M * N ≤ A.extent Y)
+(hYr : Y ∈ A.regions)
+415 softmax_optimize::full_source_original_correct
+(hd : A.Disjoint)
+(hcov : ∀ r, r∉A.regions → A.extent r=0)
+(hdom : NumericalDomain N B)
+(hYX : Y≠X)
+(hr : s.pids 0<M)
+(hX : M*N≤A.extent X)
+(hY : M*N≤A.extent Y)
+(hYr : Y∈A.regions)
+416 softmax_optimize::full_source_candidate_correct
+(hd : A.Disjoint)
+(hcov : ∀ r, r∉A.regions → A.extent r=0)
+(hdom : NumericalDomain N B)
+(hYX : Y≠X)
+(hr : s.pids 0<M)
+(hX : M*N≤A.extent X)
+(hY : M*N≤A.extent Y)
+(hYr : Y∈A.regions)
+417 softmax_reducev::softmax_reducev_genuine_output_compute_correct_general
+(hD : 0 < BLOCK_DMODEL)
+(hN : 0 < BLOCK_N)
+(hundef : ∀ rg o, s.undef rg o = 0)
+(hseqmod : srSeqLen s BSeqLen.cast % BLOCK_N = 0)
+(hseqpos : 0 < srSeqLen s BSeqLen.cast)
+(hOutInj : ∀ s0 : BlockState, Function.Injective (fun i : Fin BLOCK_DMODEL => outOffsetG s0 sob soh sod i))
+(hM : srRunningMax (srQkFG s Logics BStartLoc.cast BSeqLen.cast slh slb) (srVFG s V BLoc BSeqLen.cast mil sb ss svbs svh svd BLOCK_DMODEL) (srSeqLen s BSeqLen.cast) (⟨0, hD⟩ : Fin BLOCK_DMODEL) = (mr : WithBot ℝ))
+418 softmax_reducev::softmax_reducev_io_correctness
+(hD : 0 < BLOCK_DMODEL)
+(hN : 0 < BLOCK_N)
+(hOInj : ∀ pid₀ pid₁ : Nat, Function.Injective (fun i : Fin BLOCK_DMODEL => pid₀ * sob + pid₁ * soh + i.val * sod))
+419 softmax_triton1::softmax_kernel_correctness
+(hB : 0 < BLOCK_SIZE)
+420 softmax_triton1::softmax_reciprocal_correctness
+(hB : 0 < BLOCK_SIZE)
+421 softmax_triton2::softmax_original_real_correct
+(hB : 0 < BLOCK_SIZE)
+422 softmax_triton2::softmax_reciprocal_correctness
+(hB : 0 < BLOCK_SIZE)
+423 softmax_triton3::softmax_typed_real_correct
+(hB : 0 < B)
+424 softmax_triton3::softmax_typed_masked_real_correct
+(hB : 0 < B)
+425 square_matrix::square_typed_real_correct
+(_hB : 0 < B)
+426 swiglu_backward::typed_real_correct
+(hxy : DX ≠ DY)
+(hox : OUT ≠ DX)
+(hoy : OUT ≠ DY)
+427 swiglu_fwd::typed_real_correct
+
+428 swiglu_triton::forward_typed_real_correct
+(_hB : 0 < BLOCK_SIZE)
+(_hN : n_cols ≤ BLOCK_SIZE)
+429 swiglu_triton::backward_typed_real_correct
+(hab : a ≠ b)
+(_hB : 0 < BLOCK_SIZE)
+(_hN : n_cols ≤ BLOCK_SIZE)
+430 token_attn_llama2::token_attn_llama2_output_summary_general
+(hundef : ∀ rg o, s.undef rg o = 0)
+(hOutInj : Function.Injective (fun i : Fin BLOCK_N => outOffset s B_Start_Loc att_stride_h att_stride_bs BLOCK_N i))
+431 token_attn_llama2::token_attn_llama2_io_correctness
+(hOutInj : ∀ (pid₁ pid₂ base : Nat), Function.Injective (fun i : Fin BN => pid₁ * ash + (base + (pid₂ * BN + i.val)) * asbs))
+432 token_attn_mistral::token_attn_mistral_output_summary_general
+(hpbs : stride_pbs = 1)
+(hrts : stride_req_to_tokens_s = 1)
+(hBN : 0 < BLOCK_N)
+(hundef : ∀ rg o, s.undef rg o = 0)
+(hOutInj : Function.Injective (fun i : Fin BLOCK_DMODEL => outOffset s stride_obs stride_oh stride_od i))
+433 token_attn_mistral::token_attn_mistral_io_correctness
+(hpbs : spbs = 1)
+(hrts : srts = 1)
+(hBN : 0 < BLOCK_N)
+(hOutInj : ∀ pid₀ pid₁ : Nat, Function.Injective (fun i : Fin BLOCK_DMODEL => pid₀ * sobs + pid₁ * soh + i.val * sod))
+434 token_attn_reduceV::token_attn_reducev_output_summary_general
+(hBD : 0 < BLOCK_DMODEL)
+(hBN : 0 < BLOCK_N)
+(hpbs : stride_pbs = 1)
+(hrts : stride_req_to_tokens_s = 1)
+(hundef : ∀ rg o, s.undef rg o = 0)
+(hOutInj : Function.Injective (fun i : Fin BLOCK_DMODEL => outOffset s stride_obs stride_oh stride_od i))
+435 token_attn_reduceV::token_attn_reducev_io_correctness
+(hpbs : spbs = 1)
+(hrts : srts = 1)
+(hBN : 0 < BLOCK_N)
+(hOutInj : ∀ pid₀ pid₁ : Nat, Function.Injective (fun i : Fin BLOCK_DMODEL => pid₀ * sobs + pid₁ * soh + i.val * sod))
+436 token_softmax_bloom::token_softmax_bloom_correctness
+(hB : 0 < BLOCK_SIZE)
+(hOutInj : ∀ pid₁ m₁, Function.Injective (fun j : Fin BLOCK_SIZE => pid₁ * stride_prob_h + (m₁ + j.val) * stride_prob_bs))
+437 token_softmax_llama::token_softmax_llama_correctness
+(hB : 0 < BLOCK_SIZE)
+(hOutInj : ∀ pid₁ m₁ : Nat, Function.Injective (fun i : Fin BLOCK_SIZE => pid₁ * stride_prob_h + (m₁ + i.val) * stride_prob_bs))
+438 triton_argmax::argmax_kernel_1_value_compute_correct
+(hRegions : mid_value ≠ (Region.cast mid_index : RegionName))
+439 triton_argmax::argmax_kernel_1_index_compute_correct
+
+440 triton_argmax::argmax_kernel_2_compute_correct
+
+441 triton_argmax::argmax_kernel_dim_single_block_compute_correct
+(hBN : 0 < BLOCK_N)
+(hNpos : 0 < N)
+(hNle : N ≤ BLOCK_N)
+(hOutInj : Function.Injective (fun i : Fin BLOCK_M => argmaxKernelOutOffset s K BLOCK_M i))
+442 triton_argmax::argmax_kernel_1_io_correctness
+(hB : 0 < BLOCK_SIZE)
+(hRegions : mid_value ≠ (Region.cast mid_index : RegionName))
+443 triton_attention::triton_attention_bwd_preprocess_genuine_output_summary_general
+(hND : NewDO ≠ Delta)
+(hOutInj : Function.Injective (fun idx : TileIndex [BLOCK_M, D_HEAD] => newdoOffset s BLOCK_M D_HEAD idx))
+444 triton_attention::triton_attention_forward_output_summary_general
+(hBM : 0 < BLOCK_M)
+(hBN : 0 < BLOCK_N)
+(hBD : 0 < BLOCK_DMODEL)
+(hdvd : BLOCK_N ∣ (s.pids 0 + 1) * BLOCK_M)
+(hbound : s.pids 1 * (stride_qh / BLOCK_DMODEL) + (s.pids 0 + 1) * BLOCK_M ≤ D0)
+(hLOut : L ≠ Out)
+(hMOut : M ≠ Out)
+(hLM : M ≠ L)
+(houtinj : Function.Injective (fun idx : TileIndex [BLOCK_M, BLOCK_DMODEL] => (s.pids 1 * (stride_qh / BLOCK_DMODEL) + s.pids 0 * BLOCK_M + idx.1.val) * BLOCK_DMODEL + idx.2.1.val * 1))
+(hundef : ∀ rg o, s.undef rg o = 0)
+445 triton_attention::triton_attention_bwd_grads_genuine_output_summary_general
+(hBM : 0 < BM)
+(hBD : 0 < BD)
+(hnb : 0 < nb)
+(hbdvd : BD ∣ base)
+(hbound : base / BD + nb * BM ≤ D0)
+(hbase : (s.pids 0 / H) * (stride_qz / BD) + (s.pids 0 % H) * (stride_qh / BD) = base / BD)
+(hQDQ : Q ≠ DQ)
+(hKDQ : K ≠ DQ)
+(hVDQ : V ≠ DQ)
+(hDODQ : DO ≠ DQ)
+(hMDQ : M ≠ DQ)
+(hDeDQ : Delta ≠ DQ)
+(hDVDQ : DV ≠ DQ)
+(hDKDQ : DK ≠ DQ)
+(hDVDK : DV ≠ DK)
+(hDKDV : DK ≠ DV)
+(hin : ∀ R : RegionName, R = Q ∨ R = K ∨ R = V ∨ R = DO ∨ R = M ∨ R = Delta → R ≠ DV ∧ R ≠ DK ∧ R ≠ DQ)
+(hundef : ∀ rg o, s.undef rg o = 0)
+446 triton_attention::triton_attention_forward_io_correctness
+(hfp16 : R.round .fp16 = id)
+(hBM : 0 < BLOCK_M)
+(hBN : 0 < BLOCK_N)
+(hBD : 0 < BLOCK_DMODEL)
+(hBNM : BLOCK_N ∣ BLOCK_M)
+(hLOut : L ≠ Out)
+(hMOut : M ≠ Out)
+(hLM : M ≠ L)
+447 triton_conv2d_fwd::conv2d_output_summary
+(hBIN : 0 < BIN)
+(hundef : ∀ rg o, s.undef rg o = 0)
+(hIGD : in_feat_dim / groups = BIN * numCBlocks)
+(hOutInj : Function.Injective (outputOffset s BHW OF out_height out_width OBS OOFS OHS OWS (out_feat_dim / groups)))
+448 triton_conv2d_fwd::triton_conv2d_fwd_io_correctness
+(hfp16 : R.round .fp16 = id)
+(hBIN : 0 < BIN)
+(hIGD : in_feat_dim / groups = BIN * numCBlocks)
+(hOutInj : ∀ pid₀ pid₁ pid₂ : Nat, Function.Injective (fun idx : TileIndex [BHW, OF] => pOutAddr pid₀ pid₁ pid₂ BHW OF out_height out_width OBS OOFS OHS OWS (out_feat_dim / groups) idx.1.val idx.2.1.val))
+449 triton_linear_activation::triton_linear_activation_output_summary_general
+(hFitM : blockMIdx (s.pids 0) M N BLOCK_M BLOCK_N GROUP_M * BLOCK_M + BLOCK_M ≤ M)
+(hFitN : blockNIdx (s.pids 0) M N BLOCK_M BLOCK_N GROUP_M * BLOCK_N + BLOCK_N ≤ N)
+(hsno : output_n_stride = 1)
+(hble : BLOCK_N ≤ output_m_stride)
+450 triton_linear_activation::triton_linear_activation_io_correctness
+(hT : 0 < numKBlocks)
+(hsno : output_n_stride = 1)
+(hble : BLOCK_N ≤ output_m_stride)
+(hsain : act_inputs_n_stride = 1)
+(hale : BLOCK_N ≤ act_inputs_m_stride)
+(hne : ACT_INPUTS ≠ C)
+451 triton_matmul::triton_matmul_f16_closed_form_correct
+(hK : K = BLOCK_K * numKBlocks)
+(hcn : scn = 1)
+(hbnle : BN ≤ scm)
+(hundef : ∀ rg o, s.undef rg o = 0)
+452 triton_matmul::triton_matmul_f8_closed_form_correct
+(hK : K = BLOCK_K * numKBlocks)
+(hcn : scn = 1)
+(hbnle : BN ≤ scm)
+(hundef : ∀ rg o, s.undef rg o = 0)
+453 triton_matmul::triton_matmul_f16_io_correctness
+(hK : K = BK * numKBlocks)
+(hcn : scn = 1)
+(hBN : BN ≤ scm)
+454 triton_matmul::triton_matmul_f8_io_correctness
+(hK : K = BK * numKBlocks)
+(hcn : scn = 1)
+(hBN : BN ≤ scm)
+455 triton_mul2::mul2_kernel_correctness
+
+456 triton_mul2::mul2_inplace_kernel_correctness
+
+457 triton_mul2::mul2_commuted_correctness
+
+458 triton_mul2::mul2_inplace_commuted_correctness
+
+459 triton_softmax::softmax_typed_real_correct
+(hB : 0 < B)
+460 triton_softmax::softmax_index_equiv
+
+461 uniform_sampling::uniform_sampling_correctness
+(hB : SourceDomain.LegalBlock B)
+462 uniform_sampling::index_commuted_correctness
+(hB : SourceDomain.LegalBlock B)
+463 uniform_sampling::uniform_sampling_equiv
+(hB : SourceDomain.LegalBlock B)
+464 var_len_copy::typed_real_correct
+(hd : A.Disjoint)
+(hcov : ∀ r, r ∉ A.regions → A.extent r = 0)
+(hB : 0 < B)
+(hsd : src ≠ dst)
+(hL : s.readMemValue .int ol.cast (s.pids 0) = length)
+(hO : s.readMemValue .int os.cast (s.pids 0) = (oldStart : Int))
+(hN : s.readMemValue .int ns.cast (s.pids 0) = (newStart : Int))
+(hLb : s.pids 0 < A.extent ol.cast)
+(hOb : s.pids 0 < A.extent os.cast)
+(hNb : s.pids 0 < A.extent ns.cast)
+(hsrc : oldStart + Math.copiedLength length B ≤ A.extent src)
+(hdst : newStart + Math.copiedLength length B ≤ A.extent dst)
+(hdr : dst ∈ A.regions)
+(hu : s.undef = fun _ _ ↦ 0)
+465 var_len_copy::original_real_correct
+(hd : A.Disjoint)
+(hcov : ∀ r, r ∉ A.regions → A.extent r = 0)
+(hB : 0 < B)
+(hsd : src ≠ dst)
+(hL : s.readMemValue .int ol.cast (s.pids 0) = length)
+(hO : s.readMemValue .int os.cast (s.pids 0) = (oldStart : Int))
+(hN : s.readMemValue .int ns.cast (s.pids 0) = (newStart : Int))
+(hLb : s.pids 0 < A.extent ol.cast)
+(hOb : s.pids 0 < A.extent os.cast)
+(hNb : s.pids 0 < A.extent ns.cast)
+(hsrc : oldStart + Math.copiedLength length B ≤ A.extent src)
+(hdst : newStart + Math.copiedLength length B ≤ A.extent dst)
+(hdr : dst ∈ A.regions)
+(hu : s.undef = fun _ _ ↦ 0)
+466 var_len_copy::candidate_real_correct
+(hd : A.Disjoint)
+(hcov : ∀ r, r ∉ A.regions → A.extent r = 0)
+(hB : 0 < B)
+(hsd : src ≠ dst)
+(hL : s.readMemValue .int ol.cast (s.pids 0) = length)
+(hO : s.readMemValue .int os.cast (s.pids 0) = (oldStart : Int))
+(hN : s.readMemValue .int ns.cast (s.pids 0) = (newStart : Int))
+(hLb : s.pids 0 < A.extent ol.cast)
+(hOb : s.pids 0 < A.extent os.cast)
+(hNb : s.pids 0 < A.extent ns.cast)
+(hsrc : oldStart + Math.copiedLength length B ≤ A.extent src)
+(hdst : newStart + Math.copiedLength length B ≤ A.extent dst)
+(hdr : dst ∈ A.regions)
+(hu : s.undef = fun _ _ ↦ 0)
+467 var_len_copy::discrete_typed_real_correct
+(hd : A.Disjoint)
+(hcov : ∀ r, r ∉ A.regions → A.extent r = 0)
+(hB : 0 < B)
+(hsd : src ≠ dst)
+(hL : s.readMemValue .int ol.cast (s.pids 0) = length)
+(hO : s.readMemValue .int os.cast (s.pids 0) = (oldStart : Int))
+(hN : s.readMemValue .int ns.cast (s.pids 0) = (newStart : Int))
+(hLb : s.pids 0 < A.extent ol.cast)
+(hOb : s.pids 0 < A.extent os.cast)
+(hNb : s.pids 0 < A.extent ns.cast)
+(hsrc : oldStart + Math.copiedLength length B ≤ A.extent src)
+(hdst : newStart + Math.copiedLength length B ≤ A.extent dst)
+(hdr : dst ∈ A.regions)
+(hu : s.undef = fun _ _ ↦ 0)
+468 var_len_copy::discrete_original_real_correct
+(hd : A.Disjoint)
+(hcov : ∀ r, r ∉ A.regions → A.extent r = 0)
+(hB : 0 < B)
+(hsd : src ≠ dst)
+(hL : s.readMemValue .int ol.cast (s.pids 0) = length)
+(hO : s.readMemValue .int os.cast (s.pids 0) = (oldStart : Int))
+(hN : s.readMemValue .int ns.cast (s.pids 0) = (newStart : Int))
+(hLb : s.pids 0 < A.extent ol.cast)
+(hOb : s.pids 0 < A.extent os.cast)
+(hNb : s.pids 0 < A.extent ns.cast)
+(hsrc : oldStart + Math.copiedLength length B ≤ A.extent src)
+(hdst : newStart + Math.copiedLength length B ≤ A.extent dst)
+(hdr : dst ∈ A.regions)
+(hu : s.undef = fun _ _ ↦ 0)
+469 var_len_copy::discrete_candidate_real_correct
+(hd : A.Disjoint)
+(hcov : ∀ r, r ∉ A.regions → A.extent r = 0)
+(hB : 0 < B)
+(hsd : src ≠ dst)
+(hL : s.readMemValue .int ol.cast (s.pids 0) = length)
+(hO : s.readMemValue .int os.cast (s.pids 0) = (oldStart : Int))
+(hN : s.readMemValue .int ns.cast (s.pids 0) = (newStart : Int))
+(hLb : s.pids 0 < A.extent ol.cast)
+(hOb : s.pids 0 < A.extent os.cast)
+(hNb : s.pids 0 < A.extent ns.cast)
+(hsrc : oldStart + Math.copiedLength length B ≤ A.extent src)
+(hdst : newStart + Math.copiedLength length B ≤ A.extent dst)
+(hdr : dst ∈ A.regions)
+(hu : s.undef = fun _ _ ↦ 0)
+470 vector_addition::add_kernel_correctness
+
+471 vector_addition::add_commuted_correctness
+
+472 vector_addition_custom::add_kernel_correctness
+
+473 vector_addition_custom::add_commuted_correctness

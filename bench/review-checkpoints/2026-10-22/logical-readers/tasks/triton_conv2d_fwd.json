@@ -1,0 +1,92 @@
+{
+  "schema": 1,
+  "task": "triton_conv2d_fwd",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue15/release-result.json",
+    "sha256": "8a77b0f84470ab4da972410dbbbda5acec548d388b18f6f9a69f4a2366f55ee6",
+    "task_index": 3
+  },
+  "finding": "The grouped formula used raw payload channels and decoded flattened spatial outputs with divisions/moduli.",
+  "resolution": "Added curried input/weight payload arrays and group×batch×row×column×feature outputs. Padded input/filter accessors preserve the original symbolic scalar projection and overlapping-stride interpretation.",
+  "mathematical_target": "Independent full grouped convolution sum over all channel/filter-height/filter-width coordinates.",
+  "conditions_and_scope": "Original Valid and Flags, complete grouped grid, empty batch, all FP16/TF32/scalar-FP32 computation paths, FP32 storage and arbitrary symbolic KernelNumeric.Value ℝ inputs remain.",
+  "proof_connection": "ConvIO.logical_iff is iff of the complete ProgramIO.Implements judgments. spatial_coordinates proves exact batch/row/column decoding; formula_eq and the input/output Equiv inverses identify the old full mathematical target without narrowing its payload domain.",
+  "fp_review": "Original complete grid vs exact fixed-128 integer row-base strength reduction; all numerical paths and full loop order unchanged, R=[].",
+  "numerical_dependencies": "No new numerical rule, experiment or hardware claim. Main FP experimental rule set remains empty; existing strict source models/certificates and explicit primitive/domain premises are reused.",
+  "previous_formula_scope": {
+    "mathematical_target": "sum_{c<cg,h<kh,w<kw} paddedInput[n,g*cg+c,oh*sh-ph+h,ow*sw-pw+w] * weight[g*og+f,c,h,w]",
+    "required_conditions": [
+      "Valid s: positive channels/output channels/spatial/filter/stride/group/output extents, exact floor-divided output shape and positive input/weight strides",
+      "Contract.Domain supplies metadata/shape/stride/device/storage binding, signed index envelope and launch grid checks; main theorem is more general over Valid s",
+      "ProgramIO declares full finite strided inputs/output; actual safety/success/all outputs and exact frame proved"
+    ],
+    "scope": "Whole original grouped-convolution grid including empty batch, all h/w/c loops, masked tails, FP16/default operand paths and both TF32 flags; no bias/dilation beyond original contract.",
+    "canonical_connection": "Correct.groupedConvolution writes the complete logical c/h/w sum and padded input coordinates; local groupedConvolution_eq is rfl with ConvIO.mathematical. ConvIO.real_implements connects ordered source recurrence through KernelReal.reference_real.",
+    "fp_program_pair": "FPEquiv.original Operations s flags vs shifted: actual whole grid; only row-base integer strength reduction at 128.",
+    "numerical_dependencies": "Empty experimental set, no FP rewrite. KernelNumeric Operations/instruction paths, casts and all payloads retained."
+  },
+  "verification": [
+    {
+      "kind": "main",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue15/build.py",
+        "bench/repairs/tritonbench_g/triton_conv2d_fwd/IO.lean",
+        "bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/LogicalIO.lean",
+        "bench/repairs/tritonbench_g/triton_conv2d_fwd/Correct.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue15/logs/triton_conv2d_fwd-main.log",
+      "log_sha256": "5add9ffd1e9695134296c2303b432fecc20ee0172400d34181d5eb84bc969d59",
+      "evidence_source": "frozen_base"
+    },
+    {
+      "kind": "fp",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue15/build.py",
+        "bench/repairs/tritonbench_g/triton_conv2d_fwd/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue15/logs/triton_conv2d_fwd-fp.log",
+      "log_sha256": "d78b8df0550220c1bf53f18069f60602f9e7e9d5abaab2b67d89e9ea1c8dcc72",
+      "evidence_source": "frozen_base"
+    },
+    {
+      "kind": "joint",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue15/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue15/checks/triton_conv2d_fwd-joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue15/logs/triton_conv2d_fwd-joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "evidence_source": "frozen_base"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Contract.lean": "b90c5a99e90b960b94c9fa11bb52683d08df829e13fca36faeab6cec71a5e994",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Correct.lean": "09fa5dc92e98aea519a3f013b75c9a54a8b77cd0f492a39cad4c1e7f5b77bd99",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/FPEquiv.lean": "d5a711da160ef6bab020386221432e7aa532eb3da92c87132e8511b46a4bc467",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/IO.lean": "156364c5daa4059612481e18cca3e9aad912c3b11278491ecdca5bbed35418f1",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/LogicalIO.lean": "0c579882d767683e728b61f7935d3f6b74f2504983c2c3f7892632941aa85d5a",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

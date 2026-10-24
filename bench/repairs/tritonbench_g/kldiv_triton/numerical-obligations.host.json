@@ -1,0 +1,92 @@
+{
+  "task": "kldiv_triton",
+  "entries": [
+    "VeriTile.Bench.Repairs.KldivTriton.Contiguous.FPEquiv.forward_reference",
+    "VeriTile.Bench.Repairs.KldivTriton.Contiguous.FPEquiv.backward_reference"
+  ],
+  "status": "local numerical conformance deferred",
+  "profile": "FP32 production source; preserved selected Triton 3.7.1 SM90 native operand order and reduction graph",
+  "admission": "All FP32 words; no positivity or finiteness guard. The all-word scalar reference obligations condition transport only.",
+  "local_predicates": [
+    "VeriTile.Bench.Repairs.KldivTriton.Native.Obligations",
+    "VeriTile.Bench.Repairs.KldivTriton.NativeHost.Obligations"
+  ],
+  "operations": [
+    {
+      "name": "Native.addRN",
+      "arity": 2,
+      "domain": "all FP32 words; dividePythonNat additionally takes the actual natural denominator",
+      "required_evidence": "FP32 ordered add, including the exact native reduction graph operands."
+    },
+    {
+      "name": "Native.subRN",
+      "arity": 2,
+      "domain": "all FP32 words; dividePythonNat additionally takes the actual natural denominator",
+      "required_evidence": "FP32 subtraction with native operand order, signed zeros and exceptional words."
+    },
+    {
+      "name": "Native.mulRN",
+      "arity": 2,
+      "domain": "all FP32 words; dividePythonNat additionally takes the actual natural denominator",
+      "required_evidence": "FP32 multiplication, exact frozen factor/difference ordering, FTZ and exceptional words."
+    },
+    {
+      "name": "Native.div",
+      "arity": 2,
+      "domain": "all FP32 words; dividePythonNat additionally takes the actual natural denominator",
+      "required_evidence": "Generic scalar port only; unused by these two JIT kernels."
+    },
+    {
+      "name": "Native.logTL",
+      "arity": 1,
+      "domain": "all FP32 words; dividePythonNat additionally takes the actual natural denominator",
+      "required_evidence": "Installed Triton tl.log polynomial/FMA/FTZ intrinsic versus the selected scalar reference; no correctly-rounded assumption."
+    },
+    {
+      "name": "Native.ex2Approx",
+      "arity": 1,
+      "domain": "all FP32 words; dividePythonNat additionally takes the actual natural denominator",
+      "required_evidence": "Native ex2.approx after multiplication by 0x3fb8aa3b, on actual scaled target words."
+    },
+    {
+      "name": "Native.equal",
+      "arity": 2,
+      "domain": "all FP32 words; dividePythonNat additionally takes the actual natural denominator",
+      "required_evidence": "Native scalar equality used for the explicit raw-target-zero selection."
+    },
+    {
+      "name": "Torch.add",
+      "arity": 2,
+      "domain": "all FP32 words; dividePythonNat additionally takes the actual natural denominator",
+      "required_evidence": "Torch FP32 scalar add at each node of its actual selected reduction tree."
+    },
+    {
+      "name": "Torch.mul",
+      "arity": 2,
+      "domain": "all FP32 words; dividePythonNat additionally takes the actual natural denominator",
+      "required_evidence": "Actual FP32 tensor-product scalar operation."
+    },
+    {
+      "name": "Torch.equal",
+      "arity": 2,
+      "domain": "all FP32 words; dividePythonNat additionally takes the actual natural denominator",
+      "required_evidence": "Actual scalar equality in torch.equal after the explicit shape check."
+    },
+    {
+      "name": "Torch.dividePythonNat",
+      "arity": 2,
+      "domain": "all FP32 words; dividePythonNat additionally takes the actual natural denominator",
+      "required_evidence": "Actual Python natural scalar conversion plus Torch FP32 division, including zero and large denominators."
+    }
+  ],
+  "structural_not_deferred": [
+    "ordered Python admission and exact public domain",
+    "direct original input/destination identities",
+    "full typed source loops and evolving physical row execution",
+    "all chunk storage and reduction plans",
+    "native signed64 indices/masks and checked active pointer alignment",
+    "actual logical/raw-word/byte return and complete exterior frames",
+    "ordinary host failure prefixes and successful device restoration"
+  ],
+  "validation": "33 rejections, 5 failure prefixes, 134 actual Triton CPU interpreter source/reference/frame controls and 4 separate original counterexamples; no GPU execution or numerical conformance measurement"
+}

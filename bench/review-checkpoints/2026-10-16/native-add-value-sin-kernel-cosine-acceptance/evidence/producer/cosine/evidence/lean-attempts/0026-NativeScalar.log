@@ -1,0 +1,13 @@
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeScalar.lean:146:22: error: unsolved goals
+case neg
+d : FP64TypedCore.Storage
+b : Numerics
+x : Word (FP64TypedCore.RegType.storage d)
+e : Expr d (FP64TypedCore.RegType.storage FP64TypedCore.Storage.boolean)
+w : Word (FP64TypedCore.RegType.storage FP64TypedCore.Storage.boolean)
+h : Expr.eval b x e = some w
+hz : ¬w.bits = 0
+⊢ (if w.bits = 0#(FP64TypedCore.RegType.storage FP64TypedCore.Storage.boolean).width then 0#32 else 1065353216#32) =
+    if w.bits = 0#(FP64TypedCore.RegType.storage FP64TypedCore.Storage.boolean).width then 0#32 else 1065353216#32
+CosineNative.result: definition does not reference [CosineNative.source, CosineNative.Expr.eval] — non-circular ✓
+/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/after/bench/tritonbench_g/cosine_compute/Proofs/NativeScalar.lean:161:0: error: CosineNative.source_scalar: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

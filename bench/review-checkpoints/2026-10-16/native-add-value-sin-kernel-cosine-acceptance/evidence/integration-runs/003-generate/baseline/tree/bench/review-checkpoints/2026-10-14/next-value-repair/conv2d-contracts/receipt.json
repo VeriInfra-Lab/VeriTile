@@ -1,0 +1,439 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-10-14T20:29:20.794573+00:00",
+  "status": "PASS_COMPLETE_ACCEPTED_SCOPE_FP_CONTRACTS",
+  "task": "triton_conv2d_fwd",
+  "new_lean_modules": 10,
+  "public_specifications": [
+    {
+      "task": "triton_conv2d_fwd",
+      "file": "bench/tritonbench_g/triton_conv2d_fwd/FPCorrect.lean",
+      "declaration": "full_backend_correctness",
+      "qualified": "VeriTile.Bench.TritonBenchG.TritonConv2dFwd.FPCorrect.full_backend_correctness",
+      "model_kind": "backend_value_contract",
+      "statement": "specification full_backend_correctness {α : Type} [Inhabited α] (M : Algebra α) (D : Dot α)\n    (p : Parameters) (initial : State α)\n    (hw : ∀ i j, FPValue.active p initial i → FPValue.active p initial j →\n      FPValue.outputOffset p initial i = FPValue.outputOffset p initial j → i = j) :\n    ∃ final, FP.Structural.exec (backend M D) (source p) initial = some final ∧\n      final.mem = (written M D p initial).mem ∧\n      (∀ i, FPValue.active p initial i →\n        final.mem p.Output (FPValue.outputOffset p initial i)=.mk .fp32 (outputValue M D p initial i)) ∧\n      (∀ r o, (r≠p.Output ∨ ∀ i, FPValue.active p initial i → o≠FPValue.outputOffset p initial i) →\n        final.mem r o=initial.mem r o)",
+      "statement_sha256": "f5d598be097193bca4b02d58ed86c6871dde8e05cefcb7b3c625b6c0efce6e8c",
+      "scope": "complete accepted fp16=true triple nest, arbitrary tf32 Bool",
+      "native_functional_correctness": "not_established"
+    },
+    {
+      "task": "triton_conv2d_fwd",
+      "file": "bench/tritonbench_g/triton_conv2d_fwd/FPCorrect.lean",
+      "declaration": "clean_undef_backend_correctness",
+      "qualified": "VeriTile.Bench.TritonBenchG.TritonConv2dFwd.FPCorrect.clean_undef_backend_correctness",
+      "model_kind": "backend_value_contract",
+      "statement": "specification clean_undef_backend_correctness {α : Type} [Inhabited α] (M : Algebra α) (D : Dot α)\n    (p : Parameters) (initial : State α)\n    (hz : ∀ r o, initial.undef .fp32 r o=M.literal (some .fp32) .real 0)\n    (hw : ∀ i j, FPValue.active p initial i → FPValue.active p initial j →\n      FPValue.outputOffset p initial i = FPValue.outputOffset p initial j → i = j) :\n    ∃ final, FP.Structural.exec (backend M D) (source p) initial = some final ∧\n      (∀ i, FPValue.active p initial i →\n        final.mem p.Output (FPValue.outputOffset p initial i)=.mk .fp32 (zeroPaddingValue M D p initial i)) ∧\n      (∀ r o, (r≠p.Output ∨ ∀ i, FPValue.active p initial i → o≠FPValue.outputOffset p initial i) →\n        final.mem r o=initial.mem r o)",
+      "statement_sha256": "5bc15f718138cd8644ae5a07581a0b16010c0b5675982a53f78d1b8e702c6c89",
+      "scope": "complete accepted fp16=true triple nest, arbitrary tf32 Bool",
+      "native_functional_correctness": "not_established"
+    },
+    {
+      "task": "triton_conv2d_fwd",
+      "file": "bench/tritonbench_g/triton_conv2d_fwd/FPCorrect.lean",
+      "declaration": "full_software_correctness",
+      "qualified": "VeriTile.Bench.TritonBenchG.TritonConv2dFwd.FPCorrect.full_software_correctness",
+      "model_kind": "bit_interpreter_contract",
+      "statement": "specification full_software_correctness (rest : Algebra Word) (p : Parameters)\n    (initial : State Word)\n    (hw : ∀ i j, FPValue.active p initial i → FPValue.active p initial j →\n      FPValue.outputOffset p initial i = FPValue.outputOffset p initial j → i = j) :\n    ∃ final, FP.Structural.exec (backend (software rest) sequentialDot) (source p) initial = some final ∧\n      (∀ i, FPValue.active p initial i →\n        final.mem p.Output (FPValue.outputOffset p initial i)=.mk .fp32 (bitOutput p initial i)) ∧\n      (∀ r o, (r≠p.Output ∨ ∀ i, FPValue.active p initial i → o≠FPValue.outputOffset p initial i) →\n        final.mem r o=initial.mem r o)",
+      "statement_sha256": "d991dfab23d5e2f69e24ed6722b4834442a1058056e0c4a21c8ff2cd6753595d",
+      "scope": "complete accepted fp16=true triple nest, arbitrary tf32 Bool",
+      "native_functional_correctness": "not_established"
+    }
+  ],
+  "full_original_accepted_scope_covered": true,
+  "native_functional_correctness": "not_established",
+  "original_source_sha256_unchanged": {
+    "bench/tritonbench_g/triton_conv2d_fwd/TritonConv2dFwd.lean": "160856935e5072b41a50a9d54fab90eb7211731441e514207645503065452eba",
+    "bench/tritonbench_g/triton_conv2d_fwd/triton_conv2d_fwd.py": "b22af1e5429eef6c1371c6b786821f7082df54da10868001acdbb5007972ac9e"
+  },
+  "original_public_statements_unchanged": [
+    {
+      "key": "bench/tritonbench_g/triton_conv2d_fwd/TritonConv2dFwd.lean::conv2d_output_summary",
+      "file": "bench/tritonbench_g/triton_conv2d_fwd/TritonConv2dFwd.lean",
+      "declaration": "conv2d_output_summary",
+      "line": 1972,
+      "kind": "specification",
+      "statement": "specification conv2d_output_summary\n    (Input Weight Output : RegionName)\n    (batch_dim in_feat_dim in_height in_width out_feat_dim out_height out_width\n      IBS IIFS IHS IWS WOFS WIFS WHS WWS OBS OOFS OHS OWS\n      KH KW SH SW PH PW groups : Nat) (tf32 : Bool) (BHW BIN OF numCBlocks : Nat)\n    (s : BlockState) (hBIN : 0 < BIN) (hundef : ∀ rg o, s.undef rg o = 0)\n    (hIGD : in_feat_dim / groups = BIN * numCBlocks)\n    (hOutInj : Function.Injective (outputOffset s BHW OF out_height out_width OBS OOFS OHS OWS (out_feat_dim / groups))) :\n    (∃ alg, (conv2d_forward_surface Input Weight Output batch_dim in_feat_dim in_height in_width\n        out_feat_dim out_height out_width IBS IIFS IHS IWS WOFS WIFS WHS WWS OBS OOFS OHS OWS\n        KH KW SH SW PH PW groups Bool.true tf32 BHW BIN OF).toAlgorithm? = Except.ok alg) ∧\n    ComputeCorrect.Realizes_without_Rounding\n      (kernel := conv2d_forward_surface Input Weight Output batch_dim in_feat_dim in_height in_width\n        out_feat_dim out_height out_width IBS IIFS IHS IWS WOFS WIFS WHS WWS OBS OOFS OHS OWS\n        KH KW SH SW PH PW groups Bool.true tf32 BHW BIN OF)\n      (initialState := s)\n      (write := ComputeCorrect.WriteMap.writeIf\n        (active s BHW OF batch_dim out_height out_width (out_feat_dim / groups))\n        (fun idx => (Output, outputOffset s BHW OF out_height out_width OBS OOFS OHS OWS (out_feat_dim / groups) idx)))\n      (expected := fun idx : TileIndex [BHW, OF] =>\n        convSpec s Input Weight BHW BIN OF batch_dim in_height in_width\n          IBS IIFS IHS IWS WOFS WIFS WHS WWS out_height out_width (BIN * numCBlocks) (out_feat_dim / groups)\n          SH SW PH PW KH KW numCBlocks idx.1 idx.2.1)",
+      "statement_sha256": "f8b13b0157f7e97b8d66f3d40a693e44990c70ab72f92871a7be042d49c0aae9",
+      "source_sha256": "160856935e5072b41a50a9d54fab90eb7211731441e514207645503065452eba",
+      "explicit_global_identity": false
+    },
+    {
+      "key": "bench/tritonbench_g/triton_conv2d_fwd/TritonConv2dFwd.lean::triton_conv2d_fwd_io_correctness",
+      "file": "bench/tritonbench_g/triton_conv2d_fwd/TritonConv2dFwd.lean",
+      "declaration": "triton_conv2d_fwd_io_correctness",
+      "line": 4223,
+      "kind": "specification",
+      "statement": "specification triton_conv2d_fwd_io_correctness (R : RoundingModel)\n    (Input Weight Output : RegionName)\n    (batch_dim in_feat_dim in_height in_width out_feat_dim out_height out_width\n      IBS IIFS IHS IWS WOFS WIFS WHS WWS OBS OOFS OHS OWS\n      KH KW SH SW PH PW groups : Nat) (tf32 : Bool) (BHW BIN OF numCBlocks : Nat)\n    (hfp16 : R.round .fp16 = id) (hBIN : 0 < BIN)\n    (hIGD : in_feat_dim / groups = BIN * numCBlocks)\n    (hOutInj : ∀ pid₀ pid₁ pid₂ : Nat,\n      Function.Injective (fun idx : TileIndex [BHW, OF] =>\n        pOutAddr pid₀ pid₁ pid₂ BHW OF out_height out_width OBS OOFS OHS OWS\n          (out_feat_dim / groups) idx.1.val idx.2.1.val)) :\n    triton_conv2d_fwd_IO Input Weight Output batch_dim in_feat_dim in_height in_width\n        out_feat_dim out_height out_width IBS IIFS IHS IWS WOFS WIFS WHS WWS\n        OBS OOFS OHS OWS KH KW SH SW PH PW groups tf32 BHW BIN OF numCBlocks ⊨[R]\n      fun pid₀ pid₁ _ _ xs ys l =>\n        convStreamSum pid₀ pid₁ batch_dim in_height in_width out_height out_width\n          (out_feat_dim / groups) SH SW PH PW KH KW BHW BIN OF numCBlocks xs ys l",
+      "statement_sha256": "fdc14df75883d8beb702eb08a1391f82815ae4509bec5683f98be01b2971c043",
+      "source_sha256": "160856935e5072b41a50a9d54fab90eb7211731441e514207645503065452eba",
+      "explicit_global_identity": true
+    }
+  ],
+  "old_to_new_scope_map": {
+    "conv2d_output_summary": [
+      "full_backend_correctness",
+      "clean_undef_backend_correctness",
+      "full_software_correctness"
+    ],
+    "triton_conv2d_fwd_io_correctness": [
+      "full_backend_correctness",
+      "clean_undef_backend_correctness",
+      "full_software_correctness"
+    ]
+  },
+  "scope": {
+    "included": "Complete fp16=true source: prologue, KH x KW x range(0,IGD,BIN) nest, both original masked loads, casts to half, typed half-input/fp32-output dot, rounded carry add and masked fp32 store. Arbitrary pids/dims/strides/groups/padding and both tf32 Bool values, including zero KH/KW/channel trips.",
+    "original_domain": "Includes the full original BIN>0, IGD=BIN*numCBlocks and output-injectivity domain; generic Structural theorem requires only injectivity on active output lanes and proves a broader source-domain result. No new finite-input, representable-intermediate or one-block assumption.",
+    "memory": "Independent initial-memory recurrence plus successful execution, exact final memory, active output readback and complete frame. Input/output aliasing needs no added separation because all loads precede the final store. Original IO safety statements remain historical and unchanged; no newly instantiated IO skin or native memory-safety proof is asserted.",
+    "conditional_zero_padding": "Optional clean-undef premise for fp32 inactive loads. Zero lanes still participate in every dot operation, including 0*Inf. This is not an assertion of native zero padding.",
+    "excluded": "Unaccepted fp16=false branch, other input-storage profiles, host grid composition, native compiler/refinement, native zero-padding guarantee, exact Real convolution equality."
+  },
+  "numerical_model": {
+    "backend": "Opaque alpha, exact callback placement with fp32 storage, true half cast slots, full typed dot callback (precision and allowTF32 retained), source carry add and final store cast; no extra algebraic law.",
+    "software": "All used numerical callbacks closed by software_reference for arbitrary rest: RN-even IEEE-value binary32-to-binary16 conversion, exact half widening, binary32 multiply and ascending-lane +0-seeded dot sum, separate binary32 carry addition, fp32 store. Both tf32 flags select this explicitly named software schedule; no equality to hardware schedules asserted.",
+    "software_closure": "software_reference proves outputValue (software rest) sequentialDot = bitOutput for arbitrary rest and all symbolic parameters/states; full_software_correctness then proves actual exec/output/frame against that independent bit recurrence.",
+    "extra_numeric_laws": [],
+    "global_half_identity": "Not used by any new value/execution contract. Old hfp16=id conditional theorem is unchanged as a mathematical historical statement."
+  },
+  "witnesses": [
+    {
+      "theorem": "half_rounding_occurs",
+      "result": "fp32 2049/2048 narrows to half 1 and widens to fp32 1, unequal to its input."
+    },
+    {
+      "theorem": "multiblock_nonempty",
+      "result": "Full KH=2,KW=2,IGD=2,BIN=1 execution (8 inner steps), BHW=OF=2, active O[0]=8 after real half rounding; O[1] framed. Both masked tails are present."
+    },
+    {
+      "theorem": "padding_nonempty",
+      "result": "Same source and valid inputs, two actual complete executions differing only in undef value 0 versus 2 give active O[0]=1 versus 7."
+    },
+    {
+      "theorem": "padded_nan_execution",
+      "result": "Actual full padded execution with clean-zero undef and infinite weights produces NaN because 0*Inf remains in source arithmetic."
+    }
+  ],
+  "compile": {
+    "mode": "direct lake env lean -o, isolated stable imports; no lake build",
+    "cwd": "/tmp/veritile-fp-full-precheck",
+    "passed": 10,
+    "failed": 0,
+    "modules": [
+      {
+        "source": "bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPTypedSource.lean",
+        "sha256": "dee1d07abaa40a500dc8bc2a8f2bd3fca2d6e168be1fe209ba74e7b08ab8b1cd",
+        "exit_code": 0,
+        "seconds": 4.104375839233398,
+        "log": "/tmp/refuted-conv2d-contracts-20261014/triton_conv2d_fwd-FPTypedSource.log",
+        "log_sha256": "694439593e102231feaf9e04a7ac3988d17a08f8b506207c7e9dd239a02821f9",
+        "olean": "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPTypedSource.olean",
+        "olean_sha256": "4532253d72bc6fee3847f529d572eb1d66bf4eff425e7c4390b2643a5ab6a50b"
+      },
+      {
+        "source": "bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPReference.lean",
+        "sha256": "46a880c6a0e3a7945ada52bf8fc063d4e60fd03c8c061d6a53f728c180cb1fa8",
+        "exit_code": 0,
+        "seconds": 3.367424249649048,
+        "log": "/tmp/refuted-conv2d-contracts-20261014/triton_conv2d_fwd-FPReference.log",
+        "log_sha256": "b15f43999e95b790eab570ad058de37189d9f0fb13ee29c88913c011ffa91b7e",
+        "olean": "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPReference.olean",
+        "olean_sha256": "906ec8481a37bb8b773efc3e77cfd6fecfb47fec90368441e49e3b122ecdacef"
+      },
+      {
+        "source": "bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPExecution.lean",
+        "sha256": "8f0a6e2dfff9d00471dab96dadc47a43bdcff96d7a2c8f4da8265fdeb5f84b12",
+        "exit_code": 0,
+        "seconds": 13.145994663238525,
+        "log": "/tmp/refuted-conv2d-contracts-20261014/triton_conv2d_fwd-FPExecution.log",
+        "log_sha256": "08f28f1a39d65c351210036ef513862139d63e46f95af1a2e0f912a1211ba5ab",
+        "olean": "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPExecution.olean",
+        "olean_sha256": "7294d5283483a6da96f777ffc8a2fb7309014547e9fa04a080df4b289e0f8297"
+      },
+      {
+        "source": "bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPLoops.lean",
+        "sha256": "f0e5db9d98aada17094943df4aa612af1224005685bf27675527ac97b4d565a6",
+        "exit_code": 0,
+        "seconds": 4.1150853633880615,
+        "log": "/tmp/refuted-conv2d-contracts-20261014/triton_conv2d_fwd-FPLoops.log",
+        "log_sha256": "a662490fbbd3180fdc54ffa4db03e8e7d0cf19b0a45290b23caa9ee9d6305210",
+        "olean": "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPLoops.olean",
+        "olean_sha256": "f4538347ce6fe44099b0e159808dbd0ca5480ff1a0d4fd0138cd77cf05a7ff43"
+      },
+      {
+        "source": "bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPComplete.lean",
+        "sha256": "1cdd2be3af012721b6494914bb51329a11367f76c4f10d05b05297477621f7b0",
+        "exit_code": 0,
+        "seconds": 6.2896997928619385,
+        "log": "/tmp/refuted-conv2d-contracts-20261014/triton_conv2d_fwd-FPComplete.log",
+        "log_sha256": "989d43a07558b89f0da5e41a68af0bca5a2cbb1616d561cf6777c86cac095b91",
+        "olean": "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPComplete.olean",
+        "olean_sha256": "05c8df74b86a42e7224794f137c3138573648f894025ae0839c5631b8648bd09"
+      },
+      {
+        "source": "bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPCleanUndef.lean",
+        "sha256": "341f0785c108eb786de6f959d7154b94133a8e00e908233dc8ca4300a5d33ec8",
+        "exit_code": 0,
+        "seconds": 3.407139778137207,
+        "log": "/tmp/refuted-conv2d-contracts-20261014/triton_conv2d_fwd-FPCleanUndef.log",
+        "log_sha256": "37b240ea9eaba9cff8c6e48ee97f458313b7fa82b5c6d9098756827b175a823f",
+        "olean": "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPCleanUndef.olean",
+        "olean_sha256": "fc7c9f8371e4a553ddf66bb584fea07a11c5956eeb55370722e9a7de4915f0a1"
+      },
+      {
+        "source": "bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPSoftware.lean",
+        "sha256": "0a7a2293a5f0dee30a6a43da64035b66798679e5f8eb5d6986eb0971cd9e010d",
+        "exit_code": 0,
+        "seconds": 3.8974318504333496,
+        "log": "/tmp/refuted-conv2d-contracts-20261014/triton_conv2d_fwd-FPSoftware.log",
+        "log_sha256": "d8886d2f3246a0db14290d7648e9eb72de35506440a128abc68b53d9ed9d19de",
+        "olean": "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPSoftware.olean",
+        "olean_sha256": "0719c590ddd8359ffab7617ecb81664476328e893388e52547cb6ac07b4f37d1"
+      },
+      {
+        "source": "bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPShape.lean",
+        "sha256": "219c1220d1dd2f34abe3d31232aab541aa1fbdd2902fcf87cf5afa5e19f6d27d",
+        "exit_code": 0,
+        "seconds": 20.878162622451782,
+        "log": "/tmp/refuted-conv2d-contracts-20261014/triton_conv2d_fwd-FPShape.log",
+        "log_sha256": "0d7349888ebf2b6f067205b09461d52bebc1a90c84573f83773a243a47c4d263",
+        "olean": "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPShape.olean",
+        "olean_sha256": "eccaf08a1a73475ea6f8a172f78a3b9fbfcaa7d86f65e37cdac52c78703d260f"
+      },
+      {
+        "source": "bench/tritonbench_g/triton_conv2d_fwd/FPCorrect.lean",
+        "sha256": "5b896a45a54ffc47c6c539bfd11994b2768ccd67555e7f9da721bf0ecd4a5b8a",
+        "exit_code": 0,
+        "seconds": 3.960341215133667,
+        "log": "/tmp/refuted-conv2d-contracts-20261014/triton_conv2d_fwd-FPCorrect.log",
+        "log_sha256": "b5a32706e1e56915744dd8d7cf40c8409de53aeb4066d62d77a674f740fbd68e",
+        "olean": "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/triton_conv2d_fwd/FPCorrect.olean",
+        "olean_sha256": "dbef6e125da6a1a3a93e85592ff11c4d87cb2f80a4b6c8f10260599f2e76b790"
+      },
+      {
+        "source": "bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPWitness.lean",
+        "sha256": "a28827af66624c3a0409019d30ecf062893f5bdca5d7c4a13d6948d2ae40f048",
+        "exit_code": 0,
+        "seconds": 4.602368116378784,
+        "log": "/tmp/refuted-conv2d-contracts-20261014/triton_conv2d_fwd-FPWitness.log",
+        "log_sha256": "94dcc134782d358b66bc5af22608059085892e250939d30c2687f6ca53347dbb",
+        "olean": "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPWitness.olean",
+        "olean_sha256": "3c99c36aa0a0d7e2b76458059f4a766ea2b9146f478e883b8a8e5a34ae0be8c1"
+      }
+    ]
+  },
+  "axioms": {
+    "checked_declarations": [
+      "VeriTile.Bench.TritonBenchG.TritonConv2dFwd.FPValue.decomposition",
+      "VeriTile.Bench.TritonBenchG.TritonConv2dFwd.FPValue.hBody_shape",
+      "VeriTile.Bench.TritonBenchG.TritonConv2dFwd.FPValue.wBody_shape",
+      "VeriTile.Bench.TritonBenchG.TritonConv2dFwd.FPValue.zero_height",
+      "VeriTile.Bench.TritonBenchG.TritonConv2dFwd.FPValue.preludeExecution",
+      "VeriTile.Bench.TritonBenchG.TritonConv2dFwd.FPValue.preludeContext",
+      "VeriTile.Bench.TritonBenchG.TritonConv2dFwd.FPValue.bodyExecution",
+      "VeriTile.Bench.TritonBenchG.TritonConv2dFwd.FPValue.bodyContext",
+      "VeriTile.Bench.TritonBenchG.TritonConv2dFwd.FPValue.channelLoop",
+      "VeriTile.Bench.TritonBenchG.TritonConv2dFwd.FPValue.widthLoop",
+      "VeriTile.Bench.TritonBenchG.TritonConv2dFwd.FPValue.heightLoop",
+      "VeriTile.Bench.TritonBenchG.TritonConv2dFwd.FPValue.epilogueExecution",
+      "VeriTile.Bench.TritonBenchG.TritonConv2dFwd.FPValue.epilogueMemory",
+      "VeriTile.Bench.TritonBenchG.TritonConv2dFwd.FPValue.correctness",
+      "VeriTile.Bench.TritonBenchG.TritonConv2dFwd.FPValue.zeroUndefState_eq",
+      "VeriTile.Bench.TritonBenchG.TritonConv2dFwd.FPValue.clean_undef_correctness",
+      "VeriTile.Bench.TritonBenchG.TritonConv2dFwd.FPValue.software_reference",
+      "VeriTile.Bench.TritonBenchG.TritonConv2dFwd.FPValue.software_correctness",
+      "VeriTile.Bench.TritonBenchG.TritonConv2dFwd.FPValue.source_projection",
+      "VeriTile.Bench.TritonBenchG.TritonConv2dFwd.FPCorrect.full_backend_correctness",
+      "VeriTile.Bench.TritonBenchG.TritonConv2dFwd.FPCorrect.clean_undef_backend_correctness",
+      "VeriTile.Bench.TritonBenchG.TritonConv2dFwd.FPCorrect.full_software_correctness",
+      "VeriTile.Bench.TritonBenchG.TritonConv2dFwd.FPValue.half_rounding_occurs",
+      "VeriTile.Bench.TritonBenchG.TritonConv2dFwd.FPValue.multiblock_value",
+      "VeriTile.Bench.TritonBenchG.TritonConv2dFwd.FPValue.witness_injective",
+      "VeriTile.Bench.TritonBenchG.TritonConv2dFwd.FPValue.multiblock_nonempty",
+      "VeriTile.Bench.TritonBenchG.TritonConv2dFwd.FPValue.padding_changes_value",
+      "VeriTile.Bench.TritonBenchG.TritonConv2dFwd.FPValue.padding_nonempty",
+      "VeriTile.Bench.TritonBenchG.TritonConv2dFwd.FPValue.padded_zero_times_infinity",
+      "VeriTile.Bench.TritonBenchG.TritonConv2dFwd.FPValue.padded_nan_execution"
+    ],
+    "count": 30,
+    "allowed_only": [
+      "propext",
+      "Quot.sound",
+      "Classical.choice"
+    ],
+    "sorry_or_admit_added": false,
+    "native_decide_used": false
+  },
+  "direct_import_bindings": {
+    "VeriTile.Triton": {
+      "source": "VeriTile/Triton.lean",
+      "workspace_source_sha256": "0937879a78c271cce7beda0e77d0b0bcf90a23a2ce90485ab011a5472d75f9a0",
+      "isolated_source_sha256": "0937879a78c271cce7beda0e77d0b0bcf90a23a2ce90485ab011a5472d75f9a0",
+      "olean_sha256": "c76243f1226a0984808c5b43a9d338cefd35b1d2410b30393612efd4c17516c7"
+    },
+    "VeriTile.Triton.Float.Structural": {
+      "source": "VeriTile/Triton/Float/Structural.lean",
+      "workspace_source_sha256": "b0675fc69d11f52ad4d6c5689501f8cc32f33815cd37cff454f6c1c23b4b5bd2",
+      "isolated_source_sha256": "b0675fc69d11f52ad4d6c5689501f8cc32f33815cd37cff454f6c1c23b4b5bd2",
+      "olean_sha256": "4891e38c9c6823f0941bc39061f1f10a99449f30526af63918cab8c9a3d751b0"
+    },
+    "VeriTile.Meta.StatementAudit": {
+      "source": "VeriTile/Meta/StatementAudit.lean",
+      "workspace_source_sha256": "9c82458cd9f705e8bd4511b8c8fa9580d314c1ec274cba9ab93f665a0d7b1ea5",
+      "isolated_source_sha256": "9c82458cd9f705e8bd4511b8c8fa9580d314c1ec274cba9ab93f665a0d7b1ea5",
+      "olean_sha256": "2618f9e9e600abad63b8247bfea7d68e35ade157932f73ddadc2aa2da29e9ba7"
+    },
+    "bench.tritonbench_g.parallel_attention.Proofs.FPRange": {
+      "source": "bench/tritonbench_g/parallel_attention/Proofs/FPRange.lean",
+      "workspace_source_sha256": "f4d812c3efdbba2af1bd81053771565e05021f69bc2c02301b167a405b685351",
+      "isolated_source_sha256": "f4d812c3efdbba2af1bd81053771565e05021f69bc2c02301b167a405b685351",
+      "olean_sha256": "ff866b1cb350a156c8a7d8c0ede34a921c2a66b6f47e5a36980cd310bb962b2b"
+    },
+    "bench.tritonbench_g.kcache_copy_triton.Proofs.TypedCopy": {
+      "source": "bench/tritonbench_g/kcache_copy_triton/Proofs/TypedCopy.lean",
+      "workspace_source_sha256": "727b75143b5d44732b8240aadd0a5e62ab1bd4ba81cd37420d89e02b1a73ca34",
+      "isolated_source_sha256": "727b75143b5d44732b8240aadd0a5e62ab1bd4ba81cd37420d89e02b1a73ca34",
+      "olean_sha256": "6fc8409d8c4f5ee825516742f219c73d5e34bddb249f6454252ab7524314a0bc"
+    },
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPTypedSource": {
+      "source": "bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPTypedSource.lean",
+      "workspace_source_sha256": "dee1d07abaa40a500dc8bc2a8f2bd3fca2d6e168be1fe209ba74e7b08ab8b1cd",
+      "isolated_source_sha256": "dee1d07abaa40a500dc8bc2a8f2bd3fca2d6e168be1fe209ba74e7b08ab8b1cd",
+      "olean_sha256": "4532253d72bc6fee3847f529d572eb1d66bf4eff425e7c4390b2643a5ab6a50b"
+    },
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPReference": {
+      "source": "bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPReference.lean",
+      "workspace_source_sha256": "46a880c6a0e3a7945ada52bf8fc063d4e60fd03c8c061d6a53f728c180cb1fa8",
+      "isolated_source_sha256": "46a880c6a0e3a7945ada52bf8fc063d4e60fd03c8c061d6a53f728c180cb1fa8",
+      "olean_sha256": "906ec8481a37bb8b773efc3e77cfd6fecfb47fec90368441e49e3b122ecdacef"
+    },
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPExecution": {
+      "source": "bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPExecution.lean",
+      "workspace_source_sha256": "8f0a6e2dfff9d00471dab96dadc47a43bdcff96d7a2c8f4da8265fdeb5f84b12",
+      "isolated_source_sha256": "8f0a6e2dfff9d00471dab96dadc47a43bdcff96d7a2c8f4da8265fdeb5f84b12",
+      "olean_sha256": "7294d5283483a6da96f777ffc8a2fb7309014547e9fa04a080df4b289e0f8297"
+    },
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPLoops": {
+      "source": "bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPLoops.lean",
+      "workspace_source_sha256": "f0e5db9d98aada17094943df4aa612af1224005685bf27675527ac97b4d565a6",
+      "isolated_source_sha256": "f0e5db9d98aada17094943df4aa612af1224005685bf27675527ac97b4d565a6",
+      "olean_sha256": "f4538347ce6fe44099b0e159808dbd0ca5480ff1a0d4fd0138cd77cf05a7ff43"
+    },
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPComplete": {
+      "source": "bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPComplete.lean",
+      "workspace_source_sha256": "1cdd2be3af012721b6494914bb51329a11367f76c4f10d05b05297477621f7b0",
+      "isolated_source_sha256": "1cdd2be3af012721b6494914bb51329a11367f76c4f10d05b05297477621f7b0",
+      "olean_sha256": "05c8df74b86a42e7224794f137c3138573648f894025ae0839c5631b8648bd09"
+    },
+    "bench.tritonbench_g.int4_matmul.Proofs.FPMixed": {
+      "source": "bench/tritonbench_g/int4_matmul/Proofs/FPMixed.lean",
+      "workspace_source_sha256": "74d0c20f2e0295227f79bc86c1457d1918b7e0ce994feddb4855979f986b5b93",
+      "isolated_source_sha256": "74d0c20f2e0295227f79bc86c1457d1918b7e0ce994feddb4855979f986b5b93",
+      "olean_sha256": "8d3eac9e702293ab4fd6a01735844933d00e79c7668cdd483bfda0d2ff110b5b"
+    },
+    "bench.tritonbench_g.triton_conv2d_fwd.TritonConv2dFwd": {
+      "source": "bench/tritonbench_g/triton_conv2d_fwd/TritonConv2dFwd.lean",
+      "workspace_source_sha256": "160856935e5072b41a50a9d54fab90eb7211731441e514207645503065452eba",
+      "isolated_source_sha256": "160856935e5072b41a50a9d54fab90eb7211731441e514207645503065452eba",
+      "olean_sha256": "3b490c56b1bc8b0218fb4f7fe046212f90b70e1175711ec3c621fe3a6ad517dd"
+    },
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPCleanUndef": {
+      "source": "bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPCleanUndef.lean",
+      "workspace_source_sha256": "341f0785c108eb786de6f959d7154b94133a8e00e908233dc8ca4300a5d33ec8",
+      "isolated_source_sha256": "341f0785c108eb786de6f959d7154b94133a8e00e908233dc8ca4300a5d33ec8",
+      "olean_sha256": "fc7c9f8371e4a553ddf66bb584fea07a11c5956eeb55370722e9a7de4915f0a1"
+    },
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPSoftware": {
+      "source": "bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPSoftware.lean",
+      "workspace_source_sha256": "0a7a2293a5f0dee30a6a43da64035b66798679e5f8eb5d6986eb0971cd9e010d",
+      "isolated_source_sha256": "0a7a2293a5f0dee30a6a43da64035b66798679e5f8eb5d6986eb0971cd9e010d",
+      "olean_sha256": "0719c590ddd8359ffab7617ecb81664476328e893388e52547cb6ac07b4f37d1"
+    },
+    "bench.tritonbench_g.triton_conv2d_fwd.Proofs.FPShape": {
+      "source": "bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPShape.lean",
+      "workspace_source_sha256": "219c1220d1dd2f34abe3d31232aab541aa1fbdd2902fcf87cf5afa5e19f6d27d",
+      "isolated_source_sha256": "219c1220d1dd2f34abe3d31232aab541aa1fbdd2902fcf87cf5afa5e19f6d27d",
+      "olean_sha256": "eccaf08a1a73475ea6f8a172f78a3b9fbfcaa7d86f65e37cdac52c78703d260f"
+    },
+    "bench.tritonbench_g.triton_conv2d_fwd.FPCorrect": {
+      "source": "bench/tritonbench_g/triton_conv2d_fwd/FPCorrect.lean",
+      "workspace_source_sha256": "5b896a45a54ffc47c6c539bfd11994b2768ccd67555e7f9da721bf0ecd4a5b8a",
+      "isolated_source_sha256": "5b896a45a54ffc47c6c539bfd11994b2768ccd67555e7f9da721bf0ecd4a5b8a",
+      "olean_sha256": "dbef6e125da6a1a3a93e85592ff11c4d87cb2f80a4b6c8f10260599f2e76b790"
+    }
+  },
+  "numeric_core_bindings": {
+    "VeriTile/Triton/Float/Structural.lean": {
+      "workspace_source_sha256": "b0675fc69d11f52ad4d6c5689501f8cc32f33815cd37cff454f6c1c23b4b5bd2",
+      "isolated_source_sha256": "b0675fc69d11f52ad4d6c5689501f8cc32f33815cd37cff454f6c1c23b4b5bd2"
+    },
+    "VeriTile/Triton/Float/ScalarBackend.lean": {
+      "workspace_source_sha256": "b53529209e20d55de6dbde031c19d5baf76032c1377ef84df6583d93295d2b0a",
+      "isolated_source_sha256": "b53529209e20d55de6dbde031c19d5baf76032c1377ef84df6583d93295d2b0a"
+    },
+    "VeriTile/Triton/Float/ScalarOps.lean": {
+      "workspace_source_sha256": "26bd46b941918c3a617cb6e15b2ddb2003a85c40cd69fca3a3905ba181bc6072",
+      "isolated_source_sha256": "26bd46b941918c3a617cb6e15b2ddb2003a85c40cd69fca3a3905ba181bc6072"
+    },
+    "VeriTile/Triton/Float/BitValue.lean": {
+      "workspace_source_sha256": "92f8bf41aac7a1268815a58fea6e68475c134903893b8e075599c5427be6a1eb",
+      "isolated_source_sha256": "92f8bf41aac7a1268815a58fea6e68475c134903893b8e075599c5427be6a1eb"
+    },
+    "bench/tritonbench_g/quantize_kv_transform/Proofs/MixedBits.lean": {
+      "workspace_source_sha256": "5d774c65adefd8e9c46073c4d94a257ad8b57fbb8a7bcc6ebfe1df88e30513c3",
+      "isolated_source_sha256": "5d774c65adefd8e9c46073c4d94a257ad8b57fbb8a7bcc6ebfe1df88e30513c3"
+    },
+    "bench/tritonbench_g/matmul_dequant_int4/Proofs/Binary16.lean": {
+      "workspace_source_sha256": "ef053d0e862f6e197d900a47de3593f4c5c898c9812dc4a07ab15eacbab80858",
+      "isolated_source_sha256": "ef053d0e862f6e197d900a47de3593f4c5c898c9812dc4a07ab15eacbab80858"
+    },
+    "bench/tritonbench_g/int4_matmul/Proofs/FPMixed.lean": {
+      "workspace_source_sha256": "74d0c20f2e0295227f79bc86c1457d1918b7e0ce994feddb4855979f986b5b93",
+      "isolated_source_sha256": "74d0c20f2e0295227f79bc86c1457d1918b7e0ce994feddb4855979f986b5b93"
+    }
+  },
+  "native_obligations": [
+    {
+      "id": "DTYPE_AND_LAUNCH",
+      "binding": "Pin fp32 Input/Weight/Output storage and fp16=true, original runtime strides/groups/padding/extents, launch grid and active output layout. Preserve both tf32 values in each claimed configuration."
+    },
+    {
+      "id": "HALF_CONVERSION",
+      "binding": "Bind native fp32-to-binary16 rounding, NaN canonicalization/payload, signed zero, subnormal/overflow and FTZ behavior to the concrete software conversion. No global half=id law."
+    },
+    {
+      "id": "DOT_SCHEDULE",
+      "binding": "Bind every accepted BIN/tile/numWarps/compiler/architecture profile to half-input fp32-output dot. The explicit software schedule is separately rounded multiplies and ascending-lane adds; native tensor-core reduction/accumulation order is not inferred."
+    },
+    {
+      "id": "SOURCE_VS_FUSED_GRAPH",
+      "binding": "Source is separate dot result plus fp32 carry add. A compiled fused dotAcc graph needs its own exact primitive/refinement; do not assume associativity, distributivity or equivalence of fused/unfused arithmetic."
+    },
+    {
+      "id": "FP32_ADD_STORE",
+      "binding": "Bind fp32 carry add/store and source +0 seed, rounding/FTZ/NaN/signed-zero policy. Store is fp32, not a half output."
+    },
+    {
+      "id": "UNSPECIFIED_MASKED_LOADS",
+      "binding": "Both native loads omit other. Bind actual undef/poison behavior and address interpretation; no observed sample of zeros establishes a universal zero-padding guarantee. The checkable 0/2 result difference makes this boundary substantive."
+    }
+  ],
+  "gpu_experiments_run": false,
+  "hardware_correctness_claimed": false,
+  "source_binding": {
+    "file": "source-binding.json",
+    "sha256": "ce96db320de81e38588d7075c5607626a129b28c3d4929acb7a86bc0cb50d2ba"
+  },
+  "source_sha256": {
+    "bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPTypedSource.lean": "dee1d07abaa40a500dc8bc2a8f2bd3fca2d6e168be1fe209ba74e7b08ab8b1cd",
+    "bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPReference.lean": "46a880c6a0e3a7945ada52bf8fc063d4e60fd03c8c061d6a53f728c180cb1fa8",
+    "bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPExecution.lean": "8f0a6e2dfff9d00471dab96dadc47a43bdcff96d7a2c8f4da8265fdeb5f84b12",
+    "bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPLoops.lean": "f0e5db9d98aada17094943df4aa612af1224005685bf27675527ac97b4d565a6",
+    "bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPComplete.lean": "1cdd2be3af012721b6494914bb51329a11367f76c4f10d05b05297477621f7b0",
+    "bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPCleanUndef.lean": "341f0785c108eb786de6f959d7154b94133a8e00e908233dc8ca4300a5d33ec8",
+    "bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPSoftware.lean": "0a7a2293a5f0dee30a6a43da64035b66798679e5f8eb5d6986eb0971cd9e010d",
+    "bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPShape.lean": "219c1220d1dd2f34abe3d31232aab541aa1fbdd2902fcf87cf5afa5e19f6d27d",
+    "bench/tritonbench_g/triton_conv2d_fwd/FPCorrect.lean": "5b896a45a54ffc47c6c539bfd11994b2768ccd67555e7f9da721bf0ecd4a5b8a",
+    "bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPWitness.lean": "a28827af66624c3a0409019d30ecf062893f5bdca5d7c4a13d6948d2ae40f048"
+  },
+  "patch_sha256": "6c5039d7fa4c12d9c35e6923819a6f1d04b076c0fe91c09ad1a899b012603167"
+}

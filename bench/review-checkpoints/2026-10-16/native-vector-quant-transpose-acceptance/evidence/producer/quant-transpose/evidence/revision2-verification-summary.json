@@ -1,0 +1,19 @@
+{
+  "status": "passed",
+  "modules": 18,
+  "changed_modules": [
+    "bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteHost.lean",
+    "bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteAdmission.lean",
+    "bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeHost.lean",
+    "bench/tritonbench_g/quant_transpose_kernel/FiniteAcceptance.lean"
+  ],
+  "source_axiom_checks": 77,
+  "noncircular_checks": 14,
+  "extra_case_axiom_checks": 1,
+  "all_scope_cases_checked": 1144,
+  "unique_admission_profiles": 1024,
+  "frozen_predecessor_unchanged": true,
+  "GPU_launches": 0,
+  "large_allocations": 0,
+  "acceptance_increment": 0
+}

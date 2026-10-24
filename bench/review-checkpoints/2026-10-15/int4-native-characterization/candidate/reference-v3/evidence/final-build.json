@@ -1,0 +1,422 @@
+[
+  {
+    "module": "bench.tritonbench_g.int4_matmul.Proofs.FPDotAccSource",
+    "command": [
+      "/tmp/lean-4.29.0-linux/bin/lean",
+      "--root=/tmp/veritile-int4-dotacc-closure-20261015",
+      "-o",
+      "/tmp/veritile-int4-dotacc-closure-20261015/.lake/build/lib/lean/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccSource.olean",
+      "/tmp/veritile-int4-dotacc-closure-20261015/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccSource.lean"
+    ],
+    "cwd": "/tmp/veritile-int4-dotacc-closure-20261015",
+    "source": "/tmp/veritile-int4-dotacc-closure-20261015/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccSource.lean",
+    "source_before_sha256": "085852f374e6ec7f65a1bfa9772f02ce06e3e0c4d4f907163c1ef8c5e9659f08",
+    "source_after_sha256": "085852f374e6ec7f65a1bfa9772f02ce06e3e0c4d4f907163c1ef8c5e9659f08",
+    "direct_objects_before": {
+      "bench.tritonbench_g.int4_matmul.Proofs.FPReference": {
+        "/tmp/veritile-int4-dotacc-closure-20261015/.lake/build/lib/lean/bench/tritonbench_g/int4_matmul/Proofs/FPReference.olean": "8b74c38893dd1615556290bd3a49ec1f4bbf1704280b83c14619687e0b3adb94"
+      },
+      "bench.tritonbench_g.matmul_dequant_int4.Proofs.FPContract": {
+        "/tmp/veritile-int4-dotacc-closure-20261015/.lake/build/lib/lean/bench/tritonbench_g/matmul_dequant_int4/Proofs/FPContract.olean": "38bb23d58a2e4cb68c70be11e398168c78728703e93e41a1bfdff510aed8e5c2"
+      }
+    },
+    "direct_objects_after": {
+      "bench.tritonbench_g.int4_matmul.Proofs.FPReference": {
+        "/tmp/veritile-int4-dotacc-closure-20261015/.lake/build/lib/lean/bench/tritonbench_g/int4_matmul/Proofs/FPReference.olean": "8b74c38893dd1615556290bd3a49ec1f4bbf1704280b83c14619687e0b3adb94"
+      },
+      "bench.tritonbench_g.matmul_dequant_int4.Proofs.FPContract": {
+        "/tmp/veritile-int4-dotacc-closure-20261015/.lake/build/lib/lean/bench/tritonbench_g/matmul_dequant_int4/Proofs/FPContract.olean": "38bb23d58a2e4cb68c70be11e398168c78728703e93e41a1bfdff510aed8e5c2"
+      }
+    },
+    "log": "/tmp/veritile-int4-dotacc-closure-20261015/logs/20261015T031207-bench.tritonbench_g.int4_matmul.Proofs.FPDotAccSource.log",
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "exit_code": 0,
+    "object": "/tmp/veritile-int4-dotacc-closure-20261015/.lake/build/lib/lean/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccSource.olean",
+    "object_sha256": "a512ab07c73ec13629849443f0bc0db0a28b566b4e65f3392472b384e460f63a",
+    "lean": "/tmp/lean-4.29.0-linux/bin/lean",
+    "lean_sha256": "3e0d0d3d801675359f2d4cf9815bfdb417b20b92fdd9d48b3b14c95bbae28bbf",
+    "ordered_roots": [
+      "/tmp/veritile-int4-dotacc-closure-20261015/.lake/build/lib/lean",
+      "/tmp/veritile-int4-root-revision-20261015/objects",
+      "/tmp/veritile-int4-root-replay-20261015/objects",
+      "/tmp/veritile-next-value-integration-20261014/.lake/build/lib/lean",
+      "/tmp/veritile-int16-frontend-20261014/.lake/build/lib/lean",
+      "/tmp/veritile-combined-frontend-20261014/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean",
+      "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean",
+      "/tmp/lean-4.29.0-linux/lib/lean"
+    ],
+    "changed_inputs": []
+  },
+  {
+    "module": "bench.tritonbench_g.int4_matmul.Proofs.FPDotAccReference",
+    "command": [
+      "/tmp/lean-4.29.0-linux/bin/lean",
+      "--root=/tmp/veritile-int4-dotacc-closure-20261015",
+      "-o",
+      "/tmp/veritile-int4-dotacc-closure-20261015/.lake/build/lib/lean/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccReference.olean",
+      "/tmp/veritile-int4-dotacc-closure-20261015/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccReference.lean"
+    ],
+    "cwd": "/tmp/veritile-int4-dotacc-closure-20261015",
+    "source": "/tmp/veritile-int4-dotacc-closure-20261015/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccReference.lean",
+    "source_before_sha256": "36f3b92ae80573d0f1018804251422e2c816014bd1f37c459146c557106bd920",
+    "source_after_sha256": "36f3b92ae80573d0f1018804251422e2c816014bd1f37c459146c557106bd920",
+    "direct_objects_before": {
+      "bench.tritonbench_g.int4_matmul.Proofs.FPDotAccSource": {
+        "/tmp/veritile-int4-dotacc-closure-20261015/.lake/build/lib/lean/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccSource.olean": "a512ab07c73ec13629849443f0bc0db0a28b566b4e65f3392472b384e460f63a"
+      }
+    },
+    "direct_objects_after": {
+      "bench.tritonbench_g.int4_matmul.Proofs.FPDotAccSource": {
+        "/tmp/veritile-int4-dotacc-closure-20261015/.lake/build/lib/lean/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccSource.olean": "a512ab07c73ec13629849443f0bc0db0a28b566b4e65f3392472b384e460f63a"
+      }
+    },
+    "log": "/tmp/veritile-int4-dotacc-closure-20261015/logs/20261015T031211-bench.tritonbench_g.int4_matmul.Proofs.FPDotAccReference.log",
+    "log_sha256": "892a317728412aae37501d0289526361c656a75f4bbabeb2cdce2d2bd2027196",
+    "exit_code": 0,
+    "object": "/tmp/veritile-int4-dotacc-closure-20261015/.lake/build/lib/lean/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccReference.olean",
+    "object_sha256": "54b5486045876ee83aeef92b36b2c4a66829cd6429ce00c9553ac3f5af725c5c",
+    "lean": "/tmp/lean-4.29.0-linux/bin/lean",
+    "lean_sha256": "3e0d0d3d801675359f2d4cf9815bfdb417b20b92fdd9d48b3b14c95bbae28bbf",
+    "ordered_roots": [
+      "/tmp/veritile-int4-dotacc-closure-20261015/.lake/build/lib/lean",
+      "/tmp/veritile-int4-root-revision-20261015/objects",
+      "/tmp/veritile-int4-root-replay-20261015/objects",
+      "/tmp/veritile-next-value-integration-20261014/.lake/build/lib/lean",
+      "/tmp/veritile-int16-frontend-20261014/.lake/build/lib/lean",
+      "/tmp/veritile-combined-frontend-20261014/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean",
+      "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean",
+      "/tmp/lean-4.29.0-linux/lib/lean"
+    ],
+    "changed_inputs": []
+  },
+  {
+    "module": "bench.tritonbench_g.int4_matmul.Proofs.FPDotAccExecution",
+    "command": [
+      "/tmp/lean-4.29.0-linux/bin/lean",
+      "--root=/tmp/veritile-int4-dotacc-closure-20261015",
+      "-o",
+      "/tmp/veritile-int4-dotacc-closure-20261015/.lake/build/lib/lean/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccExecution.olean",
+      "/tmp/veritile-int4-dotacc-closure-20261015/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccExecution.lean"
+    ],
+    "cwd": "/tmp/veritile-int4-dotacc-closure-20261015",
+    "source": "/tmp/veritile-int4-dotacc-closure-20261015/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccExecution.lean",
+    "source_before_sha256": "8bc6acbcda59dfb67d7e573f634dc8ab1a513283d2cf10606b1fd161bedfade7",
+    "source_after_sha256": "8bc6acbcda59dfb67d7e573f634dc8ab1a513283d2cf10606b1fd161bedfade7",
+    "direct_objects_before": {
+      "bench.tritonbench_g.int4_matmul.Proofs.FPDotAccReference": {
+        "/tmp/veritile-int4-dotacc-closure-20261015/.lake/build/lib/lean/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccReference.olean": "54b5486045876ee83aeef92b36b2c4a66829cd6429ce00c9553ac3f5af725c5c"
+      }
+    },
+    "direct_objects_after": {
+      "bench.tritonbench_g.int4_matmul.Proofs.FPDotAccReference": {
+        "/tmp/veritile-int4-dotacc-closure-20261015/.lake/build/lib/lean/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccReference.olean": "54b5486045876ee83aeef92b36b2c4a66829cd6429ce00c9553ac3f5af725c5c"
+      }
+    },
+    "log": "/tmp/veritile-int4-dotacc-closure-20261015/logs/20261015T031214-bench.tritonbench_g.int4_matmul.Proofs.FPDotAccExecution.log",
+    "log_sha256": "68176669e927227f045964395e68d44be640c4dff0fdb6d1905c4c4aeaa73524",
+    "exit_code": 0,
+    "object": "/tmp/veritile-int4-dotacc-closure-20261015/.lake/build/lib/lean/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccExecution.olean",
+    "object_sha256": "a78e8052e43b6ca199a2ed56750d7183386e1e18b9212597a3fb9df62c2c5959",
+    "lean": "/tmp/lean-4.29.0-linux/bin/lean",
+    "lean_sha256": "3e0d0d3d801675359f2d4cf9815bfdb417b20b92fdd9d48b3b14c95bbae28bbf",
+    "ordered_roots": [
+      "/tmp/veritile-int4-dotacc-closure-20261015/.lake/build/lib/lean",
+      "/tmp/veritile-int4-root-revision-20261015/objects",
+      "/tmp/veritile-int4-root-replay-20261015/objects",
+      "/tmp/veritile-next-value-integration-20261014/.lake/build/lib/lean",
+      "/tmp/veritile-int16-frontend-20261014/.lake/build/lib/lean",
+      "/tmp/veritile-combined-frontend-20261014/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean",
+      "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean",
+      "/tmp/lean-4.29.0-linux/lib/lean"
+    ],
+    "changed_inputs": []
+  },
+  {
+    "module": "bench.tritonbench_g.int4_matmul.Proofs.FPDotAccComplete",
+    "command": [
+      "/tmp/lean-4.29.0-linux/bin/lean",
+      "--root=/tmp/veritile-int4-dotacc-closure-20261015",
+      "-o",
+      "/tmp/veritile-int4-dotacc-closure-20261015/.lake/build/lib/lean/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccComplete.olean",
+      "/tmp/veritile-int4-dotacc-closure-20261015/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccComplete.lean"
+    ],
+    "cwd": "/tmp/veritile-int4-dotacc-closure-20261015",
+    "source": "/tmp/veritile-int4-dotacc-closure-20261015/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccComplete.lean",
+    "source_before_sha256": "165b527b7e907845a212aa4d9a3db4ef63c6edbac0bb763e28ef8351e5a04125",
+    "source_after_sha256": "165b527b7e907845a212aa4d9a3db4ef63c6edbac0bb763e28ef8351e5a04125",
+    "direct_objects_before": {
+      "bench.tritonbench_g.int4_matmul.Proofs.FPDotAccExecution": {
+        "/tmp/veritile-int4-dotacc-closure-20261015/.lake/build/lib/lean/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccExecution.olean": "a78e8052e43b6ca199a2ed56750d7183386e1e18b9212597a3fb9df62c2c5959"
+      }
+    },
+    "direct_objects_after": {
+      "bench.tritonbench_g.int4_matmul.Proofs.FPDotAccExecution": {
+        "/tmp/veritile-int4-dotacc-closure-20261015/.lake/build/lib/lean/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccExecution.olean": "a78e8052e43b6ca199a2ed56750d7183386e1e18b9212597a3fb9df62c2c5959"
+      }
+    },
+    "log": "/tmp/veritile-int4-dotacc-closure-20261015/logs/20261015T031232-bench.tritonbench_g.int4_matmul.Proofs.FPDotAccComplete.log",
+    "log_sha256": "1b7ef59f92ad38afc95f19bb19959c6761a384d2e9ac53d66c89c610611f00c2",
+    "exit_code": 0,
+    "object": "/tmp/veritile-int4-dotacc-closure-20261015/.lake/build/lib/lean/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccComplete.olean",
+    "object_sha256": "87e362044142189e653e03c448b9a442d10c72699ddf04171f12180b46e9c018",
+    "lean": "/tmp/lean-4.29.0-linux/bin/lean",
+    "lean_sha256": "3e0d0d3d801675359f2d4cf9815bfdb417b20b92fdd9d48b3b14c95bbae28bbf",
+    "ordered_roots": [
+      "/tmp/veritile-int4-dotacc-closure-20261015/.lake/build/lib/lean",
+      "/tmp/veritile-int4-root-revision-20261015/objects",
+      "/tmp/veritile-int4-root-replay-20261015/objects",
+      "/tmp/veritile-next-value-integration-20261014/.lake/build/lib/lean",
+      "/tmp/veritile-int16-frontend-20261014/.lake/build/lib/lean",
+      "/tmp/veritile-combined-frontend-20261014/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean",
+      "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean",
+      "/tmp/lean-4.29.0-linux/lib/lean"
+    ],
+    "changed_inputs": []
+  },
+  {
+    "module": "bench.tritonbench_g.int4_matmul.Proofs.FPDotAccSoftware",
+    "command": [
+      "/tmp/lean-4.29.0-linux/bin/lean",
+      "--root=/tmp/veritile-int4-dotacc-closure-20261015",
+      "-o",
+      "/tmp/veritile-int4-dotacc-closure-20261015/.lake/build/lib/lean/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccSoftware.olean",
+      "/tmp/veritile-int4-dotacc-closure-20261015/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccSoftware.lean"
+    ],
+    "cwd": "/tmp/veritile-int4-dotacc-closure-20261015",
+    "source": "/tmp/veritile-int4-dotacc-closure-20261015/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccSoftware.lean",
+    "source_before_sha256": "cf83f22ece070ed8fbec2ae3585e0534b8a1cb5ca4a82fb06e8e059758b4cc39",
+    "source_after_sha256": "cf83f22ece070ed8fbec2ae3585e0534b8a1cb5ca4a82fb06e8e059758b4cc39",
+    "direct_objects_before": {
+      "bench.tritonbench_g.int4_matmul.Proofs.FPDotAccComplete": {
+        "/tmp/veritile-int4-dotacc-closure-20261015/.lake/build/lib/lean/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccComplete.olean": "87e362044142189e653e03c448b9a442d10c72699ddf04171f12180b46e9c018"
+      },
+      "bench.tritonbench_g.int4_matmul.Proofs.FPDotAccGap": {
+        "/tmp/veritile-int4-dotacc-closure-20261015/.lake/build/lib/lean/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccGap.olean": "29ca71146f47716d935c3baef3f71423fec7057e7790886404b5130148c31849"
+      }
+    },
+    "direct_objects_after": {
+      "bench.tritonbench_g.int4_matmul.Proofs.FPDotAccComplete": {
+        "/tmp/veritile-int4-dotacc-closure-20261015/.lake/build/lib/lean/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccComplete.olean": "87e362044142189e653e03c448b9a442d10c72699ddf04171f12180b46e9c018"
+      },
+      "bench.tritonbench_g.int4_matmul.Proofs.FPDotAccGap": {
+        "/tmp/veritile-int4-dotacc-closure-20261015/.lake/build/lib/lean/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccGap.olean": "29ca71146f47716d935c3baef3f71423fec7057e7790886404b5130148c31849"
+      }
+    },
+    "log": "/tmp/veritile-int4-dotacc-closure-20261015/logs/20261015T031240-bench.tritonbench_g.int4_matmul.Proofs.FPDotAccSoftware.log",
+    "log_sha256": "df507509257748fff35d6d563e68a8f7cc10ee74c3df43389bcd106285569632",
+    "exit_code": 0,
+    "object": "/tmp/veritile-int4-dotacc-closure-20261015/.lake/build/lib/lean/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccSoftware.olean",
+    "object_sha256": "9d5fb81ee204e286dfa76ab419d5d927e05a6a0cab865d5f3d3326a1c8ffbd59",
+    "lean": "/tmp/lean-4.29.0-linux/bin/lean",
+    "lean_sha256": "3e0d0d3d801675359f2d4cf9815bfdb417b20b92fdd9d48b3b14c95bbae28bbf",
+    "ordered_roots": [
+      "/tmp/veritile-int4-dotacc-closure-20261015/.lake/build/lib/lean",
+      "/tmp/veritile-int4-root-revision-20261015/objects",
+      "/tmp/veritile-int4-root-replay-20261015/objects",
+      "/tmp/veritile-next-value-integration-20261014/.lake/build/lib/lean",
+      "/tmp/veritile-int16-frontend-20261014/.lake/build/lib/lean",
+      "/tmp/veritile-combined-frontend-20261014/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean",
+      "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean",
+      "/tmp/lean-4.29.0-linux/lib/lean"
+    ],
+    "changed_inputs": []
+  },
+  {
+    "module": "bench.tritonbench_g.int4_matmul.Proofs.FPDotAccPlan",
+    "command": [
+      "/tmp/lean-4.29.0-linux/bin/lean",
+      "--root=/tmp/veritile-int4-dotacc-closure-20261015",
+      "-o",
+      "/tmp/veritile-int4-dotacc-closure-20261015/.lake/build/lib/lean/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccPlan.olean",
+      "/tmp/veritile-int4-dotacc-closure-20261015/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccPlan.lean"
+    ],
+    "cwd": "/tmp/veritile-int4-dotacc-closure-20261015",
+    "source": "/tmp/veritile-int4-dotacc-closure-20261015/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccPlan.lean",
+    "source_before_sha256": "a5be880b053733d201711ba76bf65fb420f5a31ad53bd1e5f70205a263734360",
+    "source_after_sha256": "a5be880b053733d201711ba76bf65fb420f5a31ad53bd1e5f70205a263734360",
+    "direct_objects_before": {
+      "bench.tritonbench_g.int4_matmul.Proofs.FPDotAccSoftware": {
+        "/tmp/veritile-int4-dotacc-closure-20261015/.lake/build/lib/lean/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccSoftware.olean": "9d5fb81ee204e286dfa76ab419d5d927e05a6a0cab865d5f3d3326a1c8ffbd59"
+      }
+    },
+    "direct_objects_after": {
+      "bench.tritonbench_g.int4_matmul.Proofs.FPDotAccSoftware": {
+        "/tmp/veritile-int4-dotacc-closure-20261015/.lake/build/lib/lean/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccSoftware.olean": "9d5fb81ee204e286dfa76ab419d5d927e05a6a0cab865d5f3d3326a1c8ffbd59"
+      }
+    },
+    "log": "/tmp/veritile-int4-dotacc-closure-20261015/logs/20261015T031245-bench.tritonbench_g.int4_matmul.Proofs.FPDotAccPlan.log",
+    "log_sha256": "5bbfefc616aa6dd2332ebc74971da89353a54dbd876c839aa861164a0323bf5d",
+    "exit_code": 0,
+    "object": "/tmp/veritile-int4-dotacc-closure-20261015/.lake/build/lib/lean/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccPlan.olean",
+    "object_sha256": "1194135a189b3979466c2212c76376c8e9097ec5ee5048aa6bd320470f52ca30",
+    "lean": "/tmp/lean-4.29.0-linux/bin/lean",
+    "lean_sha256": "3e0d0d3d801675359f2d4cf9815bfdb417b20b92fdd9d48b3b14c95bbae28bbf",
+    "ordered_roots": [
+      "/tmp/veritile-int4-dotacc-closure-20261015/.lake/build/lib/lean",
+      "/tmp/veritile-int4-root-revision-20261015/objects",
+      "/tmp/veritile-int4-root-replay-20261015/objects",
+      "/tmp/veritile-next-value-integration-20261014/.lake/build/lib/lean",
+      "/tmp/veritile-int16-frontend-20261014/.lake/build/lib/lean",
+      "/tmp/veritile-combined-frontend-20261014/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean",
+      "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean",
+      "/tmp/lean-4.29.0-linux/lib/lean"
+    ],
+    "changed_inputs": []
+  },
+  {
+    "module": "bench.tritonbench_g.int4_matmul.DotAccCorrect",
+    "command": [
+      "/tmp/lean-4.29.0-linux/bin/lean",
+      "--root=/tmp/veritile-int4-dotacc-closure-20261015",
+      "-o",
+      "/tmp/veritile-int4-dotacc-closure-20261015/.lake/build/lib/lean/bench/tritonbench_g/int4_matmul/DotAccCorrect.olean",
+      "/tmp/veritile-int4-dotacc-closure-20261015/bench/tritonbench_g/int4_matmul/DotAccCorrect.lean"
+    ],
+    "cwd": "/tmp/veritile-int4-dotacc-closure-20261015",
+    "source": "/tmp/veritile-int4-dotacc-closure-20261015/bench/tritonbench_g/int4_matmul/DotAccCorrect.lean",
+    "source_before_sha256": "36f3947d59dd50c81cce6237e4376c3f1d67fdb644f1925c7f6b0883fd1dc041",
+    "source_after_sha256": "36f3947d59dd50c81cce6237e4376c3f1d67fdb644f1925c7f6b0883fd1dc041",
+    "direct_objects_before": {
+      "bench.tritonbench_g.int4_matmul.Proofs.FPDotAccPlan": {
+        "/tmp/veritile-int4-dotacc-closure-20261015/.lake/build/lib/lean/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccPlan.olean": "1194135a189b3979466c2212c76376c8e9097ec5ee5048aa6bd320470f52ca30"
+      }
+    },
+    "direct_objects_after": {
+      "bench.tritonbench_g.int4_matmul.Proofs.FPDotAccPlan": {
+        "/tmp/veritile-int4-dotacc-closure-20261015/.lake/build/lib/lean/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccPlan.olean": "1194135a189b3979466c2212c76376c8e9097ec5ee5048aa6bd320470f52ca30"
+      }
+    },
+    "log": "/tmp/veritile-int4-dotacc-closure-20261015/logs/20261015T031250-bench.tritonbench_g.int4_matmul.DotAccCorrect.log",
+    "log_sha256": "7f3213db2492c160f5b4ba18540b8d981485f2059c4eeaf3de2ef95a510cde82",
+    "exit_code": 0,
+    "object": "/tmp/veritile-int4-dotacc-closure-20261015/.lake/build/lib/lean/bench/tritonbench_g/int4_matmul/DotAccCorrect.olean",
+    "object_sha256": "a3a426b5b48d4a743158e48564e46d4e5169eaf7f7d76e82ea15db4d34c1ca57",
+    "lean": "/tmp/lean-4.29.0-linux/bin/lean",
+    "lean_sha256": "3e0d0d3d801675359f2d4cf9815bfdb417b20b92fdd9d48b3b14c95bbae28bbf",
+    "ordered_roots": [
+      "/tmp/veritile-int4-dotacc-closure-20261015/.lake/build/lib/lean",
+      "/tmp/veritile-int4-root-revision-20261015/objects",
+      "/tmp/veritile-int4-root-replay-20261015/objects",
+      "/tmp/veritile-next-value-integration-20261014/.lake/build/lib/lean",
+      "/tmp/veritile-int16-frontend-20261014/.lake/build/lib/lean",
+      "/tmp/veritile-combined-frontend-20261014/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean",
+      "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean",
+      "/tmp/lean-4.29.0-linux/lib/lean"
+    ],
+    "changed_inputs": []
+  },
+  {
+    "module": "bench.tritonbench_g.int4_matmul.Proofs.FPDotAccWitness",
+    "command": [
+      "/tmp/lean-4.29.0-linux/bin/lean",
+      "--root=/tmp/veritile-int4-dotacc-closure-20261015",
+      "-o",
+      "/tmp/veritile-int4-dotacc-closure-20261015/.lake/build/lib/lean/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccWitness.olean",
+      "/tmp/veritile-int4-dotacc-closure-20261015/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccWitness.lean"
+    ],
+    "cwd": "/tmp/veritile-int4-dotacc-closure-20261015",
+    "source": "/tmp/veritile-int4-dotacc-closure-20261015/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccWitness.lean",
+    "source_before_sha256": "e066a59c1d638a4925b7d1a6851b72daa0b17dad71449e7f45b71d93f281e12c",
+    "source_after_sha256": "e066a59c1d638a4925b7d1a6851b72daa0b17dad71449e7f45b71d93f281e12c",
+    "direct_objects_before": {
+      "bench.tritonbench_g.int4_matmul.DotAccCorrect": {
+        "/tmp/veritile-int4-dotacc-closure-20261015/.lake/build/lib/lean/bench/tritonbench_g/int4_matmul/DotAccCorrect.olean": "a3a426b5b48d4a743158e48564e46d4e5169eaf7f7d76e82ea15db4d34c1ca57"
+      }
+    },
+    "direct_objects_after": {
+      "bench.tritonbench_g.int4_matmul.DotAccCorrect": {
+        "/tmp/veritile-int4-dotacc-closure-20261015/.lake/build/lib/lean/bench/tritonbench_g/int4_matmul/DotAccCorrect.olean": "a3a426b5b48d4a743158e48564e46d4e5169eaf7f7d76e82ea15db4d34c1ca57"
+      }
+    },
+    "log": "/tmp/veritile-int4-dotacc-closure-20261015/logs/20261015T031253-bench.tritonbench_g.int4_matmul.Proofs.FPDotAccWitness.log",
+    "log_sha256": "8fb5d5de2c06e84b901caf53718e8a83ae1e49bdb0106add7e72187ea10d2adc",
+    "exit_code": 0,
+    "object": "/tmp/veritile-int4-dotacc-closure-20261015/.lake/build/lib/lean/bench/tritonbench_g/int4_matmul/Proofs/FPDotAccWitness.olean",
+    "object_sha256": "a9d1fc5a4f1e2169a7c8371bd347c042d044e6f73df756644878831b0d86f85a",
+    "lean": "/tmp/lean-4.29.0-linux/bin/lean",
+    "lean_sha256": "3e0d0d3d801675359f2d4cf9815bfdb417b20b92fdd9d48b3b14c95bbae28bbf",
+    "ordered_roots": [
+      "/tmp/veritile-int4-dotacc-closure-20261015/.lake/build/lib/lean",
+      "/tmp/veritile-int4-root-revision-20261015/objects",
+      "/tmp/veritile-int4-root-replay-20261015/objects",
+      "/tmp/veritile-next-value-integration-20261014/.lake/build/lib/lean",
+      "/tmp/veritile-int16-frontend-20261014/.lake/build/lib/lean",
+      "/tmp/veritile-combined-frontend-20261014/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean",
+      "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean",
+      "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean",
+      "/tmp/lean-4.29.0-linux/lib/lean"
+    ],
+    "changed_inputs": []
+  }
+]

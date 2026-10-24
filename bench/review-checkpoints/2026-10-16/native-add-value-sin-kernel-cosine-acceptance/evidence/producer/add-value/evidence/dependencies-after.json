@@ -1,0 +1,15 @@
+{
+  "all_unchanged": true,
+  "capture_sha256": "9707a307b7902f7cc0e3f4d3823aec181c0e2620124df4ac177eaa7f524e43db",
+  "project_sources": 201,
+  "project_objects": 201,
+  "modules": {
+    "bench/tritonbench_g/add_value/NativeCorrect.lean": "de21bdb70d55dec7410a1ad405d17ae52d85f59b049e16d7fe9659f5b9a8bf06",
+    "bench/tritonbench_g/add_value/Proofs/NativeAdmission.lean": "7ec20c224728679db534af5011c2ff3433ae63826b058f1733ef82a12df45094",
+    "bench/tritonbench_g/add_value/Proofs/NativeArithmetic.lean": "2b15a9c8cc60cb4f009e11475f8bae188027c642dcec8431ed87d02dfb2c2482",
+    "bench/tritonbench_g/add_value/Proofs/NativeGrid.lean": "8dd4eeebe3d5eb85a14d5dc14a9782c3f10116465afeb42b851118baeb1061dc",
+    "bench/tritonbench_g/add_value/Proofs/NativeMemory.lean": "7afa128334f93ab6741bbee446ae535813f610be8f3c2bf7f4e8ec9c8b3cb620",
+    "bench/tritonbench_g/add_value/Proofs/NativeProgram.lean": "160edd44718eee239b96fcfc342a07597ee6af6238899694c537acc557cd7b17",
+    "bench/tritonbench_g/add_value/Proofs/NativeScalar.lean": "1c298973356d2a73dd5042583107f6cb70bb213e288fa985dff8eb17727343bc"
+  }
+}

@@ -1,0 +1,123 @@
+{
+  "schema": 1,
+  "task": "fast_ce_loss",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue05/result.json",
+    "sha256": "b7855ba15faaf5e2f177961e4a8a89181354e8928bbce04e8519a187efbab386",
+    "task_index": 4
+  },
+  "finding": "Forward/chunked/backward targets were expressed through mixed channel selectors and scalar channels.",
+  "resolution": "Bijective named full vocabulary logits, signed label, saved LSE and upstream; named LSE/loss outputs. All three old/new complete judgment iff bridges retained.",
+  "mathematical_target": "Full-vocabulary log-sum-exp/loss, active-chunk LSE and target term, and saved-LSE input gradient with scaling/softcap derivative.",
+  "conditions_and_scope": "Original KernelReal.Flags and label domain -100 or valid vocabulary id; unsplit positive vocab and vocab≤block, chunk positive/nonempty, distinct loss/LSE outputs. Chunk-zero loss observation/gather and ignored-label upstream suppression remain in IO; backward uses supplied saved LSE.",
+  "proof_connection": "LogicalIO.forward_iff for unsplit and chunked modes, backward_iff, and exact finite input/output Equiv; existing RealIO theorems applied.",
+  "fp_review": "All three complete repaired FP32/int64-label sources versus existing signed row-index candidates; branches/reductions/casts and computation order unchanged.",
+  "numerical_dependencies": {
+    "experimental_rules_used": [],
+    "missing_experimental_evidence": [],
+    "note": "Existing actual source pair retained; no numerical operation/order rewrite or new admission obligation. Empty experimental rules do not assert arbitrary opaque-model/hardware identity."
+  },
+  "previous_formula_scope": {
+    "mathematical_target": "Visible scaled/softcapped logits (zero flag value disables that transform), full-vocab log sum exp and ignored-label row loss; chunk LSE sums only logical columns chunk*block+j<vocab and chunk-zero loss is negative target term; backward is upstream*(exp(transformed(x)-suppliedLSE)-indicator(col=label))*chainSlope, with ignored-label zero.",
+    "required_conditions": [
+      "KernelReal.Flags ties source booleans to softcap/scaling nonzero tests.",
+      "Forward: 0<vocab, vocab≤block and distinct loss/LSE regions; label domain is -100 or 0≤label<vocab.",
+      "Chunk: 0<block, chunk*block<vocab, same distinct outputs and label domain. Backward retains arbitrary supplied LSE/upstream and no new label assumption.",
+      "Contract exports prepared-storage ABI, views and launch geometry. KernelLaunch.forward_covered derives vocab≤block from existing next-power-of-two launch geometry; it is not an added Python guard.",
+      "IO retains signed-int64 labels, runtime branches, target gather mask, ignored-label suppression of upstream loads, in-place gradient outputs and standard initial bounds/bindings."
+    ],
+    "scope": "Three actual kernel scopes: one complete forward row, one complete chunk program (only chunk zero writes loss), and one backward tile. Full forward sum is over vocab, not padded block. No host loss reduction/normalization is asserted.",
+    "canonical_connection": "Displayed independent formulas are definitionally equal to RealIO.forwardFormula/chunkedFormula/backwardFormula (KernelMath and KernelReal.gradient). Existing PublicRealForward/Chunked/Backward theorems establish actual complete source safety, execution, outputs and frame.",
+    "fp_program_pair": {
+      "actual_pairs": [
+        "KernelSource.forward vs TypedSource.forwardIndexCommuted",
+        "KernelSource.chunked vs TypedSource.chunkedIndexCommuted",
+        "KernelSource.backward vs TypedSource.backwardIndexCommuted"
+      ],
+      "source_precision": "FP32 logits/arithmetic/output, signed-int64 label loads; all casts, reductions, flags and source arithmetic order preserved.",
+      "transformation": "Only signed row-index*logitsStride is commuted in the actual initial pointer assignment.",
+      "model_domain_and_guarantees": "SourceEquivalence.Equivalent universally quantifies Structural Algebra and initial state. assumptions=[]; exact Option state equality preserves success/failure behavior. It uses Int.mul_comm before the unchanged pointer-index conversion and requires no numerical model law.",
+      "experimental_rule_instances_used": [],
+      "missing_experimental_evidence": [],
+      "existing_strict_theory_preserved": true
+    },
+    "numerical_dependencies": {
+      "source_precision": "FP32 logits/arithmetic/output, signed-int64 label loads; all casts, reductions, flags and source arithmetic order preserved.",
+      "transformation": "Only signed row-index*logitsStride is commuted in the actual initial pointer assignment.",
+      "model_domain_and_guarantees": "SourceEquivalence.Equivalent universally quantifies Structural Algebra and initial state. assumptions=[]; exact Option state equality preserves success/failure behavior. It uses Int.mul_comm before the unchanged pointer-index conversion and requires no numerical model law.",
+      "experimental_rule_instances_used": [],
+      "missing_experimental_evidence": [],
+      "existing_strict_theory_preserved": true
+    }
+  },
+  "verification": [
+    {
+      "task": "fast_ce_loss",
+      "kind": "fp_source",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue05/build.py",
+        "bench/repairs/tritonbench_g/fast_ce_loss/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue05/fp-fast_ce_loss.log",
+      "log_sha256": "456281ad834562d6699ab42303d436706ff11bb80937b16d32c298ce83232902",
+      "reuse": "Prior task-local successful check; reviewed source and receipt pins remain current."
+    },
+    {
+      "task": "fast_ce_loss",
+      "kind": "task_joint",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue05/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue05/joint_fast_ce_loss.lean"
+      ],
+      "exit_code": 0,
+      "source": ".veritile-cache/logical-reader-review-20261022/queue05/joint_fast_ce_loss.lean",
+      "source_sha256": "e8bce984415f46c7cf936224a0d5ba08d051f08e495fa138c70336ec600566fc",
+      "log": ".veritile-cache/logical-reader-review-20261022/queue05/joint-fast_ce_loss.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reuse": "Prior task-local successful check; reviewed source and receipt pins remain current."
+    },
+    {
+      "kind": "receipt_source_object_direct_dependency_audit",
+      "command": [
+        "python",
+        ".veritile-cache/logical-reader-review-20261022/queue05/audit-receipts.py"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue05/receipts-final.json",
+      "log_sha256": "a3a64928712915a8204fd3fec33335656e18e0542b5c5ab22d8bdec24b8df76e"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/fast_ce_loss/Contract.lean": "408758f96b5f16bfa043b88526c7e39019e8418a1bda43aea3d36ffc3ca668d5",
+    "bench/repairs/tritonbench_g/fast_ce_loss/Correct.lean": "c0deaf585054df5380e18cf839b901fbd3513064aec9c0396f8f9818cd3c1e4f",
+    "bench/repairs/tritonbench_g/fast_ce_loss/FPEquiv.lean": "aa5cee3383779ac54a4cc2823168a810bc1a62373d05f1d1bf3bb3b93d3d4fa3",
+    "bench/repairs/tritonbench_g/fast_ce_loss/IO.lean": "1df1b057b4cef589c72463ac94d09b6ba11663041d0f4ed72a5cbf3c07b402aa",
+    "bench/repairs/tritonbench_g/fast_ce_loss/Kernels.lean": "8f3eaeb86793cdc99503c53072e6354a4d6c0a11fb20216b71c2c6974e44615b",
+    "bench/repairs/tritonbench_g/fast_ce_loss/Proofs/LogicalIO.lean": "fdc18069396abc0bbb2445f72b712a575103014859578827069f28784e4e7ec4",
+    "bench/repairs/tritonbench_g/fast_ce_loss/Proofs/SourceEquivalence.lean": "8f68c93954a2ff44edcc28d24c4b4fd8fe615b2bb321254b4a6e18c3b9f00677",
+    "bench/repairs/tritonbench_g/fast_ce_loss/Proofs/KernelMath.lean": "719d363438c2ff0d6bc8c6221b6f84a92c431101f666a8504a80bcb64dd73700",
+    "bench/repairs/tritonbench_g/fast_ce_loss/Proofs/KernelReal.lean": "ae917b8360ff9321efc7a8833134d59e6631c72b1d689078ffc01e2c9bde7ee8",
+    "bench/repairs/tritonbench_g/fast_ce_loss/Proofs/KernelContract.lean": "72abed8fa82ad7670484d1e262c466e827a3161d83c19f06e65733ce9477ff98",
+    "bench/repairs/tritonbench_g/fast_ce_loss/Proofs/KernelLaunch.lean": "d8ce634dcc33580aad6a53212fd76b2fd8666b62cfe2924ab1ce42444799aa6e",
+    "bench/repairs/tritonbench_g/fast_ce_loss/Proofs/RealIOValues.lean": "d33c6a01086e3439b8004b6c7e15c2470857e799a1027b938d40c5d3b146f404",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

@@ -1,0 +1,40 @@
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-wip/FiniteLegacy.lean:13:46: error: Application type mismatch: The argument
+  x
+has type
+  Word Storage.fp32
+but is expected to have type
+  BitVec (FP.Format.width ?m.4)
+in the application
+  { bits := x }
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-wip/FiniteLegacy.lean:13:62: error: Application type mismatch: The argument
+  y
+has type
+  Word Storage.fp32
+but is expected to have type
+  BitVec (FP.Format.width ?m.5)
+in the application
+  { bits := y }
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-wip/FiniteLegacy.lean:15:8: warning: declaration uses `sorry`
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-wip/FiniteLegacy.lean:15:56: warning: unused variable `h`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-wip/FiniteLegacy.lean:19:2: warning: 'rw [h, h]' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-wip/FiniteLegacy.lean:20:2: warning: 'rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-wip/FiniteLegacy.lean:20:2: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-wip/FiniteLegacy.lean:37:9: error: Function expected at
+  State
+but this term has type
+  ?m.1
+
+Note: Expected a function because this term is being applied to the argument
+  QuantizeIntegerStage.FP32.Word
+
+Hint: The identifier `State` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-wip/FiniteLegacy.lean:43:0: error: QuantTransposeFinite.scalar_legacy: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-wip/FiniteLegacy.lean:44:13: error(lean.unknownIdentifier): Unknown constant `existing_fp32_primitive`

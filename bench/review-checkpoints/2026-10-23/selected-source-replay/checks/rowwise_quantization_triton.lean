@@ -1,0 +1,7 @@
+import VeriTile.Meta.StatementAudit
+import bench.repairs.tritonbench_g.rowwise_quantization_triton.Contract
+import bench.repairs.tritonbench_g.rowwise_quantization_triton.Correct
+import bench.repairs.tritonbench_g.rowwise_quantization_triton.FPEquiv
+
+#axiomsClean VeriTile.Bench.Repairs.RowwiseQuantizationTriton.Specification.rowwise_grid_real
+#axiomsClean VeriTile.Bench.Repairs.RowwiseQuantizationTriton.FPEquiv.rowwise_grid_equiv

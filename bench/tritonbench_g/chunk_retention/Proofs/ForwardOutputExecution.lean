@@ -93,7 +93,7 @@ def setup (p : Layout) : List Stmt :=
    .assign .nat [] "i_bh" (.programId 2),
    .assign .nat [] "i_h" (.mod .nat .nil (.ref .nat [] "i_bh") (.constNat p.H)),
    .assign .real [] "b_b" RealHProgram.baseOp,
-   .assign .int [p.BT] "o_i" (.castNatToInt (.arange p.BT)),
+   .assign .int [p.BT] "o_i" (.intToSigned 32 (.castNatToInt (.arange p.BT))),
    .assign .real [p.BT] "d_i" (RealDecayTiles.queryOp p.BT),
    .assign .bool [p.BT,p.BT] "m_s" (RealDecayTiles.maskOp p.BT),
    .assign .real [p.BT,p.BT] "d_s" (RealDecayTiles.scoreOp p.BT),
@@ -357,6 +357,7 @@ theorem candidate_split (p : Layout) (r : Regions) (dot value : Storage) (out : 
       after p r scale := by
   unfold candidate forwardOScaleFirst
   rw [OutputSource.storage_erasure]
+  simp only [ComputeKernel.eraseDType, OutputSource.projects, ComputeKernel.toAlgKernel_fromKernelBody, Kernel.eraseDType]
   simp only [forwardOSource, Bool.false_eq_true, ↓reduceIte, ComputeKernel.surfaceBody, ComputeKernel.eraseDType,
     ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,

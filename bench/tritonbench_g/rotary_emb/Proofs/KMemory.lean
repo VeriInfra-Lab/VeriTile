@@ -4,6 +4,12 @@ import bench.tritonbench_g.rotary_emb.Proofs.Memory
 namespace VeriTile.Bench.TritonBenchG.RotaryEmb.FullMath
 open VeriTile.Triton
 
+theorem k_arithmetic_mem (p : Parameters) (s : BlockState)
+    (Q K Cos Sin : RegionName) :
+    (kArithmeticState p s Q K Cos Sin).mem = (qStoreState p s Q Cos Sin).mem := by
+  funext r o
+  simp only [kArithmeticState, kLoadState, kIndexState, BlockState.setReg_mem]
+
 /-- The concrete intermediate-state construction and the independent memory
 specification agree without assuming collision freedom. Collision freedom is
 needed separately for the four lane readback conclusions. -/
@@ -17,7 +23,7 @@ theorem final_state_memory (p : Parameters) (s : BlockState)
   unfold kStoreState memoryResult
   rw [hv]
   apply Scatter.pair_mem_congr
-  exact q_store_state_mem p s Q Cos Sin
+  exact (k_arithmetic_mem p s Q K Cos Sin).trans (q_store_state_mem p s Q Cos Sin)
 
 theorem final_state_q (p : Parameters) (s : BlockState)
     (Q K Cos Sin : RegionName) (hsep : RegionsSeparate Q K Cos Sin)

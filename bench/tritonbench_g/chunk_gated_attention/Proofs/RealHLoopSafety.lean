@@ -69,7 +69,7 @@ theorem iteration_safe (p : Layout) (l : Launch) (r : Regions) (a : Inputs)
     Stmt.TraceSafeList bounds (iteration p r gateK swapped) u := by
   have he := RealHStep.prefix_executes p l r a (fun _ _ => 0) c f u hs hu hik hiv hih hit hk hv hh
   have hp := prelude_safe p l r c gateK f bounds u hb hik hiv hih hit hh
-  rw [RealHStep.iteration_parts]
+  rw [iteration_safe_iff,RealHStep.iteration_parts]
   apply TraceProofs.append_safe _ u hp
   intro v hv
   rw [he] at hv

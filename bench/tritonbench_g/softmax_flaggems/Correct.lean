@@ -2,6 +2,11 @@ import bench.tritonbench_g.softmax_flaggems.Proofs.Contracts
 import bench.tritonbench_g.softmax_flaggems.Proofs.LegacyReal
 import VeriTile.Meta.StatementAudit
 
+/-! Historical mathematical and slice contracts in this file are ordinary helper
+theorems. Only the retained `specification` entries below are public source contracts.
+The helpers retain their statements and proofs for downstream reuse. -/
+
+
 namespace VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.Correctness
 open VeriTile Triton FullSource
 open scoped VeriTile.Spec
@@ -121,7 +126,7 @@ set_option linter.unusedSimpArgs false
 set_option linter.unusedVariables false
 
 /-- Compute-facing correctness for the inner one-tile FlagGems softmax. -/
-specification softmax_kernel_inner_one_tile_compute_correct
+theorem softmax_kernel_inner_one_tile_compute_correct
     (output_ptr input_ptr : RegionName)
     (N TILE_N : Nat)
     (s : BlockState) :
@@ -144,7 +149,7 @@ specification softmax_kernel_inner_one_tile_compute_correct
 
 
 /-- Compute-facing correctness for the non-inner one-tile FlagGems softmax. -/
-specification softmax_kernel_non_inner_one_tile_compute_correct
+theorem softmax_kernel_non_inner_one_tile_compute_correct
     (output_ptr input_ptr : RegionName)
     (N K TILE_N TILE_K : Nat)
     (s : BlockState)
@@ -172,7 +177,7 @@ specification softmax_kernel_non_inner_one_tile_compute_correct
 
 /-- Compute-facing correctness for the inner one-tile FlagGems softmax
 backward. -/
-specification softmax_backward_kernel_inner_one_tile_compute_correct
+theorem softmax_backward_kernel_inner_one_tile_compute_correct
     (out_ptr out_grad_ptr in_grad_ptr : RegionName)
     (M N TILE_M TILE_N : Nat)
     (s : BlockState)
@@ -201,7 +206,7 @@ specification softmax_backward_kernel_inner_one_tile_compute_correct
 
 /-- Compute-facing correctness for the non-inner one-tile FlagGems softmax
 backward. -/
-specification softmax_backward_kernel_non_inner_one_tile_compute_correct
+theorem softmax_backward_kernel_non_inner_one_tile_compute_correct
     (out_ptr out_grad_ptr in_grad_ptr : RegionName)
     (N K TILE_N TILE_K : Nat)
     (s : BlockState)
@@ -230,7 +235,7 @@ specification softmax_backward_kernel_non_inner_one_tile_compute_correct
 /-- **The headline on the IO surface**: the inner one-tile FlagGems softmax
 implements the exact stable softmax over the active row prefix. `0 < TILE_N` is
 required — the `max` reduce is only defined on non-empty tiles. -/
-specification softmax_kernel_inner_one_tile_correctness
+theorem softmax_kernel_inner_one_tile_correctness
     (output_ptr input_ptr : RegionName) (N TILE_N : Nat) (hT : 0 < TILE_N) :
     softmaxFlaggemsInnerIO output_ptr input_ptr N TILE_N
       ⊨ fun xs i => softmaxFlaggemsSpecOf N TILE_N xs i := by

@@ -19,7 +19,7 @@ theorem readback (doubleStore : Bool) (Y X : RegionName) (N B : Nat)
     v.readMem Y (offset u B j)=u.readMem X (offset u B j) := by
   cases doubleStore
   all_goals
-    simp [original,Erasure.toHalf,Erasure.toFP8,exec,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
+    simp [original,Erasure.toHalf,Erasure.toFP8,TypedSource.realForward,TypedSource.realReverse,exec,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
       ComputeKernel.surfaceBody,ComputeKernel.eraseDType,ComputeKernel.fromKernelBody,
       ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
       Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,Op.eraseDType.eq_def,
@@ -42,7 +42,7 @@ theorem frame (doubleStore : Bool) (Y X : RegionName) (N B : Nat)
     v.mem r o=u.mem r o := by
   cases doubleStore
   all_goals
-    simp [original,Erasure.toHalf,Erasure.toFP8,exec,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
+    simp [original,Erasure.toHalf,Erasure.toFP8,TypedSource.realForward,TypedSource.realReverse,exec,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
       ComputeKernel.surfaceBody,ComputeKernel.eraseDType,ComputeKernel.fromKernelBody,
       ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
       Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,Op.eraseDType.eq_def,
@@ -69,7 +69,7 @@ theorem run (doubleStore : Bool) (Y X : RegionName) (N B : Nat) (u : BlockState)
   cases he : exec (original doubleStore Y X N B).toAlgKernel u with
   | none =>
     cases doubleStore
-    all_goals simp [original,Erasure.toHalf,Erasure.toFP8,exec,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
+    all_goals simp [original,Erasure.toHalf,Erasure.toFP8,TypedSource.realForward,TypedSource.realReverse,exec,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
       ComputeKernel.surfaceBody,ComputeKernel.eraseDType,ComputeKernel.fromKernelBody,
       ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
       Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,Op.eraseDType.eq_def,
@@ -95,7 +95,7 @@ theorem trace_safe (doubleStore : Bool) (Y X : RegionName) (N B : Nat)
     (original doubleStore Y X N B).toAlgKernel.TraceSafe bounds u := by
   unfold Kernel.TraceSafe
   cases doubleStore
-  all_goals simp [original,Erasure.toHalf,Erasure.toFP8,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
+  all_goals simp [original,Erasure.toHalf,Erasure.toFP8,TypedSource.realForward,TypedSource.realReverse,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
       ComputeKernel.surfaceBody,ComputeKernel.eraseDType,ComputeKernel.fromKernelBody,
       ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
       Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,Op.eraseDType.eq_def,
@@ -111,7 +111,7 @@ theorem flatten_ok (doubleStore : Bool) (Y X : RegionName) (N B : Nat) :
     (original doubleStore Y X N B).toAlgKernel.FlattenOk := by
   unfold Kernel.FlattenOk
   cases doubleStore
-  all_goals simp [original,Erasure.toHalf,Erasure.toFP8,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
+  all_goals simp [original,Erasure.toHalf,Erasure.toFP8,TypedSource.realForward,TypedSource.realReverse,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
       ComputeKernel.surfaceBody,ComputeKernel.eraseDType,ComputeKernel.fromKernelBody,
       ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
       Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,Op.eraseDType.eq_def,

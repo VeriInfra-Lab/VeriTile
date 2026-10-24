@@ -1,0 +1,1 @@
+{"schema": 1, "status": "validated_capture_tooling", "exit_code": 0, "native_status": "NOT_RUN", "native_exit_code": 2, "native_execution": false, "numeric_acceptance": false, "numeric_comparison": "NOT_ESTABLISHED", "note": "Tool tests include CPU-only simulations, not native evidence. Frame checks and complete output capture do not supply missing numeric reference."}

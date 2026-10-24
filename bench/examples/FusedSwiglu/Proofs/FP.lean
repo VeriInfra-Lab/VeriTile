@@ -15,10 +15,12 @@ open FP.Structural
 set_option maxHeartbeats 1200000
 
 def siluValue {α : Type} (M : Algebra α) (x : α) : α :=
-  M.cast none .real .bf16 (M.binary none .real .mul x (M.unary none .sigmoid x))
+  M.cast none .real .bf16
+    (M.binary (some .fp32) .real .mul x (M.unary (some .fp32) .sigmoid x))
 
 def productValue {α : Type} (M : Algebra α) (sil y : α) : α :=
-  M.cast none .real .bf16 (M.binary none .real .mul (M.cast none .bf16 .real sil) y)
+  M.cast none .real .bf16
+    (M.binary none .real .mul (M.cast (some .fp32) .bf16 .real sil) y)
 
 theorem silu_run {α : Type} [Inhabited α] (M : Algebra α) (n B : Nat) (s : State α)
     (xs : Fin B → α)
@@ -35,7 +37,7 @@ theorem silu_run {α : Type} [Inhabited α] (M : Algebra α) (n B : Nat) (s : St
     rintro ⟨a, _⟩ ⟨b, _⟩ hab
     obtain rfl : a = b := Fin.ext (Nat.add_left_cancel hab)
     rfl
-  simp [silu_step, FP.Structural.exec, run, step, evalExpr,
+  simp [silu_step, silu_step_source, siluPrecision, FP.Structural.exec, run, step, evalExpr,
     evalOp_unfold, numeric, FP.Structural.bop, store, natLt, ofFloat, toFloat,
     Function.comp_def]
   refine ⟨fun i hi => ?_, fun r o hmiss => ?_⟩

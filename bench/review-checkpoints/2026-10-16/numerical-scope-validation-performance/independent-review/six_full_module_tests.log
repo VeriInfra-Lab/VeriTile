@@ -1,0 +1,11 @@
+test_local_reference_error_precedes_simultaneous_authority_failure (independent_root_fixture_tests.NumericalScopePrecheckTests.test_local_reference_error_precedes_simultaneous_authority_failure) ... ok
+test_missing_callback_names_still_require_authority (independent_root_fixture_tests.NumericalScopePrecheckTests.test_missing_callback_names_still_require_authority) ... ok
+test_omitted_referenced_deferral_rejects_before_authority (independent_root_fixture_tests.NumericalScopePrecheckTests.test_omitted_referenced_deferral_rejects_before_authority) ... ok
+test_removing_deferral_and_link_still_fails_exact_port_check (independent_root_fixture_tests.NumericalScopePrecheckTests.test_removing_deferral_and_link_still_fails_exact_port_check) ... ok
+test_valid_calls_rederive_and_later_source_failure_is_observed (independent_root_fixture_tests.NumericalScopePrecheckTests.test_valid_calls_rederive_and_later_source_failure_is_observed) ... ok
+test_valid_references_do_not_authorize_stale_queue (independent_root_fixture_tests.NumericalScopePrecheckTests.test_valid_references_do_not_authorize_stale_queue) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.007s
+
+OK

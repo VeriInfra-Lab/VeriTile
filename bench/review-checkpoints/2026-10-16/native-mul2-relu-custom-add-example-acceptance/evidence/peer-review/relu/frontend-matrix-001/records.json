@@ -1,0 +1,1971 @@
+[
+  {
+    "dtype": "bool",
+    "N": 0,
+    "grid": 0,
+    "status": "generated",
+    "raw_ttir": "bool-0.raw.ttir"
+  },
+  {
+    "dtype": "bool",
+    "N": 1,
+    "grid": 1,
+    "status": "generated",
+    "raw_ttir": "bool-1.raw.ttir"
+  },
+  {
+    "dtype": "bool",
+    "N": 2147483647,
+    "grid": 2097152,
+    "status": "generated",
+    "raw_ttir": "bool-2147483647.raw.ttir"
+  },
+  {
+    "dtype": "bool",
+    "N": 2147483648,
+    "grid": 2097152,
+    "status": "generated",
+    "raw_ttir": "bool-2147483648.raw.ttir"
+  },
+  {
+    "dtype": "bool",
+    "N": 4294967295,
+    "grid": 4194304,
+    "status": "generated",
+    "raw_ttir": "bool-4294967295.raw.ttir"
+  },
+  {
+    "dtype": "bool",
+    "N": 4294967296,
+    "grid": 4194304,
+    "status": "generated",
+    "raw_ttir": "bool-4294967296.raw.ttir"
+  },
+  {
+    "dtype": "bool",
+    "N": 2199023254528,
+    "grid": 2147483647,
+    "status": "generated",
+    "raw_ttir": "bool-2199023254528.raw.ttir"
+  },
+  {
+    "dtype": "bool",
+    "N": 2199023254529,
+    "grid": 2147483648,
+    "status": "generated",
+    "raw_ttir": "bool-2199023254529.raw.ttir"
+  },
+  {
+    "dtype": "bool",
+    "N": 9223372036854775807,
+    "grid": 9007199254740992,
+    "status": "generated",
+    "raw_ttir": "bool-9223372036854775807.raw.ttir"
+  },
+  {
+    "dtype": "bool",
+    "N": 9223372036854775808,
+    "grid": 9007199254740992,
+    "status": "generated",
+    "raw_ttir": "bool-9223372036854775808.raw.ttir"
+  },
+  {
+    "dtype": "bool",
+    "N": 18446744073709551615,
+    "grid": 18014398509481984,
+    "status": "generated",
+    "raw_ttir": "bool-18446744073709551615.raw.ttir"
+  },
+  {
+    "dtype": "bool",
+    "N": 18446744073709551616,
+    "grid": 18014398509481984,
+    "status": "nonrepresentable_constexpr",
+    "error_type": "CompilationError",
+    "error": "at 5:11:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n    pid = tl.program_id(0)\n    block_start = pid * block_size\n    offsets = block_start + tl.arange(0, block_size)\n    mask = offsets < N\n           ^\nValueError('Nonrepresentable integer 18446744073709551616.')"
+  },
+  {
+    "dtype": "int8",
+    "N": 0,
+    "grid": 0,
+    "status": "generated",
+    "raw_ttir": "int8-0.raw.ttir"
+  },
+  {
+    "dtype": "int8",
+    "N": 1,
+    "grid": 1,
+    "status": "generated",
+    "raw_ttir": "int8-1.raw.ttir"
+  },
+  {
+    "dtype": "int8",
+    "N": 2147483647,
+    "grid": 2097152,
+    "status": "generated",
+    "raw_ttir": "int8-2147483647.raw.ttir"
+  },
+  {
+    "dtype": "int8",
+    "N": 2147483648,
+    "grid": 2097152,
+    "status": "generated",
+    "raw_ttir": "int8-2147483648.raw.ttir"
+  },
+  {
+    "dtype": "int8",
+    "N": 4294967295,
+    "grid": 4194304,
+    "status": "generated",
+    "raw_ttir": "int8-4294967295.raw.ttir"
+  },
+  {
+    "dtype": "int8",
+    "N": 4294967296,
+    "grid": 4194304,
+    "status": "generated",
+    "raw_ttir": "int8-4294967296.raw.ttir"
+  },
+  {
+    "dtype": "int8",
+    "N": 2199023254528,
+    "grid": 2147483647,
+    "status": "generated",
+    "raw_ttir": "int8-2199023254528.raw.ttir"
+  },
+  {
+    "dtype": "int8",
+    "N": 2199023254529,
+    "grid": 2147483648,
+    "status": "generated",
+    "raw_ttir": "int8-2199023254529.raw.ttir"
+  },
+  {
+    "dtype": "int8",
+    "N": 9223372036854775807,
+    "grid": 9007199254740992,
+    "status": "generated",
+    "raw_ttir": "int8-9223372036854775807.raw.ttir"
+  },
+  {
+    "dtype": "int8",
+    "N": 9223372036854775808,
+    "grid": 9007199254740992,
+    "status": "generated",
+    "raw_ttir": "int8-9223372036854775808.raw.ttir"
+  },
+  {
+    "dtype": "int8",
+    "N": 18446744073709551615,
+    "grid": 18014398509481984,
+    "status": "generated",
+    "raw_ttir": "int8-18446744073709551615.raw.ttir"
+  },
+  {
+    "dtype": "int8",
+    "N": 18446744073709551616,
+    "grid": 18014398509481984,
+    "status": "nonrepresentable_constexpr",
+    "error_type": "CompilationError",
+    "error": "at 5:11:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n    pid = tl.program_id(0)\n    block_start = pid * block_size\n    offsets = block_start + tl.arange(0, block_size)\n    mask = offsets < N\n           ^\nValueError('Nonrepresentable integer 18446744073709551616.')"
+  },
+  {
+    "dtype": "uint8",
+    "N": 0,
+    "grid": 0,
+    "status": "generated",
+    "raw_ttir": "uint8-0.raw.ttir"
+  },
+  {
+    "dtype": "uint8",
+    "N": 1,
+    "grid": 1,
+    "status": "generated",
+    "raw_ttir": "uint8-1.raw.ttir"
+  },
+  {
+    "dtype": "uint8",
+    "N": 2147483647,
+    "grid": 2097152,
+    "status": "generated",
+    "raw_ttir": "uint8-2147483647.raw.ttir"
+  },
+  {
+    "dtype": "uint8",
+    "N": 2147483648,
+    "grid": 2097152,
+    "status": "generated",
+    "raw_ttir": "uint8-2147483648.raw.ttir"
+  },
+  {
+    "dtype": "uint8",
+    "N": 4294967295,
+    "grid": 4194304,
+    "status": "generated",
+    "raw_ttir": "uint8-4294967295.raw.ttir"
+  },
+  {
+    "dtype": "uint8",
+    "N": 4294967296,
+    "grid": 4194304,
+    "status": "generated",
+    "raw_ttir": "uint8-4294967296.raw.ttir"
+  },
+  {
+    "dtype": "uint8",
+    "N": 2199023254528,
+    "grid": 2147483647,
+    "status": "generated",
+    "raw_ttir": "uint8-2199023254528.raw.ttir"
+  },
+  {
+    "dtype": "uint8",
+    "N": 2199023254529,
+    "grid": 2147483648,
+    "status": "generated",
+    "raw_ttir": "uint8-2199023254529.raw.ttir"
+  },
+  {
+    "dtype": "uint8",
+    "N": 9223372036854775807,
+    "grid": 9007199254740992,
+    "status": "generated",
+    "raw_ttir": "uint8-9223372036854775807.raw.ttir"
+  },
+  {
+    "dtype": "uint8",
+    "N": 9223372036854775808,
+    "grid": 9007199254740992,
+    "status": "generated",
+    "raw_ttir": "uint8-9223372036854775808.raw.ttir"
+  },
+  {
+    "dtype": "uint8",
+    "N": 18446744073709551615,
+    "grid": 18014398509481984,
+    "status": "generated",
+    "raw_ttir": "uint8-18446744073709551615.raw.ttir"
+  },
+  {
+    "dtype": "uint8",
+    "N": 18446744073709551616,
+    "grid": 18014398509481984,
+    "status": "nonrepresentable_constexpr",
+    "error_type": "CompilationError",
+    "error": "at 5:11:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n    pid = tl.program_id(0)\n    block_start = pid * block_size\n    offsets = block_start + tl.arange(0, block_size)\n    mask = offsets < N\n           ^\nValueError('Nonrepresentable integer 18446744073709551616.')"
+  },
+  {
+    "dtype": "int16",
+    "N": 0,
+    "grid": 0,
+    "status": "generated",
+    "raw_ttir": "int16-0.raw.ttir"
+  },
+  {
+    "dtype": "int16",
+    "N": 1,
+    "grid": 1,
+    "status": "generated",
+    "raw_ttir": "int16-1.raw.ttir"
+  },
+  {
+    "dtype": "int16",
+    "N": 2147483647,
+    "grid": 2097152,
+    "status": "generated",
+    "raw_ttir": "int16-2147483647.raw.ttir"
+  },
+  {
+    "dtype": "int16",
+    "N": 2147483648,
+    "grid": 2097152,
+    "status": "generated",
+    "raw_ttir": "int16-2147483648.raw.ttir"
+  },
+  {
+    "dtype": "int16",
+    "N": 4294967295,
+    "grid": 4194304,
+    "status": "generated",
+    "raw_ttir": "int16-4294967295.raw.ttir"
+  },
+  {
+    "dtype": "int16",
+    "N": 4294967296,
+    "grid": 4194304,
+    "status": "generated",
+    "raw_ttir": "int16-4294967296.raw.ttir"
+  },
+  {
+    "dtype": "int16",
+    "N": 2199023254528,
+    "grid": 2147483647,
+    "status": "generated",
+    "raw_ttir": "int16-2199023254528.raw.ttir"
+  },
+  {
+    "dtype": "int16",
+    "N": 2199023254529,
+    "grid": 2147483648,
+    "status": "generated",
+    "raw_ttir": "int16-2199023254529.raw.ttir"
+  },
+  {
+    "dtype": "int16",
+    "N": 9223372036854775807,
+    "grid": 9007199254740992,
+    "status": "generated",
+    "raw_ttir": "int16-9223372036854775807.raw.ttir"
+  },
+  {
+    "dtype": "int16",
+    "N": 9223372036854775808,
+    "grid": 9007199254740992,
+    "status": "generated",
+    "raw_ttir": "int16-9223372036854775808.raw.ttir"
+  },
+  {
+    "dtype": "int16",
+    "N": 18446744073709551615,
+    "grid": 18014398509481984,
+    "status": "generated",
+    "raw_ttir": "int16-18446744073709551615.raw.ttir"
+  },
+  {
+    "dtype": "int16",
+    "N": 18446744073709551616,
+    "grid": 18014398509481984,
+    "status": "nonrepresentable_constexpr",
+    "error_type": "CompilationError",
+    "error": "at 5:11:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n    pid = tl.program_id(0)\n    block_start = pid * block_size\n    offsets = block_start + tl.arange(0, block_size)\n    mask = offsets < N\n           ^\nValueError('Nonrepresentable integer 18446744073709551616.')"
+  },
+  {
+    "dtype": "uint16",
+    "N": 0,
+    "grid": 0,
+    "status": "generated",
+    "raw_ttir": "uint16-0.raw.ttir"
+  },
+  {
+    "dtype": "uint16",
+    "N": 1,
+    "grid": 1,
+    "status": "generated",
+    "raw_ttir": "uint16-1.raw.ttir"
+  },
+  {
+    "dtype": "uint16",
+    "N": 2147483647,
+    "grid": 2097152,
+    "status": "generated",
+    "raw_ttir": "uint16-2147483647.raw.ttir"
+  },
+  {
+    "dtype": "uint16",
+    "N": 2147483648,
+    "grid": 2097152,
+    "status": "generated",
+    "raw_ttir": "uint16-2147483648.raw.ttir"
+  },
+  {
+    "dtype": "uint16",
+    "N": 4294967295,
+    "grid": 4194304,
+    "status": "generated",
+    "raw_ttir": "uint16-4294967295.raw.ttir"
+  },
+  {
+    "dtype": "uint16",
+    "N": 4294967296,
+    "grid": 4194304,
+    "status": "generated",
+    "raw_ttir": "uint16-4294967296.raw.ttir"
+  },
+  {
+    "dtype": "uint16",
+    "N": 2199023254528,
+    "grid": 2147483647,
+    "status": "generated",
+    "raw_ttir": "uint16-2199023254528.raw.ttir"
+  },
+  {
+    "dtype": "uint16",
+    "N": 2199023254529,
+    "grid": 2147483648,
+    "status": "generated",
+    "raw_ttir": "uint16-2199023254529.raw.ttir"
+  },
+  {
+    "dtype": "uint16",
+    "N": 9223372036854775807,
+    "grid": 9007199254740992,
+    "status": "generated",
+    "raw_ttir": "uint16-9223372036854775807.raw.ttir"
+  },
+  {
+    "dtype": "uint16",
+    "N": 9223372036854775808,
+    "grid": 9007199254740992,
+    "status": "generated",
+    "raw_ttir": "uint16-9223372036854775808.raw.ttir"
+  },
+  {
+    "dtype": "uint16",
+    "N": 18446744073709551615,
+    "grid": 18014398509481984,
+    "status": "generated",
+    "raw_ttir": "uint16-18446744073709551615.raw.ttir"
+  },
+  {
+    "dtype": "uint16",
+    "N": 18446744073709551616,
+    "grid": 18014398509481984,
+    "status": "nonrepresentable_constexpr",
+    "error_type": "CompilationError",
+    "error": "at 5:11:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n    pid = tl.program_id(0)\n    block_start = pid * block_size\n    offsets = block_start + tl.arange(0, block_size)\n    mask = offsets < N\n           ^\nValueError('Nonrepresentable integer 18446744073709551616.')"
+  },
+  {
+    "dtype": "int32",
+    "N": 0,
+    "grid": 0,
+    "status": "generated",
+    "raw_ttir": "int32-0.raw.ttir"
+  },
+  {
+    "dtype": "int32",
+    "N": 1,
+    "grid": 1,
+    "status": "generated",
+    "raw_ttir": "int32-1.raw.ttir"
+  },
+  {
+    "dtype": "int32",
+    "N": 2147483647,
+    "grid": 2097152,
+    "status": "generated",
+    "raw_ttir": "int32-2147483647.raw.ttir"
+  },
+  {
+    "dtype": "int32",
+    "N": 2147483648,
+    "grid": 2097152,
+    "status": "generated",
+    "raw_ttir": "int32-2147483648.raw.ttir"
+  },
+  {
+    "dtype": "int32",
+    "N": 4294967295,
+    "grid": 4194304,
+    "status": "generated",
+    "raw_ttir": "int32-4294967295.raw.ttir"
+  },
+  {
+    "dtype": "int32",
+    "N": 4294967296,
+    "grid": 4194304,
+    "status": "generated",
+    "raw_ttir": "int32-4294967296.raw.ttir"
+  },
+  {
+    "dtype": "int32",
+    "N": 2199023254528,
+    "grid": 2147483647,
+    "status": "generated",
+    "raw_ttir": "int32-2199023254528.raw.ttir"
+  },
+  {
+    "dtype": "int32",
+    "N": 2199023254529,
+    "grid": 2147483648,
+    "status": "generated",
+    "raw_ttir": "int32-2199023254529.raw.ttir"
+  },
+  {
+    "dtype": "int32",
+    "N": 9223372036854775807,
+    "grid": 9007199254740992,
+    "status": "generated",
+    "raw_ttir": "int32-9223372036854775807.raw.ttir"
+  },
+  {
+    "dtype": "int32",
+    "N": 9223372036854775808,
+    "grid": 9007199254740992,
+    "status": "generated",
+    "raw_ttir": "int32-9223372036854775808.raw.ttir"
+  },
+  {
+    "dtype": "int32",
+    "N": 18446744073709551615,
+    "grid": 18014398509481984,
+    "status": "generated",
+    "raw_ttir": "int32-18446744073709551615.raw.ttir"
+  },
+  {
+    "dtype": "int32",
+    "N": 18446744073709551616,
+    "grid": 18014398509481984,
+    "status": "nonrepresentable_constexpr",
+    "error_type": "CompilationError",
+    "error": "at 5:11:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n    pid = tl.program_id(0)\n    block_start = pid * block_size\n    offsets = block_start + tl.arange(0, block_size)\n    mask = offsets < N\n           ^\nValueError('Nonrepresentable integer 18446744073709551616.')"
+  },
+  {
+    "dtype": "uint32",
+    "N": 0,
+    "grid": 0,
+    "status": "generated",
+    "raw_ttir": "uint32-0.raw.ttir"
+  },
+  {
+    "dtype": "uint32",
+    "N": 1,
+    "grid": 1,
+    "status": "generated",
+    "raw_ttir": "uint32-1.raw.ttir"
+  },
+  {
+    "dtype": "uint32",
+    "N": 2147483647,
+    "grid": 2097152,
+    "status": "generated",
+    "raw_ttir": "uint32-2147483647.raw.ttir"
+  },
+  {
+    "dtype": "uint32",
+    "N": 2147483648,
+    "grid": 2097152,
+    "status": "generated",
+    "raw_ttir": "uint32-2147483648.raw.ttir"
+  },
+  {
+    "dtype": "uint32",
+    "N": 4294967295,
+    "grid": 4194304,
+    "status": "generated",
+    "raw_ttir": "uint32-4294967295.raw.ttir"
+  },
+  {
+    "dtype": "uint32",
+    "N": 4294967296,
+    "grid": 4194304,
+    "status": "generated",
+    "raw_ttir": "uint32-4294967296.raw.ttir"
+  },
+  {
+    "dtype": "uint32",
+    "N": 2199023254528,
+    "grid": 2147483647,
+    "status": "generated",
+    "raw_ttir": "uint32-2199023254528.raw.ttir"
+  },
+  {
+    "dtype": "uint32",
+    "N": 2199023254529,
+    "grid": 2147483648,
+    "status": "generated",
+    "raw_ttir": "uint32-2199023254529.raw.ttir"
+  },
+  {
+    "dtype": "uint32",
+    "N": 9223372036854775807,
+    "grid": 9007199254740992,
+    "status": "generated",
+    "raw_ttir": "uint32-9223372036854775807.raw.ttir"
+  },
+  {
+    "dtype": "uint32",
+    "N": 9223372036854775808,
+    "grid": 9007199254740992,
+    "status": "generated",
+    "raw_ttir": "uint32-9223372036854775808.raw.ttir"
+  },
+  {
+    "dtype": "uint32",
+    "N": 18446744073709551615,
+    "grid": 18014398509481984,
+    "status": "generated",
+    "raw_ttir": "uint32-18446744073709551615.raw.ttir"
+  },
+  {
+    "dtype": "uint32",
+    "N": 18446744073709551616,
+    "grid": 18014398509481984,
+    "status": "nonrepresentable_constexpr",
+    "error_type": "CompilationError",
+    "error": "at 5:11:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n    pid = tl.program_id(0)\n    block_start = pid * block_size\n    offsets = block_start + tl.arange(0, block_size)\n    mask = offsets < N\n           ^\nValueError('Nonrepresentable integer 18446744073709551616.')"
+  },
+  {
+    "dtype": "int64",
+    "N": 0,
+    "grid": 0,
+    "status": "generated",
+    "raw_ttir": "int64-0.raw.ttir"
+  },
+  {
+    "dtype": "int64",
+    "N": 1,
+    "grid": 1,
+    "status": "generated",
+    "raw_ttir": "int64-1.raw.ttir"
+  },
+  {
+    "dtype": "int64",
+    "N": 2147483647,
+    "grid": 2097152,
+    "status": "generated",
+    "raw_ttir": "int64-2147483647.raw.ttir"
+  },
+  {
+    "dtype": "int64",
+    "N": 2147483648,
+    "grid": 2097152,
+    "status": "generated",
+    "raw_ttir": "int64-2147483648.raw.ttir"
+  },
+  {
+    "dtype": "int64",
+    "N": 4294967295,
+    "grid": 4194304,
+    "status": "generated",
+    "raw_ttir": "int64-4294967295.raw.ttir"
+  },
+  {
+    "dtype": "int64",
+    "N": 4294967296,
+    "grid": 4194304,
+    "status": "generated",
+    "raw_ttir": "int64-4294967296.raw.ttir"
+  },
+  {
+    "dtype": "int64",
+    "N": 2199023254528,
+    "grid": 2147483647,
+    "status": "generated",
+    "raw_ttir": "int64-2199023254528.raw.ttir"
+  },
+  {
+    "dtype": "int64",
+    "N": 2199023254529,
+    "grid": 2147483648,
+    "status": "generated",
+    "raw_ttir": "int64-2199023254529.raw.ttir"
+  },
+  {
+    "dtype": "int64",
+    "N": 9223372036854775807,
+    "grid": 9007199254740992,
+    "status": "generated",
+    "raw_ttir": "int64-9223372036854775807.raw.ttir"
+  },
+  {
+    "dtype": "int64",
+    "N": 9223372036854775808,
+    "grid": 9007199254740992,
+    "status": "generated",
+    "raw_ttir": "int64-9223372036854775808.raw.ttir"
+  },
+  {
+    "dtype": "int64",
+    "N": 18446744073709551615,
+    "grid": 18014398509481984,
+    "status": "generated",
+    "raw_ttir": "int64-18446744073709551615.raw.ttir"
+  },
+  {
+    "dtype": "int64",
+    "N": 18446744073709551616,
+    "grid": 18014398509481984,
+    "status": "nonrepresentable_constexpr",
+    "error_type": "CompilationError",
+    "error": "at 5:11:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n    pid = tl.program_id(0)\n    block_start = pid * block_size\n    offsets = block_start + tl.arange(0, block_size)\n    mask = offsets < N\n           ^\nValueError('Nonrepresentable integer 18446744073709551616.')"
+  },
+  {
+    "dtype": "uint64",
+    "N": 0,
+    "grid": 0,
+    "status": "generated",
+    "raw_ttir": "uint64-0.raw.ttir"
+  },
+  {
+    "dtype": "uint64",
+    "N": 1,
+    "grid": 1,
+    "status": "generated",
+    "raw_ttir": "uint64-1.raw.ttir"
+  },
+  {
+    "dtype": "uint64",
+    "N": 2147483647,
+    "grid": 2097152,
+    "status": "generated",
+    "raw_ttir": "uint64-2147483647.raw.ttir"
+  },
+  {
+    "dtype": "uint64",
+    "N": 2147483648,
+    "grid": 2097152,
+    "status": "generated",
+    "raw_ttir": "uint64-2147483648.raw.ttir"
+  },
+  {
+    "dtype": "uint64",
+    "N": 4294967295,
+    "grid": 4194304,
+    "status": "generated",
+    "raw_ttir": "uint64-4294967295.raw.ttir"
+  },
+  {
+    "dtype": "uint64",
+    "N": 4294967296,
+    "grid": 4194304,
+    "status": "generated",
+    "raw_ttir": "uint64-4294967296.raw.ttir"
+  },
+  {
+    "dtype": "uint64",
+    "N": 2199023254528,
+    "grid": 2147483647,
+    "status": "generated",
+    "raw_ttir": "uint64-2199023254528.raw.ttir"
+  },
+  {
+    "dtype": "uint64",
+    "N": 2199023254529,
+    "grid": 2147483648,
+    "status": "generated",
+    "raw_ttir": "uint64-2199023254529.raw.ttir"
+  },
+  {
+    "dtype": "uint64",
+    "N": 9223372036854775807,
+    "grid": 9007199254740992,
+    "status": "generated",
+    "raw_ttir": "uint64-9223372036854775807.raw.ttir"
+  },
+  {
+    "dtype": "uint64",
+    "N": 9223372036854775808,
+    "grid": 9007199254740992,
+    "status": "generated",
+    "raw_ttir": "uint64-9223372036854775808.raw.ttir"
+  },
+  {
+    "dtype": "uint64",
+    "N": 18446744073709551615,
+    "grid": 18014398509481984,
+    "status": "generated",
+    "raw_ttir": "uint64-18446744073709551615.raw.ttir"
+  },
+  {
+    "dtype": "uint64",
+    "N": 18446744073709551616,
+    "grid": 18014398509481984,
+    "status": "nonrepresentable_constexpr",
+    "error_type": "CompilationError",
+    "error": "at 5:11:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n    pid = tl.program_id(0)\n    block_start = pid * block_size\n    offsets = block_start + tl.arange(0, block_size)\n    mask = offsets < N\n           ^\nValueError('Nonrepresentable integer 18446744073709551616.')"
+  },
+  {
+    "dtype": "float16",
+    "N": 0,
+    "grid": 0,
+    "status": "generated",
+    "raw_ttir": "float16-0.raw.ttir"
+  },
+  {
+    "dtype": "float16",
+    "N": 1,
+    "grid": 1,
+    "status": "generated",
+    "raw_ttir": "float16-1.raw.ttir"
+  },
+  {
+    "dtype": "float16",
+    "N": 2147483647,
+    "grid": 2097152,
+    "status": "generated",
+    "raw_ttir": "float16-2147483647.raw.ttir"
+  },
+  {
+    "dtype": "float16",
+    "N": 2147483648,
+    "grid": 2097152,
+    "status": "generated",
+    "raw_ttir": "float16-2147483648.raw.ttir"
+  },
+  {
+    "dtype": "float16",
+    "N": 4294967295,
+    "grid": 4194304,
+    "status": "generated",
+    "raw_ttir": "float16-4294967295.raw.ttir"
+  },
+  {
+    "dtype": "float16",
+    "N": 4294967296,
+    "grid": 4194304,
+    "status": "generated",
+    "raw_ttir": "float16-4294967296.raw.ttir"
+  },
+  {
+    "dtype": "float16",
+    "N": 2199023254528,
+    "grid": 2147483647,
+    "status": "generated",
+    "raw_ttir": "float16-2199023254528.raw.ttir"
+  },
+  {
+    "dtype": "float16",
+    "N": 2199023254529,
+    "grid": 2147483648,
+    "status": "generated",
+    "raw_ttir": "float16-2199023254529.raw.ttir"
+  },
+  {
+    "dtype": "float16",
+    "N": 9223372036854775807,
+    "grid": 9007199254740992,
+    "status": "generated",
+    "raw_ttir": "float16-9223372036854775807.raw.ttir"
+  },
+  {
+    "dtype": "float16",
+    "N": 9223372036854775808,
+    "grid": 9007199254740992,
+    "status": "generated",
+    "raw_ttir": "float16-9223372036854775808.raw.ttir"
+  },
+  {
+    "dtype": "float16",
+    "N": 18446744073709551615,
+    "grid": 18014398509481984,
+    "status": "generated",
+    "raw_ttir": "float16-18446744073709551615.raw.ttir"
+  },
+  {
+    "dtype": "float16",
+    "N": 18446744073709551616,
+    "grid": 18014398509481984,
+    "status": "nonrepresentable_constexpr",
+    "error_type": "CompilationError",
+    "error": "at 5:11:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n    pid = tl.program_id(0)\n    block_start = pid * block_size\n    offsets = block_start + tl.arange(0, block_size)\n    mask = offsets < N\n           ^\nValueError('Nonrepresentable integer 18446744073709551616.')"
+  },
+  {
+    "dtype": "bfloat16",
+    "N": 0,
+    "grid": 0,
+    "status": "generated",
+    "raw_ttir": "bfloat16-0.raw.ttir"
+  },
+  {
+    "dtype": "bfloat16",
+    "N": 1,
+    "grid": 1,
+    "status": "generated",
+    "raw_ttir": "bfloat16-1.raw.ttir"
+  },
+  {
+    "dtype": "bfloat16",
+    "N": 2147483647,
+    "grid": 2097152,
+    "status": "generated",
+    "raw_ttir": "bfloat16-2147483647.raw.ttir"
+  },
+  {
+    "dtype": "bfloat16",
+    "N": 2147483648,
+    "grid": 2097152,
+    "status": "generated",
+    "raw_ttir": "bfloat16-2147483648.raw.ttir"
+  },
+  {
+    "dtype": "bfloat16",
+    "N": 4294967295,
+    "grid": 4194304,
+    "status": "generated",
+    "raw_ttir": "bfloat16-4294967295.raw.ttir"
+  },
+  {
+    "dtype": "bfloat16",
+    "N": 4294967296,
+    "grid": 4194304,
+    "status": "generated",
+    "raw_ttir": "bfloat16-4294967296.raw.ttir"
+  },
+  {
+    "dtype": "bfloat16",
+    "N": 2199023254528,
+    "grid": 2147483647,
+    "status": "generated",
+    "raw_ttir": "bfloat16-2199023254528.raw.ttir"
+  },
+  {
+    "dtype": "bfloat16",
+    "N": 2199023254529,
+    "grid": 2147483648,
+    "status": "generated",
+    "raw_ttir": "bfloat16-2199023254529.raw.ttir"
+  },
+  {
+    "dtype": "bfloat16",
+    "N": 9223372036854775807,
+    "grid": 9007199254740992,
+    "status": "generated",
+    "raw_ttir": "bfloat16-9223372036854775807.raw.ttir"
+  },
+  {
+    "dtype": "bfloat16",
+    "N": 9223372036854775808,
+    "grid": 9007199254740992,
+    "status": "generated",
+    "raw_ttir": "bfloat16-9223372036854775808.raw.ttir"
+  },
+  {
+    "dtype": "bfloat16",
+    "N": 18446744073709551615,
+    "grid": 18014398509481984,
+    "status": "generated",
+    "raw_ttir": "bfloat16-18446744073709551615.raw.ttir"
+  },
+  {
+    "dtype": "bfloat16",
+    "N": 18446744073709551616,
+    "grid": 18014398509481984,
+    "status": "nonrepresentable_constexpr",
+    "error_type": "CompilationError",
+    "error": "at 5:11:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n    pid = tl.program_id(0)\n    block_start = pid * block_size\n    offsets = block_start + tl.arange(0, block_size)\n    mask = offsets < N\n           ^\nValueError('Nonrepresentable integer 18446744073709551616.')"
+  },
+  {
+    "dtype": "float32",
+    "N": 0,
+    "grid": 0,
+    "status": "generated",
+    "raw_ttir": "float32-0.raw.ttir"
+  },
+  {
+    "dtype": "float32",
+    "N": 1,
+    "grid": 1,
+    "status": "generated",
+    "raw_ttir": "float32-1.raw.ttir"
+  },
+  {
+    "dtype": "float32",
+    "N": 2147483647,
+    "grid": 2097152,
+    "status": "generated",
+    "raw_ttir": "float32-2147483647.raw.ttir"
+  },
+  {
+    "dtype": "float32",
+    "N": 2147483648,
+    "grid": 2097152,
+    "status": "generated",
+    "raw_ttir": "float32-2147483648.raw.ttir"
+  },
+  {
+    "dtype": "float32",
+    "N": 4294967295,
+    "grid": 4194304,
+    "status": "generated",
+    "raw_ttir": "float32-4294967295.raw.ttir"
+  },
+  {
+    "dtype": "float32",
+    "N": 4294967296,
+    "grid": 4194304,
+    "status": "generated",
+    "raw_ttir": "float32-4294967296.raw.ttir"
+  },
+  {
+    "dtype": "float32",
+    "N": 2199023254528,
+    "grid": 2147483647,
+    "status": "generated",
+    "raw_ttir": "float32-2199023254528.raw.ttir"
+  },
+  {
+    "dtype": "float32",
+    "N": 2199023254529,
+    "grid": 2147483648,
+    "status": "generated",
+    "raw_ttir": "float32-2199023254529.raw.ttir"
+  },
+  {
+    "dtype": "float32",
+    "N": 9223372036854775807,
+    "grid": 9007199254740992,
+    "status": "generated",
+    "raw_ttir": "float32-9223372036854775807.raw.ttir"
+  },
+  {
+    "dtype": "float32",
+    "N": 9223372036854775808,
+    "grid": 9007199254740992,
+    "status": "generated",
+    "raw_ttir": "float32-9223372036854775808.raw.ttir"
+  },
+  {
+    "dtype": "float32",
+    "N": 18446744073709551615,
+    "grid": 18014398509481984,
+    "status": "generated",
+    "raw_ttir": "float32-18446744073709551615.raw.ttir"
+  },
+  {
+    "dtype": "float32",
+    "N": 18446744073709551616,
+    "grid": 18014398509481984,
+    "status": "nonrepresentable_constexpr",
+    "error_type": "CompilationError",
+    "error": "at 5:11:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n    pid = tl.program_id(0)\n    block_start = pid * block_size\n    offsets = block_start + tl.arange(0, block_size)\n    mask = offsets < N\n           ^\nValueError('Nonrepresentable integer 18446744073709551616.')"
+  },
+  {
+    "dtype": "float64",
+    "N": 0,
+    "grid": 0,
+    "status": "generated",
+    "raw_ttir": "float64-0.raw.ttir"
+  },
+  {
+    "dtype": "float64",
+    "N": 1,
+    "grid": 1,
+    "status": "generated",
+    "raw_ttir": "float64-1.raw.ttir"
+  },
+  {
+    "dtype": "float64",
+    "N": 2147483647,
+    "grid": 2097152,
+    "status": "generated",
+    "raw_ttir": "float64-2147483647.raw.ttir"
+  },
+  {
+    "dtype": "float64",
+    "N": 2147483648,
+    "grid": 2097152,
+    "status": "generated",
+    "raw_ttir": "float64-2147483648.raw.ttir"
+  },
+  {
+    "dtype": "float64",
+    "N": 4294967295,
+    "grid": 4194304,
+    "status": "generated",
+    "raw_ttir": "float64-4294967295.raw.ttir"
+  },
+  {
+    "dtype": "float64",
+    "N": 4294967296,
+    "grid": 4194304,
+    "status": "generated",
+    "raw_ttir": "float64-4294967296.raw.ttir"
+  },
+  {
+    "dtype": "float64",
+    "N": 2199023254528,
+    "grid": 2147483647,
+    "status": "generated",
+    "raw_ttir": "float64-2199023254528.raw.ttir"
+  },
+  {
+    "dtype": "float64",
+    "N": 2199023254529,
+    "grid": 2147483648,
+    "status": "generated",
+    "raw_ttir": "float64-2199023254529.raw.ttir"
+  },
+  {
+    "dtype": "float64",
+    "N": 9223372036854775807,
+    "grid": 9007199254740992,
+    "status": "generated",
+    "raw_ttir": "float64-9223372036854775807.raw.ttir"
+  },
+  {
+    "dtype": "float64",
+    "N": 9223372036854775808,
+    "grid": 9007199254740992,
+    "status": "generated",
+    "raw_ttir": "float64-9223372036854775808.raw.ttir"
+  },
+  {
+    "dtype": "float64",
+    "N": 18446744073709551615,
+    "grid": 18014398509481984,
+    "status": "generated",
+    "raw_ttir": "float64-18446744073709551615.raw.ttir"
+  },
+  {
+    "dtype": "float64",
+    "N": 18446744073709551616,
+    "grid": 18014398509481984,
+    "status": "nonrepresentable_constexpr",
+    "error_type": "CompilationError",
+    "error": "at 5:11:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n    pid = tl.program_id(0)\n    block_start = pid * block_size\n    offsets = block_start + tl.arange(0, block_size)\n    mask = offsets < N\n           ^\nValueError('Nonrepresentable integer 18446744073709551616.')"
+  },
+  {
+    "dtype": "float8_e4m3fn",
+    "N": 0,
+    "grid": 0,
+    "status": "ordered_comparison_rejected",
+    "error_type": "CompilationError",
+    "error": "at 7:22:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n    pid = tl.program_id(0)\n    block_start = pid * block_size\n    offsets = block_start + tl.arange(0, block_size)\n    mask = offsets < N\n    x = tl.load(x_ptr + offsets, mask=mask)\n    result = tl.where(x >= 0, x, 0.0)\n                      ^\nTypeError('unexpected type fp8e4nv and int32')"
+  },
+  {
+    "dtype": "float8_e4m3fn",
+    "N": 1,
+    "grid": 1,
+    "status": "ordered_comparison_rejected",
+    "error_type": "CompilationError",
+    "error": "at 7:22:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n    pid = tl.program_id(0)\n    block_start = pid * block_size\n    offsets = block_start + tl.arange(0, block_size)\n    mask = offsets < N\n    x = tl.load(x_ptr + offsets, mask=mask)\n    result = tl.where(x >= 0, x, 0.0)\n                      ^\nTypeError('unexpected type fp8e4nv and int32')"
+  },
+  {
+    "dtype": "float8_e4m3fn",
+    "N": 2147483647,
+    "grid": 2097152,
+    "status": "ordered_comparison_rejected",
+    "error_type": "CompilationError",
+    "error": "at 7:22:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n    pid = tl.program_id(0)\n    block_start = pid * block_size\n    offsets = block_start + tl.arange(0, block_size)\n    mask = offsets < N\n    x = tl.load(x_ptr + offsets, mask=mask)\n    result = tl.where(x >= 0, x, 0.0)\n                      ^\nTypeError('unexpected type fp8e4nv and int32')"
+  },
+  {
+    "dtype": "float8_e4m3fn",
+    "N": 2147483648,
+    "grid": 2097152,
+    "status": "ordered_comparison_rejected",
+    "error_type": "CompilationError",
+    "error": "at 7:22:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n    pid = tl.program_id(0)\n    block_start = pid * block_size\n    offsets = block_start + tl.arange(0, block_size)\n    mask = offsets < N\n    x = tl.load(x_ptr + offsets, mask=mask)\n    result = tl.where(x >= 0, x, 0.0)\n                      ^\nTypeError('unexpected type fp8e4nv and int32')"
+  },
+  {
+    "dtype": "float8_e4m3fn",
+    "N": 4294967295,
+    "grid": 4194304,
+    "status": "ordered_comparison_rejected",
+    "error_type": "CompilationError",
+    "error": "at 7:22:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n    pid = tl.program_id(0)\n    block_start = pid * block_size\n    offsets = block_start + tl.arange(0, block_size)\n    mask = offsets < N\n    x = tl.load(x_ptr + offsets, mask=mask)\n    result = tl.where(x >= 0, x, 0.0)\n                      ^\nTypeError('unexpected type fp8e4nv and int32')"
+  },
+  {
+    "dtype": "float8_e4m3fn",
+    "N": 4294967296,
+    "grid": 4194304,
+    "status": "ordered_comparison_rejected",
+    "error_type": "CompilationError",
+    "error": "at 7:22:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n    pid = tl.program_id(0)\n    block_start = pid * block_size\n    offsets = block_start + tl.arange(0, block_size)\n    mask = offsets < N\n    x = tl.load(x_ptr + offsets, mask=mask)\n    result = tl.where(x >= 0, x, 0.0)\n                      ^\nTypeError('unexpected type fp8e4nv and int32')"
+  },
+  {
+    "dtype": "float8_e4m3fn",
+    "N": 2199023254528,
+    "grid": 2147483647,
+    "status": "ordered_comparison_rejected",
+    "error_type": "CompilationError",
+    "error": "at 7:22:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n    pid = tl.program_id(0)\n    block_start = pid * block_size\n    offsets = block_start + tl.arange(0, block_size)\n    mask = offsets < N\n    x = tl.load(x_ptr + offsets, mask=mask)\n    result = tl.where(x >= 0, x, 0.0)\n                      ^\nTypeError('unexpected type fp8e4nv and int32')"
+  },
+  {
+    "dtype": "float8_e4m3fn",
+    "N": 2199023254529,
+    "grid": 2147483648,
+    "status": "ordered_comparison_rejected",
+    "error_type": "CompilationError",
+    "error": "at 7:22:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n    pid = tl.program_id(0)\n    block_start = pid * block_size\n    offsets = block_start + tl.arange(0, block_size)\n    mask = offsets < N\n    x = tl.load(x_ptr + offsets, mask=mask)\n    result = tl.where(x >= 0, x, 0.0)\n                      ^\nTypeError('unexpected type fp8e4nv and int32')"
+  },
+  {
+    "dtype": "float8_e4m3fn",
+    "N": 9223372036854775807,
+    "grid": 9007199254740992,
+    "status": "ordered_comparison_rejected",
+    "error_type": "CompilationError",
+    "error": "at 7:22:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n    pid = tl.program_id(0)\n    block_start = pid * block_size\n    offsets = block_start + tl.arange(0, block_size)\n    mask = offsets < N\n    x = tl.load(x_ptr + offsets, mask=mask)\n    result = tl.where(x >= 0, x, 0.0)\n                      ^\nTypeError('unexpected type fp8e4nv and int32')"
+  },
+  {
+    "dtype": "float8_e4m3fn",
+    "N": 9223372036854775808,
+    "grid": 9007199254740992,
+    "status": "ordered_comparison_rejected",
+    "error_type": "CompilationError",
+    "error": "at 7:22:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n    pid = tl.program_id(0)\n    block_start = pid * block_size\n    offsets = block_start + tl.arange(0, block_size)\n    mask = offsets < N\n    x = tl.load(x_ptr + offsets, mask=mask)\n    result = tl.where(x >= 0, x, 0.0)\n                      ^\nTypeError('unexpected type fp8e4nv and int32')"
+  },
+  {
+    "dtype": "float8_e4m3fn",
+    "N": 18446744073709551615,
+    "grid": 18014398509481984,
+    "status": "ordered_comparison_rejected",
+    "error_type": "CompilationError",
+    "error": "at 7:22:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n    pid = tl.program_id(0)\n    block_start = pid * block_size\n    offsets = block_start + tl.arange(0, block_size)\n    mask = offsets < N\n    x = tl.load(x_ptr + offsets, mask=mask)\n    result = tl.where(x >= 0, x, 0.0)\n                      ^\nTypeError('unexpected type fp8e4nv and int32')"
+  },
+  {
+    "dtype": "float8_e4m3fn",
+    "N": 18446744073709551616,
+    "grid": 18014398509481984,
+    "status": "nonrepresentable_constexpr",
+    "error_type": "CompilationError",
+    "error": "at 5:11:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n    pid = tl.program_id(0)\n    block_start = pid * block_size\n    offsets = block_start + tl.arange(0, block_size)\n    mask = offsets < N\n           ^\nValueError('Nonrepresentable integer 18446744073709551616.')"
+  },
+  {
+    "dtype": "float8_e5m2",
+    "N": 0,
+    "grid": 0,
+    "status": "ordered_comparison_rejected",
+    "error_type": "CompilationError",
+    "error": "at 7:22:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n    pid = tl.program_id(0)\n    block_start = pid * block_size\n    offsets = block_start + tl.arange(0, block_size)\n    mask = offsets < N\n    x = tl.load(x_ptr + offsets, mask=mask)\n    result = tl.where(x >= 0, x, 0.0)\n                      ^\nTypeError('unexpected type fp8e5 and int32')"
+  },
+  {
+    "dtype": "float8_e5m2",
+    "N": 1,
+    "grid": 1,
+    "status": "ordered_comparison_rejected",
+    "error_type": "CompilationError",
+    "error": "at 7:22:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n    pid = tl.program_id(0)\n    block_start = pid * block_size\n    offsets = block_start + tl.arange(0, block_size)\n    mask = offsets < N\n    x = tl.load(x_ptr + offsets, mask=mask)\n    result = tl.where(x >= 0, x, 0.0)\n                      ^\nTypeError('unexpected type fp8e5 and int32')"
+  },
+  {
+    "dtype": "float8_e5m2",
+    "N": 2147483647,
+    "grid": 2097152,
+    "status": "ordered_comparison_rejected",
+    "error_type": "CompilationError",
+    "error": "at 7:22:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n    pid = tl.program_id(0)\n    block_start = pid * block_size\n    offsets = block_start + tl.arange(0, block_size)\n    mask = offsets < N\n    x = tl.load(x_ptr + offsets, mask=mask)\n    result = tl.where(x >= 0, x, 0.0)\n                      ^\nTypeError('unexpected type fp8e5 and int32')"
+  },
+  {
+    "dtype": "float8_e5m2",
+    "N": 2147483648,
+    "grid": 2097152,
+    "status": "ordered_comparison_rejected",
+    "error_type": "CompilationError",
+    "error": "at 7:22:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n    pid = tl.program_id(0)\n    block_start = pid * block_size\n    offsets = block_start + tl.arange(0, block_size)\n    mask = offsets < N\n    x = tl.load(x_ptr + offsets, mask=mask)\n    result = tl.where(x >= 0, x, 0.0)\n                      ^\nTypeError('unexpected type fp8e5 and int32')"
+  },
+  {
+    "dtype": "float8_e5m2",
+    "N": 4294967295,
+    "grid": 4194304,
+    "status": "ordered_comparison_rejected",
+    "error_type": "CompilationError",
+    "error": "at 7:22:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n    pid = tl.program_id(0)\n    block_start = pid * block_size\n    offsets = block_start + tl.arange(0, block_size)\n    mask = offsets < N\n    x = tl.load(x_ptr + offsets, mask=mask)\n    result = tl.where(x >= 0, x, 0.0)\n                      ^\nTypeError('unexpected type fp8e5 and int32')"
+  },
+  {
+    "dtype": "float8_e5m2",
+    "N": 4294967296,
+    "grid": 4194304,
+    "status": "ordered_comparison_rejected",
+    "error_type": "CompilationError",
+    "error": "at 7:22:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n    pid = tl.program_id(0)\n    block_start = pid * block_size\n    offsets = block_start + tl.arange(0, block_size)\n    mask = offsets < N\n    x = tl.load(x_ptr + offsets, mask=mask)\n    result = tl.where(x >= 0, x, 0.0)\n                      ^\nTypeError('unexpected type fp8e5 and int32')"
+  },
+  {
+    "dtype": "float8_e5m2",
+    "N": 2199023254528,
+    "grid": 2147483647,
+    "status": "ordered_comparison_rejected",
+    "error_type": "CompilationError",
+    "error": "at 7:22:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n    pid = tl.program_id(0)\n    block_start = pid * block_size\n    offsets = block_start + tl.arange(0, block_size)\n    mask = offsets < N\n    x = tl.load(x_ptr + offsets, mask=mask)\n    result = tl.where(x >= 0, x, 0.0)\n                      ^\nTypeError('unexpected type fp8e5 and int32')"
+  },
+  {
+    "dtype": "float8_e5m2",
+    "N": 2199023254529,
+    "grid": 2147483648,
+    "status": "ordered_comparison_rejected",
+    "error_type": "CompilationError",
+    "error": "at 7:22:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n    pid = tl.program_id(0)\n    block_start = pid * block_size\n    offsets = block_start + tl.arange(0, block_size)\n    mask = offsets < N\n    x = tl.load(x_ptr + offsets, mask=mask)\n    result = tl.where(x >= 0, x, 0.0)\n                      ^\nTypeError('unexpected type fp8e5 and int32')"
+  },
+  {
+    "dtype": "float8_e5m2",
+    "N": 9223372036854775807,
+    "grid": 9007199254740992,
+    "status": "ordered_comparison_rejected",
+    "error_type": "CompilationError",
+    "error": "at 7:22:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n    pid = tl.program_id(0)\n    block_start = pid * block_size\n    offsets = block_start + tl.arange(0, block_size)\n    mask = offsets < N\n    x = tl.load(x_ptr + offsets, mask=mask)\n    result = tl.where(x >= 0, x, 0.0)\n                      ^\nTypeError('unexpected type fp8e5 and int32')"
+  },
+  {
+    "dtype": "float8_e5m2",
+    "N": 9223372036854775808,
+    "grid": 9007199254740992,
+    "status": "ordered_comparison_rejected",
+    "error_type": "CompilationError",
+    "error": "at 7:22:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n    pid = tl.program_id(0)\n    block_start = pid * block_size\n    offsets = block_start + tl.arange(0, block_size)\n    mask = offsets < N\n    x = tl.load(x_ptr + offsets, mask=mask)\n    result = tl.where(x >= 0, x, 0.0)\n                      ^\nTypeError('unexpected type fp8e5 and int32')"
+  },
+  {
+    "dtype": "float8_e5m2",
+    "N": 18446744073709551615,
+    "grid": 18014398509481984,
+    "status": "ordered_comparison_rejected",
+    "error_type": "CompilationError",
+    "error": "at 7:22:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n    pid = tl.program_id(0)\n    block_start = pid * block_size\n    offsets = block_start + tl.arange(0, block_size)\n    mask = offsets < N\n    x = tl.load(x_ptr + offsets, mask=mask)\n    result = tl.where(x >= 0, x, 0.0)\n                      ^\nTypeError('unexpected type fp8e5 and int32')"
+  },
+  {
+    "dtype": "float8_e5m2",
+    "N": 18446744073709551616,
+    "grid": 18014398509481984,
+    "status": "nonrepresentable_constexpr",
+    "error_type": "CompilationError",
+    "error": "at 5:11:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n    pid = tl.program_id(0)\n    block_start = pid * block_size\n    offsets = block_start + tl.arange(0, block_size)\n    mask = offsets < N\n           ^\nValueError('Nonrepresentable integer 18446744073709551616.')"
+  },
+  {
+    "dtype": "float8_e4m3fnuz",
+    "N": 0,
+    "grid": 0,
+    "status": "unsupported_signature",
+    "error_type": "CompilationError",
+    "error": "at 1:0:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n^\nValueError(\"type fp8e4b8 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")"
+  },
+  {
+    "dtype": "float8_e4m3fnuz",
+    "N": 1,
+    "grid": 1,
+    "status": "unsupported_signature",
+    "error_type": "CompilationError",
+    "error": "at 1:0:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n^\nValueError(\"type fp8e4b8 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")"
+  },
+  {
+    "dtype": "float8_e4m3fnuz",
+    "N": 2147483647,
+    "grid": 2097152,
+    "status": "unsupported_signature",
+    "error_type": "CompilationError",
+    "error": "at 1:0:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n^\nValueError(\"type fp8e4b8 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")"
+  },
+  {
+    "dtype": "float8_e4m3fnuz",
+    "N": 2147483648,
+    "grid": 2097152,
+    "status": "unsupported_signature",
+    "error_type": "CompilationError",
+    "error": "at 1:0:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n^\nValueError(\"type fp8e4b8 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")"
+  },
+  {
+    "dtype": "float8_e4m3fnuz",
+    "N": 4294967295,
+    "grid": 4194304,
+    "status": "unsupported_signature",
+    "error_type": "CompilationError",
+    "error": "at 1:0:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n^\nValueError(\"type fp8e4b8 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")"
+  },
+  {
+    "dtype": "float8_e4m3fnuz",
+    "N": 4294967296,
+    "grid": 4194304,
+    "status": "unsupported_signature",
+    "error_type": "CompilationError",
+    "error": "at 1:0:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n^\nValueError(\"type fp8e4b8 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")"
+  },
+  {
+    "dtype": "float8_e4m3fnuz",
+    "N": 2199023254528,
+    "grid": 2147483647,
+    "status": "unsupported_signature",
+    "error_type": "CompilationError",
+    "error": "at 1:0:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n^\nValueError(\"type fp8e4b8 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")"
+  },
+  {
+    "dtype": "float8_e4m3fnuz",
+    "N": 2199023254529,
+    "grid": 2147483648,
+    "status": "unsupported_signature",
+    "error_type": "CompilationError",
+    "error": "at 1:0:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n^\nValueError(\"type fp8e4b8 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")"
+  },
+  {
+    "dtype": "float8_e4m3fnuz",
+    "N": 9223372036854775807,
+    "grid": 9007199254740992,
+    "status": "unsupported_signature",
+    "error_type": "CompilationError",
+    "error": "at 1:0:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n^\nValueError(\"type fp8e4b8 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")"
+  },
+  {
+    "dtype": "float8_e4m3fnuz",
+    "N": 9223372036854775808,
+    "grid": 9007199254740992,
+    "status": "unsupported_signature",
+    "error_type": "CompilationError",
+    "error": "at 1:0:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n^\nValueError(\"type fp8e4b8 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")"
+  },
+  {
+    "dtype": "float8_e4m3fnuz",
+    "N": 18446744073709551615,
+    "grid": 18014398509481984,
+    "status": "unsupported_signature",
+    "error_type": "CompilationError",
+    "error": "at 1:0:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n^\nValueError(\"type fp8e4b8 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")"
+  },
+  {
+    "dtype": "float8_e4m3fnuz",
+    "N": 18446744073709551616,
+    "grid": 18014398509481984,
+    "status": "unsupported_signature",
+    "error_type": "CompilationError",
+    "error": "at 1:0:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n^\nValueError(\"type fp8e4b8 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")"
+  },
+  {
+    "dtype": "float8_e5m2fnuz",
+    "N": 0,
+    "grid": 0,
+    "status": "unsupported_signature",
+    "error_type": "CompilationError",
+    "error": "at 1:0:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n^\nValueError(\"type fp8e5b16 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")"
+  },
+  {
+    "dtype": "float8_e5m2fnuz",
+    "N": 1,
+    "grid": 1,
+    "status": "unsupported_signature",
+    "error_type": "CompilationError",
+    "error": "at 1:0:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n^\nValueError(\"type fp8e5b16 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")"
+  },
+  {
+    "dtype": "float8_e5m2fnuz",
+    "N": 2147483647,
+    "grid": 2097152,
+    "status": "unsupported_signature",
+    "error_type": "CompilationError",
+    "error": "at 1:0:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n^\nValueError(\"type fp8e5b16 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")"
+  },
+  {
+    "dtype": "float8_e5m2fnuz",
+    "N": 2147483648,
+    "grid": 2097152,
+    "status": "unsupported_signature",
+    "error_type": "CompilationError",
+    "error": "at 1:0:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n^\nValueError(\"type fp8e5b16 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")"
+  },
+  {
+    "dtype": "float8_e5m2fnuz",
+    "N": 4294967295,
+    "grid": 4194304,
+    "status": "unsupported_signature",
+    "error_type": "CompilationError",
+    "error": "at 1:0:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n^\nValueError(\"type fp8e5b16 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")"
+  },
+  {
+    "dtype": "float8_e5m2fnuz",
+    "N": 4294967296,
+    "grid": 4194304,
+    "status": "unsupported_signature",
+    "error_type": "CompilationError",
+    "error": "at 1:0:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n^\nValueError(\"type fp8e5b16 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")"
+  },
+  {
+    "dtype": "float8_e5m2fnuz",
+    "N": 2199023254528,
+    "grid": 2147483647,
+    "status": "unsupported_signature",
+    "error_type": "CompilationError",
+    "error": "at 1:0:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n^\nValueError(\"type fp8e5b16 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")"
+  },
+  {
+    "dtype": "float8_e5m2fnuz",
+    "N": 2199023254529,
+    "grid": 2147483648,
+    "status": "unsupported_signature",
+    "error_type": "CompilationError",
+    "error": "at 1:0:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n^\nValueError(\"type fp8e5b16 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")"
+  },
+  {
+    "dtype": "float8_e5m2fnuz",
+    "N": 9223372036854775807,
+    "grid": 9007199254740992,
+    "status": "unsupported_signature",
+    "error_type": "CompilationError",
+    "error": "at 1:0:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n^\nValueError(\"type fp8e5b16 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")"
+  },
+  {
+    "dtype": "float8_e5m2fnuz",
+    "N": 9223372036854775808,
+    "grid": 9007199254740992,
+    "status": "unsupported_signature",
+    "error_type": "CompilationError",
+    "error": "at 1:0:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n^\nValueError(\"type fp8e5b16 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")"
+  },
+  {
+    "dtype": "float8_e5m2fnuz",
+    "N": 18446744073709551615,
+    "grid": 18014398509481984,
+    "status": "unsupported_signature",
+    "error_type": "CompilationError",
+    "error": "at 1:0:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n^\nValueError(\"type fp8e5b16 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")"
+  },
+  {
+    "dtype": "float8_e5m2fnuz",
+    "N": 18446744073709551616,
+    "grid": 18014398509481984,
+    "status": "unsupported_signature",
+    "error_type": "CompilationError",
+    "error": "at 1:0:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n^\nValueError(\"type fp8e5b16 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")"
+  },
+  {
+    "dtype": "complex32",
+    "N": 0,
+    "grid": 0,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "dtype": "complex32",
+    "N": 1,
+    "grid": 1,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "dtype": "complex32",
+    "N": 2147483647,
+    "grid": 2097152,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "dtype": "complex32",
+    "N": 2147483648,
+    "grid": 2097152,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "dtype": "complex32",
+    "N": 4294967295,
+    "grid": 4194304,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "dtype": "complex32",
+    "N": 4294967296,
+    "grid": 4194304,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "dtype": "complex32",
+    "N": 2199023254528,
+    "grid": 2147483647,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "dtype": "complex32",
+    "N": 2199023254529,
+    "grid": 2147483648,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "dtype": "complex32",
+    "N": 9223372036854775807,
+    "grid": 9007199254740992,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "dtype": "complex32",
+    "N": 9223372036854775808,
+    "grid": 9007199254740992,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "dtype": "complex32",
+    "N": 18446744073709551615,
+    "grid": 18014398509481984,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "dtype": "complex32",
+    "N": 18446744073709551616,
+    "grid": 18014398509481984,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "dtype": "complex64",
+    "N": 0,
+    "grid": 0,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "dtype": "complex64",
+    "N": 1,
+    "grid": 1,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "dtype": "complex64",
+    "N": 2147483647,
+    "grid": 2097152,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "dtype": "complex64",
+    "N": 2147483648,
+    "grid": 2097152,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "dtype": "complex64",
+    "N": 4294967295,
+    "grid": 4194304,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "dtype": "complex64",
+    "N": 4294967296,
+    "grid": 4194304,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "dtype": "complex64",
+    "N": 2199023254528,
+    "grid": 2147483647,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "dtype": "complex64",
+    "N": 2199023254529,
+    "grid": 2147483648,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "dtype": "complex64",
+    "N": 9223372036854775807,
+    "grid": 9007199254740992,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "dtype": "complex64",
+    "N": 9223372036854775808,
+    "grid": 9007199254740992,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "dtype": "complex64",
+    "N": 18446744073709551615,
+    "grid": 18014398509481984,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "dtype": "complex64",
+    "N": 18446744073709551616,
+    "grid": 18014398509481984,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "dtype": "complex128",
+    "N": 0,
+    "grid": 0,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "dtype": "complex128",
+    "N": 1,
+    "grid": 1,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "dtype": "complex128",
+    "N": 2147483647,
+    "grid": 2097152,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "dtype": "complex128",
+    "N": 2147483648,
+    "grid": 2097152,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "dtype": "complex128",
+    "N": 4294967295,
+    "grid": 4194304,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "dtype": "complex128",
+    "N": 4294967296,
+    "grid": 4194304,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "dtype": "complex128",
+    "N": 2199023254528,
+    "grid": 2147483647,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "dtype": "complex128",
+    "N": 2199023254529,
+    "grid": 2147483648,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "dtype": "complex128",
+    "N": 9223372036854775807,
+    "grid": 9007199254740992,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "dtype": "complex128",
+    "N": 9223372036854775808,
+    "grid": 9007199254740992,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "dtype": "complex128",
+    "N": 18446744073709551615,
+    "grid": 18014398509481984,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "dtype": "complex128",
+    "N": 18446744073709551616,
+    "grid": 18014398509481984,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "dtype": "float8_e8m0fnu",
+    "N": 0,
+    "grid": 0,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "dtype": "float8_e8m0fnu",
+    "N": 1,
+    "grid": 1,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "dtype": "float8_e8m0fnu",
+    "N": 2147483647,
+    "grid": 2097152,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "dtype": "float8_e8m0fnu",
+    "N": 2147483648,
+    "grid": 2097152,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "dtype": "float8_e8m0fnu",
+    "N": 4294967295,
+    "grid": 4194304,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "dtype": "float8_e8m0fnu",
+    "N": 4294967296,
+    "grid": 4194304,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "dtype": "float8_e8m0fnu",
+    "N": 2199023254528,
+    "grid": 2147483647,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "dtype": "float8_e8m0fnu",
+    "N": 2199023254529,
+    "grid": 2147483648,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "dtype": "float8_e8m0fnu",
+    "N": 9223372036854775807,
+    "grid": 9007199254740992,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "dtype": "float8_e8m0fnu",
+    "N": 9223372036854775808,
+    "grid": 9007199254740992,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "dtype": "float8_e8m0fnu",
+    "N": 18446744073709551615,
+    "grid": 18014398509481984,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "dtype": "float8_e8m0fnu",
+    "N": 18446744073709551616,
+    "grid": 18014398509481984,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "dtype": "float4_e2m1fn_x2",
+    "N": 0,
+    "grid": 0,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  },
+  {
+    "dtype": "float4_e2m1fn_x2",
+    "N": 1,
+    "grid": 1,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  },
+  {
+    "dtype": "float4_e2m1fn_x2",
+    "N": 2147483647,
+    "grid": 2097152,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  },
+  {
+    "dtype": "float4_e2m1fn_x2",
+    "N": 2147483648,
+    "grid": 2097152,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  },
+  {
+    "dtype": "float4_e2m1fn_x2",
+    "N": 4294967295,
+    "grid": 4194304,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  },
+  {
+    "dtype": "float4_e2m1fn_x2",
+    "N": 4294967296,
+    "grid": 4194304,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  },
+  {
+    "dtype": "float4_e2m1fn_x2",
+    "N": 2199023254528,
+    "grid": 2147483647,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  },
+  {
+    "dtype": "float4_e2m1fn_x2",
+    "N": 2199023254529,
+    "grid": 2147483648,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  },
+  {
+    "dtype": "float4_e2m1fn_x2",
+    "N": 9223372036854775807,
+    "grid": 9007199254740992,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  },
+  {
+    "dtype": "float4_e2m1fn_x2",
+    "N": 9223372036854775808,
+    "grid": 9007199254740992,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  },
+  {
+    "dtype": "float4_e2m1fn_x2",
+    "N": 18446744073709551615,
+    "grid": 18014398509481984,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  },
+  {
+    "dtype": "float4_e2m1fn_x2",
+    "N": 18446744073709551616,
+    "grid": 18014398509481984,
+    "status": "missing_signature_map",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  }
+]

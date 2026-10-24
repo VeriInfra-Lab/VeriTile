@@ -6,10 +6,10 @@ open VeriTile.Triton
 
 /-- Index construction cannot access memory, including degenerate tiles. -/
 theorem prefix_safe (bounds : RegionBounds) (p : Parameters) (s : BlockState) :
-    Stmt.TraceSafeList bounds (prefix p) s := by
+    Stmt.TraceSafeList bounds («prefix» p) s := by
   apply TraceProofs.all_safe
   intro st hst t
-  simp only [prefix, List.mem_cons, List.not_mem_nil, or_false] at hst
+  simp only [«prefix», List.mem_cons, List.not_mem_nil, or_false] at hst
   rcases hst with rfl | rfl | rfl | rfl | rfl | rfl <;>
     simp [Stmt.TraceSafe, Op.SafeAt, Op.SafeAt.eq_def]
 

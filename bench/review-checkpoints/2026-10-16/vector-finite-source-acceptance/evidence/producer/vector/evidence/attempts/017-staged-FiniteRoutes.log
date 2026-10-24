@@ -1,0 +1,15 @@
+VeriTile.Bench.TritonBenchG.VectorAddition.Finite.sourceCell: definition does not reference [VeriTile.Bench.TritonBenchG.VectorAddition.TypedHost.execute,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Finite.runLive,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Finite.runLoaded] — non-circular ✓
+VeriTile.Bench.TritonBenchG.VectorAddition.Finite.sourceCell_scalar: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAddition.Finite.output_cell_of_project: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAddition.Finite.physical_output_matches: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAddition.Finite.physical_schedule_output: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

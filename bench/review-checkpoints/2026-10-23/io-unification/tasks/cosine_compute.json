@@ -1,0 +1,242 @@
+{
+  "schema": 1,
+  "task": "cosine_compute",
+  "status": "unchanged",
+  "owner": {
+    "path": ".veritile-cache/io-unification-20261023/queue04/result.json",
+    "sha256": "e8f49ce67be90394dcbcc10279a931d87caf255ee7796ff9a2033a0416f7ec9d",
+    "task_index": 2
+  },
+  "reason": "No standalone logical IO/view module exists in the selected interface; source already needs no such consolidation.",
+  "selected_public_entries": [
+    "bench/repairs/tritonbench_g/cosine_compute/Contract.lean",
+    "bench/repairs/tritonbench_g/cosine_compute/Correct.lean",
+    "bench/repairs/tritonbench_g/cosine_compute/FPEquiv.lean"
+  ],
+  "previous_semantic_review": {
+    "manifest": {
+      "path": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json",
+      "sha256": "5df771b8603eaf5d9f08b4fde0c5b938c18087c00092f5348b47eb54d33a8225"
+    },
+    "task": "cosine_compute"
+  },
+  "changed_files": [],
+  "removed_files": [],
+  "moved_declarations": [],
+  "preservation": {
+    "source_body_check": {
+      "path": ".veritile-cache/io-unification-20261023/queue04/source-audit.json",
+      "sha256": "30d72a10ac5f7b92de8d63251b63b3c76657f1a978b40e1a541633f42a35a0ae"
+    },
+    "moved_definition_bytes": {
+      "path": ".veritile-cache/io-unification-20261023/queue04/preservation-audit.json",
+      "sha256": "0762a2bfcf184b3de30ac68e376a27dd99ce84ad2237103b66ad7d41b3300210"
+    },
+    "original_public_statements": {
+      "path": ".veritile-cache/io-unification-20261023/queue04/preservation/cosine_compute.lean",
+      "sha256": "a1d190d34518f91600b5303b757e9affe14be938054d6ebf1eebd869fb52185f"
+    },
+    "public_entries_body_unchanged_except_imports": true,
+    "math_formulas_conditions_execution_safety_outputs_frames_and_fp_pair_unchanged": true
+  },
+  "verification": [
+    {
+      "kind": "final-source-audit",
+      "command": [
+        "/usr/local/bin/python",
+        ".veritile-cache/io-unification-20261023/queue04/source_audit.py"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue04/final-source-audit.log",
+      "log_sha256": "21907a6fe4f7980431c5006e4d6995b78eb6e9697fde8e3df16ad9bcf0a72ef1"
+    },
+    {
+      "kind": "final-joint-cosine_compute",
+      "command": [
+        "/usr/local/bin/python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue04/build.py",
+        "--check",
+        ".veritile-cache/io-unification-20261023/queue04/joint/cosine_compute.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue04/final-joint-cosine_compute.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "kind": "final-preservation-cosine_compute",
+      "command": [
+        "/usr/local/bin/python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue04/build.py",
+        "--check",
+        ".veritile-cache/io-unification-20261023/queue04/preservation/cosine_compute.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue04/final-preservation-cosine_compute.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "verification_status": "unchanged_reused",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/cosine_compute/Contract.lean": "b287dbd4cd7d719d4b575c1ac1dbe782b64fd4db9091016ffac63f21d6374bab",
+    "bench/repairs/tritonbench_g/cosine_compute/Correct.lean": "df9969b8c583eaacb2dd891024fc2805896d468869d47902fa0a17cc5e5adf4c",
+    "bench/repairs/tritonbench_g/cosine_compute/FPEquiv.lean": "8d8e50c1f5f129da99d09e707a8366c9837e3ab8c174e9dcd009d36af0af7b05",
+    "bench/repairs/tritonbench_g/cosine_compute/IO.lean": "1f11315261540d3c594c813a896f243a0d6109f538736bdc8be678b80a8374ac",
+    "bench/repairs/tritonbench_g/cosine_compute/Kernels.lean": "1ace69a50e42f5cf602b49d02c984a7a84df68356d58338a4fdfa573e6724c50",
+    "bench/repairs/tritonbench_g/cosine_compute/Proofs/Projection.lean": "e491459a36d94085a3a673be6d9585391e6c858cfe6d1d9d5ea1bc5560bca62f",
+    "bench/repairs/tritonbench_g/cosine_compute/Proofs/ReaderFP.lean": "0b8891c3406094c3f530887fd48e52225474ba05af86a290811ae38099a68fe1",
+    "bench/repairs/tritonbench_g/cosine_compute/Proofs/ReaderReal.lean": "85f3bb57c9632c1971afe37cfb67fbf01835e4c76201b846a70bd7e2ae8f9c92",
+    "bench/repairs/tritonbench_g/cosine_compute/Proofs/Rewrite.lean": "444a61b38c984ead01fee9a91b0f4e17444dac62aba64d50d0373b6613545768",
+    "bench/tritonbench_g/cache_transform_triton/Proofs/IndexRewrite.lean": "1fcf52d6252a5071c4f1df32e18ff628aa2e772265806944744db0a25b342b91",
+    "bench/tritonbench_g/cosine_compute/Kernels.lean": "12186c73e9eab875486d9dadcef6ec42f512d65a590304a4e5b49d4d747f0632",
+    "bench/tritonbench_g/cosine_compute/Proofs/Real.lean": "684e4701ea75b3f9d8cd8c6b433d4ac44d0a49b23d523f038a344f21b8f32462",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8",
+    "bench/repairs/tritonbench_g/cosine_compute/Misc/HostCorrect.lean": "a4c790767652e9f2dcd07d5da985f8812f17c30fd2370d1de877727c92c81a7a",
+    "bench/repairs/tritonbench_g/cosine_compute/Misc/HostFPEquiv.lean": "642946a2e3abf67ac801dea398d23da102db265ce014b9ab751df90d5ea9afe8",
+    "bench/repairs/tritonbench_g/cosine_compute/Misc/SourceBinding.lean": "dc9dfe6809c7f83218f80f84f057836903baaf47c29467f84d55955d425295af",
+    "bench/repairs/tritonbench_g/cosine_compute/Misc/TensorBridge.lean": "6bc7887d906bb39638bd1ca932b69843e1c1d16d064f595d135f7664389f6192",
+    "bench/repairs/tritonbench_g/cosine_compute/Proofs/Contract.lean": "6f4a05ed04bdd5018745c728bbaddcd777f3c8cd4cc8bf4917e8fc420ae3a191",
+    "bench/repairs/tritonbench_g/cosine_compute/Proofs/Host.lean": "b422a7ef12c710a01663b7398ee7a427bd26c581e0fdf4bc49be00cf8cf91b9c",
+    "bench/repairs/tritonbench_g/cosine_compute/Proofs/Index.lean": "a8eafbef19c04f50cc5297ba875fc45e011a98d17ef89cbeae9ca66f2fa363c1",
+    "bench/repairs/tritonbench_g/cosine_compute/Proofs/LegacySource.lean": "b79a3d67d8dfc424eb3df2aa3b61bb194337bbef841169aaddcf51254c1ac276",
+    "bench/repairs/tritonbench_g/cosine_compute/Proofs/Native.lean": "35a78eb232c63044e7785642d9f4ce93be6d01eb3e4d222c33ce3bd7946df2d6",
+    "bench/repairs/tritonbench_g/cosine_compute/Proofs/Real.lean": "cf88afd53fc15b675a7a7e5c89fc6d57dfa43559240f975f61c0ca56f6ecd67f"
+  },
+  "source_pin_provenance": {
+    "bench/repairs/tritonbench_g/cosine_compute/Contract.lean": {
+      "owner_tasks": [
+        "cosine_compute"
+      ]
+    },
+    "bench/repairs/tritonbench_g/cosine_compute/Correct.lean": {
+      "owner_tasks": [
+        "cosine_compute"
+      ]
+    },
+    "bench/repairs/tritonbench_g/cosine_compute/FPEquiv.lean": {
+      "owner_tasks": [
+        "cosine_compute"
+      ]
+    },
+    "bench/repairs/tritonbench_g/cosine_compute/IO.lean": {
+      "owner_tasks": [
+        "cosine_compute"
+      ]
+    },
+    "bench/repairs/tritonbench_g/cosine_compute/Kernels.lean": {
+      "owner_tasks": [
+        "cosine_compute"
+      ]
+    },
+    "bench/repairs/tritonbench_g/cosine_compute/Proofs/Projection.lean": {
+      "owner_tasks": [
+        "cosine_compute"
+      ]
+    },
+    "bench/repairs/tritonbench_g/cosine_compute/Proofs/ReaderFP.lean": {
+      "owner_tasks": [
+        "cosine_compute"
+      ]
+    },
+    "bench/repairs/tritonbench_g/cosine_compute/Proofs/ReaderReal.lean": {
+      "owner_tasks": [
+        "cosine_compute"
+      ]
+    },
+    "bench/repairs/tritonbench_g/cosine_compute/Proofs/Rewrite.lean": {
+      "owner_tasks": [
+        "cosine_compute"
+      ]
+    },
+    "bench/tritonbench_g/cache_transform_triton/Proofs/IndexRewrite.lean": {
+      "unchanged_prior_pin": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json"
+    },
+    "bench/tritonbench_g/cosine_compute/Kernels.lean": {
+      "unchanged_prior_pin": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json"
+    },
+    "bench/tritonbench_g/cosine_compute/Proofs/Real.lean": {
+      "unchanged_prior_pin": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json"
+    },
+    "VeriTile/Triton/Memory/LogicalIO.lean": {
+      "owner_tasks": [
+        "mixed_sparse_attention",
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "bench/repairs/tritonbench_g/cosine_compute/Misc/HostCorrect.lean": {
+      "owner_tasks": [
+        "cosine_compute"
+      ]
+    },
+    "bench/repairs/tritonbench_g/cosine_compute/Misc/HostFPEquiv.lean": {
+      "owner_tasks": [
+        "cosine_compute"
+      ]
+    },
+    "bench/repairs/tritonbench_g/cosine_compute/Misc/SourceBinding.lean": {
+      "owner_tasks": [
+        "cosine_compute"
+      ]
+    },
+    "bench/repairs/tritonbench_g/cosine_compute/Misc/TensorBridge.lean": {
+      "owner_tasks": [
+        "cosine_compute"
+      ]
+    },
+    "bench/repairs/tritonbench_g/cosine_compute/Proofs/Contract.lean": {
+      "owner_tasks": [
+        "cosine_compute"
+      ]
+    },
+    "bench/repairs/tritonbench_g/cosine_compute/Proofs/Host.lean": {
+      "owner_tasks": [
+        "cosine_compute"
+      ]
+    },
+    "bench/repairs/tritonbench_g/cosine_compute/Proofs/Index.lean": {
+      "owner_tasks": [
+        "cosine_compute"
+      ]
+    },
+    "bench/repairs/tritonbench_g/cosine_compute/Proofs/LegacySource.lean": {
+      "owner_tasks": [
+        "cosine_compute"
+      ]
+    },
+    "bench/repairs/tritonbench_g/cosine_compute/Proofs/Native.lean": {
+      "owner_tasks": [
+        "cosine_compute"
+      ]
+    },
+    "bench/repairs/tritonbench_g/cosine_compute/Proofs/Real.lean": {
+      "owner_tasks": [
+        "cosine_compute"
+      ]
+    }
+  },
+  "retired_current_source_pins": {},
+  "limits": [],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/io-unification-20261023/queue16/result.json",
+    "sha256": "12f6dd5ed523e9f723fee3847af964fd8987958c2cb997aa572210c04de5bc84"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

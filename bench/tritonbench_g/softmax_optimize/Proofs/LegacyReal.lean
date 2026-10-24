@@ -1,3 +1,4 @@
+import VeriTile.Triton.Math.MaximumProjection
 import bench.tritonbench_g.softmax_optimize.Kernels
 
 /-!
@@ -478,8 +479,7 @@ def loopAbody (input_ptr : RegionName) (N TILE_N : Nat) : List Stmt :=
     Stmt.assign .real [TILE_N] "inp"
       (Op.load .real (MemAccess.ptr (Op.ref .ptr [TILE_N] "input_ptrs")) MaskOpt.none),
     Stmt.assign .real [TILE_N] "new_m"
-      ((Op.gt ComparableDType.real Broadcast.nil.consSame (Op.ref .real [TILE_N] "m")
-          (Op.ref .real [TILE_N] "inp")).where
+      (Op.maximumFloat .real Broadcast.nil.consSame
         (Op.ref .real [TILE_N] "m") (Op.ref .real [TILE_N] "inp")),
     Stmt.assign .real [TILE_N] "new_z"
       (Op.add NumericDType.real Broadcast.nil.consSame
@@ -560,7 +560,7 @@ theorem loopA_body_step (N TILE_N : Nat) (input_ptr : RegionName) (c : Nat) (s :
       rfl))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (v := Tile.mk (bodyMv N TILE_N c s input_ptr mfun zfun)) (by
-      rw [evalOp_where, evalOp_gt]
+      erw [evalOp_maximumFloat_real_vec, evalOp_where, evalOp_gt]
       simp only [evalOp_ref, BlockState.setReg_same, BlockState.setReg_ne_name, ne_eq,
         String.reduceEq, not_false_eq_true, Option.bind_some, Option.bind_eq_bind, hm]
       congr 1
@@ -844,8 +844,7 @@ def loopBbody (input_ptr : RegionName) (N TILE_N : Nat) : List Stmt :=
       (Op.load .real (MemAccess.ptr (Op.ref .ptr [TILE_N] "input_ptrs"))
         (MaskOpt.maskOther (Op.ref .bool [TILE_N] "mask") (Op.negInf.broadcast [TILE_N]))),
     Stmt.assign .real [TILE_N] "new_m"
-      ((Op.gt ComparableDType.real Broadcast.nil.consSame (Op.ref .real [TILE_N] "m")
-          (Op.ref .real [TILE_N] "inp")).where
+      (Op.maximumFloat .real Broadcast.nil.consSame
         (Op.ref .real [TILE_N] "m") (Op.ref .real [TILE_N] "inp")),
     Stmt.assign .real [TILE_N] "new_z"
       (Op.add NumericDType.real Broadcast.nil.consSame
@@ -961,7 +960,7 @@ theorem loopB_body_step (N TILE_N : Nat) (input_ptr : RegionName) (c : Nat) (s :
   -- new_m = where(m > inp, m, inp) = bodyMvB
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (v := Tile.mk (bodyMvB N TILE_N c s input_ptr mfun)) (by
-      rw [evalOp_where, evalOp_gt]
+      erw [evalOp_maximumFloat_real_vec, evalOp_where, evalOp_gt]
       simp only [evalOp_ref, BlockState.setReg_same, BlockState.setReg_ne_name, ne_eq,
         String.reduceEq, not_false_eq_true, Option.bind_some, Option.bind_eq_bind, hm]
       congr 1

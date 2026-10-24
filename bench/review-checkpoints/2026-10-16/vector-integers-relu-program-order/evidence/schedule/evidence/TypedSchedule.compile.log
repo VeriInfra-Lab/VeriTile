@@ -1,0 +1,26 @@
+VeriTile.Bench.TritonBenchG.VectorAddition.TypedFloat.scheduledMemory: definition does not reference [VeriTile.Bench.TritonBenchG.VectorAddition.TypedFloat.runScheduleAux,
+ VeriTile.Bench.TritonBenchG.VectorAddition.TypedFloat.runSchedule,
+ VeriTile.Bench.TritonBenchG.VectorAddition.TypedFloat.materialized,
+ VeriTile.Bench.TritonBenchG.VectorAddition.TypedFloat.source,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.TritonBenchG.VectorAddition.TypedFloat.program_window_iff: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.VectorAddition.TypedFloat.scheduled_fresh_inputs: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAddition.TypedFloat.scheduled_reference_step: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAddition.TypedFloat.schedule_aux_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAddition.TypedFloat.schedule_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAddition.TypedFloat.complete_scheduled_memory: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAddition.TypedFloat.complete_schedule_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

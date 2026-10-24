@@ -1,0 +1,19 @@
+# Combined numerical A+C independent review
+
+No blocking issue found for ordinary immutable JSON inputs.
+
+A caches rule canonical hashes and unique scope-binding maps only within validate_deferrals. Values are computed lazily at the original validation points and every item still passes rule status/task/kind/hash/schema/case/declaration/callback/follow-up/duplicate checks. No cross-call authority or acceptance cache exists.
+
+Triple-key lookup preserves old declaration-dictionary equality for ordinary JSON because validate_deferrals retains the exact three-field schema file/declaration/statement_sha256 and requires nonempty strings with canonical SHA256. The index maps every declaration and canonical dtype/configuration to a set of all binding keys, so repeated callback ports are not collapsed.
+
+C moves the original local reference-consistency loop ahead of source authority. It only rejects malformed, duplicate, undeferred or callback-incompatible references and returns the same key sets. It does not establish source authority or accept a row.
+
+For ordinary immutable JSON, successful conditions remain D and E and N and R and U. Order changes from deferrals/authority/names/references/usage to deferrals/references/authority/names/usage. Multiply-invalid rows can now report reference errors before source-authority, queue or callback-name errors. Existing malformed unhashable-ID TypeError behavior is outside schema and remains unnormalized.
+
+Every successful exact-queue invocation still calls unchanged validated_exact_requirements, which derives source authority, collects legacy authority and validates queue equality before callback-name equality, exact case ports, required IDs, and both final complete-use equalities. The legacy no-exact branch remains unchanged and may skip expensive derivation as before.
+
+The independently rerun six tests import the full combined production module. They use real exact queue/port checks with only source/legacy derivation fixtures: omitted references reject early; removing both deferral and link still fails exact ports; repeated valid calls rederive; later authority failure and stale queue are rejected; missing callback names require authority; changed multiply-invalid priority is demonstrated.
+
+The original 204 bounded function executions and production-shaped omission evidence are receipt-verified and reviewed, not represented as independently rerun production authority validation or timing. Full positive source-authority replay and existing production regression suites remain postintegration work.
+
+No application, full-authority replay, approval or acceptance occurred.

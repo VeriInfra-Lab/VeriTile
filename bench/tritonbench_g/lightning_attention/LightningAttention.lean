@@ -1,4 +1,5 @@
 import VeriTile.Triton
+import VeriTile.Meta.StatementAudit
 
 /-!
 # `lightning_attention` — strict per-kernel correctness
@@ -1068,6 +1069,22 @@ def lightning_attention_bwd_inter_surface
   }
 }
 
+private theorem listToAlgorithm_cons_forRangeInt
+    (idx : RegName) (start stop : Op .int []) (step : Op .nat [])
+    (body rest : List ComputeStmt) :
+    ComputeStmt.listToAlgorithm?
+        (ComputeStmt.forRangeInt idx start stop step body :: rest) =
+      match ComputeStmt.listToAlgorithm? body, ComputeStmt.listToAlgorithm? rest with
+      | Except.ok body', Except.ok rest' =>
+          Except.ok (Stmt.forRangeInt idx start stop step body' :: rest')
+      | Except.error e, _ => Except.error e
+      | _, Except.error e => Except.error e := by
+  simp only [ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?]
+  cases ComputeStmt.listToAlgorithm? body <;>
+    cases ComputeStmt.listToAlgorithm? rest <;> rfl
+
+attribute [local simp] listToAlgorithm_cons_forRangeInt
+
 /-- The inter-block backward surface lowers with the Python forward and reverse
 loop nests preserved. -/
 theorem lightning_attention_bwd_inter_surface_toAlgorithm_supported
@@ -1862,3 +1879,5 @@ end IOFace
 
 end VeriTile.Bench.TritonBenchG.LightningAttention
 
+
+#auditModuleAxioms

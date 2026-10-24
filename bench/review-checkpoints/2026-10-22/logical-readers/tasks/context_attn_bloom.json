@@ -1,0 +1,109 @@
+{
+  "schema": 1,
+  "task": "context_attn_bloom",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue03/result.json",
+    "sha256": "84baaed0bf9ee3c3b7df395dc0c6e51319c126392fee2a5b98fcea2c5b82f581",
+    "task_index": 9
+  },
+  "finding": "Irregular inputs needed actual logical mathematical coordinates; renaming 1D raw storage roles would not fix the reader.",
+  "resolution": "Added actual launch/row/feature query/key/value Arrays and signed metadata, plus complete finite Backing in a graph Inputs with unique connection equality. Every old backing has exactly one logical graph value. The independent guarded normalized-block recurrence reads Arrays directly.",
+  "mathematical_target": "Mathematics.score displays logical-D QK and finite -100000000 causal sentinel; numerator/denominator show all visited padded lanes; expected is the guarded normalized-block recurrence, not an ordinary whole-length normalized attention quotient.",
+  "conditions_and_scope": "All complete metadata-selected original grid/lane outputs including original empty grid. The future-block guard retains unscaled prior accumulator behavior and finite-sentinel denominator/numerator contributions. Raw.Geometry, Regions, RegionBounds and PublicDomain.real retained via ImplementsOn. Geometry/source stride/capacity and finite metadata checks, actual raw layout, typed channels, unique active output ownership, source safety/success and exact frame remain public through IO/domain. No desired-output premise.",
+  "proof_connection": "inputs is bijective, so its connection field is not an added domain restriction. full_judgment_iff retains the exact PublicDomain.real and complete old ImplementsOn. correct_recurrence owns the recurrence induction and correct_arrays owns routing/source assembly in Proofs.",
+  "fp_review": "Read the entire selected FPEquiv.lean; unchanged and hash-equal to both prior selected evidence and this campaign snapshot. PairIO.original versus indexShared, actual metadata-selected full schedules with arbitrary WordISA and all word/tag values under unchanged PublicDomain.native. Native observer, sentinel, guard, FP32 casts/TF32/FMA graph and empty branch retained.",
+  "numerical_dependencies": "Empty experiments. Exact origin-address reuse and full source-state/trace-safety equality.",
+  "previous_formula_scope": {
+    "mathematical_target": "Mathematics.score displays logical-D QK and finite -100000000 causal sentinel; numerator/denominator show all visited padded lanes; expected is the guarded normalized-block recurrence, not an ordinary whole-length normalized attention quotient.",
+    "required_conditions": "Raw.Geometry, Regions, RegionBounds and PublicDomain.real retained via ImplementsOn. Geometry/source stride/capacity and finite metadata checks, actual raw layout, typed channels, unique active output ownership, source safety/success and exact frame remain public through IO/domain. No desired-output premise.",
+    "scope": "All complete metadata-selected original grid/lane outputs including original empty grid. The future-block guard retains unscaled prior accumulator behavior and finite-sentinel denominator/numerator contributions.",
+    "canonical_connection": "Local induction proves displayed expected equals canonical Formula.expected for all block counts, then target_eq gives mathematical = RealKernelIO.formula; public_implements supplies source correctness.",
+    "fp_program_pair": "PairIO.original versus indexShared, actual metadata-selected full schedules with arbitrary WordISA and all word/tag values under unchanged PublicDomain.native. Native observer, sentinel, guard, FP32 casts/TF32/FMA graph and empty branch retained.",
+    "numerical_dependencies": "Empty experiments. Exact origin-address reuse and full source-state/trace-safety equality."
+  },
+  "verification": [
+    {
+      "kind": "targeted_logical_io_helpers_correct_source_and_direct_dependency_check",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue03/final_build.py"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue03/final-build.log",
+      "log_sha256": "6d41b5e23851110623d620f5c7d5427049dedd1dfa98ca919f03812c7769c050",
+      "verification_record": ".veritile-cache/logical-reader-review-20261022/queue03/final-build-verification.json",
+      "verification_record_sha256": "49e363435ca0d92c42a5697283884d2d74443d5552a00dcee5e0b8d5d103088b",
+      "modules": [
+        "bench/repairs/tritonbench_g/context_attn_bloom/LogicalIO.lean",
+        "bench/repairs/tritonbench_g/context_attn_bloom/Proofs/LogicalIO.lean",
+        "bench/repairs/tritonbench_g/context_attn_bloom/Correct.lean"
+      ]
+    },
+    {
+      "kind": "fresh_task_local_imports",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue03/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue03/context_attn_bloom-joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue03/context_attn_bloom-joint.log",
+      "verification_record": ".veritile-cache/logical-reader-review-20261022/queue03/context_attn_bloom-joint-verification.json",
+      "verification_record_sha256": "357a482fca6fe03f7959afe340bc226f4de593e2b47bcb7e18402196a387385a",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fixture": ".veritile-cache/logical-reader-review-20261022/queue03/context_attn_bloom-joint.lean",
+      "fixture_sha256": "f2f267a82226871e44da33812232dd717f5457097bb039ef30d1552d5402d811"
+    },
+    {
+      "kind": "reused_prior_full_selected_fp_build_with_identical_current_source",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/headline-formulas-20261022/build.py",
+        "bench/repairs/tritonbench_g/context_attn_bloom/FPEquiv.lean",
+        "bench/repairs/tritonbench_g/context_attn_fwd/FPEquiv.lean",
+        "bench/repairs/tritonbench_g/context_attn_llama/KernelOnly/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/headline-formulas-20261022/queue03/fp-batch4.log",
+      "log_sha256": "440c30a6d601b31150211d03f2148be09b84505b8bd4f20e27aaf3a5b9e68db2",
+      "source": "bench/repairs/tritonbench_g/context_attn_bloom/FPEquiv.lean",
+      "source_sha256": "65c810e21952b7983175cd2a5b8dd9ef599c6c35bd13b21850080e3213fa861d",
+      "prior_report": ".veritile-cache/headline-formulas-20261022/queue03/result.json",
+      "prior_report_sha256": "d4a5ed0494398cfd46628242d6bf8cf2c6af548496b72291ca5451fb3f1f9708",
+      "note": "This is explicitly prior successful build evidence. Current selected source equals both the prior pin and this campaign before snapshot; the fresh joint reuses its unchanged object.",
+      "receipt": ".veritile-cache/headline-formulas-20261022/build/lib/lean/bench/repairs/tritonbench_g/context_attn_bloom/FPEquiv.workspace-build.json",
+      "receipt_sha256": "5fd118b00cb1bde67e23754ed4288ebadbd74abac1d40ff6dd405f2043b248d3"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/context_attn_bloom/Contract.lean": "9442e170c890fd0ec7b2655d0b50e47462b9e42fd5a89f468d5bc53025b541a7",
+    "bench/repairs/tritonbench_g/context_attn_bloom/Correct.lean": "518bf9254a6636f19f265685d57d10549924e753521c388a8472802e81edb003",
+    "bench/repairs/tritonbench_g/context_attn_bloom/FPEquiv.lean": "65c810e21952b7983175cd2a5b8dd9ef599c6c35bd13b21850080e3213fa861d",
+    "bench/repairs/tritonbench_g/context_attn_bloom/LogicalIO.lean": "82fdedb23d3f012d843a0c78db8834fec39c99dc6c13849216374a371d9eda4e",
+    "bench/repairs/tritonbench_g/context_attn_bloom/Proofs/LogicalIO.lean": "9a0a85f544bc2d75178ade45bb66008558680ce5cf91b5b0db2020ae5af51431",
+    "bench/repairs/tritonbench_g/context_attn_bloom/RealIO.lean": "f68bf79f5566661346ffbd9e1b4f0d0a2ce549f8747bdafede5c74e88055d710",
+    "bench/repairs/tritonbench_g/context_attn_bloom/IO.lean": "267a6461c3c7fbd2cfa2c0eb51e937e832c27674e1c7043c4e6ffb9f8ad5bbc6",
+    "bench/repairs/tritonbench_g/context_attn_bloom/Kernels.lean": "7b2ecabe39c65112571bd8bde26984d48e9612f89ba5044a8115120d7e42b415",
+    "bench/repairs/tritonbench_g/context_attn_bloom/Domains.lean": "c8591c1f3b81749dd8675b80d2328d192a5ba69d4d1e2becc849757ee67ec31d",
+    "bench/tritonbench_g/context_attn_bloom/Proofs/Formula.lean": "a4b1d38cc4cf87031bb3b9d86e10026863ffe22b02b68fd535033288b90ceb60",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [
+    "Only targeted modules and task-local imports were checked; unchanged dependency objects are reused rather than replaying the complete proof closure."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

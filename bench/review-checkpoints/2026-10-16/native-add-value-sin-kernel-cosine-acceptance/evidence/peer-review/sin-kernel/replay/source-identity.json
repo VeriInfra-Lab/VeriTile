@@ -1,0 +1,6 @@
+{
+  "original": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/sin_kernel/sin_kernel.py",
+  "original_sha256": "dd65b4c273b7eb1fba19b79f7eb8c6f8286f391257195a8c4b7590bf8c7962c1",
+  "prefix_sha256": "b214b0a77de7611434fd446e6acee32165c1a71e28748e0cf297b3e572b1aa9a",
+  "production_AST_equal": true
+}

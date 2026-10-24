@@ -1,0 +1,61 @@
+import bench.tritonbench_g.vector_addition.Proofs.FiniteIndices
+
+namespace AnnotatedI32ScopeReview
+open VeriTile.Bench.TritonBenchG.VectorAddition.Finite
+set_option maxHeartbeats 3000000
+
+theorem narrowed_bound : (BitVec.ofNat 32 (2^31)).toInt= -(2^31 : Int) := by
+  decide +kernel
+
+/-- Every possible i32 lane word fails the source comparison against the
+narrowed host bound. This also covers any otherwise wrapped lane arithmetic. -/
+theorem no_i32_below_bound (word : BitVec 32) :
+    word.slt (BitVec.ofNat 32 (2^31))=Bool.false := by
+  have lower := BitVec.le_toInt word
+  have not_less : ¬word.toInt< -(2^31 : Int) := by
+    norm_num at lower ⊢
+    omega
+  rw [BitVec.slt_eq_decide,narrowed_bound]
+  simp [not_less]
+
+def sourceOffset (block pid lane : Nat) : BitVec 32 :=
+  BitVec.ofNat 32 pid*BitVec.ofNat 32 block+BitVec.ofNat 32 lane
+
+def sourceMask (block pid lane : Nat) : Bool :=
+  (sourceOffset block pid lane).slt (BitVec.ofNat 32 (2^31))
+
+theorem all_source_masks_false (block pid lane : Nat) :
+    sourceMask block pid lane=Bool.false := no_i32_below_bound _
+
+theorem actual_grid_sizes :
+    (2^31+1023)/1024=2^21 ∧ (2^31+15)/16=2^27 ∧
+      2^21<2^31 ∧ 2^27<2^31 := by decide +kernel
+
+theorem all_launched_indices_nonnegative (block pid lane : Nat)
+    (hb : block=1024 ∨ block=16)
+    (hp : pid<(2^31+block-1)/block) (hl : lane<block) :
+    (sourceOffset block pid lane).toInt=(pid*block+lane : Nat) ∧ pid*block+lane<2^31 := by
+  have bound : pid*block+lane<2^31 := by
+    rcases hb with rfl|rfl <;> norm_num at hp ⊢ <;> omega
+  refine ⟨?_,bound⟩
+  simp only [sourceOffset,BitVec.ofNat_mul_ofNat,BitVec.ofNat_add_ofNat]
+  exact nat32_signed _ bound
+
+/-- No masked load or store has an active lane, for any program in either
+original source grid. No floating arithmetic conformance is needed. -/
+theorem empty_active_tile (block pid : Nat) :
+    (List.range block).filter (fun lane => sourceMask block pid lane)=[] := by
+  simp [all_source_masks_false]
+
+theorem strict_safe_bound_excludes_counterexample : ¬(2^31 : Nat)<2^31 := by omega
+
+#axiomsClean narrowed_bound
+#axiomsClean no_i32_below_bound
+#axiomsClean all_source_masks_false
+#axiomsClean actual_grid_sizes
+#axiomsClean all_launched_indices_nonnegative
+#axiomsClean empty_active_tile
+#axiomsClean strict_safe_bound_excludes_counterexample
+#guard_msgs (drop info) in
+#auditModuleAxioms
+end AnnotatedI32ScopeReview

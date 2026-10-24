@@ -39,8 +39,9 @@ def original (tau : ℝ) : Program where
 def optimized (tau : ℝ) : Program :=
   { original tau with kernel := optimizedKernel tau }
 
-specification mhc_width_equiv (tau : ℝ) (R : Rules) :
-    original tau ≡[R] optimized tau := by
+/-- Both product commutations use the shared strict FP32 theorem. -/
+specification mhc_width_equiv (tau : ℝ) :
+    original tau ≡[([] : Spec.Assumptions FP.GuardedFragment)] optimized tau := by
   equiv_decompose
   all_goals fp_prove
 

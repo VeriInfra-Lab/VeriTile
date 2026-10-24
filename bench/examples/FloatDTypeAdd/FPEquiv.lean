@@ -2,7 +2,7 @@ import bench.examples.FloatDTypeAdd.Kernels
 import VeriTile.Triton.Float.RewriteTactics
 import VeriTile.Meta.StatementAudit
 
-/-! FloatDTypeAdd: contextual FP equivalence from the admitted scalar add_commute.
+/-! FloatDTypeAdd: contextual FP equivalence from the shared strict FP32 add_commute.
 The fp32 values loaded into x and y must be finite at the addition.
 The explicit output cast remains in the common suffix.
 The domain is evaluated at the actual rewrite site; experimental dimensions
@@ -31,8 +31,8 @@ def optimized (blockSize : Nat) : Program :=
 
 /-- Under the finite-operand contract, every successful run is preserved,
 including all registers and memory; failed surrounding executions also agree. -/
-specification float_add_equiv (blockSize : Nat) (R : Rules) :
-    original blockSize ≡[R] optimized blockSize := by
+specification float_add_equiv (blockSize : Nat) :
+    original blockSize ≡[([] : Spec.Assumptions FP.GuardedFragment)] optimized blockSize := by
   equiv_decompose
   all_goals fp_prove
 

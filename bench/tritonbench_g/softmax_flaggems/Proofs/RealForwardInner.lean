@@ -47,10 +47,6 @@ private theorem option_max_eq (a b : WithBot ℝ) :
     @max (Option ℝ) Option.instMax a b = a ⊔ b := by
   cases a <;> cases b <;> rfl
 
-private theorem select_max (a b : WithBot ℝ) :
-    (if b < a then a else b) = a ⊔ b := by
-  rw [← max_def_lt, max_comm]
-
 private theorem exp_finite (a : WithBot ℝ) :
     WithBot.realExp a = some ((WithBot.realExp a).unbotD 0) := by
   cases a <;> rfl
@@ -102,22 +98,19 @@ private theorem update_z (m x : WithBot ℝ) (z : ℝ) :
   · simp only [BlockState.setReg_same]
     apply congrArg some
     apply Tile.ext
-    intro i
+    rintro ⟨i,⟨⟩⟩
     simp [Tile.bop, Tile.cop, Tile.expandDim, Tile.uop, Tile.ptrAdd,
       NumericDType.add, NumericDType.mul, NumericDType.sub, ComparableDType.lt,
       score, RealMath.maskedOnlineStep, option_max_eq]
-    change (if score s X row N start B i < mf i then mf i
-      else score s X row N start B i) = _
-    exact select_max _ _
+    try rfl
   · simp only [BlockState.setReg_ne_name, BlockState.setReg_same,
       ne_eq, String.reduceEq, not_false_eq_true]
     apply congrArg some
     apply Tile.ext
-    intro i
+    rintro ⟨i,⟨⟩⟩
     simp [Tile.bop, Tile.cop, Tile.expandDim, Tile.uop, Tile.ptrAdd,
       NumericDType.add, NumericDType.mul, NumericDType.sub, ComparableDType.lt,
       score, option_max_eq, update_z]
-    simp only [select_max]
-    exact update_z (mf i) (score s X row N start B i) (zf i)
+    all_goals exact update_z (mf (i,PUnit.unit)) (score s X row N start B (i,PUnit.unit)) (zf (i,PUnit.unit))
 
 end VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.RealForwardInner

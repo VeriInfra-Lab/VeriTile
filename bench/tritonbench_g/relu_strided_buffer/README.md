@@ -1,30 +1,36 @@
-# relu_strided_buffer
+# ReLU on signed strided buffers: original conditional results
 
-`Kernels.lean` shares both complete branch bodies between the real and FP proofs.
-The candidate constant-folds the unused discrete tile-count calculation from the
-symbolic source parameters. It preserves the loop, pointer element casts, ReLU
-comparison, block pointers, boundary masks, and unspecified padding. This is
-partial evaluation, with no GPU performance claim. The source specialization uses
-nonnegative input strides, positive output strides, and the default fp32 profile.
-The Python wrapper also accepts negative strides and other storage types; those
-configurations are outside these contracts.
+The original Python is unchanged. Historical whole-source statements are
+restored as `Whole.relu_strided_buffer_real` in `Correct.lean` and
+`Whole.relu_strided_buffer_fp32` in `FPEquiv.lean`, together with the existing
+natural-stride slice and constant-folding declarations. Their historical
+conditional domains and proofs remain intact.
 
-`Correct.lean` states original and candidate flat-memory contracts for both
-one-tile and grid-stride modes: active output equals `max 0` of the initial input,
-execution succeeds, accessed addresses are bounded, and all other cells are
-preserved. Strides and dimensions remain symbolic. The new public specifications require positive tile size because the source
-computes a division by it. Legacy original theorem signatures remain valid in the
-total-Nat model; their zero-divisor case does not describe a valid Triton execution.
-The original conditions are retained: positive output stride, plus distinct input/output regions and a legal
-positive launch grid for grid-stride mode. Host grid composition is outside scope.
+The original successful domain is rank one, nonempty matching shapes, valid
+signed views, nonzero output stride and disjoint accessed input/output
+footprints. Both stride signs, input stride zero and disjoint subviews sharing
+one allocation are included. The FP32 native-address statement additionally
+requires `n < 2^31`, signed-int64 strides, one CUDA device, a successful device
+guard and ordinary finite aligned allocation metadata. These premises are
+conditions of the original theorem; original Python does not check them all.
 
-The migrated real helpers repair a legacy zero-padding mismatch. Actual omitted
-block padding now uses arbitrary unspecified values; inactive values never reach
-an active store. No zero-oracle assumption is needed. The historical explicit-zero
-load helper remains available separately.
+The independent Real result is `max(0,x)`. The exact FP32 result for every word
+is strict ordered positive selection: keep positive nonzero words, otherwise
+store +0, including for NaNs and both zero signs. No numerical assumption is
+needed. Theorems cover the 512-element tile cap, 65536-CTA cap, both source
+branches, all output coordinates, returned caller `out0`, input/exterior cells
+and bytes, actual signed pointer lowering and allocation bounds. Original empty
+calls retain their separately proved tile-division failure before the CUDA guard.
 
-`FPEquiv.lean` uses the fp32 profile and an empty numerical domain. Exact discrete
-constant folding preserves the complete state and execution failure for both
-entire kernels, including all grid-stride iterations and every memory cell.
-`#print_fp_assumptions` reports `none` for each theorem. The real and FP entries
-are independent and share only the source definitions.
+The checked revision is documented in
+[`bench/repairs/tritonbench_g/relu_strided_buffer`](../../repairs/tritonbench_g/relu_strided_buffer/README.md).
+It checks the current domain before entering the unchanged wrapper body and
+keeps the original StridedBuffer class, heuristics and kernels. Its source-only
+`Kernels.lean` has a Lean identity bridge to this historical signed lowering.
+The original `Kernels.lean` keeps its existing proof-dependent historical
+source interface; proof cleanup does not change original acceptance scope.
+
+The restored task-local `Proofs/` helpers retain historical names and bodies.
+The old successful-call statements remain available independently of current
+checked admission. These are source-semantics and ordinary runtime/Tensor API
+results; no compiler verification or GPU hardware measurement is inferred.

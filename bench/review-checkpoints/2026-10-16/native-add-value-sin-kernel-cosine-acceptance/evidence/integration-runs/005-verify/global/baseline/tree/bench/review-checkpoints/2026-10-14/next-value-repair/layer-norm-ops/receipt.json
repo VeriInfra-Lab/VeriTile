@@ -1,0 +1,491 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-10-14T20:17:14.509608+00:00",
+  "status": "PASS_ALL_ACCEPTED_STAGES_FP_VALUE_CONTRACTS",
+  "tasks": [
+    "layer_norm_ops"
+  ],
+  "full_accepted_stage_scope_covered": true,
+  "full_python_kernel_scope_covered": false,
+  "dtype_coverage": "fp32 storage/profile matching local Python tests; other dtype/output-dtype configurations not claimed",
+  "new_lean_modules": 9,
+  "public_specifications": [
+    {
+      "task": "layer_norm_ops",
+      "file": "bench/tritonbench_g/layer_norm_ops/FPCorrect.lean",
+      "declaration": "fp32_rms_one_row_correctness",
+      "qualified": "VeriTile.Bench.TritonBenchG.LayerNormOps.FPCorrect.fp32_rms_one_row_correctness",
+      "model_kind": "backend_value_contract",
+      "statement": "specification fp32_rms_one_row_correctness {α : Type} [Inhabited α] (M : Algebra α)\n    (p : Parameters) (s : State α) (hxd : p.dx≠p.dw) :\n    ∃ t, FP.Structural.exec M (rmsKernel p) s=some t ∧ t.mem=(rowReference M p s Bool.false).mem ∧\n      (∀ i : TileIndex [p.block],i.1.val<p.columns →\n        t.mem p.dx (offset s p.dxStride i)=stored M (rowDX M p s Bool.false i) ∧\n        t.mem p.dw (offset s p.columns i)=stored M (rowDW M p s Bool.false i)) ∧\n      (∀ r o, RowOutside p s Bool.false r o → t.mem r o=s.mem r o)",
+      "statement_sha256": "2d0b0cc2dcc8b639d69e00ff560082e426e99267a0513dc6560fae16470fb627",
+      "native_functional_correctness": "not_established"
+    },
+    {
+      "task": "layer_norm_ops",
+      "file": "bench/tritonbench_g/layer_norm_ops/FPCorrect.lean",
+      "declaration": "fp32_plain_one_row_correctness",
+      "qualified": "VeriTile.Bench.TritonBenchG.LayerNormOps.FPCorrect.fp32_plain_one_row_correctness",
+      "model_kind": "backend_value_contract",
+      "statement": "specification fp32_plain_one_row_correctness {α : Type} [Inhabited α] (M : Algebra α)\n    (p : Parameters) (s : State α) (hxd : p.dx≠p.dw) (hxb : p.dx≠p.db) (hdb : p.dw≠p.db) :\n    ∃ t, FP.Structural.exec M (plainKernel p) s=some t ∧ t.mem=(rowReference M p s Bool.true).mem ∧\n      (∀ i : TileIndex [p.block],i.1.val<p.columns →\n        t.mem p.dx (offset s p.dxStride i)=stored M (rowDX M p s Bool.true i) ∧\n        t.mem p.dw (offset s p.columns i)=stored M (rowDW M p s Bool.true i) ∧\n        t.mem p.db (offset s p.columns i)=stored M (rowDB M p s i)) ∧\n      (∀ r o, RowOutside p s Bool.true r o → t.mem r o=s.mem r o)",
+      "statement_sha256": "ca3f971ec75fcdb349f321116498dcebfe403bc4253d2a41364b214106e1dea3",
+      "native_functional_correctness": "not_established"
+    },
+    {
+      "task": "layer_norm_ops",
+      "file": "bench/tritonbench_g/layer_norm_ops/FPCorrect.lean",
+      "declaration": "fp32_c1_reduction_correctness",
+      "qualified": "VeriTile.Bench.TritonBenchG.LayerNormOps.FPCorrect.fp32_c1_reduction_correctness",
+      "model_kind": "backend_value_contract",
+      "statement": "specification fp32_c1_reduction_correctness {α : Type} [Inhabited α] (M : Algebra α)\n    (p : Parameters) (s : State α) :\n    ∃ t, FP.Structural.exec M (c1Kernel p) s=some t ∧\n      t.mem p.c1 (s.pids 0)=stored M (c1Value M p s) ∧\n      (∀ r o, (r≠p.c1 ∨ o≠s.pids 0) → t.mem r o=s.mem r o)",
+      "statement_sha256": "2146931e9e54749a9ef21c2784c6b18ba0e4f463e9b2df9e6fd60b2656c55c43",
+      "native_functional_correctness": "not_established"
+    },
+    {
+      "task": "layer_norm_ops",
+      "file": "bench/tritonbench_g/layer_norm_ops/FPCorrect.lean",
+      "declaration": "fp32_c2_reduction_correctness",
+      "qualified": "VeriTile.Bench.TritonBenchG.LayerNormOps.FPCorrect.fp32_c2_reduction_correctness",
+      "model_kind": "backend_value_contract",
+      "statement": "specification fp32_c2_reduction_correctness {α : Type} [Inhabited α] (M : Algebra α)\n    (p : Parameters) (s : State α) :\n    ∃ t, FP.Structural.exec M (c2Kernel p) s=some t ∧\n      t.mem p.c2 (s.pids 0)=stored M (rowC2 M p s) ∧\n      (∀ r o, (r≠p.c2 ∨ o≠s.pids 0) → t.mem r o=s.mem r o)",
+      "statement_sha256": "39842058e0b18dccb97f1dbf93bafac2e6fc0d6e6143ba834edf60c9a451c069",
+      "native_functional_correctness": "not_established"
+    },
+    {
+      "task": "layer_norm_ops",
+      "file": "bench/tritonbench_g/layer_norm_ops/FPCorrect.lean",
+      "declaration": "fp32_supplied_dx_correctness",
+      "qualified": "VeriTile.Bench.TritonBenchG.LayerNormOps.FPCorrect.fp32_supplied_dx_correctness",
+      "model_kind": "backend_value_contract",
+      "statement": "specification fp32_supplied_dx_correctness {α : Type} [Inhabited α] (M : Algebra α)\n    (p : Parameters) (s : State α) (plain : Bool) :\n    ∃ t, FP.Structural.exec M (if plain then plainDXKernel p else rmsDXKernel p) s=some t ∧\n      (∀ i : TileIndex [p.block],i.1.val<p.columns →\n        t.mem p.dx (offset s p.dxStride i)=stored M (suppliedDX M p s plain i)) ∧\n      (∀ r o, OutsideVector p s p.dx p.dxStride r o → t.mem r o=s.mem r o)",
+      "statement_sha256": "521b74fc3028be586d640cc7a5c929d14e5040f10d65c03a77e7721230bcb7f2",
+      "native_functional_correctness": "not_established"
+    },
+    {
+      "task": "layer_norm_ops",
+      "file": "bench/tritonbench_g/layer_norm_ops/FPCorrect.lean",
+      "declaration": "fp32_residual_add_correctness",
+      "qualified": "VeriTile.Bench.TritonBenchG.LayerNormOps.FPCorrect.fp32_residual_add_correctness",
+      "model_kind": "backend_value_contract",
+      "statement": "specification fp32_residual_add_correctness {α : Type} [Inhabited α] (M : Algebra α)\n    (p : Parameters) (s : State α) (h : p.dresIn≠p.dx) :\n    ∃ t, FP.Structural.exec M (residualKernel p) s=some t ∧\n      (∀ i : TileIndex [p.block],i.1.val<p.columns →\n        t.mem p.dx (offset s p.dxStride i)=stored M (residualValue M p s i) ∧\n        t.mem p.dresIn (offset s p.dresInStride i)=stored M (residualValue M p s i)) ∧\n      (∀ r o, (OutsideVector p s p.dx p.dxStride r o ∧\n        OutsideVector p s p.dresIn p.dresInStride r o) → t.mem r o=s.mem r o)",
+      "statement_sha256": "363bf93c1703054868f42fe92967d9e853bb74f78bb2ce972806b241b7130cd5",
+      "native_functional_correctness": "not_established"
+    },
+    {
+      "task": "layer_norm_ops",
+      "file": "bench/tritonbench_g/layer_norm_ops/FPCorrect.lean",
+      "declaration": "supplied_vector_store_correctness",
+      "qualified": "VeriTile.Bench.TritonBenchG.LayerNormOps.FPCorrect.supplied_vector_store_correctness",
+      "model_kind": "backend_value_contract",
+      "statement": "specification supplied_vector_store_correctness {α : Type} [Inhabited α] (M : Algebra α)\n    (pre out : RegionName) (stride N B : Nat) (s : State α) :\n    ∃ t, FP.Structural.exec M (vectorStore .fp32 pre out stride N B) s=some t ∧\n      (∀ i : TileIndex [B],i.1.val<N → t.mem out (offset s stride i)=\n        .mk .fp32 ((s.mem pre (offset s stride i)).read .fp32)) ∧\n      (∀ r o, (r≠out ∨ ∀ i : TileIndex [B],i.1.val<N → o≠offset s stride i) →\n        t.mem r o=s.mem r o)",
+      "statement_sha256": "e91b08a8e653e310156ebd4c91cff2272dfc6826167aee74397e96bc19e61d93",
+      "native_functional_correctness": "not_established"
+    },
+    {
+      "task": "layer_norm_ops",
+      "file": "bench/tritonbench_g/layer_norm_ops/FPCorrect.lean",
+      "declaration": "supplied_mean_store_correctness",
+      "qualified": "VeriTile.Bench.TritonBenchG.LayerNormOps.FPCorrect.supplied_mean_store_correctness",
+      "model_kind": "backend_value_contract",
+      "statement": "specification supplied_mean_store_correctness {α : Type} [Inhabited α] (M : Algebra α)\n    (pre out : RegionName) (s : State α) :\n    ∃ t, FP.Structural.exec M (meanStore .fp32 pre out) s=some t ∧\n      t.mem out (s.pids 0)=.mk .fp32 ((s.mem pre (s.pids 0)).read .fp32) ∧\n      (∀ r o, (r≠out ∨ o≠s.pids 0) → t.mem r o=s.mem r o)",
+      "statement_sha256": "d35b1220bc4172f067e3cf5adf3ffd670a184151cc982ca39949836914f71d54",
+      "native_functional_correctness": "not_established"
+    },
+    {
+      "task": "layer_norm_ops",
+      "file": "bench/tritonbench_g/layer_norm_ops/FPCorrect.lean",
+      "declaration": "supplied_rstd_store_correctness",
+      "qualified": "VeriTile.Bench.TritonBenchG.LayerNormOps.FPCorrect.supplied_rstd_store_correctness",
+      "model_kind": "backend_value_contract",
+      "statement": "specification supplied_rstd_store_correctness {α : Type} [Inhabited α] (M : Algebra α)\n    (pre out : RegionName) (s : State α) :\n    ∃ t, FP.Structural.exec M (rstdStore .fp32 pre out) s=some t ∧\n      t.mem out (s.pids 0)=.mk .fp32 ((s.mem pre (s.pids 0)).read .fp32) ∧\n      (∀ r o, (r≠out ∨ o≠s.pids 0) → t.mem r o=s.mem r o)",
+      "statement_sha256": "452dd91049193a51bb3cc81bede3266048a5fb5571ca75b47033b42afa83bf16",
+      "native_functional_correctness": "not_established"
+    }
+  ],
+  "original_source_sha256_unchanged": {
+    "bench/tritonbench_g/layer_norm_ops/LayerNormOps.lean": "eb73b9c1e52a86d4937180e9c3e8d1ff525f56ea30f1bdf0a9dedd68716bf9d1",
+    "bench/tritonbench_g/layer_norm_ops/layer_norm_ops.py": "f9c68234257d750d4b9a6950d586c2b8c9fe8347536fda6d0914f5c02a74b72c"
+  },
+  "original_public_statements_unchanged": [
+    {
+      "file": "bench/tritonbench_g/layer_norm_ops/LayerNormOps.lean",
+      "name": "layer_norm_ops_fwd_plain_bias_all_outputs_compute_correct_general",
+      "line": 3903,
+      "statement": "specification layer_norm_ops_fwd_plain_bias_all_outputs_compute_correct_general\n    (ValuePre MeanPre RstdPre Y Mean Rstd : RegionName) (s : BlockState)\n    (stride_y_row N BLOCK_N : Nat) :\n    (ComputeCorrect.Realizes_without_Rounding\n      (kernel := layer_norm_ops_fwd_y_store_slice ValuePre Y\n        stride_y_row N BLOCK_N)\n      (initialState := s)\n      (write := ComputeCorrect.WriteMap.writeIf\n        (fun i : Fin BLOCK_N => i.val < N)\n        (fun i => (Y, fwdYOffset s stride_y_row i)))\n      (expected := fun i : Fin BLOCK_N =>\n        fwdYStoreSpec s ValuePre stride_y_row i)) ∧\n    (ComputeCorrect.Realizes_without_Rounding\n      (kernel := layer_norm_ops_fwd_mean_store_slice MeanPre Mean)\n      (initialState := s)\n      (write := fun _ : PUnit => some (Mean, meanRowOffset s))\n      (expected := fun _ => meanStoreSpec s MeanPre)) ∧\n    (ComputeCorrect.Realizes_without_Rounding\n      (kernel := layer_norm_ops_fwd_rstd_store_slice RstdPre Rstd)\n      (initialState := s)\n      (write := fun _ : PUnit => some (Rstd, meanRowOffset s))\n      (expected := fun _ => rstdStoreSpec s RstdPre))",
+      "statement_sha256": "cc02677a945389ccdf7534b2c4f1aef9f1cf9bbec872ac0ef15bedcb28d792d9"
+    },
+    {
+      "file": "bench/tritonbench_g/layer_norm_ops/LayerNormOps.lean",
+      "name": "layer_norm_ops_fwd_rms_bias_all_outputs_compute_correct_general",
+      "line": 3936,
+      "statement": "specification layer_norm_ops_fwd_rms_bias_all_outputs_compute_correct_general\n    (ValuePre RstdPre Y Rstd : RegionName) (s : BlockState)\n    (stride_y_row N BLOCK_N : Nat) :\n    (ComputeCorrect.Realizes_without_Rounding\n      (kernel := layer_norm_ops_fwd_y_store_slice ValuePre Y\n        stride_y_row N BLOCK_N)\n      (initialState := s)\n      (write := ComputeCorrect.WriteMap.writeIf\n        (fun i : Fin BLOCK_N => i.val < N)\n        (fun i => (Y, fwdYOffset s stride_y_row i)))\n      (expected := fun i : Fin BLOCK_N =>\n        fwdYStoreSpec s ValuePre stride_y_row i)) ∧\n    (ComputeCorrect.Realizes_without_Rounding\n      (kernel := layer_norm_ops_fwd_rstd_store_slice RstdPre Rstd)\n      (initialState := s)\n      (write := fun _ : PUnit => some (Rstd, meanRowOffset s))\n      (expected := fun _ => rstdStoreSpec s RstdPre))",
+      "statement_sha256": "0d824af9e2837e3f5a8ccef7406b6b5768db304cdb9d0e2fc57b92e4798f3337"
+    },
+    {
+      "file": "bench/tritonbench_g/layer_norm_ops/LayerNormOps.lean",
+      "name": "layer_norm_ops_fwd_residual_bias_all_outputs_compute_correct_general",
+      "line": 3965,
+      "statement": "specification layer_norm_ops_fwd_residual_bias_all_outputs_compute_correct_general\n    (ResidualPre ValuePre MeanPre RstdPre RESIDUAL_OUT Y Mean Rstd : RegionName)\n    (s : BlockState)\n    (stride_res_out_row stride_y_row N BLOCK_N : Nat) :\n    (ComputeCorrect.Realizes_without_Rounding\n      (kernel := layer_norm_ops_fwd_residual_out_store_slice ResidualPre\n        RESIDUAL_OUT stride_res_out_row N BLOCK_N)\n      (initialState := s)\n      (write := ComputeCorrect.WriteMap.writeIf\n        (fun i : Fin BLOCK_N => i.val < N)\n        (fun i => (RESIDUAL_OUT, fwdResidualOutOffset s stride_res_out_row i)))\n      (expected := fun i : Fin BLOCK_N =>\n        fwdResidualOutStoreSpec s ResidualPre stride_res_out_row i)) ∧\n    (ComputeCorrect.Realizes_without_Rounding\n      (kernel := layer_norm_ops_fwd_y_store_slice ValuePre Y\n        stride_y_row N BLOCK_N)\n      (initialState := s)\n      (write := ComputeCorrect.WriteMap.writeIf\n        (fun i : Fin BLOCK_N => i.val < N)\n        (fun i => (Y, fwdYOffset s stride_y_row i)))\n      (expected := fun i : Fin BLOCK_N =>\n        fwdYStoreSpec s ValuePre stride_y_row i)) ∧\n    (ComputeCorrect.Realizes_without_Rounding\n      (kernel := layer_norm_ops_fwd_mean_store_slice MeanPre Mean)\n      (initialState := s)\n      (write := fun _ : PUnit => some (Mean, meanRowOffset s))\n      (expected := fun _ => meanStoreSpec s MeanPre)) ∧\n    (ComputeCorrect.Realizes_without_Rounding\n      (kernel := layer_norm_ops_fwd_rstd_store_slice RstdPre Rstd)\n      (initialState := s)\n      (write := fun _ : PUnit => some (Rstd, meanRowOffset s))\n      (expected := fun _ => rstdStoreSpec s RstdPre))",
+      "statement_sha256": "c212a534346329754c8e11275a091facab0860d99d92699d48f4a4b7ee997000"
+    },
+    {
+      "file": "bench/tritonbench_g/layer_norm_ops/LayerNormOps.lean",
+      "name": "layer_norm_ops_bwd_rms_core_outputs_compute_correct_general",
+      "line": 4011,
+      "statement": "specification layer_norm_ops_bwd_rms_core_outputs_compute_correct_general\n    (X Xhat W DY Rstd C1 DX DW : RegionName) (s : BlockState)\n    (stride_xhat_row stride_dy_row stride_x_row stride_dx_row N BLOCK_N : Nat)\n    (hDWDX : DW ≠ DX) :\n    (ComputeCorrect.Realizes_without_Rounding\n      (kernel := layer_norm_ops_bwd_c1_reduction_slice Xhat W DY C1\n        stride_xhat_row stride_dy_row N BLOCK_N)\n      (initialState := s)\n      (write := fun _ : PUnit => some (C1, s.pid))\n      (expected := fun _ : PUnit =>\n        bwdC1ReductionSpec s Xhat W DY stride_xhat_row stride_dy_row N BLOCK_N)) ∧\n    (ComputeCorrect.Realizes_without_Rounding\n      (kernel := layer_norm_ops_bwd_rms_dx_from_c1_slice Xhat W DY Rstd C1 DX\n        stride_xhat_row stride_dy_row stride_dx_row N BLOCK_N)\n      (initialState := s)\n      (write := ComputeCorrect.WriteMap.writeIf\n        (fun i : Fin BLOCK_N => i.val < N)\n        (fun i => (DX, bwdRmsDXOffset s stride_dx_row i)))\n      (expected := fun i : Fin BLOCK_N =>\n        bwdRmsDXFromC1Spec s Xhat W DY Rstd C1 stride_xhat_row stride_dy_row i)) ∧\n    (ComputeCorrect.Realizes_without_Rounding\n      (kernel := layer_norm_ops_bwd_rms_one_row X W DY DX DW Rstd\n        stride_x_row stride_dy_row stride_dx_row N BLOCK_N)\n      (initialState := s)\n      (write := ComputeCorrect.WriteMap.writeIf\n        (fun i : Fin BLOCK_N => i.val < N)\n        (fun i => (DW, bwdRmsDWOffset s N i)))\n      (expected := fun i : Fin BLOCK_N =>\n        bwdRmsDWSpec s X DY Rstd stride_x_row stride_dy_row N BLOCK_N i))",
+      "statement_sha256": "81d8be9c3ea5a3ea5e9c8e3e65f368d26a74c0035291f4045b8fe3f17644820c"
+    },
+    {
+      "file": "bench/tritonbench_g/layer_norm_ops/LayerNormOps.lean",
+      "name": "layer_norm_ops_bwd_plain_bias_core_outputs_compute_correct_general",
+      "line": 4053,
+      "statement": "specification layer_norm_ops_bwd_plain_bias_core_outputs_compute_correct_general\n    (X Xhat W DY DX DW DB Mean Rstd C1 C2 : RegionName) (s : BlockState)\n    (stride_xhat_row stride_dy_row stride_x_row stride_dx_row N BLOCK_N : Nat)\n    (hDWDX : DW ≠ DX) (hDWDB : DW ≠ DB)\n    (hDBDX : DB ≠ DX) (hDBDW : DB ≠ DW) :\n    (ComputeCorrect.Realizes_without_Rounding\n      (kernel := layer_norm_ops_bwd_c1_reduction_slice Xhat W DY C1\n        stride_xhat_row stride_dy_row N BLOCK_N)\n      (initialState := s)\n      (write := fun _ : PUnit => some (C1, s.pid))\n      (expected := fun _ : PUnit =>\n        bwdC1ReductionSpec s Xhat W DY stride_xhat_row stride_dy_row N BLOCK_N)) ∧\n    (ComputeCorrect.Realizes_without_Rounding\n      (kernel := layer_norm_ops_bwd_c2_reduction_slice W DY C2\n        stride_dy_row N BLOCK_N)\n      (initialState := s)\n      (write := fun _ : PUnit => some (C2, s.pid))\n      (expected := fun _ : PUnit =>\n        bwdC2ReductionSpec s W DY stride_dy_row N BLOCK_N)) ∧\n    (ComputeCorrect.Realizes_without_Rounding\n      (kernel := layer_norm_ops_bwd_plain_dx_from_c1_c2_slice Xhat W DY Rstd\n        C1 C2 DX stride_xhat_row stride_dy_row stride_dx_row N BLOCK_N)\n      (initialState := s)\n      (write := ComputeCorrect.WriteMap.writeIf\n        (fun i : Fin BLOCK_N => i.val < N)\n        (fun i => (DX, bwdRmsDXOffset s stride_dx_row i)))\n      (expected := fun i : Fin BLOCK_N =>\n        bwdPlainDXFromC1C2Spec s Xhat W DY Rstd C1 C2 stride_xhat_row\n          stride_dy_row i)) ∧\n    (ComputeCorrect.Realizes_without_Rounding\n      (kernel := layer_norm_ops_bwd_plain_bias_one_row X W DY DX DW DB Mean Rstd\n        stride_x_row stride_dy_row stride_dx_row N BLOCK_N)\n      (initialState := s)\n      (write := ComputeCorrect.WriteMap.writeIf\n        (fun i : Fin BLOCK_N => i.val < N)\n        (fun i => (DW, bwdParamGradOffset s N i)))\n      (expected := fun i : Fin BLOCK_N =>\n        bwdPlainBiasDWSpec s X DY Mean Rstd stride_x_row stride_dy_row N\n          BLOCK_N i)) ∧\n    (ComputeCorrect.Realizes_without_Rounding\n      (kernel := layer_norm_ops_bwd_plain_bias_one_row X W DY DX DW DB Mean Rstd\n        stride_x_row stride_dy_row stride_dx_row N BLOCK_N)\n      (initialState := s)\n      (write := ComputeCorrect.WriteMap.writeIf\n        (fun i : Fin BLOCK_N => i.val < N)\n        (fun i => (DB, bwdParamGradOffset s N i)))\n      (expected := fun i : Fin BLOCK_N =>\n        bwdBiasDBSpec s DY stride_dy_row i))",
+      "statement_sha256": "8ec3ea9d0f92a4b644f8fe11d8e0c4fe8cf1bda11dc23f4ef39da88cd40930dc"
+    },
+    {
+      "file": "bench/tritonbench_g/layer_norm_ops/LayerNormOps.lean",
+      "name": "layer_norm_ops_bwd_residual_add_all_outputs_compute_correct_general",
+      "line": 4125,
+      "statement": "specification layer_norm_ops_bwd_residual_add_all_outputs_compute_correct_general\n    (DXBase DRESIDUAL DX DRESIDUAL_IN : RegionName) (s : BlockState)\n    (stride_dx_row stride_dres_row stride_dres_in_row N BLOCK_N : Nat)\n    (hDXDresIn : DX ≠ DRESIDUAL_IN)\n    (hDresInDX : DRESIDUAL_IN ≠ DX) :\n    (ComputeCorrect.Realizes_without_Rounding\n      (kernel := layer_norm_ops_bwd_residual_add_store_slice DXBase DRESIDUAL\n        DX DRESIDUAL_IN stride_dx_row stride_dres_row stride_dres_in_row N BLOCK_N)\n      (initialState := s)\n      (write := ComputeCorrect.WriteMap.writeIf\n        (fun i : Fin BLOCK_N => i.val < N)\n        (fun i => (DX, bwdRmsDXOffset s stride_dx_row i)))\n      (expected := fun i : Fin BLOCK_N =>\n        bwdResidualAddSpec s DXBase DRESIDUAL stride_dx_row stride_dres_row i)) ∧\n    (ComputeCorrect.Realizes_without_Rounding\n      (kernel := layer_norm_ops_bwd_residual_add_store_slice DXBase DRESIDUAL\n        DX DRESIDUAL_IN stride_dx_row stride_dres_row stride_dres_in_row N BLOCK_N)\n      (initialState := s)\n      (write := ComputeCorrect.WriteMap.writeIf\n        (fun i : Fin BLOCK_N => i.val < N)\n        (fun i => (DRESIDUAL_IN, bwdDResidualInOffset s stride_dres_in_row i)))\n      (expected := fun i : Fin BLOCK_N =>\n        bwdResidualAddSpec s DXBase DRESIDUAL stride_dx_row stride_dres_row i))",
+      "statement_sha256": "ac2a94e0818928c36323a0a5098af642015740182661fa77df781e6b051a64c7"
+    },
+    {
+      "file": "bench/tritonbench_g/layer_norm_ops/LayerNormOps.lean",
+      "name": "layer_norm_ops_scalar_stores_io_correctness",
+      "line": 5499,
+      "statement": "specification layer_norm_ops_scalar_stores_io_correctness\n    (MeanPre Mean RstdPre Rstd : RegionName) :\n    (fwd_mean_storeIO MeanPre Mean ⊨ fun _pid xs _ => xs PUnit.unit) ∧\n    (fwd_rstd_storeIO RstdPre Rstd ⊨ fun _pid xs _ => xs PUnit.unit)",
+      "statement_sha256": "fb6bb16d2c9719761ea71ab0c663b5eae504d60e4c2e21d9f38a7f7bc041ccb6"
+    },
+    {
+      "file": "bench/tritonbench_g/layer_norm_ops/LayerNormOps.lean",
+      "name": "layer_norm_ops_scalar_stores_io_correctnessR",
+      "line": 5607,
+      "statement": "specification layer_norm_ops_scalar_stores_io_correctnessR (R : RoundingModel)\n    (MeanPre Mean RstdPre Rstd : RegionName) :\n    (fwd_mean_storeIO MeanPre Mean\n      ⊨[R, FloatDType.real] fun _pid xs _ => xs PUnit.unit) ∧\n    (fwd_rstd_storeIO RstdPre Rstd\n      ⊨[R, FloatDType.real] fun _pid xs _ => xs PUnit.unit)",
+      "statement_sha256": "ceebbb3f05ed027e42a7902e7a948545940c5d603c7bf3d1a200f8611ca6f85f"
+    }
+  ],
+  "old_to_new_stage_map": {
+    "layer_norm_ops_fwd_plain_bias_all_outputs_compute_correct_general": [
+      "supplied_vector_store_correctness",
+      "supplied_mean_store_correctness",
+      "supplied_rstd_store_correctness"
+    ],
+    "layer_norm_ops_fwd_rms_bias_all_outputs_compute_correct_general": [
+      "supplied_vector_store_correctness",
+      "supplied_rstd_store_correctness"
+    ],
+    "layer_norm_ops_fwd_residual_bias_all_outputs_compute_correct_general": [
+      "supplied_vector_store_correctness (ResidualPre -> RESIDUAL_OUT)",
+      "supplied_vector_store_correctness (ValuePre -> Y)",
+      "supplied_mean_store_correctness",
+      "supplied_rstd_store_correctness"
+    ],
+    "layer_norm_ops_bwd_rms_core_outputs_compute_correct_general": [
+      "fp32_c1_reduction_correctness",
+      "fp32_supplied_dx_correctness (plain=false)",
+      "fp32_rms_one_row_correctness"
+    ],
+    "layer_norm_ops_bwd_plain_bias_core_outputs_compute_correct_general": [
+      "fp32_c1_reduction_correctness",
+      "fp32_c2_reduction_correctness",
+      "fp32_supplied_dx_correctness (plain=true)",
+      "fp32_plain_one_row_correctness"
+    ],
+    "layer_norm_ops_bwd_residual_add_all_outputs_compute_correct_general": [
+      "fp32_residual_add_correctness"
+    ],
+    "layer_norm_ops_scalar_stores_io_correctness": [
+      "supplied_mean_store_correctness",
+      "supplied_rstd_store_correctness"
+    ],
+    "layer_norm_ops_scalar_stores_io_correctnessR": [
+      "supplied_mean_store_correctness",
+      "supplied_rstd_store_correctness"
+    ]
+  },
+  "compile": {
+    "mode": "direct lake env lean -o; isolated imports; no lake build",
+    "cwd": "/tmp/veritile-fp-full-precheck",
+    "modules": [
+      {
+        "source": "bench/tritonbench_g/layer_norm_ops/Proofs/FPTypedSource.lean",
+        "sha256": "792fb00d9e094c82babefffacc646cb951b6b02e91d65a682c56826f53415371",
+        "exit_code": 0,
+        "seconds": 3.862508535385132,
+        "log": "/tmp/next23-layer-norm-ops-contracts-20261014/layer_norm_ops-FPTypedSource.log",
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "olean": "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/layer_norm_ops/Proofs/FPTypedSource.olean",
+        "olean_sha256": "d23dce90b8f8c00949fede31d3b0e1c772070c3e7efd6903fd50c98d8f874c33"
+      },
+      {
+        "source": "bench/tritonbench_g/layer_norm_ops/Proofs/FPModel.lean",
+        "sha256": "3b2525c0663717cdc75e278b3c2d59a1001b7309fee376b62801ca7560499cae",
+        "exit_code": 0,
+        "seconds": 3.287982940673828,
+        "log": "/tmp/next23-layer-norm-ops-contracts-20261014/layer_norm_ops-FPModel.log",
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "olean": "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/layer_norm_ops/Proofs/FPModel.olean",
+        "olean_sha256": "a5c9e2362df44a8053e4de115e647136422b48bd52a0e146a2847293ae441c26"
+      },
+      {
+        "source": "bench/tritonbench_g/layer_norm_ops/Proofs/FPComplete.lean",
+        "sha256": "1c6dce9fc7c754293df74117e598da265200335a8cb10455dd10b6160e6d54c1",
+        "exit_code": 0,
+        "seconds": 23.3450129032135,
+        "log": "/tmp/next23-layer-norm-ops-contracts-20261014/layer_norm_ops-FPComplete.log",
+        "log_sha256": "5ecfd5fc9230719029123b4f2d6186218167b708ce0a962e12c7909e12944b57",
+        "olean": "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/layer_norm_ops/Proofs/FPComplete.olean",
+        "olean_sha256": "25cef21b240f437115aa8e55235759d2c25d7a34e736d035d4da5b738eba4701"
+      },
+      {
+        "source": "bench/tritonbench_g/layer_norm_ops/Proofs/FPContract.lean",
+        "sha256": "dab3169cbda2f72999ee0c00ae3162831a26f8feeba0c2f4f6cbc7e74f9cafad",
+        "exit_code": 0,
+        "seconds": 3.828331470489502,
+        "log": "/tmp/next23-layer-norm-ops-contracts-20261014/layer_norm_ops-FPContract.log",
+        "log_sha256": "ba3f6ef918f654674f69916b79e835a4cfd15a5bf162f406d0ef96e34d865939",
+        "olean": "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/layer_norm_ops/Proofs/FPContract.olean",
+        "olean_sha256": "a944f77c5d97789eb0f05a1b001f3a6bfa87e0cfd3986ea521dc7a2f0465d348"
+      },
+      {
+        "source": "bench/tritonbench_g/layer_norm_ops/Proofs/FPSupplied.lean",
+        "sha256": "39a07f051f1b5fe422064744f3310998c93418d69009a1c3c6ba0e07d5d25f8d",
+        "exit_code": 0,
+        "seconds": 4.649875640869141,
+        "log": "/tmp/next23-layer-norm-ops-contracts-20261014/layer_norm_ops-FPSupplied.log",
+        "log_sha256": "ec469adba432b7f736779bf4ee0251413ef6ba73018e634f39b76d8b1fd4991b",
+        "olean": "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/layer_norm_ops/Proofs/FPSupplied.olean",
+        "olean_sha256": "5550fea660715336745ce47826f177142df806df0d93667d397d03f7d54f24f6"
+      },
+      {
+        "source": "bench/tritonbench_g/layer_norm_ops/Proofs/FPShape.lean",
+        "sha256": "a033c028f38012d83dfa2dc6986755475bde00471fc1eabf2629042d478f5717",
+        "exit_code": 0,
+        "seconds": 17.87269926071167,
+        "log": "/tmp/next23-layer-norm-ops-contracts-20261014/layer_norm_ops-FPShape.log",
+        "log_sha256": "7623d944c499cc11f1b3716e551fd222bbabbf109d43d4507bf971b26b76f50c",
+        "olean": "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/layer_norm_ops/Proofs/FPShape.olean",
+        "olean_sha256": "387371df65580903d8e6ff4af97b31a4cf6dbf5a0721a44034f68bdb8daee934"
+      },
+      {
+        "source": "bench/tritonbench_g/layer_norm_ops/Proofs/FPSoftware.lean",
+        "sha256": "a4832f84860d6f4ab543ccc7dc89ea58f69d733093eed860d2f7aef749a08a2f",
+        "exit_code": 0,
+        "seconds": 3.6500608921051025,
+        "log": "/tmp/next23-layer-norm-ops-contracts-20261014/layer_norm_ops-FPSoftware.log",
+        "log_sha256": "fc4dd0bec180df994f6e61f821983932bc0a219084b168a2baa6ec94f6cbc116",
+        "olean": "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/layer_norm_ops/Proofs/FPSoftware.olean",
+        "olean_sha256": "236e0fe6c6de132bec779cc9016d2f42b7361cb3f56f2dd300cc84ef179957f1"
+      },
+      {
+        "source": "bench/tritonbench_g/layer_norm_ops/FPCorrect.lean",
+        "sha256": "707b9f1cf4d067e01f9c1f752e281be5bc020e62dc69908dcbada7478b8f07da",
+        "exit_code": 0,
+        "seconds": 5.790777921676636,
+        "log": "/tmp/next23-layer-norm-ops-contracts-20261014/layer_norm_ops-FPCorrect.log",
+        "log_sha256": "b3dfc95fb1ef35aa2ae50109ba1c014e29cd8fa4bc60306afdc12dd212733f1c",
+        "olean": "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/layer_norm_ops/FPCorrect.olean",
+        "olean_sha256": "8e5cf7599b755e8cd1982b9c6d2af5c264b9ca614f9dc70044d33cae54b55861"
+      },
+      {
+        "source": "bench/tritonbench_g/layer_norm_ops/Proofs/FPWitness.lean",
+        "sha256": "c05b43f3df2da6b1c3da331eb0c8b3395bf502785aca2d3fec37ef093a4fe3ac",
+        "exit_code": 0,
+        "seconds": 5.075274229049683,
+        "log": "/tmp/next23-layer-norm-ops-contracts-20261014/layer_norm_ops-FPWitness.log",
+        "log_sha256": "b799dcd3b9d0f0a64ac38852e4ccb82ddf90a05e5d6785efe89b041516c76740",
+        "olean": "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/layer_norm_ops/Proofs/FPWitness.olean",
+        "olean_sha256": "45daa3bb0dc6f7b2f44c914600e1d2dc98e564505bfe35ca543a665a59f19634"
+      }
+    ],
+    "passed": 9,
+    "failed": 0
+  },
+  "axioms": {
+    "checked_declarations": [
+      "VeriTile.Bench.TritonBenchG.LayerNormOps.FPStages.rms_row_run",
+      "VeriTile.Bench.TritonBenchG.LayerNormOps.FPStages.plain_row_run",
+      "VeriTile.Bench.TritonBenchG.LayerNormOps.FPStages.rms_dx_run",
+      "VeriTile.Bench.TritonBenchG.LayerNormOps.FPStages.plain_dx_run",
+      "VeriTile.Bench.TritonBenchG.LayerNormOps.FPStages.residual_run",
+      "VeriTile.Bench.TritonBenchG.LayerNormOps.FPStages.c1_run",
+      "VeriTile.Bench.TritonBenchG.LayerNormOps.FPStages.c2_run",
+      "VeriTile.Bench.TritonBenchG.LayerNormOps.FPStages.scatter_value",
+      "VeriTile.Bench.TritonBenchG.LayerNormOps.FPStages.scatter_frame",
+      "VeriTile.Bench.TritonBenchG.LayerNormOps.FPStages.row_frame",
+      "VeriTile.Bench.TritonBenchG.LayerNormOps.FPStages.rms_row_values",
+      "VeriTile.Bench.TritonBenchG.LayerNormOps.FPStages.plain_row_values",
+      "VeriTile.Bench.TritonBenchG.LayerNormOps.FPStages.residual_values",
+      "VeriTile.Bench.TritonBenchG.LayerNormOps.FPStages.residual_frame",
+      "VeriTile.Bench.TritonBenchG.LayerNormOps.FPStages.mean_store_run",
+      "VeriTile.Bench.TritonBenchG.LayerNormOps.FPStages.rstd_store_run",
+      "VeriTile.Bench.TritonBenchG.LayerNormOps.FPStages.vector_store_run",
+      "VeriTile.Bench.TritonBenchG.LayerNormOps.FPStages.vector_value",
+      "VeriTile.Bench.TritonBenchG.LayerNormOps.FPStages.vector_frame",
+      "VeriTile.Bench.TritonBenchG.LayerNormOps.FPStages.c1_source_shape",
+      "VeriTile.Bench.TritonBenchG.LayerNormOps.FPStages.c2_source_shape",
+      "VeriTile.Bench.TritonBenchG.LayerNormOps.FPStages.rms_dx_source_shape",
+      "VeriTile.Bench.TritonBenchG.LayerNormOps.FPStages.plain_dx_source_shape",
+      "VeriTile.Bench.TritonBenchG.LayerNormOps.FPStages.residual_source_shape",
+      "VeriTile.Bench.TritonBenchG.LayerNormOps.FPStages.mean_source_shape",
+      "VeriTile.Bench.TritonBenchG.LayerNormOps.FPStages.rstd_source_shape",
+      "VeriTile.Bench.TritonBenchG.LayerNormOps.FPStages.vector_source_shape",
+      "VeriTile.Bench.TritonBenchG.LayerNormOps.FPStages.dw_db_software",
+      "VeriTile.Bench.TritonBenchG.LayerNormOps.FPCorrect.fp32_rms_one_row_correctness",
+      "VeriTile.Bench.TritonBenchG.LayerNormOps.FPCorrect.fp32_plain_one_row_correctness",
+      "VeriTile.Bench.TritonBenchG.LayerNormOps.FPCorrect.fp32_c1_reduction_correctness",
+      "VeriTile.Bench.TritonBenchG.LayerNormOps.FPCorrect.fp32_c2_reduction_correctness",
+      "VeriTile.Bench.TritonBenchG.LayerNormOps.FPCorrect.fp32_supplied_dx_correctness",
+      "VeriTile.Bench.TritonBenchG.LayerNormOps.FPCorrect.fp32_residual_add_correctness",
+      "VeriTile.Bench.TritonBenchG.LayerNormOps.FPCorrect.supplied_vector_store_correctness",
+      "VeriTile.Bench.TritonBenchG.LayerNormOps.FPCorrect.supplied_mean_store_correctness",
+      "VeriTile.Bench.TritonBenchG.LayerNormOps.FPCorrect.supplied_rstd_store_correctness",
+      "VeriTile.Bench.TritonBenchG.LayerNormOps.FPStages.zero_add_changes_bits",
+      "VeriTile.Bench.TritonBenchG.LayerNormOps.FPStages.witness_row_values",
+      "VeriTile.Bench.TritonBenchG.LayerNormOps.FPStages.plain_row_nonempty_signed_zero",
+      "VeriTile.Bench.TritonBenchG.LayerNormOps.FPStages.residual_rounds",
+      "VeriTile.Bench.TritonBenchG.LayerNormOps.FPStages.residual_nonempty_rounding"
+    ],
+    "count": 42,
+    "allowed_only": [
+      "propext",
+      "Quot.sound",
+      "Classical.choice"
+    ],
+    "sorry_or_admit_added": false
+  },
+  "direct_import_bindings": {
+    "VeriTile.Triton": {
+      "source": "VeriTile/Triton.lean",
+      "source_sha256": "0937879a78c271cce7beda0e77d0b0bcf90a23a2ce90485ab011a5472d75f9a0",
+      "olean_sha256": "c76243f1226a0984808c5b43a9d338cefd35b1d2410b30393612efd4c17516c7"
+    },
+    "VeriTile.Meta.StatementAudit": {
+      "source": "VeriTile/Meta/StatementAudit.lean",
+      "source_sha256": "9c82458cd9f705e8bd4511b8c8fa9580d314c1ec274cba9ab93f665a0d7b1ea5",
+      "olean_sha256": "2618f9e9e600abad63b8247bfea7d68e35ade157932f73ddadc2aa2da29e9ba7"
+    },
+    "bench.tritonbench_g.layer_norm_ops.Proofs.FPTypedSource": {
+      "source": "bench/tritonbench_g/layer_norm_ops/Proofs/FPTypedSource.lean",
+      "source_sha256": "792fb00d9e094c82babefffacc646cb951b6b02e91d65a682c56826f53415371",
+      "olean_sha256": "d23dce90b8f8c00949fede31d3b0e1c772070c3e7efd6903fd50c98d8f874c33"
+    },
+    "bench.tritonbench_g.token_attn_reduceV.Proofs.FPContract": {
+      "source": "bench/tritonbench_g/token_attn_reduceV/Proofs/FPContract.lean",
+      "source_sha256": "fe66f03b9ec0fa3264766164697481270a4915a9100dccad41d4bd126b98fe88",
+      "olean_sha256": "144a03a0930ced900f72f59fdb8df4321c525ab8fb93cca9f1337f67e3e0b109"
+    },
+    "bench.tritonbench_g.layer_norm_ops.Proofs.FPModel": {
+      "source": "bench/tritonbench_g/layer_norm_ops/Proofs/FPModel.lean",
+      "source_sha256": "3b2525c0663717cdc75e278b3c2d59a1001b7309fee376b62801ca7560499cae",
+      "olean_sha256": "a5c9e2362df44a8053e4de115e647136422b48bd52a0e146a2847293ae441c26"
+    },
+    "bench.tritonbench_g.layer_norm_ops.Proofs.FPComplete": {
+      "source": "bench/tritonbench_g/layer_norm_ops/Proofs/FPComplete.lean",
+      "source_sha256": "1c6dce9fc7c754293df74117e598da265200335a8cb10455dd10b6160e6d54c1",
+      "olean_sha256": "25cef21b240f437115aa8e55235759d2c25d7a34e736d035d4da5b738eba4701"
+    },
+    "bench.tritonbench_g.layer_norm_ops.Proofs.FPContract": {
+      "source": "bench/tritonbench_g/layer_norm_ops/Proofs/FPContract.lean",
+      "source_sha256": "dab3169cbda2f72999ee0c00ae3162831a26f8feeba0c2f4f6cbc7e74f9cafad",
+      "olean_sha256": "a944f77c5d97789eb0f05a1b001f3a6bfa87e0cfd3986ea521dc7a2f0465d348"
+    },
+    "bench.tritonbench_g.layer_norm_ops.LayerNormOps": {
+      "source": "bench/tritonbench_g/layer_norm_ops/LayerNormOps.lean",
+      "source_sha256": "eb73b9c1e52a86d4937180e9c3e8d1ff525f56ea30f1bdf0a9dedd68716bf9d1",
+      "olean_sha256": "a0590361d82923d3d93d07462dda8cc6d30c25758a315a55aa1ff33f4f146a55"
+    },
+    "bench.tritonbench_g.token_attn_reduceV.Proofs.FPSoftware": {
+      "source": "bench/tritonbench_g/token_attn_reduceV/Proofs/FPSoftware.lean",
+      "source_sha256": "bf8c04fd12109c2d40082a216c2cbf4c7221c7c175330217fb4051a18047f0ed",
+      "olean_sha256": "4cba450b01fa67dd64336adc659c271d6ed754e56632a66bb065ca0670c2c197"
+    },
+    "bench.tritonbench_g.layer_norm_liger.Proofs.FPSoftware": {
+      "source": "bench/tritonbench_g/layer_norm_liger/Proofs/FPSoftware.lean",
+      "source_sha256": "6d80316b357d52dae17e45fd957ae4cca37d71554c85dfb982ee05d30384b582",
+      "olean_sha256": "b1df825bffd58a0a477cec744a6d19bdfd41852d6a94ea8b5ca2f39d9ed1b754"
+    },
+    "bench.tritonbench_g.layer_norm_ops.Proofs.FPSupplied": {
+      "source": "bench/tritonbench_g/layer_norm_ops/Proofs/FPSupplied.lean",
+      "source_sha256": "39a07f051f1b5fe422064744f3310998c93418d69009a1c3c6ba0e07d5d25f8d",
+      "olean_sha256": "5550fea660715336745ce47826f177142df806df0d93667d397d03f7d54f24f6"
+    },
+    "bench.tritonbench_g.layer_norm_ops.Proofs.FPShape": {
+      "source": "bench/tritonbench_g/layer_norm_ops/Proofs/FPShape.lean",
+      "source_sha256": "a033c028f38012d83dfa2dc6986755475bde00471fc1eabf2629042d478f5717",
+      "olean_sha256": "387371df65580903d8e6ff4af97b31a4cf6dbf5a0721a44034f68bdb8daee934"
+    },
+    "bench.tritonbench_g.layer_norm_ops.FPCorrect": {
+      "source": "bench/tritonbench_g/layer_norm_ops/FPCorrect.lean",
+      "source_sha256": "707b9f1cf4d067e01f9c1f752e281be5bc020e62dc69908dcbada7478b8f07da",
+      "olean_sha256": "8e5cf7599b755e8cd1982b9c6d2af5c264b9ca614f9dc70044d33cae54b55861"
+    },
+    "bench.tritonbench_g.layer_norm_ops.Proofs.FPSoftware": {
+      "source": "bench/tritonbench_g/layer_norm_ops/Proofs/FPSoftware.lean",
+      "source_sha256": "a4832f84860d6f4ab543ccc7dc89ea58f69d733093eed860d2f7aef749a08a2f",
+      "olean_sha256": "236e0fe6c6de132bec779cc9016d2f42b7361cb3f56f2dd300cc84ef179957f1"
+    }
+  },
+  "source_graph_corrections": {
+    "file": "source-graph-corrections.json",
+    "sha256": "55cec4ae72e6d0eda2a9c1029295a39b3446a20b6598b0b59eba7587e1431478"
+  },
+  "scope": {
+    "forward": "The accepted headlines are independent supplied Y/ResidualOut/Mean/Rstd stores. All are covered as successful typed-cell executions with exact value and frame. Their normalization/residual producers remain external; no full forward arithmetic claim.",
+    "backward_rows": "RMS no-bias and plain-bias single-row source graphs include supplied statistics, X/DY/W load/casts, actual xhat mask, W undef tail, W*DY, full C1(/C2) reductions/divisions, DX, actual +0 DW/DB accumulation, final fp32 stores and frame. Arbitrary N/B/pid/strides; active output readback uses original output-region separation; contiguous lane offset injectivity proved.",
+    "backward_stages": "Independent C1/C2 reduction output contracts, independent supplied C1(/C2)/Rstd/Xhat -> DX, and supplied DXBase+DRESIDUAL -> DX/DRESIDUAL_IN. No stage-composition assumption that a supplied value is another stage result.",
+    "excluded": "Full multi-row backward loop, host DW/DB aggregation, forward value producers absent from the old headlines, launch/layout composition, non-fp32 dtype configurations, native GPU conformance.",
+    "memory": "All new arithmetic and supplied-store entries prove successful Structural execution with independent initial-cell values and memory frame. Original IO safety/layout statements remain unchanged; no new typed IO skin is claimed.",
+    "padding": "No live-only sum or finite-input assumption. W tail is address-indexed undef; every full BLOCK_N product/reduction is retained, including possible zero times Inf/NaN. Padded Xhat is source where(...,0), not an algebraic zero-product simplification."
+  },
+  "numerical_model": {
+    "parameterized": "Per-operation callbacks on opaque alpha, preserving dtype/cast/precision and full reduction array. Independent expressions and write sequence, not source=source equivalence.",
+    "software": "ScalarOps fp32 add/sub/mul/div, bit-preserving same-fp32 carrier casts, explicit ascending-lane +0-seeded reduction; source literal 0/1 fixed and other literal conversion named. No sqrt/rsqrt is used in these accepted supplied-statistic stages.",
+    "instantiation_limits": "General public declarations are backend value contracts. Concrete witnesses use N=1, so every used numerical callback, including literals and reductions, is fixed independently of rest. They are checked examples of complete stage execution, not universal hardware correspondence.",
+    "extra_numeric_laws": []
+  },
+  "witnesses": {
+    "signed_zero": "Actual complete plain one-row execution N=1/B=2 with DY=-0, X=W=Rstd=1, Mean=0: DX=-0, DW=+0, DB=+0; DX[1] framed. Removing +0 changes DW/DB bits; an explicit checked counterexample records the difference.",
+    "rounding": "Actual residual-add dual-output execution with DXBase=1 and DRESIDUAL=2^-25 writes both outputs as 1, while the exact rational sum differs.",
+    "method": "decide +kernel plus actual successful-execution contracts; no native_decide."
+  },
+  "native_obligations": [
+    {
+      "id": "FP32_PROFILE_AND_ADDRESS_DOMAIN",
+      "bind": "Bind source tensors and partial DW/DB/statistics to fp32, original row-stage configuration and valid input/output extents/strides. Preserve supplied-stage and one-row boundaries."
+    },
+    {
+      "id": "SCALAR_INSTRUCTIONS_AND_FUSION",
+      "bind": "Pin Triton/compiler/CUDA/architecture, generated PTX/cubin and flags; correct rounding, FTZ, signed-zero, nonfinite and NaN behavior. Software uses separately rounded operations; actual fusion/division approximation must match or receive its own operation graph."
+    },
+    {
+      "id": "N_CONVERSION",
+      "bind": "Bind N integer-to-fp32 scalar conversion in the row reductions. No global conversion identity or finite-domain restriction is added."
+    },
+    {
+      "id": "REDUCTION_TREE",
+      "bind": "Bind actual full BLOCK_N/layout/numWarps-dependent C1/C2 reduction schedule, seed and leaf order; ascending-lane software plan is not asserted equal to GPU reduction."
+    },
+    {
+      "id": "INITIAL_PLUS_ZERO",
+      "bind": "Preserve the real Python +0 DW/DB initialization and add, including signed-zero behavior. The old product-only/term-only graph is not interchangeable over all bit patterns."
+    },
+    {
+      "id": "UNDEF_PADDING",
+      "bind": "Preserve W masked-without-other input and every padded operation; no replacement with zero and no finite-input precondition."
+    }
+  ],
+  "gpu_experiments_run": false,
+  "hardware_correctness_claimed": false,
+  "source_sha256": {
+    "bench/tritonbench_g/layer_norm_ops/Proofs/FPTypedSource.lean": "792fb00d9e094c82babefffacc646cb951b6b02e91d65a682c56826f53415371",
+    "bench/tritonbench_g/layer_norm_ops/Proofs/FPModel.lean": "3b2525c0663717cdc75e278b3c2d59a1001b7309fee376b62801ca7560499cae",
+    "bench/tritonbench_g/layer_norm_ops/Proofs/FPComplete.lean": "1c6dce9fc7c754293df74117e598da265200335a8cb10455dd10b6160e6d54c1",
+    "bench/tritonbench_g/layer_norm_ops/Proofs/FPContract.lean": "dab3169cbda2f72999ee0c00ae3162831a26f8feeba0c2f4f6cbc7e74f9cafad",
+    "bench/tritonbench_g/layer_norm_ops/Proofs/FPSupplied.lean": "39a07f051f1b5fe422064744f3310998c93418d69009a1c3c6ba0e07d5d25f8d",
+    "bench/tritonbench_g/layer_norm_ops/Proofs/FPShape.lean": "a033c028f38012d83dfa2dc6986755475bde00471fc1eabf2629042d478f5717",
+    "bench/tritonbench_g/layer_norm_ops/Proofs/FPSoftware.lean": "a4832f84860d6f4ab543ccc7dc89ea58f69d733093eed860d2f7aef749a08a2f",
+    "bench/tritonbench_g/layer_norm_ops/FPCorrect.lean": "707b9f1cf4d067e01f9c1f752e281be5bc020e62dc69908dcbada7478b8f07da",
+    "bench/tritonbench_g/layer_norm_ops/Proofs/FPWitness.lean": "c05b43f3df2da6b1c3da331eb0c8b3395bf502785aca2d3fec37ef093a4fe3ac"
+  },
+  "patch_sha256": "3cd759dcc68a3259b79194374f352bd841516266fae37304038bede2a4b79b6f"
+}

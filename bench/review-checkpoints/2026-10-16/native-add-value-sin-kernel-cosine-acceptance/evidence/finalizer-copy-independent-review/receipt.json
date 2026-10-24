@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "kind": "independent_exact_finalizer_copy_review",
+  "frozen": true,
+  "recorded_at_utc": "2026-10-16T05:46:13.658097+00:00",
+  "artifacts": {
+    "README.md": {
+      "sha256": "f8555f5ca0d6d8cace0abcb756e7790a4f185553fe06a29600bcb70c1bb7c895",
+      "bytes": 909
+    },
+    "finalizer-exact-diff.patch": {
+      "sha256": "66873ccd37f42f4674d3af4991e49096dd5f68daf5a3165f030f2075d517e501",
+      "bytes": 895
+    },
+    "input-pins.json": {
+      "sha256": "5ebde153d9e34d4620e090f448bb6dfe13dba9dc6319dd90c88ab08f2ee9d206",
+      "bytes": 3614
+    },
+    "review.json": {
+      "sha256": "491bc6d178e3e9a06b68add70d17dcb381d1b5b3a9ad5ee51e1adaa15d22a31f",
+      "bytes": 2632
+    }
+  },
+  "subject_receipt_sha256": "4850d17e97cc7533250213c0429318760e34d639be048ba6893bf33d9c652072",
+  "verdict": "no_blocker_found_for_exact_copy_correction",
+  "review_checks_passed": 9,
+  "input_pins_verified": 21,
+  "root_approval_issued": false,
+  "acceptance_increment": 0,
+  "checkout_mutated": false
+}

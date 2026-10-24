@@ -1,5 +1,6 @@
 import bench.tritonbench_g.chunk_gated_attention.Proofs.RealHSource
 import bench.tritonbench_g.chunk_gated_attention.Proofs.RealHMath
+import VeriTile.Triton.Memory.TraceRewrite
 
 /-! Exact decomposition of both complete erased H programs. Pointer layout,
 omitted padding, the seed addition, pre-update history and final store are
@@ -89,17 +90,55 @@ def gateValue (p : Layout) (r : Regions) : List Stmt :=
 def storeCarry (p : Layout) : Stmt :=
   .store .real [p.BK,p.BV] (.blockPtr (.ref .blockPtr [p.BK,p.BV] "p_h") [0,1]) (carry p) .none
 
-def iteration (p : Layout) (r : Regions) (gateK swapped : Bool) : List Stmt :=
+def iterationPrelude (p : Layout) (r : Regions) : List Stmt :=
   [.assign .blockPtr [p.BK,p.BT] "p_k" (keyPtr p r.key),
    .assign .blockPtr [p.BT,p.BV] "p_v" (valuePtr p r.value),
    .assign .blockPtr [p.BK,p.BV] "p_h" (historyPtr p r.history),
    storeCarry p,
    .assign .real [p.BK,p.BT] "b_k" (load2 p.BK p.BT "p_k"),
-   .assign .real [p.BT,p.BV] "b_v" (load2 p.BT p.BV "p_v"),
-   .ifThenElse (.constBool gateK) (gateKey p r) (gateValue p r),
-   .assign .real [p.BK,p.BV] "b_h"
-     (if swapped then .add .real (.consSame (.consSame .nil)) (dot p) (carry p)
-      else .add .real (.consSame (.consSame .nil)) (carry p) (dot p))]
+   .assign .real [p.BT,p.BV] "b_v" (load2 p.BT p.BV "p_v")]
+
+def updateStmt (p : Layout) (swapped : Bool) : Stmt :=
+  .assign .real [p.BK,p.BV] "b_h"
+    (if swapped then .add .real (.consSame (.consSame .nil)) (dot p) (carry p)
+     else .add .real (.consSame (.consSame .nil)) (carry p) (dot p))
+
+/-- The actual source keeps the continuation inside both typed gate arms. -/
+def iteration (p : Layout) (r : Regions) (gateK swapped : Bool) : List Stmt :=
+  iterationPrelude p r ++
+    [.ifThenElse (.constBool gateK)
+      (gateKey p r ++ [updateStmt p swapped]) (gateValue p r ++ [updateStmt p swapped])]
+
+/-- Factored mathematical execution used by the existing step and safety proofs. -/
+def iterationFlat (p : Layout) (r : Regions) (gateK swapped : Bool) : List Stmt :=
+  iterationPrelude p r ++
+    [.ifThenElse (.constBool gateK) (gateKey p r) (gateValue p r), updateStmt p swapped]
+
+private theorem branch_continuation_exec (c : Bool) (yes no after : List Stmt) (u : BlockState) :
+    stepStmts [.ifThenElse (.constBool c) (yes ++ after) (no ++ after)] u =
+      stepStmts (.ifThenElse (.constBool c) yes no :: after) u := by
+  cases c <;> cases hy : stepStmts yes u <;> cases hn : stepStmts no u <;>
+    simp [stepStmts,stepStmt,evalOp,ProgramRewrite.append,hy,hn]
+  all_goals split <;> simp_all
+
+private theorem branch_continuation_safe (bounds : RegionBounds) (c : Bool)
+    (yes no after : List Stmt) (u : BlockState) :
+    Stmt.TraceSafeList bounds [.ifThenElse (.constBool c) (yes ++ after) (no ++ after)] u ↔
+      Stmt.TraceSafeList bounds (.ifThenElse (.constBool c) yes no :: after) u := by
+  cases c <;> cases hy : stepStmts yes u <;> cases hn : stepStmts no u <;>
+    cases hay : stepStmts (yes ++ after) u <;> cases han : stepStmts (no ++ after) u <;>
+    simp [Stmt.TraceSafeList,Stmt.TraceSafe,Op.SafeAt.eq_def,evalOp,stepStmt,
+      TraceRewrite.append_iff,hy,hn,hay,han]
+
+theorem iteration_exec (p : Layout) (r : Regions) (gateK swapped : Bool) (u : BlockState) :
+    stepStmts (iteration p r gateK swapped) u = stepStmts (iterationFlat p r gateK swapped) u := by
+  simp only [iteration,iterationFlat,ProgramRewrite.append,branch_continuation_exec]
+
+theorem iteration_safe_iff (bounds : RegionBounds) (p : Layout) (r : Regions)
+    (gateK swapped : Bool) (u : BlockState) :
+    Stmt.TraceSafeList bounds (iteration p r gateK swapped) u ↔
+      Stmt.TraceSafeList bounds (iterationFlat p r gateK swapped) u := by
+  simp only [iteration,iterationFlat,TraceRewrite.append_iff,branch_continuation_safe]
 
 def finalization (p : Layout) (r : Regions) (storeFinal : Bool) : List Stmt :=
   [.ifThen (.constBool storeFinal)

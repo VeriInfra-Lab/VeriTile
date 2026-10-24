@@ -1,0 +1,33 @@
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-wip/VectorFinite/FullScope.lean:36:27: error: Tactic `subst` failed: invalid equality proof, it is not of the form (x = t) or (t = x)
+  v = output ∨ v ∈ []
+
+case inr.inr
+x y output : View
+n : ℕ
+hn : n < 2 ^ 31
+hx : x.Valid n (rounded n)
+hy : y.Valid n (rounded n)
+ho : output.Valid n (rounded n)
+v : View
+h✝ : v = output ∨ v ∈ []
+⊢ v.Valid n (rounded n)
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-wip/VectorFinite/FullScope.lean:35:29: warning: This simp argument is unused:
+  List.mem_singleton
+
+Hint: Omit it from the simp argument list.
+  simp only [List.mem_cons,̵L̵i̵s̵t̵.̵m̵e̵m̵_̵s̵i̵n̵g̵l̵e̵t̵o̵n̵] at hv
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-wip/VectorFinite/FullScope.lean:175:0: error: VeriTile.Bench.TritonBenchG.VectorAddition.Finite.launch_safety: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.TritonBenchG.VectorAddition.Finite.physical_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-wip/VectorFinite/FullScope.lean:177:0: error: VeriTile.Bench.TritonBenchG.VectorAddition.Finite.vector_addition_finite_success: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-wip/VectorFinite/FullScope.lean:178:0: error: VeriTile.Bench.TritonBenchG.VectorAddition.Finite.vector_addition_finite_outcome: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.TritonBenchG.VectorAddition.Finite.vector_addition_finite_allocation_error: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAddition.Finite.vector_addition_finite_cuda_error: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-wip/VectorFinite/FullScope.lean:182:0: error: VeriTile.Bench.TritonBenchG.VectorAddition.Finite.vector_addition_finite_outcome: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

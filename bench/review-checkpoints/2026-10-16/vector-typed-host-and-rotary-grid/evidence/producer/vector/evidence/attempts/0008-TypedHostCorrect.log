@@ -1,0 +1,19 @@
+/tmp/veritile-standardization-20261015/vector-typed-host-wip/bench/tritonbench_g/vector_addition/TypedHostCorrect.lean:78:38: error: Application type mismatch: The argument
+  hr
+has type
+  route xD yD = some r
+but is expected to have type
+  some r = some r
+in the application
+  And.intro hr
+VeriTile.Bench.TritonBenchG.VectorAddition.TypedHostCorrect.vector_addition_typed_host_success: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/veritile-standardization-20261015/vector-typed-host-wip/bench/tritonbench_g/vector_addition/TypedHostCorrect.lean:98:0: error: VeriTile.Bench.TritonBenchG.VectorAddition.TypedHostCorrect.vector_addition_typed_host_outcome: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.TritonBenchG.VectorAddition.TypedHostCorrect.vector_addition_typed_host_allocation_error: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAddition.TypedHostCorrect.vector_addition_typed_host_cuda_error: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/veritile-standardization-20261015/vector-typed-host-wip/bench/tritonbench_g/vector_addition/TypedHostCorrect.lean:102:0: error: VeriTile.Bench.TritonBenchG.VectorAddition.TypedHostCorrect.vector_addition_typed_host_outcome: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

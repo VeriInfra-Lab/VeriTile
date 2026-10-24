@@ -27,7 +27,12 @@ theorem signed_loop_equiv (R : FP.ScalarArithmetic.Rules) (start stop : Int) (st
 
 /-- info: FP assumptions used by signed_loop_equiv:
 ---
-info:   add_commute -/
+info:   none
+---
+info: Strict model certificates used by signed_loop_equiv:
+---
+info:   model: VeriTile.Software.strictFP32/ieeeValue/maxnum/documented-exp-special-values
+    certificate: List.Forall₂.cons (FP.ScalarArithmetic.strict_certificate FP.ScalarArithmetic.Atom.addCommute rfl) List.Forall₂.nil -/
 #guard_msgs in
 #print_fp_assumptions signed_loop_equiv
 

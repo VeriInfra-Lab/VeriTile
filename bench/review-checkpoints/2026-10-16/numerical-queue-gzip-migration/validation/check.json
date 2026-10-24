@@ -1,0 +1,19 @@
+{
+  "status": "passed",
+  "migration_storage_and_reference_checks": "passed",
+  "queue_bytes_and_all_legacy_rows_preserved": true,
+  "legacy_scope_result_unchanged": true,
+  "legacy_scope_status": "failed",
+  "CI_deferred_numerics_gate_preserved": true,
+  "coherent_snapshot": {
+    "status": "passed",
+    "manifest": "bench/review-checkpoints/2026-10-16/numerical-queue-gzip-migration/snapshot/manifest.json.gz",
+    "sha256": "9db17cc541aadb23c094cba4d3ec7ea8df918a128af44745beba2f73b25420a1",
+    "root_input_count": 14537,
+    "dependency_files_copied": 0,
+    "acceptance_increment": 0
+  },
+  "full_global_build_comparator_gates": "not_run_by_storage_script; report separately if actually run",
+  "primary_gate_installed": false,
+  "acceptance_increment": 0
+}

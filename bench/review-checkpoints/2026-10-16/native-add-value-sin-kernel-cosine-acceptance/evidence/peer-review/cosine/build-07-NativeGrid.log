@@ -1,0 +1,11 @@
+CosineNative.launchPlan: definition does not reference [CosineNative.executeLaunch,
+ CosineNative.executeGrid,
+ CosineNative.executeProgram,
+ CosineNative.sourceWrites,
+ CosineNative.applyWrites] — non-circular ✓
+CosineNative.grid_correspondence: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+CosineNative.launch_correspondence: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+CosineNative.launch_write_bounds: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
+CosineNative.launch_all_outcomes: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
+CosineNative.no_access_grid: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
+CosineNative.no_access_returned_memory: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])

@@ -1,6 +1,11 @@
 import bench.tritonbench_g.fused_activation.Proofs.Real
 import VeriTile.Meta.StatementAudit
 
+/-! Historical mathematical and slice contracts in this file are ordinary helper
+theorems. Only the retained `specification` entries below are public source contracts.
+The helpers retain their statements and proofs for downstream reuse. -/
+
+
 namespace VeriTile.Bench.TritonBenchG.FusedActivation
 open VeriTile.Triton
 open scoped VeriTile.Triton.GroupedMasked2DKernelIO
@@ -62,7 +67,7 @@ Both activation branches (`true` = `tl.sigmoid`, `false` = `tl.maximum(0, ·)`)
 are covered: `ACTIVATION_SIGMOID` is a free parameter. Proof:
 `GroupedMasked2DKernelIO.Implements.intro` assembles the region-model grouped
 triple with the flat-memory bridge side conditions. -/
-specification fused_add_mul_activation_kernel_correctness
+theorem fused_add_mul_activation_kernel_correctness
     (x_ptr bias_ptr in_ptr : RegionName)
     (num_weights xnumel BLOCK_SIZE : Nat)
     (multiplier : ℝ) (ACTIVATION_SIGMOID : Bool) :

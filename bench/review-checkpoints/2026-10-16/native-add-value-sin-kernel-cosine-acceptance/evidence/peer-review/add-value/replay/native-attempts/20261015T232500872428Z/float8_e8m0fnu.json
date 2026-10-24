@@ -1,0 +1,13 @@
+{
+  "dtype": "float8_e8m0fnu",
+  "target": {
+    "backend": "cuda",
+    "arch": 90,
+    "warp_size": 32
+  },
+  "value_python": 10,
+  "N_python": 2049,
+  "status": "rejected",
+  "failure_stage": "signature",
+  "exception": "Traceback (most recent call last):\n  File \"/tmp/veritile-standardization-20261015/add-value-revision1-independent-review/replay/probe_native.py\", line 26, in <module>\n    params,specialization,options=binder(jit.MockTensor(dtype),jit.MockTensor(dtype),2049,BLOCK_SIZE=1024,value=10)\n                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<string>\", line 4, in dynamic_func\n  File \"/usr/local/lib/python3.12/site-packages/triton/_utils.py\", line 123, in canonicalize_ptr_dtype\n    return f\"{'*k' if is_const else '*'}{canonicalize_dtype(dtype)}\"\n                                         ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/_utils.py\", line 119, in canonicalize_dtype\n    return type_canonicalisation_dict[dtype_str]\n           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^\nKeyError: 'float8_e8m0fnu'\n"
+}

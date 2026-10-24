@@ -1,0 +1,26 @@
+{
+  "reviewer": "root",
+  "status": "full_original_scope_two_graphs_half_and_e4m3_software_review_pass",
+  "receipt_sha256": "54f8d7112f85c56f878492a7f166d4c74c20bbc433b34d16f1729e0de2a17e7d",
+  "artifact_files_verified": 119,
+  "sources_verified": 19,
+  "objects_verified": 19,
+  "compiled_modules_verified": 19,
+  "old_public_source_bytes_unchanged": true,
+  "reference_audit": {
+    "source": "MatmulLeakyreluFp8ReferenceAudit.lean",
+    "source_sha256": "0f14fa53dc11d3e9b6fb753194f2f5e63c87aeb11529fbbdcd29939ad7a43a90",
+    "log": "matmul-leakyrelu-fp8-reference-audit.log",
+    "log_sha256": "b93adf36b3fd9bb51a5edfc50b246368e28bcfecd4ffe835740ea62207931d63",
+    "noncircular_checks": 8
+  },
+  "findings": [
+    "Original2 public declarations and Lean/Python sources are byte-identical. Complete grouped mapping and dynamic cdiv K stream, K/M/N tails, both activation branches, input modulo and output frame are proved; original exactK domain included, no new numerical premise.",
+    "Original3-argument dot already retains live carry. Source slope*x and actual compiler candidate x*slope are kept as separate complete graphs without assuming scalar commutativity. Half and E4M3FN input profiles have concrete software bits with fixed half output.",
+    "Increasing-K fp32 FMA, exact half/E4M3FN decoding, fp32 decimal slope RN-even, ordered comparison and rounded multiplication, half narrowing and exceptional values are specified independently of fallback callbacks.",
+    "Eight exact SM90 offline profiles cover actual autotune tiles, two input formats, activation and fusion settings. They establish compiled graph evidence only; native MMA order, rounding/FTZ/NaNs and bit-level correspondence remain explicit obligations.",
+    "Eight independent reference checks exclude source/typed constructors and interpreter execution. Native fixed-width addresses, physical storage/allocation and launch are not inferred from logical masked frame."
+  ],
+  "native_execution": false,
+  "canonical_counts_updated": false
+}

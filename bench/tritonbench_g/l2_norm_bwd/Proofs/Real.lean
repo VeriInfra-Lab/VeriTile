@@ -311,6 +311,7 @@ theorem l2_norm_bwd_kernel_flattenOk
         BLOCK_N).toAlgKernel).FlattenOk := by
   unfold Kernel.FlattenOk
   simp [l2_norm_bwd_kernel, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
+    ComputeOp.toAlgorithm?,
     StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk.eq_def]
 
 set_option maxHeartbeats 1600000 in
@@ -337,6 +338,7 @@ theorem l2_norm_bwd_kernel_traceSafe
   unfold Kernel.TraceSafe
   simp only [BlockState.pid_eq] at hin1 hin2 hout
   simp [l2_norm_bwd_kernel, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
+    ComputeOp.toAlgorithm?,
     Stmt.TraceSafeList, Stmt.TraceSafe, Op.SafeAt.eq_def,
     MaskOpt.SafeAt, MemAccess.SafeAt, stepStmt, evalOp.eq_def,
     MemAccess.ActiveAddressSafe, memAccessActiveAddressSafe,

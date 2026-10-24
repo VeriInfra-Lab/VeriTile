@@ -1,0 +1,15 @@
+{
+  "status": "passed_proposal_structure_only",
+  "full_execution_evidence": true,
+  "declaration_scope_exact": true,
+  "original_source_view_valid": true,
+  "exact_success_cases": 231,
+  "complete_rejection_partitions": 9,
+  "primitive_error_partitions": 4,
+  "kernel_cases": 242,
+  "wrapper_dtype_cases": 244,
+  "case_uniqueness_checked": true,
+  "accepted_scope_gate": "not_run_pending_independent_root_review_and_catalog_integration",
+  "numerical_callbacks": [],
+  "numerical_deferrals": []
+}

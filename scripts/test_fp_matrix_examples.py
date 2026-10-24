@@ -1,4 +1,4 @@
-"""General mHC sources, executable matrix contexts, and atomic assumptions."""
+"""General mHC sources, executable matrix contexts, and numerical evidence."""
 from pathlib import Path
 import subprocess
 import tempfile
@@ -30,8 +30,8 @@ class MatrixExampleTests(unittest.TestCase):
     def test_nonsquare_iterations_backend_and_precision(self):
         self.assertEqual(self.lean((ROOT / "bench/tests/FPMatrixExamples.lean").read_text()), "")
 
-    def test_general_fp_specs_only_use_their_scalar_atoms(self):
-        for side, atom in (("Depth", "add_commute"), ("Width", "div_mul_rcp")):
+    def test_general_fp_specs_separate_strict_and_empirical_evidence(self):
+        for side in ("Depth", "Width"):
             with self.subTest(side=side):
                 name = f"VeriTile.Bench.Examples.HyperConnections{side}FPEquiv.mhc_{side.lower()}_matrix_equiv"
                 output = self.lean(f"""
@@ -42,7 +42,13 @@ run_cmd do
   if (← getEnv).contains `VeriTile.Bench.Examples.HyperConnections{side}.MatrixCorrect.mhc_{side.lower()}_matrix_correct then
     throwError "FP specification imported real correctness"
 """)
-                self.assertEqual(output.splitlines()[1:], [f"  {atom}"])
+                self.assertNotIn("unresolved FP proof", output)
+                if side == "Depth":
+                    self.assertIn("FP assumptions used by mhc_depth_matrix_equiv:\n  none\n", output)
+                    self.assertIn("Strict model certificates used by mhc_depth_matrix_equiv:\n", output)
+                    self.assertIn("ScalarArithmetic.strict_certificate", output)
+                else:
+                    self.assertEqual(output.splitlines()[1:], ["  div_mul_rcp"])
 
     def test_general_real_specs_have_no_fp_dependency(self):
         for side in ("Depth", "Width"):

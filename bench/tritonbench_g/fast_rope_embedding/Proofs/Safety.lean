@@ -47,7 +47,7 @@ theorem flatten_ok (Q C S : RegionName) (QR CR SR seq H heads B : Nat) (backward
     Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,
     VeriTile.Triton.eraseDType,NumericDType.eraseDType,ComparableDType.eraseDType,
     IntegralDType.eraseDType,ComputeDType.eraseDType,Bool.false_eq_true,Except.bind,bind,
-    StmtList.FlattenOk,Stmt.FlattenOk,Op.FlattenOk]
+    StmtList.FlattenOk,Stmt.FlattenOk,Op.FlattenOk,Op.FlattenOk.eq_def]
 
 /-- Coefficient loads are required even for empty head groups. The loop only
 requires allocations for the active halves of heads that actually execute. -/

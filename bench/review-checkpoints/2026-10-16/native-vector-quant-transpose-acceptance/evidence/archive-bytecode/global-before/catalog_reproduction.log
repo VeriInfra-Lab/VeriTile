@@ -1,0 +1,22 @@
+{
+  "tasks": 184,
+  "task_modules": 3633,
+  "public_files": 421,
+  "public_claims": 957,
+  "extension_value_contracts": 142,
+  "protocol_contracts": 7,
+  "original_source_missing": [
+    "fp4_to_bf16_conversion"
+  ],
+  "candidate_sources": [
+    "fp4_to_bf16_conversion",
+    "sgmv_expand_slice"
+  ],
+  "task_local_sc_sources": [
+    "layer_norm_triton",
+    "relu_triton_kernel",
+    "spinning_lock_reduction",
+    "streamk_matmul"
+  ],
+  "source_review_binding_gaps": []
+}

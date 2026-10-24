@@ -30,15 +30,13 @@ specification attention_kernel_aligned_output_summary_general
     (stride_qh stride_b0h BLOCK_M BLOCK_N HEAD BIAS_LAST_SIZE stride_b0m nB : Nat)
     (hKN : 0 < BLOCK_N) (hBM : 0 < BLOCK_M) (hHD : 0 < HEAD) (hnB : 1 ≤ nB)
     (hundef : ∀ rg o, s.undef rg o = 0) :
-    (∃ alg, (attention_kernel_aligned_fwd_kernel_aligned_surface Q K V B0 Out sm_scale
+    (∃ alg, (attention_kernel_aligned_fp16_surface Q K V B0 Out sm_scale
       stride_qh HEAD 1 stride_qh HEAD 1 stride_qh HEAD 1 stride_qh HEAD 1
-      stride_b0h stride_b0m 2 4 (BLOCK_N * nB) 0 BIAS_LAST_SIZE 128 HEAD BLOCK_M BLOCK_N
-      FloatDType.fp16).toAlgorithm? = Except.ok alg) ∧
+      stride_b0h stride_b0m 2 4 (BLOCK_N * nB) 0 BIAS_LAST_SIZE 128 HEAD BLOCK_M BLOCK_N).toAlgorithm? = Except.ok alg) ∧
     ComputeCorrect.Realizes_without_Rounding
-      (kernel := attention_kernel_aligned_fwd_kernel_aligned_surface Q K V B0 Out sm_scale
+      (kernel := attention_kernel_aligned_fp16_surface Q K V B0 Out sm_scale
         stride_qh HEAD 1 stride_qh HEAD 1 stride_qh HEAD 1 stride_qh HEAD 1
-        stride_b0h stride_b0m 2 4 (BLOCK_N * nB) 0 BIAS_LAST_SIZE 128 HEAD BLOCK_M BLOCK_N
-        FloatDType.fp16)
+        stride_b0h stride_b0m 2 4 (BLOCK_N * nB) 0 BIAS_LAST_SIZE 128 HEAD BLOCK_M BLOCK_N)
       (initialState := s)
       (write := fun idx : TileIndex [BLOCK_M, HEAD] =>
         some (Out, surfaceOutOffset s stride_qh HEAD 1 BLOCK_M idx))
@@ -55,15 +53,17 @@ specification attention_kernel_aligned_output_summary_general
 - `hnB : 1 ≤ nB`
 - `hundef : ∀ rg o, s.undef rg o = 0`
 
-**Closed-form spec defs (transitive):** `attention_kernel_aligned_fwd_kernel_aligned_surface`, `surfaceOutOffset`, `alignedClosedForm`, `mIndex`, `kIndex`, `alignedQTile`, `alignedKTile`, `alignedVTile`, `log2e`, `alignedBias`
+**Closed-form spec defs (transitive):** `attention_kernel_aligned_fp16_surface`, `surfaceOutOffset`, `alignedClosedForm`, `mIndex`, `kIndex`, `alignedQTile`, `alignedKTile`, `alignedVTile`, `log2e`, `alignedBias`
 
-<details><summary><code>attention_kernel_aligned_fwd_kernel_aligned_surface</code></summary>
+<details><summary><code>attention_kernel_aligned_fp16_surface</code></summary>
 
 ```
-/-- Faithful DSL port of `attention_kernel_aligned.py`'s `_fwd_kernel_aligned`. -/
+/-- Explicit fp16 specialization of the supplied `_fwd_kernel_aligned`.
+The original bf16 wrapper path is rejected by the current Triton compiler at
+`tl.dot(..., out_dtype=bf16)`; there is no arbitrary-FloatDType lowering claim. -/
 ```
 ```lean
-def attention_kernel_aligned_fwd_kernel_aligned_surface
+def attention_kernel_aligned_fp16_surface
     (Q K V B0 Out : RegionName) (sm_scale : ℝ)
     (stride_qh stride_qm stride_qk
       stride_kh stride_kn stride_kk
@@ -72,7 +72,7 @@ def attention_kernel_aligned_fwd_kernel_aligned_surface
       stride_b0h stride_b0m
       _Z _H N_CTX P_SEQ BIAS_LAST_SIZE B0_NUMEL
       BLOCK_DMODEL BLOCK_M BLOCK_N : Nat)
-    (out_dtype : FloatDType) :
+    :
     ComputeKernel := triton {
   start_m = tl.program_id(0)
   off_hz = tl.program_id(1)
@@ -102,7 +102,7 @@ def attention_kernel_aligned_fwd_kernel_aligned_surface
   acc = tl.zeros([$(BLOCK_M), $(BLOCK_DMODEL)], dtype=tl.float32)
   qk_scale = $((sm_scale : ℝ)) * 1.44269504
   q = tl.load(Q_block_ptr)
-  q = (q * qk_scale).to(OUT_DTYPE)
+  q = (q * qk_scale).to(tl.float16)
   lo = 0
   hi = $((N_CTX + P_SEQ : Nat))
 
@@ -115,8 +115,8 @@ def attention_kernel_aligned_fwd_kernel_aligned_surface
   for start_n in range(lo, hi, $(BLOCK_N)) {
     k = tl.load(K_block_ptr)
     v = tl.load(V_block_ptr)
-    qk = tl.zeros([$(BLOCK_M), $(BLOCK_N)], dtype=OUT_DTYPE)
-    qk += tl.dot(q, k, out_dtype=OUT_DTYPE)
+    qk = tl.zeros([$(BLOCK_M), $(BLOCK_N)], dtype=tl.float16)
+    qk += tl.dot(q, k, out_dtype=tl.float16)
 
     b0 = tl.load(B0 + b_offset + ((start_m * $(BLOCK_M) + b_ptr_offsets_m) *
       $(stride_b0m))[:, None] + start_n // $(BLOCK_N))
@@ -126,7 +126,7 @@ def attention_kernel_aligned_fwd_kernel_aligned_surface
     alpha = tl.math.exp2(m_i - m_i_new)
     p = tl.math.exp2(qk - m_i_new[:, None])
     acc *= alpha[:, None]
-    acc += tl.dot((p).to(OUT_DTYPE), v)
+    acc += tl.dot((p).to(tl.float16), v)
     l_i = l_i * alpha + tl.sum(p, 1)
     m_i = m_i_new
     K_block_ptr = tl.advance(K_block_ptr, [$(0), $(BLOCK_N)])
@@ -140,7 +140,7 @@ def attention_kernel_aligned_fwd_kernel_aligned_surface
     offsets=(start_m * $(BLOCK_M), 0),
     block_shape=($(BLOCK_M), $(BLOCK_DMODEL)),
     order=(1, 0))
-  tl.store(O_block_ptr, (acc).to(OUT_DTYPE))
+  tl.store(O_block_ptr, (acc).to(tl.float16))
 }
 ```
 </details>
@@ -325,7 +325,7 @@ specification attention_kernel_aligned_io_correctness (R : RoundingModel)
 - `hHD : 0 < HEAD`
 - `hnB : 1 ≤ nB`
 
-**Closed-form spec defs (transitive):** `attentionKernelAlignedIO`, `akaIOscoreT`, `akaIOvT`, `attention_kernel_aligned_fwd_kernel_aligned_surface`, `akaIOqT`, `akaIOkT`, `akaIOb0T`, `akaIOb1T`
+**Closed-form spec defs (transitive):** `attentionKernelAlignedIO`, `akaIOscoreT`, `akaIOvT`, `attention_kernel_aligned_fp16_surface`, `akaIOqT`, `akaIOkT`, `akaIOb0T`, `akaIOb1T`
 
 <details><summary><code>attentionKernelAlignedIO</code></summary>
 
@@ -338,10 +338,9 @@ four-stream single-output attention fold skin (single head-stride: K/V ride
 def attentionKernelAlignedIO (Q K V B0 Out : RegionName) (sm_scale : ℝ)
     (stride_qh stride_b0h BLOCK_M BLOCK_N HEAD BIAS_LAST_SIZE stride_b0m nB : Nat) :
     StreamMasked3DKernelIO₄ where
-  kernel := attention_kernel_aligned_fwd_kernel_aligned_surface Q K V B0 Out sm_scale
+  kernel := attention_kernel_aligned_fp16_surface Q K V B0 Out sm_scale
     stride_qh HEAD 1 stride_qh HEAD 1 stride_qh HEAD 1 stride_qh HEAD 1
     stride_b0h stride_b0m 2 4 (BLOCK_N * nB) 0 BIAS_LAST_SIZE 128 HEAD BLOCK_M BLOCK_N
-    FloatDType.fp16
   inp1 := Q
   inp2 := K
   inp3 := V
@@ -413,13 +412,15 @@ noncomputable def akaIOvT (T BN HD : Nat) (zs : Fin T → Fin (BN * HD) → ℝ)
 ```
 </details>
 
-<details><summary><code>attention_kernel_aligned_fwd_kernel_aligned_surface</code></summary>
+<details><summary><code>attention_kernel_aligned_fp16_surface</code></summary>
 
 ```
-/-- Faithful DSL port of `attention_kernel_aligned.py`'s `_fwd_kernel_aligned`. -/
+/-- Explicit fp16 specialization of the supplied `_fwd_kernel_aligned`.
+The original bf16 wrapper path is rejected by the current Triton compiler at
+`tl.dot(..., out_dtype=bf16)`; there is no arbitrary-FloatDType lowering claim. -/
 ```
 ```lean
-def attention_kernel_aligned_fwd_kernel_aligned_surface
+def attention_kernel_aligned_fp16_surface
     (Q K V B0 Out : RegionName) (sm_scale : ℝ)
     (stride_qh stride_qm stride_qk
       stride_kh stride_kn stride_kk
@@ -428,7 +429,7 @@ def attention_kernel_aligned_fwd_kernel_aligned_surface
       stride_b0h stride_b0m
       _Z _H N_CTX P_SEQ BIAS_LAST_SIZE B0_NUMEL
       BLOCK_DMODEL BLOCK_M BLOCK_N : Nat)
-    (out_dtype : FloatDType) :
+    :
     ComputeKernel := triton {
   start_m = tl.program_id(0)
   off_hz = tl.program_id(1)
@@ -458,7 +459,7 @@ def attention_kernel_aligned_fwd_kernel_aligned_surface
   acc = tl.zeros([$(BLOCK_M), $(BLOCK_DMODEL)], dtype=tl.float32)
   qk_scale = $((sm_scale : ℝ)) * 1.44269504
   q = tl.load(Q_block_ptr)
-  q = (q * qk_scale).to(OUT_DTYPE)
+  q = (q * qk_scale).to(tl.float16)
   lo = 0
   hi = $((N_CTX + P_SEQ : Nat))
 
@@ -471,8 +472,8 @@ def attention_kernel_aligned_fwd_kernel_aligned_surface
   for start_n in range(lo, hi, $(BLOCK_N)) {
     k = tl.load(K_block_ptr)
     v = tl.load(V_block_ptr)
-    qk = tl.zeros([$(BLOCK_M), $(BLOCK_N)], dtype=OUT_DTYPE)
-    qk += tl.dot(q, k, out_dtype=OUT_DTYPE)
+    qk = tl.zeros([$(BLOCK_M), $(BLOCK_N)], dtype=tl.float16)
+    qk += tl.dot(q, k, out_dtype=tl.float16)
 
     b0 = tl.load(B0 + b_offset + ((start_m * $(BLOCK_M) + b_ptr_offsets_m) *
       $(stride_b0m))[:, None] + start_n // $(BLOCK_N))
@@ -482,7 +483,7 @@ def attention_kernel_aligned_fwd_kernel_aligned_surface
     alpha = tl.math.exp2(m_i - m_i_new)
     p = tl.math.exp2(qk - m_i_new[:, None])
     acc *= alpha[:, None]
-    acc += tl.dot((p).to(OUT_DTYPE), v)
+    acc += tl.dot((p).to(tl.float16), v)
     l_i = l_i * alpha + tl.sum(p, 1)
     m_i = m_i_new
     K_block_ptr = tl.advance(K_block_ptr, [$(0), $(BLOCK_N)])
@@ -496,7 +497,7 @@ def attention_kernel_aligned_fwd_kernel_aligned_surface
     offsets=(start_m * $(BLOCK_M), 0),
     block_shape=($(BLOCK_M), $(BLOCK_DMODEL)),
     order=(1, 0))
-  tl.store(O_block_ptr, (acc).to(OUT_DTYPE))
+  tl.store(O_block_ptr, (acc).to(tl.float16))
 }
 ```
 </details>

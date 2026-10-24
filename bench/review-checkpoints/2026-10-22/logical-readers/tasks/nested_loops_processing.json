@@ -1,0 +1,91 @@
+{
+  "schema": 1,
+  "task": "nested_loops_processing",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue11/result.json",
+    "sha256": "7a28f136f231639a8f9558b05e0421064795ae4d4006e846103d9cb7137f1b44",
+    "task_index": 1
+  },
+  "finding": "Exact integer snapshot/result adapters and flat output addresses appeared in the mathematical entry, with local connection proof plumbing.",
+  "resolution": "Bijective logical matrix snapshots/output, explicit signed-int32 arange and zero initialization, and a mathematical row/column last-writer fold. Column shifts carry into subsequent rows; the complete prior flat formula and exact-cell contract are proved equivalent.",
+  "mathematical_target": "kernel_correctness",
+  "conditions_and_scope": "Original positive rows*cols launched stage, both complete int32 allocation snapshots, every source loop/store/barrier and exterior cell. Exact-cell binding is preserved; no decoded-read weakening.",
+  "proof_connection": "LogicalViewIO contains bijective input/output coordinates. Proofs/LogicalReader proves the full prior/new judgment iff; Proofs/ReaderBefore preserves the exact prior statement and established proof. The new public specification applies this connection.",
+  "fp_review": "Complete original versus existing integer input-index multiplication commutation; exactCells mode, same initialization and positive source stage.",
+  "numerical_dependencies": "No new numerical rewrites or experiments. Existing actual FP pairs retain empty experimental rule sets and their original concrete/native/opaque unchanged-primitive interpretations; structural/index/schedule transformations only. Real mathematics remains independent.",
+  "previous_formula_scope": {
+    "mathematical_target": "Independent ordered 24-store, 2x2 tile copy fold with last writer winning. Input is modular signed-int32 arange, zero beyond rows*cols; initial output is zero.",
+    "required_conditions": "positive: 0<rows*cols and IO.initialized exact signed-int32 input/zero-output snapshots are retained in ImplementsOnCells. Admission allows zero dimensions, but Python does not launch the kernel when n_elements=0; this endpoint is the launched kernel stage, not an empty-host protocol. No floating numerical domain exists.",
+    "scope": "One complete selected kernel-stage source with all nested loops, cached tile reads, duplicate-lane suppression, clamps, barriers and the entire observed output allocation.",
+    "canonical_connection": "A main-proof-local formula equality is rfl to target/CopyMath.expected/zeroExtend; Formula.integer_word, Formula.integer and IOProof.implements establish all cells, run safety/success and exterior frame.",
+    "fp_program_pair": {
+      "actual_pair": "PairIO.original versus PairIO.indexCommuted, changing only the initial integer input-address product.",
+      "model_and_precision": "Exact int32 cell snapshots in .exactCells mode, arbitrary unused Algebra scalar interpretation, same complete loops/barriers; PairIO.assumptions=[] by definition.",
+      "experimental_rules_used": 0,
+      "pending_experiments_for_main_pair": 0,
+      "dependency_note": "Empty experimental rules do not erase the fixed typed interpreter and local compiler/model bindings stated above."
+    },
+    "numerical_dependencies": {
+      "actual_pair": "PairIO.original versus PairIO.indexCommuted, changing only the initial integer input-address product.",
+      "model_and_precision": "Exact int32 cell snapshots in .exactCells mode, arbitrary unused Algebra scalar interpretation, same complete loops/barriers; PairIO.assumptions=[] by definition.",
+      "experimental_rules_used": 0,
+      "pending_experiments_for_main_pair": 0,
+      "dependency_note": "Empty experimental rules do not erase the fixed typed interpreter and local compiler/model bindings stated above."
+    }
+  },
+  "verification": [
+    {
+      "kind": "targeted_modules_and_fp_reader",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue11/build.py",
+        "bench.repairs.tritonbench_g.nested_loops_processing.Proofs.ReaderBefore",
+        "bench.repairs.tritonbench_g.nested_loops_processing.LogicalViewIO",
+        "bench.repairs.tritonbench_g.nested_loops_processing.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.nested_loops_processing.Correct",
+        "bench.repairs.tritonbench_g.nested_loops_processing.FPEquiv",
+        "bench.repairs.tritonbench_g.nested_loops_processing.Contract"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue11/final/nested_loops_processing-build.log",
+      "log_sha256": "42d270441033acef95ee68800be6b75be0dfa86e907a98eef319c8a30fc37335"
+    },
+    {
+      "kind": "task_local_joint_import",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue11/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue11/final/nested_loops_processingJoint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue11/final/nested_loops_processing-joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/nested_loops_processing/Correct.lean": "28f71e3a8ae2eaa9f97da60d4520c96c3090fae23f728f703ba54080eb7d68ed",
+    "bench/repairs/tritonbench_g/nested_loops_processing/FPEquiv.lean": "c11745c1cb7d34d7e8379b944a2bc44713ed5ddbbf1988825aa6043abbe6f389",
+    "bench/repairs/tritonbench_g/nested_loops_processing/Contract.lean": "b95c30723a2cc1eb45967fe6f8f7d11af8c09df6e13716f82da167e7ad39723b",
+    "bench/repairs/tritonbench_g/nested_loops_processing/LogicalViewIO.lean": "cc9750bfb87a9afb683b52cbb2583f9f6deb81ac5d223d40017837eeff299410",
+    "bench/repairs/tritonbench_g/nested_loops_processing/Proofs/ReaderBefore.lean": "ca3c6dfabe9cc4e118bfa1af41cc12ede4b58412921915476c35a82759ab707e",
+    "bench/repairs/tritonbench_g/nested_loops_processing/Proofs/LogicalReader.lean": "a9c31e74b50329893e227a66f471b3daea9b76b54a05a87c65e1263b442b4d6f",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [
+    "Existing applicable internal proof objects reused; no unchanged proof-closure replay. Per-task joint imports were used, not a cross-task aggregate."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

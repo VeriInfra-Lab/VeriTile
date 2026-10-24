@@ -1,0 +1,33 @@
+/tmp/veritile-standardization-20261015/kcache-view-wip/bench/tritonbench_g/kcache_copy_triton/Proofs/HostViewCases.lean:96:40: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/veritile-standardization-20261015/kcache-view-wip/bench/tritonbench_g/kcache_copy_triton/Proofs/HostViewCases.lean:151:40: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/veritile-standardization-20261015/kcache-view-wip/bench/tritonbench_g/kcache_copy_triton/Proofs/HostViewCases.lean:187:40: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/veritile-standardization-20261015/kcache-view-wip/bench/tritonbench_g/kcache_copy_triton/Proofs/HostViewCases.lean:231:40: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/veritile-standardization-20261015/kcache-view-wip/bench/tritonbench_g/kcache_copy_triton/Proofs/HostViewCases.lean:286:40: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/veritile-standardization-20261015/kcache-view-wip/bench/tritonbench_g/kcache_copy_triton/Proofs/HostViewCases.lean:322:40: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/veritile-standardization-20261015/kcache-view-wip/bench/tritonbench_g/kcache_copy_triton/Proofs/HostViewCases.lean:366:40: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/veritile-standardization-20261015/kcache-view-wip/bench/tritonbench_g/kcache_copy_triton/Proofs/HostViewCases.lean:445:40: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/veritile-standardization-20261015/kcache-view-wip/bench/tritonbench_g/kcache_copy_triton/Proofs/HostViewCases.lean:497:40: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/veritile-standardization-20261015/kcache-view-wip/bench/tritonbench_g/kcache_copy_triton/Proofs/HostViewCases.lean:562:40: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+VeriTile.Bench.TritonBenchG.KcacheCopyTriton.Host.View.coefficients_positive: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

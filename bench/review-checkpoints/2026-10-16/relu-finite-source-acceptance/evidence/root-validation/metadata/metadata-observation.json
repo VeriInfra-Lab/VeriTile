@@ -1,0 +1,214 @@
+{
+  "kind": "trusted_Torch_metadata_observation",
+  "torch_version": "2.13.0+cu130",
+  "source_call": "torch.empty_like(x, dtype=torch.float32, device=x.device)",
+  "device_tested": "cpu",
+  "cuda_allocation_tested": false,
+  "kernel_executed": false,
+  "script_sha256": "0f531356835ce9a7fbdbe2a659f5c271a50d57f9abd8d471e10e19d2c04f5ba5",
+  "cases": [
+    {
+      "name": "scalar",
+      "shape": [],
+      "input_strides": [],
+      "input_storage_offset": 0,
+      "input_storage_bytes": 4,
+      "input_flat_span_safe": true,
+      "output_strides": [],
+      "output_storage_offset": 0,
+      "output_dtype": "torch.float32",
+      "output_device": "cpu",
+      "output_storage_bytes": 4
+    },
+    {
+      "name": "empty",
+      "shape": [
+        0,
+        3
+      ],
+      "input_strides": [
+        3,
+        1
+      ],
+      "input_storage_offset": 0,
+      "input_storage_bytes": 0,
+      "input_flat_span_safe": true,
+      "output_strides": [
+        3,
+        1
+      ],
+      "output_storage_offset": 0,
+      "output_dtype": "torch.float32",
+      "output_device": "cpu",
+      "output_storage_bytes": 0
+    },
+    {
+      "name": "contiguous",
+      "shape": [
+        2,
+        3
+      ],
+      "input_strides": [
+        3,
+        1
+      ],
+      "input_storage_offset": 0,
+      "input_storage_bytes": 24,
+      "input_flat_span_safe": true,
+      "output_strides": [
+        3,
+        1
+      ],
+      "output_storage_offset": 0,
+      "output_dtype": "torch.float32",
+      "output_device": "cpu",
+      "output_storage_bytes": 24
+    },
+    {
+      "name": "transpose_dense",
+      "shape": [
+        3,
+        2
+      ],
+      "input_strides": [
+        1,
+        3
+      ],
+      "input_storage_offset": 0,
+      "input_storage_bytes": 24,
+      "input_flat_span_safe": true,
+      "output_strides": [
+        1,
+        3
+      ],
+      "output_storage_offset": 0,
+      "output_dtype": "torch.float32",
+      "output_device": "cpu",
+      "output_storage_bytes": 24
+    },
+    {
+      "name": "offset_slice",
+      "shape": [
+        4
+      ],
+      "input_strides": [
+        1
+      ],
+      "input_storage_offset": 3,
+      "input_storage_bytes": 40,
+      "input_flat_span_safe": true,
+      "output_strides": [
+        1
+      ],
+      "output_storage_offset": 0,
+      "output_dtype": "torch.float32",
+      "output_device": "cpu",
+      "output_storage_bytes": 16
+    },
+    {
+      "name": "strided_slice",
+      "shape": [
+        4
+      ],
+      "input_strides": [
+        2
+      ],
+      "input_storage_offset": 0,
+      "input_storage_bytes": 32,
+      "input_flat_span_safe": true,
+      "output_strides": [
+        1
+      ],
+      "output_storage_offset": 0,
+      "output_dtype": "torch.float32",
+      "output_device": "cpu",
+      "output_storage_bytes": 16
+    },
+    {
+      "name": "transpose_slice",
+      "shape": [
+        2,
+        3
+      ],
+      "input_strides": [
+        2,
+        4
+      ],
+      "input_storage_offset": 0,
+      "input_storage_bytes": 48,
+      "input_flat_span_safe": true,
+      "output_strides": [
+        1,
+        2
+      ],
+      "output_storage_offset": 0,
+      "output_dtype": "torch.float32",
+      "output_device": "cpu",
+      "output_storage_bytes": 24
+    },
+    {
+      "name": "expanded_unsafe_flat_span",
+      "shape": [
+        4
+      ],
+      "input_strides": [
+        0
+      ],
+      "input_storage_offset": 0,
+      "input_storage_bytes": 4,
+      "input_flat_span_safe": false,
+      "output_strides": [
+        1
+      ],
+      "output_storage_offset": 0,
+      "output_dtype": "torch.float32",
+      "output_device": "cpu",
+      "output_storage_bytes": 16
+    },
+    {
+      "name": "empty_arbitrary_strides",
+      "shape": [
+        0,
+        3
+      ],
+      "input_strides": [
+        5,
+        2
+      ],
+      "input_storage_offset": 0,
+      "input_storage_bytes": 0,
+      "input_flat_span_safe": true,
+      "output_strides": [
+        5,
+        2
+      ],
+      "output_storage_offset": 0,
+      "output_dtype": "torch.float32",
+      "output_device": "cpu",
+      "output_storage_bytes": 0
+    },
+    {
+      "name": "singleton_arbitrary_stride",
+      "shape": [
+        1,
+        3
+      ],
+      "input_strides": [
+        99,
+        1
+      ],
+      "input_storage_offset": 0,
+      "input_storage_bytes": 12,
+      "input_flat_span_safe": true,
+      "output_strides": [
+        99,
+        1
+      ],
+      "output_storage_offset": 0,
+      "output_dtype": "torch.float32",
+      "output_device": "cpu",
+      "output_storage_bytes": 12
+    }
+  ],
+  "boundary": "These observations support the named metadata primitive contract. They are not a proof of Torch/CUDA allocator implementation or all layouts."
+}

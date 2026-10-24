@@ -1,0 +1,132 @@
+{
+  "schema": 1,
+  "status": "accepted_partial_byte_access_and_complete_program_permutation_refinement",
+  "reviewer": "/root/comparator_restore",
+  "reviewed_at_utc": "2026-10-15T17:55:01.563537+00:00",
+  "receipt_sha256": "0f845c08f838bb9f2f36c9c0fbcdbd799ba2ec7d5e394d41afa13ef9b4aa8228",
+  "scope_review_sha256": "375a7f945b9d020babf5bdec78f0bee589401121a7f773b01f8f62f4269413ca",
+  "reviewed_source_sha256": {
+    "bench/tritonbench_g/relu_triton_kernel/Proofs/AccessMemory.lean": "8441241c8d12668d19a9eddff6a89f1d791dfd01cd21519df126fa151c5c15e8",
+    "bench/tritonbench_g/relu_triton_kernel/Proofs/AccessLoads.lean": "a9da9364455336a93d0450fc67003e7c47e12001396cbf02cf3183821b91a8ab",
+    "bench/tritonbench_g/relu_triton_kernel/Proofs/AccessGrid.lean": "d0dfbbc5d528ead38f1a356c76667b3b1a040bd24964d8959987f3f928881adc",
+    "bench/tritonbench_g/relu_triton_kernel/AccessGridCorrect.lean": "d4577753ca046e1186dbb2a6820602a049a18e510525d46a4e63d6c6ff945b8e"
+  },
+  "proof_defects_found": [],
+  "whole_original_program_accepted": false,
+  "original_program_completion_increment": 0,
+  "new_public_contracts": 1,
+  "new_dtype_profiles": 0,
+  "native_backend_runs": 0,
+  "gpu_runs": 0,
+  "checker_path": "/tmp/veritile-standardization-20261015/relu-partial-byte-execution-independent-audit.py",
+  "checker_sha256": "4e41adf27bcd1730c47c04d2f0f8fc6e7d70ae6bc28a3ef0854fbd621c446b65",
+  "verification": {
+    "frozen_artifacts_checked": 55,
+    "source_dependency_and_anchor_hashes_checked": 184,
+    "imported_project_oleans_checked": 176,
+    "inherited_source_modules_checked": 16,
+    "inherited_artifacts_checked": 87,
+    "inherited_ttir_hashes_checked": 13,
+    "preserved_compile_attempts": 21,
+    "preserved_failed_attempts": [
+      1,
+      2,
+      3,
+      5,
+      7,
+      8,
+      11
+    ],
+    "final_actual_lean_exits": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "named_axiom_checks": 29,
+    "noncircularity_checks": 3,
+    "module_axiom_audit_commands": 4,
+    "warnings": 0,
+    "independent_lean_rerun": false,
+    "public_statement_hashes_checked": 1,
+    "independent_staged_blobs_checked": 55,
+    "independent_staged_whitespace_exit": 0,
+    "temporary_stage": "/tmp/veritile-relu-access-independent-stage-u1av4ubs",
+    "external_library_build_rechecked": false
+  },
+  "source_checks": {
+    "read_requires_allocated_and_readable": true,
+    "write_requires_allocated_and_writable": true,
+    "store_fault_retains_memory": true,
+    "loads_bind_low_byte_then_remaining_high": true,
+    "all_active_words_bind_in_order": true,
+    "program_load_result_is_matched_before_store_gate": true,
+    "nonzero_load_failure_is_explicit": true,
+    "masked_lanes_excluded_by_active_count": true,
+    "active_store_values_only_use_loaded_lanes": true,
+    "nonzero_program_omits_scalar_result_evaluation": true,
+    "schedule_threads_previous_memory": true,
+    "public_output_permission_is_first_tile_only": true,
+    "public_input_permission_is_entire_N": true,
+    "public_has_no_execution_success_premise": true,
+    "full_output_domain_is_stronger_than_permission_domain": true,
+    "public_composes_old_actual_typed_grid_and_address_certificate": true
+  },
+  "semantic_review": [
+    "All four new Lean sources read and their imported ByteGridCorrect/IntegerWords contracts inspected. readByte checks allocation and read permission before exposing a byte; loadLE uses ordered Except binds and exact little-endian assembly.",
+    "writePrefix performs increasing-address byte writes. A failed later byte returns the precise memory after the successful prefix, with allocation/read/write maps preserved. This is a mathematical partial-write policy, not a native fault-order or trap result.",
+    "program matches loadWords for every active lane of every pid before its pid-zero store gate. The nonzero_program_unavailable theorem proves a previously invisible active input fault even when the old total memory-effect projection is identity.",
+    "loadWords and loadedPrefix fill unloaded container entries with zero. Only the actually loaded prefix supplies active stores. These placeholders do not assign zero to original masked loads without other, and do not prove inactive native values.",
+    "The inherited scalar callbacks are pure total functions. Nonzero-pid comparison/conversion results are not separately evaluated in this access interpreter. It proves observable memory/access behavior under that model; it is not a stepwise source/TTIR trace.",
+    "Readable covers all N input words. Writable covers exactly min(N,1024) output words and needs no output read permission. No tail allocation/read/write permission is required. LogicalView over the latent total byte payload does not imply tail accessibility.",
+    "runSchedule and runPrefix thread actual previous memory. Permission maps are unchanged, so all required later loads remain permitted. Only pid0 writes; complete whole-program permutations therefore have the same byteGrid effect. No instruction interleaving or native race claim follows.",
+    "The public specification composes successful partial-access schedules, the actual prior typed-grid execution, independent wordSpec/byteSpec, final complete tagged view, total-payload and allocated-content frames, active finite-pointer input loads and the inherited address certificate.",
+    "Distinct logical input/output names, full-N interval separation, B1024, N<2^31 and finite64-bit base/end domains remain explicit selected-domain premises. They do not prove allocation freshness, native layouts/provenance, zero-grid launch behavior or general overlapping aliases.",
+    "Nine finite-word integer/bool encodings are refined with zero new dtype names. fromInt/fromNat fp32 conversion and signed-negative fp32 zero remain explicit inherited numerical callbacks; native memory/compiler/host/error correspondence stays structurally open."
+  ],
+  "numerical_followups": [
+    {
+      "id": "RELU-W-N1",
+      "scope": "Nine finite-word integer/bool profiles after native load-to-InputWords mapping is established",
+      "primitive": "M.fromInt/M.fromNat to fp32",
+      "status": "descriptive_pending_exact_queue_scope_binding",
+      "requirements": [
+        "Bind direct source-width signed/unsigned conversion rounding and exceptional behavior to fp32.",
+        "Do not reclassify native byte assembly, dtype/tag mapping, pointer validity or physical aliasing as numerical assumptions."
+      ]
+    },
+    {
+      "id": "RELU-W-N2",
+      "scope": "Signed negative source-word branch only",
+      "primitive": "M.literal none fp32 0",
+      "status": "descriptive_pending_exact_queue_scope_binding",
+      "requirements": [
+        "Bind the literal to native positive fp32 zero.",
+        "The word-level comparisons and bool normalization have no remaining numerical callback."
+      ]
+    }
+  ],
+  "numerical_registration_status": "Producer followups are descriptive pending exact queue-scope binding; parent integration must bind the inherited callbacks to this new public statement before claiming queue registration.",
+  "remaining_structural_obligations": [
+    {
+      "id": "RELU-A-S1",
+      "gap": "Native allocation, storage and access permissions",
+      "detail": "The custom partial interface is a total mathematical byte payload plus explicit allocated/readable/writable maps. Native device allocation, memory validity, access rights, little-endian layout, alignment and provenance are not related to those maps. Full-N input readability and first-tile output writability are selected-domain premises, not host-established facts."
+    },
+    {
+      "id": "RELU-A-S2",
+      "gap": "Native source/compiler and error correspondence",
+      "detail": "Every active input byte of every pid now passes a failing-access bind before the store gate. The nonzero-pid missing-byte theorem distinguishes this from the old total memory-effect projection. This custom interpreter still has no stepwise Python/TTIR/compiler bridge. Deterministic first-unavailable-byte errors and retained partial-write states are mathematical semantics, not native traps, poison, sanitizers or observable fault order. Scalar comparisons/conversions are pure total callbacks; nonzero-pid scalar results are not separately evaluated and no native instruction trace follows. Unloaded entries in loadWords/loadedPrefix are zero placeholders used only to complete the mathematical container; original no-other masked-load values are not specified."
+    },
+    {
+      "id": "RELU-A-S3",
+      "gap": "Host-established layout and domains",
+      "detail": "Logical name distinction, numeric interval separation, B1024, N<2^31 and representable endpoints remain theorem premises. Native empty_like freshness, layouts/strides, shifted/overlapping aliases, other sizes/blocks, launch limits and native zero-grid/error behavior remain open. No allocation or permission is required for the unmodified output tail."
+    },
+    {
+      "id": "RELU-A-S4",
+      "gap": "Native instruction interleaving and remaining dtype/module scope",
+      "detail": "All complete permutations of whole programs are proved in the partial-access model. Programs remain atomic relative to each other; native instruction interleavings and races remain open. The same nine finite-word profiles are refined with no new dtype names. Prior fp64/fp8/error families and host/harness/module/compiler target scope remain required."
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "schema": 1,
+  "task": "attention_fwd_triton3",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue01/result.json",
+    "sha256": "e83606eb1af11f63258849532abca45e610a46657c5b23bc45277a166000a8ec",
+    "task_index": 7
+  },
+  "finding": "The three-output reader exposed outputCoordinates inverse decoding and raw per-program six-input transport; proof assembly and recursive-maximum connection lived in the reader.",
+  "resolution": "Added actual per-program logical six-array inputs with complete backing equality, named center/denominator/output records and exact three-channel output equivalence. Preserved adjacent independent maximum/window/carry/writeback mathematics; moved maximum uniqueness and complete formula/judgment assembly into Proofs.",
+  "mathematical_target": "Full signed-window attention row maximum and weighted denominator/numerator, seeded by INIT or entry carry. Continuation returns M/L/O; END returns M+log2(L) and O/L with L store masked.",
+  "conditions_and_scope": "Complete ordinary grid and Valid c retained: original block dimensions, grouped heads, padded rows, source query-tail mask, strides, output separation/layout, machine/index bounds, six inputs/carry aliases, raw scale slot, INIT/END/window/complement/signed offset/size, and no-loop versus executed all-masked distinction. Total Real log/division conventions unchanged; complete run/access/frame judgment preserved.",
+  "proof_connection": "LogicalReader.maximum_eq proves recursive-maximum uniqueness; formula_connection checks center, denominator and every output feature against RealContract.expected, then reconstructs the exact full raw formula. statement_iff is the whole previous Implements judgment iff, and correct_with_maximum applies existing RealInterface.implements without shrinking any scope.",
+  "fp_review": "Actual complete original/key-tail-mask CSE candidate unchanged with six arbitrary native arrays, raw FP32 scale, full INIT/END/window branches, source precision and padded O/M/L scope; empty experimental R.",
+  "numerical_dependencies": "No floating rewrite, numerical assumption or experiment added. Existing source-selected ordered native graph and strict structural pair retained.",
+  "previous_formula_scope": {
+    "mathematical_target": "Three outputs from six independent input arrays: signed-window QK scores, final maximum and closed weighted sums plus INIT/continuation carry; END writes M+log2(L) and O/L, continuation writes M/L/O. No-loop preserves seed; executed all-masked block uses empty-pair summary.",
+    "required_conditions": [
+      "Valid c retained explicitly: block geometry, dimensions, strides/output layout, separation, even-tail and machine/index safety conditions.",
+      "INIT/END/window/complement flags, signed offset/size, no-loop versus executed all-masked distinction, actual query tail mask, six Real inputs and runtime scale binding retained. No positivity condition added to total Real division/log."
+    ],
+    "scope": "Full ordinary grid, all original padded O/M/L output rows/channels, grouped heads, windows and masks. The END denominator output store remains masked by the public IO.",
+    "canonical_connection": "Main proof first proves maximumScore = canonical RealFormula.maxScore by list induction, then full formula c = RealInterface.formula c channel-by-channel. rescaling/initial/score/keepKey/rowSummary/carry/expected match canonical RealInputs/RealKeys/RealInputFormula/RealContract; applies existing RealInterface.implements.",
+    "fp_program_pair": {
+      "floating_point.actual_pair": "FPEquiv.original ≡[[]] FPEquiv.candidate; existing per-iteration arange/add/comparison CSE",
+      "floating_point.scope": "Full ordinary grids with all six arrays and raw FP32 scale slot, original arbitrary words/native expression carriers, INIT/END/window branches, signed loop and padded M/O/L scope, dual actual safety/success and raw frames. No FP rewrite."
+    },
+    "numerical_dependencies": {
+      "kind": "strict-program-structure",
+      "rule": "no floating rewrite",
+      "experimental_instance_used": false,
+      "explanation": "The selected source schedule/index/ordered native graph equality is proved with the existing implementation/model binding. Empty experimental rules do not assert equality for arbitrary opaque primitives or GPU conformance."
+    }
+  },
+  "verification": [
+    {
+      "kind": "targeted_build",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue01/build.py",
+        "bench.repairs.tritonbench_g.attention_fwd_triton1_tile_checked.LogicalIO",
+        "bench.repairs.tritonbench_g.attention_fwd_triton1_tile_checked.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.attention_fwd_triton1_tile_checked.Correct",
+        "bench.repairs.tritonbench_g.attention_fwd_triton3_scalar_cast.LogicalIO",
+        "bench.repairs.tritonbench_g.attention_fwd_triton3_scalar_cast.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.attention_fwd_triton3_scalar_cast.Correct"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue01/multioutput-final.log",
+      "log_sha256": "47366c34ddb7bf2f3f6bf430aaf07d76059787dfc34217724d58eaa428e97b3f",
+      "module_receipts": [
+        {
+          "path": ".veritile-cache/logical-reader-review-20261022/queue01/build/lib/lean/bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/Correct.workspace-build.json",
+          "sha256": "6f82b9671f00b271ee2c9eed01ad7a34e33222f98bc1d30da9022c0a74177a2c"
+        },
+        {
+          "path": ".veritile-cache/logical-reader-review-20261022/queue01/build/lib/lean/bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/Proofs/LogicalReader.workspace-build.json",
+          "sha256": "5c7db4dc1975884fec9915e08a1de06029072ee9bf0a699da535eb46d59310e5"
+        },
+        {
+          "path": ".veritile-cache/logical-reader-review-20261022/queue01/build/lib/lean/bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/LogicalIO.workspace-build.json",
+          "sha256": "a9a5253c6c07cc8a9f00f3bc8e80fe16e9df39f786e908c5eecf39c3f9bfad08"
+        }
+      ],
+      "note": "Final successful grouped command reused accepted receipts for these exact source and dependency hashes."
+    },
+    {
+      "task": "attention_fwd_triton3",
+      "kind": "task_joint",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue01/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue01/Joint_attention_fwd_triton3.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue01/Joint_attention_fwd_triton3.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/Contract.lean": "0939b58ee39229f3e070a98a245bef37fa77b952e74ecbc1c6d669fae5aadfdd",
+    "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/Correct.lean": "ff9b8269a8988d0554c83b866ccb21ff5339342148d4e23da69c14dd97140458",
+    "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/FPEquiv.lean": "ea4c27ab7df661095b1de7314366c19f36593bbc8fc2927b1d90e3380114c2b2",
+    "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/IO.lean": "c4c53b5a0f64454e4be5cec8e40cd4beb797229493392690f7eb6e543e37663f",
+    "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/RealIO.lean": "bf5b5856dd1fd0239a045f56fc2e1687e2ffcf9f694839d81a00d93410da10f8",
+    "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/Proofs/LogicalReader.lean": "e11612b2c1a2f6bdd4cf8e52583ca1f76324ac7503b032a8d3429d5e4bf03602",
+    "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/LogicalIO.lean": "906bf5c07dd425c7f7783d679295cd77c00508b3410478c3bbdbce1df3a47362",
+    "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/Kernels.lean": "45081420bbb259a55c0bb4897c3a0c99b1b0fda36ca2a26b5b1176add480c3ab",
+    "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/Proofs/RealImplementation.lean": "0f898677aa730d84be6fab51ada52283af7a81d2f642c32772a730cd3c08b0c1",
+    "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/Proofs/CSEIO.lean": "546b5b6acc709d5ec5d22f8ee2aac5af6e7c6afbe09d971756a71359b958db25",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [
+    "Unchanged transitive proof closure and FPEquiv objects reused from the accepted read-only baseline; current selected entries passed task-level joint import.",
+    "No optional host/native/Tensor/GPU or numerical task introduced."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

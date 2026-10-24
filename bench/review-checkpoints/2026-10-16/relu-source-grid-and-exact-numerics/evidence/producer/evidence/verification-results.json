@@ -1,0 +1,110 @@
+[
+  {
+    "module": "bench/tritonbench_g/relu_triton_kernel/Proofs/SourceStages.lean",
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lean",
+      "--root=/tmp/veritile-standardization-20261015/relu-source-coupled-block-wip",
+      "/tmp/veritile-standardization-20261015/relu-source-coupled-block-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/SourceStages.lean",
+      "-o",
+      "/tmp/veritile-standardization-20261015/relu-source-coupled-block-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/SourceStages.olean"
+    ],
+    "exit_code": 0,
+    "seconds": 7.79892549989745,
+    "source_sha256_before": "b22520f9b866db8794df8375d36f2e770ee051da467667038188c56add048c57",
+    "source_sha256_after": "b22520f9b866db8794df8375d36f2e770ee051da467667038188c56add048c57",
+    "log": "evidence/attempts/0018-SourceStages.log",
+    "log_sha256": "e0209a3ba55a0a25431050e44f0fcb6937df70f42e39988fe2a929c47355b73e",
+    "source_snapshot": "evidence/attempts/0018-SourceStages.lean.txt",
+    "snapshot_sha256": "b22520f9b866db8794df8375d36f2e770ee051da467667038188c56add048c57"
+  },
+  {
+    "module": "bench/tritonbench_g/relu_triton_kernel/Proofs/CheckedTileIO.lean",
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lean",
+      "--root=/tmp/veritile-standardization-20261015/relu-source-coupled-block-wip",
+      "/tmp/veritile-standardization-20261015/relu-source-coupled-block-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/CheckedTileIO.lean",
+      "-o",
+      "/tmp/veritile-standardization-20261015/relu-source-coupled-block-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/CheckedTileIO.olean"
+    ],
+    "exit_code": 0,
+    "seconds": 4.249249625951052,
+    "source_sha256_before": "b89a37c32624209cda593d570aa1cdc100ff94155831a0e0040706c93d3f35dd",
+    "source_sha256_after": "b89a37c32624209cda593d570aa1cdc100ff94155831a0e0040706c93d3f35dd",
+    "log": "evidence/attempts/0019-CheckedTileIO.log",
+    "log_sha256": "268a111fa056a09a3d38bacc60ecb0753b8ad54dd90cac3a197f82a79dc23f5e",
+    "source_snapshot": "evidence/attempts/0019-CheckedTileIO.lean.txt",
+    "snapshot_sha256": "b89a37c32624209cda593d570aa1cdc100ff94155831a0e0040706c93d3f35dd"
+  },
+  {
+    "module": "bench/tritonbench_g/relu_triton_kernel/Proofs/CheckedBlock.lean",
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lean",
+      "--root=/tmp/veritile-standardization-20261015/relu-source-coupled-block-wip",
+      "/tmp/veritile-standardization-20261015/relu-source-coupled-block-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/CheckedBlock.lean",
+      "-o",
+      "/tmp/veritile-standardization-20261015/relu-source-coupled-block-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/CheckedBlock.olean"
+    ],
+    "exit_code": 0,
+    "seconds": 6.080929946852848,
+    "source_sha256_before": "6653affb9a648c6aa8ede196521b25c4b475ea8d5aa5e4c91f1c33d5788bfc17",
+    "source_sha256_after": "6653affb9a648c6aa8ede196521b25c4b475ea8d5aa5e4c91f1c33d5788bfc17",
+    "log": "evidence/attempts/0020-CheckedBlock.log",
+    "log_sha256": "9b05f44d6a90f2dc2a4006038bf6ed9af4d4f747d546ba41480ca65d4ac354e4",
+    "source_snapshot": "evidence/attempts/0020-CheckedBlock.lean.txt",
+    "snapshot_sha256": "6653affb9a648c6aa8ede196521b25c4b475ea8d5aa5e4c91f1c33d5788bfc17"
+  },
+  {
+    "module": "bench/tritonbench_g/relu_triton_kernel/SourceBlockCorrect.lean",
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lean",
+      "--root=/tmp/veritile-standardization-20261015/relu-source-coupled-block-wip",
+      "/tmp/veritile-standardization-20261015/relu-source-coupled-block-wip/bench/tritonbench_g/relu_triton_kernel/SourceBlockCorrect.lean",
+      "-o",
+      "/tmp/veritile-standardization-20261015/relu-source-coupled-block-wip/bench/tritonbench_g/relu_triton_kernel/SourceBlockCorrect.olean"
+    ],
+    "exit_code": 0,
+    "seconds": 4.737606040900573,
+    "source_sha256_before": "c81680c34f276e51e35923ff5d8c56f754174235781122f3e9b678403506e845",
+    "source_sha256_after": "c81680c34f276e51e35923ff5d8c56f754174235781122f3e9b678403506e845",
+    "log": "evidence/attempts/0021-SourceBlockCorrect.log",
+    "log_sha256": "2de4e67074049774552db687a4fcd00fa53d18b2703ffac0dcc788437e586302",
+    "source_snapshot": "evidence/attempts/0021-SourceBlockCorrect.lean.txt",
+    "snapshot_sha256": "c81680c34f276e51e35923ff5d8c56f754174235781122f3e9b678403506e845"
+  },
+  {
+    "module": "bench/tritonbench_g/relu_triton_kernel/Proofs/CheckedSchedule.lean",
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lean",
+      "--root=/tmp/veritile-standardization-20261015/relu-source-coupled-block-wip",
+      "/tmp/veritile-standardization-20261015/relu-source-coupled-block-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/CheckedSchedule.lean",
+      "-o",
+      "/tmp/veritile-standardization-20261015/relu-source-coupled-block-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/CheckedSchedule.olean"
+    ],
+    "exit_code": 0,
+    "seconds": 6.890018299920484,
+    "source_sha256_before": "9b81dcd8e7e6f5b8856a4bbe81cef8f94e052da601a9186cbee559e4df2ef730",
+    "source_sha256_after": "9b81dcd8e7e6f5b8856a4bbe81cef8f94e052da601a9186cbee559e4df2ef730",
+    "log": "evidence/attempts/0022-CheckedSchedule.log",
+    "log_sha256": "8474265748bb4d30841d7175ff9f296eb15b5e96e92c41e312b59e8574652f8d",
+    "source_snapshot": "evidence/attempts/0022-CheckedSchedule.lean.txt",
+    "snapshot_sha256": "9b81dcd8e7e6f5b8856a4bbe81cef8f94e052da601a9186cbee559e4df2ef730"
+  },
+  {
+    "module": "bench/tritonbench_g/relu_triton_kernel/SourceGridCorrect.lean",
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lean",
+      "--root=/tmp/veritile-standardization-20261015/relu-source-coupled-block-wip",
+      "/tmp/veritile-standardization-20261015/relu-source-coupled-block-wip/bench/tritonbench_g/relu_triton_kernel/SourceGridCorrect.lean",
+      "-o",
+      "/tmp/veritile-standardization-20261015/relu-source-coupled-block-wip/bench/tritonbench_g/relu_triton_kernel/SourceGridCorrect.olean"
+    ],
+    "exit_code": 0,
+    "seconds": 4.799082229845226,
+    "source_sha256_before": "30733b9622fc5a01773d1cf3cf3bc48dd49ac8354dec013f7f2a6b7f1ce2bbdf",
+    "source_sha256_after": "30733b9622fc5a01773d1cf3cf3bc48dd49ac8354dec013f7f2a6b7f1ce2bbdf",
+    "log": "evidence/attempts/0023-SourceGridCorrect.log",
+    "log_sha256": "50aabba3a98d27f110f7d90077cfb203435cd2141f4d9500e65998cd2e975153",
+    "source_snapshot": "evidence/attempts/0023-SourceGridCorrect.lean.txt",
+    "snapshot_sha256": "30733b9622fc5a01773d1cf3cf3bc48dd49ac8354dec013f7f2a6b7f1ce2bbdf"
+  }
+]

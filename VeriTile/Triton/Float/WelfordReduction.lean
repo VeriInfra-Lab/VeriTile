@@ -11,7 +11,7 @@ def count {α : Type} (M : Algebra α) (tree : ReductionTree N) : α :=
   value M (fun _ => one M) (zero M) tree
 
 def mean {α : Type} (M : Algebra α) (xs : Fin N → α) (tree : ReductionTree N) : α :=
-  div M (value M xs (zero M) tree) (count M tree)
+  ScalarArithmetic.div M (value M xs (zero M) tree) (count M tree)
 
 /-- Only domain predicates occur here. The centered-sum identity is derived
 below rather than included as an invariant or a numerical premise. -/
@@ -22,16 +22,16 @@ structure MeanDomain {α : Type} (M : Algebra α) (D : Domain α)
   inputTree : FiniteTree M D xs (ScalarArithmetic.zero M) tree
   onesTree : FiniteTree M D (fun _ => one M) (ScalarArithmetic.zero M) tree
   countNonzero : D .nonzero (count M tree)
-  inverseCount : D .finite (div M (one M) (count M tree))
+  inverseCount : D .finite (ScalarArithmetic.div M (one M) (count M tree))
   mean : D .finite (WelfordReduction.mean M xs tree)
-  scaledZero : D .finite (mul M (WelfordReduction.mean M xs tree) (ScalarArithmetic.zero M))
+  scaledZero : D .finite (ScalarArithmetic.mul M (WelfordReduction.mean M xs tree) (ScalarArithmetic.zero M))
   negativeScaledZero : D .finite
-    (sub M (ScalarArithmetic.zero M) (mul M (WelfordReduction.mean M xs tree) (ScalarArithmetic.zero M)))
-  deviations : FiniteTree M D (fun i => sub M (xs i) (WelfordReduction.mean M xs tree))
+    (ScalarArithmetic.sub M (ScalarArithmetic.zero M) (ScalarArithmetic.mul M (WelfordReduction.mean M xs tree) (ScalarArithmetic.zero M)))
+  deviations : FiniteTree M D (fun i => ScalarArithmetic.sub M (xs i) (WelfordReduction.mean M xs tree))
     (ScalarArithmetic.zero M) tree
   center : FiniteTree M D (fun _ => WelfordReduction.mean M xs tree) (ScalarArithmetic.zero M) tree
   negativeCenterSum : D .finite
-    (sub M (ScalarArithmetic.zero M)
+    (ScalarArithmetic.sub M (ScalarArithmetic.zero M)
       (value M (fun _ => WelfordReduction.mean M xs tree) (ScalarArithmetic.zero M) tree))
 
 /-- The scalar theory implies a zero sum of deviations when the mean uses
@@ -39,7 +39,7 @@ the same tree's floating count. No equality with fromNat(N) is assumed. -/
 theorem centered_sum_zero {α : Type} [Inhabited α] (R : Rules) (M : Algebra α)
     (D : Domain α) (hM : Models R.assumptions M D) (s : State α)
     (xs : Fin N → α) (tree : ReductionTree N) (hd : MeanDomain M D xs tree) :
-    value M (fun i => sub M (xs i) (mean M xs tree)) (zero M) tree = zero M := by
+    value M (fun i => ScalarArithmetic.sub M (xs i) (mean M xs tree)) (zero M) tree = zero M := by
   have hc : value M (fun _ => mean M xs tree) (zero M) tree = value M xs (zero M) tree := by
     rw [constant_value R M D hM s _ hd.mean hd.zero hd.scaledZero hd.negativeScaledZero tree hd.onesTree]
     exact div_mul_cancel R M D hM s _ _ (value_finite M D xs _ tree hd.inputTree)
@@ -57,10 +57,10 @@ structure RecenterDomain {α : Type} (M : Algebra α) (D : Domain α)
     (xs : Fin N → α) (tree : ReductionTree N) (m' : α) : Prop where
   centering : MeanDomain M D xs tree
   squareShift : Welford.CenterShiftTreeDomain M D xs (mean M xs tree) m' tree
-  shift : D .finite (sub M (mean M xs tree) m')
-  scaledZero : D .finite (mul M (sub M (mean M xs tree) m') (zero M))
+  shift : D .finite (ScalarArithmetic.sub M (mean M xs tree) m')
+  scaledZero : D .finite (ScalarArithmetic.mul M (ScalarArithmetic.sub M (mean M xs tree) m') (zero M))
   negativeScaledZero : D .finite
-    (sub M (zero M) (mul M (sub M (mean M xs tree) m') (zero M)))
+    (ScalarArithmetic.sub M (zero M) (ScalarArithmetic.mul M (ScalarArithmetic.sub M (mean M xs tree) m') (zero M)))
 
 /-- The cross term vanishes by factoring the shift out of a centered sum.
 There is no whole-row cancellation assumption. -/
@@ -84,8 +84,8 @@ theorem centered_square_shift {α : Type} [Inhabited α] (R : Rules) (M : Algebr
     (xs : Fin N → α) (tree : ReductionTree N) (m' : α)
     (hd : RecenterDomain M D xs tree m') :
     value M (Welford.deviationSquares M xs m') (zero M) tree =
-      add M (value M (Welford.deviationSquares M xs (mean M xs tree)) (zero M) tree)
-        (value M (fun _ => Welford.square M (sub M (mean M xs tree) m')) (zero M) tree) := by
+      ScalarArithmetic.add M (value M (Welford.deviationSquares M xs (mean M xs tree)) (zero M) tree)
+        (value M (fun _ => Welford.square M (ScalarArithmetic.sub M (mean M xs tree) m')) (zero M) tree) := by
   rw [Welford.square_shift_tree R M D hM s xs _ m' tree hd.squareShift,
     cross_sum_zero R M D hM s xs tree m' hd,
     add_zero R M D hM s _ (value_finite M D _ _ tree hd.squareShift.oldSquares),

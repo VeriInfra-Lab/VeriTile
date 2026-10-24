@@ -1,0 +1,11 @@
+/tmp/veritile-standardization-20261015/sin-kernel-independent-review/replay/probe_host.py:22: UserWarning: ComplexHalf support is experimental and many operators don't support it yet. (Triggered internally at /__w/pytorch/pytorch/aten/src/ATen/EmptyTensor.cpp:54.)
+  x=torch.empty(n,dtype=getattr(torch,name));out=mod.call_kernel(x);assert id(out)==calls[-1]['output_id'];row.update(status='returned',x=meta(x),output=meta(out),launch=calls[-1])
+{
+  "receipt": {
+    "receipt": "evidence/host-attempts/20261015T233515131816Z/receipt.json",
+    "sha256": "c360b0a402e548525e4fc24ff69be605ae950a060a72eeb1c276234393fffd57"
+  },
+  "cases": 75,
+  "ast_cases": 18,
+  "errors": []
+}

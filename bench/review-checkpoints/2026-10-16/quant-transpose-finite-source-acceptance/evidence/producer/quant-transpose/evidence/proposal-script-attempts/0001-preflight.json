@@ -1,0 +1,10 @@
+{
+  "command": "syntax compile plus local native_receipt_inputs verification",
+  "source_sha256": {
+    "propose.py": "c8c5f51b127362ec96eb23314d9664592aa5d4ec426def2fb32d472de5845047",
+    "authority_adapter.py": "dfd629b883a4beb1f4323a5f04079c24b974eb5a191bec52e91f997e157a7fb9",
+    "check_adapter.py": "d25070874cf3493104d74e6f5a1fbe8cf8a04cb3900f13af1550122d4d703721"
+  },
+  "exit_code": 0,
+  "log_sha256": "b59fcb9f542f63950330215760ac92ca9f54d895b8034de36aedd7cc143aecba"
+}

@@ -1,0 +1,26 @@
+{
+  "recorded_at_utc": "2026-10-13T18:28:06.063470+00:00",
+  "command": "lake build VeriTile VeriTileFull TritonBenchGVerified TritonBenchSpecExamples",
+  "root_process_exit_code": 0,
+  "jobs": 4726,
+  "scope": "Local aggregate after direct Philox frontend integration. Only targets enumerated by the captured Lake configuration are covered. In-progress uniform_sampling, layer_norm_fwd and new ksoftmax backward proof additions are separate checks. No task acceptance or independent comparator replay.",
+  "hash_capture": "Listed hashes captured after completion; no frozen full input or artifact closure. In-progress modules were edited separately during this aggregate.",
+  "post_run_source_sha256": {
+    "lakefile.toml": "c54dacb293fb7d2d76c5a20a63c12eb3c62c011145c40e3ac1690969752359db",
+    "lean-toolchain": "651c8accb402b0c071cd336e9d3dc0a55516b1bfb434ddc4801f14936785b1d2",
+    "VeriTile/Triton/DSL/Expansion/DirectRandom.lean": "7bd69539f4301bf3de9a42074fd1d90318b682552c0c28e4e39eab20ba7cf6dc",
+    "VeriTile/Triton/DSL/Expansion/Main.lean": "02128c21d27344ede40483405e7cf242a473d526e6b3209dce4a3116893749ec",
+    "VeriTile/Triton/DSL/Expansion/Memory.lean": "84ec5f2967d9bd1f7e0ecf82629f293121ca3dff5bf0a076e2edffc3b556bc80",
+    "VeriTile/Triton/DSL/RandomProfile.lean": "37e7fadbcdfe41dc76c68638ab3ed4215c187752b097f38958d03f1255054467",
+    "VeriTile/Triton/DSL/Syntax.lean": "09a2f64a6c4f04d08ce70d958e8cb8e8427cb6cf87a8b86396e27e19fed90c09",
+    "VeriTile/Triton/DSL/Metadata.lean": "9efda7afd41b4cebc12dec94a96ee42d88db0029859d7205fd930b9583f9555b",
+    "VeriTile/Triton/Core/FixedInteger.lean": "c2cf48fbd4b6c2e257b77d33cc947e879097428d85ef6d07f4e679f4abf686b8",
+    "VeriTile/Triton/Float/FixedInteger.lean": "376b99eb05cb9fa3433ea9fb3ebe3edb4aa90b535323b71eac600300bc40fdda"
+  },
+  "log": {
+    "path": "aggregate.log.gz",
+    "sha256": "297875c89c25f2a2ef1f0634d78d11b2d8dddfd435a11da994ff0917b45afcf3",
+    "uncompressed_sha256": "712e2457e90a5e729c9e04f960ba6d386889f8fc1a3d40438dd6edc996ffe579"
+  },
+  "independent_comparator": "unavailable: systemd user manager absent; sandbox requirements retained"
+}

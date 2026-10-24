@@ -1,0 +1,30 @@
+{
+  "status": "passed",
+  "retained_original_files_unchanged": {
+    "bench/tritonbench_g/sin_kernel/sin_kernel.py": "dd65b4c273b7eb1fba19b79f7eb8c6f8286f391257195a8c4b7590bf8c7962c1",
+    "bench/tritonbench_g/sin_kernel/FPEquiv.lean": "90ea257aab0107f536f43af9f52692efee2c1769022801087fc665c7d9b532bb",
+    "bench/tritonbench_g/sin_kernel/Correct.lean": "a834f89865d4703e773abf40a67fad2c19f4f7b5a4471cf71154ab0f3095cb47",
+    "bench/tritonbench_g/sin_kernel/README.md": "2bd1dce3856dd7a769e5c5eb3330a1151fee821cbd37c1a3ed3c79167198f89a",
+    "bench/tritonbench_g/sin_kernel/Kernels.lean": "6b5945236b9b3c1cf9e0f3659d75b8db9bcf72c7b442d40f6d486f228b300860",
+    "bench/tritonbench_g/sin_kernel/Proofs/Real.lean": "1dd75acb38e50d640f6cf10754f99beb8a88607fcab58a5d7891284f65840c35",
+    "bench/tritonbench_g/sin_kernel/Proofs/FP.lean": "46d2bd849e367b79bfb358ad8445d4be42bd454dd818a76c97a3163c17e42c74",
+    "bench/tritonbench_g/sin_kernel/Proofs/Precision.lean": "42b02ccf1e969a43fff9ee6ed597fafaa3a311a0d9de738379703eb49f77afa1",
+    "bench/tritonbench_g/sin_kernel/Proofs/Candidate.lean": "c336a7ea657af5f9e1574f7f3d0816bccb2dca1f98108bce06f974fe29adb851",
+    "bench/tritonbench_g/sin_kernel/Proofs/Source.lean": "02886df7125f4357fbe39e814dcf465f462ec20cb0ca0b73589a53d809fef6e0",
+    "bench/tritonbench_g/sin_kernel/Proofs/Execution.lean": "cea458945cc6ab7106a9e1c593988da4b2189874f364f24db74519b1040e4489"
+  },
+  "frozen_template_receipt_pins": {
+    "add-value-finite-acceptance-revision1-wip": {
+      "receipt": "/tmp/veritile-standardization-20261015/add-value-finite-acceptance-revision1-wip/evidence/receipt.json",
+      "receipt_sha256": "4ad8aff1121ae9a10d70952456aaf75f31c26c408ecc37bb8f641a9c712ef774",
+      "producer_package_unchanged": true
+    },
+    "add-example-finite-acceptance-wip": {
+      "receipt": "/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip/evidence/receipt.json",
+      "receipt_sha256": "83920c47c558019d291230261b96f0827376831ae091430ce6971e37a640d8f5",
+      "producer_package_unchanged": true
+    }
+  },
+  "new_modules_are_additive": true,
+  "repository_mutations_by_producer": 0
+}

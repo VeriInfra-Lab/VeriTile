@@ -33,7 +33,13 @@ theorem backward_memory (storage : Storage) (swapped : Bool) (A : FlatAlloc)
     refine ⟨?_, ?_, ?_⟩
     rotate_left
     · simp only [Erasure.backward,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeKernel.surfaceBody,
-        ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,Except.bind,bind,ite_false,Bool.false_eq_true,↓reduceIte]
+        ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
+    ComputeKernel.eraseDType,ComputeKernel.fromKernelBody,ComputeDType.eraseDType,
+    Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
+    Op.eraseDType,MemAccess.eraseDType,MaskOpt.eraseDType,NumericDType.eraseDType,
+    ComparableDType.eraseDType,IntegralDType.eraseDType,
+    List.map_cons,List.map_nil,Op.eraseDType.eq_def,
+    VeriTile.Triton.eraseDType,FloatDType.toTileDType,Except.bind,bind,ite_false,Bool.false_eq_true,↓reduceIte]
       simp only [FlatAlloc.flattenStmts,FlatAlloc.flattenStmt,FlatAlloc.flattenOp,FlatAlloc.flattenAccess,FlatAlloc.flattenMask,
         stepStmts,stepStmt,evalOp,evalOp.eq_def,Option.bind,bind,pure,
         Option.map,Option.pure_def,Broadcast.leftIndex,Broadcast.rightIndex,Tile.vec,

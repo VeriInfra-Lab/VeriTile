@@ -1,3 +1,12 @@
+/-
+Source-audit target: _swiglu_fwd_kernel
+Source-audit Lean: swigluForward%
+Source-audit args: outType=tl.float32, version=original
+Selected lexical source view only; this metadata is not all-profile certification.
+Original forward quotation; input dtypes symbolic, fp32 output, all strides and sigmoid retained.
+Other storage profiles and the commuted address candidate need separate source views.
+-/
+
 import VeriTile.Triton
 
 /-!

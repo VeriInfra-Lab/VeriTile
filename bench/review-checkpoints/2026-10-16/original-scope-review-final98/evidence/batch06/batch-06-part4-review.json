@@ -1,0 +1,1028 @@
+{
+  "schema": 1,
+  "kind": "original_scope_batch_review",
+  "batch": 6,
+  "part": "part4",
+  "reviewer": "/root/scope_remaining_cohort",
+  "reviewed_base_commit": "fc183f5dae5e3f09f549b8151a9a1e4c366beb02",
+  "catalog_sha256": "ef0da28a4c601f9841664431013d72e565ec5497cf21ba3e7be692c440d1a3fe",
+  "source_ledger_snapshot_sha256": "1ab85dd84363a55b2ae495806c0ef894106061a57dbf25921f403bd559adc137",
+  "task_count": 4,
+  "structural_gaps_confirmed": 4,
+  "whole_original_program_accepted": 0,
+  "completion_increment": 0,
+  "public_declarations_checked": 32,
+  "structural_gap_count": 7,
+  "catalog_declaration_metadata_discrepancies": [],
+  "integration_note": "Read-only source scope audit. Existing partial proofs remain credited. No numerical deferrals or original-program acceptance registered. Root substantive review is required before integration.",
+  "tasks": [
+    {
+      "schema": 1,
+      "kind": "original_scope_gap_review",
+      "reviewer": "/root/scope_remaining_cohort",
+      "reviewed_at_utc": "2026-10-15T19:19:00.332417+00:00",
+      "reviewed_base_commit": "fc183f5dae5e3f09f549b8151a9a1e4c366beb02",
+      "catalog": {
+        "path": "bench/review-checkpoints/2026-10-16/relu-source-grid-and-exact-numerics/current-source-catalog.json",
+        "sha256": "ef0da28a4c601f9841664431013d72e565ec5497cf21ba3e7be692c440d1a3fe"
+      },
+      "task": "cross_entropy2",
+      "status": "structural_gaps_confirmed",
+      "whole_original_program_accepted": false,
+      "completion_increment": 0,
+      "existing_proofs_preserved": "Complete forward/backward typed sources and real flat IO for fp16/bf16/fp32 logits/gradients, fp32 auxiliary tensors, signed labels and all ignored/class-local/smoothing/split branches. Per-block LSE/loss stores and gated z-loss store are retained; candidate commutes only column-index multiplication. No fictitious tensor-parallel merge or derivative proof is claimed.",
+      "production_stage_mapping": [
+        {
+          "function": "cross_entropy_fwd_kernel",
+          "coverage": "Complete per-program branches and three-output footprint.",
+          "path": "bench/tritonbench_g/cross_entropy2/cross_entropy2.py",
+          "line": 6,
+          "end_line": 67,
+          "sha256": "e225eb575476b65ea5b1f148456dda51090e9e0d6eae688da0181a30f10e8b17",
+          "stage_id": "stage:bench/tritonbench_g/cross_entropy2/cross_entropy2.py:6:cross_entropy_fwd_kernel"
+        },
+        {
+          "function": "cross_entropy_bwd_kernel",
+          "coverage": "Complete per-program gradient formula with caller-supplied LSE/dloss.",
+          "path": "bench/tritonbench_g/cross_entropy2/cross_entropy2.py",
+          "line": 70,
+          "end_line": 111,
+          "sha256": "e225eb575476b65ea5b1f148456dda51090e9e0d6eae688da0181a30f10e8b17",
+          "stage_id": "stage:bench/tritonbench_g/cross_entropy2/cross_entropy2.py:70:cross_entropy_bwd_kernel"
+        },
+        {
+          "function": "cross_entropy_fwd",
+          "coverage": "Actual oversized allocations, block grid, debug prints and returned tensors inspected, not composed.",
+          "path": "bench/tritonbench_g/cross_entropy2/cross_entropy2.py",
+          "line": 113,
+          "end_line": 133,
+          "sha256": "e225eb575476b65ea5b1f148456dda51090e9e0d6eae688da0181a30f10e8b17",
+          "stage_id": "stage:bench/tritonbench_g/cross_entropy2/cross_entropy2.py:113:cross_entropy_fwd"
+        },
+        {
+          "function": "cross_entropy_bwd",
+          "coverage": "Allocation, grid, supplied LSE layout, print and return inspected, not composed.",
+          "path": "bench/tritonbench_g/cross_entropy2/cross_entropy2.py",
+          "line": 135,
+          "end_line": 151,
+          "sha256": "e225eb575476b65ea5b1f148456dda51090e9e0d6eae688da0181a30f10e8b17",
+          "stage_id": "stage:bench/tritonbench_g/cross_entropy2/cross_entropy2.py:135:cross_entropy_bwd"
+        }
+      ],
+      "dtype_review": "Logits/dlogits selected among three storage types; dloss/lse fixed fp32 and labels abstract signed Int. Host gives independent arguments without matching dtype admission.",
+      "branch_review": "HAS_SMOOTHING/SPLIT, ignored labels and class-local checks covered. Under SPLIT true z_loss has no stores; fresh output buffers retain unwritten cells.",
+      "structural_gaps": [
+        {
+          "id": "CROSS_ENTROPY2-S1",
+          "kind": "wrapper_output_composition",
+          "finding": "Forward allocates three (n_rows,n_cols) empty tensors but kernels write only block-major scalar slots; SPLIT leaves z_loss entirely unwritten. No contract binds returned complete buffers or backward supplied-LSE layout to grid execution.",
+          "why_blocks_full_original_scope": "Exact source API behavior must include the partial initialization and raw per-block outputs; no absent merge/initialization may be inserted to claim a standard loss tensor.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 113,
+              "end_line": 151,
+              "path": "bench/tritonbench_g/cross_entropy2/cross_entropy2.py",
+              "sha256": "e225eb575476b65ea5b1f148456dda51090e9e0d6eae688da0181a30f10e8b17",
+              "excerpt": "def cross_entropy_fwd(\n    logits, labels, smoothing, logit_scale, lse_square_scale, ignored_index, total_classes, class_start_idx, BLOCK_SIZE, HAS_SMOOTHING, SPLIT\n):\n    n_rows, n_cols = logits.shape\n    loss = torch.empty((n_rows, n_cols), dtype=torch.float32, device=logits.device)\n    lse = torch.empty((n_rows, n_cols), dtype=torch.float32, device=logits.device)\n    z_loss = torch.empty((n_rows, n_cols), dtype=torch.float32, device=logits.device)\n    \n    grid = (n_rows, (n_cols + BLOCK_SIZE - 1) // BLOCK_SIZE)\n    \n    # Launch the forward kernel with the required arguments.\n    cross_entropy_fwd_kernel[grid](\n        loss, lse, z_loss, logits, labels, smoothing, logit_scale, lse_square_scale, ignored_index, total_classes, class_start_idx, n_cols, n_rows, logits.stride(0), BLOCK_SIZE, HAS_SMOOTHING, SPLIT\n    )\n    \n    # Print the loss, LSE, and z_loss for debugging.\n    print(f\"Forward loss: {loss}\")\n    print(f\"Forward LSE: {lse}\")\n    print(f\"Forward z_loss: {z_loss}\")\n    \n    return loss, lse, z_loss\n\ndef cross_entropy_bwd(\n    dloss, logits, lse, labels, smoothing, logit_scale, lse_square_scale, ignored_index, total_classes, class_start_idx, BLOCK_SIZE, HAS_SMOOTHING\n):\n    n_rows, n_cols = logits.shape\n    dlogits = torch.empty_like(logits)\n    \n    grid = (n_rows, (n_cols + BLOCK_SIZE - 1) // BLOCK_SIZE)\n    \n    # Launch the backward kernel with the required arguments.\n    cross_entropy_bwd_kernel[grid](\n        dlogits, dloss, logits, lse, labels, smoothing, logit_scale, lse_square_scale, ignored_index, total_classes, class_start_idx, n_cols, logits.stride(0), dlogits.stride(0), dloss.stride(0), BLOCK_SIZE, HAS_SMOOTHING\n    )\n    \n    # Print the backward gradients for debugging.\n    print(f\"Backward dlogits: {dlogits}\")\n    \n    return dlogits"
+            },
+            {
+              "line": 32,
+              "end_line": 37,
+              "path": "bench/tritonbench_g/cross_entropy2/Proofs/ForwardIO.lean",
+              "sha256": "bf93260da65c313ba53bbbfa50fcec75a8f6762d36532e6e9b61ab51ca27fb04",
+              "excerpt": "    lab - class_start_idx ≥ (↑(pid₁ * BLOCK_SIZE) : Int) ∧\n    lab - class_start_idx < (↑(min n_cols ((pid₁ + 1) * BLOCK_SIZE)) : Int)\n  write1 := fun pid₀ pid₁ _ => pid₁ * n_rows + pid₀\n  write2 := fun pid₀ pid₁ _ => pid₁ * n_rows + pid₀\n  write3 := fun pid₀ pid₁ _ => pid₁ * n_rows + pid₀\n  writeMask3 := fun _ _ _ => SPLIT = Bool.false"
+            },
+            {
+              "line": 102,
+              "end_line": 111,
+              "path": "bench/tritonbench_g/cross_entropy2/cross_entropy2.py",
+              "sha256": "e225eb575476b65ea5b1f148456dda51090e9e0d6eae688da0181a30f10e8b17",
+              "excerpt": "    lse = tl.load(lse_ptr + row_idx)\n    probs = tl.exp(logits - lse)\n    probs += 2.0 * lse_square_scale * lse * probs\n    label_idx -= class_start_idx\n    if HAS_SMOOTHING:\n        smooth_negative = smoothing / total_classes\n        probs = tl.where(col_offsets == label_idx, probs - (1 - smoothing), probs) - smooth_negative\n    else:\n        probs = tl.where(col_offsets == label_idx, probs - 1.0, probs)\n    tl.store(dlogits_ptr + col_offsets, (dloss * logit_scale) * probs, mask=col_offsets < n_cols)"
+            }
+          ]
+        },
+        {
+          "id": "CROSS_ENTROPY2-S2",
+          "kind": "dtype_admission",
+          "finding": "Kernel family restricts logits/gradients to three types and auxiliaries to fp32, while declared wrapper inputs do not enforce that domain.",
+          "why_blocks_full_original_scope": "Independent dloss/lse and remaining logits/label routes need precise supported/rejected binding.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 6,
+              "end_line": 13,
+              "path": "bench/tritonbench_g/cross_entropy2/Kernels.lean",
+              "sha256": "80f2fcbaea0a3dec67e96af1e5daf033f74dcfccda2beab4a983fa23fbb282da",
+              "excerpt": "Logit/gradient storage supports fp16/bf16/fp32; loss, LSE, z-loss and dloss are fp32. The scale and gated z-loss store remain.\nThe real and FP contracts are per program; host tensor-parallel aggregation\nand fixed-width index overflow are outside their scope. -/\nnamespace VeriTile.Bench.TritonBenchG.CrossEntropy2\nopen Lean VeriTile.Triton\ninductive Storage where\n  | fp16 | bf16 | fp32\n  deriving DecidableEq"
+            },
+            {
+              "line": 101,
+              "end_line": 109,
+              "path": "bench/tritonbench_g/cross_entropy2/Kernels.lean",
+              "sha256": "80f2fcbaea0a3dec67e96af1e5daf033f74dcfccda2beab4a983fa23fbb282da",
+              "excerpt": "        (total_classes : Nat) (class_start_idx : Int)\n        (n_cols logits_row_stride dlogits_row_stride dloss_row_stride BLOCK_SIZE : Nat)\n        (HAS_SMOOTHING : Bool) => ComputeKernel.mk\n      [dloss_ptr,logits_ptr,lse_ptr,Region.cast labels_ptr] [dlogits_ptr] (triton {\n  tl.region logits_ptr = $storage, dlogits_ptr = $storage,\n    dloss_ptr = tl.float32, lse_ptr = tl.float32, z_loss_ptr = tl.float32\n  row_idx = tl.program_id(0)\n  col_block_idx = tl.program_id(1)\n  logits_ptr = logits_ptr + row_idx * ($(logits_row_stride)).to(tl.int64)"
+            },
+            {
+              "line": 135,
+              "end_line": 145,
+              "path": "bench/tritonbench_g/cross_entropy2/cross_entropy2.py",
+              "sha256": "e225eb575476b65ea5b1f148456dda51090e9e0d6eae688da0181a30f10e8b17",
+              "excerpt": "def cross_entropy_bwd(\n    dloss, logits, lse, labels, smoothing, logit_scale, lse_square_scale, ignored_index, total_classes, class_start_idx, BLOCK_SIZE, HAS_SMOOTHING\n):\n    n_rows, n_cols = logits.shape\n    dlogits = torch.empty_like(logits)\n    \n    grid = (n_rows, (n_cols + BLOCK_SIZE - 1) // BLOCK_SIZE)\n    \n    # Launch the backward kernel with the required arguments.\n    cross_entropy_bwd_kernel[grid](\n        dlogits, dloss, logits, lse, labels, smoothing, logit_scale, lse_square_scale, ignored_index, total_classes, class_start_idx, n_cols, logits.stride(0), dlogits.stride(0), dloss.stride(0), BLOCK_SIZE, HAS_SMOOTHING"
+            }
+          ]
+        }
+      ],
+      "numerical_items_eligible_for_explicit_deferral": [
+        "Native exp/log/reduction/scale behavior and exceptional values may be explicitly registered and deferred. Index equivalence is empty-assumption."
+      ],
+      "precondition_assessment": "The existing bounds, nonoverlap, positive tile size and valid-address premises are legitimate selected-domain assumptions. No unrestricted invalid-input behavior or hypothetical hardware defect is demanded. Missing wrapper composition and dtype admission are separate structural questions.",
+      "source_sha256": {
+        "bench/tritonbench_g/cross_entropy2/cross_entropy2.py": "e225eb575476b65ea5b1f148456dda51090e9e0d6eae688da0181a30f10e8b17",
+        "bench/tritonbench_g/cross_entropy2/Correct.lean": "0effc6e8558d949a385bf1f2248f4ba9881e9e19c269c8a47c5e044ff6fdf114",
+        "bench/tritonbench_g/cross_entropy2/FPEquiv.lean": "42f6bddc520a306305c851b142102c2b404684628f3162aa0d2226d493ffa657",
+        "bench/tritonbench_g/cross_entropy2/Kernels.lean": "80f2fcbaea0a3dec67e96af1e5daf033f74dcfccda2beab4a983fa23fbb282da",
+        "bench/tritonbench_g/cross_entropy2/Proofs/ForwardIO.lean": "bf93260da65c313ba53bbbfa50fcec75a8f6762d36532e6e9b61ab51ca27fb04"
+      },
+      "all_input_sha256": {
+        "lean": {
+          "bench/tritonbench_g/cross_entropy2/Correct.lean": "0effc6e8558d949a385bf1f2248f4ba9881e9e19c269c8a47c5e044ff6fdf114",
+          "bench/tritonbench_g/cross_entropy2/FPEquiv.lean": "42f6bddc520a306305c851b142102c2b404684628f3162aa0d2226d493ffa657",
+          "bench/tritonbench_g/cross_entropy2/Kernels.lean": "80f2fcbaea0a3dec67e96af1e5daf033f74dcfccda2beab4a983fa23fbb282da",
+          "bench/tritonbench_g/cross_entropy2/Proofs/BackwardExecution.lean": "442a80ba0d3c28e4c09480cbc996491613dc22e2404c32e468c719d024638e5b",
+          "bench/tritonbench_g/cross_entropy2/Proofs/BackwardFP.lean": "b87d0bbe062c8dde4fe5aaad4938af2d675e98e748712d47a7a01af23ae6da51",
+          "bench/tritonbench_g/cross_entropy2/Proofs/BackwardFlat.lean": "f52dd96b0c15e35415450cfd6dd858aa7a01c04f945349e512ed3e06f2f2afe4",
+          "bench/tritonbench_g/cross_entropy2/Proofs/BackwardFormula.lean": "255feb2118f24ce63605b2e5a0964b6bf040db81fe6272adf25718c3553c0a53",
+          "bench/tritonbench_g/cross_entropy2/Proofs/BackwardIO.lean": "99a045d3c55bfde0f27b0b3bec4c615e2601a1479e73727a7f8d3a01fc2d49b3",
+          "bench/tritonbench_g/cross_entropy2/Proofs/BackwardProgram.lean": "d8e612e6c75e13333cb8b5ae80e80eafc777a2455642e0b2a9fa3f11ffc1502a",
+          "bench/tritonbench_g/cross_entropy2/Proofs/BackwardReal.lean": "252a21d5ea3e8f8d7ba1250ddf2d9e4b1e4fb815d67a670797e5da6233cb968c",
+          "bench/tritonbench_g/cross_entropy2/Proofs/BackwardSafety.lean": "521647e69d6c5a358e9126710d0667bd5463122a6a6d862a8e7ae69659286627",
+          "bench/tritonbench_g/cross_entropy2/Proofs/ForwardFP.lean": "8968e70ff0c0f8d482be41c8b67ac66752813556f902166feb44ca02c5aa2230",
+          "bench/tritonbench_g/cross_entropy2/Proofs/ForwardIO.lean": "bf93260da65c313ba53bbbfa50fcec75a8f6762d36532e6e9b61ab51ca27fb04",
+          "bench/tritonbench_g/cross_entropy2/Proofs/ForwardProjection.lean": "b2fd75d1e909588484b1dbdda94601f83fa6f64d84d5ed059f89aa5f26043d85",
+          "bench/tritonbench_g/cross_entropy2/Proofs/ForwardReal.lean": "69a34b58fadcfcea7d4a3dd3fc3e39ce392cea212124b4b40dc08b329e935594",
+          "bench/tritonbench_g/cross_entropy2/Proofs/Index.lean": "c3aeb93593bd9a9c970bda6907ec869400ad5e3628aedc8cc0931d100bca59be",
+          "bench/tritonbench_g/cross_entropy2/Proofs/RealWitness.lean": "29da20bb0d97fceccf809d4689a46344bda486104cc5c69008b71851d75b09d6",
+          "bench/tritonbench_g/cross_entropy2/Proofs/TypedExecution.lean": "517fd047a5ca1e9ffa419a8eb1cb34e6e66297b933cd4c0327b08c0ff7575bf3"
+        },
+        "python": {
+          "bench/tritonbench_g/cross_entropy2/cross_entropy2.py": "e225eb575476b65ea5b1f148456dda51090e9e0d6eae688da0181a30f10e8b17"
+        }
+      },
+      "public_declarations_checked": [
+        {
+          "file": "bench/tritonbench_g/cross_entropy2/Correct.lean",
+          "declaration": "forward_original_correct",
+          "parser_name": "forward_original_correct",
+          "line": 105,
+          "sha256": "0effc6e8558d949a385bf1f2248f4ba9881e9e19c269c8a47c5e044ff6fdf114",
+          "statement_sha256": "2bd12c68e19c5deadd28246a6d8a7e9a43bcffea7851ef58bde89f7e2d78153a",
+          "statement": "specification forward_original_correct (storage : Storage)\n    (loss_ptr lse_ptr z_loss_ptr logits_ptr : RegionName) (labels_ptr : Region .int)\n    (smoothing logit_scale lse_square_scale : ℝ) (ignored_index : Int)\n    (total_classes : Nat) (class_start_idx : Int)\n    (n_cols n_rows logits_row_stride BLOCK_SIZE : Nat)\n    (HAS_SMOOTHING SPLIT : Bool)\n    (hB : 0 < BLOCK_SIZE)\n    (hne : lse_ptr ≠ loss_ptr) (hneZ : lse_ptr ≠ z_loss_ptr)\n    (hLL : lse_ptr ≠ logits_ptr) (hLZ : loss_ptr ≠ z_loss_ptr) :\n    Spec.Real (forwardOriginalIO storage loss_ptr lse_ptr z_loss_ptr logits_ptr labels_ptr smoothing\n        logit_scale lse_square_scale ignored_index total_classes class_start_idx\n        n_cols n_rows logits_row_stride BLOCK_SIZE HAS_SMOOTHING SPLIT ⊨\n      fun _ pid₁ lab xs g =>\n        if pid₁ * BLOCK_SIZE < n_cols then\n          (loss n_cols total_classes BLOCK_SIZE smoothing logit_scale\n             lse_square_scale ignored_index class_start_idx HAS_SMOOTHING SPLIT\n             pid₁ lab xs g,\n           blockLSE n_cols BLOCK_SIZE pid₁ logit_scale xs,\n           zLoss n_cols BLOCK_SIZE logit_scale lse_square_scale\n             ignored_index pid₁ lab xs)\n        else (0, 0, 0))"
+        },
+        {
+          "file": "bench/tritonbench_g/cross_entropy2/Correct.lean",
+          "declaration": "forward_index_commuted_correct",
+          "parser_name": "forward_index_commuted_correct",
+          "line": 130,
+          "sha256": "0effc6e8558d949a385bf1f2248f4ba9881e9e19c269c8a47c5e044ff6fdf114",
+          "statement_sha256": "c0f9d8bfba3452f76ea935b71a25fdaf4d6095bf87652b0b1d0649aad3d4ce63",
+          "statement": "specification forward_index_commuted_correct (storage : Storage)\n    (loss_ptr lse_ptr z_loss_ptr logits_ptr : RegionName) (labels_ptr : Region .int)\n    (smoothing logit_scale lse_square_scale : ℝ) (ignored_index : Int)\n    (total_classes : Nat) (class_start_idx : Int)\n    (n_cols n_rows logits_row_stride BLOCK_SIZE : Nat)\n    (HAS_SMOOTHING SPLIT : Bool)\n    (hB : 0 < BLOCK_SIZE)\n    (hne : lse_ptr ≠ loss_ptr) (hneZ : lse_ptr ≠ z_loss_ptr)\n    (hLL : lse_ptr ≠ logits_ptr) (hLZ : loss_ptr ≠ z_loss_ptr) :\n    Spec.Real (forwardIndexCommutedIO storage loss_ptr lse_ptr z_loss_ptr logits_ptr labels_ptr smoothing\n        logit_scale lse_square_scale ignored_index total_classes class_start_idx\n        n_cols n_rows logits_row_stride BLOCK_SIZE HAS_SMOOTHING SPLIT ⊨\n      fun _ pid₁ lab xs g =>\n        if pid₁ * BLOCK_SIZE < n_cols then\n          (loss n_cols total_classes BLOCK_SIZE smoothing logit_scale\n             lse_square_scale ignored_index class_start_idx HAS_SMOOTHING SPLIT\n             pid₁ lab xs g,\n           blockLSE n_cols BLOCK_SIZE pid₁ logit_scale xs,\n           zLoss n_cols BLOCK_SIZE logit_scale lse_square_scale\n             ignored_index pid₁ lab xs)\n        else (0, 0, 0))"
+        },
+        {
+          "file": "bench/tritonbench_g/cross_entropy2/Correct.lean",
+          "declaration": "backward_original_correct",
+          "parser_name": "backward_original_correct",
+          "line": 196,
+          "sha256": "0effc6e8558d949a385bf1f2248f4ba9881e9e19c269c8a47c5e044ff6fdf114",
+          "statement_sha256": "373cb5a4283388a6b10b91018db1f79d09502024a7780308fc989d9a0e4606d7",
+          "statement": "specification backward_original_correct (p : Layout) (r : Regions) (storage : Storage) :\n    Spec.Real (backwardOriginalIO p r storage ⊨ gradient p)"
+        },
+        {
+          "file": "bench/tritonbench_g/cross_entropy2/Correct.lean",
+          "declaration": "backward_index_commuted_correct",
+          "parser_name": "backward_index_commuted_correct",
+          "line": 200,
+          "sha256": "0effc6e8558d949a385bf1f2248f4ba9881e9e19c269c8a47c5e044ff6fdf114",
+          "statement_sha256": "fdb968f8d65ed9fd8b3f5348e5a1970a80e08925fd353f92a37a74d770d8a29c",
+          "statement": "specification backward_index_commuted_correct (p : Layout) (r : Regions) (storage : Storage) :\n    Spec.Real (backwardIndexCommutedIO p r storage ⊨ gradient p)"
+        },
+        {
+          "file": "bench/tritonbench_g/cross_entropy2/FPEquiv.lean",
+          "declaration": "forward_index_commuted_equiv",
+          "parser_name": "forward_index_commuted_equiv",
+          "line": 29,
+          "sha256": "42f6bddc520a306305c851b142102c2b404684628f3162aa0d2226d493ffa657",
+          "statement_sha256": "ed16d355bb7c45f4007209f3cbac2d65a6b50349bda5fb048d4ae3019165d0a6",
+          "statement": "specification forward_index_commuted_equiv :\n    forwardOriginal storage loss_ptr lse_ptr z_loss_ptr logits_ptr labels_ptr smoothing logit_scale lse_square_scale ignored_index total_classes class_start_idx n_cols n_rows logits_row_stride BLOCK_SIZE HAS_SMOOTHING SPLIT ≡[assumptions] forwardIndexCommuted storage loss_ptr lse_ptr z_loss_ptr logits_ptr labels_ptr smoothing logit_scale lse_square_scale ignored_index total_classes class_start_idx n_cols n_rows logits_row_stride BLOCK_SIZE HAS_SMOOTHING SPLIT"
+        },
+        {
+          "file": "bench/tritonbench_g/cross_entropy2/FPEquiv.lean",
+          "declaration": "backward_index_commuted_equiv",
+          "parser_name": "backward_index_commuted_equiv",
+          "line": 49,
+          "sha256": "42f6bddc520a306305c851b142102c2b404684628f3162aa0d2226d493ffa657",
+          "statement_sha256": "0889ff7bbf5740184131a9d5d24c8ad546c6e9cc5a4bbae877b56f84279dc6c3",
+          "statement": "specification backward_index_commuted_equiv :\n    backwardOriginal storage dlogits_ptr dloss_ptr logits_ptr lse_ptr labels_ptr smoothing logit_scale lse_square_scale ignored_index total_classes class_start_idx n_cols logits_row_stride dlogits_row_stride dloss_row_stride BLOCK_SIZE HAS_SMOOTHING ≡[assumptions] backwardIndexCommuted storage dlogits_ptr dloss_ptr logits_ptr lse_ptr labels_ptr smoothing logit_scale lse_square_scale ignored_index total_classes class_start_idx n_cols logits_row_stride dlogits_row_stride dloss_row_stride BLOCK_SIZE HAS_SMOOTHING"
+        }
+      ],
+      "catalog_declaration_metadata_discrepancies": [],
+      "dtype_scope_caveat": "No unsupported dtype is assumed to compile merely because a Python wrapper admits it. Missing-route findings require either the actual supported conversion route or a precise admission/rejection contract; they do not demand arbitrary compiler internals.",
+      "verification": {
+        "manual_original_production_functions_read": 4,
+        "actual_public_statements_reparsed_and_hash_checked": 6,
+        "key_source_and_referenced_definition_review": true,
+        "source_matches_baseline_scope_inputs": true,
+        "generated_selector_check": null,
+        "new_lean_runs": 0,
+        "new_frontend_runs": 0,
+        "gpu_runs": 0,
+        "numerical_deferrals_registered_by_this_read_only_review": 0
+      }
+    },
+    {
+      "schema": 1,
+      "kind": "original_scope_gap_review",
+      "reviewer": "/root/scope_remaining_cohort",
+      "reviewed_at_utc": "2026-10-15T19:19:00.407173+00:00",
+      "reviewed_base_commit": "fc183f5dae5e3f09f549b8151a9a1e4c366beb02",
+      "catalog": {
+        "path": "bench/review-checkpoints/2026-10-16/relu-source-grid-and-exact-numerics/current-source-catalog.json",
+        "sha256": "ef0da28a4c601f9841664431013d72e565ec5497cf21ba3e7be692c440d1a3fe"
+      },
+      "task": "chunk_gate_recurrence",
+      "status": "structural_gaps_confirmed",
+      "whole_original_program_accepted": false,
+      "completion_increment": 0,
+      "existing_proofs_preserved": "Complete exclusive forward recurrence and reverse backward recurrence including final DL update, all emitted DI/DG tiles and full flat-memory frame. Optional seed, independent source/gate/incoming storage roles and all casts are preserved. Positive N includes N=1 with no S reads or DI/DG stores; unused pre-zero pointers are unobserved and are not charged as a defect. No per-step carry premise or padding assumption is needed.",
+      "production_stage_mapping": [
+        {
+          "function": "_fwd_recurrence",
+          "coverage": "Complete N-output recurrence with optional seed.",
+          "path": "bench/tritonbench_g/chunk_gate_recurrence/chunk_gate_recurrence.py",
+          "line": 8,
+          "end_line": 39,
+          "sha256": "2b82afb093691cff7920c246ca0be7f45f78c47290519cd8f550a637617a5bc8",
+          "stage_id": "stage:bench/tritonbench_g/chunk_gate_recurrence/chunk_gate_recurrence.py:8:_fwd_recurrence"
+        },
+        {
+          "function": "_bwd_recurrence",
+          "coverage": "Complete reverse loop, whole-tile DG reduction and final DL update.",
+          "path": "bench/tritonbench_g/chunk_gate_recurrence/chunk_gate_recurrence.py",
+          "line": 44,
+          "end_line": 94,
+          "sha256": "2b82afb093691cff7920c246ca0be7f45f78c47290519cd8f550a637617a5bc8",
+          "stage_id": "stage:bench/tritonbench_g/chunk_gate_recurrence/chunk_gate_recurrence.py:44:_bwd_recurrence"
+        },
+        {
+          "function": "forward",
+          "coverage": "Contiguous conversion, divisibility asserts, grid and save_for_backward inspected, unbound.",
+          "path": "bench/tritonbench_g/chunk_gate_recurrence/chunk_gate_recurrence.py",
+          "line": 98,
+          "end_line": 128,
+          "sha256": "2b82afb093691cff7920c246ca0be7f45f78c47290519cd8f550a637617a5bc8",
+          "stage_id": "stage:bench/tritonbench_g/chunk_gate_recurrence/chunk_gate_recurrence.py:98:forward"
+        },
+        {
+          "function": "backward",
+          "coverage": "Allocation, kernel grid, terminal slice zeroing, DG tile sum and optional DL return inspected, unbound.",
+          "path": "bench/tritonbench_g/chunk_gate_recurrence/chunk_gate_recurrence.py",
+          "line": 131,
+          "end_line": 159,
+          "sha256": "2b82afb093691cff7920c246ca0be7f45f78c47290519cd8f550a637617a5bc8",
+          "stage_id": "stage:bench/tritonbench_g/chunk_gate_recurrence/chunk_gate_recurrence.py:131:backward"
+        }
+      ],
+      "dtype_review": "Three selected floating storage types for source, gate and seed/incoming independently, matching modeled inherited outputs. Unguarded original roles need admission binding outside those selectors.",
+      "branch_review": "Seed present/absent and all reverse/forward iterations covered; host zeroing of last DI/DG and cross-tile sum are separate actual operations.",
+      "structural_gaps": [
+        {
+          "id": "CHUNK_GATE_RECURRENCE-S1",
+          "kind": "wrapper_autograd_composition",
+          "finding": "No result composes saved forward output with backward, contiguous conversions, actual grid, last DI/DG zeroing and DG.view(...).sum(-1), or optional DL return.",
+          "why_blocks_full_original_scope": "These explicit host operations determine declared outputs beyond already complete per-program recurrence proofs.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 97,
+              "end_line": 159,
+              "path": "bench/tritonbench_g/chunk_gate_recurrence/chunk_gate_recurrence.py",
+              "sha256": "2b82afb093691cff7920c246ca0be7f45f78c47290519cd8f550a637617a5bc8",
+              "excerpt": "    @staticmethod\n    def forward(ctx, kv, cross_decay, last_kv=None):\n        cross_decay = cross_decay.contiguous()\n        kv = kv.contiguous()\n\n        B, H, N, D_k, D_v = kv.shape \n        output = torch.empty_like(kv)        \n        BLOCK_MODEL_K = 64\n        BLOCK_MODEL_V = 16\n    \n        assert D_k % BLOCK_MODEL_K == 0\n        assert D_v % BLOCK_MODEL_V == 0\n\n        grid = (B*H, D_k//BLOCK_MODEL_K, D_v//BLOCK_MODEL_V)\n        ctx.grid = grid\n        ctx.have_last_kv = last_kv is not None\n        ctx.BLOCK_MODEL_K = BLOCK_MODEL_K\n        ctx.BLOCK_MODEL_V = BLOCK_MODEL_V\n\n        _fwd_recurrence[grid](\n            kv,\n            cross_decay,\n            output,\n            D_MODEL_K=D_k, D_MODEL_V=D_v,\n            NUM_BLOCK=N, NUM_HEAD=H,\n            BLOCK_MODEL_K=BLOCK_MODEL_K,\n            BLOCK_MODEL_V=BLOCK_MODEL_V,\n            last_kv=last_kv\n        )\n\n        ctx.save_for_backward(output, cross_decay)        \n        return output\n\n    @staticmethod\n    def backward(ctx, DO):\n        DO = DO.contiguous()\n\n        output, cross_decay = ctx.saved_tensors \n\n        B, H, N, D_k, D_v = output.shape \n        \n        BLOCK_MODEL_K = 64\n        BLOCK_MODEL_V = 16\n\n        grid = (B*H, D_k//BLOCK_MODEL_K, D_v//BLOCK_MODEL_V)\n\n        DI = torch.empty_like(DO)\n        DG = torch.empty(B*H, N, D_k//BLOCK_MODEL_K, D_v//BLOCK_MODEL_V, device=cross_decay.device, dtype=cross_decay.dtype)\n        DL = torch.empty(B, H, D_k, D_v, device=output.device, dtype=output.dtype)\n        _bwd_recurrence[grid](\n            output, cross_decay,\n            DI, DG, DL, DO, \n            NUM_HEAD=H, NUM_BLOCK = N, \n            D_MODEL_K = D_k,\n            D_MODEL_V = D_v, \n            BLOCK_MODEL_K=BLOCK_MODEL_K,\n            BLOCK_MODEL_V=BLOCK_MODEL_V,\n        )\n\n        DI[:, :, -1] = 0\n        DG[:, -1] = 0\n        DG = DG.view(B, H, N, -1).sum(dim=-1)\n        return DI, DG, DL if ctx.have_last_kv else None"
+            },
+            {
+              "line": 4,
+              "end_line": 12,
+              "path": "bench/tritonbench_g/chunk_gate_recurrence/Correct.lean",
+              "sha256": "899a3c462b9c7712bd600fd26e4c56f131213e1bbc3744c6ffac442c6a3d42c0",
+              "excerpt": "/-! Real correctness of both complete forward and backward kernels in Kernels.\nThe contracts run each whole program in a disjoint flat allocation, derive the\noutputs from initial input arrays and preserve all other tagged memory cells.\nEvery reached unmasked tile must fit its allocation. There is no supplied\ncarry, padding-value premise or FP atom in these real specifications.\n\nEach theorem concerns one program; host grid composition, clearing the last\nDI/DG slices and reducing DG across programs are separate host operations.\nThe arithmetic here is real arithmetic after precision erasure. -/"
+            }
+          ]
+        },
+        {
+          "id": "CHUNK_GATE_RECURRENCE-S2",
+          "kind": "dtype_admission",
+          "finding": "Source/gate/seed/incoming public selectors have three types; wrappers enforce divisibility but no corresponding dtype domain.",
+          "why_blocks_full_original_scope": "Remaining actual dtype routes and storage inheritance require supported/rejected source binding.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 144,
+              "end_line": 150,
+              "path": "bench/tritonbench_g/chunk_gate_recurrence/Kernels.lean",
+              "sha256": "1418c5d638004414b96cb9e7805e1a1166a2bdf65beccd98d5822ead1deed998",
+              "excerpt": "def Storage.dtype : Storage → FloatDType\n  | .fp32 => .fp32 | .fp16 => .fp16 | .bf16 => .bf16\n\ndef specializeForward (source gate : Storage) (swapped : Bool) :=\n  match source, gate, swapped with\n  | .fp32, .fp32, Bool.false => gateForwardSource%[tl.float32, tl.float32, original]\n  | .fp32, .fp32, Bool.true => gateForwardSource%[tl.float32, tl.float32, sumLeft]"
+            },
+            {
+              "line": 98,
+              "end_line": 108,
+              "path": "bench/tritonbench_g/chunk_gate_recurrence/chunk_gate_recurrence.py",
+              "sha256": "2b82afb093691cff7920c246ca0be7f45f78c47290519cd8f550a637617a5bc8",
+              "excerpt": "    def forward(ctx, kv, cross_decay, last_kv=None):\n        cross_decay = cross_decay.contiguous()\n        kv = kv.contiguous()\n\n        B, H, N, D_k, D_v = kv.shape \n        output = torch.empty_like(kv)        \n        BLOCK_MODEL_K = 64\n        BLOCK_MODEL_V = 16\n    \n        assert D_k % BLOCK_MODEL_K == 0\n        assert D_v % BLOCK_MODEL_V == 0"
+            },
+            {
+              "line": 143,
+              "end_line": 145,
+              "path": "bench/tritonbench_g/chunk_gate_recurrence/chunk_gate_recurrence.py",
+              "sha256": "2b82afb093691cff7920c246ca0be7f45f78c47290519cd8f550a637617a5bc8",
+              "excerpt": "        DI = torch.empty_like(DO)\n        DG = torch.empty(B*H, N, D_k//BLOCK_MODEL_K, D_v//BLOCK_MODEL_V, device=cross_decay.device, dtype=cross_decay.dtype)\n        DL = torch.empty(B, H, D_k, D_v, device=output.device, dtype=output.dtype)"
+            }
+          ]
+        }
+      ],
+      "numerical_items_eligible_for_explicit_deferral": [
+        "The sum-left equivalence depends on scalar arithmetic rules; numerical assumptions for casts, reductions and addition commutation may be explicitly registered and deferred."
+      ],
+      "precondition_assessment": "The existing bounds, nonoverlap, positive tile size and valid-address premises are legitimate selected-domain assumptions. No unrestricted invalid-input behavior or hypothetical hardware defect is demanded. Missing wrapper composition and dtype admission are separate structural questions.",
+      "source_sha256": {
+        "bench/tritonbench_g/chunk_gate_recurrence/chunk_gate_recurrence.py": "2b82afb093691cff7920c246ca0be7f45f78c47290519cd8f550a637617a5bc8",
+        "bench/tritonbench_g/chunk_gate_recurrence/Correct.lean": "899a3c462b9c7712bd600fd26e4c56f131213e1bbc3744c6ffac442c6a3d42c0",
+        "bench/tritonbench_g/chunk_gate_recurrence/FPEquiv.lean": "bcde8550d4ca86d7f51e5f85969d730791302c1ff1748051a3db0967debb2b63",
+        "bench/tritonbench_g/chunk_gate_recurrence/Kernels.lean": "1418c5d638004414b96cb9e7805e1a1166a2bdf65beccd98d5822ead1deed998"
+      },
+      "all_input_sha256": {
+        "lean": {
+          "bench/tritonbench_g/chunk_gate_recurrence/Correct.lean": "899a3c462b9c7712bd600fd26e4c56f131213e1bbc3744c6ffac442c6a3d42c0",
+          "bench/tritonbench_g/chunk_gate_recurrence/FPEquiv.lean": "bcde8550d4ca86d7f51e5f85969d730791302c1ff1748051a3db0967debb2b63",
+          "bench/tritonbench_g/chunk_gate_recurrence/Kernels.lean": "1418c5d638004414b96cb9e7805e1a1166a2bdf65beccd98d5822ead1deed998",
+          "bench/tritonbench_g/chunk_gate_recurrence/Proofs/FP.lean": "ae10c6c227f59e5ba597c5acb481fe69731d14c702b76150f7da44733b7aef39",
+          "bench/tritonbench_g/chunk_gate_recurrence/Proofs/LegacyReal.lean": "ded82dd13381949a5ab7e6f652f7a112dce37c671a4ce185a0cf57a3b16f5ded",
+          "bench/tritonbench_g/chunk_gate_recurrence/Proofs/RealBackward.lean": "f00f3ed07cad1414c067b30d509c52e55343fa53e247f2550a170036f46ae466",
+          "bench/tritonbench_g/chunk_gate_recurrence/Proofs/RealBackwardBounds.lean": "5f3763a2d60bd74ed23761e1cf09d8e43220c84ce720c21be21a98db186fb4b3",
+          "bench/tritonbench_g/chunk_gate_recurrence/Proofs/RealBackwardCandidate.lean": "6a57bb2ecb40700aad454d78c9ffb51bb79a1c5f431d8c39dd278d1e361f49f0",
+          "bench/tritonbench_g/chunk_gate_recurrence/Proofs/RealBackwardFlat.lean": "340506cecbdbe609c22725ea999dee3b0eaf07685122f08843dbf502a5580cfa",
+          "bench/tritonbench_g/chunk_gate_recurrence/Proofs/RealBackwardFlatCore.lean": "033ea5a63c18ddb184f49de7bb915cd107f9e1f96ea9e59b70f7c6b2971eb0bd",
+          "bench/tritonbench_g/chunk_gate_recurrence/Proofs/RealBackwardFlatExecution.lean": "7064029235bc897d724b94bba6f6a2cc34fa6435dc9fcfdee1f7081b001af485",
+          "bench/tritonbench_g/chunk_gate_recurrence/Proofs/RealBackwardFlatLoop.lean": "f444afef989a95423e23a412d5171c06f591215dee5b3c68e699bfbad6f25adb",
+          "bench/tritonbench_g/chunk_gate_recurrence/Proofs/RealBackwardFlatState.lean": "d36e86eeca28fd41358f4baea16b366041ed8a31ad4bfb1eb86794a250ce8cc0",
+          "bench/tritonbench_g/chunk_gate_recurrence/Proofs/RealBackwardFlatTail.lean": "67a50db61c05409b160187a43cb717be423b5a997219a10818bba3d871df3128",
+          "bench/tritonbench_g/chunk_gate_recurrence/Proofs/RealBackwardInit.lean": "a6a04cf0895e550f472a2af6161ae16acfa96904cd9c96b8b7e8da1c7b6a909b",
+          "bench/tritonbench_g/chunk_gate_recurrence/Proofs/RealBackwardLoop.lean": "0935ea4a89ff36e0331b8812cc5526b929c8bdcb700738177c6e1353500d086a",
+          "bench/tritonbench_g/chunk_gate_recurrence/Proofs/RealBackwardPointers.lean": "ae822bf34fc58230a02cc91c9dbba294bbd7795dee7fa4324d983cdf924b0e5e",
+          "bench/tritonbench_g/chunk_gate_recurrence/Proofs/RealBackwardPost.lean": "1dccc81d4335d235b4f474eb573d1c148220e9883aa3694e79d547a60a82bca5",
+          "bench/tritonbench_g/chunk_gate_recurrence/Proofs/RealBackwardProgram.lean": "9988cfd53ba8cca095793e41dd913c0433864ea82376cca3c0a5cd9d9b91a31d",
+          "bench/tritonbench_g/chunk_gate_recurrence/Proofs/RealBackwardSafety.lean": "fc8a1a4d549f84140d206a304e9344e7c6d31e21136408f96267c9cf2fa32fbf",
+          "bench/tritonbench_g/chunk_gate_recurrence/Proofs/RealBackwardStep.lean": "a4c81d8c5715bb0a27660ff8463f3391fc2aa16c7dd98559f0cf74c01633876c",
+          "bench/tritonbench_g/chunk_gate_recurrence/Proofs/RealForward.lean": "a80e079a534ab5c8ecdac3e8349e748f1ced34f82b0d2eff73f80eb5098348f7",
+          "bench/tritonbench_g/chunk_gate_recurrence/Proofs/RealForwardBounds.lean": "418f6797d2f57089184c866140d55a1a5b70d1e4f0c302bb0db4908e3ad29270",
+          "bench/tritonbench_g/chunk_gate_recurrence/Proofs/RealForwardCandidate.lean": "e553210eec232f43a8ac3ec69781a8d755cd6f13a30241a0de7d1eb5f5339fbb",
+          "bench/tritonbench_g/chunk_gate_recurrence/Proofs/RealForwardFlat.lean": "6d3b1d4878a8869367b70144a3deea30958041169e7f2ed5b1078305fd4d3a8b",
+          "bench/tritonbench_g/chunk_gate_recurrence/Proofs/RealForwardInit.lean": "52008f205d108d74aa188924b5a72333e81d76bffd3d2655bd8bd93f83b6b293",
+          "bench/tritonbench_g/chunk_gate_recurrence/Proofs/RealForwardLoop.lean": "0007d5e74bb4573b3f514ad1fefde48848f660ff9cc5c2516f7835a75ccf7dc4",
+          "bench/tritonbench_g/chunk_gate_recurrence/Proofs/RealForwardProgram.lean": "bef10d7cf59785bde865eee8fb46e19537d43f40fa54160af38f7fda4df50938",
+          "bench/tritonbench_g/chunk_gate_recurrence/Proofs/RealForwardSafety.lean": "573057b6833f4e8399465b497f6a6066b5a480f22a0f4d3f254250fd4631cbc4",
+          "bench/tritonbench_g/chunk_gate_recurrence/Proofs/RealForwardStep.lean": "4ce9fbc91404f1ad2286e803f74fc386851fb78720391a4fc63da1da23770a97",
+          "bench/tritonbench_g/chunk_gate_recurrence/Proofs/RealIO.lean": "8663217963cfa1cbdad0982115d01162df79f90005dd2c64530b2aa5b1b2a5c3",
+          "bench/tritonbench_g/chunk_gate_recurrence/Proofs/RealMath.lean": "1941f69fae8e4d94ae78abd2c3f2e2449a7827c2941ca3036aca11a4e335a6cd",
+          "bench/tritonbench_g/chunk_gate_recurrence/Proofs/RealProgram.lean": "a43f696f42706ba672ed9cc0b3eecfd5d186e8cb675fecb204e6d968dbb42c61",
+          "bench/tritonbench_g/chunk_gate_recurrence/Proofs/RealSource.lean": "c3a405e81755a2c52891d9c313c3e392dda8fd0e7952ecd8a10df363824e66fd",
+          "bench/tritonbench_g/chunk_gate_recurrence/Proofs/TypedExecution.lean": "e23ea18545ad1cc383bf836d38543d0cac0489bce9a00c5549d7231fcbb4e39c",
+          "bench/tritonbench_g/chunk_gate_recurrence/Proofs/TypedExecutionSteps.lean": "1137103b067e469c898ae03aebe78b9b2e05655c671cf0d9b9aeab9b67688eb6"
+        },
+        "python": {
+          "bench/tritonbench_g/chunk_gate_recurrence/chunk_gate_recurrence.py": "2b82afb093691cff7920c246ca0be7f45f78c47290519cd8f550a637617a5bc8"
+        }
+      },
+      "public_declarations_checked": [
+        {
+          "file": "bench/tritonbench_g/chunk_gate_recurrence/Correct.lean",
+          "declaration": "forward_correctness",
+          "parser_name": "forward_correctness",
+          "line": 51,
+          "sha256": "899a3c462b9c7712bd600fd26e4c56f131213e1bbc3744c6ffac442c6a3d42c0",
+          "statement_sha256": "f2b2d0356b7a18d6ce802041bca6e43c93de01d5120e768014fab0cb0c66c4c7",
+          "statement": "specification forward_correctness (p : Parameters) (S D O seed : RegionName)\n    (storage gate seedStorage : TypedSource.Storage) (H : Nat) (hasSeed : Bool)\n    (hN : 0 < p.N) (hBK : p.BK ≤ p.K) (hBV : p.BV ≤ p.V) (hSO : S ≠ O) (hDO : D ≠ O) :\n    Spec.Real (originalForwardIO p S D O seed storage gate seedStorage H hasSeed ⊨ expectedForward p hasSeed)"
+        },
+        {
+          "file": "bench/tritonbench_g/chunk_gate_recurrence/Correct.lean",
+          "declaration": "forward_sum_left_correctness",
+          "parser_name": "forward_sum_left_correctness",
+          "line": 57,
+          "sha256": "899a3c462b9c7712bd600fd26e4c56f131213e1bbc3744c6ffac442c6a3d42c0",
+          "statement_sha256": "f979db86743a70419343d86f1c0d4d182a8d7bd28f5a4d71cafba2a66f05a1dd",
+          "statement": "specification forward_sum_left_correctness (p : Parameters) (S D O seed : RegionName)\n    (storage gate seedStorage : TypedSource.Storage) (H : Nat) (hasSeed : Bool)\n    (hN : 0 < p.N) (hBK : p.BK ≤ p.K) (hBV : p.BV ≤ p.V) (hSO : S ≠ O) (hDO : D ≠ O) :\n    Spec.Real (sumLeftForwardIO p S D O seed storage gate seedStorage H hasSeed ⊨ expectedForward p hasSeed)"
+        },
+        {
+          "file": "bench/tritonbench_g/chunk_gate_recurrence/Correct.lean",
+          "declaration": "backward_correctness",
+          "parser_name": "backward_correctness",
+          "line": 104,
+          "sha256": "899a3c462b9c7712bd600fd26e4c56f131213e1bbc3744c6ffac442c6a3d42c0",
+          "statement_sha256": "4d8082d2824f0fd9003f9fe67c7e35a2487587a99e644af2bedf97858d8bcf7d",
+          "statement": "specification backward_correctness (p : Parameters) (S D DI DG DL DS : RegionName)\n    (storage gate incoming : TypedSource.Storage) (H : Nat)\n    (hN : 0 < p.N) (hBKpos : 0 < p.BK) (hBVpos : 0 < p.BV) (hBK : p.BK ≤ p.K) (hBV : p.BV ≤ p.V)\n    (sep : RealBackwardLoop.Separation S D DI DG DS) (hIDL : DI ≠ DL) (hGDL : DG ≠ DL) :\n    Spec.Real (originalBackwardIO p S D DI DG DL DS storage gate incoming H ⊨ expectedBackward p)"
+        },
+        {
+          "file": "bench/tritonbench_g/chunk_gate_recurrence/Correct.lean",
+          "declaration": "backward_sum_left_correctness",
+          "parser_name": "backward_sum_left_correctness",
+          "line": 111,
+          "sha256": "899a3c462b9c7712bd600fd26e4c56f131213e1bbc3744c6ffac442c6a3d42c0",
+          "statement_sha256": "b96df80654502e9fec2e3283ad22c264170ae9c281b82685900e3ef26654a1a1",
+          "statement": "specification backward_sum_left_correctness (p : Parameters) (S D DI DG DL DS : RegionName)\n    (storage gate incoming : TypedSource.Storage) (H : Nat)\n    (hN : 0 < p.N) (hBKpos : 0 < p.BK) (hBVpos : 0 < p.BV) (hBK : p.BK ≤ p.K) (hBV : p.BV ≤ p.V)\n    (sep : RealBackwardLoop.Separation S D DI DG DS) (hIDL : DI ≠ DL) (hGDL : DG ≠ DL) :\n    Spec.Real (sumLeftBackwardIO p S D DI DG DL DS storage gate incoming H ⊨ expectedBackward p)"
+        },
+        {
+          "file": "bench/tritonbench_g/chunk_gate_recurrence/FPEquiv.lean",
+          "declaration": "forward_equiv",
+          "parser_name": "forward_equiv",
+          "line": 31,
+          "sha256": "bcde8550d4ca86d7f51e5f85969d730791302c1ff1748051a3db0967debb2b63",
+          "statement_sha256": "72f1e0dd12f5a8139188700dcda308c5d481f44a255d1bea127ebac7867deca9",
+          "statement": "specification forward_equiv (R : FP.ScalarArithmetic.Rules) :\n    forward source gate seed S D O last_kv H N K V BK BV hasSeed ≡[R]\n    forwardSumLeft source gate seed S D O last_kv H N K V BK BV hasSeed"
+        },
+        {
+          "file": "bench/tritonbench_g/chunk_gate_recurrence/FPEquiv.lean",
+          "declaration": "backward_equiv",
+          "parser_name": "backward_equiv",
+          "line": 50,
+          "sha256": "bcde8550d4ca86d7f51e5f85969d730791302c1ff1748051a3db0967debb2b63",
+          "statement_sha256": "13898a9168571e9138456af492981749658b43e0f0405d8878fcc0c81503e8f6",
+          "statement": "specification backward_equiv (R : FP.ScalarArithmetic.Rules) :\n    backward source gate incoming S D DI DG DL DS H N K V BK BV ≡[R]\n    backwardSumLeft source gate incoming S D DI DG DL DS H N K V BK BV"
+        }
+      ],
+      "catalog_declaration_metadata_discrepancies": [],
+      "dtype_scope_caveat": "No unsupported dtype is assumed to compile merely because a Python wrapper admits it. Missing-route findings require either the actual supported conversion route or a precise admission/rejection contract; they do not demand arbitrary compiler internals.",
+      "verification": {
+        "manual_original_production_functions_read": 4,
+        "actual_public_statements_reparsed_and_hash_checked": 6,
+        "key_source_and_referenced_definition_review": true,
+        "source_matches_baseline_scope_inputs": true,
+        "generated_selector_check": null,
+        "new_lean_runs": 0,
+        "new_frontend_runs": 0,
+        "gpu_runs": 0,
+        "numerical_deferrals_registered_by_this_read_only_review": 0
+      }
+    },
+    {
+      "schema": 1,
+      "kind": "original_scope_gap_review",
+      "reviewer": "/root/scope_remaining_cohort",
+      "reviewed_at_utc": "2026-10-15T19:19:00.538198+00:00",
+      "reviewed_base_commit": "fc183f5dae5e3f09f549b8151a9a1e4c366beb02",
+      "catalog": {
+        "path": "bench/review-checkpoints/2026-10-16/relu-source-grid-and-exact-numerics/current-source-catalog.json",
+        "sha256": "ef0da28a4c601f9841664431013d72e565ec5497cf21ba3e7be692c440d1a3fe"
+      },
+      "task": "kldiv_triton",
+      "status": "structural_gaps_confirmed",
+      "whole_original_program_accepted": false,
+      "completion_increment": 0,
+      "existing_proofs_preserved": "New complete typed source and finite-flat contracts supersede the older single-chunk-only characterization: both log-target branches, complete forward/backward loops, elementwise stores and genuine one-scalar-per-chunk reduced stores are present. Six prediction/output labels, fp32/fp64 raw log/exp target labels and explicit backward default source restrictions are retained. No eps clamp or whole-row accumulator is substituted.",
+      "production_stage_mapping": [
+        {
+          "function": "get_num_warps",
+          "coverage": "Four thresholds inspected; host binding absent.",
+          "path": "bench/tritonbench_g/kldiv_triton/kldiv_triton.py",
+          "line": 6,
+          "end_line": 15,
+          "sha256": "43e6fb718ccf938d5b90d785159bd44febe7f3bdd7e3151c22fc79f18988aedf",
+          "stage_id": "stage:bench/tritonbench_g/kldiv_triton/kldiv_triton.py:6:get_num_warps"
+        },
+        {
+          "function": "_kldiv_kernel_forward",
+          "coverage": "Complete loops and both reduction footprints with exact per-chunk output count.",
+          "path": "bench/tritonbench_g/kldiv_triton/kldiv_triton.py",
+          "line": 33,
+          "end_line": 70,
+          "sha256": "43e6fb718ccf938d5b90d785159bd44febe7f3bdd7e3151c22fc79f18988aedf",
+          "stage_id": "stage:bench/tritonbench_g/kldiv_triton/kldiv_triton.py:33:_kldiv_kernel_forward"
+        },
+        {
+          "function": "_kldiv_kernel_backward",
+          "coverage": "Complete loops and both target branches.",
+          "path": "bench/tritonbench_g/kldiv_triton/kldiv_triton.py",
+          "line": 73,
+          "end_line": 101,
+          "sha256": "43e6fb718ccf938d5b90d785159bd44febe7f3bdd7e3151c22fc79f18988aedf",
+          "stage_id": "stage:bench/tritonbench_g/kldiv_triton/kldiv_triton.py:73:_kldiv_kernel_backward"
+        },
+        {
+          "function": "kldiv_forward_triton",
+          "coverage": "Reduction mapping, allocation and host sums/mean inspected; reduced multi-chunk layout not composed.",
+          "path": "bench/tritonbench_g/kldiv_triton/kldiv_triton.py",
+          "line": 103,
+          "end_line": 140,
+          "sha256": "43e6fb718ccf938d5b90d785159bd44febe7f3bdd7e3151c22fc79f18988aedf",
+          "stage_id": "stage:bench/tritonbench_g/kldiv_triton/kldiv_triton.py:103:kldiv_forward_triton"
+        },
+        {
+          "function": "kldiv_backward_triton",
+          "coverage": "In-place input write, one-test and grad_output multiplication inspected, unbound.",
+          "path": "bench/tritonbench_g/kldiv_triton/kldiv_triton.py",
+          "line": 142,
+          "end_line": 171,
+          "sha256": "43e6fb718ccf938d5b90d785159bd44febe7f3bdd7e3151c22fc79f18988aedf",
+          "stage_id": "stage:bench/tritonbench_g/kldiv_triton/kldiv_triton.py:142:kldiv_backward_triton"
+        }
+      ],
+      "dtype_review": "Raw log/exp narrow-target rejection is represented by MathStorage fp32/fp64, not an invented missing-fp16 implementation. Six storage labels and default backward fp8 weak-scalar rejection preserved.",
+      "branch_review": "Every kernel branch and loop represented. Host reduced output has one slot per row although source advances one slot per chunk.",
+      "structural_gaps": [
+        {
+          "id": "KLDIV_TRITON-S1",
+          "kind": "wrapper_reduction_layout",
+          "finding": "For S>16384 with non-none reduction, the kernel writes ceil(S/BLOCK_SIZE) scalars from each row base while the host allocates only (B,) with stride 1, creating overlapping rows and an insufficient final-row allocation. Full host reductions and backward grad_output postprocessing are also unbound.",
+          "why_blocks_full_original_scope": "The actual reduced wrapper route needs admission/failure characterization; per-program bounds cannot justify this allocation, and replacing per-chunk stores with a sum would change source.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 52,
+              "end_line": 70,
+              "path": "bench/tritonbench_g/kldiv_triton/kldiv_triton.py",
+              "sha256": "43e6fb718ccf938d5b90d785159bd44febe7f3bdd7e3151c22fc79f18988aedf",
+              "excerpt": "    for i in range(0, n_cols, BLOCK_SIZE):\n        offsets = i + base_offsets\n        mask = offsets < n_cols\n        y = tl.load(y_ptr + offsets, mask=mask, other=0.0)\n        y_true = tl.load(gt_ptr + offsets, mask=mask, other=0.0)\n\n        # KL(y_true || y) = y_true * (log(y_true) - log(y))\n        # We compute KL(y_true || y) with y in the log-space\n        if not log_target:\n            loss = y_true * (tl.log(y_true) - y)\n        else:\n            loss = tl.exp(y_true) * (y_true - y)\n\n        if reduction == _REDUCTION_MODE_NONE:\n            tl.store(loss_ptr + offsets, loss, mask=mask)\n        else:\n            loss = tl.sum(loss, axis=0)\n            tl.store(loss_ptr, loss)\n            loss_ptr += 1"
+            },
+            {
+              "line": 103,
+              "end_line": 140,
+              "path": "bench/tritonbench_g/kldiv_triton/kldiv_triton.py",
+              "sha256": "43e6fb718ccf938d5b90d785159bd44febe7f3bdd7e3151c22fc79f18988aedf",
+              "excerpt": "def kldiv_forward_triton(y_pred, y_true, log_target, reduction):  # [B, S]  # [B, S]\n    B, S = y_pred.shape\n\n    BLOCK_SIZE = min(MAX_FUSED_SIZE, triton.next_power_of_2(S))\n    num_warps = get_num_warps(BLOCK_SIZE)\n\n    grid = (B,)\n    reduction = _str_to_reduction_mode[reduction]\n\n    out_size = (B, S) if reduction == _REDUCTION_MODE_NONE.value else (B,)\n    output_tensor = torch.zeros(\n        out_size,\n        dtype=torch.float32,\n        device=\"cuda\",\n    )\n\n    _kldiv_kernel_forward[grid](\n        y_pred,\n        y_pred.stride(0),\n        y_true,\n        y_true.stride(0),\n        output_tensor,\n        output_tensor.stride(0),\n        S,\n        BLOCK_SIZE=BLOCK_SIZE,\n        num_warps=num_warps,\n        log_target=log_target,\n        reduction=reduction,\n    )\n\n    if reduction == _REDUCTION_MODE_BATCHMEAN.value:\n        return output_tensor.sum() / B\n    elif reduction == _REDUCTION_MODE_SUM.value:\n        return output_tensor.sum(axis=0)\n    elif reduction == _REDUCTION_MODE_MEAN.value:\n        return output_tensor.mean(axis=0)\n    else:\n        return output_tensor"
+            },
+            {
+              "line": 142,
+              "end_line": 171,
+              "path": "bench/tritonbench_g/kldiv_triton/kldiv_triton.py",
+              "sha256": "43e6fb718ccf938d5b90d785159bd44febe7f3bdd7e3151c22fc79f18988aedf",
+              "excerpt": "def kldiv_backward_triton(input, target, grad_output, log_target):\n    B, S = input.shape\n\n    BLOCK_SIZE = min(MAX_FUSED_SIZE, triton.next_power_of_2(S))\n    num_warps = get_num_warps(BLOCK_SIZE)\n\n    grid = (B,)\n\n    _kldiv_kernel_backward[grid](\n        input,\n        input.stride(0),\n        target,\n        target.stride(0),\n        S,\n        BLOCK_SIZE=BLOCK_SIZE,\n        num_warps=num_warps,\n        log_target=log_target,\n    )\n\n    if torch.equal(\n        grad_output,\n        torch.tensor(\n                1.0,\n            dtype=grad_output.dtype,\n            device=\"cuda\",\n        ),\n    ):\n        return input\n\n    return input * grad_output"
+            },
+            {
+              "line": 8,
+              "end_line": 25,
+              "path": "bench/tritonbench_g/kldiv_triton/Proofs/Contracts.lean",
+              "sha256": "60a698d6f246d21af42b963c9cefb00c398409d269e1fae47fff1bd8334f42c2",
+              "excerpt": "/-- Actual access safety, successful full flat execution and independent loss\nvalues, with the exact chunk footprint and untouched-cell frame. -/\ndef ForwardIO (kernel : ComputeKernel) (Y T O : RegionName)\n    (sy st so N B : Nat) (flag : Bool) (reduction : Nat) : Prop :=\n  ∀ (A : FlatAlloc) (s : BlockState), A.Disjoint → A.regions = [Y, T, O] →\n    (∀ r, r ∉ A.regions → A.extent r = 0) → s.undef = (fun _ _ ↦ 0) →\n    (∀ k : Fin N, s.pids 0 * sy + k.val < A.extent Y) →\n    (∀ k : Fin N, s.pids 0 * st + k.val < A.extent T) →\n    (∀ k : Fin (FullMath.outputCount N B reduction),\n      s.pids 0 * so + k.val < A.extent O) →\n    kernel.eraseDType.toAlgKernel.TraceSafeR .triv A.extent s ∧\n    ∃ t, exec (A.flattenKernel kernel.eraseDType.toAlgKernel) (A.flattenState s) = some t ∧\n      (∀ k : Fin (FullMath.outputCount N B reduction),\n        t.readMem A.flat (A.addr O (s.pids 0 * so + k.val)) =\n          FullMath.forwardOutput flag (fun i ↦ s.readMem Y (s.pids 0 * sy + i))\n            (fun i ↦ s.readMem T (s.pids 0 * st + i)) N B reduction k.val) ∧\n      (∀ r off, (r ≠ A.flat ∨ ∀ k : Fin (FullMath.outputCount N B reduction),\n        off ≠ A.addr O (s.pids 0 * so + k.val)) →"
+            }
+          ]
+        }
+      ],
+      "numerical_items_eligible_for_explicit_deferral": [
+        "Native log/exp at zero and padded loss terms, conversion/reduction behavior and host numeric operations can be registered for explicit numeric deferral. Preserve native dispatch restrictions separately."
+      ],
+      "precondition_assessment": "The existing bounds, nonoverlap, positive tile size and valid-address premises are legitimate selected-domain assumptions. No unrestricted invalid-input behavior or hypothetical hardware defect is demanded. Missing wrapper composition and dtype admission are separate structural questions.",
+      "source_sha256": {
+        "bench/tritonbench_g/kldiv_triton/kldiv_triton.py": "43e6fb718ccf938d5b90d785159bd44febe7f3bdd7e3151c22fc79f18988aedf",
+        "bench/tritonbench_g/kldiv_triton/Correct.lean": "ceae8b6769be7e5f85ad2609f1fa84d6286f60a0c4f08c497e6fe5981b0e6547",
+        "bench/tritonbench_g/kldiv_triton/FPEquiv.lean": "69aaa504e69f3a8be0e2f563799e89378089110eafa5fe990f7f150843e4b649",
+        "bench/tritonbench_g/kldiv_triton/Kernels.lean": "2a099b606a4bcc61dacd42448a841cb54d4ecf928491c9e23392613cea154a2d",
+        "bench/tritonbench_g/kldiv_triton/Proofs/Contracts.lean": "60a698d6f246d21af42b963c9cefb00c398409d269e1fae47fff1bd8334f42c2",
+        "bench/tritonbench_g/kldiv_triton/Proofs/SourceDomain.lean": "2da62bdce6a05790a7ef603f18cd5cca6ed65c5402d176215cf67b125f82de9e"
+      },
+      "all_input_sha256": {
+        "lean": {
+          "bench/tritonbench_g/kldiv_triton/Correct.lean": "ceae8b6769be7e5f85ad2609f1fa84d6286f60a0c4f08c497e6fe5981b0e6547",
+          "bench/tritonbench_g/kldiv_triton/FPEquiv.lean": "69aaa504e69f3a8be0e2f563799e89378089110eafa5fe990f7f150843e4b649",
+          "bench/tritonbench_g/kldiv_triton/Kernels.lean": "2a099b606a4bcc61dacd42448a841cb54d4ecf928491c9e23392613cea154a2d",
+          "bench/tritonbench_g/kldiv_triton/Proofs/Algorithm.lean": "3ae62ffa0ed41094c61238856ae006fe614d25f9de80e102bee6c5786b5d2053",
+          "bench/tritonbench_g/kldiv_triton/Proofs/BackwardExecution.lean": "282a5c7faf6a0dc9a36a1eb0f92c280f5ef55521743fd75526b5b62818c568e4",
+          "bench/tritonbench_g/kldiv_triton/Proofs/BackwardInvariant.lean": "d8485943411e6358ba4982486eb14ea56faeb507c087d827c992265ca32d2ebc",
+          "bench/tritonbench_g/kldiv_triton/Proofs/BackwardLoop.lean": "84541e1c32c0777db56035af1f86145230e88688f5531ed21882348a050ff35a",
+          "bench/tritonbench_g/kldiv_triton/Proofs/BackwardMemory.lean": "3b78ad5918884594101e448b0720d5098cc0f262e9182014433a8948ecf4fc8f",
+          "bench/tritonbench_g/kldiv_triton/Proofs/BackwardSafety.lean": "7044bf1c5d8172a7c5c5e7f1869daa4c80130072472dcc46ff62dd8195dcc906",
+          "bench/tritonbench_g/kldiv_triton/Proofs/BackwardState.lean": "dc1431a61abf889522d2a26cb5cdf00dd2820609d61586235d2cec160552c7fb",
+          "bench/tritonbench_g/kldiv_triton/Proofs/BackwardStep.lean": "4fdd509deda7534a6b2d6a41e6cd48717c25e1f53b7695366fc1cce2451312f8",
+          "bench/tritonbench_g/kldiv_triton/Proofs/Candidate.lean": "6f29a45d7e09c0931476d09c8389864e3de4014a2a850a61e5110dc0b09bef3d",
+          "bench/tritonbench_g/kldiv_triton/Proofs/CandidateSafety.lean": "d492d047d2ea97fc32427e7eec407f37cf90335f9ff8d88384d69642c061e461",
+          "bench/tritonbench_g/kldiv_triton/Proofs/Contracts.lean": "60a698d6f246d21af42b963c9cefb00c398409d269e1fae47fff1bd8334f42c2",
+          "bench/tritonbench_g/kldiv_triton/Proofs/Execution.lean": "b489a7fbfb0588c8cb01bdfd008629def4585dc64e6ec9d4950899ec1277d07c",
+          "bench/tritonbench_g/kldiv_triton/Proofs/FlatIO.lean": "4f3edf74505375f20bc86cf1799744831d4889bca5fd9aab00792a0d1eaffd33",
+          "bench/tritonbench_g/kldiv_triton/Proofs/ForwardContext.lean": "21d98955a7825c07f84cf236d00c0e1d8a40d93d97c738537aa92bea58c7b356",
+          "bench/tritonbench_g/kldiv_triton/Proofs/ForwardExecution.lean": "7dd1c290161d9648fa16964550898f7c2f36465f22fa45e3c8d7404e67446684",
+          "bench/tritonbench_g/kldiv_triton/Proofs/ForwardInvariant.lean": "111175f4743da99ac80e75b00782eabe2cbebbb53db5d8c53fa05b9803873bdf",
+          "bench/tritonbench_g/kldiv_triton/Proofs/ForwardLoop.lean": "f9077126821ad7b717cc0b3b2b7b66173aede7ed046bbb713bfa6e81bced30a3",
+          "bench/tritonbench_g/kldiv_triton/Proofs/ForwardMath.lean": "7bc17d6722b9ce0c84b84f415ee45bc87dd85b310cd7b6c14eeaeb3008c92fc0",
+          "bench/tritonbench_g/kldiv_triton/Proofs/ForwardMemory.lean": "cab6f88ffc14234b0e8653eedcf0705820e572df941b3813ca6a91c47edba7fa",
+          "bench/tritonbench_g/kldiv_triton/Proofs/ForwardSafety.lean": "eb37e0f39f66e466567c18bc8985d31935ac87ab565ac247a452e3df79d1e13c",
+          "bench/tritonbench_g/kldiv_triton/Proofs/ForwardStep.lean": "a77acfb728d16a73625354a3f8a48c48d1ce33c2fa1f4be3f1378e34a4c943e3",
+          "bench/tritonbench_g/kldiv_triton/Proofs/IndexRewrite.lean": "6a92eff9f7aeaa2f4b25df8f8d46841fb099a07cd36f85c9ea716bebe42a3f26",
+          "bench/tritonbench_g/kldiv_triton/Proofs/Initialize.lean": "611848911e9334ec4a8b1b691d116dea9d6614065ba7d12e2cd47b5517581302",
+          "bench/tritonbench_g/kldiv_triton/Proofs/LegacyReal.lean": "65031ad205fce956903eca659fae22e1b280190905166df7fd4b7c0a4ea0b6d5",
+          "bench/tritonbench_g/kldiv_triton/Proofs/Math.lean": "9ab933de6e69c3f8990253db133dbd33cfdf228bd400db826d1f0be3d30803a7",
+          "bench/tritonbench_g/kldiv_triton/Proofs/Precision.lean": "0b951c9778d25cb3c13b3ab377c71bfe41b2388d6d8fe7e8b32dc121d2aa70a0",
+          "bench/tritonbench_g/kldiv_triton/Proofs/Source.lean": "42c70a538dded1ead5df39319ea14e73cc85fe45fb2b75672c26485758a14b35",
+          "bench/tritonbench_g/kldiv_triton/Proofs/SourceDomain.lean": "2da62bdce6a05790a7ef603f18cd5cca6ed65c5402d176215cf67b125f82de9e",
+          "bench/tritonbench_g/kldiv_triton/Proofs/Witness.lean": "515a016b97ec20bb8ef5b19be386d5c23f971b106d195ae5094913a712cb8fab"
+        },
+        "python": {
+          "bench/tritonbench_g/kldiv_triton/kldiv_triton.py": "43e6fb718ccf938d5b90d785159bd44febe7f3bdd7e3151c22fc79f18988aedf"
+        }
+      },
+      "public_declarations_checked": [
+        {
+          "file": "bench/tritonbench_g/kldiv_triton/Correct.lean",
+          "declaration": "kldiv_backward_default_compute_correct",
+          "parser_name": "kldiv_backward_default_compute_correct",
+          "line": 11,
+          "sha256": "ceae8b6769be7e5f85ad2609f1fa84d6286f60a0c4f08c497e6fe5981b0e6547",
+          "statement_sha256": "2308881d7af780dd52c4d456a6740babadfd3109ee428376aac7a541fd61932c",
+          "statement": "specification kldiv_backward_default_compute_correct\n    (input_ptr target_ptr : RegionName)\n    (input_stride target_stride n_cols BLOCK_SIZE : Nat)\n    (s : BlockState)\n    (hBS : 0 < BLOCK_SIZE)\n    (hLen : n_cols ≤ BLOCK_SIZE)\n    (hLenPos : 0 < n_cols)\n    (hOutInj : Function.Injective\n      (fun i : Fin BLOCK_SIZE => linearOffset s input_stride i)) :\n    ComputeCorrect.Realizes_without_Rounding\n      (kernel := kldiv_backward_default input_ptr target_ptr\n        input_stride target_stride n_cols BLOCK_SIZE)\n      (initialState := s)\n      (write := ComputeCorrect.WriteMap.writeIf\n        (fun i : Fin BLOCK_SIZE => i.val < n_cols)\n        (fun i => (input_ptr, linearOffset s input_stride i)))\n      (expected := fun i => defaultSpec s target_ptr target_stride i)"
+        },
+        {
+          "file": "bench/tritonbench_g/kldiv_triton/Correct.lean",
+          "declaration": "kldiv_backward_log_target_compute_correct",
+          "parser_name": "kldiv_backward_log_target_compute_correct",
+          "line": 32,
+          "sha256": "ceae8b6769be7e5f85ad2609f1fa84d6286f60a0c4f08c497e6fe5981b0e6547",
+          "statement_sha256": "ba95d7a241edd270e5d34a68a607162daf09c2769a3754ac29f66c2084b4c0ad",
+          "statement": "specification kldiv_backward_log_target_compute_correct\n    (input_ptr target_ptr : RegionName)\n    (input_stride target_stride n_cols BLOCK_SIZE : Nat)\n    (s : BlockState)\n    (hBS : 0 < BLOCK_SIZE)\n    (hLen : n_cols ≤ BLOCK_SIZE)\n    (hLenPos : 0 < n_cols)\n    (hOutInj : Function.Injective\n      (fun i : Fin BLOCK_SIZE => linearOffset s input_stride i)) :\n    ComputeCorrect.Realizes_without_Rounding\n      (kernel := kldiv_backward_log_target input_ptr target_ptr\n        input_stride target_stride n_cols BLOCK_SIZE)\n      (initialState := s)\n      (write := ComputeCorrect.WriteMap.writeIf\n        (fun i : Fin BLOCK_SIZE => i.val < n_cols)\n        (fun i => (input_ptr, linearOffset s input_stride i)))\n      (expected := fun i => logTargetSpec s target_ptr target_stride i)"
+        },
+        {
+          "file": "bench/tritonbench_g/kldiv_triton/Correct.lean",
+          "declaration": "kldiv_forward_default_none_compute_correct",
+          "parser_name": "kldiv_forward_default_none_compute_correct",
+          "line": 54,
+          "sha256": "ceae8b6769be7e5f85ad2609f1fa84d6286f60a0c4f08c497e6fe5981b0e6547",
+          "statement_sha256": "a40e5a520f53794f3046003d7e7f8ad94df754fc0a71e86115246093c8a47b84",
+          "statement": "specification kldiv_forward_default_none_compute_correct\n    (y_ptr gt_ptr loss_ptr : RegionName)\n    (y_stride gt_stride loss_stride n_cols BLOCK_SIZE : Nat)\n    (s : BlockState)\n    (hBS : 0 < BLOCK_SIZE)\n    (hLen : n_cols ≤ BLOCK_SIZE)\n    (hLenPos : 0 < n_cols)\n    (hOutInj : Function.Injective\n      (fun i : Fin BLOCK_SIZE => linearOffset s loss_stride i)) :\n    ComputeCorrect.Realizes_without_Rounding\n      (kernel := kldiv_forward_default_none y_ptr gt_ptr loss_ptr\n        y_stride gt_stride loss_stride n_cols BLOCK_SIZE)\n      (initialState := s)\n      (write := ComputeCorrect.WriteMap.writeIf\n        (fun i : Fin BLOCK_SIZE => i.val < n_cols)\n        (fun i => (loss_ptr, linearOffset s loss_stride i)))\n      (expected := fun i =>\n        forwardDefaultSpec s y_ptr gt_ptr y_stride gt_stride i)"
+        },
+        {
+          "file": "bench/tritonbench_g/kldiv_triton/Correct.lean",
+          "declaration": "kldiv_forward_log_target_none_compute_correct",
+          "parser_name": "kldiv_forward_log_target_none_compute_correct",
+          "line": 76,
+          "sha256": "ceae8b6769be7e5f85ad2609f1fa84d6286f60a0c4f08c497e6fe5981b0e6547",
+          "statement_sha256": "aaadafee7ff2ce77a76b5eaa6107338fd9922bc880774dec9cc74143c04cea80",
+          "statement": "specification kldiv_forward_log_target_none_compute_correct\n    (y_ptr gt_ptr loss_ptr : RegionName)\n    (y_stride gt_stride loss_stride n_cols BLOCK_SIZE : Nat)\n    (s : BlockState)\n    (hBS : 0 < BLOCK_SIZE)\n    (hLen : n_cols ≤ BLOCK_SIZE)\n    (hLenPos : 0 < n_cols)\n    (hOutInj : Function.Injective\n      (fun i : Fin BLOCK_SIZE => linearOffset s loss_stride i)) :\n    ComputeCorrect.Realizes_without_Rounding\n      (kernel := kldiv_forward_log_target_none y_ptr gt_ptr loss_ptr\n        y_stride gt_stride loss_stride n_cols BLOCK_SIZE)\n      (initialState := s)\n      (write := ComputeCorrect.WriteMap.writeIf\n        (fun i : Fin BLOCK_SIZE => i.val < n_cols)\n        (fun i => (loss_ptr, linearOffset s loss_stride i)))\n      (expected := fun i =>\n        forwardLogTargetSpec s y_ptr gt_ptr y_stride gt_stride i)"
+        },
+        {
+          "file": "bench/tritonbench_g/kldiv_triton/Correct.lean",
+          "declaration": "kldiv_forward_default_none_io_correctness",
+          "parser_name": "kldiv_forward_default_none_io_correctness",
+          "line": 157,
+          "sha256": "ceae8b6769be7e5f85ad2609f1fa84d6286f60a0c4f08c497e6fe5981b0e6547",
+          "statement_sha256": "60b8ce589ae9adb8b63ee9961d14328ab37aae4286b435a534ebe4b0309f7dd1",
+          "statement": "specification kldiv_forward_default_none_io_correctness (R : RoundingModel)\n    (y_ptr gt_ptr loss_ptr : RegionName)\n    (y_stride gt_stride loss_stride n_cols BLOCK_SIZE : Nat)\n    (hBS : 0 < BLOCK_SIZE)\n    (hly : loss_ptr ≠ y_ptr) (hlg : loss_ptr ≠ gt_ptr) :\n    kldivForwardDefaultNoneIO y_ptr gt_ptr loss_ptr y_stride gt_stride loss_stride\n        n_cols BLOCK_SIZE ⊨[R]\n      fun _ _ xs ys t j => klStreamSpec n_cols BLOCK_SIZE xs ys t j"
+        },
+        {
+          "file": "bench/tritonbench_g/kldiv_triton/Correct.lean",
+          "declaration": "typed_forward_real_correct",
+          "parser_name": "typed_forward_real_correct",
+          "line": 171,
+          "sha256": "ceae8b6769be7e5f85ad2609f1fa84d6286f60a0c4f08c497e6fe5981b0e6547",
+          "statement_sha256": "508d07be083384a04eddb34a677fba8adfefec5dbcdfbbcfda91feffd308c48b",
+          "statement": "specification typed_forward_real_correct\n    (pred : TypedSource.Storage) (target : TypedSource.MathStorage)\n    (output : TypedSource.Storage) (v : Bool) (Y T O : RegionName)\n    (sy st so N B : Nat) (flag : Bool) (reduction : Nat)\n    (hB : 0 < B) (hYO : Y ≠ O) (hTO : T ≠ O) :\n    Contracts.ForwardIO\n      (TypedSource.forward pred target output v Y T O sy st so N B flag reduction)\n      Y T O sy st so N B flag reduction"
+        },
+        {
+          "file": "bench/tritonbench_g/kldiv_triton/Correct.lean",
+          "declaration": "typed_backward_default_real_correct",
+          "parser_name": "typed_backward_default_real_correct",
+          "line": 183,
+          "sha256": "ceae8b6769be7e5f85ad2609f1fa84d6286f60a0c4f08c497e6fe5981b0e6547",
+          "statement_sha256": "b5f4c69a80fc790306a524edfc06cd66b8d689d6be471f140b0a370f188d3a52",
+          "statement": "specification typed_backward_default_real_correct\n    (target output : TypedSource.Storage) (v : Bool) (T O : RegionName)\n    (st so N B : Nat) (hSource : TypedSource.BackwardSourceSupported target)\n    (hB : 0 < B) (hTO : T ≠ O) :\n    Contracts.BackwardIO (TypedSource.backwardDefault target output v T O st so N B)\n      T O st so N Bool.false"
+        },
+        {
+          "file": "bench/tritonbench_g/kldiv_triton/Correct.lean",
+          "declaration": "typed_backward_log_real_correct",
+          "parser_name": "typed_backward_log_real_correct",
+          "line": 192,
+          "sha256": "ceae8b6769be7e5f85ad2609f1fa84d6286f60a0c4f08c497e6fe5981b0e6547",
+          "statement_sha256": "4115bfb69d066c8e09dd1cf0a21471882e6dd460a6e9d330243bcd6908c5c79a",
+          "statement": "specification typed_backward_log_real_correct\n    (target : TypedSource.MathStorage) (output : TypedSource.Storage) (v : Bool)\n    (T O : RegionName) (st so N B : Nat) (hB : 0 < B) (hTO : T ≠ O) :\n    Contracts.BackwardIO (TypedSource.backwardLog target output v T O st so N B)\n      T O st so N Bool.true"
+        },
+        {
+          "file": "bench/tritonbench_g/kldiv_triton/FPEquiv.lean",
+          "declaration": "forward_equivalence",
+          "parser_name": "forward_equivalence",
+          "line": 31,
+          "sha256": "69aaa504e69f3a8be0e2f563799e89378089110eafa5fe990f7f150843e4b649",
+          "statement_sha256": "e44a2c2356358460df954aab289282c1b307fdeaac6946eea3f0142248deeb1a",
+          "statement": "specification forward_equivalence (pred : Storage) (target : MathStorage) (output : Storage)\n    (Y T O : RegionName) (sy st so N B : Nat) (logTarget : Bool) (reduction : Nat) :\n    forwardProgram pred target output Bool.false Y T O sy st so N B logTarget reduction\n      ≡[assumptions]\n    forwardProgram pred target output Bool.true Y T O sy st so N B logTarget reduction"
+        },
+        {
+          "file": "bench/tritonbench_g/kldiv_triton/FPEquiv.lean",
+          "declaration": "backward_default_source_equivalence",
+          "parser_name": "backward_default_source_equivalence",
+          "line": 50,
+          "sha256": "69aaa504e69f3a8be0e2f563799e89378089110eafa5fe990f7f150843e4b649",
+          "statement_sha256": "7d683173c93855feccf6de7383b243213b91599f504b33199932b96ba114eeab",
+          "statement": "specification backward_default_source_equivalence (target output : Storage)\n    (T O : RegionName) (st so N B : Nat) (_hSource : BackwardSourceSupported target) :\n    backwardDefaultProgram target output Bool.false T O st so N B ≡[assumptions]\n      backwardDefaultProgram target output Bool.true T O st so N B"
+        },
+        {
+          "file": "bench/tritonbench_g/kldiv_triton/FPEquiv.lean",
+          "declaration": "backward_log_equivalence",
+          "parser_name": "backward_log_equivalence",
+          "line": 57,
+          "sha256": "69aaa504e69f3a8be0e2f563799e89378089110eafa5fe990f7f150843e4b649",
+          "statement_sha256": "9c9f6e1fa5989f3a8d8cfb4b209e254787fbcee24dd8c84c917826d16c7f3d44",
+          "statement": "specification backward_log_equivalence (target : MathStorage) (output : Storage)\n    (T O : RegionName) (st so N B : Nat) :\n    backwardLogProgram target output Bool.false T O st so N B ≡[assumptions]\n      backwardLogProgram target output Bool.true T O st so N B"
+        }
+      ],
+      "catalog_declaration_metadata_discrepancies": [],
+      "dtype_scope_caveat": "No unsupported dtype is assumed to compile merely because a Python wrapper admits it. Missing-route findings require either the actual supported conversion route or a precise admission/rejection contract; they do not demand arbitrary compiler internals.",
+      "verification": {
+        "manual_original_production_functions_read": 5,
+        "actual_public_statements_reparsed_and_hash_checked": 11,
+        "key_source_and_referenced_definition_review": true,
+        "source_matches_baseline_scope_inputs": true,
+        "generated_selector_check": null,
+        "new_lean_runs": 0,
+        "new_frontend_runs": 0,
+        "gpu_runs": 0,
+        "numerical_deferrals_registered_by_this_read_only_review": 0
+      }
+    },
+    {
+      "schema": 1,
+      "kind": "original_scope_gap_review",
+      "reviewer": "/root/scope_remaining_cohort",
+      "reviewed_at_utc": "2026-10-15T19:19:00.668889+00:00",
+      "reviewed_base_commit": "fc183f5dae5e3f09f549b8151a9a1e4c366beb02",
+      "catalog": {
+        "path": "bench/review-checkpoints/2026-10-16/relu-source-grid-and-exact-numerics/current-source-catalog.json",
+        "sha256": "ef0da28a4c601f9841664431013d72e565ec5497cf21ba3e7be692c440d1a3fe"
+      },
+      "task": "decay_cumsum",
+      "status": "structural_gaps_confirmed",
+      "whole_original_program_accepted": false,
+      "completion_increment": 0,
+      "existing_proofs_preserved": "All three complete sources and every forward/reverse loop retained: fp32 forward decay carry using literal 1.44269504, prepare exp2 and unmasked last_decay load, backward in-place dq/dk updates and reverse dg scan including last_g initialization. Real flat contracts include actual unmasked gate bounds, output formulas and frames; candidates only commute lane-mask integer product.",
+      "production_stage_mapping": [
+        {
+          "function": "fwd_decay_cumsum",
+          "coverage": "Complete BT-step prefix scan.",
+          "path": "bench/tritonbench_g/decay_cumsum/decay_cumsum.py",
+          "line": 9,
+          "end_line": 34,
+          "sha256": "68dab0d5d97242227b97879400419e4f1f777a9cd109fe9efb6941e03d9bac1d",
+          "stage_id": "stage:bench/tritonbench_g/decay_cumsum/decay_cumsum.py:9:fwd_decay_cumsum"
+        },
+        {
+          "function": "prepare_qg_kg",
+          "coverage": "Complete BT-step Q/K transform with original unmasked endpoint.",
+          "path": "bench/tritonbench_g/decay_cumsum/decay_cumsum.py",
+          "line": 38,
+          "end_line": 79,
+          "sha256": "68dab0d5d97242227b97879400419e4f1f777a9cd109fe9efb6941e03d9bac1d",
+          "stage_id": "stage:bench/tritonbench_g/decay_cumsum/decay_cumsum.py:38:prepare_qg_kg"
+        },
+        {
+          "function": "bwd_decay_global_cumsum",
+          "coverage": "Complete reverse BT-step scan and all three outputs.",
+          "path": "bench/tritonbench_g/decay_cumsum/decay_cumsum.py",
+          "line": 83,
+          "end_line": 138,
+          "sha256": "68dab0d5d97242227b97879400419e4f1f777a9cd109fe9efb6941e03d9bac1d",
+          "stage_id": "stage:bench/tritonbench_g/decay_cumsum/decay_cumsum.py:83:bwd_decay_global_cumsum"
+        },
+        {
+          "function": "launch_fwd_decay_cumsum",
+          "coverage": "Hardcoded head stride and floor-divided grid inspected, not composed.",
+          "path": "bench/tritonbench_g/decay_cumsum/decay_cumsum.py",
+          "line": 141,
+          "end_line": 151,
+          "sha256": "68dab0d5d97242227b97879400419e4f1f777a9cd109fe9efb6941e03d9bac1d",
+          "stage_id": "stage:bench/tritonbench_g/decay_cumsum/decay_cumsum.py:141:launch_fwd_decay_cumsum"
+        },
+        {
+          "function": "launch_prepare_qg_kg",
+          "coverage": "Same exact host stride/grid inspected, not composed.",
+          "path": "bench/tritonbench_g/decay_cumsum/decay_cumsum.py",
+          "line": 153,
+          "end_line": 163,
+          "sha256": "68dab0d5d97242227b97879400419e4f1f777a9cd109fe9efb6941e03d9bac1d",
+          "stage_id": "stage:bench/tritonbench_g/decay_cumsum/decay_cumsum.py:153:launch_prepare_qg_kg"
+        },
+        {
+          "function": "launch_bwd_decay_global_cumsum",
+          "coverage": "Same exact host stride/grid inspected, not composed.",
+          "path": "bench/tritonbench_g/decay_cumsum/decay_cumsum.py",
+          "line": 165,
+          "end_line": 175,
+          "sha256": "68dab0d5d97242227b97879400419e4f1f777a9cd109fe9efb6941e03d9bac1d",
+          "stage_id": "stage:bench/tritonbench_g/decay_cumsum/decay_cumsum.py:165:launch_bwd_decay_global_cumsum"
+        }
+      ],
+      "dtype_review": "Three storage choices; forward g/go share gate dtype, preparation Q/K/QG/KG share source dtype, backward six payloads share source and G/DG share gate. Original wrappers accept independent buffers.",
+      "branch_review": "No missing kernel loop or conditional branch. Host grid uses DK//BK and T//BT (skips remainders), with s_qk_h=H*T*DK across B*H heads; exact behavior must be bound rather than corrected.",
+      "structural_gaps": [
+        {
+          "id": "DECAY_CUMSUM-S1",
+          "kind": "wrapper_layout_composition",
+          "finding": "All launchers hardcode s_qk_h=H*T*DK and floor-divided grid axes while kernels use those addresses; there is no exact full-grid/actual-buffer layout contract.",
+          "why_blocks_full_original_scope": "Skipped tail coordinates and potentially mismatched head allocation stride are actual host behavior requiring a declared safe domain or precise characterization.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 141,
+              "end_line": 175,
+              "path": "bench/tritonbench_g/decay_cumsum/decay_cumsum.py",
+              "sha256": "68dab0d5d97242227b97879400419e4f1f777a9cd109fe9efb6941e03d9bac1d",
+              "excerpt": "def launch_fwd_decay_cumsum(g, g_o, B, H, T, scale, BT, BK, DK):\n    # Calculate strides\n    s_qk_h = H * T * DK\n    s_qk_t = T * DK\n    s_qk_d = DK\n\n    # Launch the kernel\n    grid = (DK // BK, T // BT, B * H)\n    fwd_decay_cumsum[grid](\n        g, g_o, s_qk_h, s_qk_t, s_qk_d, B, H, T, scale, BT=BT, BK=BK, DK=DK\n    )\n\ndef launch_prepare_qg_kg(q, k, g, qg, kg, B, H, T, scale, BT, BK, DK):\n    # Calculate strides\n    s_qk_h = H * T * DK\n    s_qk_t = T * DK\n    s_qk_d = DK\n\n    # Launch the kernel\n    grid = (DK // BK, T // BT, B * H)\n    prepare_qg_kg[grid](\n        q, k, g, qg, kg, s_qk_h, s_qk_t, s_qk_d, B, H, T, scale, BT=BT, BK=BK, DK=DK\n    )\n\ndef launch_bwd_decay_global_cumsum(dq_inner, dq_inter, dk_inner, dk_inter, q, k, g, dg, B, H, T, scale, BT, BK, DK):\n    # Calculate strides\n    s_qk_h = H * T * DK\n    s_qk_t = T * DK\n    s_qk_d = DK\n\n    # Launch the kernel\n    grid = (DK // BK, T // BT, B * H)\n    bwd_decay_global_cumsum[grid](\n        dq_inner, dq_inter, dk_inner, dk_inter, q, k, g, dg, s_qk_h, s_qk_t, s_qk_d, B, H, T, scale, BT=BT, BK=BK, DK=DK\n    )"
+            },
+            {
+              "line": 29,
+              "end_line": 40,
+              "path": "bench/tritonbench_g/decay_cumsum/Kernels.lean",
+              "sha256": "2270315a696a474e82775da1864bec6c77d2eee1a9337a2ef9e8a57596cad261",
+              "excerpt": "  i_k, i_c, i_bh = tl.program_id(0), tl.program_id(1), tl.program_id(2)\n  p_g = g + i_bh * $(s_qk_h) + i_c * $(BT) * $(DK) + i_k * $(BK) + tl.arange(0, $(BK))\n  p_go = g_o + i_bh * $(s_qk_h) + i_c * $(BT) * $(DK) + i_k * $(BK) + tl.arange(0, $(BK))\n  cum_decay = tl.zeros([$(BK)], dtype=tl.float32)\n  $maskStmt\n  for i in range($(BT)) {\n    _g = (tl.load(p_g, mask=mask, other=0)).to(tl.float32)\n    cum_decay += _g * $((inv_ln2 : ℝ))\n    tl.store(p_go, (cum_decay).to($gateTy:tritonDType), mask=mask)\n    p_g += $(DK)\n    p_go += $(DK)\n  }"
+            }
+          ]
+        },
+        {
+          "id": "DECAY_CUMSUM-S2",
+          "kind": "dtype_admission",
+          "finding": "Formal source ties several independently supplied pointer types and limits them to three storage types; wrappers have no matching checks.",
+          "why_blocks_full_original_scope": "Independent output conversions and remaining accepted/rejected dtype routes are structural scope work.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 11,
+              "end_line": 13,
+              "path": "bench/tritonbench_g/decay_cumsum/Kernels.lean",
+              "sha256": "2270315a696a474e82775da1864bec6c77d2eee1a9337a2ef9e8a57596cad261",
+              "excerpt": "inductive Storage where\n  | fp16 | bf16 | fp32\n  deriving DecidableEq"
+            },
+            {
+              "line": 27,
+              "end_line": 29,
+              "path": "bench/tritonbench_g/decay_cumsum/Kernels.lean",
+              "sha256": "2270315a696a474e82775da1864bec6c77d2eee1a9337a2ef9e8a57596cad261",
+              "excerpt": "      ComputeKernel.mk [g] [g_o] (triton {\n  tl.region g = $gateTy, g_o = $gateTy\n  i_k, i_c, i_bh = tl.program_id(0), tl.program_id(1), tl.program_id(2)"
+            },
+            {
+              "line": 61,
+              "end_line": 63,
+              "path": "bench/tritonbench_g/decay_cumsum/Kernels.lean",
+              "sha256": "2270315a696a474e82775da1864bec6c77d2eee1a9337a2ef9e8a57596cad261",
+              "excerpt": "  i_k, i_c, i_bh = tl.program_id(0), tl.program_id(1), tl.program_id(2)\n  p_q = q + i_bh * $(s_qk_h) + i_c * $(BT) * $(DK) + i_k * $(BK) + tl.arange(0, $(BK))\n  p_g = g + i_bh * $(s_qk_h) + i_c * $(BT) * $(DK) + i_k * $(BK) + tl.arange(0, $(BK))"
+            },
+            {
+              "line": 123,
+              "end_line": 125,
+              "path": "bench/tritonbench_g/decay_cumsum/Kernels.lean",
+              "sha256": "2270315a696a474e82775da1864bec6c77d2eee1a9337a2ef9e8a57596cad261",
+              "excerpt": "    if (j == $(BT) - $(1)) {\n      last_g = _g\n    }"
+            },
+            {
+              "line": 153,
+              "end_line": 174,
+              "path": "bench/tritonbench_g/decay_cumsum/decay_cumsum.py",
+              "sha256": "68dab0d5d97242227b97879400419e4f1f777a9cd109fe9efb6941e03d9bac1d",
+              "excerpt": "def launch_prepare_qg_kg(q, k, g, qg, kg, B, H, T, scale, BT, BK, DK):\n    # Calculate strides\n    s_qk_h = H * T * DK\n    s_qk_t = T * DK\n    s_qk_d = DK\n\n    # Launch the kernel\n    grid = (DK // BK, T // BT, B * H)\n    prepare_qg_kg[grid](\n        q, k, g, qg, kg, s_qk_h, s_qk_t, s_qk_d, B, H, T, scale, BT=BT, BK=BK, DK=DK\n    )\n\ndef launch_bwd_decay_global_cumsum(dq_inner, dq_inter, dk_inner, dk_inter, q, k, g, dg, B, H, T, scale, BT, BK, DK):\n    # Calculate strides\n    s_qk_h = H * T * DK\n    s_qk_t = T * DK\n    s_qk_d = DK\n\n    # Launch the kernel\n    grid = (DK // BK, T // BT, B * H)\n    bwd_decay_global_cumsum[grid](\n        dq_inner, dq_inter, dk_inner, dk_inter, q, k, g, dg, s_qk_h, s_qk_t, s_qk_d, B, H, T, scale, BT=BT, BK=BK, DK=DK"
+            }
+          ]
+        }
+      ],
+      "numerical_items_eligible_for_explicit_deferral": [
+        "Exp2, scan arithmetic, scalar scale ABI and conversions may be explicitly registered for numerical deferral. Existing address-only equivalences require no floating algebra assumptions."
+      ],
+      "precondition_assessment": "The existing bounds, nonoverlap, positive tile size and valid-address premises are legitimate selected-domain assumptions. No unrestricted invalid-input behavior or hypothetical hardware defect is demanded. Missing wrapper composition and dtype admission are separate structural questions.",
+      "source_sha256": {
+        "bench/tritonbench_g/decay_cumsum/decay_cumsum.py": "68dab0d5d97242227b97879400419e4f1f777a9cd109fe9efb6941e03d9bac1d",
+        "bench/tritonbench_g/decay_cumsum/Correct.lean": "b6132f7aa61d06b5bfa8a967f537d3fcfc43b5492902e9033f835dcc9f1ae6e4",
+        "bench/tritonbench_g/decay_cumsum/FPEquiv.lean": "2015c48e648e3a4230618674a5ef434fd54a38d6fcc2b7c9a386c115411e5285",
+        "bench/tritonbench_g/decay_cumsum/Kernels.lean": "2270315a696a474e82775da1864bec6c77d2eee1a9337a2ef9e8a57596cad261"
+      },
+      "all_input_sha256": {
+        "lean": {
+          "bench/tritonbench_g/decay_cumsum/Correct.lean": "b6132f7aa61d06b5bfa8a967f537d3fcfc43b5492902e9033f835dcc9f1ae6e4",
+          "bench/tritonbench_g/decay_cumsum/FPEquiv.lean": "2015c48e648e3a4230618674a5ef434fd54a38d6fcc2b7c9a386c115411e5285",
+          "bench/tritonbench_g/decay_cumsum/Kernels.lean": "2270315a696a474e82775da1864bec6c77d2eee1a9337a2ef9e8a57596cad261",
+          "bench/tritonbench_g/decay_cumsum/Proofs/BackwardCorrect.lean": "cfb829f8ea45e2371e9172d680d9fba05fb4ec369dffc23400821ac055c106ac",
+          "bench/tritonbench_g/decay_cumsum/Proofs/BackwardExecution.lean": "206a198542e2afa2c7fd21e5227c902e04b7f61bea17e0490a9e53e10822e7d3",
+          "bench/tritonbench_g/decay_cumsum/Proofs/BackwardLoop.lean": "8a955907ebd00924704853db2ffbcec492dd72e8eb17ca973a085e06fb0d8e40",
+          "bench/tritonbench_g/decay_cumsum/Proofs/BackwardPrelude.lean": "c20118d9e06d38965aa496f2c5e2f2068f15f1a3b48ba11e0e9db821690e0bf8",
+          "bench/tritonbench_g/decay_cumsum/Proofs/BackwardProjection.lean": "3fa2675cef4987525c10587c4f6a7f9ceb6ca9ff16c08540fbaf66f60fcb7b43",
+          "bench/tritonbench_g/decay_cumsum/Proofs/BackwardRegisterFrame.lean": "0f70bb0d18a64117ad018aaf35a1d50c2b905eb0e9863a4de3dcc34cd13e5048",
+          "bench/tritonbench_g/decay_cumsum/Proofs/BackwardWitness.lean": "d336161f7a26a920fe90eba7b6d586960376227e0dc4e4d64de7903a336e13de",
+          "bench/tritonbench_g/decay_cumsum/Proofs/ForwardCandidate.lean": "d9f2c298307cce022cf545613f0f1ff674fa8d7b8488c73a18b8055f00e53128",
+          "bench/tritonbench_g/decay_cumsum/Proofs/ForwardCorrect.lean": "475abbe0fda0683eaf25defdf1bf2672f090aaa8771864fb0f10cf96582b1438",
+          "bench/tritonbench_g/decay_cumsum/Proofs/ForwardProjection.lean": "e1f429f6f854dd15819dde0fd628dbbf527bc62907cd71e265def074efd5d5c4",
+          "bench/tritonbench_g/decay_cumsum/Proofs/ForwardWitness.lean": "143e693523ecc4d1833062d925b2430368b45286d3ba5b7880e28f1c38851c88",
+          "bench/tritonbench_g/decay_cumsum/Proofs/GroupedRealIO.lean": "51c7c8eeb6e77b64f704d5a1cfec581474e843e9401c5d4fc9fae14e206c845d",
+          "bench/tritonbench_g/decay_cumsum/Proofs/MaskCandidate.lean": "0038846a51caa13d0e171c7cb090d9cbedb705fd32bddffeac81e540c4c80b2c",
+          "bench/tritonbench_g/decay_cumsum/Proofs/MaskEquivalence.lean": "127cf777ee96eab92c76ec11ec326a516873d17f97dbff980dba3018c1ea53a7",
+          "bench/tritonbench_g/decay_cumsum/Proofs/PrepareCorrect.lean": "446103aa7566a6d992d6d78d320abaf05dc43320766da03ec091e6e519796324",
+          "bench/tritonbench_g/decay_cumsum/Proofs/PrepareExecution.lean": "45788db2346b87a4582b3d99b0236aa1629b05df6fc0d69c1fd06b370e4f16e7",
+          "bench/tritonbench_g/decay_cumsum/Proofs/PreparePrelude.lean": "e4d451d3bdf3cd82dc8bfa4eff6106b8668d9c1e3510da0c958c7af61f92994d",
+          "bench/tritonbench_g/decay_cumsum/Proofs/PrepareProjection.lean": "5e38c36692b30600cac07d6c57865cc13fe572da05209ca367b2c10b87873ec2",
+          "bench/tritonbench_g/decay_cumsum/Proofs/PrepareRegisterFrame.lean": "5dfb9cdeb58986a652712d7f22788024c5950b50eca57b116d42fb0e3c4539f7",
+          "bench/tritonbench_g/decay_cumsum/Proofs/PrepareWitness.lean": "0610988127cc47c4d5a9604fc7024c59a6c71b6b069b32468f031d2cc1c3b34f",
+          "bench/tritonbench_g/decay_cumsum/Proofs/RealIO.lean": "480aed11eabdec196426ee3be252f565332fed561ef37c72bd7fba3f366fb873",
+          "bench/tritonbench_g/decay_cumsum/Proofs/RealReference.lean": "cd5d081d7a109e3b414781f7c0a5d29d415f8fa7cfb22409e482e3428664927a",
+          "bench/tritonbench_g/decay_cumsum/Proofs/RegisterFrame.lean": "8de5bb12880e5eb58266f9444bb6d3c440996d7a5b809b1b23b0e95b2f8fe22a",
+          "bench/tritonbench_g/decay_cumsum/Proofs/TypedExecution.lean": "8ab1a18a4d2e04847e3520883bdf119454946f55dab47c194d57879dfae636c8"
+        },
+        "python": {
+          "bench/tritonbench_g/decay_cumsum/decay_cumsum.py": "68dab0d5d97242227b97879400419e4f1f777a9cd109fe9efb6941e03d9bac1d"
+        }
+      },
+      "public_declarations_checked": [
+        {
+          "file": "bench/tritonbench_g/decay_cumsum/Correct.lean",
+          "declaration": "forward_original_correct",
+          "parser_name": "forward_original_correct",
+          "line": 46,
+          "sha256": "b6132f7aa61d06b5bfa8a967f537d3fcfc43b5492902e9033f835dcc9f1ae6e4",
+          "statement_sha256": "b7bf2422044f1f381cf697d26f87b5d5138d36338825c38847748ee244c757df",
+          "statement": "specification forward_original_correct (storage : Storage) (g go : RegionName)\n    (sH sT sD B H T BT BK DK : Nat) (scale : ℝ)\n    (hne : g≠go) (hBK : BK≤DK) :\n    Spec.Real (originalIO storage g go sH sT sD B H T BT BK DK scale ⊨\n      fun _ _ _ xs t j => scan BT BK xs t j)"
+        },
+        {
+          "file": "bench/tritonbench_g/decay_cumsum/Correct.lean",
+          "declaration": "forward_index_commuted_correct",
+          "parser_name": "forward_index_commuted_correct",
+          "line": 53,
+          "sha256": "b6132f7aa61d06b5bfa8a967f537d3fcfc43b5492902e9033f835dcc9f1ae6e4",
+          "statement_sha256": "7d53039f499023f6d2521d38f7463c3b5e84b20ff0a33a828669b21cdc94fbfa",
+          "statement": "specification forward_index_commuted_correct (storage : Storage) (g go : RegionName)\n    (sH sT sD B H T BT BK DK : Nat) (scale : ℝ)\n    (hne : g≠go) (hBK : BK≤DK) :\n    Spec.Real (indexCommutedIO storage g go sH sT sD B H T BT BK DK scale ⊨\n      fun _ _ _ xs t j => scan BT BK xs t j)"
+        },
+        {
+          "file": "bench/tritonbench_g/decay_cumsum/Correct.lean",
+          "declaration": "prepare_original_correct",
+          "parser_name": "prepare_original_correct",
+          "line": 126,
+          "sha256": "b6132f7aa61d06b5bfa8a967f537d3fcfc43b5492902e9033f835dcc9f1ae6e4",
+          "statement_sha256": "c5fb7662ba27ee47522e5b31a0b625040581496b32a737a82940231e339a4877",
+          "statement": "specification prepare_original_correct (source gate : Storage) (Q K G QG KG : RegionName)\n    (sH sT sD B H T DK BT BK : Nat) (scale : ℝ)\n    (hQ_QG : Q≠QG) (hQ_KG : Q≠KG) (hK_QG : K≠QG) (hK_KG : K≠KG)\n    (hG_QG : G≠QG) (hG_KG : G≠KG) (hQG_KG : QG≠KG)\n    (hBK : BK≤DK) (hBT : 0<BT) :\n    Spec.Real (originalIO source gate Q K G QG KG sH sT sD B H T DK BT BK scale ⊨\n      fun _ _ _ xs o t j => values BT BK scale xs o t j)"
+        },
+        {
+          "file": "bench/tritonbench_g/decay_cumsum/Correct.lean",
+          "declaration": "prepare_index_commuted_correct",
+          "parser_name": "prepare_index_commuted_correct",
+          "line": 135,
+          "sha256": "b6132f7aa61d06b5bfa8a967f537d3fcfc43b5492902e9033f835dcc9f1ae6e4",
+          "statement_sha256": "a9aa1dbbcbe8e49f0d412cad04d14d3210a23cb05ae8a98f16f79feeee1c6aa4",
+          "statement": "specification prepare_index_commuted_correct (source gate : Storage) (Q K G QG KG : RegionName)\n    (sH sT sD B H T DK BT BK : Nat) (scale : ℝ)\n    (hQ_QG : Q≠QG) (hQ_KG : Q≠KG) (hK_QG : K≠QG) (hK_KG : K≠KG)\n    (hG_QG : G≠QG) (hG_KG : G≠KG) (hQG_KG : QG≠KG)\n    (hBK : BK≤DK) (hBT : 0<BT) :\n    Spec.Real (indexCommutedIO source gate Q K G QG KG sH sT sD B H T DK BT BK scale ⊨\n      fun _ _ _ xs o t j => values BT BK scale xs o t j)"
+        },
+        {
+          "file": "bench/tritonbench_g/decay_cumsum/Correct.lean",
+          "declaration": "backward_original_correct",
+          "parser_name": "backward_original_correct",
+          "line": 229,
+          "sha256": "b6132f7aa61d06b5bfa8a967f537d3fcfc43b5492902e9033f835dcc9f1ae6e4",
+          "statement_sha256": "7a7eb28271a6a0055f900ea4b5c45e2d05a7dc67834cbe94fd48b0129a6ef543",
+          "statement": "specification backward_original_correct (source gate : Storage) (DQInner DQInter DKInner DKInter Q K G DG : RegionName)\n    (sH sT sD B H T DK BT BK : Nat) (scale : ℝ)\n    (hDKInner_DQInter : DKInner ≠ DQInter) (hDKInter_DQInter : DKInter ≠ DQInter)\n    (hQ_DQInter : Q ≠ DQInter) (hQ_DKInter : Q ≠ DKInter)\n    (hK_DQInter : K ≠ DQInter) (hK_DKInter : K ≠ DKInter)\n    (hDQInter_DKInter : DQInter ≠ DKInter)\n    (hDQInter_DG : DQInter ≠ DG) (hDKInter_DG : DKInter ≠ DG)\n    (hG_DQInter : G ≠ DQInter) (hG_DKInter : G ≠ DKInter) (hG_DG : G ≠ DG)\n    (hQ_DG : Q ≠ DG) (hK_DG : K ≠ DG)\n    (hDQInner_DQInter : DQInner ≠ DQInter) (hDQInner_DKInter : DQInner ≠ DKInter)\n    (hDQInner_DG : DQInner ≠ DG)\n    (hDKInner_DKInter : DKInner ≠ DKInter) (hDKInner_DG : DKInner ≠ DG)\n    (hBK : BK ≤ DK) (hBT : 0 < BT) :\n    Spec.Real (originalIO source gate DQInner DQInter DKInner DKInter Q K G DG sH sT sD B H T DK BT BK scale ⊨\n      fun _ _ _ xs o t j => values BT BK xs o t j)"
+        },
+        {
+          "file": "bench/tritonbench_g/decay_cumsum/Correct.lean",
+          "declaration": "backward_index_commuted_correct",
+          "parser_name": "backward_index_commuted_correct",
+          "line": 246,
+          "sha256": "b6132f7aa61d06b5bfa8a967f537d3fcfc43b5492902e9033f835dcc9f1ae6e4",
+          "statement_sha256": "720ceb59f2fb5acde3ecebe99a490377a737b5aa78fdc142aba02597b298f4bf",
+          "statement": "specification backward_index_commuted_correct (source gate : Storage) (DQInner DQInter DKInner DKInter Q K G DG : RegionName)\n    (sH sT sD B H T DK BT BK : Nat) (scale : ℝ)\n    (hDKInner_DQInter : DKInner ≠ DQInter) (hDKInter_DQInter : DKInter ≠ DQInter)\n    (hQ_DQInter : Q ≠ DQInter) (hQ_DKInter : Q ≠ DKInter)\n    (hK_DQInter : K ≠ DQInter) (hK_DKInter : K ≠ DKInter)\n    (hDQInter_DKInter : DQInter ≠ DKInter)\n    (hDQInter_DG : DQInter ≠ DG) (hDKInter_DG : DKInter ≠ DG)\n    (hG_DQInter : G ≠ DQInter) (hG_DKInter : G ≠ DKInter) (hG_DG : G ≠ DG)\n    (hQ_DG : Q ≠ DG) (hK_DG : K ≠ DG)\n    (hDQInner_DQInter : DQInner ≠ DQInter) (hDQInner_DKInter : DQInner ≠ DKInter)\n    (hDQInner_DG : DQInner ≠ DG)\n    (hDKInner_DKInter : DKInner ≠ DKInter) (hDKInner_DG : DKInner ≠ DG)\n    (hBK : BK ≤ DK) (hBT : 0 < BT) :\n    Spec.Real (indexCommutedIO source gate DQInner DQInter DKInner DKInter Q K G DG sH sT sD B H T DK BT BK scale ⊨\n      fun _ _ _ xs o t j => values BT BK xs o t j)"
+        },
+        {
+          "file": "bench/tritonbench_g/decay_cumsum/FPEquiv.lean",
+          "declaration": "forward_index_commuted_equiv",
+          "parser_name": "forward_index_commuted_equiv",
+          "line": 20,
+          "sha256": "2015c48e648e3a4230618674a5ef434fd54a38d6fcc2b7c9a386c115411e5285",
+          "statement_sha256": "311ff8a4916bc8b192cad2e0d4c29179eda47201ee37602e422800af0fed025e",
+          "statement": "specification forward_index_commuted_equiv :\n    forwardProgram storage g g_o s_qk_h s_qk_t s_qk_d B H T BT BK DK scale Bool.false ≡[assumptions]\n    forwardProgram storage g g_o s_qk_h s_qk_t s_qk_d B H T BT BK DK scale Bool.true"
+        },
+        {
+          "file": "bench/tritonbench_g/decay_cumsum/FPEquiv.lean",
+          "declaration": "prepare_index_commuted_equiv",
+          "parser_name": "prepare_index_commuted_equiv",
+          "line": 33,
+          "sha256": "2015c48e648e3a4230618674a5ef434fd54a38d6fcc2b7c9a386c115411e5285",
+          "statement_sha256": "0502eb318596586f13273a18081f11b665956b913ba730d2dbef5444f6fda159",
+          "statement": "specification prepare_index_commuted_equiv :\n    prepareProgram source gate q k g qg kg s_qk_h s_qk_t s_qk_d B H T BT BK DK scale Bool.false ≡[assumptions]\n    prepareProgram source gate q k g qg kg s_qk_h s_qk_t s_qk_d B H T BT BK DK scale Bool.true"
+        },
+        {
+          "file": "bench/tritonbench_g/decay_cumsum/FPEquiv.lean",
+          "declaration": "backward_index_commuted_equiv",
+          "parser_name": "backward_index_commuted_equiv",
+          "line": 46,
+          "sha256": "2015c48e648e3a4230618674a5ef434fd54a38d6fcc2b7c9a386c115411e5285",
+          "statement_sha256": "fb330e42a356d7a8120bb3f1f9f4eac74d218edc7ccf103a4b525aac2a660896",
+          "statement": "specification backward_index_commuted_equiv :\n    backwardProgram source gate dq_inner dq_inter dk_inner dk_inter q k g dg s_qk_h s_qk_t s_qk_d B H T BT BK DK scale Bool.false ≡[assumptions]\n    backwardProgram source gate dq_inner dq_inter dk_inner dk_inter q k g dg s_qk_h s_qk_t s_qk_d B H T BT BK DK scale Bool.true"
+        }
+      ],
+      "catalog_declaration_metadata_discrepancies": [],
+      "dtype_scope_caveat": "No unsupported dtype is assumed to compile merely because a Python wrapper admits it. Missing-route findings require either the actual supported conversion route or a precise admission/rejection contract; they do not demand arbitrary compiler internals.",
+      "verification": {
+        "manual_original_production_functions_read": 6,
+        "actual_public_statements_reparsed_and_hash_checked": 9,
+        "key_source_and_referenced_definition_review": true,
+        "source_matches_baseline_scope_inputs": true,
+        "generated_selector_check": null,
+        "new_lean_runs": 0,
+        "new_frontend_runs": 0,
+        "gpu_runs": 0,
+        "numerical_deferrals_registered_by_this_read_only_review": 0
+      }
+    }
+  ]
+}

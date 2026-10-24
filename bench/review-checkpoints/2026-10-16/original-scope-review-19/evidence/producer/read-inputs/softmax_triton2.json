@@ -1,0 +1,9 @@
+{
+  "task": "softmax_triton2",
+  "files": {
+    "bench/tritonbench_g/softmax_triton2/softmax_triton2.py": "7fdfdea5acf2bdeac60e3384d0c467963f1ef48597ecc4ed6f41db38eb7d2442",
+    "bench/tritonbench_g/softmax_triton2/Correct.lean": "1c83389bc0527725b9802f0565ae525d2aa7a431f34f4355e9a57d1ee5ab5598",
+    "bench/tritonbench_g/softmax_triton2/FPEquiv.lean": "675e45ee842ea51f47e745e2b4e6fb31d6e39276e3bd19c3ce4e3009e1184021",
+    "bench/tritonbench_g/softmax_triton2/Kernels.lean": "cb8070cadfc5fcb96c446fba22a08f738e452c9877d0e36ba444210601ed3265"
+  }
+}

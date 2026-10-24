@@ -1,3 +1,13 @@
+/-
+Source-audit target: index_select_cat_bwd_kernel
+Source-audit Lean: indexBwd%
+Source-audit params: num_rows=_num_rows, BLOCK_SIZE_INDEX=BI, BLOCK_SIZE_COL=BC
+Source-audit args: output=tl.float32, version=original
+Selected lexical source view only; this metadata is not all-profile certification.
+Original scatter addresses; output storage fp32, input and index dtypes symbolic.
+Other dtype/index-width profiles and the index-commuted candidate are not certified.
+-/
+
 import VeriTile.Triton.DSL
 
 namespace VeriTile.Bench.TritonBenchG.IndexSelectBwd

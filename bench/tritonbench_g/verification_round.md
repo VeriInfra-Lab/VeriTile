@@ -1,7 +1,7 @@
 # Correctness and FP equivalence review
 
 This round applies the `veritile-example-review` workflow to the whole
-TritonBench-G directory: 173 imported ports and 11 source-import scaffolds.
+TritonBench-G directory: 175 imported ports and 9 source-import scaffolds.
 A completed example must have shared original/candidate code, independent
 real formulas for both versions, a kernel-level FP equivalence using admitted
 atoms, visible numerical domains, actual assumption output, compilation and
@@ -17,6 +17,758 @@ include all these files. No port is considered complete simply because another
 member of its operator family has passed.
 
 ## Active completion work — 2026-10-13
+
+The merged Pow/source-audit and persistent-matmul public bundle is now applied
+with 174 imported ports, 102 split layouts and 671 specifications in 276 public
+files. The isolated candidate passed 188 regression tests, every source-only
+gate, coverage and the proof-gap manifest, with all 3075 input files and the
+file set unchanged. The two stale legacy correctness-blocker comments were
+updated after reviewing the existing public frame contracts, with no Lean code
+changes and four support-fingerprint updates. The shard fixture includes its
+required pointer-dtype audit dependency. The current shared-tree checks and
+aggregate build are separate from those candidate receipts; independent
+comparator replay and complete-port acceptance remain open.
+
+The random-library affected closure now passes all 232 library/test modules
+against 274 captured source files. The final continuation compiles 61 modules
+and reuses 171 exact-hash predecessor artifacts; this is not an all-fresh replay.
+Explicit scalar-operation qualification repairs the `ScalarReduction` and
+Welford import-name collisions without changing their arithmetic or contracts.
+The failed predecessor receipts are retained. Root checks the complete source,
+dependency and artifact hashes in `/tmp/veritile-rand-final-root-review.json`.
+The public random primitive, frontend and regressions are now integrated;
+the existing `DSL.Env` and `EOut` structures are unchanged.
+
+Seeded dropout's integrated public checkpoint has 19 checked modules and 82
+standard-axiom outputs, with no diagnostics. Both real headlines conjoin the
+standard `RealizesFrame_without_Rounding` interface with successful finite-flat
+IO, independent initial-input outputs and the complete tagged-cell frame.
+The finite-flat bridge explicitly retains zero unspecified-load values.
+Typed whole-state FP equivalence covers all six storage/four seed profiles
+with empty numerical assumptions, including failure. A separate checked
+B=N=1 witness starts from empty registers and succeeds for all 24 profiles
+in an explicit consistency algebra; it is not IEEE or all-shape typed success. Offline compilation
+of the unchanged original at B=1024 passes all 24 profiles, but is not GPU
+execution or a verified source/TTIR refinement.
+
+The reviewed materialization audit extension is also applied. It binds the
+complete original Python hash, direct typed seed and pinned identity adapter,
+and compares every original computation expression. Its isolated candidate
+passes 206 tests and all 24 production source-view gates; it adds no translation
+exemption. The current inventory is 175 imported ports, 103 split layouts and
+674 specifications in 278 public files. The merged shared tree now passes
+206 regression tests, the complete `--source-only` audit and the coverage/manifest
+checks. All four checks use the same 4158-file snapshot, unchanged throughout
+validation. All 175 selected views extract; the 43 existing translation
+exclusions remain, with no new exemption. These mechanical checks do not prove
+all-profile source correspondence or independent replay. Exact receipts are
+under `/tmp/veritile-shared-175-validation-20261013/`; source audit took 313.038
+seconds and the regression wrapper took 266.598 seconds.
+
+The latest shared aggregate ended with exit 1 after 4747 Lake jobs, with
+all 2971 captured source/build inputs unchanged. The only listed failed module is
+`bgmv_expand_slice.Proofs.FP`; its arbitrary-output claim is not implied by the
+existing fp32 assumptions. The public claim has not been narrowed. Receipt:
+`/tmp/veritile-shared-175-aggregate-20261013/receipt.json`, completed at
+2026-10-13 13:35:34 UTC. It includes integrated random, seeded and persistent
+helpers and both KL-triton public entries. The three subsequent random
+regressions all passed on the same inputs; the aggregate remains failed.
+
+Persistent matmul now includes the reviewed integer-domain and hint packages:
+ten helpers with 76 axiom checks and five helpers with 43 checks, plus two
+axiom-audit modules. Independent fresh local Lean replay reproduced the five
+hint artifacts and all 43 outputs without diagnostics. The exact reached
+coordinate criterion requires full M/N tiles for positive K; tail violations
+are constructed at legal PIDs and actual refresh iterations. The public source
+and real/FP statements are unchanged. These source-mapped projection results
+do not prove full typed-source/TTIR refinement, compiler soundness or GPU
+numerics. The updated source audit, coverage and manifest checks passed on
+4179 unchanged inputs, recorded under
+`/tmp/veritile-shared-175-native-hints-validation-20261013/`; the completed
+aggregate above includes the helpers. The isolated `layer_norm_fwd`,
+`multinomial_sampling` and `uniform_sampling` ports remain in progress.
+The reviewed vector-seed and discrete-reduction helpers are now integrated.
+The shared source-only audit, 50 targeted Python regressions and the
+coverage/manifest checks passed after that integration; the source audit had
+no frozen-input snapshot and did not request proof replay. Direct Philox's
+isolated 224-module closure also completed successfully at 14:00:16 UTC, with
+178 standard-axiom outputs. Verification checked all 30,222 recorded hashes
+(1,039 distinct file/hash pairs). The exact 18-file Direct package is now
+integrated with baseline backups and hash checks; no compiled artifacts or
+source frontend were copied. Evidence is under
+`/tmp/veritile-completion-20261013/`, including the separate integration and
+historical-build review receipts. These helper results complete none of the
+three staged ports.
+
+The post-Direct shared source-only audit (including the manifest gate) and
+coverage check both passed, with all 4188 input files and the file set
+unchanged. Their receipt is
+`/tmp/veritile-completion-20261013/direct-shared-source/receipt.json`;
+the runs took 292.398 and 17.589 seconds. Only this documentation of the
+results follows that snapshot; no current Lean or comparator pass is implied.
+
+Shared Lean revalidation remains pending: sandboxed Lean cannot locate its
+installation, and automatic approval review failed with an account-policy
+error before the escalated build could execute. The source frontend still
+needs its actual positive/negative and alias execution tests. The cast
+candidate retains its Attention failure: 40 successful compilations, one
+failure and 36 validated reuses, not an all-passing closure. The existing BGMV
+admission gap and unavailable official comparator replay remain open.
+
+The current uncommitted batch covers `kldiv_ops`, `kldiv_triton`,
+`rmsnorm_triton`, `nested_loops_processing`, `rotary_emb`, `llama_ff_triton`,
+both RMS-GEMM ports, `rmsnorm_fused_llama`, `flash_attn`,
+`pow_scalar_tensor` and `rmsnorm_implementation`.
+The checked portions and remaining gates are recorded below; all still require
+independent replay and final integration review. In-progress Lake membership
+is discovery, not acceptance. The historical 59-complete/125-pending count
+must be rechecked against all 184 directories.
+
+## Earlier validation snapshots
+
+The following records describe their respective frozen inputs, not the current
+integrated tree. Later results above supersede their pending-work statements.
+
+The earlier integrated snapshot contained 173 imported ports, 101 split source/proof
+layouts and 668 discoverable specifications across 274 public files. Coverage
+fingerprints and the regenerated proof-gap manifest pass. These counts measure
+inventory, not verified completion. The shared-library and recent public-entry
+refresh now passes 3821 jobs; final FlashAttention, LLaMA RMSNorm and Pow gates
+are recorded separately below. The further aggregate refresh has finished
+with exit code 1 after reaching 4727/4727 jobs. Its only listed failed module
+is `bgmv_expand_slice.Proofs.FP`, with 48 diagnostics at lines 60 and 69.
+Its old arbitrary-output theorem still uses fp32-only rules and the obsolete
+addition locator. The existing `Proofs/GeneralCountermodel.lean` demonstrates
+that those assumptions are insufficient; `Proofs/SupportedFP32.lean` is a
+separate scoped result, not a repair of that public theorem. No source-view
+comment changes alter the theorem or discharge this known admission gap.
+The latest 142 source/layout/coverage/sharding/dtype/constexpr/runtime/helper tests pass. The complete source-only
+audit remains unresolved: a decidable KL support example replaces a forbidden
+whole-proof `trivial`, five stale textual-exemption entries are removed, and
+the revised parser follows actual imports and explicit source selectors while
+rejecting unresolved macro/profile comparisons. Explicit source/parameter
+mappings and remaining source-domain obligations still need review. Comparator-backed tests and independent replay remain
+blocked by missing comparator prerequisites and the systemd user runtime.
+Historical receipts below do not certify the current uncommitted worktree.
+
+The subsequent public refresh after the two source-selector comments and Pow
+preamble correction passes 3515 jobs. That earlier source-only audit exited 1
+with explicit residuals: 103 extractable views enter detailed comparison,
+38 extractable views retain existing documented translation exceptions, and
+32 views are unresolved (twenty legacy/typed selection ambiguities and twelve
+macro/profile expansions). Ten ports still lack explicit Python JIT targets.
+Remaining comparisons concern Flash's formal-versus-actual source selection,
+LlamaFF aliases/constexpr profiles, SoftmaxOptimize dtype attributes and the
+FlagGems cdiv rewrite. Flash's actual source proof is unchanged; the default
+textual view selects its separate formal family. No new exemptions were added.
+The audit run's temporary manifest mismatch is resolved by the later independent
+668-record registry and manifest checks. The complete corpus gate still fails;
+these parser results do not certify all source profiles.
+
+The later source-view review adds explicit target/selector/profile comments in
+37 ports without changing any Lean code or existing public statement. All 74
+affected support fingerprints are reviewed and refreshed; the 668-record
+coverage inventory and unchanged proof-gap manifest pass again. The final
+parser passes 81 regressions and 14 independent adversarial checks, including
+binding order, helper visibility, mutable arrays, unknown splices, invalid
+profiles and pointer/tensor reassignment. Its frozen full source-only run exits
+1 with all 2439 audited input fingerprints stable. All 173 selected views now
+extract and every Python JIT target resolves; 130 views enter detailed
+comparison and 43 retain existing translation markers. Before/after snapshot
+checks confirm that no marker was added or removed in this metadata review.
+The earlier prose count of 42 markers was inaccurate.
+
+At that earlier snapshot, fourteen source comparison gates failed across 23 ports: parameter aliases,
+cast/allocation dtypes, arange and memory-call representations, selected
+constexpr profiles, helper expansion, updates and control/statement ordering
+still require review. These differences are not assumed equivalent. The Flash
+actual-source selection and SoftmaxOptimize dtype-attribute comparison no
+longer appear among the residuals. This is source-audit progress, not full-port
+acceptance. The final log is `/tmp/veritile-source-audit-selected-v2.log`; its
+gate-to-port receipt is `/tmp/veritile-source-audit-selected-final-receipt.json`.
+The earlier mutable-parser preflight is explicitly discarded. The aggregate
+Lean build's BGMV failure and unavailable independent replay remain separate
+blockers.
+
+The next metadata review adds 45 exact Python-to-Lean parameter pairs to nine
+ports, with comment-only source changes and 18 reviewed support fingerprints.
+All nine ports pass the production source-view gates; the frozen tool suite
+passes 100 regressions and 14 independent adversarial checks. The allocation
+gate now resolves declared dtype attributes on both sides. Pointer advances
+retain only their declared storage provenance, while hidden assignments,
+raw-string declarations and load-expression suffixes remain unresolved.
+
+The corresponding full source-only run exits 1 with all 2978 input hashes
+stable. Its 14 failing comparison gates affect 17 ports, down from 23 in the
+previous snapshot. All 173 selected views still extract; 130 enter detailed
+comparison and 43 retain existing translation markers. The stronger snapshot
+also includes per-port README files used by documentation gates. The exact
+receipt is `/tmp/veritile-source-audit-params-final-receipt.json`, with log
+`/tmp/veritile-source-audit-params.log`. This is a failed corpus audit, not
+complete-port acceptance.
+
+Follow-up review resolves five newly exposed context-attention dtype comparisons
+by balancing complete multiline loads before checking expression suffixes.
+Only concrete fp16/bf16/fp32/fp64 self-negations retain a loaded tensor dtype;
+symbolic and integral negations remain unresolved. An explicit fp32 source view
+for `fast_rope_embedding` and nine exact parameter pairs for `kldiv_triton`
+change comments only and refresh four support fingerprints. All six attention/
+RoPE ports and the KL port pass their targeted production source-view gates.
+At that checkpoint the integrated suite passes 104 tests, and coverage/manifest
+checks still pass at 668 declarations. Those targeted checks precede the next
+frozen full audit recorded below. Receipts are under
+`/tmp/veritile-negation-audit/` and `/tmp/veritile-constexpr-proposal/`.
+
+The preceding frozen full source audit includes explicit boolean constexpr profiles
+and 57 reviewed parameter pairs for `kldiv_ops`, `llama_ff_triton` and both
+RMS-GEMM ports. These four comment-only changes refresh eight support
+fingerprints. Profile validation checks the original function and all branches
+before specialization, pins the exact Lean selector and full argument map,
+and retains runtime branches. The combined tool suite passes 114 tests; the
+independent pointer/dtype review passes 21 adversarial probes. Coverage remains
+668 declarations across 274 public files, with no additional exemptions.
+
+This full audit exits 1 in 287.168 seconds with all 3001 input hashes stable.
+Eleven comparison gates now fail across seven ports: `kldiv_ops`, `l2_norm_bwd`,
+`l2_norm_triton1`, `l2_norm_triton2`, `rms_norm_triton`, `pow_scalar_tensor` and
+`softmax_flaggems`. The first five retain runtime epsilon/cast comparisons;
+Pow retains parameter, helper, branch and memory-call differences, and FlagGems
+retains update/helper ordering differences. All 173 selected views extract;
+130 enter detailed comparison and 43 keep existing translation markers.
+The exact receipt is `/tmp/veritile-source-audit-profiles-final-receipt.json`,
+with full log `/tmp/veritile-source-audit-profiles.log`. This failed snapshot
+does not certify other profiles, subsequent edits or complete ports.
+The aggregate build receipt is
+`/tmp/veritile-fp-example-aggregate-refresh-observed.json`; that build started
+before later source-metadata edits and cannot establish a current-source pass.
+
+The latest frozen full source audit adds five explicit runtime scalar ABI
+profiles and reviewed FlagGems helper expansion. The epsilon profiles pin the
+original source, exact Lean selector/arguments and Triton 3.7.1/sm90 TTIR,
+admitting only the recorded Python-float/fp32 comparison. Integer scalars and
+unrecorded ABI profiles remain outside that evidence. FlagGems preserves
+symbolic input/output storage and expands its pure same-file helper only when
+the substituted expression matches the selected Lean AST. Validation checks
+all original branches and rejects rebinding, dynamic namespace changes and
+undeclared macro parameters. The update gate compares the selected JIT/body.
+These six comment-only port edits refresh twelve support fingerprints.
+
+All 142 integrated tests pass; independent helper review passes 36 adversarial
+cases and four production-port expectations, and runtime review passes five
+production baselines and thirteen negative expectations. Coverage and manifest
+checks remain at 668 declarations across 274 public files. The full audit exits
+1 in 291.614 seconds with all 3019 input hashes stable. Ten comparison gates
+fail, all in `pow_scalar_tensor`; the five epsilon ports and FlagGems no longer
+appear among the residuals. Pow still needs explicit parameter/constexpr,
+native helper-dispatch, dtype and memory-call comparisons. All 173 selected
+views extract; 130 enter detailed comparison and the 43 existing translation
+markers are unchanged. The receipt is
+`/tmp/veritile-source-audit-runtime-helpers-final-receipt.json`, with full log
+`/tmp/veritile-source-audit-runtime-helpers.log`. This failed source audit does
+not certify unselected profiles, native numerical behavior or complete ports.
+
+Post-snapshot documentation review also finds why an older marker count was
+42: `softmax_triton3` placed its existing marker on the block-comment opener,
+which the detailed source gates recognized but the anchored documentation
+matcher missed. Moving that opener to its own line and registering the missing
+completion-list row changes no executable Lean tokens or exemption membership.
+Exactly two existing support fingerprints are refreshed; all 43 markers now
+match the documentation gates. The four documentation/status gates, coverage
+registry, manifest and whitespace check pass after these edits.
+
+The subsequent Pow candidate passes a complete source-only audit in a frozen
+copy of the current worktree plus reviewed patches. All 3038 input files and
+the source-file set remain stable; the audit exits 0 in 243.257 seconds. All
+163 regressions, coverage and proof-gap checks also pass. The candidate checks
+the original twelve parameters, wrapper order arguments, conditional import
+chain, same-file helper and both original branches before comparing the full
+selected body. It retains the three source casts, original memory fields and
+all existing translation markers. The comparison view pins the recorded fp32
+Pow dispatch; it does not certify other native profiles or numeric results.
+All 173 selected views extract, 130 receive detailed comparison and the same
+43 documented translation exclusions remain. Exactly two Pow support hashes
+are refreshed. The receipt is `/tmp/veritile-pow-root-final-receipt.json`.
+At that checkpoint, the four reviewed patches, including tests and CI/docs
+registration, were held outside the shared worktree until the aggregate ended.
+This is a candidate audit pass, not a current-worktree or complete-port pass.
+
+The shared fp32 finite decoder now projects both signed zeros to rational zero
+and subnormals to their exact dyadic values, while still rejecting NaN/Inf.
+`Float.DecoderCompatibility` proves agreement with `FP.Value.toRat?` for every
+32-bit payload and preserves every nonzero-exponent result of the previous
+decoder. Binary64's implementation remains unchanged. The public DSL's
+literal-bitcast validator admits the new finite domain while retaining its
+checked `Option.get` guard. The integrated Core/DSL/bridge build passes 3306
+jobs; four bridge axiom checks use only standard axioms. This repairs a genuine
+zero-value prerequisite for `tl.rand`. The actual public DSL regression also
+passes after integration: both signed zeros, signed/extreme subnormals, normal
+values and NaN/Inf rejection, plus arbitrary-N broadcasts into vector stores.
+The two vector theorems add standard-axiom checks, and the test is registered
+in artifact CI. The local receipt is
+`/tmp/veritile-fp32-finite-decoder-integrated-receipt.json`.
+Full aggregate revalidation is in progress,
+with log `/tmp/veritile-fp32-finite-decoder-aggregate.log` and input receipt
+`/tmp/veritile-fp32-finite-decoder-aggregate-inputs.json`; it is not yet a pass.
+
+The subsequent staged canonical random bridge now proves equality between the
+actual `FP.round`/`FP.mul` conversion and the independent dyadic formula for
+every 32-bit input word. Its range is `[0, 1 - 2^-24]`, including zero. The
+result extends to every seed, offset, supported 32/64-bit offset width and
+round count, and agrees with the integrated core decoder. Seeded dropout's
+independent input-memory formula is therefore total without a raw-bound or
+nonzero-random premise; its real `p=1` result is zero. These are formula results,
+not source execution, eager FP arithmetic or complete IO/frame/safety proofs.
+All fourteen staged modules compile in a fresh frozen directory, with local
+imports resolved to that directory and nine repository dependencies unchanged.
+Root checks all artifact hashes and 32 actual standard-axiom outputs. Receipts:
+`/tmp/veritile-rand-prep/canonical-closure-20261013T082809629980Z/receipt.json`
+and `/tmp/veritile-random-canonical-root-review.json`. These new random modules
+remain outside the repository; public `tl.rand`, seeded-dropout source/contract
+integration and independent replay are still unfinished.
+
+The subsequent production packaging has fifteen checked modules. A new isolated
+core integration adds explicit integer source profiles and deterministic
+`Op.rand`, with actual canonical bits injected through the existing fp32-bits
+backend. All 44 selected core/memory dependencies pass; the two numerical test
+modules also pass with 33 standard-axiom outputs and no diagnostics. Reused
+foundation artifacts and newly compiled dependents are distinguished in
+`/tmp/veritile-rand-integration-overlay/core-checkpoint-receipt.json`.
+The reachable `2^24+1` zero-round offset changes a dropout comparison if the
+first fp32 round is omitted. Invalid operands and empty-output child evaluation
+are checked. A separate symbolic-block proof establishes i32 representability
+of every source index operand/intermediate and exact BitVec32 multiply/add and
+signed-mask correspondence, including masked tail lanes. Its nine standard-axiom
+checks are reviewed in `/tmp/veritile-seeded-source-domain-root-review.json`;
+existing native evidence remains limited to B=32. Core/frontend work is still
+in staging at that checkpoint, and no random port is accepted.
+
+The next staged frontend/dependency build passes all 112 selected modules,
+including the actual RandomFrontend, finite decoder, Powi, signed-load and
+Triton smoke regressions. The frontend's eight axiom checks are standard and
+its log has no diagnostics; the existing dynamic-Powi regression emits one
+unused-simp warning. Integer source profiles, symbolic block shapes, branch
+joins, inline signed/unsigned loads and intrinsic fp32 preservation are checked.
+The receipt is
+`/tmp/veritile-rand-integration-overlay/frontend-checkpoint-receipt.json`.
+A fresh frozen rebuild of all 232 affected library/test modules is running
+from 274 captured Lean sources; this is separate from shared/corpus acceptance.
+Seeded dropout's six source-domain/index/formula/writeback helpers also compile,
+with 37 standard-axiom outputs and no diagnostics. Root checks their frozen
+artifacts in `/tmp/veritile-seeded-dropout-helper-root-review.json`. They prove
+unique launch coverage and region/finite-flat raw-cell frames for the writeback
+phase; connecting the complete source execution remains unfinished.
+
+Persistent matmul's later checkpoint contains 76 checked Lean helpers in 79
+files, with 116 symbolic standard-axiom checks plus the original twelve.
+`RealFull.storage_correct` completes both variants' finite-flat successful
+real execution, independent GEMM outputs, A/B preservation and full raw frame.
+The actual host grid covers every output with disjoint windows across PIDs.
+The new standard `RealizesFrame_without_Rounding` wrapper observes `MemCell`
+outputs and proves its write-map complement equals that complete frame; the
+successful finite-flat contract remains a conjunct. K=0 preserves all memory.
+Three public candidate declarations compile with standard axioms; root checks
+sources/logs/patches in
+`/tmp/veritile-persistent-standard-surface-root-review.json`.
+At that checkpoint, the public/registry patches remained unapplied. Native integer/configuration
+admission, the selected dtype-branch source audit and independent replay remain
+open; the imported-port inventory is unchanged.
+
+At the earlier checkpoint below, `matmul_persistent_triton` remained an
+unimported scaffold with staged helpers.
+Both complete fp16 and E4M3 source profiles, integer-address FP equivalence with
+empty assumptions, the persistent schedule coverage/uniqueness lemmas and an
+independent input-only GEMM formula now compile. Symbolic initial negative
+indices, fused dot accumulation and output casts remain in the source.
+The earlier staged checkpoint contains 34 checked Lean helpers.
+A concrete four-iteration typed execution now covers both storage profiles and
+both variants, computes the independent input formulas 18/27/36, and preserves
+every raw typed memory cell outside its three output stores. The generic K=0
+execution preserves all memory for any backend and initial state; a correctly
+typed nonzero output supplies a checked counterexample to the zero-matrix claim.
+Twelve explicit axiom checks use only the standard Lean axioms. Full symbolic
+positive-K execution, dimension-general real IO/frame/safety, the finite-flat
+bridge and public integration remain unfinished. These concrete executions
+and offline sm90 compiles do not establish GPU or IEEE behavior. The stable
+helper receipt is `/tmp/veritile-persistent-integrated-receipt.json`.
+An earlier source-audit snapshot includes 38 helpers: symbolic full-prefix
+execution, flat-loop partition, masked mathematical dot and actual fused-dot
+partial-sum proofs supplement that checkpoint. After the freeze, four further
+checked modules establish actual signed loop control, grouped schedule
+injectivity/coverage and input-only masked-load values, bringing the staged
+set to 42 Lean helpers in 45 source files. Fourteen additional symbolic axiom
+checks use only the standard axioms. The next five modules bring the shared
+set to 47 helpers in 50 source files: actual address/masked-load evaluations,
+their complete five-statement composition with independent input readbacks,
+the seven-statement output-store/reset sequence with active readbacks and full
+raw-cell frame, and signed flat-iteration transitions. Twenty-eight symbolic
+axiom checks pass at that checkpoint. Five further modules bring the set to
+52 Lean helpers in 55 source files: actual group and coordinate setup, offsets,
+the last-K branch, and composed load/dot/store/reset execution. The composed
+step gives independent complete GEMM readbacks at last K and preserves every
+raw cell outside active output addresses. Twelve new axiom checks bring the
+symbolic total to forty. The latest prefix/control replays and composed stages
+use the refreshed Core/DSL; older receipts retain their original dependency
+scope. Root's composition review is recorded in
+`/tmp/veritile-persistent-composition-root-review.json`.
+The current helper receipt is
+`/tmp/veritile-persistent-symbolic-stage-receipt.json`. This later progress
+does not discharge the full positive-K execution, access-safety or IO/frame
+obligations, and remains outside the completed frozen audit snapshot.
+
+The next ten checked modules bring the staged set to 62 Lean helpers in 65
+source files. `RealContract.executes` composes all sixteen original prefix
+statements and the actual single flat persistent loop for positive K, starting
+from arbitrary registers. It proves independent input-only GEMM readbacks at
+every active output assigned to the PID, preservation of A/B inputs, and the
+full raw-cell frame outside those output addresses. Assumptions state positive
+dimensions/block sizes, a valid PID, separated output/input regions, injective
+logical output addresses and the original input-memory relation; no prepared
+state, partial-sum or assumed-execution premise is used. Root verified all 65
+source hashes and the new stage logs; all 69 symbolic axiom-check outputs use
+only standard axioms. The review is
+`/tmp/veritile-persistent-full-loop-root-review.json`. Actual load/store address
+safety also compiles, but whole-source trace safety, finite-flat IO, candidate
+real-contract transport, public entries and independent replay remain pending.
+This is still an unimported port, outside the earlier frozen source audit.
+
+Six further persistent-matmul modules close the original whole-source trace
+safety proof. `RealSafety.safe` covers the complete prefix and dynamic loop
+under the original tagged input relation and logical allocation bounds;
+flattenability holds for both variants. The shared staged set now has 68 Lean
+helpers in 71 source files and 81 symbolic standard-axiom checks. Root verified
+all source hashes and the twelve new safety checks in
+`/tmp/veritile-persistent-safety-root-review.json`. Finite-flat IO, candidate
+real-contract transport, public integration and independent replay are pending.
+
+Pinned Triton source review found that RMSNorm's `libdevice.pow(fp32_value, 2)`
+selects the integer-power backend. The shared AST, exact and rounded evaluators,
+backend callback and DSL now preserve that operation rather than substitute
+multiplication. The complete shared-library rebuild before the elaboration fix
+below passes all 3524 jobs, with no errors or `sorry` warnings. The new
+`bench/tests/LibdevicePowi.lean` fixture passes, distinguishing the native
+callback, absent-backend failure and mathematical square interpretation.
+Six existing regressions also pass against this library: `TritonSmoke`,
+`FloatNegativeScalar`, `FloatDivisionPromotion`, `SignedRangeAddressInference`,
+`SignedRange` and `LibdeviceTanh`.
+
+The same source review found integer-power fidelity defects in
+`llama_ff_triton`, `rms_matmul_rbe` and `rms_rbe_matmul`: their Python kernels
+pass integer literal `2`, but their legacy Lean source explicitly forced a real
+exponent. Both RMS-GEMM source repairs now compile, including the actual loop
+step proofs through `Op.libdevicePowi`. All three existing mathematical public
+heads pass axiom checks; all 53 and 70 historical declaration headers and
+docstrings remain unchanged. The initial coverage records described only this
+repair; the later source/proof and integration results are recorded below.
+Both wrappers still lack a guarantee that K is divisible by 64; the unmasked
+ceil-divided tail requires explicit allocation and mathematical-domain review.
+
+`llama_ff_triton` now has complete fp16 and FP8-bitcast source branches,
+retaining the actual ceiling-divided loop, integer-power call, three E5M2
+decodes, all casts, typed dots, separate accumulations and final store.
+Its source, FP equivalence and exact precision checks compile; the FP
+assumption list is empty. All 57 historical declaration headers/docstrings
+are preserved. Full fp16 erasure transport, successful source execution,
+independent input-array formulas and the complete raw-cell frame now compile
+without a K-divisibility premise. Full source access safety in both weight
+arms and the complete actual FP8 byte-decoding execution now also pass
+(3430 jobs). Both public finite-flat contracts and the complete finite witness
+now also compile: K=1/BK=2, N=1/BN=2 and independent strides produce the nonzero
+result sigmoid(1) with the raw frame preserved. Twelve public/bridge/witness
+axiom checks and both formula non-circularity checks pass, with no FP assumptions.
+The separate typed numerical execution now also passes after composing actual
+consecutive source stages. Both weight arms and both variants retain the actual
+sigmoid(1) output, masked/stride-gap integer sentinels and original typed weights.
+Its native-power, dot, reduction, rsqrt, sigmoid and E5M2 callbacks perform the
+real operations; identity casts do not certify IEEE rounding. The repaired
+public surface uses named `Spec.Real` IO contracts, leaving concrete witnesses
+in supporting modules and a dimension-general final public theorem. The final
+3478-job public build reaches all 37 local modules, including precision and
+typed numerical execution. Eighteen explicit standard-axiom checks and both
+formula non-circularity checks pass, with no FP assumptions. All four public
+coverage declarations have migrated source/support fingerprints; both final
+specification sheets have no self-reference or missing summary. Corpus manifest integration is now checked; independent replay remains pending.
+
+The `kldiv_triton` public `Correct` and `FPEquiv` entries now pass their
+dependency-aware builds. Real IO explicitly includes actual trace safety;
+default-backward FP equivalence records the source-supported target predicate.
+All eight real and three source-facing FP declarations use only the standard
+Lean axioms, and all three FP assumption lists are empty. Three finite-allocation
+witnesses also compile and pass the axiom check: two chunks, independent strides,
+a nonzero program id, both backward branches and zero-sized empty-row allocations.
+An axiom-free counterexample establishes the wrapper allocation defect at
+N=16385 and block size 16384: two reduced stores need more than the allocated
+one-cell row. All 51 historical declaration types and docstrings were retained
+before removing the old root module. The separate mixed-storage numerical
+execution regression now also passes (3431-job dependency-aware build): an
+explicit two-block composition avoids the recursive simplifier's native stack
+overflow. Both variants and target flags retain separate reduced values -4/-2,
+pointwise and backward values, empty rows, half weak literals and tagged
+sentinels. All eleven public coverage records are migrated with validated
+source/support fingerprints. Corpus manifest integration is now checked; replay remains pending.
+
+`rmsnorm_triton`'s complete FP equivalence and mixed-storage numerical executions
+pass, with no FP assumptions. Its precision module now checks all 216 profiles,
+including the native integer-power operation and fp64-weight promotion. The
+complete all-profile source projection, candidate transport, safety, real IO
+contracts and finite witness modules also pass their builds and module axiom
+audits. The final public-entry refresh passes (3448 jobs), and the thirteen-head
+public/bridge/execution audit uses only the standard Lean axioms. Four coverage
+records are migrated with all twelve source/support fingerprints validated;
+the generated specification sheets report no self-referential or missing summary.
+
+`kldiv_ops`'s complete algorithm/execution chain, all-profile source projection,
+typed execution transport and actual trace-safety transport pass. Both public
+entries with named IO contracts and exact forward/backward precision checks
+pass the 3479-job build. The eight historical specifications have also been
+relocated verbatim to `Correct.lean` so inventory discovery retains them; all
+45 historical headers/docstrings are unchanged. The relocation passes a combined
+3482-job build and the final 33-declaration standard-axiom audit, including all
+eighteen public heads, finite witnesses, numeric readbacks and precision gates.
+All four FP assumption lists are empty and the three independent formulas pass
+non-circularity checks. Actual two-block executions retain nonzero forward,
+reduced and backward values and before/tail sentinels. All eighteen coverage
+records are migrated with validated fingerprints for the 42-file source/support
+closure. Both regenerated sheets have no self-reference or missing summary.
+Corpus manifest integration is now checked; independent replay remains pending.
+
+`nested_loops_processing`'s current shared-head rebuild passes all 59 existing
+modules (3491 jobs). Its new finite-allocation witness and both public entries
+then pass 3492 jobs; their closure now reaches all 60 local modules, including
+the previously disconnected `RealBoth`. The new witness covers all fifteen
+homogeneous payload labels and both full variants on disjoint 64-cell source
+and destination allocations. It proves safety, termination, the independent
+ordered-write oracle and the complete frame; int32 and erased-fp64 readbacks
+give 8=2, 47=27, 55=35 and sentinel 56=-1. The final 25-declaration audit passes,
+FP assumptions are empty, and the oracle is non-circular. Independent execution
+of the isolated Python function with a host stub matches fourteen loads,
+twenty-four stores, access maxima and the full frame for four stride pairs;
+this is not GPU or comparator evidence. Eight public coverage records are
+migrated with validated fingerprints for all 60 files; both specification
+sheets have no self-reference or missing summary. Native width/conversion,
+grid/race and mixed-storage boundaries remain explicit, and replay is pending.
+
+`rms_rbe_matmul` now has a complete typed GEMM source for six formal floating
+input labels, both weight arms and both variants. All 24 erasure projections
+compile with the dynamic ceiling loop, integer native power, two byte decodes,
+all conversions and the fp16/E5M2 output distinction retained. Full-backend FP
+equivalence passes with no numerical assumptions. Its non-FP8 full-source
+execution, independent padded-input formula, active-only output injectivity and
+complete raw frame pass 3420 jobs. Actual source trace safety and finite-flat
+execution/frame transport then pass 3424 jobs; only active stores need output
+bounds, while every unmasked padded input lane is bounded. No K-divisibility
+premise is introduced. The new public contract and finite witness then pass
+the combined 3451-job public build, whose closure reaches all thirteen local
+modules. Both variants and all six formal input labels execute with batch id
+one, independent strides, K=1/BK=2 and N=1/BN=2; the actual output is one, while
+integer sentinels before the batch output and in the masked tail are preserved.
+The final fourteen-declaration standard-axiom audit passes, its FP assumption
+list is empty and the input-memory formula is non-circular. Both generated
+specification sheets have no self-reference or missing summary.
+The complete FP8 iteration, dynamic traversal and actual access safety then
+pass 3426 jobs; exact precision checks cover all 24 source templates. Independent
+byte arrays require actual integer storage and finite E5M2 decoder results at
+every padded read. Their pure padded RMS-GEMM formula, finite-flat execution
+and named byte IO pass, followed by the combined 3461-job public build. Its
+twenty-one-module public closure includes the byte witness: nonzero batch,
+independent strides, K=1/BK=2 and N=1/BN=2 yield output two while input bytes
+64/60 and integer sentinels remain unchanged. Both regenerated sheets have
+no self-reference or missing summary. The subsequent twenty-seven-declaration
+audit uses only standard axioms, reports no FP assumptions and checks both
+memory and pure-array formulas for non-circularity. The separate typed backend
+numerical witness then passes 3380 jobs after composing consecutive actual
+source stages, including all nine/fourteen loop assignments. Both weight arms
+and both variants produce output two at batch offset 17 with the fp16/E5M2
+destination tag; masked/before-output sentinels and original bytes 64/60 are
+preserved. Its real-arithmetic backend is a nonvacuity witness, not an IEEE
+rounding model. The final thirty-five-module public refresh passes all 3476
+jobs. Four public coverage records are migrated with all source/support
+fingerprints validated; both final specification sheets have no self-reference
+or missing summary. The final thirty-three-head standard-axiom audit and both
+formula non-circularity checks pass, with an empty FP assumption list. Corpus manifest integration is now checked; replay remains pending. Native
+admission and the separate rotary JIT's missing `get_freq_multi_tokens`
+dependency remain unresolved.
+All 53 historical headers/docstrings are preserved, with its specification
+directly discoverable in `Correct.lean`.
+
+`rms_matmul_rbe` now retains 48 formal callee templates and the complete Q/K/V
+three-pass source. The initial typed source/projection, historical public heads
+and callee/QKV FP equivalence pass 3445 jobs; both FP assumption lists are empty.
+Q retains fp16 output in the byte-weight branch while K/V use E5M2. Its seventy
+historical headers/docstrings and both public specifications remain preserved.
+The complete half QKV three-pass value/frame composition, actual access safety,
+finite-flat IO and exact precision then pass the 3454-job public build. Its
+finite QKV witness and eighteen-head standard-axiom audit also pass, with both
+FP assumption lists empty. Byte QKV composition, complete callee/QKV finite-flat
+contracts and the finite byte witness then pass 3442 jobs. All six formal input
+labels and both variants retain Q fp16 versus K/V E5M2 output, producing
+Q=2/K=3/V=4 on a partial tile with batch id one, independent strides and integer
+sentinels. The thirty-one-head byte audit, sixty-nine historical public type
+checks and both formula non-circularity checks pass; both FP assumption lists
+remain empty. The separate complete typed numeric execution then passes
+3380 jobs: both weight profiles and both variants run all three actual
+callees with nonempty K=1/BK=2 loops, producing Q=2, K=3, V=4. The complete
+final-memory equality preserves Q fp16 versus K/V fp16-or-E5M2, masked
+integer sentinels and all original byte cells. Its real-arithmetic backend
+uses actual power, dot, reduction and finite E5M2 decoding; identity casts
+do not model IEEE rounding. The final public build passes 3482 jobs and
+reaches all 41 local modules. Thirty-eight standard-axiom checks, sixty-nine
+historical public type checks, three non-circularity checks and both empty
+FP assumption lists pass. All 70 historical headers and 52 docstrings remain
+unchanged. Eight public coverage records now have validated source/support
+fingerprints; both final specification sheets have no self-reference or
+missing summary. Discrete X inputs, native mixed-dot admission, signed strides,
+machine widths, grid/races, physical IEEE/storage-byte behavior and independent
+replay remain unresolved. This does not complete the port.
+
+`rotary_emb`'s full real execution, independent Q/K output formulas, complete
+memory frame and actual source trace safety pass (3430 jobs), with module
+axiom audits. Public typed correctness, FP equivalence and finite real execution
+witnesses subsequently pass as recorded below. The source expansion memory growth was isolated to
+later Lean declaration processing with unresolved metavariable assignments.
+A complete 34-statement diagnostic passes after synthesizing and instantiating
+those assignments. That transparent fix is now in the production DSL and passes
+its 789-job build. The complete library plus source-macro refresh now passes
+3525 jobs with no errors or `sorry` warnings. The production regression
+`bench/tests/RotaryEmbElaboration.lean` passes in 5.08 seconds, with measured
+child peak RSS of 3,826,196 KiB; it retains the full symbolic source and checks
+all 34 statements. The first six-profile production helper also passes
+(3411-job dependency build, 16-second helper compilation). The full 216-profile
+templates now all compile. Public proof checks identified a checker omission:
+some mixed profiles carry fp32 directly instead of a real carrier with an fp32
+compute tag. The corrected semantic precision extractor now passes all 216
+profiles in its leaf check; a general metadata lemma avoids unnecessary profile
+enumeration while retaining the original declarations. The public dependency
+build now passes all 3507 jobs, including both public entries, actual safety,
+flat IO and finite witness. Its nine-head public/historical/bridge/witness audit
+uses only standard axioms, FP assumptions are empty, and both formulas pass
+non-circularity checks. The final candidate projection
+normalization is confirmed by a minimal erasure probe. The full numeric witness
+now passes after source-preserving stage composition and compact register/frame
+facts; the earlier stopped monolithic build was not a pass. Both mixed-storage
+profiles and both variants execute all 34 statements, giving Q=-7/25 and
+K=-13/79, including the second K head. Head/sequence masks, gap sentinels and
+the sine input are preserved. The final public-entry build passes 3512 jobs
+and reaches all 73 local modules, including the numerical execution modules.
+Twelve explicit standard-axiom checks and both formula non-circularity checks
+pass, with no FP assumptions. All three public coverage declarations have
+migrated source/support fingerprints; both final specification sheets have no
+self-reference or missing summary. Corpus manifest integration is now checked; independent replay remains pending. Source review retains every statement,
+reload, promotion and four stores in Python order; it independently matches all
+34 Python statement ASTs and all four destination-cast alternatives.
+
+`rmsnorm_fused_llama` now passes the current dependency-aware public build
+(3457 jobs) and exhaustive 852-declaration standard-axiom audit. All 33
+historical headers and 26 docstrings remain unchanged. Correct/FPEquiv reach
+18 implementation modules; the separate Audit entry reaches all 19. Both
+specification sheets report no self-reference and no missing summary. Its
+five public coverage records are integrated with current fingerprints.
+The source retains both loops for arbitrary N and positive B, all 216 floating
+X/W/Y profiles, fp32 normalization, the explicit fp16 cast and destination
+conversion. Original/candidate named flat IO includes successful execution,
+an independent initial-input RMS formula and the complete raw frame; actual
+source safety is proved separately under the same bounds. A finite witness
+at row=1, stride=5, N=3, B=2 and eps=5 discharges every premise for all profiles
+and variants, returns three values 2 and retains integer-37 sentinels. Separate
+typed exact-real runs cover mixed fp64/fp16 storage and both loop shapes.
+Integer/bool conversion, signed strides, fixed-width overflow, native dtype
+and shape admission, host/grid/races, IEEE/device behavior and independent
+replay remain pending; this is scoped coverage, not full-port acceptance.
+
+`rmsnorm_implementation` now passes its final public/Audit build (3450 jobs),
+an exhaustive 894-declaration standard-axiom audit, twenty explicit axiom checks
+and two formula non-circularity checks. FP assumptions are empty. The stronger
+named `FullExactIO` public contract combines actual trace safety with successful
+finite-flat execution, the independent full-row formula and the complete raw
+frame. Its finite witness discharges every premise for all 216 floating profiles
+and both variants, using two nonzero program IDs, N=3/B=2, seven nonunit strides,
+three outputs equal to two and integer-37 sentinels. Four separate full typed
+numerical executions retain both fp64-promotion positions, std=3, three bf16
+outputs equal to two and the full raw typed frame; their casts are exact-real
+identities. All 111 pre-split headers/50 docstrings and 167 checkpoint headers/70
+docstrings remain unchanged. Correct/FPEquiv reach thirteen modules; Audit
+reaches all fourteen. Five scoped records are integrated and both specification
+sheets report zero self-reference and missing summaries. The unchanged-source
+Triton 3.7.1/sm90 probe checks all 44 expected outcomes: 32/36 floating wrapper
+profiles compile, four fp64/FP8 combinations fail lowering, four additional
+floating destinations compile and four admitted integer/Boolean cases remain
+unmodeled. Integer/bool storage, signed geometry, machine widths, general native
+admission, IEEE/device behavior, host/grid/races and replay remain unresolved.
+
+`flash_attn` now passes its final public build (3496 jobs), 29 standard-axiom
+checks and three formula non-circularity checks; both FP assumption lists are
+empty. Correct/FPEquiv reach all 49 local modules, and both specification sheets
+have no self-reference or missing summary. Eleven scoped coverage records are
+integrated. The exact-source `actualKernel` retains unspecified padding and the
+original L/O stores. Its dimension-general flat contract includes actual trace
+safety, successful execution, independent initial-input O/L formulas and the
+complete raw frame for both variants and causal flags. Six floating Q labels
+retain fp16 K/V/O and fp32 L, including the actual fp64 Q multiplication.
+Complete typed exact-real executions use nonzero head IDs and noncontiguous
+strides, check noncausal O=1/L=2 and causal O=0/L=0-or-1, and preserve every raw
+cell outside the O/L write footprint. Their identity casts do not model IEEE
+rounding. An offline Triton 3.7.1/sm90 receipt accepts all twelve six-Q/causal
+combinations and rejects the ten non-fp16 wrapper Q=O combinations: unchanged
+native block stores require O fp16. This is one-target compiler evidence, not
+GPU execution or independent replay. The earlier extra-cast formal family is
+retained separately as projection-only coverage. All 215 pre-checkpoint headers
+and 209 docstrings are preserved; two later contradictory checkpoint source
+decomposition helpers were corrected, while all 211 checkpoint docstrings remain.
+Integer/bool Q conversion, other runtime scales, signed strides, native widths
+and general shape admission, host/grid/races, device numerics and replay remain
+unverified; this is not full-port acceptance.
+
+`pow_scalar_tensor` now passes its final public/Audit build (3463 jobs), an
+exhaustive 406-theorem standard-axiom audit, eighteen explicit axiom checks and
+four formula non-circularity checks. Both FP assumption lists are empty.
+All 36 historical headers and 33 docstrings remain unchanged; the public
+closure reaches 27 modules and the separate Audit reaches all 28. Eight scoped
+coverage records are integrated and both specification sheets have no
+self-reference or missing summary. Floating and dynamic int32 exponent families
+each retain 24 complete source templates: six floating destinations, both
+one-tile/grid-stride branches and both variants. The scalar remains the base,
+the tensor remains the exponent, and unspecified padding, dynamic traversal,
+native power dispatch and destination conversion are retained. Dimension-general
+finite-flat contracts include actual safety, success, independent initial-input
+real power/zpow formulas and the full raw frame. Actual Int input cells and
+signed32-valid exponents are explicit; masked lanes use zero undef. Separate
+typed numerical and finite-flat witnesses check 4/8/2 for floating exponents
+and 1/4,1/8,1/2 for negative integer exponents, retaining integer-37 sentinels
+with nonzero program IDs, independent strides and a partial final tile.
+Full-source failure is proved for every out-of-range integer, including both
+adjacent signed32 endpoints, across all 24 integer templates. The pinned extern
+dispatcher accepts fp32/int32 and rejects thirteen other exponent labels.
+Signed block-pointer strides/shifted bases, integer runtime base conversion,
+nonfloating destinations, machine widths, native/IEEE behavior, host/grid/races
+and independent replay remain unverified. Natural-stride scoped contracts do
+not complete this port.
+
+Eight existing regressions also pass against the instantiated-expression DSL:
+`TritonSmoke`, `LocalPrecisionScope`, `FloatRuntimeScalar`, `LibdevicePowi`,
+`FloatNegativeScalar`, `FloatDivisionPromotion`, `SignedRangeAddressInference`
+and `SignedRange`. These gates cover typed local regions, precision scopes,
+runtime scalar promotion, native integer power, negative weak literals and
+signed address/loop inference. They do not replace the pending port public
+builds or independent comparator replay.
+
+The shared DSL now also retains native int32 load width through copies and
+identity casts, allowing the actual dynamic integer-power overload. Exact,
+rounded and typed backend evaluators reject exponents outside signed int32
+range; an unbounded integer or a mismatched floating dtype cannot select this
+overload. The complete shared build passes 3525 jobs. The subsequent int32
+address-inference repair passes its 789-job DSL build and nine regressions:
+`SignedLoadCast`, `LibdevicePowiDynamic`, `RuntimeIntegerDivision`,
+`FloatRuntimeScalar`, `TritonSmoke`, `Float8E5Execution`, `PointerSignedOffset`,
+`PointerSignedBinding` and `PointerSignedCast`. The signed-load fixture also
+checks the live negative sentinel and copied/selected signed labels. Dynamic
+power checks cover signed32 endpoints, out-of-range failure, missing backend
+and register failure, genuine native callback dispatch and a complete typed
+source execution. These are shared capability checks, not full Pow acceptance.
+
+The current environment has Lean 4.29 and the pinned dependency cache restored,
+but official comparator prerequisites and the required systemd user runtime
+are unavailable. This is pending replay, not a successful trust audit. The
+rotary offline lowering receipt uses installed Triton 3.7.1 on CUDA sm90;
+it is neither GPU execution nor evidence for the pinned 3.5.1 frontend.
 
 `rmsnorm_fused` now passes its dependency-aware public build (3457 jobs).
 Six public correctness, complete trace-safety and nonempty execution heads use
@@ -593,8 +1345,10 @@ proof remains pending. The old receipt does not certify this correction.
 The padding review below reopened three cases; scalar and vector cumsum have
 since passed their repairs and replay; dqkg has now passed its conditional
 source repair, full-source padding refutation and independent replay as well.
-Current accepted count is **59 complete, 125 pending**; earlier counts below
-are historical. `attention_kernel_aligned` remains the only user-deferred case.
+This historical checkpoint recorded **59 complete, 125 pending**. It has not
+been revalidated for the current worktree; the active integration section above
+records the current evidence and remaining gates.
+`attention_kernel_aligned` remains the only user-deferred case.
 The fp16 `add_commute` candidate has no current admission; the choice between
 new atomic experiments and retaining the original order is awaiting the user.
 
@@ -626,7 +1380,10 @@ unmasked load never selects padding. All four public real/FP entries, the
 have returned to the completed set. No new numerical assumptions were added.
 The final receipt and source-fingerprint checks are recorded below.
 
-## Completed cases
+## Historical completed cases
+
+These 59 rows describe the earlier accepted snapshot. They are retained as
+review history, not a current completion count for the uncommitted worktree.
 
 | Directory | Real correctness | FP equivalence |
 |---|---|---|
@@ -1042,6 +1799,7 @@ entry changed.
 | `batched_vecmat_mult` | complete: both full real flat IO contracts, admitted add_commute equivalence, nonempty execution witnesses and source regression independently replayed |
 | `bgmv_expand_slice` | reopened: correct half-sum dtype and output-dependent promotion; refresh real/FP proofs and admission scope |
 | `bgmv_shrink_kernel` | completed: full real flat IO and admitted FP equivalence |
+| `block_sparse_attn` | complete original/candidate per-program sparse attention real IO/frame and conditional typed FP contracts are recorded; explicit signed CSR, allocation, storage and address domains; current independent acceptance remains unverified |
 | `bmm_chunk_bwd` | complete: both independent real flat IO contracts, all partial tails and residual arms, nine input storage pairs, admitted add_commute and nonempty executions independently replayed |
 | `bmm_chunk_fwd` | complete: full source, independent real flat-IO contracts, reached-loop admitted FP equivalence, regressions and 34-file replay accepted |
 | `bmm_optimized` | complete: all mask/source variants, independent real flat IO with explicit zero-undefined premise and checked counterexample, admitted FP equivalence, regressions and 34-file replay accepted |
@@ -1049,6 +1807,7 @@ entry changed.
 | `chunk_bwd_dqkg` | complete: whole-V real flat IO, all outputs and full frame, admitted add_commute, bounds regressions and 22-file independent replay accepted |
 | `chunk_cumsum_kernel` | complete: full global real prefix sum and flat IO, admitted carry commutation, source/scan regressions and 15-file independent replay accepted |
 | `chunk_cumsum_vector` | complete: full per-column real prefix sums and flat IO, both tails, admitted carry commutation, source/layout regressions and 18-file independent replay accepted |
+| `chunk_delta_fwd` | complete original/candidate delta-rule loop, three outputs, finite IO/frame and conditional typed FP contracts are recorded; explicit zero padding is necessary by a source counterexample; current independent acceptance remains unverified |
 | `chunk_gate_recurrence` | complete: four whole-source real flat IO contracts, two admitted FP specifications and verified whole-case replay |
 | `chunk_gated_attention` | complete: four whole-source real flat IO contracts, two FP equivalences, explicit padding premise/refutation and 39-file independent replay accepted |
 | `chunk_gla_fwd` | complete: all five source/candidate pairs, ten full real flat IO specifications, five admitted FP equivalences, padding refutation and 82-file independent replay accepted |
@@ -1056,6 +1815,7 @@ entry changed.
 | `chunk_linear_attn` | complete: four full source/candidate pairs, eight independent real flat IO specifications, four admitted FP equivalences, concrete regressions and 19-file independent replay accepted |
 | `chunk_retention` | complete: four full typed source/candidate pairs, eight real flat IO contracts and four admitted FP equivalences; 20-file independent replay and all concrete regressions accepted |
 | `chunk_retention_ops` | complete: four full typed source pairs, eight real flat IO contracts, four admitted FP equivalences, three-chunk and empty-loop regressions, and 10-file independent replay accepted |
+| `chunked_cumsum_fwd` | complete original/candidate preprocessing and inclusive scaled scan, both outputs, finite IO/frame and conditional typed FP contracts are recorded; finite and positive-infinite upper limits; current independent acceptance remains unverified |
 | `context_attn_bloom` | complete: both full real flat IO specifications, admitted FP equivalence, typed/signed source regression and independent replay |
 | `context_attn_fwd` | complete: full typed source, both real flat IO specifications, admitted FP equivalence, source regressions and independent replay |
 | `context_attn_llama` | complete: both real flat IO specifications, admitted FP equivalence, inhabited execution/domain witnesses and independent replay |
@@ -1080,7 +1840,7 @@ entry changed.
 | `fast_rms_layernorm` | complete review: original/candidate source, full finite real IO, typed FP equivalence, precision and execution witnesses, repository gates and independent trust replay verified |
 | `fast_rope_embedding` | complete review: original/candidate source, full finite real IO, typed FP equivalence, precision and execution witnesses, repository gates and independent trust replay verified |
 | `fifth_order_sph_harmonics` | pending review |
-| `flash_attn` | pending review |
+| `flash_attn` | exact-source flat IO/FP, typed executions and 3496-job build pass; 11 records integrated; sm90 dtype admission checked; remaining source-domain/native/IEEE/replay gaps |
 | `flash_decode2_llama` | pending review |
 | `flash_decode2_phi` | pending review |
 | `fp4_to_bf16` | pending source import |
@@ -1089,7 +1849,7 @@ entry changed.
 | `fused_layernorm_triton` | pending review |
 | `fused_recurrent_delta` | pending review |
 | `fused_recurrent_hgrn` | pending review |
-| `fused_recurrent_retention` | pending review |
+| `fused_recurrent_retention` | complete forward/backward public original/candidate real contracts, independent initial-memory formulas, finite flat IO/frame and selected-fp32 typed success pass in the 4,899-job root aggregate, retaining T=0, flags, tails and all pointer updates; 72 AST profiles/792 mutations pass; exact debug-barrier semantics have explicit positive/negative regressions; native matrix records 432 compiled and 432 rejected unchanged-source configurations; host reductions, scalar/fixed-width ABI, IEEE refinement and independent replay remain open |
 | `fused_rotary_embedding` | pending review |
 | `fused_rwkv6_kernel` | pending review |
 | `geglu_tanh_triton` | six floating formats; constexpr correction and all real/FP gates checked locally; independent replay pending |
@@ -1101,26 +1861,26 @@ entry changed.
 | `int8_matmul_quantization` | pending review |
 | `int8_quantization` | pending review |
 | `int_scaled_matmul` | pending review |
-| `isfinite_kernel` | pending source import |
+| `isfinite_kernel` | complete public fp32/fp64 original/candidate typed-bit contracts and arbitrary-algebra state/failure equality pass; ordinary source audit extracts all 178 views, with 101 source regressions; complete typed flat source/candidate execution, independent exponent classification and tagged frame pass in the 3,431-job root public build, with explicit active allocation bounds and unspecified-value compatibility plus concrete nonempty witnesses; all 48 original native profiles rejected by Triton 3.8 at block-pointer type.element_ty; no independent complete-port acceptance |
 | `iv_dependent_matmul` | pending review |
 | `kcache_copy_triton` | pending review |
-| `kldiv_compute` | pending review |
-| `kldiv_ops` | pending review |
-| `kldiv_triton` | pending review |
-| `ksoftmax_triton` | pending review |
+| `kldiv_compute` | full typed real/FP, finite and mixed-storage witnesses checked; 3 records integrated; independent replay pending |
+| `kldiv_ops` | full loop real/FP, actual safety, finite/typed witnesses and 3482-job build pass; 18 records integrated; source-domain/native/replay gaps remain |
+| `kldiv_triton` | full scoped real/FP and mixed-storage executions pass; wrapper allocation counterexample retained; 11 records integrated; native/replay gaps remain |
+| `ksoftmax_triton` | complete forward/backward public contracts pass in the 4,899-job root aggregate; forward selected-fp32 real finite IO covers all flags and absent/qk/bk modes with D>0, and four typed profiles have actual common successful final states; exact extended-value semantics and unwritten tails retained; forward 216 AST profiles/1512 mutations and backward 216/1728 pass; backward native matrix retains 628 compiled and 500 rejected cases; host/native refinement, additional storage and independent replay remain open |
 | `kv_cache_copy` | pending review |
 | `kv_cache_filling` | pending review |
 | `l2_norm_bwd` | local full real/FP proofs and typed numerical execution checked; independent replay pending |
 | `l2_norm_triton1` | local full real/FP proofs and typed numerical execution checked; independent replay pending |
 | `l2_norm_triton2` | local full forward/backward real and FP proofs checked; independent replay pending |
-| `layer_norm_fwd` | pending source import |
+| `layer_norm_fwd` | all 70 selected-fp32 modules pass: complete source/candidate FP equality and independent real/seven-output finite IO/frame across all flags; successful typed consistency witnesses enable all features in both normalization modes; host scalar ABI, fixed-width address bridges, additional storage admission and independent replay remain open |
 | `layer_norm_liger` | pending review |
 | `layer_norm_ops` | pending review |
 | `layer_norm_triton` | pending source import |
 | `layer_norm_welfold` | pending review |
 | `layernorm_fwd_triton` | pending review |
 | `lightning_attention` | pending review |
-| `llama_ff_triton` | pending review |
+| `llama_ff_triton` | source/proofs/typed numerical execution reviewed; coverage migrated; native-domain boundaries and replay pending |
 | `log_softmax` | eight public contracts and 38 preserved legacy declarations; 36 forward/216 backward profiles, complete independent real formulas/IO/frame and atom-free FP; arbitrary-padding executions checked; integrated build passed 3454 jobs, independent replay pending |
 | `logsumexp_fwd` | pending review |
 | `lora_expand_gemv` | pending review |
@@ -1132,7 +1892,7 @@ entry changed.
 | `matmul_kernel` | pending review |
 | `matmul_leakyrelu` | pending review |
 | `matmul_leakyrelu_fp8` | pending review |
-| `matmul_persistent_triton` | pending source import |
+| `matmul_persistent_triton` | pinned source imported; full fp16/E4M3 real IO/frame, zero-K memory preservation and typed structural FP contracts are recorded; source-mapped i32 and cached-coordinate domains are explicit; native refinement and independent replay remain pending |
 | `matmul_tma` | pending review |
 | `matmul_triton1` | pending review |
 | `matmul_triton2` | pending review |
@@ -1145,10 +1905,10 @@ entry changed.
 | `mixed_sparse_attention` | pending review |
 | `mul_exponent_compensator` | local real/FP proofs checked; explicit source-profile scope; final integration and independent replay pending |
 | `multinomial_sampling` | pending source import |
-| `nested_loops_processing` | pending review |
+| `nested_loops_processing` | full 24-store ordered-write IO/FP and 15-profile finite witness pass; 60-module closure and 8 records integrated; native widths/conversions/grid/replay pending |
 | `parallel_attention` | pending review |
 | `parallel_retention_attention` | pending review |
-| `pow_scalar_tensor` | pending review |
+| `pow_scalar_tensor` | 48 floating/int32 templates, full natural-stride IO/FP, negative-power and range-failure witnesses pass; 8 records integrated; signed addressing/base-output conversions/native/replay gaps remain |
 | `quant_transpose_kernel` | pending review |
 | `quantize_copy_kv` | pending review |
 | `quantize_global` | pending review |
@@ -1157,24 +1917,24 @@ entry changed.
 | `rbe_triton_transform` | pending review |
 | `relu_strided_buffer` | local real/FP proofs checked; explicit source-profile scope; final integration and independent replay pending |
 | `relu_triton_kernel` | local real/FP proofs checked; explicit source-profile scope; final integration and independent replay pending |
-| `reversed_cumsum` | pending review |
-| `reversed_cumsum_scalar` | pending review |
-| `rms_matmul_rbe` | pending review |
+| `reversed_cumsum` | complete original/candidate per-program real execution, independent padded suffix formula, tagged frame, finite IO and full typed FP relation now pass; 30-module closure and nonempty consistency witnesses checked; host layout/launch, native fixed-width arithmetic, IEEE refinement and independent replay remain pending |
+| `reversed_cumsum_scalar` | complete original/candidate per-program real execution, independent padded suffix formula, tagged frame, finite IO and full typed FP relation now pass; 30-module closure and nonempty consistency witnesses checked; host layout/launch, native fixed-width arithmetic, IEEE refinement and independent replay remain pending |
+| `rms_matmul_rbe` | callee/QKV half and byte IO, full typed execution and 38-head audit pass; 8 scoped records integrated; full source domain/native/replay pending |
 | `rms_norm_triton` | sixteen storage pairs; complete real/FP and numerical execution checked locally; independent replay pending |
-| `rms_rbe_matmul` | pending review |
-| `rmsnorm_fused` | pending review |
-| `rmsnorm_fused_llama` | pending review |
-| `rmsnorm_implementation` | pending review |
-| `rmsnorm_triton` | pending review |
+| `rms_rbe_matmul` | source/proofs/typed numerical execution reviewed; coverage migrated; native-domain/source-dependency gaps and replay pending |
+| `rmsnorm_fused` | 216-profile full-loop real IO/FP and 3457-job public build pass; 4 records integrated; independent replay pending |
+| `rmsnorm_fused_llama` | public build / 852-declaration audit pass; 5 records integrated; 216-profile finite IO witness; native/discrete/signed/IEEE/replay gaps remain |
+| `rmsnorm_implementation` | 3450-job public build and 894-declaration audit pass; 5 records integrated; all-profile finite IO and full typed frames; discrete/signed/native/IEEE/replay gaps remain |
+| `rmsnorm_triton` | 216-profile precision, full real IO/FP, finite/typed witnesses and 3448-job build pass; 4 records integrated; independent replay pending |
 | `rope_backward_transform` | pending review |
 | `rope_embedding` | pending review |
 | `rope_transform` | pending review |
-| `rotary_emb` | pending review |
+| `rotary_emb` | source/proofs/typed numerical execution reviewed; coverage migrated; native-domain/launch boundaries and replay pending |
 | `rotary_emb_nopad` | pending review |
 | `rotary_transform` | pending review |
 | `rotary_transform_ops` | pending review |
 | `rowwise_quantization_triton` | pending review |
-| `seeded_dropout` | pending source import |
+| `seeded_dropout` | 19-module source/real/FP checkpoint integrated; shared validation and independent replay pending |
 | `sgmv_expand_slice` | pending review |
 | `sin_computation` | three public contracts and all 24 typed-variant exact-real executions locally checked; 12 input/output profiles; integrated four-entry gate passed 3455 jobs, independent replay pending |
 | `sin_kernel` | three public contracts and all four typed-variant exact-real executions locally checked; two wrapper-correlated profiles; integrated four-entry gate passed 3455 jobs, independent replay pending |
@@ -1201,8 +1961,8 @@ entry changed.
 | `triton_linear_activation` | pending review |
 | `triton_matmul` | pending review |
 | `triton_mul2` | verified per-program: real + admitted FP |
-| `triton_softmax` | pending review |
-| `uniform_sampling` | pending source import |
+| `triton_softmax` | typed source, real IO/frame, FP equivalence and execution witnesses compiled locally; all 36 source AST views checked; native profile boundaries and independent replay remain |
+| `uniform_sampling` | complete public real/finite IO/frame and whole-state FP contracts pass for all six storage profiles; complete 23-statement typed success and same-engine partial-tail/wrap witness pass locally; final public witness integration, native FMA/scalar ABI refinement and independent replay remain open |
 | `var_len_copy` | pending review |
 | `vector_addition` | verified per-program: real + admitted FP |
 | `vector_addition_custom` | verified per-program: real + admitted FP |
@@ -5995,7 +6755,8 @@ Receipt: `Logs/comparator-check-pq1sfkt8`. Typed execution witnesses use an abst
 establish satisfiable nonempty executions, without claiming physical IEEE
 rounding. Host scheduling, races and fixed-width overflow remain outside scope.
 
-Current acceptance is **59 complete / 125 pending**. fifth_order_sph_harmonics
+Acceptance at this historical checkpoint was **59 complete / 125 pending**.
+The active worktree requires revalidation as recorded above. fifth_order_sph_harmonics
 is in development; attention_kernel_aligned remains user-deferred and the
 bgmv fp16 add_commute admission gap remains open. No aggregate all-pass claim
 is made.

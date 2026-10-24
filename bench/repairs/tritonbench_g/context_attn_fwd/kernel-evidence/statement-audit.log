@@ -1,0 +1,193 @@
+theorem VeriTile.Bench.Repairs.ContextAttnFwd.PublicKernel.shared_source : ∀ (p : Layout) (r : Regions) (scale : ℝ),
+  kernel p r VeriTile.Bench.TritonBenchG.ContextAttnFwd.Storage.fp32 scale =
+    VeriTile.Bench.TritonBenchG.ContextAttnFwd.Program.kernel p r
+      VeriTile.Bench.TritonBenchG.ContextAttnFwd.Storage.fp32 «false» scale :=
+KernelOnly.shared_source
+theorem VeriTile.Bench.Repairs.ContextAttnFwd.PublicKernel.correct_real : ∀ (c : Host.Call) (v : Checked.Views)
+  (A : VeriTile.Triton.FlatAlloc) (start sequence prompt : ℕ → ℤ),
+  Checked.checkInputs c v A.extent start sequence prompt = «true» →
+    ∀ (s : VeriTile.Triton.BlockState),
+      Geometry.Metadata c s →
+        FPSuccess.Separate c →
+          A.Disjoint →
+            (∀ rg ∉ A.regions, A.extent rg = 0) →
+              KernelScale.Bound c →
+                VeriTile.Spec.Real
+                  (∃ final,
+                    Nonempty
+                        ((VeriTile.Bench.TritonBenchG.ContextAttnFwd.Host.flatSource c.args c.regions A
+                              «false»).GridLaunchedOrdinary
+                          c.grid (A.flattenState s) final) ∧
+                      (∀ (idx : VeriTile.Triton.GridIndex (VeriTile.Bench.TritonBenchG.ContextAttnFwd.Host.grid c.args))
+                          (i :
+                            VeriTile.Bench.TritonBenchG.ContextAttnFwd.RealIO.Lane
+                              (VeriTile.Bench.TritonBenchG.ContextAttnFwd.Host.layout c.args)),
+                          VeriTile.Bench.TritonBenchG.ContextAttnFwd.Host.active c.args c.regions s idx i →
+                            final.readMem
+                                (VeriTile.Bench.TritonBenchG.ContextAttnFwd.Host.address c.args c.regions A s idx i).1
+                                (VeriTile.Bench.TritonBenchG.ContextAttnFwd.Host.address c.args c.regions A s idx i).2 =
+                              KernelOnly.mathematical c s idx i) ∧
+                        VeriTile.Triton.BlockState.WriteWithin
+                            (VeriTile.Bench.TritonBenchG.ContextAttnFwd.Host.writes c.args c.regions A s)
+                            (A.flattenState s) final ∧
+                          (∀ (rg : VeriTile.Triton.RegionName) (off : ℕ),
+                              c.regions.out ≠ rg →
+                                off < A.extent rg →
+                                  final.mem A.flat (A.addr rg off) = (A.flattenState s).mem A.flat (A.addr rg off)) ∧
+                            ∀ (b h row d : ℕ),
+                              b < c.batches →
+                                h < c.layout.heads →
+                                  row < c.length b →
+                                    d < c.layout.D →
+                                      ∃ idx i,
+                                        c.active idx i ∧
+                                          VeriTile.Bench.TritonBenchG.ContextAttnFwd.Formula.batch c.layout
+                                                (c.launchAt idx) =
+                                              b ∧
+                                            VeriTile.Bench.TritonBenchG.ContextAttnFwd.Formula.head c.layout
+                                                  (c.launchAt idx) =
+                                                h ∧
+                                              VeriTile.Bench.TritonBenchG.ContextAttnFwd.Formula.queryRow c.layout
+                                                    (c.launchAt idx) ↑i.1 =
+                                                  row ∧
+                                                ↑i.2.1 = d) :=
+KernelOnly.mathematical_real
+theorem VeriTile.Bench.Repairs.ContextAttnFwd.PublicKernel.correct_fp32 : ∀ (c : Host.Call) (v : Checked.Views)
+  (A : VeriTile.Triton.FlatAlloc) (B : Native.Bytes A.extent) (start sequence prompt : ℕ → ℤ),
+  Checked.checkInputs c v A.extent start sequence prompt = «true» →
+    ∀ (before : Physical.Memory),
+      Checked.MetadataObservation c B before start sequence prompt →
+        Checked.StorageBinding c v B →
+          Snapshot.LogicalRoles c →
+            FPSuccess.Separate c →
+              KernelScale.Bound c →
+                ∀ (ops : NativeGraph.ScalarOps) (out : CheckedTensor.Output v),
+                  (∃ (abi : Native.ABI c), MachineFacts c B before abi) ∧
+                    ∃ result,
+                      KernelOnly.run c B ops before = some result ∧
+                        FPSuccess.runGrid c (NativeGraph.backend (NativeSM90.plan c.layout.BM c.layout.D))
+                              (Returned.order c) (Snapshot.initial c B before) =
+                            some result.graph ∧
+                          result.graph.mem = (KernelOnly.nativeReference c B before).mem ∧
+                            (∀ (idx : VeriTile.Triton.GridIndex c.grid)
+                                (i : VeriTile.Triton.TileIndex [c.layout.BM, c.layout.D]),
+                                c.active idx i →
+                                  (VeriTile.Torch.FP32.logicalValue (CheckedTensor.read result.bytes) out.tensor ⋯
+                                        (CheckedTensor.flatIndex c idx i)).bits =
+                                    KernelOnly.nativeTarget c B ops before idx i) ∧
+                              (∀ (lane : Physical.Lane c),
+                                  Physical.active c lane →
+                                    result.bytes (Physical.address c B lane) =
+                                      Physical.byte (KernelOnly.nativeTarget c B ops before lane.1 lane.2.1) lane.2.2) ∧
+                                (∀ (a : ℕ),
+                                    (¬∃ lane, Physical.active c lane ∧ Physical.address c B lane = a) →
+                                      result.bytes a = before a) ∧
+                                  (∀ rg ∈ Physical.reads c,
+                                      ∀ off < A.extent rg,
+                                        ∀ (j : Fin 4),
+                                          result.bytes (B.base rg + 4 * off + ↑j) = before (B.base rg + 4 * off + ↑j)) ∧
+                                    (∀ (rg : VeriTile.Triton.RegionName) (off : ℕ),
+                                        ¬FPSuccess.writes c (Returned.order c) rg off →
+                                          result.graph.mem rg off = (Snapshot.initial c B before).mem rg off) ∧
+                                      (¬Returned.Needed c → result.bytes = before) :=
+KernelOnly.native_tensor
+theorem VeriTile.Bench.Repairs.ContextAttnFwd.PublicKernel.input_tensor : ∀ {extent : VeriTile.Triton.RegionBounds}
+  (c : Host.Call) (B : Native.Bytes extent) (m : Physical.Memory),
+  Snapshot.LogicalRoles c →
+    ∀ rg ∈ [c.regions.query, c.regions.key, c.regions.value, c.regions.out],
+      ∀ (input : CheckedTensor.Input c B rg),
+        ∀ i < input.tensor.metadata.numel,
+          VeriTile.Triton.FP.Structural.Cell.read VeriTile.Triton.TileDType.real
+              ((Snapshot.initial c B m).mem rg (input.offset i)) =
+            NativeGraph.Expr.leaf (VeriTile.Torch.FP32.logicalValue (CheckedTensor.read m) input.tensor ⋯ i).bits :=
+@KernelOnly.input_tensor
+def VeriTile.Bench.Repairs.ContextAttnFwd.KernelOnly.nativeTarget : {extent : VeriTile.Triton.RegionBounds} →
+  (c : Host.Call) →
+    Native.Bytes extent →
+      NativeGraph.ScalarOps →
+        Physical.Memory →
+          VeriTile.Triton.GridIndex c.grid → VeriTile.Triton.TileIndex [c.layout.BM, c.layout.D] → NativeGraph.Word :=
+fun {extent} c B ops before idx i =>
+  Physical.outputWord c ops (KernelOnly.nativeReference c B before) (idx, i, ⟨0, KernelOnly.nativeTarget._proof_2⟩)
+def VeriTile.Bench.Repairs.ContextAttnFwd.KernelOnly.mathematical : (c : Host.Call) →
+  VeriTile.Triton.BlockState →
+    VeriTile.Triton.GridIndex c.grid → VeriTile.Triton.TileIndex [c.layout.BM, c.layout.D] → ℝ :=
+fun c s idx i =>
+  VeriTile.Bench.TritonBenchG.ContextAttnFwd.RealIO.closedExpected c.layout (KernelScale.value c.args.q.dims)
+    (VeriTile.Bench.TritonBenchG.ContextAttnFwd.Host.launchOf c.args idx)
+    (VeriTile.Bench.TritonBenchG.ContextAttnFwd.Program.inputs s c.regions) i
+structure VeriTile.Bench.Repairs.ContextAttnFwd.NativeGraph.ScalarOps : Type
+number of parameters: 0
+fields:
+  VeriTile.Bench.Repairs.ContextAttnFwd.NativeGraph.ScalarOps.literal32 : ℝ → NativeGraph.Word
+  VeriTile.Bench.Repairs.ContextAttnFwd.NativeGraph.ScalarOps.add : NativeGraph.Word →
+      NativeGraph.Word → NativeGraph.Word
+  VeriTile.Bench.Repairs.ContextAttnFwd.NativeGraph.ScalarOps.sub : NativeGraph.Word →
+      NativeGraph.Word → NativeGraph.Word
+  VeriTile.Bench.Repairs.ContextAttnFwd.NativeGraph.ScalarOps.mul : NativeGraph.Word →
+      NativeGraph.Word → NativeGraph.Word
+  VeriTile.Bench.Repairs.ContextAttnFwd.NativeGraph.ScalarOps.div : NativeGraph.Word →
+      NativeGraph.Word → NativeGraph.Word
+  VeriTile.Bench.Repairs.ContextAttnFwd.NativeGraph.ScalarOps.max : NativeGraph.Word →
+      NativeGraph.Word → NativeGraph.Word
+  VeriTile.Bench.Repairs.ContextAttnFwd.NativeGraph.ScalarOps.exp2 : NativeGraph.Word → NativeGraph.Word
+  VeriTile.Bench.Repairs.ContextAttnFwd.NativeGraph.ScalarOps.fmaRN : NativeGraph.Word →
+      NativeGraph.Word → NativeGraph.Word → NativeGraph.Word
+  VeriTile.Bench.Repairs.ContextAttnFwd.NativeGraph.ScalarOps.wgmmaTF32 : (width : NativeGraph.MMAWidth) →
+      Fin 64 →
+        Fin width.columns →
+          (Fin 8 → NativeGraph.Word) → (Fin 8 → NativeGraph.Word) → Bool → NativeGraph.Word → NativeGraph.Word
+constructor:
+  VeriTile.Bench.Repairs.ContextAttnFwd.NativeGraph.ScalarOps.mk (literal32 : ℝ → NativeGraph.Word)
+    (add sub mul div max : NativeGraph.Word → NativeGraph.Word → NativeGraph.Word)
+    (exp2 : NativeGraph.Word → NativeGraph.Word)
+    (fmaRN : NativeGraph.Word → NativeGraph.Word → NativeGraph.Word → NativeGraph.Word)
+    (wgmmaTF32 :
+      (width : NativeGraph.MMAWidth) →
+        Fin 64 →
+          Fin width.columns →
+            (Fin 8 → NativeGraph.Word) → (Fin 8 → NativeGraph.Word) → Bool → NativeGraph.Word → NativeGraph.Word) :
+    NativeGraph.ScalarOps
+def VeriTile.Bench.Repairs.ContextAttnFwd.NativeSM90.plan : ℕ → ℕ → NativeGraph.Plan :=
+fun bm d =>
+  { matrixWidth := fun n => NativeSM90.widthFor (if bm = 64 ∧ 64 < d then n / 2 else n),
+    reverseMul := fun x a b x_1 => NativeSM90.reverseMul a b, reverseFMA := fun x x_1 x_2 x_3 => «false»,
+    sumTree := fun {x} x_1 x_2 x_3 owner => NativeSM90.treeFor (x.axisDim x_1) owner,
+    maxTree := fun {x} x_1 x_2 x_3 owner => NativeSM90.treeFor (x.axisDim x_1) owner, route := NativeSM90.route bm d }
+def VeriTile.Bench.Repairs.ContextAttnFwd.KernelScale.Bound : Host.Call → Prop :=
+fun c => Host.scale c = KernelScale.value c.args.q.dims
+VeriTile.Bench.Repairs.ContextAttnFwd.PublicKernel.shared_source: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.ContextAttnFwd.PublicKernel.correct_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.ContextAttnFwd.PublicKernel.correct_fp32: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.ContextAttnFwd.PublicKernel.input_tensor: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.ContextAttnFwd.KernelProfile.route_payload_independent: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.ContextAttnFwd.KernelProfile.operand_order_payload_independent: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.ContextAttnFwd.KernelProfile.accumulate_payload_independent: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.ContextAttnFwd.KernelProfile.pv_seed_always_live: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.ContextAttnFwd.KernelOnly.nativeTarget: definition does not reference [VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Triton.FP.Structural.run,
+ VeriTile.Bench.Repairs.ContextAttnFwd.FPSuccess.runGrid,
+ VeriTile.Bench.Repairs.ContextAttnFwd.kernel,
+ VeriTile.Bench.Repairs.ContextAttnFwd.KernelOnly.run,
+ VeriTile.Bench.Repairs.ContextAttnFwd.Returned.invoke] — non-circular ✓
+VeriTile.Bench.Repairs.ContextAttnFwd.KernelOnly.mathematical: definition does not reference [VeriTile.Triton.exec,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.ContextAttnFwd.kernel,
+ VeriTile.Bench.Repairs.ContextAttnFwd.KernelOnly.run,
+ VeriTile.Bench.Repairs.ContextAttnFwd.Returned.invoke] — non-circular ✓

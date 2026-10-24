@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "status": "NOT_RUN",
+  "mode": "run",
+  "numeric_acceptance": false,
+  "native_execution": false,
+  "launch_attempted": false,
+  "records": [],
+  "tools_sha256": {
+    "capture.py": "61affab7f5758a9e5931f2bf19a013553b371791be3d7b1c2cd762c0c54c4513",
+    "probe.py": "4140e7d7d0de0b3d6e50ddce8d84e24444e9d491f568fba5c325c58cb6571d0b",
+    "exponent_probe.py": "9cae65948d2313210754bd13aa270cbc3e5f169328217f965ad0a7d968441a04",
+    "native/original_jit.py": "9568f97b3443c35ada4a106b6f9b92a0051cd234789b510a1c7ae9e84ea9c5ba",
+    "native/receipt.json": "f3c087b179edb2b17065250f22717a7d5541f45e042c261e8554ed8ceb6aae45",
+    "native/input-binding.json": "43a67d856f5b9edbc97263f6a8f1a1f8ec401fc481288138c34015bf570e3cd5"
+  },
+  "environment_binding_complete": false,
+  "purpose": "CHARACTERIZATION of original complete Triton per-program block-LSE and a separate exponent diagnostic. No full-output numerical evaluator; no final-output mismatch inference. Host cross-block torch.logsumexp is outside the old accepted scope.",
+  "torch": "2.14.0+cu130",
+  "cuda_runtime": "13.0",
+  "cuda_available": false,
+  "reason": "CUDA unavailable; no original or diagnostic launch",
+  "tools_stable": true,
+  "artifacts_sha256": {},
+  "exit_code": 2
+}

@@ -169,6 +169,7 @@ theorem weaken {rules : Spec.Assumptions Nat} {lhs rhs : List Nat}
   | symm _ ih => exact .symm ih
   | trans _ _ ih₁ ih₂ => exact .trans ih₁ ih₂
   | frame beforeCode afterCode _ ih => exact .frame beforeCode afterCode ih
+  | strict certificate => exact .strict certificate
 theorem weakened (h : Spec.AcceptedAtom used) :
     Spec.Derivation ([used] ++ [unused]) [0] [1] :=
   weaken (step [used] used (by simp) h)

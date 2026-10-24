@@ -1,0 +1,26 @@
+{
+  "reviewer": "root",
+  "status": "exact_parsed_candidate_int16_bridge_review_pass_pending_integration",
+  "receipt_sha256": "56f578a45396e5d3c47e93a46f3a756b2add3bfc5ba0c3a71017f3f56c614c7b",
+  "dependency_inputs_verified": 172,
+  "compiled_modules_verified": 23,
+  "native_artifacts_verified": 34,
+  "public_reference_witness_byte_identical_to_previous": true,
+  "reference_audit": {
+    "source": "FP4ScaledInt16ReferenceAudit.lean",
+    "source_sha256": "564b97ecfadc1992b78d5f4d4f64eee97cd4ed1e3d36c8510445acce9b5e55a0",
+    "log": "fp4-scaled-int16-bridge-reference-audit.log",
+    "log_sha256": "0c792b4258a74f719d3940f6b740eeadd3822e7e1312743968f6ebfc0265c99a",
+    "noncircular_checks": 5
+  },
+  "findings": [
+    "Production source directly uses the parsed47-statement scaledCandidate with the corrected int16 frontend. Four whole-source/parsed-cast bridges close by rfl; the previous body.take/drop adaptation is removed. Public FPCorrect, independent reference and witnesses remain byte-identical to the earlier frozen candidate package.",
+    "Complete count/group/program/tail domain and arbitrary native-valid masked undef remain. ActiveBytes only types actually loaded packed bytes; there is no non-NaN, finite or exact-rounding law. A separate count%16=0 corollary cannot replace the main theorem.",
+    "Candidate-only: original pow(fp32,int16) still fails all5 offline profiles; the single explicit exponent-to-int32 repair passes5. Thirty-four native artifacts are hash-verified. This bridge does not repair the upstream Python or certify GPU values.",
+    "All256 software scale values, bit decoding, halfword signed arithmetic, fp32-to-bf16 narrowing and bf16 multiplication retain their explicit software semantics. Native powif, FTZ/NaN/casts/storage and physical index/launch bindings remain pending.",
+    "Floor-masked incomplete scale groups retain the source undef-dependent behavior: count17 yields active output32 equal one or two for legal undef127 or128. No artificial ceil mask or zero padding was introduced.",
+    "Five additional root dependency audits confirm reference/software definitions exclude the complete source and Structural.exec. Twenty-three module builds include nine unchanged unscaled dependencies and14 scaled modules."
+  ],
+  "native_execution": false,
+  "canonical_acceptance_updated": false
+}

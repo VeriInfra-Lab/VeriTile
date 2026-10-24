@@ -1,0 +1,10 @@
+{
+  "task": "embedding_triton_kernel",
+  "files": {
+    "bench/tritonbench_g/embedding_triton_kernel/embedding_triton_kernel.py": "5c9fc5962f839a407e338ed151901257ee45bfe019d85aa8f441b7febd9e5bb5",
+    "bench/tritonbench_g/embedding_triton_kernel/Correct.lean": "a8dfaf6e2e185a98672a1aff95c82b042610d30f242f1d4646caa915b07eabb9",
+    "bench/tritonbench_g/embedding_triton_kernel/FPEquiv.lean": "b9d2de3d2e828770314a0b1ec8c8b0b3a12c568c36fd36bb70c754728acfdd9b",
+    "bench/tritonbench_g/embedding_triton_kernel/Kernels.lean": "9307027c3b6c7f9da9b8e874a72fbaf0f785b797aebd3b8378107849e1936140",
+    "bench/tritonbench_g/embedding_triton_kernel/Proofs/RealIO.lean": "99dc5fb3f352090f4060f4e12310754b01412c3e7fa06f66e368e7168bdcfea1"
+  }
+}

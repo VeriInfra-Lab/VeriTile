@@ -7,7 +7,7 @@ import VeriTile.Meta.StatementAudit
 normalization count. They preserve the entire execution under their pointwise
 operand domains; matrix operations keep the same opaque backend. -/
 
-/-! HyperConnectionsDepth: contextual FP equivalence from the admitted scalar add_commute.
+/-! HyperConnectionsDepth: contextual FP equivalence from the shared strict FP32 add_commute.
 The scalar, zero-iteration source is unchanged. The actual residual
 and exp-weighted branch product must be finite at the final addition.
 The domain is evaluated at the actual rewrite site; experimental dimensions
@@ -36,8 +36,8 @@ def optimized (tau : ℝ) : Program :=
 
 /-- Under the finite-operand contract, every successful run is preserved,
 including all registers and memory; failed surrounding executions also agree. -/
-specification mhc_depth_equiv (tau : ℝ) (R : Rules) :
-    original tau ≡[R] optimized tau := by
+specification mhc_depth_equiv (tau : ℝ) :
+    original tau ≡[([] : Spec.Assumptions FP.GuardedFragment)] optimized tau := by
   equiv_decompose
   all_goals fp_prove
 
@@ -61,8 +61,8 @@ def matrixOptimizedProgram (S T D numIters : Nat) (tau : ℝ) : FP.ProfiledRewri
     kernel := matrixOptimized "res_mix" "branch_out" "h_post" "out" S T D numIters tau }
 
 /-- Contextual equivalence for every matrix dimension and iteration count. -/
-specification mhc_depth_matrix_equiv (S T D numIters : Nat) (tau : ℝ) (R : Rules) :
-    matrixOriginalProgram S T D numIters tau ≡[R] matrixOptimizedProgram S T D numIters tau := by
+specification mhc_depth_matrix_equiv (S T D numIters : Nat) (tau : ℝ) :
+    matrixOriginalProgram S T D numIters tau ≡[([] : Spec.Assumptions FP.GuardedFragment)] matrixOptimizedProgram S T D numIters tau := by
   equiv_decompose
   all_goals fp_prove
 

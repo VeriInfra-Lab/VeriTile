@@ -1,3 +1,10 @@
+/-
+Source-audit target: _rope_embedding
+Source-audit Lean: fastRope%
+Source-audit args: inputTy=tl.float32, cosTy=tl.float32, sinTy=tl.float32, version=original
+Selected fp32 storage view; other storage profiles require separate comparison.
+Both backward-pass branches and the full head-group loop remain selected.
+-/
 import VeriTile.Triton.DSL
 import VeriTile.Triton.Source
 /-! Source: fast_rope_embedding.py, _rope_embedding.

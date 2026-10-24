@@ -1,0 +1,9 @@
+VeriTile.Bench.TritonBenchG.RotaryEmb.HostGrid.witness_domain: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.RotaryEmb.HostGrid.witness_exists: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.RotaryEmb.HostGrid.witness_grid_nonempty: axiom footprint ⊆ standard base ✓  ([Classical.choice])
+VeriTile.Bench.TritonBenchG.RotaryEmb.HostGrid.witness_k_extra_heads: axiom footprint ⊆ standard base ✓  ([Classical.choice])
+VeriTile.Bench.TritonBenchG.RotaryEmb.HostGrid.witness_odd_partial_tail: axiom footprint ⊆ standard base ✓  ([Classical.choice])

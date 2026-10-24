@@ -1,0 +1,80 @@
+{
+  "source_sha256": "4537e22452bcb9df7844521498b61232772d7ae44e9aa3220c38c2b341f2152c",
+  "triton_version": "3.7.1",
+  "target": {
+    "backend": "cuda",
+    "arch": 90,
+    "warp_size": 32
+  },
+  "scope": "Unchanged AST of both wrapper storage/block profiles. Offline compile only, no GPU execution, global race proof or IEEE numerical claim. Runtime dimensions and strides remain signed i32; NUM_SMS=132 is one native specialization.",
+  "results": [
+    {
+      "dtype": "fp16",
+      "constexprs": {
+        "BLOCK_SIZE_M": 128,
+        "BLOCK_SIZE_N": 256,
+        "BLOCK_SIZE_K": 64,
+        "GROUP_SIZE_M": 8,
+        "NUM_SMS": 132
+      },
+      "signature": {
+        "a_ptr": "*fp16",
+        "b_ptr": "*fp16",
+        "c_ptr": "*fp16",
+        "M": "i32",
+        "N": "i32",
+        "K": "i32",
+        "stride_am": "i32",
+        "stride_ak": "i32",
+        "stride_bk": "i32",
+        "stride_bn": "i32",
+        "stride_cm": "i32",
+        "stride_cn": "i32"
+      },
+      "num_warps": 8,
+      "num_stages": 3,
+      "status": "compiled",
+      "ttir_sha256": "81f218c089d240507217b940bd1da5700f39ad8d70295d22cdb874c7e64ba0d4",
+      "ptx_bytes": 107590,
+      "dot_lines": [
+        "%accumulator_50 = tt.dot %a_45, %b_49, %accumulator_14, inputPrecision = tf32 : tensor<128x64xf16> * tensor<64x256xf16> -> tensor<128x256xf32> loc(#loc189)"
+      ],
+      "signed_minus_one": true,
+      "loop_present": true
+    },
+    {
+      "dtype": "fp8e4nv",
+      "constexprs": {
+        "BLOCK_SIZE_M": 128,
+        "BLOCK_SIZE_N": 256,
+        "BLOCK_SIZE_K": 128,
+        "GROUP_SIZE_M": 8,
+        "NUM_SMS": 132
+      },
+      "signature": {
+        "a_ptr": "*fp8e4nv",
+        "b_ptr": "*fp8e4nv",
+        "c_ptr": "*fp8e4nv",
+        "M": "i32",
+        "N": "i32",
+        "K": "i32",
+        "stride_am": "i32",
+        "stride_ak": "i32",
+        "stride_bk": "i32",
+        "stride_bn": "i32",
+        "stride_cm": "i32",
+        "stride_cn": "i32"
+      },
+      "num_warps": 8,
+      "num_stages": 4,
+      "status": "compiled",
+      "ttir_sha256": "4c5fabddf97a132349aef1afca0b6534dc5b5a4d54bb5643d074c9893778a1f9",
+      "ptx_bytes": 167401,
+      "dot_lines": [
+        "%accumulator_47 = tt.dot %a_42, %b_46, %accumulator_11, inputPrecision = tf32 {maxNumImpreciseAcc = 1073741824 : i32} : tensor<128x128xf8E4M3FN> * tensor<128x256xf8E4M3FN> -> tensor<128x256xf32> loc(#loc184)"
+      ],
+      "signed_minus_one": true,
+      "loop_present": true
+    }
+  ]
+}

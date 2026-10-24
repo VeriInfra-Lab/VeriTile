@@ -71,6 +71,15 @@ def forwardOutput (logTarget : Bool) (prediction target : Nat → ℝ)
 only one scalar per row. This concrete arithmetic fact guards against row-sum substitution. -/
 theorem multiblock_footprint : outputCount 3 2 1 = 2 := by decide
 
+/-- With one row and 16385 columns, the wrapper selects its capped block width
+16384 but allocates one reduced-output cell. The kernel writes two cells, so
+the second write cannot satisfy that allocation's bound. This is a source
+counterexample, not a claim that the wrapper is safe under the full contract. -/
+theorem wrapper_single_row_allocation_insufficient :
+    outputCount 16385 16384 1 = 2 ∧
+    ¬ (∀ k : Fin (outputCount 16385 16384 1), k.val < 1) := by
+  decide
+
 /-- Zero-padding produces different per-chunk results in this nonempty example. -/
 theorem multiblock_values :
     forwardOutput Bool.true (fun _ ↦ 2) (fun _ ↦ 0) 3 2 1 0 = -4 ∧

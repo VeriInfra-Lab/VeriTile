@@ -1,3 +1,4 @@
+import VeriTile.Triton.Semantics.ProgramRewrite
 import bench.tritonbench_g.softmax_optimize.Proofs.SourceShape
 import bench.tritonbench_g.softmax_optimize.Proofs.LegacyReal
 
@@ -23,11 +24,18 @@ def outputPointer (Y : RegionName) (B : Nat) : Stmt :=
   .assign .ptr [B] "output_ptrs"
     (.ptrAdd .scalarL (.ptrBase Y) (.castIntToNat (.ref .int [B] "offset")))
 
+/-- The dtype-erased source retains its mathematical maximum as max2. -/
+def sourceMaximum (B : Nat) : Stmt :=
+  .assign .real [B] "new_m"
+    (.max2 (.consSame .nil) (.ref .real [B] "m") (.ref .real [B] "inp"))
+
 def inputFull (X : RegionName) (N B : Nat) : List Stmt :=
-  indexPrefix X N B ++ (loopAbody X N B).drop 3
+  indexPrefix X N B ++ ((loopAbody X N B).drop 3).take 1 ++
+    [sourceMaximum B] ++ (loopAbody X N B).drop 5
 
 def inputTail (X : RegionName) (N B : Nat) : List Stmt :=
-  indexPrefix X N B ++ [maskStatement N B] ++ (loopBbody X N B).drop 4
+  indexPrefix X N B ++ [maskStatement N B] ++ ((loopBbody X N B).drop 4).take 1 ++
+    [sourceMaximum B] ++ (loopBbody X N B).drop 6
 
 def outputFull (Y X : RegionName) (N B : Nat) : List Stmt :=
   indexPrefix X N B ++ ((loopApass2body Y X N B).drop 3).take 3 ++
@@ -68,6 +76,42 @@ theorem source_body (Y X : RegionName) (M N B : Nat) :
     FloatDType.toTileDType, ComputeDType.eraseDType, IntegralDType.eraseDType,
     eq_mpr_eq_cast, eq_mp_eq_cast, cast_eq]
   rfl
+
+
+private theorem maximum_statement_step (B : Nat) (rest : List Stmt) (s : BlockState) :
+    stepStmts (sourceMaximum B :: rest) s =
+    stepStmts (.assign .real [B] "new_m"
+      (.maximumFloat .real (.consSame .nil) (.ref .real [B] "m") (.ref .real [B] "inp")) :: rest) s := by
+  simp only [sourceMaximum, stepStmts, stepStmt]
+  erw [evalOp_maximumFloat_real]
+
+private theorem maximum_after_prefix_step (B : Nat) (pre rest : List Stmt) (s : BlockState) :
+    stepStmts (pre ++ sourceMaximum B :: rest) s =
+    stepStmts (pre ++ .assign .real [B] "new_m"
+      (.maximumFloat .real (.consSame .nil) (.ref .real [B] "m") (.ref .real [B] "inp")) :: rest) s := by
+  rw [ProgramRewrite.append, ProgramRewrite.append]
+  congr 1
+  funext t
+  exact maximum_statement_step B rest t
+
+/-- Compatibility is restricted to exact WithBot Real execution. -/
+theorem input_full_math_step (X : RegionName) (N B : Nat) (s : BlockState) :
+    stepStmts (inputFull X N B) s =
+      stepStmts (indexPrefix X N B ++ (loopAbody X N B).drop 3) s := by
+  simpa only [inputFull, loopAbody, List.drop, List.take, List.append_assoc,
+    List.cons_append, List.nil_append] using
+    maximum_after_prefix_step B
+      (indexPrefix X N B ++ ((loopAbody X N B).drop 3).take 1)
+      ((loopAbody X N B).drop 5) s
+
+theorem input_tail_math_step (X : RegionName) (N B : Nat) (s : BlockState) :
+    stepStmts (inputTail X N B) s =
+      stepStmts (indexPrefix X N B ++ [maskStatement N B] ++ (loopBbody X N B).drop 4) s := by
+  simpa only [inputTail, loopBbody, List.drop, List.take, List.append_assoc,
+    List.cons_append, List.nil_append] using
+    maximum_after_prefix_step B
+      (indexPrefix X N B ++ [maskStatement N B] ++ ((loopBbody X N B).drop 4).take 1)
+      ((loopBbody X N B).drop 6) s
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

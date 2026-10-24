@@ -1,0 +1,17 @@
+{
+  "command": [
+    "/usr/local/bin/python",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "bench/tests",
+    "-p",
+    "test_numerical_queue*.py"
+  ],
+  "exit_code": 0,
+  "seconds": 0.149,
+  "log": "storage-and-scope-regressions.log",
+  "log_sha256": "00accada6931f5035978ba4331e69340fb157a644ebdd38e916da5c757f7bc7b"
+}

@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "reviewer": "root",
+  "status": "passed_source_reuse_and_diagnostic_handoff_only",
+  "receipt_sha256": "279a023e210934c567af022c5812d8b6d62e75aeb69ecfb6ae267ddcf05cbc4a",
+  "semantic_review_sha256": "ae2c5adfeecad4a8f1b5b54d180ba6b91dd61a375f28eaf4c27ad16abfc0e7f5",
+  "reviewed_input_sha256": {
+    "bench/tritonbench_g/token_softmax_llama/Proofs/ActualSource.lean": "c2509d9af3430cf2e323a6dd543243f83088f1adcac023ce39f90cab0f6eb665",
+    "bench/tritonbench_g/token_softmax_llama/Proofs/ExpBindingGap.lean": "0298b19b8c3ac65b2960ce9c42706a7ea9ba0a2be570c489159a3c21ade0f2d2"
+  },
+  "native_execution": false,
+  "classification_upgrade": false,
+  "public_specifications_added": 0
+}

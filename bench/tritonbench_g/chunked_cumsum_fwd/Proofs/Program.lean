@@ -76,7 +76,7 @@ def softplusOp (p : Layout) : Op .real [p.BH,p.BC] :=
   .where (.le .real .scalarR (dtOp p) (.const 20))
     (.log (.add .real .scalarL (.const 1) (.exp (dtOp p)))) (dtOp p)
 def lowerClamp (p : Layout) (lower : ℝ) : Op .real [p.BH,p.BC] :=
-  .where (.gt .real .scalarR (dtOp p) (.const lower)) (dtOp p) (.broadcast (.const lower) [p.BH,p.BC])
+  .max2 .scalarR (dtOp p) (.const lower)
 def clamp (p : Layout) (lower : ℝ) (upper : UpperBound) : Op .real [p.BH,p.BC] :=
   match upper with
   | .finite hi => .where (.lt .real .scalarR (lowerClamp p lower) (.const hi))
@@ -149,7 +149,7 @@ theorem source_body :
     VeriTile.Triton.eraseDType,FloatDType.toTileDType]
   all_goals simp only [ComparableDType.eraseDType, eq_mpr_eq_cast, eq_mp_eq_cast, cast_eq]
   all_goals simp [body,initialization,preparation,accumulation,storeDt,storeSum,
-    headOp,columnOp,headMask,mask,inputMask,outputMask,dtOp,zero,offset,dtOffset,
+    NumericDType.eraseDType,headOp,columnOp,headMask,mask,inputMask,outputMask,dtOp,zero,offset,dtOffset,
     pointer,remaining,limit,loadDt,loadBias,addBias,softplusOp,lowerClamp,clamp,loadRate,product]
   all_goals norm_num
 end

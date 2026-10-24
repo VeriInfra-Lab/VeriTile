@@ -64,11 +64,11 @@ theorem fused_add_mul_activation_kernel_correct
       have hin := h_in i (by simpa [fusedActivationOffset] using hi)
       have hb := h_bias i (by simpa [fusedActivationOffset] using hi)
       simp [fusedActivationOffset] at hx hin hb
-      by_cases hlt : multiplier * inputs i + xs i + biases i < 0
-      · simp [hi, fusedActivationSpec, fusedActivationInput, hx, hin, hb,
-          ComparableDType.gt]
-      · simp [hi, fusedActivationSpec, fusedActivationInput, hx, hin, hb,
-          ComparableDType.gt]
+      simp [hi, fusedActivationSpec, fusedActivationInput, hx, hin, hb, ComparableDType.gt]
+      congr 1
+      split_ifs with h
+      · exact max_eq_left (le_of_lt h)
+      · exact max_eq_right (le_of_not_gt h)
     · simp [hi]
   · simp [exec, fused_add_mul_activation_kernel, stepStmts, stepStmt, evalOp.eq_def,
           tile_elementwise] at hExec

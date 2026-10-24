@@ -1,0 +1,119 @@
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Forward.lean:42:10: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  RealForwardInner.expected (setup M 1 p s) X p.1 N n
+in the target expression
+  t.readMem Y (p.1 * N + n) =
+    RealForwardInner.expected
+      { mem := s.mem, regs := fun x x_1 x_2 => none, pids := fun a => if a = 0 then p.1 else if a = 1 then p.2 else 0,
+        undef := s.undef, numPids := fun a => if a = 0 then M else if a = 1 then 1 else 1 }
+      X p.1 N n
+
+case refine_2
+input output : Storage
+base : BlockState
+Y X : RegionName
+M N B : ℕ
+one : Bool
+h : RealForwardInner.ExecutionDomain one X Y N B
+hXY : X ≠ Y
+ps : List Program
+schedule : Schedule M 1 ps
+F : Program → WriteFootprint := fun p => RealForwardInner.outputFootprint Y p.1 N
+val : MemCellAddr → ℝ := forwardInnerValue base X N
+p : Program
+s : BlockState
+hs : Preserved Y base s
+t : BlockState
+he : exec (softmax_kernel_inner input output Y X M N B one).eraseDType.toAlgKernel (setup M 1 p s) = some t
+hframe : BlockState.WriteWithin (RealForwardInner.outputFootprint Y ((setup M 1 p s).pids 0) N) (setup M 1 p s) t
+hvalue :
+  ∀ n < N,
+    t.readMem Y ((setup M 1 p s).pids 0 * N + n) =
+      RealForwardInner.expected (setup M 1 p s) X ((setup M 1 p s).pids 0) N n
+left✝¹ : t.pids = (setup M 1 p s).pids
+left✝ : t.numPids = (setup M 1 p s).numPids
+hundef : t.undef = (setup M 1 p s).undef
+a : MemCellAddr
+hy : a.1 = Y
+n : ℕ
+hn : n < N
+ha : a.2 = p.1 * N + n
+got :
+  t.readMem Y (p.1 * N + n) =
+    RealForwardInner.expected
+      { mem := s.mem, regs := fun x x_1 x_2 => none, pids := fun a => if a = 0 then p.1 else if a = 1 then p.2 else 0,
+        undef := s.undef, numPids := fun a => if a = 0 then M else if a = 1 then 1 else 1 }
+      X p.1 N n
+transport : RealForwardInner.expected (setup M 1 p s) X p.1 N n = RealForwardInner.expected base X p.1 N n
+⊢ t.readMem a.1 a.2 = val a
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Forward.lean:85:10: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  RealForwardNonInner.expected (setup M (RealAddress.rounds K C) p s) X p.1 N K n (p.2 * C + k)
+in the target expression
+  t.readMem Y (p.1 * N * K + n * K + (p.2 * C + k)) =
+    RealForwardNonInner.expected
+      { mem := s.mem, regs := fun x x_1 x_2 => none, pids := fun a => if a = 0 then p.1 else if a = 1 then p.2 else 0,
+        undef := s.undef, numPids := fun a => if a = 0 then M else if a = 1 then RealAddress.rounds K C else 1 }
+      X p.1 N K n (p.2 * C + k)
+
+case refine_2
+input output : Storage
+base : BlockState
+Y X : RegionName
+M N K B C : ℕ
+one : Bool
+h : RealForwardNonInner.ExecutionDomain one X Y N B
+hXY : X ≠ Y
+hC : 0 < C
+ps : List Program
+schedule : Schedule M (RealAddress.rounds K C) ps
+F : Program → WriteFootprint := fun p => RealForwardNonInner.outputFootprint Y p.1 N K (p.2 * C) C
+val : MemCellAddr → ℝ := forwardNonInnerValue base X N K
+p : Program
+s : BlockState
+hs : Preserved Y base s
+t : BlockState
+he :
+  exec (softmax_kernel_non_inner input output Y X M N K B C one).eraseDType.toAlgKernel
+      (setup M (RealAddress.rounds K C) p s) =
+    some t
+hframe :
+  BlockState.WriteWithin
+    (RealForwardNonInner.outputFootprint Y ((setup M (RealAddress.rounds K C) p s).pids 0) N K
+      ((setup M (RealAddress.rounds K C) p s).pids 1 * C) C)
+    (setup M (RealAddress.rounds K C) p s) t
+hvalue :
+  ∀ (n k : ℕ),
+    n < N →
+      k < C →
+        (setup M (RealAddress.rounds K C) p s).pids 1 * C + k < K →
+          t.readMem Y
+              ((setup M (RealAddress.rounds K C) p s).pids 0 * N * K + n * K +
+                ((setup M (RealAddress.rounds K C) p s).pids 1 * C + k)) =
+            RealForwardNonInner.expected (setup M (RealAddress.rounds K C) p s) X
+              ((setup M (RealAddress.rounds K C) p s).pids 0) N K n
+              ((setup M (RealAddress.rounds K C) p s).pids 1 * C + k)
+left✝¹ : t.pids = (setup M (RealAddress.rounds K C) p s).pids
+left✝ : t.numPids = (setup M (RealAddress.rounds K C) p s).numPids
+hundef : t.undef = (setup M (RealAddress.rounds K C) p s).undef
+a : MemCellAddr
+hy : a.1 = Y
+n k : ℕ
+hn : n < N
+hk : k < C
+hK : p.2 * C + k < K
+ha : a.2 = p.1 * N * K + n * K + (p.2 * C + k)
+got :
+  t.readMem Y (p.1 * N * K + n * K + (p.2 * C + k)) =
+    RealForwardNonInner.expected
+      { mem := s.mem, regs := fun x x_1 x_2 => none, pids := fun a => if a = 0 then p.1 else if a = 1 then p.2 else 0,
+        undef := s.undef, numPids := fun a => if a = 0 then M else if a = 1 then RealAddress.rounds K C else 1 }
+      X p.1 N K n (p.2 * C + k)
+transport :
+  RealForwardNonInner.expected (setup M (RealAddress.rounds K C) p s) X p.1 N K n (p.2 * C + k) =
+    RealForwardNonInner.expected base X p.1 N K n (p.2 * C + k)
+⊢ t.readMem a.1 a.2 = val a
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Forward.lean:102:0: error: VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.forward_inner_grid: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Forward.lean:103:0: error: VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.forward_noninner_grid: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.forwardInnerValue: definition does not reference [VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.run,
+ VeriTile.Triton.exec] — non-circular ✓
+VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.forwardNonInnerValue: definition does not reference [VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.run,
+ VeriTile.Triton.exec] — non-circular ✓

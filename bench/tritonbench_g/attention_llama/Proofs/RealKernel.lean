@@ -1,3 +1,4 @@
+import VeriTile.Triton.Math.MaximumProjection
 import VeriTile.Triton
 import VeriTile.Examples.FlashAttention1
 import VeriTile.Examples.AttentionForwardClosedForm
@@ -310,11 +311,7 @@ def alCausalWhereStmt (SP BM BN : Nat) : Stmt :=
 `acc += p·v`, the `l_prev`/`m_prev` carries, and the two pointer advances. `carryFirst` selects the candidate's l_curr operand order. -/
 def alLoopTailG (skn svk N_CTX BM BN BD : Nat) (carryFirst : Bool := Bool.false) : List Stmt :=
   [ Stmt.assign .real [BM] "m_curr"
-      (Op.where
-        (Op.gt .real Broadcast.nil.consSame
-          (Op.reduceMax (⟨1, by simp⟩ : Fin [BM, BN].length) Bool.false (Op.ref .real [BM, BN] "qk"))
-          (Op.ref .real [BM] "m_prev"))
-        (Op.reduceMax (⟨1, by simp⟩ : Fin [BM, BN].length) Bool.false (Op.ref .real [BM, BN] "qk"))
+      (Op.maximumFloat .real (Broadcast.consSame Broadcast.nil) (Op.reduceMax (⟨1, by simp⟩ : Fin [BM, BN].length) Bool.false (Op.ref .real [BM, BN] "qk"))
         (Op.ref .real [BM] "m_prev")),
     Stmt.assign .real [BM] "l_prev"
       (Op.mul .real Broadcast.nil.consSame (Op.ref .real [BM] "l_prev")
@@ -1071,8 +1068,8 @@ theorem al_loopTail_steps (skn svk N_CTX BM BN BD SN : Nat) (sin : BlockState)
   refine ⟨rmaxT, hrm, ?_⟩
   simp only [alLoopTailG, Bool.false_eq_true, ↓reduceIte]
   -- T1: m_curr = maximum(max(qk,1), m_prev)
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some
-    (al_mij_eval _ BM BN mtile qkT rmaxT hmp hqk hrm))]
+  erw [stepStmts.cons_some (stepStmt_assign_eq_some
+    (evalOp_maximumFloat_real_of_where (al_mij_eval _ BM BN mtile qkT rmaxT hmp hqk hrm)))]
   -- T2: l_prev *= exp(m_prev - m_curr)
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (al_alpha_eval _ BM ltile mtile mcurrT (by simp [hlp]) (by simp [hmp]) (by simp [hmc])))]

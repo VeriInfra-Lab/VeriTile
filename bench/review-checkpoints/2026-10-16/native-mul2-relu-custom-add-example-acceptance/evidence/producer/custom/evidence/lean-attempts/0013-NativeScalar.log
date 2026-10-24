@@ -1,0 +1,9 @@
+VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native.scalarResult: definition does not reference [VeriTile.Bench.TritonBenchG.VectorAddition.TypedHost.execute,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Finite.runLive,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Finite.runLoaded] — non-circular ✓
+VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native.scalar_defined_correspondence: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native.scalar_logical_refinement: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

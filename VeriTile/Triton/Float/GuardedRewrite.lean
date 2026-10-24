@@ -2,7 +2,8 @@ import VeriTile.Triton.Source
 import VeriTile.Meta.Specification
 import VeriTile.Triton.Float.ScalarArithmeticLaws
 
-/-! Contextual fp32 rewrites under the domains of the admitted scalar atoms.
+/-! Contextual fp32 rewrites using strict scalar certificates in the fixed model.
+The original scalar domains remain explicit, independently of empirical rules.
 The domain names the actual expressions at their program point, including
 intermediate products and exponentials. Shapes remain symbolic.
 
@@ -70,9 +71,10 @@ def Equivalent (R : Spec.Assumptions GuardedFragment) (lhs rhs : Program) : Prop
 
 instance : Spec.ProgramSyntax Program where
   Statement := GuardedFragment
+  theory := Guarded.fp32Theory
   Signature := (List RegionName × List RegionName) × List Site
   signature p := ((p.kernel.inputs, p.kernel.outputs), p.domain)
-  body p := [⟨[], p.kernel.surfaceBody⟩]
+  body p := [⟨[], p.kernel.surfaceBody, .real, none⟩]
   structural := some (fun _ _ => False)
   numerical := Equivalent
   sameContext := fun lhs rhs => lhs = rhs
@@ -93,8 +95,8 @@ private theorem eval_mul {α : Type} [Inhabited α] (M : Algebra α)
         (Structural.evalOp M p y s).bind fun vy =>
           some (bop (M.binary p .real .mul) bc vx vy)) := rfl
 
-private theorem assignment_add_commute {α : Type} [Inhabited α] (R : ScalarArithmetic.Rules)
-    (M : Algebra α) (D : Domain α) (hM : Models R.assumptions M D)
+private theorem assignment_add_commute {α : Type} [Inhabited α] (R : Spec.Assumptions GuardedFragment)
+    (M : Algebra α) (D : Domain α) (hM : Models R M D)
     (s : State α) (out : RegName) (a b : Op .real shape)
     (hd : ∀ va vb, Structural.evalOp M (some .fp32) a s = some va →
       Structural.evalOp M (some .fp32) b s = some vb →
@@ -110,12 +112,12 @@ private theorem assignment_add_commute {α : Type} [Inhabited α] (R : ScalarAri
   apply congrArg (fun v => some (s.setReg out .real shape v))
   funext i
   simp only [bop, sameShape_left, sameShape_right]
-  exact ScalarArithmetic.add_comm R M D hM s _ _ (hva i) (hvb i)
+  exact ScalarArithmetic.add_comm_strict M D hM s _ _ (hva i) (hvb i)
 
 /-- Lift guarded add commutation through the unchanged prefix and suffix.
-Only this scalar atom is consumed, at the specified actual operands. -/
-theorem add_commute {α : Type} [Inhabited α] (R : ScalarArithmetic.Rules)
-    (M : Algebra α) (D : Domain α) (hM : Models R.assumptions M D)
+The strict scalar certificate applies to the specified actual operands. -/
+theorem add_commute {α : Type} [Inhabited α] (R : Spec.Assumptions GuardedFragment)
+    (M : Algebra α) (D : Domain α) (hM : Models R M D)
     (s : State α) (site : Site) (out : RegName) (after : List ComputeStmt)
     (hd : site.Holds M D s) :
     run M (site.before ++ assignment .add out site.left site.right :: after) s =
@@ -127,8 +129,8 @@ theorem add_commute {α : Type} [Inhabited α] (R : ScalarArithmetic.Rules)
     simp only [Option.bind_some, run]
     rw [assignment_add_commute R M D hM t out site.left site.right (hd t hp)]
 
-private theorem assignment_mul_commute {α : Type} [Inhabited α] (R : ScalarArithmetic.Rules)
-    (M : Algebra α) (D : Domain α) (hM : Models R.assumptions M D)
+private theorem assignment_mul_commute {α : Type} [Inhabited α] (R : Spec.Assumptions GuardedFragment)
+    (M : Algebra α) (D : Domain α) (hM : Models R M D)
     (s : State α) (out : RegName) (a b : Op .real shape)
     (hd : ∀ va vb, Structural.evalOp M (some .fp32) a s = some va →
       Structural.evalOp M (some .fp32) b s = some vb →
@@ -144,12 +146,12 @@ private theorem assignment_mul_commute {α : Type} [Inhabited α] (R : ScalarAri
   apply congrArg (fun v => some (s.setReg out .real shape v))
   funext i
   simp only [bop, sameShape_left, sameShape_right]
-  exact ScalarArithmetic.mul_comm R M D hM s _ _ (hva i) (hvb i)
+  exact ScalarArithmetic.mul_comm_strict M D hM s _ _ (hva i) (hvb i)
 
 /-- Lift guarded mul commutation through the unchanged prefix and suffix.
-Only this scalar atom is consumed, at the specified actual operands. -/
-theorem mul_commute {α : Type} [Inhabited α] (R : ScalarArithmetic.Rules)
-    (M : Algebra α) (D : Domain α) (hM : Models R.assumptions M D)
+The strict scalar certificate applies to the specified actual operands. -/
+theorem mul_commute {α : Type} [Inhabited α] (R : Spec.Assumptions GuardedFragment)
+    (M : Algebra α) (D : Domain α) (hM : Models R M D)
     (s : State α) (site : Site) (out : RegName) (after : List ComputeStmt)
     (hd : site.Holds M D s) :
     run M (site.before ++ assignment .mul out site.left site.right :: after) s =
@@ -167,16 +169,16 @@ def Contextual {α : Type} [Inhabited α] (M : Algebra α) (s : State α)
   run M (before ++ lhs :: after) s = run M (before ++ rhs :: after) s
 
 @[spec_rule] theorem contextual_add_commute {α : Type} [Inhabited α]
-    (R : ScalarArithmetic.Rules) (M : Algebra α) (D : Domain α)
-    (hM : Models R.assumptions M D) (s : State α) (before after : List ComputeStmt)
+    (R : Spec.Assumptions GuardedFragment) (M : Algebra α) (D : Domain α)
+    (hM : Models R M D) (s : State α) (before after : List ComputeStmt)
     (out : RegName) (a b : Op .real shape)
     (hd : ({ before := before, shape := shape, left := a, right := b } : Site).Holds M D s) :
     Contextual M s before after (assignment .add out a b) (assignment .add out b a) :=
   add_commute R M D hM s ⟨before, shape, a, b⟩ out after hd
 
 @[spec_rule] theorem contextual_mul_commute {α : Type} [Inhabited α]
-    (R : ScalarArithmetic.Rules) (M : Algebra α) (D : Domain α)
-    (hM : Models R.assumptions M D) (s : State α) (before after : List ComputeStmt)
+    (R : Spec.Assumptions GuardedFragment) (M : Algebra α) (D : Domain α)
+    (hM : Models R M D) (s : State α) (before after : List ComputeStmt)
     (out : RegName) (a b : Op .real shape)
     (hd : ({ before := before, shape := shape, left := a, right := b } : Site).Holds M D s) :
     Contextual M s before after (assignment .mul out a b) (assignment .mul out b a) :=

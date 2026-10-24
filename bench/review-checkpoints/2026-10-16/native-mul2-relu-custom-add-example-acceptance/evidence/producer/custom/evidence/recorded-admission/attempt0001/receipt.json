@@ -1,0 +1,21 @@
+{
+  "status": "failed",
+  "exact_pairs_checked": 484,
+  "native_records_sha256": "f09515e941568ad58a418dd44d4d28fe692d97bd01acae9a2473e7106be53f2c",
+  "native_receipt_sha256": "3e0ef974c6647035fd810643e5b5911c0d65a9ffa86e4c48c1a7ff28056c8438",
+  "source_sha256": "91894755da7f71a9351c4c5eacfdf1caebe0fb5a44d9e2377489897f2c9b9afa",
+  "command": [
+    "/tmp/veritile-lean-toolchain/bin/lean",
+    "--root=/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission",
+    "/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.lean",
+    "-o",
+    "/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/recorded-admission/Matrix.olean"
+  ],
+  "exit_code": 1,
+  "seconds": 3.695,
+  "log_sha256": "a42b748c640351a0f02a9380f5082eca1186d8a8b8ff35f4f5339490992f4675",
+  "artifacts": {
+    "Matrix.lean": "91894755da7f71a9351c4c5eacfdf1caebe0fb5a44d9e2377489897f2c9b9afa",
+    "compile.log": "a42b748c640351a0f02a9380f5082eca1186d8a8b8ff35f4f5339490992f4675"
+  }
+}

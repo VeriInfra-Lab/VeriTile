@@ -1,0 +1,2 @@
+bench/repairs/tritonbench_g/rotary_transform_ops/kernel-evidence/witness_probe.lean:32:20: error: unexpected token 'false'; expected term
+bench/repairs/tritonbench_g/rotary_transform_ops/kernel-evidence/witness_probe.lean:57:13: error(lean.unknownIdentifier): Unknown constant `execution`

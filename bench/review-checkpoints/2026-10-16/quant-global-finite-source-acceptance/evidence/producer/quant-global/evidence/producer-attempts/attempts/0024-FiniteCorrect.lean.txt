@@ -1,0 +1,179 @@
+import FiniteAdmission
+
+namespace QuantizeGlobalFinite
+set_option maxRecDepth 24000
+set_option maxHeartbeats 8000000
+
+/-- Safe conversion is a property of the independently produced maximum and
+original linear input words, not a promise of successful kernel execution. -/
+def Safe (b : Numerics) (d : Storage) (a : Input) (alloc : Allocations) (x : String)
+    (logical : List (Word d)) (xs : Nat → Word d) : Prop :=
+  ∀ maximum, produced b d logical=some maximum →
+    Defined b d (parameters a alloc x) xs (b.reciprocal d maximum)
+
+inductive Hazard where
+  | linearViewOverrun | i32OffsetWrap | undefinedLlrint (index : Nat)
+  deriving DecidableEq, Repr
+
+inductive APIResult where
+  | rejected (why : Rejected)
+  | hazardous (hazard : Hazard)
+  | attempted (route : Storage) (outcome : Except Diagnostic Returned)
+
+/-- Data-independent rejection classification precedes the typed execution
+relation; it is not a second native invocation of the host primitives. -/
+def executeAPI (b : Numerics) (env : Environment) (dtype : DType) (a : Input)
+    (alloc : Allocations) (m : Memory) (x : String) (trials : List Config) (last : Config) : APIResult :=
+  match admission env (if a.isCuda then .cuda else .cpu) dtype a.numel (a.shape==[]) with
+  | .error e => .rejected e
+  | .ok d =>
+    if 2^31<a.numel then .hazardous .i32OffsetWrap
+    else if a.storageLength<a.storageOffset+a.numel then .hazardous .linearViewOverrun
+    else .attempted d (execute b env d a alloc m x trials last)
+
+/-- Full public successful original-wrapper contract for every admitted dtype,
+with an arbitrary finite sequence of actual autotuning trials. The produced
+maximum is derived from nonempty logical input, never assumed as a launch or
+output oracle. All partial conversion domains are independent scalar premises. -/
+specification quantize_global_complete_finite_execution
+    (b : Numerics) (d : Storage) (a : Input) (alloc : Allocations) (m : Memory)
+    (x : String) (logical : List (Word d)) (xs : Nat → Word d)
+    (D : Domain d a alloc m x logical xs) (nonempty : 0<a.numel)
+    (rank : a.shape≠[]) (cuda : a.isCuda=true)
+    (safe : Safe b d a alloc x logical xs) (trials : List Config) (last : Config) :
+    ∃ maximum ret, produced b d logical=some maximum ∧
+      executeAPI b (fun _ => none) (dtype d) a alloc m x trials last=.attempted d (.ok ret) ∧
+      Result b d a alloc m xs maximum ret := by
+  have hlen : a.logicalOffsets.length=logical.length := List.Forall₂.length_eq D.logical
+  have hne : logical≠[] := by
+    intro he
+    have hz : a.logicalOffsets.length=0 := by simpa only [he,List.length_nil] using hlen
+    have hc := D.metadataCount
+    omega
+  cases logical with
+  | nil => exact (hne rfl).elim
+  | cons h t =>
+    let maximum := b.maximum d (b.abs d h) (t.map (b.abs d))
+    have hm : produced b d (h::t)=some maximum := rfl
+    obtain ⟨ret,hr,hres⟩ := quantize_global_finite_host_correctness b d a alloc m x (h::t) xs
+      maximum D hm rank cuda (safe maximum hm) trials last
+    refine ⟨maximum,ret,hm,?_,hres⟩
+    have hroute := admitted_route d a.numel nonempty
+    have hz : a.shape.isEmpty=false := by cases hs : a.shape <;> simp_all
+    simp [executeAPI,cuda,hz,hroute,hr,Nat.not_lt_of_ge D.indexBound,Nat.not_lt_of_ge D.linearBounds]
+
+specification quantize_global_rejected_source_outcome
+    (b : Numerics) (env : Environment) (d : DType) (a : Input) (alloc : Allocations)
+    (m : Memory) (x : String) (trials : List Config) (last : Config) (why : Rejected)
+    (first : admission env (if a.isCuda then .cuda else .cpu) d a.numel (a.shape==[])=.error why) :
+    executeAPI b env d a alloc m x trials last=.rejected why := by
+  unfold executeAPI
+  rw [first]
+
+/-- Source-level hazards are observations, not newly inserted Python checks
+or claims that CUDA raises these diagnostics. -/
+
+def UnsafeView (a : Input) : Prop := a.storageLength<a.storageOffset+a.numel
+
+def UndefinedAt (b : Numerics) (d : Storage) (a : Input) (xs : Nat → Word d)
+    (maximum : Word d) (i : Nat) : Prop :=
+  i<a.numel ∧ ¬LlrintDefined d (scaled b d (xs i) (b.reciprocal d maximum))
+
+theorem overrun_has_active_address (a : Input) (h : UnsafeView a)
+    (base : a.storageOffset≤a.storageLength) :
+    ∃ i, i<a.numel ∧ a.storageLength≤a.storageOffset+i := by
+  refine ⟨a.storageLength-a.storageOffset,?_,?_⟩
+  all_goals unfold UnsafeView at h; omega
+
+theorem expanded_scalar_is_unsafe :
+    UnsafeView ⟨[4],[0],[0,0,0,0],true,0,1,0⟩ := by
+  unfold UnsafeView Input.numel
+  decide
+
+theorem transposed_view_offsets :
+    viewOffsets [2,3] [1,2]=[0,2,4,1,3,5] := by decide
+
+theorem sliced_view_offsets :
+    viewOffsets [3] [2]=[0,2,4] := by decide
+
+theorem source_i32_wrap_boundary :
+    (BitVec.ofNat 32 (2^31)).toInt=-(2^31 : Int) := by decide
+
+specification quantize_global_undefined_conversion_outcome
+    (b : Numerics) (d : Storage) (a : Input) (alloc : Allocations) (snapshot working : Memory)
+    (x : String) (xs : Nat → Word d) (maximum : Word d) (c : Config)
+    (pid lane : Nat) (lanes : List Nat)
+    (inputs : Inputs d (parameters a alloc x) xs (b.reciprocal d maximum) snapshot)
+    (bad : UndefinedAt b d a xs maximum (offset c pid lane)) :
+    runLanes b d (parameters a alloc x) snapshot (b.reciprocal d maximum) c pid (lane::lanes) working=
+      .error (.conversionUndefined (offset c pid lane)) := by
+  have hz : result b d (xs (offset c pid lane)) (b.reciprocal d maximum)=none := by
+    have h := defined_result b d (xs (offset c pid lane)) (b.reciprocal d maximum)
+    cases he : result b d (xs (offset c pid lane)) (b.reciprocal d maximum) with
+    | none => rfl
+    | some v => exact (bad.2 (h.1 (by simp [he]))).elim
+  have hi : offset c pid lane<(parameters a alloc x).n := bad.1
+  rw [runLanes,if_pos hi,inputs.1 _ hi,read_same]
+  dsimp only
+  rw [source_scalar,hz]
+
+/-- Read/store footprint and scalar inverse address; bases/lifetimes and
+native physical allocation mechanics remain the explicitly trusted boundary. -/
+specification quantize_global_source_address_domain
+    (d : Storage) (a : Input) (alloc : Allocations) (m : Memory) (x : String)
+    (logical : List (Word d)) (xs : Nat → Word d) (D : Domain d a alloc m x logical xs)
+    (c : Config) (pid lane : Nat) (hp : pid<programs a.numel c) (hl : lane<c.block)
+    (active : offset c pid lane<a.numel) :
+    offset c pid lane<2^31 ∧
+    a.storageOffset+offset c pid lane<a.storageLength ∧
+    offset c pid lane<a.numel := by
+  refine ⟨finite_offsets a.numel c pid lane D.indexBound hp hl,?_,active⟩
+  have hb := D.linearBounds
+  omega
+
+
+/-- Every larger n reaches a padded block whose first offset is exactly the
+i32 sign boundary. The output is fresh at offset zero, so this negative store
+address cannot be justified by a preceding input view's backing storage. -/
+specification quantize_global_large_shape_unsafe (n : Nat) (c : Config) (large : 2^31<n) :
+    2^31/c.block<programs n c ∧
+    offset c (2^31/c.block) 0=2^31 ∧
+    (BitVec.ofNat 32 (offset c (2^31/c.block) 0)).toInt=-(2^31 : Int) ∧
+    -(2^31 : Int)<(n : Int) := by
+  cases c <;> simp [Config.block,programs,offset] <;> omega
+
+specification quantize_global_unsafe_source_outcome
+    (b : Numerics) (env : Environment) (d : DType) (r : Storage) (a : Input)
+    (alloc : Allocations) (m : Memory) (x : String) (trials : List Config) (last : Config)
+    (admitted : admission env (if a.isCuda then .cuda else .cpu) d a.numel (a.shape==[])=.ok r)
+    (large : 2^31<a.numel) :
+    executeAPI b env d a alloc m x trials last=.hazardous .i32OffsetWrap := by
+  unfold executeAPI
+  rw [admitted]
+  dsimp only
+  rw [if_pos large]
+
+
+specification quantize_global_unsafe_view_outcome
+    (b : Numerics) (env : Environment) (d : DType) (r : Storage) (a : Input)
+    (alloc : Allocations) (m : Memory) (x : String) (trials : List Config) (last : Config)
+    (admitted : admission env (if a.isCuda then .cuda else .cpu) d a.numel (a.shape==[])=.ok r)
+    (bounded : a.numel≤2^31) (overrun : UnsafeView a) :
+    executeAPI b env d a alloc m x trials last=.hazardous .linearViewOverrun := by
+  unfold executeAPI
+  rw [admitted]
+  dsimp only
+  unfold UnsafeView at overrun
+  rw [if_neg (Nat.not_lt_of_ge bounded),if_pos overrun]
+
+#specNonCircular Safe avoiding [executeAPI,execute,prepare,runTrials,runGrid,runProgram,runLanes,source,Expr.eval]
+#specNonCircular UndefinedAt avoiding [executeAPI,execute,prepare,runTrials,runGrid,runProgram,runLanes,source,Expr.eval]
+#axiomsClean quantize_global_complete_finite_execution
+#axiomsClean quantize_global_rejected_source_outcome
+#axiomsClean quantize_global_undefined_conversion_outcome
+#axiomsClean quantize_global_source_address_domain
+#axiomsClean quantize_global_large_shape_unsafe
+#axiomsClean quantize_global_unsafe_source_outcome
+#guard_msgs (drop info) in
+#auditModuleAxioms
+end QuantizeGlobalFinite

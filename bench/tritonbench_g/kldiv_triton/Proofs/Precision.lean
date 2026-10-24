@@ -116,7 +116,8 @@ def outputMask (dtype : TileDType) (shape : TileShape) (mask : Option (Op .bool 
 def expectedStore (wide : Bool) (output : Storage) (shape : TileShape)
     (address : Op .ptr shape) (mask : Option (Op .bool shape)) : ComputeStmt :=
   let raw : Op .real shape := .ref .real shape "loss"
-  let value : Op .real shape := if wide then .withPrecision .real .fp64 raw else raw
+  let value : Op .real shape := if wide then .withPrecision .real .fp64 raw
+    else .withPrecision .real .fp32 raw
   match output with
   | .fp32 => .store .real shape (.ptr address)
       (.compute (.alg .fp32 (if wide then .castFloat .real .real value else raw)))
@@ -186,13 +187,13 @@ def storageFloat : Storage → FloatDType
 def backwardValue (target output : Storage) (B : Nat) :
     Op (storageFloat target).toTileDType [B] :=
   match target with
-  | .fp32 => if output = .fp64 then .withPrecision .real .fp32 (.ref .real [B] "res")
-      else .ref .real [B] "res"
+  | .fp32 => if output = .fp32 then .ref .real [B] "res"
+      else .withPrecision .real .fp32 (.ref .real [B] "res")
   | .fp64 => if output = .fp64 then .ref .real [B] "res"
       else .withPrecision .real .fp64 (.ref .real [B] "res")
-  | other => if output = .fp64 then
-      .withPrecision (storageFloat other) .fp32 (.ref (storageFloat other).toTileDType [B] "res")
-      else .ref (storageFloat other).toTileDType [B] "res"
+  | other => if output = .fp32 then .ref (storageFloat other).toTileDType [B] "res"
+      else .withPrecision (storageFloat other) .fp32
+        (.ref (storageFloat other).toTileDType [B] "res")
 
 def expectedBackwardStore (target output : Storage) (B : Nat) : ComputeStmt :=
   let address : MemAccess .real [B] := .ptr (.ptrAdd .scalarL (.ref .ptr [] "O")
@@ -251,11 +252,10 @@ theorem backward_default_formula (target output : Storage) (v : Bool)
       expectedDefaultFormula target B := by
   cases target <;> cases output <;> cases v <;> rfl
 
-/-- Runtime negation of the exponential remains a subtraction from typed zero. -/
+/-- Runtime negation of the exponential retains the true floating negation primitive. -/
 theorem backward_log_formula (target : MathStorage) (output : Storage) (v : Bool)
     (T O : RegionName) (st so N B : Nat) :
-    let expr : Op .real [B] := .sub .real .scalarL (.const 0.0)
-      (.exp (.ref .real [B] "target"))
+    let expr : Op .real [B] := .negFloat .real (.exp (.ref .real [B] "target"))
     (loopBody (backwardLog target output v T O st so N B).surfaceBody[5]!)[3]! =
       .assign .real [B] "res" (match target with
         | .fp32 => .compute (.alg .fp32 expr)

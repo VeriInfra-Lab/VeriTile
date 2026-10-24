@@ -1,0 +1,22 @@
+CosineNative.IndependentReview.integer64_even_ties: axiom footprint ⊆ standard base ✓  ([propext])
+CosineNative.IndependentReview.real_ceil_is_not_native_ceil: axiom footprint ⊆ standard base ✓  ([propext])
+CosineNative.IndependentReview.BF16_dynamic_block_boundary: axiom footprint ⊆ standard base ✓  ([propext])
+CosineNative.IndependentReview.FP32_source_scalar_order: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+CosineNative.IndependentReview.BF16_source_scalar_order: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+CosineNative.IndependentReview.BF16_exact_raw_decode: axiom footprint ⊆ standard base ✓  ([propext])
+CosineNative.IndependentReview.BF16_missing_second_byte: axiom footprint ⊆ standard base ✓  ([propext])
+CosineNative.IndependentReview.BF16_raw_store_bytes: axiom footprint ⊆ standard base ✓  ([propext])
+CosineNative.IndependentReview.negative_offset_reenters_allocated_bytes: axiom footprint ⊆ standard base ✓  ([propext])
+CosineNative.IndependentReview.source_all_masked: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+CosineNative.IndependentReview.reversed_complete_grid: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+CosineNative.IndependentReview.zero_failure_precedes_JIT: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])

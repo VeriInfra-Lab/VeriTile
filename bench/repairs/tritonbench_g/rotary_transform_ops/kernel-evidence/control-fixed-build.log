@@ -1,0 +1,76 @@
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform_ops/Proofs/TypedControl.lean:17:50: error: unsolved goals
+case false
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+yes no : List ComputeStmt
+u : State α
+⊢ (match run M yes u, fun __do_lift => some __do_lift with
+    | none, x => none
+    | some a, f => f a) =
+    run M yes u
+
+case true
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+yes no : List ComputeStmt
+u : State α
+⊢ (match run M no u, fun __do_lift => some __do_lift with
+    | none, x => none
+    | some a, f => f a) =
+    run M no u
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform_ops/Proofs/TypedControl.lean:62:4: error: Tactic `apply` failed: could not unify the conclusion of `congrArg ?m.53`
+  ?m.53 ?m.50 = ?m.53 ?m.51
+with the goal
+  (decide
+      ¬Cell.read TileDType.int (initial.mem { name := "cu" } (initial.pids 1 + 1)) ≤
+          ↑(initial.pids 0) * ↑s.blockM + Cell.read TileDType.int (initial.mem { name := "cu" } (initial.pids 1))) =
+    decide
+      (↑(initial.pids 0) * ↑s.blockM <
+        Cell.read TileDType.int (initial.mem { name := "cu" } (initial.pids 1 + 1)) -
+          Cell.read TileDType.int (initial.mem { name := "cu" } (initial.pids 1)))
+
+Note: The full type of `congrArg ?m.53` is
+  ?m.50 = ?m.51 → ?m.53 ?m.50 = ?m.53 ?m.51
+
+case pos.h
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+s : Shape
+initial : State α
+hv : s.varlen = «true»
+i : TileIndex []
+⊢ (decide
+      ¬Cell.read TileDType.int (initial.mem { name := "cu" } (initial.pids 1 + 1)) ≤
+          ↑(initial.pids 0) * ↑s.blockM + Cell.read TileDType.int (initial.mem { name := "cu" } (initial.pids 1))) =
+    decide
+      (↑(initial.pids 0) * ↑s.blockM <
+        Cell.read TileDType.int (initial.mem { name := "cu" } (initial.pids 1 + 1)) -
+          Cell.read TileDType.int (initial.mem { name := "cu" } (initial.pids 1)))
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform_ops/Proofs/TypedControl.lean:62:4: error: Tactic `apply` failed: could not unify the conclusion of `congrArg ?m.53`
+  ?m.53 ?m.50 = ?m.53 ?m.51
+with the goal
+  (decide ¬↑s.maximum ≤ ↑(initial.pids 0) * ↑s.blockM) = decide (↑(initial.pids 0) * ↑s.blockM < ↑s.maximum)
+
+Note: The full type of `congrArg ?m.53` is
+  ?m.50 = ?m.51 → ?m.53 ?m.50 = ?m.53 ?m.51
+
+case neg.h
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+s : Shape
+initial : State α
+hv : ¬s.varlen = «true»
+i : TileIndex []
+⊢ (decide ¬↑s.maximum ≤ ↑(initial.pids 0) * ↑s.blockM) = decide (↑(initial.pids 0) * ↑s.blockM < ↑s.maximum)
+VeriTile.Bench.Repairs.RotaryTransformOps.TypedExecution.kernel_carrier: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform_ops/Proofs/TypedControl.lean:71:0: error: VeriTile.Bench.Repairs.RotaryTransformOps.TypedExecution.continuation_tail: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/rotary_transform_ops/Proofs/TypedControl.lean:72:0: error: VeriTile.Bench.Repairs.RotaryTransformOps.TypedExecution.guard_eval: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.Repairs.RotaryTransformOps.TypedExecution.setup_mem: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

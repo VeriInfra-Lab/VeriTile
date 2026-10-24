@@ -1,0 +1,115 @@
+{
+  "schema": 1,
+  "task": "l2_norm_triton2",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue08/result.json",
+    "sha256": "630f3362c51d29799697ba294a8b7e466ce28e565c6f87c5da9515ca1c6ffcef",
+    "task_index": 3
+  },
+  "finding": "Both stage formulas used channel selectors and flat output helpers.",
+  "resolution": "Forward reuses the logical L2NormTriton1 matrix view; backward exposes named X/DY and the finite derivative.",
+  "mathematical_target": "Forward finite L2 normalization and backward finite q/dot derivative matrices.",
+  "conditions_and_scope": "Both genuine stages retained; full grid, N≤B and runtime epsilon unchanged.",
+  "proof_connection": "Forward applies the existing shared logical equivalence; backward LogicalIO.judgment_iff proves the complete prior GridIO.mathematical judgment iff.",
+  "fp_review": "Both actual forward and backward program comparisons unchanged, each R=[].",
+  "numerical_dependencies": {
+    "experimental_rule_instances": 0,
+    "new_numerical_experiments": 0,
+    "change": "No FP theorem, precision, cast, computation order or numerical dependency changed."
+  },
+  "previous_formula_scope": {
+    "mathematical_target": "Forward x_i/sqrt(Σx_j²+eps). Backward dy_i/sqrt(s+eps)-cross/(s+eps)/sqrt(s+eps)*x_i, s=Σx_j², cross=Σdy_j*x_j, all sums over range N.",
+    "required_conditions": [
+      "Each Real stage preserves its explicit N≤B cover premise.",
+      "No epsilon positivity/finiteness restriction is introduced into total Real arithmetic.",
+      "The backward Contract preserves equal x/dy element count and DY last-axis grouping, distinct from l2_norm_bwd's longer-prefix allowance."
+    ],
+    "scope": "Both genuine source kernels retain their complete row grids, all logical output cells, runtime epsilon ABI and exterior frames.",
+    "canonical_connection": "Forward reuses L2NormTriton1.GridIO.real_implements because its source and IO are shared; backward reuses its own GridIO.real_implements. Both visible lambdas are definitionally their canonical mathematical targets.",
+    "fp_program_pair": {
+      "actual_program_pairs": [
+        "forwardOriginal versus forwardCandidate on the complete forward schedule",
+        "backwardOriginal versus backwardCandidate on the complete backward schedule"
+      ],
+      "transformation_and_model_binding": "Existing integer base-product commutations only; arbitrary Algebra/all words and the FP32 source graphs are retained.",
+      "ruleset": "[] (kv_cache_copy uses the definitionally empty assumptions list)",
+      "main_empirical_rule_instances_used": 0,
+      "new_numerical_experiments_required": 0,
+      "precision_domain_note": "Typed original source precision, casts, storage, operation order and explicit backend/model binding retained. Empty experimental R does not assert equality for unrelated hardware or arbitrary models outside that binding."
+    },
+    "numerical_dependencies": {
+      "actual_program_pairs": [
+        "forwardOriginal versus forwardCandidate on the complete forward schedule",
+        "backwardOriginal versus backwardCandidate on the complete backward schedule"
+      ],
+      "transformation_and_model_binding": "Existing integer base-product commutations only; arbitrary Algebra/all words and the FP32 source graphs are retained.",
+      "ruleset": "[] (kv_cache_copy uses the definitionally empty assumptions list)",
+      "main_empirical_rule_instances_used": 0,
+      "new_numerical_experiments_required": 0,
+      "precision_domain_note": "Typed original source precision, casts, storage, operation order and explicit backend/model binding retained. Empty experimental R does not assert equality for unrelated hardware or arbitrary models outside that binding."
+    }
+  },
+  "verification": [
+    {
+      "kind": "reader",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue08/build.py",
+        "bench.repairs.tritonbench_g.l2_norm_triton2.Correct"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue08/l2_norm_triton2-reader.log",
+      "log_sha256": "a61674851e6f80b721252d1cb1478bb0219e59ae55ceb7421376e2cc9cffdf28",
+      "seconds": 0.2832479476928711
+    },
+    {
+      "kind": "fp_source",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue08/build.py",
+        "--check",
+        "bench/repairs/tritonbench_g/l2_norm_triton2/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue08/l2_norm_triton2-fp_source.log",
+      "log_sha256": "e32ee5927b0b6a8fd6dcc58fcd0ac382eea068c277623f225d54eade6e0a1562",
+      "seconds": 6.786370515823364
+    },
+    {
+      "kind": "joint",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue08/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue08/l2_norm_triton2-joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue08/l2_norm_triton2-joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "seconds": 3.323923349380493
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/l2_norm_triton2/Contract.lean": "1684c5c181ed9d4aec2136c994fa437236bb198cc16d3e720e5ea49127108731",
+    "bench/repairs/tritonbench_g/l2_norm_triton2/Correct.lean": "c61f0a6a21bea517316a03551a04acdedf2763f00666e208aab1ac41fb5a3ad0",
+    "bench/repairs/tritonbench_g/l2_norm_triton2/FPEquiv.lean": "8bcc0d563e4a706ab4928fd626bdb5d35752a538b3f040e799ce1f8784dd827f",
+    "bench/repairs/tritonbench_g/l2_norm_triton2/LogicalIO.lean": "979a4e74eb0c5c780908cf3620bee3bd7fe7295d724b82d1444000e5cc23abf4",
+    "bench/repairs/tritonbench_g/l2_norm_triton2/Proofs/LogicalIO.lean": "e9c3a1e64ddfff3932d6453577e7cc2492d6badb237c18deafbfdf84d5234474",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}
