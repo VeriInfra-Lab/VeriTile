@@ -1,8 +1,10 @@
+import ast
 import json
+import textwrap
 from pathlib import Path
 import unittest
 
-from bench.jit_correspondence import check, check_manifest
+from bench.jit_correspondence import check, check_manifest, quotation
 
 ROOT = Path(__file__).resolve().parents[2]
 DIRECTORY = ROOT / "bench/repairs/tritonbench_g/triton_argmax_nan_first"
@@ -46,6 +48,43 @@ class JITCorrespondenceTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "unsupported antiquotation"):
             check(self.python, self.lean.replace("$(BLOCK_SIZE)", "$(BLOCK_SIZE + 1)", 1),
                   "argmax_kernel_1_repaired", "stage1")
+
+
+class PastedBodyTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / "bench/repairs/tritonbench_g/dequantize_rowwise"
+        self.python = (self.directory / "dequantize_rowwise_repaired.py").read_text()
+        self.lean = (self.directory / "Kernels.lean").read_text()
+        self.record = json.loads((self.directory / "jit-correspondence.json").read_text())[0]
+
+    def compare(self, lean):
+        return check(self.python, lean, self.record["python_function"], self.record["lean_definition"],
+                     self.record["signature_definition"], self.record["expected_signature"])
+
+    def test_verbatim_body_and_external_signature(self):
+        self.assertEqual(self.compare(self.lean)["statements"], 9)
+        fn = next(n for n in ast.parse(self.python).body
+                  if isinstance(n, ast.FunctionDef) and n.name == self.record["python_function"])
+        python_body = "\n".join(self.python.splitlines()[fn.body[0].lineno-1:fn.body[-1].end_lineno])
+        lean_body = quotation(self.lean, "body")[1]
+        self.assertEqual(textwrap.dedent(python_body).strip(), textwrap.dedent(lean_body).strip())
+
+    def test_no_metadata_or_antiquotes_in_pasted_body(self):
+        for statement in ["tl.region x_ptr = tl.int8", "tl.param inv_127 : tl.float32", "a = $(P2)"]:
+            with self.subTest(statement=statement), self.assertRaises(ValueError):
+                self.compare(self.lean.replace("  pid =", "  " + statement + "\n  pid =", 1))
+
+    def test_removed_cast_is_rejected(self):
+        with self.assertRaises(ValueError):
+            self.compare(self.lean.replace(".to(tl.int64)", "", 1))
+
+    def test_launch_types_and_unused_parameter_are_checked(self):
+        for before, after in [('("output_ptr",.fp16)', '("output_ptr",.fp32)'),
+                              ('("inv_127",.fp32)', '("inv_127",.fp64)'),
+                              (',("n_elements",.integer)', '')]:
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                self.assertIn(before, self.lean)
+                self.compare(self.lean.replace(before, after, 1))
 
 
 if __name__ == "__main__":

@@ -1,43 +1,59 @@
-import bench.tritonbench_g.dequantize_rowwise.Kernels
+import VeriTile.Triton.DSL.CallSignature
 
-/-! Selected production route: INT8 weights, FP32 scales and two FP32
-multiplications, followed by FP16 output conversion. All four original Python
-benchmark cases explicitly select INT8 weights. The canonical readable typed
-DSL is reused without a second AST. Signed-64 native indexing is checked in
-Proofs/NativeIndex; it has the same natural-index projection. -/
+/-! The quoted body is copied directly from the selected Python JIT. Pointer
+storage and scalar typing are supplied by the call interface, outside the body.
+Only BLOCK_SIZE and P2 are constexpr; inv_127 and n_elements are runtime values. -/
 namespace VeriTile.Bench.Repairs.DequantizeRowwise
 open VeriTile.Triton
-open VeriTile.Bench.TritonBenchG.DequantizeRowwise
 
-def source (x_ptr state_x output_ptr : RegionName) (inv_127 : ℝ)
-    (n_elements BLOCK_SIZE P2 : Nat) : ComputeKernel :=
+def callSignature : CallSignature where
+  pointers := [("x_ptr",.i8),("state_x",.fp32),("output_ptr",.fp16)]
+  scalars := [("inv_127",.fp32),("n_elements",.integer)]
+  constexpr := ["BLOCK_SIZE","P2"]
+
+/-- The unmodified selected Python function body. -/
+def body (x_ptr state_x output_ptr : RegionName) (BLOCK_SIZE P2 : Nat) : ComputeKernel :=
+  with_triton_signature callSignature in
   triton {
-  tl.region x_ptr = tl.int8, state_x = tl.float32, output_ptr = tl.float16
-  pid = tl.program_id(axis=0)
-  block_start = pid * $(BLOCK_SIZE)
-  arange = tl.arange(0, $(P2))
+  pid = tl.program_id(axis=0).to(tl.int64)
+  block_start = pid * BLOCK_SIZE
+  arange = tl.arange(0, P2).to(tl.int64)
   offsets = block_start + arange
-  row_mask = arange < $(BLOCK_SIZE)
+  row_mask = arange < BLOCK_SIZE
   x = tl.load(x_ptr + offsets, mask=row_mask)
   max_val = tl.load(state_x + pid)
-  output = max_val * x * $((inv_127 : ℝ))
-  tl.store(output_ptr + offsets, (output).to(tl.float16), mask=row_mask)
+  output = max_val * x * inv_127
+  tl.store(output_ptr + offsets, output, mask=row_mask)
 }
 
-def indexCommutedSource (x_ptr state_x output_ptr : RegionName) (inv_127 : ℝ)
-    (n_elements BLOCK_SIZE P2 : Nat) : ComputeKernel :=
+/-- Candidate: commute only the signed integer row-start multiplication. -/
+def indexCommutedBody (x_ptr state_x output_ptr : RegionName) (BLOCK_SIZE P2 : Nat) : ComputeKernel :=
+  with_triton_signature callSignature in
   triton {
-  tl.region x_ptr = tl.int8, state_x = tl.float32, output_ptr = tl.float16
-  pid = tl.program_id(axis=0)
-  block_start = $(BLOCK_SIZE) * pid
-  arange = tl.arange(0, $(P2))
+  pid = tl.program_id(axis=0).to(tl.int64)
+  block_start = BLOCK_SIZE * pid
+  arange = tl.arange(0, P2).to(tl.int64)
   offsets = block_start + arange
-  row_mask = arange < $(BLOCK_SIZE)
+  row_mask = arange < BLOCK_SIZE
   x = tl.load(x_ptr + offsets, mask=row_mask)
   max_val = tl.load(state_x + pid)
-  output = max_val * x * $((inv_127 : ℝ))
-  tl.store(output_ptr + offsets, (output).to(tl.float16), mask=row_mask)
+  output = max_val * x * inv_127
+  tl.store(output_ptr + offsets, output, mask=row_mask)
 }
+
+/-- Explicit call bindings, separate from the source quotation. The unused
+n_elements parameter is retained; scalar FP32 rounding occurs at the call. -/
+noncomputable def arguments (inv_127 : ℝ) (n_elements : Nat) : List ScalarArgument :=
+  [ScalarArgument.fp32 "inv_127" inv_127, ScalarArgument.integer "n_elements" n_elements]
+
+noncomputable def source (x_ptr state_x output_ptr : RegionName) (inv_127 : ℝ)
+    (n_elements BLOCK_SIZE P2 : Nat) : ComputeKernel :=
+  (body x_ptr state_x output_ptr BLOCK_SIZE P2).withScalarArguments (arguments inv_127 n_elements)
+
+noncomputable def indexCommutedSource (x_ptr state_x output_ptr : RegionName) (inv_127 : ℝ)
+    (n_elements BLOCK_SIZE P2 : Nat) : ComputeKernel :=
+  (indexCommutedBody x_ptr state_x output_ptr BLOCK_SIZE P2).withScalarArguments (arguments inv_127 n_elements)
+
 def xRegion : RegionName := "x"
 def scaleRegion : RegionName := "scale"
 def outRegion : RegionName := "out"

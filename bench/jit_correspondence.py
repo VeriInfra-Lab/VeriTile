@@ -141,7 +141,26 @@ class ShapeSpelling(ast.NodeTransformer):
         return node
 
 
-def check(python_text: str, lean_text: str, python_function: str, lean_definition: str) -> dict:
+
+def call_signature(text: str, name: str) -> dict:
+    code = strip_lean_comments(text)
+    match = re.search(r"\bdef\s+" + re.escape(name) + r"\s*:\s*CallSignature\s+where\s*(.*?)(?=\ndef |\nnoncomputable |\nend\b|\Z)", code, re.S)
+    if not match:
+        raise ValueError("missing declarative call signature")
+    fields = {}
+    for field in ("pointers", "scalars", "constexpr"):
+        value = re.search(r"\b" + field + r"\s*:=\s*(\[[^\]]*\])", match[1])
+        if not value:
+            raise ValueError(f"missing call signature field: {field}")
+        source = re.sub(r"\.(fp16|bf16|fp32|fp64|i8|i16|i32|i64|u8|u16|u32|u64|boolean|integer)\b", r'"\1"', value[1])
+        fields[field] = json.loads(json.dumps(ast.literal_eval(source)))
+    names = [n for n, _ in fields["pointers"] + fields["scalars"]] + fields["constexpr"]
+    if len(names) != len(set(names)):
+        raise ValueError("duplicate call signature parameter")
+    return fields
+
+def check(python_text: str, lean_text: str, python_function: str, lean_definition: str,
+          signature_definition: str | None = None, expected_signature: dict | None = None) -> dict:
     functions = [n for n in ast.parse(python_text).body
                  if isinstance(n, ast.FunctionDef) and n.name == python_function]
     if len(functions) != 1 or not any(ast.unparse(d) == "triton.jit" for d in functions[0].decorator_list):
@@ -152,6 +171,22 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
     runtime = {a.arg: ast.unparse(a.annotation) for a in function.args.args
                if a.annotation is not None and a.arg not in constants}
     signature, body = quotation(lean_text, lean_definition)
+    profile = None
+    if signature_definition is not None:
+        if re.search(r"\btl\.(region|param)\b|\$", body):
+            raise ValueError("pasted body must not contain metadata directives or Lean antiquotes")
+        if not re.search(r"\bwith_triton_signature\s+" + re.escape(signature_definition) + r"\s+in\b", signature):
+            raise ValueError("quotation does not use the declared call signature")
+        profile = call_signature(lean_text, signature_definition)
+        if expected_signature is not None and profile != expected_signature:
+            raise ValueError("call signature differs from the reviewed launch types")
+        names = {n for n, _ in profile["pointers"] + profile["scalars"]} | set(profile["constexpr"])
+        if names != {a.arg for a in function.args.args} or set(profile["constexpr"]) != constants:
+            raise ValueError("Python parameters and call signature differ")
+        scalar_types = {"fp32": "tl.float32", "fp64": "tl.float64", "integer": "tl.int64"}
+        supplied = {n: scalar_types[t] for n, t in profile["scalars"]}
+        if any(supplied.get(n) != t for n, t in runtime.items()):
+            raise ValueError("runtime scalar annotation differs from call signature")
     statements, parameters = source_statements(body, constants)
     if parameters != runtime:
         raise ValueError(f"runtime signature mismatch: Python {runtime}; Lean {parameters}")
@@ -166,13 +201,14 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
         raise ValueError("statement correspondence mismatch:\n" + diff)
     return {"python_function": python_function, "lean_definition": lean_definition,
             "status": "PASS", "statements": len(function.body),
-            "runtime_parameters": runtime, "constexpr_parameters": sorted(constants)}
+            "runtime_parameters": dict(profile["scalars"]) if profile is not None else runtime, "constexpr_parameters": sorted(constants)}
 
 
 def check_manifest(root: Path, manifest: Path) -> list[dict]:
     records = json.loads(manifest.read_text())
     return [check((root / r["python"]).read_text(), (root / r["lean"]).read_text(),
-                  r["python_function"], r["lean_definition"]) for r in records]
+                  r["python_function"], r["lean_definition"],
+                  r.get("signature_definition"), r.get("expected_signature")) for r in records]
 
 
 if __name__ == "__main__":
