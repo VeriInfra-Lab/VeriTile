@@ -93,10 +93,10 @@ def candidateExecution {α : Type} [Inhabited α] (M : Algebra α) (D : Domain �
     dsimp [num,den,SoftmaxTriton1.Rewrite.numeratorValue,
       SoftmaxTriton1.Rewrite.denominatorValue] at hc hf hz
     simp [FP.Structural.exec,guarded_reciprocal_kernel,ComputeKernel.surfaceBody,run,step,
-      evalExpr,evalComputeOp,evalOp_unfold,store,State.setReg,numeric,natLt,bop,
+      evalExpr,evalComputeOp,evalOp_unfold,store,State.setReg,numeric,numericLt,natLt,bop,
       TileShape.axisDim,hB,Option.bind,Function.comp_def,ComputeDType.eraseDType,
-      ports.finite_bind,ports.order_bind,numericEq,numericLe,FP.ProfiledRewrite.engine,
-      Algebra.withDefaultPrecision,resolvePrecision,hc,hf,hz]
+      (show (1.0 : ℝ) = 1 by norm_num),ports.finite_bind,ports.order_bind,numericEq,numericLe,FP.ProfiledRewrite.engine,
+      Algebra.withDefaultPrecision,resolvePrecision,hc,hf,hz,← Int.natCast_mul,← Int.natCast_add,-Nat.cast_mul,-Nat.cast_add]
     rfl
 
 #axiomsClean count_all

@@ -25,7 +25,7 @@ theorem prefix_safe (bounds : RegionBounds) (s : BlockState)
     (hL : s.pids 0 < bounds ol.cast) (hO : s.pids 0 < bounds os.cast)
     (hN : s.pids 0 < bounds ns.cast) :
     Stmt.TraceSafeList bounds (prefixBody os ol ns src dst B) s := by
-  simp [prefixBody,source,kernel,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
+  simp [prefixBody,source,kernel,Source.source,Source.commutedSource,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,
     ComputeOp.toAlgorithm?,ComputeDType.eraseDType,Kernel.eraseDType,
@@ -73,7 +73,7 @@ theorem prefix_length (s : BlockState) (os ol ns : Region .int) (src dst : Regio
     (hL : s.readMemValue .int ol.cast (s.pids 0) = length) :
     ∃ t, stepStmts (prefixBody os ol ns src dst B) s = some t ∧
       t.regs .int [] "length" = some (Tile.scalar length) := by
-  simp [prefixBody,source,kernel,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
+  simp [prefixBody,source,kernel,Source.source,Source.commutedSource,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,
     ComputeOp.toAlgorithm?,ComputeDType.eraseDType,Kernel.eraseDType,

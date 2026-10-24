@@ -62,6 +62,8 @@ globs = [
   "bench.tests.ConstexprPower",
   "bench.tests.BlockPointerDType",
   "bench.tests.PointerOffsets",
+  "bench.tests.BranchStoreDType",
+  "bench.tests.BranchDtypeRegression",
   "bench.tests.NativeCountLoop",
   "bench.tests.OptimizedRealExamples",
   "bench.tests.FPGuardedExamples",

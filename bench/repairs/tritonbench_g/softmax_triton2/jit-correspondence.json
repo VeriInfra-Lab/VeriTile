@@ -1,0 +1,124 @@
+[
+  {
+    "lean": "bench/repairs/tritonbench_g/softmax_triton1/Kernels.lean",
+    "lean_definition": "softmax_kernel",
+    "python": "bench/repairs/tritonbench_g/softmax_triton2/softmax_triton2_repaired.py",
+    "python_function": "softmax_kernel",
+    "signature_definition": "sourceSignature",
+    "expected_call_bindings": {
+      "input_row_stride": "input_row_stride_value",
+      "input_col_stride": "input_col_stride_value",
+      "output_row_stride": "output_row_stride_value",
+      "output_col_stride": "output_col_stride_value",
+      "n_cols": "n_cols_value"
+    },
+    "expected_pointer_offsets": {
+      "input_ptr": "input_offset",
+      "output_ptr": "output_offset"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "output_ptr",
+          "fp32"
+        ],
+        [
+          "input_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "input_row_stride",
+          "i64"
+        ],
+        [
+          "input_col_stride",
+          "i64"
+        ],
+        [
+          "output_row_stride",
+          "i64"
+        ],
+        [
+          "output_col_stride",
+          "i64"
+        ],
+        [
+          "n_cols",
+          "i64"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "input_ptr"
+      ],
+      "writePorts": [
+        "output_ptr"
+      ]
+    }
+  },
+  {
+    "lean": "bench/repairs/tritonbench_g/softmax_triton2/Kernels.lean",
+    "lean_definition": "guarded_reciprocal_kernel",
+    "python": "bench/repairs/tritonbench_g/softmax_triton2/softmax_triton2_repaired.py",
+    "python_function": "guarded_reciprocal_kernel",
+    "signature_definition": "sourceSignature",
+    "expected_call_bindings": {
+      "input_row_stride": "input_row_stride_value",
+      "input_col_stride": "input_col_stride_value",
+      "output_row_stride": "output_row_stride_value",
+      "output_col_stride": "output_col_stride_value",
+      "n_cols": "n_cols_value"
+    },
+    "expected_pointer_offsets": {
+      "input_ptr": "input_offset",
+      "output_ptr": "output_offset"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "output_ptr",
+          "fp32"
+        ],
+        [
+          "input_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "input_row_stride",
+          "i64"
+        ],
+        [
+          "input_col_stride",
+          "i64"
+        ],
+        [
+          "output_row_stride",
+          "i64"
+        ],
+        [
+          "output_col_stride",
+          "i64"
+        ],
+        [
+          "n_cols",
+          "i64"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "input_ptr"
+      ],
+      "writePorts": [
+        "output_ptr"
+      ]
+    }
+  }
+]

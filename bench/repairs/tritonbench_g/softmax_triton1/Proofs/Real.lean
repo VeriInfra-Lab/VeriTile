@@ -21,7 +21,7 @@ theorem row_exec (out inp : RegionName) (ib ob ir ic orow oc n B : Nat)
     Tile.bop,Tile.cop,Tile.ptrAdd,Tile.uop,Tile.reduceMax,Tile.reduceMaxDrop,
     Tile.reduceSum,Tile.reduceSumDrop,TileShape.axisDim,TileShape.eraseAxis,
     TileShape.insertAxisIndex,NumericDType.add,NumericDType.mul,NumericDType.sub,NumericDType.div,
-    ComparableDType.lt,hB]
+    ComparableDType.lt,hB,← Int.natCast_mul,← Int.natCast_add,-Nat.cast_mul,-Nat.cast_add]
 
 theorem row_value (out inp : RegionName) (ib ob ir ic orow oc n B : Nat)
     (hB : 0<B) (inj : RowInjective n B oc) (s t : BlockState)
@@ -33,7 +33,7 @@ theorem row_value (out inp : RegionName) (ib ob ir ic orow oc n B : Nat)
     Tile.bop,Tile.cop,Tile.ptrAdd,Tile.uop,Tile.reduceMax,Tile.reduceMaxDrop,
     Tile.reduceSum,Tile.reduceSumDrop,TileShape.axisDim,TileShape.eraseAxis,
     TileShape.insertAxisIndex,NumericDType.add,NumericDType.mul,NumericDType.sub,NumericDType.div,
-    ComparableDType.lt,hB] at run
+    ComparableDType.lt,hB,← Int.natCast_mul,← Int.natCast_add,-Nat.cast_mul,-Nat.cast_add] at run
   subst t
   simp only [BlockState.pid_eq]
   rw [BlockState.scatter_readback_prop_masked_nd_of_true (shape := [B]) _
@@ -57,7 +57,7 @@ theorem row_frame (out inp : RegionName) (ib ob ir ic orow oc n B : Nat)
     Tile.bop,Tile.cop,Tile.ptrAdd,Tile.uop,Tile.reduceMax,Tile.reduceMaxDrop,
     Tile.reduceSum,Tile.reduceSumDrop,TileShape.axisDim,TileShape.eraseAxis,
     TileShape.insertAxisIndex,NumericDType.add,NumericDType.mul,NumericDType.sub,NumericDType.div,
-    ComparableDType.lt,hB] at run
+    ComparableDType.lt,hB,← Int.natCast_mul,← Int.natCast_add,-Nat.cast_mul,-Nat.cast_add] at run
   subst t
   refine Eq.trans (foldl_store_preserve_cell _ _ _ r a _ _ ?_) rfl
   intro i _ hi eq
@@ -78,7 +78,7 @@ theorem row_safe (out inp : RegionName) (ib ob ir ic orow oc n B : Nat)
     stepStmt,evalOp.eq_def,Tile.bop,Tile.cop,Tile.ptrAdd,Tile.uop,
     Tile.reduceMax,Tile.reduceMaxDrop,Tile.reduceSum,Tile.reduceSumDrop,
     TileShape.axisDim,TileShape.eraseAxis,TileShape.insertAxisIndex,
-    NumericDType.add,NumericDType.mul,NumericDType.sub,NumericDType.div,ComparableDType.lt]
+    NumericDType.add,NumericDType.mul,NumericDType.sub,NumericDType.div,ComparableDType.lt,← Int.natCast_mul,← Int.natCast_add,-Nat.cast_mul,-Nat.cast_add]
   exact ⟨fun a ha => hin a ha,fun a ha => hout a ha⟩
 
 theorem reciprocal_safe (out inp : RegionName) (ib ob ir ic orow oc n B : Nat)
@@ -96,7 +96,7 @@ theorem reciprocal_safe (out inp : RegionName) (ib ob ir ic orow oc n B : Nat)
     stepStmt,evalOp.eq_def,Tile.bop,Tile.cop,Tile.ptrAdd,Tile.uop,
     Tile.reduceMax,Tile.reduceMaxDrop,Tile.reduceSum,Tile.reduceSumDrop,
     TileShape.axisDim,TileShape.eraseAxis,TileShape.insertAxisIndex,
-    NumericDType.add,NumericDType.mul,NumericDType.sub,NumericDType.div,ComparableDType.lt]
+    NumericDType.add,NumericDType.mul,NumericDType.sub,NumericDType.div,ComparableDType.lt,← Int.natCast_mul,← Int.natCast_add,-Nat.cast_mul,-Nat.cast_add]
   exact ⟨fun a ha => hin a ha,fun a ha => hout a ha⟩
 
 theorem reciprocal_flattenOk (out inp : RegionName) (ib ob ir ic orow oc n B : Nat) :
@@ -128,7 +128,7 @@ theorem reciprocal_exec (out inp : RegionName) (ib ob ir ic orow oc n B : Nat)
     evalOp.eq_def,BlockState.setReg,Tile.bop,Tile.cop,Tile.ptrAdd,Tile.uop,
     Tile.reduceMax,Tile.reduceMaxDrop,Tile.reduceSum,Tile.reduceSumDrop,
     TileShape.axisDim,TileShape.eraseAxis,TileShape.insertAxisIndex,
-    NumericDType.mul,NumericDType.div,mul_recip]
+    NumericDType.mul,NumericDType.div,mul_recip,← Int.natCast_mul,← Int.natCast_add,-Nat.cast_mul,-Nat.cast_add]
 
 #axiomsClean row_exec
 #axiomsClean row_value
