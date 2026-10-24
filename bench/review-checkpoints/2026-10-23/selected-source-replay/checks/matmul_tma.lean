@@ -1,0 +1,7 @@
+import VeriTile.Meta.StatementAudit
+import bench.repairs.tritonbench_g.matmul_tma_static_checked_v2.KernelOnly.Contract
+import bench.repairs.tritonbench_g.matmul_tma_static_checked_v2.KernelOnly.Correct
+import bench.repairs.tritonbench_g.matmul_tma_static_checked_v2.KernelOnly.FPEquiv
+
+#axiomsClean VeriTile.Bench.TritonBenchG.MatmulTma.StaticCheckedV2.kernel_math
+#axiomsClean VeriTile.Bench.TritonBenchG.MatmulTma.StaticCheckedV2.FPEquiv.kernel_equivalent

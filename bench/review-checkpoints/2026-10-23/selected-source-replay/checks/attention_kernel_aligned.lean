@@ -1,0 +1,9 @@
+import VeriTile.Meta.StatementAudit
+import bench.repairs.tritonbench_g.attention_kernel_aligned.Contract
+import bench.repairs.tritonbench_g.attention_kernel_aligned.Correct
+import bench.repairs.tritonbench_g.attention_kernel_aligned.FPEquiv
+
+#axiomsClean VeriTile.Bench.Repairs.AttentionKernelAligned.Correct.kernel_correct
+#axiomsClean VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.Correct.kernel_correct
+#axiomsClean VeriTile.Bench.Repairs.AttentionKernelAligned.FPEquiv.query_early_equiv
+#axiomsClean VeriTile.Bench.Repairs.AttentionKernelAligned.BF16.FPEquiv.query_early_equiv

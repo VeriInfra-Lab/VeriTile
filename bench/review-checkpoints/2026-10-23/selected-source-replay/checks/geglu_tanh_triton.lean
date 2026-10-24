@@ -1,0 +1,7 @@
+import VeriTile.Meta.StatementAudit
+import bench.repairs.tritonbench_g.geglu_tanh_triton.Contract
+import bench.repairs.tritonbench_g.geglu_tanh_triton.Correct
+import bench.repairs.tritonbench_g.geglu_tanh_triton.FPEquiv
+
+#axiomsClean VeriTile.Bench.Repairs.GegluTanhTriton.geglu_kernel_correctness
+#axiomsClean VeriTile.Bench.Repairs.GegluTanhTriton.geglu_index_commuted_equiv

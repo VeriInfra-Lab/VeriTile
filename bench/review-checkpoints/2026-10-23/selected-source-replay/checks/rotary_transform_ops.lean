@@ -1,0 +1,7 @@
+import VeriTile.Meta.StatementAudit
+import bench.repairs.tritonbench_g.rotary_transform_ops.Contract
+import bench.repairs.tritonbench_g.rotary_transform_ops.Correct
+import bench.repairs.tritonbench_g.rotary_transform_ops.FPEquiv
+
+#axiomsClean VeriTile.Bench.Repairs.RotaryTransformOps.rotary_transform_ops_correctness
+#axiomsClean VeriTile.Bench.Repairs.RotaryTransformOps.FPEquiv.rotary_grid_equiv

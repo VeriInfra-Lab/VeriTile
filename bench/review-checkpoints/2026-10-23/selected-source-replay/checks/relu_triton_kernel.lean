@@ -1,0 +1,7 @@
+import VeriTile.Meta.StatementAudit
+import bench.repairs.tritonbench_g.relu_triton_kernel.Contract
+import bench.repairs.tritonbench_g.relu_triton_kernel.Correct
+import bench.repairs.tritonbench_g.relu_triton_kernel.FPEquiv
+
+#axiomsClean VeriTile.Bench.Repairs.ReluTritonKernel.Correct.relu_kernel_correctness
+#axiomsClean VeriTile.Bench.Repairs.ReluTritonKernel.FPEquiv.relu_inlined_equiv

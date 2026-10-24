@@ -1,0 +1,9 @@
+import VeriTile.Meta.StatementAudit
+import bench.repairs.tritonbench_g.parallel_retention_attention.Contract
+import bench.repairs.tritonbench_g.parallel_retention_attention.Correct
+import bench.repairs.tritonbench_g.parallel_retention_attention.FPEquiv
+
+#axiomsClean VeriTile.Bench.Repairs.ParallelRetentionAttention.Correct.forward
+#axiomsClean VeriTile.Bench.Repairs.ParallelRetentionAttention.Correct.backward
+#axiomsClean VeriTile.Bench.Repairs.ParallelRetentionAttention.FPEquiv.forward_fused_equiv
+#axiomsClean VeriTile.Bench.Repairs.ParallelRetentionAttention.FPEquiv.backward_fused_equiv

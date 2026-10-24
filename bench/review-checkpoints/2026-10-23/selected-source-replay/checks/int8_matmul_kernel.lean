@@ -1,0 +1,7 @@
+import VeriTile.Meta.StatementAudit
+import bench.repairs.tritonbench_g.int8_matmul_kernel_modular_checked.Contract
+import bench.repairs.tritonbench_g.int8_matmul_kernel_modular_checked.Correct
+import bench.repairs.tritonbench_g.int8_matmul_kernel_modular_checked.FPEquiv
+
+#axiomsClean VeriTile.Bench.Repairs.Int8MatmulKernelModularChecked.kernel_low32
+#axiomsClean VeriTile.Bench.Repairs.Int8MatmulKernelModularChecked.FPEquiv.configuration_equiv

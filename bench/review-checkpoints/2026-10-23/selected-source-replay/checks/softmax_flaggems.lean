@@ -1,0 +1,9 @@
+import VeriTile.Meta.StatementAudit
+import bench.repairs.tritonbench_g.softmax_flaggems_finite_seed_v2.Contract
+import bench.repairs.tritonbench_g.softmax_flaggems_finite_seed_v2.KernelInterface.Correct
+import bench.repairs.tritonbench_g.softmax_flaggems_finite_seed_v2.KernelInterface.FPEquiv
+
+#axiomsClean VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.Correct.kernel_forward
+#axiomsClean VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.Correct.kernel_backward
+#axiomsClean VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.FPEquiv.source_forward
+#axiomsClean VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.FPEquiv.source_backward

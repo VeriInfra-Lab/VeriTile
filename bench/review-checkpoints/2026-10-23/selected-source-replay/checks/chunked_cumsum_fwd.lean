@@ -1,0 +1,7 @@
+import VeriTile.Meta.StatementAudit
+import bench.repairs.tritonbench_g.chunked_cumsum_fwd.Contract
+import bench.repairs.tritonbench_g.chunked_cumsum_fwd.KernelOnly.Correct
+import bench.repairs.tritonbench_g.chunked_cumsum_fwd.KernelOnly.FPEquiv
+
+#axiomsClean VeriTile.Bench.Repairs.ChunkedCumsumFwd.Correct.kernel_correct
+#axiomsClean VeriTile.Bench.Repairs.ChunkedCumsumFwd.KernelOnly.FPEquiv.chunked_cumsum_scaleFirst_equiv

@@ -17293,150 +17293,55 @@
     {
       "task": "kv_cache_filling",
       "status": "fixed",
-      "selected_public_entries": [
-        ".veritile-cache/io-unification-20261023/queue08/selected-fill/sources/bench/repairs/tritonbench_g/kv_cache_filling/Contract.lean",
-        ".veritile-cache/io-unification-20261023/queue08/selected-fill/sources/bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Correct.lean",
-        ".veritile-cache/io-unification-20261023/queue08/selected-fill/sources/bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/FPEquiv.lean"
-      ],
-      "assessment": {
-        "organization": "Memory IO and the existing named mathematical input/output adapters now live in the single task IO.lean; all public Lean names and complete bridge judgments are preserved.",
-        "preservation": {
-          "evidence": ".veritile-cache/io-unification-20261023/queue08/preservation.json",
-          "complete_bridge_and_public_types_unchanged": true,
-          "checks": [
-            {
-              "source": ".veritile-cache/io-unification-20261023/queue08/selected-fill/sources/bench/repairs/tritonbench_g/kv_cache_filling/Contract.lean",
-              "non_import_content_identical": true,
-              "source_sha256": "3a3a64622fd3d16001768f523f77d38adf1d4c54d18f28bdbc337b9851dfd5c5"
-            },
-            {
-              "source": ".veritile-cache/io-unification-20261023/queue08/selected-fill/sources/bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Correct.lean",
-              "non_import_content_identical": true,
-              "source_sha256": "dd82f0a7e7f31b99fb17afefe458169cd5408ec98de59695dcb4186e67060480"
-            },
-            {
-              "source": ".veritile-cache/io-unification-20261023/queue08/selected-fill/sources/bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/FPEquiv.lean",
-              "non_import_content_identical": true,
-              "source_sha256": "1819e0c3fa5c5cc823e5b833525ad9b95eeffd7c73dbe81c6813389b110068de"
-            },
-            {
-              "source": ".veritile-cache/io-unification-20261023/queue08/selected-fill/sources/bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Proofs/LogicalIO.lean",
-              "non_import_content_identical": true,
-              "source_sha256": "35c0a1a780409acae24a9077d710de98878f9d26dbf36ac28aeffa9d44a0899f"
-            }
-          ],
-          "sha256": "cabaee83f1057a8aee2a51b18657262941fe440ada2e725906a5a5309e032144"
-        },
-        "different_stage_or_encoding_exceptions": [],
-        "previous_assessment": {
-          "manifest": "bench/review-checkpoints/2026-10-22/logical-readers/io-audit.json",
-          "task": "kv_cache_filling"
-        }
+      "review_evidence": {
+        "path": "bench/review-checkpoints/2026-10-23/kv-reconstruction/review.json",
+        "sha256": "5357964c1d07b5ee7e193cffb02a645cc26421e9319bd6b47029691d36c90bf3"
       },
-      "distinct_views": "Correct.cacheIO is a thin QuantReal.ops specialization. Native selects QuantNative.ops over the same canonical programIO; copy/INT4/INT8 output channel types and metadata masks remain explicit. IOReal/IONative/IOCorrect contain connection proofs rather than duplicate complete records.",
+      "remaining_issues": [],
+      "superseded_review": {
+        "path": "bench/review-checkpoints/2026-10-23/kv-reconstruction/superseded-selection.json",
+        "sha256": "f1970e347dee4e23900fbe8c1e77d273f70447e13ae1aa92cf47d8a02cae3f0e"
+      },
+      "selected_public_entries": [
+        "bench/repairs/tritonbench_g/kv_cache_filling/Contract.lean",
+        "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Correct.lean",
+        "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/FPEquiv.lean"
+      ],
+      "assessment": "The task IO.lean owns the sole memory/schedule/channel interface and both bijective named mathematical views. Correct displays mathematical results; FPEquiv selects actual source variants. Proofs/LogicalIO proves the complete contract connection.",
+      "distinct_views": [
+        "Typed regional ProgramIO and bijective named mathematical view of exactly the same data."
+      ],
       "readers": [
         {
-          "path": ".veritile-cache/io-unification-20261023/queue08/selected-fill/sources/bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Correct.lean",
-          "sha256": "dd82f0a7e7f31b99fb17afefe458169cd5408ec98de59695dcb4186e67060480"
+          "path": "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Correct.lean",
+          "sha256": "2198046b504bb6373323c8b5007129da97e935e2b402a1247287fce687e0f69e"
         },
         {
-          "path": ".veritile-cache/io-unification-20261023/queue08/selected-fill/sources/bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/FPEquiv.lean",
-          "sha256": "1819e0c3fa5c5cc823e5b833525ad9b95eeffd7c73dbe81c6813389b110068de"
+          "path": "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/FPEquiv.lean",
+          "sha256": "416cac7f0b298a65744e564e7207f66e5abf042629e16e4c50f2e468f00616a2"
         }
       ],
       "io_sources": [
         {
-          "path": ".veritile-cache/io-unification-20261023/queue08/selected-fill/sources/bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/IO.lean",
-          "sha256": "fa7afc8fef90a09e09f6e974f331d639d3e124713e0ff5f02e2cc62975128d7a"
+          "path": "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/IO.lean",
+          "sha256": "ba9ff521ee6eda71c7fa23966704538e711758c986b658a953bf3479fe0e8904"
         },
         {
           "path": "VeriTile/Triton/Float/LogicalProgramIO.lean",
           "sha256": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358"
-        },
-        {
-          "path": "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean",
-          "sha256": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
-        },
-        {
-          "path": "VeriTile/Triton/Memory/LogicalIO.lean",
-          "sha256": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a"
         }
       ],
       "changed_paths": [
-        ".veritile-cache/io-unification-20261023/queue08/selected-fill/sources/bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/IO.lean"
+        "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/IO.lean",
+        "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Proofs/LogicalIO.lean"
       ],
-      "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/kv_cache_filling.json",
-        "sha256": "d4d5e97bf2b71899a23bdd2265144323837dd3d65668c89b43d277c282582135",
-        "task": "kv_cache_filling"
-      },
       "preservation_and_build_passed": true,
-      "validation_limits": {},
-      "remaining_issues": [],
-      "main_formula_review": {
-        "audit": "bench/review-checkpoints/2026-10-22/main-formulas/audit.json",
-        "review_evidence": {
-          "path": ".veritile-cache/headline-formulas-20261022/queue08/result.json",
-          "sha256": "1c6cefb0e5e34dd7ff9e674d589592ad4736676ed4ceb979443e956a4c595f92",
-          "task_index": 1,
-          "task": "kv_cache_filling"
-        },
-        "io_data_unchanged": true
-      },
-      "previous_io_sources": [
-        {
-          "path": ".veritile-cache/finish-pending-105-20261021/source-only/kv_cache_filling/sources/bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/IO.lean",
-          "sha256": "f7f94fe20b4f3206b14ab2044db9f6eb5a04bcd7b0a6635d2131e6e0774dc005"
-        }
-      ],
-      "previous_review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-22/logical-readers/tasks/kv_cache_filling.json",
-        "sha256": "b97d934793c686de95f6841c99e0437f68a4b333e0cfdb9caedda207c330a36c",
-        "task": "kv_cache_filling"
-      },
-      "unchanged_prior_io_source_origins": {
-        "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/IO.lean": [
-          {
-            "path": ".veritile-cache/finish-pending-105-20261021/source-only/kv_cache_filling/sources/bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/IO.lean",
-            "sha256": "f7f94fe20b4f3206b14ab2044db9f6eb5a04bcd7b0a6635d2131e6e0774dc005"
-          }
-        ]
-      },
-      "logical_reader_review": {
-        "path": "bench/review-checkpoints/2026-10-22/logical-readers/tasks/kv_cache_filling.json",
-        "sha256": "b97d934793c686de95f6841c99e0437f68a4b333e0cfdb9caedda207c330a36c",
-        "task": "kv_cache_filling"
-      },
-      "previous_assessment": {
-        "finding": null,
-        "resolution": "Read the exact selected frozen source-only generation. Its policy-specific canonical IO already centralizes memory, scheduling metadata, invocation, domain and candidate views; no edit or rebuild was needed."
-      },
-      "previous_changed_paths": [],
-      "previous_canonical_io_declarations": [
-        {
-          "path": ".veritile-cache/finish-pending-105-20261021/source-only/kv_cache_filling/sources/bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/IO.lean",
-          "sha256": "f7f94fe20b4f3206b14ab2044db9f6eb5a04bcd7b0a6635d2131e6e0774dc005",
-          "definitions": [
-            "Interface.inputs",
-            "Interface.outputs",
-            "Interface.inputAddress",
-            "Interface.outputAddress",
-            "Interface.outputMask",
-            "Interface.memory",
-            "Interface.invocation",
-            "Interface.programIO",
-            "Interface.candidate",
-            "Interface.inputDomain",
-            "Interface.original",
-            "Interface.indexCommuted"
-          ]
-        }
-      ],
-      "io_unification_review": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/kv_cache_filling.json",
-        "sha256": "d4d5e97bf2b71899a23bdd2265144323837dd3d65668c89b43d277c282582135",
-        "task": "kv_cache_filling"
-      }
+      "validation_limits": [
+        "Official comparator unavailable; Lean kernel and statement/axiom audits were run.",
+        "Pinned external Lean/Mathlib dependencies reuse installed artifacts. No GPU or new numerical experiment.",
+        "Historical optional raw/Tensor/host delivery remains unrecovered and is not certified by this main-kernel reconstruction.",
+        "The 183-task scan checks source availability, not fresh proof validity of every task."
+      ]
     },
     {
       "task": "l2_norm_bwd",

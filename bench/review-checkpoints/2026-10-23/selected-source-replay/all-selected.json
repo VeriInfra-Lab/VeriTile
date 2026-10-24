@@ -1,0 +1,19 @@
+{
+  "command": [
+    "lake",
+    "env",
+    "lean",
+    "bench/review-checkpoints/2026-10-23/selected-source-replay/all-selected.lean"
+  ],
+  "exit_code": 0,
+  "elapsed_seconds": 266.48327826103196,
+  "source": {
+    "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/all-selected.lean",
+    "sha256": "84fab276a6fa30d4ab54be1e838a4f8cbcf4a5b6218afc199574a12f3b5c00ff"
+  },
+  "log": {
+    "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/all-selected.log.gz",
+    "sha256": "0e92f5daef0e08a1c74132b47c955f9a4dbd6d6746ec5f90c7c95d4d676c2e17"
+  },
+  "raw_log_sha256": "4db304ea035d83d237b2771096e5910babc12567845dac3e0ca0edb7b5f53cd0"
+}

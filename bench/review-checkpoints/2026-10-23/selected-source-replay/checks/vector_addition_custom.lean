@@ -1,0 +1,7 @@
+import VeriTile.Meta.StatementAudit
+import bench.repairs.tritonbench_g.vector_addition_custom.Contract
+import bench.repairs.tritonbench_g.vector_addition_custom.Correct
+import bench.repairs.tritonbench_g.vector_addition_custom.FPEquiv
+
+#axiomsClean VeriTile.Bench.Repairs.VectorAdditionCustom.Contiguous.Correct.add_kernel_correctness
+#axiomsClean VeriTile.Bench.Repairs.VectorAdditionCustom.Contiguous.FPEquiv.add_commuted_equiv

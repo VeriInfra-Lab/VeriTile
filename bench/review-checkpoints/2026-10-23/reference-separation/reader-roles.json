@@ -10903,132 +10903,97 @@
     {
       "task": "kv_cache_filling",
       "status": "fixed",
+      "review_evidence": {
+        "path": "bench/review-checkpoints/2026-10-23/kv-reconstruction/review.json",
+        "sha256": "5357964c1d07b5ee7e193cffb02a645cc26421e9319bd6b47029691d36c90bf3"
+      },
+      "remaining_issues": [],
+      "superseded_review": {
+        "path": "bench/review-checkpoints/2026-10-23/kv-reconstruction/superseded-selection.json",
+        "sha256": "f1970e347dee4e23900fbe8c1e77d273f70447e13ae1aa92cf47d8a02cae3f0e"
+      },
       "selected_public_entries": [
-        ".veritile-cache/io-unification-20261023/queue08/selected-fill/sources/bench/repairs/tritonbench_g/kv_cache_filling/Contract.lean",
-        ".veritile-cache/io-unification-20261023/queue08/selected-fill/sources/bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Correct.lean",
-        ".veritile-cache/io-unification-20261023/queue08/selected-fill/sources/bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/FPEquiv.lean"
+        "bench/repairs/tritonbench_g/kv_cache_filling/Contract.lean",
+        "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Correct.lean",
+        "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/FPEquiv.lean"
       ],
       "readers": [
         {
-          "path": ".veritile-cache/io-unification-20261023/queue08/selected-fill/sources/bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Correct.lean",
-          "sha256": "dd82f0a7e7f31b99fb17afefe458169cd5408ec98de59695dcb4186e67060480",
+          "path": "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Correct.lean",
+          "sha256": "2198046b504bb6373323c8b5007129da97e935e2b402a1247287fce687e0f69e",
           "surface": "Correct",
           "declarations": [
             {
               "kind": "def",
-              "name": "minimum",
-              "line": 14,
-              "full_name": "VeriTile.Bench.Repairs.KvCacheFilling.Correct.Mathematics.minimum",
+              "name": "cacheIO",
+              "line": 9,
+              "full_name": "VeriTile.Bench.Repairs.KvCacheFilling.Correct.cacheIO",
               "role": "independent_mathematical_definition_or_thin_view",
-              "reason": "Pure mathematics or a thin existing IO/program interpretation reviewed with the adjacent main formula; canonical equality is checked inside the main proof or its required Proofs module. See main_formula_review."
+              "reason": "Visible independent affine mathematics / thin canonical IO view, or complete actual source pair; connected by the checked main proof."
             },
             {
               "kind": "def",
-              "name": "maximum",
-              "line": 16,
-              "full_name": "VeriTile.Bench.Repairs.KvCacheFilling.Correct.Mathematics.maximum",
+              "name": "affineScale",
+              "line": 13,
+              "full_name": "VeriTile.Bench.Repairs.KvCacheFilling.Correct.affineScale",
               "role": "independent_mathematical_definition_or_thin_view",
-              "reason": "Pure mathematics or a thin existing IO/program interpretation reviewed with the adjacent main formula; canonical equality is checked inside the main proof or its required Proofs module. See main_formula_review."
+              "reason": "Visible independent affine mathematics / thin canonical IO view, or complete actual source pair; connected by the checked main proof."
             },
             {
               "kind": "def",
-              "name": "scale",
-              "line": 18,
-              "full_name": "VeriTile.Bench.Repairs.KvCacheFilling.Correct.Mathematics.scale",
+              "name": "affineCode",
+              "line": 17,
+              "full_name": "VeriTile.Bench.Repairs.KvCacheFilling.Correct.affineCode",
               "role": "independent_mathematical_definition_or_thin_view",
-              "reason": "Pure mathematics or a thin existing IO/program interpretation reviewed with the adjacent main formula; canonical equality is checked inside the main proof or its required Proofs module. See main_formula_review."
+              "reason": "Visible independent affine mathematics / thin canonical IO view, or complete actual source pair; connected by the checked main proof."
             },
             {
               "kind": "def",
-              "name": "code",
-              "line": 19,
-              "full_name": "VeriTile.Bench.Repairs.KvCacheFilling.Correct.Mathematics.code",
+              "name": "affineRow",
+              "line": 22,
+              "full_name": "VeriTile.Bench.Repairs.KvCacheFilling.Correct.affineRow",
               "role": "independent_mathematical_definition_or_thin_view",
-              "reason": "Pure mathematics or a thin existing IO/program interpretation reviewed with the adjacent main formula; canonical equality is checked inside the main proof or its required Proofs module. See main_formula_review."
-            },
-            {
-              "kind": "def",
-              "name": "row",
-              "line": 21,
-              "full_name": "VeriTile.Bench.Repairs.KvCacheFilling.Correct.Mathematics.row",
-              "role": "independent_mathematical_definition_or_thin_view",
-              "reason": "Pure mathematics or a thin existing IO/program interpretation reviewed with the adjacent main formula; canonical equality is checked inside the main proof or its required Proofs module. See main_formula_review."
+              "reason": "Visible independent affine mathematics / thin canonical IO view, or complete actual source pair; connected by the checked main proof."
             },
             {
               "kind": "def",
               "name": "formula",
               "line": 32,
               "full_name": "VeriTile.Bench.Repairs.KvCacheFilling.Correct.formula",
-              "role": "named_io_formula_or_program_view",
-              "reason": "Frozen isolated selected generation: per-job actual copy/INT4/INT8 source versions implement the independent complete-head affine target. Uniform source-version family remains a main kernel specification."
+              "role": "independent_mathematical_definition_or_thin_view",
+              "reason": "Visible independent affine mathematics / thin canonical IO view, or complete actual source pair; connected by the checked main proof."
             },
             {
               "kind": "specification",
               "name": "whole_shared_real",
-              "line": 45,
+              "line": 47,
               "full_name": "VeriTile.Bench.Repairs.KvCacheFilling.Correct.whole_shared_real",
               "role": "independent_real",
-              "reason": "Frozen isolated selected generation: per-job actual copy/INT4/INT8 source versions implement the independent complete-head affine target. Uniform source-version family remains a main kernel specification."
+              "reason": "Visible independent affine mathematics / thin canonical IO view, or complete actual source pair; connected by the checked main proof."
             }
           ],
           "reexport_only": false
         },
         {
-          "path": ".veritile-cache/io-unification-20261023/queue08/selected-fill/sources/bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/FPEquiv.lean",
-          "sha256": "1819e0c3fa5c5cc823e5b833525ad9b95eeffd7c73dbe81c6813389b110068de",
+          "path": "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/FPEquiv.lean",
+          "sha256": "416cac7f0b298a65744e564e7207f66e5abf042629e16e4c50f2e468f00616a2",
           "surface": "FPEquiv",
           "declarations": [
             {
               "kind": "specification",
               "name": "kernel_native",
-              "line": 13,
+              "line": 14,
               "full_name": "VeriTile.Bench.Repairs.KvCacheFilling.FPEquiv.kernel_native",
               "role": "actual_program_pair",
-              "reason": "Despite its historical kernel_native name, the statement is an actual original/indexCommuted program pair for every job/PID. It is not a single-source native formula. Selected cache source remains read-only."
+              "reason": "Visible independent affine mathematics / thin canonical IO view, or complete actual source pair; connected by the checked main proof."
             }
           ],
           "reexport_only": false
         }
       ],
-      "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/kv_cache_filling.json",
-        "sha256": "d4d5e97bf2b71899a23bdd2265144323837dd3d65668c89b43d277c282582135",
-        "task": "kv_cache_filling"
-      },
-      "change": null,
-      "new_misc_entries": [],
+      "change": "Reconstructed necessary proof sources, explicit mathematics and bijective named IO. Historical cached bytes are not substituted.",
       "required_multistage_scope_preserved": true,
-      "remaining_issues": [],
-      "base_role_review": {
-        "path": "bench/review-checkpoints/2026-10-22/headline-separation/audit.json",
-        "sha256": "97fb717f03d049d9dc9a90abde1ff512dba4e0f22e896a7ce3662542bb95bc10",
-        "task": "kv_cache_filling"
-      },
-      "io_review_status": "no_issue_identified",
-      "main_formula_review": {
-        "audit": "bench/review-checkpoints/2026-10-22/main-formulas/audit.json",
-        "review_evidence": {
-          "path": ".veritile-cache/headline-formulas-20261022/queue08/result.json",
-          "sha256": "1c6cefb0e5e34dd7ff9e674d589592ad4736676ed4ceb979443e956a4c595f92",
-          "task_index": 1,
-          "task": "kv_cache_filling"
-        }
-      },
-      "previous_review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-22/logical-readers/tasks/kv_cache_filling.json",
-        "sha256": "b97d934793c686de95f6841c99e0437f68a4b333e0cfdb9caedda207c330a36c",
-        "task": "kv_cache_filling"
-      },
-      "logical_reader_review": {
-        "path": "bench/review-checkpoints/2026-10-22/logical-readers/tasks/kv_cache_filling.json",
-        "sha256": "b97d934793c686de95f6841c99e0437f68a4b333e0cfdb9caedda207c330a36c",
-        "task": "kv_cache_filling"
-      },
-      "io_unification_review": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/kv_cache_filling.json",
-        "sha256": "d4d5e97bf2b71899a23bdd2265144323837dd3d65668c89b43d277c282582135",
-        "task": "kv_cache_filling"
-      }
+      "new_misc_entries": []
     },
     {
       "task": "l2_norm_bwd",

@@ -1,0 +1,7 @@
+import VeriTile.Meta.StatementAudit
+import bench.repairs.tritonbench_g.bgmv_shrink_kernel_physical.Contract
+import bench.repairs.tritonbench_g.bgmv_shrink_kernel_physical.Correct
+import bench.repairs.tritonbench_g.bgmv_shrink_kernel_physical.FPEquiv
+
+#axiomsClean VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.Correct.kernel_real
+#axiomsClean VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.Equivalence.scalar_left_strict

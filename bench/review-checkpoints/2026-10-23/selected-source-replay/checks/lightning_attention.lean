@@ -1,0 +1,9 @@
+import VeriTile.Meta.StatementAudit
+import bench.repairs.tritonbench_g.lightning_attention.KernelOnly.Contract
+import bench.repairs.tritonbench_g.lightning_attention.KernelOnly.Correct
+import bench.repairs.tritonbench_g.lightning_attention.KernelOnly.FPEquiv
+
+#axiomsClean VeriTile.Bench.Repairs.LightningAttention.KernelOnly.forward_correct
+#axiomsClean VeriTile.Bench.Repairs.LightningAttention.KernelOnly.backward_correct
+#axiomsClean VeriTile.Bench.Repairs.LightningAttention.KernelOnly.FPEquiv.forward_equiv
+#axiomsClean VeriTile.Bench.Repairs.LightningAttention.KernelOnly.FPEquiv.backward_equiv

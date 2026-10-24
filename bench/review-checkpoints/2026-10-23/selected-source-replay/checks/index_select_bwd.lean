@@ -1,0 +1,7 @@
+import VeriTile.Meta.StatementAudit
+import bench.repairs.tritonbench_g.index_select_bwd.Contract
+import bench.repairs.tritonbench_g.index_select_bwd.Correct
+import bench.repairs.tritonbench_g.index_select_bwd.FPEquiv
+
+#axiomsClean VeriTile.Bench.Repairs.IndexSelectBwd.Correct.index_select_bwd_kernel_correctness
+#axiomsClean VeriTile.Bench.Repairs.IndexSelectBwd.FPEquiv.adaptive_tail_equiv

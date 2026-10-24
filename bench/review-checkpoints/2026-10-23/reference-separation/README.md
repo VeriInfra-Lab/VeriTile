@@ -1,5 +1,7 @@
 # Reference 模块职责整理
 
+> 本页保留 2026-10-23 的历史整理记录。当前源码补全、独立检验目录构建和联合导入结果见 [selected-source-replay](../selected-source-replay/README.md)；此前缺失的缓存证据没有被恢复，也不作为本轮的新独立复核结论。
+
 本轮检查当前选定版本中的 25 题 Reference 辅助模块。23 题需要职责拆分；`context_attn_nopad` 和 `matmul_leakyrelu_fp8` 的相应模块已具有单一主证明职责，保留现状。其余 158 题复用上一轮检查记录，本轮没有重新声称全库语义验收。
 
 这是一轮源码组织整理，不新增数学证明完成数。整题状态维持 182 `verified`、1 `verified_with_deferred_numerics`（`matmul_leakyrelu`）；没有新增数值规则、实验或 GPU 回放。

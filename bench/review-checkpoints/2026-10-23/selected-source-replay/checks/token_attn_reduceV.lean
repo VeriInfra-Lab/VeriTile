@@ -1,0 +1,7 @@
+import VeriTile.Meta.StatementAudit
+import bench.repairs.tritonbench_g.token_attn_reduceV_grid_y_checked.Contract
+import bench.repairs.tritonbench_g.token_attn_reduceV_grid_y_checked.Correct
+import bench.repairs.tritonbench_g.token_attn_reduceV_grid_y_checked.FPEquiv
+
+#axiomsClean VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.grid_real
+#axiomsClean VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.FPEquiv.affine_address_equiv
