@@ -1,0 +1,220 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "1e3d739dbd02b1d069c3160d3877a1568fa4d957",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "f8_conversion_utils",
+    "l2_norm_bwd"
+  ],
+  "semantic_review": {
+    "adam_update_triton": "Shared FP8 source dtype support and standard configured-JIT correspondence regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "add_example": "Shared FP8 source dtype support and standard configured-JIT correspondence regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "add_value": "Shared FP8 source dtype support and standard configured-JIT correspondence regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "cache_transform_triton": "Shared FP8 source dtype support and standard configured-JIT correspondence regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "cosine_compute": "Shared FP8 source dtype support and standard configured-JIT correspondence regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "dequantize_rowwise": "Shared FP8 source dtype support and standard configured-JIT correspondence regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "index_select_bwd": "Shared FP8 source dtype support and standard configured-JIT correspondence regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "kldiv_compute": "Shared FP8 source dtype support and standard configured-JIT correspondence regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "l2_norm_triton1": "Shared FP8 source dtype support and standard configured-JIT correspondence regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "l2_norm_triton2": "Shared FP8 source dtype support and standard configured-JIT correspondence regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "masked_add_cuda": "Shared FP8 source dtype support and standard configured-JIT correspondence regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "matrix_reduction": "Shared FP8 source dtype support and standard configured-JIT correspondence regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "matrix_transpose": "Shared FP8 source dtype support and standard configured-JIT correspondence regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "mean_reduction": "Shared FP8 source dtype support and standard configured-JIT correspondence regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "mul_exponent_compensator": "Shared FP8 source dtype support and standard configured-JIT correspondence regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "rmsnorm_fused": "Shared FP8 source dtype support and standard configured-JIT correspondence regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "rmsnorm_fused_llama": "Shared FP8 source dtype support and standard configured-JIT correspondence regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "rmsnorm_implementation": "Shared FP8 source dtype support and standard configured-JIT correspondence regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "rmsnorm_triton": "Shared FP8 source dtype support and standard configured-JIT correspondence regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "sin_computation": "Shared FP8 source dtype support and standard configured-JIT correspondence regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "sin_kernel": "Shared FP8 source dtype support and standard configured-JIT correspondence regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "softmax_triton1": "Shared FP8 source dtype support and standard configured-JIT correspondence regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "softmax_triton2": "Shared FP8 source dtype support and standard configured-JIT correspondence regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "square_matrix": "Shared FP8 source dtype support and standard configured-JIT correspondence regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "swiglu_fwd": "Shared FP8 source dtype support and standard configured-JIT correspondence regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "triton_mul2": "Shared FP8 source dtype support and standard configured-JIT correspondence regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "triton_softmax": "Shared FP8 source dtype support and standard configured-JIT correspondence regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "var_len_copy": "Shared FP8 source dtype support and standard configured-JIT correspondence regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "vector_addition": "Shared FP8 source dtype support and standard configured-JIT correspondence regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "vector_addition_custom": "Shared FP8 source dtype support and standard configured-JIT correspondence regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "f8_conversion_utils": "Paste the actual two selected Python conversion functions for every existing native ABI: E4/E5 decoder and FP16/FP32-to-E4/E5 encoder, with six explicit original/candidate profiles and twelve full bodies. Preserve both decoder stores and all masked loads/stores. N remains a runtime integer, only BLOCK_SIZE constexpr. Extend source-level call dtype metadata for the existing FP8 model, retaining true FP8-to-half and half/single-to-FP8 implicit store conversions without adding source casts. Materialize only the already existing Lean integer-index candidate as clearly marked authored Python, never a historical original reference. Complete actual source/candidate function families equal the old full typed programs by all input/format/swapped cases and rfl, including every call argument and header. Re-prove complete actual arbitrary-algebra executions, safety, every typed output/frame, independent Real projection, full chunk/host and optional strict word/native/Tensor scopes. Existing numerical conversion/word models and historical CUDA evidence remain unchanged and unrepinned; no GPU experiment or new numerical law. Both FP8 call formats are independently checked and cannot reuse each others ABI review.",
+    "triton_argmax": "Shared frontend dependency regression only: source/candidate bodies and all mathematical/numerical scopes are unchanged at this code checkpoint. Exact public/deep roots are recorded in modules.json. No body migration is counted for this task unless the source inventory independently records it.",
+    "l2_norm_bwd": "Paste both actual repaired and retained index-commuted Python functions with every cast, separate X/DY/DX strides, runtime epsilon, masks, two reductions and ordered arithmetic. Seven explicit int64 runtime arguments use Int-valued external bindings; epsilon remains a raw runtime FP32 scalar slot, only BLOCK_N constexpr. Preserve all prior Nat stride geometry, allocation/storage offsets, dimensions, independent mathematical derivative, arbitrary typed input/output/frame and complete safety scope; no contiguous or fixed-size replacement. Re-prove every actual statement and full executions using exact integer-to-natural address/mask normalization, with existing word/ABI bounds and numerical primitives. All prior byte-level strided native, host failure/admission/setup and Tensor outcomes replay. Correspondence accepts the real configured jit decorators, records their literal do_not_specialize and alignment options without misclassifying runtime inputs as constexpr, and rejects unknown frontend overrides and invalid/dynamic option lists. No new FP numerical rule, cast identity assumption or whole-program premise."
+  },
+  "example_regression_scope": "All 19 examples and their complete imported helpers replay locally, jointly and independently from Git. Their sources, formulas, numerical contracts and scopes are unchanged.",
+  "verification": {
+    "integration": {
+      "status": "PASS",
+      "explicit_modules": 1044,
+      "jobs": 9917
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 1044,
+      "jobs": 9917,
+      "project_build_initially_present": false,
+      "veritile_cache_initially_present": false,
+      "only_fixed_external_dependencies_reused": true
+    },
+    "joint_import": "PASS: all 1044 roots",
+    "task_directories": "Every Lean file in both newly migrated task directories, including optional native/host/Tensor readers and all complete semantic/source-binding proofs.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 45
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 290,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by the old numerical receipt; prior baseline preserved, no false repin."
+    },
+    "official_comparator": "UNAVAILABLE: two actual frozen-source invocations report missing setup; actual setup attempt reports Go 1.24+ unavailable.",
+    "optional_cpu_contract": "UNAVAILABLE: current environment lacks torch; actual failure retained.",
+    "gpu_or_numerical_experiment": "Not run. No new numeric laws, axioms or hardware-conformance claim.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending."
+  },
+  "source_pairs": {
+    "total": 133,
+    "pasted_body": 128,
+    "legacy_ast": 5
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-24/native-fp8-and-strided-l2/source-closure.json",
+    "sha256": "8faf0bbfeccb9f5eedc055254d9b8095a50412f023b6dc960516fcb81d1ddb17"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "legacy_ast_only": 1,
+      "no_selected_jit_resolved": 2,
+      "selected_body_copy_checked": 32,
+      "uncovered_jit_functions": 148
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 328,
+    "uncovered_selected_jit_functions": 275,
+    "primary_files_with_int64_screen_warning": 40,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 119,
+        "antiquotes": 131,
+        "dsl_loop": 1,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-fp8-and-strided-l2/all-python.log.gz",
+      "sha256": "662ece9b807bc4fbd1e60252857a51cc9e5440c145cdfc48e61effdde344b0eb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-fp8-and-strided-l2/clean-build.log.gz",
+      "sha256": "698521375fa8d64a4ec05e1c838bb7958739fbb7c3e331d4d02b3875bc888fa5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-fp8-and-strided-l2/clean-setup.log",
+      "sha256": "6527d2d1ac2144b9640810ba48f0fee11a8f3f4c6f725c60c88f5265d3a96ddb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-fp8-and-strided-l2/comparator-setup.log",
+      "sha256": "966444dfba517a8f7a02a7a9c8eec7b69510e8f37fd1c14be40e7ddab6031c77"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-fp8-and-strided-l2/comparator.log",
+      "sha256": "384f2a4460a91fb6289180b4ece69c57c3f5142edb1ea176d45f07c0ee939b92"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-fp8-and-strided-l2/contract.log",
+      "sha256": "900b9e5762f2b0542c13d6dad260f945da403b84d3979b4b416e3e1d868e5ebe"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-fp8-and-strided-l2/corpus-guard.log",
+      "sha256": "2c64f9b3879cd0e5825b5c64451fef9f9002f9c3e8a2c5c315c4dcffa562b8c9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-fp8-and-strided-l2/f8_conversion_utils-comparator.log",
+      "sha256": "94a6025973e0bd886d30f7e9f18db058772dad30b0f984e11ae9e70f7e54536b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-fp8-and-strided-l2/f8_conversion_utils-contract.log",
+      "sha256": "330d5be8a272edacc629aacab0d0f35e90bb8e5a4dfb558c28ab6588ca6dcef1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-fp8-and-strided-l2/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-fp8-and-strided-l2/integration.log.gz",
+      "sha256": "bacdaad825da6f5b6b79cd303b09f4bc5d38ace51f35edd46f3e7fa0071ee39d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-fp8-and-strided-l2/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-fp8-and-strided-l2/joint.lean",
+      "sha256": "544b71793e6e3add6e2fc1dd8803b8596b638121e6ae609b20b17d678d6c7263"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-fp8-and-strided-l2/joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-fp8-and-strided-l2/l2_norm_bwd-comparator.log",
+      "sha256": "94a6025973e0bd886d30f7e9f18db058772dad30b0f984e11ae9e70f7e54536b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-fp8-and-strided-l2/l2_norm_bwd-contract.log",
+      "sha256": "c536b0ea4d3a615e2aba9ca7a8c305dbf3f83b67a6d4337fa3fe95a8787ea3a1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-fp8-and-strided-l2/modules.json",
+      "sha256": "ae04f65e85de5b701bf40784dc90a1ac40a2e8db0faaa90295066e72fb694992"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-fp8-and-strided-l2/pairs.json",
+      "sha256": "2a8d1e7facf6f93ae2a69ff5c9f5f6758914f6ace5228ad03c8c62e84e8c4951"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-fp8-and-strided-l2/previous-selected-reviews.json.gz",
+      "sha256": "45de1a9c833e09fdba7f74fdb73cc59dad98728aaf551507cd52f65704bf016e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-fp8-and-strided-l2/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-fp8-and-strided-l2/python-tests.log",
+      "sha256": "806b89f849fa03ab30ed48704a719d8d432158e6769ff253af4c3c7aeffcaaf4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-fp8-and-strided-l2/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-fp8-and-strided-l2/source-closure.json",
+      "sha256": "8faf0bbfeccb9f5eedc055254d9b8095a50412f023b6dc960516fcb81d1ddb17"
+    }
+  ]
+}

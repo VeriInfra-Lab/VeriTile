@@ -1,0 +1,12 @@
+
+Task f8_conversion_utils
+Traceback (most recent call last):
+  File "/tmp/veritile-fp8-l2-clean/bench/repairs/tritonbench_g/f8_conversion_utils/test_revision.py", line 11, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'
+
+Task l2_norm_bwd
+Traceback (most recent call last):
+  File "/tmp/veritile-fp8-l2-clean/bench/repairs/tritonbench_g/l2_norm_bwd/check_contract.py", line 10, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'

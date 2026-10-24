@@ -1,0 +1,6 @@
+
+Task f8_conversion_utils
+[FAIL] Official comparator is required; run scripts/setup-comparator.sh and add its bin directory to PATH.
+
+Task l2_norm_bwd
+[FAIL] Official comparator is required; run scripts/setup-comparator.sh and add its bin directory to PATH.
