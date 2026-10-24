@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/tmp/veritile-pr18-review/bench/repairs/tritonbench_g/masked_add_cuda/check_contract.py", line 8, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'

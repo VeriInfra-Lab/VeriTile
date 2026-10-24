@@ -1,0 +1,141 @@
+{
+  "task": "masked_add_cuda",
+  "status": "fixed",
+  "selected_public_entries": [
+    "bench/repairs/tritonbench_g/masked_add_cuda/Contract.lean",
+    "bench/repairs/tritonbench_g/masked_add_cuda/Correct.lean",
+    "bench/repairs/tritonbench_g/masked_add_cuda/FPEquiv.lean"
+  ],
+  "assessment": {
+    "organization": "The original memory IO and complete logical input/output view now share the task IO.lean; original namespaces, encodings/stages and definitions are retained; proof connections remain in Proofs.",
+    "preservation": {
+      "evidence": {
+        "path": ".veritile-cache/io-unification-20261023/queue09/source-preservation.json",
+        "sha256": "17c7342caa6fb24ea081d4ef30b05bff7774be00d799760f073c758490b30c47"
+      },
+      "moved_definition_bodies": "byte-identical chunks with the same namespace and public declaration names",
+      "complete_judgments": "all selected Contract/Correct/FPEquiv files are byte-identical; all LogicalReader non-import bodies, including full judgment equivalences, are byte-identical",
+      "selected_public_files": {
+        "bench/repairs/tritonbench_g/masked_add_cuda/Contract.lean": {
+          "before": "d65db151fab3c1ffc106d0963d60dd31ac32d07c60b43daa557d05edc0702589",
+          "current": "d65db151fab3c1ffc106d0963d60dd31ac32d07c60b43daa557d05edc0702589"
+        },
+        "bench/repairs/tritonbench_g/masked_add_cuda/Correct.lean": {
+          "before": "9dbf8a7cd2457a52baac247b8db8952041e2ea3f1082827215fa086d438142d2",
+          "current": "9dbf8a7cd2457a52baac247b8db8952041e2ea3f1082827215fa086d438142d2"
+        },
+        "bench/repairs/tritonbench_g/masked_add_cuda/FPEquiv.lean": {
+          "before": "c37c6687ae4607cb852804a140b1ab46afb9945fb72773e22ade5c0ff4c618c0",
+          "current": "c37c6687ae4607cb852804a140b1ab46afb9945fb72773e22ade5c0ff4c618c0"
+        }
+      },
+      "connection_proof_nonimport_body_equal": true,
+      "kernels_unchanged": {
+        "bench/repairs/tritonbench_g/masked_add_cuda/Kernels.lean": "33bfd159053c1ab5fefaaef14bf14b90ad25a22d6aee2b2ccf096977043be884"
+      }
+    },
+    "different_stage_or_encoding_exceptions": [],
+    "previous_assessment": {
+      "manifest": "bench/review-checkpoints/2026-10-22/logical-readers/io-audit.json",
+      "task": "masked_add_cuda"
+    }
+  },
+  "distinct_views": "The native typed-cell graph ProgramIO and Real Algorithm UKernelIO use different encodings and observations. The latter erases source arithmetic to Real, carries signed mask channels and a data-dependent write mask; both complete descriptions are already in task IO.lean. Correct keeps a thin alias.",
+  "readers": [
+    {
+      "path": "bench/repairs/tritonbench_g/masked_add_cuda/Correct.lean",
+      "sha256": "9dbf8a7cd2457a52baac247b8db8952041e2ea3f1082827215fa086d438142d2"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/masked_add_cuda/FPEquiv.lean",
+      "sha256": "c37c6687ae4607cb852804a140b1ab46afb9945fb72773e22ade5c0ff4c618c0"
+    }
+  ],
+  "io_sources": [
+    {
+      "path": "VeriTile/Triton/Float/LogicalProgramIO.lean",
+      "sha256": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358"
+    },
+    {
+      "path": "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean",
+      "sha256": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+    },
+    {
+      "path": "VeriTile/Triton/Memory/LogicalIO.lean",
+      "sha256": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/masked_add_cuda/IO.lean",
+      "sha256": "c23bddec72d2f02c53d5e21055d340e9a6a84de1d07567169a027eb5a3815844"
+    }
+  ],
+  "changed_paths": [
+    "bench/repairs/tritonbench_g/masked_add_cuda/IO.lean"
+  ],
+  "review_evidence": {
+    "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/masked_add_cuda.json",
+    "sha256": "531e97f5dd58e5395d049ef48741e27e131140b92551ff8da57e96bde1f75ca7",
+    "task": "masked_add_cuda"
+  },
+  "preservation_and_build_passed": true,
+  "validation_limits": {},
+  "remaining_issues": [],
+  "main_formula_review": {
+    "audit": "bench/review-checkpoints/2026-10-22/main-formulas/audit.json",
+    "review_evidence": {
+      "path": ".veritile-cache/headline-formulas-20261022/queue09/result.json",
+      "sha256": "2dde02cdfdf23a0606104df16f9c3f68ddba1cc241ee7e8e169fa677d494971c",
+      "task_index": 4,
+      "task": "masked_add_cuda"
+    },
+    "io_data_unchanged": true
+  },
+  "previous_io_sources": [
+    {
+      "path": "bench/repairs/tritonbench_g/masked_add_cuda/IO.lean",
+      "sha256": "12fc285966a1f8cf03eb646103d1f51cd75baeca2281836a3c29f9e578a04e89"
+    }
+  ],
+  "previous_review_evidence": {
+    "path": "bench/review-checkpoints/2026-10-22/logical-readers/tasks/masked_add_cuda.json",
+    "sha256": "6a780f91d25d13c252ad09d49ece5ee0165d544e337d90178fd89a4524898fbf",
+    "task": "masked_add_cuda"
+  },
+  "unchanged_prior_io_source_origins": {
+    "bench/repairs/tritonbench_g/masked_add_cuda/IO.lean": [
+      {
+        "path": "bench/repairs/tritonbench_g/masked_add_cuda/IO.lean",
+        "sha256": "12fc285966a1f8cf03eb646103d1f51cd75baeca2281836a3c29f9e578a04e89"
+      }
+    ]
+  },
+  "logical_reader_review": {
+    "path": "bench/review-checkpoints/2026-10-22/logical-readers/tasks/masked_add_cuda.json",
+    "sha256": "6a780f91d25d13c252ad09d49ece5ee0165d544e337d90178fd89a4524898fbf",
+    "task": "masked_add_cuda"
+  },
+  "previous_assessment": "No complete IO duplication or misplaced reusable data in the selected interfaces was found.",
+  "previous_changed_paths": [],
+  "previous_canonical_io_declarations": [
+    {
+      "path": "bench/repairs/tritonbench_g/masked_add_cuda/IO.lean",
+      "definitions": [
+        "NativeIO.inputs",
+        "NativeIO.outputs",
+        "NativeIO.inputLane",
+        "NativeIO.outputLane",
+        "NativeIO.LeafGradient",
+        "NativeIO.invocation",
+        "NativeIO.originalIO",
+        "NativeIO.candidate",
+        "RealIO.io"
+      ],
+      "sha256": "12fc285966a1f8cf03eb646103d1f51cd75baeca2281836a3c29f9e578a04e89"
+    }
+  ],
+  "io_unification_review": {
+    "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/masked_add_cuda.json",
+    "sha256": "531e97f5dd58e5395d049ef48741e27e131140b92551ff8da57e96bde1f75ca7",
+    "task": "masked_add_cuda"
+  }
+}

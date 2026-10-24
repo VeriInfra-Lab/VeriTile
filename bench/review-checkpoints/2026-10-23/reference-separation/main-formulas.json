@@ -76,8 +76,8 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/adam_update_triton.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "Regression only, not a body-copy migration. Correct generic bool-to-floating multiplication lowering to retain the floating multiply and 0/1 conversion; the canonical runtime task already spells out that multiplication. Repair old mathematical-adapter sign-case proofs, preserving the independent Lion formula and all public scopes; replay actual Real and FP entries. Its original Python source is registered for the worked example, whose body migration is still pending.",
-        "current_native_example_review": "Complete grid-helper API compatibility regression: retain the same shared ordinary-grid layout, constructed frames and both in-place outputs. Full native-example-to-mathematical-kernel equality is definitional. Re-open compatibility aliases to those complete algorithm frames and adapt one explicit unfolding in the benchmark frame proof. All selected-config grid, host and native word scopes are replayed. This task still awaits its own Python-body migration and is not counted complete."
+        "current_body_source_review": "Paste both complete selected repaired Python bodies. Preserve unused total runtime count as the autotune key, runtime chunk count, all four FP32 scalar registers, every bool multiply, mask, address and both in-place stores. Only BLOCK_SIZE is constexpr. Generic tile execution now carries actual fp32Load callbacks for all three loaded operands; the existing native-word graph already makes those loads identity, with no new assumption. Re-prove Real formula, both source/safe executions, all original selected configurations, full arbitrary-order grid and both complete output/frame judgments, including host/native optional results. Keep the observed ordered FMA graph and all scalar/payload bit patterns. Raise only the owning proof library stack allowance after default-stack replay failed; larger-stack proof replay passes with no statement weakening.",
+        "current_native_example_review": "Historical regression description retained by the previous checkpoint; the current selected task is now migrated and verified in current_body_source_review."
       },
       "fp_program_pair": {
         "floating_point.actual_pair": "FPEquiv.original ≡[[]] FPEquiv.candidate; existing momentum spelling diff*beta2+grad becomes grad+diff*beta2",
@@ -102,7 +102,7 @@
         "bench/repairs/tritonbench_g/adam_update_triton/FPEquiv.lean": "d5cb648e7a1572759456f6d00446242d2c760377fc0e30948df2d6d712f6d6eb",
         "bench/repairs/tritonbench_g/adam_update_triton/IO.lean": "2a1dfad9e71233972f620c16787705d748c18385a376fbce6ab80c78c8ff2eed",
         "bench/repairs/tritonbench_g/adam_update_triton/Proofs/LogicalReader.lean": "1d3698db0cc53f1c8e1aa7c775f34a11c3ec084e57cf19b93bcf6e098088f351",
-        "bench/repairs/tritonbench_g/adam_update_triton/Kernels.lean": "75bb80be57b29a609330378d3df8cb162efe55992005bcd48f58900d122b0251",
+        "bench/repairs/tritonbench_g/adam_update_triton/Kernels.lean": "36a7a97caceb574803d1bcdb87aa81dfd317f369aae9924d8eb322d1d97a770d",
         "bench/repairs/tritonbench_g/adam_update_triton/Proofs/IOReal.lean": "23659924769bb9e586c6818cbea292eb8a0bc3990f27fde0e17fa6d89ec41c0d",
         "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
         "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
@@ -111,7 +111,13 @@
         "bench/repairs/tritonbench_g/adam_update_triton/PairIO.lean": "b7d4ff19162cde00920be95a48bf55edbdb3f502581e727ed1533ecdf6be0768",
         "VeriTile/Triton/DSL/Expansion/Compute.lean": "4114e5eaf43a7fff29d7f36ac5349812b0379bd6389e8a1851221b4c6ecc7a39",
         "VeriTile/Triton/DSL/CallValue.lean": "129b8e125046696bc0779d75fa634d454afd29c6a0a3f65aeb7ed62cd689a028",
-        "bench/tritonbench_g/adam_update_triton/Proofs/GridFrameReuse.lean": "f74033a217a89a96fd1454299081d5e17f3ee38e6a43b53b5c8e7db547963744"
+        "bench/tritonbench_g/adam_update_triton/Proofs/GridFrameReuse.lean": "f74033a217a89a96fd1454299081d5e17f3ee38e6a43b53b5c8e7db547963744",
+        "bench/repairs/tritonbench_g/adam_update_triton/jit-correspondence.json": "eee33d2df51a0ef581ce1a378896aef05b06968e88aeedf42bc7a73e329fc31d",
+        "bench/repairs/tritonbench_g/adam_update_triton/Proofs/CommutedSafety.lean": "824b60182a92015009f2a365285bac921a5f5a1fe40dfad019a1ad086fccc1bb",
+        "bench/repairs/tritonbench_g/adam_update_triton/Proofs/AccessSafety.lean": "15472f2ed91a0e971189033fcb4f0fb57117d60d03cd400cf4acabb9c5d506d3",
+        "bench/repairs/tritonbench_g/adam_update_triton/candidate_kernels.py": "8c38ad2db83b60c42c3ff69c1eda1b8c7a9a03c539355ea3b6ed8117bce3ef0a",
+        "bench/repairs/tritonbench_g/adam_update_triton/Proofs/Tile.lean": "639e28d80eab6107c50184630a4a0ee4116a273557b463fb2c7efaa6e5454f46",
+        "bench/repairs/tritonbench_g/adam_update_triton/Proofs/CommutedTile.lean": "213098d0f591a62cb52e31aa3bce56fed5d38d44f6392daefff1ccfb88968cfb"
       },
       "source_pin_provenance": {
         "bench/repairs/tritonbench_g/adam_update_triton/Contract.lean": {
@@ -176,26 +182,30 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/review.json",
-        "sha256": "4b15d23fd6ceb27300536e1f88c559ca4c18cc15ae6bfb6fabaf4097a2db49ff"
+        "path": "bench/review-checkpoints/2026-10-24/native-adam-and-masked-add/review.json",
+        "sha256": "111c71c3db622951f0bc6d00567fc6bd9bbfc418f883ecc02bd08184df82a430"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "scope": "Complete combined source/public/deep replay and independent cold project checkout; unchanged task bodies plus all complete actual-source examples.",
+        "scope": "Every Lean file in each migrated task, old combined regressions, all public/optional scopes, full joint import and independent cold source-matching partitions.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/integration.log.gz",
-            "sha256": "8670b158f8263d533a7d23b31e83a12d51fe495124839fcf976aa947ab982fb0"
+            "path": "bench/review-checkpoints/2026-10-24/native-adam-and-masked-add/integration.log.gz",
+            "sha256": "595c50ce77c3a28034ee1f97ae42c413d0765d2708de7aede83f6dedc34f338f"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/clean-build.log.gz",
-            "sha256": "6fde053cc607e5efd96f60a1afd2974478b357c820975008e576f2165ee686a5"
+            "path": "bench/review-checkpoints/2026-10-24/native-adam-and-masked-add/adam-task-clean-build.log.gz",
+            "sha256": "3d2b8b455af044cc49d11f982fb7c3ec81591831779a523c5e9c9729b00c2acd"
+          },
+          {
+            "path": "bench/review-checkpoints/2026-10-24/native-adam-and-masked-add/masked-body-clean-build.log.gz",
+            "sha256": "4ffd7c41c9da5b9e8adf60cb9d18fbf2669fd226175b44a4cb11b2e57e02b3cb"
           }
         ],
         "limits": [
-          "Official comparator is unavailable; actual failure retained.",
-          "One demonstrated pre-existing numerical receipt hash failure; no GPU/native experiment.",
-          "Task body corpus remains incomplete; merge is not approved."
+          "Official comparator unavailable; actual failures retained.",
+          "Known old numerical receipt hash error; optional CPU contract lacks torch.",
+          "Task corpus incomplete, no GPU experiments and merge awaits human review."
         ]
       },
       "field_provenance": {
@@ -52431,7 +52441,8 @@
           }
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/masked_add_cuda.json",
-        "statement_scope_unchanged": true
+        "statement_scope_unchanged": true,
+        "current_body_source_review": "Paste both actual original/candidate bodies for each signed int32/int64 mask ABI. Runtime n_elements and FP32 alpha remain external call bindings; only BLOCK_SIZE is constexpr. Remove the old extra alpha.to(float32), absent from Python. The new signature includes all three real input ports; the old inferred metadata omitted the integer mask. Complete mathematical algorithm projections preserve body/output and explicitly correct that port list; full Real execution is reconnected to the existing independent masked-add formula. Re-prove actual arbitrary-algebra typed execution with the true literal/load callbacks, both native graph executions, complete memory equality, safety and full frames, all dimensions and both mask branches. The old cast is identity in the fixed native FMA graph; complete selected-graph and Real preservation to the frozen old presentation are proved, not asserted AST-identical. Keep the original active-grad leaf domain, arbitrary data graphs, all words, native scalar conversion and FMA operand order. No new numerical law or additional source cast."
       },
       "fp_program_pair": {
         "fp_pair": "KernelNativeResults.original vs commutedKernel: product is moved to the left of addition in the actual source.",
@@ -52449,23 +52460,23 @@
         "bench/repairs/tritonbench_g/masked_add_cuda/Contract.lean": "d65db151fab3c1ffc106d0963d60dd31ac32d07c60b43daa557d05edc0702589",
         "bench/repairs/tritonbench_g/masked_add_cuda/Correct.lean": "9dbf8a7cd2457a52baac247b8db8952041e2ea3f1082827215fa086d438142d2",
         "bench/repairs/tritonbench_g/masked_add_cuda/FPEquiv.lean": "c37c6687ae4607cb852804a140b1ab46afb9945fb72773e22ade5c0ff4c618c0",
-        "bench/repairs/tritonbench_g/masked_add_cuda/IO.lean": "c23bddec72d2f02c53d5e21055d340e9a6a84de1d07567169a027eb5a3815844",
-        "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/IOReal.lean": "d38ae7f6479191aef5734343fcf841b6a9666e6e48a959faf171b9e41e424d7a",
+        "bench/repairs/tritonbench_g/masked_add_cuda/IO.lean": "b06df86a28cfda358f50c9303a54a14cfc0c30f489b9f1f227809b29f1051032",
+        "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/IOReal.lean": "153b2535b061ba55165bd0f4c87f954b37dc06ea98e1816c7b076ade68c6c8f8",
         "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/LogicalReader.lean": "7eee4b9ef357270fce28743441f222a191cfbd290e6e67464a4191206485d613",
-        "bench/repairs/tritonbench_g/masked_add_cuda/Kernels.lean": "33bfd159053c1ab5fefaaef14bf14b90ad25a22d6aee2b2ccf096977043be884",
+        "bench/repairs/tritonbench_g/masked_add_cuda/Kernels.lean": "262897510bf2a43291910c06c61e583871cbf7cd7cfde917fada408d5c132d5f",
         "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/KernelNativeResults.lean": "a895d84f3d4a2dbbf22dd38adf222dbe2d8e869aa92230a5c4ec835584811477",
         "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
         "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
         "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8",
         "bench/repairs/tritonbench_g/masked_add_cuda/Misc/NativeCorrect.lean": "1df46ed25715075b3fabc9ae438867e03daefc502caccc27f30ec0460b45f08f",
         "bench/repairs/tritonbench_g/masked_add_cuda/Misc/TensorBridge.lean": "77c21f080188db7d9719526632b56797b6ccc0a093c20954b9afaf3d65d661fb",
-        "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/Source.lean": "e5a7209288e8554bcd544fd5400ac6905ce41b2a765dddbabe9c70bdf29dd23d",
-        "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/Variant.lean": "e5b78162ad16b6077b6766c7afd8fe227016c2752bb6a36385d5ef4c4a15dd53",
+        "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/Source.lean": "30a2dd2f33ba80f1fab995e47d9abc6275573e841674cea0c3d40368f7bd73af",
+        "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/Variant.lean": "bee007dc0e6bfa1b0cf6891f021959ba1a16a26aed95f96260e49f86fe8f830d",
         "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/Real.lean": "20f7fb27c2fbaef9de19161f9cfc56c183251b0925f8e7e33d486f420a9362db",
-        "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/SourcePreservation.lean": "c004ffe646e015bd6bb4340a1cc420491cc0514d18698ad6f6622d88411c6de5",
+        "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/SourcePreservation.lean": "69be5ab29330593fe07f5c2868fa16678914edb19331b83cb3bbff0dde5b4759",
         "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/IOEquiv.lean": "69859ceadb0e6066acaab0845f64b7f5ec1f1f3c29e61cac8e8883a0c147c05d",
-        "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/Typed.lean": "2b4358a5d4e8219ddd938a4de9ee1388fcecb9193b8f9319731903118452f0d3",
-        "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/AccessSafety.lean": "74c55d25a8ed397bfbc7977387834f0df1345399eb95f9ca8574395aca5ab291",
+        "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/Typed.lean": "dcd1be773326e166287e9e50ff9af4687fdd12765c1e851c9612ecdebea7d76e",
+        "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/AccessSafety.lean": "20b0064e7d3dfee34bfcbb8049726cbaa3d382b153f455dbf937a5893f22264d",
         "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/Grid.lean": "b1550a44fbd75552fae0ab4bbf90a726147cba7c2d2d4bf45484243e7ce533fe",
         "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/Host.lean": "d8bd9d459a6ca2abae948080592bb4bd8328c07e1208c51f0ab9ff8806d7b69f",
         "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/MemoryContract.lean": "f17f3f97e5ca019b23ed80568d7bc4c5d74266a9c94a67d4bc6354bc2b932080",
@@ -52477,7 +52488,9 @@
         "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/Schedule.lean": "c553c1fdd240a5e483497d5eeb6e6a3dcd39fa116000a9b62a10d3473af188bf",
         "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/LegacySurface.lean": "cbee963b84da1e89bad62174d896e5dfdede2d60ff1f2741f52665abc517fa6b",
         "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/Counterexamples.lean": "5c41b17bbcf6669cdb53a6c0364180970f9ea15bc2ddf44f8d96169d5d2c727c",
-        "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/KernelRealResults.lean": "75b89b97f20ad7b3cc7edd092194caa601e85c2dc96733f270ad0be4f7791abe"
+        "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/KernelRealResults.lean": "97e9a563481dbad11a32730de21741cd89a76c306f269886d587b3f8008ee2da",
+        "bench/repairs/tritonbench_g/masked_add_cuda/candidate_kernels.py": "f49ecfb65e08720877cc0130efcc11e53c9475847db62c44cd15fdcba2f3e05f",
+        "bench/repairs/tritonbench_g/masked_add_cuda/jit-correspondence.json": "c70528aa599506266814aae7d8942abc48716c3c583fd0cf438aafa0255480a0"
       },
       "source_pin_provenance": {
         "bench/repairs/tritonbench_g/masked_add_cuda/Contract.lean": {
@@ -52646,43 +52659,31 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/masked_add_cuda.json",
-        "sha256": "531e97f5dd58e5395d049ef48741e27e131140b92551ff8da57e96bde1f75ca7",
-        "task": "masked_add_cuda"
+        "path": "bench/review-checkpoints/2026-10-24/native-adam-and-masked-add/review.json",
+        "sha256": "111c71c3db622951f0bc6d00567fc6bd9bbfc418f883ecc02bd08184df82a430"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "limits": [
-          "The official comparator is unavailable; no comparator PASS is claimed.",
-          "External pinned Lean/Mathlib artifacts are reused.",
-          "No new GPU or numerical experiment. The existing matmul_leakyrelu numerical deferral remains.",
-          "Historical cache/tmp evidence bytes were not recovered. Current build and axiom checks replace the missing proof receipts, not the historical hashes or independent-review claim.",
-          "Seven optional historical KV ABI/raw/host/Tensor/backing modules remain unrecovered and outside the selected main source scope."
-        ],
+        "scope": "Every Lean file in each migrated task, old combined regressions, all public/optional scopes, full joint import and independent cold source-matching partitions.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/selected-build.json",
-            "sha256": "924f91ab59eb29597e96e7fc7a2c001bce1517ca9b87b27dddf66fd1cd2c843d"
+            "path": "bench/review-checkpoints/2026-10-24/native-adam-and-masked-add/integration.log.gz",
+            "sha256": "595c50ce77c3a28034ee1f97ae42c413d0765d2708de7aede83f6dedc34f338f"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/masked_add_cuda.lean",
-            "sha256": "3571f999c18b9a2ebd32b8226b61b43a6c398a688289e91216ceaf93c83d36bc"
+            "path": "bench/review-checkpoints/2026-10-24/native-adam-and-masked-add/adam-task-clean-build.log.gz",
+            "sha256": "3d2b8b455af044cc49d11f982fb7c3ec81591831779a523c5e9c9729b00c2acd"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/masked_add_cuda.log.gz",
-            "sha256": "b2e85265fd55ceab5c8f52840f384ec7d6e80f8234cac58af7528ed3c68a6023"
-          },
-          {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/review.json",
-            "sha256": "ee91221d2a053fc635b53f67a17c35b9789058bfe5967a3f354f339fe4f0ef9d"
+            "path": "bench/review-checkpoints/2026-10-24/native-adam-and-masked-add/masked-body-clean-build.log.gz",
+            "sha256": "4ffd7c41c9da5b9e8adf60cb9d18fbf2669fd226175b44a4cb11b2e57e02b3cb"
           }
         ],
-        "joint_import_exit_code": 0,
-        "headline_count": 2,
-        "previous_validation": {
-          "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/superseded-proof-evidence.json.gz",
-          "sha256": "707ace709b2347ce26ab517cb2e4dbbfaa859eedf1634743b30f2da77cfb38e4"
-        }
+        "limits": [
+          "Official comparator unavailable; actual failures retained.",
+          "Known old numerical receipt hash error; optional CPU contract lacks torch.",
+          "Task corpus incomplete, no GPU experiments and merge awaits human review."
+        ]
       },
       "field_provenance": {
         "mathematical_target": [

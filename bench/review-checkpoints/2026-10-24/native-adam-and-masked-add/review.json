@@ -1,0 +1,218 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "8c70a2f5a789ddac89de41f1660e10c74272201b",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "adam_update_triton",
+    "masked_add_cuda"
+  ],
+  "semantic_review": {
+    "adam_update_triton": "Paste both complete selected repaired Python bodies. Preserve unused total runtime count as the autotune key, runtime chunk count, all four FP32 scalar registers, every bool multiply, mask, address and both in-place stores. Only BLOCK_SIZE is constexpr. Generic tile execution now carries actual fp32Load callbacks for all three loaded operands; the existing native-word graph already makes those loads identity, with no new assumption. Re-prove Real formula, both source/safe executions, all original selected configurations, full arbitrary-order grid and both complete output/frame judgments, including host/native optional results. Keep the observed ordered FMA graph and all scalar/payload bit patterns. Raise only the owning proof library stack allowance after default-stack replay failed; larger-stack proof replay passes with no statement weakening.",
+    "masked_add_cuda": "Paste both actual original/candidate bodies for each signed int32/int64 mask ABI. Runtime n_elements and FP32 alpha remain external call bindings; only BLOCK_SIZE is constexpr. Remove the old extra alpha.to(float32), absent from Python. The new signature includes all three real input ports; the old inferred metadata omitted the integer mask. Complete mathematical algorithm projections preserve body/output and explicitly correct that port list; full Real execution is reconnected to the existing independent masked-add formula. Re-prove actual arbitrary-algebra typed execution with the true literal/load callbacks, both native graph executions, complete memory equality, safety and full frames, all dimensions and both mask branches. The old cast is identity in the fixed native FMA graph; complete selected-graph and Real preservation to the frozen old presentation are proved, not asserted AST-identical. Keep the original active-grad leaf domain, arbitrary data graphs, all words, native scalar conversion and FMA operand order. No new numerical law or additional source cast."
+  },
+  "checker_review": "One Python function may have multiple explicitly named ABI profiles only when each maps to a separate Lean definition and a distinct fully checked pointer/scalar/constexpr signature. Every body is compared. Duplicate ABI tags or reused Lean definitions fail closed. Negative tests cover a changed second body and fake duplicate profiles.",
+  "verification": {
+    "integration": {
+      "status": "PASS",
+      "explicit_modules": 688,
+      "jobs": 9512
+    },
+    "independent_cold_partitions": [
+      {
+        "partition": "adam-task",
+        "code_commit": "12ffdd6bac3d4ed9e75d560931517c7c79c90fc6",
+        "roots": 659,
+        "jobs": 9479,
+        "local_lean_files": 1232,
+        "status": "PASS",
+        "project_build_initially_present": false,
+        "veritile_cache_initially_present": false,
+        "only_external_packages_reused": true,
+        "all_sources_match_final_code_commit": true
+      },
+      {
+        "partition": "masked-body",
+        "code_commit": "8c70a2f5a789ddac89de41f1660e10c74272201b",
+        "roots": 29,
+        "jobs": 3534,
+        "local_lean_files": 244,
+        "status": "PASS",
+        "project_build_initially_present": false,
+        "veritile_cache_initially_present": false,
+        "only_external_packages_reused": true,
+        "all_sources_match_final_code_commit": true
+      }
+    ],
+    "joint_import": "PASS: all 688 explicit roots",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 36
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 281,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean remains rejected by the prior numerical receipt; pre-existing baseline was preserved, no false repin."
+    },
+    "official_comparator": "UNAVAILABLE: both actual invocations report missing setup.",
+    "optional_cpu_contract": "UNAVAILABLE: current Python lacks torch; no package installation or experiment attempted.",
+    "gpu_or_native_experiment": "Not run. Existing model/observations retained; no new numerical rules, axioms or hardware conformance claim.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending."
+  },
+  "source_pairs": {
+    "total": 95,
+    "pasted_body": 90,
+    "legacy_ast": 5
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-24/native-adam-and-masked-add/source-closure.json",
+    "sha256": "3c7fc3e0e3a6275a1e57aa8898a2f31b873763c80cd604065b55e02cb302df0c"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "legacy_ast_only": 1,
+      "no_selected_jit_resolved": 2,
+      "selected_body_copy_checked": 21,
+      "uncovered_jit_functions": 159
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 328,
+    "uncovered_selected_jit_functions": 295,
+    "primary_files_with_int64_screen_warning": 44,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 128,
+        "antiquotes": 141,
+        "dsl_loop": 1,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-adam-and-masked-add/adam-all-modules.log.gz",
+      "sha256": "f6e156c8632413f557de653bec73c4aad2365cd9015d54754d182231d4123787"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-adam-and-masked-add/adam-comparator.log",
+      "sha256": "94a6025973e0bd886d30f7e9f18db058772dad30b0f984e11ae9e70f7e54536b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-adam-and-masked-add/adam-task-clean-build.log.gz",
+      "sha256": "3d2b8b455af044cc49d11f982fb7c3ec81591831779a523c5e9c9729b00c2acd"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-adam-and-masked-add/adam-task-clean-setup.log",
+      "sha256": "94006b7e980b961150ed22c45b4ca8507432ae583ead27a52b4d972bcd4f36d0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-adam-and-masked-add/adam-task-modules.json",
+      "sha256": "36b4caea8a86857be9e899b0c2588dc9678b2fce2150bae19a12a7f0a0a701fc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-adam-and-masked-add/all-python.log.gz",
+      "sha256": "94c3de43fd7c458acdbe7d5d28996116ae6fef79a886cf1a11a518e6b310bca9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-adam-and-masked-add/corpus-guard.log",
+      "sha256": "c86aabd711cc34c129d4a7e7ce8e8fa54d9e320fb6405cc537e9c5779d5f3a23"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-adam-and-masked-add/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-adam-and-masked-add/integration.log.gz",
+      "sha256": "595c50ce77c3a28034ee1f97ae42c413d0765d2708de7aede83f6dedc34f338f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-adam-and-masked-add/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-adam-and-masked-add/joint.lean",
+      "sha256": "a8c208f40b89152f95b0f46a2d02cb94dc75bd9534b138d0a0e2cd87569c8e06"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-adam-and-masked-add/joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-adam-and-masked-add/masked-add-all-modules.log.gz",
+      "sha256": "17895090df3ba2733abf643efe20002c76077336ef6bf8c89b827c3663d92832"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-adam-and-masked-add/masked-body-clean-build.log.gz",
+      "sha256": "4ffd7c41c9da5b9e8adf60cb9d18fbf2669fd226175b44a4cb11b2e57e02b3cb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-adam-and-masked-add/masked-body-clean-setup.log",
+      "sha256": "8524fafd78ce76a5c5d37218cff09ec86805f7b9b7b41cb25b974ff4731ed07c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-adam-and-masked-add/masked-body-modules.json",
+      "sha256": "9fb0bd8eab0e6c1f6f09aea0988b643a58136749726ae1d0c1dc62dfe1a91f9a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-adam-and-masked-add/masked-comparator.log",
+      "sha256": "94a6025973e0bd886d30f7e9f18db058772dad30b0f984e11ae9e70f7e54536b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-adam-and-masked-add/masked-contract.log",
+      "sha256": "ade25b2bc9d35fa14b451e17389b25456ed4377d2b0883d93ae2ae548a38d388"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-adam-and-masked-add/modules.json",
+      "sha256": "f6f2ce5f9036921b56d1007d6e1248207455bc7c1f4b1c95c828bb4eade3ac04"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-adam-and-masked-add/pairs.json",
+      "sha256": "a1b7ec0cc4598b10444865ca28bce6a696574a41f6af79ca8aa8d33973398195"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-adam-and-masked-add/previous-io-review.json",
+      "sha256": "ed2fd7a767aa4179ee78b1a3f067c434176b4484ae92153525370c8ecf94ea34"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-adam-and-masked-add/previous-selected-reviews.json.gz",
+      "sha256": "c18d2011fe7845b68dfac0ca6ebf3c1ed0c71ee9ac53ca319f318e63de8c997c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-adam-and-masked-add/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-adam-and-masked-add/python-tests.log",
+      "sha256": "2bcff9512c5af8730350cec1e97395befcd33871bdfcad1184f93566fa1d8ba3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-adam-and-masked-add/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-adam-and-masked-add/source-closure.json",
+      "sha256": "3c7fc3e0e3a6275a1e57aa8898a2f31b873763c80cd604065b55e02cb302df0c"
+    }
+  ]
+}

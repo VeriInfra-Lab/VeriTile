@@ -22782,16 +22782,15 @@
         },
         {
           "path": "bench/repairs/tritonbench_g/masked_add_cuda/IO.lean",
-          "sha256": "c23bddec72d2f02c53d5e21055d340e9a6a84de1d07567169a027eb5a3815844"
+          "sha256": "b06df86a28cfda358f50c9303a54a14cfc0c30f489b9f1f227809b29f1051032"
         }
       ],
       "changed_paths": [
         "bench/repairs/tritonbench_g/masked_add_cuda/IO.lean"
       ],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/masked_add_cuda.json",
-        "sha256": "531e97f5dd58e5395d049ef48741e27e131140b92551ff8da57e96bde1f75ca7",
-        "task": "masked_add_cuda"
+        "path": "bench/review-checkpoints/2026-10-24/native-adam-and-masked-add/review.json",
+        "sha256": "111c71c3db622951f0bc6d00567fc6bd9bbfc418f883ecc02bd08184df82a430"
       },
       "preservation_and_build_passed": true,
       "validation_limits": {},
@@ -22853,7 +22852,8 @@
         "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/masked_add_cuda.json",
         "sha256": "531e97f5dd58e5395d049ef48741e27e131140b92551ff8da57e96bde1f75ca7",
         "task": "masked_add_cuda"
-      }
+      },
+      "current_body_source_review": "Keep the two genuine native/Real IO encodings and the single shared full layouts. Change only the Real projection proof to source_supported for the exact native body, whose external signature now includes the actual signed mask input. Re-prove complete Real execution/safety/output/frame and native memory equivalence via IOReal/IOEquiv; independent cold replay covers both. No copied IO description or reduced domain."
     },
     {
       "task": "masked_select",
