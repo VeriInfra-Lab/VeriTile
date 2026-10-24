@@ -679,9 +679,13 @@ partial def expandArgReduce (expandExpr : ExprExpander) (env : Env) (ctx : Strin
   let outDims ← eraseNth dims axisIdx
   let axisLit : TSyntax `num := ⟨Syntax.mkNumLit (toString axisIdx)⟩
   let term ← match e'.dtype with
-    | .nat =>
+    | .nat => do
+        if axisKwargs.isEmpty && dims.length != 1 then
+          Macro.throwError "tl.argmax: unsigned integer tiles of rank > 1 require an explicit axis"
         `(Op.argMaxInt (⟨$axisLit, by simp⟩) (Op.castNatToInt $e'.term))
-    | .bool =>
+    | .bool => do
+        if axisKwargs.isEmpty && dims.length != 1 then
+          Macro.throwError "tl.argmax: boolean tiles of rank > 1 require an explicit axis"
         `(Op.argMaxInt (⟨$axisLit, by simp⟩) (Op.boolToInt $e'.term))
     | .int | .int8 | .int32 => do
         if axisKwargs.isEmpty && dims.length != 1 then

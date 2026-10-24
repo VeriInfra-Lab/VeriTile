@@ -98,6 +98,21 @@ def nestedStore (V : RegionName) : ComputeKernel := triton (dtype V := SourceDTy
   }
 }
 
+/-- error: tl.argmax: unsigned integer tiles of rank > 1 require an explicit axis -/
+#guard_msgs in
+def ambiguousUnsignedAxis : ComputeKernel := triton {
+  x = tl.arange(0, 4)
+  index = tl.argmax(x[:, None])
+}
+
+/-- error: tl.argmax: boolean tiles of rank > 1 require an explicit axis -/
+#guard_msgs in
+def ambiguousBoolAxis : ComputeKernel := triton {
+  x = tl.arange(0, 4)
+  values = x < $(2)
+  index = tl.argmax(values[:, None])
+}
+
 #axiomsClean integer_keeps_clamps_and_cast
 #axiomsClean half_keeps_store_rounding
 #axiomsClean both_arms_and_mask_keep_cast
