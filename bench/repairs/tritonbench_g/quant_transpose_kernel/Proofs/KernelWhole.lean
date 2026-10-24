@@ -38,7 +38,7 @@ theorem kernel_correct {α : Type} [Inhabited α] (M : Algebra α)
   rw [ho _ hb]
   unfold KernelGrid.reference
   rw [hd.1, hd.2, reads.input r c hr hc, reads.inverse]
-  simp only [Cell.read_self, BitVec.ofInt_toInt, quantized]
+  simp only [Cell.read_same, BitVec.ofInt_toInt, quantized]
 
 theorem real_correct (rest : Algebra ℝ) (p : Parameters) (sep : KernelGrid.Separate p)
     (values : Nat → Nat → ℝ) (inverse : ℝ) (s : State ℝ) (reads : Reads p values inverse s) :

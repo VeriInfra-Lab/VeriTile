@@ -65,7 +65,7 @@ theorem execution_memory {α : Type} [Inhabited α] (M : Algebra α)
     QuantTransposeFinite.gridM, QuantTransposeFinite.gridN,
     QuantTransposeFinite.groupId, QuantTransposeFinite.groupSize,
     QuantTransposeFinite.groupWidth, hm, hn, hc, masked_scatter_memory,
-    min_def_lt, Nat.mul_comm,
+    min_def_lt, Nat.mul_comm, BitVec.ofInt_toInt,
     Broadcast.leftIndex, Broadcast.rightIndex]
 
 theorem flat_bound (i : Lane) : flat i < 128 * 128 := by

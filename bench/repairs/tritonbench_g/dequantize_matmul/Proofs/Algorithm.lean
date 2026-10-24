@@ -141,7 +141,7 @@ theorem source_active
       (fpbOffset (s.pids 0) (s.pids 1) stride_fpbk stride_fpbn BLOCK_SIZE_N BLOCK_SIZE_K idx)=
       dequantizeSpec s b_ptr b_scale_ptr (s.pids 0) (s.pids 1) stride_bk stride_bn stride_scale
         BLOCK_SIZE_N BLOCK_SIZE_K idx := by
-  simp [exec,dequantize_kernel,TypedSource.kernel,ComputeKernel.surfaceBody,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,ComputeStmt.listToAlgorithm?,Except.bind,bind,pure,ComputeDType.eraseDType,stepStmts,stepStmt,evalOp.eq_def,Option.bind,
+  simp [exec,dequantize_kernel,TypedSource.kernel, TypedSource.indexCommutedKernel,ComputeKernel.surfaceBody,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,ComputeStmt.listToAlgorithm?,Except.bind,bind,pure,ComputeDType.eraseDType,stepStmts,stepStmt,evalOp.eq_def,Option.bind,
     Tile.bop,Tile.cop,Tile.expandDim,Tile.intToReal,NumericDType.add,NumericDType.mul,
     ComparableDType.lt,TileShape.dropInsertedIndex] at hExec
   simp only [←Int.natCast_mul, ←Int.natCast_add, Int.ofNat_lt, Int.toNat_natCast] at hExec
@@ -182,7 +182,7 @@ theorem dequantize_kernel_frame
       ¬(fpb_ptr = r ∧ fpbOffset (s.pids 0) (s.pids 1) stride_fpbk stride_fpbn
           BLOCK_SIZE_N BLOCK_SIZE_K idx = o)) :
     s1.mem r o = s.mem r o := by
-  simp [exec, dequantize_kernel, TypedSource.kernel,ComputeKernel.surfaceBody,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,ComputeStmt.listToAlgorithm?,Except.bind,bind,pure,ComputeDType.eraseDType, ComputeKernel.toAlgKernel, stepStmts, stepStmt,
+  simp [exec, dequantize_kernel, TypedSource.kernel, TypedSource.indexCommutedKernel,ComputeKernel.surfaceBody,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,ComputeStmt.listToAlgorithm?,Except.bind,bind,pure,ComputeDType.eraseDType, ComputeKernel.toAlgKernel, stepStmts, stepStmt,
         evalOp.eq_def, Option.bind, ComputeExpr.toAlgorithm?,
         Tile.bop, Tile.cop, Tile.expandDim, Tile.intToReal,
         NumericDType.add, NumericDType.mul, ComparableDType.lt,
@@ -203,7 +203,7 @@ theorem dequantize_kernel_exec_isSome
     (s : BlockState) :
     ∃ s1, exec ((dequantize_kernel b_ptr b_scale_ptr fpb_ptr K N stride_bk stride_bn stride_scale
         stride_fpbk stride_fpbn BLOCK_SIZE_N BLOCK_SIZE_K).toAlgKernel) s = some s1 := by
-  simp [exec, dequantize_kernel, TypedSource.kernel,ComputeKernel.surfaceBody,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,ComputeStmt.listToAlgorithm?,Except.bind,bind,pure,ComputeDType.eraseDType, ComputeKernel.toAlgKernel, stepStmts, stepStmt,
+  simp [exec, dequantize_kernel, TypedSource.kernel, TypedSource.indexCommutedKernel,ComputeKernel.surfaceBody,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,ComputeStmt.listToAlgorithm?,Except.bind,bind,pure,ComputeDType.eraseDType, ComputeKernel.toAlgKernel, stepStmts, stepStmt,
         evalOp.eq_def, Option.bind, ComputeExpr.toAlgorithm?,
         Tile.bop, Tile.cop, Tile.expandDim, Tile.intToReal,
         NumericDType.add, NumericDType.mul, ComparableDType.lt,

@@ -19,7 +19,7 @@ def execution {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : 
     {t : State α // exec M p Bool.false s = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp (config := { maxSteps := 1000000 }) [exec, kernel, original, TypedSource.kernel,
+  simp (config := { maxSteps := 1000000 }) [exec, kernel, original, TypedSource.kernel, TypedSource.indexCommutedKernel,
     ComputeKernel.surfaceBody, FP.Structural.run, FP.Structural.step,
     FP.Structural.evalExpr, FP.Structural.evalComputeOp, FP.Structural.evalOp_unfold,
     FP.Structural.store, FP.Structural.numeric, FP.Structural.numericLt,

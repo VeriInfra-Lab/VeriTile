@@ -270,8 +270,19 @@ private partial def lowerWithState (pointers : Types) (values : Values)
         if (lookup pointers iterator).isSome || values.any (fun p => p.1 == name iterator) then
           Macro.throwErrorAt iterator "loop iterator shadows a tracked pointer or value"
         for st in body do rejectPointerRebinding pointers st.raw
-        let stable := values.filter (fun p => match p.2 with | .typed _ => Bool.true | _ => Bool.false)
-        let (body,_,_) ← lowerWithState pointers values body.toList (invariants ++ stable)
+        -- This pass proves floating store precision, not integer SSA widths.
+        -- Forget integer entry facts before lowering a possibly zero-trip loop:
+        -- arithmetic can reassign those registers, and unknown integer widths
+        -- must retain the destination conversion. Explicit source casts remain
+        -- in the ordinary expression compiler. Floating carried facts still
+        -- require a stable dtype on every assignment and every branch.
+        let stable := values.filter (fun p => match p.2 with
+          | .typed dtype => [.fp16,.bf16,.fp32,.fp64,.f8e4,.f8e5].contains dtype
+          | _ => Bool.false)
+        let entry := values.filter (fun p => match p.2 with
+          | .typed dtype => [.fp16,.bf16,.fp32,.fp64,.f8e4,.f8e5].contains dtype
+          | _ => Bool.true)
+        let (body,_,_) ← lowerWithState pointers entry body.toList (invariants ++ stable)
         return (body.toArray, stable)
       match stmt with
       | `(tritonStmt| $id:ident = $value:tritonExpr) =>

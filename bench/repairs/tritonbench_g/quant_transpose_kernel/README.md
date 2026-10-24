@@ -148,3 +148,19 @@ Python, source DSL and input contract are unchanged. No new numerical
 assumption, GPU execution or independent native replay is claimed.
 
 Source readability cleanup (2026-10-22): `KernelSource.quotedOriginal` and `quotedCommuted` in `Kernels.lean` display the two complete ordinary `triton` quotations for the existing selected 128×128/G8 pair. `Proofs/LegacySurface.lean` archives the previous macro; `Proofs/SourcePreservation.lean` proves equality of the full Bool-dispatched source function for every Parameters value by cases and `rfl`. Other configurations, APIs, grouped schedule, precision, quantization order, domains and existing completion status are unchanged.
+
+
+Function-body copy migration (2026-10-24): `KernelSource.sourceKernel` and
+`commutedSourceKernel` now accept the unmodified original/candidate Python
+bodies, with original pointer/argument names and all rematerializations.
+Call-side metadata supplies FP32 input/inverse, INT8 output, six runtime
+int32 argument roles and three constexpr parameters. The public selected
+128×128/G8 adapters retain every existing admitted stride and geometry.
+`index_commuted.py` explicitly materializes the already existing Lean candidate;
+it is newly authored Python, not a historical original reference.
+The frontend now exposes the true implicit INT8 store conversion. Therefore
+the old whole-AST identity is replaced with a complete execution connection
+through the retained integer store interpreter in `Proofs/SourcePreservation`.
+Both paths narrow the same signed64 result to the same INT8 cell; no floating
+identity or whole-program assumption is added. Direct full Real/FP, byte,
+complete safety/output/frame, native and Tensor proofs target the new body.

@@ -128,6 +128,39 @@ def hiddenAntiquote (Y : RegionName) : ComputeKernel :=
     tl.store(Y, x)
   }
 
+/-- Integer loop reassignment must not reuse entry-width provenance for a
+later store, including when the loop executes zero times. -/
+def integerLoop (Y : RegionName) (B : Nat) : ComputeKernel :=
+  with_triton_signature ({pointers := [("Y",.i8)], constexpr := ["B"]} : CallSignature) in triton {
+    x = tl.full([], 0, tl.int64)
+    for i in range(B):
+      x = x + i
+    tl.store(Y, x)
+  }
+
+def integerLoopReference (Y : RegionName) (B : Nat) : ComputeKernel := triton {
+  tl.region Y = tl.int8
+  x = tl.full([], 0, tl.int64)
+  tl.for i in $(B) {
+    x = x + i
+  }
+  tl.store(Y, x.to(tl.int8))
+}
+
+theorem integer_loop_conversion (Y : RegionName) (B : Nat) :
+    integerLoop Y B = integerLoopReference Y B := rfl
+
+/-- error: loop-carried value requires a stable, known source dtype -/
+#guard_msgs in
+def changingFloatLoop (X Z Y : RegionName) (B : Nat) : ComputeKernel :=
+  with_triton_signature ({pointers := [("X",.fp32),("Z",.fp16),("Y",.fp32)], constexpr := ["B"]} : CallSignature) in triton {
+    x = tl.load(X)
+    for i in range(B):
+      x = tl.load(Z)
+    tl.store(Y, x)
+  }
+
+#axiomsClean integer_loop_conversion
 #axiomsClean byte_identity
 #axiomsClean arithmetic_conversion
 #axiomsClean cross_dtype_conversion

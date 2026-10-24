@@ -124,3 +124,15 @@ Optional native observations, Tensor/host applications and reader/audit entries
 are in `Misc/`. Import these modules explicitly when needed; the primary
 `Correct.lean` and `FPEquiv.lean` entries do not re-export optional results.
 Legacy native compatibility names are available from [Misc/Compatibility.lean](Misc/Compatibility.lean).
+
+
+Function-body copy migration (2026-10-24): `TypedSource.kernel` contains the
+original repaired Python body verbatim, including its docstring and both
+`to(tl.int64)` program IDs. Pointer storage, seven runtime integer call values
+and the two constexpr block sizes are declared outside the quotation.
+`index_commuted.py` is explicitly newly authored Python for the existing Lean
+N-mask candidate; it does not replace the historical original.
+`Proofs/SourcePreservation.lean` checks the entire original function family
+(all strides/counts/blocks) and both complete canonical programs against the
+retained old programs. Full selected Real/FP, safety, output/frame, grid,
+native and Tensor scopes are replayed from those actual bodies.

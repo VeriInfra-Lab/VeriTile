@@ -1,0 +1,140 @@
+[
+  {
+    "lean": "bench/repairs/tritonbench_g/quant_transpose_kernel/Kernels.lean",
+    "lean_definition": "sourceKernel",
+    "python": "bench/repairs/tritonbench_g/quant_transpose_kernel/quant_transpose_kernel_repaired.py",
+    "python_function": "_quantize_global_transpose",
+    "signature_definition": "sourceSignature",
+    "expected_call_bindings": {
+      "stride_am": "stride_am_value",
+      "stride_an": "stride_an_value",
+      "stride_bn": "stride_bn_value",
+      "stride_bm": "stride_bm_value",
+      "M": "M_value",
+      "N": "N_value"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "A",
+          "fp32"
+        ],
+        [
+          "absmax_inv_ptr",
+          "fp32"
+        ],
+        [
+          "B",
+          "i8"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_am",
+          "i32"
+        ],
+        [
+          "stride_an",
+          "i32"
+        ],
+        [
+          "stride_bn",
+          "i32"
+        ],
+        [
+          "stride_bm",
+          "i32"
+        ],
+        [
+          "M",
+          "i32"
+        ],
+        [
+          "N",
+          "i32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_M",
+        "BLOCK_N",
+        "GROUP_M"
+      ],
+      "readPorts": [
+        "A",
+        "absmax_inv_ptr"
+      ],
+      "writePorts": [
+        "B"
+      ]
+    }
+  },
+  {
+    "lean": "bench/repairs/tritonbench_g/quant_transpose_kernel/Kernels.lean",
+    "lean_definition": "commutedSourceKernel",
+    "python": "bench/repairs/tritonbench_g/quant_transpose_kernel/index_commuted.py",
+    "python_function": "_quantize_global_transpose_index_commuted",
+    "signature_definition": "sourceSignature",
+    "expected_call_bindings": {
+      "stride_am": "stride_am_value",
+      "stride_an": "stride_an_value",
+      "stride_bn": "stride_bn_value",
+      "stride_bm": "stride_bm_value",
+      "M": "M_value",
+      "N": "N_value"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "A",
+          "fp32"
+        ],
+        [
+          "absmax_inv_ptr",
+          "fp32"
+        ],
+        [
+          "B",
+          "i8"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_am",
+          "i32"
+        ],
+        [
+          "stride_an",
+          "i32"
+        ],
+        [
+          "stride_bn",
+          "i32"
+        ],
+        [
+          "stride_bm",
+          "i32"
+        ],
+        [
+          "M",
+          "i32"
+        ],
+        [
+          "N",
+          "i32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_M",
+        "BLOCK_N",
+        "GROUP_M"
+      ],
+      "readPorts": [
+        "A",
+        "absmax_inv_ptr"
+      ],
+      "writePorts": [
+        "B"
+      ]
+    }
+  }
+]
