@@ -98,7 +98,6 @@ theorem source_fp32_lowering (X Y O : RegionName) (n : Nat) :
   simp [lowerFP32Body, lowerFP32Statement, lowerFP32Assign, lowerFP32Store,
     lowerStatement, lowerIndex, lowerBool, lowerMask, add_kernel,
     ComputeKernel.surfaceBody, sourceCode, Region.cast, bind, pure, Option.bind]
-  exact ⟨rfl, rfl⟩
 
 theorem untyped_source_rejected (X Y O : RegionName) (n : Nat) :
     lowerFP32Body
