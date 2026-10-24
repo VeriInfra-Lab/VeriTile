@@ -1,0 +1,338 @@
+{
+  "schema": 1,
+  "status": "verified_batch_corpus_migration_incomplete",
+  "code_commit": "ef305e3de94c6000a7ee89ba11afaca810ab748b",
+  "merge_policy": "Do not merge before explicit user review and approval.",
+  "new_task_migrations": [],
+  "new_spec_derived_examples": [
+    "Welford",
+    "FusedLayerNorm"
+  ],
+  "semantic_review": {
+    "add_example": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native integer-to-FP32/FP64 casts and immutable single-bound range support. The source bodies, numerical assumptions and public domains are unchanged.",
+    "add_value": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native integer-to-FP32/FP64 casts and immutable single-bound range support. The source bodies, numerical assumptions and public domains are unchanged.",
+    "cache_transform_triton": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native integer-to-FP32/FP64 casts and immutable single-bound range support. The source bodies, numerical assumptions and public domains are unchanged.",
+    "cosine_compute": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native integer-to-FP32/FP64 casts and immutable single-bound range support. The source bodies, numerical assumptions and public domains are unchanged.",
+    "dequantize_rowwise": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native integer-to-FP32/FP64 casts and immutable single-bound range support. The source bodies, numerical assumptions and public domains are unchanged.",
+    "index_select_bwd": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native integer-to-FP32/FP64 casts and immutable single-bound range support. The source bodies, numerical assumptions and public domains are unchanged.",
+    "kldiv_compute": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native integer-to-FP32/FP64 casts and immutable single-bound range support. The source bodies, numerical assumptions and public domains are unchanged.",
+    "kv_cache_filling": "Shared-frontend dependency regression only; selected public Real/FP entries and their source/schedule/safety/frame proofs replayed. Source-body migration remains pending and is not counted complete.",
+    "l2_norm_triton1": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native integer-to-FP32/FP64 casts and immutable single-bound range support. The source bodies, numerical assumptions and public domains are unchanged.",
+    "matrix_transpose": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native integer-to-FP32/FP64 casts and immutable single-bound range support. The source bodies, numerical assumptions and public domains are unchanged.",
+    "rmsnorm_fused": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native integer-to-FP32/FP64 casts and immutable single-bound range support. The source bodies, numerical assumptions and public domains are unchanged.",
+    "rmsnorm_fused_llama": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native integer-to-FP32/FP64 casts and immutable single-bound range support. The source bodies, numerical assumptions and public domains are unchanged.",
+    "rmsnorm_implementation": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native integer-to-FP32/FP64 casts and immutable single-bound range support. The source bodies, numerical assumptions and public domains are unchanged.",
+    "rmsnorm_triton": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native integer-to-FP32/FP64 casts and immutable single-bound range support. The source bodies, numerical assumptions and public domains are unchanged.",
+    "sin_computation": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native integer-to-FP32/FP64 casts and immutable single-bound range support. The source bodies, numerical assumptions and public domains are unchanged.",
+    "sin_kernel": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native integer-to-FP32/FP64 casts and immutable single-bound range support. The source bodies, numerical assumptions and public domains are unchanged.",
+    "square_matrix": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native integer-to-FP32/FP64 casts and immutable single-bound range support. The source bodies, numerical assumptions and public domains are unchanged.",
+    "swiglu_fwd": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native integer-to-FP32/FP64 casts and immutable single-bound range support. The source bodies, numerical assumptions and public domains are unchanged.",
+    "triton_argmax": "Shared-frontend dependency regression only; selected public Real/FP entries and their source/schedule/safety/frame proofs replayed. Source-body migration remains pending and is not counted complete.",
+    "vector_addition": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native integer-to-FP32/FP64 casts and immutable single-bound range support. The source bodies, numerical assumptions and public domains are unchanged.",
+    "vector_addition_custom": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native integer-to-FP32/FP64 casts and immutable single-bound range support. The source bodies, numerical assumptions and public domains are unchanged."
+  },
+  "frontend_review": [
+    "Explicit integer casts to FP32/FP64 use the existing fromNat/fromInt channel at the destination precision. They do not become floating casts or untyped Real literals; compute-only integer expressions require materialization. Direct integer casts to other float formats fail closed.",
+    "Immutable Nat range(N) uses the existing counted-loop constructor; mutable/signed/runtime-local bounds retain their old paths. Full-program conversion and execution regressions check both details."
+  ],
+  "verification": {
+    "integration": {
+      "status": "PASS",
+      "explicit_modules": 565,
+      "jobs": 9400
+    },
+    "clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 565,
+      "jobs": 9400,
+      "project_build_initially_present": false,
+      "veritile_cache_initially_present": false,
+      "only_external_packages_reused": true
+    },
+    "joint_import": "PASS: all 565 modules",
+    "new_directories": {
+      "status": "PASS within joint scope",
+      "modules": 14,
+      "scope": "Every Lean file in both newly migrated example directories, including explicitly historical LegacyRealEquiv snapshots"
+    },
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 33
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 278,
+      "errors": 1,
+      "reason": "Old numerical receipt still rejects the unchanged Float/Structural.lean hash; earlier clean-baseline reproduction retained. No receipt has been falsely re-pinned."
+    },
+    "official_comparator": "UNAVAILABLE: actual invocation reports missing comparator setup.",
+    "gpu_or_native_experiment": "Not run. No new numerical rules or axioms."
+  },
+  "source_pairs": {
+    "total": 68,
+    "pasted_body": 63,
+    "legacy_ast": 5
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-24/native-statistics-loops/source-closure.json",
+    "sha256": "44d3d127fc9ffe257d5dfee6fe771adcd19bf0ea3c41b5d646c0289ac87d7cc2"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "legacy_ast_only": 1,
+      "no_selected_jit_resolved": 2,
+      "selected_body_copy_checked": 19,
+      "uncovered_jit_functions": 161
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "no_independent_python_reference": 5,
+      "selected_body_copy_checked": 1,
+      "spec_derived_body_copy_checked": 10,
+      "uncovered_jit_functions": 1
+    },
+    "selected_jit_functions": 328,
+    "uncovered_selected_jit_functions": 297,
+    "primary_files_with_int64_screen_warning": 44,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 130,
+        "antiquotes": 143,
+        "dsl_loop": 1,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 6,
+        "dsl_loop": 1,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-statistics-loops/modules.json",
+      "sha256": "f5fa44ee391a2f224de50ecb2db9c16054eb9fb6df8358d569b3f8be939b5fcf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-statistics-loops/pairs.json",
+      "sha256": "9deb2d606863e596ea1ce5a69715e9cd8ab2bff6a62aa3df434cce0dced377b0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-statistics-loops/integration.log.gz",
+      "sha256": "5647a25b6ad60cfeadaf5a70f9d3e5f6e4180343b0746c8d3a607c0fbb5c82ee"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-statistics-loops/clean-build.log.gz",
+      "sha256": "83539d8f01f6bb8fcace98700603d781fb09502769caf468d74c0b239a9a2f80"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-statistics-loops/python-tests.log",
+      "sha256": "a8bb0dc0401d073df8650d7a36f7bc7c559ac22e1a023c3fdb9374b4f7bfd474"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-statistics-loops/all-python-tests.log.gz",
+      "sha256": "d130cba79a2ba9d420463a2f86bff95b9b0e47d865cbffdefcfa4e7afe30b1e9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-statistics-loops/preexisting-numerical-baseline.log",
+      "sha256": "0caaccadc433b698c721f6b138279b717c27061c2ccac93025d27a6bd6d1116f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-statistics-loops/comparator.log",
+      "sha256": "94a6025973e0bd886d30f7e9f18db058772dad30b0f984e11ae9e70f7e54536b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-statistics-loops/clean-setup.log",
+      "sha256": "f8b036f2356da8bc2df2c64c5a65a89e3e676470ad93f56cd5b8f90ffa20c2af"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-statistics-loops/joint.lean",
+      "sha256": "b4e9edabddf552a1e25c522b257547dda4184145a97c039cec04741dc26ccb1f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-statistics-loops/joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "example_semantic_review": {
+    "Welford": "Author new native Python from the independent population mean/variance specification; no historical origin is asserted. FP32 input, two BF16 scalar outputs at address zero, symbolic row length/stride, and full original per-program IO/frame remain. Replace non-native toReal with explicit integer-to-FP32 conversions of the actual index and uint64 count tensor. Re-prove execution of the actual loop, both statistics, both stores, safety and frame. Existing count limit and all numerical scalar/schedule conditions remain; guards are rebound to actual FP32-loaded values. The independent Real target remains unchanged, including its totalized empty-row case. FP keeps nonempty and certified count bounds. No new numerical rules.",
+    "FusedLayerNorm": "Author new native Python from the independent affine population-variance specification; no historical origin is asserted. Both FP32 input passes, gamma/beta reads, epsilon, sqrt/reciprocal, operation order and BF16 output remain visible. Re-prove both complete programs, successful execution, all active output cells, source safety and exact exterior frame. Reuse the actual Welford source loop through a complete-body equality, without a source-generating macro. Every numerical condition concerns the actual FP32-loaded row; the count bound is retained. Empty rows still execute and preserve every cell under every algebra, with no arithmetic condition. Independent Real formulas and all public hypotheses are unchanged.",
+    "historical_helpers": "LegacyRealEquiv continues to replay against explicitly frozen prior untyped sources in Proofs/LegacyBody.lean. These historical sources are not authoritative native programs and are not substituted for the active Correct/FPEquiv proof pair."
+  },
+  "example_sources": {
+    "FusedLayerNorm": {
+      "name": "FusedLayerNorm",
+      "kind": "example",
+      "python": "bench/examples/FusedLayerNorm/native_kernels.py",
+      "lean": "bench/examples/FusedLayerNorm/Kernels.lean",
+      "source_provenance": "spec_derived_native_source",
+      "lean_screen": {
+        "quotations": 2,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 9,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0,
+        "load_dtype_extension": 0
+      },
+      "python_jits": [
+        {
+          "function": "twoPassLayerNormKernel",
+          "line": 14,
+          "statements": 14,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "fusedLayerNormKernel",
+          "line": 32,
+          "statements": 14,
+          "explicit_int64_casts": []
+        }
+      ],
+      "checked_pairs": [
+        {
+          "python_function": "twoPassLayerNormKernel",
+          "lean_definition": "twoPassLayerNormKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "rowStride": "rowStride"
+          },
+          "statements": 14,
+          "runtime_parameters": {
+            "rowStride": "integer"
+          },
+          "constexpr_parameters": [
+            "N",
+            "ε"
+          ],
+          "python": "bench/examples/FusedLayerNorm/native_kernels.py",
+          "lean": "bench/examples/FusedLayerNorm/Kernels.lean"
+        },
+        {
+          "python_function": "fusedLayerNormKernel",
+          "lean_definition": "fusedLayerNormKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "rowStride": "rowStride"
+          },
+          "statements": 14,
+          "runtime_parameters": {
+            "rowStride": "integer"
+          },
+          "constexpr_parameters": [
+            "N",
+            "ε"
+          ],
+          "python": "bench/examples/FusedLayerNorm/native_kernels.py",
+          "lean": "bench/examples/FusedLayerNorm/Kernels.lean"
+        }
+      ],
+      "uncovered_selected_jits": [],
+      "int64_screen": "inconclusive",
+      "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
+      "status": "spec_derived_body_copy_checked",
+      "source_sha256": {
+        "bench/examples/FusedLayerNorm/Correct.lean": "5023cfb2e095414d9d43f3d4936937f2362f272b49c0463124ee4fd20734075d",
+        "bench/examples/FusedLayerNorm/Kernels.lean": "b4f1e07e399684ad3718fbd093d57578e48d94e5e77a0f333a05fb1bf5a954db",
+        "bench/examples/FusedLayerNorm/jit-correspondence.json": "7b89da85e4ee66c57f89d4d5dcc07fad154c2d8e994b12133af404d592a591ff",
+        "bench/examples/FusedLayerNorm/native_kernels.py": "f1ac489a38d4d0f10a9d1388b87be02cc1d0b5d0d2cdd39796e573a197d8ebcd"
+      },
+      "source_note": "New Python derived from the independent public population-statistics/affine specifications, not recovered historical source. Preserve FP32 inputs, BF16 outputs and full original IO scope; explicit uint64-to-FP32 counts and native loop casts replace Lean-only toReal. Source execution and numerical domains are re-proved for the actual typed reads. Welford writes both scalar outputs at zero; LayerNorm retains its second input read and empty-row case. Separate arithmetic uses enable_fp_fusion=False.",
+      "mathematical_spec_sha256": {
+        "bench/examples/FusedLayerNorm/Correct.lean": "5023cfb2e095414d9d43f3d4936937f2362f272b49c0463124ee4fd20734075d"
+      }
+    },
+    "Welford": {
+      "name": "Welford",
+      "kind": "example",
+      "python": "bench/examples/Welford/native_kernels.py",
+      "lean": "bench/examples/Welford/Kernels.lean",
+      "source_provenance": "spec_derived_native_source",
+      "lean_screen": {
+        "quotations": 2,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 7,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0,
+        "load_dtype_extension": 0
+      },
+      "python_jits": [
+        {
+          "function": "twopassWelfordKernel",
+          "line": 15,
+          "statements": 11,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "onlineWelfordKernel",
+          "line": 30,
+          "statements": 7,
+          "explicit_int64_casts": []
+        }
+      ],
+      "checked_pairs": [
+        {
+          "python_function": "twopassWelfordKernel",
+          "lean_definition": "twopassWelfordKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "rowStride": "rowStride"
+          },
+          "statements": 11,
+          "runtime_parameters": {
+            "rowStride": "integer"
+          },
+          "constexpr_parameters": [
+            "blockSize"
+          ],
+          "python": "bench/examples/Welford/native_kernels.py",
+          "lean": "bench/examples/Welford/Kernels.lean"
+        },
+        {
+          "python_function": "onlineWelfordKernel",
+          "lean_definition": "onlineWelfordKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "rowStride": "rowStride"
+          },
+          "statements": 7,
+          "runtime_parameters": {
+            "rowStride": "integer"
+          },
+          "constexpr_parameters": [
+            "blockSize"
+          ],
+          "python": "bench/examples/Welford/native_kernels.py",
+          "lean": "bench/examples/Welford/Kernels.lean"
+        }
+      ],
+      "uncovered_selected_jits": [],
+      "int64_screen": "inconclusive",
+      "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
+      "status": "spec_derived_body_copy_checked",
+      "source_sha256": {
+        "bench/examples/Welford/Correct.lean": "b67dec22b919918295b2799afc232b5c168e2eb9a5d8d1a18502f40dce645500",
+        "bench/examples/Welford/Kernels.lean": "7c3d0bdf6cd4780457d7884c6f266c2d3a0b1e57285818d0702cd1ea499102a9",
+        "bench/examples/Welford/jit-correspondence.json": "ead1d8431df104b8bfc5e68e1e5c87f4d1fa462a1aacb3d4ccdeabc3134c4a7a",
+        "bench/examples/Welford/native_kernels.py": "5b021702042d4df0bf7213b5dabec155956f757dc489268d057273fbc9f51601"
+      },
+      "source_note": "New Python derived from the independent public population-statistics/affine specifications, not recovered historical source. Preserve FP32 inputs, BF16 outputs and full original IO scope; explicit uint64-to-FP32 counts and native loop casts replace Lean-only toReal. Source execution and numerical domains are re-proved for the actual typed reads. Welford writes both scalar outputs at zero; LayerNorm retains its second input read and empty-row case. Separate arithmetic uses enable_fp_fusion=False.",
+      "mathematical_spec_sha256": {
+        "bench/examples/Welford/Correct.lean": "b67dec22b919918295b2799afc232b5c168e2eb9a5d8d1a18502f40dce645500"
+      }
+    }
+  }
+}

@@ -1,0 +1,37 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/argustest/miniconda3/lib/python3.13/unittest/__main__.py", line 18, in <module>
+    main(module=None)
+    ~~~~^^^^^^^^^^^^^
+  File "/home/argustest/miniconda3/lib/python3.13/unittest/main.py", line 103, in __init__
+    self.parseArgs(argv)
+    ~~~~~~~~~~~~~~^^^^^^
+  File "/home/argustest/miniconda3/lib/python3.13/unittest/main.py", line 142, in parseArgs
+    self.createTests()
+    ~~~~~~~~~~~~~~~~^^
+  File "/home/argustest/miniconda3/lib/python3.13/unittest/main.py", line 153, in createTests
+    self.test = self.testLoader.loadTestsFromNames(self.testNames,
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+                                                   self.module)
+                                                   ^^^^^^^^^^^^
+  File "/home/argustest/miniconda3/lib/python3.13/unittest/loader.py", line 207, in loadTestsFromNames
+    suites = [self.loadTestsFromName(name, module) for name in names]
+              ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/home/argustest/miniconda3/lib/python3.13/unittest/loader.py", line 137, in loadTestsFromName
+    module = __import__(module_name)
+  File "/tmp/veritile-constexpr-body-clean/bench/tests/test_exact_numerical_bindings.py", line 15, in <module>
+    legacy,authority,queue=collect(REPO)
+                           ~~~~~~~^^^^^^
+  File "/tmp/veritile-constexpr-body-clean/bench/exact_numerical_bindings.py", line 275, in collect
+    authority=derive_authority(root);legacy=collect_legacy(root)
+  File "/tmp/veritile-constexpr-body-clean/bench/exact_numerical_bindings.py", line 186, in derive_authority
+    _,algebra_ref=b.bind('repo','VeriTile/Triton/Float/Structural.lean',access_deps['files']['VeriTile/Triton/Float/Structural.lean']['sha256'])
+                  ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/veritile-constexpr-body-clean/bench/exact_numerical_bindings.py", line 62, in bind
+    fail(expected is None or actual==expected,'bound source/hash changed: '+package+':'+path)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/veritile-constexpr-body-clean/bench/exact_numerical_bindings.py", line 46, in fail
+    if not condition:raise ValueError(message)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: bound source/hash changed: repo:VeriTile/Triton/Float/Structural.lean
