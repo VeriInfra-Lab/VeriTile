@@ -21,7 +21,7 @@ theorem source_safe {α : Type} [Inhabited α] (M : Algebra α)
     TraceSafe M bounds (kernel storage p.output p.x p.y p.n scalar p.block) s := by
   cases storage
   all_goals
-    simp (maxSteps := 1400000) [TraceSafe, kernel, ComputeKernel.surfaceBody,
+    simp (maxSteps := 1400000) [TraceSafe, kernel, source32, source64, ComputeKernel.surfaceBody,
       Safety.traceSafeList_unfold, Safety.stepSafe_unfold, Safety.safeExpr_unfold,
       Safety.safeCompute_unfold, Safety.safeOp_unfold, Safety.safeAddress_unfold,
       Safety.safeMask_unfold, Safety.addressSafe_unfold, Safety.maskActive_unfold,
@@ -45,7 +45,7 @@ theorem commuted_safe {α : Type} [Inhabited α] (M : Algebra α)
     TraceSafe M bounds (commutedKernel storage p.output p.x p.y p.n scalar p.block) s := by
   cases storage
   all_goals
-    simp (maxSteps := 1400000) [TraceSafe, commutedKernel, ComputeKernel.surfaceBody,
+    simp (maxSteps := 1400000) [TraceSafe, commutedKernel, commuted32, commuted64, ComputeKernel.surfaceBody,
       Safety.traceSafeList_unfold, Safety.stepSafe_unfold, Safety.safeExpr_unfold,
       Safety.safeCompute_unfold, Safety.safeOp_unfold, Safety.safeAddress_unfold,
       Safety.safeMask_unfold, Safety.addressSafe_unfold, Safety.maskActive_unfold,

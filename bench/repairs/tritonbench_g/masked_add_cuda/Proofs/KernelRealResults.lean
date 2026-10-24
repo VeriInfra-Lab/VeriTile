@@ -35,7 +35,7 @@ theorem masked_add_kernel_correctness (storage : MaskStorage) (n : Nat) (alpha :
   intro before grad data mask hg hp hm
   obtain ⟨final, he⟩ := integer_math_kernel_exec_isSome "grad" "data" "mask" n alpha blockSize before
   refine ⟨final, ?_, ?_, ?_⟩
-  · rw [kernel_eq_original, integer_exec]
+  · rw [source_execution, integer_exec]
     exact he
   · intro j hj
     have hv := integer_math_kernel_correct "grad" "data" "mask" n alpha blockSize before final he j
@@ -54,8 +54,8 @@ theorem masked_add_commuted_correctness (storage : MaskStorage) (n : Nat) (alpha
   intro before grad data mask hg hp hm
   obtain ⟨final, he, hv, hf⟩ := masked_add_kernel_correctness storage n alpha before grad data mask hg hp hm
   refine ⟨final, ?_, hv, hf⟩
-  rw [kernel_eq_original, integer_exec] at he
-  rw [commutedKernel_eq_original, integer_exec]
+  rw [source_execution, integer_exec] at he
+  rw [commuted_execution, integer_exec]
   exact he
 
 /-- Bounds concern each accessed region separately; read-only aliases are legal. -/
@@ -64,7 +64,7 @@ theorem masked_add_access_safe (storage : MaskStorage) (n : Nat) (alpha : ℝ)
     (hg : n ≤ bounds "grad") (hp : n ≤ bounds "data") (hm : n ≤ bounds "mask") :
     Kernel.TraceSafe bounds (kernel storage "grad" "data" "mask" n alpha).eraseDType.toAlgKernel before ∧
     Kernel.TraceSafe bounds (commutedKernel storage "grad" "data" "mask" n alpha).eraseDType.toAlgKernel before := by
-  rw [kernel_eq_original, commutedKernel_eq_original]
+  rw [source_algorithm, commuted_algorithm]
   exact ⟨integer_traceSafe storage Bool.false _ _ _ n alpha blockSize bounds before
       (fun _ h => Nat.lt_of_lt_of_le h hp) (fun _ h => Nat.lt_of_lt_of_le h hg)
       (fun _ h => Nat.lt_of_lt_of_le h hm),

@@ -21,7 +21,7 @@ import re
 import sys
 
 from bench.audit_source import lean_code_mask
-from bench.jit_correspondence import check_manifest
+from bench.jit_correspondence import check_manifest, validate_manifest_records
 
 ROOT = Path(__file__).resolve().parents[1]
 REPORT = Path("bench/source-correspondence.json")
@@ -112,10 +112,7 @@ def inspect(root: Path, task: str, python: str | None, lean: str, kind: str,
         records = json.loads(manifest.read_text())
         if not isinstance(records, list) or not records:
             raise ValueError(f"empty or invalid correspondence manifest: {manifest_name}")
-        keys = [(r["python"], r["python_function"]) for r in records]
-        lean_keys = [(r["lean"], r["lean_definition"]) for r in records]
-        if len(keys) != len(set(keys)) or len(lean_keys) != len(set(lean_keys)):
-            raise ValueError(f"reused Python or Lean correspondence entry: {manifest_name}")
+        validate_manifest_records(records)
         for record in records:
             for key in ("python", "lean"):
                 path = local(root, record[key])

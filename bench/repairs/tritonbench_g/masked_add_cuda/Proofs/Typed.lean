@@ -16,7 +16,7 @@ instance {α : Type} [Inhabited α] (p : Parameters) (s : State α) (i : TileInd
     Decidable (active p s i) := by unfold active; infer_instance
 
 def alphaValue {α : Type} (M : Algebra α) (alpha : ℝ) : α :=
-  M.cast (some .fp32) .real .real (M.literal (some .fp32) .real alpha)
+  M.literal (some .fp32) .real alpha
 
 def updateValue {α : Type} (M : Algebra α) (alpha : ℝ) (grad data : α) : α :=
   M.binary (some .fp32) .real .add grad
@@ -41,7 +41,7 @@ def execution {α : Type} [Inhabited α] (M : Algebra α) (storage : MaskStorage
   all_goals
     refine ⟨?_, ?_⟩
     swap
-    simp [candidateKernel,kernel,VeriTile.Bench.TritonBenchG.MaskedAddCuda.integer_kernel,FP.Structural.exec,ComputeKernel.surfaceBody,
+    simp [candidateKernel,kernel,source32,source64,VeriTile.Bench.TritonBenchG.MaskedAddCuda.integer_kernel,FP.Structural.exec,ComputeKernel.surfaceBody,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
       numericLt,numericEq,natLt,bop,store,Region.cast,ComputeDType.eraseDType]
     rfl
@@ -120,7 +120,7 @@ theorem complete_correct {α : Type} [Inhabited α] (M : Algebra α)
   ⟨(execution M storage p alpha s).val, (execution M storage p alpha s).property,
     execution_memory M storage p alpha s⟩
 
-#specNonCircular expectedMemory avoiding [candidateKernel,kernel, FP.Structural.exec]
+#specNonCircular expectedMemory avoiding [candidateKernel,kernel,source32,source64, FP.Structural.exec]
 #axiomsClean expected_cell
 #axiomsClean complete_correct
 #axiomsClean execution

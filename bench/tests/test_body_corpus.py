@@ -75,6 +75,38 @@ class BodyCorpusTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "reused"):
             scan(self.root)
 
+    def profiled_records(self):
+        second = {**self.record, "lean_definition": "body64", "signature_definition": "signature64",
+                  "profile_variant": "float64", "expected_signature": {
+                      **self.record["expected_signature"],
+                      "pointers": [["x_ptr", "fp64"], ["out_ptr", "fp64"]]}}
+        lean64 = LEAN.replace("callSignature", "signature64").replace("def body (", "def body64 (")
+        lean64 = lean64.replace(".fp32", ".fp64")
+        self.write("bench/repairs/sample/Kernels.lean", LEAN + lean64)
+        return [{**self.record, "profile_variant": "float32"}, second]
+
+    def test_distinct_checked_abi_profiles_of_one_source_are_both_recorded(self):
+        self.manifest(self.profiled_records())
+        result = scan(self.root)
+        self.assertTrue(result["complete"])
+        pairs = result["tasks"][0]["checked_pairs"]
+        self.assertEqual([p["profile_variant"] for p in pairs], ["float32", "float64"])
+
+    def test_profile_tag_cannot_hide_duplicate_abi(self):
+        records = self.profiled_records()
+        records[1]["expected_signature"] = records[0]["expected_signature"]
+        self.manifest(records)
+        with self.assertRaisesRegex(ValueError, "duplicate ABI"):
+            scan(self.root)
+
+    def test_each_profile_body_is_checked(self):
+        self.manifest(self.profiled_records())
+        p = self.directory / "Kernels.lean"
+        first, second = p.read_text().split("def signature64", 1)
+        p.write_text(first + "def signature64" + second.replace("tl.arange(0, B)", "tl.arange(1, B)"))
+        with self.assertRaisesRegex(ValueError, "correspondence mismatch"):
+            scan(self.root)
+
     def test_worked_example_without_reference_is_not_a_pass(self):
         self.write("bench/examples/Sample/Kernels.lean", LEAN)
         result = scan(self.root)

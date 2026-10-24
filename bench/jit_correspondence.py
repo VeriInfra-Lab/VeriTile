@@ -306,12 +306,49 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
             "runtime_parameters": dict(profile["scalars"]) if profile is not None else runtime, "constexpr_parameters": sorted(constants)}
 
 
+def validate_manifest_records(records: list[dict]) -> None:
+    """Allow explicit distinct ABI profiles of one Python function.
+
+    A profile tag cannot excuse a duplicate mapping: both a distinct Lean
+    definition and a distinct checked ABI are required. Ordinary duplicate
+    records continue to fail closed.
+    """
+    lean_keys = [(r["lean"], r["lean_definition"]) for r in records]
+    if len(lean_keys) != len(set(lean_keys)):
+        raise ValueError("reused Python or Lean correspondence entry")
+    groups: dict[tuple[str, str], list[dict]] = {}
+    for record in records:
+        groups.setdefault((record["python"], record["python_function"]), []).append(record)
+    for group in groups.values():
+        if len(group) == 1:
+            continue
+        tags = [record.get("profile_variant") for record in group]
+        if not all(isinstance(tag, str) and tag.strip() for tag in tags) or len(tags) != len(set(tags)):
+            raise ValueError("reused Python correspondence requires distinct explicit profile variants")
+        abis = []
+        for record in group:
+            signature = record.get("expected_signature")
+            if not record.get("signature_definition") or not isinstance(signature, dict):
+                raise ValueError("reused Python correspondence requires checked ABI profiles")
+            abis.append(json.dumps({key: signature.get(key) for key in
+                                   ("pointers", "scalars", "constexpr")}, sort_keys=True))
+        if len(abis) != len(set(abis)):
+            raise ValueError("reused Python correspondence has duplicate ABI profiles")
+
+
 def check_manifest(root: Path, manifest: Path) -> list[dict]:
     records = json.loads(manifest.read_text())
-    return [check((root / r["python"]).read_text(), (root / r["lean"]).read_text(),
-                  r["python_function"], r["lean_definition"],
-                  r.get("signature_definition"), r.get("expected_signature"),
-                  r.get("expected_call_bindings")) for r in records]
+    validate_manifest_records(records)
+    results = []
+    for record in records:
+        result = check((root / record["python"]).read_text(), (root / record["lean"]).read_text(),
+                       record["python_function"], record["lean_definition"],
+                       record.get("signature_definition"), record.get("expected_signature"),
+                       record.get("expected_call_bindings"))
+        if "profile_variant" in record:
+            result["profile_variant"] = record["profile_variant"]
+        results.append(result)
+    return results
 
 
 if __name__ == "__main__":
