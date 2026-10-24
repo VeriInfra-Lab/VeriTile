@@ -34,6 +34,8 @@ declare_syntax_cat tritonCallBinding
 syntax ident " := " term : tritonCallBinding
 syntax "with_triton_call " term " call_args " "[" tritonCallBinding,* "]" " in "
   "triton" tritonPythonBody : term
+syntax "with_triton_call " term " call_args " "[" tritonCallBinding,* "]"
+  " pointer_offsets " "[" tritonCallBinding,* "]" " in " "triton" tritonPythonBody : term
 
 private partial def listValues (value : Expr) : TermElabM (List Expr) := do
   let value ← whnf value
@@ -157,10 +159,11 @@ private def assignmentTargets (raw : Syntax) : List Name := Id.run do
   unless (raw.getKind.toString.splitOn "tritonStmt").length > 1 || left.any hasComma do return []
   return left.toList.flatMap identifierNames
 
-private partial def rejectArgumentMutation (names : List Name) (raw : Syntax) : TermElabM Unit := do
+private partial def rejectArgumentMutation (names : List Name) (raw : Syntax)
+    (message : String := "per-call specialization does not yet support reassigned scalar arguments") : TermElabM Unit := do
   let reject (id : Ident) : TermElabM Unit := do
     if names.contains id.getId.eraseMacroScopes then
-      throwErrorAt raw "per-call specialization does not yet support reassigned scalar arguments"
+      throwErrorAt raw "{message}"
   for target in assignmentTargets raw do reject (mkIdent target)
   if let `(tritonStmt| $id:ident = $_:tritonExpr) := raw then reject id
   if let `(tritonStmt| $id:ident += $_:tritonExpr) := raw then reject id
@@ -175,7 +178,7 @@ private partial def rejectArgumentMutation (names : List Name) (raw : Syntax) : 
   if raw.getNumArgs > 1 && raw[0].isAtom && raw[1].isIdent &&
       ["for", "tl.for"].contains raw[0].getAtomVal.trimAscii.toString then
     reject ⟨raw[1]⟩
-  for arg in raw.getArgs do rejectArgumentMutation names arg
+  for arg in raw.getArgs do rejectArgumentMutation names arg message
 
 private partial def assignedNames (raw : Syntax) : List Name := Id.run do
   let mut names := assignmentTargets raw
@@ -258,7 +261,8 @@ the caller. Their source ABI remains in `scalars`, never in `constexpr`.
 Nat/Int carriers use the existing mathematical index projection;
 native signed-width bounds must still be established by the task's IO/contract. -/
 private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tritonStmt))
-    (callValues : Option (Array (TSyntax `tritonCallBinding))) : TermElabM Expr := do
+    (callValues : Option (Array (TSyntax `tritonCallBinding)))
+    (pointerOffsets : Option (Array (TSyntax `tritonCallBinding)) := none) : TermElabM Expr := do
       let profile ← elabTermEnsuringType profile (mkConst ``Triton.CallSignature)
       let pointers ← bindings dtypeValue (← mkAppM ``Triton.CallSignature.pointers #[profile])
       let scalars ← bindings scalarTypeValue (← mkAppM ``Triton.CallSignature.scalars #[profile])
@@ -301,6 +305,29 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
             (kind matches .fp32 | .fp64) || values.any (fun p => p.1.toString == name)) do
           throwError "every integer runtime scalar needs an explicit call binding"
         for stmt in stmts do rejectArgumentMutation (values.map Prod.fst) stmt.raw
+      -- A pointer argument may already point into an allocation. This
+      -- binds that call value without changing the pasted callee body. Offset
+      -- units are elements in the existing region model; native byte/width
+      -- and allocation validity remain the caller's existing obligations.
+      if let some offsets := pointerOffsets then
+        let mut pointerValues : List (Name × TSyntax `tritonExpr) := []
+        for arg in offsets do
+          let `(tritonCallBinding| $id:ident := $value:term) := arg
+            | throwErrorAt arg "invalid pointer offset binding"
+          let name := id.getId.eraseMacroScopes
+          unless pointers.any (fun p => p.1 == name.toString) do
+            throwErrorAt id "offset binding is not a pointer parameter"
+          if pointerValues.any (fun p => p.1 == name) then
+            throwErrorAt id "duplicate pointer offset binding"
+          let argument ← elabTerm value none
+          unless ← isDefEq (← inferType argument) (mkConst ``Nat) do
+            throwErrorAt value "pointer offset must have a Nat element-offset carrier"
+          let expression ← liftMacroM `(tritonExpr| ($id:ident + $(($value:term : Nat))))
+          pointerValues := pointerValues ++ [(name,expression)]
+        for stmt in stmts do
+          rejectArgumentMutation (pointerValues.map Prod.fst) stmt.raw
+            "pointer-offset specialization does not yet support reassigned pointer arguments"
+        values := values ++ pointerValues
       -- Static numeric constants remain weak Python values. Reject later
       -- mutation before lowering the supported exact powers to fixed literals.
       let mut localConstants : List Name := []
@@ -410,6 +437,11 @@ elab_rules : term
       let environment ← getEnv
       let stmts ← liftMacroM <| PythonBody.statements environment body
       elaborateCall profile stmts (some args.getElems)
+  | `(with_triton_call $profile:term call_args [$args:tritonCallBinding,*]
+      pointer_offsets [$offsets:tritonCallBinding,*] in triton $body:tritonPythonBody) => do
+      let environment ← getEnv
+      let stmts ← liftMacroM <| PythonBody.statements environment body
+      elaborateCall profile stmts (some args.getElems) (some offsets.getElems)
 
 end DSL.CallSignature
 

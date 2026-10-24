@@ -136,3 +136,30 @@ including empty-column no-launch, physical indices, source/candidate common
 states, projected native words and input preservation. Their proofs share the
 same established source execution and output lemmas; the reader entries import
 no TensorBridge. Python, the source quote and the input contract are unchanged.
+
+
+## Native body correspondence
+
+`Kernels.lean` pastes both complete selected Python bodies, including the
+program-id/column int64 casts and the named row_max assignment. The original
+`triton_softmax_repaired.py` and existing `triton_softmax_index_commuted.py`
+remain unchanged; the candidate only commutes the input row-address product.
+Runtime int64 stride/count argument values are supplied as signed Int carriers
+outside the body. Only BLOCK_SIZE is constexpr.
+
+The original pointer arguments already point at their Tensor view bases.
+`pointer_offsets` supplies those allocation-relative values at the call site,
+without inserting the older presentation's extra offsets into the pasted
+function body. The bindings use the same element-offset coordinates and full
+arbitrary-stride/offset scope as the original logical and physical IO. The
+source checker records every offset and rejects changed, missing, duplicate or
+nonpointer bindings. The frontend rejects reassignment of offset-bound pointer
+arguments in this supported subset instead of silently rebinding them.
+
+All complete actual executions, masks, access bounds, mathematical row formula,
+floating graph, source/candidate equivalence and full memory frames are
+re-proved. Exact signed index commutation and address-projection congruence use
+shared logical lemmas; they introduce no floating numerical law. Existing
+native index/byte, Tensor, full-wrapper and model assumptions retain their
+original scopes. The selected intrinsic, arithmetic order and four-warp default
+are unchanged; no new GPU or numerical experiment is added.

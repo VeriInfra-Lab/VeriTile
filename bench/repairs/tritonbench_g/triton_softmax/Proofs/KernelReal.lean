@@ -25,7 +25,7 @@ theorem source_memory (x y : Tensor) (B p : Nat) (hB : 0<B) (s t : BlockState)
     Tile.bop,Tile.cop,Tile.ptrAdd,Tile.uop,Tile.reduceMax,Tile.reduceMaxDrop,
     Tile.reduceSum,Tile.reduceSumDrop,TileShape.axisDim,TileShape.eraseAxis,
     TileShape.insertAxisIndex,NumericDType.add,NumericDType.mul,NumericDType.sub,NumericDType.div,
-    ComparableDType.lt,hB] at runEq
+    ComparableDType.lt,hB,← Int.natCast_mul,← Int.natCast_add,-Nat.cast_mul,-Nat.cast_add] at runEq
   subst t
   obtain ⟨u,hu⟩ := SoftmaxTriton1.row_exec y.region x.region x.offset y.offset x.rowStride x.colStride y.rowStride y.colStride x.cols B hB (launchState x p s)
   refine ⟨u,hu,?_⟩
@@ -34,7 +34,7 @@ theorem source_memory (x y : Tensor) (B p : Nat) (hB : 0<B) (s t : BlockState)
     Tile.bop,Tile.cop,Tile.ptrAdd,Tile.uop,Tile.reduceMax,Tile.reduceMaxDrop,
     Tile.reduceSum,Tile.reduceSumDrop,TileShape.axisDim,TileShape.eraseAxis,
     TileShape.insertAxisIndex,NumericDType.add,NumericDType.mul,NumericDType.sub,NumericDType.div,
-    ComparableDType.lt,hB] at hu
+    ComparableDType.lt,hB,← Int.natCast_mul,← Int.natCast_add,-Nat.cast_mul,-Nat.cast_add] at hu
   subst u
   refine fold_observe BlockState.mem _ _ _ _ ?_ ?_
   · rfl
@@ -81,7 +81,7 @@ theorem terminates (x y : Tensor) (B p : Nat) (hB : 0<B) (s : BlockState) :
     Tile.bop,Tile.cop,Tile.ptrAdd,Tile.uop,Tile.reduceMax,Tile.reduceMaxDrop,
     Tile.reduceSum,Tile.reduceSumDrop,TileShape.axisDim,TileShape.eraseAxis,
     TileShape.insertAxisIndex,NumericDType.add,NumericDType.mul,NumericDType.sub,NumericDType.div,
-    ComparableDType.lt,hB]
+    ComparableDType.lt,hB,← Int.natCast_mul,← Int.natCast_add,-Nat.cast_mul,-Nat.cast_add]
 
 #specNonCircular formula avoiding [evaluate,softmax_kernel]
 #axiomsClean source_memory

@@ -8,8 +8,8 @@
     "task_status": {
       "legacy_ast_only": 1,
       "no_selected_jit_resolved": 2,
-      "selected_body_copy_checked": 24,
-      "uncovered_jit_functions": 156
+      "selected_body_copy_checked": 25,
+      "uncovered_jit_functions": 155
     },
     "example_status": {
       "authored_counterpart_body_copy_checked": 2,
@@ -17,12 +17,12 @@
       "spec_derived_body_copy_checked": 15
     },
     "selected_jit_functions": 328,
-    "uncovered_selected_jit_functions": 288,
-    "primary_files_with_int64_screen_warning": 43,
+    "uncovered_selected_jit_functions": 287,
+    "primary_files_with_int64_screen_warning": 42,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 126,
-        "antiquotes": 138,
+        "in_body_type_directives": 125,
+        "antiquotes": 137,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 8
       },
@@ -13411,9 +13411,9 @@
       "source_provenance": "selected_revision",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 18,
-        "dsl_assignment": 3,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 32,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -13435,18 +13435,78 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "softmax_kernel",
+          "lean_definition": "softmax_kernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "input_row_stride": "input_row_stride_value",
+            "input_col_stride": "input_col_stride_value",
+            "output_row_stride": "output_row_stride_value",
+            "output_col_stride": "output_col_stride_value",
+            "n_cols": "n_cols_value"
+          },
+          "statements": 10,
+          "runtime_parameters": {
+            "input_row_stride": "i64",
+            "input_col_stride": "i64",
+            "output_row_stride": "i64",
+            "output_col_stride": "i64",
+            "n_cols": "i64"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
+          "pointer_offsets": {
+            "input_ptr": "input_offset",
+            "output_ptr": "output_offset"
+          },
           "python": "bench/repairs/tritonbench_g/triton_softmax/triton_softmax_repaired.py",
-          "function": "softmax_kernel"
+          "lean": "bench/repairs/tritonbench_g/triton_softmax/Kernels.lean"
+        },
+        {
+          "python_function": "softmax_kernel",
+          "lean_definition": "indexCommutedKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "input_row_stride": "input_row_stride_value",
+            "input_col_stride": "input_col_stride_value",
+            "output_row_stride": "output_row_stride_value",
+            "output_col_stride": "output_col_stride_value",
+            "n_cols": "n_cols_value"
+          },
+          "statements": 10,
+          "runtime_parameters": {
+            "input_row_stride": "i64",
+            "input_col_stride": "i64",
+            "output_row_stride": "i64",
+            "output_col_stride": "i64",
+            "n_cols": "i64"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
+          "pointer_offsets": {
+            "input_ptr": "input_offset",
+            "output_ptr": "output_offset"
+          },
+          "python": "bench/repairs/tritonbench_g/triton_softmax/triton_softmax_index_commuted.py",
+          "lean": "bench/repairs/tritonbench_g/triton_softmax/Kernels.lean"
         }
       ],
-      "int64_screen": "cast_not_visible_in_primary_quotation",
+      "uncovered_selected_jits": [],
+      "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/triton_softmax/Kernels.lean": "cd30730089b3c1378899eb9c68758a12db2d884ef3568be41506269150673503",
+        "bench/repairs/tritonbench_g/triton_softmax/Kernels.lean": "9aa948e943d6aa2b373be84b8ca91b0a32822c4ab21b9471c3b38008c09b94b5",
+        "bench/repairs/tritonbench_g/triton_softmax/jit-correspondence.json": "c0886f5d22ea0fb25ff5320d637c2d025c3150ebaba6c1fde432d903d8ed8b04",
+        "bench/repairs/tritonbench_g/triton_softmax/triton_softmax_index_commuted.py": "7b77dbc46c3d1b1b82c5416956e7de4c595f4dc720d34cb7dac7f0882869414f",
         "bench/repairs/tritonbench_g/triton_softmax/triton_softmax_repaired.py": "107c3ab99da5dbf9517346c0c4ed4b98e9887718fdf604bdd327f8568b84745e"
       }
     },

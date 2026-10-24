@@ -197,7 +197,8 @@ def call_signature(text: str, name: str) -> dict:
 
 def check(python_text: str, lean_text: str, python_function: str, lean_definition: str,
           signature_definition: str | None = None, expected_signature: dict | None = None,
-          expected_call_bindings: dict | None = None) -> dict:
+          expected_call_bindings: dict | None = None,
+          expected_pointer_offsets: dict | None = None) -> dict:
     functions = [n for n in ast.parse(python_text).body
                  if isinstance(n, ast.FunctionDef) and n.name == python_function]
     if len(functions) != 1 or not any(ast.unparse(d) == "triton.jit" for d in functions[0].decorator_list):
@@ -217,6 +218,9 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
     signature, body = quotation(lean_text, lean_definition)
     profile = None
     call_bindings = None
+    pointer_offsets = None
+    if expected_pointer_offsets is not None and signature_definition is None:
+        raise ValueError("pointer offsets require a checked call signature")
     if signature_definition is not None:
         if expected_signature is None:
             raise ValueError("pasted body requires an independently reviewed call signature")
@@ -235,7 +239,7 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
             raise ValueError("pasted body must not contain metadata directives or Lean antiquotes")
         if not re.search(r"\bwith_triton_signature\s+" + re.escape(signature_definition) + r"\s+in\b", signature):
             call = re.search(r"\bwith_triton_call\s+" + re.escape(signature_definition)
-                             + r"\s+call_args\s*\[([^\]]*)\]\s+in\b", signature)
+                             + r"\s+call_args\s*\[([^\]]*)\](?:\s+pointer_offsets\s*\[([^\]]*)\])?\s+in\b", signature)
             if not call:
                 raise ValueError("quotation does not use the declared call signature")
             call_bindings = {}
@@ -246,6 +250,15 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
                 call_bindings[match[1]] = match[2]
             if expected_call_bindings is None or call_bindings != expected_call_bindings:
                 raise ValueError("per-call scalar bindings differ from the reviewed invocation")
+            if call[2] is not None:
+                pointer_offsets = {}
+                for binding in call[2].split(",") if call[2].strip() else []:
+                    match = re.fullmatch(r"\s*(\w+)\s*:=\s*([\w.]+)\s*", binding)
+                    if not match or match[1] in pointer_offsets:
+                        raise ValueError("unsupported or duplicate pointer offset binding")
+                    pointer_offsets[match[1]] = match[2]
+        if pointer_offsets != expected_pointer_offsets:
+            raise ValueError("pointer offsets differ from the reviewed invocation")
         profile = call_signature(lean_text, signature_definition)
         if expected_signature is not None and profile != expected_signature:
             raise ValueError("call signature differs from the reviewed launch types")
@@ -257,6 +270,8 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
         scalar_types = {"fp32": "tl.float32", "fp64": "tl.float64", "i32": "tl.int32", "i64": "tl.int64"}
         supplied = {n: scalar_types.get(t) for n, t in profile["scalars"]}
         pointer_names = {n for n, _ in profile["pointers"]}
+        if pointer_offsets is not None and not set(pointer_offsets) <= pointer_names:
+            raise ValueError("offset binding is not a pointer parameter")
         if call_bindings is not None:
             integer_names = {n for n, t in profile["scalars"] if t in ("i32", "i64", "integer")}
             fp32_names = {n for n, t in profile["scalars"] if t == "fp32"}
@@ -294,7 +309,7 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
         diff = "\n".join(difflib.unified_diff(ast.unparse(left).splitlines(),
                         ast.unparse(right).splitlines(), fromfile="Python JIT", tofile="Lean JIT", lineterm=""))
         raise ValueError("statement correspondence mismatch:\n" + diff)
-    return {"python_function": python_function, "lean_definition": lean_definition,
+    result = {"python_function": python_function, "lean_definition": lean_definition,
             "status": "PASS", "mode": "pasted_body" if profile is not None else "legacy_ast",
             "argument_mode": ("typed_per_call_specialization" if profile is not None and call_bindings is not None
                               and any(n in call_bindings and t == "fp32" for n,t in profile["scalars"]) else
@@ -304,6 +319,9 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
             "call_bindings": call_bindings,
             "statements": len(function.body),
             "runtime_parameters": dict(profile["scalars"]) if profile is not None else runtime, "constexpr_parameters": sorted(constants)}
+    if pointer_offsets is not None:
+        result["pointer_offsets"] = pointer_offsets
+    return result
 
 
 def validate_manifest_records(records: list[dict]) -> None:
@@ -344,7 +362,7 @@ def check_manifest(root: Path, manifest: Path) -> list[dict]:
         result = check((root / record["python"]).read_text(), (root / record["lean"]).read_text(),
                        record["python_function"], record["lean_definition"],
                        record.get("signature_definition"), record.get("expected_signature"),
-                       record.get("expected_call_bindings"))
+                       record.get("expected_call_bindings"), record.get("expected_pointer_offsets"))
         if "profile_variant" in record:
             result["profile_variant"] = record["profile_variant"]
         results.append(result)

@@ -21,7 +21,7 @@ theorem execution {α} [Inhabited α] (M : Algebra α) (x y : Tensor)
     x.offset y.offset x.rowStride x.colStride y.rowStride y.colStride x.cols B
     (Floating.launchState x p s)
   simpa [Floating.evaluate,candidateEvaluate,FP.Structural.exec,softmax_kernel,indexCommutedKernel,
-    run,step,evalExpr,FP.Structural.evalOp,store,State.setReg,numeric,natLt,bop,TileShape.axisDim,
+    run,step,evalExpr,FP.Structural.evalOp,store,State.setReg,numeric,numericLt,natLt,bop,TileShape.axisDim,
     Option.bind,Function.comp_def,ComputeKernel.surfaceBody,evalComputeOp,
     SoftmaxTriton1.Floating.backend,ComputeDType.eraseDType,
     FP.ProfiledRewrite.engine,Algebra.withDefaultPrecision,resolvePrecision] using rewritten

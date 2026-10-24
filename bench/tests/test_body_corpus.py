@@ -107,6 +107,43 @@ class BodyCorpusTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "correspondence mismatch"):
             scan(self.root)
 
+    def offset_call(self, bindings="x_ptr := input_base, out_ptr := output_base"):
+        self.write("bench/repairs/sample/Kernels.lean", LEAN.replace(
+            "with_triton_signature callSignature in",
+            "with_triton_call callSignature call_args [] pointer_offsets [" + bindings + "] in"))
+        record = {**self.record, "expected_call_bindings": {},
+                  "expected_pointer_offsets": {"x_ptr": "input_base", "out_ptr": "output_base"}}
+        self.manifest([record])
+        return record
+
+    def test_external_pointer_offsets_are_checked_and_recorded(self):
+        self.offset_call()
+        result = scan(self.root)
+        self.assertTrue(result["complete"])
+        self.assertEqual(result["tasks"][0]["checked_pairs"][0]["pointer_offsets"],
+                         {"x_ptr": "input_base", "out_ptr": "output_base"})
+
+    def test_unreviewed_or_changed_pointer_offset_is_rejected(self):
+        record = self.offset_call()
+        for expected in (None, {"x_ptr": "other_base", "out_ptr": "output_base"}):
+            record = {**record, "expected_pointer_offsets": expected}
+            self.manifest([record])
+            with self.assertRaisesRegex(ValueError, "pointer offsets differ"):
+                scan(self.root)
+
+    def test_missing_or_duplicated_pointer_offset_is_rejected(self):
+        for bindings in ("x_ptr := input_base", "x_ptr := input_base, x_ptr := input_base"):
+            self.offset_call(bindings)
+            with self.assertRaisesRegex(ValueError, "pointer offset"):
+                scan(self.root)
+
+    def test_offset_cannot_bind_a_nonpointer_argument(self):
+        record = self.offset_call("B := input_base")
+        record["expected_pointer_offsets"] = {"B": "input_base"}
+        self.manifest([record])
+        with self.assertRaisesRegex(ValueError, "not a pointer"):
+            scan(self.root)
+
     def test_worked_example_without_reference_is_not_a_pass(self):
         self.write("bench/examples/Sample/Kernels.lean", LEAN)
         result = scan(self.root)
