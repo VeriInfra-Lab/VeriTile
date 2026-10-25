@@ -31,16 +31,16 @@ theorem apply_penalty_correctness
       ⊨ fun _ _ presence frequency repetition _ _ _ counts logits j =>
         TiledOptimizer.lionPenalty (logits j) (counts j : ℝ) repetition frequency presence) := by
   refine MetaScatterMasked2DKernelIO₁.Implements.intro _ ?_ ?_ ?_
-  · exact apply_penalty_flattenOk Logits presence_penalty freqency_penalty
+  · exact Projection.flattenOk Bool.false Logits presence_penalty freqency_penalty
       repetition_penalty p_token_ids p_token_counts p_cumsum_seq_len
       stride_logit_b stride_logit_s BLOCK_P
   · intro bounds s m₁ m₂ ids hm₁ hm₂ hids hp hf hr hstart hend hidsB hcountsB hlogitsB _
-    exact traceSafe_pinned Logits presence_penalty freqency_penalty
+    exact Projection.safe_pinned Bool.false Logits presence_penalty freqency_penalty
       repetition_penalty p_token_ids p_token_counts p_cumsum_seq_len
       stride_logit_b stride_logit_s BLOCK_P
       bounds s m₁ m₂ ids hm₁ hm₂ hids hp hf hr hstart hend hidsB hcountsB hlogitsB
   · intro s presence frequency repetition start stop ids counts logits hp hf hr hs he hi hc hx
-    exact apply_penalty_region_run Logits presence_penalty freqency_penalty
+    exact Projection.region_run Bool.false Logits presence_penalty freqency_penalty
       repetition_penalty p_token_ids p_token_counts p_cumsum_seq_len
       stride_logit_b stride_logit_s BLOCK_P
       s presence frequency repetition start stop ids counts logits hp hf hr hs he hi hc hx
@@ -58,22 +58,20 @@ theorem apply_penalty_reciprocal_correctness
       ⊨ fun _ _ presence frequency repetition _ _ _ counts logits j =>
         TiledOptimizer.lionPenalty (logits j) (counts j : ℝ) repetition frequency presence) := by
   refine MetaScatterMasked2DKernelIO₁.Implements.intro _ ?_ ?_ ?_
-  · exact apply_penalty_reciprocal_flattenOk Logits presence_penalty freqency_penalty
+  · exact Projection.flattenOk Bool.true Logits presence_penalty freqency_penalty
       repetition_penalty p_token_ids p_token_counts p_cumsum_seq_len
       stride_logit_b stride_logit_s BLOCK_P
   · intro bounds s m₁ m₂ ids hm₁ hm₂ hids hp hf hr hstart hend hidsB hcountsB hlogitsB _
-    exact reciprocal_traceSafe_pinned Logits presence_penalty freqency_penalty
+    exact Projection.safe_pinned Bool.true Logits presence_penalty freqency_penalty
       repetition_penalty p_token_ids p_token_counts p_cumsum_seq_len
       stride_logit_b stride_logit_s BLOCK_P
       bounds s m₁ m₂ ids hm₁ hm₂ hids hp hf hr hstart hend hidsB hcountsB hlogitsB
   · intro s presence frequency repetition start stop ids counts logits hp hf hr hs he hi hc hx
-    obtain ⟨t, ht, hv, hframe⟩ := apply_penalty_region_run Logits presence_penalty freqency_penalty
+    exact Projection.region_run Bool.true Logits presence_penalty freqency_penalty
       repetition_penalty p_token_ids p_token_counts p_cumsum_seq_len
       stride_logit_b stride_logit_s BLOCK_P
       s presence frequency repetition start stop ids counts logits hp hf hr hs he hi hc hx
-    exact ⟨t, (reciprocal_exec Logits presence_penalty freqency_penalty
-      repetition_penalty p_token_ids p_token_counts p_cumsum_seq_len
-      stride_logit_b stride_logit_s BLOCK_P s).trans ht, hv, hframe⟩
+
 
 #axiomsClean apply_penalty_correctness
 #axiomsClean apply_penalty_reciprocal_correctness

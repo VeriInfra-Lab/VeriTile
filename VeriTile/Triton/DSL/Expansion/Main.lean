@@ -3051,17 +3051,10 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
       MacroM (TSyntax `term × TSyntax `term × Env × Bool) := do
     if dest.getId.getString! != old.getId.getString! then
       let sumExpr : TSyntax `tritonExpr ← `(tritonExpr| $old:ident + $rhs:tritonExpr)
-      let e' ←
-        if intPinned.contains dest.getId.toString then
-          if (Inference.pointerElementDType? regionDTypes ptrElems sumExpr).isSome then
-            let inferred ← expandExpr env sumExpr
-            if inferred.dtype == DInfo.ptr then pure inferred
-            else expandIntExpectedExpr env sumExpr
-          else expandIntExpectedExpr env sumExpr
-        else if pinned.contains dest.getId.toString then
-          expandNatExpectedExpr env sumExpr
-        else
-          expandExpr env sumExpr
+      -- A fresh `dest = old + rhs` is an ordinary assignment. Use the same
+      -- source-width and known-register inference as every other expression;
+      -- preliminary Nat address pins cannot retag an already signed operand.
+      let e' ← expandAssignment dest sumExpr
       emitAssign dest e'
     else
       let rawName := old.getId.toString

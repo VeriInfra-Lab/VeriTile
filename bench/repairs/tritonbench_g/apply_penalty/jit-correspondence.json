@@ -1,0 +1,124 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/apply_penalty/apply_penalty_repaired.py",
+    "python_function": "_fwd_kernel_apply_penalty_repaired",
+    "lean": "bench/repairs/tritonbench_g/apply_penalty/Kernels.lean",
+    "lean_definition": "kernel",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "Logits",
+          "fp32"
+        ],
+        [
+          "presence_penalty",
+          "fp32"
+        ],
+        [
+          "freqency_penalty",
+          "fp32"
+        ],
+        [
+          "repetition_penalty",
+          "fp32"
+        ],
+        [
+          "p_token_ids",
+          "i32"
+        ],
+        [
+          "p_token_counts",
+          "i32"
+        ],
+        [
+          "p_cumsum_seq_len",
+          "i32"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_logit_b",
+          "i64"
+        ],
+        [
+          "stride_logit_s",
+          "i64"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_P"
+      ],
+      "naturalIntegerPointers": [
+        "p_token_ids",
+        "p_token_counts",
+        "p_cumsum_seq_len"
+      ]
+    },
+    "expected_call_bindings": {
+      "stride_logit_b": "stride_logit_b",
+      "stride_logit_s": "_stride_logit_s"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/apply_penalty/apply_penalty_repaired.py",
+    "python_function": "_fwd_kernel_apply_penalty_reciprocal",
+    "lean": "bench/repairs/tritonbench_g/apply_penalty/Kernels.lean",
+    "lean_definition": "reciprocalKernel",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "Logits",
+          "fp32"
+        ],
+        [
+          "presence_penalty",
+          "fp32"
+        ],
+        [
+          "freqency_penalty",
+          "fp32"
+        ],
+        [
+          "repetition_penalty",
+          "fp32"
+        ],
+        [
+          "p_token_ids",
+          "i32"
+        ],
+        [
+          "p_token_counts",
+          "i32"
+        ],
+        [
+          "p_cumsum_seq_len",
+          "i32"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_logit_b",
+          "i64"
+        ],
+        [
+          "stride_logit_s",
+          "i64"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_P"
+      ],
+      "naturalIntegerPointers": [
+        "p_token_ids",
+        "p_token_counts",
+        "p_cumsum_seq_len"
+      ]
+    },
+    "expected_call_bindings": {
+      "stride_logit_b": "stride_logit_b",
+      "stride_logit_s": "_stride_logit_s"
+    }
+  }
+]

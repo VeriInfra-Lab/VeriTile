@@ -703,3 +703,29 @@ class ReversedCumsumRawBodyTests(unittest.TestCase):
                 check((ROOT / record["python"]).read_text(), lean.replace(before, after),
                       record["python_function"], record["lean_definition"], record["signature_definition"],
                       record["expected_signature"])
+
+
+class ApplyPenaltyRawBodyTests(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/apply_penalty"
+
+    def test_both_original_and_reciprocal_keep_metadata_widenings_and_runtime_strides(self):
+        records = json.loads((self.directory / "jit-correspondence.json").read_text())
+        pairs = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual(len(pairs), 2)
+        self.assertTrue(all((p["mode"], p["statements"]) == ("pasted_body", 17) for p in pairs))
+        lean = (self.directory / "Kernels.lean").read_text()
+        for record in records:
+            for before, after in [
+                ("tl.program_id(0).to(tl.int64)", "tl.program_id(0)"),
+                ("tl.load(p_cumsum_seq_len + cur_batch).to(tl.int64)", "tl.load(p_cumsum_seq_len + cur_batch)"),
+                ("tl.arange(0, BLOCK_P).to(tl.int64)", "tl.arange(0, BLOCK_P)"),
+                ("other=0).to(tl.int64)", "other=0)"),
+                ("tl.cast(stride_logit_b, tl.int64)", "stride_logit_b"),
+                ('("p_token_counts",.i32)', '("p_token_counts",.i64)'),
+                ("stride_logit_s := _stride_logit_s", "stride_logit_s := stride_logit_b"),
+            ]:
+                with self.subTest(definition=record["lean_definition"], before=before), self.assertRaises(ValueError):
+                    self.assertIn(before, lean)
+                    check((ROOT / record["python"]).read_text(), lean.replace(before, after),
+                          record["python_function"], record["lean_definition"], record["signature_definition"],
+                          record["expected_signature"], record["expected_call_bindings"])

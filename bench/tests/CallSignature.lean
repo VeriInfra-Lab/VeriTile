@@ -1021,3 +1021,35 @@ theorem complete_kernel (P : Region .nat) (Out : RegionName) (stride : Nat) :
     source P Out stride = expected P Out stride := rfl
 #axiomsClean complete_kernel
 end VeriTile.Tests.NaturalSignedAddress
+
+namespace VeriTile.Tests.NaturalSignedOffsetRebind
+open VeriTile.Triton
+
+def signature : CallSignature where
+  pointers := [("P",.i32),("C",.i32),("Out",.u64)]
+  constexpr := ["B","N"]
+  naturalIntegerPointers := ["P","C"]
+
+def source (P C Out : Region .nat) (B N : Nat) : ComputeKernel :=
+  with_triton_signature signature in triton {
+    index = tl.load(P).to(tl.int64)
+    offsets = index + tl.arange(0, B).to(tl.int64)
+    counts = tl.load(C + offsets, mask=offsets < N, other=0)
+    tl.store(Out + tl.arange(0, B), counts, mask=offsets < N)
+  }
+
+def expected (P C Out : Region .nat) (B N : Nat) : ComputeKernel :=
+  .mk [P.cast,C.cast] [Out.cast]
+    [.assign .int [] "index" (.alg (.castNatToInt (.load .nat (.region P (.constNat 0)) .none))),
+     .assign .int [B] "offsets" (.alg (.add .int .scalarL (.ref .int [] "index") (.castNatToInt (.arange B)))),
+     .assign .nat [B] "counts" (.alg (.load .nat
+       (.region C (.castIntToNat (.ref .int [B] "offsets")))
+       (.maskOther (.lt .int .scalarR (.ref .int [B] "offsets") (.castNatToInt (.constNat N)))
+         (.broadcast (.constNat 0) [B])))),
+     .store .nat [B] (.region Out (.arange B)) (.alg (.natToUnsigned 64 (.ref .nat [B] "counts")))
+       (.mask (.lt .int .scalarR (.ref .int [B] "offsets") (.castNatToInt (.constNat N))))]
+
+theorem complete_kernel (P C Out : Region .nat) (B N : Nat) :
+    source P C Out B N = expected P C Out B N := rfl
+#axiomsClean complete_kernel
+end VeriTile.Tests.NaturalSignedOffsetRebind

@@ -15,7 +15,6 @@ theorem checked_kernel_trace_safe (a : Arguments) (h : InputContract a)
     Kernel.TraceSafe (RealProof.capacities a)
       (kernel "logits" "presence" "frequency" "repetition" "ids" "counts" "cumsum"
         a.vocab 1 a.block).toAlgKernel (RealProof.programState a s b) := by
-  rw [Projection.algorithm]
   exact RealProof.source_traceSafe a h input s binding b hb
 
 /-- The Python admission checks expose exactly the declared tensor contract. -/
