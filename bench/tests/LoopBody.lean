@@ -133,3 +133,44 @@ theorem literal_constructor : ∃ inner,
 end ImmutableTwoArgumentRange
 
 end VeriTile.Tests.LoopBody
+
+namespace VeriTile.Tests.LoopBody.CompositeCallerEndpoint
+open VeriTile.Triton
+
+def source (K B : Nat) : ComputeKernel :=
+  with_triton_call ({scalars := [("K",.integer)], constexpr := ["B"]} : CallSignature)
+    call_args [K := K] in triton {
+    total = 0
+    for i in range(0, tl.cdiv(K, B)):
+        total += i
+  }
+
+/-- The immutable caller endpoint uses exactly ceil division, including the
+K=0 case. Its native nonzero-block requirement stays in the caller contract. -/
+theorem complete_program (K B : Nat) : source K B = triton {
+    total = 0
+    for i in range($(0), $(((K+B-1)/B : Nat)), $(1)) {
+      total += i
+    }
+  } := rfl
+
+/-- error: tl.cdiv lhs: dtype mismatch -/
+#guard_msgs in
+def mutated (N B : Nat) : ComputeKernel :=
+  with_triton_signature ({constexpr := ["N", "B"]} : CallSignature) in triton {
+    N = 1
+    for i in range(0, tl.cdiv(N, B)):
+        total = i
+  }
+
+/-- error: tl.cdiv rhs: dtype mismatch -/
+#guard_msgs in
+def literalZero (K : Nat) : ComputeKernel :=
+  with_triton_call ({scalars := [("K",.integer)]} : CallSignature)
+    call_args [K := K] in triton {
+    for i in range(0, tl.cdiv(K, 0)):
+        total = i
+  }
+
+#axiomsClean complete_program
+end VeriTile.Tests.LoopBody.CompositeCallerEndpoint

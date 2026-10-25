@@ -175,6 +175,20 @@ private partial def valueType (pointers : Types) (values : Values)
   | `(tritonExpr| $a:tritonExpr[:, None, :])
   | `(tritonExpr| $a:tritonExpr[None, :, :])
   | `(tritonExpr| $a:tritonExpr[:, :, None]) => valueType pointers values a
+  | `(tritonExpr| tl.dot($a:tritonExpr, $b:tritonExpr, $acc:tritonExpr)) =>
+      if valueType pointers values a == some (.typed .fp32) &&
+          valueType pointers values b == some (.typed .fp32) &&
+          valueType pointers values acc == some (.typed .fp32)
+      then some (.typed .fp32) else none
+  | `(tritonExpr| tl.dot($a:tritonExpr, $b:tritonExpr, $acc:tritonExpr $[, $kwargs:tritonReduceKwarg]*)) => do
+      -- The live FP32 accumulator is an operand, never a separate add.
+      unless valueType pointers values a == some (.typed .fp32) &&
+          valueType pointers values b == some (.typed .fp32) &&
+          valueType pointers values acc == some (.typed .fp32) do failure
+      for kw in kwargs do
+        if let `(tritonReduceKwarg| out_dtype=$dtype:tritonDType) := kw then
+          unless (← dtypeToken dtype.raw) == SourceDType.dtypeName .fp32 do failure
+      return .typed .fp32
   | `(tritonExpr| tl.dot($a:tritonExpr, $b:tritonExpr $[, $kwargs:tritonReduceKwarg]*)) => do
       unless valueType pointers values a == some (.typed .fp32) &&
           valueType pointers values b == some (.typed .fp32) do failure

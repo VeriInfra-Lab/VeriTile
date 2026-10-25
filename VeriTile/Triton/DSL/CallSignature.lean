@@ -242,6 +242,15 @@ private partial def staticNatBound (constants assigned : List Name)
   match e with
   | `(tritonExpr| ($inner:tritonExpr)) => staticNatBound constants assigned inner
   | `(tritonExpr| $n:num) => return some (← `(($n : Nat)))
+  | `(tritonExpr| tl.cdiv($a:tritonExpr, $b:tritonExpr)) =>
+      -- Supplied immutable Nat dimensions can determine a range endpoint.
+      -- Mutable source locals remain on the dynamic path. Preserve the
+      -- explicit zero-divisor path used by literal source expressions.
+      if let `(tritonExpr| $zero:num) := b then
+        if zero.getNat == 0 then return none
+      let some a ← staticNatBound constants assigned a | return none
+      let some b ← staticNatBound constants assigned b | return none
+      return some (← `((((($a : Nat) + ($b : Nat) - 1) / ($b : Nat)) : Nat)))
   | `(tritonExpr| $($term:term)) =>
       let value ← elabTerm term none
       if ← isDefEq (← inferType value) (mkConst ``Nat) then return some term else return none

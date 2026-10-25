@@ -531,3 +531,53 @@ theorem complete_program (X Y Half : RegionName) (B : Nat) :
 
 #axiomsClean complete_program
 end VeriTile.Tests.CallSignature.ScanStorage
+
+namespace VeriTile.Tests.CallSignature.LiveDotStorage
+open VeriTile.Triton
+
+def signature : CallSignature where
+  pointers := [("X",.fp32),("Y",.fp32),("Z",.fp32)]
+  constexpr := ["B"]
+
+def source (X Y Z : RegionName) (B : Nat) : ComputeKernel :=
+  with_triton_signature signature in triton {
+    offsets = tl.arange(0, B)[:, None] * B + tl.arange(0, B)[None, :]
+    a = tl.load(X + offsets)
+    b = tl.load(Y + offsets)
+    acc = tl.zeros((B, B), dtype=tl.float32)
+    for k in range(2):
+        acc = tl.dot(a, b, acc)
+    c = tl.cast(acc, tl.float16)
+    tl.store(Z + offsets, c)
+  }
+
+/-- Keep the live dot inside every iteration and both real conversion events:
+FP16 narrowing followed by implicit FP32 output storage. No cast law is used. -/
+theorem complete_program (X Y Z : RegionName) (B : Nat) : source X Y Z B = triton {
+    tl.ports inputs=[X,Y], outputs=[Z]
+    tl.region X = tl.float32, Y = tl.float32, Z = tl.float32
+    offsets = tl.arange(0, B)[:, None] * B + tl.arange(0, B)[None, :]
+    a = tl.load(X + offsets)
+    b = tl.load(Y + offsets)
+    acc = tl.zeros([B, B], dtype=tl.float32)
+    tl.for k in $(2) {
+      acc = tl.dot(a, b, acc)
+    }
+    c = tl.cast(acc, tl.float16)
+    tl.store(Z + offsets, c.to(tl.float32))
+  } := rfl
+
+/-- error: loop-carried value requires a stable, known source dtype -/
+#guard_msgs in
+def invalidHalfCarry (X Y : RegionName) (B : Nat) : ComputeKernel :=
+  with_triton_signature ({pointers := [("X",.fp32),("Y",.fp32)], constexpr := ["B"]} : CallSignature) in triton {
+    offsets = tl.arange(0, B)[:, None] * B + tl.arange(0, B)[None, :]
+    a = tl.load(X + offsets)
+    b = tl.load(Y + offsets)
+    acc = tl.zeros((B, B), dtype=tl.float16)
+    for k in range(2):
+        acc = tl.dot(a, b, acc)
+  }
+
+#axiomsClean complete_program
+end VeriTile.Tests.CallSignature.LiveDotStorage
