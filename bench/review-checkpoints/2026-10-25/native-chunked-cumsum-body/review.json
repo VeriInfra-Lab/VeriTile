@@ -1,0 +1,331 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "8cb5f72427effdb26c12b4edc9122fca0fa53d53",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "chunked_cumsum_fwd"
+  ],
+  "semantic_review": {
+    "adam_update_triton": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "add_example": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "add_value": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "cache_transform_triton": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "chunk_cumsum_kernel": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "cosine_compute": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "dequantize_matmul": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "dequantize_rowwise": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "destindex_copy": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "destindex_copy_kv1": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "destindex_copy_kv2": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "dropout_triton": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "f8_conversion_utils": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "fast_rope_embedding": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "fused_recurrent_hgrn": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "index_select_bwd": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "index_select_cat": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "kcache_copy_triton": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "kldiv_compute": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "kldiv_triton": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "kv_cache_copy": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "l2_norm_bwd": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "l2_norm_triton1": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "l2_norm_triton2": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "logsumexp_fwd": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "masked_add_cuda": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "matrix_reduction": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "matrix_transpose": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "mean_reduction": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "mul_exponent_compensator": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "nested_loops_processing": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "quant_transpose_kernel": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "relu_triton_kernel": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "rms_norm_triton": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "rmsnorm_fused": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "rmsnorm_fused_llama": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "rmsnorm_implementation": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "rmsnorm_triton": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "rope_embedding": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "rotary_emb": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "rotary_emb_nopad": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "seeded_dropout": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "sin_computation": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "sin_kernel": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "softmax_triton1": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "softmax_triton2": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "square_matrix": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "swiglu_backward": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "swiglu_fwd": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "triton_mul2": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "triton_softmax": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "var_len_copy": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "vector_addition": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "vector_addition_custom": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the selective typed FP32 interface channels and inclusive-scan dtype flow. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual chunked cumsum body occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "chunked_cumsum_fwd": "The selected Python is unchanged and its complete 26-statement body is pasted directly, retaining every unsigned64 cast and reassignment, all source pointer expressions/masks, runtime dt_min/dt_max words, bias/softplus branches, ordered clamp/remask/stores, multiplication and inclusive scan. External call metadata binds 17 mathematical integer carriers without inventing fixed ABI widths; the existing unsigned native-index refinement remains. Selective typedFP32Pointers preserves the earlier two typed FP32 input cells and three profiled FP32 channels without inserting a source instruction or assuming any cast identity. The existing scaleFirst candidate has an explicitly NEW native counterpart, never claimed as historical original. SourcePreservation proves complete statement-body AST identities and complete optional-state execution equality for original/candidate under arbitrary backend/state, including failure; explicit call ports now state the existing three-input/two-output IO rather than the old empty collector result, without a domain condition. Source dtype flow for FP32 cumsum removes an extra compiler-inserted self-conversion, while actual FP16 narrowing remains. All 61 task modules replay: independent Real formulas, exact runtime ABI, all-word NativeModel graphs, scan/FMA plans, complete grids/output/frame/access/native address/storage/byte/Tensor/host scopes and strict source pair. The previously stale legacy literal-bound FP models lacked a minimum callback and described compare/select; they are explicitly retained under the same names in LegacyComparisonModels, with identical old comparison AST and assumptions, rather than narrowing their arbitrary-backend domain or inventing a floating minimum/select law. The actual selected raw body retains the independent minimum primitive. A separate Mathlib theorem connects real minimum and the previous comparison for every Real state including failure/undefined cells, and the earlier independent mathematical specification is unchanged. Audit-only imports were repaired; all requested old and actual named axioms/non-circularity checks now run."
+  },
+  "example_regression_scope": "All 19 examples and their complete helpers replay locally, jointly and in an initially empty independent project checkout. Their bodies, mathematical domains and numerical classifications remain unchanged.",
+  "verification": {
+    "frontend_regressions": {
+      "status": "PASS",
+      "configured_modules": 95,
+      "scope": "All 95 configured modules retain the prior mutation, integer/RNG, literal-only/signed/static range, branch/loop dtype and shape guards. New mixed-channel tests prove typed FP32 versus profiled FP32 cell distinctions without changing source dtype, reject missing/duplicate/non-FP32 selections, and prove an inclusive FP32 scan has no redundant FP32 self-cast while an FP16 store still narrows. Python checks pin selective literal metadata, reject concatenation/dynamic selectors and preserve every uint64 cast, runtime clamp order and optional branch. Original raw quotations are unchanged by these internal parsed-view fixes."
+    },
+    "integration": {
+      "status": "PASS",
+      "explicit_modules": 1934,
+      "jobs": 11127
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 1934,
+      "jobs": 11127,
+      "scope": "Every combined root and complete dependency closure; full replay required because shared frontend source changed.",
+      "project_build_initially_present": false,
+      "veritile_cache_initially_present": false,
+      "only_fixed_external_dependencies_reused": true
+    },
+    "joint_import": "PASS: all 1934 roots",
+    "task_directories": "All 61 chunked cumsum modules, all 95 configured frontend tests, the previously migrated 40-module cumsum task, every prior migrated root and all historical/optional scopes, including explicit legacy comparison models with unchanged generic domains.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 62
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 307,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by the old numerical receipt; prior baseline preserved, no false repin."
+    },
+    "official_comparator": "UNAVAILABLE: every actual frozen-source invocation reports required host isolation unavailable. Pinned official comparator/exporter/landrun and SHA256-verified Go toolchain are installed; host Landlock ABI v4 is below required v5, and the systemd user bus is unavailable. No isolation bypass.",
+    "optional_cpu_contract": "UNAVAILABLE: current environment lacks torch; actual failure retained.",
+    "gpu_or_numerical_experiment": "Not run. No new numerical law, axiom or hardware-conformance claim.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending."
+  },
+  "source_pairs": {
+    "total": 192,
+    "pasted_body": 187,
+    "legacy_ast": 5
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-25/native-chunked-cumsum-body/source-closure.json",
+    "sha256": "7134195f5ab99f5a0da451e1a551ceb7bec77df5fd31c6e6ba1a8b54cdea898b"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "legacy_ast_only": 1,
+      "no_selected_jit_resolved": 2,
+      "selected_body_copy_checked": 55,
+      "uncovered_jit_functions": 125
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 328,
+    "uncovered_selected_jit_functions": 242,
+    "primary_files_with_int64_screen_warning": 38,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 98,
+        "antiquotes": 109,
+        "dsl_loop": 1,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-chunked-cumsum-body/all-python.log.gz",
+      "sha256": "6d51177926d4093adbe77455a30b390355a120e780a3bafe5cafada030dac3d1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-chunked-cumsum-body/changed-VeriTile__Triton__DSL__CallSignature-comparator.log",
+      "sha256": "d4b7034c0dce20dcf56fedf4d16b3451044eca52ae8c18f57cd4e534ca215a06"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-chunked-cumsum-body/changed-VeriTile__Triton__DSL__TypedStores-comparator.log",
+      "sha256": "470cdc091bd12602d0264bc96b90f5212190d9ec36f95c180cf8d835a10f6d2f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-chunked-cumsum-body/changed-bench__repairs__tritonbench_g__chunked_cumsum_fwd__Kernels-comparator.log",
+      "sha256": "11fff88a738d3b2e9f72c5637f93cb4fe1d0a5d2f80dc4de68a2d33ae67deb27"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-chunked-cumsum-body/changed-bench__repairs__tritonbench_g__chunked_cumsum_fwd__Proofs__KernelAudit-comparator.log",
+      "sha256": "96b78be6110ec2c184f77c0a309861b8d0e47e73be011dc546a9dd55738c9dd8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-chunked-cumsum-body/changed-bench__repairs__tritonbench_g__chunked_cumsum_fwd__Proofs__KernelSource-comparator.log",
+      "sha256": "57658f961b8612fe1d359fc609956295cd890144e20379e4ab51f6a92497bc56"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-chunked-cumsum-body/changed-bench__repairs__tritonbench_g__chunked_cumsum_fwd__Proofs__LegacyPastedSurface-comparator.log",
+      "sha256": "9d6efc273d98399441d00344ee20c27d0828db528c06647fe9556d838bf4165b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-chunked-cumsum-body/changed-bench__repairs__tritonbench_g__chunked_cumsum_fwd__Proofs__SourcePreservation-comparator.log",
+      "sha256": "6fc013b2113d95c81d66dee9179e002e556b748c535fb175e966a1890a5c3659"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-chunked-cumsum-body/changed-bench__tests__CallSignature-comparator.log",
+      "sha256": "90cadc91f06b189d4e5833a605bf74da481b05e0cd38a02e3e165ed792d4b0b2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-chunked-cumsum-body/changed-bench__tritonbench_g__chunked_cumsum_fwd__Kernels-comparator.log",
+      "sha256": "466383d51f67c6d52959479b789b92ea8c3b85474d63d75d3797427d15485424"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-chunked-cumsum-body/changed-bench__tritonbench_g__chunked_cumsum_fwd__LegacyComparisonModels-comparator.log",
+      "sha256": "27daccadcee6c5a58c322c207491890e565613db9525613ea4592f936bae3164"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-chunked-cumsum-body/changed-bench__tritonbench_g__chunked_cumsum_fwd__Proofs__Tiles-comparator.log",
+      "sha256": "0bb3719e706d1f7df124696808b7b0b197db91ac0f18fd3e3a283a5657165b31"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-chunked-cumsum-body/chunked_cumsum_fwd-Real-comparator.log",
+      "sha256": "9c20275e7823e2c5febbaac77577ac0ad12dfd66751a2afb83cf0d599b4dcb78"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-chunked-cumsum-body/chunked_cumsum_fwd-comparator.log",
+      "sha256": "aa11a5e48b184ca610ff44a7c5a5645110c10958fa3831187bc3cbfb73441091"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-chunked-cumsum-body/chunked_cumsum_fwd-contract.log",
+      "sha256": "5eb61a9df7ff4d643727c97d135cc3c8280721c0d9664504c56202cf0760c1e9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-chunked-cumsum-body/clean-build.log.gz",
+      "sha256": "e1d0ef4728626b4f228bf5ea8e7df56f9b3401a141bce4a4ece8f5b13d42cf94"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-chunked-cumsum-body/clean-setup.log",
+      "sha256": "4b9dc5b1b478cbe70a8409c14d50b0c91a47966dbbcca06f1a24045cdb7a83e6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-chunked-cumsum-body/comparator-invocations.json",
+      "sha256": "31ff0971837c8797cbf530c20b559ba1bcc62543b05b7f7c4e1ad9b7114c7e8b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-chunked-cumsum-body/comparator-preflight.log",
+      "sha256": "d9255026a27595d0a04e154bc4a9c609c8422b012fc13cb1ae4de2417afea36d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-chunked-cumsum-body/comparator-setup.log",
+      "sha256": "bea658f19aea48f8965a3d6525da1300e599d9a3f0a05b992071c97bcaffd6df"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-chunked-cumsum-body/comparator-tools.json",
+      "sha256": "d541ac407f7aa8679c8ba23dd4df72ac363730bbb67e45bd7959ec752e6b0c53"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-chunked-cumsum-body/comparator.log",
+      "sha256": "6f25c9ca21dab0c5f71c3293416b6cc88ef5f402bb00fc6db1fe523080abcab0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-chunked-cumsum-body/contract.log",
+      "sha256": "71f719dc33380ac95377419f3c58348f7e404d88ca77f8cee6480ec94a73c2c2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-chunked-cumsum-body/corpus-guard.log",
+      "sha256": "36d42d453aab50e9bf4e3cb88b4f4764516e9fcb1856cfb9d6e2b3dc01800c57"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-chunked-cumsum-body/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-chunked-cumsum-body/integration.log.gz",
+      "sha256": "daefd911cea64d673d22b54474d0531d9ba3fb212560eba15eb22ed5d270ceee"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-chunked-cumsum-body/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-chunked-cumsum-body/joint.lean",
+      "sha256": "92965bee739e828b5bcb883a25934cb9838702bacd8453245488076061ba745b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-chunked-cumsum-body/joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-chunked-cumsum-body/main-focused.log.gz",
+      "sha256": "2229989007cbac02d1d33f331d6501a248f67901a5e87ac5343ace9807b6a0be"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-chunked-cumsum-body/main-pure-reuse.json",
+      "sha256": "4baaa04a37a4ab56a5cfa18549c2e3f481d05826b22177c6adef727f6a838229"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-chunked-cumsum-body/main-pure-reuse.log.gz",
+      "sha256": "c49a06f09d31a454259d27c6e3ebbf4102c807adf1c126d113049b8e3f99baa2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-chunked-cumsum-body/main-quotation-report.json",
+      "sha256": "b2d1d2c55682ed058c89255f7e5ff19f9dea7124a31a65ce3647f3ad9764189c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-chunked-cumsum-body/main-quotation.log.gz",
+      "sha256": "25f348cb8ce424064573a0e947502866a2bb70e9a351af7b84b6c24532ae137e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-chunked-cumsum-body/modules.json",
+      "sha256": "6b9cc377718c4517e8881d8b9ff6ad95ead0285c9548b52c0117c387edc9b863"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-chunked-cumsum-body/old-infinity-guard.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-chunked-cumsum-body/pairs.json",
+      "sha256": "5d6e8fa7685e62ee27681895688a5515c2c6581b4b3ea0ab2af5902d3adcfce6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-chunked-cumsum-body/previous-selected-reviews.json.gz",
+      "sha256": "c8013dd1c2345d740af51a6b8507dcfe270fed1d0944c99e2974c46e008cf915"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-chunked-cumsum-body/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-chunked-cumsum-body/python-tests.log",
+      "sha256": "c9cb3f2993970f0e67831639c6dcd0096862ac5a6be581220fa908763bcdfdcf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-chunked-cumsum-body/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-chunked-cumsum-body/signed-address-guard.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-chunked-cumsum-body/signed-range-guard.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-chunked-cumsum-body/source-closure.json",
+      "sha256": "7134195f5ab99f5a0da451e1a551ceb7bec77df5fd31c6e6ba1a8b54cdea898b"
+    }
+  ]
+}

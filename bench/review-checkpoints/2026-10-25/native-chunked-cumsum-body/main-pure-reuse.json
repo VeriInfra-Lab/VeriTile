@@ -1,0 +1,145 @@
+{
+  "status": "passed",
+  "script": {
+    "path": "bench/repairs/tritonbench_g/chunked_cumsum_fwd/check_pure_reuse.py",
+    "sha256": "c7ecc6e33804ff106b0baf499a94039fe2e641cde45ebc3856f8d7bd32ef7c3e"
+  },
+  "purpose": "Factor pure definitions without importing the historical program/host proof closure. No program AST duplicated.",
+  "records": [
+    {
+      "label": "all independent mathematical formulas",
+      "old": {
+        "path": "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/Math.lean",
+        "sha256": "23ebf71b7fde0ec89377a908d4f5a0be131e8460105105bce57dff0ee39a490d"
+      },
+      "new": {
+        "path": "bench/repairs/tritonbench_g/chunked_cumsum_fwd/Proofs/KernelMath.lean",
+        "sha256": "6239c5daa66a8a7069d1a3beba16e8335ac3accb7fa9a728a1a06a1035e7d78b"
+      },
+      "normalized_fragment_sha256": "b8fbba548daa528d2e8a01307d1b032ab8c10191a19c94fd2938456a66454f28",
+      "normalization": []
+    },
+    {
+      "label": "pure geometry, coverage and uniqueness",
+      "old": {
+        "path": "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/WholeHost.lean",
+        "sha256": "b3a1a4537f9c922c1dbfe739e3fe1d445e15553449e4e4e365696591c6223589"
+      },
+      "new": {
+        "path": "bench/repairs/tritonbench_g/chunked_cumsum_fwd/Proofs/KernelGeometry.lean",
+        "sha256": "21e4fd0828db8f48d4c6907f2d964fb1bb85dcd9c3547a68d3568701c50b842a"
+      },
+      "normalized_fragment_sha256": "71b4a0f368dea5215841524fd0069fabd7eb187a54e8ab8a63a2e6cc8365f680",
+      "normalization": [
+        [
+          "Host",
+          "Geometry"
+        ]
+      ]
+    },
+    {
+      "label": "binary64-to-FP32 ABI and independent bounds",
+      "old": {
+        "path": "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/RawHostABI.lean",
+        "sha256": "19468370115101ad1689e1377d3eae830d5459b275702ffe35b01bdef6d1bd65"
+      },
+      "new": {
+        "path": "bench/repairs/tritonbench_g/chunked_cumsum_fwd/Proofs/KernelABI.lean",
+        "sha256": "e0f22749528ee9ab58ae3b2a4c6b9618d8fc29a37e2235181cdaf02d92a014e7"
+      },
+      "normalized_fragment_sha256": "f334ff8043e98446610024f01f4ba62a41ca2608e3075d9bd716606f101043c2",
+      "normalization": []
+    },
+    {
+      "label": "scalar ordered scan trees and prefix certificate",
+      "old": {
+        "path": "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/WholeBackendTile.lean",
+        "sha256": "8e8d6acb38e64f8c5308798715882e65038bbd9767c9de98c09078c2a61fa4dc"
+      },
+      "new": {
+        "path": "bench/repairs/tritonbench_g/chunked_cumsum_fwd/Proofs/KernelExecution.lean",
+        "sha256": "3a2a00390b0844f366d273bd25f3d096f8f277b4729948b891092cdc44b6a6eb"
+      },
+      "normalized_fragment_sha256": "198b462e66d3bfbe46347838258ba3700465b5b6ba30f053a1f82b0dde81ec38",
+      "normalization": []
+    },
+    {
+      "label": "scalar terms, local model, interpretation and explicit contraction",
+      "old": {
+        "path": "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/RawObserved.lean",
+        "sha256": "19c3c4bb695338b1a493baaf998344b8da0c0a002925a07bb4643cf10f96c912"
+      },
+      "new": {
+        "path": "bench/repairs/tritonbench_g/chunked_cumsum_fwd/Proofs/KernelScalar.lean",
+        "sha256": "fae5f9c7dd1f00608694d6b90cdd33e567bdbc269aed8ba1026b855630f59a5a"
+      },
+      "normalized_fragment_sha256": "c588648c030739a736be06da42b1123538568686e75c27553802ecac8e46db36",
+      "normalization": []
+    },
+    {
+      "label": "unchanged metadata checker equivalences",
+      "old": {
+        "path": "bench/repairs/tritonbench_g/chunked_cumsum_fwd/Proofs/Contract.lean",
+        "sha256": "9af0d7eda94c041dcb77dc7888b8635181db77af7bfdb9d2ba69de7a6badccb2"
+      },
+      "new": {
+        "path": "bench/repairs/tritonbench_g/chunked_cumsum_fwd/Proofs/KernelContract.lean",
+        "sha256": "9f51ac7de056295b231503b2ddd67f23b3a0059dfdacf2005d7452932b6c30e3"
+      },
+      "normalized_fragment_sha256": "85ebd0f851ae0736047e6dbb12f7ed337599876e529a75eced7a2f5ea956e492",
+      "normalization": []
+    },
+    {
+      "label": "certified ordered prefix row 0",
+      "old": {
+        "path": "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/WholeNativePlan0.lean",
+        "sha256": "34ccd04dce9c445d7fd858d2ccec2f0ba458d8ba53d9ffca753f616f1c2435a9"
+      },
+      "new": {
+        "path": "bench/repairs/tritonbench_g/chunked_cumsum_fwd/Proofs/KernelPlan0.lean",
+        "sha256": "93dfff7ee15ffd9e40668af199a93f7c31358e121a99405168f710882db28814"
+      },
+      "normalized_fragment_sha256": "30f544b51c191a40ab5cef7f27b8cabdca663903f9da98654acdee6e904387db",
+      "normalization": []
+    },
+    {
+      "label": "certified ordered prefix row 1",
+      "old": {
+        "path": "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/WholeNativePlan1.lean",
+        "sha256": "2b58f8bc1f881f943ae666011b105536f7c2def083d0a2c2d808e72de3174ff1"
+      },
+      "new": {
+        "path": "bench/repairs/tritonbench_g/chunked_cumsum_fwd/Proofs/KernelPlan1.lean",
+        "sha256": "e6e984fa411ec7033e123a18f1e2c5eab12fcace9a8b436b3033886585b22460"
+      },
+      "normalized_fragment_sha256": "7bef30e53596349d047a12345dccf6a3224341d29ecc1c70ebecc148c74f0c0f",
+      "normalization": []
+    },
+    {
+      "label": "certified ordered prefix row 3",
+      "old": {
+        "path": "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/WholeNativePlan3.lean",
+        "sha256": "31e8f8cf7e00f3d67f0d6d2bd1dcdaec76e6c2954f30ec24c9bbb21215c34603"
+      },
+      "new": {
+        "path": "bench/repairs/tritonbench_g/chunked_cumsum_fwd/Proofs/KernelPlan3.lean",
+        "sha256": "10f99066396903b87a724edc00c78184b809d7a49f126fcb0f11c193e950a26a"
+      },
+      "normalized_fragment_sha256": "fd47c8126e6003fefe6478f85af46ba270d08ddbe140dfb70216aabfac9253c0",
+      "normalization": []
+    },
+    {
+      "label": "certified ordered prefix row 4",
+      "old": {
+        "path": "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/WholeNativePlan4.lean",
+        "sha256": "f649f9ff3035b52f693515600c66ca066112377b0ef9c0dbef5dfca7a81c49cf"
+      },
+      "new": {
+        "path": "bench/repairs/tritonbench_g/chunked_cumsum_fwd/Proofs/KernelPlan4.lean",
+        "sha256": "c7f98912d86643fd6bc215d18653b9180648fcbda935555056584a56687c4c72"
+      },
+      "normalized_fragment_sha256": "8119e893181005d67aa98c9d34adc84e3ebbf71f2ece2e42547cfb7b028c61cc",
+      "normalization": []
+    }
+  ]
+}

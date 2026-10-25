@@ -1,0 +1,3 @@
+HEAD is now at 8cb5f7242 Paste chunked cumsum bodies and preserve mixed storage and legacy model scopes
+Reuse the owned source checkout only: every generated project object removed before this frozen-source replay.
+No project build or .veritile-cache at start; only fixed external dependencies reused.
