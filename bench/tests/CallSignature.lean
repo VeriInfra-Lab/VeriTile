@@ -370,7 +370,7 @@ def legacyAttribute (X Y : RegionName) : ComputeKernel :=
   with_triton_signature ({pointers := [("X",.fp32),("Y",.fp16)]} : CallSignature) in
   triton {
     x = tl.load(X)
-    y = (x).to(Y.type.element_ty)
+    y = x.to(Y.type.element_ty)
     tl.store(Y, y)
   }
 def explicitHalf (X Y : RegionName) : ComputeKernel :=
@@ -386,3 +386,68 @@ example (X Y : RegionName) : legacyAttribute X Y = explicitHalf X Y := rfl
 #auditModuleAxioms
 end
 end VeriTile.Tests.CallSignature.PointerCastStore
+
+namespace VeriTile.Tests.CallSignature.IntegerCastLiterals
+open VeriTile.Triton
+
+def signature : CallSignature where
+  pointers := []
+  scalars := []
+  constexpr := []
+
+def source : ComputeKernel :=
+  with_triton_signature signature in
+  triton {
+    total = tl.cast(0, tl.int64)
+    for i in range(tl.cast(-2, tl.int64), tl.cast(1, tl.int64)):
+        total += i
+  }
+
+/-- The three signed iterations retain -2,-1,0 for every opaque FP backend.
+No floating-to-integer callback is needed for Python integer literal casts. -/
+theorem execution {α : Type} [Inhabited α] (M : FP.Structural.Algebra α)
+    (s : FP.Structural.State α) :
+    (FP.Structural.exec M source s).map (fun t => t.regs .int [] "total") =
+      some (some (fun _ => (-3 : Int))) := by
+  simp only [source, FP.Structural.exec]
+  iterate 8
+    all_goals try simp only [FP.Structural.run, FP.Structural.step,
+      FP.Structural.evalExpr, FP.Structural.evalOp]
+    all_goals try simp [FP.Structural.State.setReg, FP.Structural.numeric,
+      FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex]
+    all_goals try rw [FP.Structural.rangeInt]
+  rfl
+#axiomsClean execution
+end VeriTile.Tests.CallSignature.IntegerCastLiterals
+
+namespace VeriTile.Tests.CallSignature.PositionalMaximumStore
+open VeriTile.Triton
+
+def signature : CallSignature where
+  pointers := [("X",.fp32),("Y",.fp32)]
+  scalars := []
+  constexpr := ["B"]
+
+def positional (X Y : RegionName) (B : Nat) : ComputeKernel :=
+  with_triton_signature signature in
+  triton {
+    lanes = tl.arange(0, B)
+    values = tl.load(X + lanes)
+    maximum = tl.max(values, 0)
+    tl.store(Y, maximum)
+  }
+def named (X Y : RegionName) (B : Nat) : ComputeKernel :=
+  with_triton_signature signature in
+  triton {
+    lanes = tl.arange(0, B)
+    values = tl.load(X + lanes)
+    maximum = tl.max(values, axis=0)
+    tl.store(Y, maximum)
+  }
+
+/-- Positional-axis syntax retains the same reduction and already-FP32 store;
+there is no additional cast event for an opaque backend to interpret. -/
+theorem complete_program (X Y : RegionName) (B : Nat) :
+    positional X Y B = named X Y B := rfl
+#axiomsClean complete_program
+end VeriTile.Tests.CallSignature.PositionalMaximumStore

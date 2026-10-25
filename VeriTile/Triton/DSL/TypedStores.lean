@@ -306,6 +306,39 @@ private partial def lowerWithState (pointers : Types) (values : Values)
         let (body,_,_) ← lowerWithState pointers entry body.toList (invariants ++ stable)
         return (body.toArray, stable)
       match stmt with
+      | `(tritonStmt| $a:ident, $b:ident $[, $ids:ident]* =
+          $x:tritonExpr, $y:tritonExpr $[, $rhs:tritonExpr]*) =>
+          let targets := #[a,b] ++ ids
+          let expressions := #[x,y] ++ rhs
+          unless targets.size == expressions.size do
+            Macro.throwErrorAt stmt "tuple assignment needs one value per target"
+          if targets.any (fun id => invariants.any (fun entry => entry.1 == name id)) then
+            Macro.throwErrorAt stmt "unsupported statement involving a loop-carried source dtype"
+          -- Python evaluates all RHSs in the entry environment. Preserve
+          -- unrelated ABI facts, and replace only the explicitly bound names.
+          for (id,value) in targets.zip expressions do
+            if (lookup pointers id).isSome || (pointerType pointers value).isSome then
+              Macro.throwErrorAt stmt "pointer tuple assignment needs an explicit supported binding"
+            checkAssignmentLoads pointers value
+            let dtype := valueType pointers values value
+            checkInvariant invariants id dtype
+            nextPointers := nextPointers.filter (fun entry => entry.1 != name id)
+            nextValues := nextValues.filter (fun entry => entry.1 != name id)
+            if let some dtype := dtype then
+              nextValues := (name id, dtype) :: nextValues
+      -- The grammar has a dedicated positional-axis assignment production.
+      -- Its reduction dtype must enter the same dataflow as a generic RHS;
+      -- otherwise a later store spuriously adds another destination cast.
+      | `(tritonStmt| $id:ident = tl.max($value:tritonExpr, $axisIndex:num))
+      | `(tritonStmt| $id:ident := tl.max($value:tritonExpr, $axisIndex:num)) =>
+          let reduction ← `(tritonExpr| tl.max($value:tritonExpr, axis = $axisIndex:num))
+          checkAssignmentLoads pointers reduction
+          let dtype := valueType pointers values reduction
+          checkInvariant invariants id dtype
+          nextPointers := pointers.filter (fun entry => entry.1 != name id)
+          nextValues := values.filter (fun entry => entry.1 != name id)
+          if let some dtype := dtype then
+            nextValues := (name id, dtype) :: nextValues
       | `(tritonStmt| $id:ident = $value:tritonExpr) =>
           checkAssignmentLoads pointers value
           checkInvariant invariants id (valueType pointers values value)

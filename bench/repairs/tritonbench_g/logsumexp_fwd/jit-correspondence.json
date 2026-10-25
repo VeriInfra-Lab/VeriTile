@@ -1,0 +1,62 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/logsumexp_fwd/logsumexp_fwd_repaired.py",
+    "python_function": "logsumexp_fwd_kernel",
+    "lean": "bench/repairs/tritonbench_g/logsumexp_fwd/Kernels.lean",
+    "lean_definition": "rowBlock",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "x",
+          "fp32"
+        ],
+        [
+          "z",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "scale",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "D",
+        "B",
+        "HAS_SCALE"
+      ]
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/logsumexp_fwd/logsumexp_fwd_optimized.py",
+    "python_function": "logsumexp_fwd_kernel_optimized",
+    "lean": "bench/repairs/tritonbench_g/logsumexp_fwd/Kernels.lean",
+    "lean_definition": "rowBlockCandidate",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "x",
+          "fp32"
+        ],
+        [
+          "z",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "scale",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "D",
+        "B",
+        "HAS_SCALE"
+      ]
+    }
+  }
+]

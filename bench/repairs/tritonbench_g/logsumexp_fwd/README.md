@@ -31,8 +31,13 @@ source to this formula. Real semantics do not assert exact native arithmetic.
 and retained native theorem; `Kernels.rowBlockCandidate` is the complete optimized
 source compared by the main pair. Input, scratch storage, scaling, max/sum reductions, subtraction,
 `tl.exp`, `tl.log` and final addition retain FP32. The runtime scale register
-is bound to its actual FP32 ABI word; the standard `tl.param` declaration supplies
-register typing without emitting an assignment. Program IDs retain the
+is bound to its actual FP32 ABI word by the call; the external call signature
+supplies pointer, parameter and constexpr typing without adding statements to
+the function body. Both existing Python files are unchanged and their complete
+11/10-statement bodies are pasted directly, including `float('inf')`. The
+frontend lowers infinity to its exact existing literal-word primitive.
+`Proofs/SourcePreservation.lean` connects complete actual and historical
+executions; the earlier bitcast spelling is explicitly historical. Program IDs retain the
 source's signed-int64 casts.
 
 The directly related candidate `logsumexp_fwd_optimized.py` removes one full-vector

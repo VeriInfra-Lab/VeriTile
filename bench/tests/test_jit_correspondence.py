@@ -309,3 +309,53 @@ class ScalarCallModeCorrespondence(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class CumsumRawBodyCorrespondence(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/chunk_cumsum_kernel"
+
+    def test_both_complete_signed_loops_are_raw_bodies(self):
+        results = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual([r["statements"] for r in results], [3, 3])
+        self.assertTrue(all(r["mode"] == "pasted_body" for r in results))
+
+    def test_source_casts_and_output_pointer_attribute_cannot_be_removed(self):
+        records = json.loads((self.directory / "jit-correspondence.json").read_text())
+        lean = (self.directory / "Kernels.lean").read_text()
+        python = (self.directory / "chunk_cumsum_kernel_repaired.py").read_text()
+        record = records[0]
+        for before, after in [("tl.cast(0, tl.int64)", "0"),
+                              ("tl.cast(tl.cdiv(T, BT), tl.int64)", "tl.cdiv(T, BT)"),
+                              ("b_o.to(p_o.dtype.element_ty)", "b_o")]:
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                check(python, lean.replace(before, after, 1), record["python_function"],
+                      record["lean_definition"], record["signature_definition"], record["expected_signature"])
+
+    def test_typed_storage_is_part_of_the_reviewed_call_metadata(self):
+        record = json.loads((self.directory / "jit-correspondence.json").read_text())[0]
+        lean = (self.directory / "Kernels.lean").read_text().replace(
+            "typedFP32Storage := Bool.true", "typedFP32Storage := Bool.false", 1)
+        with self.assertRaisesRegex(ValueError, "reviewed launch types"):
+            check((self.directory / "chunk_cumsum_kernel_repaired.py").read_text(), lean,
+                  record["python_function"], record["lean_definition"],
+                  record["signature_definition"], record["expected_signature"])
+
+
+class LogsumexpRawBodyCorrespondence(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/logsumexp_fwd"
+
+    def test_both_existing_complete_functions(self):
+        results = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual([r["statements"] for r in results], [11, 10])
+        self.assertTrue(all(r["mode"] == "pasted_body" for r in results))
+
+    def test_literal_cast_and_mask_restoration_cannot_be_replaced(self):
+        record = json.loads((self.directory / "jit-correspondence.json").read_text())[0]
+        lean = (self.directory / "Kernels.lean").read_text()
+        python = (self.directory / "logsumexp_fwd_repaired.py").read_text()
+        for before, after in [("positive_inf = float('inf')", "positive_inf = tl.bitcast(tl.full([], 2139095040, dtype=tl.uint32), tl.float32)"),
+                              ("tl.program_id(0).to(tl.int64)", "tl.program_id(0)"),
+                              ("    b_x = tl.where(m_d, b_x, -float('inf'))", "")]:
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                check(python, lean.replace(before, after, 1), record["python_function"],
+                      record["lean_definition"], record["signature_definition"], record["expected_signature"])

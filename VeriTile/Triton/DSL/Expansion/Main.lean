@@ -1685,7 +1685,16 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
           pure ⟨algTerm, dst.algDType, e'.shape,
             some (← `(ComputeExpr.compute $op)), none⟩
   | `(tritonExpr| tl.cast($e:tritonExpr, $dt:tritonDType)) => do
-      let e' ← expandExpr env e
+      -- A Python integer literal is an integer source value, including when
+      -- passed directly to tl.cast. Do not route it through an FP conversion.
+      let integerTarget := (unsignedCastWidth? dt).isSome || signedMachineCast dt ||
+        (match dt with | `(tritonDType| tl.int64) => Bool.true | _ => Bool.false)
+      let e' ← if integerTarget then
+          match e with
+          | `(tritonExpr| $_:num) => expandNatExpectedExpr env e
+          | `(tritonExpr| -$_:num) => expandIntExpectedExpr env e
+          | _ => expandExpr env e
+        else expandExpr env e
       if let some cast ← machineIntegerCast? dt e' then return cast
       let dst ← expandDType dt
       match dst with
@@ -1725,16 +1734,28 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
       unless n.getNat == 0 do
         Macro.throwError "float(integer): only the exact builtin literal float(0) is supported"
       expandExpr env (← `(tritonExpr| 0.0))
-  | `(tritonExpr| - float ($arg:term)) =>
-      let argString := toString arg.raw
-      unless argString.contains "inf" do
-        Macro.throwError "float(...): only `float(\"inf\")` is supported in Triton DSL expressions"
-      pure ⟨← `(Op.negInf), .real, SInfo.scalar, none, none⟩
-  | `(tritonExpr| float ($arg:term)) =>
-      let argString := toString arg.raw
-      unless argString.contains "-inf" do
-        Macro.throwError "float(...): only `float(\"-inf\")` is supported in Triton DSL expressions"
-      pure ⟨← `(Op.negInf), .real, SInfo.scalar, none, none⟩
+  | `(tritonExpr| - float ($arg:term)) => do
+      let `(term| $value:str) := arg
+        | Macro.throwError "float(...): expected a literal infinity string"
+      if value.getString == "inf" then
+        return ⟨← `(Op.negInf), .real, SInfo.scalar, none, none⟩
+      if value.getString == "-inf" then
+        let dtype := mkIdent `dtype
+        return ← expandExpr env (← `(tritonExpr|
+          tl.bitcast(tl.full([], 2139095040, $dtype:ident=tl.uint32), tl.float32)))
+      Macro.throwError "float(...): only literal inf and -inf are supported"
+  | `(tritonExpr| float ($arg:term)) => do
+      let `(term| $value:str) := arg
+        | Macro.throwError "float(...): expected a literal infinity string"
+      if value.getString == "-inf" then
+        return ⟨← `(Op.negInf), .real, SInfo.scalar, none, none⟩
+      if value.getString == "inf" then
+        -- Infinity has an exact binary32 encoding. Use the existing literal
+        -- backend, with no finite Real proxy or numerical identity assumption.
+        let dtype := mkIdent `dtype
+        return ← expandExpr env (← `(tritonExpr|
+          tl.bitcast(tl.full([], 2139095040, $dtype:ident=tl.uint32), tl.float32)))
+      Macro.throwError "float(...): only literal inf and -inf are supported"
   | `(tritonExpr| tl.dot($a:tritonExpr, $b:tritonExpr)) => do
       expandDot expandExpr env a b
   | `(tritonExpr| tl.dot($a:tritonExpr, $b:tritonExpr $[, $kwargs:tritonReduceKwarg]*)) => do

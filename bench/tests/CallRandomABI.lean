@@ -59,6 +59,22 @@ example (out : RegionName) (seed : Nat) :
         (.rand { seedType := .u64, offsetType := .i32 }
           (.constInt (Int.ofNat seed)) (.castNatToInt (.ref .nat [4] "offsets")))))) := rfl
 
+/-- A constexpr seed cast is a source ABI declaration; range-bound
+normalization must not erase its i64 provenance before the RNG prepass. -/
+def literalCastSeed (out : RegionName) : ComputeKernel :=
+  with_triton_signature ({pointers := [("out",.fp32)]} : CallSignature) in
+  triton {
+    seed = tl.cast(5, tl.int64)
+    offsets = tl.arange(0, 4)
+    random = tl.rand(seed, offsets)
+    tl.store(out + offsets, random)
+  }
+example (out : RegionName) :
+    (literalCastSeed out).surfaceBody[2]? = some (
+      .assign .real [4] "random" (.compute (.alg .fp32
+        (.rand { seedType := .i64, offsetType := .i32 }
+          (.ref .int [] "seed") (.castNatToInt (.ref .nat [4] "offsets")))))) := rfl
+
 -- Width metadata cannot make an out-of-range seed executable.
 theorem invalid_i32 {A : Type} [Inhabited A] (M : Algebra A) (out : RegionName) (s : State A) :
     FP.Structural.exec M (sampleI32 out (2^31)) s = none := by

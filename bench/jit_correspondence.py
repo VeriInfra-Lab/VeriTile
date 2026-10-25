@@ -190,6 +190,11 @@ def call_signature(text: str, name: str) -> dict:
             if (not isinstance(fields[field], list) or len(set(fields[field])) != len(fields[field])
                 or not set(fields[field]) <= {n for n, _ in fields["pointers"]}):
                 raise ValueError("invalid call memory ports")
+    storage = re.search(r"\btypedFP32Storage\s*:=\s*(?:Bool\.)?(true|false)\b", match[1])
+    if re.search(r"\btypedFP32Storage\s*:=", match[1]) and not storage:
+        raise ValueError("typed FP32 storage selection must be a literal Boolean")
+    if storage:
+        fields["typedFP32Storage"] = storage[1] == "true"
     names = [n for n, _ in fields["pointers"] + fields["scalars"]] + fields["constexpr"]
     if len(names) != len(set(names)):
         raise ValueError("duplicate call signature parameter")

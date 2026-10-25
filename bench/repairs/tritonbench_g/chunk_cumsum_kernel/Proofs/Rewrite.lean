@@ -1,3 +1,4 @@
+import bench.repairs.tritonbench_g.chunk_cumsum_kernel.Proofs.SourcePreservation
 import bench.repairs.tritonbench_g.chunk_cumsum_kernel.Proofs.FPIndexBridge
 import VeriTile.Triton.Float.RewriteTactics
 import VeriTile.Triton.Float.ProfiledSoundness
@@ -56,7 +57,7 @@ theorem final_body {α : Type} [Inhabited α] (ops : FPRow.Ops α)
         (s.setReg "i_t" .int [] (fun _ => (index:Int)))=some b ∧ a.mem=b.mem := by
   obtain ⟨hp,hz⟩ := ready
   obtain ⟨carry,hz⟩ := Option.isSome_iff_exists.mp hz
-  simp (config := {maxSteps := 400000}) [parts,FPIndexBridge.parts,candidateParts,repairedKernel,sumLeftKernel,
+  simp (config := {maxSteps := 400000}) [parts,FPIndexBridge.parts,candidateParts,SourcePreservation.original,LegacyKernels.repairedKernel,SourcePreservation.candidate,LegacyKernels.sumLeftKernel,
     ComputeKernel.surfaceBody,Source.intRange?,run,step,FP.Structural.evalExpr,
     evalComputeOp,evalOp_unfold,evalOffsets,FP.Structural.store,Option.bind,engine,Algebra.withDefaultPrecision,
     resolvePrecision,FPRow.Ops.algebra,ComputeDType.eraseDType,numeric,numericLt,bop,ofFloat,toFloat,

@@ -20,6 +20,10 @@ structure CallSignature where
   pointers : List (String × SourceDType) := []
   scalars : List (String × ScalarType) := []
   constexpr : List String := []
+  /-- Keep the typed FP32 memory channel used by a caller's existing IO.
+  This chooses an interpreter representation, not another source dtype or an
+  extra cast. The default uses the profiled real carrier. -/
+  typedFP32Storage : Bool := Bool.false
   /-- Optional public memory roles when pointer rebinding prevents the legacy
   collector from recovering the original region. These are interface metadata,
   not instructions or claims that an access succeeds. -/
@@ -260,11 +264,26 @@ private partial def foldStaticNatQuotients (constants assigned : List Name)
     if let some lhs ← staticNatBound constants assigned dividend then
       if let some rhs ← staticNatBound constants assigned divisor then
         return (← liftMacroM `(tritonExpr| $((($lhs:term : Nat) / ($rhs:term : Nat) : Nat)))).raw
+  if let `(tritonExpr| tl.cdiv($a:tritonExpr, $b:tritonExpr)) := expression then
+    if let `(tritonExpr| $zero:num) := b then
+      if zero.getNat == 0 then return next
+    if let some lhs ← staticNatBound constants assigned a then
+      if let some rhs ← staticNatBound constants assigned b then
+        return (← liftMacroM `(tritonExpr| $((((($lhs : Nat) + ($rhs : Nat) - 1) / ($rhs : Nat)) : Nat)))).raw
   if let `(tritonStmt| for $i:ident in tl.static_range($bound:tritonExpr) { $body:tritonStmt* }) := next then
     if let some n ← staticNatBound constants assigned bound then
       return (← liftMacroM `(tritonStmt| for $i in tl.static_range($($n)) { $body* })).raw
     throwErrorAt bound "tl.static_range requires an immutable Nat constexpr bound"
   return next
+
+/-- Normalize only signed range endpoints whose source explicitly widens an
+immutable Nat constexpr. Casts in values stay visible to source ABI/RNG analysis. -/
+private def staticSignedRangeBound (constants assigned : List Name)
+    (e : TSyntax `tritonExpr) : TermElabM (TSyntax `tritonExpr) := do
+  if let `(tritonExpr| tl.cast($value:tritonExpr, tl.int64)) := e then
+    if let some value ← staticNatBound constants assigned value then
+      return ← liftMacroM `(tritonExpr| $((Int.ofNat ($value : Nat) : Int)))
+  return e
 
 /-- A per-call size has already been supplied before executing the body.
 Select the existing constant-bound range constructor only for known immutable
@@ -272,10 +291,19 @@ Nat bounds. Runtime locals and signed casts retain their dynamic range path. -/
 private partial def specializeRanges (constants assigned : List Name) (raw : Syntax) : TermElabM Syntax := do
   let args ← raw.getArgs.mapM (specializeRanges constants assigned)
   let next := match raw with | .node info kind _ => Syntax.node info kind args | _ => raw
+  if let `(tritonStmt| for $i:ident in range($a:tritonExpr, $b:tritonExpr) { $body:tritonStmt* }) := next then
+    let aa ← staticSignedRangeBound constants assigned a
+    let bb ← staticSignedRangeBound constants assigned b
+    if aa.raw != a.raw || bb.raw != b.raw then
+      return (← liftMacroM `(tritonStmt| for $i in range($aa, $bb) { $body* })).raw
   if let `(tritonStmt| for $i:ident in range($n:tritonExpr) { $body:tritonStmt* }) := next then
     if let some n ← staticNatBound constants assigned n then
       return (← liftMacroM `(tritonStmt| tl.for $i in $($n) { $body* })).raw
   if let `(tritonStmt| for $i:ident in range($a:tritonExpr, $b:tritonExpr, $c:tritonExpr) { $body:tritonStmt* }) := next then
+    let aa ← staticSignedRangeBound constants assigned a
+    let bb ← staticSignedRangeBound constants assigned b
+    if aa.raw != a.raw || bb.raw != b.raw then
+      return (← liftMacroM `(tritonStmt| for $i in range($aa, $bb, $c) { $body* })).raw
     if let some a ← staticNatBound constants assigned a then
       if let some b ← staticNatBound constants assigned b then
         if let some c ← staticNatBound constants assigned c then
@@ -320,6 +348,10 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
     (pointerOffsets : Option (Array (TSyntax `tritonCallBinding)) := none) : TermElabM Expr := do
       let profile ← elabTermEnsuringType profile (mkConst ``Triton.CallSignature)
       let pointers ← bindings dtypeValue (← mkAppM ``Triton.CallSignature.pointers #[profile])
+      let storage ← whnf (← mkAppM ``Triton.CallSignature.typedFP32Storage #[profile])
+      let typedFP32 := storage.isConstOf ``Bool.true
+      unless typedFP32 || storage.isConstOf ``Bool.false do
+        throwError "typed FP32 storage selection must be statically known"
       let scalars ← bindings scalarTypeValue (← mkAppM ``Triton.CallSignature.scalars #[profile])
       let constants ← (← listValues (← mkAppM ``Triton.CallSignature.constexpr #[profile])).mapM stringValue
       let readPorts ← (← listValues (← mkAppM ``Triton.CallSignature.readPorts #[profile])).mapM stringValue
@@ -329,6 +361,8 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
           throwError "memory ports must be distinct pointer parameter names"
       let names := pointers.map Prod.fst ++ scalars.map Prod.fst ++ constants
       unless names.eraseDups.length == names.length do throwError "duplicate name in call signature"
+      if typedFP32 && names.contains "dtype" then
+        throwError "typed FP32 storage reserves the metadata dtype alias"
       for stmt in stmts do rejectBodyMetadata stmt.raw
       let mut values : List (Name × TSyntax `tritonExpr) := []
       let mut fp32Values := Bool.false
@@ -473,8 +507,12 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
         declarations := declarations.push (← `(tritonStmt| tl.ports inputs=[$inputs,*], outputs=[$outputs,*]))
         for (name, kind) in pointers do
           let id := mkIdent (Name.mkSimple name)
-          let some dt ← dtypeSyntaxOfName? (SourceDType.dtypeName kind)
-            | Macro.throwError "unsupported pointer dtype"
+          let dt ← if typedFP32 && kind == .fp32 then
+              `(tritonDType| DTYPE)
+            else do
+              let some dt ← dtypeSyntaxOfName? (SourceDType.dtypeName kind)
+                | Macro.throwError "unsupported pointer dtype"
+              pure dt
           declarations := declarations.push (← `(tritonStmt| tl.region $id:ident = $dt:tritonDType))
         for (name, kind) in scalars do
           if values.any (fun p => p.1.toString == name) then continue
@@ -494,7 +532,12 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
             | _ => none
         let body ← TypedStores.lower (pointers.map (fun (name, kind) => (Name.mkSimple name, kind))) scalarTypes stmts.toList
         let emitted := declarations ++ body.toArray
-        `(triton { $emitted* })
+        let compiled ← `(triton { $emitted* })
+        if typedFP32 then
+          -- DTYPE is interface metadata, evaluated before any source statement.
+          let dtype := mkIdent `dtype
+          `(let $dtype:ident : FloatDType := FloatDType.fp32; $compiled)
+        else pure compiled
       let term : TSyntax `term := ⟨← specializeRanges constants assigned term.raw⟩
       let result ← elabTerm term none
       if fp32Values then

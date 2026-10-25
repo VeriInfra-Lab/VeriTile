@@ -1,3 +1,4 @@
+import bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.SourcePreservation
 import bench.repairs.tritonbench_g.logsumexp_fwd.Kernels
 
 namespace VeriTile.Bench.Repairs.LogsumexpFwd.Source
