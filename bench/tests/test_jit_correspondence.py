@@ -246,5 +246,42 @@ class IntegerCallBodyTests(unittest.TestCase):
                   record["expected_call_bindings"])
 
 
+
+class SeededCallABI(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / "bench/repairs/tritonbench_g/seeded_dropout"
+        self.python = (self.directory / "seeded_dropout_repaired.py").read_text()
+        self.lean = (self.directory / "Kernels.lean").read_text()
+        self.records = json.loads((self.directory / "jit-correspondence.json").read_text())
+
+    def compare(self, record, python=None, lean=None):
+        return check(self.python if python is None else python,
+                     self.lean if lean is None else lean,
+                     record["python_function"], record["lean_definition"],
+                     record["signature_definition"], record["expected_signature"],
+                     record["expected_call_bindings"])
+
+    def test_all_selected_seed_abis_retain_the_same_nine_statements(self):
+        results = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual([r["statements"] for r in results], [9]*6)
+        self.assertEqual({r["runtime_parameters"]["seed"] for r in results},
+                         {"i32", "i64", "u64"})
+
+    def test_unsigned_annotation_and_reviewed_signedness_are_checked(self):
+        record = next(r for r in self.records if r["lean_definition"] == "sourceU64")
+        annotated = self.python.replace("    seed,", "    seed: tl.uint64,", 1)
+        self.assertEqual(self.compare(record, python=annotated)["status"], "PASS")
+        with self.assertRaises(ValueError):
+            self.compare(record, python=annotated.replace("tl.uint64", "tl.int64", 1))
+        with self.assertRaises(ValueError):
+            self.compare(record, lean=self.lean.replace('("seed",.u64)', '("seed",.i64)', 1))
+
+    def test_seed_binding_and_original_store_cannot_disappear(self):
+        record = self.records[0]
+        for before, after in [("seed := seedValue", ""),
+                              ("output, mask=mask)", "(output).to(tl.float32), mask=mask)")]:
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                self.compare(record, lean=self.lean.replace(before, after, 1))
+
 if __name__ == "__main__":
     unittest.main()

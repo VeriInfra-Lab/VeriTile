@@ -109,6 +109,17 @@ partial def integralSourceLiteral (other : DInfo)
   | _ => return fallback
 
 
+/-- An unannotated legacy Lean antiquote initially uses the address-channel
+placeholder. It does not establish that a neighboring Python literal is an
+integer: the existing scalar-data fallback must first recover its Real type.
+Per-call integer bindings have explicit Nat/Int annotations and remain strong. -/
+private partial def unresolvedAntiquote (source : TSyntax `tritonExpr) : Bool :=
+  match source with
+  | `(tritonExpr| ($inner:tritonExpr)) => unresolvedAntiquote inner
+  | `(tritonExpr| $(($_:term : Nat))) | `(tritonExpr| $(($_:term : Int))) => Bool.false
+  | `(tritonExpr| $($_:term)) => Bool.true
+  | _ => Bool.false
+
 partial def expandArith (expandExpr : ExprExpander) (env : Env) (ctx : String) (op : TSyntax `term)
     (a b : TSyntax `tritonExpr) : MacroM EOut := do
   let a' ← expandExpr env a
@@ -116,8 +127,10 @@ partial def expandArith (expandExpr : ExprExpander) (env : Env) (ctx : String) (
   let isIntegralOp := match op with
     | `(Op.add) | `(Op.sub) | `(Op.mul) => Bool.true
     | _ => Bool.false
-  let a' ← if isIntegralOp then integralSourceLiteral b'.dtype a a' else pure a'
-  let b' ← if isIntegralOp then integralSourceLiteral a'.dtype b b' else pure b'
+  let a' ← if isIntegralOp && !unresolvedAntiquote b then
+    integralSourceLiteral b'.dtype a a' else pure a'
+  let b' ← if isIntegralOp && !unresolvedAntiquote a then
+    integralSourceLiteral a'.dtype b b' else pure b'
   let a' ← foldTypedFloatingLiteral b' a a'
   let b' ← foldTypedFloatingLiteral a' b b'
   let a' ←
@@ -528,6 +541,14 @@ partial def expandCmp (expandExpr : ExprExpander) (env : Env) (ctx : String) (op
     Macro.throwError (ctx ++ ": dtype mismatch")
   let cp ← a'.dtype.comparableProof
   let (bc, outShape) ← broadcastTerm a'.shape b'.shape ctx
+  -- A supplied FP32 argument needs its own precision scope when a Boolean
+  -- comparison has no enclosing floating ComputeOp. This case previously
+  -- failed closed in CallSignature; ordinary legacy comparisons stay unchanged.
+  if a'.dtype == .real && a'.computeDType? == some .fp32 && b'.computeDType? == some .fp32 &&
+      ((← suppliedFP32Literal? a).isSome || (← suppliedFP32Literal? b).isSome) then
+    let lhs ← a'.scopedFloatingTerm
+    let rhs ← b'.scopedFloatingTerm
+    return ⟨← `($op $cp $bc $lhs $rhs), .bool, outShape, none, none⟩
   pure ⟨← `($op $cp $bc $a'.term $b'.term), .bool, outShape, none, none⟩
 
 partial def expandMinMax (expandExpr : ExprExpander) (env : Env) (ctx : String) (cmp : TSyntax `term)

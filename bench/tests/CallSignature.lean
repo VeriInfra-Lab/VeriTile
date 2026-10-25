@@ -313,3 +313,24 @@ theorem integer_assignment_one_trip {A : Type} [Inhabited A]
 #axiomsClean integer_assignment_loop
 
 end VeriTile.Tests.CallSignature
+
+namespace VeriTile.Tests.CallSignature
+open VeriTile.Triton
+
+/-- An unresolved legacy antiquote is not evidence of an integer operand. -/
+example (p : ℝ) : (triton {
+    a = 1 + $(p)
+    b = 1 - $(p)
+    c = 1 * $(p)
+  }) = (triton {
+    a = $((1 : ℝ)) + $(p)
+    b = $((1 : ℝ)) - $(p)
+    c = $((1 : ℝ)) * $(p)
+  }) := rfl
+
+/-- Explicit caller integer carriers still determine the plain literal. -/
+example (n : Nat) : (triton { a = 1 + $((n : Nat)) }) =
+    (triton { a = $((1 : Nat)) + $((n : Nat)) }) := rfl
+example (n : Int) : (triton { a = 1 + $((n : Int)) }) =
+    (triton { a = $((1 : Int)) + $((n : Int)) }) := rfl
+end VeriTile.Tests.CallSignature

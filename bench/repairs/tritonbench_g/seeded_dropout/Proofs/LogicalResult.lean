@@ -28,7 +28,7 @@ theorem logical_real (k : SeedKind) (X O : RegionName) (n : Nat) (p : ℝ)
   apply implements Whole.realAlgebra (fun a b => decide (a<b)) rfl
     k X O n p seed pid hn hp hs
   intro i x
-  exact Whole.scalar_real p (seedValue k seed) i x
+  exact ActualTile.scalar_real p (seedValue k seed) i x
 
 #axiomsClean logical_iff
 #axiomsClean logical_real

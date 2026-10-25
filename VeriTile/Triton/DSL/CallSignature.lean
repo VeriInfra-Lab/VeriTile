@@ -14,7 +14,7 @@ inductive ScalarType where
   | fp32 | fp64 | integer
   /-- Source ABI widths. Per-call integer specialization retains the source
   annotation; native range/refinement obligations remain with the caller IO. -/
-  | i32 | i64
+  | i32 | i64 | u32 | u64
 
 structure CallSignature where
   pointers : List (String × SourceDType) := []
@@ -71,6 +71,8 @@ private def scalarTypeValue (value : Expr) : TermElabM ScalarType := do
   if value.isConstOf ``ScalarType.integer then return .integer
   if value.isConstOf ``ScalarType.i32 then return .i32
   if value.isConstOf ``ScalarType.i64 then return .i64
+  if value.isConstOf ``ScalarType.u32 then return .u32
+  if value.isConstOf ``ScalarType.u64 then return .u64
   throwError "unsupported runtime scalar type"
 
 private def bindings {α : Type} (decode : Expr → TermElabM α) (value : Expr) :
@@ -346,11 +348,24 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
                   throwErrorAt value "per-call FP32 literal must have a Real carrier"
                 fp32Values := Bool.true
                 liftMacroM `(tritonExpr| $((VeriTile.Triton.DSL.TypedStores.fp32CallValue $value:term : ℝ)))
-            | .i32 | .i64 | .integer => do
+            | .i32 | .i64 | .u32 | .u64 | .integer => do
+                let sourceKind ← match kind with
+                  | .i32 => `(VeriTile.Triton.Random.IntegerType.i32)
+                  | .i64 => `(VeriTile.Triton.Random.IntegerType.i64)
+                  | .u32 => `(VeriTile.Triton.Random.IntegerType.u32)
+                  | _ => `(VeriTile.Triton.Random.IntegerType.u64)
                 if ← isDefEq dtype (mkConst ``Nat) then
-                  liftMacroM `(tritonExpr| $(($value:term : Nat)))
+                  if kind matches .integer then
+                    liftMacroM `(tritonExpr| $(($value:term : Nat)))
+                  else
+                    liftMacroM `(tritonExpr| $((_root_.VeriTile.Triton.Random.sourceNatCallValue $sourceKind:term $value:term : Nat)))
                 else if ← isDefEq dtype (mkConst ``Int) then
-                  liftMacroM `(tritonExpr| $(($value:term : Int)))
+                  if kind matches .u32 | .u64 then
+                    throwErrorAt value "unsigned per-call integer value must have a Nat carrier"
+                  if kind matches .integer then
+                    liftMacroM `(tritonExpr| $(($value:term : Int)))
+                  else
+                    liftMacroM `(tritonExpr| $((_root_.VeriTile.Triton.Random.sourceIntCallValue $sourceKind:term $value:term : Int)))
                 else throwErrorAt value "per-call integer value must have a Nat or Int carrier"
             | .fp64 => throwErrorAt value "per-call FP64 literal specialization is unsupported; use runtime scalar binding"
           values := values ++ [(name, expression)]
@@ -404,7 +419,12 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
         let dtype ← inferType value
         let expression ←
           if ← isDefEq dtype (mkConst ``Nat) then
-            liftMacroM `(tritonExpr| $(($id:term : Nat)))
+            -- Expose actual closed constexpr literals to the source-width
+            -- prepass, which validates legal arange sizes and integer promotion.
+            if let some n ← getNatValue? (← whnf value) then
+              let literal : TSyntax `num := ⟨Syntax.mkNumLit (toString n)⟩
+              liftMacroM `(tritonExpr| $(($literal:num : Nat)))
+            else liftMacroM `(tritonExpr| $(($id:term : Nat)))
           else if ← isDefEq dtype (mkConst ``Int) then
             liftMacroM `(tritonExpr| $(($id:term : Int)))
           else if ← isDefEq dtype (mkConst ``Real) then
@@ -415,7 +435,7 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
         values := values ++ [(name,expression)]
       let integerArguments := scalars.filterMap fun (name,kind) =>
         match kind with
-        | .integer | .i32 | .i64 => some (Name.mkSimple name)
+        | .integer | .i32 | .i64 | .u32 | .u64 => some (Name.mkSimple name)
         | _ => none
       let stmts ← bindCallStatements integerArguments values stmts
       let metadata ← liftMacroM <| stmts.toList.mapM fun st => do
@@ -462,6 +482,7 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
           let dtName := match kind with
             | .fp32 => `tl.float32 | .fp64 => `tl.float64
             | .integer | .i64 => `tl.int64 | .i32 => `tl.int32
+            | .u32 => `tl.uint32 | .u64 => `tl.uint64
           let some dt ← dtypeSyntaxOfName? dtName
             | Macro.throwError "unsupported scalar dtype"
           declarations := declarations.push (← `(tritonStmt| tl.param $id:ident : $dt:tritonDType))
@@ -478,12 +499,16 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
       let result ← elabTerm term none
       if fp32Values then
         synthesizeSyntheticMVarsNoPostponing
-        let result ← instantiateMVars result
-        checkFP32CallPrecision result
-        -- Erase checked, definitionally identity provenance before publishing IR.
-        return result.replace fun e =>
-          if e.isAppOfArity ``TypedStores.fp32CallValue 1 then some e.appArg! else none
-      return result
+        let checked ← instantiateMVars result
+        checkFP32CallPrecision checked
+      let result ← instantiateMVars result
+      -- ABI provenance has already selected the checked RNG source profile.
+      -- Erase these defined identity adapters from published values, just as
+      -- with the checked FP32 precision marker. The RNG width/domain stays IR.
+      return result.replace fun e =>
+        if e.isAppOfArity ``TypedStores.fp32CallValue 1 then some e.appArg! else
+        if e.isAppOfArity ``Random.sourceIntCallValue 2 ||
+            e.isAppOfArity ``Random.sourceNatCallValue 2 then some e.appArg! else none
 
 elab_rules : term
   | `(with_triton_signature $profile:term in triton $body:tritonPythonBody) => do

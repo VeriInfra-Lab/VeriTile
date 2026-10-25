@@ -8,8 +8,8 @@
     "task_status": {
       "legacy_ast_only": 1,
       "no_selected_jit_resolved": 2,
-      "selected_body_copy_checked": 46,
-      "uncovered_jit_functions": 134
+      "selected_body_copy_checked": 48,
+      "uncovered_jit_functions": 132
     },
     "example_status": {
       "authored_counterpart_body_copy_checked": 2,
@@ -17,12 +17,12 @@
       "spec_derived_body_copy_checked": 15
     },
     "selected_jit_functions": 328,
-    "uncovered_selected_jit_functions": 256,
+    "uncovered_selected_jit_functions": 252,
     "primary_files_with_int64_screen_warning": 38,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 106,
-        "antiquotes": 118,
+        "in_body_type_directives": 104,
+        "antiquotes": 116,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 8
       },
@@ -4018,9 +4018,9 @@
       "source_provenance": "selected_revision",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 8,
-        "dsl_assignment": 6,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 23,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -4039,23 +4039,58 @@
           "explicit_int64_casts": []
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_dropout",
+          "lean_definition": "sourceKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "typed_per_call_specialization",
+          "call_bindings": {
+            "n_elements": "n",
+            "p": "p"
+          },
+          "statements": 8,
+          "runtime_parameters": {
+            "n_elements": "integer",
+            "p": "fp32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/repairs/tritonbench_g/dropout_triton/dropout_triton_repaired.py",
-          "function": "_dropout"
+          "lean": "bench/repairs/tritonbench_g/dropout_triton/Kernels.lean"
         },
         {
+          "python_function": "_dropout_index_commuted",
+          "lean_definition": "commutedSourceKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "typed_per_call_specialization",
+          "call_bindings": {
+            "n_elements": "n",
+            "p": "p"
+          },
+          "statements": 8,
+          "runtime_parameters": {
+            "n_elements": "integer",
+            "p": "fp32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/repairs/tritonbench_g/dropout_triton/dropout_triton_repaired.py",
-          "function": "_dropout_index_commuted"
+          "lean": "bench/repairs/tritonbench_g/dropout_triton/Kernels.lean"
         }
       ],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/dropout_triton/Kernels.lean": "3d73b533c3be446e95a90bddadc64af9e550d8054b03d71a23bc49798b8be4fd",
-        "bench/repairs/tritonbench_g/dropout_triton/dropout_triton_repaired.py": "812e1ed2b002232ec0727998a3edc545a102f1fc7f7d79b1da68c1c0b19b179c"
+        "bench/repairs/tritonbench_g/dropout_triton/Kernels.lean": "d2e12650ab2a16bc47f3b2d838409ca5f2573f4e49d4a2d836d8a99f0a456e0f",
+        "bench/repairs/tritonbench_g/dropout_triton/dropout_triton_repaired.py": "812e1ed2b002232ec0727998a3edc545a102f1fc7f7d79b1da68c1c0b19b179c",
+        "bench/repairs/tritonbench_g/dropout_triton/jit-correspondence.json": "f63caa64fd4998be0cb3ebe8dac0f77cb30d4fcf3ec8bfaa545421d8102a1336"
       }
     },
     {
@@ -12674,9 +12709,9 @@
       "source_provenance": "selected_revision",
       "lean_screen": {
         "quotations": 6,
-        "in_body_type_directives": 6,
-        "antiquotes": 30,
-        "dsl_assignment": 5,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 50,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -12695,22 +12730,159 @@
           "explicit_int64_casts": []
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_seeded_dropout",
+          "lean_definition": "sourceI32",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "typed_per_call_specialization",
+          "call_bindings": {
+            "n_elements": "n",
+            "p": "probability",
+            "seed": "seedValue"
+          },
+          "statements": 9,
+          "runtime_parameters": {
+            "n_elements": "i32",
+            "p": "fp32",
+            "seed": "i32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
+          "profile_variant": "I32",
           "python": "bench/repairs/tritonbench_g/seeded_dropout/seeded_dropout_repaired.py",
-          "function": "_seeded_dropout"
+          "lean": "bench/repairs/tritonbench_g/seeded_dropout/Kernels.lean"
         },
         {
+          "python_function": "_seeded_dropout_index_commuted",
+          "lean_definition": "candidateI32",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "typed_per_call_specialization",
+          "call_bindings": {
+            "n_elements": "n",
+            "p": "probability",
+            "seed": "seedValue"
+          },
+          "statements": 9,
+          "runtime_parameters": {
+            "n_elements": "i32",
+            "p": "fp32",
+            "seed": "i32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
+          "profile_variant": "I32",
           "python": "bench/repairs/tritonbench_g/seeded_dropout/seeded_dropout_repaired.py",
-          "function": "_seeded_dropout_index_commuted"
+          "lean": "bench/repairs/tritonbench_g/seeded_dropout/Kernels.lean"
+        },
+        {
+          "python_function": "_seeded_dropout",
+          "lean_definition": "sourceI64",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "typed_per_call_specialization",
+          "call_bindings": {
+            "n_elements": "n",
+            "p": "probability",
+            "seed": "seedValue"
+          },
+          "statements": 9,
+          "runtime_parameters": {
+            "n_elements": "i32",
+            "p": "fp32",
+            "seed": "i64"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
+          "profile_variant": "I64",
+          "python": "bench/repairs/tritonbench_g/seeded_dropout/seeded_dropout_repaired.py",
+          "lean": "bench/repairs/tritonbench_g/seeded_dropout/Kernels.lean"
+        },
+        {
+          "python_function": "_seeded_dropout_index_commuted",
+          "lean_definition": "candidateI64",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "typed_per_call_specialization",
+          "call_bindings": {
+            "n_elements": "n",
+            "p": "probability",
+            "seed": "seedValue"
+          },
+          "statements": 9,
+          "runtime_parameters": {
+            "n_elements": "i32",
+            "p": "fp32",
+            "seed": "i64"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
+          "profile_variant": "I64",
+          "python": "bench/repairs/tritonbench_g/seeded_dropout/seeded_dropout_repaired.py",
+          "lean": "bench/repairs/tritonbench_g/seeded_dropout/Kernels.lean"
+        },
+        {
+          "python_function": "_seeded_dropout",
+          "lean_definition": "sourceU64",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "typed_per_call_specialization",
+          "call_bindings": {
+            "n_elements": "n",
+            "p": "probability",
+            "seed": "seedValue"
+          },
+          "statements": 9,
+          "runtime_parameters": {
+            "n_elements": "i32",
+            "p": "fp32",
+            "seed": "u64"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
+          "profile_variant": "U64",
+          "python": "bench/repairs/tritonbench_g/seeded_dropout/seeded_dropout_repaired.py",
+          "lean": "bench/repairs/tritonbench_g/seeded_dropout/Kernels.lean"
+        },
+        {
+          "python_function": "_seeded_dropout_index_commuted",
+          "lean_definition": "candidateU64",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "typed_per_call_specialization",
+          "call_bindings": {
+            "n_elements": "n",
+            "p": "probability",
+            "seed": "seedValue"
+          },
+          "statements": 9,
+          "runtime_parameters": {
+            "n_elements": "i32",
+            "p": "fp32",
+            "seed": "u64"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
+          "profile_variant": "U64",
+          "python": "bench/repairs/tritonbench_g/seeded_dropout/seeded_dropout_repaired.py",
+          "lean": "bench/repairs/tritonbench_g/seeded_dropout/Kernels.lean"
         }
       ],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/seeded_dropout/Kernels.lean": "e85d94bd391b25ab5f571adf2206505808a925996aa6e79187170857dae1ce20",
+        "bench/repairs/tritonbench_g/seeded_dropout/Kernels.lean": "02d35b524dc48904e5f5eef70abf440c2344778cccd676588b584b6a53239989",
+        "bench/repairs/tritonbench_g/seeded_dropout/jit-correspondence.json": "44f9b65b05517ad2e84e9b54310bd9122a24fbde4145b7edf5b9dbc132da5267",
         "bench/repairs/tritonbench_g/seeded_dropout/seeded_dropout_repaired.py": "f716d15192552746f3797d82ca6fb97a63114f0f8576e00f7fcbdc18ba40ba6f"
       }
     },

@@ -58,7 +58,7 @@ globs = [
   "bench.tests.IntegerDotSource",
   "bench.tests.SignedBitwiseSource",
   "bench.tests.SourceDType",
-  "bench.tests.CallSignature",
+  "bench.tests.CallSignature", "bench.tests.CallRandomABI",
   "bench.tests.PythonBody",
   "bench.tests.ConstexprBody",
   "bench.tests.ConstexprPower",

@@ -17,7 +17,7 @@ theorem implements {α : Type} [Inhabited α] (M : Algebra α) (lt : α → α �
     (k : SeedKind) (X O : RegionName) (n : Nat) (p : ℝ) (seed : SeedCarrier k)
     (pid : Nat) (hn : n<2^31) (hp : pid<gridCount n) (hs : SeedABI k seed)
     (f : Nat → α → α)
-    (scalar : ∀ i x,Whole.scalar M lt p (seedValue k seed) i x=f i x) :
+    (scalar : ∀ i x,ActualTile.scalar M lt p (seedValue k seed) i x=f i x) :
     (io M k X O n p seed pid).Implements (target M k X O n p seed pid f) := by
   apply ProgramIO.Implements.intro
   · intro vals bounds hb s _
@@ -29,7 +29,7 @@ theorem implements {α : Type} [Inhabited α] (M : Algebra α) (lt : α → α �
     let result := originalExecution M lt comparison k X O n p seed pid s hn hp hs
     refine ⟨result.val,?_,?_,?_⟩
     · simpa only [io,runSchedule_singleton,Invocation.run,Invocation.initial,
-        bindRegisters,List.foldl_nil,Option.getD_none,entry,Whole.tileState] using result.property
+        bindRegisters,List.foldl_nil,Option.getD_none,entry,ActualTile.tileState] using result.property
     · intro o
       fin_cases o
       intro j active
@@ -39,7 +39,7 @@ theorem implements {α : Type} [Inhabited α] (M : Algebra α) (lt : α → α �
         Cell.mk .real (f (pid*1024+j.1.val) (vals 0 j))
       rw [show result.val.mem O (pid*1024+j.1.val)=_ from
         values M lt comparison k X O n p seed pid s hn hp hs j.1 active]
-      change Cell.mk .real (Whole.scalar M lt p (seedValue k seed) (pid*1024+j.1.val) _) = _
+      change Cell.mk .real (ActualTile.scalar M lt p (seedValue k seed) (pid*1024+j.1.val) _) = _
       rw [read,scalar]
     · intro r off outside
       apply frame M lt comparison k X O n p seed pid s hn hp hs r off
@@ -71,10 +71,10 @@ theorem equivalent {α : Type} [Inhabited α] (M : Algebra α) (lt : α → α �
     let result := originalExecution M lt comparison k X O n p seed pid s hn hp hs
     have original : runSchedule ((io M k X O n p seed pid).schedule vals) s=some result.val := by
       simpa only [io,runSchedule_singleton,Invocation.run,Invocation.initial,
-        bindRegisters,List.foldl_nil,Option.getD_none,entry,Whole.tileState] using result.property
+        bindRegisters,List.foldl_nil,Option.getD_none,entry,ActualTile.tileState] using result.property
     have candidate : runSchedule ((variant M k X O n p seed pid).schedule vals) s=some result.val := by
       simpa only [variant,runSchedule_singleton,Invocation.run,Invocation.initial,
-        bindRegisters,List.foldl_nil,Option.getD_none,entry,Whole.tileState] using
+        bindRegisters,List.foldl_nil,Option.getD_none,entry,ActualTile.tileState] using
           (execution_eq M k X O n p seed (entry pid s)).symm.trans result.property
     have framed : (io M k X O n p seed pid).Frame vals s result.val := by
       intro r off outside

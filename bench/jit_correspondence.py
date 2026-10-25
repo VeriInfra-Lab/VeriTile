@@ -294,13 +294,13 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
             raise ValueError("Python parameters and call signature differ")
         # `integer` is intentionally unbounded; it cannot certify an explicit
         # int32/int64 ABI annotation. Pointer annotations are not scalar args.
-        scalar_types = {"fp32": "tl.float32", "fp64": "tl.float64", "i32": "tl.int32", "i64": "tl.int64"}
+        scalar_types = {"fp32": "tl.float32", "fp64": "tl.float64", "i32": "tl.int32", "i64": "tl.int64", "u32": "tl.uint32", "u64": "tl.uint64"}
         supplied = {n: scalar_types.get(t) for n, t in profile["scalars"]}
         pointer_names = {n for n, _ in profile["pointers"]}
         if pointer_offsets is not None and not set(pointer_offsets) <= pointer_names:
             raise ValueError("offset binding is not a pointer parameter")
         if call_bindings is not None:
-            integer_names = {n for n, t in profile["scalars"] if t in ("i32", "i64", "integer")}
+            integer_names = {n for n, t in profile["scalars"] if t in ("i32", "i64", "u32", "u64", "integer")}
             fp32_names = {n for n, t in profile["scalars"] if t == "fp32"}
             if not integer_names <= set(call_bindings) <= integer_names | fp32_names:
                 raise ValueError("per-call bindings must cover every integer scalar and only supported scalar kinds")
