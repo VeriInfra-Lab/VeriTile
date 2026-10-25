@@ -165,6 +165,8 @@ Optional reader and application modules are in `Misc/`: [Misc/TensorBridge.lean]
 `Kernels.lean` copies both complete selected JIT bodies without changes to
 the existing Python original or reciprocal candidate. The seven pointer types,
 two runtime integer stride bindings and block constexpr are outside the body.
+The Python strides are unannotated, so metadata uses `.integer` and does not
+assert a fixed native parameter ABI; the original INT64 value casts remain.
 Actual INT32 IDs/counts/cumsum retain their admitted nonnegative mathematical
 memory channels; widening reads those cells before converting their values.
 Every original cast, mask, padding value, temporary and operation order remains.

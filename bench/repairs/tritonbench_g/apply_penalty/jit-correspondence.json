@@ -39,11 +39,11 @@
       "scalars": [
         [
           "stride_logit_b",
-          "i64"
+          "integer"
         ],
         [
           "stride_logit_s",
-          "i64"
+          "integer"
         ]
       ],
       "constexpr": [
@@ -100,11 +100,11 @@
       "scalars": [
         [
           "stride_logit_b",
-          "i64"
+          "integer"
         ],
         [
           "stride_logit_s",
-          "i64"
+          "integer"
         ]
       ],
       "constexpr": [

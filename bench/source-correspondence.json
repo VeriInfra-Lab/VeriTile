@@ -379,8 +379,8 @@
           },
           "statements": 17,
           "runtime_parameters": {
-            "stride_logit_b": "i64",
-            "stride_logit_s": "i64"
+            "stride_logit_b": "integer",
+            "stride_logit_s": "integer"
           },
           "constexpr_parameters": [
             "BLOCK_P"
@@ -400,8 +400,8 @@
           },
           "statements": 17,
           "runtime_parameters": {
-            "stride_logit_b": "i64",
-            "stride_logit_s": "i64"
+            "stride_logit_b": "integer",
+            "stride_logit_s": "integer"
           },
           "constexpr_parameters": [
             "BLOCK_P"
@@ -415,9 +415,9 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/apply_penalty/Kernels.lean": "ef669ec2419f2d621c51a81c2ca30dd5147bb9bcd54884c180dfbbfbf67e82d7",
+        "bench/repairs/tritonbench_g/apply_penalty/Kernels.lean": "f7478b18c499d2e8d6ec20301b190bfc3e713b5629e889b851d032e49b5364d7",
         "bench/repairs/tritonbench_g/apply_penalty/apply_penalty_repaired.py": "ff3a56ac1f7232a2f5822e42ea42f003db7adb399aea9e40e983a3bfdd9a5c76",
-        "bench/repairs/tritonbench_g/apply_penalty/jit-correspondence.json": "5ae2299972549a8188b76774554f61e47b7c671ed76fafcbaa4b96df6db6bbc8"
+        "bench/repairs/tritonbench_g/apply_penalty/jit-correspondence.json": "c5c2f889102cef91c7f8cd778fd8ad5e0c5f9814f2ab6caa8db2217e2b0ff154"
       }
     },
     {

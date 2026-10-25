@@ -9,7 +9,7 @@ open VeriTile.Triton
 def callSignature : CallSignature where
   pointers := [("Logits",.fp32), ("presence_penalty",.fp32), ("freqency_penalty",.fp32), ("repetition_penalty",.fp32), ("p_token_ids",.i32), ("p_token_counts",.i32), ("p_cumsum_seq_len",.i32)]
   naturalIntegerPointers := ["p_token_ids", "p_token_counts", "p_cumsum_seq_len"]
-  scalars := [("stride_logit_b",.i64), ("stride_logit_s",.i64)]
+  scalars := [("stride_logit_b",.integer), ("stride_logit_s",.integer)]
   constexpr := ["BLOCK_P"]
 
 def kernel
