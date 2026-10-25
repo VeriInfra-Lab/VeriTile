@@ -1,0 +1,40 @@
+[
+  {
+    "python_function": "chunk_global_reversed_cumsum_vector_kernel",
+    "lean_definition": "source",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "runtime_registers",
+    "call_bindings": null,
+    "statements": 5,
+    "runtime_parameters": {},
+    "constexpr_parameters": [
+      "BS",
+      "BT",
+      "S",
+      "T",
+      "s_s_d",
+      "s_s_h",
+      "s_s_t"
+    ]
+  },
+  {
+    "python_function": "chunk_global_reversed_cumsum_vector_kernel_compare_right",
+    "lean_definition": "compareRight",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "runtime_registers",
+    "call_bindings": null,
+    "statements": 5,
+    "runtime_parameters": {},
+    "constexpr_parameters": [
+      "BS",
+      "BT",
+      "S",
+      "T",
+      "s_s_d",
+      "s_s_h",
+      "s_s_t"
+    ]
+  }
+]

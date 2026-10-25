@@ -1,0 +1,47 @@
+{
+  "code_commit": "7cf25535575a298263a33368ecc06ea566c87d2f",
+  "raw_bodies": [
+    {
+      "task": "reversed_cumsum_scalar",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/reversed_cumsum_scalar/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    {
+      "task": "reversed_cumsum",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/reversed_cumsum/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    }
+  ],
+  "cpu_contracts": [
+    {
+      "task": "reversed_cumsum_scalar",
+      "command": [
+        "python3",
+        "bench/repairs/tritonbench_g/reversed_cumsum_scalar/check_contract.py"
+      ],
+      "exit_code": 1,
+      "status": "UNAVAILABLE"
+    },
+    {
+      "task": "reversed_cumsum",
+      "command": [
+        "python3",
+        "bench/repairs/tritonbench_g/reversed_cumsum/check_contract.py"
+      ],
+      "exit_code": 1,
+      "status": "UNAVAILABLE"
+    }
+  ]
+}

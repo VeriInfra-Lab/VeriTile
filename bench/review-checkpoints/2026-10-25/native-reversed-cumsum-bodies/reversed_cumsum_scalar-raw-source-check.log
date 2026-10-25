@@ -1,0 +1,44 @@
+[
+  {
+    "python_function": "chunk_global_reversed_cumsum_scalar_kernel",
+    "lean_definition": "source",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "runtime_registers",
+    "call_bindings": null,
+    "statements": 3,
+    "runtime_parameters": {},
+    "constexpr_parameters": [
+      "BT",
+      "H",
+      "T",
+      "stride_ob",
+      "stride_oh",
+      "stride_ot",
+      "stride_sb",
+      "stride_sh",
+      "stride_st"
+    ]
+  },
+  {
+    "python_function": "chunk_global_reversed_cumsum_scalar_kernel_index_commuted",
+    "lean_definition": "indexCommuted",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "runtime_registers",
+    "call_bindings": null,
+    "statements": 3,
+    "runtime_parameters": {},
+    "constexpr_parameters": [
+      "BT",
+      "H",
+      "T",
+      "stride_ob",
+      "stride_oh",
+      "stride_ot",
+      "stride_sb",
+      "stride_sh",
+      "stride_st"
+    ]
+  }
+]

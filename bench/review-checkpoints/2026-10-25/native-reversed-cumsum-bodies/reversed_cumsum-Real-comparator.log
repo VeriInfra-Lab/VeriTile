@@ -1,0 +1,4 @@
+{"name": "reversed_cumsum-Real", "file": "bench/repairs/tritonbench_g/reversed_cumsum/Correct.lean", "sha256": "f8c159756ad69d838d189b15c4b04d8cd7b73f8931dde9409ccb9c46d380536f", "command": ["python3", "scripts/check_comparator.py", "--file", "bench/repairs/tritonbench_g/reversed_cumsum/Correct.lean", "--trust"], "exit_code": 1, "code_commit": "7cf25535575a298263a33368ecc06ea566c87d2f"}
+[FAIL] Official comparator isolation is unavailable:
+- systemd AF_UNIX restriction: Failed to connect to bus: Operation not permitted (consider using --machine=<user>@.host --user to connect to bus of other user)
+- Landlock sandbox: [landrun:error] 2026/10/25 18:15:15 Failed to apply sandbox: failed to apply Landlock filesystem restrictions: missing kernel Landlock support. Got Landlock ABI v4, wanted {Landlock V5; FS: all; Net: ∅}

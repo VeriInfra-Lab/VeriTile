@@ -1,0 +1,380 @@
+[
+  {
+    "name": "reversed_cumsum_scalar",
+    "file": "bench/repairs/tritonbench_g/reversed_cumsum_scalar/FPEquiv.lean",
+    "sha256": "8947abf5829e60b85ab86fd63280b0341f87d4b1e564807fefb5b0fee8329d0d",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/reversed_cumsum_scalar/FPEquiv.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "7cf25535575a298263a33368ecc06ea566c87d2f"
+  },
+  {
+    "name": "reversed_cumsum_scalar-Real",
+    "file": "bench/repairs/tritonbench_g/reversed_cumsum_scalar/Correct.lean",
+    "sha256": "b5794c59247cf34d32d7794c02aa24596fcd08ee5c5aa2039a292787227211e1",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/reversed_cumsum_scalar/Correct.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "7cf25535575a298263a33368ecc06ea566c87d2f"
+  },
+  {
+    "name": "reversed_cumsum",
+    "file": "bench/repairs/tritonbench_g/reversed_cumsum/FPEquiv.lean",
+    "sha256": "eabb93295f0a74dca3bf2bcf9f34a540b307c26b38bd03e3aff73498b7bfdf13",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/reversed_cumsum/FPEquiv.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "7cf25535575a298263a33368ecc06ea566c87d2f"
+  },
+  {
+    "name": "reversed_cumsum-Real",
+    "file": "bench/repairs/tritonbench_g/reversed_cumsum/Correct.lean",
+    "sha256": "f8c159756ad69d838d189b15c4b04d8cd7b73f8931dde9409ccb9c46d380536f",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/reversed_cumsum/Correct.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "7cf25535575a298263a33368ecc06ea566c87d2f"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__reversed_cumsum__Kernels",
+    "file": "bench/repairs/tritonbench_g/reversed_cumsum/Kernels.lean",
+    "sha256": "e002b02a9bf5b2d8129a632e2c3c90df42bd7a80613e9429cfbd9a6683b863af",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/reversed_cumsum/Kernels.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "7cf25535575a298263a33368ecc06ea566c87d2f"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__reversed_cumsum__Proofs__FPExecution",
+    "file": "bench/repairs/tritonbench_g/reversed_cumsum/Proofs/FPExecution.lean",
+    "sha256": "9bbec7336c9901173c5670095544dc7055fa61afaad792be4e4c6eb40f604652",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/reversed_cumsum/Proofs/FPExecution.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "7cf25535575a298263a33368ecc06ea566c87d2f"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__reversed_cumsum__Proofs__FPIndices",
+    "file": "bench/repairs/tritonbench_g/reversed_cumsum/Proofs/FPIndices.lean",
+    "sha256": "74b2166154c4b59e171c5ed8dd6f04c288c9fd418d3d2e078542e12fb05fdcb3",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/reversed_cumsum/Proofs/FPIndices.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "7cf25535575a298263a33368ecc06ea566c87d2f"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__reversed_cumsum__Proofs__FPProgram",
+    "file": "bench/repairs/tritonbench_g/reversed_cumsum/Proofs/FPProgram.lean",
+    "sha256": "4be781400a0e033adffa822a4d3f4ac4b4447ce439ce5a3784afc45acf1f927f",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/reversed_cumsum/Proofs/FPProgram.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "7cf25535575a298263a33368ecc06ea566c87d2f"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__reversed_cumsum__Proofs__FPStep",
+    "file": "bench/repairs/tritonbench_g/reversed_cumsum/Proofs/FPStep.lean",
+    "sha256": "ef4d3f28c09e3a0b1c7b3e2169c3e9de8bb6118573c929e2ad3b1d3d9ccdd8d8",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/reversed_cumsum/Proofs/FPStep.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "7cf25535575a298263a33368ecc06ea566c87d2f"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__reversed_cumsum__Proofs__IndexProgram",
+    "file": "bench/repairs/tritonbench_g/reversed_cumsum/Proofs/IndexProgram.lean",
+    "sha256": "495dcd9d214c3e76636896a296ef983a8f6fbe03dd4ff0763d6d5a07005121c0",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/reversed_cumsum/Proofs/IndexProgram.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "7cf25535575a298263a33368ecc06ea566c87d2f"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__reversed_cumsum__Proofs__RealBridge",
+    "file": "bench/repairs/tritonbench_g/reversed_cumsum/Proofs/RealBridge.lean",
+    "sha256": "c0e36abc4c4bc73bcae66df5349b208fe8e0cf17eb9d9a2b7048b88df147b13a",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/reversed_cumsum/Proofs/RealBridge.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "7cf25535575a298263a33368ecc06ea566c87d2f"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__reversed_cumsum__Proofs__RealExecution",
+    "file": "bench/repairs/tritonbench_g/reversed_cumsum/Proofs/RealExecution.lean",
+    "sha256": "c17ce23c83cc1d2d57bb3f81a8e3f1490b42825c833309111c39a9559f871620",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/reversed_cumsum/Proofs/RealExecution.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "7cf25535575a298263a33368ecc06ea566c87d2f"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__reversed_cumsum__Proofs__RealProgram",
+    "file": "bench/repairs/tritonbench_g/reversed_cumsum/Proofs/RealProgram.lean",
+    "sha256": "0a360bf78fc5650533662b7366066117b7b72b5c973c08a0543fea5e7aea4e4e",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/reversed_cumsum/Proofs/RealProgram.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "7cf25535575a298263a33368ecc06ea566c87d2f"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__reversed_cumsum__Proofs__RealStep",
+    "file": "bench/repairs/tritonbench_g/reversed_cumsum/Proofs/RealStep.lean",
+    "sha256": "2ff0d4c18312b903a32c15ffe64858fe18eadbe42a4a1d0ee911cc85ab2c5905",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/reversed_cumsum/Proofs/RealStep.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "7cf25535575a298263a33368ecc06ea566c87d2f"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__reversed_cumsum__Proofs__RealValues",
+    "file": "bench/repairs/tritonbench_g/reversed_cumsum/Proofs/RealValues.lean",
+    "sha256": "1270ca363bed0ad006b3540373612d46d36b2129449d1dd1bf38c09ef4eade73",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/reversed_cumsum/Proofs/RealValues.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "7cf25535575a298263a33368ecc06ea566c87d2f"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__reversed_cumsum__Proofs__SourceSafety",
+    "file": "bench/repairs/tritonbench_g/reversed_cumsum/Proofs/SourceSafety.lean",
+    "sha256": "6e1e9392bee3d1f47e577c228615e60411315fd5d5738543b2c938a3c3b156c6",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/reversed_cumsum/Proofs/SourceSafety.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "7cf25535575a298263a33368ecc06ea566c87d2f"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__reversed_cumsum_scalar__Kernels",
+    "file": "bench/repairs/tritonbench_g/reversed_cumsum_scalar/Kernels.lean",
+    "sha256": "e4ffe3e1010a109b355ba1806ea363f59130cf2c8c6a2f4d6e36efe4c27ac42f",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/reversed_cumsum_scalar/Kernels.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "7cf25535575a298263a33368ecc06ea566c87d2f"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__reversed_cumsum_scalar__Proofs__FPExecution",
+    "file": "bench/repairs/tritonbench_g/reversed_cumsum_scalar/Proofs/FPExecution.lean",
+    "sha256": "b8dc401dfd34c6a45764948baa7c4a5b023ff9222a5ad44e3c127a6af59ad804",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/reversed_cumsum_scalar/Proofs/FPExecution.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "7cf25535575a298263a33368ecc06ea566c87d2f"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__reversed_cumsum_scalar__Proofs__FPProgram",
+    "file": "bench/repairs/tritonbench_g/reversed_cumsum_scalar/Proofs/FPProgram.lean",
+    "sha256": "c1502a9a22eb3ed26941de903b14ace575b387306b1d6c0a46f853dbb2a1abc4",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/reversed_cumsum_scalar/Proofs/FPProgram.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "7cf25535575a298263a33368ecc06ea566c87d2f"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__reversed_cumsum_scalar__Proofs__FPStep",
+    "file": "bench/repairs/tritonbench_g/reversed_cumsum_scalar/Proofs/FPStep.lean",
+    "sha256": "b941b60081743c93efe49bcd365f011a41240403e9fb12240b3614fa66a46768",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/reversed_cumsum_scalar/Proofs/FPStep.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "7cf25535575a298263a33368ecc06ea566c87d2f"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__reversed_cumsum_scalar__Proofs__FPValues",
+    "file": "bench/repairs/tritonbench_g/reversed_cumsum_scalar/Proofs/FPValues.lean",
+    "sha256": "8c724cd5eefa962a7977136337d9a0bc6c95742b56d8bc4bf5b7baa7f3f1caa2",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/reversed_cumsum_scalar/Proofs/FPValues.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "7cf25535575a298263a33368ecc06ea566c87d2f"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__reversed_cumsum_scalar__Proofs__RealExecution",
+    "file": "bench/repairs/tritonbench_g/reversed_cumsum_scalar/Proofs/RealExecution.lean",
+    "sha256": "0551f09cee6aa9b127fb1a4b6f275f5217ecfd87674a7353414220302f51ab38",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/reversed_cumsum_scalar/Proofs/RealExecution.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "7cf25535575a298263a33368ecc06ea566c87d2f"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__reversed_cumsum_scalar__Proofs__RealProgram",
+    "file": "bench/repairs/tritonbench_g/reversed_cumsum_scalar/Proofs/RealProgram.lean",
+    "sha256": "e9117a5f5e88afa0482854fb83b0578dd408960419d2e503080f9127bea273a3",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/reversed_cumsum_scalar/Proofs/RealProgram.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "7cf25535575a298263a33368ecc06ea566c87d2f"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__reversed_cumsum_scalar__Proofs__RealStep",
+    "file": "bench/repairs/tritonbench_g/reversed_cumsum_scalar/Proofs/RealStep.lean",
+    "sha256": "9f4c5d4d1cbc29af36a3d61d23afd47418229e2baff0266a2aa7df79009a0ff5",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/reversed_cumsum_scalar/Proofs/RealStep.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "7cf25535575a298263a33368ecc06ea566c87d2f"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__reversed_cumsum_scalar__Proofs__RealValues",
+    "file": "bench/repairs/tritonbench_g/reversed_cumsum_scalar/Proofs/RealValues.lean",
+    "sha256": "a89a404974e6f78c2216e1bd9679fe8785e32ea314684395bb13d4c2d85f6bc7",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/reversed_cumsum_scalar/Proofs/RealValues.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "7cf25535575a298263a33368ecc06ea566c87d2f"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__reversed_cumsum_scalar__Proofs__Rewrite",
+    "file": "bench/repairs/tritonbench_g/reversed_cumsum_scalar/Proofs/Rewrite.lean",
+    "sha256": "9a8f9bb8c41fcfde86a70369d6efaaa447c051981feb352fa2b77a1dc040d86a",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/reversed_cumsum_scalar/Proofs/Rewrite.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "7cf25535575a298263a33368ecc06ea566c87d2f"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__reversed_cumsum_scalar__Proofs__SourceSafety",
+    "file": "bench/repairs/tritonbench_g/reversed_cumsum_scalar/Proofs/SourceSafety.lean",
+    "sha256": "897f04642745b1f78698df9ef6024311962eb346be640c6d4b03f959da6328f9",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/reversed_cumsum_scalar/Proofs/SourceSafety.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "7cf25535575a298263a33368ecc06ea566c87d2f"
+  }
+]
