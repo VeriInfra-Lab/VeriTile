@@ -1,0 +1,338 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "19e752794415503728c8e1e6043394100a5fa409",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "token_attn_reduceV",
+    "token_attn_mistral"
+  ],
+  "semantic_review": {
+    "adam_update_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "add_example": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "add_value": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "apply_penalty": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "cache_transform_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "chunk_cumsum_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "chunk_cumsum_vector": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "chunked_cumsum_fwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "cosine_compute": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "dequantize_matmul": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "dequantize_rowwise": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "destindex_copy": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "destindex_copy_kv1": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "destindex_copy_kv2": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "dropout_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "embedding_triton_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "f8_conversion_utils": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "fast_rope_embedding": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "fused_activation": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "fused_recurrent_hgrn": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "index_select_bwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "index_select_cat": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "int8_matmul_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "kcache_copy_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "kldiv_compute": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "kldiv_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "kv_cache_copy": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "l2_norm_bwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "l2_norm_triton1": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "l2_norm_triton2": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "logsumexp_fwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "masked_add_cuda": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "masked_select": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "matmul_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "matrix_reduction": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "matrix_transpose": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "max_reduction": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "mean_reduction": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "mul_exponent_compensator": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "nested_loops_processing": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "quant_transpose_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "relu_triton_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "reversed_cumsum": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "reversed_cumsum_scalar": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rms_norm_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rmsnorm_fused": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rmsnorm_fused_llama": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rmsnorm_implementation": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rmsnorm_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rope_embedding": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rotary_emb": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rotary_emb_nopad": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "seeded_dropout": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "sin_computation": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "sin_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "softmax_triton1": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "softmax_triton2": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "square_matrix": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "swiglu_backward": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "swiglu_fwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "token_softmax_bloom": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "token_softmax_llama": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "triton_mul2": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "triton_softmax": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "var_len_copy": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "vector_addition": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "vector_addition_custom": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local gathered-token-attention raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "token_attn_mistral": "The selected primary checked directory, not only the shared repair helper directory, is migrated and replayed completely. Both unchanged selected original Python and existing affine candidate Python are checked independently against the complete raw bodies in the explicitly shared Source.lean entry; primary Kernels.lean contains transparent forwarding aliases. Pointer/constexpr metadata and every runtime binding stay outside each body. Actual FP32 storage, signed-int32 native metadata through the existing nonnegative mathematical channels, every source loop, gather, mask, zero-padding literal, reduction, output conversion, unmasked final store and terminal return remain. The unused generic dtype helper parameters are removed because all actual and proved calls already select FP32; no public theorem, wrapper input domain, native bounds or numerical port is narrowed. Complete statement-list identities against both prior selected FP32 programs are proved by rfl and standard-base axiom audit in shared Proofs/SourceIdentity.lean. The entire primary and underlying execution/host/native layers replay as 99 explicit roots. Actual original/candidate whole-state equality includes failed runs, trace-safety equivalence and complete grids; independent Real targets, public IO, typed/physical output and full exterior frames, retained Tensor and native-word targets remain. The affine transformation changes only natural integer address grouping and adds no numerical assumption or FP identity. Existing scalar instruction agreement and reduction/compiler boundaries in native applications are retained. The actual CPU probes import side copies whose complete original JIT ASTs are independently shown equal to the selected source; CPU execution remains unavailable because Torch is missing. No Python JIT is changed, no candidate is authored and no GPU or new numerical experiment runs. Both complete original and affine function bodies contain twenty top-level statements. All sixteen runtime integer arguments and two constexpr dimensions remain. The probability mask retains its attention-length bound while location and value masks retain the independent sequence-end/window bound, including padded NaN behavior. The unused B_Start_Loc pointer remains a source argument; the actually read metadata buffers keep their prior channels. A regression guard explicitly rejects replacing the value/location mask with the probability mask.",
+    "token_attn_reduceV": "The selected primary checked directory, not only the shared repair helper directory, is migrated and replayed completely. Both unchanged selected original Python and existing affine candidate Python are checked independently against the complete raw bodies in the explicitly shared Source.lean entry; primary Kernels.lean contains transparent forwarding aliases. Pointer/constexpr metadata and every runtime binding stay outside each body. Actual FP32 storage, signed-int32 native metadata through the existing nonnegative mathematical channels, every source loop, gather, mask, zero-padding literal, reduction, output conversion, unmasked final store and terminal return remain. The unused generic dtype helper parameters are removed because all actual and proved calls already select FP32; no public theorem, wrapper input domain, native bounds or numerical port is narrowed. Complete statement-list identities against both prior selected FP32 programs are proved by rfl and standard-base axiom audit in shared Proofs/SourceIdentity.lean. The entire primary and underlying execution/host/native layers replay as 99 explicit roots. Actual original/candidate whole-state equality includes failed runs, trace-safety equivalence and complete grids; independent Real targets, public IO, typed/physical output and full exterior frames, retained Tensor and native-word targets remain. The affine transformation changes only natural integer address grouping and adds no numerical assumption or FP identity. Existing scalar instruction agreement and reduction/compiler boundaries in native applications are retained. The actual CPU probes import side copies whose complete original JIT ASTs are independently shown equal to the selected source; CPU execution remains unavailable because Torch is missing. No Python JIT is changed, no candidate is authored and no GPU or new numerical experiment runs. Both complete original and affine function bodies contain nineteen top-level statements. All fourteen unannotated runtime integer arguments are bound from the existing caller values; two constexpr block dimensions remain. The common source sequence limit still controls probability, token-table and value reads; zero-length rows, padded products, all loops and supplied-output behavior are retained."
+  },
+  "example_regression_scope": "All 19 examples and their complete helpers replay in the warm and joint union. The task-local changes introduce no new example dependency or mathematical/numerical scope change.",
+  "verification": {
+    "frontend_regressions": {
+      "status": "PASS",
+      "configured_modules": 95,
+      "scope": "No shared frontend changes in this batch. Existing complete frontend and semantic regression roots replay in the warm and joint union."
+    },
+    "integration": {
+      "status": "PASS",
+      "explicit_modules": 2458,
+      "jobs": 11713
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 99,
+      "jobs": 3584,
+      "scope": "All 99 task roots and their full transitive dependencies in an initially empty project checkout. Other migrated tasks/examples replay warm and jointly; no shared library source changed.",
+      "project_build_initially_present": false,
+      "veritile_cache_initially_present": false,
+      "only_fixed_external_dependencies_reused": true
+    },
+    "joint_import": "PASS: all 2458 roots",
+    "task_directories": "All 99 explicit roots include both selected primary checked directories, their original/affine actual kernels, full-state/failure and trace-safety equivalence, public Real/FP IO, mathematical formulas, grid/Tensor/native applications and the entire shared underlying execution/host/native layers. Every earlier migrated task/example and frontend root replays warm and jointly.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 82
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 327,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by its old numerical receipt; no false repin."
+    },
+    "official_comparator": "UNAVAILABLE: actual frozen-source invocations report required host isolation unavailable. Pinned tools are installed; host Landlock ABI v4 is below required v5 and the systemd user bus is unavailable. No isolation bypass.",
+    "task_local_inspections": "All four complete bodies pass in the selected primary manifests. Actual original and affine CPU probes require missing Torch; failures are retained and not counted as passes. The complete original JIT AST in each pre-existing probe side copy is checked equal to the selected checked source. Python and prior experimental evidence remain unchanged.",
+    "gpu_or_numerical_experiment": "Not run; no new numerical law or hardware-conformance claim.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending."
+  },
+  "source_pairs": {
+    "total": 222,
+    "pasted_body": 217,
+    "legacy_ast": 5
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-25/native-gathered-token-attention-bodies/source-closure.json",
+    "sha256": "a794e268ef0f01b4adeaaef03fde2a55c5bd548fb6a4798f4d5012f558d2c7c0"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "legacy_ast_only": 1,
+      "no_selected_jit_resolved": 2,
+      "selected_body_copy_checked": 69,
+      "uncovered_jit_functions": 111
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 328,
+    "uncovered_selected_jit_functions": 220,
+    "primary_files_with_int64_screen_warning": 31,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 87,
+        "antiquotes": 96,
+        "dsl_loop": 1,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-gathered-token-attention-bodies/all-python.log.gz",
+      "sha256": "3805432a26a42f39bddfb1031a2dd280e60d45ae5ee99f14945da2890c680044"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-gathered-token-attention-bodies/changed-bench__repairs__tritonbench_g__token_attn_mistral__Proofs__SourceIdentity-comparator.log",
+      "sha256": "55643a61bd9076df614ef4731cc9130c7b922fe8791280aed94cdfb0c1228107"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-gathered-token-attention-bodies/changed-bench__repairs__tritonbench_g__token_attn_mistral__Source-comparator.log",
+      "sha256": "116e87901740c6e36e053b1672c301e5bd88189c4c1266f56a07cbcbc933cb23"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-gathered-token-attention-bodies/changed-bench__repairs__tritonbench_g__token_attn_mistral_grid_y_checked__Kernels-comparator.log",
+      "sha256": "26c373412b8afa31c5afc684383236c963ffc75ea14adf55766ad1e00cf4c756"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-gathered-token-attention-bodies/changed-bench__repairs__tritonbench_g__token_attn_reduceV__Proofs__SourceIdentity-comparator.log",
+      "sha256": "b4db54100cdc5d7911cc4f0d3056f328314417c9d02ba47d5a77f5f060c69df3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-gathered-token-attention-bodies/changed-bench__repairs__tritonbench_g__token_attn_reduceV__Source-comparator.log",
+      "sha256": "2bbe5a2899f12091267ed35650dc4002a41ceda350ac2d9a6010bd3689fd2570"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-gathered-token-attention-bodies/changed-bench__repairs__tritonbench_g__token_attn_reduceV_grid_y_checked__Kernels-comparator.log",
+      "sha256": "5e08580e5b9fa4b0b0231f66fc3195a92e1a6161d5ee983998e04e2be63fc3d2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-gathered-token-attention-bodies/clean-build.log.gz",
+      "sha256": "caa68c6f003b918128b6ceade84ea51460e53a64b7214f6b805fc66a5bcfa5c8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-gathered-token-attention-bodies/clean-setup.log",
+      "sha256": "583ad590af25b5e9bb256055d00e11ff21d0f836fe5a5d7ef7bc33c20b285abc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-gathered-token-attention-bodies/comparator-invocations.json",
+      "sha256": "78d63be329d15de50437fb4c24518de7552de791d58d50967311677ca10aa986"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-gathered-token-attention-bodies/comparator-preflight.log",
+      "sha256": "d9255026a27595d0a04e154bc4a9c609c8422b012fc13cb1ae4de2417afea36d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-gathered-token-attention-bodies/comparator-setup.log",
+      "sha256": "bea658f19aea48f8965a3d6525da1300e599d9a3f0a05b992071c97bcaffd6df"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-gathered-token-attention-bodies/comparator-tools.json",
+      "sha256": "d541ac407f7aa8679c8ba23dd4df72ac363730bbb67e45bd7959ec752e6b0c53"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-gathered-token-attention-bodies/comparator.log",
+      "sha256": "522a037e290fc010f3c785fd67b7117b0ec3f1b2f1b50721130ecfcb5955d246"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-gathered-token-attention-bodies/contract.log",
+      "sha256": "affd47803c17de0be20c0c2cabb85faa78a5de2c0dda5ba4a6b167a4c5c94cc8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-gathered-token-attention-bodies/corpus-guard.log",
+      "sha256": "cb6175ad96095490f7c9641ea489af41216e8cf31bb0a57d144e028c2f830f71"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-gathered-token-attention-bodies/focused-modules.txt",
+      "sha256": "50f2754a37e3a0ad94fcb1ae524239c843cfb125acadb6463d2e7c7ef0698536"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-gathered-token-attention-bodies/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-gathered-token-attention-bodies/inspections.json",
+      "sha256": "0510f580790e8eac1bd480bac16b95fd11bbb012837fb2bb5fcb12e6be738cfe"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-gathered-token-attention-bodies/integration.log.gz",
+      "sha256": "5bc24bfb6e242a41a2b8385243527b24a7ef380ecac81e9a32fd7870b0dd7147"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-gathered-token-attention-bodies/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-gathered-token-attention-bodies/joint.lean",
+      "sha256": "ba3aae0916e4a91456c161e3ce7d320227b5672b64aff7fd97573ba3e9233a7c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-gathered-token-attention-bodies/joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-gathered-token-attention-bodies/modules.json",
+      "sha256": "30a919086c1ad0ca2b3a5b021673f684dafca18150c9e9a0e4407c23da17654d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-gathered-token-attention-bodies/pairs.json",
+      "sha256": "58e633d64fca3b7748fa3b9d90f0fb212c0be62289cf86545f9336d68e103c25"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-gathered-token-attention-bodies/previous-selected-reviews.json.gz",
+      "sha256": "7eda14bbf7246c9f3f8fbeaee73f7d53aa9c4219cb7b7ae38187a4f637e4330f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-gathered-token-attention-bodies/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-gathered-token-attention-bodies/python-tests.log",
+      "sha256": "9d663f2641417ae8d16b496b9f7389f7c245b87ef9a912272070725184a7ef61"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-gathered-token-attention-bodies/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-gathered-token-attention-bodies/secondary-focused-development.log.gz",
+      "sha256": "5e125d613bce7ffef888902d80d6703a3650c2c1cc26b74bb5c0d1412030b635"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-gathered-token-attention-bodies/source-closure.json",
+      "sha256": "a794e268ef0f01b4adeaaef03fde2a55c5bd548fb6a4798f4d5012f558d2c7c0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-gathered-token-attention-bodies/token_attn_mistral-Real-comparator.log",
+      "sha256": "29cdc8390e4b2653cf1838bcf98a5af46535b8e5b4a221909208f94ae5e0e912"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-gathered-token-attention-bodies/token_attn_mistral-candidate-contract.log",
+      "sha256": "e4e14eadde36115eed1c593754cb10e2466cd73d2414421e3d4bedd157859140"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-gathered-token-attention-bodies/token_attn_mistral-comparator.log",
+      "sha256": "4383cccb9e31e93324a6b39a54b4c59ef7a66a5ca81a871d4e5ae264da28f5eb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-gathered-token-attention-bodies/token_attn_mistral-contract.log",
+      "sha256": "903344c7335135e71083e7ca28b08ab01e7bc932950045d91c83a18c45f90ffd"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-gathered-token-attention-bodies/token_attn_mistral-raw-source-check.log",
+      "sha256": "ebbf788fec7c8244b4e9eb09d2c48b19d02104eb942c0fb23bced9d58efe11c0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-gathered-token-attention-bodies/token_attn_reduceV-Real-comparator.log",
+      "sha256": "847c80b76733c1bf3fc36219406be0d98469bbd0104b7a24d8f83b47391a7751"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-gathered-token-attention-bodies/token_attn_reduceV-candidate-contract.log",
+      "sha256": "cee13ca5cca8c02db937bbdfd28f19ad2548bdcc765de395df2076e8730b1f39"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-gathered-token-attention-bodies/token_attn_reduceV-comparator.log",
+      "sha256": "8fde49d3f71e8dd4fe6ced4e380bb1a6d3bafbdbabe843401f044900f21baa2c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-gathered-token-attention-bodies/token_attn_reduceV-contract.log",
+      "sha256": "16046a0b8999813be0b82b903e927a3c85c5b784078b98008d625bd33a682827"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-gathered-token-attention-bodies/token_attn_reduceV-raw-source-check.log",
+      "sha256": "81f81c3d39d9447a6b0cb827cd3e9ef0cc4558d3336f3a1b6f4f0ba4a429b629"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-gathered-token-attention-bodies/transferred-files.json",
+      "sha256": "104ec58d7ed18d205d4ca40ce91c3e27a4f0f7691dce8d5fce83c9801c21058f"
+    }
+  ]
+}

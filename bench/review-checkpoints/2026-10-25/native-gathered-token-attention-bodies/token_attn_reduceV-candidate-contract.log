@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/tmp/veritile-hgrn54-clean/bench/repairs/tritonbench_g/token_attn_reduceV_grid_y_checked/check_candidate.py", line 5, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'

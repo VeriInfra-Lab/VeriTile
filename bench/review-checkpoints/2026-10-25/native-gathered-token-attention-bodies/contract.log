@@ -1,0 +1,216 @@
+token_attn_reduceV raw-source-check
+[
+  {
+    "python_function": "_fwd_kernel_token_att2",
+    "lean_definition": "source",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "stride_b_req_idx": "stride_b_req_idx",
+      "stride_b_start_loc": "stride_b_start_loc",
+      "stride_b_seq_len": "stride_b_seq_len",
+      "stride_req_to_tokens_b": "stride_req_to_tokens_b",
+      "stride_req_to_tokens_s": "stride_req_to_tokens_s",
+      "stride_ph": "stride_ph",
+      "stride_pbs": "stride_pbs",
+      "stride_vbs": "stride_vbs",
+      "stride_vh": "stride_vh",
+      "stride_vd": "stride_vd",
+      "stride_obs": "stride_obs",
+      "stride_oh": "stride_oh",
+      "stride_od": "stride_od",
+      "kv_group_num": "kv_group_num"
+    },
+    "statements": 19,
+    "runtime_parameters": {
+      "stride_b_req_idx": "integer",
+      "stride_b_start_loc": "integer",
+      "stride_b_seq_len": "integer",
+      "stride_req_to_tokens_b": "integer",
+      "stride_req_to_tokens_s": "integer",
+      "stride_ph": "integer",
+      "stride_pbs": "integer",
+      "stride_vbs": "integer",
+      "stride_vh": "integer",
+      "stride_vd": "integer",
+      "stride_obs": "integer",
+      "stride_oh": "integer",
+      "stride_od": "integer",
+      "kv_group_num": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_DMODEL",
+      "BLOCK_N"
+    ]
+  },
+  {
+    "python_function": "_fwd_kernel_token_att2_affine",
+    "lean_definition": "affineSource",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "stride_b_req_idx": "stride_b_req_idx",
+      "stride_b_start_loc": "stride_b_start_loc",
+      "stride_b_seq_len": "stride_b_seq_len",
+      "stride_req_to_tokens_b": "stride_req_to_tokens_b",
+      "stride_req_to_tokens_s": "stride_req_to_tokens_s",
+      "stride_ph": "stride_ph",
+      "stride_pbs": "stride_pbs",
+      "stride_vbs": "stride_vbs",
+      "stride_vh": "stride_vh",
+      "stride_vd": "stride_vd",
+      "stride_obs": "stride_obs",
+      "stride_oh": "stride_oh",
+      "stride_od": "stride_od",
+      "kv_group_num": "kv_group_num"
+    },
+    "statements": 19,
+    "runtime_parameters": {
+      "stride_b_req_idx": "integer",
+      "stride_b_start_loc": "integer",
+      "stride_b_seq_len": "integer",
+      "stride_req_to_tokens_b": "integer",
+      "stride_req_to_tokens_s": "integer",
+      "stride_ph": "integer",
+      "stride_pbs": "integer",
+      "stride_vbs": "integer",
+      "stride_vh": "integer",
+      "stride_vd": "integer",
+      "stride_obs": "integer",
+      "stride_oh": "integer",
+      "stride_od": "integer",
+      "kv_group_num": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_DMODEL",
+      "BLOCK_N"
+    ]
+  }
+]
+
+token_attn_reduceV contract
+Traceback (most recent call last):
+  File "/tmp/veritile-hgrn54-clean/bench/repairs/tritonbench_g/token_attn_reduceV/check_contract.py", line 4, in <module>
+    import torch,contextlib,importlib.util,json
+ModuleNotFoundError: No module named 'torch'
+
+token_attn_reduceV candidate-contract
+Traceback (most recent call last):
+  File "/tmp/veritile-hgrn54-clean/bench/repairs/tritonbench_g/token_attn_reduceV_grid_y_checked/check_candidate.py", line 5, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'
+
+token_attn_mistral raw-source-check
+[
+  {
+    "python_function": "_fwd_kernel_token_att2",
+    "lean_definition": "source",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "stride_b_req_idx": "stride_b_req_idx",
+      "stride_b_seq_len": "stride_b_seq_len",
+      "stride_b_att_start": "stride_b_att_start",
+      "stride_b_att_len": "stride_b_att_len",
+      "stride_req_to_tokens_b": "stride_req_to_tokens_b",
+      "stride_req_to_tokens_s": "stride_req_to_tokens_s",
+      "stride_ph": "stride_ph",
+      "stride_pbs": "stride_pbs",
+      "stride_vbs": "stride_vbs",
+      "stride_vh": "stride_vh",
+      "stride_vd": "stride_vd",
+      "stride_obs": "stride_obs",
+      "stride_oh": "stride_oh",
+      "stride_od": "stride_od",
+      "kv_group_num": "kv_group_num",
+      "sliding_window": "sliding_window"
+    },
+    "statements": 20,
+    "runtime_parameters": {
+      "stride_b_req_idx": "integer",
+      "stride_b_seq_len": "integer",
+      "stride_b_att_start": "integer",
+      "stride_b_att_len": "integer",
+      "stride_req_to_tokens_b": "integer",
+      "stride_req_to_tokens_s": "integer",
+      "stride_ph": "integer",
+      "stride_pbs": "integer",
+      "stride_vbs": "integer",
+      "stride_vh": "integer",
+      "stride_vd": "integer",
+      "stride_obs": "integer",
+      "stride_oh": "integer",
+      "stride_od": "integer",
+      "kv_group_num": "integer",
+      "sliding_window": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_DMODEL",
+      "BLOCK_N"
+    ]
+  },
+  {
+    "python_function": "_fwd_kernel_token_att2_affine",
+    "lean_definition": "affineSource",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "stride_b_req_idx": "stride_b_req_idx",
+      "stride_b_seq_len": "stride_b_seq_len",
+      "stride_b_att_start": "stride_b_att_start",
+      "stride_b_att_len": "stride_b_att_len",
+      "stride_req_to_tokens_b": "stride_req_to_tokens_b",
+      "stride_req_to_tokens_s": "stride_req_to_tokens_s",
+      "stride_ph": "stride_ph",
+      "stride_pbs": "stride_pbs",
+      "stride_vbs": "stride_vbs",
+      "stride_vh": "stride_vh",
+      "stride_vd": "stride_vd",
+      "stride_obs": "stride_obs",
+      "stride_oh": "stride_oh",
+      "stride_od": "stride_od",
+      "kv_group_num": "kv_group_num",
+      "sliding_window": "sliding_window"
+    },
+    "statements": 20,
+    "runtime_parameters": {
+      "stride_b_req_idx": "integer",
+      "stride_b_seq_len": "integer",
+      "stride_b_att_start": "integer",
+      "stride_b_att_len": "integer",
+      "stride_req_to_tokens_b": "integer",
+      "stride_req_to_tokens_s": "integer",
+      "stride_ph": "integer",
+      "stride_pbs": "integer",
+      "stride_vbs": "integer",
+      "stride_vh": "integer",
+      "stride_vd": "integer",
+      "stride_obs": "integer",
+      "stride_oh": "integer",
+      "stride_od": "integer",
+      "kv_group_num": "integer",
+      "sliding_window": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_DMODEL",
+      "BLOCK_N"
+    ]
+  }
+]
+
+token_attn_mistral contract
+Traceback (most recent call last):
+  File "/tmp/veritile-hgrn54-clean/bench/repairs/tritonbench_g/token_attn_mistral/check_contract.py", line 4, in <module>
+    import torch,contextlib,importlib.util,json
+ModuleNotFoundError: No module named 'torch'
+
+token_attn_mistral candidate-contract
+Traceback (most recent call last):
+  File "/tmp/veritile-hgrn54-clean/bench/repairs/tritonbench_g/token_attn_mistral_grid_y_checked/check_candidate.py", line 5, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'
+

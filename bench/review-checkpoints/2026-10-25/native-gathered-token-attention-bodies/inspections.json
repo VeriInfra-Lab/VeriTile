@@ -1,0 +1,85 @@
+{
+  "code_commit": "19e752794415503728c8e1e6043394100a5fa409",
+  "raw_bodies": [
+    {
+      "task": "token_attn_reduceV",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/token_attn_reduceV_grid_y_checked/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    {
+      "task": "token_attn_mistral",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/token_attn_mistral_grid_y_checked/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    }
+  ],
+  "cpu_contracts": [
+    {
+      "task": "token_attn_reduceV",
+      "command": [
+        "python3",
+        "bench/repairs/tritonbench_g/token_attn_reduceV/check_contract.py"
+      ],
+      "exit_code": 1,
+      "status": "UNAVAILABLE"
+    },
+    {
+      "task": "token_attn_reduceV",
+      "command": [
+        "python3",
+        "bench/repairs/tritonbench_g/token_attn_reduceV_grid_y_checked/check_candidate.py"
+      ],
+      "exit_code": 1,
+      "status": "UNAVAILABLE"
+    },
+    {
+      "task": "token_attn_mistral",
+      "command": [
+        "python3",
+        "bench/repairs/tritonbench_g/token_attn_mistral/check_contract.py"
+      ],
+      "exit_code": 1,
+      "status": "UNAVAILABLE"
+    },
+    {
+      "task": "token_attn_mistral",
+      "command": [
+        "python3",
+        "bench/repairs/tritonbench_g/token_attn_mistral_grid_y_checked/check_candidate.py"
+      ],
+      "exit_code": 1,
+      "status": "UNAVAILABLE"
+    }
+  ],
+  "cpu_probe_source_identity": [
+    {
+      "task": "token_attn_reduceV",
+      "status": "PASS",
+      "selected": "bench/repairs/tritonbench_g/token_attn_reduceV_grid_y_checked/token_attn_reduceV_grid_y_checked.py",
+      "selected_sha256": "35b3502fa9e93d09b5ac05dc8ad59cacd516542a69968f894e4da293869dcd82",
+      "probe_source": "bench/repairs/tritonbench_g/token_attn_reduceV/token_attn_reduceV_repaired.py",
+      "probe_source_sha256": "1182d7c84e373ae328250b0d8c63886d12f8bde5c36279bbcdc131db1de0e020",
+      "scope": "Complete JIT function AST including argument/decorator/body; does not claim CPU execution."
+    },
+    {
+      "task": "token_attn_mistral",
+      "status": "PASS",
+      "selected": "bench/repairs/tritonbench_g/token_attn_mistral_grid_y_checked/token_attn_mistral_grid_y_checked.py",
+      "selected_sha256": "0c5cf97e58ab9539ba589afa4bda50e033222236826001b1ab7019c3d49bbabe",
+      "probe_source": "bench/repairs/tritonbench_g/token_attn_mistral/token_attn_mistral_repaired.py",
+      "probe_source_sha256": "36afb09dac2c46a8049cf250c8c592484147e3d6133ad915e6917d8920c9c553",
+      "scope": "Complete JIT function AST including argument/decorator/body; does not claim CPU execution."
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "parent": "f7a1b96921ad1696cd31ddca2b34c0da9e78fe34",
+  "secondary_code_base": "f7a1b96921ad1696cd31ddca2b34c0da9e78fe34",
+  "files": {
+    "bench/repairs/tritonbench_g/token_attn_mistral/Proofs/SourceIdentity.lean": "242fd552ae4549455f4cf0a3b98a9d74df61c62b6d57fec44c363f9c72ef9a71",
+    "bench/repairs/tritonbench_g/token_attn_mistral/Source.lean": "ce35d391f4a99f5a82795b902aac6cf2c3d1407ea9313f770ad2baa21d80ac58",
+    "bench/repairs/tritonbench_g/token_attn_mistral_grid_y_checked/Kernels.lean": "3955e0c82e6a07357d4377501adf687a6e0fd99eac0b08f452788a4a8136eac4",
+    "bench/repairs/tritonbench_g/token_attn_mistral_grid_y_checked/README.md": "19b1dc822648c2096c0fdcaac90912bc0b64cea236938ad025e6c3aa15f7bbb9",
+    "bench/repairs/tritonbench_g/token_attn_mistral_grid_y_checked/jit-correspondence.json": "4503a0281aeeb872578620ef61b8089dca5509696e3aec2983c1d8c7c007ae13",
+    "bench/repairs/tritonbench_g/token_attn_reduceV/Proofs/SourceIdentity.lean": "606a1579b24daf179b3c9cbd91aca551600ee2cc707429adf5e13b48c6b9f600",
+    "bench/repairs/tritonbench_g/token_attn_reduceV/Source.lean": "e580016e0b5388d52ea0f84c30ab050262f2cfde8a87daca752b2ba8d589670b",
+    "bench/repairs/tritonbench_g/token_attn_reduceV_grid_y_checked/Kernels.lean": "ac48e9a618ab51242a7516c7c35143159571156b617a3607095ffbd70a800211",
+    "bench/repairs/tritonbench_g/token_attn_reduceV_grid_y_checked/README.md": "7034a01986d8aa9a42a902462fbf531b172f5c992f47fb3f6d33a7f43fe5dc5b",
+    "bench/repairs/tritonbench_g/token_attn_reduceV_grid_y_checked/jit-correspondence.json": "824d7db79312145292a4da2f926068f5542a191c36983e8f132c5fff3affe6c5",
+    "bench/tests/test_jit_correspondence.py": "d8684429e46ee06bb9928bf09038c4003ed6f908e2c239ccd3b1d2d2bfad7e32"
+  }
+}

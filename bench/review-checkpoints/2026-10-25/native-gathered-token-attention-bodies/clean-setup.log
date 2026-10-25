@@ -1,0 +1,2 @@
+HEAD is now at 19e752794 Copy selected token attention affine candidates and verify full task source coverage
+{"code_commit": "19e752794415503728c8e1e6043394100a5fa409", "project_build_initially_present": false, "veritile_cache_initially_present": false, "only_fixed_external_dependencies_reused": true, "packages_target": "/home/argustest/lizn/VeriTile/.lake/packages", "roots": "all 99 affected task roots and complete transitive dependencies"}
