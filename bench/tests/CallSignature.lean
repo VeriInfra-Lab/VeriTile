@@ -660,3 +660,33 @@ theorem complete_program (X : RegionName) : source X = triton {
   } := rfl
 #axiomsClean complete_program
 end VeriTile.Tests.CallSignature.UninferredNumericalCaller
+
+namespace VeriTile.Tests.CallSignature.IndexedMaximumStorage
+open VeriTile.Triton
+
+def signature : CallSignature where
+  pointers := [("X",.fp32),("V",.fp32),("I",.i64)]
+  constexpr := ["B"]
+
+def source (X V I : RegionName) (B : Nat) : ComputeKernel :=
+  with_triton_signature signature in triton {
+    lanes = tl.arange(0, B)
+    values = tl.load(X + lanes)
+    maximum, position = tl.max(values, axis=0, return_indices=True)
+    tl.store(V, maximum)
+    tl.store(I, position)
+  }
+
+/-- A paired FP32 reduction already returns an FP32 value. The index still
+needs the actual signed64 output conversion; no FP cast identity is assumed. -/
+theorem complete_program (X V I : RegionName) (B : Nat) : source X V I B = triton {
+    tl.ports inputs=[X], outputs=[V,I]
+    tl.region X = tl.float32, V = tl.float32, I = tl.int64
+    lanes = tl.arange(0, B)
+    values = tl.load(X + lanes)
+    maximum, position = tl.max(values, axis=0, return_indices=True)
+    tl.store(V, maximum)
+    tl.store(I, position.to(tl.int64))
+  } := rfl
+#axiomsClean complete_program
+end VeriTile.Tests.CallSignature.IndexedMaximumStorage

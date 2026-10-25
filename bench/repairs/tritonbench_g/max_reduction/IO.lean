@@ -3,6 +3,7 @@ import VeriTile.Triton.Memory.LogicalIO
 import bench.repairs.tritonbench_g.max_reduction.Proofs.Source
 import bench.tritonbench_g.max_reduction.Proofs.Candidate
 import VeriTile.Triton.Float.ProgramEquivalence
+import bench.tritonbench_g.max_reduction.Proofs.DimensionReal
 
 namespace VeriTile.Bench.Repairs.MaxReduction.PublicIO
 open VeriTile.Triton FP.Structural
@@ -12,7 +13,7 @@ noncomputable section
 listing the selected shared source and all active input/output fields. -/
 def stage1Real (inp out : RegionName) (N B : Nat) : MaskedTileKernelIO₁ where
   kernel := (stage1 inp out N B).eraseDType
-  projection := VeriTile.Bench.TritonBenchG.MaxReduction.stage1_supported .fp32 Bool.false inp out N B
+  projection := Source.stage1_algorithm inp out N B
   inp := inp
   out := out
   shape := [B]
@@ -23,7 +24,7 @@ def stage1Real (inp out : RegionName) (N B : Nat) : MaskedTileKernelIO₁ where
 
 def stage2Real (inp out : RegionName) (N B : Nat) : MaskedTileKernelIO₁ where
   kernel := (stage2 inp out N B).eraseDType
-  projection := VeriTile.Bench.TritonBenchG.MaxReduction.stage2_supported .fp32 Bool.false inp out N B
+  projection := Source.stage2_algorithm inp out N B
   inp := inp
   out := out
   shape := [B]
@@ -101,6 +102,38 @@ def dimensionCandidate {α : Type} (e : Source.Engine α)
   schedule := fun _ => [dimensionLaunch e Bool.true inp ov oi M N K BM BN p k]
   observe := fun _ _ => id
 
+/-- Retained Algorithm/flat-memory Real view of both output streams. Its
+source is the current raw repaired dimension body; this differs from the
+opaque reduction-engine view above and keeps the former flat placement scope. -/
+def flatDimensionReal (inp ov oi : RegionName)
+    (M N K BM BN : Nat) : Prop :=
+  ∀ (A : FlatAlloc), A.Disjoint → A.regions = [inp,ov,oi] →
+    (∀ r, r ∉ A.regions → A.extent r = 0) →
+  ∀ (s : BlockState) (xs : TileIndex [BM,BN] → ℝ),
+    s.undef = (fun _ _ => 0) →
+    (∀ i : Fin BM, ∀ j : Fin BN, s.pids 0 * BM + i.val < M → j.val < N →
+      (s.pids 0 * BM + i.val) * N * K + j.val * K + s.pids 1 < A.extent inp) →
+    (∀ i : Fin BM, s.pids 0 * BM + i.val < M →
+      VeriTile.Bench.TritonBenchG.MaxReduction.maxKernelOutOffset s K BM i < A.extent ov) →
+    (∀ i : Fin BM, s.pids 0 * BM + i.val < M →
+      VeriTile.Bench.TritonBenchG.MaxReduction.maxKernelOutOffset s K BM i < A.extent oi) →
+    (∀ i : Fin BM, ∀ j : Fin BN, s.pids 0 * BM + i.val < M → j.val < N →
+      s.readMem inp ((s.pids 0 * BM + i.val) * N * K + j.val * K + s.pids 1) =
+        xs (i,j,PUnit.unit)) →
+    ∃ t,
+      VeriTile.Triton.exec (A.flattenKernel (MaxReduction.dimension inp ov oi M N K BM BN).eraseDType.toAlgKernel)
+        (A.flattenState s) = some t ∧
+      (∀ i : Fin BM, s.pids 0 * BM + i.val < M →
+        t.readMem A.flat (A.addr ov (VeriTile.Bench.TritonBenchG.MaxReduction.maxKernelOutOffset s K BM i)) =
+          VeriTile.Bench.TritonBenchG.MaxReduction.rowMaximum M N BM BN (s.pids 0) xs i ∧
+        t.readMemValue .int A.flat (A.addr oi (VeriTile.Bench.TritonBenchG.MaxReduction.maxKernelOutOffset s K BM i)) =
+          Int.ofNat (VeriTile.Bench.TritonBenchG.MaxReduction.rowMaximumIndex M N BM BN (s.pids 0) xs i)) ∧
+      (∀ r o, (r ≠ A.flat ∨ ∀ i : Fin BM, s.pids 0 * BM + i.val < M →
+        o ≠ A.addr ov (VeriTile.Bench.TritonBenchG.MaxReduction.maxKernelOutOffset s K BM i) ∧
+        o ≠ A.addr oi (VeriTile.Bench.TritonBenchG.MaxReduction.maxKernelOutOffset s K BM i)) →
+        t.mem r o = (A.flattenState s).mem r o)
+
+
 end
 end VeriTile.Bench.Repairs.MaxReduction.PublicIO
 
@@ -141,6 +174,8 @@ def dimensionOutputs (ov oi : RegionName) (BM : Nat) :
     fin_cases port <;> rcases i with ⟨row,⟨⟩⟩ <;> rfl
   right_inv := fun _ => rfl
 
+
+
 end
 end VeriTile.Bench.Repairs.MaxReduction.PublicIO
 
@@ -177,6 +212,8 @@ def logicalDimensionIO (e : Source.Engine (WithBot ℝ)) (observe : WithBot ℝ 
       (dimensionIO e (fun r : ℝ => (r : WithBot ℝ)) observe inp ov oi M N K BM BN p k).Satisfies where
   inputs := dimensionInputs inp BM BN
   outputs := dimensionOutputs ov oi BM
+
+
 
 end
 end VeriTile.Bench.Repairs.MaxReduction.PublicIO

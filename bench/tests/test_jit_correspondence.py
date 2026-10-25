@@ -527,3 +527,41 @@ class EmbeddingRawBodyTests(unittest.TestCase):
                       record["python_function"], record["lean_definition"],
                       record["signature_definition"], record["expected_signature"],
                       record["expected_call_bindings"])
+
+
+class MaxReductionRawBodyTests(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/max_reduction"
+
+    def test_three_originals_and_three_retained_candidates_are_raw_bodies(self):
+        pairs = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual(len(pairs), 6)
+        self.assertTrue(all(p["mode"] == "pasted_body" for p in pairs))
+        self.assertEqual(sorted(p["statements"] for p in pairs), [6, 6, 8, 8, 15, 15])
+
+    def test_widenings_paired_reduction_masks_and_abi_cannot_drift(self):
+        records = {r["lean_definition"]: r for r in json.loads(
+            (self.directory / "jit-correspondence.json").read_text())}
+        lean = (self.directory / "Kernels.lean").read_text()
+        mutations = [
+            ("stage1", "tl.program_id(0).to(tl.int64)", "tl.program_id(0)"),
+            ("stage1", "tl.arange(0, BLOCK_SIZE).to(tl.int64)", "tl.arange(0, BLOCK_SIZE)"),
+            ("stage1", '("M",.i32)', '("M",.integer)'),
+            ("stage2", "tl.arange(0, BLOCK_MID).to(tl.int64)", "tl.arange(0, BLOCK_MID)"),
+            ("stage2Complement", "not (mid_size <= offset)", "mid_size < offset"),
+            ("dimension", "tl.program_id(1).to(tl.int64)", "tl.program_id(1)"),
+            ("dimension", "tl.arange(0, BLOCK_M).to(tl.int64)", "tl.arange(0, BLOCK_M)"),
+            ("dimension", "tl.arange(0, BLOCK_N).to(tl.int64)", "tl.arange(0, BLOCK_N)"),
+            ("dimension", "tl.cast(N, tl.int64)", "N"),
+            ("dimension", "tl.cast(K, tl.int64)", "K"),
+            ("dimension", "return_indices=True", "return_indices=False"),
+            ("dimension", "tl.store(out_index_ptrs, result_index, mask=mask1)",
+             "tl.store(out_index_ptrs, result_value, mask=mask1)"),
+            ("dimension", '("out_index",.i64)', '("out_index",.i32)'),
+        ]
+        for definition, before, after in mutations:
+            record = records[definition]
+            with self.subTest(definition=definition, before=before), self.assertRaises(ValueError):
+                self.assertIn(before, lean)
+                check((ROOT / record["python"]).read_text(), lean.replace(before, after, 1),
+                      record["python_function"], definition, record["signature_definition"],
+                      record["expected_signature"], record["expected_call_bindings"])

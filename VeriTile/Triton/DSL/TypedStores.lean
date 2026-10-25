@@ -331,6 +331,22 @@ private partial def lowerWithState (pointers : Types) (values : Values)
         let (body,_,_) ← lowerWithState pointers entry body.toList (invariants ++ stable)
         return (body.toArray, stable)
       match stmt with
+      | `(tritonStmt| $maximum:ident, $position:ident = tl.max($input:tritonExpr $[, $kwargs:tritonReduceKwarg]*))
+      | `(tritonStmt| $maximum:ident, $position:ident := tl.max($input:tritonExpr $[, $kwargs:tritonReduceKwarg]*)) =>
+          let reduction ← `(tritonExpr| tl.max($input:tritonExpr $[, $kwargs:tritonReduceKwarg]*))
+          checkAssignmentLoads pointers reduction
+          -- Track the known FP32 value result separately from the integer
+          -- position. The ordinary compiler validates the tuple options and
+          -- reduction shape. No index ABI width is inferred here.
+          let maximumType := if valueType pointers values input == some (.typed .fp32)
+            then some (.typed .fp32) else none
+          for (id,dtype) in [(maximum,maximumType),(position,some ValueInfo.integerScalar)] do
+            if (lookup pointers id).isSome then
+              Macro.throwErrorAt stmt "pointer tuple assignment needs an explicit supported binding"
+            checkInvariant invariants id dtype
+            nextPointers := nextPointers.filter (fun entry => entry.1 != name id)
+            nextValues := nextValues.filter (fun entry => entry.1 != name id)
+            if let some dtype := dtype then nextValues := (name id,dtype) :: nextValues
       | `(tritonStmt| $a:ident, $b:ident $[, $ids:ident]* =
           $x:tritonExpr, $y:tritonExpr $[, $rhs:tritonExpr]*) =>
           let targets := #[a,b] ++ ids
