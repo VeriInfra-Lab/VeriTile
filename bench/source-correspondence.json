@@ -8,8 +8,8 @@
     "task_status": {
       "legacy_ast_only": 1,
       "no_selected_jit_resolved": 2,
-      "selected_body_copy_checked": 44,
-      "uncovered_jit_functions": 136
+      "selected_body_copy_checked": 45,
+      "uncovered_jit_functions": 135
     },
     "example_status": {
       "authored_counterpart_body_copy_checked": 2,
@@ -17,12 +17,12 @@
       "spec_derived_body_copy_checked": 15
     },
     "selected_jit_functions": 328,
-    "uncovered_selected_jit_functions": 259,
-    "primary_files_with_int64_screen_warning": 40,
+    "uncovered_selected_jit_functions": 257,
+    "primary_files_with_int64_screen_warning": 39,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 108,
-        "antiquotes": 120,
+        "in_body_type_directives": 107,
+        "antiquotes": 119,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 8
       },
@@ -5632,9 +5632,9 @@
       "source_provenance": "selected_revision",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 24,
-        "dsl_assignment": 8,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 25,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -5695,23 +5695,68 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "index_select_cat_fwd_kernel_repaired",
+          "lean_definition": "kernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "num_indices": "p.rows",
+            "num_cols": "p.cols",
+            "stride0": "p.rowStride",
+            "stride1": "p.colStride"
+          },
+          "statements": 10,
+          "runtime_parameters": {
+            "num_indices": "integer",
+            "num_cols": "integer",
+            "stride0": "integer",
+            "stride1": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE_COL",
+            "BLOCK_SIZE_INDEX"
+          ],
           "python": "bench/repairs/tritonbench_g/index_select_cat/index_select_cat_repaired.py",
-          "function": "index_select_cat_fwd_kernel_repaired"
+          "lean": "bench/repairs/tritonbench_g/index_select_cat/Kernels.lean"
         },
         {
+          "python_function": "index_select_cat_fwd_kernel_index_commuted",
+          "lean_definition": "indexCommutedKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "num_indices": "p.rows",
+            "num_cols": "p.cols",
+            "stride0": "p.rowStride",
+            "stride1": "p.colStride"
+          },
+          "statements": 10,
+          "runtime_parameters": {
+            "num_indices": "integer",
+            "num_cols": "integer",
+            "stride0": "integer",
+            "stride1": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE_COL",
+            "BLOCK_SIZE_INDEX"
+          ],
           "python": "bench/repairs/tritonbench_g/index_select_cat/index_select_cat_repaired.py",
-          "function": "index_select_cat_fwd_kernel_index_commuted"
+          "lean": "bench/repairs/tritonbench_g/index_select_cat/Kernels.lean"
         }
       ],
-      "int64_screen": "cast_not_visible_in_primary_quotation",
+      "uncovered_selected_jits": [],
+      "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/index_select_cat/Kernels.lean": "16739bb859895dae644c20b1285727c700e0441c6ca6b7e7ac588e48661d3e80",
-        "bench/repairs/tritonbench_g/index_select_cat/index_select_cat_repaired.py": "2cdb9c84ea5340ac2699d71a38b9786b718917afc56b2d960b336af2eaece78b"
+        "bench/repairs/tritonbench_g/index_select_cat/Kernels.lean": "ed80910fda5d194853f6d73e8fea83bad670a59e648d15997a5a5a94318535b2",
+        "bench/repairs/tritonbench_g/index_select_cat/index_select_cat_repaired.py": "2cdb9c84ea5340ac2699d71a38b9786b718917afc56b2d960b336af2eaece78b",
+        "bench/repairs/tritonbench_g/index_select_cat/jit-correspondence.json": "dacf82bfe217c2855b4a2c94ef9c45b38bec26e80c2a42ae048cd1dfbce5e555"
       }
     },
     {

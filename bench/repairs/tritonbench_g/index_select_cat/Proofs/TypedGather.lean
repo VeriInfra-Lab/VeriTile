@@ -50,7 +50,7 @@ carrier, arbitrary initial registers, and arbitrary unused numeric callbacks. -/
   simp [kernel,
     ComputeKernel.surfaceBody,FP.Structural.exec,run,step,
     evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,
-    Option.bind,copyBackend,natLt,ComputeDType.eraseDType,numeric,bop,
+    Option.bind,copyBackend,numericLt,natLt,ComputeDType.eraseDType,numeric,bop,
     ofFloat,toFloat,Region.cast,FP.Structural.store,TileShape.dropInsertedIndex]
   rfl
 
@@ -60,6 +60,7 @@ theorem execution_memory {α : Type} [Inhabited α] (rest : Algebra α)
   simp (config := { contextual := Bool.true }) [execution,copied,masked_scatter_memory,
     loaded,active,inputOffset,outputOffset,row,indexOffset,column,bop,
     Broadcast.leftIndex,Broadcast.rightIndex,Region.cast,Int.natCast_mul,Int.natCast_add]
+  all_goals simp only [←Int.natCast_add,←Int.natCast_mul,Int.toNat_natCast,Int.ofNat_lt]
 
 theorem frame {α : Type} [Inhabited α] (rest : Algebra α)
     (p : Layout) (s : State α) (r : RegionName) (o : Nat)
