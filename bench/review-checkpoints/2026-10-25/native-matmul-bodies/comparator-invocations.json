@@ -1,0 +1,170 @@
+[
+  {
+    "name": "matmul_kernel",
+    "file": "bench/repairs/tritonbench_g/matmul_kernel/FPEquiv.lean",
+    "sha256": "31ad346eba5ae2e082840650f8c91389df76c1648bc94e1850986dc3ee3a90f1",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_kernel/FPEquiv.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "8149ee72497b3b76c304dd20ead9d5843d8a4c43"
+  },
+  {
+    "name": "matmul_kernel-Real",
+    "file": "bench/repairs/tritonbench_g/matmul_kernel/Correct.lean",
+    "sha256": "d8e45ffcfe8adee1d1b25bd4035cfc13c40e3b1f1613cfadb8b9a36a2f2635e6",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_kernel/Correct.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "8149ee72497b3b76c304dd20ead9d5843d8a4c43"
+  },
+  {
+    "name": "changed-VeriTile__Triton__DSL__CallSignature",
+    "file": "VeriTile/Triton/DSL/CallSignature.lean",
+    "sha256": "5056004f735b3831d576c3584c68e1f7057d53e87bf5618fd262be84a27a4610",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "VeriTile/Triton/DSL/CallSignature.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "8149ee72497b3b76c304dd20ead9d5843d8a4c43"
+  },
+  {
+    "name": "changed-VeriTile__Triton__DSL__TypedStores",
+    "file": "VeriTile/Triton/DSL/TypedStores.lean",
+    "sha256": "78d653c499489b23318fd5226bfb0ca48a9d261aa5bbc23054da67ccf68d2f08",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "VeriTile/Triton/DSL/TypedStores.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "8149ee72497b3b76c304dd20ead9d5843d8a4c43"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__matmul_kernel__HostModel",
+    "file": "bench/repairs/tritonbench_g/matmul_kernel/HostModel.lean",
+    "sha256": "222d6f6f37cb131af33ca3d62bf19a06f3e22c7ef7197d31dd2abf3370d6d5bd",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_kernel/HostModel.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "8149ee72497b3b76c304dd20ead9d5843d8a4c43"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__matmul_kernel__Kernels",
+    "file": "bench/repairs/tritonbench_g/matmul_kernel/Kernels.lean",
+    "sha256": "06a58879654073d4990645bc58c791e50f7821a87d7c65299fb20f6600d9295e",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_kernel/Kernels.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "8149ee72497b3b76c304dd20ead9d5843d8a4c43"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__matmul_kernel__Proofs__HostKernels",
+    "file": "bench/repairs/tritonbench_g/matmul_kernel/Proofs/HostKernels.lean",
+    "sha256": "eabb31e4e10fe157c57d495690c604acb54caa2dd8889f4cfb0ccd1cf02073f2",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_kernel/Proofs/HostKernels.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "8149ee72497b3b76c304dd20ead9d5843d8a4c43"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__matmul_kernel__Proofs__KernelDecomposition",
+    "file": "bench/repairs/tritonbench_g/matmul_kernel/Proofs/KernelDecomposition.lean",
+    "sha256": "65f3c0d1e6c38af7f592795ef37b7473a9660091fc2937e8e2c07f68c42fe938",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_kernel/Proofs/KernelDecomposition.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "8149ee72497b3b76c304dd20ead9d5843d8a4c43"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__matmul_kernel__Proofs__LegacyPastedSurface",
+    "file": "bench/repairs/tritonbench_g/matmul_kernel/Proofs/LegacyPastedSurface.lean",
+    "sha256": "03cded43f8703de0030cee30efe4efa241c3878784cb211e58318b123ac145f9",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_kernel/Proofs/LegacyPastedSurface.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "8149ee72497b3b76c304dd20ead9d5843d8a4c43"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__matmul_kernel__Proofs__SourcePreservation",
+    "file": "bench/repairs/tritonbench_g/matmul_kernel/Proofs/SourcePreservation.lean",
+    "sha256": "7af39a92b283dd6976b60ecfacef062882307aadd275f45458e4526a02dfe737",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_kernel/Proofs/SourcePreservation.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "8149ee72497b3b76c304dd20ead9d5843d8a4c43"
+  },
+  {
+    "name": "changed-bench__tests__CallSignature",
+    "file": "bench/tests/CallSignature.lean",
+    "sha256": "b1fa66cb8aa3d5cc59aff196e70038cf4ce80af0649dba08451bd4bb7115a4b4",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/tests/CallSignature.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "8149ee72497b3b76c304dd20ead9d5843d8a4c43"
+  },
+  {
+    "name": "changed-bench__tests__LoopBody",
+    "file": "bench/tests/LoopBody.lean",
+    "sha256": "b897702e6e8db6175d6c303a646d0a687f4168ae8167acb3b68e47289d3d8c5b",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/tests/LoopBody.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "8149ee72497b3b76c304dd20ead9d5843d8a4c43"
+  }
+]

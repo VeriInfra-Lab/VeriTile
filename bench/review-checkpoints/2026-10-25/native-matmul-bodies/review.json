@@ -1,0 +1,312 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "8149ee72497b3b76c304dd20ead9d5843d8a4c43",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "matmul_kernel"
+  ],
+  "semantic_review": {
+    "adam_update_triton": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "add_example": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "add_value": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "cache_transform_triton": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "chunk_cumsum_kernel": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "chunked_cumsum_fwd": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "cosine_compute": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "dequantize_matmul": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "dequantize_rowwise": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "destindex_copy": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "destindex_copy_kv1": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "destindex_copy_kv2": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "dropout_triton": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "f8_conversion_utils": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "fast_rope_embedding": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "fused_recurrent_hgrn": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "index_select_bwd": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "index_select_cat": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "kcache_copy_triton": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "kldiv_compute": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "kldiv_triton": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "kv_cache_copy": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "l2_norm_bwd": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "l2_norm_triton1": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "l2_norm_triton2": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "logsumexp_fwd": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "masked_add_cuda": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "matrix_reduction": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "matrix_transpose": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "mean_reduction": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "mul_exponent_compensator": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "nested_loops_processing": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "quant_transpose_kernel": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "relu_triton_kernel": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "rms_norm_triton": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "rmsnorm_fused": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "rmsnorm_fused_llama": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "rmsnorm_implementation": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "rmsnorm_triton": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "rope_embedding": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "rotary_emb": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "rotary_emb_nopad": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "seeded_dropout": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "sin_computation": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "sin_kernel": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "softmax_triton1": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "softmax_triton2": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "square_matrix": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "swiglu_backward": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "swiglu_fwd": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "triton_mul2": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "triton_softmax": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "var_len_copy": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "vector_addition": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "vector_addition_custom": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after the generic immutable caller ceil-division and live FP32 dot dtype changes. This is regression only: no new body migration, numerical identity, narrowed domain or hardware claim is assigned to this task.",
+    "matmul_kernel": "Both unchanged existing Python functions are pasted directly, preserving every name, the full ceil-division K loop, live three-argument dot accumulator, pointer updates, masks, FP16 narrowing and output. Pointer dtypes, nine mathematical integer call values, three block constexprs and the earlier input/output ports are outside the body; the established signed32 native address contract remains unchanged. Generic dtype flow recognizes an FP32 live dot and the ordinary store supplies the required FP16-to-FP32 widening without writing an extra source cast or assuming an FP identity. Generic immutable Nat caller ceil-division selects the existing static range constructor, while mutable/literal-zero unsupported cases retain prior validation and literal-only loops retain prior constructors. SourcePreservation proves complete original and candidate ComputeKernel identities for ALL Config and symbolic regions, including full interface ports. Thus every execution failure, successful entire state and trace/memory observation is preserved for arbitrary primitive backends. The pure host/configuration/instruction model moves byte-for-byte into root HostModel with a thin old import; actual source no longer reversely imports Proofs. All 47 task roots replay: independent full-K Real matrix multiplication, all-word fixed-K8 native instruction model and concrete FP16 narrowing/FP32 widening, compiler and signed32 bounds, full 2D launch success/output/frame, actual trace safety, complete original/candidate mask equivalence, physical bytes, Tensor and historical host scopes. No native instruction conformance, floating numerical law or domain premise is added."
+  },
+  "example_regression_scope": "All 19 examples and their complete helpers replay locally, jointly and in an initially empty independent project checkout. Their bodies, mathematical domains and numerical classifications remain unchanged.",
+  "verification": {
+    "frontend_regressions": {
+      "status": "PASS",
+      "configured_modules": 95,
+      "scope": "All configured integer/RNG, shape, mutation, signed/literal/static loop, branch dtype and conversion guards replay. Added full-kernel checks retain FP32 live dot, FP16 narrowing then FP32 store widening, reject incompatible half accumulators and retain exact caller ceil-division coverage including zero K. Mutable and literal-zero expressions keep their existing validation; no source-width provenance is erased. Python mutation checks reject dot splitting, loop/tail changes, narrowing deletion and added source casts."
+    },
+    "integration": {
+      "status": "PASS",
+      "explicit_modules": 1981,
+      "jobs": 11174
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 1981,
+      "jobs": 11174,
+      "scope": "Every combined root and dependency closure after shared frontend changes.",
+      "project_build_initially_present": false,
+      "veritile_cache_initially_present": false,
+      "only_fixed_external_dependencies_reused": true
+    },
+    "joint_import": "PASS: all 1981 roots",
+    "task_directories": "All 47 matmul task modules, all 95 configured frontend regressions, all prior migrated roots, examples and historical/optional scopes. Focused 142 roots pass 3800 jobs.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 64
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 309,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by the old numerical receipt; no false repin."
+    },
+    "official_comparator": "UNAVAILABLE: actual frozen-source invocations report required host isolation unavailable. Pinned official tools are installed, but host Landlock ABI v4 is below required v5 and the systemd user bus is unavailable. No isolation bypass.",
+    "optional_cpu_contract": "UNAVAILABLE: torch missing; actual failure retained.",
+    "gpu_or_numerical_experiment": "Not run; no new numerical law or hardware-conformance claim.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending."
+  },
+  "source_pairs": {
+    "total": 194,
+    "pasted_body": 189,
+    "legacy_ast": 5
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-25/native-matmul-bodies/source-closure.json",
+    "sha256": "dafb51a962d0f9a226388a67a20a1cdb05aa9e05e46b895e2a3dfcd113a1de75"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "legacy_ast_only": 1,
+      "no_selected_jit_resolved": 2,
+      "selected_body_copy_checked": 56,
+      "uncovered_jit_functions": 124
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 328,
+    "uncovered_selected_jit_functions": 241,
+    "primary_files_with_int64_screen_warning": 38,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 98,
+        "antiquotes": 108,
+        "dsl_loop": 1,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-matmul-bodies/all-python.log.gz",
+      "sha256": "03a7eb2d8612e183d9603bc6e72d88db2e079eaea80685f69bf205fa335f11ed"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-matmul-bodies/changed-VeriTile__Triton__DSL__CallSignature-comparator.log",
+      "sha256": "3628098b4aecfedc342d8fe74de03f9c5defe62a5719aec652555b51b1144c35"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-matmul-bodies/changed-VeriTile__Triton__DSL__TypedStores-comparator.log",
+      "sha256": "5449eeee11a05c7244384321746945e9df9daf7bfdffeb60dbae22182d537d8b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-matmul-bodies/changed-bench__repairs__tritonbench_g__matmul_kernel__HostModel-comparator.log",
+      "sha256": "2b1dd9defbb229b9e45ecbbe152f100f9a0f2fd34e612b7fd709922fd2470667"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-matmul-bodies/changed-bench__repairs__tritonbench_g__matmul_kernel__Kernels-comparator.log",
+      "sha256": "12deaa392239dc2e90b4470c1fe10b6f1924af39ba7bb3f6eb2d77d45656752e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-matmul-bodies/changed-bench__repairs__tritonbench_g__matmul_kernel__Proofs__HostKernels-comparator.log",
+      "sha256": "26d003d696e1515619c8e892f14962d828179f205282c275a2e42b316ceedde0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-matmul-bodies/changed-bench__repairs__tritonbench_g__matmul_kernel__Proofs__KernelDecomposition-comparator.log",
+      "sha256": "a4adfe121bfcc27f23c3dee9dce0e938c6f3a7b0bf8e4cc4f5acbe4d57995758"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-matmul-bodies/changed-bench__repairs__tritonbench_g__matmul_kernel__Proofs__LegacyPastedSurface-comparator.log",
+      "sha256": "d22b658578d978919d44baf9bc1af1c97227b928a13029af349d4e01a23f7a93"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-matmul-bodies/changed-bench__repairs__tritonbench_g__matmul_kernel__Proofs__SourcePreservation-comparator.log",
+      "sha256": "ee4bcf6ad41da68962e18bb43b7ea38e4cfc35d0c0b448955ecf67ee2d5c8996"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-matmul-bodies/changed-bench__tests__CallSignature-comparator.log",
+      "sha256": "d31a6bb993c43d1c5dd5664fe4e0d32b77f811d3f60b3a296124f63da88488d1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-matmul-bodies/changed-bench__tests__LoopBody-comparator.log",
+      "sha256": "6c80918c25b4f3ea91474afec91c604ad63e041c2ea5ab00223b5aaa2edcb839"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-matmul-bodies/clean-build.log.gz",
+      "sha256": "34adddfb13dfbd0c0c7e0ff966ef2a594ef14c8b67ff18a3d72bb36db2a1e2b5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-matmul-bodies/clean-setup.log",
+      "sha256": "8f676fc3c6e3ca8a179400b72a07225533255cc4348ed219174e6f2183e67ac7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-matmul-bodies/comparator-invocations.json",
+      "sha256": "f6be4a8a5a55ead8536f1d42498239553bc919c285ff4731f74874c84aa0d160"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-matmul-bodies/comparator-preflight.log",
+      "sha256": "d9255026a27595d0a04e154bc4a9c609c8422b012fc13cb1ae4de2417afea36d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-matmul-bodies/comparator-setup.log",
+      "sha256": "bea658f19aea48f8965a3d6525da1300e599d9a3f0a05b992071c97bcaffd6df"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-matmul-bodies/comparator-tools.json",
+      "sha256": "d541ac407f7aa8679c8ba23dd4df72ac363730bbb67e45bd7959ec752e6b0c53"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-matmul-bodies/comparator.log",
+      "sha256": "75ed4a5746c486c686e5f089f29d6c4b95a00365848388824f971076b41eef04"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-matmul-bodies/contract.log",
+      "sha256": "04d83a07ea9b0bb3a87a15ff4c5f88b7a06a35f8c529e25d79cdeac7722cb398"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-matmul-bodies/corpus-guard.log",
+      "sha256": "016ae2dc158daebd4fd828911a1757c12b8403def5b2c93134695b3cae6f45a9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-matmul-bodies/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-matmul-bodies/integration.log.gz",
+      "sha256": "a0bd6e6a2d9c2c04e4ff7f33778bea266961bd1617a1026d9b78e5f5c88ca440"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-matmul-bodies/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-matmul-bodies/joint.lean",
+      "sha256": "85060a282269ef5613d427bba5995272b967a9f6c3ef2509c918c5bfe47350d8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-matmul-bodies/joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-matmul-bodies/main-focused.log.gz",
+      "sha256": "67472f6fc6b3250a0a77c3aa1363dfc70349a9b238ac9ad2b61d58caf2844823"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-matmul-bodies/matmul_kernel-Real-comparator.log",
+      "sha256": "1efee3fe6279b4bae077bdf82193378da53e5bd192125d07812f81e5681b8d2b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-matmul-bodies/matmul_kernel-comparator.log",
+      "sha256": "4743bff5cbe160b2810f58d16c4bc123358a036814feef618d2a8f021179b793"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-matmul-bodies/matmul_kernel-contract.log",
+      "sha256": "e93017c776747ab1bbc0286182e3e1c00fb2bf220eba4c6f69770594aea30304"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-matmul-bodies/modules.json",
+      "sha256": "ae16f530f0c58a92ed2240745088838d7ed16859c99010a67a11e647d4181843"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-matmul-bodies/old-infinity-guard.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-matmul-bodies/pairs.json",
+      "sha256": "abec3fe669dcb66ec029aad1387c4905505612cb78829e70ee4f1bef3cae15f7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-matmul-bodies/previous-selected-reviews.json.gz",
+      "sha256": "e0097cce3c1f9a95d36f3a26845dd7d6a62946031f38117c47352621c60334e3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-matmul-bodies/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-matmul-bodies/python-tests.log",
+      "sha256": "73ccd128fd5ee8e40cfd8cf7ee6a81de6c79b9e260af9b877e750dca8f58a33d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-matmul-bodies/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-matmul-bodies/signed-address-guard.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-matmul-bodies/signed-range-guard.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-matmul-bodies/source-closure.json",
+      "sha256": "dafb51a962d0f9a226388a67a20a1cdb05aa9e05e46b895e2a3dfcd113a1de75"
+    }
+  ]
+}

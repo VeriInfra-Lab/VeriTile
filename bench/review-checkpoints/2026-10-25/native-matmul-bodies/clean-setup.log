@@ -1,0 +1,3 @@
+HEAD is now at 8149ee724 Paste unchanged matmul bodies with complete original and candidate identities
+Reuse the owned source checkout only: every generated project object removed before this frozen-source replay.
+No project build or .veritile-cache at start; only fixed external dependencies reused.

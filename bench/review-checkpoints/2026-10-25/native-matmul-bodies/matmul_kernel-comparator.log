@@ -1,0 +1,4 @@
+{"name": "matmul_kernel", "file": "bench/repairs/tritonbench_g/matmul_kernel/FPEquiv.lean", "sha256": "31ad346eba5ae2e082840650f8c91389df76c1648bc94e1850986dc3ee3a90f1", "command": ["python3", "scripts/check_comparator.py", "--file", "bench/repairs/tritonbench_g/matmul_kernel/FPEquiv.lean", "--trust"], "exit_code": 1, "code_commit": "8149ee72497b3b76c304dd20ead9d5843d8a4c43"}
+[FAIL] Official comparator isolation is unavailable:
+- systemd AF_UNIX restriction: Failed to connect to bus: Operation not permitted (consider using --machine=<user>@.host --user to connect to bus of other user)
+- Landlock sandbox: [landrun:error] 2026/10/25 12:16:39 Failed to apply sandbox: failed to apply Landlock filesystem restrictions: missing kernel Landlock support. Got Landlock ABI v4, wanted {Landlock V5; FS: all; Net: ∅}

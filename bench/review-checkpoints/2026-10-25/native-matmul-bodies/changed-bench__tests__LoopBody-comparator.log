@@ -1,0 +1,4 @@
+{"name": "changed-bench__tests__LoopBody", "file": "bench/tests/LoopBody.lean", "sha256": "b897702e6e8db6175d6c303a646d0a687f4168ae8167acb3b68e47289d3d8c5b", "command": ["python3", "scripts/check_comparator.py", "--file", "bench/tests/LoopBody.lean", "--trust"], "exit_code": 1, "code_commit": "8149ee72497b3b76c304dd20ead9d5843d8a4c43"}
+[FAIL] Official comparator isolation is unavailable:
+- systemd AF_UNIX restriction: Failed to connect to bus: Operation not permitted (consider using --machine=<user>@.host --user to connect to bus of other user)
+- Landlock sandbox: [landrun:error] 2026/10/25 12:16:40 Failed to apply sandbox: failed to apply Landlock filesystem restrictions: missing kernel Landlock support. Got Landlock ABI v4, wanted {Landlock V5; FS: all; Net: ∅}
