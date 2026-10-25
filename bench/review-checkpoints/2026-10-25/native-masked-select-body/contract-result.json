@@ -1,0 +1,10 @@
+{
+  "task": "masked_select",
+  "command": [
+    "python3",
+    "bench/repairs/tritonbench_g/masked_select/Proofs/check_contract.py"
+  ],
+  "code_commit": "eb072f6f813119d8d4bfe35b725d1ac074d22d0b",
+  "exit_code": 1,
+  "status": "UNAVAILABLE"
+}

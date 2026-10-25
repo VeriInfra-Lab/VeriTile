@@ -1,0 +1,11 @@
+{
+  "status": "EXPECTED_FAIL",
+  "exit_code": 1,
+  "command": [
+    "lake",
+    "env",
+    "lean",
+    "/tmp/masked60-default-channel-probe.lean"
+  ],
+  "scope": "Same complete function body with the ordinary declared-int64 default channel cannot be identified with the explicitly selected existing natural-valued IO channel. This is representation checking, not a native range proof."
+}

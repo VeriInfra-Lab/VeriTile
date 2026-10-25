@@ -1,0 +1,4 @@
+From /tmp/veritile-pr18-review
+ * branch                codex/body-copy-cache-and-constexpr -> FETCH_HEAD
+HEAD is now at eb072f6f8 Paste masked select body with checked existing natural prefix IO
+{"code_commit": "eb072f6f813119d8d4bfe35b725d1ac074d22d0b", "project_build_initially_present": false, "veritile_cache_initially_present": false, "only_fixed_external_dependencies_reused": true, "packages_target": "/home/argustest/lizn/VeriTile/.lake/packages"}

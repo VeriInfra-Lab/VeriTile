@@ -1,0 +1,304 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "eb072f6f813119d8d4bfe35b725d1ac074d22d0b",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "masked_select"
+  ],
+  "semantic_review": {
+    "adam_update_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "add_example": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "add_value": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "cache_transform_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "chunk_cumsum_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "chunked_cumsum_fwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "cosine_compute": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "dequantize_matmul": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "dequantize_rowwise": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "destindex_copy": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "destindex_copy_kv1": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "destindex_copy_kv2": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "dropout_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "embedding_triton_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "f8_conversion_utils": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "fast_rope_embedding": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "fused_activation": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "fused_recurrent_hgrn": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "index_select_bwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "index_select_cat": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "kcache_copy_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "kldiv_compute": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "kldiv_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "kv_cache_copy": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "l2_norm_bwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "l2_norm_triton1": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "l2_norm_triton2": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "logsumexp_fwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "masked_add_cuda": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "matmul_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "matrix_reduction": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "matrix_transpose": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "max_reduction": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "mean_reduction": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "mul_exponent_compensator": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "nested_loops_processing": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "quant_transpose_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "relu_triton_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rms_norm_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rmsnorm_fused": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rmsnorm_fused_llama": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rmsnorm_implementation": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rmsnorm_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rope_embedding": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rotary_emb": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rotary_emb_nopad": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "seeded_dropout": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "sin_computation": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "sin_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "softmax_triton1": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "softmax_triton2": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "square_matrix": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "swiglu_backward": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "swiglu_fwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "triton_mul2": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "triton_softmax": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "var_len_copy": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "vector_addition": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "vector_addition_custom": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after explicit selection of an existing natural-valued integer IO channel. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "masked_select": "The unchanged selected masked_select_kernel body is pasted directly with all seven statements, the original Bool cast, prefix subtraction, mask order and FP32 payload store. No separate Python candidate is authored: the existing equivalence compares two real autotune configurations of this same source, retaining all twenty choices. Pointer storage, unannotated runtime size and block constexpr remain outside the body. The signature records signed-int64 prefix storage and explicitly selects the existing natural-valued mathematical prefix channel. That choice requires an already typed Region.nat caller and validates distinct integer pointer names using non-unifying type inspection; it proves no native width, nonnegative value or storage bound. The unchanged prefix/cumsum, admission and native/IO refinement retain those obligations. The complete new ComputeKernel is proved identical to the previous FP32 TypedCopy source for every invocation, including all ports, statements and conversions; therefore arbitrary-state execution, failure, safety, output/frame, all configuration pairs and existing host/Tensor/native scopes are retained without a numerical identity or new premise. All nineteen task roots replay. The complete explicit-AST frontend unit keeps a Nat prefix load/subtraction and the FP32 store precision annotation; no extra floating cast is introduced. Negative guards reject floating/missing/duplicate names and a RegionName caller that has not already selected a natural channel. A standalone identical body using ordinary declared-int64 default channel correctly fails a complete-kernel identity with the explicitly chosen natural view, documenting representation rather than pretending storage metadata proves a range bound. Python mutation checks pin the int64 signedness, channel choice, Bool cast, subtraction, mask order and call metadata. No source dtype, public input domain, floating operation or numerical dependency changes."
+  },
+  "example_regression_scope": "All 19 examples and their complete helpers replay locally, jointly and in an initially empty independent project checkout; source, domains and numerical classifications remain unchanged.",
+  "verification": {
+    "frontend_regressions": {
+      "status": "PASS",
+      "configured_modules": 95,
+      "scope": "All configured frontend guards replay. New complete explicit-AST unit validates preservation of a caller-selected existing natural-valued integer memory channel while retaining source storage metadata and FP32 store precision. Three negative guards reject invalid name/type choices. Native width, sign and range are not inferred. Previously guarded integer/loop/shape/dtype/FP32/String/numeral behavior is unchanged."
+    },
+    "integration": {
+      "status": "PASS",
+      "explicit_modules": 2096,
+      "jobs": 11297
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 2096,
+      "jobs": 11297,
+      "scope": "Every combined root and full dependency closure after the shared frontend change.",
+      "project_build_initially_present": false,
+      "veritile_cache_initially_present": false,
+      "only_fixed_external_dependencies_reused": true
+    },
+    "joint_import": "PASS: all 2096 roots",
+    "task_directories": "All 19 masked_select roots, all 95 frontend roots, all prior migrated roots, examples and retained optional/historical scopes. The 114 focused development roots pass 3771 jobs; transferred source bytes were checked before freezing.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 72
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 317,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by its old numerical receipt; no false repin."
+    },
+    "official_comparator": "UNAVAILABLE: actual frozen-source invocations report required host isolation unavailable. Pinned tools are installed; host Landlock ABI v4 is below required v5 and the systemd user bus is unavailable. No isolation bypass.",
+    "optional_cpu_contract": "UNAVAILABLE: the actual task-local Proofs/check_contract.py invocation requires torch, which is missing. Its failure is retained; no CPU or GPU pass is invented.",
+    "gpu_or_numerical_experiment": "Not run; no new numerical law or hardware-conformance claim.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending."
+  },
+  "source_pairs": {
+    "total": 205,
+    "pasted_body": 200,
+    "legacy_ast": 5
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-25/native-masked-select-body/source-closure.json",
+    "sha256": "b86c4d8fe584c67b7e8763bf8c2ce674e8623153c66e981eeb7f3e572c8a566e"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "legacy_ast_only": 1,
+      "no_selected_jit_resolved": 2,
+      "selected_body_copy_checked": 60,
+      "uncovered_jit_functions": 120
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 328,
+    "uncovered_selected_jit_functions": 233,
+    "primary_files_with_int64_screen_warning": 37,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 96,
+        "antiquotes": 105,
+        "dsl_loop": 1,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-masked-select-body/all-python.log.gz",
+      "sha256": "e2e2e6b0df668939d9e6081644df131cb9b33f7d31cd9f03a858f27161eee9c2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-masked-select-body/changed-VeriTile__Triton__DSL__CallSignature-comparator.log",
+      "sha256": "096aa8657df1c86dd1cb784d1569edcf88e8a7127b7f6236031f1067be705e95"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-masked-select-body/changed-bench__repairs__tritonbench_g__masked_select__Kernels-comparator.log",
+      "sha256": "a8fa243fa345e5a0dd1ffcbeaabb367baa34c12028c4caba0fa2b205ea2968d3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-masked-select-body/changed-bench__repairs__tritonbench_g__masked_select__Proofs__SourcePreservation-comparator.log",
+      "sha256": "5046e8ef27cb6f836eee133a3d1526810b5491fbea7b12474ed0db87f04511dc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-masked-select-body/changed-bench__tests__CallSignature-comparator.log",
+      "sha256": "59e11febcac2103c930fac144fcf7a4dd7fa43dd3c26a596920f0ab295160b25"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-masked-select-body/clean-build.log.gz",
+      "sha256": "41d213998008759c1da68992960f015863326dd969311516593a7c6a52c5bd93"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-masked-select-body/clean-setup.log",
+      "sha256": "bb78994508e50799831dad009707d4ca24fa756606b677a84ae987980224398f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-masked-select-body/comparator-invocations.json",
+      "sha256": "fc6786ef7dc5ec417b0a837b845ae89099eb71a52e1a487741d71297bffff36f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-masked-select-body/comparator-preflight.log",
+      "sha256": "d9255026a27595d0a04e154bc4a9c609c8422b012fc13cb1ae4de2417afea36d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-masked-select-body/comparator-setup.log",
+      "sha256": "bea658f19aea48f8965a3d6525da1300e599d9a3f0a05b992071c97bcaffd6df"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-masked-select-body/comparator-tools.json",
+      "sha256": "d541ac407f7aa8679c8ba23dd4df72ac363730bbb67e45bd7959ec752e6b0c53"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-masked-select-body/comparator.log",
+      "sha256": "61a2a1d934bf2b01f524e57208ae1b9b9d94e370ecfbdff1097dbf29218117e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-masked-select-body/contract-result.json",
+      "sha256": "1392ceb5230b4669d930060f653334d91e5414df18066a4e46f432f67ca09762"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-masked-select-body/contract.log",
+      "sha256": "6b7b37ba0773a0ebc8cdc835d64e1b20cdcb45d64c3ad005f7a7b6e6e989a61b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-masked-select-body/corpus-guard.log",
+      "sha256": "400ab9555d3af481e8a6236ed9095c783e775c2e11a1afe2bf2c68dc66b8fb28"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-masked-select-body/default-channel-probe.lean",
+      "sha256": "d825e7cdd4c09badb2619e9a229b06886f5089aae8c7432fbdc6ad8aafb782c2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-masked-select-body/default-channel-rejected.log",
+      "sha256": "ada975b25bc2df0814be9a4ce112e81e51320a2f0284343c1e0d06a7bbee01e6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-masked-select-body/default-channel-rejection.json",
+      "sha256": "06120c763daa5a3cc85b6a338a678f8318b0bdd3a22c8acd86f7653056c10c6d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-masked-select-body/focused-modules.txt",
+      "sha256": "4886cd8fd92c0023a10d9bd8092e46e2ec02b29460a289709272bdfaebabd2e4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-masked-select-body/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-masked-select-body/integration.log.gz",
+      "sha256": "07bd92ba6f07719840a2339d862e42c8fea463fcc9a37d5d57ee49fd89336f4d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-masked-select-body/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-masked-select-body/joint.lean",
+      "sha256": "604597fa68cfc31e4152df985185d2faa5e0fed2b242d1c975c76621916ff30b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-masked-select-body/joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-masked-select-body/masked_select-Real-comparator.log",
+      "sha256": "ff5857fbf4681fe708ba8bf1b46e436c355a77a45703bbc9f0f15a801281e53f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-masked-select-body/masked_select-comparator.log",
+      "sha256": "c1529f8b19029fcb0db39c3ae4bd1724f5212173495fc2855fed5d277c97e710"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-masked-select-body/masked_select-contract.log",
+      "sha256": "1c9db2e6b4383e05ec0f388fd70016b42b5e6b1ecac9ad04fb971ab1ce84a3af"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-masked-select-body/modules.json",
+      "sha256": "eabdb719005e1a822b4fbe8a020a6b23bfe297591f34df1af6b9315957a58893"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-masked-select-body/natural-unit.log.gz",
+      "sha256": "d1fcecec8ad864b725021a71af36a0dab634db0a408800a08a9d412af6b83d6c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-masked-select-body/pairs.json",
+      "sha256": "06c991a586f492e33b873a1692f50fe08172838423ae5e7d3148004f4fab566f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-masked-select-body/previous-selected-reviews.json.gz",
+      "sha256": "dd61cbd782f87cd3e12cd00560f3973f976640450dbc6ecc573d898b043aeeb6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-masked-select-body/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-masked-select-body/python-tests.log",
+      "sha256": "c3615607286f7484c189afc5190f80768a6225b5c9fe22a76e1c8e7e327c3462"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-masked-select-body/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-masked-select-body/secondary-focused-development.log.gz",
+      "sha256": "4265071f41c86b2bd4b30b833d6ded66527728670123f0c20c3866c5702936c0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-masked-select-body/source-closure.json",
+      "sha256": "b86c4d8fe584c67b7e8763bf8c2ce674e8623153c66e981eeb7f3e572c8a566e"
+    }
+  ]
+}

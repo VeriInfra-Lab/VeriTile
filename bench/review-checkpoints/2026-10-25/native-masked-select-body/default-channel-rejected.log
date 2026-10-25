@@ -1,0 +1,10 @@
+/tmp/masked60-default-channel-probe.lean:18:0: error: Not a definitional equality: the left-hand side
+  source X Y P B
+is not definitionally equal to the right-hand side
+  NaturalIntegerMemory.source X Y P B
+/tmp/masked60-default-channel-probe.lean:21:60: error: Type mismatch
+  rfl
+has type
+  ?m.3 = ?m.3
+but is expected to have type
+  source X Y P B = NaturalIntegerMemory.source X Y P B
