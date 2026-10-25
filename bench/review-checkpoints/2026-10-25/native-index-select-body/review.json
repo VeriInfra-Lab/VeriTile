@@ -1,0 +1,282 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "58af6d09ab4c9b63a2d85cef8093d7677df5b0d3",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "index_select_cat"
+  ],
+  "semantic_review": {
+    "adam_update_triton": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
+    "add_example": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
+    "add_value": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
+    "cache_transform_triton": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
+    "cosine_compute": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
+    "dequantize_matmul": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
+    "dequantize_rowwise": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
+    "destindex_copy": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
+    "destindex_copy_kv1": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
+    "destindex_copy_kv2": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
+    "f8_conversion_utils": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
+    "fast_rope_embedding": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
+    "index_select_bwd": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
+    "kcache_copy_triton": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
+    "kldiv_compute": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
+    "kldiv_triton": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
+    "kv_cache_copy": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
+    "l2_norm_bwd": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
+    "l2_norm_triton1": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
+    "l2_norm_triton2": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
+    "masked_add_cuda": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
+    "matrix_reduction": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
+    "matrix_transpose": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
+    "mean_reduction": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
+    "mul_exponent_compensator": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
+    "quant_transpose_kernel": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
+    "rmsnorm_fused": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
+    "rmsnorm_fused_llama": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
+    "rmsnorm_implementation": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
+    "rmsnorm_triton": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
+    "rope_embedding": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
+    "rotary_emb": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
+    "rotary_emb_nopad": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
+    "sin_computation": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
+    "sin_kernel": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
+    "softmax_triton1": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
+    "softmax_triton2": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
+    "square_matrix": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
+    "swiglu_fwd": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
+    "triton_mul2": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
+    "triton_softmax": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
+    "var_len_copy": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
+    "vector_addition": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
+    "vector_addition_custom": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
+    "index_select_cat": "The two selected original and already-existing Python candidate bodies are unchanged and pasted verbatim, retaining every pid/arange/row-load signed64 cast, actual INT64 metadata, two-dimensional masks, all four runtime strides/counts, both constexpr tiles, signed full source-pointer sums and exact store. No new Python source or unrelated optimization. Prove complete old/new Option.map memory equality for each original/candidate under arbitrary floating primitives, layouts and initial states, preserving success/failure and every cell despite internal index register representation changes. Reprove the actual source pair complete-state execution equality and empty-rule FP equivalence with Int multiplication commutation, the exact raw copy backend execution, independent logical Real target, metadata/source/output access safety and complete exterior frame. Normalize actual signed mask/address casts to the unchanged natural logical coordinates with exact Mathlib equalities. All old word/byte, launch/grid, host and actual-Tensor statements and input domains replay. No numerical law, source cast omission, added premise or weakened geometry. No shared Lean source changed relative to the previously independently checked checkpoint."
+  },
+  "example_regression_scope": "All 19 examples and their helpers replay locally and jointly. Their exact unchanged source already passed the preceding independent cold checkpoint; every prior closure Lean file is Git-hash checked unchanged. No new independent example recompilation is claimed here.",
+  "verification": {
+    "frontend_regressions": {
+      "status": "PASS",
+      "configured_modules": 93,
+      "previous_verified_code": "048fdf36b116d749260c9851d49fe9224aea5e88",
+      "scope": "All 93 configured frontend regressions, including exact full kernels for constexpr quotient/static shifted arange and signed source literals; runtime/mutable static bounds and scientific floating-literal misuse retain explicit rejection. Earlier terminal-return/integer-read/precision regressions remain included; no failed targets omitted."
+    },
+    "integration": {
+      "status": "PASS",
+      "explicit_modules": 1566,
+      "jobs": 10583
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 27,
+      "jobs": 8472,
+      "scope": "All changed task modules and their complete dependency closure. All 2309 previously independently replayed Lean source files are byte-identical; exact prior-closure audit retained.",
+      "project_build_initially_present": false,
+      "veritile_cache_initially_present": false,
+      "only_fixed_external_dependencies_reused": true
+    },
+    "joint_import": "PASS: all 1566 roots",
+    "task_directories": "Every Lean file in the newly migrated index_select_cat directory, including optional native/host/Tensor readers and all complete semantic/source-binding proofs.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 45
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 290,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by the old numerical receipt; prior baseline preserved, no false repin."
+    },
+    "official_comparator": "UNAVAILABLE: actual frozen-source invocations report host isolation unavailable. The official pinned comparator/exporter/landrun successfully built with a SHA256-verified local Go toolchain. Host Landlock ABI v4 cannot satisfy required v5, and the systemd user bus is unavailable. Isolation checks remain fail-closed.",
+    "optional_cpu_contract": "UNAVAILABLE: current environment lacks torch; actual failure retained.",
+    "gpu_or_numerical_experiment": "Not run. No new numeric laws, axioms or hardware-conformance claim.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending."
+  },
+  "source_pairs": {
+    "total": 163,
+    "pasted_body": 158,
+    "legacy_ast": 5
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/source-closure.json",
+    "sha256": "8b5e1d28f71426ea0720c3f22bc398def2118356d16e97df976c236b55f3269f"
+  },
+  "previous_independent_closure": {
+    "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/prior-closure.json",
+    "sha256": "076cec11fdd0cab69d841a01d14f20a4641f99b7c01cde8c20bb75dbee205b1c"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "legacy_ast_only": 1,
+      "no_selected_jit_resolved": 2,
+      "selected_body_copy_checked": 45,
+      "uncovered_jit_functions": 135
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 328,
+    "uncovered_selected_jit_functions": 257,
+    "primary_files_with_int64_screen_warning": 39,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 107,
+        "antiquotes": 119,
+        "dsl_loop": 1,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/all-python.log.gz",
+      "sha256": "777a63598994246f75e48eaa344bbad3f509f51a79a63ce35b1e73eb43db80b1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/changed-bench__repairs__tritonbench_g__index_select_cat__Kernels-comparator.log",
+      "sha256": "65bcdd8191e2bb1b14ad3a7e63e8d669d1491524fab666971aa7de755aefac82"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/changed-bench__repairs__tritonbench_g__index_select_cat__Proofs__KernelSafety-comparator.log",
+      "sha256": "dc2090f00296c5c65e56a21d86a9578da5c322fdd016a940b80036d030ea22d3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/changed-bench__repairs__tritonbench_g__index_select_cat__Proofs__LegacyPastedSurface-comparator.log",
+      "sha256": "960b9eb8e481a268df0d408345481d5ac95580dc9e24151310d637a55b32eef3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/changed-bench__repairs__tritonbench_g__index_select_cat__Proofs__Rewrite-comparator.log",
+      "sha256": "c287fa108fc9d5d91a252fea6c554574a70394105a089dfb7c7fc5c797e99454"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/changed-bench__repairs__tritonbench_g__index_select_cat__Proofs__SourcePreservation-comparator.log",
+      "sha256": "77f47ede75469613a7681da3471386b595050aa32dcb3cb85b7c29184ef7bdb3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/changed-bench__repairs__tritonbench_g__index_select_cat__Proofs__TypedGather-comparator.log",
+      "sha256": "57fe8cb6e9960ca3d82fb1aa75630cec9bc3c8ab71d88852d5012c191733f841"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/clean-build.log.gz",
+      "sha256": "631f8b3ecfefd90fe67eb67a937697da0c37d745939ae049fd8c59a602bb00ad"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/clean-setup.log",
+      "sha256": "7346e137b72d3ab44034bba05820fa2d1f1d8e61b232a1ca6eaad6c9c51a5959"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/cold-modules.json",
+      "sha256": "453062df77836ea60590eeb8baddc6bca15896753da4b2adf5220def49e45125"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/comparator-invocations.json",
+      "sha256": "a1634d07930d3504680ac8eacf918c75a8eb51e1298ccc330aa224e525808bf9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/comparator-preflight.log",
+      "sha256": "d9255026a27595d0a04e154bc4a9c609c8422b012fc13cb1ae4de2417afea36d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/comparator-setup.log",
+      "sha256": "bea658f19aea48f8965a3d6525da1300e599d9a3f0a05b992071c97bcaffd6df"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/comparator-tools.json",
+      "sha256": "d541ac407f7aa8679c8ba23dd4df72ac363730bbb67e45bd7959ec752e6b0c53"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/comparator.log",
+      "sha256": "a85a3d694de510ee71cdda36439590bfc17de762eec596a3696eb2646000cade"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/contract.log",
+      "sha256": "5f1312e29031208a58380a5d61dffc48e13b45c57adb5001cf0646e837b80df8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/corpus-guard.log",
+      "sha256": "3dba4d8ae8e2ac4caa5df8348708c89dd890a5d38c6b258cba2180fe1104133c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/index_select_cat-Real-comparator.log",
+      "sha256": "c6898633bad476e5376f6c0e58226e256b3ac3b1ee67ea40c94a44ff4fac145a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/index_select_cat-comparator.log",
+      "sha256": "6877f30d56ae4418b71e7260129c62c483cce1aa4e0f610034265ed580ed96bd"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/index_select_cat-contract.log",
+      "sha256": "b24f73420f5f4fb7d9500efdc491c5ce4c3b2d74d62d12384ea488526488484c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/integration.log.gz",
+      "sha256": "d315e4ed40dc79c1f10bd99028d144de157fb0c2e20a9b3eb2d84a6942429aeb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/joint.lean",
+      "sha256": "c2bf0358cad4f9a64bed1a4812e57b618aea4f639a2721485de40437573cb0e1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/modules.json",
+      "sha256": "8487588e9e8e532ef132a219818e38fdda4d15b77c62a6600d2dd97721f0fb58"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/pairs.json",
+      "sha256": "3c9e57392c2a67d8bb9ff79ec507e1969e598d35ba02d21d86e5c74f3d50a9d6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/previous-selected-reviews.json.gz",
+      "sha256": "8553cc9556c8f6b9c509f6923eeebafab924cb2c06d0ab9fea9105eeaf486067"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/prior-closure.json",
+      "sha256": "076cec11fdd0cab69d841a01d14f20a4641f99b7c01cde8c20bb75dbee205b1c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/python-tests.log",
+      "sha256": "a8b9f2db4f764da5b6b4881a4c0b6fbda40c19a966f8311149015feca43c04a7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/source-closure.json",
+      "sha256": "8b5e1d28f71426ea0720c3f22bc398def2118356d16e97df976c236b55f3269f"
+    }
+  ]
+}

@@ -76,7 +76,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/adam_update_triton.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+        "current_body_source_review": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
         "current_native_example_review": "Historical regression description retained by the previous checkpoint; the current selected task is now migrated and verified in current_body_source_review."
       },
       "fp_program_pair": {
@@ -182,20 +182,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/review.json",
-        "sha256": "c5d5190f7f71f5f95866f918ec1ad92b7d57f65363928b2215a91511662fd8c2"
+        "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/review.json",
+        "sha256": "cc0c10e36cea7b70f84c7391b8908d8303c6cf1ccb260675a2e4624c9c7a3c6a"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "scope": "Complete combined public/deep source replay, every new task helper, joint import and independent cold Git checkout.",
+        "scope": "Complete combined public/deep local replay and joint import. Independent empty-checkout replay of every changed task helper and its dependencies, plus exact unchanged source closure of the preceding independent checkpoint.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/integration.log.gz",
-            "sha256": "50d6f719795b6d362d751a95bac74f7afe0e58dc1bc406a015ea4fdb485f12ae"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/integration.log.gz",
+            "sha256": "d315e4ed40dc79c1f10bd99028d144de157fb0c2e20a9b3eb2d84a6942429aeb"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/clean-build.log.gz",
-            "sha256": "a809841cedb647cb163ab3b89315d63e6783e7a3c9804581629fdacd3afba2dc"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/clean-build.log.gz",
+            "sha256": "631f8b3ecfefd90fe67eb67a937697da0c37d745939ae049fd8c59a602bb00ad"
           }
         ],
         "limits": [
@@ -340,7 +340,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/add_example.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+        "current_body_source_review": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
         "current_native_example_review": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
       },
       "fp_program_pair": {
@@ -443,20 +443,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/review.json",
-        "sha256": "c5d5190f7f71f5f95866f918ec1ad92b7d57f65363928b2215a91511662fd8c2"
+        "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/review.json",
+        "sha256": "cc0c10e36cea7b70f84c7391b8908d8303c6cf1ccb260675a2e4624c9c7a3c6a"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "scope": "Complete combined public/deep source replay, every new task helper, joint import and independent cold Git checkout.",
+        "scope": "Complete combined public/deep local replay and joint import. Independent empty-checkout replay of every changed task helper and its dependencies, plus exact unchanged source closure of the preceding independent checkpoint.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/integration.log.gz",
-            "sha256": "50d6f719795b6d362d751a95bac74f7afe0e58dc1bc406a015ea4fdb485f12ae"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/integration.log.gz",
+            "sha256": "d315e4ed40dc79c1f10bd99028d144de157fb0c2e20a9b3eb2d84a6942429aeb"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/clean-build.log.gz",
-            "sha256": "a809841cedb647cb163ab3b89315d63e6783e7a3c9804581629fdacd3afba2dc"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/clean-build.log.gz",
+            "sha256": "631f8b3ecfefd90fe67eb67a937697da0c37d745939ae049fd8c59a602bb00ad"
           }
         ],
         "limits": [
@@ -600,7 +600,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/add_value.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+        "current_body_source_review": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
         "current_native_example_review": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
       },
       "fp_program_pair": {
@@ -703,20 +703,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/review.json",
-        "sha256": "c5d5190f7f71f5f95866f918ec1ad92b7d57f65363928b2215a91511662fd8c2"
+        "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/review.json",
+        "sha256": "cc0c10e36cea7b70f84c7391b8908d8303c6cf1ccb260675a2e4624c9c7a3c6a"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "scope": "Complete combined public/deep source replay, every new task helper, joint import and independent cold Git checkout.",
+        "scope": "Complete combined public/deep local replay and joint import. Independent empty-checkout replay of every changed task helper and its dependencies, plus exact unchanged source closure of the preceding independent checkpoint.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/integration.log.gz",
-            "sha256": "50d6f719795b6d362d751a95bac74f7afe0e58dc1bc406a015ea4fdb485f12ae"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/integration.log.gz",
+            "sha256": "d315e4ed40dc79c1f10bd99028d144de157fb0c2e20a9b3eb2d84a6942429aeb"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/clean-build.log.gz",
-            "sha256": "a809841cedb647cb163ab3b89315d63e6783e7a3c9804581629fdacd3afba2dc"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/clean-build.log.gz",
+            "sha256": "631f8b3ecfefd90fe67eb67a937697da0c37d745939ae049fd8c59a602bb00ad"
           }
         ],
         "limits": [
@@ -9565,7 +9565,7 @@
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/cache_transform_triton.json",
         "statement_scope_unchanged": true,
         "pasted_body_preservation": "Pasted body uses the external signature; both complete previous/new programs are definitionally equal, including ports and statements. Actual execution/safety proofs unfold the current body.",
-        "current_body_source_review": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+        "current_body_source_review": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
         "current_native_example_review": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
       },
       "fp_program_pair": {
@@ -9728,20 +9728,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/review.json",
-        "sha256": "c5d5190f7f71f5f95866f918ec1ad92b7d57f65363928b2215a91511662fd8c2"
+        "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/review.json",
+        "sha256": "cc0c10e36cea7b70f84c7391b8908d8303c6cf1ccb260675a2e4624c9c7a3c6a"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "scope": "Complete combined public/deep source replay, every new task helper, joint import and independent cold Git checkout.",
+        "scope": "Complete combined public/deep local replay and joint import. Independent empty-checkout replay of every changed task helper and its dependencies, plus exact unchanged source closure of the preceding independent checkpoint.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/integration.log.gz",
-            "sha256": "50d6f719795b6d362d751a95bac74f7afe0e58dc1bc406a015ea4fdb485f12ae"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/integration.log.gz",
+            "sha256": "d315e4ed40dc79c1f10bd99028d144de157fb0c2e20a9b3eb2d84a6942429aeb"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/clean-build.log.gz",
-            "sha256": "a809841cedb647cb163ab3b89315d63e6783e7a3c9804581629fdacd3afba2dc"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/clean-build.log.gz",
+            "sha256": "631f8b3ecfefd90fe67eb67a937697da0c37d745939ae049fd8c59a602bb00ad"
           }
         ],
         "limits": [
@@ -18537,7 +18537,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/cosine_compute.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+        "current_body_source_review": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
         "current_native_example_review": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
       },
       "fp_program_pair": {
@@ -18724,20 +18724,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/review.json",
-        "sha256": "c5d5190f7f71f5f95866f918ec1ad92b7d57f65363928b2215a91511662fd8c2"
+        "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/review.json",
+        "sha256": "cc0c10e36cea7b70f84c7391b8908d8303c6cf1ccb260675a2e4624c9c7a3c6a"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "scope": "Complete combined public/deep source replay, every new task helper, joint import and independent cold Git checkout.",
+        "scope": "Complete combined public/deep local replay and joint import. Independent empty-checkout replay of every changed task helper and its dependencies, plus exact unchanged source closure of the preceding independent checkpoint.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/integration.log.gz",
-            "sha256": "50d6f719795b6d362d751a95bac74f7afe0e58dc1bc406a015ea4fdb485f12ae"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/integration.log.gz",
+            "sha256": "d315e4ed40dc79c1f10bd99028d144de157fb0c2e20a9b3eb2d84a6942429aeb"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/clean-build.log.gz",
-            "sha256": "a809841cedb647cb163ab3b89315d63e6783e7a3c9804581629fdacd3afba2dc"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/clean-build.log.gz",
+            "sha256": "631f8b3ecfefd90fe67eb67a937697da0c37d745939ae049fd8c59a602bb00ad"
           }
         ],
         "limits": [
@@ -23047,7 +23047,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/dequantize_matmul.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
+        "current_body_source_review": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks."
       },
       "fp_program_pair": {
         "fp_pairs": [
@@ -23368,20 +23368,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/review.json",
-        "sha256": "c5d5190f7f71f5f95866f918ec1ad92b7d57f65363928b2215a91511662fd8c2"
+        "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/review.json",
+        "sha256": "cc0c10e36cea7b70f84c7391b8908d8303c6cf1ccb260675a2e4624c9c7a3c6a"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "scope": "Complete combined public/deep source replay, every new task helper, joint import and independent cold Git checkout.",
+        "scope": "Complete combined public/deep local replay and joint import. Independent empty-checkout replay of every changed task helper and its dependencies, plus exact unchanged source closure of the preceding independent checkpoint.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/integration.log.gz",
-            "sha256": "50d6f719795b6d362d751a95bac74f7afe0e58dc1bc406a015ea4fdb485f12ae"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/integration.log.gz",
+            "sha256": "d315e4ed40dc79c1f10bd99028d144de157fb0c2e20a9b3eb2d84a6942429aeb"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/clean-build.log.gz",
-            "sha256": "a809841cedb647cb163ab3b89315d63e6783e7a3c9804581629fdacd3afba2dc"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/clean-build.log.gz",
+            "sha256": "631f8b3ecfefd90fe67eb67a937697da0c37d745939ae049fd8c59a602bb00ad"
           }
         ],
         "limits": [
@@ -23511,7 +23511,7 @@
           "scope": "The existing ProfiledMemory program-pair judgment is preserved. It does not add hardware/ABI/compiler refinement or a numerical experiment."
         },
         "logical_interface": "Complete input/output equivalence and judgment stay in IO.lean/LogicalReader; the public formulas and original scopes are retained.",
-        "current_body_source_review": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+        "current_body_source_review": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
         "current_native_example_review": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
       },
       "fp_program_pair": {
@@ -23744,20 +23744,20 @@
         "method": "Current source closure and direct body/signature/proof review."
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/review.json",
-        "sha256": "c5d5190f7f71f5f95866f918ec1ad92b7d57f65363928b2215a91511662fd8c2"
+        "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/review.json",
+        "sha256": "cc0c10e36cea7b70f84c7391b8908d8303c6cf1ccb260675a2e4624c9c7a3c6a"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "scope": "Complete combined public/deep source replay, every new task helper, joint import and independent cold Git checkout.",
+        "scope": "Complete combined public/deep local replay and joint import. Independent empty-checkout replay of every changed task helper and its dependencies, plus exact unchanged source closure of the preceding independent checkpoint.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/integration.log.gz",
-            "sha256": "50d6f719795b6d362d751a95bac74f7afe0e58dc1bc406a015ea4fdb485f12ae"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/integration.log.gz",
+            "sha256": "d315e4ed40dc79c1f10bd99028d144de157fb0c2e20a9b3eb2d84a6942429aeb"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/clean-build.log.gz",
-            "sha256": "a809841cedb647cb163ab3b89315d63e6783e7a3c9804581629fdacd3afba2dc"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/clean-build.log.gz",
+            "sha256": "631f8b3ecfefd90fe67eb67a937697da0c37d745939ae049fd8c59a602bb00ad"
           }
         ],
         "limits": [
@@ -23887,7 +23887,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/destindex_copy.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
+        "current_body_source_review": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks."
       },
       "fp_program_pair": {
         "fp_pairs": [
@@ -24083,20 +24083,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/review.json",
-        "sha256": "c5d5190f7f71f5f95866f918ec1ad92b7d57f65363928b2215a91511662fd8c2"
+        "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/review.json",
+        "sha256": "cc0c10e36cea7b70f84c7391b8908d8303c6cf1ccb260675a2e4624c9c7a3c6a"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "scope": "Complete combined public/deep source replay, every new task helper, joint import and independent cold Git checkout.",
+        "scope": "Complete combined public/deep local replay and joint import. Independent empty-checkout replay of every changed task helper and its dependencies, plus exact unchanged source closure of the preceding independent checkpoint.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/integration.log.gz",
-            "sha256": "50d6f719795b6d362d751a95bac74f7afe0e58dc1bc406a015ea4fdb485f12ae"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/integration.log.gz",
+            "sha256": "d315e4ed40dc79c1f10bd99028d144de157fb0c2e20a9b3eb2d84a6942429aeb"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/clean-build.log.gz",
-            "sha256": "a809841cedb647cb163ab3b89315d63e6783e7a3c9804581629fdacd3afba2dc"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/clean-build.log.gz",
+            "sha256": "631f8b3ecfefd90fe67eb67a937697da0c37d745939ae049fd8c59a602bb00ad"
           }
         ],
         "limits": [
@@ -24226,7 +24226,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/destindex_copy_kv1.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
+        "current_body_source_review": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks."
       },
       "fp_program_pair": {
         "fp_pairs": [
@@ -24454,20 +24454,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/review.json",
-        "sha256": "c5d5190f7f71f5f95866f918ec1ad92b7d57f65363928b2215a91511662fd8c2"
+        "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/review.json",
+        "sha256": "cc0c10e36cea7b70f84c7391b8908d8303c6cf1ccb260675a2e4624c9c7a3c6a"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "scope": "Complete combined public/deep source replay, every new task helper, joint import and independent cold Git checkout.",
+        "scope": "Complete combined public/deep local replay and joint import. Independent empty-checkout replay of every changed task helper and its dependencies, plus exact unchanged source closure of the preceding independent checkpoint.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/integration.log.gz",
-            "sha256": "50d6f719795b6d362d751a95bac74f7afe0e58dc1bc406a015ea4fdb485f12ae"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/integration.log.gz",
+            "sha256": "d315e4ed40dc79c1f10bd99028d144de157fb0c2e20a9b3eb2d84a6942429aeb"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/clean-build.log.gz",
-            "sha256": "a809841cedb647cb163ab3b89315d63e6783e7a3c9804581629fdacd3afba2dc"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/clean-build.log.gz",
+            "sha256": "631f8b3ecfefd90fe67eb67a937697da0c37d745939ae049fd8c59a602bb00ad"
           }
         ],
         "limits": [
@@ -24598,7 +24598,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/destindex_copy_kv2.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
+        "current_body_source_review": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks."
       },
       "fp_program_pair": {
         "fp_pairs": [
@@ -24842,20 +24842,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/review.json",
-        "sha256": "c5d5190f7f71f5f95866f918ec1ad92b7d57f65363928b2215a91511662fd8c2"
+        "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/review.json",
+        "sha256": "cc0c10e36cea7b70f84c7391b8908d8303c6cf1ccb260675a2e4624c9c7a3c6a"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "scope": "Complete combined public/deep source replay, every new task helper, joint import and independent cold Git checkout.",
+        "scope": "Complete combined public/deep local replay and joint import. Independent empty-checkout replay of every changed task helper and its dependencies, plus exact unchanged source closure of the preceding independent checkpoint.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/integration.log.gz",
-            "sha256": "50d6f719795b6d362d751a95bac74f7afe0e58dc1bc406a015ea4fdb485f12ae"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/integration.log.gz",
+            "sha256": "d315e4ed40dc79c1f10bd99028d144de157fb0c2e20a9b3eb2d84a6942429aeb"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/clean-build.log.gz",
-            "sha256": "a809841cedb647cb163ab3b89315d63e6783e7a3c9804581629fdacd3afba2dc"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/clean-build.log.gz",
+            "sha256": "631f8b3ecfefd90fe67eb67a937697da0c37d745939ae049fd8c59a602bb00ad"
           }
         ],
         "limits": [
@@ -26347,7 +26347,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/f8_conversion_utils.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
+        "current_body_source_review": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks."
       },
       "fp_program_pair": {
         "actual_pairs": [
@@ -26644,20 +26644,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/review.json",
-        "sha256": "c5d5190f7f71f5f95866f918ec1ad92b7d57f65363928b2215a91511662fd8c2"
+        "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/review.json",
+        "sha256": "cc0c10e36cea7b70f84c7391b8908d8303c6cf1ccb260675a2e4624c9c7a3c6a"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "scope": "Complete combined public/deep source replay, every new task helper, joint import and independent cold Git checkout.",
+        "scope": "Complete combined public/deep local replay and joint import. Independent empty-checkout replay of every changed task helper and its dependencies, plus exact unchanged source closure of the preceding independent checkpoint.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/integration.log.gz",
-            "sha256": "50d6f719795b6d362d751a95bac74f7afe0e58dc1bc406a015ea4fdb485f12ae"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/integration.log.gz",
+            "sha256": "d315e4ed40dc79c1f10bd99028d144de157fb0c2e20a9b3eb2d84a6942429aeb"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/clean-build.log.gz",
-            "sha256": "a809841cedb647cb163ab3b89315d63e6783e7a3c9804581629fdacd3afba2dc"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/clean-build.log.gz",
+            "sha256": "631f8b3ecfefd90fe67eb67a937697da0c37d745939ae049fd8c59a602bb00ad"
           }
         ],
         "limits": [
@@ -29140,7 +29140,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/fast_rope_embedding.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
+        "current_body_source_review": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks."
       },
       "fp_program_pair": {
         "actual_pairs": [
@@ -29396,20 +29396,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/review.json",
-        "sha256": "c5d5190f7f71f5f95866f918ec1ad92b7d57f65363928b2215a91511662fd8c2"
+        "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/review.json",
+        "sha256": "cc0c10e36cea7b70f84c7391b8908d8303c6cf1ccb260675a2e4624c9c7a3c6a"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "scope": "Complete combined public/deep source replay, every new task helper, joint import and independent cold Git checkout.",
+        "scope": "Complete combined public/deep local replay and joint import. Independent empty-checkout replay of every changed task helper and its dependencies, plus exact unchanged source closure of the preceding independent checkpoint.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/integration.log.gz",
-            "sha256": "50d6f719795b6d362d751a95bac74f7afe0e58dc1bc406a015ea4fdb485f12ae"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/integration.log.gz",
+            "sha256": "d315e4ed40dc79c1f10bd99028d144de157fb0c2e20a9b3eb2d84a6942429aeb"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/clean-build.log.gz",
-            "sha256": "a809841cedb647cb163ab3b89315d63e6783e7a3c9804581629fdacd3afba2dc"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/clean-build.log.gz",
+            "sha256": "631f8b3ecfefd90fe67eb67a937697da0c37d745939ae049fd8c59a602bb00ad"
           }
         ],
         "limits": [
@@ -36818,7 +36818,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/index_select_bwd.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+        "current_body_source_review": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
         "current_native_example_review": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
       },
       "fp_program_pair": {
@@ -37022,20 +37022,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/review.json",
-        "sha256": "c5d5190f7f71f5f95866f918ec1ad92b7d57f65363928b2215a91511662fd8c2"
+        "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/review.json",
+        "sha256": "cc0c10e36cea7b70f84c7391b8908d8303c6cf1ccb260675a2e4624c9c7a3c6a"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "scope": "Complete combined public/deep source replay, every new task helper, joint import and independent cold Git checkout.",
+        "scope": "Complete combined public/deep local replay and joint import. Independent empty-checkout replay of every changed task helper and its dependencies, plus exact unchanged source closure of the preceding independent checkpoint.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/integration.log.gz",
-            "sha256": "50d6f719795b6d362d751a95bac74f7afe0e58dc1bc406a015ea4fdb485f12ae"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/integration.log.gz",
+            "sha256": "d315e4ed40dc79c1f10bd99028d144de157fb0c2e20a9b3eb2d84a6942429aeb"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/clean-build.log.gz",
-            "sha256": "a809841cedb647cb163ab3b89315d63e6783e7a3c9804581629fdacd3afba2dc"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/clean-build.log.gz",
+            "sha256": "631f8b3ecfefd90fe67eb67a937697da0c37d745939ae049fd8c59a602bb00ad"
           }
         ],
         "limits": [
@@ -37203,7 +37203,8 @@
           "full_judgment_preserved": "Existing core IO and moved LogicalIO/LogicalProgramIO/LogicalDomainIO bodies are byte-identical; complete Implements/Observes equivalence and execution/safety/frame proofs remain in Proofs. Existing public theorem/formula/premise/FP-pair/numerical-domain source bodies are unchanged."
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/index_select_cat.json",
-        "statement_scope_unchanged": true
+        "statement_scope_unchanged": true,
+        "current_body_source_review": "The two selected original and already-existing Python candidate bodies are unchanged and pasted verbatim, retaining every pid/arange/row-load signed64 cast, actual INT64 metadata, two-dimensional masks, all four runtime strides/counts, both constexpr tiles, signed full source-pointer sums and exact store. No new Python source or unrelated optimization. Prove complete old/new Option.map memory equality for each original/candidate under arbitrary floating primitives, layouts and initial states, preserving success/failure and every cell despite internal index register representation changes. Reprove the actual source pair complete-state execution equality and empty-rule FP equivalence with Int multiplication commutation, the exact raw copy backend execution, independent logical Real target, metadata/source/output access safety and complete exterior frame. Normalize actual signed mask/address casts to the unchanged natural logical coordinates with exact Mathlib equalities. All old word/byte, launch/grid, host and actual-Tensor statements and input domains replay. No numerical law, source cast omission, added premise or weakened geometry. No shared Lean source changed relative to the previously independently checked checkpoint."
       },
       "fp_program_pair": {
         "fp_actual_pair": "FPEquiv.original kernel versus indexCommutedKernel; only pid0*BI is changed to BI*pid0. All FP32 payload and int64 index source operations, masks and stores are retained.",
@@ -37230,11 +37231,11 @@
         "bench/repairs/tritonbench_g/index_select_cat/Correct.lean": "b1911a646eee692943bd23e10e31cb634da199d5e167596119b9b0d99354a97d",
         "bench/repairs/tritonbench_g/index_select_cat/FPEquiv.lean": "edcd5f24c2fb315d6d795f752dcadab2aa42e54a4a5e7fc786862e79e6410c25",
         "bench/repairs/tritonbench_g/index_select_cat/IO.lean": "d2356cc9fb525bf13fb843d4867e41149fd463f337f629f835e3823200cac8ea",
-        "bench/repairs/tritonbench_g/index_select_cat/Kernels.lean": "16739bb859895dae644c20b1285727c700e0441c6ca6b7e7ac588e48661d3e80",
+        "bench/repairs/tritonbench_g/index_select_cat/Kernels.lean": "ed80910fda5d194853f6d73e8fea83bad670a59e648d15997a5a5a94318535b2",
         "bench/repairs/tritonbench_g/index_select_cat/Proofs/GatherFormula.lean": "4b4b4f37580600f31e56f6bb0a0013f71a872ed71b71ec1b8aef580785d0c9c0",
         "bench/repairs/tritonbench_g/index_select_cat/Proofs/IOCorrect.lean": "79604d92a0750cf947a21feec2cc9e5cb8a79ed05423ac2e13c4308201da6770",
         "bench/repairs/tritonbench_g/index_select_cat/Proofs/LogicalCoordinates.lean": "f958891232f4929bf9c27ca517245974bf691a9d743c67ff8075ab1b954e3bda",
-        "bench/repairs/tritonbench_g/index_select_cat/Proofs/Rewrite.lean": "ebfc9636c8a665466b6084a6a2382c53600412ca106561edf57e9fdfa4d0cdfd",
+        "bench/repairs/tritonbench_g/index_select_cat/Proofs/Rewrite.lean": "63ff8c1a9bb85504cc0f10b5dedce44409a231d9a62ccf4948f055dc2b513af2",
         "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
         "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
         "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8",
@@ -37245,7 +37246,7 @@
         "bench/repairs/tritonbench_g/index_select_cat/Proofs/Host.lean": "5728788cd9ae0641200ba6690b0c98a372e7d86a398b697a2e9306394e5deca1",
         "bench/repairs/tritonbench_g/index_select_cat/Proofs/Kernel.lean": "472e61e3830118aa4da764bfafca3b0caeacaffca034c99bf69bfa6ad2624175",
         "bench/repairs/tritonbench_g/index_select_cat/Proofs/KernelNativeResults.lean": "d52b9741d86405ca01e12ec336c87a43d197f9cd007f75f44c25fe80321ef62c",
-        "bench/repairs/tritonbench_g/index_select_cat/Proofs/KernelSafety.lean": "49db08d15bc02d629b442562f50c484c58d7c3a71f0c22579e853c891787a730",
+        "bench/repairs/tritonbench_g/index_select_cat/Proofs/KernelSafety.lean": "a7e5de30b42ded6d649ee0eeae01469b0db8b42379151fa5c2ede45184df7b55",
         "bench/repairs/tritonbench_g/index_select_cat/Proofs/Lift.lean": "dbbebf90921bea029d92254b757e3ff0c63f9cb68c2671aa71b5b5800060b974",
         "bench/repairs/tritonbench_g/index_select_cat/Proofs/LogicalIO.lean": "cf906cb6e2f2901ffbff67bc079c8245f6b7596e2a5fbcc1780c7e06a88a3e8c",
         "bench/repairs/tritonbench_g/index_select_cat/Proofs/Native.lean": "530ec4369b3e8e0aaa44932dd6a599e171650625da353b312d586fb073a6a8e5",
@@ -37253,7 +37254,10 @@
         "bench/repairs/tritonbench_g/index_select_cat/Proofs/Program.lean": "e6b3730ffa44906d4b6c79576a7725cc48c33725023ea90dd4c97402e6959bae",
         "bench/repairs/tritonbench_g/index_select_cat/Proofs/RawKernel.lean": "1f5b33f9f8049b3245e4865f64ce69ba9ca68d8c00522c6a4169d470e9ae1be6",
         "bench/repairs/tritonbench_g/index_select_cat/Proofs/Scatter.lean": "768d8820e5a71d1ff293cbf3844ecf44b358e34f08a1ca9d9167bc488c279675",
-        "bench/repairs/tritonbench_g/index_select_cat/Proofs/TypedGather.lean": "6c14a7413f5feb889dd2fcb07df80c21a1dbd33fce8f05ba17881119b9687f1c"
+        "bench/repairs/tritonbench_g/index_select_cat/Proofs/TypedGather.lean": "cbd97cf7343327ab57ebd4e6350f18846b22162283f7b007b01846f23b5224aa",
+        "bench/repairs/tritonbench_g/index_select_cat/Proofs/SourcePreservation.lean": "39bbdc3bc265e0cb4b5863b88a72f5c6603e6028f52649d56d55a402a035a6a8",
+        "bench/repairs/tritonbench_g/index_select_cat/jit-correspondence.json": "dacf82bfe217c2855b4a2c94ef9c45b38bec26e80c2a42ae048cd1dfbce5e555",
+        "bench/repairs/tritonbench_g/index_select_cat/Proofs/LegacyPastedSurface.lean": "e5badd11d0a199547916e389c689d0203a97bc3bd27ae8d3413b74a4c409ecf2"
       },
       "source_pin_provenance": {
         "bench/repairs/tritonbench_g/index_select_cat/Contract.lean": {
@@ -37402,43 +37406,27 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/index_select_cat.json",
-        "sha256": "ec97d66953313a3df602206de2cf852945a7e09b0c4fdad04330664a30f6f9bf",
-        "task": "index_select_cat"
+        "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/review.json",
+        "sha256": "cc0c10e36cea7b70f84c7391b8908d8303c6cf1ccb260675a2e4624c9c7a3c6a"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "limits": [
-          "The official comparator is unavailable; no comparator PASS is claimed.",
-          "External pinned Lean/Mathlib artifacts are reused.",
-          "No new GPU or numerical experiment. The existing matmul_leakyrelu numerical deferral remains.",
-          "Historical cache/tmp evidence bytes were not recovered. Current build and axiom checks replace the missing proof receipts, not the historical hashes or independent-review claim.",
-          "Seven optional historical KV ABI/raw/host/Tensor/backing modules remain unrecovered and outside the selected main source scope."
-        ],
+        "scope": "Complete combined public/deep local replay and joint import. Independent empty-checkout replay of every changed task helper and its dependencies, plus exact unchanged source closure of the preceding independent checkpoint.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/selected-build.json",
-            "sha256": "924f91ab59eb29597e96e7fc7a2c001bce1517ca9b87b27dddf66fd1cd2c843d"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/integration.log.gz",
+            "sha256": "d315e4ed40dc79c1f10bd99028d144de157fb0c2e20a9b3eb2d84a6942429aeb"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/index_select_cat.lean",
-            "sha256": "6da7d4822075893dfb3ef7d7bd603eafe5a6e72fea986060b6c1aa06ab951a8e"
-          },
-          {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/index_select_cat.log.gz",
-            "sha256": "3838d2810fd20e20d0b6b74d9728b8118e384a0b6257a5b32e1e9372ae04812b"
-          },
-          {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/review.json",
-            "sha256": "ee91221d2a053fc635b53f67a17c35b9789058bfe5967a3f354f339fe4f0ef9d"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/clean-build.log.gz",
+            "sha256": "631f8b3ecfefd90fe67eb67a937697da0c37d745939ae049fd8c59a602bb00ad"
           }
         ],
-        "joint_import_exit_code": 0,
-        "headline_count": 2,
-        "previous_validation": {
-          "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/superseded-proof-evidence.json.gz",
-          "sha256": "707ace709b2347ce26ab517cb2e4dbbfaa859eedf1634743b30f2da77cfb38e4"
-        }
+        "limits": [
+          "Official comparator tools built but required host isolation is unavailable; actual failure retained.",
+          "One demonstrated pre-existing numerical receipt hash failure; no GPU experiments.",
+          "Task body corpus incomplete; merge awaits human review."
+        ]
       },
       "field_provenance": {
         "mathematical_target": [
@@ -41733,7 +41721,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/kcache_copy_triton.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
+        "current_body_source_review": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks."
       },
       "fp_program_pair": {
         "actual_pair": [
@@ -41950,20 +41938,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/review.json",
-        "sha256": "c5d5190f7f71f5f95866f918ec1ad92b7d57f65363928b2215a91511662fd8c2"
+        "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/review.json",
+        "sha256": "cc0c10e36cea7b70f84c7391b8908d8303c6cf1ccb260675a2e4624c9c7a3c6a"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "scope": "Complete combined public/deep source replay, every new task helper, joint import and independent cold Git checkout.",
+        "scope": "Complete combined public/deep local replay and joint import. Independent empty-checkout replay of every changed task helper and its dependencies, plus exact unchanged source closure of the preceding independent checkpoint.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/integration.log.gz",
-            "sha256": "50d6f719795b6d362d751a95bac74f7afe0e58dc1bc406a015ea4fdb485f12ae"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/integration.log.gz",
+            "sha256": "d315e4ed40dc79c1f10bd99028d144de157fb0c2e20a9b3eb2d84a6942429aeb"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/clean-build.log.gz",
-            "sha256": "a809841cedb647cb163ab3b89315d63e6783e7a3c9804581629fdacd3afba2dc"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/clean-build.log.gz",
+            "sha256": "631f8b3ecfefd90fe67eb67a937697da0c37d745939ae049fd8c59a602bb00ad"
           }
         ],
         "limits": [
@@ -42078,7 +42066,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/kldiv_compute.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+        "current_body_source_review": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
         "current_native_example_review": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
       },
       "fp_program_pair": {
@@ -42405,20 +42393,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/review.json",
-        "sha256": "c5d5190f7f71f5f95866f918ec1ad92b7d57f65363928b2215a91511662fd8c2"
+        "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/review.json",
+        "sha256": "cc0c10e36cea7b70f84c7391b8908d8303c6cf1ccb260675a2e4624c9c7a3c6a"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "scope": "Complete combined public/deep source replay, every new task helper, joint import and independent cold Git checkout.",
+        "scope": "Complete combined public/deep local replay and joint import. Independent empty-checkout replay of every changed task helper and its dependencies, plus exact unchanged source closure of the preceding independent checkpoint.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/integration.log.gz",
-            "sha256": "50d6f719795b6d362d751a95bac74f7afe0e58dc1bc406a015ea4fdb485f12ae"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/integration.log.gz",
+            "sha256": "d315e4ed40dc79c1f10bd99028d144de157fb0c2e20a9b3eb2d84a6942429aeb"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/clean-build.log.gz",
-            "sha256": "a809841cedb647cb163ab3b89315d63e6783e7a3c9804581629fdacd3afba2dc"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/clean-build.log.gz",
+            "sha256": "631f8b3ecfefd90fe67eb67a937697da0c37d745939ae049fd8c59a602bb00ad"
           }
         ],
         "limits": [
@@ -43260,7 +43248,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/kldiv_triton.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
+        "current_body_source_review": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks."
       },
       "fp_program_pair": {
         "actual_pair": [
@@ -43724,20 +43712,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/review.json",
-        "sha256": "c5d5190f7f71f5f95866f918ec1ad92b7d57f65363928b2215a91511662fd8c2"
+        "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/review.json",
+        "sha256": "cc0c10e36cea7b70f84c7391b8908d8303c6cf1ccb260675a2e4624c9c7a3c6a"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "scope": "Complete combined public/deep source replay, every new task helper, joint import and independent cold Git checkout.",
+        "scope": "Complete combined public/deep local replay and joint import. Independent empty-checkout replay of every changed task helper and its dependencies, plus exact unchanged source closure of the preceding independent checkpoint.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/integration.log.gz",
-            "sha256": "50d6f719795b6d362d751a95bac74f7afe0e58dc1bc406a015ea4fdb485f12ae"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/integration.log.gz",
+            "sha256": "d315e4ed40dc79c1f10bd99028d144de157fb0c2e20a9b3eb2d84a6942429aeb"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/clean-build.log.gz",
-            "sha256": "a809841cedb647cb163ab3b89315d63e6783e7a3c9804581629fdacd3afba2dc"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/clean-build.log.gz",
+            "sha256": "631f8b3ecfefd90fe67eb67a937697da0c37d745939ae049fd8c59a602bb00ad"
           }
         ],
         "limits": [
@@ -44317,7 +44305,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/kv_cache_copy.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "Both actual selected original and already-existing Python candidate bodies are unchanged and pasted verbatim. Retain the literal tl.static_range(HEAD_DIM // KCACHE_X), shifted tl.arange(split_x*KCACHE_X,(split_x+1)*KCACHE_X), unconditional INT32 metadata loads, signed division/remainder, all six pointers, every K/V load and both cache stores, plus terminal return. All eighteen runtime roles and two constexpr parameters stay external, including unused stride_kcd; a complete-kernel theorem proves independence for every actual unused argument. The shared frontend lowers the actual compile-time quotient and shifted span; a whole-body rfl theorem connects every original/candidate parameter family to the entire retained typed source and historical generated source. Ports explicitly state actual parameter order independently of first-load order. Recheck all split iterations, original dimensions, metadata and layout guards, both cache layouts, independent K/V strides, complete success, access safety, both output tiles and every exterior cell, retained word/byte/event/host/Tensor scopes. No new numerical law or stronger input condition."
+        "current_body_source_review": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks."
       },
       "fp_program_pair": {
         "actual_program_pairs": [
@@ -44410,20 +44398,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/review.json",
-        "sha256": "c5d5190f7f71f5f95866f918ec1ad92b7d57f65363928b2215a91511662fd8c2"
+        "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/review.json",
+        "sha256": "cc0c10e36cea7b70f84c7391b8908d8303c6cf1ccb260675a2e4624c9c7a3c6a"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "scope": "Complete combined public/deep source replay, every new task helper, joint import and independent cold Git checkout.",
+        "scope": "Complete combined public/deep local replay and joint import. Independent empty-checkout replay of every changed task helper and its dependencies, plus exact unchanged source closure of the preceding independent checkpoint.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/integration.log.gz",
-            "sha256": "50d6f719795b6d362d751a95bac74f7afe0e58dc1bc406a015ea4fdb485f12ae"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/integration.log.gz",
+            "sha256": "d315e4ed40dc79c1f10bd99028d144de157fb0c2e20a9b3eb2d84a6942429aeb"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/clean-build.log.gz",
-            "sha256": "a809841cedb647cb163ab3b89315d63e6783e7a3c9804581629fdacd3afba2dc"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/clean-build.log.gz",
+            "sha256": "631f8b3ecfefd90fe67eb67a937697da0c37d745939ae049fd8c59a602bb00ad"
           }
         ],
         "limits": [
@@ -44903,7 +44891,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/l2_norm_bwd.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
+        "current_body_source_review": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks."
       },
       "fp_program_pair": {
         "actual_program_pairs": [
@@ -44993,20 +44981,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/review.json",
-        "sha256": "c5d5190f7f71f5f95866f918ec1ad92b7d57f65363928b2215a91511662fd8c2"
+        "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/review.json",
+        "sha256": "cc0c10e36cea7b70f84c7391b8908d8303c6cf1ccb260675a2e4624c9c7a3c6a"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "scope": "Complete combined public/deep source replay, every new task helper, joint import and independent cold Git checkout.",
+        "scope": "Complete combined public/deep local replay and joint import. Independent empty-checkout replay of every changed task helper and its dependencies, plus exact unchanged source closure of the preceding independent checkpoint.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/integration.log.gz",
-            "sha256": "50d6f719795b6d362d751a95bac74f7afe0e58dc1bc406a015ea4fdb485f12ae"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/integration.log.gz",
+            "sha256": "d315e4ed40dc79c1f10bd99028d144de157fb0c2e20a9b3eb2d84a6942429aeb"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/clean-build.log.gz",
-            "sha256": "a809841cedb647cb163ab3b89315d63e6783e7a3c9804581629fdacd3afba2dc"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/clean-build.log.gz",
+            "sha256": "631f8b3ecfefd90fe67eb67a937697da0c37d745939ae049fd8c59a602bb00ad"
           }
         ],
         "limits": [
@@ -45258,7 +45246,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/l2_norm_triton1.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+        "current_body_source_review": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
         "current_native_example_review": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
       },
       "fp_program_pair": {
@@ -45364,20 +45352,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/review.json",
-        "sha256": "c5d5190f7f71f5f95866f918ec1ad92b7d57f65363928b2215a91511662fd8c2"
+        "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/review.json",
+        "sha256": "cc0c10e36cea7b70f84c7391b8908d8303c6cf1ccb260675a2e4624c9c7a3c6a"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "scope": "Complete combined public/deep source replay, every new task helper, joint import and independent cold Git checkout.",
+        "scope": "Complete combined public/deep local replay and joint import. Independent empty-checkout replay of every changed task helper and its dependencies, plus exact unchanged source closure of the preceding independent checkpoint.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/integration.log.gz",
-            "sha256": "50d6f719795b6d362d751a95bac74f7afe0e58dc1bc406a015ea4fdb485f12ae"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/integration.log.gz",
+            "sha256": "d315e4ed40dc79c1f10bd99028d144de157fb0c2e20a9b3eb2d84a6942429aeb"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/clean-build.log.gz",
-            "sha256": "a809841cedb647cb163ab3b89315d63e6783e7a3c9804581629fdacd3afba2dc"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/clean-build.log.gz",
+            "sha256": "631f8b3ecfefd90fe67eb67a937697da0c37d745939ae049fd8c59a602bb00ad"
           }
         ],
         "limits": [
@@ -45639,7 +45627,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/l2_norm_triton2.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
+        "current_body_source_review": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks."
       },
       "fp_program_pair": {
         "actual_program_pairs": [
@@ -45736,20 +45724,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/review.json",
-        "sha256": "c5d5190f7f71f5f95866f918ec1ad92b7d57f65363928b2215a91511662fd8c2"
+        "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/review.json",
+        "sha256": "cc0c10e36cea7b70f84c7391b8908d8303c6cf1ccb260675a2e4624c9c7a3c6a"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "scope": "Complete combined public/deep source replay, every new task helper, joint import and independent cold Git checkout.",
+        "scope": "Complete combined public/deep local replay and joint import. Independent empty-checkout replay of every changed task helper and its dependencies, plus exact unchanged source closure of the preceding independent checkpoint.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/integration.log.gz",
-            "sha256": "50d6f719795b6d362d751a95bac74f7afe0e58dc1bc406a015ea4fdb485f12ae"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/integration.log.gz",
+            "sha256": "d315e4ed40dc79c1f10bd99028d144de157fb0c2e20a9b3eb2d84a6942429aeb"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/clean-build.log.gz",
-            "sha256": "a809841cedb647cb163ab3b89315d63e6783e7a3c9804581629fdacd3afba2dc"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/clean-build.log.gz",
+            "sha256": "631f8b3ecfefd90fe67eb67a937697da0c37d745939ae049fd8c59a602bb00ad"
           }
         ],
         "limits": [
@@ -52315,7 +52303,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/masked_add_cuda.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
+        "current_body_source_review": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks."
       },
       "fp_program_pair": {
         "fp_pair": "KernelNativeResults.original vs commutedKernel: product is moved to the left of addition in the actual source.",
@@ -52532,20 +52520,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/review.json",
-        "sha256": "c5d5190f7f71f5f95866f918ec1ad92b7d57f65363928b2215a91511662fd8c2"
+        "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/review.json",
+        "sha256": "cc0c10e36cea7b70f84c7391b8908d8303c6cf1ccb260675a2e4624c9c7a3c6a"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "scope": "Complete combined public/deep source replay, every new task helper, joint import and independent cold Git checkout.",
+        "scope": "Complete combined public/deep local replay and joint import. Independent empty-checkout replay of every changed task helper and its dependencies, plus exact unchanged source closure of the preceding independent checkpoint.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/integration.log.gz",
-            "sha256": "50d6f719795b6d362d751a95bac74f7afe0e58dc1bc406a015ea4fdb485f12ae"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/integration.log.gz",
+            "sha256": "d315e4ed40dc79c1f10bd99028d144de157fb0c2e20a9b3eb2d84a6942429aeb"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/clean-build.log.gz",
-            "sha256": "a809841cedb647cb163ab3b89315d63e6783e7a3c9804581629fdacd3afba2dc"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/clean-build.log.gz",
+            "sha256": "631f8b3ecfefd90fe67eb67a937697da0c37d745939ae049fd8c59a602bb00ad"
           }
         ],
         "limits": [
@@ -57340,7 +57328,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/matrix_reduction.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
+        "current_body_source_review": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks."
       },
       "fp_program_pair": {
         "fp_pair": "original versus complete affineAddress source, with equal full native row-maximum graph.",
@@ -57441,20 +57429,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/review.json",
-        "sha256": "c5d5190f7f71f5f95866f918ec1ad92b7d57f65363928b2215a91511662fd8c2"
+        "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/review.json",
+        "sha256": "cc0c10e36cea7b70f84c7391b8908d8303c6cf1ccb260675a2e4624c9c7a3c6a"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "scope": "Complete combined public/deep source replay, every new task helper, joint import and independent cold Git checkout.",
+        "scope": "Complete combined public/deep local replay and joint import. Independent empty-checkout replay of every changed task helper and its dependencies, plus exact unchanged source closure of the preceding independent checkpoint.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/integration.log.gz",
-            "sha256": "50d6f719795b6d362d751a95bac74f7afe0e58dc1bc406a015ea4fdb485f12ae"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/integration.log.gz",
+            "sha256": "d315e4ed40dc79c1f10bd99028d144de157fb0c2e20a9b3eb2d84a6942429aeb"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/clean-build.log.gz",
-            "sha256": "a809841cedb647cb163ab3b89315d63e6783e7a3c9804581629fdacd3afba2dc"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/clean-build.log.gz",
+            "sha256": "631f8b3ecfefd90fe67eb67a937697da0c37d745939ae049fd8c59a602bb00ad"
           }
         ],
         "limits": [
@@ -57597,7 +57585,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/matrix_transpose.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+        "current_body_source_review": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
         "current_native_example_review": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
       },
       "fp_program_pair": {
@@ -57693,20 +57681,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/review.json",
-        "sha256": "c5d5190f7f71f5f95866f918ec1ad92b7d57f65363928b2215a91511662fd8c2"
+        "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/review.json",
+        "sha256": "cc0c10e36cea7b70f84c7391b8908d8303c6cf1ccb260675a2e4624c9c7a3c6a"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "scope": "Complete combined public/deep source replay, every new task helper, joint import and independent cold Git checkout.",
+        "scope": "Complete combined public/deep local replay and joint import. Independent empty-checkout replay of every changed task helper and its dependencies, plus exact unchanged source closure of the preceding independent checkpoint.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/integration.log.gz",
-            "sha256": "50d6f719795b6d362d751a95bac74f7afe0e58dc1bc406a015ea4fdb485f12ae"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/integration.log.gz",
+            "sha256": "d315e4ed40dc79c1f10bd99028d144de157fb0c2e20a9b3eb2d84a6942429aeb"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/clean-build.log.gz",
-            "sha256": "a809841cedb647cb163ab3b89315d63e6783e7a3c9804581629fdacd3afba2dc"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/clean-build.log.gz",
+            "sha256": "631f8b3ecfefd90fe67eb67a937697da0c37d745939ae049fd8c59a602bb00ad"
           }
         ],
         "limits": [
@@ -58454,7 +58442,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/mean_reduction.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
+        "current_body_source_review": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks."
       },
       "fp_program_pair": {
         "fp_pair": "MeanIO.original versus indexCommuted, complete actual source-grid permutations.",
@@ -58544,20 +58532,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/review.json",
-        "sha256": "c5d5190f7f71f5f95866f918ec1ad92b7d57f65363928b2215a91511662fd8c2"
+        "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/review.json",
+        "sha256": "cc0c10e36cea7b70f84c7391b8908d8303c6cf1ccb260675a2e4624c9c7a3c6a"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "scope": "Complete combined public/deep source replay, every new task helper, joint import and independent cold Git checkout.",
+        "scope": "Complete combined public/deep local replay and joint import. Independent empty-checkout replay of every changed task helper and its dependencies, plus exact unchanged source closure of the preceding independent checkpoint.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/integration.log.gz",
-            "sha256": "50d6f719795b6d362d751a95bac74f7afe0e58dc1bc406a015ea4fdb485f12ae"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/integration.log.gz",
+            "sha256": "d315e4ed40dc79c1f10bd99028d144de157fb0c2e20a9b3eb2d84a6942429aeb"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/clean-build.log.gz",
-            "sha256": "a809841cedb647cb163ab3b89315d63e6783e7a3c9804581629fdacd3afba2dc"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/clean-build.log.gz",
+            "sha256": "631f8b3ecfefd90fe67eb67a937697da0c37d745939ae049fd8c59a602bb00ad"
           }
         ],
         "limits": [
@@ -59042,7 +59030,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/mul_exponent_compensator.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
+        "current_body_source_review": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks."
       },
       "fp_program_pair": {
         "fp_pair": "original versus existing scalarLeft, complete actual masked FP32 schedules.",
@@ -59143,20 +59131,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/review.json",
-        "sha256": "c5d5190f7f71f5f95866f918ec1ad92b7d57f65363928b2215a91511662fd8c2"
+        "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/review.json",
+        "sha256": "cc0c10e36cea7b70f84c7391b8908d8303c6cf1ccb260675a2e4624c9c7a3c6a"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "scope": "Complete combined public/deep source replay, every new task helper, joint import and independent cold Git checkout.",
+        "scope": "Complete combined public/deep local replay and joint import. Independent empty-checkout replay of every changed task helper and its dependencies, plus exact unchanged source closure of the preceding independent checkpoint.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/integration.log.gz",
-            "sha256": "50d6f719795b6d362d751a95bac74f7afe0e58dc1bc406a015ea4fdb485f12ae"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/integration.log.gz",
+            "sha256": "d315e4ed40dc79c1f10bd99028d144de157fb0c2e20a9b3eb2d84a6942429aeb"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/clean-build.log.gz",
-            "sha256": "a809841cedb647cb163ab3b89315d63e6783e7a3c9804581629fdacd3afba2dc"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/clean-build.log.gz",
+            "sha256": "631f8b3ecfefd90fe67eb67a937697da0c37d745939ae049fd8c59a602bb00ad"
           }
         ],
         "limits": [
@@ -62609,7 +62597,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/quant_transpose_kernel.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
+        "current_body_source_review": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks."
       },
       "fp_program_pair": {
         "actual_pair": "IO.originalProgram versus IO.commutedProgram, changing only the integer input-row address multiplication.",
@@ -62870,20 +62858,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/review.json",
-        "sha256": "c5d5190f7f71f5f95866f918ec1ad92b7d57f65363928b2215a91511662fd8c2"
+        "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/review.json",
+        "sha256": "cc0c10e36cea7b70f84c7391b8908d8303c6cf1ccb260675a2e4624c9c7a3c6a"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "scope": "Complete combined public/deep source replay, every new task helper, joint import and independent cold Git checkout.",
+        "scope": "Complete combined public/deep local replay and joint import. Independent empty-checkout replay of every changed task helper and its dependencies, plus exact unchanged source closure of the preceding independent checkpoint.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/integration.log.gz",
-            "sha256": "50d6f719795b6d362d751a95bac74f7afe0e58dc1bc406a015ea4fdb485f12ae"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/integration.log.gz",
+            "sha256": "d315e4ed40dc79c1f10bd99028d144de157fb0c2e20a9b3eb2d84a6942429aeb"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/clean-build.log.gz",
-            "sha256": "a809841cedb647cb163ab3b89315d63e6783e7a3c9804581629fdacd3afba2dc"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/clean-build.log.gz",
+            "sha256": "631f8b3ecfefd90fe67eb67a937697da0c37d745939ae049fd8c59a602bb00ad"
           }
         ],
         "limits": [
@@ -68297,7 +68285,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/rmsnorm_fused.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+        "current_body_source_review": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
         "current_native_example_review": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
       },
       "fp_program_pair": {
@@ -68601,20 +68589,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/review.json",
-        "sha256": "c5d5190f7f71f5f95866f918ec1ad92b7d57f65363928b2215a91511662fd8c2"
+        "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/review.json",
+        "sha256": "cc0c10e36cea7b70f84c7391b8908d8303c6cf1ccb260675a2e4624c9c7a3c6a"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "scope": "Complete combined public/deep source replay, every new task helper, joint import and independent cold Git checkout.",
+        "scope": "Complete combined public/deep local replay and joint import. Independent empty-checkout replay of every changed task helper and its dependencies, plus exact unchanged source closure of the preceding independent checkpoint.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/integration.log.gz",
-            "sha256": "50d6f719795b6d362d751a95bac74f7afe0e58dc1bc406a015ea4fdb485f12ae"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/integration.log.gz",
+            "sha256": "d315e4ed40dc79c1f10bd99028d144de157fb0c2e20a9b3eb2d84a6942429aeb"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/clean-build.log.gz",
-            "sha256": "a809841cedb647cb163ab3b89315d63e6783e7a3c9804581629fdacd3afba2dc"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/clean-build.log.gz",
+            "sha256": "631f8b3ecfefd90fe67eb67a937697da0c37d745939ae049fd8c59a602bb00ad"
           }
         ],
         "limits": [
@@ -68764,7 +68752,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/rmsnorm_fused_llama.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+        "current_body_source_review": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
         "current_native_example_review": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
       },
       "fp_program_pair": {
@@ -69129,20 +69117,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/review.json",
-        "sha256": "c5d5190f7f71f5f95866f918ec1ad92b7d57f65363928b2215a91511662fd8c2"
+        "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/review.json",
+        "sha256": "cc0c10e36cea7b70f84c7391b8908d8303c6cf1ccb260675a2e4624c9c7a3c6a"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "scope": "Complete combined public/deep source replay, every new task helper, joint import and independent cold Git checkout.",
+        "scope": "Complete combined public/deep local replay and joint import. Independent empty-checkout replay of every changed task helper and its dependencies, plus exact unchanged source closure of the preceding independent checkpoint.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/integration.log.gz",
-            "sha256": "50d6f719795b6d362d751a95bac74f7afe0e58dc1bc406a015ea4fdb485f12ae"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/integration.log.gz",
+            "sha256": "d315e4ed40dc79c1f10bd99028d144de157fb0c2e20a9b3eb2d84a6942429aeb"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/clean-build.log.gz",
-            "sha256": "a809841cedb647cb163ab3b89315d63e6783e7a3c9804581629fdacd3afba2dc"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/clean-build.log.gz",
+            "sha256": "631f8b3ecfefd90fe67eb67a937697da0c37d745939ae049fd8c59a602bb00ad"
           }
         ],
         "limits": [
@@ -69296,7 +69284,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/rmsnorm_implementation.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+        "current_body_source_review": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
         "current_native_example_review": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
       },
       "fp_program_pair": {
@@ -69512,20 +69500,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/review.json",
-        "sha256": "c5d5190f7f71f5f95866f918ec1ad92b7d57f65363928b2215a91511662fd8c2"
+        "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/review.json",
+        "sha256": "cc0c10e36cea7b70f84c7391b8908d8303c6cf1ccb260675a2e4624c9c7a3c6a"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "scope": "Complete combined public/deep source replay, every new task helper, joint import and independent cold Git checkout.",
+        "scope": "Complete combined public/deep local replay and joint import. Independent empty-checkout replay of every changed task helper and its dependencies, plus exact unchanged source closure of the preceding independent checkpoint.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/integration.log.gz",
-            "sha256": "50d6f719795b6d362d751a95bac74f7afe0e58dc1bc406a015ea4fdb485f12ae"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/integration.log.gz",
+            "sha256": "d315e4ed40dc79c1f10bd99028d144de157fb0c2e20a9b3eb2d84a6942429aeb"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/clean-build.log.gz",
-            "sha256": "a809841cedb647cb163ab3b89315d63e6783e7a3c9804581629fdacd3afba2dc"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/clean-build.log.gz",
+            "sha256": "631f8b3ecfefd90fe67eb67a937697da0c37d745939ae049fd8c59a602bb00ad"
           }
         ],
         "limits": [
@@ -69676,7 +69664,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/rmsnorm_triton.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+        "current_body_source_review": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
         "current_native_example_review": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
       },
       "fp_program_pair": {
@@ -69910,20 +69898,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/review.json",
-        "sha256": "c5d5190f7f71f5f95866f918ec1ad92b7d57f65363928b2215a91511662fd8c2"
+        "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/review.json",
+        "sha256": "cc0c10e36cea7b70f84c7391b8908d8303c6cf1ccb260675a2e4624c9c7a3c6a"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "scope": "Complete combined public/deep source replay, every new task helper, joint import and independent cold Git checkout.",
+        "scope": "Complete combined public/deep local replay and joint import. Independent empty-checkout replay of every changed task helper and its dependencies, plus exact unchanged source closure of the preceding independent checkpoint.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/integration.log.gz",
-            "sha256": "50d6f719795b6d362d751a95bac74f7afe0e58dc1bc406a015ea4fdb485f12ae"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/integration.log.gz",
+            "sha256": "d315e4ed40dc79c1f10bd99028d144de157fb0c2e20a9b3eb2d84a6942429aeb"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/clean-build.log.gz",
-            "sha256": "a809841cedb647cb163ab3b89315d63e6783e7a3c9804581629fdacd3afba2dc"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/clean-build.log.gz",
+            "sha256": "631f8b3ecfefd90fe67eb67a937697da0c37d745939ae049fd8c59a602bb00ad"
           }
         ],
         "limits": [
@@ -70552,7 +70540,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/rope_embedding.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
+        "current_body_source_review": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks."
       },
       "fp_program_pair": {
         "fp_pair": "Two actual complete FP32 sources: original versus existing exact head-group-product commuted candidate, for either back flag.",
@@ -70808,20 +70796,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/review.json",
-        "sha256": "c5d5190f7f71f5f95866f918ec1ad92b7d57f65363928b2215a91511662fd8c2"
+        "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/review.json",
+        "sha256": "cc0c10e36cea7b70f84c7391b8908d8303c6cf1ccb260675a2e4624c9c7a3c6a"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "scope": "Complete combined public/deep source replay, every new task helper, joint import and independent cold Git checkout.",
+        "scope": "Complete combined public/deep local replay and joint import. Independent empty-checkout replay of every changed task helper and its dependencies, plus exact unchanged source closure of the preceding independent checkpoint.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/integration.log.gz",
-            "sha256": "50d6f719795b6d362d751a95bac74f7afe0e58dc1bc406a015ea4fdb485f12ae"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/integration.log.gz",
+            "sha256": "d315e4ed40dc79c1f10bd99028d144de157fb0c2e20a9b3eb2d84a6942429aeb"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/clean-build.log.gz",
-            "sha256": "a809841cedb647cb163ab3b89315d63e6783e7a3c9804581629fdacd3afba2dc"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/clean-build.log.gz",
+            "sha256": "631f8b3ecfefd90fe67eb67a937697da0c37d745939ae049fd8c59a602bb00ad"
           }
         ],
         "limits": [
@@ -71416,7 +71404,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/rotary_emb.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "Paste the unchanged actual _rotary_kernel body including final return, every explicit signed64 widening, integer 2 and 1 literals, runtime ROTARY_DIM/HEAD_Q/HEAD_K roles, independent sine strides, every repeated coefficient load, all head/token/pair masks and the four Q-before-K stores. Four pointer profiles, fourteen integer runtime roles and three constexpr dimensions stay outside. Newly authored index_commuted.py is explicitly only the counterpart of the existing Lean integer head-block product candidate. For both entire original and candidate programs, prove Option.map whole-memory equality to the complete retained old typed source under arbitrary floating primitives, parameters and states. This preserves failure/success and every cell, allowing the exact Nat/signed representation difference of internal index registers. Directly replay the full actual source-pair equality and safety and all independent Real, ordered native, complete input/IO/output/frame, arbitrary program and whole-grid word/byte, host and actual-Tensor results. Existing dimensions, partial-rotary factor semantics, independent coefficient extents, padded heads and empty behavior remain. No numerical rewrite or added domain premise."
+        "current_body_source_review": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks."
       },
       "fp_program_pair": {
         "original": "RotaryIO.original rest p shape pids",
@@ -71701,20 +71689,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/review.json",
-        "sha256": "c5d5190f7f71f5f95866f918ec1ad92b7d57f65363928b2215a91511662fd8c2"
+        "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/review.json",
+        "sha256": "cc0c10e36cea7b70f84c7391b8908d8303c6cf1ccb260675a2e4624c9c7a3c6a"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "scope": "Complete combined public/deep source replay, every new task helper, joint import and independent cold Git checkout.",
+        "scope": "Complete combined public/deep local replay and joint import. Independent empty-checkout replay of every changed task helper and its dependencies, plus exact unchanged source closure of the preceding independent checkpoint.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/integration.log.gz",
-            "sha256": "50d6f719795b6d362d751a95bac74f7afe0e58dc1bc406a015ea4fdb485f12ae"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/integration.log.gz",
+            "sha256": "d315e4ed40dc79c1f10bd99028d144de157fb0c2e20a9b3eb2d84a6942429aeb"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/clean-build.log.gz",
-            "sha256": "a809841cedb647cb163ab3b89315d63e6783e7a3c9804581629fdacd3afba2dc"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/clean-build.log.gz",
+            "sha256": "631f8b3ecfefd90fe67eb67a937697da0c37d745939ae049fd8c59a602bb00ad"
           }
         ],
         "limits": [
@@ -71860,7 +71848,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/rotary_emb_nopad.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "Paste both actual original Python bodies unchanged, including every explicit int64 cast, independent coefficient strides, all Q/K masks, all GQA paths, signed metadata reads, literal early head return, and cache-before-Q store order. Runtime strides/counts and all constexpr dimensions have their actual source roles outside the quote. New address_shared.py is explicitly only the Python counterpart of the pre-existing Lean Q-address CSE, not a historical original or unrelated new optimization. Connect each entire original/candidate execution separately to the retained old full source for arbitrary floating primitives, layouts and initial states: Option.map memory equality preserves success/failure and every memory cell. This is the correct observation when the frontend uses an exact nonnegative Nat index register where the old source had an Int register; do not assert false AST or transient-register equality. The early >= return is checked through its actual negated signed <= predicate. Recheck both full actual safety traces, actual original/candidate complete-state pair equality and trace equivalence, independent Real targets, existing ordered native graphs, all IO/input-domain/output/frame/schedule results, padded/empty/GQA and cache paths, raw words, byte, host and Tensor conclusions, at the entire old scope."
+        "current_body_source_review": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks."
       },
       "fp_program_pair": {
         "original": [
@@ -72193,20 +72181,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/review.json",
-        "sha256": "c5d5190f7f71f5f95866f918ec1ad92b7d57f65363928b2215a91511662fd8c2"
+        "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/review.json",
+        "sha256": "cc0c10e36cea7b70f84c7391b8908d8303c6cf1ccb260675a2e4624c9c7a3c6a"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "scope": "Complete combined public/deep source replay, every new task helper, joint import and independent cold Git checkout.",
+        "scope": "Complete combined public/deep local replay and joint import. Independent empty-checkout replay of every changed task helper and its dependencies, plus exact unchanged source closure of the preceding independent checkpoint.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/integration.log.gz",
-            "sha256": "50d6f719795b6d362d751a95bac74f7afe0e58dc1bc406a015ea4fdb485f12ae"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/integration.log.gz",
+            "sha256": "d315e4ed40dc79c1f10bd99028d144de157fb0c2e20a9b3eb2d84a6942429aeb"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/clean-build.log.gz",
-            "sha256": "a809841cedb647cb163ab3b89315d63e6783e7a3c9804581629fdacd3afba2dc"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/clean-build.log.gz",
+            "sha256": "631f8b3ecfefd90fe67eb67a937697da0c37d745939ae049fd8c59a602bb00ad"
           }
         ],
         "limits": [
@@ -75188,7 +75176,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/sin_computation.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+        "current_body_source_review": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
         "current_native_example_review": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
       },
       "fp_program_pair": {
@@ -75383,20 +75371,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/review.json",
-        "sha256": "c5d5190f7f71f5f95866f918ec1ad92b7d57f65363928b2215a91511662fd8c2"
+        "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/review.json",
+        "sha256": "cc0c10e36cea7b70f84c7391b8908d8303c6cf1ccb260675a2e4624c9c7a3c6a"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "scope": "Complete combined public/deep source replay, every new task helper, joint import and independent cold Git checkout.",
+        "scope": "Complete combined public/deep local replay and joint import. Independent empty-checkout replay of every changed task helper and its dependencies, plus exact unchanged source closure of the preceding independent checkpoint.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/integration.log.gz",
-            "sha256": "50d6f719795b6d362d751a95bac74f7afe0e58dc1bc406a015ea4fdb485f12ae"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/integration.log.gz",
+            "sha256": "d315e4ed40dc79c1f10bd99028d144de157fb0c2e20a9b3eb2d84a6942429aeb"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/clean-build.log.gz",
-            "sha256": "a809841cedb647cb163ab3b89315d63e6783e7a3c9804581629fdacd3afba2dc"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/clean-build.log.gz",
+            "sha256": "631f8b3ecfefd90fe67eb67a937697da0c37d745939ae049fd8c59a602bb00ad"
           }
         ],
         "limits": [
@@ -75541,7 +75529,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/sin_kernel.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+        "current_body_source_review": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
         "current_native_example_review": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
       },
       "fp_program_pair": {
@@ -75736,20 +75724,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/review.json",
-        "sha256": "c5d5190f7f71f5f95866f918ec1ad92b7d57f65363928b2215a91511662fd8c2"
+        "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/review.json",
+        "sha256": "cc0c10e36cea7b70f84c7391b8908d8303c6cf1ccb260675a2e4624c9c7a3c6a"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "scope": "Complete combined public/deep source replay, every new task helper, joint import and independent cold Git checkout.",
+        "scope": "Complete combined public/deep local replay and joint import. Independent empty-checkout replay of every changed task helper and its dependencies, plus exact unchanged source closure of the preceding independent checkpoint.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/integration.log.gz",
-            "sha256": "50d6f719795b6d362d751a95bac74f7afe0e58dc1bc406a015ea4fdb485f12ae"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/integration.log.gz",
+            "sha256": "d315e4ed40dc79c1f10bd99028d144de157fb0c2e20a9b3eb2d84a6942429aeb"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/clean-build.log.gz",
-            "sha256": "a809841cedb647cb163ab3b89315d63e6783e7a3c9804581629fdacd3afba2dc"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/clean-build.log.gz",
+            "sha256": "631f8b3ecfefd90fe67eb67a937697da0c37d745939ae049fd8c59a602bb00ad"
           }
         ],
         "limits": [
@@ -77478,7 +77466,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/softmax_triton1.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
+        "current_body_source_review": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks."
       },
       "fp_program_pair": {
         "headline": "original ≡[R] reciprocal",
@@ -77716,20 +77704,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/review.json",
-        "sha256": "c5d5190f7f71f5f95866f918ec1ad92b7d57f65363928b2215a91511662fd8c2"
+        "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/review.json",
+        "sha256": "cc0c10e36cea7b70f84c7391b8908d8303c6cf1ccb260675a2e4624c9c7a3c6a"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "scope": "Complete combined public/deep source replay, every new task helper, joint import and independent cold Git checkout.",
+        "scope": "Complete combined public/deep local replay and joint import. Independent empty-checkout replay of every changed task helper and its dependencies, plus exact unchanged source closure of the preceding independent checkpoint.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/integration.log.gz",
-            "sha256": "50d6f719795b6d362d751a95bac74f7afe0e58dc1bc406a015ea4fdb485f12ae"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/integration.log.gz",
+            "sha256": "d315e4ed40dc79c1f10bd99028d144de157fb0c2e20a9b3eb2d84a6942429aeb"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/clean-build.log.gz",
-            "sha256": "a809841cedb647cb163ab3b89315d63e6783e7a3c9804581629fdacd3afba2dc"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/clean-build.log.gz",
+            "sha256": "631f8b3ecfefd90fe67eb67a937697da0c37d745939ae049fd8c59a602bb00ad"
           }
         ],
         "limits": [
@@ -77872,7 +77860,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/softmax_triton2.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
+        "current_body_source_review": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks."
       },
       "fp_program_pair": "sourceProgram versus guarded reciprocalProgram; actual complete row kernels, same source FP32 precision, masks, strides and outputs",
       "numerical_dependencies": {
@@ -77980,20 +77968,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/review.json",
-        "sha256": "c5d5190f7f71f5f95866f918ec1ad92b7d57f65363928b2215a91511662fd8c2"
+        "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/review.json",
+        "sha256": "cc0c10e36cea7b70f84c7391b8908d8303c6cf1ccb260675a2e4624c9c7a3c6a"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "scope": "Complete combined public/deep source replay, every new task helper, joint import and independent cold Git checkout.",
+        "scope": "Complete combined public/deep local replay and joint import. Independent empty-checkout replay of every changed task helper and its dependencies, plus exact unchanged source closure of the preceding independent checkpoint.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/integration.log.gz",
-            "sha256": "50d6f719795b6d362d751a95bac74f7afe0e58dc1bc406a015ea4fdb485f12ae"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/integration.log.gz",
+            "sha256": "d315e4ed40dc79c1f10bd99028d144de157fb0c2e20a9b3eb2d84a6942429aeb"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/clean-build.log.gz",
-            "sha256": "a809841cedb647cb163ab3b89315d63e6783e7a3c9804581629fdacd3afba2dc"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/clean-build.log.gz",
+            "sha256": "631f8b3ecfefd90fe67eb67a937697da0c37d745939ae049fd8c59a602bb00ad"
           }
         ],
         "limits": [
@@ -79106,7 +79094,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/square_matrix.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+        "current_body_source_review": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
         "current_native_example_review": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
       },
       "fp_program_pair": {
@@ -79264,20 +79252,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/review.json",
-        "sha256": "c5d5190f7f71f5f95866f918ec1ad92b7d57f65363928b2215a91511662fd8c2"
+        "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/review.json",
+        "sha256": "cc0c10e36cea7b70f84c7391b8908d8303c6cf1ccb260675a2e4624c9c7a3c6a"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "scope": "Complete combined public/deep source replay, every new task helper, joint import and independent cold Git checkout.",
+        "scope": "Complete combined public/deep local replay and joint import. Independent empty-checkout replay of every changed task helper and its dependencies, plus exact unchanged source closure of the preceding independent checkpoint.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/integration.log.gz",
-            "sha256": "50d6f719795b6d362d751a95bac74f7afe0e58dc1bc406a015ea4fdb485f12ae"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/integration.log.gz",
+            "sha256": "d315e4ed40dc79c1f10bd99028d144de157fb0c2e20a9b3eb2d84a6942429aeb"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/clean-build.log.gz",
-            "sha256": "a809841cedb647cb163ab3b89315d63e6783e7a3c9804581629fdacd3afba2dc"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/clean-build.log.gz",
+            "sha256": "631f8b3ecfefd90fe67eb67a937697da0c37d745939ae049fd8c59a602bb00ad"
           }
         ],
         "limits": [
@@ -80424,7 +80412,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/swiglu_fwd.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+        "current_body_source_review": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
         "current_native_example_review": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
       },
       "fp_program_pair": {
@@ -80600,20 +80588,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/review.json",
-        "sha256": "c5d5190f7f71f5f95866f918ec1ad92b7d57f65363928b2215a91511662fd8c2"
+        "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/review.json",
+        "sha256": "cc0c10e36cea7b70f84c7391b8908d8303c6cf1ccb260675a2e4624c9c7a3c6a"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "scope": "Complete combined public/deep source replay, every new task helper, joint import and independent cold Git checkout.",
+        "scope": "Complete combined public/deep local replay and joint import. Independent empty-checkout replay of every changed task helper and its dependencies, plus exact unchanged source closure of the preceding independent checkpoint.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/integration.log.gz",
-            "sha256": "50d6f719795b6d362d751a95bac74f7afe0e58dc1bc406a015ea4fdb485f12ae"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/integration.log.gz",
+            "sha256": "d315e4ed40dc79c1f10bd99028d144de157fb0c2e20a9b3eb2d84a6942429aeb"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/clean-build.log.gz",
-            "sha256": "a809841cedb647cb163ab3b89315d63e6783e7a3c9804581629fdacd3afba2dc"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/clean-build.log.gz",
+            "sha256": "631f8b3ecfefd90fe67eb67a937697da0c37d745939ae049fd8c59a602bb00ad"
           }
         ],
         "limits": [
@@ -84441,7 +84429,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/triton_mul2.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
+        "current_body_source_review": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks."
       },
       "fp_program_pair": "original vs commuted (2*x -> x*2), plus inplaceOriginal vs inplaceCommuted; all actual statements retained.",
       "numerical_dependencies": "No experiments. Shared strict FP32 mulCommute certificate in VeriTile.Software.strictFP32/ieeeValue/maxnum/documented-exp-special-values; active finite-site domain retained, inactive values arbitrary.",
@@ -84513,20 +84501,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/review.json",
-        "sha256": "c5d5190f7f71f5f95866f918ec1ad92b7d57f65363928b2215a91511662fd8c2"
+        "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/review.json",
+        "sha256": "cc0c10e36cea7b70f84c7391b8908d8303c6cf1ccb260675a2e4624c9c7a3c6a"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "scope": "Complete combined public/deep source replay, every new task helper, joint import and independent cold Git checkout.",
+        "scope": "Complete combined public/deep local replay and joint import. Independent empty-checkout replay of every changed task helper and its dependencies, plus exact unchanged source closure of the preceding independent checkpoint.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/integration.log.gz",
-            "sha256": "50d6f719795b6d362d751a95bac74f7afe0e58dc1bc406a015ea4fdb485f12ae"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/integration.log.gz",
+            "sha256": "d315e4ed40dc79c1f10bd99028d144de157fb0c2e20a9b3eb2d84a6942429aeb"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/clean-build.log.gz",
-            "sha256": "a809841cedb647cb163ab3b89315d63e6783e7a3c9804581629fdacd3afba2dc"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/clean-build.log.gz",
+            "sha256": "631f8b3ecfefd90fe67eb67a937697da0c37d745939ae049fd8c59a602bb00ad"
           }
         ],
         "limits": [
@@ -84647,7 +84635,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/triton_softmax.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
+        "current_body_source_review": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks."
       },
       "fp_program_pair": "IO.original inst x y B p vs IO.indexCommuted: complete actual sources, integer input-row product commutation only.",
       "numerical_dependencies": "Empty experimental set. Fixed-four-warp native max/sub/exp/sum/div graph and original FP32 precision unchanged; both source executions/frames connected by native implementations.",
@@ -84752,20 +84740,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/review.json",
-        "sha256": "c5d5190f7f71f5f95866f918ec1ad92b7d57f65363928b2215a91511662fd8c2"
+        "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/review.json",
+        "sha256": "cc0c10e36cea7b70f84c7391b8908d8303c6cf1ccb260675a2e4624c9c7a3c6a"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "scope": "Complete combined public/deep source replay, every new task helper, joint import and independent cold Git checkout.",
+        "scope": "Complete combined public/deep local replay and joint import. Independent empty-checkout replay of every changed task helper and its dependencies, plus exact unchanged source closure of the preceding independent checkpoint.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/integration.log.gz",
-            "sha256": "50d6f719795b6d362d751a95bac74f7afe0e58dc1bc406a015ea4fdb485f12ae"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/integration.log.gz",
+            "sha256": "d315e4ed40dc79c1f10bd99028d144de157fb0c2e20a9b3eb2d84a6942429aeb"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/clean-build.log.gz",
-            "sha256": "a809841cedb647cb163ab3b89315d63e6783e7a3c9804581629fdacd3afba2dc"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/clean-build.log.gz",
+            "sha256": "631f8b3ecfefd90fe67eb67a937697da0c37d745939ae049fd8c59a602bb00ad"
           }
         ],
         "limits": [
@@ -85085,7 +85073,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/var_len_copy.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
+        "current_body_source_review": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks."
       },
       "fp_program_pair": "original Source.originalKernel vs commuted Source.commutedKernel, integer old_start+i address addition only; both complete typed memories agree.",
       "numerical_dependencies": "Empty experimental set; FP32 words are opaque copies with original casts/loads/stores, all words including inactive values allowed.",
@@ -85193,20 +85181,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/review.json",
-        "sha256": "c5d5190f7f71f5f95866f918ec1ad92b7d57f65363928b2215a91511662fd8c2"
+        "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/review.json",
+        "sha256": "cc0c10e36cea7b70f84c7391b8908d8303c6cf1ccb260675a2e4624c9c7a3c6a"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "scope": "Complete combined public/deep source replay, every new task helper, joint import and independent cold Git checkout.",
+        "scope": "Complete combined public/deep local replay and joint import. Independent empty-checkout replay of every changed task helper and its dependencies, plus exact unchanged source closure of the preceding independent checkpoint.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/integration.log.gz",
-            "sha256": "50d6f719795b6d362d751a95bac74f7afe0e58dc1bc406a015ea4fdb485f12ae"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/integration.log.gz",
+            "sha256": "d315e4ed40dc79c1f10bd99028d144de157fb0c2e20a9b3eb2d84a6942429aeb"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/clean-build.log.gz",
-            "sha256": "a809841cedb647cb163ab3b89315d63e6783e7a3c9804581629fdacd3afba2dc"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/clean-build.log.gz",
+            "sha256": "631f8b3ecfefd90fe67eb67a937697da0c37d745939ae049fd8c59a602bb00ad"
           }
         ],
         "limits": [
@@ -85315,7 +85303,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/vector_addition.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+        "current_body_source_review": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
         "current_native_example_review": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
       },
       "fp_program_pair": "originalKernel vs commutedKernel, actual x+y -> y+x with identical loads/mask/stores; source/candidate identity to shared AddExample rewrite is rfl.",
@@ -85395,20 +85383,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/review.json",
-        "sha256": "c5d5190f7f71f5f95866f918ec1ad92b7d57f65363928b2215a91511662fd8c2"
+        "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/review.json",
+        "sha256": "cc0c10e36cea7b70f84c7391b8908d8303c6cf1ccb260675a2e4624c9c7a3c6a"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "scope": "Complete combined public/deep source replay, every new task helper, joint import and independent cold Git checkout.",
+        "scope": "Complete combined public/deep local replay and joint import. Independent empty-checkout replay of every changed task helper and its dependencies, plus exact unchanged source closure of the preceding independent checkpoint.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/integration.log.gz",
-            "sha256": "50d6f719795b6d362d751a95bac74f7afe0e58dc1bc406a015ea4fdb485f12ae"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/integration.log.gz",
+            "sha256": "d315e4ed40dc79c1f10bd99028d144de157fb0c2e20a9b3eb2d84a6942429aeb"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/clean-build.log.gz",
-            "sha256": "a809841cedb647cb163ab3b89315d63e6783e7a3c9804581629fdacd3afba2dc"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/clean-build.log.gz",
+            "sha256": "631f8b3ecfefd90fe67eb67a937697da0c37d745939ae049fd8c59a602bb00ad"
           }
         ],
         "limits": [
@@ -85517,7 +85505,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/vector_addition_custom.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+        "current_body_source_review": "All prior Lean sources are byte-identical to the preceding independently checked cache/rotary checkpoint: all 2309 previous closure files were compared against frozen Git. The same 44 previously migrated tasks/examples and all 93 frontend regressions replay locally and jointly with this new task. Their independent clean proof replay is the exact unchanged preceding checkpoint; the new task and all its dependencies additionally replay in an initially empty independent checkout. No source, mathematical, numerical, IO, domain or frame scope changes are claimed for these regression-only tasks.",
         "current_native_example_review": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
       },
       "fp_program_pair": "actual originalKernel vs commutedKernel, x+y -> y+x only.",
@@ -85597,20 +85585,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/review.json",
-        "sha256": "c5d5190f7f71f5f95866f918ec1ad92b7d57f65363928b2215a91511662fd8c2"
+        "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/review.json",
+        "sha256": "cc0c10e36cea7b70f84c7391b8908d8303c6cf1ccb260675a2e4624c9c7a3c6a"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "scope": "Complete combined public/deep source replay, every new task helper, joint import and independent cold Git checkout.",
+        "scope": "Complete combined public/deep local replay and joint import. Independent empty-checkout replay of every changed task helper and its dependencies, plus exact unchanged source closure of the preceding independent checkpoint.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/integration.log.gz",
-            "sha256": "50d6f719795b6d362d751a95bac74f7afe0e58dc1bc406a015ea4fdb485f12ae"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/integration.log.gz",
+            "sha256": "d315e4ed40dc79c1f10bd99028d144de157fb0c2e20a9b3eb2d84a6942429aeb"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/clean-build.log.gz",
-            "sha256": "a809841cedb647cb163ab3b89315d63e6783e7a3c9804581629fdacd3afba2dc"
+            "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/clean-build.log.gz",
+            "sha256": "631f8b3ecfefd90fe67eb67a937697da0c37d745939ae049fd8c59a602bb00ad"
           }
         ],
         "limits": [

@@ -1,0 +1,8 @@
+{
+  "previous_source_closure": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/source-closure.json",
+  "previous_code_commit": "048fdf36b116d749260c9851d49fe9224aea5e88",
+  "new_code_commit": "58af6d09ab4c9b63a2d85cef8093d7677df5b0d3",
+  "prior_lean_files": 2309,
+  "changed_prior_lean_files": [],
+  "cold_scope": "all_changed_task_modules"
+}

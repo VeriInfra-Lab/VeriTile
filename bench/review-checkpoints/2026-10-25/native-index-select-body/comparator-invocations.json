@@ -1,0 +1,114 @@
+[
+  {
+    "name": "index_select_cat",
+    "file": "bench/repairs/tritonbench_g/index_select_cat/FPEquiv.lean",
+    "sha256": "edcd5f24c2fb315d6d795f752dcadab2aa42e54a4a5e7fc786862e79e6410c25",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/index_select_cat/FPEquiv.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "58af6d09ab4c9b63a2d85cef8093d7677df5b0d3"
+  },
+  {
+    "name": "index_select_cat-Real",
+    "file": "bench/repairs/tritonbench_g/index_select_cat/Correct.lean",
+    "sha256": "b1911a646eee692943bd23e10e31cb634da199d5e167596119b9b0d99354a97d",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/index_select_cat/Correct.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "58af6d09ab4c9b63a2d85cef8093d7677df5b0d3"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__index_select_cat__Kernels",
+    "file": "bench/repairs/tritonbench_g/index_select_cat/Kernels.lean",
+    "sha256": "ed80910fda5d194853f6d73e8fea83bad670a59e648d15997a5a5a94318535b2",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/index_select_cat/Kernels.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "58af6d09ab4c9b63a2d85cef8093d7677df5b0d3"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__index_select_cat__Proofs__KernelSafety",
+    "file": "bench/repairs/tritonbench_g/index_select_cat/Proofs/KernelSafety.lean",
+    "sha256": "a7e5de30b42ded6d649ee0eeae01469b0db8b42379151fa5c2ede45184df7b55",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/index_select_cat/Proofs/KernelSafety.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "58af6d09ab4c9b63a2d85cef8093d7677df5b0d3"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__index_select_cat__Proofs__LegacyPastedSurface",
+    "file": "bench/repairs/tritonbench_g/index_select_cat/Proofs/LegacyPastedSurface.lean",
+    "sha256": "e5badd11d0a199547916e389c689d0203a97bc3bd27ae8d3413b74a4c409ecf2",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/index_select_cat/Proofs/LegacyPastedSurface.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "58af6d09ab4c9b63a2d85cef8093d7677df5b0d3"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__index_select_cat__Proofs__Rewrite",
+    "file": "bench/repairs/tritonbench_g/index_select_cat/Proofs/Rewrite.lean",
+    "sha256": "63ff8c1a9bb85504cc0f10b5dedce44409a231d9a62ccf4948f055dc2b513af2",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/index_select_cat/Proofs/Rewrite.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "58af6d09ab4c9b63a2d85cef8093d7677df5b0d3"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__index_select_cat__Proofs__SourcePreservation",
+    "file": "bench/repairs/tritonbench_g/index_select_cat/Proofs/SourcePreservation.lean",
+    "sha256": "39bbdc3bc265e0cb4b5863b88a72f5c6603e6028f52649d56d55a402a035a6a8",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/index_select_cat/Proofs/SourcePreservation.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "58af6d09ab4c9b63a2d85cef8093d7677df5b0d3"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__index_select_cat__Proofs__TypedGather",
+    "file": "bench/repairs/tritonbench_g/index_select_cat/Proofs/TypedGather.lean",
+    "sha256": "cbd97cf7343327ab57ebd4e6350f18846b22162283f7b007b01846f23b5224aa",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/index_select_cat/Proofs/TypedGather.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "58af6d09ab4c9b63a2d85cef8093d7677df5b0d3"
+  }
+]

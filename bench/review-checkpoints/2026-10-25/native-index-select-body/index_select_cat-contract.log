@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/tmp/veritile-index45-clean/bench/repairs/tritonbench_g/index_select_cat/check_contract.py", line 11, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'
