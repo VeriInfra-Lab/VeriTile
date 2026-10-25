@@ -1,0 +1,4 @@
+{"name": "fused_recurrent_hgrn", "file": "bench/repairs/tritonbench_g/fused_recurrent_hgrn/FPEquiv.lean", "sha256": "363125297b15840313fd155f161447b5ce9f3abc77a92a2bf822dce7083f3d4e", "command": ["python3", "scripts/check_comparator.py", "--file", "bench/repairs/tritonbench_g/fused_recurrent_hgrn/FPEquiv.lean", "--trust"], "exit_code": 1, "code_commit": "55f936845248774a353803cae4159cd57501d11b"}
+[FAIL] Official comparator isolation is unavailable:
+- systemd AF_UNIX restriction: Failed to connect to bus: Operation not permitted (consider using --machine=<user>@.host --user to connect to bus of other user)
+- Landlock sandbox: [landrun:error] 2026/10/25 10:43:23 Failed to apply sandbox: failed to apply Landlock filesystem restrictions: missing kernel Landlock support. Got Landlock ABI v4, wanted {Landlock V5; FS: all; Net: ∅}

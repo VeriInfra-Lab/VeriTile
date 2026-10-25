@@ -1,0 +1,376 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "55f936845248774a353803cae4159cd57501d11b",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "fused_recurrent_hgrn",
+    "swiglu_backward",
+    "relu_triton_kernel"
+  ],
+  "semantic_review": {
+    "adam_update_triton": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared Python identifier escaping, structured elif dataflow, two-argument immutable ranges and explicitly cast augmented-load support. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual HGRN, SwiGLU backward and ReLU bodies occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "add_example": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared Python identifier escaping, structured elif dataflow, two-argument immutable ranges and explicitly cast augmented-load support. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual HGRN, SwiGLU backward and ReLU bodies occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "add_value": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared Python identifier escaping, structured elif dataflow, two-argument immutable ranges and explicitly cast augmented-load support. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual HGRN, SwiGLU backward and ReLU bodies occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "cache_transform_triton": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared Python identifier escaping, structured elif dataflow, two-argument immutable ranges and explicitly cast augmented-load support. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual HGRN, SwiGLU backward and ReLU bodies occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "chunk_cumsum_kernel": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared Python identifier escaping, structured elif dataflow, two-argument immutable ranges and explicitly cast augmented-load support. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual HGRN, SwiGLU backward and ReLU bodies occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "cosine_compute": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared Python identifier escaping, structured elif dataflow, two-argument immutable ranges and explicitly cast augmented-load support. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual HGRN, SwiGLU backward and ReLU bodies occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "dequantize_matmul": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared Python identifier escaping, structured elif dataflow, two-argument immutable ranges and explicitly cast augmented-load support. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual HGRN, SwiGLU backward and ReLU bodies occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "dequantize_rowwise": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared Python identifier escaping, structured elif dataflow, two-argument immutable ranges and explicitly cast augmented-load support. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual HGRN, SwiGLU backward and ReLU bodies occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "destindex_copy": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared Python identifier escaping, structured elif dataflow, two-argument immutable ranges and explicitly cast augmented-load support. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual HGRN, SwiGLU backward and ReLU bodies occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "destindex_copy_kv1": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared Python identifier escaping, structured elif dataflow, two-argument immutable ranges and explicitly cast augmented-load support. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual HGRN, SwiGLU backward and ReLU bodies occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "destindex_copy_kv2": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared Python identifier escaping, structured elif dataflow, two-argument immutable ranges and explicitly cast augmented-load support. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual HGRN, SwiGLU backward and ReLU bodies occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "dropout_triton": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared Python identifier escaping, structured elif dataflow, two-argument immutable ranges and explicitly cast augmented-load support. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual HGRN, SwiGLU backward and ReLU bodies occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "f8_conversion_utils": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared Python identifier escaping, structured elif dataflow, two-argument immutable ranges and explicitly cast augmented-load support. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual HGRN, SwiGLU backward and ReLU bodies occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "fast_rope_embedding": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared Python identifier escaping, structured elif dataflow, two-argument immutable ranges and explicitly cast augmented-load support. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual HGRN, SwiGLU backward and ReLU bodies occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "index_select_bwd": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared Python identifier escaping, structured elif dataflow, two-argument immutable ranges and explicitly cast augmented-load support. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual HGRN, SwiGLU backward and ReLU bodies occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "index_select_cat": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared Python identifier escaping, structured elif dataflow, two-argument immutable ranges and explicitly cast augmented-load support. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual HGRN, SwiGLU backward and ReLU bodies occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "kcache_copy_triton": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared Python identifier escaping, structured elif dataflow, two-argument immutable ranges and explicitly cast augmented-load support. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual HGRN, SwiGLU backward and ReLU bodies occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "kldiv_compute": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared Python identifier escaping, structured elif dataflow, two-argument immutable ranges and explicitly cast augmented-load support. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual HGRN, SwiGLU backward and ReLU bodies occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "kldiv_triton": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared Python identifier escaping, structured elif dataflow, two-argument immutable ranges and explicitly cast augmented-load support. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual HGRN, SwiGLU backward and ReLU bodies occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "kv_cache_copy": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared Python identifier escaping, structured elif dataflow, two-argument immutable ranges and explicitly cast augmented-load support. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual HGRN, SwiGLU backward and ReLU bodies occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "l2_norm_bwd": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared Python identifier escaping, structured elif dataflow, two-argument immutable ranges and explicitly cast augmented-load support. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual HGRN, SwiGLU backward and ReLU bodies occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "l2_norm_triton1": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared Python identifier escaping, structured elif dataflow, two-argument immutable ranges and explicitly cast augmented-load support. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual HGRN, SwiGLU backward and ReLU bodies occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "l2_norm_triton2": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared Python identifier escaping, structured elif dataflow, two-argument immutable ranges and explicitly cast augmented-load support. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual HGRN, SwiGLU backward and ReLU bodies occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "logsumexp_fwd": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared Python identifier escaping, structured elif dataflow, two-argument immutable ranges and explicitly cast augmented-load support. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual HGRN, SwiGLU backward and ReLU bodies occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "masked_add_cuda": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared Python identifier escaping, structured elif dataflow, two-argument immutable ranges and explicitly cast augmented-load support. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual HGRN, SwiGLU backward and ReLU bodies occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "matrix_reduction": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared Python identifier escaping, structured elif dataflow, two-argument immutable ranges and explicitly cast augmented-load support. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual HGRN, SwiGLU backward and ReLU bodies occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "matrix_transpose": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared Python identifier escaping, structured elif dataflow, two-argument immutable ranges and explicitly cast augmented-load support. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual HGRN, SwiGLU backward and ReLU bodies occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "mean_reduction": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared Python identifier escaping, structured elif dataflow, two-argument immutable ranges and explicitly cast augmented-load support. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual HGRN, SwiGLU backward and ReLU bodies occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "mul_exponent_compensator": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared Python identifier escaping, structured elif dataflow, two-argument immutable ranges and explicitly cast augmented-load support. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual HGRN, SwiGLU backward and ReLU bodies occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "nested_loops_processing": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared Python identifier escaping, structured elif dataflow, two-argument immutable ranges and explicitly cast augmented-load support. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual HGRN, SwiGLU backward and ReLU bodies occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "quant_transpose_kernel": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared Python identifier escaping, structured elif dataflow, two-argument immutable ranges and explicitly cast augmented-load support. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual HGRN, SwiGLU backward and ReLU bodies occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "rms_norm_triton": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared Python identifier escaping, structured elif dataflow, two-argument immutable ranges and explicitly cast augmented-load support. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual HGRN, SwiGLU backward and ReLU bodies occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "rmsnorm_fused": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared Python identifier escaping, structured elif dataflow, two-argument immutable ranges and explicitly cast augmented-load support. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual HGRN, SwiGLU backward and ReLU bodies occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "rmsnorm_fused_llama": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared Python identifier escaping, structured elif dataflow, two-argument immutable ranges and explicitly cast augmented-load support. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual HGRN, SwiGLU backward and ReLU bodies occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "rmsnorm_implementation": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared Python identifier escaping, structured elif dataflow, two-argument immutable ranges and explicitly cast augmented-load support. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual HGRN, SwiGLU backward and ReLU bodies occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "rmsnorm_triton": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared Python identifier escaping, structured elif dataflow, two-argument immutable ranges and explicitly cast augmented-load support. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual HGRN, SwiGLU backward and ReLU bodies occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "rope_embedding": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared Python identifier escaping, structured elif dataflow, two-argument immutable ranges and explicitly cast augmented-load support. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual HGRN, SwiGLU backward and ReLU bodies occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "rotary_emb": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared Python identifier escaping, structured elif dataflow, two-argument immutable ranges and explicitly cast augmented-load support. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual HGRN, SwiGLU backward and ReLU bodies occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "rotary_emb_nopad": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared Python identifier escaping, structured elif dataflow, two-argument immutable ranges and explicitly cast augmented-load support. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual HGRN, SwiGLU backward and ReLU bodies occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "seeded_dropout": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared Python identifier escaping, structured elif dataflow, two-argument immutable ranges and explicitly cast augmented-load support. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual HGRN, SwiGLU backward and ReLU bodies occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "sin_computation": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared Python identifier escaping, structured elif dataflow, two-argument immutable ranges and explicitly cast augmented-load support. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual HGRN, SwiGLU backward and ReLU bodies occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "sin_kernel": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared Python identifier escaping, structured elif dataflow, two-argument immutable ranges and explicitly cast augmented-load support. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual HGRN, SwiGLU backward and ReLU bodies occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "softmax_triton1": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared Python identifier escaping, structured elif dataflow, two-argument immutable ranges and explicitly cast augmented-load support. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual HGRN, SwiGLU backward and ReLU bodies occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "softmax_triton2": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared Python identifier escaping, structured elif dataflow, two-argument immutable ranges and explicitly cast augmented-load support. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual HGRN, SwiGLU backward and ReLU bodies occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "square_matrix": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared Python identifier escaping, structured elif dataflow, two-argument immutable ranges and explicitly cast augmented-load support. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual HGRN, SwiGLU backward and ReLU bodies occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "swiglu_fwd": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared Python identifier escaping, structured elif dataflow, two-argument immutable ranges and explicitly cast augmented-load support. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual HGRN, SwiGLU backward and ReLU bodies occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "triton_mul2": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared Python identifier escaping, structured elif dataflow, two-argument immutable ranges and explicitly cast augmented-load support. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual HGRN, SwiGLU backward and ReLU bodies occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "triton_softmax": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared Python identifier escaping, structured elif dataflow, two-argument immutable ranges and explicitly cast augmented-load support. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual HGRN, SwiGLU backward and ReLU bodies occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "var_len_copy": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared Python identifier escaping, structured elif dataflow, two-argument immutable ranges and explicitly cast augmented-load support. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual HGRN, SwiGLU backward and ReLU bodies occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "vector_addition": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared Python identifier escaping, structured elif dataflow, two-argument immutable ranges and explicitly cast augmented-load support. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual HGRN, SwiGLU backward and ReLU bodies occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "vector_addition_custom": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared Python identifier escaping, structured elif dataflow, two-argument immutable ranges and explicitly cast augmented-load support. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual HGRN, SwiGLU backward and ReLU bodies occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "fused_recurrent_hgrn": "Both selected forward/backward functions and the already existing stride-folded candidate Python file are unchanged. The two source bodies plus candidate forward body are pasted directly; the identical candidate backward body is independently checked against the shared Lean quotation in the regression. Both tuple program IDs, actual underscore counter (not a renamed private register), two-argument range, do pointer, if/elif/else, all seed/final-state branches, explicit load/store casts and arithmetic order survive. External signatures carry only unchanged FP32 and constexpr metadata/ports. The actual-source proof decomposition is rebuilt for the parallel PID group and real counter name. All 50 task modules replay, covering complete forward/backward execution and all outputs/frame, independent Real recurrence and detached-initial-state HasDerivAt objective, every optional U/S/V branch and T=0, full grids, physical/native index and word models, compiler-schedule premises, direct host and optional Tensor scopes. The existing stride-folded candidate has complete arbitrary-backend state execution equality including failure, and trace safety equality; no FP law or extra input premise was introduced.",
+    "relu_triton_kernel": "Both selected existing Python functions are unchanged and quoted directly, including the candidate docstring, unspecified masked-load values, source >= comparison (NaN/+0/-0 behavior), raw selection and ordered masked store. External signature declares FP32 pointer and constexpr metadata only. Public Real and FP IO select the actual pasted bodies. CoordinateModels.lean explicitly retains earlier arbitrary-base/stride models outside the selected function body; new SourcePreservation proves COMPLETE optional-state equality to each physical model at element coordinates for arbitrary M/s, including unsupported comparison failure, using only natural 0+1*i=i and no floating cast identity. Public FP proof now explicitly applies those execution bridges. All 18 task modules replay: unrestricted Real mathematical max, successful outputs/safety/frame, complete original/candidate FP IO, all-word special-value classification and arbitrary legal grid/physical/host/Tensor scopes. Existing generic coordinate theorem statements and domains are retained.",
+    "swiglu_backward": "The selected Python source is unchanged and pasted directly with original names, comments, 0. masked-load spelling, all three FP32 conversions, ordered arithmetic, three stores and both optional recomputation blocks. Signed32 runtime stride/ncols call bindings and constexpr block/recomputation metadata remain outside. candidate_kernels.py is an explicitly NEW native counterpart of the pre-existing Lean six-integer-product commutation candidate, never claimed as historical Python. Existing SourcePreservation proves COMPLETE whole-function AST equality to both earlier generic source selections for all parameters and both recomputation branches. All 26 task modules replay: independent Real derivatives/VJP, complete legal grid permutations and six autotune block sizes, empty/tail/strided/paired-chunk domains, source FP equivalence, all-word ordered native graph, successful outputs and regional/physical word/byte exterior frames, input binding and Tensor scopes. No source floating operation, numerical law or domain was changed."
+  },
+  "example_regression_scope": "All 19 examples and their complete helpers replay locally, jointly and in an initially empty independent project checkout. Their bodies, mathematical domains and numerical classifications remain unchanged.",
+  "verification": {
+    "frontend_regressions": {
+      "status": "PASS",
+      "configured_modules": 95,
+      "scope": "All 95 configured modules retain prior integer/RNG, mutation, loop-carried dtype, shape and precision rejection guards. New tests preserve literal-only nested range constructors (the first broad specialization was rejected by the complete SignedStep regression), and check actual do/underscore identifiers and underscore reads, complete FP16-load/FP32-cast/add boundaries in augmented assignments, rejection of arbitrary nested FP loads, all if/elif/else dtype branches without extra store casts, immutable two-argument ranges versus reassigned local endpoints. Original raw quotations are unchanged by these internal parsed-view fixes."
+    },
+    "integration": {
+      "status": "PASS",
+      "explicit_modules": 1873,
+      "jobs": 11015
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 1873,
+      "jobs": 11015,
+      "scope": "Every combined root and complete dependency closure; full replay required because shared frontend source changed.",
+      "project_build_initially_present": false,
+      "veritile_cache_initially_present": false,
+      "only_fixed_external_dependencies_reused": true
+    },
+    "joint_import": "PASS: all 1873 roots",
+    "task_directories": "All 50 HGRN, 26 SwiGLU backward and 18 ReLU modules, all 95 configured frontend tests and all prior public/deep migration roots, including historical and optional scopes.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 59
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 304,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by the old numerical receipt; prior baseline preserved, no false repin."
+    },
+    "official_comparator": "UNAVAILABLE: every actual frozen-source invocation reports required host isolation unavailable. Pinned official comparator/exporter/landrun and SHA256-verified Go toolchain are installed; host Landlock ABI v4 is below required v5, and the systemd user bus is unavailable. No isolation bypass.",
+    "optional_cpu_contract": "UNAVAILABLE: current environment lacks torch; actual failure retained.",
+    "gpu_or_numerical_experiment": "Not run. No new numerical law, axiom or hardware-conformance claim.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending."
+  },
+  "source_pairs": {
+    "total": 190,
+    "pasted_body": 185,
+    "legacy_ast": 5
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/source-closure.json",
+    "sha256": "b37d0b06da205f5f50f0eec887ec4fd32a539f077235d04f65d2e5c4d82fce9b"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "legacy_ast_only": 1,
+      "no_selected_jit_resolved": 2,
+      "selected_body_copy_checked": 54,
+      "uncovered_jit_functions": 126
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 328,
+    "uncovered_selected_jit_functions": 243,
+    "primary_files_with_int64_screen_warning": 38,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 99,
+        "antiquotes": 110,
+        "dsl_loop": 1,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/all-python.log.gz",
+      "sha256": "71158c38ae73137d98eb66fe589b5671fcd0afe739f5b0f434bbc7e02105b8d5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/changed-VeriTile__Triton__DSL__CallSignature-comparator.log",
+      "sha256": "00b64e965560ab0f4ac32156011b020d6830e32dfb5e27c62d92c3b588f1ae06"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/changed-VeriTile__Triton__DSL__PythonBody-comparator.log",
+      "sha256": "e79ec71af64d7045c6df1142eda2867058afc97743d14d62afc0e68300febeb9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/changed-VeriTile__Triton__DSL__TypedStores-comparator.log",
+      "sha256": "a369b736b42721444afeb2b3d579db12dda4074fd76b35364ea52e2923e7dfe1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/changed-bench__repairs__tritonbench_g__fused_recurrent_hgrn__Kernels-comparator.log",
+      "sha256": "170cf50022b58f81e39851dc67c8beb0a97089f6c1d3e505050ae1332e8b28d5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/changed-bench__repairs__tritonbench_g__fused_recurrent_hgrn__Proofs__Base-comparator.log",
+      "sha256": "2f49b1635a451e21c7ce191841110263d1a52d7450159d4cc0752e19d940a326"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/changed-bench__repairs__tritonbench_g__fused_recurrent_hgrn__Proofs__ForwardLoop-comparator.log",
+      "sha256": "1bc35173784526e98f3559614c866342cc9a3f510cd47737b5e81f62cf78c836"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/changed-bench__repairs__tritonbench_g__fused_recurrent_hgrn__Proofs__GridSafety-comparator.log",
+      "sha256": "15a222839294685c4fe326d1a733e4bbd92b5d9b1cdfba7a53fced333219f12f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/changed-bench__repairs__tritonbench_g__fused_recurrent_hgrn__Proofs__Pair-comparator.log",
+      "sha256": "ea877b8eec948586ae443cfe18279c50f412d2dc261e4d0073ccabd39e7fbf2e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/changed-bench__repairs__tritonbench_g__relu_triton_kernel__CoordinateModels-comparator.log",
+      "sha256": "b9e3464b7eb4eadb7e3dd51ab48bc1f2b30e7113a93c3c10da8950cea39d544f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/changed-bench__repairs__tritonbench_g__relu_triton_kernel__Kernels-comparator.log",
+      "sha256": "b84198a3c04fac55320a6d7f979fd22e939bcd3cfd997c0243654404e6fcd8c7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/changed-bench__repairs__tritonbench_g__relu_triton_kernel__Proofs__FP-comparator.log",
+      "sha256": "0279d42abdb9940ee1d385d275923a6fb60ea0f8298f643c1969bc93521af133"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/changed-bench__repairs__tritonbench_g__relu_triton_kernel__Proofs__FPObservations-comparator.log",
+      "sha256": "2aa938f9d13da6824777a95d5ebd766fb587cd3bc5d110e91a246ff3c46cdb90"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/changed-bench__repairs__tritonbench_g__relu_triton_kernel__Proofs__KernelReal-comparator.log",
+      "sha256": "b460fb71b63eea477d024fb779a9d31b6da1eb5dd9e694e27ed981d086947e60"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/changed-bench__repairs__tritonbench_g__relu_triton_kernel__Proofs__Real-comparator.log",
+      "sha256": "75a9ce07f4b48141ff4642b4e8966b17ca8a7406aa44de3b5d78389b3ed078c5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/changed-bench__repairs__tritonbench_g__relu_triton_kernel__Proofs__SourcePreservation-comparator.log",
+      "sha256": "b1afbc912101371535e5b2d915189a281be16e2141c8eb004f8a95b4894ca73e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/changed-bench__repairs__tritonbench_g__relu_triton_kernel__Proofs__Structural-comparator.log",
+      "sha256": "8abdf5ae4abd2ff372cc4fb15543fd45fd6828b194308f4a1efee4c717bdcacd"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/changed-bench__repairs__tritonbench_g__swiglu_backward__Kernels-comparator.log",
+      "sha256": "039c86ce880e6131b94b11425c9e3c1180bdaec46991589e1294b82ac5c18873"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/changed-bench__tests__LoopBody-comparator.log",
+      "sha256": "e75848924807551f2559226ccea292d8ee6e294eb38ac4c137d23d78fde01ded"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/changed-bench__tests__PythonBody-comparator.log",
+      "sha256": "5fb6fee8730b186be75b8af0d38332cf18e6506995220f1dbdad165b3891d256"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/clean-build.log.gz",
+      "sha256": "cba407d01b0ab09015651425ef123438a6d5d28707dde25458541e59c3134249"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/clean-setup.log",
+      "sha256": "8bbfa0bdeb84efb603f6d054438215b9d01c6898f88b9a1a915189b83edf593e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/comparator-invocations.json",
+      "sha256": "bb02f0252654f029844fc37cde751a1e0f45e31a1ec6571cfeb87745e680c76d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/comparator-preflight.log",
+      "sha256": "d9255026a27595d0a04e154bc4a9c609c8422b012fc13cb1ae4de2417afea36d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/comparator-setup.log",
+      "sha256": "bea658f19aea48f8965a3d6525da1300e599d9a3f0a05b992071c97bcaffd6df"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/comparator-tools.json",
+      "sha256": "d541ac407f7aa8679c8ba23dd4df72ac363730bbb67e45bd7959ec752e6b0c53"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/comparator.log",
+      "sha256": "41f45e3394d5381d60c9987fff7e5147c3ec4a4b08a3c55677d8c4a9c03fe062"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/contract.log",
+      "sha256": "d3bb277890df53c768a1c84250484ce98d4a6a109469ea118030accf1b05f82e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/corpus-guard.log",
+      "sha256": "43d02e4bf4d7c4c8be80f79aafa7ad8025bff353c8f2fd3d85e8477b7103a8a4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/fused_recurrent_hgrn-Real-comparator.log",
+      "sha256": "42bd315daf617b727832b58342b303349af355105a535d2aad4003d2a7910299"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/fused_recurrent_hgrn-comparator.log",
+      "sha256": "616dec1529dbf9558b5ca21b92bcd41d4e26eb138df0f70fecded33b301f8955"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/fused_recurrent_hgrn-contract.log",
+      "sha256": "75eb7ba5c96ed9d00e4815ce6d9508b365f1acb85b46aadd3b9e67e6a107c79d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/integration.log.gz",
+      "sha256": "43d4975f6eb3be233f1b5443d018ff1adb785b6182ed5ab3c75e7016a980c6f3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/joint.lean",
+      "sha256": "685c5fd7d304a22c51defe7b38e35704d554fc03d88078c44fdfe9614ab414ba"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/modules.json",
+      "sha256": "74e3241ca4ea5007bbea06059e6a977c5726a11201017aca45fd3c6ef62dbae7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/old-infinity-guard.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/pairs.json",
+      "sha256": "5897fa7f53fbe9fe77ef63702af2017e2b0265e8eca0ee7ca1d43c28df691e24"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/previous-selected-reviews.json.gz",
+      "sha256": "6c34ee39e41ee68950fea3966c71066f07a0a60eadec9771fbadfe9e91937907"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/python-tests.log",
+      "sha256": "b2b943cf490dee54cf3cdfb7b435a48b501c05125168c6e563b25a2cc52190f2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/range-broad-rejected.log.gz",
+      "sha256": "cf8227c7af0c1945d2a1ef4539e402760814aad356e3ea4ea8ede7bfd6bd1988"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/range-regression2.log.gz",
+      "sha256": "ea00b90c2847a435b157deb8139138162cd9004f873e77a37fabe42cebda5834"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/relu_triton_kernel-Real-comparator.log",
+      "sha256": "e781b23fe491fb7d62f94dbcc1430af8aa3537e9b99c8dd5024669e1f7121558"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/relu_triton_kernel-comparator.log",
+      "sha256": "e9f1b6120894bddcc8540d5591fd8ff121401463b7b39d1ffb6da0a02a4bce9c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/relu_triton_kernel-contract.log",
+      "sha256": "a9b467936ea7cf1d9fe220eb37ffc53dcabc4cc3ab640edbc29e8cac1ec16df0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/signed-address-guard.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/signed-range-guard.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/source-closure.json",
+      "sha256": "b37d0b06da205f5f50f0eec887ec4fd32a539f077235d04f65d2e5c4d82fce9b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/swiglu_backward-Real-comparator.log",
+      "sha256": "4a7c953ff4591b36b3a58440d9fb2ddf8cfdc40bfd33addd2381675ee992e77c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/swiglu_backward-comparator.log",
+      "sha256": "1111708986fff2b52108416702bdde2bab1de8763f5a03b7272e18c20f2cb49c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/swiglu_backward-contract.log",
+      "sha256": "407fd703e6946b029cdf402934fdc0c89aa4afdc82e84ef007d46eba5de0a1ac"
+    }
+  ]
+}

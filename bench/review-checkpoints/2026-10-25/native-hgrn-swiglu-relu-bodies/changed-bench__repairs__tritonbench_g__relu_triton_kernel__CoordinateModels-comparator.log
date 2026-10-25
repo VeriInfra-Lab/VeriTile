@@ -1,0 +1,4 @@
+{"name": "changed-bench__repairs__tritonbench_g__relu_triton_kernel__CoordinateModels", "file": "bench/repairs/tritonbench_g/relu_triton_kernel/CoordinateModels.lean", "sha256": "01c9b3e92b2cb0b2792c889c0300d659622add5b361e77b766b423b7fcb26f97", "command": ["python3", "scripts/check_comparator.py", "--file", "bench/repairs/tritonbench_g/relu_triton_kernel/CoordinateModels.lean", "--trust"], "exit_code": 1, "code_commit": "55f936845248774a353803cae4159cd57501d11b"}
+[FAIL] Official comparator isolation is unavailable:
+- systemd AF_UNIX restriction: Failed to connect to bus: Operation not permitted (consider using --machine=<user>@.host --user to connect to bus of other user)
+- Landlock sandbox: [landrun:error] 2026/10/25 10:43:24 Failed to apply sandbox: failed to apply Landlock filesystem restrictions: missing kernel Landlock support. Got Landlock ABI v4, wanted {Landlock V5; FS: all; Net: ∅}

@@ -1,0 +1,352 @@
+[
+  {
+    "name": "fused_recurrent_hgrn",
+    "file": "bench/repairs/tritonbench_g/fused_recurrent_hgrn/FPEquiv.lean",
+    "sha256": "363125297b15840313fd155f161447b5ce9f3abc77a92a2bf822dce7083f3d4e",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/fused_recurrent_hgrn/FPEquiv.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "55f936845248774a353803cae4159cd57501d11b"
+  },
+  {
+    "name": "fused_recurrent_hgrn-Real",
+    "file": "bench/repairs/tritonbench_g/fused_recurrent_hgrn/Correct.lean",
+    "sha256": "0ebc062f66c67a59fdae2cede6b6324bf9dfe6056d2c7991447195d6166ca77a",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/fused_recurrent_hgrn/Correct.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "55f936845248774a353803cae4159cd57501d11b"
+  },
+  {
+    "name": "swiglu_backward",
+    "file": "bench/repairs/tritonbench_g/swiglu_backward/FPEquiv.lean",
+    "sha256": "c44405b7852c833c4cfb0a535714b747bc8b3b3d3ec282ffb3f26d88122c1a35",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/swiglu_backward/FPEquiv.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "55f936845248774a353803cae4159cd57501d11b"
+  },
+  {
+    "name": "swiglu_backward-Real",
+    "file": "bench/repairs/tritonbench_g/swiglu_backward/Correct.lean",
+    "sha256": "55629c87d02495b80b5ca220bfb12d9251109a8bb6e2a2d58821fcd682eeeba1",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/swiglu_backward/Correct.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "55f936845248774a353803cae4159cd57501d11b"
+  },
+  {
+    "name": "relu_triton_kernel",
+    "file": "bench/repairs/tritonbench_g/relu_triton_kernel/FPEquiv.lean",
+    "sha256": "8afeaf149d1ffc69a688c77b8290d02379e1dda999d45bb6f9fb29d7a9a972e0",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/relu_triton_kernel/FPEquiv.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "55f936845248774a353803cae4159cd57501d11b"
+  },
+  {
+    "name": "relu_triton_kernel-Real",
+    "file": "bench/repairs/tritonbench_g/relu_triton_kernel/Correct.lean",
+    "sha256": "0f92279ad9e7c19bcbb57df1c75294d09df7dbdcc36120bf1b1bb2d6a8e2a5ae",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/relu_triton_kernel/Correct.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "55f936845248774a353803cae4159cd57501d11b"
+  },
+  {
+    "name": "changed-VeriTile__Triton__DSL__CallSignature",
+    "file": "VeriTile/Triton/DSL/CallSignature.lean",
+    "sha256": "4b2323c452ab056a2f8d166081841a3ecb71de93859540a7a8e8a8de5005491b",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "VeriTile/Triton/DSL/CallSignature.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "55f936845248774a353803cae4159cd57501d11b"
+  },
+  {
+    "name": "changed-VeriTile__Triton__DSL__PythonBody",
+    "file": "VeriTile/Triton/DSL/PythonBody.lean",
+    "sha256": "09c3f62d77ab0b09c3fe4c25281f43261ff5d5a1cc4c9ac0fc7057bc8853b9e8",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "VeriTile/Triton/DSL/PythonBody.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "55f936845248774a353803cae4159cd57501d11b"
+  },
+  {
+    "name": "changed-VeriTile__Triton__DSL__TypedStores",
+    "file": "VeriTile/Triton/DSL/TypedStores.lean",
+    "sha256": "c634bea465fad84860c2fda6e38a08daf9bb96905e7998678ecd3a51c133c3a8",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "VeriTile/Triton/DSL/TypedStores.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "55f936845248774a353803cae4159cd57501d11b"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__fused_recurrent_hgrn__Kernels",
+    "file": "bench/repairs/tritonbench_g/fused_recurrent_hgrn/Kernels.lean",
+    "sha256": "2df640a4a5033cb4bf7eaa96dd8f74fe47e2bc6d68178134130074612dbaa08e",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/fused_recurrent_hgrn/Kernels.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "55f936845248774a353803cae4159cd57501d11b"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__fused_recurrent_hgrn__Proofs__Base",
+    "file": "bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/Base.lean",
+    "sha256": "0d44e7db9b40218c50d729faaa5efe37bd35b273abffba3c823eb24b442f039b",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/Base.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "55f936845248774a353803cae4159cd57501d11b"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__fused_recurrent_hgrn__Proofs__ForwardLoop",
+    "file": "bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/ForwardLoop.lean",
+    "sha256": "0f8dbec73955abd71029e750f444827920434e1f04c427b9a0672cd528aa4153",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/ForwardLoop.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "55f936845248774a353803cae4159cd57501d11b"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__fused_recurrent_hgrn__Proofs__GridSafety",
+    "file": "bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/GridSafety.lean",
+    "sha256": "eec4087e3125a41f4998018125735d7774a74a3a664d04ae59f4ef8bc58ec97d",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/GridSafety.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "55f936845248774a353803cae4159cd57501d11b"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__fused_recurrent_hgrn__Proofs__Pair",
+    "file": "bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/Pair.lean",
+    "sha256": "bbb4d7805ae7ba3ef3323978b080d41fa34180e338560f0aff6debee59f56b82",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/Pair.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "55f936845248774a353803cae4159cd57501d11b"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__relu_triton_kernel__CoordinateModels",
+    "file": "bench/repairs/tritonbench_g/relu_triton_kernel/CoordinateModels.lean",
+    "sha256": "01c9b3e92b2cb0b2792c889c0300d659622add5b361e77b766b423b7fcb26f97",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/relu_triton_kernel/CoordinateModels.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "55f936845248774a353803cae4159cd57501d11b"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__relu_triton_kernel__Kernels",
+    "file": "bench/repairs/tritonbench_g/relu_triton_kernel/Kernels.lean",
+    "sha256": "bfa31faa719ca1ddf6a8d759196fa5b7ac8987e9256f7bb333e4003b79c8db8d",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/relu_triton_kernel/Kernels.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "55f936845248774a353803cae4159cd57501d11b"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__relu_triton_kernel__Proofs__FP",
+    "file": "bench/repairs/tritonbench_g/relu_triton_kernel/Proofs/FP.lean",
+    "sha256": "3398cbd790ad16043d2021b9892d9777175bd2ce5eb8f9e0b588b5439871d20f",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/relu_triton_kernel/Proofs/FP.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "55f936845248774a353803cae4159cd57501d11b"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__relu_triton_kernel__Proofs__FPObservations",
+    "file": "bench/repairs/tritonbench_g/relu_triton_kernel/Proofs/FPObservations.lean",
+    "sha256": "bf42f838926f9e1ab0bed205d32fbe0dd0bf5f69fe1bcf8a822100769fc1de15",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/relu_triton_kernel/Proofs/FPObservations.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "55f936845248774a353803cae4159cd57501d11b"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__relu_triton_kernel__Proofs__KernelReal",
+    "file": "bench/repairs/tritonbench_g/relu_triton_kernel/Proofs/KernelReal.lean",
+    "sha256": "bf8fbab39277d735deb0a685f2b9ea549d6e60f3f7c0de2df67b2aebc381d9d9",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/relu_triton_kernel/Proofs/KernelReal.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "55f936845248774a353803cae4159cd57501d11b"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__relu_triton_kernel__Proofs__Real",
+    "file": "bench/repairs/tritonbench_g/relu_triton_kernel/Proofs/Real.lean",
+    "sha256": "e44f3e05396d016489f2b7e6ddd82d3606cd6144c52e2951f10c3fdd5e7da63f",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/relu_triton_kernel/Proofs/Real.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "55f936845248774a353803cae4159cd57501d11b"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__relu_triton_kernel__Proofs__SourcePreservation",
+    "file": "bench/repairs/tritonbench_g/relu_triton_kernel/Proofs/SourcePreservation.lean",
+    "sha256": "3e2766cb17bd7f77c3f7d1ba52d5ff3e5b68c9d0a7e925e1ecbc1b132b23639b",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/relu_triton_kernel/Proofs/SourcePreservation.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "55f936845248774a353803cae4159cd57501d11b"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__relu_triton_kernel__Proofs__Structural",
+    "file": "bench/repairs/tritonbench_g/relu_triton_kernel/Proofs/Structural.lean",
+    "sha256": "20597e79e52be57e5292e61acdff1d015cabcf31a1aacbe45bc54d08c61c2484",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/relu_triton_kernel/Proofs/Structural.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "55f936845248774a353803cae4159cd57501d11b"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__swiglu_backward__Kernels",
+    "file": "bench/repairs/tritonbench_g/swiglu_backward/Kernels.lean",
+    "sha256": "0302539d560b7775fe17e000395f742763afc00aea966433af3b9a41bd84ac06",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/swiglu_backward/Kernels.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "55f936845248774a353803cae4159cd57501d11b"
+  },
+  {
+    "name": "changed-bench__tests__LoopBody",
+    "file": "bench/tests/LoopBody.lean",
+    "sha256": "6a3ed7dd3bfbab57ea16bdaba76939737b62fa16cb7e69c56ad5caf1971270dc",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/tests/LoopBody.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "55f936845248774a353803cae4159cd57501d11b"
+  },
+  {
+    "name": "changed-bench__tests__PythonBody",
+    "file": "bench/tests/PythonBody.lean",
+    "sha256": "c68ed391e4e6c6b48b47dd31dfff50318f60a778c899c950d1120b8e03138fd3",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/tests/PythonBody.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "55f936845248774a353803cae4159cd57501d11b"
+  }
+]

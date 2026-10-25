@@ -1,0 +1,18 @@
+fused_recurrent_hgrn
+Traceback (most recent call last):
+  File "/tmp/veritile-hgrn54-clean/bench/repairs/tritonbench_g/fused_recurrent_hgrn/check_contract.py", line 8, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'
+
+swiglu_backward
+Traceback (most recent call last):
+  File "/tmp/veritile-hgrn54-clean/bench/repairs/tritonbench_g/swiglu_backward/check_contract.py", line 8, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'
+
+relu_triton_kernel
+Traceback (most recent call last):
+  File "/tmp/veritile-hgrn54-clean/bench/repairs/tritonbench_g/relu_triton_kernel/check_contract.py", line 10, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'
+
