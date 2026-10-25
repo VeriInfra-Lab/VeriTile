@@ -7662,11 +7662,10 @@
         }
       ],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/fast_rope_embedding.json",
-        "sha256": "3afc44f9e0e116dcd04aa6cfab0cbe702478032709ea0073df1e3fe67a4835d2",
-        "task": "fast_rope_embedding"
+        "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/review.json",
+        "sha256": "7ad406f260fa76e41402ee51a97881bad0a4045d8742d60dffaf5f929af01ba0"
       },
-      "change": null,
+      "change": "Actual pasted source binding and complete source-specific proof replay. Ordinary RoPE logical/native IO instances live in IO.lean and reuse one shared memory descriptor; reader formulas and all public scopes remain.",
       "new_misc_entries": [],
       "required_multistage_scope_preserved": true,
       "remaining_issues": [],
@@ -7677,12 +7676,10 @@
       },
       "io_review_status": "fixed",
       "main_formula_review": {
-        "audit": "bench/review-checkpoints/2026-10-22/main-formulas/audit.json",
+        "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
         "review_evidence": {
-          "path": ".veritile-cache/headline-formulas-20261022/queue05/result.json",
-          "sha256": "71d52238e5e187b559ad3d1a56cb19cc9630f4b8ab1767948b3e1b93a428989d",
-          "task_index": 7,
-          "task": "fast_rope_embedding"
+          "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/review.json",
+          "sha256": "7ad406f260fa76e41402ee51a97881bad0a4045d8742d60dffaf5f929af01ba0"
         }
       },
       "previous_review_evidence": {
@@ -17453,21 +17450,13 @@
       "readers": [
         {
           "path": "bench/repairs/tritonbench_g/rope_embedding/Correct.lean",
-          "sha256": "51001a17ba9203d385aace00e59478fde8d72129362d83c33ac36a5fe3cd0f55",
+          "sha256": "ff0ffb8d74cf95c6be41d321c76b2cf9945ab88d2e1deebb7e0820a450a273a2",
           "surface": "Correct",
           "declarations": [
             {
               "kind": "def",
-              "name": "ropeIO",
-              "line": 11,
-              "full_name": "VeriTile.Bench.Repairs.RopeEmbedding.ropeIO",
-              "role": "named_io_formula_or_program_view",
-              "reason": "Explicit source/typed logical IO view named in the primary Real specification, including the existing source schedule, binding, active output windows and frame."
-            },
-            {
-              "kind": "def",
               "name": "mathematical",
-              "line": 16,
+              "line": 11,
               "full_name": "VeriTile.Bench.Repairs.RopeEmbedding.mathematical",
               "role": "named_io_formula_or_program_view",
               "reason": "Independent mathematical target named in the primary Real specification."
@@ -17475,10 +17464,10 @@
             {
               "kind": "specification",
               "name": "rope_embedding_kernel_correct",
-              "line": 29,
+              "line": 24,
               "full_name": "VeriTile.Bench.Repairs.RopeEmbedding.rope_embedding_kernel_correct",
               "role": "independent_real",
-              "reason": "Single source dynamic loop implements the independent rotation formula; back:Bool represents the genuine two direction branches in one primary theorem."
+              "reason": "The actual ordinary RoPE source schedule, with complete IO safety/execution/output/frame, implements the independent rotation polynomial on the original selected launch domain for either direction."
             }
           ],
           "reexport_only": false
@@ -17494,18 +17483,17 @@
               "line": 9,
               "full_name": "VeriTile.Bench.Repairs.RopeEmbedding.rope_embedding_index_commuted_equiv",
               "role": "actual_program_pair",
-              "reason": "Actual original and index-commuted complete loop programs, linked to the shared fast_rope source by an exact source-binding theorem."
+              "reason": "Two actual ordinary RoPE complete Python bodies, both direction branches and all loop/store statements; exact integer head-group product commutation. No whole-AST equality to Fast RoPE is assumed."
             }
           ],
           "reexport_only": false
         }
       ],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/rope_embedding.json",
-        "sha256": "06e8b0a7732fabacf1f36330e84e006f646586d2514a2ceb060898f80ca57906",
-        "task": "rope_embedding"
+        "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/review.json",
+        "sha256": "7ad406f260fa76e41402ee51a97881bad0a4045d8742d60dffaf5f929af01ba0"
       },
-      "change": null,
+      "change": "Actual pasted source binding and complete source-specific proof replay. Ordinary RoPE logical/native IO instances live in IO.lean and reuse one shared memory descriptor; reader formulas and all public scopes remain.",
       "new_misc_entries": [],
       "required_multistage_scope_preserved": true,
       "remaining_issues": [],
@@ -17516,12 +17504,10 @@
       },
       "io_review_status": "fixed",
       "main_formula_review": {
-        "audit": "bench/review-checkpoints/2026-10-22/main-formulas/audit.json",
+        "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
         "review_evidence": {
-          "path": ".veritile-cache/headline-formulas-20261022/queue12/result.json",
-          "sha256": "c937c6187ba90c6901b06a8819404c7f5dda17e36be0cf64b1f29a753fe66f36",
-          "task_index": 10,
-          "task": "rope_embedding"
+          "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/review.json",
+          "sha256": "7ad406f260fa76e41402ee51a97881bad0a4045d8742d60dffaf5f929af01ba0"
         }
       },
       "previous_review_evidence": {

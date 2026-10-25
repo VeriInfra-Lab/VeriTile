@@ -1,0 +1,12 @@
+fast_rope_embedding
+Traceback (most recent call last):
+  File "/tmp/veritile-rope37-clean/bench/repairs/tritonbench_g/fast_rope_embedding/check_contract.py", line 7, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'
+
+rope_embedding
+Traceback (most recent call last):
+  File "/tmp/veritile-rope37-clean/bench/repairs/tritonbench_g/rope_embedding/check_contract.py", line 7, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'
+

@@ -1,0 +1,389 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "ce0b0bdbf4b3588764cd2108fdf97d0f6d6b2f44",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "fast_rope_embedding",
+    "rope_embedding"
+  ],
+  "semantic_review": {
+    "adam_update_triton": "Shared call-time immutable Nat division, runtime integer literal handling, precision-preserving value.dtype casts, FP8 exhaustiveness and retained signed bitwise width regressions; explicit casts and actual fixed-width operations remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "add_example": "Shared call-time immutable Nat division, runtime integer literal handling, precision-preserving value.dtype casts, FP8 exhaustiveness and retained signed bitwise width regressions; explicit casts and actual fixed-width operations remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "add_value": "Shared call-time immutable Nat division, runtime integer literal handling, precision-preserving value.dtype casts, FP8 exhaustiveness and retained signed bitwise width regressions; explicit casts and actual fixed-width operations remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "cache_transform_triton": "Shared call-time immutable Nat division, runtime integer literal handling, precision-preserving value.dtype casts, FP8 exhaustiveness and retained signed bitwise width regressions; explicit casts and actual fixed-width operations remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "cosine_compute": "Shared call-time immutable Nat division, runtime integer literal handling, precision-preserving value.dtype casts, FP8 exhaustiveness and retained signed bitwise width regressions; explicit casts and actual fixed-width operations remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "dequantize_matmul": "Shared call-time immutable Nat division, runtime integer literal handling, precision-preserving value.dtype casts, FP8 exhaustiveness and retained signed bitwise width regressions; explicit casts and actual fixed-width operations remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "dequantize_rowwise": "Shared call-time immutable Nat division, runtime integer literal handling, precision-preserving value.dtype casts, FP8 exhaustiveness and retained signed bitwise width regressions; explicit casts and actual fixed-width operations remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "f8_conversion_utils": "Shared call-time immutable Nat division, runtime integer literal handling, precision-preserving value.dtype casts, FP8 exhaustiveness and retained signed bitwise width regressions; explicit casts and actual fixed-width operations remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "index_select_bwd": "Shared call-time immutable Nat division, runtime integer literal handling, precision-preserving value.dtype casts, FP8 exhaustiveness and retained signed bitwise width regressions; explicit casts and actual fixed-width operations remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "kldiv_compute": "Shared call-time immutable Nat division, runtime integer literal handling, precision-preserving value.dtype casts, FP8 exhaustiveness and retained signed bitwise width regressions; explicit casts and actual fixed-width operations remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "kldiv_triton": "Shared call-time immutable Nat division, runtime integer literal handling, precision-preserving value.dtype casts, FP8 exhaustiveness and retained signed bitwise width regressions; explicit casts and actual fixed-width operations remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "l2_norm_bwd": "Shared call-time immutable Nat division, runtime integer literal handling, precision-preserving value.dtype casts, FP8 exhaustiveness and retained signed bitwise width regressions; explicit casts and actual fixed-width operations remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "l2_norm_triton1": "Shared call-time immutable Nat division, runtime integer literal handling, precision-preserving value.dtype casts, FP8 exhaustiveness and retained signed bitwise width regressions; explicit casts and actual fixed-width operations remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "l2_norm_triton2": "Shared call-time immutable Nat division, runtime integer literal handling, precision-preserving value.dtype casts, FP8 exhaustiveness and retained signed bitwise width regressions; explicit casts and actual fixed-width operations remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "masked_add_cuda": "Shared call-time immutable Nat division, runtime integer literal handling, precision-preserving value.dtype casts, FP8 exhaustiveness and retained signed bitwise width regressions; explicit casts and actual fixed-width operations remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "matrix_reduction": "Shared call-time immutable Nat division, runtime integer literal handling, precision-preserving value.dtype casts, FP8 exhaustiveness and retained signed bitwise width regressions; explicit casts and actual fixed-width operations remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "matrix_transpose": "Shared call-time immutable Nat division, runtime integer literal handling, precision-preserving value.dtype casts, FP8 exhaustiveness and retained signed bitwise width regressions; explicit casts and actual fixed-width operations remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "mean_reduction": "Shared call-time immutable Nat division, runtime integer literal handling, precision-preserving value.dtype casts, FP8 exhaustiveness and retained signed bitwise width regressions; explicit casts and actual fixed-width operations remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "mul_exponent_compensator": "Shared call-time immutable Nat division, runtime integer literal handling, precision-preserving value.dtype casts, FP8 exhaustiveness and retained signed bitwise width regressions; explicit casts and actual fixed-width operations remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "quant_transpose_kernel": "Shared call-time immutable Nat division, runtime integer literal handling, precision-preserving value.dtype casts, FP8 exhaustiveness and retained signed bitwise width regressions; explicit casts and actual fixed-width operations remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "rmsnorm_fused": "Shared call-time immutable Nat division, runtime integer literal handling, precision-preserving value.dtype casts, FP8 exhaustiveness and retained signed bitwise width regressions; explicit casts and actual fixed-width operations remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "rmsnorm_fused_llama": "Shared call-time immutable Nat division, runtime integer literal handling, precision-preserving value.dtype casts, FP8 exhaustiveness and retained signed bitwise width regressions; explicit casts and actual fixed-width operations remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "rmsnorm_implementation": "Shared call-time immutable Nat division, runtime integer literal handling, precision-preserving value.dtype casts, FP8 exhaustiveness and retained signed bitwise width regressions; explicit casts and actual fixed-width operations remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "rmsnorm_triton": "Shared call-time immutable Nat division, runtime integer literal handling, precision-preserving value.dtype casts, FP8 exhaustiveness and retained signed bitwise width regressions; explicit casts and actual fixed-width operations remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "sin_computation": "Shared call-time immutable Nat division, runtime integer literal handling, precision-preserving value.dtype casts, FP8 exhaustiveness and retained signed bitwise width regressions; explicit casts and actual fixed-width operations remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "sin_kernel": "Shared call-time immutable Nat division, runtime integer literal handling, precision-preserving value.dtype casts, FP8 exhaustiveness and retained signed bitwise width regressions; explicit casts and actual fixed-width operations remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "softmax_triton1": "Shared call-time immutable Nat division, runtime integer literal handling, precision-preserving value.dtype casts, FP8 exhaustiveness and retained signed bitwise width regressions; explicit casts and actual fixed-width operations remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "softmax_triton2": "Shared call-time immutable Nat division, runtime integer literal handling, precision-preserving value.dtype casts, FP8 exhaustiveness and retained signed bitwise width regressions; explicit casts and actual fixed-width operations remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "square_matrix": "Shared call-time immutable Nat division, runtime integer literal handling, precision-preserving value.dtype casts, FP8 exhaustiveness and retained signed bitwise width regressions; explicit casts and actual fixed-width operations remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "swiglu_fwd": "Shared call-time immutable Nat division, runtime integer literal handling, precision-preserving value.dtype casts, FP8 exhaustiveness and retained signed bitwise width regressions; explicit casts and actual fixed-width operations remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "triton_mul2": "Shared call-time immutable Nat division, runtime integer literal handling, precision-preserving value.dtype casts, FP8 exhaustiveness and retained signed bitwise width regressions; explicit casts and actual fixed-width operations remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "triton_softmax": "Shared call-time immutable Nat division, runtime integer literal handling, precision-preserving value.dtype casts, FP8 exhaustiveness and retained signed bitwise width regressions; explicit casts and actual fixed-width operations remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "var_len_copy": "Shared call-time immutable Nat division, runtime integer literal handling, precision-preserving value.dtype casts, FP8 exhaustiveness and retained signed bitwise width regressions; explicit casts and actual fixed-width operations remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "vector_addition": "Shared call-time immutable Nat division, runtime integer literal handling, precision-preserving value.dtype casts, FP8 exhaustiveness and retained signed bitwise width regressions; explicit casts and actual fixed-width operations remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "vector_addition_custom": "Shared call-time immutable Nat division, runtime integer literal handling, precision-preserving value.dtype casts, FP8 exhaustiveness and retained signed bitwise width regressions; explicit casts and actual fixed-width operations remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "fast_rope_embedding": "Paste the complete unchanged selected Python function body and the existing integer head-group product candidate, with docstring, real ROPE_GROUP_SIZE=4 assignment, both value.dtype load casts, backward sign branch, dynamic grouped loop and both stores. Four runtime integer values retain the old Nat caller geometry; shape/direction/block roles remain constexpr. Newly authored candidate Python is explicitly marked. Whole original and candidate programs equal their retained precision-polymorphic source instances by rfl for every old argument/direction. The other RoPE actually has no group-size assignment, so prove the Fast source prelude separately; a full-body theorem identifies only their identical loops. Reuse loop/index helpers through that theorem and prove complete successful execution, every output/frame, actual access/trace safety and all existing Real/FP, arbitrary singleton strides, physical word/byte, host and Tensor conclusions. Bind the Fast contract to its own actual source. Make the old typed-source regression import explicit. No new numeric law, hardware claim or whole-program premise.",
+    "kv_cache_filling": "Shared frontend dependency regression only: source/candidate bodies and all mathematical/numerical scopes are unchanged at this code checkpoint. Exact public/deep roots are recorded in modules.json. No body migration is counted for this task unless the source inventory independently records it.",
+    "rope_embedding": "Paste the complete unchanged selected Python function body including docstring, both .to(sin1.dtype) casts, backward sign branch, dynamic group loop and both stores. Four runtime stride/count values are external integer call bindings; all original constexpr roles, including ROPE_GROUP_SIZE default 4, remain external. Remove the old phantom group-size assignment: the true original declares a constexpr argument. Keep every old selected group-4 public geometry, input/domain, safety/output/frame, ordered numerical/native graph, host returned clone/reshape/squeeze and Tensor conclusion. Directly reprove the actual prelude and full loop; do not assert whole-AST equality to Fast RoPE. Repair the previously reused public Real IO so its logical view schedules the actual ordinary kernel, and likewise bind the native IO to that source. Reuse only the single common memory descriptor and logical input/output bijections in IO.lean; directly prove this actual complete schedule, access/trace safety, success, every output and exterior frame before both Real/native interpretations. The old accidental Fast-source alias cannot discharge these direct ordinary-source proofs. A complete-kernel decomposition connects the true ports, actual prelude and whole loop. Directly compare the two actual complete original/index-product-candidate bodies using exact natural arithmetic, with empty experimental rules. Newly authored Python is only the explicitly marked counterpart of the pre-existing Lean candidate.",
+    "triton_argmax": "Shared frontend dependency regression only: source/candidate bodies and all mathematical/numerical scopes are unchanged at this code checkpoint. Exact public/deep roots are recorded in modules.json. No body migration is counted for this task unless the source inventory independently records it."
+  },
+  "example_regression_scope": "All 19 examples and their complete imported helpers replay locally, jointly and independently from Git. Their sources, formulas, numerical contracts and scopes are unchanged.",
+  "verification": {
+    "frontend_regressions": {
+      "status": "PASS",
+      "configured_modules": 93,
+      "previous_code_baseline": "e8f5866719c7003e102e0ffe3866b03cedbb64aa",
+      "previous_failures": 8,
+      "scope": "All configured frontend regressions plus existing decay_cumsum full abstract-model execution witnesses; no failed targets omitted."
+    },
+    "integration": {
+      "status": "PASS",
+      "explicit_modules": 1333,
+      "jobs": 10348
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 1333,
+      "jobs": 10348,
+      "project_build_initially_present": false,
+      "veritile_cache_initially_present": false,
+      "only_fixed_external_dependencies_reused": true
+    },
+    "joint_import": "PASS: all 1333 roots",
+    "task_directories": "Every Lean file in both newly migrated task directories, including optional native/host/Tensor readers and all complete semantic/source-binding proofs.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 45
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 290,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by the old numerical receipt; prior baseline preserved, no false repin."
+    },
+    "official_comparator": "UNAVAILABLE: actual frozen-source invocations report host isolation unavailable. The official pinned comparator/exporter/landrun successfully built with a SHA256-verified local Go toolchain. Host Landlock ABI v4 cannot satisfy required v5, and the systemd user bus is unavailable. Isolation checks remain fail-closed.",
+    "optional_cpu_contract": "UNAVAILABLE: current environment lacks torch; actual failure retained.",
+    "gpu_or_numerical_experiment": "Not run. No new numeric laws, axioms or hardware-conformance claim.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending."
+  },
+  "source_pairs": {
+    "total": 145,
+    "pasted_body": 140,
+    "legacy_ast": 5
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/source-closure.json",
+    "sha256": "ba324db6e585bf05cad24922ee39264d17600f5986d7735bb20ea1c2b940ae59"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "legacy_ast_only": 1,
+      "no_selected_jit_resolved": 2,
+      "selected_body_copy_checked": 37,
+      "uncovered_jit_functions": 143
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 328,
+    "uncovered_selected_jit_functions": 269,
+    "primary_files_with_int64_screen_warning": 40,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 114,
+        "antiquotes": 126,
+        "dsl_loop": 1,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/CallSignature-comparator.log",
+      "sha256": "b1f18e602de63dd4c9c59db5871478ce87006a258f4349a66197c284798ac44b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/DecayCumsumTypedExecution-comparator.log",
+      "sha256": "6ae136379047262e977b41777a247efc777af84890363a305cf8ce310f87b81f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/EquivTactics-comparator.log",
+      "sha256": "a26691666eb068c01bafbc21af1810b6a93c3c85c4d28f8d122b4d4dfa2bfb76"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/FP4Source-comparator.log",
+      "sha256": "3bfd7a28664c85b3d754fadf03c9a88be38f85d3a22edaa53c98b49a35043f7f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/FPComputeAddition-comparator.log",
+      "sha256": "28ab31b83a1ecfed095de103c2980086953ba92b8ee6de73a85d2d3fa5286f51"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/FPConstantBranchContexts-comparator.log",
+      "sha256": "32d1d78de98cdd1908eacb45c1a38ddb70804f0225d076207eccac0db3e1103b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/FPSoftmaxForwardPointer-comparator.log",
+      "sha256": "c5b77f000d52bc7a417b6de99bdf6976abc84447bbe27e06c8b517bac09491c9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/FastRopeSource-comparator.log",
+      "sha256": "cdb966b26480980ae2c2c063918eae9dc353f118fb2e8e750cf637d68fe40429"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/FloatMinMaxPromotion-comparator.log",
+      "sha256": "50a691872cfd3b1b073ece36d1d1436654ae76af37f397bf9baf8dab98c9c167"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/LoadCastStorage-comparator.log",
+      "sha256": "460c7d10fdf7db4bcaf94e83804dad5320180c44ec4f203c5883bf757f9a3016"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/RegisterDTypeLoad-comparator.log",
+      "sha256": "74a2106d6ec959da56eb614daf864f290c4b23d467174888037057da5761c4e1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/SignedBitwiseSource-comparator.log",
+      "sha256": "ffa7f36a9f2f20221c06b2341620b1d1b3915f445cc762ed4bceb579eb60c690"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/SourceDType-comparator.log",
+      "sha256": "c6726b7f1f9e7aa72e449eaada7ba366920840366baca13e415bed77dde94f24"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/all-python.log.gz",
+      "sha256": "1ed4e030b319a2d1e8ee7bc86486911630ee018895e218afd882dc5cfbfd3682"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/changed-VeriTile__Triton__DSL__CallSignature-comparator.log",
+      "sha256": "d2708ba878160b8eeeabf5af07bcf970cb9f6dc5934286c474843fe8e7a0167a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/changed-VeriTile__Triton__DSL__Expansion__Compute-comparator.log",
+      "sha256": "908cc54169cdbd67fb69afb85002477344a0e2b35d4a820263417dffe2ec717c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/changed-VeriTile__Triton__DSL__Expansion__Main-comparator.log",
+      "sha256": "a28fa1c0e88ab140210fc049e090205c976b20b933c463f9e024b2da5f9035be"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/changed-VeriTile__Triton__DSL__SourceDType-comparator.log",
+      "sha256": "ddc02ca26c2ea16c439f202c07a56d98e37ced9f7abc8643bed76fe88054bb23"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/changed-bench__repairs__tritonbench_g__fast_rope_embedding__Contract-comparator.log",
+      "sha256": "085fa9f3f964c2bc2d112851930ce02314a26a8cbcd9f325303e4bd2a5e29bf3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/changed-bench__repairs__tritonbench_g__fast_rope_embedding__Kernels-comparator.log",
+      "sha256": "b1a61223c404e4a55039c737b0d7ba0f4d6ace6d28dd5e544f736ec89b04a797"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/changed-bench__repairs__tritonbench_g__fast_rope_embedding__Proofs__AccessSafety-comparator.log",
+      "sha256": "9dcc1d95bdf900cd732a3e4ae1c6517f6debf19c4526a2b7460db12ad5e1b930"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/changed-bench__repairs__tritonbench_g__fast_rope_embedding__Proofs__KernelInterface-comparator.log",
+      "sha256": "bb262b734983bb9aa8ed61986137ca53357d5ec0985cebf65c2d90bfdf30f243"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/changed-bench__repairs__tritonbench_g__fast_rope_embedding__Proofs__KernelRegressions-comparator.log",
+      "sha256": "d41086dbf1dd57b5ac0c2dbee3bb851296a49c3e2d8759566cb379008476a127"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/changed-bench__repairs__tritonbench_g__rope_embedding__IO-comparator.log",
+      "sha256": "7dc17cfad696ba5a64f233e480c211d138724b4868ce22b303746617b3d876f7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/changed-bench__repairs__tritonbench_g__rope_embedding__Kernels-comparator.log",
+      "sha256": "e1cd7bc98ec1e60d17b28e39019670957b2d762ea11b3b0884bd52907f3e1356"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/changed-bench__repairs__tritonbench_g__rope_embedding__Misc__NativeCorrect-comparator.log",
+      "sha256": "421d5f3efb8ec6e1543872b9ea1046950ba84623f461541eb621e4f5d4893ce7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/changed-bench__repairs__tritonbench_g__rope_embedding__Proofs__Interface-comparator.log",
+      "sha256": "f28515934e2de180b620edf90a892d5557783e368483463891eb10282d3cfb0c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/changed-bench__repairs__tritonbench_g__rope_embedding__Proofs__Pair-comparator.log",
+      "sha256": "c0755e42e2e4b6c119df26dc29f61a901093d3de4badda2e23ce426f41f8810a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/changed-bench__repairs__tritonbench_g__rope_embedding__Proofs__Source-comparator.log",
+      "sha256": "53a5d803d933fd987f249ff321483aa7098c4aa2385e80d17951e13ab339f266"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/changed-bench__repairs__tritonbench_g__rope_embedding__Proofs__SourceBinding-comparator.log",
+      "sha256": "54bc9aaa6bb581e84b28d3a205f1eeba622168e206b6d0d1a34831d23b3497d8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/changed-bench__repairs__tritonbench_g__rope_embedding__Proofs__SourceSafety-comparator.log",
+      "sha256": "6b8579f9fa3f11797d960c4f43b1ec16b15285115ab78daae76cc3d2f0a6ad52"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/clean-build.log.gz",
+      "sha256": "e0b2b33ebfad4a29b7d30bd347acb15fe3e49e167306e62414fab67fa167ee38"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/clean-setup.log",
+      "sha256": "e5f55574c4de22bb1c0e93009f98afdcc0ec4a78c11c5640f6327c253718881f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/comparator-invocations.json",
+      "sha256": "580175cb734f067346defc16fbed403dec66e1aa3bd00bf6460350d5765a63e0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/comparator-preflight.log",
+      "sha256": "d9255026a27595d0a04e154bc4a9c609c8422b012fc13cb1ae4de2417afea36d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/comparator-setup.log",
+      "sha256": "bea658f19aea48f8965a3d6525da1300e599d9a3f0a05b992071c97bcaffd6df"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/comparator-tools.json",
+      "sha256": "d541ac407f7aa8679c8ba23dd4df72ac363730bbb67e45bd7959ec752e6b0c53"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/comparator.log",
+      "sha256": "cf409818ca89852a1c80bc8191b647f90e329300e1d77aea303dcebe621741cf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/contract.log",
+      "sha256": "00601fdb1d8113914c313310cebcd55c4ebb2a701a196d0ce6ab07c3c70ce1ae"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/corpus-guard.log",
+      "sha256": "7df92cb30c88681b17567a901b43e7f02b675c1bd678a9f520563ece5aacaa7b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/fast_rope_embedding-Real-comparator.log",
+      "sha256": "9e096970b722e6b9061c5f29941a6ea6b26c5ac746db0948a1c3b3e09e940a34"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/fast_rope_embedding-comparator.log",
+      "sha256": "dc4eb18a0b815afa06fd7f4e02770373f88cbbc3a704c55c6b5d4d3eb1f30014"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/fast_rope_embedding-contract.log",
+      "sha256": "6b8f24e32647aa6b6115ed7ff9a5f2c5333805b9e8072b49165f14544d1d4d71"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/frontend-baseline-modules.txt",
+      "sha256": "d25feef373a1fe91f257e19c101d1eb9cb15c23e71b207030dc47b3fdc82fe79"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/frontend-baseline.log.gz",
+      "sha256": "651397cc67ee84ca842cba75161ed2e7bf483a163e0a78607c73c2162e1707cb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/integration.log.gz",
+      "sha256": "6d90527435dedc690c2398cf913ac71e993b11ab6e36fcb6469257d5f049cfa5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/joint.lean",
+      "sha256": "39d06077aa954f1df8bd7592778fc2920e7337f179cba6217951fc873eed9724"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/modules.json",
+      "sha256": "2123ef4e7a8d929a543be77e27c50e2cb7834ce337d75ad137f045d6d12dc710"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/pairs.json",
+      "sha256": "6f2b17963d997b73f8babfa66096617159126d8c2c19df71f325afbbd097f81d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/previous-io-reviews.json.gz",
+      "sha256": "9022aec9c46d487d97dcefc95d4ddfbfa3d94bec3533766148fc864a00258941"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/previous-reader-roles.json.gz",
+      "sha256": "2c4120110c1ceec51ba081787e2eec32097a60c3fd2d6c99ede814ea3a2d9b48"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/previous-selected-reviews.json.gz",
+      "sha256": "963e56219dc8918fc272e725709f86b97c5e4a5e9f4c87df6c44d2145cba71e3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/python-tests.log",
+      "sha256": "cb510e8a0970a3523245d519693de73d7b817bc519839465a12c3ec6923fea71"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/rope_embedding-Real-comparator.log",
+      "sha256": "2066fdfeee4a2f5e11f87f64335c165ac6517617bcda6716102cca12a8f01b10"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/rope_embedding-comparator.log",
+      "sha256": "cc469e35b70a239160f1a489b3ec7538abec8810b7017abbfba460e4b56684e0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/rope_embedding-contract.log",
+      "sha256": "22bd8f8588b7ce1b29b5a07966edbfc4227014dde357ada608bb3c98a6db2f0a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/source-closure.json",
+      "sha256": "ba324db6e585bf05cad24922ee39264d17600f5986d7735bb20ea1c2b940ae59"
+    }
+  ]
+}
