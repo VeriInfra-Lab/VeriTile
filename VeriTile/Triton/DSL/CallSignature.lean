@@ -285,6 +285,12 @@ private def staticSignedRangeBound (constants assigned : List Name)
       return ← liftMacroM `(tritonExpr| $((Int.ofNat ($value : Nat) : Int)))
   return e
 
+/-- A Nat caller/constexpr value has already been substituted by this pass.
+Literal-only source ranges retain their existing dynamic AST representation. -/
+private partial def suppliedRangeBound (raw : Syntax) : Bool :=
+  if let `(tritonExpr| $($_:term)) := raw then Bool.true
+  else raw.getArgs.any suppliedRangeBound
+
 /-- A per-call size has already been supplied before executing the body.
 Select the existing constant-bound range constructor only for known immutable
 Nat bounds. Runtime locals and signed casts retain their dynamic range path. -/
@@ -296,9 +302,13 @@ private partial def specializeRanges (constants assigned : List Name) (raw : Syn
     let bb ← staticSignedRangeBound constants assigned b
     if aa.raw != a.raw || bb.raw != b.raw then
       return (← liftMacroM `(tritonStmt| for $i in range($aa, $bb) { $body* })).raw
-    if let some start ← staticNatBound constants assigned a then
-      if let some stop ← staticNatBound constants assigned b then
-        return (← liftMacroM `(tritonStmt| for $i in range($($start), $($stop), $((1 : Nat))) { $body* })).raw
+    -- Preserve the existing dynamic constructor for literal-only source loops.
+    -- A specialized caller endpoint (e.g. range(0,T)) is an explicit antiquote
+    -- by this pass; source literals alone need no representation change.
+    if suppliedRangeBound a.raw || suppliedRangeBound b.raw then
+      if let some start ← staticNatBound constants assigned a then
+        if let some stop ← staticNatBound constants assigned b then
+          return (← liftMacroM `(tritonStmt| for $i in range($($start), $($stop), $((1 : Nat))) { $body* })).raw
   if let `(tritonStmt| for $i:ident in range($n:tritonExpr) { $body:tritonStmt* }) := next then
     if let some n ← staticNatBound constants assigned n then
       return (← liftMacroM `(tritonStmt| tl.for $i in $($n) { $body* })).raw

@@ -114,6 +114,20 @@ theorem local_endpoint (N : Nat) : overwritten N = triton {
     }
   } := rfl
 
+/-- Literal-only source loops keep the established dynamic-loop AST, including
+nested loops whose existing decomposition proofs inspect this constructor. -/
+def literalOnly : ComputeKernel :=
+  with_triton_signature ({} : CallSignature) in triton {
+    for i in range(0, 2):
+        for j in range(0, 2):
+            total = i + j
+  }
+theorem literal_constructor : ∃ inner,
+    literalOnly.surfaceBody = [.forRangeDyn "i" (.constNat 0) (.constNat 2) (.constNat 1)
+      [.forRangeDyn "j" (.constNat 0) (.constNat 2) (.constNat 1) inner]] := by
+  exact ⟨_,rfl⟩
+
+#axiomsClean literal_constructor
 #axiomsClean complete_program
 #axiomsClean local_endpoint
 end ImmutableTwoArgumentRange
