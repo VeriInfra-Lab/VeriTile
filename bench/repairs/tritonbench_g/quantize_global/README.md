@@ -26,14 +26,31 @@ The actual repair uses `tl.div_rn`, then a separate FP32 multiplication by 127,
 explicit lower/upper clamps, signed64 `llrint`, and an INT8 store. Real is the
 mathematical specification, not a claim that native arithmetic is exact.
 
-`Kernels.lean` remains the single readable typed DSL source. Its `/` node is
-explicitly interpreted as the Python `tl.div_rn` primitive by
-`Proofs/Model.lean`; it does not select Triton's approximate `/` lowering.
-`check_contract.py` checks every source assignment and the final store against
-this declared projection. Signed integer widenings have the retained native
-index bridge. The shared fixed integer-stage executor adds signed64 `llrint` and modular
-INT8 narrowing to the Structural evaluator; the same source body is executed.
-No handwritten second kernel AST is maintained.
+The complete selected Python function body is pasted unchanged in
+Kernels.lean. All thirteen statements, signed INT64 casts, masks, clamps,
+llrint and the implicit INT8 store conversion remain. Pointer storage, the two
+annotated runtime INT64 arguments and the block constexpr are supplied outside
+the body. The source checker compares the complete body and actual call
+bindings, including the precise division spelling.
+
+The frontend emits a distinct Op.divRN node and requires an independent
+FP32 primitive callback; it never falls back to ordinary division or a
+reciprocal graph. FP64 and unknown floating-family operands must first be
+converted explicitly to FP32. The mathematical interpretation uses division;
+the floating interpretation retains the precise primitive and operand-local
+precision/conversion scopes. Proofs/Model.lean binds the existing Scalar.div
+port only to this precise callback. Ordinary division keeps its own backend.
+The existing native index bridge, INT64 llrint executor, modular INT8 storage,
+numerical ports and public contracts remain.
+
+Proofs/Source.lean identifies the actual precise assignment and proves the
+complete signed-source execution against the independent per-element scalar
+graph. Strict Nat/Int identities connect the mathematical coordinates.
+The derived signed INT8 conversion and integer-stage byte storage are proved
+idempotent using integer modular arithmetic; no floating identity is assumed.
+Proofs/KernelSafety.lean checks actual loads and stores, including the
+unconditional maximum read. Current frozen-source receipts record the full
+proof replay separately from the historical CPU checks below.
 
 ## Admission and memory binding
 

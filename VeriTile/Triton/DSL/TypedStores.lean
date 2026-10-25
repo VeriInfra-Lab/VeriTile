@@ -136,6 +136,7 @@ private partial def valueType (pointers : Types) (values : Values)
   | `(tritonExpr| $a:tritonExpr - $b:tritonExpr)
   | `(tritonExpr| $a:tritonExpr * $b:tritonExpr)
   | `(tritonExpr| $a:tritonExpr / $b:tritonExpr) => (sameWorkingFloat a b).map ValueInfo.typed
+  | `(tritonExpr| tl.div_rn($_:tritonExpr, $_:tritonExpr)) => some (.typed .fp32)
   | `(tritonExpr| tl.where($_:tritonExpr, $a:tritonExpr, $b:tritonExpr)) =>
       (sameWorkingFloat a b).map ValueInfo.typed
   | `(tritonExpr| tl.maximum($a:tritonExpr, $b:tritonExpr))
@@ -230,7 +231,21 @@ private partial def rejectNestedLoads (pointers : Types) (raw : Syntax)
     Macro.throwErrorAt raw "nested load source precision is unsupported by the current frontend"
   for arg in raw.getArgs do rejectNestedLoads pointers arg
 
-private def checkAssignmentLoads (pointers : Types) (value : TSyntax `tritonExpr) : MacroM Unit := do
+/-- The precise-divide source intrinsic accepts FP32. Unknown family or
+FP64 operands cannot be silently relabeled by the fixed-precision result. -/
+private partial def checkDivRN (pointers : Types) (values : Values) (raw : Syntax) : MacroM Unit := do
+  let e : TSyntax `tritonExpr := ⟨raw⟩
+  if let `(tritonExpr| tl.div_rn($a:tritonExpr, $b:tritonExpr)) := e then
+    let kinds := [valueType pointers values a, valueType pointers values b]
+    unless kinds.any (· == some (.typed .fp32)) && kinds.all (fun kind =>
+        kind == some (.typed .fp32) || kind == some .integerLiteral ||
+          kind == some .floatingLiteral) do
+      Macro.throwErrorAt raw "tl.div_rn requires known FP32 source operands; cast other formats explicitly"
+  for arg in raw.getArgs do checkDivRN pointers values arg
+
+private def checkAssignmentLoads (pointers : Types) (values : Values)
+    (value : TSyntax `tritonExpr) : MacroM Unit := do
+  checkDivRN pointers values value.raw
   -- The existing integer frontend preserves a direct tl.cast(load(...), dtype)
   -- just like load(...).to(dtype). Integer reads have no floating load event.
   -- Keep arbitrary nested floating loads rejected: their load precision must
@@ -251,11 +266,13 @@ private def checkAssignmentLoads (pointers : Types) (value : TSyntax `tritonExpr
 /-- A complete load with an explicit method cast is composable in the
 existing augmented-arithmetic compiler. Keep arbitrary nested FP loads on the
 rejected path so a load precision boundary cannot silently disappear. -/
-private def checkAugmentedLoads (pointers : Types) (value : TSyntax `tritonExpr) : MacroM Unit := do
+private def checkAugmentedLoads (pointers : Types) (values : Values)
+    (value : TSyntax `tritonExpr) : MacroM Unit := do
+  checkDivRN pointers values value.raw
   match value with
   | `(tritonExpr| tl.load($_:tritonExpr $[, $_:tritonMemKwarg]*).to($_:tritonDType))
   | `(tritonExpr| tl.load($_:tritonExpr, $_:tritonExpr $[, $_:tritonMemKwarg]*).to($_:tritonDType)) =>
-      checkAssignmentLoads pointers value
+      checkAssignmentLoads pointers values value
   | _ => rejectNestedLoads pointers value.raw
 
 private partial def rejectPointerRebinding (pointers : Types) (raw : Syntax) : MacroM Unit := do
@@ -334,7 +351,7 @@ private partial def lowerWithState (pointers : Types) (values : Values)
       | `(tritonStmt| $maximum:ident, $position:ident = tl.max($input:tritonExpr $[, $kwargs:tritonReduceKwarg]*))
       | `(tritonStmt| $maximum:ident, $position:ident := tl.max($input:tritonExpr $[, $kwargs:tritonReduceKwarg]*)) =>
           let reduction ← `(tritonExpr| tl.max($input:tritonExpr $[, $kwargs:tritonReduceKwarg]*))
-          checkAssignmentLoads pointers reduction
+          checkAssignmentLoads pointers values reduction
           -- Track the known FP32 value result separately from the integer
           -- position. The ordinary compiler validates the tuple options and
           -- reduction shape. No index ABI width is inferred here.
@@ -360,7 +377,7 @@ private partial def lowerWithState (pointers : Types) (values : Values)
           for (id,value) in targets.zip expressions do
             if (lookup pointers id).isSome || (pointerType pointers value).isSome then
               Macro.throwErrorAt stmt "pointer tuple assignment needs an explicit supported binding"
-            checkAssignmentLoads pointers value
+            checkAssignmentLoads pointers values value
             let dtype := valueType pointers values value
             checkInvariant invariants id dtype
             nextPointers := nextPointers.filter (fun entry => entry.1 != name id)
@@ -373,7 +390,7 @@ private partial def lowerWithState (pointers : Types) (values : Values)
       | `(tritonStmt| $id:ident = tl.max($value:tritonExpr, $axisIndex:num))
       | `(tritonStmt| $id:ident := tl.max($value:tritonExpr, $axisIndex:num)) =>
           let reduction ← `(tritonExpr| tl.max($value:tritonExpr, axis = $axisIndex:num))
-          checkAssignmentLoads pointers reduction
+          checkAssignmentLoads pointers values reduction
           let dtype := valueType pointers values reduction
           checkInvariant invariants id dtype
           nextPointers := pointers.filter (fun entry => entry.1 != name id)
@@ -381,7 +398,7 @@ private partial def lowerWithState (pointers : Types) (values : Values)
           if let some dtype := dtype then
             nextValues := (name id, dtype) :: nextValues
       | `(tritonStmt| $id:ident = $value:tritonExpr) =>
-          checkAssignmentLoads pointers value
+          checkAssignmentLoads pointers values value
           checkInvariant invariants id (valueType pointers values value)
           nextPointers := pointers.filter (fun entry => entry.1 != name id)
           nextValues := values.filter (fun entry => entry.1 != name id)
@@ -390,7 +407,7 @@ private partial def lowerWithState (pointers : Types) (values : Values)
           if let some dtype := valueType pointers values value then
             nextValues := (name id, dtype) :: nextValues
       | `(tritonStmt| $id:ident += $value:tritonExpr) =>
-          checkAugmentedLoads pointers value
+          checkAugmentedLoads pointers values value
           let expression ← `(tritonExpr| $id:ident + $value:tritonExpr)
           let dtype := valueType pointers values expression
           checkInvariant invariants id dtype
@@ -399,7 +416,7 @@ private partial def lowerWithState (pointers : Types) (values : Values)
           if (lookup pointers id).isNone then
             nextPointers := pointers.filter (fun entry => entry.1 != name id)
       | `(tritonStmt| $id:ident -= $value:tritonExpr) =>
-          checkAugmentedLoads pointers value
+          checkAugmentedLoads pointers values value
           let expression ← `(tritonExpr| $id:ident - $value:tritonExpr)
           let dtype := valueType pointers values expression
           checkInvariant invariants id dtype
@@ -408,7 +425,7 @@ private partial def lowerWithState (pointers : Types) (values : Values)
           if (lookup pointers id).isNone then
             nextPointers := pointers.filter (fun entry => entry.1 != name id)
       | `(tritonStmt| $id:ident *= $value:tritonExpr) =>
-          checkAugmentedLoads pointers value
+          checkAugmentedLoads pointers values value
           let expression ← `(tritonExpr| $id:ident * $value:tritonExpr)
           let dtype := valueType pointers values expression
           checkInvariant invariants id dtype
@@ -417,7 +434,7 @@ private partial def lowerWithState (pointers : Types) (values : Values)
           if (lookup pointers id).isNone then
             nextPointers := pointers.filter (fun entry => entry.1 != name id)
       | `(tritonStmt| $id:ident /= $value:tritonExpr) =>
-          checkAugmentedLoads pointers value
+          checkAugmentedLoads pointers values value
           let expression ← `(tritonExpr| $id:ident / $value:tritonExpr)
           let dtype := valueType pointers values expression
           checkInvariant invariants id dtype
@@ -426,14 +443,17 @@ private partial def lowerWithState (pointers : Types) (values : Values)
           if (lookup pointers id).isNone then
             nextPointers := pointers.filter (fun entry => entry.1 != name id)
       | `(tritonStmt| tl.store($destination:tritonExpr, $value:tritonExpr)) =>
+          checkDivRN pointers values stmt.raw
           rejectNestedLoads pointers value.raw
           let value ← convertedValue pointers values destination value
           stmt ← `(tritonStmt| tl.store($destination:tritonExpr, $value:tritonExpr))
       | `(tritonStmt| tl.store($destination:tritonExpr, $value:tritonExpr, $kwarg:tritonMemKwarg $[, $kwargs:tritonMemKwarg]*)) =>
+          checkDivRN pointers values stmt.raw
           rejectNestedLoads pointers value.raw
           let value ← convertedValue pointers values destination value
           stmt ← `(tritonStmt| tl.store($destination:tritonExpr, $value:tritonExpr, $kwarg:tritonMemKwarg $[, $kwargs:tritonMemKwarg]*))
       | `(tritonStmt| if $condition:tritonExpr { $yes:tritonStmt* } else { $no:tritonStmt* }) =>
+          checkDivRN pointers values condition.raw
           rejectNestedLoads pointers condition.raw
           for st in yes ++ no do rejectPointerRebinding pointers st.raw
           let (yes,yesPointers,yesValues) ← lowerWithState pointers values yes.toList invariants
@@ -444,6 +464,7 @@ private partial def lowerWithState (pointers : Types) (values : Values)
           nextPointers := commonInfo yesPointers noPointers
           nextValues := commonInfo yesValues noValues
       | `(tritonStmt| if $condition:tritonExpr { $yes:tritonStmt* }) =>
+          checkDivRN pointers values condition.raw
           rejectNestedLoads pointers condition.raw
           for st in yes do rejectPointerRebinding pointers st.raw
           let (yes,yesPointers,yesValues) ← lowerWithState pointers values yes.toList invariants
@@ -452,14 +473,20 @@ private partial def lowerWithState (pointers : Types) (values : Values)
           nextPointers := commonInfo yesPointers pointers
           nextValues := commonInfo yesValues values
       | `(tritonStmt| for $i:ident in range($start:tritonExpr, $stop:tritonExpr, $step:tritonExpr) { $body:tritonStmt* }) =>
+          checkDivRN pointers values start.raw
+          checkDivRN pointers values stop.raw
+          checkDivRN pointers values step.raw
           let (body, stable) ← loopBody i body
           stmt ← `(tritonStmt| for $i in range($start, $stop, $step) { $body* })
           nextValues := stable
       | `(tritonStmt| for $i:ident in range($start:tritonExpr, $stop:tritonExpr) { $body:tritonStmt* }) =>
+          checkDivRN pointers values start.raw
+          checkDivRN pointers values stop.raw
           let (body, stable) ← loopBody i body
           stmt ← `(tritonStmt| for $i in range($start, $stop) { $body* })
           nextValues := stable
       | `(tritonStmt| for $i:ident in range($stop:tritonExpr) { $body:tritonStmt* }) =>
+          checkDivRN pointers values stop.raw
           let (body, stable) ← loopBody i body
           stmt ← `(tritonStmt| for $i in range($stop) { $body* })
           nextValues := stable

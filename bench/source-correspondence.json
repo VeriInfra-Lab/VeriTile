@@ -8,8 +8,8 @@
     "task_status": {
       "legacy_ast_only": 1,
       "no_selected_jit_resolved": 2,
-      "selected_body_copy_checked": 69,
-      "uncovered_jit_functions": 111
+      "selected_body_copy_checked": 70,
+      "uncovered_jit_functions": 110
     },
     "example_status": {
       "authored_counterpart_body_copy_checked": 2,
@@ -17,12 +17,12 @@
       "spec_derived_body_copy_checked": 15
     },
     "selected_jit_functions": 328,
-    "uncovered_selected_jit_functions": 220,
-    "primary_files_with_int64_screen_warning": 31,
+    "uncovered_selected_jit_functions": 219,
+    "primary_files_with_int64_screen_warning": 30,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 87,
-        "antiquotes": 96,
+        "in_body_type_directives": 86,
+        "antiquotes": 95,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 8
       },
@@ -11294,9 +11294,9 @@
       "source_provenance": "selected_revision",
       "lean_screen": {
         "quotations": 1,
-        "in_body_type_directives": 1,
-        "antiquotes": 5,
-        "dsl_assignment": 1,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 10,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -11318,18 +11318,36 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_quantize_global_repaired",
+          "lean_definition": "source",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "n_elements": "N",
+            "base": "base"
+          },
+          "statements": 13,
+          "runtime_parameters": {
+            "n_elements": "i64",
+            "base": "i64"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/repairs/tritonbench_g/quantize_global/quantize_global_repaired.py",
-          "function": "_quantize_global_repaired"
+          "lean": "bench/repairs/tritonbench_g/quantize_global/Kernels.lean"
         }
       ],
-      "int64_screen": "cast_not_visible_in_primary_quotation",
+      "uncovered_selected_jits": [],
+      "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/quantize_global/Kernels.lean": "73db7ac0cf204bc70642bd5e6cd6d0a7fd0442cce940315313c5102f4c392ae3",
+        "bench/repairs/tritonbench_g/quantize_global/Kernels.lean": "ea2cb0c59d1db71ead370ba20a3da03593565be455dd6660331f885b26c377fe",
+        "bench/repairs/tritonbench_g/quantize_global/jit-correspondence.json": "75590b8c530f2e322d6c2c8056a558ead6a38a527652a39f1d5d6c51f022c89b",
         "bench/repairs/tritonbench_g/quantize_global/quantize_global_repaired.py": "4f910f6c038974589a397ed1e3dc35cabf565f9c73d9864788a576cb20f0fba9"
       }
     },

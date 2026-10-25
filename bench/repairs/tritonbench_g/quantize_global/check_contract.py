@@ -2,12 +2,16 @@
 import ast
 import contextlib
 import re
+import sys
 import importlib.util
 from pathlib import Path
 from types import SimpleNamespace
 import torch
 
 HERE = Path(__file__).resolve().parent
+ROOT = HERE.parents[3]
+sys.path.insert(0, str(ROOT))
+from bench.jit_correspondence import check_manifest
 SOURCE = HERE / "quantize_global_repaired.py"
 spec = importlib.util.spec_from_file_location("add_contract_helpers", HERE.parent / "add_example/check_contract.py")
 helpers = importlib.util.module_from_spec(spec)
@@ -92,22 +96,9 @@ def main():
     stores=[n for n in ast.walk(function('_quantize_global_repaired')) if isinstance(n,ast.Call)
         and isinstance(n.func,ast.Attribute) and n.func.attr=='store']
     assert len(stores)==1 and ast.unparse(stores[0])=='tl.store(output_ptr + safe_offsets, output, mask=mask)'
-    dsl=(HERE/'Kernels.lean').read_text()
-    for line in [
-        'tl.region X = tl.float32, Maximum = tl.float32, Out = tl.int8',
-        'pid = tl.program_id(0)',
-        'offsets = pid * $(B) + tl.arange(0, $(B)) + $(base)',
-        'mask = offsets < $(N)',
-        'safe_offsets = tl.where(mask, offsets, $((0 : Nat)))',
-        'x = tl.load(X + safe_offsets, mask=mask, other=0.0).to(tl.float32)',
-        'absmax = tl.load(Maximum).to(tl.float32)',
-        'denominator = tl.where(absmax == (0.0).to(tl.float32), 1.0, absmax)',
-        'normalized = x / denominator','scaled = 127.0 * normalized',
-        'lower_bounded = tl.where(scaled < (-127.0).to(tl.float32), -127.0, scaled)',
-        'bounded = tl.where(lower_bounded > (127.0).to(tl.float32), 127.0, lower_bounded)',
-        'output = tl.extra.cuda.libdevice.llrint(bounded)',
-        'tl.store(Out + safe_offsets, output, mask=mask)']:
-        assert line in dsl,line
+    # Compare the complete original quotation, including source casts,
+    # intrinsic identity, runtime ABI and actual caller value bindings.
+    check_manifest(ROOT, HERE / 'jit-correspondence.json')
     assert not any(isinstance(n,ast.Attribute) and n.attr in ("clone","resolve_neg","contiguous","copy_") for n in ast.walk(function("quantize_global")))
     assert ".Proofs." not in (HERE/"Kernels.lean").read_text()
     f=torch.finfo(torch.float32)

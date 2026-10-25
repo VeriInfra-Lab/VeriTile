@@ -56,6 +56,7 @@ syntax (name := tritonUnsignedAddProfiled) "tl.__unsigned_add_profiled(" num ", 
 syntax (name := tritonUnsignedMulProfiled) "tl.__unsigned_mul_profiled(" num ", " term ", " term ", " tritonExpr ", " tritonExpr ")" : tritonExpr
 syntax (name := tritonSignedAnd64Profiled) "tl.__signed_and64_profiled(" term ", " tritonExpr ", " tritonExpr ")" : tritonExpr
 syntax (name := tritonSignedShift64Profiled) "tl.__signed_shift64_profiled(" tritonExpr ", " num ")" : tritonExpr
+syntax "tl.div_rn(" tritonExpr ", " tritonExpr ")" : tritonExpr
 syntax "tl.exp(" tritonExpr ")" : tritonExpr
 syntax "libdevice.exp(" tritonExpr ")" : tritonExpr
 syntax "tl.extra.cuda.libdevice.exp(" tritonExpr ")" : tritonExpr

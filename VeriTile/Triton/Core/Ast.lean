@@ -172,6 +172,10 @@ inductive Op : TileDType → TileShape → Type where
   | sub       : NumericDType dtype → Broadcast a b out → Op dtype a → Op dtype b → Op dtype out
   | mul       : NumericDType dtype → Broadcast a b out → Op dtype a → Op dtype b → Op dtype out
   | div       : NumericDType dtype → Broadcast a b out → Op dtype a → Op dtype b → Op dtype out
+  /-- Precise FP32 source division (`tl.div_rn`), kept separate from ordinary
+  division and its rewrite rules. The real channel is its mathematical view;
+  the structural FP interpreter requires the dedicated primitive callback. -/
+  | divRN : Broadcast a b out → Op .real a → Op .real b → Op .real out
   | floorDiv  : IntegralDType dtype → Broadcast a b out → Op dtype a → Op dtype b → Op dtype out
   | mod       : IntegralDType dtype → Broadcast a b out → Op dtype a → Op dtype b → Op dtype out
   | bitAnd    : Broadcast a b out → Op .nat a → Op .nat b → Op .nat out

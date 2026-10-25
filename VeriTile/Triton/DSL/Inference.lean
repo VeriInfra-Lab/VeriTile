@@ -344,6 +344,8 @@ private partial def cmpDepsFromExpr :
       cmpDepsFromExpr a ++ cmpDepsFromExpr b
   | `(tritonExpr| tl.where($c:tritonExpr, $t:tritonExpr, $f:tritonExpr)) =>
       cmpDepsFromExpr c ++ cmpDepsFromExpr t ++ cmpDepsFromExpr f
+  | `(tritonExpr| tl.div_rn($a:tritonExpr, $b:tritonExpr)) =>
+      cmpDepsFromExpr a ++ cmpDepsFromExpr b
   | `(tritonExpr| tl.extra.cuda.libdevice.pow($a:tritonExpr, $b:tritonExpr)) =>
       cmpDepsFromExpr a ++ cmpDepsFromExpr b
   | _ => []

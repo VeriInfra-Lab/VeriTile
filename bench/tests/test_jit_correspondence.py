@@ -796,3 +796,27 @@ class GatheredTokenAttentionRawBodyTests(unittest.TestCase):
                       lean.replace(before, "mask=(start_n + offs_n) < cur_att_seq_len"),
                       record["python_function"], record["lean_definition"], record["signature_definition"],
                       record["expected_signature"], record["expected_call_bindings"])
+
+
+class QuantizeGlobalPreciseBodyTests(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/quantize_global"
+
+    def test_full_body_keeps_precise_division_signed_casts_and_i64_arguments(self):
+        record = json.loads((self.directory / "jit-correspondence.json").read_text())[0]
+        pairs = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual([(p["mode"], p["statements"]) for p in pairs], [("pasted_body", 13)])
+        lean = (self.directory / "Kernels.lean").read_text()
+        for before, after in [
+            ("tl.program_id(axis=0).to(tl.int64)", "tl.program_id(axis=0)"),
+            ("tl.arange(0, BLOCK_SIZE).to(tl.int64)", "tl.arange(0, BLOCK_SIZE)"),
+            ("tl.div_rn(x, denominator)", "x / denominator"),
+            ("scaled < -127.0", "scaled <= -127.0"),
+            ('("n_elements",.i64)', '("n_elements",.integer)'),
+            ("base := base", "base := N"),
+            ("output, mask=mask", "output"),
+        ]:
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                self.assertIn(before, lean)
+                check((ROOT / record["python"]).read_text(), lean.replace(before, after),
+                      record["python_function"], record["lean_definition"], record["signature_definition"],
+                      record["expected_signature"], record["expected_call_bindings"])

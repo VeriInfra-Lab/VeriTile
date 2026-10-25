@@ -78,6 +78,7 @@ globs = [
   "bench.tests.TypedStores",
   "bench.tests.FPIntegerConversionNeg",
   "bench.tests.FPFmaSource",
+  "bench.tests.DivRNSource",
   "bench.tests.StaticConditions",
   "bench.tests.IntScaledMatmulPadding",
   "bench.tests.TypedFP32Mul",

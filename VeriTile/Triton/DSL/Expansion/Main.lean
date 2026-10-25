@@ -1371,6 +1371,27 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
   | `(tritonExpr| tl.rand($_:tritonExpr, $_:tritonExpr, $_:tritonExpr))
   | `(tritonExpr| tl.rand($_:tritonExpr, $_:tritonExpr, n_rounds=$_:tritonExpr)) =>
       Macro.throwError "tl.rand requires source-profile preprocessing in a triton block"
+  | `(tritonExpr| tl.div_rn($a:tritonExpr, $b:tritonExpr)) => do
+      let a' ← expandExpr env a
+      let b' ← expandExpr env b
+      for operand in [a',b'] do
+        if operand.computeDType? == some .real ||
+            [.fp16,.bf16,.f8e4,.f8e5].contains operand.dtype then
+          Macro.throwError "tl.div_rn requires FP32 operands"
+      let (a',b') ← coerceRealArithOperands "tl.div_rn" a' b'
+      ensureComputeArithComposable "tl.div_rn" a'
+      ensureComputeArithComposable "tl.div_rn" b'
+      let av ← realMathTerm "tl.div_rn numerator" a'
+      let bv ← realMathTerm "tl.div_rn denominator" b'
+      let (bc,shape) ← broadcastTerm a'.shape b'.shape "tl.div_rn"
+      let term ← `(Op.divRN $bc $av $bv)
+      -- Keep operand-local precision/conversion scopes before installing the
+      -- intrinsic's fixed FP32 arithmetic context.
+      let avScoped ← realMathTerm "tl.div_rn numerator" { a' with term := ← a'.scopedFloatingTerm }
+      let bvScoped ← realMathTerm "tl.div_rn denominator" { b' with term := ← b'.scopedFloatingTerm }
+      let fp ← `(Op.divRN $bc $avScoped $bvScoped)
+      let compute ← fp32ComputeExpr fp
+      pure ⟨term,.real,shape,some compute,some .fp32⟩
   | `(tritonExpr| tl.exp($e:tritonExpr)) => do
       let e' ← expandExpr env e
       let eTerm ← realMathTerm "tl.exp" e'
