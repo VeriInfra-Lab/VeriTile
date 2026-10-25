@@ -1,0 +1,23 @@
+
+Task dequantize_matmul
+Traceback (most recent call last):
+  File "/tmp/veritile-dequant-transpose-kldiv-clean/bench/repairs/tritonbench_g/dequantize_matmul/check_contract.py", line 8, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'
+
+Task quant_transpose_kernel
+Traceback (most recent call last):
+  File "/tmp/veritile-dequant-transpose-kldiv-clean/bench/repairs/tritonbench_g/quant_transpose_kernel/check_contract.py", line 5, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'
+
+Task kldiv_triton
+Traceback (most recent call last):
+  File "/tmp/veritile-dequant-transpose-kldiv-clean/bench/repairs/tritonbench_g/kldiv_triton/check_contract.py", line 14, in <module>
+    support = importlib.util.module_from_spec(spec); spec.loader.exec_module(support)
+                                                     ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 1026, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/tmp/veritile-dequant-transpose-kldiv-clean/bench/repairs/tritonbench_g/cross_entropy1/Proofs/probe.py", line 20, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'

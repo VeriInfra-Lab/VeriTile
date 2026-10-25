@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/tmp/veritile-dequant-transpose-kldiv-clean/bench/repairs/tritonbench_g/quant_transpose_kernel/check_contract.py", line 5, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'

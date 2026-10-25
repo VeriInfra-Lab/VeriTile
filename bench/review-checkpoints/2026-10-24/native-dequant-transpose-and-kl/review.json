@@ -1,0 +1,239 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "e8f5866719c7003e102e0ffe3866b03cedbb64aa",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "dequantize_matmul",
+    "quant_transpose_kernel",
+    "kldiv_triton"
+  ],
+  "semantic_review": {
+    "adam_update_triton": "Conservative loop-entry integer dtype provenance regression; floating loop invariants remain checked and explicit source casts remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "add_example": "Conservative loop-entry integer dtype provenance regression; floating loop invariants remain checked and explicit source casts remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "add_value": "Conservative loop-entry integer dtype provenance regression; floating loop invariants remain checked and explicit source casts remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "cache_transform_triton": "Conservative loop-entry integer dtype provenance regression; floating loop invariants remain checked and explicit source casts remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "cosine_compute": "Conservative loop-entry integer dtype provenance regression; floating loop invariants remain checked and explicit source casts remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "dequantize_rowwise": "Conservative loop-entry integer dtype provenance regression; floating loop invariants remain checked and explicit source casts remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "f8_conversion_utils": "Conservative loop-entry integer dtype provenance regression; floating loop invariants remain checked and explicit source casts remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "index_select_bwd": "Conservative loop-entry integer dtype provenance regression; floating loop invariants remain checked and explicit source casts remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "kldiv_compute": "Conservative loop-entry integer dtype provenance regression; floating loop invariants remain checked and explicit source casts remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "l2_norm_bwd": "Conservative loop-entry integer dtype provenance regression; floating loop invariants remain checked and explicit source casts remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "l2_norm_triton1": "Conservative loop-entry integer dtype provenance regression; floating loop invariants remain checked and explicit source casts remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "l2_norm_triton2": "Conservative loop-entry integer dtype provenance regression; floating loop invariants remain checked and explicit source casts remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "masked_add_cuda": "Conservative loop-entry integer dtype provenance regression; floating loop invariants remain checked and explicit source casts remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "matrix_reduction": "Conservative loop-entry integer dtype provenance regression; floating loop invariants remain checked and explicit source casts remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "matrix_transpose": "Conservative loop-entry integer dtype provenance regression; floating loop invariants remain checked and explicit source casts remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "mean_reduction": "Conservative loop-entry integer dtype provenance regression; floating loop invariants remain checked and explicit source casts remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "mul_exponent_compensator": "Conservative loop-entry integer dtype provenance regression; floating loop invariants remain checked and explicit source casts remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "rmsnorm_fused": "Conservative loop-entry integer dtype provenance regression; floating loop invariants remain checked and explicit source casts remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "rmsnorm_fused_llama": "Conservative loop-entry integer dtype provenance regression; floating loop invariants remain checked and explicit source casts remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "rmsnorm_implementation": "Conservative loop-entry integer dtype provenance regression; floating loop invariants remain checked and explicit source casts remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "rmsnorm_triton": "Conservative loop-entry integer dtype provenance regression; floating loop invariants remain checked and explicit source casts remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "sin_computation": "Conservative loop-entry integer dtype provenance regression; floating loop invariants remain checked and explicit source casts remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "sin_kernel": "Conservative loop-entry integer dtype provenance regression; floating loop invariants remain checked and explicit source casts remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "softmax_triton1": "Conservative loop-entry integer dtype provenance regression; floating loop invariants remain checked and explicit source casts remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "softmax_triton2": "Conservative loop-entry integer dtype provenance regression; floating loop invariants remain checked and explicit source casts remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "square_matrix": "Conservative loop-entry integer dtype provenance regression; floating loop invariants remain checked and explicit source casts remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "swiglu_fwd": "Conservative loop-entry integer dtype provenance regression; floating loop invariants remain checked and explicit source casts remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "triton_mul2": "Conservative loop-entry integer dtype provenance regression; floating loop invariants remain checked and explicit source casts remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "triton_softmax": "Conservative loop-entry integer dtype provenance regression; floating loop invariants remain checked and explicit source casts remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "var_len_copy": "Conservative loop-entry integer dtype provenance regression; floating loop invariants remain checked and explicit source casts remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "vector_addition": "Conservative loop-entry integer dtype provenance regression; floating loop invariants remain checked and explicit source casts remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "vector_addition_custom": "Conservative loop-entry integer dtype provenance regression; floating loop invariants remain checked and explicit source casts remain in the compiler. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "dequantize_matmul": "Paste the actual repaired original function including its docstring, both signed64 program-ID casts, all independent strides/counts, INT8 load and signed promotion, wider N-only scale mask, FP32 multiply and masked FP32 store. All seven nonnegative runtime integer call values are external; only the two block sizes are constexpr. Materialize only the existing Lean integer N-mask product candidate as explicitly newly authored Python. Prove the entire original source function family equal to the old typed source by rfl for every count, stride and block; both entire canonical original/candidate programs also equal the retained old programs. Reprove all Real/FP complete grids, safety, every output and frame, all 17 configuration/index/native/host/Tensor scopes, including empty/ragged grids and singleton layouts. No host torch.mm claim is added and no floating rewrite or new law is used.",
+    "kldiv_triton": "Paste both actual selected full forward/backward bodies unchanged with signed64 casts, runtime independent row strides and count, both retained pre-loop assignments, dynamic loops, zero-target behavior, log-target branches and all reduction branches. Keep the existing nonnegative Nat geometry in external stride bindings and signed Int count, with the actual signed64 source role annotations; only block size/log mode/reduction are constexpr. Bind the actual module constant _REDUCTION_MODE_NONE=0 outside the body. Newly author Python only for the already existing output-row product candidates, explicitly marked and retaining the original default reduction code 3. Four rfl theorems identify every complete function with the retained old complete body and corrected actual input/output ports; the old collector lost these roles after pointer rebinding. Independent IO descriptors and every old public scope remain. Reprove all actual statement/loop executions, complete reductions and backward derivatives, access safety/output/frame, arbitrary native words, byte/host failures/admission and Tensor outcomes. The shared dtype pass conservatively forgets integer entry-width facts before a loop rather than refusing valid integer reassignment; explicit casts and true destination narrowing remain, while floating carried dtype changes remain rejected. Registered complete-program regression checks cover retained integer narrowing/zero trips and rejection of changing FP32-to-FP16 carries. No new numerical rule or whole-program premise.",
+    "quant_transpose_kernel": "Paste the actual complete grouped original/candidate Python bodies with original argument names, six runtime int32 call roles, three constexpr parameters, both coordinate rematerializations, true signed64 llrint and implicit INT8 store. Existing selected 128x128/G8 adapters retain all old geometry, strides, broadcasts, offsets, exceptional words, full grouped schedule, byte observations and separation conditions. The old frontend left an opaque output marker and its interpreter narrowed at the actual pointer store; the new frontend exposes intToSigned 8. Prove equality of the complete original/candidate executions, including success/failure, every register and memory for arbitrary primitives and states, using existing signed-cast and BitVec narrowing idempotence. Directly reprove all full grid Real/FP, actual safety, byte/output/frame, native/Tensor and historical/optional roots. Correct one stale Cell.read_self reference to the existing Cell.read_same theorem; no new numerical or word arithmetic law."
+  },
+  "example_regression_scope": "All 19 examples and their complete imported helpers replay locally, jointly and independently from Git. Their sources, formulas, numerical contracts and scopes are unchanged.",
+  "verification": {
+    "integration": {
+      "status": "PASS",
+      "explicit_modules": 1188,
+      "jobs": 10121
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 1188,
+      "jobs": 10121,
+      "project_build_initially_present": false,
+      "veritile_cache_initially_present": false,
+      "only_fixed_external_dependencies_reused": true
+    },
+    "joint_import": "PASS: all 1188 roots",
+    "task_directories": "Every Lean file in all three newly migrated task directories, including optional native/host/Tensor readers and all complete semantic/source-binding proofs.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 45
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 290,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by the old numerical receipt; prior baseline preserved, no false repin."
+    },
+    "official_comparator": "UNAVAILABLE: three actual frozen-source invocations report host isolation unavailable. The official pinned comparator/exporter/landrun successfully built with a SHA256-verified local Go toolchain. Host Landlock ABI v4 cannot satisfy required v5, and the systemd user bus is unavailable. Isolation checks remain fail-closed.",
+    "optional_cpu_contract": "UNAVAILABLE: current environment lacks torch; actual failure retained.",
+    "gpu_or_numerical_experiment": "Not run. No new numeric laws, axioms or hardware-conformance claim.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending."
+  },
+  "source_pairs": {
+    "total": 141,
+    "pasted_body": 136,
+    "legacy_ast": 5
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-24/native-dequant-transpose-and-kl/source-closure.json",
+    "sha256": "7dfd930c05a8bd2ff8bd0822a92f423b075adbb71e1a9bd7b00ddce7fdd3ab4a"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "legacy_ast_only": 1,
+      "no_selected_jit_resolved": 2,
+      "selected_body_copy_checked": 35,
+      "uncovered_jit_functions": 145
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 328,
+    "uncovered_selected_jit_functions": 271,
+    "primary_files_with_int64_screen_warning": 40,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 116,
+        "antiquotes": 128,
+        "dsl_loop": 1,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-dequant-transpose-and-kl/all-python.log.gz",
+      "sha256": "eb535954c0125f4da0ea8d5c17fcdface3e3297bcad91c96376838b7798c7a3b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-dequant-transpose-and-kl/clean-build.log.gz",
+      "sha256": "bf0cd6d80e4e623e5a9e06f38ac9192b4dd9ca551d42dafb420c31ad4176a284"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-dequant-transpose-and-kl/clean-setup.log",
+      "sha256": "abecb33828c27c1ba4aa180b6ab109486989b87a21ab442b47d8bd06514bdcf6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-dequant-transpose-and-kl/comparator-preflight.log",
+      "sha256": "d9255026a27595d0a04e154bc4a9c609c8422b012fc13cb1ae4de2417afea36d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-dequant-transpose-and-kl/comparator-setup.log",
+      "sha256": "bea658f19aea48f8965a3d6525da1300e599d9a3f0a05b992071c97bcaffd6df"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-dequant-transpose-and-kl/comparator-tools.json",
+      "sha256": "d541ac407f7aa8679c8ba23dd4df72ac363730bbb67e45bd7959ec752e6b0c53"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-dequant-transpose-and-kl/comparator.log",
+      "sha256": "2c0cdbef326d307a62c94593a3fd8291fda611209438c0a3592fc97ef915b8ee"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-dequant-transpose-and-kl/contract.log",
+      "sha256": "52fda778664db2c7524e545fea7d6113c861bc7989735627794286f7cec17a8e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-dequant-transpose-and-kl/corpus-guard.log",
+      "sha256": "18c970781913d94f081cf7d892ae6f05b3bbef7fb6932a4a8e9766ef4dabf8d9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-dequant-transpose-and-kl/dequantize_matmul-comparator.log",
+      "sha256": "d50f5bd911d9138387d602c250b1bbf982508a7aa4a4c9aabc2325b1ae41ed6f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-dequant-transpose-and-kl/dequantize_matmul-contract.log",
+      "sha256": "46200152a7d684613a35723b51ae7e2d514d3f29e8c9c57cb8094414a43da467"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-dequant-transpose-and-kl/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-dequant-transpose-and-kl/integration.log.gz",
+      "sha256": "e09eb5157c7641b3d78365073551abfe48ef6dff4574f35f15ab4baaa15eec60"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-dequant-transpose-and-kl/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-dequant-transpose-and-kl/joint.lean",
+      "sha256": "10eb5eb5697d4b9fe41ffb1e3ec525e8163db21128f508460aba72b313623416"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-dequant-transpose-and-kl/joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-dequant-transpose-and-kl/kldiv_triton-comparator.log",
+      "sha256": "d50f5bd911d9138387d602c250b1bbf982508a7aa4a4c9aabc2325b1ae41ed6f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-dequant-transpose-and-kl/kldiv_triton-contract.log",
+      "sha256": "6a33456ee68cd6c3fa5d9abf5af3e1d05cf472841091b63e2feccbff94736558"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-dequant-transpose-and-kl/modules.json",
+      "sha256": "36c40a51c152a209a88f885d51beed67018dd10c0081c3daf35c0bcd4246e653"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-dequant-transpose-and-kl/pairs.json",
+      "sha256": "89ec6d13101c593fd8c35f493cc5209778970a35421b9aa13c8e70c7119ad2de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-dequant-transpose-and-kl/previous-selected-reviews.json.gz",
+      "sha256": "64432f5d6cb60cf0ff239fa2d43533178cda5c30ec1188b9c4c134b2dcafcf2b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-dequant-transpose-and-kl/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-dequant-transpose-and-kl/python-tests.log",
+      "sha256": "d4687b3579727d78c1a527ea58a03a01c40ffdef6ab0b96e0553559f0a9de631"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-dequant-transpose-and-kl/quant_transpose_kernel-comparator.log",
+      "sha256": "d50f5bd911d9138387d602c250b1bbf982508a7aa4a4c9aabc2325b1ae41ed6f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-dequant-transpose-and-kl/quant_transpose_kernel-contract.log",
+      "sha256": "63a664e8e67ee9323a887487e3b7f75bd6c42122e16cd137d20606fbf6ed3415"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-dequant-transpose-and-kl/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-dequant-transpose-and-kl/source-closure.json",
+      "sha256": "7dfd930c05a8bd2ff8bd0822a92f423b075adbb71e1a9bd7b00ddce7fdd3ab4a"
+    }
+  ]
+}
