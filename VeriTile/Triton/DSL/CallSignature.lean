@@ -127,6 +127,9 @@ private partial def sourcePortView (raw : Syntax) : MacroM Syntax := do
 
 private partial def bindSourceValues (values : List (Name × TSyntax `tritonExpr)) (raw : Syntax) :
     MacroM Syntax := do
+  -- These terms already belong to the caller's Lean context. Replacing a
+  -- name inside one would inject a Triton expression into a Lean term.
+  if let `(tritonExpr| $($_:term)) := raw then return raw
   if raw.isIdent then
     if let some (_, value) := values.find? (fun p => p.1 == raw.getId.eraseMacroScopes) then
       return value.raw
@@ -211,6 +214,22 @@ private partial def staticNatBound (constants assigned : List Name)
       let value ← elabTerm term none
       if ← isDefEq (← inferType value) (mkConst ``Nat) then return some term else return none
   | _ => return none
+
+/-- Python evaluates an immutable constexpr Nat divided by a positive literal
+before building tensor instructions. Preserve that source expression in the
+quotation, while emitting the same constant assignment as the native JIT.
+Runtime arguments, mutable names, signed dividends and zero divisors retain
+the existing expression path. This is integer specialization, not FP arithmetic. -/
+private partial def foldStaticNatQuotients (constants assigned : List Name)
+    (raw : Syntax) : TermElabM Syntax := do
+  let args ← raw.getArgs.mapM (foldStaticNatQuotients constants assigned)
+  let next := match raw with | .node info kind _ => Syntax.node info kind args | _ => raw
+  let expression : TSyntax `tritonExpr := ⟨next⟩
+  if let `(tritonExpr| $dividend:tritonExpr // $divisor:num) := expression then
+    if divisor.getNat > 0 then
+      if let some value ← staticNatBound constants assigned dividend then
+        return (← liftMacroM `(tritonExpr| $((($value:term : Nat) / $divisor : Nat)))).raw
+  return next
 
 /-- A per-call size has already been supplied before executing the body.
 Select the existing constant-bound range constructor only for known immutable
@@ -340,6 +359,8 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
       let stmts := stmts.toArray
       let assigned := stmts.toList.flatMap (fun st => assignedNames st.raw)
       for stmt in stmts do rejectConstexprIteratorShadow constants stmt.raw
+      let stmts ← stmts.mapM fun st => do
+        return (⟨← foldStaticNatQuotients (constants.map Name.mkSimple) assigned st.raw⟩ : TSyntax `tritonStmt)
       -- A constexpr float is a weak Python scalar, not a runtime FP32
       -- argument. Its surrounding tensor operation selects its precision.
       -- Mutable constexpr names remain local statements, never substituted.

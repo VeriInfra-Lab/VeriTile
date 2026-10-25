@@ -50,6 +50,8 @@ globs = [
   "bench.tests.FPDebugBarrier",
   "bench.tests.ConditionalCast",
   "bench.tests.RegisterDTypeLoad",
+  "bench.tests.LoadCastStorage",
+  "bench.tests.RuntimeIntegerDivision",
   "bench.tests.FPExpandDimsPrecision",
   "bench.tests.FPDotRebinding",
   "bench.tests.FPNarrowScope",

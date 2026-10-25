@@ -314,10 +314,28 @@ partial def expandBoolMaskMul? (expandExpr : ExprExpander) (env : Env)
       Macro.throwError "bool mask multiplication currently supports Bool * Real only"
   | _, _ => pure none
 
+/-- A plain Python integer literal keeps integer semantics in // and %.
+Only source literals are retargeted; a floating register or explicit floating
+cast must never be silently converted to the other operand's integer type. -/
+private partial def integralSourceLiteral (other : DInfo)
+    (source : TSyntax `tritonExpr) (fallback : EOut) : MacroM EOut := do
+  unless [.nat,.int,.int8,.int32].contains other do return fallback
+  match source with
+  | `(tritonExpr| ($inner:tritonExpr)) => integralSourceLiteral other inner fallback
+  | `(tritonExpr| $n:num) =>
+      if other == .nat then return ⟨← `(Op.constNat $n), .nat, SInfo.scalar, none, none⟩
+      else return ⟨← `(Op.constInt $n), .int, SInfo.scalar, none, none⟩
+  | `(tritonExpr| -$n:num) =>
+      if other == .nat then return fallback
+      else return ⟨← `(Op.constInt (-($n : Int))), .int, SInfo.scalar, none, none⟩
+  | _ => return fallback
+
 partial def expandIntegralArith (expandExpr : ExprExpander) (env : Env) (ctx : String) (op : TSyntax `term)
     (a b : TSyntax `tritonExpr) : MacroM EOut := do
   let a' ← expandExpr env a
   let b' ← expandExpr env b
+  let a' ← integralSourceLiteral b'.dtype a a'
+  let b' ← integralSourceLiteral a'.dtype b b'
   let (a', b') ← coerceNatIntOperands ctx a' b'
   ensureAlgorithmOnly ctx a'
   ensureAlgorithmOnly ctx b'
@@ -388,6 +406,10 @@ partial def expandNatBitwise (expandExpr : ExprExpander) (env : Env) (ctx : Stri
     (a b : TSyntax `tritonExpr) : MacroM EOut := do
   let a' ← expandExpr env a
   let b' ← expandExpr env b
+  let b' ← match op with
+    | `(Op.shiftRight) | `(Op.shiftLeft) => integralSourceLiteral .nat b b'
+    | _ => integralSourceLiteral a'.dtype b b'
+  let a' ← integralSourceLiteral b'.dtype a a'
   ensureAlgorithmOnly ctx a'
   ensureAlgorithmOnly ctx b'
   if let some width := signedStorageWidth? a'.dtype then
@@ -425,6 +447,8 @@ partial def expandBoolOrNatBitwise (expandExpr : ExprExpander) (env : Env) (ctx 
     (boolOp natOp : TSyntax `term) (a b : TSyntax `tritonExpr) : MacroM EOut := do
   let a' ← expandExpr env a
   let b' ← expandExpr env b
+  let a' ← integralSourceLiteral b'.dtype a a'
+  let b' ← integralSourceLiteral a'.dtype b b'
   ensureAlgorithmOnly ctx a'
   ensureAlgorithmOnly ctx b'
   let (a', b') ← signedBitOperands a b a' b'

@@ -231,9 +231,9 @@ partial def lowerStores (dtype : Triton.SourceDType) (aliases : List Name)
 
 macro_rules
   | `(triton (dtype $pointer:ident := $kind:term) { $stmts:tritonStmt* }) => do
-      let kinds : List Triton.SourceDType := [.fp16,.bf16,.fp32,.fp64,.i8,.i16,.i32,.i64,.u8,.u16,.u32,.u64,.boolean]
+      let kinds : List Triton.SourceDType := [.fp16,.bf16,.fp32,.fp64,.f8e4,.f8e5,.i8,.i16,.i32,.i64,.u8,.u16,.u32,.u64,.boolean]
       let constructors := [``Triton.SourceDType.fp16,``Triton.SourceDType.bf16,``Triton.SourceDType.fp32,
-        ``Triton.SourceDType.fp64,``Triton.SourceDType.i8,``Triton.SourceDType.i16,``Triton.SourceDType.i32,
+        ``Triton.SourceDType.fp64,``Triton.SourceDType.f8e4,``Triton.SourceDType.f8e5,``Triton.SourceDType.i8,``Triton.SourceDType.i16,``Triton.SourceDType.i32,
         ``Triton.SourceDType.i64,``Triton.SourceDType.u8,``Triton.SourceDType.u16,``Triton.SourceDType.u32,
         ``Triton.SourceDType.u64,``Triton.SourceDType.boolean]
       let mut alternatives : Array (TSyntax ``Lean.Parser.Term.matchAlt) := #[]

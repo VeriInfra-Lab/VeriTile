@@ -116,3 +116,20 @@ definitionally equal to the previous definitions for all parameters and both
 directions. The source-only cache records preservation and fresh joint
 main/retained optional imports; source domains, precision and judgments remain
 unchanged.
+
+### 函数体来源与重新验证（2026-10-25）
+
+`Kernels.lean` 逐句粘贴所选 `rope_embedding_repaired.py` 的函数体，保留
+两次 `.to(sin1.dtype)`、前后向分支、动态 head 循环及两次写回。
+运行 strides/seqlen 与调用 dtype 在函数体外绑定；`ROPE_GROUP_SIZE`
+是原函数的 constexpr 参数（默认 4），去掉旧 Lean 多出的赋值。
+既有公开证明仍取组大小 4，并直接对新函数体重证全部执行、输出、
+安全、frame、Real/FP、native/host/Tensor 范围。两份实际完整程序的
+FP 等价通过整数索引交换证明，不再借用含多余赋值的旧程序相等。
+`index_commuted.py` 明确是为已有 Lean 索引候选新写的 Python 对照，
+不是恢复出的历史原始代码；原始 Python 未修改。
+
+普通 RoPE 的公开 Real 与 native IO 同时改为实际普通 RoPE kernel；
+共享的只有唯一内存映射和逻辑坐标双射。`Proofs/Interface.lean` 对这个
+真实调度重新证明完整输入、执行、安全、输出及 frame，避免入口仍在
+验证另一道 Fast RoPE。IO 实例集中于 `IO.lean`。

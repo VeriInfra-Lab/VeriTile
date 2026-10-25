@@ -1,7 +1,8 @@
+import bench.repairs.tritonbench_g.fast_rope_embedding.Proofs.Source
 import bench.repairs.tritonbench_g.fast_rope_embedding.Proofs.KernelInterface
 import VeriTile.Triton.Float.StructuralSafety
 
-/-! Shared safety of the identical fast/ordinary rope source. The dynamic
+/-! Safety of the actual Fast RoPE source, with its own proved prelude. The dynamic
 four-head loop follows the actual interpreter states and the existing source
 context invariant. Both loaded halves and both in-place stores are checked. -/
 namespace VeriTile.Bench.Repairs.FastRopeEmbedding.SourceSafety
@@ -21,7 +22,7 @@ theorem body_safe {A : Type} [Inhabited A] (M : Algebra A) (p : Source.Parameter
       (s.setReg "k" .nat [] (fun _ => head)) := by
   cases backward
   all_goals simp (maxSteps := 1600000) [Source.body, Source.source,
-    RopeEmbedding.Kernels.rope, ComputeKernel.surfaceBody,
+    Kernels.rope, ComputeKernel.surfaceBody,
     Safety.traceSafeList, Safety.stepSafe, Safety.safeExpr, Safety.safeCompute,
     Safety.safeOp.eq_def, Safety.safeAddress, Safety.safeMask, Safety.addressSafe,
     Safety.maskActive, run, step, FP.Structural.evalExpr, evalComputeOp, evalOp_unfold,
@@ -46,7 +47,11 @@ theorem loop_safe {A : Type} [Inhabited A] (M : Algebra A) (p : Source.Parameter
   | zero => simp [Safety.rangeSafe]
   | succ count ih =>
     let v := (Source.oneHead M p backward row start cs ss s h).val
-    have ran := (Source.oneHead M p backward row start cs ss s h).property
+    have ran : run M (Source.body p backward)
+        (s.setReg "k" .nat [] (fun _ => start)) = some v :=
+      (congrArg (fun body => run M body (s.setReg "k" .nat [] (fun _ => start)))
+        (Source.body_shared p backward)).trans
+          (Source.oneHead M p backward row start cs ss s h).property
     have context := (Source.oneHead_facts M p backward row start cs ss s h).1
     rw [Safety.rangeSafe]
     simp only [show (1 : Nat) ≠ 0 by decide, ↓reduceIte, show start < start + (count + 1) by omega]
@@ -65,7 +70,7 @@ theorem prelude_safe {A : Type} [Inhabited A] (M : Algebra A) (p : Source.Parame
     Safety.traceSafeList M bounds (Source.prelude p backward) s := by
   cases backward
   all_goals simp (maxSteps := 1600000) [Source.prelude, Source.source,
-    RopeEmbedding.Kernels.rope, ComputeKernel.surfaceBody,
+    Kernels.rope, ComputeKernel.surfaceBody,
     Safety.traceSafeList, Safety.stepSafe, Safety.safeExpr, Safety.safeCompute,
     Safety.safeOp.eq_def, Safety.safeAddress, Safety.safeMask, Safety.addressSafe,
     Safety.maskActive, run, step, FP.Structural.evalExpr, evalComputeOp, evalOp_unfold,

@@ -148,3 +148,30 @@ for every floating algebra and uses no numerical rule.
 preserves execution and trace safety. `Proofs/ProgramPair.lean` retains arbitrary
 launch-list execution/safety composition as an internal helper. The primary
 experimental rule set is empty.
+
+
+Function-body copy migration (2026-10-25): `Kernels.rope` and its retained
+head-group product candidate now contain the actual selected Python bodies,
+including the docstring, `ROPE_GROUP_SIZE = 4`, both directions, the dynamic
+four-head loop, both `.to(sin1.dtype)` casts and both writes. Pointer storage,
+four runtime integer call values and shape/direction/block constexpr roles
+are supplied outside the quotation. The original Python is unchanged;
+`index_commuted.py` is clearly marked newly authored Python for the existing
+Lean candidate, not a historical reference.
+
+The source frontend evaluates immutable constexpr Nat division by a positive
+literal at call time, while retaining runtime division and reassigned values.
+It resolves a value's `.dtype` using the retained source precision rather than
+its Real carrier, before direct-load assignment dispatch, preserving both the
+load precision and explicit cast. Complete-program regression checks distinguish
+constexpr/runtime/mutable inputs, preserve FP32/half/bfloat16 load conversions,
+and reject unknown native dtype targets. SourcePair's full original/candidate
+program equalities pass for both direction flags and every old public argument.
+All task modules, including complete Real/FP, loop/safety/output/frame, native,
+physical bytes, host failures and Tensor scopes are replayed from those actual
+bodies. No numerical rule or cast-identity premise is added.
+
+Fast RoPE assigns the group-size register; the other RoPE takes a constexpr
+parameter. `Proofs/Source.lean` proves this actual prelude and full execution
+separately, sharing only the definitionally identical loop and mathematical
+helpers. Their whole source ASTs are no longer asserted to be identical.

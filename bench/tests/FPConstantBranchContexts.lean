@@ -44,12 +44,10 @@ example (R : FP.ScalarArithmetic.Rules) : True := by
       equiv_decompose <;> fp_prove
   trivial
 
-example : True := by
-  fail_if_success
-    have : program true false ≡[([] : Spec.Assumptions FP.GuardedFragment)]
-        program true true := by
-      equiv_decompose <;> fp_prove
-  trivial
+/-- The concrete strict FP32 model proves commutation without experimental rules. -/
+example : program true false ≡[([] : Spec.Assumptions FP.GuardedFragment)]
+    program true true := by
+  equiv_decompose <;> fp_prove
 
 #axiomsClean contextual_constant_then
 #axiomsClean contextual_constant_else

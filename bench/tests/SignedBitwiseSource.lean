@@ -92,4 +92,25 @@ theorem named_conversion_keeps_signed_ops (X : RegionName) (count : Nat) :
   exact ⟨rfl, rfl⟩
 
 #axiomsClean named_conversion_keeps_signed_ops
+/-- A signed left shift retains and narrows its native width before a later
+bitwise assignment. This is also the packed FP4 sign/exponent path. -/
+def shiftedPacked (X : RegionName) : ComputeKernel := triton {
+  tl.region X = tl.uint8
+  packed = tl.load(X)
+  bits = packed.to(tl.int32) << 28
+  joined = bits | 1
+}
+
+theorem left_shift_retains_native_width (X : RegionName) :
+    (shiftedPacked X).surfaceBody = [
+      .assign .nat [] "packed" (.alg (.load .nat (.region (Region.cast X) (.constNat 0)) .none)),
+      .assign .int [] "bits" (.alg (.intToSigned 32 (.mul .int .nil
+        (.intToSigned 32 (.castNatToInt (.ref .nat [] "packed")))
+        (.castNatToInt (.shiftLeft .nil (.full [] (.constNat 1)) (.constNat 28)))))),
+      .assign .int [] "joined" (.alg (.unsignedToInt 32 (.bitOr .nil
+        (.intToUnsigned 32 (.ref .int [] "bits")) (.intToUnsigned 32 (.constInt 1)))))
+    ] := rfl
+
+#axiomsClean left_shift_retains_native_width
+
 end VeriTile.Tests.SignedBitwiseSource

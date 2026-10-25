@@ -1899,7 +1899,9 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
       expandNatBitwise expandExpr env "`^`" (← `(Op.bitXor)) a b
   | `(tritonExpr| $a:tritonExpr << $b:tritonExpr) => do
       let left ← expandExpr env a
-      if left.forgetStorageWidth.dtype == .int then
+      -- Retained native widths use the fixed-width path below. Only the
+      -- explicitly mathematical Int carrier keeps an unbounded shift.
+      if left.dtype == .int then
         let right ← expandNatExpectedExpr env b
         let (bc, shape) ← broadcastTerm left.shape right.shape "signed left shift"
         return ⟨← `(Op.intShiftLeft $bc $left.term $right.term), .int, shape, none, none⟩
@@ -2392,6 +2394,43 @@ private partial def fpAssignedNames (raw : Syntax) : List String :=
   | `(tritonStmt| $name:ident := $_:tritonExpr) => [name.getId.toString]
   | _ => raw.getArgs.toList.flatMap fpAssignedNames
 
+/-- Resolve a value's dtype attribute from its retained source precision.
+In particular an FP32 value uses the Real carrier plus an FP32 annotation;
+looking at the carrier alone would erase its explicit load conversion. -/
+private partial def annotateValueDTypeCasts (env : Env) (legacy : Bool)
+    (raw : Syntax) : MacroM Syntax := do
+  let raw ← match raw with
+    | .node info kind args => pure (.node info kind (← args.mapM (annotateValueDTypeCasts env legacy)))
+    | other => pure other
+  let e : TSyntax `tritonExpr := ⟨raw⟩
+  let some (.str valueName "dtype") := methodCastTargetName? e | return raw
+  if valueName.isAnonymous then return raw
+  let entry := env.find? (fun entry => entry.1 == valueName.toString || entry.1 == valueName.getString!)
+  let precision : Option (DInfo × Option DInfo) := entry.map (fun e => (e.2.1, e.2.2.2))
+  let dtype : Option (TSyntax `tritonDType) ← match precision with
+    | some (.real, some .fp32) | some (.fp32, _) => pure (some (← `(tritonDType| tl.float32)))
+    | some (.real, some .real) => pure (some (← `(tritonDType| tl.float64)))
+    | some (.fp16, _) => pure (some (← `(tritonDType| tl.float16)))
+    | some (.bf16, _) => pure (some (← `(tritonDType| tl.bfloat16)))
+    | some (.f8e4, _) => pure (some (← `(tritonDType| tl.float8e4nv)))
+    | some (.f8e5, _) => pure (some (← `(tritonDType| tl.float8e5)))
+    | some (.floatVar "dtype", _) => pure (some (← `(tritonDType| DTYPE)))
+    | some (.floatVar "out_dtype", _) => pure (some (← `(tritonDType| OUT_DTYPE)))
+    | _ => pure none
+  let some dtype := dtype | do
+    if !legacy then Macro.throwError "value .dtype cast requires known source precision"
+    return raw
+  match e with
+  | `(tritonExpr| tl.load($p:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*).to($_:ident)) =>
+      return (← `(tritonExpr| tl.load($p:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*).to($dtype:tritonDType))).raw
+  | `(tritonExpr| tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*).to($_:ident)) =>
+      return (← `(tritonExpr| tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*).to($dtype:tritonDType))).raw
+  | _ =>
+      if raw.getNumArgs > 0 then
+        let value : TSyntax `tritonExpr := ⟨raw[0]⟩
+        return (← `(tritonExpr| ($value:tritonExpr).to($dtype:tritonDType))).raw
+      return raw
+
 /-- Resolve a pointer element cast from storage evidence at this program point.
 This changes only internal syntax; explicit source `.to(p.dtype.element_ty)`
 still contributes its storage conversion to the compute program. -/
@@ -2589,8 +2628,24 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
     (fpSource : FPSourceContext) (fpPtrElems : FPPtrProvenance)
     (facts : StaticBoolFacts) (stx : TSyntax `tritonStmt) :
     MacroM (TSyntax `term × TSyntax `term × Env × Bool) := do
+  -- Normalize a value-dtype cast before assignment dispatch as well as before
+  -- expression expansion. Otherwise direct-load parser alternatives can take
+  -- the unannotated load path before seeing the explicit conversion.
+  let stx ← match stx with
+    | `(tritonStmt| $id:ident = $value:tritonExpr) => do
+        let raw ← annotateValueDTypeCasts env fpSource.legacyPointerCasts value.raw
+        if raw == value.raw then pure stx else
+          let value : TSyntax `tritonExpr := ⟨raw⟩
+          `(tritonStmt| $id:ident = $value:tritonExpr)
+    | `(tritonStmt| $id:ident := $value:tritonExpr) => do
+        let raw ← annotateValueDTypeCasts env fpSource.legacyPointerCasts value.raw
+        if raw == value.raw then pure stx else
+          let value : TSyntax `tritonExpr := ⟨raw⟩
+          `(tritonStmt| $id:ident := $value:tritonExpr)
+    | _ => pure stx
   let annotate (e : TSyntax `tritonExpr) : MacroM (TSyntax `tritonExpr) := do
-    let raw ← annotatePointerElementCasts fpSource.regions fpSource.legacyPointerCasts fpPtrElems e.raw
+    let raw ← annotateValueDTypeCasts env fpSource.legacyPointerCasts e.raw
+    let raw ← annotatePointerElementCasts fpSource.regions fpSource.legacyPointerCasts fpPtrElems raw
     return ⟨← annotateMachineLoadCasts regionDTypes ptrElems raw⟩
   let expandExpr (env : Env) (e : TSyntax `tritonExpr) : MacroM EOut := do
     expandExpr env (← annotate e)
@@ -2874,7 +2929,9 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
     if explicitConversion then
       let inferred ← expandExpr env e
       match inferred.dtype with
-      | .real | .fp32 | .fp16 | .bf16 | .f8e4 | .f8e5 | .floatVar _ => return inferred
+      -- A nested explicit signed cast/shift carries a known native width too.
+      -- A later bitcast/address pin must not erase it before signed bitwise ops.
+      | .int8 | .int32 | .real | .fp32 | .fp16 | .bf16 | .f8e4 | .f8e5 | .floatVar _ => return inferred
       | _ => pure ()
     if intPinned.contains dest.getId.toString then
       -- Signed offset propagation can also reach a named pointer binding.
@@ -2882,6 +2939,13 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
       if (Inference.pointerElementDType? regionDTypes ptrElems e).isSome then
         let inferred ← expandExpr env e
         if inferred.dtype == DInfo.ptr then return inferred
+      -- Source-width inference is stronger than the preliminary address pin.
+      -- Exact signed casts, shifts and bitwise operations already carry the
+      -- native width; retain it across ordinary assignments and copies.
+      try
+        let inferred ← expandExpr env e
+        if inferred.dtype == .int8 || inferred.dtype == .int32 then return inferred
+      catch _ => pure ()
       return ← expandIntExpectedExpr env e
     -- Propagate a signed register learned from a typed load, even when a
     -- later address use caused the preliminary scan to request Nat. Pointer

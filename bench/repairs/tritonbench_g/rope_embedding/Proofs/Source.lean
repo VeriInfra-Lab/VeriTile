@@ -19,9 +19,9 @@ the backwards sign, load-to-sine casts and FP32 output conversion. -/
 def source (p : Parameters) (backward : Bool) : ComputeKernel :=
   Kernels.rope p.input p.cosine p.sine
     p.rowStride p.cosineStride p.sineStride p.length p.dimension p.heads p.width backward
-def prelude (p : Parameters) (backward : Bool) := (source p backward).surfaceBody.take 11
+def prelude (p : Parameters) (backward : Bool) := (source p backward).surfaceBody.take 10
 def body (p : Parameters) (backward : Bool) : List ComputeStmt :=
-  match (source p backward).surfaceBody.drop 11 with
+  match (source p backward).surfaceBody.drop 10 with
   | [.forRangeDyn _ _ _ _ stmts] => stmts
   | _ => []
 

@@ -8,8 +8,8 @@
     "task_status": {
       "legacy_ast_only": 1,
       "no_selected_jit_resolved": 2,
-      "selected_body_copy_checked": 35,
-      "uncovered_jit_functions": 145
+      "selected_body_copy_checked": 37,
+      "uncovered_jit_functions": 143
     },
     "example_status": {
       "authored_counterpart_body_copy_checked": 2,
@@ -17,12 +17,12 @@
       "spec_derived_body_copy_checked": 15
     },
     "selected_jit_functions": 328,
-    "uncovered_selected_jit_functions": 271,
+    "uncovered_selected_jit_functions": 269,
     "primary_files_with_int64_screen_warning": 40,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 116,
-        "antiquotes": 128,
+        "in_body_type_directives": 114,
+        "antiquotes": 126,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 8
       },
@@ -4490,9 +4490,9 @@
       "source_provenance": "selected_revision",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 32,
-        "dsl_assignment": 2,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 15,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -4505,19 +4505,73 @@
           "explicit_int64_casts": []
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_rope_embedding",
+          "lean_definition": "rope",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "Q_row_stride": "Q_row_stride",
+            "cos_row_stride": "cos_row_stride",
+            "sin_row_stride": "sin_row_stride",
+            "seqlen": "seqlen"
+          },
+          "statements": 13,
+          "runtime_parameters": {
+            "Q_row_stride": "integer",
+            "cos_row_stride": "integer",
+            "sin_row_stride": "integer",
+            "seqlen": "integer"
+          },
+          "constexpr_parameters": [
+            "BACKWARD_PASS",
+            "BLOCK_SIZE",
+            "head_dim",
+            "n_heads"
+          ],
           "python": "bench/repairs/tritonbench_g/fast_rope_embedding/fast_rope_embedding_repaired.py",
-          "function": "_rope_embedding"
+          "lean": "bench/repairs/tritonbench_g/fast_rope_embedding/Kernels.lean"
+        },
+        {
+          "python_function": "_rope_embedding_index_commuted",
+          "lean_definition": "ropeIndexCommuted",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "Q_row_stride": "Q_row_stride",
+            "cos_row_stride": "cos_row_stride",
+            "sin_row_stride": "sin_row_stride",
+            "seqlen": "seqlen"
+          },
+          "statements": 13,
+          "runtime_parameters": {
+            "Q_row_stride": "integer",
+            "cos_row_stride": "integer",
+            "sin_row_stride": "integer",
+            "seqlen": "integer"
+          },
+          "constexpr_parameters": [
+            "BACKWARD_PASS",
+            "BLOCK_SIZE",
+            "head_dim",
+            "n_heads"
+          ],
+          "python": "bench/repairs/tritonbench_g/fast_rope_embedding/index_commuted.py",
+          "lean": "bench/repairs/tritonbench_g/fast_rope_embedding/Kernels.lean"
         }
       ],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/fast_rope_embedding/Kernels.lean": "1a2716d7954a4e9197a92f489fef0e6bc1550b134b5711030be843dd91347628",
-        "bench/repairs/tritonbench_g/fast_rope_embedding/fast_rope_embedding_repaired.py": "8557528fbe4b4c70874ae81b1df06a8e23d57dba23818f716323c30d5e406454"
+        "bench/repairs/tritonbench_g/fast_rope_embedding/Kernels.lean": "bb4105f4c70a20ebb2e2cfa58a6d06920c279767121b61855cabc58fedc95ada",
+        "bench/repairs/tritonbench_g/fast_rope_embedding/fast_rope_embedding_repaired.py": "8557528fbe4b4c70874ae81b1df06a8e23d57dba23818f716323c30d5e406454",
+        "bench/repairs/tritonbench_g/fast_rope_embedding/index_commuted.py": "1d2d9e3449ab240778fea645c407f316e5d584f59dc79ac3cf8e467378c159d9",
+        "bench/repairs/tritonbench_g/fast_rope_embedding/jit-correspondence.json": "d2b73949e829333e237872a17293051f18356f5257c49fc254a871d41af6373a"
       }
     },
     {
@@ -11469,9 +11523,9 @@
       "source_provenance": "selected_revision",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 32,
-        "dsl_assignment": 2,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 17,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -11484,18 +11538,74 @@
           "explicit_int64_casts": []
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_rope_embedding",
+          "lean_definition": "rope",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "Q_row_stride": "Q_row_stride",
+            "cos_row_stride": "cos_row_stride",
+            "sin_row_stride": "sin_row_stride",
+            "seqlen": "seqlen"
+          },
+          "statements": 12,
+          "runtime_parameters": {
+            "Q_row_stride": "integer",
+            "cos_row_stride": "integer",
+            "sin_row_stride": "integer",
+            "seqlen": "integer"
+          },
+          "constexpr_parameters": [
+            "BACKWARD_PASS",
+            "BLOCK_SIZE",
+            "ROPE_GROUP_SIZE",
+            "head_dim",
+            "n_heads"
+          ],
           "python": "bench/repairs/tritonbench_g/rope_embedding/rope_embedding_repaired.py",
-          "function": "_rope_embedding"
+          "lean": "bench/repairs/tritonbench_g/rope_embedding/Kernels.lean"
+        },
+        {
+          "python_function": "_rope_embedding_index_commuted",
+          "lean_definition": "indexCommuted",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "Q_row_stride": "Q_row_stride",
+            "cos_row_stride": "cos_row_stride",
+            "sin_row_stride": "sin_row_stride",
+            "seqlen": "seqlen"
+          },
+          "statements": 12,
+          "runtime_parameters": {
+            "Q_row_stride": "integer",
+            "cos_row_stride": "integer",
+            "sin_row_stride": "integer",
+            "seqlen": "integer"
+          },
+          "constexpr_parameters": [
+            "BACKWARD_PASS",
+            "BLOCK_SIZE",
+            "ROPE_GROUP_SIZE",
+            "head_dim",
+            "n_heads"
+          ],
+          "python": "bench/repairs/tritonbench_g/rope_embedding/index_commuted.py",
+          "lean": "bench/repairs/tritonbench_g/rope_embedding/Kernels.lean"
         }
       ],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/rope_embedding/Kernels.lean": "d718d50f277b1c1ae2cf9b510c59270fbdc102fa3616868a44300d8a5ae0ac6e",
+        "bench/repairs/tritonbench_g/rope_embedding/Kernels.lean": "c1ac1934479272ad2f314740b929454b3d0ee7710439f20076b542441a0ab510",
+        "bench/repairs/tritonbench_g/rope_embedding/index_commuted.py": "f6838eb07fd523837f22ca5d3c36bf691d862e484c23e41e0c9be66e67a91909",
+        "bench/repairs/tritonbench_g/rope_embedding/jit-correspondence.json": "9f91bebdcaa8a0dd6b8d089949adc502f93231bf08675686f2ce2fdb8265bf8f",
         "bench/repairs/tritonbench_g/rope_embedding/rope_embedding_repaired.py": "3567bcb6ac3c529fb906c64a70ecabdb0c9d0b8f3c6b4ac9927971ab94763877"
       }
     },

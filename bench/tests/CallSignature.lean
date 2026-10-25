@@ -100,4 +100,39 @@ def unsupportedPointerSelection (Y : RegionName) : ComputeKernel :=
 #axiomsClean implicit_store_and_runtime_input
 #axiomsClean actual_argument
 end
+/-- Immutable constexpr division is a call-time constant, even for an odd size. -/
+def staticQuotient (N : Nat) : ComputeKernel :=
+  with_triton_signature ({constexpr := ["N"]} : CallSignature) in triton {
+    half = N // 2
+  }
+
+theorem static_quotient (N : Nat) : staticQuotient N = (triton {
+  half = $((N / 2 : Nat))
+} : ComputeKernel) := rfl
+
+/-- Supplying a runtime call value must not turn its division into constexpr. -/
+def runtimeQuotient (N : Nat) : ComputeKernel :=
+  with_triton_call ({scalars := [("N",.integer)]} : CallSignature) call_args [N := N] in triton {
+    half = N // 2
+  }
+
+theorem runtime_quotient (N : Nat) : runtimeQuotient N = (triton {
+  half = $((N : Nat)) // $((2 : Nat))
+} : ComputeKernel) := rfl
+
+/-- An overwritten constexpr name refers to the local register. -/
+def mutableQuotient (N : Nat) : ComputeKernel :=
+  with_triton_signature ({constexpr := ["N"]} : CallSignature) in triton {
+    N = tl.cast(5, tl.int64)
+    half = N // 2
+  }
+
+theorem mutable_quotient (N : Nat) : mutableQuotient N = (triton {
+  N = tl.cast(5, tl.int64)
+  half = N // $((2 : Int))
+} : ComputeKernel) := rfl
+
+#axiomsClean static_quotient
+#axiomsClean runtime_quotient
+#axiomsClean mutable_quotient
 end VeriTile.Tests.CallSignature
