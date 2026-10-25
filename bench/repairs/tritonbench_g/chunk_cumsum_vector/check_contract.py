@@ -6,6 +6,7 @@ import math
 import os
 from pathlib import Path
 import re
+import sys
 from types import SimpleNamespace
 
 os.environ["TRITON_INTERPRET"] = "1"
@@ -14,6 +15,9 @@ import torch
 import triton.runtime.interpreter as interpreter
 
 HERE = Path(__file__).resolve().parent
+ROOT = HERE.parents[3]
+sys.path.insert(0, str(ROOT))
+from bench.jit_correspondence import check_manifest
 SOURCE = HERE / "chunk_cumsum_vector_repaired.py"
 NAME = "chunk_global_cumsum_vector"
 CONFIGS = [(bt, warps) for bt in (16, 32, 64) for warps in (2, 4, 8)]
@@ -53,9 +57,10 @@ def source_checks():
     loop = next(n for n in kernel.body if isinstance(n,ast.For))
     load = next(n for n in ast.walk(loop) if isinstance(n,ast.Call) and ast.unparse(n.func)=="tl.load")
     assert [(k.arg,ast.unparse(k.value)) for k in load.keywords] == [("mask","active"),("other","0")]
+    check_manifest(ROOT, HERE / "jit-correspondence.json")
     lean = (HERE / "Kernels.lean").read_text()
     assert ".Proofs." not in lean and "mask=active, other=0" in lean
-    assert "allow_tf32=False" in SOURCE.read_text() and "allow_tf32=false" in lean
+    assert "allow_tf32=False" in SOURCE.read_text() and "allow_tf32=False" in lean
     assert "with torch.cuda.device(s.device):" in SOURCE.read_text()
     assert not any(x in SOURCE.read_text() for x in (".clone(",".contiguous(",".resolve_neg("))
 

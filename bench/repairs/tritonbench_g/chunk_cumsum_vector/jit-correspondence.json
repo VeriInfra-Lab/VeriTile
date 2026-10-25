@@ -1,0 +1,72 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/chunk_cumsum_vector/chunk_cumsum_vector_repaired.py",
+    "python_function": "chunk_global_cumsum_vector_kernel",
+    "lean": "bench/repairs/tritonbench_g/chunk_cumsum_vector/Kernels.lean",
+    "lean_definition": "source",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "s",
+          "inputFloat"
+        ],
+        [
+          "z",
+          "outputFloat"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "H",
+        "s_s_b",
+        "s_s_h",
+        "s_s_t",
+        "s_s_d",
+        "s_z_b",
+        "s_z_h",
+        "s_z_t",
+        "s_z_d",
+        "T",
+        "S",
+        "BT",
+        "BS"
+      ]
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/chunk_cumsum_vector/chunk_cumsum_vector_repaired.py",
+    "python_function": "chunk_global_cumsum_vector_kernel_sum_left",
+    "lean": "bench/repairs/tritonbench_g/chunk_cumsum_vector/Kernels.lean",
+    "lean_definition": "sumLeft",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "s",
+          "inputFloat"
+        ],
+        [
+          "z",
+          "outputFloat"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "H",
+        "s_s_b",
+        "s_s_h",
+        "s_s_t",
+        "s_s_d",
+        "s_z_b",
+        "s_z_h",
+        "s_z_t",
+        "s_z_d",
+        "T",
+        "S",
+        "BT",
+        "BS"
+      ]
+    }
+  }
+]

@@ -11,11 +11,11 @@ def prefixCode (h : Call) (c : Config) : List Stmt := (RealProgram.loopBody h c)
 
 theorem prefix_safe (bounds : RegionBounds) (h : Call) (c : Config) (feature row q : Nat)
     (f : Nat → Fin BS → ℝ) (acc : Fin BS → ℝ) (u : BlockState)
-    (ht : u.regs .nat [] "i_t"=some (Tile.scalar q))
-    (hb : u.regs .nat [] "i_b"=some (Tile.scalar (row/h.H)))
-    (hh : u.regs .nat [] "i_h"=some (Tile.scalar (row%h.H)))
+    (ht : u.regs .int [] "i_t"=some (Tile.scalar q))
+    (hb : u.regs .int [] "i_b"=some (Tile.scalar (row/h.H)))
+    (hh : u.regs .int [] "i_h"=some (Tile.scalar (row%h.H)))
     (hs : u.regs .bool [BS] "active_s"=some (axisMask h.S BS (feature*BS)))
-    (hj : u.regs .nat [BS] "columns"=some (coordinate h.S BS (feature*BS)))
+    (hj : u.regs .int [BS] "columns"=some (coordinate h.S BS (feature*BS)))
     (hm : u.regs .real [c.BT,c.BT] "m_s"=some (lowerTriTile c.BT))
     (ha : u.regs .real [BS] "b_z"=some (Tile.vec fun j => some (acc j)))
     (read : ∀ (i : Fin c.BT) (j : Fin BS),
@@ -32,10 +32,10 @@ theorem prefix_safe (bounds : RegionBounds) (h : Call) (c : Config) (feature row
     (tail : List Stmt) (tailSafe : ∀ v, Stmt.TraceSafeListR .triv bounds tail v) :
     Stmt.TraceSafeListR .triv bounds (prefixCode h c ++ tail) u := by
   simp only [prefixCode, RealProgram.loopBody, List.take, List.cons_append, List.nil_append]
-  refine assign bounds _ _ _ _ _ _ _ ?_ (start_eval "i_t" c.BT q u ht) ?_
-  · simp [Op.SafeAtR.eq_def, startOp]
+  refine assign bounds _ _ _ _ _ _ _ ?_ (timeStart_eval c q u ht) ?_
+  · simp [Op.SafeAtR.eq_def, timeStartOp, startOp]
   refine assign bounds _ _ _ _ _ _ _ ?_
-    (show evalOp (.arange c.BT) _ = some (lanes c.BT) from by simpa [lanes,Tile.vec] using evalOp_arange c.BT _) ?_
+    (show evalOp (.castNatToInt (.arange c.BT)) _ = some (lanes c.BT) from by simp [evalOp,lanes,Tile.vec]) ?_
   · simp [Op.SafeAtR.eq_def]
   refine assign bounds _ _ _ _ _ _ _ ?_
     (active_eval h.T c.BT (q*c.BT) "lanes_t" "start_t" _ (by simp) (by simp)) ?_
@@ -68,7 +68,7 @@ theorem prefix_safe (bounds : RegionBounds) (h : Call) (c : Config) (feature row
 
 theorem carry_safe (bounds : RegionBounds) (c : Config) (u : BlockState) :
     Stmt.TraceSafeListR .triv bounds
-      [.ifThen (.ge .nat .nil (.ref .nat [] "i_t") (.constNat 0))
+      [.ifThen (.ge .int .nil (.ref .int [] "i_t") (.constInt 0))
         [.assign .real [BS] "b_z" (carryOp c)]] u := by
   apply Stmt.TraceSafeListR.cons_intro
   · simp only [Stmt.TraceSafeR, Op.SafeAtR.eq_def, true_and]

@@ -8,8 +8,8 @@
     "task_status": {
       "legacy_ast_only": 1,
       "no_selected_jit_resolved": 2,
-      "selected_body_copy_checked": 66,
-      "uncovered_jit_functions": 114
+      "selected_body_copy_checked": 67,
+      "uncovered_jit_functions": 113
     },
     "example_status": {
       "authored_counterpart_body_copy_checked": 2,
@@ -17,12 +17,12 @@
       "spec_derived_body_copy_checked": 15
     },
     "selected_jit_functions": 328,
-    "uncovered_selected_jit_functions": 224,
-    "primary_files_with_int64_screen_warning": 32,
+    "uncovered_selected_jit_functions": 222,
+    "primary_files_with_int64_screen_warning": 31,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 90,
-        "antiquotes": 99,
+        "in_body_type_directives": 89,
+        "antiquotes": 98,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 8
       },
@@ -1971,9 +1971,9 @@
       "source_provenance": "selected_revision",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 50,
-        "dsl_assignment": 16,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 45,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 2
@@ -2042,23 +2042,70 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "chunk_global_cumsum_vector_kernel",
+          "lean_definition": "source",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "runtime_registers",
+          "call_bindings": null,
+          "statements": 11,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "BS",
+            "BT",
+            "H",
+            "S",
+            "T",
+            "s_s_b",
+            "s_s_d",
+            "s_s_h",
+            "s_s_t",
+            "s_z_b",
+            "s_z_d",
+            "s_z_h",
+            "s_z_t"
+          ],
           "python": "bench/repairs/tritonbench_g/chunk_cumsum_vector/chunk_cumsum_vector_repaired.py",
-          "function": "chunk_global_cumsum_vector_kernel"
+          "lean": "bench/repairs/tritonbench_g/chunk_cumsum_vector/Kernels.lean"
         },
         {
+          "python_function": "chunk_global_cumsum_vector_kernel_sum_left",
+          "lean_definition": "sumLeft",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "runtime_registers",
+          "call_bindings": null,
+          "statements": 11,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "BS",
+            "BT",
+            "H",
+            "S",
+            "T",
+            "s_s_b",
+            "s_s_d",
+            "s_s_h",
+            "s_s_t",
+            "s_z_b",
+            "s_z_d",
+            "s_z_h",
+            "s_z_t"
+          ],
           "python": "bench/repairs/tritonbench_g/chunk_cumsum_vector/chunk_cumsum_vector_repaired.py",
-          "function": "chunk_global_cumsum_vector_kernel_sum_left"
+          "lean": "bench/repairs/tritonbench_g/chunk_cumsum_vector/Kernels.lean"
         }
       ],
-      "int64_screen": "cast_not_visible_in_primary_quotation",
+      "uncovered_selected_jits": [],
+      "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/chunk_cumsum_vector/Kernels.lean": "83834a371c568138b4f5ac3a53282956b8abf8d068f276e4c8238ad086032871",
-        "bench/repairs/tritonbench_g/chunk_cumsum_vector/chunk_cumsum_vector_repaired.py": "74bdfcec7f4d451051eec56ae330df18f8a8fcc0de439dac66cb1a9aa6f43743"
+        "bench/repairs/tritonbench_g/chunk_cumsum_vector/Kernels.lean": "dc090dcab784934f05cae2036a5edcf446fbd3bf8bcdf3cad50eef47e97bd150",
+        "bench/repairs/tritonbench_g/chunk_cumsum_vector/chunk_cumsum_vector_repaired.py": "74bdfcec7f4d451051eec56ae330df18f8a8fcc0de439dac66cb1a9aa6f43743",
+        "bench/repairs/tritonbench_g/chunk_cumsum_vector/jit-correspondence.json": "1318763126e22276717623634e3be07cc59ff628fdb69f675d33f94faa5b172f"
       }
     },
     {

@@ -729,3 +729,32 @@ class ApplyPenaltyRawBodyTests(unittest.TestCase):
                     check((ROOT / record["python"]).read_text(), lean.replace(before, after),
                           record["python_function"], record["lean_definition"], record["signature_definition"],
                           record["expected_signature"], record["expected_call_bindings"])
+
+
+class ChunkCumsumVectorRawBodyTests(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/chunk_cumsum_vector"
+
+    def test_both_complete_bodies_preserve_signed_indices_and_fp_order(self):
+        records = json.loads((self.directory / "jit-correspondence.json").read_text())
+        pairs = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual(len(pairs), 2)
+        self.assertTrue(all((p["mode"], p["statements"]) == ("pasted_body", 11) for p in pairs))
+        lean = (self.directory / "Kernels.lean").read_text()
+        for record in records:
+            for before, after in [
+                ("tl.program_id(0).to(tl.int64)", "tl.program_id(0)"),
+                ("tl.program_id(1).to(tl.int64)", "tl.program_id(1)"),
+                ("tl.arange(0, BS).to(tl.int64)", "tl.arange(0, BS)"),
+                ("tl.arange(0, BT).to(tl.int64)", "tl.arange(0, BT)"),
+                ("tl.cast(tl.cdiv(T, BT), tl.int64)", "tl.cdiv(T, BT)"),
+                ("tl.cast(i_t, tl.int64)", "i_t"),
+                ("mask=active, other=0", "mask=active"),
+                ("allow_tf32=False", "allow_tf32=True"),
+                ("b_c.to(p_z.dtype.element_ty)", "b_c"),
+                ('("s",.inputFloat)', '("s",.fp32)'),
+            ]:
+                with self.subTest(definition=record["lean_definition"], before=before), self.assertRaises(ValueError):
+                    self.assertIn(before, lean)
+                    check((ROOT / record["python"]).read_text(), lean.replace(before, after),
+                          record["python_function"], record["lean_definition"], record["signature_definition"],
+                          record["expected_signature"])
