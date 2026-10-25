@@ -18,7 +18,7 @@ structure Holds (initial : BlockState) (h : Call) (c : Config) (row : Nat)
     (input : Nat → ℝ) (remaining : Nat) (u : BlockState) : Prop where
   undef : u.undef=initial.undef
   count_le : remaining≤numChunks h c
-  head : u.regs .nat [] "i_bh"=some (Tile.scalar row)
+  head : u.regs .int [] "i_bh"=some (Tile.scalar (row:Int))
   carry : u.regs .real [] "b_z"=some (Tile.scalar (some (accumulated h c input remaining)))
   reads : ∀ t, t<h.T → u.readMem h.input (h.inputStrides.address h.H row t)=input t
   output : ∀ t, t<h.T → remaining*c.BT≤t →
@@ -85,15 +85,25 @@ theorem iteration (initial : BlockState) (h : Call) (layout : Geometry.OutputLay
     intro r off hn
     exact (inv.frame r off hn).trans (frame r off hn)
 
-abbrev initial := VeriTile.Bench.TritonBenchG.ReversedCumsumScalar.RealInit.initial
-abbrev init_executes := VeriTile.Bench.TritonBenchG.ReversedCumsumScalar.RealInit.executes
+def initial (u : BlockState) : BlockState :=
+  (u.setReg "i_bh" .int [] (Tile.scalar (u.pids 0:Int))).setReg "b_z" .real [] (Tile.scalar (some 0))
+
+theorem init_executes (u : BlockState) : stepStmts initCode u=some (initial u) := by
+  unfold initCode
+  rw [stepStmts.cons_some (stepStmt_assign_eq_some (show evalOp (.castNatToInt (.programId 0)) u =
+    some (Tile.scalar (u.pids 0:Int)) from by simp [evalOp]))]
+  rw [stepStmts.cons_some (stepStmt_assign_eq_some (show evalOp (.full [] (.const 0)) _ =
+    some (Tile.scalar (some (0 : ℝ))) from by simp [evalOp_full,evalOp_const]))]
+  rw [stepStmts.nil]
+  rfl
+
 
 theorem invariant (h : Call) (c : Config) (positive : 0<c.BT) (u : BlockState) :
     Holds u h c (u.pids 0) (fun t => u.readMem h.input (h.inputStrides.address h.H (u.pids 0) t))
       (numChunks h c) (initial u) := by
   refine ⟨rfl,le_rfl,?_,?_,?_,?_,?_⟩
-  · simp [initial,VeriTile.Bench.TritonBenchG.ReversedCumsumScalar.RealInit.initial]
-  · simp [initial,VeriTile.Bench.TritonBenchG.ReversedCumsumScalar.RealInit.initial,accumulated,VeriTile.Bench.TritonBenchG.ReversedCumsumScalar.Formula.carry_end]
+  · simp [initial]
+  · simp [initial,accumulated,VeriTile.Bench.TritonBenchG.ReversedCumsumScalar.Formula.carry_end]
   · intro t ht; rfl
   · intro t ht hl
     have hc : h.T≤numChunks h c*c.BT := Geometry.chunks_cover h c positive
@@ -121,11 +131,9 @@ theorem loop_iteration (initial : BlockState) (h : Call) (layout : Geometry.Outp
 
 theorem statement_eval (h : Call) (c : Config) (u : BlockState) :
     stepStmt (statement h c) u=stepForRangeIntAux "__rev_i_t" (1-(numChunks h c:Int)) 1 1 (loopBody h c) u := by
-  rw [statement,stepForRangeIntAux.forRangeInt_unfold,
-    VeriTile.Bench.TritonBenchG.ReversedCumsumScalar.RealProgram.start_eval]
-  simp only [VeriTile.Bench.TritonBenchG.ReversedCumsumScalar.RealProgram.constInt_eval,
-    evalOp_constNat,Option.bind_some,Option.bind_eq_bind,Tile.scalar_data]
-  rfl
+  simp [-Tile.scalar_eta,statement,startIndexOp,stepForRangeIntAux.forRangeInt_unfold,
+    evalOp,Tile.scalar,Tile.bop,Broadcast.leftIndex,Broadcast.rightIndex,
+    NumericDType.sub,zero_sub,neg_sub]
 
 theorem loop_executes (initial : BlockState) (h : Call) (layout : Geometry.OutputLayout h)
     (c : Config) (positive : 0<c.BT) (row : Nat) (hr : row<h.B*h.H)

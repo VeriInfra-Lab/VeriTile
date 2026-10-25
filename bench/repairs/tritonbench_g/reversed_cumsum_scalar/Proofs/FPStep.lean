@@ -46,7 +46,7 @@ theorem executes (M : Algebra α) (scan : ScanBackend α) (h : Call) (c : Config
     (input : Nat → α) (acc : α) (j : Int) (u : State α) (hj : j<1)
     (start : (-j).toNat*c.BT<h.T)
     (hr : u.regs .int [] "__rev_i_t"=some (fun _ => j))
-    (hh : u.regs .nat [] "i_bh"=some (fun _ => row))
+    (hh : u.regs .int [] "i_bh"=some (fun _ => (row:Int)))
     (ha : u.regs .real [] "b_z"=some (fun _ => acc))
     (read : ∀ t, t<h.T → toFloat h.inputDType
       ((u.mem h.input (h.inputStrides.address h.H row t)).read h.inputDType.toTileDType)=input t) :

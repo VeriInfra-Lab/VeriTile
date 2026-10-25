@@ -65,8 +65,8 @@ private theorem store_safe (h : Call) (c : Config) (row q : Nat)
 theorem chunk_safe (h : Call) (c : Config) (row q : Nat)
     (f : Geometry.FeatureBlock h) (bounds : RegionBounds) (hb : Bounds h row f.val bounds)
     (u : BlockState) (start : q*c.BT<h.T)
-    (his : u.regs .nat [] "i_s"=some (Tile.scalar f.val))
-    (hih : u.regs .nat [] "i_bh"=some (Tile.scalar row))
+    (his : u.regs .int [] "i_s"=some (Tile.scalar (f.val:Int)))
+    (hih : u.regs .int [] "i_bh"=some (Tile.scalar (row:Int)))
     (hit : u.regs .int [] "i_t"=some (Tile.scalar (q:Int))) :
     Stmt.TraceSafeList bounds (RealStep.chunkCode h c) u := by
   simp only [RealStep.chunkCode,loopBody,List.tail_cons]
@@ -130,8 +130,8 @@ theorem iteration_safe (initial : BlockState) (h : Call) (c : Config) (row : Nat
   rw [TraceProofs.cons_of_run_iff (VeriTile.Bench.TritonBenchG.ReversedCumsum.RealExecution.mirror_assign j u)]
   refine ⟨by simp [Stmt.TraceSafe,Op.SafeAt],?_⟩
   apply chunk_safe h c row (-j).toNat f bounds hb _ (Geometry.chunk_start h c positive _ count)
-  · simpa [Holds,zeroUndef] using inv.feature
-  · simpa [Holds,zeroUndef] using inv.head
+  · simpa [] using inv.feature
+  · simpa [] using inv.head
   · rw [SignedIndex.int_index_of_nat j hj]
     simp
 
@@ -162,20 +162,24 @@ theorem source_safe (h : Call) (c : Config) (row : Nat) (f : Geometry.FeatureBlo
     (bounds : RegionBounds) (hb : Bounds h row f.val bounds) :
     Kernel.TraceSafe bounds (Kernels.source h c).eraseDType.toAlgKernel initial := by
   have inv : Holds initial h c row f.val (initial.readMem h.input) (Geometry.chunks h c)
-      (VeriTile.Bench.TritonBenchG.ReversedCumsum.RealInit.initial (layout h c) initial) := by
-    have v := VeriTile.Bench.TritonBenchG.ReversedCumsum.RealInit.invariant (layout h c)
-      (zeroUndef initial) h.input h.output (initial.readMem h.input) (fun _ => rfl) positive
-    have launches : VeriTile.Bench.TritonBenchG.ReversedCumsum.RealInit.launch (zeroUndef initial)=launch row f.val := by
-      simp [VeriTile.Bench.TritonBenchG.ReversedCumsum.RealInit.launch,zeroUndef,launch,pid0,pid1]
-    rw [launches] at v
-    exact v
+      (RealExecution.initialized c initial) := by
+    simpa [pid0,pid1] using RealExecution.init_invariant h c initial positive
   rw [Kernel.TraceSafe,source_body,body]
   apply TraceProofs.append_safe
   · apply TraceProofs.all_safe
-    simp [initCode,VeriTile.Bench.TritonBenchG.ReversedCumsum.RealProgram.initCode,
-      VeriTile.Bench.TritonBenchG.ReversedCumsum.RealProgram.maskOp,Stmt.TraceSafe,Op.SafeAt,Op.SafeAt.eq_def]
+    intro st hs u
+    simp only [initCode,List.mem_cons,List.mem_singleton,List.not_mem_nil,or_false] at hs
+    rcases hs with rfl | rfl | rfl | rfl
+    · rw [Stmt.TraceSafe]
+      refine ⟨by simp [Op.SafeAt],?_⟩
+      simp only [evalOp,Tile.scalar_data,Option.bind_some,if_true]
+      apply TraceProofs.all_safe
+      simp [Stmt.TraceSafe,Op.SafeAt,Op.SafeAt.eq_def]
+    · simp [Stmt.TraceSafe,Op.SafeAt]
+    · simp [Stmt.TraceSafe,triOp,Op.SafeAt,Op.SafeAt.eq_def]
+    · simp [Stmt.TraceSafe,Op.SafeAt,Op.SafeAt.eq_def]
   · intro v he
-    rw [initCode,VeriTile.Bench.TritonBenchG.ReversedCumsum.RealInit.executes] at he
+    rw [RealExecution.init_executes] at he
     cases he
     apply Stmt.TraceSafeList.cons_intro
     · exact loop_safe initial h c row f (initial.readMem h.input) distinct positive bounds hb _ inv

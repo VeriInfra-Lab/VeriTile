@@ -8,8 +8,8 @@
     "task_status": {
       "legacy_ast_only": 1,
       "no_selected_jit_resolved": 2,
-      "selected_body_copy_checked": 63,
-      "uncovered_jit_functions": 117
+      "selected_body_copy_checked": 65,
+      "uncovered_jit_functions": 115
     },
     "example_status": {
       "authored_counterpart_body_copy_checked": 2,
@@ -17,12 +17,12 @@
       "spec_derived_body_copy_checked": 15
     },
     "selected_jit_functions": 328,
-    "uncovered_selected_jit_functions": 230,
-    "primary_files_with_int64_screen_warning": 35,
+    "uncovered_selected_jit_functions": 226,
+    "primary_files_with_int64_screen_warning": 33,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 93,
-        "antiquotes": 102,
+        "in_body_type_directives": 91,
+        "antiquotes": 100,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 8
       },
@@ -11604,9 +11604,9 @@
       "source_provenance": "selected_revision",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 40,
-        "dsl_assignment": 28,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 45,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 2
@@ -11675,22 +11675,57 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "chunk_global_reversed_cumsum_vector_kernel",
+          "lean_definition": "source",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "runtime_registers",
+          "call_bindings": null,
+          "statements": 5,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "BS",
+            "BT",
+            "S",
+            "T",
+            "s_s_d",
+            "s_s_h",
+            "s_s_t"
+          ],
           "python": "bench/repairs/tritonbench_g/reversed_cumsum/reversed_cumsum_repaired.py",
-          "function": "chunk_global_reversed_cumsum_vector_kernel"
+          "lean": "bench/repairs/tritonbench_g/reversed_cumsum/Kernels.lean"
         },
         {
+          "python_function": "chunk_global_reversed_cumsum_vector_kernel_compare_right",
+          "lean_definition": "compareRight",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "runtime_registers",
+          "call_bindings": null,
+          "statements": 5,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "BS",
+            "BT",
+            "S",
+            "T",
+            "s_s_d",
+            "s_s_h",
+            "s_s_t"
+          ],
           "python": "bench/repairs/tritonbench_g/reversed_cumsum/reversed_cumsum_repaired.py",
-          "function": "chunk_global_reversed_cumsum_vector_kernel_compare_right"
+          "lean": "bench/repairs/tritonbench_g/reversed_cumsum/Kernels.lean"
         }
       ],
-      "int64_screen": "cast_not_visible_in_primary_quotation",
+      "uncovered_selected_jits": [],
+      "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/reversed_cumsum/Kernels.lean": "d4c958f5569389001cf70042cfebef4ef9db1dd724a89217537ed55a5523bd9f",
+        "bench/repairs/tritonbench_g/reversed_cumsum/Kernels.lean": "e002b02a9bf5b2d8129a632e2c3c90df42bd7a80613e9429cfbd9a6683b863af",
+        "bench/repairs/tritonbench_g/reversed_cumsum/jit-correspondence.json": "9e2cc7c56d2b230fec18319b7ee43bcc40fdaf92e7c797898462ae707075f7ac",
         "bench/repairs/tritonbench_g/reversed_cumsum/reversed_cumsum_repaired.py": "096568541a59f38628a4c34ee2a354f607a66ad1f5f37f4dbaa1d19479ea827a"
       }
     },
@@ -11702,9 +11737,9 @@
       "source_provenance": "selected_revision",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 38,
-        "dsl_assignment": 15,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 36,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 2
@@ -11757,22 +11792,61 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "chunk_global_reversed_cumsum_scalar_kernel",
+          "lean_definition": "source",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "runtime_registers",
+          "call_bindings": null,
+          "statements": 3,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "BT",
+            "H",
+            "T",
+            "stride_ob",
+            "stride_oh",
+            "stride_ot",
+            "stride_sb",
+            "stride_sh",
+            "stride_st"
+          ],
           "python": "bench/repairs/tritonbench_g/reversed_cumsum_scalar/reversed_cumsum_scalar_repaired.py",
-          "function": "chunk_global_reversed_cumsum_scalar_kernel"
+          "lean": "bench/repairs/tritonbench_g/reversed_cumsum_scalar/Kernels.lean"
         },
         {
+          "python_function": "chunk_global_reversed_cumsum_scalar_kernel_index_commuted",
+          "lean_definition": "indexCommuted",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "runtime_registers",
+          "call_bindings": null,
+          "statements": 3,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "BT",
+            "H",
+            "T",
+            "stride_ob",
+            "stride_oh",
+            "stride_ot",
+            "stride_sb",
+            "stride_sh",
+            "stride_st"
+          ],
           "python": "bench/repairs/tritonbench_g/reversed_cumsum_scalar/reversed_cumsum_scalar_repaired.py",
-          "function": "chunk_global_reversed_cumsum_scalar_kernel_index_commuted"
+          "lean": "bench/repairs/tritonbench_g/reversed_cumsum_scalar/Kernels.lean"
         }
       ],
-      "int64_screen": "cast_not_visible_in_primary_quotation",
+      "uncovered_selected_jits": [],
+      "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/reversed_cumsum_scalar/Kernels.lean": "79130487b1d82ce04e8ef1774aaca1558264b998ebd6bcdbfb346b05202f1e89",
+        "bench/repairs/tritonbench_g/reversed_cumsum_scalar/Kernels.lean": "e4ffe3e1010a109b355ba1806ea363f59130cf2c8c6a2f4d6e36efe4c27ac42f",
+        "bench/repairs/tritonbench_g/reversed_cumsum_scalar/jit-correspondence.json": "fb3ba3e96dada6a1937cfc53465aba8e3ddfcbd2841d0bb8dc25f3dedc6ae875",
         "bench/repairs/tritonbench_g/reversed_cumsum_scalar/reversed_cumsum_scalar_repaired.py": "b9b7ba2b1887a33a96c822cd76bb0818e75f0b63955df89c9250c5b294f009a1"
       }
     },

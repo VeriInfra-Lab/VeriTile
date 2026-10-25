@@ -77,7 +77,7 @@ theorem time_eval (M : Algebra α) (h : Call) (c : Config) (q : Nat) (u : State 
 
 theorem pointer_eval (M : Algebra α) (h : Call) (c : Config) (row q : Nat)
     (r : RegionName) (strides : Strides) (u : State α)
-    (hr : u.regs .nat [] "i_bh"=some (fun _ => row))
+    (hr : u.regs .int [] "i_bh"=some (fun _ => (row:Int)))
     (ht : u.regs .int [c.BT] "times"=some (times h c q)) :
     FP.Structural.evalOp M none (pointerOp h c r strides) u=some (pointer h c row q r strides) := by
   simp only [pointerOp,baseOp,Op.tritonDiv,Op.tritonMod,FP.Structural.evalOp,hr,ht]
@@ -85,9 +85,13 @@ theorem pointer_eval (M : Algebra α) (h : Call) (c : Config) (row q : Nat)
   funext i
   simp [pointer,times,Strides.address,Strides.base,bop,numeric,integralFloorDiv,integralMod,
     Broadcast.leftIndex,Broadcast.rightIndex]
-  rw [←Int.natCast_ediv,←Int.natCast_emod,←Int.natCast_mul,←Int.natCast_mul,
-    ←Int.natCast_add,←Int.natCast_mul,←Int.natCast_add]
-  rfl
+  have nonnegative : ¬(row:Int)<0 := by omega
+  simp only [NumericDType.sub,nonnegative,↓reduceIte]
+  have remainder : (row:Int)-(h.H:Int)*((row/h.H:Nat):Int)=((row%h.H:Nat):Int) := by
+    simp only [Int.natCast_ediv,Int.natCast_emod,Int.emod_def]
+  simp only [←Int.natCast_ediv]
+  rw [remainder]
+  simp only [←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast]
 
 theorem load_eval (M : Algebra α) (scan : ScanBackend α) (h : Call) (c : Config) (row q : Nat)
     (input : Nat → α) (u : State α) (start : q*c.BT<h.T)

@@ -32,7 +32,7 @@ theorem executes (h : Call) (c : Config) (row : Nat) (input : Nat → ℝ)
     (acc : ℝ) (j : Int) (u : BlockState) (hj : j<1)
     (start : (-j).toNat*c.BT<h.T)
     (hr : u.regs .int [] "__rev_i_t"=some (Tile.scalar j))
-    (hh : u.regs .nat [] "i_bh"=some (Tile.scalar row))
+    (hh : u.regs .int [] "i_bh"=some (Tile.scalar (row:Int)))
     (ha : u.regs .real [] "b_z"=some (Tile.scalar (some acc)))
     (hm : ∀ t, t<h.T → u.readMem h.input (h.inputStrides.address h.H row t)=input t) :
     stepStmts (loopBody h c) u=some (result h c row (-j).toNat (value h input) acc u) := by

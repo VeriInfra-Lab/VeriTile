@@ -148,3 +148,21 @@ Tensor/check consequences without importing either reader entry. Targeted
 builds for this IO reorganization include the actual source-safety proof,
 logical IO connection, both entries and TensorBridge; no CPU/GPU experiment or
 independent replay was rerun for the formatting change.
+
+## Raw Python function bodies
+
+`Kernels.lean` quotes both complete selected functions from the existing
+repaired Python file, checked independently by `jit-correspondence.json`.
+The Python original and its existing candidate are unchanged. All explicit
+casts, masks, zero padding, statement order and descending loops are copied.
+Pointer element types and constexpr arguments are outside the copied body;
+independent input/output `FloatDType` parameters retain all six cases, while
+the existing host wrapper still requires FP32 storage.
+
+The tuple assignment, both signed program IDs, triangular comparison, feature stride multiplication, separate dot/add, and carry update after the store are retained. The candidate changes only the existing comparison operand order. The
+internal execution views are proved equal to the current quoted sources.
+Signed program IDs are part of the actual state; proof-only observation
+adapters do not add source statements. Nonnegative lane coordinates use the
+existing mathematical index projection, with native width/storage obligations
+kept in the existing native binding and index refinements. These integer
+connections assume no floating-point identity.

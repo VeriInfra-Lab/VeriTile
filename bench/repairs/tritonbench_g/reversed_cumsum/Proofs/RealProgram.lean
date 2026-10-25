@@ -9,8 +9,19 @@ set_option maxRecDepth 24000
 def layout (h : Call) (c : Config) : VeriTile.Bench.TritonBenchG.ReversedCumsum.RealProgram.Layout :=
   ⟨h.T*h.S,h.S,1,h.T,h.S,c.BT,BS⟩
 def launch (row feature : Nat) : VeriTile.Bench.TritonBenchG.ReversedCumsum.RealProgram.Launch := ⟨feature,row⟩
-def initCode (h : Call) (c : Config) : List Stmt :=
-  VeriTile.Bench.TritonBenchG.ReversedCumsum.RealProgram.initCode (layout h c) Bool.false
+def triOp (c : Config) : Op .real [c.BT,c.BT] :=
+  (.where (.le .nat (.consR (.consL .nil))
+       (.expandDim ⟨1,by simp⟩ (.ref .nat [c.BT] "o_i"))
+       (.expandDim ⟨0,by simp⟩ (.ref .nat [c.BT] "o_i")))
+       (.broadcast (.const 1.0) [c.BT,c.BT]) (.broadcast (.const 0.0) [c.BT,c.BT]))
+
+def initCode (_h : Call) (c : Config) : List Stmt :=
+  [.ifThen (.constBool Bool.true)
+     [.assign .int [] "i_s" (.castNatToInt (.programId 0)),
+      .assign .int [] "i_bh" (.castNatToInt (.programId 1))],
+   .assign .nat [c.BT] "o_i" (.arange c.BT),
+   .assign .real [c.BT,c.BT] "m_s" (triOp c),
+   .assign .real [BS] "b_z" (.full [BS] (.const 0))]
 
 def loadOp (c : Config) : Op .real [c.BT,BS] :=
   .load .real (.ptr (.ref .ptr [c.BT,BS] "p_s"))
@@ -24,13 +35,13 @@ def carryOp (c : Config) : Op .real [BS] :=
 def loopBody (h : Call) (c : Config) : List Stmt :=
   [.assign .int [] "i_t" indexOp,
    .assign .int [] "start_t" (startTOp c),
-   .assign .nat [] "start_s" startSOp,
+   .assign .int [] "start_s" startSOp,
    .assign .nat [c.BT] "lane_t" (.arange c.BT),
    .assign .nat [BS] "lane_s" (.arange BS),
    .assign .bool [c.BT] "active_t" (activeTOp h c),
    .assign .bool [BS] "active_s" (activeSOp h),
    .assign .int [c.BT] "times" (timeOp c),
-   .assign .nat [BS] "features" featureOp,
+   .assign .int [BS] "features" featureOp,
    .assign .bool [c.BT,BS] "active" (maskOp c),
    .assign .ptr [c.BT,BS] "p_s" (pointerOp h c h.input),
    .assign .ptr [c.BT,BS] "p_z" (pointerOp h c h.output),

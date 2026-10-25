@@ -663,3 +663,43 @@ class TokenSoftmaxRawBodyTests(unittest.TestCase):
                 check((ROOT / record["python"]).read_text(), lean.replace(before, after, 1),
                       record["python_function"], record["lean_definition"], record["signature_definition"],
                       record["expected_signature"], record["expected_call_bindings"])
+
+
+class ReversedCumsumRawBodyTests(unittest.TestCase):
+    def test_both_full_selected_variants_and_all_widenings_are_preserved(self):
+        for task, statements in [("reversed_cumsum_scalar", 3), ("reversed_cumsum", 5)]:
+            directory = ROOT / "bench/repairs/tritonbench_g" / task
+            records = json.loads((directory / "jit-correspondence.json").read_text())
+            pairs = check_manifest(ROOT, directory / "jit-correspondence.json")
+            self.assertEqual(len(pairs), 2)
+            self.assertTrue(all((p["mode"], p["statements"]) == ("pasted_body", statements) for p in pairs))
+            lean = (directory / "Kernels.lean").read_text()
+            for record in records:
+                for before, after in [
+                    ("tl.program_id(0).to(tl.int64)", "tl.program_id(0)"),
+                    ("tl.cast(tl.cdiv(T, BT), tl.int64)", "tl.cdiv(T, BT)"),
+                    ("tl.cast(i_t, tl.int64)", "i_t"),
+                    ("tl.arange(0, BT).to(tl.int64)", "tl.arange(0, BT)"),
+                    ('("s",.inputFloat)', '("s",.fp32)'),
+                ]:
+                    with self.subTest(task=task, definition=record["lean_definition"], before=before), self.assertRaises(ValueError):
+                        self.assertIn(before, lean)
+                        # Mutate both quotations so the selected definition is changed too.
+                        check((ROOT / record["python"]).read_text(), lean.replace(before, after),
+                              record["python_function"], record["lean_definition"], record["signature_definition"],
+                              record["expected_signature"])
+
+    def test_vector_both_program_axes_and_feature_widening_remain_distinct(self):
+        directory = ROOT / "bench/repairs/tritonbench_g/reversed_cumsum"
+        record = json.loads((directory / "jit-correspondence.json").read_text())[0]
+        lean = (directory / "Kernels.lean").read_text()
+        for before, after in [
+            ("tl.program_id(1).to(tl.int64)", "tl.program_id(0).to(tl.int64)"),
+            ("tl.arange(0, BS).to(tl.int64)", "tl.arange(0, BS)"),
+            ("b_z += tl.sum(b_s, 0)", "b_z = tl.sum(b_s, 0)"),
+        ]:
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                self.assertIn(before, lean)
+                check((ROOT / record["python"]).read_text(), lean.replace(before, after),
+                      record["python_function"], record["lean_definition"], record["signature_definition"],
+                      record["expected_signature"])

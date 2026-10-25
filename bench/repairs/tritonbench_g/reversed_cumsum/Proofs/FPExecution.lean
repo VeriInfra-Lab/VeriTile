@@ -27,8 +27,8 @@ def expected (M : Algebra α) (dot : DotBackend α) (h : Call) (c : Config) (pos
 structure Holds (M : Algebra α) (dot : DotBackend α) (initial : State α) (h : Call) (c : Config)
     (row f : Nat) (input : Nat → Nat → α) (remaining : Nat) (u : State α) : Prop where
   count_le : remaining≤Geometry.chunks h c
-  head : u.regs .nat [] "i_bh"=some (fun _ => row)
-  feature : u.regs .nat [] "i_s"=some (fun _ => f)
+  head : u.regs .int [] "i_bh"=some (fun _ => (row:Int))
+  feature : u.regs .int [] "i_s"=some (fun _ => (f:Int))
   triangular : u.regs .real [c.BT,c.BT] "m_s"=some (FPValues.triangular M c)
   carryReg : u.regs .real [BS] "b_z"=some (carry M h c f input remaining)
   reads : ∀ t s, t<h.T → s<h.S → toFloat h.inputDType
@@ -78,17 +78,32 @@ theorem iteration (M : Algebra α) (dot : DotBackend α) (initial : State α)
     exact (inv.frame r off hn).trans (frame r off hn)
 
 def initial (M : Algebra α) (c : Config) (u : State α) : State α :=
-  let u1 := u.setReg "i_s" .nat [] (fun _ => u.pids 0)
-  let u2 := u1.setReg "i_bh" .nat [] (fun _ => u.pids 1)
+  let u1 := u.setReg "i_s" .int [] (fun _ => (u.pids 0:Int))
+  let u2 := u1.setReg "i_bh" .int [] (fun _ => (u.pids 1:Int))
   let u3 := u2.setReg "o_i" .nat [c.BT] (FPIndices.lanes c.BT)
   let u4 := u3.setReg "m_s" .real [c.BT,c.BT] (triangular M c)
   u4.setReg "b_z" .real [BS] (fun _ => M.literal (some .fp32) .real 0)
 
 theorem init_executes (M : Algebra α) (dot : DotBackend α) (c : Config) (u : State α) :
     run (machine M dot) (initCode c) u=some (initial M c u) := by
+  have ids : run (machine M dot)
+      [.assign .int [] "i_s" (.alg (.castNatToInt (.programId 0))),
+       .assign .int [] "i_bh" (.alg (.castNatToInt (.programId 1)))] u =
+      some ((u.setReg "i_s" .int [] (fun _ => (u.pids 0:Int))).setReg
+        "i_bh" .int [] (fun _ => (u.pids 1:Int))) := by
+    rw [ReversedCumsumScalar.FPStep.assign_alg _ _ _ _ _ _ _ _
+      (show FP.Structural.evalOp (machine M dot) none (.castNatToInt (.programId 0)) u=
+        some (fun _ => (u.pids 0:Int)) from rfl)]
+    rw [ReversedCumsumScalar.FPStep.assign_alg _ _ _ _ _ _ _ _
+      (show FP.Structural.evalOp (machine M dot) none (.castNatToInt (.programId 1))
+        (u.setReg "i_s" .int [] (fun _ => (u.pids 0:Int)))=
+        some (fun _ => (u.pids 1:Int)) from rfl)]
+    simp only [run]
   unfold initCode
-  rw [ReversedCumsumScalar.FPStep.assign_alg _ _ _ _ _ _ _ _ (show FP.Structural.evalOp (machine M dot) none (.programId 0) u=some (fun _ => u.pids 0) from rfl)]
-  rw [ReversedCumsumScalar.FPStep.assign_alg _ _ _ _ _ _ _ _ (show FP.Structural.evalOp (machine M dot) none (.programId 1) (u.setReg "i_s" .nat [] (fun _ => u.pids 0))=some (fun _ => u.pids 1) from rfl)]
+  rw [run,step]
+  simp only [FP.Structural.evalOp,Option.bind_some,Option.bind_eq_bind,if_true]
+  rw [ids]
+  simp only [Option.bind_some]
   rw [ReversedCumsumScalar.FPStep.assign_alg _ _ _ _ _ _ _ _ (show FP.Structural.evalOp (machine M dot) none (.arange c.BT) _=some (FPIndices.lanes c.BT) from rfl)]
   rw [ReversedCumsumScalar.FPStep.assign_alg _ _ _ _ _ _ _ _ (triangular_eval M dot c _ (by simp))]
   simp [run,step,FP.Structural.evalExpr,evalComputeOp,FP.Structural.evalOp,
