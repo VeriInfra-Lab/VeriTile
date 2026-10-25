@@ -1,0 +1,19 @@
+{
+  "parent": "e10535a9aba9ccc18632dbc918853648eeb7b287",
+  "secondary_base": "42fcb38c16abb43220305cb33d8b1c5f3cbf8f6b",
+  "files": {
+    "VeriTile/Triton/DSL/PythonBody.lean": "875c29eccaa2bc0fcf6413a3e8aa5f33151bcfe7bb1063e04c270a0aac7980ff",
+    "VeriTile/Triton/DSL/TypedStores.lean": "83bd43b6c2e4e9cf5a3be39006e32e24786789e2485cf4931260a68b4a8ec8ee",
+    "bench/repairs/tritonbench_g/log_softmax/Kernels.lean": "8d922256c21122dd98c1281429c44d5ded66e2be4a4c1cbd8300503ba7358b76",
+    "bench/repairs/tritonbench_g/log_softmax/Proofs/Kernel.lean": "da50c4dec9f5754b7f265206b9ac04752c1bf9dba08c1ca950fbed3b1428c630",
+    "bench/repairs/tritonbench_g/log_softmax/Proofs/KernelSafety.lean": "e2cec827a9ee1452c3bc172feec167805c7c66b3c188edca552f462d11c2d742",
+    "bench/repairs/tritonbench_g/log_softmax/Proofs/Rewrite.lean": "3f80ea49c0893d6f028b74c305b5f1200270e0affd30176cfbd527dd73e3e667",
+    "bench/repairs/tritonbench_g/log_softmax/README.md": "3240f438bf4dc99e1e67ae4fe30721698de1c7e0830337e6b5775898a7eca07c",
+    "bench/repairs/tritonbench_g/log_softmax/SOURCE_BINDING.md": "22190489dd296b24bc802ffd21ba793160c154ed3caa66ca9dbbbf1880ce5941",
+    "bench/repairs/tritonbench_g/log_softmax/candidate_kernels.py": "f32549db1a1479b176b6a733edec79ae1cc8b1ab8d3c2efb7adc65dd910f2db7",
+    "bench/repairs/tritonbench_g/log_softmax/check_contract.py": "e11c1f4be96b213ab4462f7a9a557171196a75bf1e29e6ceaec326ba458a0efa",
+    "bench/repairs/tritonbench_g/log_softmax/jit-correspondence.json": "e3235a752c86ff76f35a7954d008ea771fbd612a7e554ac053dec52fd4767ad3",
+    "bench/tests/PythonBody.lean": "dfc991386a1f96493dda269a8c9ea2354abee2a4a899582b6d407b20211bccd5",
+    "bench/tests/test_jit_correspondence.py": "405ce01f73c7e0224c1b68ab9cc154de3d091f6646e328d32ccfacf06f5b442c"
+  }
+}

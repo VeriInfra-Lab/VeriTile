@@ -1,0 +1,90 @@
+[
+  {
+    "python_function": "log_softmax_kernel_repaired",
+    "lean_definition": "forward",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "M": "M",
+      "N": "N",
+      "K": "K"
+    },
+    "statements": 16,
+    "runtime_parameters": {
+      "M": "integer",
+      "N": "integer",
+      "K": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_M",
+      "BLOCK_N"
+    ]
+  },
+  {
+    "python_function": "log_softmax_kernel_repaired_index_commuted",
+    "lean_definition": "forwardCommuted",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "M": "M",
+      "N": "N",
+      "K": "K"
+    },
+    "statements": 16,
+    "runtime_parameters": {
+      "M": "integer",
+      "N": "integer",
+      "K": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_M",
+      "BLOCK_N"
+    ]
+  },
+  {
+    "python_function": "log_softmax_backward_kernel_repaired",
+    "lean_definition": "backward",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "M": "M",
+      "N": "N",
+      "K": "K"
+    },
+    "statements": 15,
+    "runtime_parameters": {
+      "M": "integer",
+      "N": "integer",
+      "K": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_M",
+      "BLOCK_N"
+    ]
+  },
+  {
+    "python_function": "log_softmax_backward_kernel_repaired_index_commuted",
+    "lean_definition": "backwardCommuted",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "M": "M",
+      "N": "N",
+      "K": "K"
+    },
+    "statements": 15,
+    "runtime_parameters": {
+      "M": "integer",
+      "N": "integer",
+      "K": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_M",
+      "BLOCK_N"
+    ]
+  }
+]

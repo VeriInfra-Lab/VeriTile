@@ -1,0 +1,98 @@
+log_softmax raw-source-check
+[
+  {
+    "python_function": "log_softmax_kernel_repaired",
+    "lean_definition": "forward",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "M": "M",
+      "N": "N",
+      "K": "K"
+    },
+    "statements": 16,
+    "runtime_parameters": {
+      "M": "integer",
+      "N": "integer",
+      "K": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_M",
+      "BLOCK_N"
+    ]
+  },
+  {
+    "python_function": "log_softmax_kernel_repaired_index_commuted",
+    "lean_definition": "forwardCommuted",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "M": "M",
+      "N": "N",
+      "K": "K"
+    },
+    "statements": 16,
+    "runtime_parameters": {
+      "M": "integer",
+      "N": "integer",
+      "K": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_M",
+      "BLOCK_N"
+    ]
+  },
+  {
+    "python_function": "log_softmax_backward_kernel_repaired",
+    "lean_definition": "backward",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "M": "M",
+      "N": "N",
+      "K": "K"
+    },
+    "statements": 15,
+    "runtime_parameters": {
+      "M": "integer",
+      "N": "integer",
+      "K": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_M",
+      "BLOCK_N"
+    ]
+  },
+  {
+    "python_function": "log_softmax_backward_kernel_repaired_index_commuted",
+    "lean_definition": "backwardCommuted",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "M": "M",
+      "N": "N",
+      "K": "K"
+    },
+    "statements": 15,
+    "runtime_parameters": {
+      "M": "integer",
+      "N": "integer",
+      "K": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_M",
+      "BLOCK_N"
+    ]
+  }
+]
+
+log_softmax contract
+Traceback (most recent call last):
+  File "/tmp/veritile-hgrn54-clean/bench/repairs/tritonbench_g/log_softmax/check_contract.py", line 16, in <module>
+    import torch as cpu_torch
+ModuleNotFoundError: No module named 'torch'
+

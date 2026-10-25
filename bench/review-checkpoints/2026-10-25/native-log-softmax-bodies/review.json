@@ -1,0 +1,323 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "1b9cca89f54524a029ed71966aabdb813db2e8f8",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "log_softmax"
+  ],
+  "semantic_review": {
+    "adam_update_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "add_example": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "add_value": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "apply_penalty": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "cache_transform_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "chunk_cumsum_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "chunk_cumsum_vector": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "chunked_cumsum_fwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "cosine_compute": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "dequantize_matmul": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "dequantize_rowwise": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "destindex_copy": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "destindex_copy_kv1": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "destindex_copy_kv2": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "dropout_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "embedding_triton_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "f8_conversion_utils": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "fast_rope_embedding": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "fused_activation": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "fused_recurrent_hgrn": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "index_select_bwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "index_select_cat": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "int8_matmul_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "kcache_copy_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "kldiv_compute": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "kldiv_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "kv_cache_copy": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "l2_norm_bwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "l2_norm_triton1": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "l2_norm_triton2": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "logsumexp_fwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "masked_add_cuda": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "masked_select": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "matmul_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "matrix_reduction": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "matrix_transpose": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "max_reduction": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "mean_reduction": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "mul_exponent_compensator": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "nested_loops_processing": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "quant_transpose_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "quantize_copy_kv": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "quantize_global": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "quantize_kv_copy": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "quantize_kv_transform": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "relu_triton_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "reversed_cumsum": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "reversed_cumsum_scalar": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rms_norm_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rmsnorm_fused": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rmsnorm_fused_llama": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rmsnorm_implementation": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rmsnorm_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rope_embedding": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rotary_emb": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rotary_emb_nopad": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rowwise_quantization_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "seeded_dropout": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "sin_computation": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "sin_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "softmax_triton1": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "softmax_triton2": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "square_matrix": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "swiglu_backward": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "swiglu_fwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "token_attn_mistral": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "token_attn_reduceV": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "token_softmax_bloom": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "token_softmax_llama": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "triton_mul2": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "triton_softmax": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "var_len_copy": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "vector_addition": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "vector_addition_custom": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked parenthesized-tuple frontend and raw signed log-softmax body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "log_softmax": "The selected original forward/backward Python JITs and wrapper are unchanged. Both originals and the pre-existing integer row-base commutation candidates are copied as complete raw bodies, with sixteen forward and fifteen backward top-level statements. FP32 pointer storage, three unannotated runtime integer dimensions and two constexpr tiles are bound outside each body. Both PID and both arange INT64 casts, the parenthesized three-value M/N/K cast assignment, signed minimum(size-1) clamping before products, masks, negative-infinity/zero padding, all FP32 casts, arithmetic/reductions, exp/log and stores remain exact. Python candidate counterparts explicitly translate already existing Lean candidates and are labeled authored rather than historical sources. The shared frontend accepts only the parenthesis spelling change; the source token is retained. Existing tuple compilation did not capture registers simultaneously, so a later RHS reading an earlier overwritten target is now explicitly rejected instead of accepting wrong Python semantics. Actual independent M/N/K casts are supported; exact program identity, successful integer tuple execution and unsafe/arity rejection tests replay with standard-base audits. No generic parallel-register-capture implementation is claimed. All existing source execution, memory and frame statements are re-proved: strict integer clamped-address equality handles positive dimensions and source masks separately handle every zero-dimension case, without adding dimension conditions. Original and candidate source access safety replays; actual first-three-statement full-state equality uses strict Int multiplication commutation, and identical complete tails compose by run_append, retaining failed-run equality for arbitrary unchanged floating primitives. Authoritative Kernels contain only full quotations, while take/drop decomposition stays in Proofs. All thirty-seven roots preserve independent full-row Real forward/VJP formulas, every retained BM/autotune/warp choice, complete FP grid/schedule equivalence, native graph/reduction/FMA observations, actual Tensor/contiguous input binding, source safety and logical/physical frames. No scalar numerical port, FP identity, input restriction, numerical experiment or hardware-conformance claim is added."
+  },
+  "example_regression_scope": "All 19 examples and their complete helpers replay warm, jointly and independently from initially empty project objects after the shared tuple frontend change. Their mathematical/numerical domains and source bodies are unchanged.",
+  "verification": {
+    "frontend_regressions": {
+      "status": "PASS",
+      "configured_modules": 96,
+      "scope": "All 96 frontend roots, ten retained controls, thirty precise-quantizer roots, 170 recent quantizer roots and 37 log-softmax roots pass as a 343-root union with 9086 jobs after the shared tuple frontend change; the full combined root/dependency set independently replays from initially empty project objects."
+    },
+    "integration": {
+      "status": "PASS",
+      "explicit_modules": 2698,
+      "jobs": 11970
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 2698,
+      "jobs": 11970,
+      "scope": "All 2698 combined roots and their full transitive dependencies in an initially empty project checkout after the shared Python-body/tuple-order frontend change. All previously migrated tasks and all examples replay independently as part of the same full source closure.",
+      "project_build_initially_present": false,
+      "veritile_cache_initially_present": false,
+      "only_fixed_external_dependencies_reused": true
+    },
+    "joint_import": "PASS: all 2698 roots",
+    "task_directories": "All 37 log-softmax roots cover original/candidate actual execution, all signed casts, integer tuple values, exact clamping and masked source safety, full-state/failure candidate equivalence, independent Real formulas and complete grids/FP/Tensor/native/host/frame scopes. Every earlier migrated task/example and all frontend/control roots replay warm, jointly and independently from initially empty project objects in the full combined 2698-root union.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 88
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 333,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by its old numerical receipt; no false repin."
+    },
+    "official_comparator": "UNAVAILABLE: actual frozen-source invocations report required host isolation unavailable. Pinned tools are installed; host Landlock ABI v4 is below required v5 and the systemd user bus is unavailable. No isolation bypass.",
+    "task_local_inspections": "All four complete original and authored-counterpart candidate bodies pass raw-body, ABI and actual call-binding checks. The actual CPU probe requires missing Torch; its failure is retained and not counted as a pass. Original selected Python JIT/wrapper and prior experiments remain unchanged. Two candidate Python functions explicitly translate existing Lean integer-address candidates.",
+    "gpu_or_numerical_experiment": "Not run; no new numerical law or hardware-conformance claim.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending."
+  },
+  "source_pairs": {
+    "total": 235,
+    "pasted_body": 230,
+    "legacy_ast": 5
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-25/native-log-softmax-bodies/source-closure.json",
+    "sha256": "993dfc261e87196e3713f71fa7b29b459b0c4fb3b69f67c90467d2826b226b80"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "legacy_ast_only": 1,
+      "no_selected_jit_resolved": 2,
+      "selected_body_copy_checked": 75,
+      "uncovered_jit_functions": 105
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 328,
+    "uncovered_selected_jit_functions": 212,
+    "primary_files_with_int64_screen_warning": 28,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 81,
+        "antiquotes": 90,
+        "dsl_loop": 1,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-log-softmax-bodies/all-python.log.gz",
+      "sha256": "027b8af433e19b7bfe2794670b7edeb020d561c0781141906c208b334164f517"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-log-softmax-bodies/changed-VeriTile__Triton__DSL__PythonBody-comparator.log",
+      "sha256": "998aeb3ba9f7daed5e39293c6616e065c3f79e51b011a000f540efeaaaa8647b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-log-softmax-bodies/changed-VeriTile__Triton__DSL__TypedStores-comparator.log",
+      "sha256": "37dcb46a38ef922881e35a7a857e58f0323e851c85faf122a60635ec40c43eb6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-log-softmax-bodies/changed-bench__repairs__tritonbench_g__log_softmax__Kernels-comparator.log",
+      "sha256": "81e4d6633ef59a8ee9bd0ef8ab0b72ab1331aa80bf9cee4a5b56772760dea941"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-log-softmax-bodies/changed-bench__repairs__tritonbench_g__log_softmax__Proofs__Kernel-comparator.log",
+      "sha256": "225dc2fa87f3f9e9c71de6bf7c39432c8f349962d0214d9dae702142ba1c9cd4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-log-softmax-bodies/changed-bench__repairs__tritonbench_g__log_softmax__Proofs__KernelSafety-comparator.log",
+      "sha256": "47997121bb9fa2252c9752283064f491350e8666f7afb48aaa1669d41848accc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-log-softmax-bodies/changed-bench__repairs__tritonbench_g__log_softmax__Proofs__Rewrite-comparator.log",
+      "sha256": "69f9dfd4c4beb85f1e2c4184bcfeff5362c39c562f944dcc524e8b53799838b7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-log-softmax-bodies/changed-bench__tests__PythonBody-comparator.log",
+      "sha256": "db1788678e8c09136265c1d6bab73ef278fcc3d93011e207a6518238aa368270"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-log-softmax-bodies/clean-build.log.gz",
+      "sha256": "5f42687a129cc2743af7a75305af75e2fa709a5829efabdc30a3edc3fbd9596f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-log-softmax-bodies/clean-setup.log",
+      "sha256": "6de02bbfe3c452fa65a6195401fd32dcbda874fcffb3a6a525eb207157fa67e2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-log-softmax-bodies/comparator-invocations.json",
+      "sha256": "0aedde3f4eedd80dbed7584757d317de8b72cfeb64f8876d419881abf5e6246d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-log-softmax-bodies/comparator-preflight.log",
+      "sha256": "d9255026a27595d0a04e154bc4a9c609c8422b012fc13cb1ae4de2417afea36d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-log-softmax-bodies/comparator-setup.log",
+      "sha256": "bea658f19aea48f8965a3d6525da1300e599d9a3f0a05b992071c97bcaffd6df"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-log-softmax-bodies/comparator-tools.json",
+      "sha256": "d541ac407f7aa8679c8ba23dd4df72ac363730bbb67e45bd7959ec752e6b0c53"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-log-softmax-bodies/comparator.log",
+      "sha256": "3e5df7446a69f439ec4a92c4d05605fe9fe3defa1ad692e5364d8485e2533783"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-log-softmax-bodies/contract.log",
+      "sha256": "096c89e926d947d1afb7bf9832b9fad3f642a7f409047e512711495c368bbf2d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-log-softmax-bodies/corpus-guard.log",
+      "sha256": "b71ebd71f809177d58bb62a665c010b8f7ca8a7e474b73b896546108e77c5f39"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-log-softmax-bodies/focused-modules.txt",
+      "sha256": "43c416e103274d4500cfa514c5c23bc4983a3cbfe150a45b6ff3e8a4b2cc9382"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-log-softmax-bodies/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-log-softmax-bodies/inspections.json",
+      "sha256": "9204b2edda32c5faee5c38bb30e371dfd81a723a2daee248e19c84444c2e7136"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-log-softmax-bodies/integration.log.gz",
+      "sha256": "4fa18d8055f12d73a453d6f615eead55041451524a8664ee924fe3c43ca0b9c1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-log-softmax-bodies/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-log-softmax-bodies/joint.lean",
+      "sha256": "655a5293d3f1b8f9f273ea113f87591c75d7d100972874f9bb8e44bfb5fd5682"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-log-softmax-bodies/joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-log-softmax-bodies/log_softmax-Real-comparator.log",
+      "sha256": "6557408d42202fbddf029bc1c2ccaf45cef5543d4d48db41f4087b894f6c19d1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-log-softmax-bodies/log_softmax-comparator.log",
+      "sha256": "d236ade4c300025bd9f476872aee7234cbc616818acc06a6786dcda8d1df28e1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-log-softmax-bodies/log_softmax-contract.log",
+      "sha256": "e4428da23aeb188f56fdbbf1397310176a478bfbc64940283023c1cdd8992cfa"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-log-softmax-bodies/log_softmax-raw-source-check.log",
+      "sha256": "4f789c2004b817cdad2225e23246bcc235e59b434c610c2311699d009e0c6784"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-log-softmax-bodies/modules.json",
+      "sha256": "67911d2c2e6fa4e0fb18c7d397c0e8f720a231df8d6b81c83d405efea9c2e14f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-log-softmax-bodies/pairs.json",
+      "sha256": "aca70ad6faa3e8e7440dd63af6b36a92bcae6fb513fc5dbd75c81bbc6806fec0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-log-softmax-bodies/previous-selected-reviews.json.gz",
+      "sha256": "849b87eb8633db1e9d59865bcb8da5e4d9101dbca131659195d8f2d00968024e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-log-softmax-bodies/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-log-softmax-bodies/python-tests.log",
+      "sha256": "45edb58928dd61baa7beee60eca32462c67074b96fa2e6dbbff4372c6daa9e08"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-log-softmax-bodies/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-log-softmax-bodies/secondary-focused-development.log.gz",
+      "sha256": "65d6e0142c5dd6e249d3493a2f0474860328f2024c23a05b84770478ed8c25ba"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-log-softmax-bodies/source-closure.json",
+      "sha256": "993dfc261e87196e3713f71fa7b29b459b0c4fb3b69f67c90467d2826b226b80"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-log-softmax-bodies/transferred-files.json",
+      "sha256": "9efe46993e3dd39c536e728df6b66f1dd7b4f436437cc4990bb21aeb2b4190cc"
+    }
+  ]
+}

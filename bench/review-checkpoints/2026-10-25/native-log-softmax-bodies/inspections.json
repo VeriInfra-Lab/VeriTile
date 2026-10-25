@@ -1,0 +1,27 @@
+{
+  "code_commit": "1b9cca89f54524a029ed71966aabdb813db2e8f8",
+  "raw_bodies": [
+    {
+      "task": "log_softmax",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/log_softmax/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    }
+  ],
+  "cpu_contracts": [
+    {
+      "task": "log_softmax",
+      "command": [
+        "python3",
+        "bench/repairs/tritonbench_g/log_softmax/check_contract.py"
+      ],
+      "exit_code": 1,
+      "status": "UNAVAILABLE"
+    }
+  ]
+}

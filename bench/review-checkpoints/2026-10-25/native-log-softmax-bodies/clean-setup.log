@@ -1,0 +1,2 @@
+HEAD is now at 1b9cca89f Preserve complete signed log-softmax bodies and checked parenthesized tuples
+{"code_commit": "1b9cca89f54524a029ed71966aabdb813db2e8f8", "project_build_initially_present": false, "veritile_cache_initially_present": false, "only_fixed_external_dependencies_reused": true, "packages_target": "/home/argustest/lizn/VeriTile/.lake/packages", "roots": "all 2698 combined roots and complete transitive dependencies after the shared Python tuple spelling and conservative assignment-order checking"}
