@@ -1,0 +1,47 @@
+{
+  "code_commit": "63a2d7f40ac002d247df69c36096f668d8ea13e8",
+  "raw_bodies": [
+    {
+      "task": "token_softmax_llama",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/token_softmax_llama/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    {
+      "task": "token_softmax_bloom",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/token_softmax_bloom/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    }
+  ],
+  "cpu_contracts": [
+    {
+      "task": "token_softmax_llama",
+      "command": [
+        "python3",
+        "bench/repairs/tritonbench_g/token_softmax_llama/check_contract.py"
+      ],
+      "exit_code": 1,
+      "status": "UNAVAILABLE"
+    },
+    {
+      "task": "token_softmax_bloom",
+      "command": [
+        "python3",
+        "bench/repairs/tritonbench_g/token_softmax_bloom/check_contract.py"
+      ],
+      "exit_code": 1,
+      "status": "UNAVAILABLE"
+    }
+  ]
+}

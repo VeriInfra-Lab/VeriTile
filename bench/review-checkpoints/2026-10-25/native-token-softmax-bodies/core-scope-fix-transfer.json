@@ -1,0 +1,8 @@
+{
+  "path": "VeriTile/Triton/DSL/Expansion/Main.lean",
+  "code_commit": "63a2d7f40ac002d247df69c36096f668d8ea13e8",
+  "sha256": "ef811fce19830015c9570b75ca7a317048eb44315e6050d8d64478c35de880c9",
+  "secondary_bytes_equal_frozen_committed_source": true,
+  "failed_preliminary_code": "35397bfd2e709302fa57c5884d89a91ab7cd80f1",
+  "change": "Remove broad assignment-inference changes; retain only the explicit natural-load signed-widening case."
+}

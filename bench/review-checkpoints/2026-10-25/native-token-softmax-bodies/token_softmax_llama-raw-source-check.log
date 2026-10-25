@@ -1,0 +1,56 @@
+[
+  {
+    "python_function": "_fwd_kernel_token_softmax",
+    "lean_definition": "source",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "stride_start": "stride_start",
+      "stride_length": "stride_length",
+      "stride_logic_h": "stride_logic_h",
+      "stride_logic_bs": "stride_logic_bs",
+      "stride_prob_h": "stride_prob_h",
+      "stride_prob_bs": "stride_prob_bs"
+    },
+    "statements": 11,
+    "runtime_parameters": {
+      "stride_start": "i64",
+      "stride_length": "i64",
+      "stride_logic_h": "i64",
+      "stride_logic_bs": "i64",
+      "stride_prob_h": "i64",
+      "stride_prob_bs": "i64"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE"
+    ]
+  },
+  {
+    "python_function": "_fwd_kernel_token_softmax",
+    "lean_definition": "indexCommutedSource",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "stride_start": "stride_start",
+      "stride_length": "stride_length",
+      "stride_logic_h": "stride_logic_h",
+      "stride_logic_bs": "stride_logic_bs",
+      "stride_prob_h": "stride_prob_h",
+      "stride_prob_bs": "stride_prob_bs"
+    },
+    "statements": 11,
+    "runtime_parameters": {
+      "stride_start": "i64",
+      "stride_length": "i64",
+      "stride_logic_h": "i64",
+      "stride_logic_bs": "i64",
+      "stride_prob_h": "i64",
+      "stride_prob_bs": "i64"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE"
+    ]
+  }
+]

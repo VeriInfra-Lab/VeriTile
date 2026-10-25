@@ -1,0 +1,12 @@
+/tmp/token62-natural-address-unit.lean:2:12: error: nat expression: dtype mismatch
+/tmp/token62-natural-address-unit.lean:27:0: error: Not a definitional equality: the left-hand side
+  source P Out stride
+is not definitionally equal to the right-hand side
+  expected P Out stride
+/tmp/token62-natural-address-unit.lean:28:51: error: Type mismatch
+  rfl
+has type
+  ?m.3 = ?m.3
+but is expected to have type
+  source P Out stride = expected P Out stride
+/tmp/token62-natural-address-unit.lean:29:0: error: VeriTile.Tests.NaturalSignedAddress.complete_kernel: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

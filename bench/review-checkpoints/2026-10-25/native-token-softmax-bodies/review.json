@@ -1,0 +1,386 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "63a2d7f40ac002d247df69c36096f668d8ea13e8",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "token_softmax_llama",
+    "token_softmax_bloom"
+  ],
+  "semantic_review": {
+    "adam_update_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "add_example": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "add_value": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "cache_transform_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "chunk_cumsum_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "chunked_cumsum_fwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "cosine_compute": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "dequantize_matmul": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "dequantize_rowwise": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "destindex_copy": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "destindex_copy_kv1": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "destindex_copy_kv2": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "dropout_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "embedding_triton_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "f8_conversion_utils": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "fast_rope_embedding": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "fused_activation": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "fused_recurrent_hgrn": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "index_select_bwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "index_select_cat": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "int8_matmul_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "kcache_copy_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "kldiv_compute": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "kldiv_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "kv_cache_copy": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "l2_norm_bwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "l2_norm_triton1": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "l2_norm_triton2": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "logsumexp_fwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "masked_add_cuda": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "masked_select": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "matmul_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "matrix_reduction": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "matrix_transpose": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "max_reduction": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "mean_reduction": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "mul_exponent_compensator": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "nested_loops_processing": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "quant_transpose_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "relu_triton_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rms_norm_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rmsnorm_fused": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rmsnorm_fused_llama": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rmsnorm_implementation": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rmsnorm_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rope_embedding": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rotary_emb": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rotary_emb_nopad": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "seeded_dropout": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "sin_computation": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "sin_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "softmax_triton1": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "softmax_triton2": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "square_matrix": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "swiglu_backward": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "swiglu_fwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "triton_mul2": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "triton_softmax": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "var_len_copy": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "vector_addition": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "vector_addition_custom": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after dynamic floating-pointer family metadata and source-preserving natural-load signed widening. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "kv_cache_filling": "Shared frontend dependency regression only. Source/candidate bodies and mathematical/numerical scopes are unchanged; exact public/deep roots are recorded in modules.json. No new body migration is counted.",
+    "token_softmax_bloom": "Both unchanged selected eleven-statement Python originals and both unchanged existing integer-address candidates are checked independently against shared authoritative raw quotations. No Python source or candidate is authored or changed. Both program-ID casts, the arange cast, both loaded metadata widenings, padding, reductions, division, masks, store and operand order remain. Metadata records actual signed INT32 start/length storage from the existing Python guards and native Tensor binding, the existing natural mathematical memory channels, six runtime signed-INT64 strides and the block constexpr. Signed widening reads Nat cells then casts values; it never retags the source load as Int based on a later address-use pin. The complete explicit-AST natural-load regression fails on prior code and passes with the fix, including actual input/output ports and store address. New PointerType metadata preserves the entire prior six-case FloatDType caller family using inputFloat/outputFloat aliases, with a complete generic-kernel identity for independent input/output types and three invalid type/shadowing guards; the existing Python wrapper still requires FP32 payload/output. No FP32 restriction is added to the prior generic source API. Existing SourceDType and its finite specialization cases are unchanged. Actual execution memory for all six profiles is re-proved with strict Nat/Int arithmetic identities, not a NativeIndex citation or an FP cast assumption. A generic failure-preserving natural-to-signed congruence connects exact integer multiplication commutation through the actual load, widening and full source suffix. Both complete program equivalence and full-state/failure equality are re-proved. All 57 task roots replay, retaining independent Real formulas, softmax domain, canonical IO, actual access safety, arbitrary strides/read aliasing, full-grid output/frame and prior Tensor/host/native scopes. No numerical dependency or public domain changes.",
+    "triton_argmax": "Shared frontend dependency regression only. Source/candidate bodies and mathematical/numerical scopes are unchanged; exact public/deep roots are recorded in modules.json. No new body migration is counted.",
+    "token_softmax_llama": "Both unchanged selected eleven-statement Python originals and both unchanged existing integer-address candidates are checked independently against shared authoritative raw quotations. No Python source or candidate is authored or changed. Both program-ID casts, the arange cast, both loaded metadata widenings, padding, reductions, division, masks, store and operand order remain. Metadata records actual signed INT32 start/length storage from the existing Python guards and native Tensor binding, the existing natural mathematical memory channels, six runtime signed-INT64 strides and the block constexpr. Signed widening reads Nat cells then casts values; it never retags the source load as Int based on a later address-use pin. The complete explicit-AST natural-load regression fails on prior code and passes with the fix, including actual input/output ports and store address. New PointerType metadata preserves the entire prior six-case FloatDType caller family using inputFloat/outputFloat aliases, with a complete generic-kernel identity for independent input/output types and three invalid type/shadowing guards; the existing Python wrapper still requires FP32 payload/output. No FP32 restriction is added to the prior generic source API. Existing SourceDType and its finite specialization cases are unchanged. Actual execution memory for all six profiles is re-proved with strict Nat/Int arithmetic identities, not a NativeIndex citation or an FP cast assumption. A generic failure-preserving natural-to-signed congruence connects exact integer multiplication commutation through the actual load, widening and full source suffix. Both complete program equivalence and full-state/failure equality are re-proved. All 57 task roots replay, retaining independent Real formulas, softmax domain, canonical IO, actual access safety, arbitrary strides/read aliasing, full-grid output/frame and prior Tensor/host/native scopes. No numerical dependency or public domain changes."
+  },
+  "example_regression_scope": "All 19 examples and their complete helpers replay locally, jointly and in an initially empty independent project checkout; source, domains and numerical classifications remain unchanged.",
+  "verification": {
+    "frontend_regressions": {
+      "status": "PASS",
+      "configured_modules": 95,
+      "scope": "Complete generic floating-family kernel identity for independent input/output FloatDType parameters, three invalid type/shadowing guards, complete explicit-AST natural-load/signed-address identity and exact failure-preserving Nat-to-Int rewrite congruence. All earlier precision, width, cast, range, shape, String, ASM and numerical guards replay. Mathematical carriers do not infer native storage bounds."
+    },
+    "integration": {
+      "status": "PASS",
+      "explicit_modules": 2196,
+      "jobs": 11417
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 2196,
+      "jobs": 11417,
+      "scope": "Every combined root and full dependency closure after the shared frontend change.",
+      "project_build_initially_present": false,
+      "veritile_cache_initially_present": false,
+      "only_fixed_external_dependencies_reused": true
+    },
+    "joint_import": "PASS: all 2196 roots",
+    "task_directories": "All 57 Llama/Bloom task roots and all 95 frontend roots initially pass as 152 focused roots, 8779 jobs. Preliminary full replay at 35397bfd exposes ten legacy regressions from overly broad integer assignment-inference changes. The final code removes those changes and keeps only natural-load signed widening; all ten affected roots plus the 152 focused roots pass as 162 roots, 8856 jobs, before full warm/joint and initially-empty-project replay of the complete union. Both failed attempts and the exact corrected source transfer are retained.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 76
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 321,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by its old numerical receipt; no false repin."
+    },
+    "official_comparator": "UNAVAILABLE: actual frozen-source invocations report required host isolation unavailable. Pinned tools are installed; host Landlock ABI v4 is below required v5 and the systemd user bus is unavailable. No isolation bypass.",
+    "task_local_inspections": "The complete-body checkers pass independently for both selected original/candidate pairs. Actual CPU contract checks require missing torch; their failures are retained and are not passes. Existing Python and prior experimental evidence remain unchanged.",
+    "gpu_or_numerical_experiment": "Not run; no new numerical law or hardware-conformance claim.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending."
+  },
+  "source_pairs": {
+    "total": 210,
+    "pasted_body": 205,
+    "legacy_ast": 5
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/source-closure.json",
+    "sha256": "8901e6c11926eede2ae3d7a9e365beb6aeaf61f1f22e9ccecc7198f77f8592b1"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "legacy_ast_only": 1,
+      "no_selected_jit_resolved": 2,
+      "selected_body_copy_checked": 63,
+      "uncovered_jit_functions": 117
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 328,
+    "uncovered_selected_jit_functions": 230,
+    "primary_files_with_int64_screen_warning": 35,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 93,
+        "antiquotes": 102,
+        "dsl_loop": 1,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/all-python.log.gz",
+      "sha256": "ba2c4205b117137a64ac023242a48054bfcb949ee576bd54bc3c50d1575fc9ec"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/changed-VeriTile__Triton__DSL__CallSignature-comparator.log",
+      "sha256": "61e88cb917b07095ff3eca6dc9860a03fc85cc11a42b10e3cca6dcfab904e664"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/changed-VeriTile__Triton__DSL__Expansion__Main-comparator.log",
+      "sha256": "e294b338aa333fe55dd1f488727627bb2b9e0e0d4992791a5c76ef796ee8a1d2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/changed-VeriTile__Triton__DSL__PointerType-comparator.log",
+      "sha256": "f056d4e83ebb37af70f53f596830fe0ce1e36e7d4a2f67103853a0b937061537"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/changed-VeriTile__Triton__DSL__TypedStores-comparator.log",
+      "sha256": "646de2670cefb3496feed8fb4bc6ae5f11da26b14c3d87b8699b5f2c36cef26a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/changed-VeriTile__Triton__Float__ExpressionRewrite-comparator.log",
+      "sha256": "bcfb50b3361deb82b79079ed475f1294c15f6b9bc0e8ce57603c85a21ed6d531"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/changed-bench__repairs__tritonbench_g__token_softmax_bloom__Kernels-comparator.log",
+      "sha256": "93dcaeaaba90a10cacc7fe28036812363741089445710e93435ab075d785498d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/changed-bench__repairs__tritonbench_g__token_softmax_bloom__Proofs__KernelRewrite-comparator.log",
+      "sha256": "660e543f5d9448e2bd699dd8e825654ca2d5bdef8035b6c27e2115861b93bf87"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/changed-bench__repairs__tritonbench_g__token_softmax_llama__Kernels-comparator.log",
+      "sha256": "596db15902d1ddcb9fb00eca9e8b726d4597b5c279eb01cb8702f3fb0a6cd751"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/changed-bench__repairs__tritonbench_g__token_softmax_llama__Proofs__Model-comparator.log",
+      "sha256": "f8e110f1d6c47700c48da17211a3c7af0cf5e3fdef50830422c9ea41ad4eb72c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/changed-bench__tests__CallSignature-comparator.log",
+      "sha256": "c5c9781aef9058379409245ffc4e13c9b36fb5541708320bef858fa99e752a3f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/clean-build.log.gz",
+      "sha256": "ef0924355f51f73c3782f735991032e82beb6258e0ab4b4d6e062f6d0eeb7a72"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/clean-setup.log",
+      "sha256": "5833f6352397c74237f12ed4359bfd1b1df45d77de5bd9e410c81aed1d06065f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/comparator-invocations.json",
+      "sha256": "2b1b5a5151a0da9ce63d5df5565ec54aad4e48f5ad8bce4fe918662d1548185c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/comparator-preflight.log",
+      "sha256": "d9255026a27595d0a04e154bc4a9c609c8422b012fc13cb1ae4de2417afea36d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/comparator-setup.log",
+      "sha256": "bea658f19aea48f8965a3d6525da1300e599d9a3f0a05b992071c97bcaffd6df"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/comparator-tools.json",
+      "sha256": "d541ac407f7aa8679c8ba23dd4df72ac363730bbb67e45bd7959ec752e6b0c53"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/comparator.log",
+      "sha256": "31526165571062e97f2fe6e89edfd5bd858e2205c175d560c8d3c27c1a81229f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/contract.log",
+      "sha256": "4dee21bca6f5feb4499b5eede271578f1ba5baa2887c647ae56a16d8c634a533"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/core-scope-fix-transfer.json",
+      "sha256": "abe51e0ec59738cc25b5e546188d6f6da4e84d4bc5b66c372144559bd9caec77"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/corpus-guard.log",
+      "sha256": "303cdcd0053fd2f6f92a1416899736e32239c4a8c6d4234fe405309bbbda9b58"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/fixed-legacy-and-frontend-regressions.log.gz",
+      "sha256": "2dc9de0d235f316a56a39f12df7c1852d5316bee21aa939fc90aaa72b1a156ef"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/fixed-regression-modules.txt",
+      "sha256": "8e12d935a058838c233fb5fc137c8138e4aa6197dae1d906654e47854672a927"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/focused-modules.txt",
+      "sha256": "8917c44f9a17b760a6b05741a7abe36580c044c883cde7ed5d00929444da76d8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/inspections.json",
+      "sha256": "53ae07e8dbecbce1d75ce4e3bcbae1c908b28ae564222bfcb631ef10c808efd7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/integration.log.gz",
+      "sha256": "6bc4078482f96eb8b975cfb387daec7d51646c1fe888ad1b9e39c44265fa518e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/joint.lean",
+      "sha256": "3a6e528dbe642015eb1e52e4ebd745c05792a8c3960415238cd6d0fa33dba23a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/modules.json",
+      "sha256": "50cce09631d6fc54adfa66acf3aad518f153fcd9ff10be0a16b162dca3216d2c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/natural-address-fixed.log",
+      "sha256": "f86be8de846e3c0388879c59139e579dbc703f60086fb94baec1884f56f4a985"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/natural-address-probe.lean.txt",
+      "sha256": "d2d3e5703ea8ba68b19d981e9c17d1abee6d7a10e8aae12b7270928eab94f785"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/natural-address-rejected.log",
+      "sha256": "4ea1261c67404b203d3f50c49ee9ec802a01155da90be5edb75a0afe5d6cb8fb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/natural-channel-and-family-units.log.gz",
+      "sha256": "f02501a7ce6b4965d8adfe7e80f88a71ecc759f8379886c6758ec88ed57a12d5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/pairs.json",
+      "sha256": "7708a6888d3dfed5dba81cb297c63955648f5f293b1f3c49aceb4d3c13b9cdfc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/pre-fix-clean-build-failed.log.gz",
+      "sha256": "700cb58f6005c2c0002ba3971db3f65ebd2578c5d81b9fa82c9df65cd7ec6a84"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/pre-fix-failed-modules.txt",
+      "sha256": "2141ffcc58199ece550cd425752f9a5f8e6f37f5e3168b9c3e00585c7c9f3199"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/pre-fix-integration-failed.log.gz",
+      "sha256": "f5a98e5f184e082b4e0bfd1c9b2edbf86652e82a08bb61e2d8a86379db734394"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/previous-selected-reviews.json.gz",
+      "sha256": "5865f10983cb44ac9f3e58df96334a700d490b7944cf776ac0c582865916234f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/python-tests.log",
+      "sha256": "f4ea4f7c2f5271865168286e336b9e2a552ad5460d769a12aa6b1ced938ebbeb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/secondary-focused-development.log.gz",
+      "sha256": "e0402d780891e52c1a612b08f63c9a64d0230ceffcff04f522cdd33e423e9544"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/source-closure.json",
+      "sha256": "8901e6c11926eede2ae3d7a9e365beb6aeaf61f1f22e9ccecc7198f77f8592b1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/token_softmax_bloom-Real-comparator.log",
+      "sha256": "a7d1e9c9d0bf1b24a2343d3dc3bc93024171f03753a3594140bee9761e98f42d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/token_softmax_bloom-comparator.log",
+      "sha256": "54ee98321c66bb2ca57aad2aa6559d155b5cf00ad0706839b0123b96714f4666"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/token_softmax_bloom-contract.log",
+      "sha256": "47eff72892e785044c1f797bf71c32c48f09f6d01e24d742e200623789f31361"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/token_softmax_bloom-raw-source-check.log",
+      "sha256": "fea0807b40715c4b86969041a8dda74581456704e84feaecf6b55823993a9eae"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/token_softmax_llama-Real-comparator.log",
+      "sha256": "ec154136334800c5259d4b7fa9f158dbc0f8b471ac9ac59e061aaea153380d45"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/token_softmax_llama-comparator.log",
+      "sha256": "854abd2e878f2e9fc53b87660ccb0529144eb70ca3c532b9e40b3d1215d8f3d7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/token_softmax_llama-contract.log",
+      "sha256": "7f22eeb3f7464401622399a30eb0ea304a1a3b8847626614085226b793cd5239"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/token_softmax_llama-raw-source-check.log",
+      "sha256": "fea0807b40715c4b86969041a8dda74581456704e84feaecf6b55823993a9eae"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/transferred-files.json",
+      "sha256": "7528ab9bdca3b37f9166ed952096b9d42fcf3aebb6da72dba6f454366d3b9a52"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-token-softmax-bodies/widening-congruence-and-complete-rewrite.log.gz",
+      "sha256": "a5adf6c7bfed880b7d59f72f3e669b869b072b20b18ca76838a95c9fd7d29a2e"
+    }
+  ]
+}

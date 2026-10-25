@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/tmp/veritile-hgrn54-clean/bench/repairs/tritonbench_g/token_softmax_llama/check_contract.py", line 6, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'

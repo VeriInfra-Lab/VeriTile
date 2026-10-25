@@ -1,0 +1,4 @@
+{"name": "token_softmax_bloom", "file": "bench/repairs/tritonbench_g/token_softmax_bloom/FPEquiv.lean", "sha256": "cb9534da4b8fe7004dd3e96be5b8a248b4efca11e8e50829aa16b126dfab7fa3", "command": ["python3", "scripts/check_comparator.py", "--file", "bench/repairs/tritonbench_g/token_softmax_bloom/FPEquiv.lean", "--trust"], "exit_code": 1, "code_commit": "63a2d7f40ac002d247df69c36096f668d8ea13e8"}
+[FAIL] Official comparator isolation is unavailable:
+- systemd AF_UNIX restriction: Failed to connect to bus: Operation not permitted (consider using --machine=<user>@.host --user to connect to bus of other user)
+- Landlock sandbox: [landrun:error] 2026/10/25 17:32:01 Failed to apply sandbox: failed to apply Landlock filesystem restrictions: missing kernel Landlock support. Got Landlock ABI v4, wanted {Landlock V5; FS: all; Net: ∅}

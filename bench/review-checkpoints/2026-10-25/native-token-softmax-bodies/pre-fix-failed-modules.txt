@@ -1,0 +1,10 @@
+bench.repairs.tritonbench_g.rotary_emb_nopad.Kernels
+bench.repairs.tritonbench_g.dequantize_rowwise.Proofs.FPExecution
+bench.repairs.tritonbench_g.embedding_triton_kernel.Proofs.Execution
+bench.tritonbench_g.triton_argmax.Proofs.TypedSource
+bench.repairs.tritonbench_g.chunk_cumsum_kernel.Proofs.RealProjection
+bench.repairs.tritonbench_g.softmax_triton1.Proofs.Rewrite
+bench.repairs.tritonbench_g.rotary_emb.Proofs.Candidate
+bench.repairs.tritonbench_g.l2_norm_bwd.Proofs.Statement
+bench.repairs.tritonbench_g.kldiv_triton.Proofs.Statement
+bench.repairs.tritonbench_g.max_reduction.Proofs.LogicalIO

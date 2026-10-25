@@ -1,0 +1,30 @@
+import VeriTile.Triton.DSL.CallSignature
+import VeriTile.Meta.StatementAudit
+namespace VeriTile.Tests.NaturalSignedAddress
+open VeriTile.Triton
+
+def signature : CallSignature where
+  pointers := [("P",.i32),("Out",.i64)]
+  scalars := [("stride",.i64)]
+  naturalIntegerPointers := ["P"]
+
+def source (P : Region .nat) (Out : RegionName) (stride : Nat) : ComputeKernel :=
+  with_triton_call signature call_args [stride := stride] in triton {
+    pid = tl.program_id(0).to(tl.int64)
+    index = tl.load(P + pid * stride).to(tl.int64)
+    tl.store(Out + index, pid)
+  }
+
+def expected (P : Region .nat) (Out : RegionName) (stride : Nat) : ComputeKernel :=
+  .mk [P.cast] [Out]
+    [.assign .int [] "pid" (.alg (.castNatToInt (.programId 0))),
+     .assign .int [] "index" (.alg (.castNatToInt
+       (.load .nat (.region P (.castIntToNat
+         (.mul .int .nil (.ref .int [] "pid") (.castNatToInt (.constNat stride))))) .none))),
+     .store .int [] (.region Out (.castIntToNat (.ref .int [] "index")))
+       (.alg (.ref .int [] "pid")) .none]
+
+theorem complete_kernel (P : Region .nat) (Out : RegionName) (stride : Nat) :
+    source P Out stride = expected P Out stride := rfl
+#axiomsClean complete_kernel
+end VeriTile.Tests.NaturalSignedAddress

@@ -1,0 +1,18 @@
+[
+  "VeriTile/Triton/DSL/CallSignature.lean",
+  "VeriTile/Triton/DSL/Expansion/Main.lean",
+  "VeriTile/Triton/DSL/TypedStores.lean",
+  "VeriTile/Triton/Float/ExpressionRewrite.lean",
+  "bench/jit_correspondence.py",
+  "bench/repairs/tritonbench_g/token_softmax_bloom/Kernels.lean",
+  "bench/repairs/tritonbench_g/token_softmax_bloom/Proofs/KernelRewrite.lean",
+  "bench/repairs/tritonbench_g/token_softmax_bloom/README.md",
+  "bench/repairs/tritonbench_g/token_softmax_llama/Kernels.lean",
+  "bench/repairs/tritonbench_g/token_softmax_llama/Proofs/Model.lean",
+  "bench/repairs/tritonbench_g/token_softmax_llama/README.md",
+  "bench/tests/CallSignature.lean",
+  "bench/tests/test_jit_correspondence.py",
+  "VeriTile/Triton/DSL/PointerType.lean",
+  "bench/repairs/tritonbench_g/token_softmax_bloom/jit-correspondence.json",
+  "bench/repairs/tritonbench_g/token_softmax_llama/jit-correspondence.json"
+]
