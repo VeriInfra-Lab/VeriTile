@@ -1,0 +1,492 @@
+[
+  {
+    "lean": "bench/repairs/tritonbench_g/rotary_emb_nopad/Kernels.lean",
+    "lean_definition": "uncached",
+    "python": "bench/repairs/tritonbench_g/rotary_emb_nopad/rotary_emb_nopad_repaired.py",
+    "python_function": "rotary_embedding_kernel",
+    "signature_definition": "uncachedSignature",
+    "expected_call_bindings": {
+      "q_token_stride": "q_token_stride",
+      "q_head_stride": "q_head_stride",
+      "k_token_stride": "k_token_stride",
+      "k_head_stride": "k_head_stride",
+      "head_dim_stride": "head_dim_stride",
+      "cos_token_stride": "cos_token_stride",
+      "cos_stride": "cos_stride",
+      "sin_token_stride": "sin_token_stride",
+      "sin_stride": "sin_stride",
+      "q_total_tokens": "q_total_tokens"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "q",
+          "fp32"
+        ],
+        [
+          "k",
+          "fp32"
+        ],
+        [
+          "cos",
+          "fp32"
+        ],
+        [
+          "sin",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "q_token_stride",
+          "integer"
+        ],
+        [
+          "q_head_stride",
+          "integer"
+        ],
+        [
+          "k_token_stride",
+          "integer"
+        ],
+        [
+          "k_head_stride",
+          "integer"
+        ],
+        [
+          "head_dim_stride",
+          "integer"
+        ],
+        [
+          "cos_token_stride",
+          "integer"
+        ],
+        [
+          "cos_stride",
+          "integer"
+        ],
+        [
+          "sin_token_stride",
+          "integer"
+        ],
+        [
+          "sin_stride",
+          "integer"
+        ],
+        [
+          "q_total_tokens",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "Q_HEAD_NUM",
+        "KV_GROUP_NUM",
+        "HEAD_DIM",
+        "BLOCK_PAIRS",
+        "BLOCK_TOKENS"
+      ],
+      "readPorts": [
+        "q",
+        "k",
+        "cos",
+        "sin"
+      ],
+      "writePorts": [
+        "q",
+        "k"
+      ]
+    }
+  },
+  {
+    "lean": "bench/repairs/tritonbench_g/rotary_emb_nopad/Kernels.lean",
+    "lean_definition": "uncachedShared",
+    "python": "bench/repairs/tritonbench_g/rotary_emb_nopad/address_shared.py",
+    "python_function": "rotary_embedding_kernel_shared",
+    "signature_definition": "uncachedSignature",
+    "expected_call_bindings": {
+      "q_token_stride": "q_token_stride",
+      "q_head_stride": "q_head_stride",
+      "k_token_stride": "k_token_stride",
+      "k_head_stride": "k_head_stride",
+      "head_dim_stride": "head_dim_stride",
+      "cos_token_stride": "cos_token_stride",
+      "cos_stride": "cos_stride",
+      "sin_token_stride": "sin_token_stride",
+      "sin_stride": "sin_stride",
+      "q_total_tokens": "q_total_tokens"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "q",
+          "fp32"
+        ],
+        [
+          "k",
+          "fp32"
+        ],
+        [
+          "cos",
+          "fp32"
+        ],
+        [
+          "sin",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "q_token_stride",
+          "integer"
+        ],
+        [
+          "q_head_stride",
+          "integer"
+        ],
+        [
+          "k_token_stride",
+          "integer"
+        ],
+        [
+          "k_head_stride",
+          "integer"
+        ],
+        [
+          "head_dim_stride",
+          "integer"
+        ],
+        [
+          "cos_token_stride",
+          "integer"
+        ],
+        [
+          "cos_stride",
+          "integer"
+        ],
+        [
+          "sin_token_stride",
+          "integer"
+        ],
+        [
+          "sin_stride",
+          "integer"
+        ],
+        [
+          "q_total_tokens",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "Q_HEAD_NUM",
+        "KV_GROUP_NUM",
+        "HEAD_DIM",
+        "BLOCK_PAIRS",
+        "BLOCK_TOKENS"
+      ],
+      "readPorts": [
+        "q",
+        "k",
+        "cos",
+        "sin"
+      ],
+      "writePorts": [
+        "q",
+        "k"
+      ]
+    }
+  },
+  {
+    "lean": "bench/repairs/tritonbench_g/rotary_emb_nopad/Kernels.lean",
+    "lean_definition": "cached",
+    "python": "bench/repairs/tritonbench_g/rotary_emb_nopad/rotary_emb_nopad_repaired.py",
+    "python_function": "fused_rotary_embedding_kernel_v2",
+    "signature_definition": "cachedSignature",
+    "expected_call_bindings": {
+      "q_token_stride": "q_token_stride",
+      "q_head_stride": "q_head_stride",
+      "k_token_stride": "k_token_stride",
+      "k_head_stride": "k_head_stride",
+      "head_dim_stride": "head_dim_stride",
+      "cos_token_stride": "cos_token_stride",
+      "cos_stride": "cos_stride",
+      "sin_token_stride": "sin_token_stride",
+      "sin_stride": "sin_stride",
+      "cacheb_stride": "cacheb_stride",
+      "cacheh_stride": "cacheh_stride",
+      "cachebs_stride": "cachebs_stride",
+      "cached_stride": "cached_stride",
+      "bts_stride": "bts_stride",
+      "btb_stride": "btb_stride",
+      "block_size": "block_size",
+      "q_total_tokens": "q_total_tokens"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "q",
+          "fp32"
+        ],
+        [
+          "k",
+          "fp32"
+        ],
+        [
+          "cos",
+          "fp32"
+        ],
+        [
+          "sin",
+          "fp32"
+        ],
+        [
+          "kv_cache",
+          "fp32"
+        ],
+        [
+          "BLOCK_TABLES",
+          "i64"
+        ],
+        [
+          "context_lengths",
+          "i64"
+        ]
+      ],
+      "scalars": [
+        [
+          "q_token_stride",
+          "integer"
+        ],
+        [
+          "q_head_stride",
+          "integer"
+        ],
+        [
+          "k_token_stride",
+          "integer"
+        ],
+        [
+          "k_head_stride",
+          "integer"
+        ],
+        [
+          "head_dim_stride",
+          "integer"
+        ],
+        [
+          "cos_token_stride",
+          "integer"
+        ],
+        [
+          "cos_stride",
+          "integer"
+        ],
+        [
+          "sin_token_stride",
+          "integer"
+        ],
+        [
+          "sin_stride",
+          "integer"
+        ],
+        [
+          "cacheb_stride",
+          "integer"
+        ],
+        [
+          "cacheh_stride",
+          "integer"
+        ],
+        [
+          "cachebs_stride",
+          "integer"
+        ],
+        [
+          "cached_stride",
+          "integer"
+        ],
+        [
+          "bts_stride",
+          "integer"
+        ],
+        [
+          "btb_stride",
+          "integer"
+        ],
+        [
+          "block_size",
+          "integer"
+        ],
+        [
+          "q_total_tokens",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "Q_HEAD_NUM",
+        "K_HEAD_NUM",
+        "HEAD_DIM",
+        "BLOCK_PAIRS"
+      ],
+      "readPorts": [
+        "q",
+        "k",
+        "cos",
+        "sin",
+        "kv_cache",
+        "BLOCK_TABLES",
+        "context_lengths"
+      ],
+      "writePorts": [
+        "q",
+        "kv_cache"
+      ]
+    }
+  },
+  {
+    "lean": "bench/repairs/tritonbench_g/rotary_emb_nopad/Kernels.lean",
+    "lean_definition": "cachedShared",
+    "python": "bench/repairs/tritonbench_g/rotary_emb_nopad/address_shared.py",
+    "python_function": "fused_rotary_embedding_kernel_v2_shared",
+    "signature_definition": "cachedSignature",
+    "expected_call_bindings": {
+      "q_token_stride": "q_token_stride",
+      "q_head_stride": "q_head_stride",
+      "k_token_stride": "k_token_stride",
+      "k_head_stride": "k_head_stride",
+      "head_dim_stride": "head_dim_stride",
+      "cos_token_stride": "cos_token_stride",
+      "cos_stride": "cos_stride",
+      "sin_token_stride": "sin_token_stride",
+      "sin_stride": "sin_stride",
+      "cacheb_stride": "cacheb_stride",
+      "cacheh_stride": "cacheh_stride",
+      "cachebs_stride": "cachebs_stride",
+      "cached_stride": "cached_stride",
+      "bts_stride": "bts_stride",
+      "btb_stride": "btb_stride",
+      "block_size": "block_size",
+      "q_total_tokens": "q_total_tokens"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "q",
+          "fp32"
+        ],
+        [
+          "k",
+          "fp32"
+        ],
+        [
+          "cos",
+          "fp32"
+        ],
+        [
+          "sin",
+          "fp32"
+        ],
+        [
+          "kv_cache",
+          "fp32"
+        ],
+        [
+          "BLOCK_TABLES",
+          "i64"
+        ],
+        [
+          "context_lengths",
+          "i64"
+        ]
+      ],
+      "scalars": [
+        [
+          "q_token_stride",
+          "integer"
+        ],
+        [
+          "q_head_stride",
+          "integer"
+        ],
+        [
+          "k_token_stride",
+          "integer"
+        ],
+        [
+          "k_head_stride",
+          "integer"
+        ],
+        [
+          "head_dim_stride",
+          "integer"
+        ],
+        [
+          "cos_token_stride",
+          "integer"
+        ],
+        [
+          "cos_stride",
+          "integer"
+        ],
+        [
+          "sin_token_stride",
+          "integer"
+        ],
+        [
+          "sin_stride",
+          "integer"
+        ],
+        [
+          "cacheb_stride",
+          "integer"
+        ],
+        [
+          "cacheh_stride",
+          "integer"
+        ],
+        [
+          "cachebs_stride",
+          "integer"
+        ],
+        [
+          "cached_stride",
+          "integer"
+        ],
+        [
+          "bts_stride",
+          "integer"
+        ],
+        [
+          "btb_stride",
+          "integer"
+        ],
+        [
+          "block_size",
+          "integer"
+        ],
+        [
+          "q_total_tokens",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "Q_HEAD_NUM",
+        "K_HEAD_NUM",
+        "HEAD_DIM",
+        "BLOCK_PAIRS"
+      ],
+      "readPorts": [
+        "q",
+        "k",
+        "cos",
+        "sin",
+        "kv_cache",
+        "BLOCK_TABLES",
+        "context_lengths"
+      ],
+      "writePorts": [
+        "q",
+        "kv_cache"
+      ]
+    }
+  }
+]

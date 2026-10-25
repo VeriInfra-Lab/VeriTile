@@ -135,4 +135,93 @@ theorem mutable_quotient (N : Nat) : mutableQuotient N = (triton {
 #axiomsClean static_quotient
 #axiomsClean runtime_quotient
 #axiomsClean mutable_quotient
+/-- A genuinely compile-time nonzero tile width may divide another constexpr. -/
+def constexprWidthDivisor (N widthMinusOne : Nat) : ComputeKernel :=
+  let B := widthMinusOne + 1
+  with_triton_signature ({constexpr := ["N","B"]} : CallSignature) in triton {
+    count = N // B
+  }
+theorem constexpr_width_quotient (N widthMinusOne : Nat) :
+    constexprWidthDivisor N widthMinusOne = triton {
+      count = $(N / (widthMinusOne + 1))
+    } := rfl
+
+/-- Literal division by zero must retain its original integer operation. -/
+def zeroDivisor (N : Nat) : ComputeKernel :=
+  with_triton_signature ({constexpr := ["N"]} : CallSignature) in triton {
+    count = N // 0
+  }
+theorem zero_divisor_not_folded (N : Nat) : zeroDivisor N = triton {
+    count = $(N) // $((0 : Nat))
+  } := rfl
+
+#axiomsClean constexpr_width_quotient
+#axiomsClean zero_divisor_not_folded
+
+/-- A pasted compile-time split loop keeps the original quotient and arange. -/
+def tiledSignature : CallSignature where
+  pointers := [("X",.fp32),("Y",.fp32)]
+  constexpr := ["N","B"]
+def tiledStaticRange (X Y : RegionName) (N widthMinusOne : Nat) : ComputeKernel :=
+  let B := widthMinusOne + 1
+  with_triton_signature tiledSignature in triton {
+    for q in tl.static_range(N // B):
+      offsets = tl.arange(q * B, (q + 1) * B)
+      x = tl.load(X + offsets)
+      tl.store(Y + offsets, x)
+  }
+theorem tiled_static_range (X Y : RegionName) (N widthMinusOne : Nat) :
+    tiledStaticRange X Y N widthMinusOne = (triton {
+      tl.region X = tl.float32, Y = tl.float32
+      for q in tl.static_range($(N / (widthMinusOne + 1))) {
+        offsets = q * $(widthMinusOne + 1) + tl.arange(0, $(widthMinusOne + 1))
+        x = tl.load(X + offsets)
+        tl.store(Y + offsets, x)
+      }
+    } : ComputeKernel) := rfl
+
+/-- error: tl.static_range requires an immutable Nat constexpr bound -/
+#guard_msgs in
+def runtimeStaticRange (N : Nat) : ComputeKernel :=
+  with_triton_call ({scalars := [("N",.integer)]} : CallSignature) call_args [N := N] in triton {
+    for i in tl.static_range(N):
+      x = i
+  }
+
+/-- error: tl.static_range requires an immutable Nat constexpr bound -/
+#guard_msgs in
+def mutableStaticRange (N : Nat) : ComputeKernel :=
+  with_triton_signature ({constexpr := ["N"]} : CallSignature) in triton {
+    N = tl.cast(4, tl.int64)
+    for i in tl.static_range(N):
+      x = i
+  }
+
+#axiomsClean tiled_static_range
+/-- Source integer literals retain signed metadata arithmetic and comparisons. -/
+def signedSourceLiterals (I : RegionName) : ComputeKernel :=
+  with_triton_signature ({pointers := [("I",.i32)]} : CallSignature) in triton {
+    length = tl.load(I) - 1
+    head = tl.program_id(0).to(tl.int64)
+    leader = head == 0
+    shifted = head - 1
+    twice = 2 * shifted
+  }
+theorem signed_source_literals (I : RegionName) :
+    signedSourceLiterals I = (triton {
+      tl.region I = tl.int32
+      length = tl.load(I) - $((1 : Int))
+      head = tl.program_id(0).to(tl.int64)
+      leader = head == $((0 : Int))
+      shifted = head - $((1 : Int))
+      twice = $((2 : Int)) * shifted
+    } : ComputeKernel) := rfl
+
+/-- error: arithmetic: dtype mismatch -/
+#guard_msgs in
+def floatLiteralIsNotInteger (I : RegionName) : ComputeKernel :=
+  with_triton_signature ({pointers := [("I",.i32)]} : CallSignature) in triton {
+    length = tl.load(I) - 1.0
+  }
+#axiomsClean signed_source_literals
 end VeriTile.Tests.CallSignature

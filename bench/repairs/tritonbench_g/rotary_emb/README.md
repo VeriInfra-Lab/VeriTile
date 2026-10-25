@@ -44,7 +44,7 @@ laws and checked extents derive the independent logical-element rotation,
 successful complete execution, and the full memory frame. The map imposes no
 finite-payload guard or FP-to-Real arithmetic law.
 `TensorBridge.rotary_emb_fp32_equiv` uses that same source and proves successful
-execution of the faithful historical candidate which commutes only the
+execution of the retained index candidate which commutes only the
 integer head-block multiplication. The entire resulting state is identical;
 all floating outputs also equal the independent selected native graph.
 `TensorBridge.rotary_emb_checked_fp32_equiv` binds actual Torch Tensor objects via
@@ -104,12 +104,22 @@ unchanged, including actual-Tensor and complete-grid physical memory results;
 they reuse this same typed execution foundation. The public kernel statements
 retain the complete one-invocation scope of the previous raw kernel headlines.
 
-Source-only cleanup places the retained integer-index-commuted candidate in
-`Kernels.lean` as a complete ordinary FP32 `triton` quotation beside the original.
-`Candidate.optimized` remains a compatibility alias; its prefix helper is only
-proof decomposition. Complete function identities preserve the original and the
-previous prefix-plus-tail candidate by `rfl`. All precision, casts, signed-int64
-addresses, Q/K and coefficient masks, operation order, domains, bindings, channels,
-frames and public theorem declarations are retained. This organization adds no
-numerical, dtype, native, host or hardware requirement and does not recount the
-existing proof completion.
+The original and retained index candidate are complete source quotations in
+`Kernels.lean`; `Candidate.optimized` is a compatibility alias. Prefix helpers
+are proof decomposition. The current quotations paste the actual selected
+Python body and the explicitly authored counterpart of the existing candidate.
+All source precision, casts, masks, operation order, public domains, bindings,
+channels, frames and theorem scopes are retained.
+
+### 逐句函数体
+
+选定 `_rotary_kernel` 的原始 Python 保持不变，`Kernels.lean` 直接粘贴
+完整函数体及 final return；全部 signed64 转换、Q/K mask、独立 Sin
+stride、两轮 coefficient 读取及 store 次序保留。四指针 dtype、十四个
+运行 stride/count 和三个 constexpr 在体外。`index_commuted.py` 明确是
+既有 Lean 整数 head-block 候选的新写 Python 对照。
+
+`Proofs/SourcePreservation.lean` 对实际原始/候选和旧完整源码分别证明：
+任意浮点原语、参数及初始状态下，成功/失败和全部内存结果一致。
+内部自然数/整数索引表示的区别通过语义连接处理。实际新代码的
+Real、FP、访存安全、所有输出/frame 及原有 host/Tensor 范围直接重验。

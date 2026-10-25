@@ -92,10 +92,32 @@ private def scalarLiteralAt (dtype : DInfo) (e : EOut) : MacroM EOut := do
       return { e with term := ← `(Op.constFloat $proof $value), dtype := dtype }
   | _ => return e
 
+/-- A plain Python integer literal keeps its integer tensor operand’s carrier.
+Only source literals are retargeted; a floating register or explicit floating
+cast must never be silently converted to the other operand's integer type. -/
+partial def integralSourceLiteral (other : DInfo)
+    (source : TSyntax `tritonExpr) (fallback : EOut) : MacroM EOut := do
+  unless [.nat,.int,.int8,.int32].contains other do return fallback
+  match source with
+  | `(tritonExpr| ($inner:tritonExpr)) => integralSourceLiteral other inner fallback
+  | `(tritonExpr| $n:num) =>
+      if other == .nat then return ⟨← `(Op.constNat $n), .nat, SInfo.scalar, none, none⟩
+      else return ⟨← `(Op.constInt $n), .int, SInfo.scalar, none, none⟩
+  | `(tritonExpr| -$n:num) =>
+      if other == .nat then return fallback
+      else return ⟨← `(Op.constInt (-($n : Int))), .int, SInfo.scalar, none, none⟩
+  | _ => return fallback
+
+
 partial def expandArith (expandExpr : ExprExpander) (env : Env) (ctx : String) (op : TSyntax `term)
     (a b : TSyntax `tritonExpr) : MacroM EOut := do
   let a' ← expandExpr env a
   let b' ← expandExpr env b
+  let isIntegralOp := match op with
+    | `(Op.add) | `(Op.sub) | `(Op.mul) => Bool.true
+    | _ => Bool.false
+  let a' ← if isIntegralOp then integralSourceLiteral b'.dtype a a' else pure a'
+  let b' ← if isIntegralOp then integralSourceLiteral a'.dtype b b' else pure b'
   let a' ← foldTypedFloatingLiteral b' a a'
   let b' ← foldTypedFloatingLiteral a' b b'
   let a' ←
@@ -314,21 +336,6 @@ partial def expandBoolMaskMul? (expandExpr : ExprExpander) (env : Env)
       Macro.throwError "bool mask multiplication currently supports Bool * Real only"
   | _, _ => pure none
 
-/-- A plain Python integer literal keeps integer semantics in // and %.
-Only source literals are retargeted; a floating register or explicit floating
-cast must never be silently converted to the other operand's integer type. -/
-private partial def integralSourceLiteral (other : DInfo)
-    (source : TSyntax `tritonExpr) (fallback : EOut) : MacroM EOut := do
-  unless [.nat,.int,.int8,.int32].contains other do return fallback
-  match source with
-  | `(tritonExpr| ($inner:tritonExpr)) => integralSourceLiteral other inner fallback
-  | `(tritonExpr| $n:num) =>
-      if other == .nat then return ⟨← `(Op.constNat $n), .nat, SInfo.scalar, none, none⟩
-      else return ⟨← `(Op.constInt $n), .int, SInfo.scalar, none, none⟩
-  | `(tritonExpr| -$n:num) =>
-      if other == .nat then return fallback
-      else return ⟨← `(Op.constInt (-($n : Int))), .int, SInfo.scalar, none, none⟩
-  | _ => return fallback
 
 partial def expandIntegralArith (expandExpr : ExprExpander) (env : Env) (ctx : String) (op : TSyntax `term)
     (a b : TSyntax `tritonExpr) : MacroM EOut := do
@@ -482,6 +489,8 @@ partial def expandCmp (expandExpr : ExprExpander) (env : Env) (ctx : String) (op
     (a b : TSyntax `tritonExpr) : MacroM EOut := do
   let a' ← expandExpr env a
   let b' ← expandExpr env b
+  let a' ← integralSourceLiteral b'.dtype a a'
+  let b' ← integralSourceLiteral a'.dtype b b'
   let b' ←
     if a'.dtype == .nat && b'.dtype == .real then
       match b with

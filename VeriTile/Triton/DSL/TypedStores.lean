@@ -385,6 +385,10 @@ private partial def lowerWithState (pointers : Types) (values : Values)
           let (body, stable) ← loopBody i body
           stmt ← `(tritonStmt| for $i in range($stop) { $body* })
           nextValues := stable
+      | `(tritonStmt| for $i:ident in tl.static_range($($n:term)) { $body:tritonStmt* }) =>
+          let (body, stable) ← loopBody i body
+          stmt ← `(tritonStmt| for $i in tl.static_range($($n)) { $body* })
+          nextValues := stable
       | `(tritonStmt| for $i:ident in tl.static_range($n:num) { $body:tritonStmt* }) =>
           let (body, stable) ← loopBody i body
           stmt ← `(tritonStmt| for $i in tl.static_range($n:num) { $body* })

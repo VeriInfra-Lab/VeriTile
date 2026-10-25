@@ -625,7 +625,9 @@ private partial def expandArangeRangeWithEnv (env : Env)
     (s e : TSyntax `tritonExpr) : MacroM EOut := do
   match s, e with
   | `(tritonExpr| $i:ident * $($step:term)),
-    `(tritonExpr| ($j:ident + $(1)) * $($step':term)) =>
+    `(tritonExpr| ($j:ident + $(1)) * $($step':term))
+  | `(tritonExpr| $i:ident * $($step:term)),
+    `(tritonExpr| ($j:ident + 1) * $($step':term)) =>
       if i.getId.eraseMacroScopes != j.getId.eraseMacroScopes ||
           !sameRaw step.raw step'.raw then
         expandArangeRange s e
@@ -2982,6 +2984,7 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
       match ← expandLeanAntiquoteAs? load'.dtype rhs with
       | some out => pure out
       | none => expandExpr env rhs
+    let rhs' ← integralSourceLiteral load'.dtype rhs rhs'
     ensureAlgorithmOnly "arithmetic" rhs'
     -- Loaded storage widths do not change the mathematical integer carrier.
     -- Normalize both operands, including a previously bound int32 register,

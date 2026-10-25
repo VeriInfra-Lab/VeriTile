@@ -130,6 +130,12 @@ private partial def bindSourceValues (values : List (Name × TSyntax `tritonExpr
   -- These terms already belong to the caller's Lean context. Replacing a
   -- name inside one would inject a Triton expression into a Lean term.
   if let `(tritonExpr| $($_:term)) := raw then return raw
+  -- A static-loop bound is already a caller-owned Lean term. Its children
+  -- must not be rebound as source identifiers after constexpr normalization.
+  if let `(tritonStmt| for $i:ident in tl.static_range($($n:term)) { $body:tritonStmt* }) := raw then
+    let body ← body.mapM fun st => do
+      return (⟨← bindSourceValues values st.raw⟩ : TSyntax `tritonStmt)
+    return (← `(tritonStmt| for $i in tl.static_range($($n)) { $body* })).raw
   if raw.isIdent then
     if let some (_, value) := values.find? (fun p => p.1 == raw.getId.eraseMacroScopes) then
       return value.raw
@@ -215,20 +221,25 @@ private partial def staticNatBound (constants assigned : List Name)
       if ← isDefEq (← inferType value) (mkConst ``Nat) then return some term else return none
   | _ => return none
 
-/-- Python evaluates an immutable constexpr Nat divided by a positive literal
-before building tensor instructions. Preserve that source expression in the
-quotation, while emitting the same constant assignment as the native JIT.
-Runtime arguments, mutable names, signed dividends and zero divisors retain
-the existing expression path. This is integer specialization, not FP arithmetic. -/
+/-- Evaluate immutable Nat constexpr quotients at specialization time, as the
+source JIT does for valid compile-time dimensions. Literal zero divisors keep
+an explicit divide node; runtime and mutable names keep the runtime path.
+The caller's native shape contract still requires valid nonzero dimensions. -/
 private partial def foldStaticNatQuotients (constants assigned : List Name)
     (raw : Syntax) : TermElabM Syntax := do
   let args ← raw.getArgs.mapM (foldStaticNatQuotients constants assigned)
   let next := match raw with | .node info kind _ => Syntax.node info kind args | _ => raw
   let expression : TSyntax `tritonExpr := ⟨next⟩
-  if let `(tritonExpr| $dividend:tritonExpr // $divisor:num) := expression then
-    if divisor.getNat > 0 then
-      if let some value ← staticNatBound constants assigned dividend then
-        return (← liftMacroM `(tritonExpr| $((($value:term : Nat) / $divisor : Nat)))).raw
+  if let `(tritonExpr| $dividend:tritonExpr // $divisor:tritonExpr) := expression then
+    if let `(tritonExpr| $zero:num) := divisor then
+      if zero.getNat == 0 then return next
+    if let some lhs ← staticNatBound constants assigned dividend then
+      if let some rhs ← staticNatBound constants assigned divisor then
+        return (← liftMacroM `(tritonExpr| $((($lhs:term : Nat) / ($rhs:term : Nat) : Nat)))).raw
+  if let `(tritonStmt| for $i:ident in tl.static_range($bound:tritonExpr) { $body:tritonStmt* }) := next then
+    if let some n ← staticNatBound constants assigned bound then
+      return (← liftMacroM `(tritonStmt| for $i in tl.static_range($($n)) { $body* })).raw
+    throwErrorAt bound "tl.static_range requires an immutable Nat constexpr bound"
   return next
 
 /-- A per-call size has already been supplied before executing the body.

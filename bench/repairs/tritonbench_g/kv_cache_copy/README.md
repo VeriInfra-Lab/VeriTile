@@ -19,9 +19,12 @@ The actual second JIT changes only the scalar K-source address expression from
 Both wrappers share `_checked_copy` and the same assertions; there is no
 performance claim and no new payload normalization.
 
-The DSL spells the original shifted static range
-`arange(q*width,(q+1)*width)` as `q*width + arange(0,width)`, keeping lane order
-and width. The exact range identity is proved in `Proofs/KernelContract.lean`.
+The quotation keeps the original shifted static range
+`arange(q*width,(q+1)*width)` and `static_range(HEAD_DIM // KCACHE_X)`.
+The shared frontend lowers that exact span to the existing offset-plus-lanes
+IR. `Proofs/SourcePreservation.lean` checks the entire original and candidate
+bodies against the retained complete source, for every parameter value.
+The exact range identity also remains in `Proofs/KernelContract.lean`.
 The full static loop remains in the canonical source and the execution proof;
 it is not replaced by one representative split or a handwritten source AST.
 Triton 3.7.1's `TritonSemantic.arange` checks positive power-of-two range length
@@ -148,7 +151,17 @@ Optional proof entries are in `Misc/`: [TensorBridge.lean](Misc/TensorBridge.lea
 The original and existing offset-commuted candidate are complete ordinary
 `quotedOriginal` and `quotedCommuted` quotations. The static split loop,
 INT32 metadata, FP32 K/V payloads, all strides and both caches are unchanged.
-`Proofs/SourcePreservation.kernel` proves equality of both complete source
-functions to the archived prior macro expansions for every Parameters value.
+`Proofs/SourcePreservation.kernel` checks both complete bodies against the
+archived prior macro expansions for every Parameters value. Call ports now
+explicitly follow the actual source ABI order, independently of first-load order.
 Public proofs, domains, precision, numerical dependencies and accepted scope
 are retained; this cleanup does not change proof completion status.
+
+### 逐句函数体（2026-10-25）
+
+两份既有原始/候选 Python 均不修改，直接粘贴完整函数体，保留实际
+`tl.static_range(HEAD_DIM // KCACHE_X)` 与带非零起点的 `tl.arange`，
+INT32 元数据、除法/取余、全部源/目标地址、两次写回和 final return。
+18 个运行参数与两个 constexpr 在体外；未使用 stride_kcd 也保留，
+并验证完整程序对该实参独立。共享前端处理 constexpr 商及原始 range
+拼法，任务源码不改写成手算的 arange 替代代码。

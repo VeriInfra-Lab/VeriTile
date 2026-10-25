@@ -93,7 +93,7 @@ theorem decomposition (v : Bool) (p : Parameters) :
 
 theorem prelude_run {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : State α) :
     run M (prelude p) s=some (preludeState p s) := by
-  simp [prelude,originalKernel,kernel,quotedOriginal,quotedCommuted,ComputeKernel.surfaceBody,run,step,evalExpr,
+  simp [prelude,originalKernel,kernel,quotedOriginal,quotedCommuted,quotedOriginal,quotedCommuted,ComputeKernel.surfaceBody,run,step,evalExpr,
     evalComputeOp,evalOp_unfold,numeric,numericLt,bop,Region.cast,Option.bind,
     FP.Structural.eval_truncDiv,FP.Structural.eval_truncMod,preludeState,position,selectedBlock,
     Broadcast.leftIndex,Broadcast.rightIndex]
@@ -107,7 +107,7 @@ theorem body_run {α : Type} [Inhabited α] (M : Algebra α) (v : Bool) (p : Par
     run M (body v p) (t.setReg "split_x" .nat [] (fun _ => q))=some (finalStep M p s q t) := by
   rcases hc with ⟨hs,hh,hb,hslot,hl⟩
   rcases hf with ⟨hk,hv⟩
-  cases v <;> simp [body,kernel,quotedOriginal,quotedCommuted,ComputeKernel.surfaceBody,run,step,evalExpr,
+  cases v <;> simp [body,kernel,quotedOriginal,quotedCommuted,quotedOriginal,quotedCommuted,ComputeKernel.surfaceBody,run,step,evalExpr,
     evalComputeOp,evalOp_unfold,store,numeric,bop,ComputeDType.eraseDType,Region.cast,Option.bind,
     finalStep,preparedState,scatterOne,sourceOffset,targetInt,outputRegion,inputRegion,
     hs,hh,hb,hslot,hl,hk,hv,Broadcast.leftIndex,Broadcast.rightIndex]

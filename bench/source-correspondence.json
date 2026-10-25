@@ -8,8 +8,8 @@
     "task_status": {
       "legacy_ast_only": 1,
       "no_selected_jit_resolved": 2,
-      "selected_body_copy_checked": 41,
-      "uncovered_jit_functions": 139
+      "selected_body_copy_checked": 44,
+      "uncovered_jit_functions": 136
     },
     "example_status": {
       "authored_counterpart_body_copy_checked": 2,
@@ -17,12 +17,12 @@
       "spec_derived_body_copy_checked": 15
     },
     "selected_jit_functions": 328,
-    "uncovered_selected_jit_functions": 264,
+    "uncovered_selected_jit_functions": 259,
     "primary_files_with_int64_screen_warning": 40,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 111,
-        "antiquotes": 123,
+        "in_body_type_directives": 108,
+        "antiquotes": 120,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 8
       },
@@ -6900,9 +6900,9 @@
       "source_provenance": "selected_revision",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 48,
-        "dsl_assignment": 17,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 64,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -6921,22 +6921,123 @@
           "explicit_int64_casts": []
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_copy_to_kvcache_seqlen1_kernel",
+          "lean_definition": "quotedOriginal",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "stride_kt": "p.strideKt",
+            "stride_kh": "p.strideKh",
+            "stride_kd": "p.strideKd",
+            "stride_vt": "p.strideVt",
+            "stride_vh": "p.strideVh",
+            "stride_vd": "p.strideVd",
+            "stride_kcb": "p.strideKcb",
+            "stride_kch": "p.strideKch",
+            "stride_kcsplit_x": "p.strideKcsplit",
+            "stride_kcs": "p.strideKcs",
+            "stride_kcd": "stride_kcd",
+            "stride_vcb": "p.strideVcb",
+            "stride_vch": "p.strideVch",
+            "stride_vcs": "p.strideVcs",
+            "stride_vcd": "p.strideVcd",
+            "stride_bts": "p.strideBts",
+            "stride_btb": "p.strideBtb",
+            "block_size": "p.blockSize"
+          },
+          "statements": 11,
+          "runtime_parameters": {
+            "stride_kt": "integer",
+            "stride_kh": "integer",
+            "stride_kd": "integer",
+            "stride_vt": "integer",
+            "stride_vh": "integer",
+            "stride_vd": "integer",
+            "stride_kcb": "integer",
+            "stride_kch": "integer",
+            "stride_kcsplit_x": "integer",
+            "stride_kcs": "integer",
+            "stride_kcd": "integer",
+            "stride_vcb": "integer",
+            "stride_vch": "integer",
+            "stride_vcs": "integer",
+            "stride_vcd": "integer",
+            "stride_bts": "integer",
+            "stride_btb": "integer",
+            "block_size": "integer"
+          },
+          "constexpr_parameters": [
+            "HEAD_DIM",
+            "KCACHE_X"
+          ],
           "python": "bench/repairs/tritonbench_g/kv_cache_copy/kv_cache_copy_repaired.py",
-          "function": "_copy_to_kvcache_seqlen1_kernel"
+          "lean": "bench/repairs/tritonbench_g/kv_cache_copy/Kernels.lean"
         },
         {
+          "python_function": "_copy_to_kvcache_seqlen1_kernel_commuted",
+          "lean_definition": "quotedCommuted",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "stride_kt": "p.strideKt",
+            "stride_kh": "p.strideKh",
+            "stride_kd": "p.strideKd",
+            "stride_vt": "p.strideVt",
+            "stride_vh": "p.strideVh",
+            "stride_vd": "p.strideVd",
+            "stride_kcb": "p.strideKcb",
+            "stride_kch": "p.strideKch",
+            "stride_kcsplit_x": "p.strideKcsplit",
+            "stride_kcs": "p.strideKcs",
+            "stride_kcd": "stride_kcd",
+            "stride_vcb": "p.strideVcb",
+            "stride_vch": "p.strideVch",
+            "stride_vcs": "p.strideVcs",
+            "stride_vcd": "p.strideVcd",
+            "stride_bts": "p.strideBts",
+            "stride_btb": "p.strideBtb",
+            "block_size": "p.blockSize"
+          },
+          "statements": 11,
+          "runtime_parameters": {
+            "stride_kt": "integer",
+            "stride_kh": "integer",
+            "stride_kd": "integer",
+            "stride_vt": "integer",
+            "stride_vh": "integer",
+            "stride_vd": "integer",
+            "stride_kcb": "integer",
+            "stride_kch": "integer",
+            "stride_kcsplit_x": "integer",
+            "stride_kcs": "integer",
+            "stride_kcd": "integer",
+            "stride_vcb": "integer",
+            "stride_vch": "integer",
+            "stride_vcs": "integer",
+            "stride_vcd": "integer",
+            "stride_bts": "integer",
+            "stride_btb": "integer",
+            "block_size": "integer"
+          },
+          "constexpr_parameters": [
+            "HEAD_DIM",
+            "KCACHE_X"
+          ],
           "python": "bench/repairs/tritonbench_g/kv_cache_copy/kv_cache_copy_repaired.py",
-          "function": "_copy_to_kvcache_seqlen1_kernel_commuted"
+          "lean": "bench/repairs/tritonbench_g/kv_cache_copy/Kernels.lean"
         }
       ],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/kv_cache_copy/Kernels.lean": "66f084eccc6fb645da53e3abb2706f68b3a6d4b5e3bdb43369a5ba0a8e454caa",
+        "bench/repairs/tritonbench_g/kv_cache_copy/Kernels.lean": "b994d64744fc958132e5105074a3ede0fdac9fdd010b92c3af962531011daca8",
+        "bench/repairs/tritonbench_g/kv_cache_copy/jit-correspondence.json": "f07651bf50c4be13b911fa84f34b6a03dc4a2a5fdc8c99aee95f6511c41b9d08",
         "bench/repairs/tritonbench_g/kv_cache_copy/kv_cache_copy_repaired.py": "651639c0ad3e303df60cbf88df586a3f6e5140e211db7cfa08e0888db8e2d3c2"
       }
     },
@@ -11927,9 +12028,9 @@
       "source_provenance": "selected_revision",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 146,
-        "dsl_assignment": 10,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 77,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -11967,18 +12068,110 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_rotary_kernel",
+          "lean_definition": "kernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "stride_qbs": "stride_qbs",
+            "stride_qh": "stride_qh",
+            "stride_qd": "stride_qd",
+            "stride_kbs": "stride_kbs",
+            "stride_kh": "stride_kh",
+            "stride_kd": "stride_kd",
+            "stride_cosbs": "stride_cosbs",
+            "stride_cosd": "stride_cosd",
+            "stride_sinbs": "stride_sinbs",
+            "stride_sind": "stride_sind",
+            "max_total_len": "max_total_len",
+            "ROTARY_DIM": "ROTARY_DIM",
+            "HEAD_Q": "HEAD_Q",
+            "HEAD_K": "HEAD_K"
+          },
+          "statements": 37,
+          "runtime_parameters": {
+            "stride_qbs": "integer",
+            "stride_qh": "integer",
+            "stride_qd": "integer",
+            "stride_kbs": "integer",
+            "stride_kh": "integer",
+            "stride_kd": "integer",
+            "stride_cosbs": "integer",
+            "stride_cosd": "integer",
+            "stride_sinbs": "integer",
+            "stride_sind": "integer",
+            "max_total_len": "integer",
+            "ROTARY_DIM": "integer",
+            "HEAD_Q": "integer",
+            "HEAD_K": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_HEAD",
+            "BLOCK_PAIRS",
+            "BLOCK_SEQ"
+          ],
           "python": "bench/repairs/tritonbench_g/rotary_emb/rotary_emb_repaired.py",
-          "function": "_rotary_kernel"
+          "lean": "bench/repairs/tritonbench_g/rotary_emb/Kernels.lean"
+        },
+        {
+          "python_function": "_rotary_kernel_index_commuted",
+          "lean_definition": "indexCommuted",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "stride_qbs": "stride_qbs",
+            "stride_qh": "stride_qh",
+            "stride_qd": "stride_qd",
+            "stride_kbs": "stride_kbs",
+            "stride_kh": "stride_kh",
+            "stride_kd": "stride_kd",
+            "stride_cosbs": "stride_cosbs",
+            "stride_cosd": "stride_cosd",
+            "stride_sinbs": "stride_sinbs",
+            "stride_sind": "stride_sind",
+            "max_total_len": "max_total_len",
+            "ROTARY_DIM": "ROTARY_DIM",
+            "HEAD_Q": "HEAD_Q",
+            "HEAD_K": "HEAD_K"
+          },
+          "statements": 37,
+          "runtime_parameters": {
+            "stride_qbs": "integer",
+            "stride_qh": "integer",
+            "stride_qd": "integer",
+            "stride_kbs": "integer",
+            "stride_kh": "integer",
+            "stride_kd": "integer",
+            "stride_cosbs": "integer",
+            "stride_cosd": "integer",
+            "stride_sinbs": "integer",
+            "stride_sind": "integer",
+            "max_total_len": "integer",
+            "ROTARY_DIM": "integer",
+            "HEAD_Q": "integer",
+            "HEAD_K": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_HEAD",
+            "BLOCK_PAIRS",
+            "BLOCK_SEQ"
+          ],
+          "python": "bench/repairs/tritonbench_g/rotary_emb/index_commuted.py",
+          "lean": "bench/repairs/tritonbench_g/rotary_emb/Kernels.lean"
         }
       ],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/rotary_emb/Kernels.lean": "b0934ea9ed978cf3c444498ba14cec45898e25467762dc981b3c405e2314a13a",
+        "bench/repairs/tritonbench_g/rotary_emb/Kernels.lean": "ad1c7168161e0e050ae2a028dc22c19fe07fe8ca1cd7322972a20e6d29ec376e",
+        "bench/repairs/tritonbench_g/rotary_emb/index_commuted.py": "93d6e443a637db03350b71a3c815c32344bdc8b382cc27dc570a2a7b869e26a9",
+        "bench/repairs/tritonbench_g/rotary_emb/jit-correspondence.json": "750948316ba4c3650dbc6106cdb31ea3ec5260a810d535d7a4b46017b0ee123b",
         "bench/repairs/tritonbench_g/rotary_emb/rotary_emb_repaired.py": "34b6b57f2ee519cc8b3cb81692106fb71fd8e9c7270b387dc2589fffbdba0d07"
       }
     },
@@ -11990,9 +12183,9 @@
       "source_provenance": "selected_revision",
       "lean_screen": {
         "quotations": 4,
-        "in_body_type_directives": 4,
-        "antiquotes": 188,
-        "dsl_assignment": 26,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 162,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -12041,22 +12234,206 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "rotary_embedding_kernel",
+          "lean_definition": "uncached",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "q_token_stride": "q_token_stride",
+            "q_head_stride": "q_head_stride",
+            "k_token_stride": "k_token_stride",
+            "k_head_stride": "k_head_stride",
+            "head_dim_stride": "head_dim_stride",
+            "cos_token_stride": "cos_token_stride",
+            "cos_stride": "cos_stride",
+            "sin_token_stride": "sin_token_stride",
+            "sin_stride": "sin_stride",
+            "q_total_tokens": "q_total_tokens"
+          },
+          "statements": 19,
+          "runtime_parameters": {
+            "q_token_stride": "integer",
+            "q_head_stride": "integer",
+            "k_token_stride": "integer",
+            "k_head_stride": "integer",
+            "head_dim_stride": "integer",
+            "cos_token_stride": "integer",
+            "cos_stride": "integer",
+            "sin_token_stride": "integer",
+            "sin_stride": "integer",
+            "q_total_tokens": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_PAIRS",
+            "BLOCK_TOKENS",
+            "HEAD_DIM",
+            "KV_GROUP_NUM",
+            "Q_HEAD_NUM"
+          ],
           "python": "bench/repairs/tritonbench_g/rotary_emb_nopad/rotary_emb_nopad_repaired.py",
-          "function": "rotary_embedding_kernel"
+          "lean": "bench/repairs/tritonbench_g/rotary_emb_nopad/Kernels.lean"
         },
         {
+          "python_function": "rotary_embedding_kernel_shared",
+          "lean_definition": "uncachedShared",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "q_token_stride": "q_token_stride",
+            "q_head_stride": "q_head_stride",
+            "k_token_stride": "k_token_stride",
+            "k_head_stride": "k_head_stride",
+            "head_dim_stride": "head_dim_stride",
+            "cos_token_stride": "cos_token_stride",
+            "cos_stride": "cos_stride",
+            "sin_token_stride": "sin_token_stride",
+            "sin_stride": "sin_stride",
+            "q_total_tokens": "q_total_tokens"
+          },
+          "statements": 19,
+          "runtime_parameters": {
+            "q_token_stride": "integer",
+            "q_head_stride": "integer",
+            "k_token_stride": "integer",
+            "k_head_stride": "integer",
+            "head_dim_stride": "integer",
+            "cos_token_stride": "integer",
+            "cos_stride": "integer",
+            "sin_token_stride": "integer",
+            "sin_stride": "integer",
+            "q_total_tokens": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_PAIRS",
+            "BLOCK_TOKENS",
+            "HEAD_DIM",
+            "KV_GROUP_NUM",
+            "Q_HEAD_NUM"
+          ],
+          "python": "bench/repairs/tritonbench_g/rotary_emb_nopad/address_shared.py",
+          "lean": "bench/repairs/tritonbench_g/rotary_emb_nopad/Kernels.lean"
+        },
+        {
+          "python_function": "fused_rotary_embedding_kernel_v2",
+          "lean_definition": "cached",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "q_token_stride": "q_token_stride",
+            "q_head_stride": "q_head_stride",
+            "k_token_stride": "k_token_stride",
+            "k_head_stride": "k_head_stride",
+            "head_dim_stride": "head_dim_stride",
+            "cos_token_stride": "cos_token_stride",
+            "cos_stride": "cos_stride",
+            "sin_token_stride": "sin_token_stride",
+            "sin_stride": "sin_stride",
+            "cacheb_stride": "cacheb_stride",
+            "cacheh_stride": "cacheh_stride",
+            "cachebs_stride": "cachebs_stride",
+            "cached_stride": "cached_stride",
+            "bts_stride": "bts_stride",
+            "btb_stride": "btb_stride",
+            "block_size": "block_size",
+            "q_total_tokens": "q_total_tokens"
+          },
+          "statements": 32,
+          "runtime_parameters": {
+            "q_token_stride": "integer",
+            "q_head_stride": "integer",
+            "k_token_stride": "integer",
+            "k_head_stride": "integer",
+            "head_dim_stride": "integer",
+            "cos_token_stride": "integer",
+            "cos_stride": "integer",
+            "sin_token_stride": "integer",
+            "sin_stride": "integer",
+            "cacheb_stride": "integer",
+            "cacheh_stride": "integer",
+            "cachebs_stride": "integer",
+            "cached_stride": "integer",
+            "bts_stride": "integer",
+            "btb_stride": "integer",
+            "block_size": "integer",
+            "q_total_tokens": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_PAIRS",
+            "HEAD_DIM",
+            "K_HEAD_NUM",
+            "Q_HEAD_NUM"
+          ],
           "python": "bench/repairs/tritonbench_g/rotary_emb_nopad/rotary_emb_nopad_repaired.py",
-          "function": "fused_rotary_embedding_kernel_v2"
+          "lean": "bench/repairs/tritonbench_g/rotary_emb_nopad/Kernels.lean"
+        },
+        {
+          "python_function": "fused_rotary_embedding_kernel_v2_shared",
+          "lean_definition": "cachedShared",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "q_token_stride": "q_token_stride",
+            "q_head_stride": "q_head_stride",
+            "k_token_stride": "k_token_stride",
+            "k_head_stride": "k_head_stride",
+            "head_dim_stride": "head_dim_stride",
+            "cos_token_stride": "cos_token_stride",
+            "cos_stride": "cos_stride",
+            "sin_token_stride": "sin_token_stride",
+            "sin_stride": "sin_stride",
+            "cacheb_stride": "cacheb_stride",
+            "cacheh_stride": "cacheh_stride",
+            "cachebs_stride": "cachebs_stride",
+            "cached_stride": "cached_stride",
+            "bts_stride": "bts_stride",
+            "btb_stride": "btb_stride",
+            "block_size": "block_size",
+            "q_total_tokens": "q_total_tokens"
+          },
+          "statements": 32,
+          "runtime_parameters": {
+            "q_token_stride": "integer",
+            "q_head_stride": "integer",
+            "k_token_stride": "integer",
+            "k_head_stride": "integer",
+            "head_dim_stride": "integer",
+            "cos_token_stride": "integer",
+            "cos_stride": "integer",
+            "sin_token_stride": "integer",
+            "sin_stride": "integer",
+            "cacheb_stride": "integer",
+            "cacheh_stride": "integer",
+            "cachebs_stride": "integer",
+            "cached_stride": "integer",
+            "bts_stride": "integer",
+            "btb_stride": "integer",
+            "block_size": "integer",
+            "q_total_tokens": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_PAIRS",
+            "HEAD_DIM",
+            "K_HEAD_NUM",
+            "Q_HEAD_NUM"
+          ],
+          "python": "bench/repairs/tritonbench_g/rotary_emb_nopad/address_shared.py",
+          "lean": "bench/repairs/tritonbench_g/rotary_emb_nopad/Kernels.lean"
         }
       ],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/rotary_emb_nopad/Kernels.lean": "7e232ba90037c9c9e7484111147957c3246391036ff4161bd826aca6ee02c6d0",
+        "bench/repairs/tritonbench_g/rotary_emb_nopad/Kernels.lean": "e6a48c3bf8a8ba8c2b5725acde03304b158dcca8ec4689eaa23949720c7621ea",
+        "bench/repairs/tritonbench_g/rotary_emb_nopad/address_shared.py": "c207d978b511332ac1e7011f964594c1bf6701001b47457a881762d294014612",
+        "bench/repairs/tritonbench_g/rotary_emb_nopad/jit-correspondence.json": "81dd5ef6a6b070334e902dd33f991f7426772d65bd8a899f1f823a3fe4eb93ad",
         "bench/repairs/tritonbench_g/rotary_emb_nopad/rotary_emb_nopad_repaired.py": "9171b8655230023043d8792045f1a8a912f8c0627641be20076167fc1eecb842"
       }
     },

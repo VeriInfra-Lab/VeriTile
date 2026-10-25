@@ -413,6 +413,9 @@ syntax "for " ident " in " "range(" tritonExpr ", " tritonExpr ")" " { " tritonS
 syntax "for " ident " in " "range(" tritonExpr ", " tritonExpr ", " tritonExpr ")" " { " tritonStmt* " }" : tritonStmt
 syntax "for " ident " in " "tl.static_range(" "$(" term ")" ")" " { " tritonStmt* " }" : tritonStmt
 syntax "for " ident " in " "tl.static_range(" num ")" " { " tritonStmt* " }" : tritonStmt
+/-- Raw Python constexpr expressions are normalized by the checked call prepass. -/
+syntax (name := tritonStaticRangeExpr) (priority := low)
+  "for " ident " in " "tl.static_range(" tritonExpr ")" " { " tritonStmt* " }" : tritonStmt
 syntax "tl.static_range " ident " in " "$(" term ")" " { " tritonStmt* " }" : tritonStmt
 syntax "tl.static_range " ident " in " num " { " tritonStmt* " }" : tritonStmt
 syntax "tl.if " tritonExpr " { " tritonStmt* " }" : tritonStmt

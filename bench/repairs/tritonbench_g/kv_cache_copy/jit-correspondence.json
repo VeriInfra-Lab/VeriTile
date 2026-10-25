@@ -1,0 +1,288 @@
+[
+  {
+    "lean": "bench/repairs/tritonbench_g/kv_cache_copy/Kernels.lean",
+    "lean_definition": "quotedOriginal",
+    "python": "bench/repairs/tritonbench_g/kv_cache_copy/kv_cache_copy_repaired.py",
+    "python_function": "_copy_to_kvcache_seqlen1_kernel",
+    "signature_definition": "sourceSignature",
+    "expected_call_bindings": {
+      "stride_kt": "p.strideKt",
+      "stride_kh": "p.strideKh",
+      "stride_kd": "p.strideKd",
+      "stride_vt": "p.strideVt",
+      "stride_vh": "p.strideVh",
+      "stride_vd": "p.strideVd",
+      "stride_kcb": "p.strideKcb",
+      "stride_kch": "p.strideKch",
+      "stride_kcsplit_x": "p.strideKcsplit",
+      "stride_kcs": "p.strideKcs",
+      "stride_kcd": "stride_kcd",
+      "stride_vcb": "p.strideVcb",
+      "stride_vch": "p.strideVch",
+      "stride_vcs": "p.strideVcs",
+      "stride_vcd": "p.strideVcd",
+      "stride_bts": "p.strideBts",
+      "stride_btb": "p.strideBtb",
+      "block_size": "p.blockSize"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "K",
+          "fp32"
+        ],
+        [
+          "V",
+          "fp32"
+        ],
+        [
+          "KCache",
+          "fp32"
+        ],
+        [
+          "VCache",
+          "fp32"
+        ],
+        [
+          "BLOCK_TABLES",
+          "i32"
+        ],
+        [
+          "context_lengths",
+          "i32"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_kt",
+          "integer"
+        ],
+        [
+          "stride_kh",
+          "integer"
+        ],
+        [
+          "stride_kd",
+          "integer"
+        ],
+        [
+          "stride_vt",
+          "integer"
+        ],
+        [
+          "stride_vh",
+          "integer"
+        ],
+        [
+          "stride_vd",
+          "integer"
+        ],
+        [
+          "stride_kcb",
+          "integer"
+        ],
+        [
+          "stride_kch",
+          "integer"
+        ],
+        [
+          "stride_kcsplit_x",
+          "integer"
+        ],
+        [
+          "stride_kcs",
+          "integer"
+        ],
+        [
+          "stride_kcd",
+          "integer"
+        ],
+        [
+          "stride_vcb",
+          "integer"
+        ],
+        [
+          "stride_vch",
+          "integer"
+        ],
+        [
+          "stride_vcs",
+          "integer"
+        ],
+        [
+          "stride_vcd",
+          "integer"
+        ],
+        [
+          "stride_bts",
+          "integer"
+        ],
+        [
+          "stride_btb",
+          "integer"
+        ],
+        [
+          "block_size",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "HEAD_DIM",
+        "KCACHE_X"
+      ],
+      "readPorts": [
+        "K",
+        "V",
+        "BLOCK_TABLES",
+        "context_lengths"
+      ],
+      "writePorts": [
+        "KCache",
+        "VCache"
+      ]
+    }
+  },
+  {
+    "lean": "bench/repairs/tritonbench_g/kv_cache_copy/Kernels.lean",
+    "lean_definition": "quotedCommuted",
+    "python": "bench/repairs/tritonbench_g/kv_cache_copy/kv_cache_copy_repaired.py",
+    "python_function": "_copy_to_kvcache_seqlen1_kernel_commuted",
+    "signature_definition": "sourceSignature",
+    "expected_call_bindings": {
+      "stride_kt": "p.strideKt",
+      "stride_kh": "p.strideKh",
+      "stride_kd": "p.strideKd",
+      "stride_vt": "p.strideVt",
+      "stride_vh": "p.strideVh",
+      "stride_vd": "p.strideVd",
+      "stride_kcb": "p.strideKcb",
+      "stride_kch": "p.strideKch",
+      "stride_kcsplit_x": "p.strideKcsplit",
+      "stride_kcs": "p.strideKcs",
+      "stride_kcd": "stride_kcd",
+      "stride_vcb": "p.strideVcb",
+      "stride_vch": "p.strideVch",
+      "stride_vcs": "p.strideVcs",
+      "stride_vcd": "p.strideVcd",
+      "stride_bts": "p.strideBts",
+      "stride_btb": "p.strideBtb",
+      "block_size": "p.blockSize"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "K",
+          "fp32"
+        ],
+        [
+          "V",
+          "fp32"
+        ],
+        [
+          "KCache",
+          "fp32"
+        ],
+        [
+          "VCache",
+          "fp32"
+        ],
+        [
+          "BLOCK_TABLES",
+          "i32"
+        ],
+        [
+          "context_lengths",
+          "i32"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_kt",
+          "integer"
+        ],
+        [
+          "stride_kh",
+          "integer"
+        ],
+        [
+          "stride_kd",
+          "integer"
+        ],
+        [
+          "stride_vt",
+          "integer"
+        ],
+        [
+          "stride_vh",
+          "integer"
+        ],
+        [
+          "stride_vd",
+          "integer"
+        ],
+        [
+          "stride_kcb",
+          "integer"
+        ],
+        [
+          "stride_kch",
+          "integer"
+        ],
+        [
+          "stride_kcsplit_x",
+          "integer"
+        ],
+        [
+          "stride_kcs",
+          "integer"
+        ],
+        [
+          "stride_kcd",
+          "integer"
+        ],
+        [
+          "stride_vcb",
+          "integer"
+        ],
+        [
+          "stride_vch",
+          "integer"
+        ],
+        [
+          "stride_vcs",
+          "integer"
+        ],
+        [
+          "stride_vcd",
+          "integer"
+        ],
+        [
+          "stride_bts",
+          "integer"
+        ],
+        [
+          "stride_btb",
+          "integer"
+        ],
+        [
+          "block_size",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "HEAD_DIM",
+        "KCACHE_X"
+      ],
+      "readPorts": [
+        "K",
+        "V",
+        "BLOCK_TABLES",
+        "context_lengths"
+      ],
+      "writePorts": [
+        "KCache",
+        "VCache"
+      ]
+    }
+  }
+]
