@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/tmp/veritile-rms49-clean/bench/repairs/tritonbench_g/rms_norm_triton/check_contract.py", line 10, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'

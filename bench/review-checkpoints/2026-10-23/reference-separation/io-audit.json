@@ -29141,9 +29141,10 @@
         "previous_assessment": {
           "manifest": "bench/review-checkpoints/2026-10-22/logical-readers/io-audit.json",
           "task": "rms_norm_triton"
-        }
+        },
+        "current_source_body_followup": "One complete GridPublic.io retains all input/output channels, masks, windows, row permutations and observers. Its added epsilon argument chooses the actual FP32 call value; the default explicitly preserves the old M.cast(M.literal eps) interpretation. KernelSafety.invocation binds that value outside the eleven-statement runtime source. NativeIO and candidate select the same parameter node, lowered by RuntimeObserved to NativeModel.epsilon. ActualRow/ActualGrid/PublicIO prove actual safe successful execution, every output and full frame; SourcePreservation proves complete historical optional memory observations at the compatibility argument; literal_memory_connection proves the specialized-call mode. All prior Real/native/domain/host/Tensor scopes replay in 1704-root local/joint/independent-cold checks at the code commit in this receipt. No extra complete IO record is introduced."
       },
-      "distinct_views": "The single generic GridPublic.io describes X/Y [M,N], weights [N], row-major windows and arbitrary complete row launch order, including empty grids. Real and native carriers/observations are interpretations of that same layout.",
+      "distinct_views": "One complete generic GridPublic.io with an explicit scalar invocation argument. Real/literal-compatible and actual native parameter-word views select an interpretation of that same descriptor; candidate replaces only the actual source kernel.",
       "readers": [
         {
           "path": "bench/repairs/tritonbench_g/rms_norm_triton/Correct.lean",
@@ -29169,16 +29170,15 @@
         },
         {
           "path": "bench/repairs/tritonbench_g/rms_norm_triton/IO.lean",
-          "sha256": "47470c4b253976e1ded8489d51970ad01c95b544a255f0aed4b234a6896a3ed7"
+          "sha256": "f291ce8e5fbaf0c285712fd151e954fb0ad1e1815132f823e1a098a182811480"
         }
       ],
       "changed_paths": [
         "bench/repairs/tritonbench_g/rms_norm_triton/IO.lean"
       ],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/rms_norm_triton.json",
-        "sha256": "fe77afab7d0fc1b44eb3bdee5f25db34133ba24a3fb3c2fb14483859028db743",
-        "task": "rms_norm_triton"
+        "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+        "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
       },
       "preservation_and_build_passed": true,
       "validation_limits": {},
@@ -29262,6 +29262,20 @@
         "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/rms_norm_triton.json",
         "sha256": "fe77afab7d0fc1b44eb3bdee5f25db34133ba24a3fb3c2fb14483859028db743",
         "task": "rms_norm_triton"
+      },
+      "previous_source_body_io_evidence": {
+        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/rms_norm_triton.json",
+        "sha256": "fe77afab7d0fc1b44eb3bdee5f25db34133ba24a3fb3c2fb14483859028db743",
+        "task": "rms_norm_triton"
+      },
+      "current_source_body_review": {
+        "code_commit": "8a3d868f25a399413776c7d7a62e69238cefa236",
+        "review_evidence": {
+          "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+          "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
+        },
+        "preservation_kind": "complete_execution_memory_and_actual_runtime_argument_bridges",
+        "single_complete_io_retained": true
       }
     },
     {

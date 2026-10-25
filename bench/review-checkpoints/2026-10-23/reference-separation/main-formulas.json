@@ -76,7 +76,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/adam_update_triton.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
         "current_native_example_review": "Historical regression description retained by the previous checkpoint; the current selected task is now migrated and verified in current_body_source_review."
       },
       "fp_program_pair": {
@@ -182,20 +182,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/review.json",
-        "sha256": "1222701672649471102a5ca303decde4452af17c4f9bbb881d4ec9373fb6fd40"
+        "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+        "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
         "scope": "Complete combined public/deep local replay, joint import and full initially empty independent checkout replay, including all shared frontend dependencies.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/integration.log.gz",
-            "sha256": "ed6c768d243d7f8d90f7acb0d53701279996058e88033cf6f19e491c3e069731"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/integration.log.gz",
+            "sha256": "986564bd6f42b9bbde2b56a74fe35f96249b056c002a5556c3ca84a792b76cf1"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/clean-build.log.gz",
-            "sha256": "aa6e92bd228a7da09b2e6df8bcef035e98e8d29fc825fcf24673f893661f4273"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/clean-build.log.gz",
+            "sha256": "f21659143529f244e1f2d82e077285fbe8bf768e08f0c831972b09108441062b"
           }
         ],
         "limits": [
@@ -340,7 +340,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/add_example.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
         "current_native_example_review": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
       },
       "fp_program_pair": {
@@ -381,7 +381,7 @@
         "bench/repairs/tritonbench_g/add_example/jit-correspondence.json": "d36b13bd5234191cecaf1266fae5fb055cfbfcae00032f8a3cb9744178573795",
         "VeriTile/Triton/DSL/CallSignature.lean": "fb48fa0ca2d75659939fb2aba508e7fbac6ddc445e385e4f622706d752f2e2e0",
         "VeriTile/Triton/DSL/PythonBody.lean": "a9cc263aa8ebbebb47ce4bebc2c37e358cf237de4aff2eee490fb1422a8b9536",
-        "VeriTile/Triton/DSL/TypedStores.lean": "c217fb9ce4b610c4e27286797f8d4ad9106fa672152dd884a5b3526250bd982b",
+        "VeriTile/Triton/DSL/TypedStores.lean": "ab3bececc997e1fa28d4ffdddb2137ead16470832be675b70bd9c4f0613523fd",
         "bench/repairs/tritonbench_g/add_example/Proofs/SourcePreservation.lean": "ef18a32651f19e3a5074895f7866f61d7d9b2ff611e486a3fcdaca40d78ca979",
         "bench/repairs/tritonbench_g/add_example/add_example_repaired.py": "08307d73b804cc8afa2762981d55954f70034b8c49882c078d8058b56dd23c9b",
         "VeriTile/Triton/DSL/Expansion/Compute.lean": "0cfa05945c2d0d7f18a20dadd59f30fab6d190a54c2b751b807ae56ee4d45c42",
@@ -443,20 +443,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/review.json",
-        "sha256": "1222701672649471102a5ca303decde4452af17c4f9bbb881d4ec9373fb6fd40"
+        "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+        "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
         "scope": "Complete combined public/deep local replay, joint import and full initially empty independent checkout replay, including all shared frontend dependencies.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/integration.log.gz",
-            "sha256": "ed6c768d243d7f8d90f7acb0d53701279996058e88033cf6f19e491c3e069731"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/integration.log.gz",
+            "sha256": "986564bd6f42b9bbde2b56a74fe35f96249b056c002a5556c3ca84a792b76cf1"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/clean-build.log.gz",
-            "sha256": "aa6e92bd228a7da09b2e6df8bcef035e98e8d29fc825fcf24673f893661f4273"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/clean-build.log.gz",
+            "sha256": "f21659143529f244e1f2d82e077285fbe8bf768e08f0c831972b09108441062b"
           }
         ],
         "limits": [
@@ -600,7 +600,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/add_value.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task. Concrete constexpr normalization exposes 1024 in the candidate; the existing commuted_memory helper now unfolds blockSize on both sides. Its original finite condition, strict addition commutation and complete-memory statement remain unchanged.",
+        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
         "current_native_example_review": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
       },
       "fp_program_pair": {
@@ -641,7 +641,7 @@
         "bench/repairs/tritonbench_g/add_value/jit-correspondence.json": "b928319a16e7205ea0c580bced4d1bb3e2b42e6cc42ec9ccba1deb73007d3bd4",
         "VeriTile/Triton/DSL/CallSignature.lean": "fb48fa0ca2d75659939fb2aba508e7fbac6ddc445e385e4f622706d752f2e2e0",
         "VeriTile/Triton/DSL/PythonBody.lean": "a9cc263aa8ebbebb47ce4bebc2c37e358cf237de4aff2eee490fb1422a8b9536",
-        "VeriTile/Triton/DSL/TypedStores.lean": "c217fb9ce4b610c4e27286797f8d4ad9106fa672152dd884a5b3526250bd982b",
+        "VeriTile/Triton/DSL/TypedStores.lean": "ab3bececc997e1fa28d4ffdddb2137ead16470832be675b70bd9c4f0613523fd",
         "bench/repairs/tritonbench_g/add_value/Proofs/SourcePreservation.lean": "0d1c239b913887bb4f10f1a6adef07e269351c1864210071bf85c0e6b5a00c0a",
         "bench/repairs/tritonbench_g/add_value/add_value_repaired.py": "439dbbf37b927a5d48615b8e5f29941aa48a8ac668f97768f504dc36f0b12ea8",
         "VeriTile/Triton/DSL/Expansion/Compute.lean": "0cfa05945c2d0d7f18a20dadd59f30fab6d190a54c2b751b807ae56ee4d45c42",
@@ -703,20 +703,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/review.json",
-        "sha256": "1222701672649471102a5ca303decde4452af17c4f9bbb881d4ec9373fb6fd40"
+        "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+        "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
         "scope": "Complete combined public/deep local replay, joint import and full initially empty independent checkout replay, including all shared frontend dependencies.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/integration.log.gz",
-            "sha256": "ed6c768d243d7f8d90f7acb0d53701279996058e88033cf6f19e491c3e069731"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/integration.log.gz",
+            "sha256": "986564bd6f42b9bbde2b56a74fe35f96249b056c002a5556c3ca84a792b76cf1"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/clean-build.log.gz",
-            "sha256": "aa6e92bd228a7da09b2e6df8bcef035e98e8d29fc825fcf24673f893661f4273"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/clean-build.log.gz",
+            "sha256": "f21659143529f244e1f2d82e077285fbe8bf768e08f0c831972b09108441062b"
           }
         ],
         "limits": [
@@ -9565,7 +9565,7 @@
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/cache_transform_triton.json",
         "statement_scope_unchanged": true,
         "pasted_body_preservation": "Pasted body uses the external signature; both complete previous/new programs are definitionally equal, including ports and statements. Actual execution/safety proofs unfold the current body.",
-        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
         "current_native_example_review": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
       },
       "fp_program_pair": {
@@ -9609,7 +9609,7 @@
         "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
         "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8",
         "VeriTile/Triton/DSL/CallSignature.lean": "fb48fa0ca2d75659939fb2aba508e7fbac6ddc445e385e4f622706d752f2e2e0",
-        "VeriTile/Triton/DSL/TypedStores.lean": "c217fb9ce4b610c4e27286797f8d4ad9106fa672152dd884a5b3526250bd982b",
+        "VeriTile/Triton/DSL/TypedStores.lean": "ab3bececc997e1fa28d4ffdddb2137ead16470832be675b70bd9c4f0613523fd",
         "VeriTile/Triton/DSL/Expansion/Main.lean": "dd566b1cdfdd6edec1564b62c309df3ccb95e4ef44b7b5829dc906e77e1ab827",
         "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/SourcePreservation.lean": "6e485677ccff972349ba37a713ca455257779e11d653d605afd573bc3126989b",
         "bench/repairs/tritonbench_g/cache_transform_triton/jit-correspondence.json": "99c8ce5aa27f24d906584a6965e49690e3d13c0cbdf770b68bc40afd1d6926a6",
@@ -9728,20 +9728,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/review.json",
-        "sha256": "1222701672649471102a5ca303decde4452af17c4f9bbb881d4ec9373fb6fd40"
+        "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+        "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
         "scope": "Complete combined public/deep local replay, joint import and full initially empty independent checkout replay, including all shared frontend dependencies.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/integration.log.gz",
-            "sha256": "ed6c768d243d7f8d90f7acb0d53701279996058e88033cf6f19e491c3e069731"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/integration.log.gz",
+            "sha256": "986564bd6f42b9bbde2b56a74fe35f96249b056c002a5556c3ca84a792b76cf1"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/clean-build.log.gz",
-            "sha256": "aa6e92bd228a7da09b2e6df8bcef035e98e8d29fc825fcf24673f893661f4273"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/clean-build.log.gz",
+            "sha256": "f21659143529f244e1f2d82e077285fbe8bf768e08f0c831972b09108441062b"
           }
         ],
         "limits": [
@@ -18537,7 +18537,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/cosine_compute.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
         "current_native_example_review": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
       },
       "fp_program_pair": {
@@ -18591,7 +18591,7 @@
         "bench/repairs/tritonbench_g/cosine_compute/jit-correspondence.json": "52135f4cf1afda7f276360671eb60baa1b757f1e20c0d55d2334f839e8ae69c9",
         "VeriTile/Triton/DSL/CallSignature.lean": "fb48fa0ca2d75659939fb2aba508e7fbac6ddc445e385e4f622706d752f2e2e0",
         "VeriTile/Triton/DSL/PythonBody.lean": "a9cc263aa8ebbebb47ce4bebc2c37e358cf237de4aff2eee490fb1422a8b9536",
-        "VeriTile/Triton/DSL/TypedStores.lean": "c217fb9ce4b610c4e27286797f8d4ad9106fa672152dd884a5b3526250bd982b",
+        "VeriTile/Triton/DSL/TypedStores.lean": "ab3bececc997e1fa28d4ffdddb2137ead16470832be675b70bd9c4f0613523fd",
         "bench/repairs/tritonbench_g/cosine_compute/Proofs/SourcePreservation.lean": "e6febbe5a5adb2d74173c12d14b2f4641907bdc8a1c6c0715885c648ac2e65cd",
         "bench/repairs/tritonbench_g/cosine_compute/cosine_compute_repaired.py": "cea2cd128dd3af27896c2dc0b7a4eb32769fd99859cef5c3b9b1e69b73c8b3e3",
         "VeriTile/Triton/DSL/Expansion/Compute.lean": "0cfa05945c2d0d7f18a20dadd59f30fab6d190a54c2b751b807ae56ee4d45c42",
@@ -18724,20 +18724,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/review.json",
-        "sha256": "1222701672649471102a5ca303decde4452af17c4f9bbb881d4ec9373fb6fd40"
+        "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+        "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
         "scope": "Complete combined public/deep local replay, joint import and full initially empty independent checkout replay, including all shared frontend dependencies.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/integration.log.gz",
-            "sha256": "ed6c768d243d7f8d90f7acb0d53701279996058e88033cf6f19e491c3e069731"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/integration.log.gz",
+            "sha256": "986564bd6f42b9bbde2b56a74fe35f96249b056c002a5556c3ca84a792b76cf1"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/clean-build.log.gz",
-            "sha256": "aa6e92bd228a7da09b2e6df8bcef035e98e8d29fc825fcf24673f893661f4273"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/clean-build.log.gz",
+            "sha256": "f21659143529f244e1f2d82e077285fbe8bf768e08f0c831972b09108441062b"
           }
         ],
         "limits": [
@@ -23047,7 +23047,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/dequantize_matmul.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
+        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
       },
       "fp_program_pair": {
         "fp_pairs": [
@@ -23368,20 +23368,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/review.json",
-        "sha256": "1222701672649471102a5ca303decde4452af17c4f9bbb881d4ec9373fb6fd40"
+        "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+        "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
         "scope": "Complete combined public/deep local replay, joint import and full initially empty independent checkout replay, including all shared frontend dependencies.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/integration.log.gz",
-            "sha256": "ed6c768d243d7f8d90f7acb0d53701279996058e88033cf6f19e491c3e069731"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/integration.log.gz",
+            "sha256": "986564bd6f42b9bbde2b56a74fe35f96249b056c002a5556c3ca84a792b76cf1"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/clean-build.log.gz",
-            "sha256": "aa6e92bd228a7da09b2e6df8bcef035e98e8d29fc825fcf24673f893661f4273"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/clean-build.log.gz",
+            "sha256": "f21659143529f244e1f2d82e077285fbe8bf768e08f0c831972b09108441062b"
           }
         ],
         "limits": [
@@ -23511,7 +23511,7 @@
           "scope": "The existing ProfiledMemory program-pair judgment is preserved. It does not add hardware/ABI/compiler refinement or a numerical experiment."
         },
         "logical_interface": "Complete input/output equivalence and judgment stay in IO.lean/LogicalReader; the public formulas and original scopes are retained.",
-        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
         "current_native_example_review": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
       },
       "fp_program_pair": {
@@ -23731,7 +23731,7 @@
         "bench/tritonbench_g/dequantize_rowwise/Proofs/RealReference.lean": "02950559b1b88418b97b6d54d8eaa67580fc7ea22a4a5f83a71fd67215405444",
         "bench/repairs/tritonbench_g/dequantize_rowwise/dequantize_rowwise_repaired.py": "df232e23aa9660d4f59c530586c8da80ccc9e11fe7a81c48aab31eedc7eda9aa",
         "bench/repairs/tritonbench_g/dequantize_rowwise/jit-correspondence.json": "8ab455940036b8c7401492e33d853cc24bc25c61eb3b71e579ad17f942b0e295",
-        "VeriTile/Triton/DSL/TypedStores.lean": "c217fb9ce4b610c4e27286797f8d4ad9106fa672152dd884a5b3526250bd982b",
+        "VeriTile/Triton/DSL/TypedStores.lean": "ab3bececc997e1fa28d4ffdddb2137ead16470832be675b70bd9c4f0613523fd",
         "VeriTile/Triton/DSL/PythonBody.lean": "a9cc263aa8ebbebb47ce4bebc2c37e358cf237de4aff2eee490fb1422a8b9536",
         "VeriTile/Triton/DSL/CallValue.lean": "129b8e125046696bc0779d75fa634d454afd29c6a0a3f65aeb7ed62cd689a028"
       },
@@ -23744,20 +23744,20 @@
         "method": "Current source closure and direct body/signature/proof review."
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/review.json",
-        "sha256": "1222701672649471102a5ca303decde4452af17c4f9bbb881d4ec9373fb6fd40"
+        "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+        "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
         "scope": "Complete combined public/deep local replay, joint import and full initially empty independent checkout replay, including all shared frontend dependencies.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/integration.log.gz",
-            "sha256": "ed6c768d243d7f8d90f7acb0d53701279996058e88033cf6f19e491c3e069731"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/integration.log.gz",
+            "sha256": "986564bd6f42b9bbde2b56a74fe35f96249b056c002a5556c3ca84a792b76cf1"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/clean-build.log.gz",
-            "sha256": "aa6e92bd228a7da09b2e6df8bcef035e98e8d29fc825fcf24673f893661f4273"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/clean-build.log.gz",
+            "sha256": "f21659143529f244e1f2d82e077285fbe8bf768e08f0c831972b09108441062b"
           }
         ],
         "limits": [
@@ -23887,7 +23887,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/destindex_copy.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
+        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
       },
       "fp_program_pair": {
         "fp_pairs": [
@@ -24083,20 +24083,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/review.json",
-        "sha256": "1222701672649471102a5ca303decde4452af17c4f9bbb881d4ec9373fb6fd40"
+        "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+        "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
         "scope": "Complete combined public/deep local replay, joint import and full initially empty independent checkout replay, including all shared frontend dependencies.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/integration.log.gz",
-            "sha256": "ed6c768d243d7f8d90f7acb0d53701279996058e88033cf6f19e491c3e069731"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/integration.log.gz",
+            "sha256": "986564bd6f42b9bbde2b56a74fe35f96249b056c002a5556c3ca84a792b76cf1"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/clean-build.log.gz",
-            "sha256": "aa6e92bd228a7da09b2e6df8bcef035e98e8d29fc825fcf24673f893661f4273"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/clean-build.log.gz",
+            "sha256": "f21659143529f244e1f2d82e077285fbe8bf768e08f0c831972b09108441062b"
           }
         ],
         "limits": [
@@ -24226,7 +24226,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/destindex_copy_kv1.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
+        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
       },
       "fp_program_pair": {
         "fp_pairs": [
@@ -24454,20 +24454,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/review.json",
-        "sha256": "1222701672649471102a5ca303decde4452af17c4f9bbb881d4ec9373fb6fd40"
+        "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+        "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
         "scope": "Complete combined public/deep local replay, joint import and full initially empty independent checkout replay, including all shared frontend dependencies.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/integration.log.gz",
-            "sha256": "ed6c768d243d7f8d90f7acb0d53701279996058e88033cf6f19e491c3e069731"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/integration.log.gz",
+            "sha256": "986564bd6f42b9bbde2b56a74fe35f96249b056c002a5556c3ca84a792b76cf1"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/clean-build.log.gz",
-            "sha256": "aa6e92bd228a7da09b2e6df8bcef035e98e8d29fc825fcf24673f893661f4273"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/clean-build.log.gz",
+            "sha256": "f21659143529f244e1f2d82e077285fbe8bf768e08f0c831972b09108441062b"
           }
         ],
         "limits": [
@@ -24598,7 +24598,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/destindex_copy_kv2.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
+        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
       },
       "fp_program_pair": {
         "fp_pairs": [
@@ -24842,20 +24842,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/review.json",
-        "sha256": "1222701672649471102a5ca303decde4452af17c4f9bbb881d4ec9373fb6fd40"
+        "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+        "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
         "scope": "Complete combined public/deep local replay, joint import and full initially empty independent checkout replay, including all shared frontend dependencies.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/integration.log.gz",
-            "sha256": "ed6c768d243d7f8d90f7acb0d53701279996058e88033cf6f19e491c3e069731"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/integration.log.gz",
+            "sha256": "986564bd6f42b9bbde2b56a74fe35f96249b056c002a5556c3ca84a792b76cf1"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/clean-build.log.gz",
-            "sha256": "aa6e92bd228a7da09b2e6df8bcef035e98e8d29fc825fcf24673f893661f4273"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/clean-build.log.gz",
+            "sha256": "f21659143529f244e1f2d82e077285fbe8bf768e08f0c831972b09108441062b"
           }
         ],
         "limits": [
@@ -25680,7 +25680,7 @@
             "sha256": "e83edf1e5235c6a7cf83ddb7dcb439ca2ba0a72e5f9980d6f59e34976738b0b2"
           }
         },
-        "current_body_source_review": "Both existing Python original/candidate functions are unchanged. Their complete eight-statement bodies are pasted directly, with pointer/scalar/constexpr metadata outside the body. Remove the old extra output.to(float32), retain the integer mask load, original selection, eager division including the unselected branch, exact masks and store. Source proves complete optional typed-state equality to the explicitly historical model only under the already-defined identity-cast backend, plus complete Real execution, actual access-trace and arbitrary FlatAlloc execution connections. No cast identity is postulated for arbitrary M. Actual original/candidate full state equality, including failure, is independently proved under arbitrary profiled primitive backends with an empty FP rule set. Reprove primary independent Real and complete FP IO, safety, success, outputs/frame, and all old Real partial-domain/flat/word/negative-zero/physical/host/Tensor scopes. All 24 directory modules replay."
+        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
       },
       "fp_program_pair": {
         "actual_pairs": [
@@ -25875,20 +25875,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/review.json",
-        "sha256": "1222701672649471102a5ca303decde4452af17c4f9bbb881d4ec9373fb6fd40"
+        "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+        "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
         "scope": "Complete combined public/deep local replay, joint import and full initially empty independent checkout replay, including all shared frontend dependencies.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/integration.log.gz",
-            "sha256": "ed6c768d243d7f8d90f7acb0d53701279996058e88033cf6f19e491c3e069731"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/integration.log.gz",
+            "sha256": "986564bd6f42b9bbde2b56a74fe35f96249b056c002a5556c3ca84a792b76cf1"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/clean-build.log.gz",
-            "sha256": "aa6e92bd228a7da09b2e6df8bcef035e98e8d29fc825fcf24673f893661f4273"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/clean-build.log.gz",
+            "sha256": "f21659143529f244e1f2d82e077285fbe8bf768e08f0c831972b09108441062b"
           }
         ],
         "limits": [
@@ -26360,7 +26360,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/f8_conversion_utils.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
+        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
       },
       "fp_program_pair": {
         "actual_pairs": [
@@ -26657,20 +26657,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/review.json",
-        "sha256": "1222701672649471102a5ca303decde4452af17c4f9bbb881d4ec9373fb6fd40"
+        "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+        "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
         "scope": "Complete combined public/deep local replay, joint import and full initially empty independent checkout replay, including all shared frontend dependencies.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/integration.log.gz",
-            "sha256": "ed6c768d243d7f8d90f7acb0d53701279996058e88033cf6f19e491c3e069731"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/integration.log.gz",
+            "sha256": "986564bd6f42b9bbde2b56a74fe35f96249b056c002a5556c3ca84a792b76cf1"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/clean-build.log.gz",
-            "sha256": "aa6e92bd228a7da09b2e6df8bcef035e98e8d29fc825fcf24673f893661f4273"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/clean-build.log.gz",
+            "sha256": "f21659143529f244e1f2d82e077285fbe8bf768e08f0c831972b09108441062b"
           }
         ],
         "limits": [
@@ -29153,7 +29153,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/fast_rope_embedding.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
+        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
       },
       "fp_program_pair": {
         "actual_pairs": [
@@ -29409,20 +29409,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/review.json",
-        "sha256": "1222701672649471102a5ca303decde4452af17c4f9bbb881d4ec9373fb6fd40"
+        "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+        "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
         "scope": "Complete combined public/deep local replay, joint import and full initially empty independent checkout replay, including all shared frontend dependencies.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/integration.log.gz",
-            "sha256": "ed6c768d243d7f8d90f7acb0d53701279996058e88033cf6f19e491c3e069731"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/integration.log.gz",
+            "sha256": "986564bd6f42b9bbde2b56a74fe35f96249b056c002a5556c3ca84a792b76cf1"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/clean-build.log.gz",
-            "sha256": "aa6e92bd228a7da09b2e6df8bcef035e98e8d29fc825fcf24673f893661f4273"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/clean-build.log.gz",
+            "sha256": "f21659143529f244e1f2d82e077285fbe8bf768e08f0c831972b09108441062b"
           }
         ],
         "limits": [
@@ -36831,7 +36831,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/index_select_bwd.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
         "current_native_example_review": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
       },
       "fp_program_pair": {
@@ -36886,7 +36886,7 @@
         "bench/repairs/tritonbench_g/index_select_bwd/jit-correspondence.json": "4dc9e9181cd087bfe39db8e7dd1bec2371731e109d009c40bf8d46f5c3175163",
         "VeriTile/Triton/DSL/CallSignature.lean": "fb48fa0ca2d75659939fb2aba508e7fbac6ddc445e385e4f622706d752f2e2e0",
         "VeriTile/Triton/DSL/PythonBody.lean": "a9cc263aa8ebbebb47ce4bebc2c37e358cf237de4aff2eee490fb1422a8b9536",
-        "VeriTile/Triton/DSL/TypedStores.lean": "c217fb9ce4b610c4e27286797f8d4ad9106fa672152dd884a5b3526250bd982b",
+        "VeriTile/Triton/DSL/TypedStores.lean": "ab3bececc997e1fa28d4ffdddb2137ead16470832be675b70bd9c4f0613523fd",
         "bench/repairs/tritonbench_g/index_select_bwd/Proofs/SourcePreservation.lean": "a17cdafa9b9a79e8948f596f18411abdd40e257b09bed468979a0bcd4f3efca4",
         "bench/repairs/tritonbench_g/index_select_bwd/index_select_bwd_repaired.py": "dd48dba37c16cbf9cce8bda52e32845d87d1128ba0f192d07871b4ae77963f98",
         "VeriTile/Triton/DSL/Expansion/Compute.lean": "0cfa05945c2d0d7f18a20dadd59f30fab6d190a54c2b751b807ae56ee4d45c42",
@@ -37035,20 +37035,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/review.json",
-        "sha256": "1222701672649471102a5ca303decde4452af17c4f9bbb881d4ec9373fb6fd40"
+        "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+        "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
         "scope": "Complete combined public/deep local replay, joint import and full initially empty independent checkout replay, including all shared frontend dependencies.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/integration.log.gz",
-            "sha256": "ed6c768d243d7f8d90f7acb0d53701279996058e88033cf6f19e491c3e069731"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/integration.log.gz",
+            "sha256": "986564bd6f42b9bbde2b56a74fe35f96249b056c002a5556c3ca84a792b76cf1"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/clean-build.log.gz",
-            "sha256": "aa6e92bd228a7da09b2e6df8bcef035e98e8d29fc825fcf24673f893661f4273"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/clean-build.log.gz",
+            "sha256": "f21659143529f244e1f2d82e077285fbe8bf768e08f0c831972b09108441062b"
           }
         ],
         "limits": [
@@ -37217,7 +37217,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/index_select_cat.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
+        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
       },
       "fp_program_pair": {
         "fp_actual_pair": "FPEquiv.original kernel versus indexCommutedKernel; only pid0*BI is changed to BI*pid0. All FP32 payload and int64 index source operations, masks and stores are retained.",
@@ -37419,20 +37419,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/review.json",
-        "sha256": "1222701672649471102a5ca303decde4452af17c4f9bbb881d4ec9373fb6fd40"
+        "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+        "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
         "scope": "Complete combined public/deep local replay, joint import and full initially empty independent checkout replay, including all shared frontend dependencies.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/integration.log.gz",
-            "sha256": "ed6c768d243d7f8d90f7acb0d53701279996058e88033cf6f19e491c3e069731"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/integration.log.gz",
+            "sha256": "986564bd6f42b9bbde2b56a74fe35f96249b056c002a5556c3ca84a792b76cf1"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/clean-build.log.gz",
-            "sha256": "aa6e92bd228a7da09b2e6df8bcef035e98e8d29fc825fcf24673f893661f4273"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/clean-build.log.gz",
+            "sha256": "f21659143529f244e1f2d82e077285fbe8bf768e08f0c831972b09108441062b"
           }
         ],
         "limits": [
@@ -41734,7 +41734,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/kcache_copy_triton.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
+        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
       },
       "fp_program_pair": {
         "actual_pair": [
@@ -41951,20 +41951,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/review.json",
-        "sha256": "1222701672649471102a5ca303decde4452af17c4f9bbb881d4ec9373fb6fd40"
+        "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+        "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
         "scope": "Complete combined public/deep local replay, joint import and full initially empty independent checkout replay, including all shared frontend dependencies.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/integration.log.gz",
-            "sha256": "ed6c768d243d7f8d90f7acb0d53701279996058e88033cf6f19e491c3e069731"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/integration.log.gz",
+            "sha256": "986564bd6f42b9bbde2b56a74fe35f96249b056c002a5556c3ca84a792b76cf1"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/clean-build.log.gz",
-            "sha256": "aa6e92bd228a7da09b2e6df8bcef035e98e8d29fc825fcf24673f893661f4273"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/clean-build.log.gz",
+            "sha256": "f21659143529f244e1f2d82e077285fbe8bf768e08f0c831972b09108441062b"
           }
         ],
         "limits": [
@@ -42079,7 +42079,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/kldiv_compute.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
         "current_native_example_review": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
       },
       "fp_program_pair": {
@@ -42151,7 +42151,7 @@
         "bench/repairs/tritonbench_g/kldiv_compute/jit-correspondence.json": "622b6fff3cf3fd93e7b3dc4ebec55b325c41f74a6f45edfed461b4e88d2f77e6",
         "VeriTile/Triton/DSL/CallSignature.lean": "fb48fa0ca2d75659939fb2aba508e7fbac6ddc445e385e4f622706d752f2e2e0",
         "VeriTile/Triton/DSL/PythonBody.lean": "a9cc263aa8ebbebb47ce4bebc2c37e358cf237de4aff2eee490fb1422a8b9536",
-        "VeriTile/Triton/DSL/TypedStores.lean": "c217fb9ce4b610c4e27286797f8d4ad9106fa672152dd884a5b3526250bd982b",
+        "VeriTile/Triton/DSL/TypedStores.lean": "ab3bececc997e1fa28d4ffdddb2137ead16470832be675b70bd9c4f0613523fd",
         "bench/repairs/tritonbench_g/kldiv_compute/Proofs/SourcePreservation.lean": "757d5b13ba0ee13f50b45eef6f3c32cba2094eadb802074be3d2cb6506e72445",
         "bench/repairs/tritonbench_g/kldiv_compute/kldiv_compute_repaired.py": "1565e81f560319d9f8ab63338920c17270468f248fed28ebd2b7edca3dc7eded",
         "bench/repairs/tritonbench_g/kldiv_compute/candidate_kernels.py": "26560d54e69c3540a5b0294022df4e17ac8fa728e8fb7e0c25b68326a520095c",
@@ -42406,20 +42406,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/review.json",
-        "sha256": "1222701672649471102a5ca303decde4452af17c4f9bbb881d4ec9373fb6fd40"
+        "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+        "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
         "scope": "Complete combined public/deep local replay, joint import and full initially empty independent checkout replay, including all shared frontend dependencies.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/integration.log.gz",
-            "sha256": "ed6c768d243d7f8d90f7acb0d53701279996058e88033cf6f19e491c3e069731"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/integration.log.gz",
+            "sha256": "986564bd6f42b9bbde2b56a74fe35f96249b056c002a5556c3ca84a792b76cf1"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/clean-build.log.gz",
-            "sha256": "aa6e92bd228a7da09b2e6df8bcef035e98e8d29fc825fcf24673f893661f4273"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/clean-build.log.gz",
+            "sha256": "f21659143529f244e1f2d82e077285fbe8bf768e08f0c831972b09108441062b"
           }
         ],
         "limits": [
@@ -43261,7 +43261,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/kldiv_triton.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
+        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
       },
       "fp_program_pair": {
         "actual_pair": [
@@ -43725,20 +43725,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/review.json",
-        "sha256": "1222701672649471102a5ca303decde4452af17c4f9bbb881d4ec9373fb6fd40"
+        "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+        "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
         "scope": "Complete combined public/deep local replay, joint import and full initially empty independent checkout replay, including all shared frontend dependencies.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/integration.log.gz",
-            "sha256": "ed6c768d243d7f8d90f7acb0d53701279996058e88033cf6f19e491c3e069731"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/integration.log.gz",
+            "sha256": "986564bd6f42b9bbde2b56a74fe35f96249b056c002a5556c3ca84a792b76cf1"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/clean-build.log.gz",
-            "sha256": "aa6e92bd228a7da09b2e6df8bcef035e98e8d29fc825fcf24673f893661f4273"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/clean-build.log.gz",
+            "sha256": "f21659143529f244e1f2d82e077285fbe8bf768e08f0c831972b09108441062b"
           }
         ],
         "limits": [
@@ -44318,7 +44318,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/kv_cache_copy.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
+        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
       },
       "fp_program_pair": {
         "actual_program_pairs": [
@@ -44411,20 +44411,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/review.json",
-        "sha256": "1222701672649471102a5ca303decde4452af17c4f9bbb881d4ec9373fb6fd40"
+        "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+        "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
         "scope": "Complete combined public/deep local replay, joint import and full initially empty independent checkout replay, including all shared frontend dependencies.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/integration.log.gz",
-            "sha256": "ed6c768d243d7f8d90f7acb0d53701279996058e88033cf6f19e491c3e069731"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/integration.log.gz",
+            "sha256": "986564bd6f42b9bbde2b56a74fe35f96249b056c002a5556c3ca84a792b76cf1"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/clean-build.log.gz",
-            "sha256": "aa6e92bd228a7da09b2e6df8bcef035e98e8d29fc825fcf24673f893661f4273"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/clean-build.log.gz",
+            "sha256": "f21659143529f244e1f2d82e077285fbe8bf768e08f0c831972b09108441062b"
           }
         ],
         "limits": [
@@ -44904,7 +44904,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/l2_norm_bwd.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
+        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
       },
       "fp_program_pair": {
         "actual_program_pairs": [
@@ -44994,20 +44994,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/review.json",
-        "sha256": "1222701672649471102a5ca303decde4452af17c4f9bbb881d4ec9373fb6fd40"
+        "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+        "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
         "scope": "Complete combined public/deep local replay, joint import and full initially empty independent checkout replay, including all shared frontend dependencies.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/integration.log.gz",
-            "sha256": "ed6c768d243d7f8d90f7acb0d53701279996058e88033cf6f19e491c3e069731"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/integration.log.gz",
+            "sha256": "986564bd6f42b9bbde2b56a74fe35f96249b056c002a5556c3ca84a792b76cf1"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/clean-build.log.gz",
-            "sha256": "aa6e92bd228a7da09b2e6df8bcef035e98e8d29fc825fcf24673f893661f4273"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/clean-build.log.gz",
+            "sha256": "f21659143529f244e1f2d82e077285fbe8bf768e08f0c831972b09108441062b"
           }
         ],
         "limits": [
@@ -45259,7 +45259,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/l2_norm_triton1.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
         "current_native_example_review": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
       },
       "fp_program_pair": {
@@ -45303,7 +45303,7 @@
         "bench/repairs/tritonbench_g/l2_norm_triton1/jit-correspondence.json": "06258d716841c6014824b1180ae8a72f4b286c418d1281fcfa30a4bdf149dc1d",
         "VeriTile/Triton/DSL/CallSignature.lean": "fb48fa0ca2d75659939fb2aba508e7fbac6ddc445e385e4f622706d752f2e2e0",
         "VeriTile/Triton/DSL/PythonBody.lean": "a9cc263aa8ebbebb47ce4bebc2c37e358cf237de4aff2eee490fb1422a8b9536",
-        "VeriTile/Triton/DSL/TypedStores.lean": "c217fb9ce4b610c4e27286797f8d4ad9106fa672152dd884a5b3526250bd982b",
+        "VeriTile/Triton/DSL/TypedStores.lean": "ab3bececc997e1fa28d4ffdddb2137ead16470832be675b70bd9c4f0613523fd",
         "bench/repairs/tritonbench_g/l2_norm_triton1/Proofs/Scalar.lean": "0aa5e64d70ef935cd14df0887098a5d081f0a59cd1022b55faa0208923f57930",
         "bench/repairs/tritonbench_g/l2_norm_triton1/Proofs/Tile.lean": "3d33fe936f46612036ea113565a2c3fd0dc403085cbdbb14246b918c15ffb9f0",
         "bench/repairs/tritonbench_g/l2_norm_triton1/Proofs/Real.lean": "0d39c66e1d799d27d4578c7078a0d979aeea954c1eee0f21277f7f3dfdf19593",
@@ -45365,20 +45365,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/review.json",
-        "sha256": "1222701672649471102a5ca303decde4452af17c4f9bbb881d4ec9373fb6fd40"
+        "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+        "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
         "scope": "Complete combined public/deep local replay, joint import and full initially empty independent checkout replay, including all shared frontend dependencies.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/integration.log.gz",
-            "sha256": "ed6c768d243d7f8d90f7acb0d53701279996058e88033cf6f19e491c3e069731"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/integration.log.gz",
+            "sha256": "986564bd6f42b9bbde2b56a74fe35f96249b056c002a5556c3ca84a792b76cf1"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/clean-build.log.gz",
-            "sha256": "aa6e92bd228a7da09b2e6df8bcef035e98e8d29fc825fcf24673f893661f4273"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/clean-build.log.gz",
+            "sha256": "f21659143529f244e1f2d82e077285fbe8bf768e08f0c831972b09108441062b"
           }
         ],
         "limits": [
@@ -45640,7 +45640,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/l2_norm_triton2.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
+        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
       },
       "fp_program_pair": {
         "actual_program_pairs": [
@@ -45737,20 +45737,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/review.json",
-        "sha256": "1222701672649471102a5ca303decde4452af17c4f9bbb881d4ec9373fb6fd40"
+        "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+        "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
         "scope": "Complete combined public/deep local replay, joint import and full initially empty independent checkout replay, including all shared frontend dependencies.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/integration.log.gz",
-            "sha256": "ed6c768d243d7f8d90f7acb0d53701279996058e88033cf6f19e491c3e069731"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/integration.log.gz",
+            "sha256": "986564bd6f42b9bbde2b56a74fe35f96249b056c002a5556c3ca84a792b76cf1"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/clean-build.log.gz",
-            "sha256": "aa6e92bd228a7da09b2e6df8bcef035e98e8d29fc825fcf24673f893661f4273"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/clean-build.log.gz",
+            "sha256": "f21659143529f244e1f2d82e077285fbe8bf768e08f0c831972b09108441062b"
           }
         ],
         "limits": [
@@ -52316,7 +52316,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/masked_add_cuda.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
+        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
       },
       "fp_program_pair": {
         "fp_pair": "KernelNativeResults.original vs commutedKernel: product is moved to the left of addition in the actual source.",
@@ -52533,20 +52533,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/review.json",
-        "sha256": "1222701672649471102a5ca303decde4452af17c4f9bbb881d4ec9373fb6fd40"
+        "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+        "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
         "scope": "Complete combined public/deep local replay, joint import and full initially empty independent checkout replay, including all shared frontend dependencies.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/integration.log.gz",
-            "sha256": "ed6c768d243d7f8d90f7acb0d53701279996058e88033cf6f19e491c3e069731"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/integration.log.gz",
+            "sha256": "986564bd6f42b9bbde2b56a74fe35f96249b056c002a5556c3ca84a792b76cf1"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/clean-build.log.gz",
-            "sha256": "aa6e92bd228a7da09b2e6df8bcef035e98e8d29fc825fcf24673f893661f4273"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/clean-build.log.gz",
+            "sha256": "f21659143529f244e1f2d82e077285fbe8bf768e08f0c831972b09108441062b"
           }
         ],
         "limits": [
@@ -57341,7 +57341,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/matrix_reduction.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
+        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
       },
       "fp_program_pair": {
         "fp_pair": "original versus complete affineAddress source, with equal full native row-maximum graph.",
@@ -57385,7 +57385,7 @@
         "bench/tritonbench_g/matrix_reduction/Proofs/KernelReal.lean": "52a08470d1a4cedceb5f9fa8f12652e3a9a32e2885eaf112fdeeeae8108a699e",
         "bench/tritonbench_g/matrix_reduction/jit-correspondence.json": "ed722f33cf5e08b830881db823c8cc88bb89a31f1d6e43d4fd39dd046151c27f",
         "bench/tritonbench_g/matrix_reduction/Proofs/Candidate.lean": "ab7e5558c8332d6d30687076e782cfb83a02c72f6181f56cfca919959629cb10",
-        "VeriTile/Triton/DSL/TypedStores.lean": "c217fb9ce4b610c4e27286797f8d4ad9106fa672152dd884a5b3526250bd982b"
+        "VeriTile/Triton/DSL/TypedStores.lean": "ab3bececc997e1fa28d4ffdddb2137ead16470832be675b70bd9c4f0613523fd"
       },
       "source_pin_provenance": {
         "bench/tritonbench_g/matrix_reduction/Contract.lean": {
@@ -57442,20 +57442,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/review.json",
-        "sha256": "1222701672649471102a5ca303decde4452af17c4f9bbb881d4ec9373fb6fd40"
+        "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+        "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
         "scope": "Complete combined public/deep local replay, joint import and full initially empty independent checkout replay, including all shared frontend dependencies.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/integration.log.gz",
-            "sha256": "ed6c768d243d7f8d90f7acb0d53701279996058e88033cf6f19e491c3e069731"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/integration.log.gz",
+            "sha256": "986564bd6f42b9bbde2b56a74fe35f96249b056c002a5556c3ca84a792b76cf1"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/clean-build.log.gz",
-            "sha256": "aa6e92bd228a7da09b2e6df8bcef035e98e8d29fc825fcf24673f893661f4273"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/clean-build.log.gz",
+            "sha256": "f21659143529f244e1f2d82e077285fbe8bf768e08f0c831972b09108441062b"
           }
         ],
         "limits": [
@@ -57598,7 +57598,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/matrix_transpose.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
         "current_native_example_review": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
       },
       "fp_program_pair": {
@@ -57631,7 +57631,7 @@
         "bench/repairs/tritonbench_g/matrix_transpose/jit-correspondence.json": "079638d41b54c8192d753c158538b6cc306e426c2ebcb8131f5fea0fa924a9ca",
         "VeriTile/Triton/DSL/CallSignature.lean": "fb48fa0ca2d75659939fb2aba508e7fbac6ddc445e385e4f622706d752f2e2e0",
         "VeriTile/Triton/DSL/PythonBody.lean": "a9cc263aa8ebbebb47ce4bebc2c37e358cf237de4aff2eee490fb1422a8b9536",
-        "VeriTile/Triton/DSL/TypedStores.lean": "c217fb9ce4b610c4e27286797f8d4ad9106fa672152dd884a5b3526250bd982b",
+        "VeriTile/Triton/DSL/TypedStores.lean": "ab3bececc997e1fa28d4ffdddb2137ead16470832be675b70bd9c4f0613523fd",
         "bench/repairs/tritonbench_g/matrix_transpose/Proofs/SourcePreservation.lean": "b27eefa5d75a3b1940eb4721f9f2441fba4b817acffa576d3881a470a9da1de2",
         "bench/repairs/tritonbench_g/matrix_transpose/matrix_transpose_repaired.py": "84131a4342debea02e9ae3620e7e4a19177ef04bd7d377857ea767d8549bbc94",
         "bench/repairs/tritonbench_g/matrix_transpose/Proofs/Real.lean": "577d33cfa09e5d08dc6d8ddbee1b493436470d2fc5e2f14d35c62f6d8b6b1c88",
@@ -57694,20 +57694,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/review.json",
-        "sha256": "1222701672649471102a5ca303decde4452af17c4f9bbb881d4ec9373fb6fd40"
+        "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+        "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
         "scope": "Complete combined public/deep local replay, joint import and full initially empty independent checkout replay, including all shared frontend dependencies.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/integration.log.gz",
-            "sha256": "ed6c768d243d7f8d90f7acb0d53701279996058e88033cf6f19e491c3e069731"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/integration.log.gz",
+            "sha256": "986564bd6f42b9bbde2b56a74fe35f96249b056c002a5556c3ca84a792b76cf1"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/clean-build.log.gz",
-            "sha256": "aa6e92bd228a7da09b2e6df8bcef035e98e8d29fc825fcf24673f893661f4273"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/clean-build.log.gz",
+            "sha256": "f21659143529f244e1f2d82e077285fbe8bf768e08f0c831972b09108441062b"
           }
         ],
         "limits": [
@@ -58455,7 +58455,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/mean_reduction.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
+        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
       },
       "fp_program_pair": {
         "fp_pair": "MeanIO.original versus indexCommuted, complete actual source-grid permutations.",
@@ -58545,20 +58545,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/review.json",
-        "sha256": "1222701672649471102a5ca303decde4452af17c4f9bbb881d4ec9373fb6fd40"
+        "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+        "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
         "scope": "Complete combined public/deep local replay, joint import and full initially empty independent checkout replay, including all shared frontend dependencies.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/integration.log.gz",
-            "sha256": "ed6c768d243d7f8d90f7acb0d53701279996058e88033cf6f19e491c3e069731"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/integration.log.gz",
+            "sha256": "986564bd6f42b9bbde2b56a74fe35f96249b056c002a5556c3ca84a792b76cf1"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/clean-build.log.gz",
-            "sha256": "aa6e92bd228a7da09b2e6df8bcef035e98e8d29fc825fcf24673f893661f4273"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/clean-build.log.gz",
+            "sha256": "f21659143529f244e1f2d82e077285fbe8bf768e08f0c831972b09108441062b"
           }
         ],
         "limits": [
@@ -59043,7 +59043,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/mul_exponent_compensator.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
+        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
       },
       "fp_program_pair": {
         "fp_pair": "original versus existing scalarLeft, complete actual masked FP32 schedules.",
@@ -59144,20 +59144,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/review.json",
-        "sha256": "1222701672649471102a5ca303decde4452af17c4f9bbb881d4ec9373fb6fd40"
+        "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+        "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
         "scope": "Complete combined public/deep local replay, joint import and full initially empty independent checkout replay, including all shared frontend dependencies.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/integration.log.gz",
-            "sha256": "ed6c768d243d7f8d90f7acb0d53701279996058e88033cf6f19e491c3e069731"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/integration.log.gz",
+            "sha256": "986564bd6f42b9bbde2b56a74fe35f96249b056c002a5556c3ca84a792b76cf1"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/clean-build.log.gz",
-            "sha256": "aa6e92bd228a7da09b2e6df8bcef035e98e8d29fc825fcf24673f893661f4273"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/clean-build.log.gz",
+            "sha256": "f21659143529f244e1f2d82e077285fbe8bf768e08f0c831972b09108441062b"
           }
         ],
         "limits": [
@@ -60046,7 +60046,7 @@
             "sha256": "3bfc1484d81a2d47d38fb73112df76133822b07388ed474a65c6d506b024c9a0"
           }
         },
-        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
+        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
       },
       "fp_program_pair": {
         "actual_pair": "PairIO.original versus PairIO.indexCommuted, changing only the initial integer input-address product.",
@@ -60392,20 +60392,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/review.json",
-        "sha256": "1222701672649471102a5ca303decde4452af17c4f9bbb881d4ec9373fb6fd40"
+        "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+        "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
         "scope": "Complete combined public/deep local replay, joint import and full initially empty independent checkout replay, including all shared frontend dependencies.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/integration.log.gz",
-            "sha256": "ed6c768d243d7f8d90f7acb0d53701279996058e88033cf6f19e491c3e069731"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/integration.log.gz",
+            "sha256": "986564bd6f42b9bbde2b56a74fe35f96249b056c002a5556c3ca84a792b76cf1"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/clean-build.log.gz",
-            "sha256": "aa6e92bd228a7da09b2e6df8bcef035e98e8d29fc825fcf24673f893661f4273"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/clean-build.log.gz",
+            "sha256": "f21659143529f244e1f2d82e077285fbe8bf768e08f0c831972b09108441062b"
           }
         ],
         "limits": [
@@ -62639,7 +62639,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/quant_transpose_kernel.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
+        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
       },
       "fp_program_pair": {
         "actual_pair": "IO.originalProgram versus IO.commutedProgram, changing only the integer input-row address multiplication.",
@@ -62900,20 +62900,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/review.json",
-        "sha256": "1222701672649471102a5ca303decde4452af17c4f9bbb881d4ec9373fb6fd40"
+        "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+        "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
         "scope": "Complete combined public/deep local replay, joint import and full initially empty independent checkout replay, including all shared frontend dependencies.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/integration.log.gz",
-            "sha256": "ed6c768d243d7f8d90f7acb0d53701279996058e88033cf6f19e491c3e069731"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/integration.log.gz",
+            "sha256": "986564bd6f42b9bbde2b56a74fe35f96249b056c002a5556c3ca84a792b76cf1"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/clean-build.log.gz",
-            "sha256": "aa6e92bd228a7da09b2e6df8bcef035e98e8d29fc825fcf24673f893661f4273"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/clean-build.log.gz",
+            "sha256": "f21659143529f244e1f2d82e077285fbe8bf768e08f0c831972b09108441062b"
           }
         ],
         "limits": [
@@ -67571,7 +67571,50 @@
           "minimal_proof_reference_disambiguation": "The IO consolidation exposes the repaired parent-namespace kernel; qualify the existing simp reference as the original kernel used by Layout.source. The previous theorem type, full safety goal and proof strategy are preserved."
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/rms_norm_triton.json",
-        "statement_scope_unchanged": true
+        "statement_scope_unchanged": true,
+        "current_actual_source_bridges": {
+          "actual_row_execution_outputs_frame": {
+            "path": "bench/repairs/tritonbench_g/rms_norm_triton/Proofs/ActualRow.lean",
+            "sha256": "7061bb365f6b69a30e34706c5ed42fee275836fb99b3eeaf75349a35a5f7709f"
+          },
+          "actual_complete_grid_execution_outputs_frame": {
+            "path": "bench/repairs/tritonbench_g/rms_norm_triton/Proofs/ActualGrid.lean",
+            "sha256": "6e877a71622f82bef8f22fb913294371d451ce0255448af9e9fcabe9ceb660be"
+          },
+          "native_runtime_epsilon_to_independent_reference": {
+            "path": "bench/repairs/tritonbench_g/rms_norm_triton/Proofs/RuntimeObserved.lean",
+            "sha256": "d02892cef49e15f7a83d90cea22950b0766570c1d5774f91186da2e37011907d"
+          },
+          "full_failure_inclusive_actual_program_pair": {
+            "path": "bench/repairs/tritonbench_g/rms_norm_triton/Proofs/Pair.lean",
+            "sha256": "bf656ce328d577e9adc0a24420e0de366c5c2a86d67ad51da411c26e98b6f325"
+          },
+          "actual_source_trace_and_schedule_safety": {
+            "path": "bench/repairs/tritonbench_g/rms_norm_triton/Proofs/SourceSafety.lean",
+            "sha256": "08a22673668da98968493cea099a8865f19de7b82c493a8f52fc527eaadcbf04"
+          },
+          "complete_historical_memory_and_observation_connections": {
+            "path": "bench/repairs/tritonbench_g/rms_norm_triton/Proofs/SourcePreservation.lean",
+            "sha256": "029623f21c01a829eab882f198b2c32261237a65103476d960c1a46d1b7015f4"
+          },
+          "actual_complete_public_io": {
+            "path": "bench/repairs/tritonbench_g/rms_norm_triton/Proofs/PublicIO.lean",
+            "sha256": "12923630e9aa3e0c694fb561933320781dc1f060c96760b493297e079e4d323b"
+          },
+          "standalone_actual_real_scope": {
+            "path": "bench/repairs/tritonbench_g/rms_norm_triton/Proofs/KernelReal.lean",
+            "sha256": "0b158afc961951fbdf23ff9500933c51889ca404b5d4eafc3957f3bbcf09144d"
+          },
+          "standalone_actual_native_scope": {
+            "path": "bench/repairs/tritonbench_g/rms_norm_triton/Proofs/KernelObserved.lean",
+            "sha256": "807e06573a5cdb3b6c26bb9a6966bfee3d0f48e9531e756db9d34867ad63b963"
+          },
+          "single_complete_io": {
+            "path": "bench/repairs/tritonbench_g/rms_norm_triton/IO.lean",
+            "sha256": "f291ce8e5fbaf0c285712fd151e954fb0ad1e1815132f823e1a098a182811480"
+          }
+        },
+        "current_body_source_review": "All four complete eleven-statement quotations copy the unchanged selected Python original and an explicitly attributed Python counterpart of the retained integer-index candidate. Both literal verification and actual runtime FP32 epsilon interfaces are checked; all pointer/scalar/constexpr types and contiguous stride bindings remain outside the body. No epsilon.to(float32) is inserted and the explicit product.to(Y.dtype.element_ty) occurs before weighting exactly as in Python. ActualRow and ActualGrid prove the actual runtime source safe and successful, all output cells and complete exterior frame, for the existing complete arbitrary row permutation, all empty dimensions and X/W aliasing when both are separate from Y. RuntimeObserved lowers a genuine epsilon parameter node to the actual NativeModel.epsilon word and the unchanged independent ordered reference under every old reduction family; no real placeholder substitutes a native argument. The one complete IO supplies the same argument to original/candidate. Pair proves full-state source-pair equality including failure; PublicIO, primary independent Real and native FP IO, standalone KernelReal/KernelObserved and optional host/Tensor/storage/native-coordinate applications all replay. SourcePreservation proves complete optional memory observation equality to the explicitly historical source at the prior ABI interpretation argument M.cast(M.literal eps), initialized outside the function body, and independent actual/historical native observation equality. No arbitrary-backend cast identity law, whole-program premise, new numeric domain or FP axiom is introduced. ActualRow.literal_memory_connection proves complete optional memory equality between specialized literals and runtime calls supplied the same interpreted FP32 literal; Pair.literal_run_eq preserves full state and failure for that additional mode. All 27 directory modules replay."
       },
       "fp_program_pair": {
         "fp_pair": "Actual full-row original grid versus existing candidate commuting integer X/Y row-base products.",
@@ -67590,11 +67633,11 @@
         "bench/repairs/tritonbench_g/rms_norm_triton/Contract.lean": "c4f9509274cbaace8ad227192d2cb3be00e165a90d84e7a0e2ec94d3d2df70a0",
         "bench/repairs/tritonbench_g/rms_norm_triton/Correct.lean": "8065e623589c627683b923296cbeff947a159700c29e4a6de6bfefcb0dd89f27",
         "bench/repairs/tritonbench_g/rms_norm_triton/FPEquiv.lean": "53a696d891527d9cdc96a449f1d7f3354b63d93c824efe8c240ad668b821d39e",
-        "bench/repairs/tritonbench_g/rms_norm_triton/IO.lean": "47470c4b253976e1ded8489d51970ad01c95b544a255f0aed4b234a6896a3ed7",
-        "bench/repairs/tritonbench_g/rms_norm_triton/Kernels.lean": "d55925365f493edcd1b71be578e0ec0b0ff2e7ecac272b69514e211ff70c5aa0",
+        "bench/repairs/tritonbench_g/rms_norm_triton/IO.lean": "f291ce8e5fbaf0c285712fd151e954fb0ad1e1815132f823e1a098a182811480",
+        "bench/repairs/tritonbench_g/rms_norm_triton/Kernels.lean": "6c89cbfa6a212cac42868593a422f378135e4e1bb01cdb3495f421074eb4a88c",
         "bench/repairs/tritonbench_g/rms_norm_triton/Proofs/LogicalReader.lean": "d821d5085c3fc32e9d3a50cfb20e8a5c851173e2ef77f1c6f50d9b6657667640",
-        "bench/repairs/tritonbench_g/rms_norm_triton/Proofs/Pair.lean": "0b2e154727e107d40952fd0d643db5b6a636a94d65ef0e7bb60d863d76c59a14",
-        "bench/repairs/tritonbench_g/rms_norm_triton/Proofs/PublicIO.lean": "339c28b6bca86d740e15ef973cb9f519fca1265e7850b564ba22d3e9aadd5904",
+        "bench/repairs/tritonbench_g/rms_norm_triton/Proofs/Pair.lean": "bf656ce328d577e9adc0a24420e0de366c5c2a86d67ad51da411c26e98b6f325",
+        "bench/repairs/tritonbench_g/rms_norm_triton/Proofs/PublicIO.lean": "12923630e9aa3e0c694fb561933320781dc1f060c96760b493297e079e4d323b",
         "bench/tritonbench_g/rms_norm_triton/Contract.lean": "c93ee3383d2f78569913922465ccb27853035d97e52efaf5558feba31faed8f6",
         "bench/tritonbench_g/rms_norm_triton/Proofs/WholeTile.lean": "0e1963daede250320cb9563d5c1cbe145492aa3b22fac8d3907562b3591d85b3",
         "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
@@ -67602,18 +67645,25 @@
         "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8",
         "bench/repairs/tritonbench_g/rms_norm_triton/Misc/HostCorrect.lean": "8eb8cd149a2714eabe4c67d008bc9ac96c1988d8e191bf127ec09d9e21723cc0",
         "bench/repairs/tritonbench_g/rms_norm_triton/Misc/HostFPEquiv.lean": "a9a558aaf9f35f4b9bc33610b1265b5947886ee41ca72fb50355e166e94931a7",
-        "bench/repairs/tritonbench_g/rms_norm_triton/Misc/NativeCorrect.lean": "0535cf41481bd5759c731c0d7d494052b486961b3e0b1b59f62d191002defbd9",
+        "bench/repairs/tritonbench_g/rms_norm_triton/Misc/NativeCorrect.lean": "c1b3da1973580ad751ae2a3cd278e87a4ac8c860d89a8b98d2bee82c46e27a20",
         "bench/repairs/tritonbench_g/rms_norm_triton/Misc/TensorBridge.lean": "2df5a169b876a9648cf26ffe3d4ff38036b88e4e95a8884a75a8aa7a67698800",
         "bench/repairs/tritonbench_g/rms_norm_triton/Proofs/Contract.lean": "222043e9d57ffaa4b522f28146328d1e2abbc0789a8488a4d5bf905dd0ba5d38",
         "bench/repairs/tritonbench_g/rms_norm_triton/Proofs/Host.lean": "c106c59f64d6d47b587f61c3394cb738879b529287c27d9981630eb50fe8ee25",
         "bench/repairs/tritonbench_g/rms_norm_triton/Proofs/InputBinding.lean": "3008abc5f2c7851e579ca5cfdb70883dfc544fb13c498be9636d7cd983938e4f",
         "bench/repairs/tritonbench_g/rms_norm_triton/Proofs/KernelNative.lean": "be61b4df7517048aa597de522fae97e63e2ea0d2003f55461c44eff2f7bfa059",
-        "bench/repairs/tritonbench_g/rms_norm_triton/Proofs/KernelObserved.lean": "4dabf0b14335677945e33e3e6d0a1428df89ae52df55713e26ef7552e60b6b6c",
-        "bench/repairs/tritonbench_g/rms_norm_triton/Proofs/KernelPublic.lean": "2eedac053daa3becba116f9d05e1432c94ff3e01d184b479826a2acdfb45616f",
-        "bench/repairs/tritonbench_g/rms_norm_triton/Proofs/KernelReal.lean": "3d32f7c36158d0ccab9b64795bfb34309edf2f9e02e49d6284e7499706d62503",
+        "bench/repairs/tritonbench_g/rms_norm_triton/Proofs/KernelObserved.lean": "807e06573a5cdb3b6c26bb9a6966bfee3d0f48e9531e756db9d34867ad63b963",
+        "bench/repairs/tritonbench_g/rms_norm_triton/Proofs/KernelPublic.lean": "7bc7bbef3611612a8ed11fb489f6ed8c2a21595de1307b4335ea4703f992b3d5",
+        "bench/repairs/tritonbench_g/rms_norm_triton/Proofs/KernelReal.lean": "0b158afc961951fbdf23ff9500933c51889ca404b5d4eafc3957f3bbcf09144d",
         "bench/repairs/tritonbench_g/rms_norm_triton/Proofs/Native.lean": "a1cc148713d544ea5e36c046043dd9e36ad669ed20c37dc0ef435f74de7b66a4",
-        "bench/repairs/tritonbench_g/rms_norm_triton/Proofs/SourcePreservation.lean": "32ce30b0cc8d936832a26007b07f0b63363ceb25dd942cec5b0315aff6008f03",
-        "bench/repairs/tritonbench_g/rms_norm_triton/Proofs/SourceSafety.lean": "5aa3d12b461c042f95c0881daf8c83455cbaf85212178689c4af0d228f78483e"
+        "bench/repairs/tritonbench_g/rms_norm_triton/Proofs/SourcePreservation.lean": "029623f21c01a829eab882f198b2c32261237a65103476d960c1a46d1b7015f4",
+        "bench/repairs/tritonbench_g/rms_norm_triton/Proofs/SourceSafety.lean": "08a22673668da98968493cea099a8865f19de7b82c493a8f52fc527eaadcbf04",
+        "bench/repairs/tritonbench_g/rms_norm_triton/Proofs/LegacySourcePreservation.lean": "41b270722aaa7065fb36501dddd01eafbcffcb3f7e24f7fba34f41963a4ce8fd",
+        "bench/repairs/tritonbench_g/rms_norm_triton/Proofs/ActualRow.lean": "7061bb365f6b69a30e34706c5ed42fee275836fb99b3eeaf75349a35a5f7709f",
+        "bench/repairs/tritonbench_g/rms_norm_triton/Proofs/LegacyPastedSurface.lean": "f5bd2a84ba516737bc706e05b5195bc1b8b9692818a50b309af49894acb96a06",
+        "bench/repairs/tritonbench_g/rms_norm_triton/candidate_kernels.py": "941204aa2c070775f8a89ea6af204929a03686a69bac98ccb4b71f04045f9f13",
+        "bench/repairs/tritonbench_g/rms_norm_triton/Proofs/ActualGrid.lean": "6e877a71622f82bef8f22fb913294371d451ce0255448af9e9fcabe9ceb660be",
+        "bench/repairs/tritonbench_g/rms_norm_triton/Proofs/RuntimeObserved.lean": "d02892cef49e15f7a83d90cea22950b0766570c1d5774f91186da2e37011907d",
+        "bench/repairs/tritonbench_g/rms_norm_triton/jit-correspondence.json": "c4ac58a1b866d56fa083e8d6af1fcf3c557a02a429c494db750a781285e7cb7a"
       },
       "source_pin_provenance": {
         "bench/repairs/tritonbench_g/rms_norm_triton/Contract.lean": {
@@ -67753,43 +67803,27 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/rms_norm_triton.json",
-        "sha256": "fe77afab7d0fc1b44eb3bdee5f25db34133ba24a3fb3c2fb14483859028db743",
-        "task": "rms_norm_triton"
+        "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+        "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "limits": [
-          "The official comparator is unavailable; no comparator PASS is claimed.",
-          "External pinned Lean/Mathlib artifacts are reused.",
-          "No new GPU or numerical experiment. The existing matmul_leakyrelu numerical deferral remains.",
-          "Historical cache/tmp evidence bytes were not recovered. Current build and axiom checks replace the missing proof receipts, not the historical hashes or independent-review claim.",
-          "Seven optional historical KV ABI/raw/host/Tensor/backing modules remain unrecovered and outside the selected main source scope."
-        ],
+        "scope": "Complete combined public/deep local replay, joint import and full initially empty independent checkout replay, including all shared frontend dependencies.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/selected-build.json",
-            "sha256": "924f91ab59eb29597e96e7fc7a2c001bce1517ca9b87b27dddf66fd1cd2c843d"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/integration.log.gz",
+            "sha256": "986564bd6f42b9bbde2b56a74fe35f96249b056c002a5556c3ca84a792b76cf1"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/rms_norm_triton.lean",
-            "sha256": "4063d6616935e42d7763c2f84808c8c719ed7e61acd21f14bca7d468d4f7515d"
-          },
-          {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/rms_norm_triton.log.gz",
-            "sha256": "805660129d77c2fd761bb9cc20493d26693c2b82e65e6ab3c985a510bffe7117"
-          },
-          {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/review.json",
-            "sha256": "ee91221d2a053fc635b53f67a17c35b9789058bfe5967a3f354f339fe4f0ef9d"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/clean-build.log.gz",
+            "sha256": "f21659143529f244e1f2d82e077285fbe8bf768e08f0c831972b09108441062b"
           }
         ],
-        "joint_import_exit_code": 0,
-        "headline_count": 2,
-        "previous_validation": {
-          "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/superseded-proof-evidence.json.gz",
-          "sha256": "707ace709b2347ce26ab517cb2e4dbbfaa859eedf1634743b30f2da77cfb38e4"
-        }
+        "limits": [
+          "Official comparator tools built but required host isolation is unavailable; actual failure retained.",
+          "One demonstrated pre-existing numerical receipt hash failure; no GPU experiments.",
+          "Task body corpus incomplete; merge awaits human review."
+        ]
       },
       "field_provenance": {
         "mathematical_target": [
@@ -68327,7 +68361,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/rmsnorm_fused.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
         "current_native_example_review": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
       },
       "fp_program_pair": {
@@ -68394,7 +68428,7 @@
         "bench/repairs/tritonbench_g/rmsnorm_fused/candidate_kernels.py": "bd6c3497210fb167a3c0ce4576f4079a231496074f0248d140f4f62ea1455bcb",
         "VeriTile/Triton/DSL/CallSignature.lean": "fb48fa0ca2d75659939fb2aba508e7fbac6ddc445e385e4f622706d752f2e2e0",
         "VeriTile/Triton/DSL/PythonBody.lean": "a9cc263aa8ebbebb47ce4bebc2c37e358cf237de4aff2eee490fb1422a8b9536",
-        "VeriTile/Triton/DSL/TypedStores.lean": "c217fb9ce4b610c4e27286797f8d4ad9106fa672152dd884a5b3526250bd982b",
+        "VeriTile/Triton/DSL/TypedStores.lean": "ab3bececc997e1fa28d4ffdddb2137ead16470832be675b70bd9c4f0613523fd",
         "VeriTile/Triton/DSL/Expansion/Compute.lean": "0cfa05945c2d0d7f18a20dadd59f30fab6d190a54c2b751b807ae56ee4d45c42",
         "VeriTile/Triton/DSL/Expansion/Common.lean": "64b48b6e62c33a1f70e762ffa94fa2fa63562d596adc15a45df05a4b05a15d35",
         "VeriTile/Triton/DSL/CallValue.lean": "129b8e125046696bc0779d75fa634d454afd29c6a0a3f65aeb7ed62cd689a028"
@@ -68631,20 +68665,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/review.json",
-        "sha256": "1222701672649471102a5ca303decde4452af17c4f9bbb881d4ec9373fb6fd40"
+        "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+        "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
         "scope": "Complete combined public/deep local replay, joint import and full initially empty independent checkout replay, including all shared frontend dependencies.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/integration.log.gz",
-            "sha256": "ed6c768d243d7f8d90f7acb0d53701279996058e88033cf6f19e491c3e069731"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/integration.log.gz",
+            "sha256": "986564bd6f42b9bbde2b56a74fe35f96249b056c002a5556c3ca84a792b76cf1"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/clean-build.log.gz",
-            "sha256": "aa6e92bd228a7da09b2e6df8bcef035e98e8d29fc825fcf24673f893661f4273"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/clean-build.log.gz",
+            "sha256": "f21659143529f244e1f2d82e077285fbe8bf768e08f0c831972b09108441062b"
           }
         ],
         "limits": [
@@ -68794,7 +68828,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/rmsnorm_fused_llama.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+        "current_body_source_review": "The already migrated raw bodies remain unchanged. The correspondence manifest now checks both actual runtime and already existing literal epsilon source/candidate forms; distinct scalar call modes require different checked binding key sets, not renamed values. Kernels imports only generic source/structural modules; the stale proof-layer reverse import is removed and three candidate proofs drop an unused historical helper from simp lists. All 45 task modules replay with the same full Real/native-word/program-pair, safety/output/frame and optional application scopes.",
         "current_native_example_review": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
       },
       "fp_program_pair": {
@@ -68815,7 +68849,7 @@
         "bench/repairs/tritonbench_g/rmsnorm_fused_llama/Correct.lean": "af614ca372d5636c4d51c589c320f0f12b4ae96462db9b0274af5bc2d31b02c9",
         "bench/repairs/tritonbench_g/rmsnorm_fused_llama/FPEquiv.lean": "834c3315a7fa9d8ff9776804be5a711da40d1c861aa5c416c279be193ef1498e",
         "bench/repairs/tritonbench_g/rmsnorm_fused_llama/IO.lean": "421a617ee6925c68e3d6dfe49f4fba385749f17f98669ff94bf6e8ede756c914",
-        "bench/repairs/tritonbench_g/rmsnorm_fused_llama/Kernels.lean": "b9277ef17a69962ac46a75cb4f070bf706e0c507a4744be846ec6e6a3f2fe006",
+        "bench/repairs/tritonbench_g/rmsnorm_fused_llama/Kernels.lean": "29a80dbfb1fda52b8d46a7e0b31e406b45caf9d21970159ab489b440214b66f5",
         "bench/repairs/tritonbench_g/rmsnorm_fused_llama/PairIO.lean": "6d42cbc6a9a0374cae6975c1471741fef65ed1fcd2bbd6a6a9faf937e3d19e37",
         "bench/repairs/tritonbench_g/rmsnorm_fused_llama/Proofs/LogicalReader.lean": "f16296bd86a685291f46f6dd4896f6edab87986ae2cf0ba257fa9e7ef2fc57c2",
         "bench/repairs/tritonbench_g/rmsnorm_fused_llama/Proofs/PairEquivalence.lean": "ab93073aff9864fd69a69260940f20989fb4d378b80a3dc700cc54b992e77abd",
@@ -68837,7 +68871,7 @@
         "bench/repairs/tritonbench_g/rmsnorm_fused_llama/Proofs/Index.lean": "744eecbae96e786242f1ce1aa2e29fc4b65c8ab283b0e7808fb8f92fc2b70939",
         "bench/repairs/tritonbench_g/rmsnorm_fused_llama/Proofs/IndexTransform.lean": "9fd5df797ee224ee95bf6df9dcc63b69123753206d927ec5722e5f670bbd8098",
         "bench/repairs/tritonbench_g/rmsnorm_fused_llama/Proofs/KernelBinding.lean": "0b9ae74833bac58aa2a4cc08e90eb19266d08f60482e2a5a3fea48313689a619",
-        "bench/repairs/tritonbench_g/rmsnorm_fused_llama/Proofs/KernelCandidate.lean": "eda38cf73797225e4958bc1fd2e4dc449b884aa9afe02bbb42219af838b07a3b",
+        "bench/repairs/tritonbench_g/rmsnorm_fused_llama/Proofs/KernelCandidate.lean": "b3588da4d5b006f14188fe397fa5aa699bde46b04b6147593950f3889c4ea1e6",
         "bench/repairs/tritonbench_g/rmsnorm_fused_llama/Proofs/KernelMemory.lean": "d5c9450af4789cc7dfb74e6a478f4550479a5a159f79e4bdbe4dd834913fdeed",
         "bench/repairs/tritonbench_g/rmsnorm_fused_llama/Proofs/KernelPrecision.lean": "7f3fc142a2dbcdcf4b129b7f6e409d66edd6d6a1d47f3a2009d5bceb9e343ab5",
         "bench/repairs/tritonbench_g/rmsnorm_fused_llama/Proofs/KernelPublic.lean": "12e396d717c67c65aa9072a5d1dcbbd393cdda4c289969da35296c12a60618de",
@@ -68847,11 +68881,11 @@
         "bench/repairs/tritonbench_g/rmsnorm_fused_llama/Proofs/Native.lean": "827366fb79ec598e9bbac11bbc38473bff4cad1f961299675619730c64e0398e",
         "bench/repairs/tritonbench_g/rmsnorm_fused_llama/Proofs/NativeHost.lean": "8ab4a0f206ff793f6018e2902e51673e182531e8c02c73b57af4cab5cd8364a2",
         "bench/repairs/tritonbench_g/rmsnorm_fused_llama/Proofs/NativePublicIO.lean": "b74d5935ae67121b962d536d66791e97e6ffd413bdc69018e7653b1f897a88b2",
-        "bench/repairs/tritonbench_g/rmsnorm_fused_llama/Proofs/NativeSafety.lean": "ce51dc52febce72953ce2bd7fa82cc62b3b73e8e429d10653d692fbab17b1d55",
+        "bench/repairs/tritonbench_g/rmsnorm_fused_llama/Proofs/NativeSafety.lean": "4b376a05432f092a93babf544d0cfec039049fac31012ccf37c973761decfc27",
         "bench/repairs/tritonbench_g/rmsnorm_fused_llama/Proofs/Physical.lean": "47f91a2f0ad2bfc2372e6da2410c86d3226b498f20ebf40de179c5c7001c64e7",
         "bench/repairs/tritonbench_g/rmsnorm_fused_llama/Proofs/RawCorrect.lean": "89b716f8990da55d083e4a3b8f79f700c95c572e30cc73ed08cbfff1981386f9",
         "bench/repairs/tritonbench_g/rmsnorm_fused_llama/Proofs/RawNative.lean": "839418dd41c6db42a349c1d6e3d6599db0676dfeaefdfa41607b0b68f3be4160",
-        "bench/repairs/tritonbench_g/rmsnorm_fused_llama/Proofs/RuntimeCandidate.lean": "536758d1c283ca57eacd581259799fce880a4c79f413a490fb81fc74ca0240bd",
+        "bench/repairs/tritonbench_g/rmsnorm_fused_llama/Proofs/RuntimeCandidate.lean": "25aaafae7096ae2713b9ea4925c4ce2137f2b0b217043c0dcdaf6df939b25445",
         "bench/repairs/tritonbench_g/rmsnorm_fused_llama/Proofs/RuntimeGrid.lean": "eb13d5086525242f916b237cdcd09a420439b287ca60a7ca75f9099ae0c664e1",
         "bench/repairs/tritonbench_g/rmsnorm_fused_llama/Proofs/RuntimeReference.lean": "fc42512520e4f0dcf5626c6defed6856ad2ac0564f28289cb6de2337e9055431",
         "bench/repairs/tritonbench_g/rmsnorm_fused_llama/Proofs/RuntimeRow.lean": "41670c8cc5e58387a036962ed307eb1cd85edc6e152d43a0dbfe653e73fe5026",
@@ -68859,11 +68893,11 @@
         "bench/repairs/tritonbench_g/rmsnorm_fused_llama/Proofs/SourcePreservation.lean": "d388178211aafac7bd31f6d40f2cb66e4d35916894ca25a80cda607a9078c9e7",
         "bench/repairs/tritonbench_g/rmsnorm_fused_llama/Misc/NativePublicIO.lean": "fd816646eee70da5e6d65bdbf9e93d12b79a792878bc99a36e521d2c01efeb47",
         "bench/repairs/tritonbench_g/rmsnorm_fused_llama/Misc/NativeReference.lean": "45a3a7636f707d145f51b34fc8689579567fb1fb10e1f8f7b86d605b330819c1",
-        "bench/repairs/tritonbench_g/rmsnorm_fused_llama/jit-correspondence.json": "e60d9a5fa634fcc7d78484c3e72d1fb0e4b2960dfb8bf9792a5ad764f80b94b8",
+        "bench/repairs/tritonbench_g/rmsnorm_fused_llama/jit-correspondence.json": "689a251b5340d3701d9d6351da23c1c19c389097d961f79654722506cbcaf732",
         "bench/repairs/tritonbench_g/rmsnorm_fused_llama/candidate_kernels.py": "27f0bd937ada3ddf2c0f65fd68c32852f7c6994dd38ee830c8941a7543bb93d6",
         "VeriTile/Triton/DSL/CallSignature.lean": "fb48fa0ca2d75659939fb2aba508e7fbac6ddc445e385e4f622706d752f2e2e0",
         "VeriTile/Triton/DSL/PythonBody.lean": "a9cc263aa8ebbebb47ce4bebc2c37e358cf237de4aff2eee490fb1422a8b9536",
-        "VeriTile/Triton/DSL/TypedStores.lean": "c217fb9ce4b610c4e27286797f8d4ad9106fa672152dd884a5b3526250bd982b",
+        "VeriTile/Triton/DSL/TypedStores.lean": "ab3bececc997e1fa28d4ffdddb2137ead16470832be675b70bd9c4f0613523fd",
         "VeriTile/Triton/DSL/Expansion/Compute.lean": "0cfa05945c2d0d7f18a20dadd59f30fab6d190a54c2b751b807ae56ee4d45c42",
         "VeriTile/Triton/DSL/Expansion/Common.lean": "64b48b6e62c33a1f70e762ffa94fa2fa63562d596adc15a45df05a4b05a15d35",
         "VeriTile/Triton/DSL/CallValue.lean": "129b8e125046696bc0779d75fa634d454afd29c6a0a3f65aeb7ed62cd689a028"
@@ -69159,20 +69193,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/review.json",
-        "sha256": "1222701672649471102a5ca303decde4452af17c4f9bbb881d4ec9373fb6fd40"
+        "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+        "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
         "scope": "Complete combined public/deep local replay, joint import and full initially empty independent checkout replay, including all shared frontend dependencies.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/integration.log.gz",
-            "sha256": "ed6c768d243d7f8d90f7acb0d53701279996058e88033cf6f19e491c3e069731"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/integration.log.gz",
+            "sha256": "986564bd6f42b9bbde2b56a74fe35f96249b056c002a5556c3ca84a792b76cf1"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/clean-build.log.gz",
-            "sha256": "aa6e92bd228a7da09b2e6df8bcef035e98e8d29fc825fcf24673f893661f4273"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/clean-build.log.gz",
+            "sha256": "f21659143529f244e1f2d82e077285fbe8bf768e08f0c831972b09108441062b"
           }
         ],
         "limits": [
@@ -69326,7 +69360,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/rmsnorm_implementation.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
         "current_native_example_review": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
       },
       "fp_program_pair": {
@@ -69379,7 +69413,7 @@
         "bench/repairs/tritonbench_g/rmsnorm_implementation/candidate_kernels.py": "913a43463947178aaebe0336dcd4d4fe1218f1d48a7261af6097e95fc82e01bc",
         "VeriTile/Triton/DSL/CallSignature.lean": "fb48fa0ca2d75659939fb2aba508e7fbac6ddc445e385e4f622706d752f2e2e0",
         "VeriTile/Triton/DSL/PythonBody.lean": "a9cc263aa8ebbebb47ce4bebc2c37e358cf237de4aff2eee490fb1422a8b9536",
-        "VeriTile/Triton/DSL/TypedStores.lean": "c217fb9ce4b610c4e27286797f8d4ad9106fa672152dd884a5b3526250bd982b",
+        "VeriTile/Triton/DSL/TypedStores.lean": "ab3bececc997e1fa28d4ffdddb2137ead16470832be675b70bd9c4f0613523fd",
         "VeriTile/Triton/DSL/Syntax.lean": "861614f333757edda5b8023ece6cc29ef8a56e0c6504753543ec174f97891195",
         "VeriTile/Triton/DSL/Expansion/Main.lean": "dd566b1cdfdd6edec1564b62c309df3ccb95e4ef44b7b5829dc906e77e1ab827",
         "VeriTile/Triton/DSL/Expansion/Common.lean": "64b48b6e62c33a1f70e762ffa94fa2fa63562d596adc15a45df05a4b05a15d35",
@@ -69542,20 +69576,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/review.json",
-        "sha256": "1222701672649471102a5ca303decde4452af17c4f9bbb881d4ec9373fb6fd40"
+        "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+        "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
         "scope": "Complete combined public/deep local replay, joint import and full initially empty independent checkout replay, including all shared frontend dependencies.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/integration.log.gz",
-            "sha256": "ed6c768d243d7f8d90f7acb0d53701279996058e88033cf6f19e491c3e069731"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/integration.log.gz",
+            "sha256": "986564bd6f42b9bbde2b56a74fe35f96249b056c002a5556c3ca84a792b76cf1"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/clean-build.log.gz",
-            "sha256": "aa6e92bd228a7da09b2e6df8bcef035e98e8d29fc825fcf24673f893661f4273"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/clean-build.log.gz",
+            "sha256": "f21659143529f244e1f2d82e077285fbe8bf768e08f0c831972b09108441062b"
           }
         ],
         "limits": [
@@ -69706,7 +69740,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/rmsnorm_triton.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
         "current_native_example_review": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
       },
       "fp_program_pair": {
@@ -69762,7 +69796,7 @@
         "bench/repairs/tritonbench_g/rmsnorm_triton/candidate_kernels.py": "36e9e8c0c87dae18a1f2a59a24f8c80d2836e7a1a9cb6094745fb444d1092550",
         "VeriTile/Triton/DSL/CallSignature.lean": "fb48fa0ca2d75659939fb2aba508e7fbac6ddc445e385e4f622706d752f2e2e0",
         "VeriTile/Triton/DSL/PythonBody.lean": "a9cc263aa8ebbebb47ce4bebc2c37e358cf237de4aff2eee490fb1422a8b9536",
-        "VeriTile/Triton/DSL/TypedStores.lean": "c217fb9ce4b610c4e27286797f8d4ad9106fa672152dd884a5b3526250bd982b",
+        "VeriTile/Triton/DSL/TypedStores.lean": "ab3bececc997e1fa28d4ffdddb2137ead16470832be675b70bd9c4f0613523fd",
         "VeriTile/Triton/DSL/Syntax.lean": "861614f333757edda5b8023ece6cc29ef8a56e0c6504753543ec174f97891195",
         "VeriTile/Triton/DSL/Expansion/Main.lean": "dd566b1cdfdd6edec1564b62c309df3ccb95e4ef44b7b5829dc906e77e1ab827",
         "VeriTile/Triton/DSL/Expansion/Common.lean": "64b48b6e62c33a1f70e762ffa94fa2fa63562d596adc15a45df05a4b05a15d35",
@@ -69940,20 +69974,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/review.json",
-        "sha256": "1222701672649471102a5ca303decde4452af17c4f9bbb881d4ec9373fb6fd40"
+        "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+        "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
         "scope": "Complete combined public/deep local replay, joint import and full initially empty independent checkout replay, including all shared frontend dependencies.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/integration.log.gz",
-            "sha256": "ed6c768d243d7f8d90f7acb0d53701279996058e88033cf6f19e491c3e069731"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/integration.log.gz",
+            "sha256": "986564bd6f42b9bbde2b56a74fe35f96249b056c002a5556c3ca84a792b76cf1"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/clean-build.log.gz",
-            "sha256": "aa6e92bd228a7da09b2e6df8bcef035e98e8d29fc825fcf24673f893661f4273"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/clean-build.log.gz",
+            "sha256": "f21659143529f244e1f2d82e077285fbe8bf768e08f0c831972b09108441062b"
           }
         ],
         "limits": [
@@ -70582,7 +70616,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/rope_embedding.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
+        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
       },
       "fp_program_pair": {
         "fp_pair": "Two actual complete FP32 sources: original versus existing exact head-group-product commuted candidate, for either back flag.",
@@ -70838,20 +70872,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/review.json",
-        "sha256": "1222701672649471102a5ca303decde4452af17c4f9bbb881d4ec9373fb6fd40"
+        "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+        "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
         "scope": "Complete combined public/deep local replay, joint import and full initially empty independent checkout replay, including all shared frontend dependencies.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/integration.log.gz",
-            "sha256": "ed6c768d243d7f8d90f7acb0d53701279996058e88033cf6f19e491c3e069731"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/integration.log.gz",
+            "sha256": "986564bd6f42b9bbde2b56a74fe35f96249b056c002a5556c3ca84a792b76cf1"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/clean-build.log.gz",
-            "sha256": "aa6e92bd228a7da09b2e6df8bcef035e98e8d29fc825fcf24673f893661f4273"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/clean-build.log.gz",
+            "sha256": "f21659143529f244e1f2d82e077285fbe8bf768e08f0c831972b09108441062b"
           }
         ],
         "limits": [
@@ -71446,7 +71480,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/rotary_emb.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
+        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
       },
       "fp_program_pair": {
         "original": "RotaryIO.original rest p shape pids",
@@ -71731,20 +71765,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/review.json",
-        "sha256": "1222701672649471102a5ca303decde4452af17c4f9bbb881d4ec9373fb6fd40"
+        "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+        "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
         "scope": "Complete combined public/deep local replay, joint import and full initially empty independent checkout replay, including all shared frontend dependencies.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/integration.log.gz",
-            "sha256": "ed6c768d243d7f8d90f7acb0d53701279996058e88033cf6f19e491c3e069731"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/integration.log.gz",
+            "sha256": "986564bd6f42b9bbde2b56a74fe35f96249b056c002a5556c3ca84a792b76cf1"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/clean-build.log.gz",
-            "sha256": "aa6e92bd228a7da09b2e6df8bcef035e98e8d29fc825fcf24673f893661f4273"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/clean-build.log.gz",
+            "sha256": "f21659143529f244e1f2d82e077285fbe8bf768e08f0c831972b09108441062b"
           }
         ],
         "limits": [
@@ -71890,7 +71924,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/rotary_emb_nopad.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
+        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
       },
       "fp_program_pair": {
         "original": [
@@ -72223,20 +72257,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/review.json",
-        "sha256": "1222701672649471102a5ca303decde4452af17c4f9bbb881d4ec9373fb6fd40"
+        "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+        "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
         "scope": "Complete combined public/deep local replay, joint import and full initially empty independent checkout replay, including all shared frontend dependencies.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/integration.log.gz",
-            "sha256": "ed6c768d243d7f8d90f7acb0d53701279996058e88033cf6f19e491c3e069731"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/integration.log.gz",
+            "sha256": "986564bd6f42b9bbde2b56a74fe35f96249b056c002a5556c3ca84a792b76cf1"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/clean-build.log.gz",
-            "sha256": "aa6e92bd228a7da09b2e6df8bcef035e98e8d29fc825fcf24673f893661f4273"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/clean-build.log.gz",
+            "sha256": "f21659143529f244e1f2d82e077285fbe8bf768e08f0c831972b09108441062b"
           }
         ],
         "limits": [
@@ -73933,7 +73967,7 @@
             "sha256": "50349cd9d9f9c01f98ad1a22b147cbdbb82fb8499db364f49d29bf891bace7cf"
           }
         },
-        "current_body_source_review": "The two existing Python functions remain unchanged and are copied completely into six nine-statement quotations for the actual i32/i64/u64 seed ABIs. Pointer/scalar types, int32 host extent, FP32 probability, fixed BLOCK_SIZE=1024 and runtime call values remain outside the body. No seed_arg/BLOCK_SIZE_arg assignments, source_integer directive or extra output cast occurs in the authority. Checked call ABI provenance selects the exact RNG seed width and retains runtime range failure, then its identity marker is erased from published values. FP32 probability keeps its precision through the actual random>p Boolean comparison. ParametricExecutionModel supplies complete original/candidate source equations at 1024; ActualTile proves actual canonical Philox execution, success, all outputs, independent Real formula and every exterior memory cell. SourceSafety checks both actual traces; KernelExecution proves unconditional failure-inclusive full-state source-pair equality under arbitrary M. The old extra-register/self-cast skeleton and its exact generic results are explicitly historical. SourcePreservation defines an explicit backend adapter for that model, proves scalar connection and complete successful memory observation equality under exactly the existing host seed/extent/grid contract, with no arbitrary-M identity-cast axiom. Optional current host results use the actual scalar formula and this explicit interpreter adapter; selected_kernel_memory connects each admitted actual launched source call, while legacy_checked_fp32 retains the earlier generic self-cast theorem. All seed branches, all payloads, eager division when p rounds to one, allocation/setup outcomes and native index/physical/Tensor scopes remain. All 27 directory modules replay."
+        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
       },
       "fp_program_pair": {
         "original": "FPEquiv.original M k X O n p seed pid",
@@ -74127,20 +74161,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/review.json",
-        "sha256": "1222701672649471102a5ca303decde4452af17c4f9bbb881d4ec9373fb6fd40"
+        "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+        "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
         "scope": "Complete combined public/deep local replay, joint import and full initially empty independent checkout replay, including all shared frontend dependencies.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/integration.log.gz",
-            "sha256": "ed6c768d243d7f8d90f7acb0d53701279996058e88033cf6f19e491c3e069731"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/integration.log.gz",
+            "sha256": "986564bd6f42b9bbde2b56a74fe35f96249b056c002a5556c3ca84a792b76cf1"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/clean-build.log.gz",
-            "sha256": "aa6e92bd228a7da09b2e6df8bcef035e98e8d29fc825fcf24673f893661f4273"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/clean-build.log.gz",
+            "sha256": "f21659143529f244e1f2d82e077285fbe8bf768e08f0c831972b09108441062b"
           }
         ],
         "limits": [
@@ -75242,7 +75276,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/sin_computation.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
         "current_native_example_review": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
       },
       "fp_program_pair": {
@@ -75293,7 +75327,7 @@
         "bench/repairs/tritonbench_g/sin_computation/jit-correspondence.json": "ef33cd9070030224583776db7c508279ebca77987ece562b726ef7f2f45343bf",
         "VeriTile/Triton/DSL/CallSignature.lean": "fb48fa0ca2d75659939fb2aba508e7fbac6ddc445e385e4f622706d752f2e2e0",
         "VeriTile/Triton/DSL/PythonBody.lean": "a9cc263aa8ebbebb47ce4bebc2c37e358cf237de4aff2eee490fb1422a8b9536",
-        "VeriTile/Triton/DSL/TypedStores.lean": "c217fb9ce4b610c4e27286797f8d4ad9106fa672152dd884a5b3526250bd982b",
+        "VeriTile/Triton/DSL/TypedStores.lean": "ab3bececc997e1fa28d4ffdddb2137ead16470832be675b70bd9c4f0613523fd",
         "bench/repairs/tritonbench_g/sin_computation/Proofs/SourcePreservation.lean": "8e51703ed4071d8e07cea953a436340f6032c40d02878cb639f99e9b9a9a1fc0",
         "bench/repairs/tritonbench_g/sin_computation/sin_computation_repaired.py": "e20580824a971eabe300273dc2767c10b929de6a81ceb637ff569c62171e6b6d",
         "VeriTile/Triton/DSL/Expansion/Compute.lean": "0cfa05945c2d0d7f18a20dadd59f30fab6d190a54c2b751b807ae56ee4d45c42",
@@ -75437,20 +75471,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/review.json",
-        "sha256": "1222701672649471102a5ca303decde4452af17c4f9bbb881d4ec9373fb6fd40"
+        "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+        "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
         "scope": "Complete combined public/deep local replay, joint import and full initially empty independent checkout replay, including all shared frontend dependencies.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/integration.log.gz",
-            "sha256": "ed6c768d243d7f8d90f7acb0d53701279996058e88033cf6f19e491c3e069731"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/integration.log.gz",
+            "sha256": "986564bd6f42b9bbde2b56a74fe35f96249b056c002a5556c3ca84a792b76cf1"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/clean-build.log.gz",
-            "sha256": "aa6e92bd228a7da09b2e6df8bcef035e98e8d29fc825fcf24673f893661f4273"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/clean-build.log.gz",
+            "sha256": "f21659143529f244e1f2d82e077285fbe8bf768e08f0c831972b09108441062b"
           }
         ],
         "limits": [
@@ -75595,7 +75629,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/sin_kernel.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
         "current_native_example_review": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
       },
       "fp_program_pair": {
@@ -75646,7 +75680,7 @@
         "bench/repairs/tritonbench_g/sin_kernel/jit-correspondence.json": "53c0ab489cced0fd6f2fd0dc99c79722c4c5a202229ae7ec40c338eaaa160079",
         "VeriTile/Triton/DSL/CallSignature.lean": "fb48fa0ca2d75659939fb2aba508e7fbac6ddc445e385e4f622706d752f2e2e0",
         "VeriTile/Triton/DSL/PythonBody.lean": "a9cc263aa8ebbebb47ce4bebc2c37e358cf237de4aff2eee490fb1422a8b9536",
-        "VeriTile/Triton/DSL/TypedStores.lean": "c217fb9ce4b610c4e27286797f8d4ad9106fa672152dd884a5b3526250bd982b",
+        "VeriTile/Triton/DSL/TypedStores.lean": "ab3bececc997e1fa28d4ffdddb2137ead16470832be675b70bd9c4f0613523fd",
         "bench/repairs/tritonbench_g/sin_kernel/Proofs/SourcePreservation.lean": "424b91bb147b22fb6b69ce75d9c09c82f39903baf870eb11bc71dd16a5eec37d",
         "bench/repairs/tritonbench_g/sin_kernel/sin_kernel_repaired.py": "23cd97dd626a6be2989748d4d69a43a1dd8f855e47101f4c398b88495bd12fe1",
         "VeriTile/Triton/DSL/Expansion/Compute.lean": "0cfa05945c2d0d7f18a20dadd59f30fab6d190a54c2b751b807ae56ee4d45c42",
@@ -75790,20 +75824,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/review.json",
-        "sha256": "1222701672649471102a5ca303decde4452af17c4f9bbb881d4ec9373fb6fd40"
+        "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+        "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
         "scope": "Complete combined public/deep local replay, joint import and full initially empty independent checkout replay, including all shared frontend dependencies.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/integration.log.gz",
-            "sha256": "ed6c768d243d7f8d90f7acb0d53701279996058e88033cf6f19e491c3e069731"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/integration.log.gz",
+            "sha256": "986564bd6f42b9bbde2b56a74fe35f96249b056c002a5556c3ca84a792b76cf1"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/clean-build.log.gz",
-            "sha256": "aa6e92bd228a7da09b2e6df8bcef035e98e8d29fc825fcf24673f893661f4273"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/clean-build.log.gz",
+            "sha256": "f21659143529f244e1f2d82e077285fbe8bf768e08f0c831972b09108441062b"
           }
         ],
         "limits": [
@@ -77532,7 +77566,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/softmax_triton1.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
+        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
       },
       "fp_program_pair": {
         "headline": "original ≡[R] reciprocal",
@@ -77770,20 +77804,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/review.json",
-        "sha256": "1222701672649471102a5ca303decde4452af17c4f9bbb881d4ec9373fb6fd40"
+        "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+        "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
         "scope": "Complete combined public/deep local replay, joint import and full initially empty independent checkout replay, including all shared frontend dependencies.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/integration.log.gz",
-            "sha256": "ed6c768d243d7f8d90f7acb0d53701279996058e88033cf6f19e491c3e069731"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/integration.log.gz",
+            "sha256": "986564bd6f42b9bbde2b56a74fe35f96249b056c002a5556c3ca84a792b76cf1"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/clean-build.log.gz",
-            "sha256": "aa6e92bd228a7da09b2e6df8bcef035e98e8d29fc825fcf24673f893661f4273"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/clean-build.log.gz",
+            "sha256": "f21659143529f244e1f2d82e077285fbe8bf768e08f0c831972b09108441062b"
           }
         ],
         "limits": [
@@ -77926,7 +77960,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/softmax_triton2.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
+        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
       },
       "fp_program_pair": "sourceProgram versus guarded reciprocalProgram; actual complete row kernels, same source FP32 precision, masks, strides and outputs",
       "numerical_dependencies": {
@@ -78034,20 +78068,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/review.json",
-        "sha256": "1222701672649471102a5ca303decde4452af17c4f9bbb881d4ec9373fb6fd40"
+        "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+        "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
         "scope": "Complete combined public/deep local replay, joint import and full initially empty independent checkout replay, including all shared frontend dependencies.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/integration.log.gz",
-            "sha256": "ed6c768d243d7f8d90f7acb0d53701279996058e88033cf6f19e491c3e069731"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/integration.log.gz",
+            "sha256": "986564bd6f42b9bbde2b56a74fe35f96249b056c002a5556c3ca84a792b76cf1"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/clean-build.log.gz",
-            "sha256": "aa6e92bd228a7da09b2e6df8bcef035e98e8d29fc825fcf24673f893661f4273"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/clean-build.log.gz",
+            "sha256": "f21659143529f244e1f2d82e077285fbe8bf768e08f0c831972b09108441062b"
           }
         ],
         "limits": [
@@ -79160,7 +79194,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/square_matrix.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
         "current_native_example_review": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
       },
       "fp_program_pair": {
@@ -79204,7 +79238,7 @@
         "bench/repairs/tritonbench_g/square_matrix/jit-correspondence.json": "e1192f71c48278720c7bfc17efb054b6614584e6223282b804bb6c2bf34e9854",
         "VeriTile/Triton/DSL/CallSignature.lean": "fb48fa0ca2d75659939fb2aba508e7fbac6ddc445e385e4f622706d752f2e2e0",
         "VeriTile/Triton/DSL/PythonBody.lean": "a9cc263aa8ebbebb47ce4bebc2c37e358cf237de4aff2eee490fb1422a8b9536",
-        "VeriTile/Triton/DSL/TypedStores.lean": "c217fb9ce4b610c4e27286797f8d4ad9106fa672152dd884a5b3526250bd982b",
+        "VeriTile/Triton/DSL/TypedStores.lean": "ab3bececc997e1fa28d4ffdddb2137ead16470832be675b70bd9c4f0613523fd",
         "bench/repairs/tritonbench_g/square_matrix/Proofs/SourcePreservation.lean": "b28be27dd1b804ad29e8392eec57959724847a5081e7216e2c1b8917d3711b59",
         "bench/repairs/tritonbench_g/square_matrix/square_matrix_repaired.py": "79d2283c8d83fc8da965ebbee07a26695e05ff999ac82ac430f75ed15418d3fd",
         "VeriTile/Triton/DSL/Expansion/Compute.lean": "0cfa05945c2d0d7f18a20dadd59f30fab6d190a54c2b751b807ae56ee4d45c42",
@@ -79318,20 +79352,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/review.json",
-        "sha256": "1222701672649471102a5ca303decde4452af17c4f9bbb881d4ec9373fb6fd40"
+        "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+        "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
         "scope": "Complete combined public/deep local replay, joint import and full initially empty independent checkout replay, including all shared frontend dependencies.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/integration.log.gz",
-            "sha256": "ed6c768d243d7f8d90f7acb0d53701279996058e88033cf6f19e491c3e069731"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/integration.log.gz",
+            "sha256": "986564bd6f42b9bbde2b56a74fe35f96249b056c002a5556c3ca84a792b76cf1"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/clean-build.log.gz",
-            "sha256": "aa6e92bd228a7da09b2e6df8bcef035e98e8d29fc825fcf24673f893661f4273"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/clean-build.log.gz",
+            "sha256": "f21659143529f244e1f2d82e077285fbe8bf768e08f0c831972b09108441062b"
           }
         ],
         "limits": [
@@ -80478,7 +80512,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/swiglu_fwd.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
         "current_native_example_review": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
       },
       "fp_program_pair": {
@@ -80525,7 +80559,7 @@
         "bench/repairs/tritonbench_g/swiglu_fwd/jit-correspondence.json": "01a2d5bfcd2efeaf69e4c7061df439d22ebddf6beaffc5576a975a0686c3aa29",
         "VeriTile/Triton/DSL/CallSignature.lean": "fb48fa0ca2d75659939fb2aba508e7fbac6ddc445e385e4f622706d752f2e2e0",
         "VeriTile/Triton/DSL/PythonBody.lean": "a9cc263aa8ebbebb47ce4bebc2c37e358cf237de4aff2eee490fb1422a8b9536",
-        "VeriTile/Triton/DSL/TypedStores.lean": "c217fb9ce4b610c4e27286797f8d4ad9106fa672152dd884a5b3526250bd982b",
+        "VeriTile/Triton/DSL/TypedStores.lean": "ab3bececc997e1fa28d4ffdddb2137ead16470832be675b70bd9c4f0613523fd",
         "bench/repairs/tritonbench_g/swiglu_fwd/swiglu_fwd_checked.py": "11024396d179cadb06f086db70b89eb9faea74454a15b72004cce31e5c9f80e1",
         "bench/repairs/tritonbench_g/swiglu_fwd/candidate_kernels.py": "9090d19418ea457b377e05d395f217a9aa55ecd6257c10fcd9867274b26f9a44",
         "VeriTile/Triton/DSL/Expansion/Compute.lean": "0cfa05945c2d0d7f18a20dadd59f30fab6d190a54c2b751b807ae56ee4d45c42",
@@ -80654,20 +80688,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/review.json",
-        "sha256": "1222701672649471102a5ca303decde4452af17c4f9bbb881d4ec9373fb6fd40"
+        "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+        "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
         "scope": "Complete combined public/deep local replay, joint import and full initially empty independent checkout replay, including all shared frontend dependencies.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/integration.log.gz",
-            "sha256": "ed6c768d243d7f8d90f7acb0d53701279996058e88033cf6f19e491c3e069731"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/integration.log.gz",
+            "sha256": "986564bd6f42b9bbde2b56a74fe35f96249b056c002a5556c3ca84a792b76cf1"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/clean-build.log.gz",
-            "sha256": "aa6e92bd228a7da09b2e6df8bcef035e98e8d29fc825fcf24673f893661f4273"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/clean-build.log.gz",
+            "sha256": "f21659143529f244e1f2d82e077285fbe8bf768e08f0c831972b09108441062b"
           }
         ],
         "limits": [
@@ -84495,7 +84529,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/triton_mul2.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
+        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
       },
       "fp_program_pair": "original vs commuted (2*x -> x*2), plus inplaceOriginal vs inplaceCommuted; all actual statements retained.",
       "numerical_dependencies": "No experiments. Shared strict FP32 mulCommute certificate in VeriTile.Software.strictFP32/ieeeValue/maxnum/documented-exp-special-values; active finite-site domain retained, inactive values arbitrary.",
@@ -84567,20 +84601,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/review.json",
-        "sha256": "1222701672649471102a5ca303decde4452af17c4f9bbb881d4ec9373fb6fd40"
+        "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+        "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
         "scope": "Complete combined public/deep local replay, joint import and full initially empty independent checkout replay, including all shared frontend dependencies.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/integration.log.gz",
-            "sha256": "ed6c768d243d7f8d90f7acb0d53701279996058e88033cf6f19e491c3e069731"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/integration.log.gz",
+            "sha256": "986564bd6f42b9bbde2b56a74fe35f96249b056c002a5556c3ca84a792b76cf1"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/clean-build.log.gz",
-            "sha256": "aa6e92bd228a7da09b2e6df8bcef035e98e8d29fc825fcf24673f893661f4273"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/clean-build.log.gz",
+            "sha256": "f21659143529f244e1f2d82e077285fbe8bf768e08f0c831972b09108441062b"
           }
         ],
         "limits": [
@@ -84701,7 +84735,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/triton_softmax.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
+        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
       },
       "fp_program_pair": "IO.original inst x y B p vs IO.indexCommuted: complete actual sources, integer input-row product commutation only.",
       "numerical_dependencies": "Empty experimental set. Fixed-four-warp native max/sub/exp/sum/div graph and original FP32 precision unchanged; both source executions/frames connected by native implementations.",
@@ -84806,20 +84840,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/review.json",
-        "sha256": "1222701672649471102a5ca303decde4452af17c4f9bbb881d4ec9373fb6fd40"
+        "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+        "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
         "scope": "Complete combined public/deep local replay, joint import and full initially empty independent checkout replay, including all shared frontend dependencies.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/integration.log.gz",
-            "sha256": "ed6c768d243d7f8d90f7acb0d53701279996058e88033cf6f19e491c3e069731"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/integration.log.gz",
+            "sha256": "986564bd6f42b9bbde2b56a74fe35f96249b056c002a5556c3ca84a792b76cf1"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/clean-build.log.gz",
-            "sha256": "aa6e92bd228a7da09b2e6df8bcef035e98e8d29fc825fcf24673f893661f4273"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/clean-build.log.gz",
+            "sha256": "f21659143529f244e1f2d82e077285fbe8bf768e08f0c831972b09108441062b"
           }
         ],
         "limits": [
@@ -85139,7 +85173,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/var_len_copy.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
+        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task."
       },
       "fp_program_pair": "original Source.originalKernel vs commuted Source.commutedKernel, integer old_start+i address addition only; both complete typed memories agree.",
       "numerical_dependencies": "Empty experimental set; FP32 words are opaque copies with original casts/loads/stores, all words including inactive values allowed.",
@@ -85247,20 +85281,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/review.json",
-        "sha256": "1222701672649471102a5ca303decde4452af17c4f9bbb881d4ec9373fb6fd40"
+        "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+        "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
         "scope": "Complete combined public/deep local replay, joint import and full initially empty independent checkout replay, including all shared frontend dependencies.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/integration.log.gz",
-            "sha256": "ed6c768d243d7f8d90f7acb0d53701279996058e88033cf6f19e491c3e069731"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/integration.log.gz",
+            "sha256": "986564bd6f42b9bbde2b56a74fe35f96249b056c002a5556c3ca84a792b76cf1"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/clean-build.log.gz",
-            "sha256": "aa6e92bd228a7da09b2e6df8bcef035e98e8d29fc825fcf24673f893661f4273"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/clean-build.log.gz",
+            "sha256": "f21659143529f244e1f2d82e077285fbe8bf768e08f0c831972b09108441062b"
           }
         ],
         "limits": [
@@ -85369,7 +85403,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/vector_addition.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
         "current_native_example_review": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
       },
       "fp_program_pair": "originalKernel vs commutedKernel, actual x+y -> y+x with identical loads/mask/stores; source/candidate identity to shared AddExample rewrite is rfl.",
@@ -85394,7 +85428,7 @@
         "bench/repairs/tritonbench_g/vector_addition/jit-correspondence.json": "82945399a3ee1eb219bda9a47ae305b76e46e755c9f79df7fc7d31d53c7f53f5",
         "VeriTile/Triton/DSL/CallSignature.lean": "fb48fa0ca2d75659939fb2aba508e7fbac6ddc445e385e4f622706d752f2e2e0",
         "VeriTile/Triton/DSL/PythonBody.lean": "a9cc263aa8ebbebb47ce4bebc2c37e358cf237de4aff2eee490fb1422a8b9536",
-        "VeriTile/Triton/DSL/TypedStores.lean": "c217fb9ce4b610c4e27286797f8d4ad9106fa672152dd884a5b3526250bd982b",
+        "VeriTile/Triton/DSL/TypedStores.lean": "ab3bececc997e1fa28d4ffdddb2137ead16470832be675b70bd9c4f0613523fd",
         "bench/repairs/tritonbench_g/vector_addition/Proofs/SourcePreservation.lean": "4e90b3c04578e5323d8a1016067826ec56e23450f2bd625e99685f2301b57e28",
         "bench/repairs/tritonbench_g/vector_addition/vector_addition_repaired.py": "5ac4607fd65339cc5e3d3477a2bfb1b00872499423de2863921c29a5223b7a85",
         "bench/repairs/tritonbench_g/vector_addition/Proofs/FiniteSource.lean": "c7f73a822731b34094ed43a172f47c2ca79e6e4787b0fc64e24acd3464f25c94",
@@ -85449,20 +85483,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/review.json",
-        "sha256": "1222701672649471102a5ca303decde4452af17c4f9bbb881d4ec9373fb6fd40"
+        "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+        "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
         "scope": "Complete combined public/deep local replay, joint import and full initially empty independent checkout replay, including all shared frontend dependencies.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/integration.log.gz",
-            "sha256": "ed6c768d243d7f8d90f7acb0d53701279996058e88033cf6f19e491c3e069731"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/integration.log.gz",
+            "sha256": "986564bd6f42b9bbde2b56a74fe35f96249b056c002a5556c3ca84a792b76cf1"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/clean-build.log.gz",
-            "sha256": "aa6e92bd228a7da09b2e6df8bcef035e98e8d29fc825fcf24673f893661f4273"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/clean-build.log.gz",
+            "sha256": "f21659143529f244e1f2d82e077285fbe8bf768e08f0c831972b09108441062b"
           }
         ],
         "limits": [
@@ -85571,7 +85605,7 @@
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/vector_addition_custom.json",
         "statement_scope_unchanged": true,
-        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+        "current_body_source_review": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
         "current_native_example_review": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
       },
       "fp_program_pair": "actual originalKernel vs commutedKernel, x+y -> y+x only.",
@@ -85596,7 +85630,7 @@
         "bench/repairs/tritonbench_g/vector_addition_custom/jit-correspondence.json": "ac348e76971c51dec92f2818ba762c3d36644a81c2cde16aefd21159c0bf3920",
         "VeriTile/Triton/DSL/CallSignature.lean": "fb48fa0ca2d75659939fb2aba508e7fbac6ddc445e385e4f622706d752f2e2e0",
         "VeriTile/Triton/DSL/PythonBody.lean": "a9cc263aa8ebbebb47ce4bebc2c37e358cf237de4aff2eee490fb1422a8b9536",
-        "VeriTile/Triton/DSL/TypedStores.lean": "c217fb9ce4b610c4e27286797f8d4ad9106fa672152dd884a5b3526250bd982b",
+        "VeriTile/Triton/DSL/TypedStores.lean": "ab3bececc997e1fa28d4ffdddb2137ead16470832be675b70bd9c4f0613523fd",
         "bench/repairs/tritonbench_g/vector_addition_custom/Proofs/SourcePreservation.lean": "4a33cbd1978ed64e35744988fcbb13cb480c0563c484747428a29ff5b6e5b9fa",
         "bench/repairs/tritonbench_g/vector_addition_custom/vector_addition_custom_repaired.py": "b1c06db039e42a32c579e71acb33cd69fceaf818d0bba73edcde71244c53a34e",
         "bench/repairs/tritonbench_g/vector_addition_custom/Proofs/Source.lean": "432676536f9faf40aafb3c553af5839342cf6a5459d45064057a427ed5c827cf",
@@ -85651,20 +85685,20 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/review.json",
-        "sha256": "1222701672649471102a5ca303decde4452af17c4f9bbb881d4ec9373fb6fd40"
+        "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+        "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
         "scope": "Complete combined public/deep local replay, joint import and full initially empty independent checkout replay, including all shared frontend dependencies.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/integration.log.gz",
-            "sha256": "ed6c768d243d7f8d90f7acb0d53701279996058e88033cf6f19e491c3e069731"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/integration.log.gz",
+            "sha256": "986564bd6f42b9bbde2b56a74fe35f96249b056c002a5556c3ca84a792b76cf1"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/clean-build.log.gz",
-            "sha256": "aa6e92bd228a7da09b2e6df8bcef035e98e8d29fc825fcf24673f893661f4273"
+            "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/clean-build.log.gz",
+            "sha256": "f21659143529f244e1f2d82e077285fbe8bf768e08f0c831972b09108441062b"
           }
         ],
         "limits": [

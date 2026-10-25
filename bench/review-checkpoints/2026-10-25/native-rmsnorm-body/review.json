@@ -1,0 +1,349 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "8a3d868f25a399413776c7d7a62e69238cefa236",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "rms_norm_triton"
+  ],
+  "semantic_review": {
+    "adam_update_triton": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "add_example": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "add_value": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "cache_transform_triton": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "cosine_compute": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "dequantize_matmul": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "dequantize_rowwise": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "destindex_copy": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "destindex_copy_kv1": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "destindex_copy_kv2": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "dropout_triton": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "f8_conversion_utils": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "fast_rope_embedding": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "index_select_bwd": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "index_select_cat": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "kcache_copy_triton": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "kldiv_compute": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "kldiv_triton": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "kv_cache_copy": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "l2_norm_bwd": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "l2_norm_triton1": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "l2_norm_triton2": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "masked_add_cuda": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "matrix_reduction": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "matrix_transpose": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "mean_reduction": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "mul_exponent_compensator": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "nested_loops_processing": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "quant_transpose_kernel": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "rmsnorm_fused": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "rmsnorm_fused_llama": "The already migrated raw bodies remain unchanged. The correspondence manifest now checks both actual runtime and already existing literal epsilon source/candidate forms; distinct scalar call modes require different checked binding key sets, not renamed values. Kernels imports only generic source/structural modules; the stale proof-layer reverse import is removed and three candidate proofs drop an unused historical helper from simp lists. All 45 task modules replay with the same full Real/native-word/program-pair, safety/output/frame and optional application scopes.",
+    "rmsnorm_implementation": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "rmsnorm_triton": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "rope_embedding": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "rotary_emb": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "rotary_emb_nopad": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "seeded_dropout": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "sin_computation": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "sin_kernel": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "softmax_triton1": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "softmax_triton2": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "square_matrix": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "swiglu_fwd": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "triton_mul2": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "triton_softmax": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "var_len_copy": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "vector_addition": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "vector_addition_custom": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared pointer element-attribute cast tracking fix. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual RMSNorm sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "rms_norm_triton": "All four complete eleven-statement quotations copy the unchanged selected Python original and an explicitly attributed Python counterpart of the retained integer-index candidate. Both literal verification and actual runtime FP32 epsilon interfaces are checked; all pointer/scalar/constexpr types and contiguous stride bindings remain outside the body. No epsilon.to(float32) is inserted and the explicit product.to(Y.dtype.element_ty) occurs before weighting exactly as in Python. ActualRow and ActualGrid prove the actual runtime source safe and successful, all output cells and complete exterior frame, for the existing complete arbitrary row permutation, all empty dimensions and X/W aliasing when both are separate from Y. RuntimeObserved lowers a genuine epsilon parameter node to the actual NativeModel.epsilon word and the unchanged independent ordered reference under every old reduction family; no real placeholder substitutes a native argument. The one complete IO supplies the same argument to original/candidate. Pair proves full-state source-pair equality including failure; PublicIO, primary independent Real and native FP IO, standalone KernelReal/KernelObserved and optional host/Tensor/storage/native-coordinate applications all replay. SourcePreservation proves complete optional memory observation equality to the explicitly historical source at the prior ABI interpretation argument M.cast(M.literal eps), initialized outside the function body, and independent actual/historical native observation equality. No arbitrary-backend cast identity law, whole-program premise, new numeric domain or FP axiom is introduced. ActualRow.literal_memory_connection proves complete optional memory equality between specialized literals and runtime calls supplied the same interpreted FP32 literal; Pair.literal_run_eq preserves full state and failure for that additional mode. All 27 directory modules replay."
+  },
+  "example_regression_scope": "All 19 examples and their complete helpers replay locally, jointly and in an initially empty independent project checkout. Their bodies, mathematical domains and numerical classifications remain unchanged.",
+  "verification": {
+    "frontend_regressions": {
+      "status": "PASS",
+      "configured_modules": 94,
+      "scope": "All 94 configured modules: preserve the earlier static/range/rebinding/precision guards, retain all previous integer/RNG/precision guards and additionally prove pointer element-attribute casts with a rebound destination have the same complete program as an explicit storage dtype cast; retain fp16 and fp32 cases without an extra implicit store conversion."
+    },
+    "integration": {
+      "status": "PASS",
+      "explicit_modules": 1704,
+      "jobs": 10781
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 1704,
+      "jobs": 10781,
+      "scope": "Every combined root and complete dependency closure; full replay required because shared frontend source changed.",
+      "project_build_initially_present": false,
+      "veritile_cache_initially_present": false,
+      "only_fixed_external_dependencies_reused": true
+    },
+    "joint_import": "PASS: all 1704 roots",
+    "task_directories": "All 27 RMSNorm and 45 fused RMSNorm modules, all 94 configured frontend tests and all prior public/deep migration roots, including historical and optional scopes.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 50
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 295,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by the old numerical receipt; prior baseline preserved, no false repin."
+    },
+    "official_comparator": "UNAVAILABLE: every actual frozen-source invocation reports required host isolation unavailable. Pinned official comparator/exporter/landrun and SHA256-verified Go toolchain are installed; host Landlock ABI v4 is below required v5, and the systemd user bus is unavailable. No isolation bypass.",
+    "optional_cpu_contract": "UNAVAILABLE: current environment lacks torch; actual failure retained.",
+    "gpu_or_numerical_experiment": "Not run. No new numerical law, axiom or hardware-conformance claim.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending."
+  },
+  "source_pairs": {
+    "total": 179,
+    "pasted_body": 174,
+    "legacy_ast": 5
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/source-closure.json",
+    "sha256": "bc87dafa97d99358dfe312429629a6d01499fa775f484fa9ea7b6d345bbb4145"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "legacy_ast_only": 1,
+      "no_selected_jit_resolved": 2,
+      "selected_body_copy_checked": 49,
+      "uncovered_jit_functions": 131
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 328,
+    "uncovered_selected_jit_functions": 251,
+    "primary_files_with_int64_screen_warning": 38,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 103,
+        "antiquotes": 115,
+        "dsl_loop": 1,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/all-python.log.gz",
+      "sha256": "a22da15cade6897740a5a892d065dfb25f77d2287a4d6fc451f0ba2ae97a36b9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/changed-VeriTile__Triton__DSL__TypedStores-comparator.log",
+      "sha256": "2f2cad9534d689babc49d3a506f097bdd1392e9ac3eb20ab33519b58ab316003"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/changed-bench__repairs__tritonbench_g__rms_norm_triton__IO-comparator.log",
+      "sha256": "6b6505e3cfc00d94919c08e9f2cf9c565241fbfba2f3d0bf365d841f989e2913"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/changed-bench__repairs__tritonbench_g__rms_norm_triton__Kernels-comparator.log",
+      "sha256": "a02878cba9f6c53ad1c1977b3c5a1a5810b22b16fb485155f963668884918fd1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/changed-bench__repairs__tritonbench_g__rms_norm_triton__Misc__NativeCorrect-comparator.log",
+      "sha256": "f6af55a85fb8d1b5da4417386c463201581f2474007a788507d580c017b40731"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/changed-bench__repairs__tritonbench_g__rms_norm_triton__Proofs__ActualGrid-comparator.log",
+      "sha256": "cbc76f579c261f562741c186375a8082c2f4c820f8c583c94d68521f7fbdbda6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/changed-bench__repairs__tritonbench_g__rms_norm_triton__Proofs__ActualRow-comparator.log",
+      "sha256": "8cbf12084f9bd89fe5d3f21a05c61179bb7a0760c279169b04ab905479bde4a6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/changed-bench__repairs__tritonbench_g__rms_norm_triton__Proofs__KernelObserved-comparator.log",
+      "sha256": "6a4a30a9dde63ed43211d55cc4b1afdc3815485de2aaea818d1bb5a59ae478fa"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/changed-bench__repairs__tritonbench_g__rms_norm_triton__Proofs__KernelPublic-comparator.log",
+      "sha256": "04dc53ab80e76d779f211b1d90249962187a4f1c5d5212407de490c666cd9939"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/changed-bench__repairs__tritonbench_g__rms_norm_triton__Proofs__KernelReal-comparator.log",
+      "sha256": "4a530b7e92232fc123ca7d4aa5a8dc13f6d1e2bd154d60231951e855a57441a2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/changed-bench__repairs__tritonbench_g__rms_norm_triton__Proofs__LegacyPastedSurface-comparator.log",
+      "sha256": "b859627128a9d9c876f83553b723327ca3fdac6ff8e22d6698721d9b0435736c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/changed-bench__repairs__tritonbench_g__rms_norm_triton__Proofs__LegacySourcePreservation-comparator.log",
+      "sha256": "08fe2bf2701bb432f6c9cfabaed31fc83e00597908c421ad92305b0370171645"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/changed-bench__repairs__tritonbench_g__rms_norm_triton__Proofs__Pair-comparator.log",
+      "sha256": "b53c7b489d4a21c3873709844e52c805fb8479abe2032f5f0c83405a94553b4d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/changed-bench__repairs__tritonbench_g__rms_norm_triton__Proofs__PublicIO-comparator.log",
+      "sha256": "1600db81579b29803ebcc72d75c0c7ac5b3dbf8d10e6d502271ad753fb4fd81f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/changed-bench__repairs__tritonbench_g__rms_norm_triton__Proofs__RuntimeObserved-comparator.log",
+      "sha256": "b87ef906013288d082d2d33aad9397904250b4d0c69075cb526eea4388f34f51"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/changed-bench__repairs__tritonbench_g__rms_norm_triton__Proofs__SourcePreservation-comparator.log",
+      "sha256": "212ffa6561443273f9ff7e17fdd014ac1fca6c345e44c84f2514d148cf1e6657"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/changed-bench__repairs__tritonbench_g__rms_norm_triton__Proofs__SourceSafety-comparator.log",
+      "sha256": "afdb2d8f628b0b576ca7c7c82a219c930b96af63793b6216205871cf4f5b6272"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/changed-bench__repairs__tritonbench_g__rmsnorm_fused_llama__Kernels-comparator.log",
+      "sha256": "c9ebcbe7b70e27bd8ae7bb4d8e3fa6ec53b1038e219bdddc31d634c837c1a1a6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/changed-bench__repairs__tritonbench_g__rmsnorm_fused_llama__Proofs__KernelCandidate-comparator.log",
+      "sha256": "6a844da37f97ab4889981841e1e1f1c73130030a8d3d0aa70cf3a2408e782469"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/changed-bench__repairs__tritonbench_g__rmsnorm_fused_llama__Proofs__NativeSafety-comparator.log",
+      "sha256": "e7bfc69be2f453160575716f638e41d23a26895e958f6e3e6a7f9a03e80789c6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/changed-bench__repairs__tritonbench_g__rmsnorm_fused_llama__Proofs__RuntimeCandidate-comparator.log",
+      "sha256": "cf7f261d7f6e60a771ac78f45bfa7f626cd5f99963b432ba81a8b5a5fbd2c8d1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/changed-bench__tests__CallSignature-comparator.log",
+      "sha256": "13defbacd35bc6d1aa85ff774cf211055cf9ce922463142520ea6d60b19dcc6e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/changed-bench__tritonbench_g__rms_norm_triton__Proofs__Observed-comparator.log",
+      "sha256": "c2d1ec1bc10fd586d5eaf5d5f0122fa9ec3117fab7effc6a67364e7916333713"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/clean-build.log.gz",
+      "sha256": "f21659143529f244e1f2d82e077285fbe8bf768e08f0c831972b09108441062b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/clean-setup.log",
+      "sha256": "1040b53992ca7bd58dbf86d2163c0f6b18cae0d332b2122c22a679fd363c2f59"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/comparator-invocations.json",
+      "sha256": "941109604d494efd37e895b50bc21d36829d06a1c48e49f89ba5b2243b726aff"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/comparator-preflight.log",
+      "sha256": "d9255026a27595d0a04e154bc4a9c609c8422b012fc13cb1ae4de2417afea36d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/comparator-setup.log",
+      "sha256": "bea658f19aea48f8965a3d6525da1300e599d9a3f0a05b992071c97bcaffd6df"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/comparator-tools.json",
+      "sha256": "d541ac407f7aa8679c8ba23dd4df72ac363730bbb67e45bd7959ec752e6b0c53"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/comparator.log",
+      "sha256": "ce668f89b40b53d662b76eec505810cfe4266ca47fb753ece78fc108bc2402db"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/contract.log",
+      "sha256": "a188484d619e88a7fcfa2b1e27a25291aa5a1031237204d94c899b43fac19280"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/corpus-guard.log",
+      "sha256": "e2a68938476cfd3a7f64bd7f20396a8d006a4322f1fb03969268a5c9e42b6843"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/integration.log.gz",
+      "sha256": "986564bd6f42b9bbde2b56a74fe35f96249b056c002a5556c3ca84a792b76cf1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/joint.lean",
+      "sha256": "888908ea0e00e65990aa7996a9b8f4dc150697664d6748e7483829c57767de01"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/modules.json",
+      "sha256": "d5db8d5cd477d2e74d76cbf42d4528aaee3eb536288786a440b427be63aeba85"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/pairs.json",
+      "sha256": "2889af84ee12c9de76fc5885048c9741dbb22a5ea42b0e42aeacfa42743c824f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/previous-io-review.json.gz",
+      "sha256": "98aaace67c9783d2a88dc762c96dbadf76fc5707cfd4f37f596b937bf41c0885"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/previous-selected-reviews.json.gz",
+      "sha256": "75bbe5907180c29731e187e3b0827295bb6ef98213ef0e7c017059a9ea67a611"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/python-tests.log",
+      "sha256": "ffd91f087c5c1117f614f44e354f7121f3e867fb57fd3ff590e7119e45555194"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/rms_norm_triton-Real-comparator.log",
+      "sha256": "172a5e68d57816406c7921bafac08850ad647fdd6a6d61eca33fa1a234e46e50"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/rms_norm_triton-comparator.log",
+      "sha256": "8ddaf8e7aba28b25372f8974cba2341575a37b59aeb1b7fa0a911dd2796803ff"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/rms_norm_triton-contract.log",
+      "sha256": "db48d159b4455b392becd89075a3a965eaba3229812812b020a30300588894d2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/rmsnorm_fused_llama-Real-comparator.log",
+      "sha256": "f96ef7432a91cef6d4dd3ba9613ebaba3ad6fc5e17432fe13c2558d2eeeb0adb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/rmsnorm_fused_llama-comparator.log",
+      "sha256": "8a6558dce3ecd2db0ed3202acf1defcde65f168b1c9c1a80fe271269d26927ed"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/source-closure.json",
+      "sha256": "bc87dafa97d99358dfe312429629a6d01499fa775f484fa9ea7b6d345bbb4145"
+    }
+  ]
+}
