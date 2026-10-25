@@ -1,0 +1,12 @@
+chunk_cumsum_kernel
+Traceback (most recent call last):
+  File "/tmp/veritile-scan51-clean/bench/repairs/tritonbench_g/chunk_cumsum_kernel/check_contract.py", line 12, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'
+
+logsumexp_fwd
+Traceback (most recent call last):
+  File "/tmp/veritile-scan51-clean/bench/repairs/tritonbench_g/logsumexp_fwd/check_contract.py", line 13, in <module>
+    import torch as cpu_torch
+ModuleNotFoundError: No module named 'torch'
+

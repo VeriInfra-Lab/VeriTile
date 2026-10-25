@@ -1,0 +1,362 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "1e04e018025e9e28c36643fa6be4076cb2a291bc",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "chunk_cumsum_kernel",
+    "logsumexp_fwd"
+  ],
+  "semantic_review": {
+    "adam_update_triton": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared body parser, typed-storage metadata, signed literal/range typing, infinity word literal and source dtype dataflow fixes. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual scan and logsumexp sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "add_example": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared body parser, typed-storage metadata, signed literal/range typing, infinity word literal and source dtype dataflow fixes. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual scan and logsumexp sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "add_value": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared body parser, typed-storage metadata, signed literal/range typing, infinity word literal and source dtype dataflow fixes. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual scan and logsumexp sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "cache_transform_triton": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared body parser, typed-storage metadata, signed literal/range typing, infinity word literal and source dtype dataflow fixes. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual scan and logsumexp sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "cosine_compute": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared body parser, typed-storage metadata, signed literal/range typing, infinity word literal and source dtype dataflow fixes. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual scan and logsumexp sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "dequantize_matmul": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared body parser, typed-storage metadata, signed literal/range typing, infinity word literal and source dtype dataflow fixes. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual scan and logsumexp sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "dequantize_rowwise": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared body parser, typed-storage metadata, signed literal/range typing, infinity word literal and source dtype dataflow fixes. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual scan and logsumexp sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "destindex_copy": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared body parser, typed-storage metadata, signed literal/range typing, infinity word literal and source dtype dataflow fixes. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual scan and logsumexp sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "destindex_copy_kv1": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared body parser, typed-storage metadata, signed literal/range typing, infinity word literal and source dtype dataflow fixes. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual scan and logsumexp sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "destindex_copy_kv2": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared body parser, typed-storage metadata, signed literal/range typing, infinity word literal and source dtype dataflow fixes. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual scan and logsumexp sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "dropout_triton": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared body parser, typed-storage metadata, signed literal/range typing, infinity word literal and source dtype dataflow fixes. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual scan and logsumexp sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "f8_conversion_utils": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared body parser, typed-storage metadata, signed literal/range typing, infinity word literal and source dtype dataflow fixes. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual scan and logsumexp sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "fast_rope_embedding": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared body parser, typed-storage metadata, signed literal/range typing, infinity word literal and source dtype dataflow fixes. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual scan and logsumexp sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "index_select_bwd": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared body parser, typed-storage metadata, signed literal/range typing, infinity word literal and source dtype dataflow fixes. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual scan and logsumexp sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "index_select_cat": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared body parser, typed-storage metadata, signed literal/range typing, infinity word literal and source dtype dataflow fixes. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual scan and logsumexp sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "kcache_copy_triton": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared body parser, typed-storage metadata, signed literal/range typing, infinity word literal and source dtype dataflow fixes. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual scan and logsumexp sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "kldiv_compute": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared body parser, typed-storage metadata, signed literal/range typing, infinity word literal and source dtype dataflow fixes. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual scan and logsumexp sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "kldiv_triton": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared body parser, typed-storage metadata, signed literal/range typing, infinity word literal and source dtype dataflow fixes. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual scan and logsumexp sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "kv_cache_copy": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared body parser, typed-storage metadata, signed literal/range typing, infinity word literal and source dtype dataflow fixes. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual scan and logsumexp sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "l2_norm_bwd": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared body parser, typed-storage metadata, signed literal/range typing, infinity word literal and source dtype dataflow fixes. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual scan and logsumexp sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "l2_norm_triton1": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared body parser, typed-storage metadata, signed literal/range typing, infinity word literal and source dtype dataflow fixes. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual scan and logsumexp sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "l2_norm_triton2": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared body parser, typed-storage metadata, signed literal/range typing, infinity word literal and source dtype dataflow fixes. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual scan and logsumexp sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "masked_add_cuda": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared body parser, typed-storage metadata, signed literal/range typing, infinity word literal and source dtype dataflow fixes. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual scan and logsumexp sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "matrix_reduction": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared body parser, typed-storage metadata, signed literal/range typing, infinity word literal and source dtype dataflow fixes. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual scan and logsumexp sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "matrix_transpose": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared body parser, typed-storage metadata, signed literal/range typing, infinity word literal and source dtype dataflow fixes. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual scan and logsumexp sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "mean_reduction": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared body parser, typed-storage metadata, signed literal/range typing, infinity word literal and source dtype dataflow fixes. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual scan and logsumexp sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "mul_exponent_compensator": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared body parser, typed-storage metadata, signed literal/range typing, infinity word literal and source dtype dataflow fixes. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual scan and logsumexp sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "nested_loops_processing": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared body parser, typed-storage metadata, signed literal/range typing, infinity word literal and source dtype dataflow fixes. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual scan and logsumexp sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "quant_transpose_kernel": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared body parser, typed-storage metadata, signed literal/range typing, infinity word literal and source dtype dataflow fixes. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual scan and logsumexp sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "rms_norm_triton": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared body parser, typed-storage metadata, signed literal/range typing, infinity word literal and source dtype dataflow fixes. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual scan and logsumexp sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "rmsnorm_fused": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared body parser, typed-storage metadata, signed literal/range typing, infinity word literal and source dtype dataflow fixes. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual scan and logsumexp sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "rmsnorm_fused_llama": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared body parser, typed-storage metadata, signed literal/range typing, infinity word literal and source dtype dataflow fixes. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual scan and logsumexp sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "rmsnorm_implementation": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared body parser, typed-storage metadata, signed literal/range typing, infinity word literal and source dtype dataflow fixes. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual scan and logsumexp sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "rmsnorm_triton": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared body parser, typed-storage metadata, signed literal/range typing, infinity word literal and source dtype dataflow fixes. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual scan and logsumexp sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "rope_embedding": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared body parser, typed-storage metadata, signed literal/range typing, infinity word literal and source dtype dataflow fixes. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual scan and logsumexp sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "rotary_emb": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared body parser, typed-storage metadata, signed literal/range typing, infinity word literal and source dtype dataflow fixes. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual scan and logsumexp sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "rotary_emb_nopad": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared body parser, typed-storage metadata, signed literal/range typing, infinity word literal and source dtype dataflow fixes. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual scan and logsumexp sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "seeded_dropout": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared body parser, typed-storage metadata, signed literal/range typing, infinity word literal and source dtype dataflow fixes. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual scan and logsumexp sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "sin_computation": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared body parser, typed-storage metadata, signed literal/range typing, infinity word literal and source dtype dataflow fixes. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual scan and logsumexp sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "sin_kernel": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared body parser, typed-storage metadata, signed literal/range typing, infinity word literal and source dtype dataflow fixes. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual scan and logsumexp sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "softmax_triton1": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared body parser, typed-storage metadata, signed literal/range typing, infinity word literal and source dtype dataflow fixes. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual scan and logsumexp sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "softmax_triton2": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared body parser, typed-storage metadata, signed literal/range typing, infinity word literal and source dtype dataflow fixes. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual scan and logsumexp sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "square_matrix": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared body parser, typed-storage metadata, signed literal/range typing, infinity word literal and source dtype dataflow fixes. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual scan and logsumexp sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "swiglu_fwd": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared body parser, typed-storage metadata, signed literal/range typing, infinity word literal and source dtype dataflow fixes. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual scan and logsumexp sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "triton_mul2": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared body parser, typed-storage metadata, signed literal/range typing, infinity word literal and source dtype dataflow fixes. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual scan and logsumexp sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "triton_softmax": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared body parser, typed-storage metadata, signed literal/range typing, infinity word literal and source dtype dataflow fixes. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual scan and logsumexp sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "var_len_copy": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared body parser, typed-storage metadata, signed literal/range typing, infinity word literal and source dtype dataflow fixes. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual scan and logsumexp sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "vector_addition": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared body parser, typed-storage metadata, signed literal/range typing, infinity word literal and source dtype dataflow fixes. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual scan and logsumexp sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "vector_addition_custom": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared body parser, typed-storage metadata, signed literal/range typing, infinity word literal and source dtype dataflow fixes. All prior task roots, all 19 examples, all 95 configured frontend regressions and the new actual scan and logsumexp sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "chunk_cumsum_kernel": "Both selected original and existing sum-left Python functions remain unchanged and are pasted directly, including both signed64 loop bounds, every PID/lane cast, masked unspecified tail load, scan, reduction, carry order and output-pointer element-type cast. The external signature preserves the old typed FP32 IO channel; its typedFP32Storage selection changes only interpreter representation, never source dtype or an instruction. The generic interface retains explicitly historical non-FP32 model instantiations outside the selected Python contract. SourcePreservation proves COMPLETE PROGRAM AST identity for both original/candidate under EVERY previous pair of generic dtypes, and identifies admitted FP32 calls with the raw bodies. No numerical cast identity or extra domain premise is used. Existing proof decompositions now explicitly rewrite through these genuine whole-source equalities. All old Real/FP arbitrary row/length and unspecified-tail, exact finite-used-carry condition, complete safe successful source pair, output/frame, native index, storage, direct host, optional host and Tensor scopes replay in all 40 task modules.",
+    "kv_cache_filling": "Shared frontend dependency regression only: source/candidate bodies and all mathematical/numerical scopes are unchanged at this code checkpoint. Exact public/deep roots are recorded in modules.json. No body migration is counted for this task unless the source inventory independently records it.",
+    "logsumexp_fwd": "The existing selected original and optimized Python files are both unchanged. Complete eleven/ten-statement bodies are pasted directly; fp32 pointer/runtime scale and D/B/HAS_SCALE constexpr metadata remain outside. Source float(inf) stays in the quotation and lowers to the already-defined exact infinity-word primitive, never a finite Real proxy. SourcePreservation proves unconditional complete optional STATE equality for each current original/candidate and its explicitly historical spelling, under arbitrary M and initial state including failure/missing arguments. The complete shared prefixes are syntactically identical; final constexpr-address normalization is connected by actual execution. All public/deep Real, native ordered word, actual program pair, complete grid permutation, access safety, successful scratch outputs and every exterior cell, plus optional wrapper/host/Tensor and input/native-coordinate scopes replay. The ordinary pair still removes mask restoration only in the unscaled specialization; nonfinite scaled inputs remain admitted and no new numerical law is introduced. All 34 task modules replay.",
+    "triton_argmax": "Shared frontend dependency regression only: source/candidate bodies and all mathematical/numerical scopes are unchanged at this code checkpoint. Exact public/deep roots are recorded in modules.json. No body migration is counted for this task unless the source inventory independently records it."
+  },
+  "example_regression_scope": "All 19 examples and their complete helpers replay locally, jointly and in an initially empty independent project checkout. Their bodies, mathematical domains and numerical classifications remain unchanged.",
+  "verification": {
+    "frontend_regressions": {
+      "status": "PASS",
+      "configured_modules": 95,
+      "scope": "All 95 configured modules. Preserve prior mutation, branch, loop, shape, source ABI and precision guards. Add exact infinity-word execution and unary sign behavior, reject unsupported infinity strings, prove signed negative literal loop execution without any FP conversion callback, preserve constexpr-seed i64 RNG provenance, accept unparenthesized element-attribute casts, and prove positional/named maximum syntax has the same complete store program. Typed storage and range-only normalization keep existing source events. Numeric tuple assignments preserve unrelated runtime scalar ABI facts and still reject loop-carried tuple writes lacking a supported invariant."
+    },
+    "integration": {
+      "status": "PASS",
+      "explicit_modules": 1779,
+      "jobs": 10876
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 1779,
+      "jobs": 10876,
+      "scope": "Every combined root and complete dependency closure; full replay required because shared frontend source changed.",
+      "project_build_initially_present": false,
+      "veritile_cache_initially_present": false,
+      "only_fixed_external_dependencies_reused": true
+    },
+    "joint_import": "PASS: all 1779 roots",
+    "task_directories": "All 40 chunk_cumsum_kernel and 34 logsumexp_fwd modules, all 95 configured frontend tests and all prior public/deep migration roots, including historical and optional scopes.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 55
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 300,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by the old numerical receipt; prior baseline preserved, no false repin."
+    },
+    "official_comparator": "UNAVAILABLE: every actual frozen-source invocation reports required host isolation unavailable. Pinned official comparator/exporter/landrun and SHA256-verified Go toolchain are installed; host Landlock ABI v4 is below required v5, and the systemd user bus is unavailable. No isolation bypass.",
+    "optional_cpu_contract": "UNAVAILABLE: current environment lacks torch; actual failure retained.",
+    "gpu_or_numerical_experiment": "Not run. No new numerical law, axiom or hardware-conformance claim.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending."
+  },
+  "source_pairs": {
+    "total": 183,
+    "pasted_body": 178,
+    "legacy_ast": 5
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/source-closure.json",
+    "sha256": "5d76ef1b961fe88152bbbe29154c90328e27b10c59a7b36e268c0d11a5bd3c2b"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "legacy_ast_only": 1,
+      "no_selected_jit_resolved": 2,
+      "selected_body_copy_checked": 51,
+      "uncovered_jit_functions": 129
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 328,
+    "uncovered_selected_jit_functions": 248,
+    "primary_files_with_int64_screen_warning": 38,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 101,
+        "antiquotes": 113,
+        "dsl_loop": 1,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/all-python.log.gz",
+      "sha256": "c8b760f05e08f6a55cea2b5fd52cf00d10bf998b5256aae1ad12faaccdf5c2c2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/changed-VeriTile__Triton__DSL__CallSignature-comparator.log",
+      "sha256": "63ed5c203f77ada4f67bd37532d3913e3456c6f17cfe8dbc052cf595eaf7ab02"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/changed-VeriTile__Triton__DSL__Expansion__Main-comparator.log",
+      "sha256": "4feec0e0db326ffb7f750ef247985129bbe92856427a5f6be7bfb4ff8e460e72"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/changed-VeriTile__Triton__DSL__Inference-comparator.log",
+      "sha256": "9e0e292bd457cb34b3bd6888cc24777c6a71af6c3cce9828b5d9c7d2c6b940be"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/changed-VeriTile__Triton__DSL__PythonBody-comparator.log",
+      "sha256": "5a6efc5bfd2900bda47973683575f7ff8f0bc2615a07251a4df0192821e26f9e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/changed-VeriTile__Triton__DSL__TypedStores-comparator.log",
+      "sha256": "cbc14ae6197a662c780649cfb82fee4548f6627d356ff974278aa3e6802e7839"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/changed-bench__repairs__tritonbench_g__chunk_cumsum_kernel__Kernels-comparator.log",
+      "sha256": "bdf878bdca319babb08db1cfb21b88be7a91fd67305c5258082465cd0e74e72e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/changed-bench__repairs__tritonbench_g__chunk_cumsum_kernel__LegacyKernels-comparator.log",
+      "sha256": "1ec5610bffe9a34b0385c05a2811e3356ca6e8f04601c96a24430cba04b123cc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/changed-bench__repairs__tritonbench_g__chunk_cumsum_kernel__Proofs__CarryDomain-comparator.log",
+      "sha256": "88baeaf367938c29358d94216f156cf59c416e6449101ad33dfb7c1da7697030"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/changed-bench__repairs__tritonbench_g__chunk_cumsum_kernel__Proofs__FPIndexBridge-comparator.log",
+      "sha256": "cc89781aace8a0a3710da177cf1ae61219a5418c480fa023968ea9863aa49513"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/changed-bench__repairs__tritonbench_g__chunk_cumsum_kernel__Proofs__RealProjection-comparator.log",
+      "sha256": "026dc7d3aff75d05e23288ecf322d4cf51018918b7b6941fc037e60526087cc2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/changed-bench__repairs__tritonbench_g__chunk_cumsum_kernel__Proofs__Rewrite-comparator.log",
+      "sha256": "f379395622f580f7bad8d62ebf744f473fb8051bb608667cdf25414199308719"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/changed-bench__repairs__tritonbench_g__chunk_cumsum_kernel__Proofs__SourcePreservation-comparator.log",
+      "sha256": "81a481a6b2430f1b45c7326a02bef388f8e6e6832200ee10fb9d389632c82beb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/changed-bench__repairs__tritonbench_g__chunk_cumsum_kernel__Proofs__SourceProjection-comparator.log",
+      "sha256": "d76a6540981ffe90d2f6a120f17bf6b5feb2aeeaddbaf6d2bf59eb5a7287ac2b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/changed-bench__repairs__tritonbench_g__chunk_cumsum_kernel__Proofs__SourceSafety-comparator.log",
+      "sha256": "514c1e544902082b8e21dd04dcb23d154c97cd934511b388354bf06959ee037f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/changed-bench__repairs__tritonbench_g__logsumexp_fwd__Kernels-comparator.log",
+      "sha256": "2db031f57593d20422f4bb67c374eabcbea57fd096225d81e33ae79fa1984a94"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/changed-bench__repairs__tritonbench_g__logsumexp_fwd__Proofs__LegacyPastedSurface-comparator.log",
+      "sha256": "bb398338fd67fa5dec6b31d39b1de95c0b6ac7fde1f742568e676ed1766800bc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/changed-bench__repairs__tritonbench_g__logsumexp_fwd__Proofs__Source-comparator.log",
+      "sha256": "d83fb7f703061b42a4d8868fe4dc998859b42a58904f32c8a461e68fbda0fc24"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/changed-bench__repairs__tritonbench_g__logsumexp_fwd__Proofs__SourcePreservation-comparator.log",
+      "sha256": "6661d0672394ff741c837ae45891d19da56f14b46ba6bb377fcbb93660fcd85d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/changed-bench__tests__CallRandomABI-comparator.log",
+      "sha256": "b2db637bb46d16d110da875376232cc6dba0b142b20c8b4d98e437c8e3de84b0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/changed-bench__tests__CallSignature-comparator.log",
+      "sha256": "990e479f0673eb1d7560da44aedb6f9170ce05c39f35fa9572787484a9a7f580"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/changed-bench__tests__FloatInfinityLiteral-comparator.log",
+      "sha256": "9e9d6c5555abc1670864ebfd368ae0466baba21a4fd8586253a50ed87dcee0a3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/chunk_cumsum_kernel-Real-comparator.log",
+      "sha256": "d8ca23d2c53ce36b8703326b3e843c40ab1e4eadc6f02f15536f1295f57d9a59"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/chunk_cumsum_kernel-comparator.log",
+      "sha256": "3bb6420c3e40545cdb1991b17d8f3d32d52a9141dbff9e494197e93e16e9912c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/chunk_cumsum_kernel-contract.log",
+      "sha256": "2f512481698e73ac58af96eeba4bcfe82e7b37f727ed897c938c2cc9a8f92e97"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/clean-build.log.gz",
+      "sha256": "e9a9ffbbc050fd942f9b44292e7cbec80c7d15503e85505f2d29072f53631f5c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/clean-setup.log",
+      "sha256": "64d9d5caf87277f83cdb7ab7685ed5dc7a2a0cc109c5222f65b338582e7d50ac"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/comparator-invocations.json",
+      "sha256": "0ef558cb3fca12aef8a82b2475f7dcd1de17e65341e1fe2afd133d2d16be97c6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/comparator-preflight.log",
+      "sha256": "d9255026a27595d0a04e154bc4a9c609c8422b012fc13cb1ae4de2417afea36d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/comparator-setup.log",
+      "sha256": "bea658f19aea48f8965a3d6525da1300e599d9a3f0a05b992071c97bcaffd6df"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/comparator-tools.json",
+      "sha256": "d541ac407f7aa8679c8ba23dd4df72ac363730bbb67e45bd7959ec752e6b0c53"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/comparator.log",
+      "sha256": "381a600143799536fe548c2d4884bf2cae6ef24c62b6cd8421a91cc61ad86908"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/contract.log",
+      "sha256": "b296dfbe20cd077a16fb6c8bf28af204edd40982178a2d43e77a1ce40dc21d1d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/corpus-guard.log",
+      "sha256": "fca8b525ac41b4a1733fb252271547955c94bfa8ca4933d1c8888653ebe07c69"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/integration.log.gz",
+      "sha256": "639bd094dbd2e7c40fbcfe51c7c28185ab7d92b83951afd7e5b8a9093aa10951"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/joint.lean",
+      "sha256": "ce669998baa8104a1f9706e00789eccedb4f42ebb587aa0547c2a47212e7479c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/logsumexp_fwd-Real-comparator.log",
+      "sha256": "3a52f688b538a7b34b1cb163de57db7859008de1ab19aa364a8496a0b8e73195"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/logsumexp_fwd-comparator.log",
+      "sha256": "a3eec9a98de9214f3dfdbfedfc7fbd417e7bb564b33c00fc6ce697ebad239c6e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/logsumexp_fwd-contract.log",
+      "sha256": "1bd0461eab68db27737c5fe09e7b4767240608ab76bbebde1a2180bc7955d82a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/modules.json",
+      "sha256": "211375d3ca8ada812063c116d00d33975b5ead7605fe5c63c5cd7155c25c229c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/old-infinity-guard.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/pairs.json",
+      "sha256": "97934ed9ca9c5ec05e4342d08f9896727c986db46a06f2a76549f15cce8af0b5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/previous-selected-reviews.json.gz",
+      "sha256": "74145926426c240b5d22eaac236dd0525800ab3f30a3a71f5444073e05fee766"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/python-tests.log",
+      "sha256": "4c24cac38debbbda50764123169fc62269696dcb9669c5802a15b371840defd5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/signed-address-guard.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/signed-range-guard.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/source-closure.json",
+      "sha256": "5d76ef1b961fe88152bbbe29154c90328e27b10c59a7b36e268c0d11a5bd3c2b"
+    }
+  ]
+}

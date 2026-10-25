@@ -1,0 +1,4 @@
+{"name": "changed-bench__repairs__tritonbench_g__chunk_cumsum_kernel__Proofs__RealProjection", "file": "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/RealProjection.lean", "sha256": "f9fd243749d48462c825e12e10a87e7556d4a212ba0fcc2b1cbc5848abbfc9d0", "command": ["python3", "scripts/check_comparator.py", "--file", "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Proofs/RealProjection.lean", "--trust"], "exit_code": 1, "code_commit": "1e04e018025e9e28c36643fa6be4076cb2a291bc"}
+[FAIL] Official comparator isolation is unavailable:
+- systemd AF_UNIX restriction: Failed to connect to bus: Operation not permitted (consider using --machine=<user>@.host --user to connect to bus of other user)
+- Landlock sandbox: [landrun:error] 2026/10/25 09:46:00 Failed to apply sandbox: failed to apply Landlock filesystem restrictions: missing kernel Landlock support. Got Landlock ABI v4, wanted {Landlock V5; FS: all; Net: ∅}

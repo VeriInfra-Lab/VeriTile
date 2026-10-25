@@ -1,0 +1,37 @@
+Cloning into '/tmp/veritile-review-tools/comparator'...
+Cloning into '/tmp/veritile-review-tools/landrun'...
+HEAD is now at 2a00b30 chore: bump toolchain to v4.29.0 (#26)
+HEAD is now at 5283024 chore: Update dependencies
+info: lean4export: cloning https://github.com/leanprover/lean4export
+info: lean4export: checking out revision '048394e1afeeb52b0fa27bcf3f1ade2ff0f0ab6d'
+info: Lean4Checker: cloning https://github.com/leanprover/lean4checker
+info: Lean4Checker: checking out revision 'b7398199245524275543dec6113229c9bb4902e5'
+✔ [2/25] Built Comparator.Util (242ms)
+✔ [3/25] Built Comparator.Util:c.o (190ms)
+✔ [8/25] Built Lean4Checker.Replay (555ms)
+✔ [9/25] Built Export.Parse (1.3s)
+✔ [10/25] Built Lean4Checker.Replay:c.o (530ms)
+✔ [11/25] Built Comparator.Axioms (417ms)
+✔ [12/25] Built Comparator.Axioms:c.o (218ms)
+✔ [13/25] Built Comparator.Compare (433ms)
+✔ [14/25] Built Comparator (275ms)
+✔ [15/25] Built Comparator.Compare:c.o (275ms)
+✔ [16/25] Built Comparator:c.o (48ms)
+✔ [17/25] Built Export (2.5s)
+✔ [18/25] Built Main (835ms)
+✔ [19/25] Built Main (1.1s)
+✔ [20/25] Built Main:c.o (157ms)
+✔ [21/25] Built Main:c.o (492ms)
+✔ [22/25] Built Export.Parse:c.o (6.1s)
+✔ [23/25] Built comparator:exe (923ms)
+✔ [24/25] Built Export:c.o (6.9s)
+✔ [25/25] Built lean4export:exe (919ms)
+Build completed successfully (25 jobs).
+go: downloading github.com/urfave/cli/v2 v2.27.7
+go: downloading github.com/landlock-lsm/go-landlock v0.0.0-20251103212306-430f8e5cd97c
+go: downloading github.com/xrash/smetrics v0.0.0-20240521201337-686a1a2994c1
+go: downloading github.com/cpuguy83/go-md2man/v2 v2.0.7
+go: downloading github.com/russross/blackfriday/v2 v2.1.0
+go: downloading kernel.org/pub/linux/libs/security/libcap/psx v1.2.77
+go: downloading golang.org/x/sys v0.26.0
+Installed official comparator, lean4export and landrun. Add to PATH: /tmp/veritile-review-tools/bin
