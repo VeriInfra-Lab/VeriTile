@@ -18,6 +18,15 @@ abbrev Values := List (Name × ValueInfo)
 
 private def name (id : Ident) : Name := id.getId.eraseMacroScopes
 
+/-- A sequential IR tuple is valid only while every RHS still observes its
+entry values. A later RHS that reads an earlier target would require register
+capture; reject it instead of silently changing Python evaluation order. -/
+private partial def readsTupleTarget (target : Name) (raw : Syntax) : Bool :=
+  if raw.isIdent then
+    let value := raw.getId.eraseMacroScopes.toString
+    value == target.toString || value.startsWith (target.toString ++ ".")
+  else raw.getArgs.any (readsTupleTarget target)
+
 private def lookup (types : Types) (id : Ident) : Option Triton.PointerType :=
   (types.find? (fun entry => entry.1 == name id)).map Prod.snd
 
@@ -372,6 +381,12 @@ private partial def lowerWithState (pointers : Types) (values : Values)
             Macro.throwErrorAt stmt "tuple assignment needs one value per target"
           if targets.any (fun id => invariants.any (fun entry => entry.1 == name id)) then
             Macro.throwErrorAt stmt "unsupported statement involving a loop-carried source dtype"
+          let mut overwritten : List Name := []
+          for (id,value) in targets.zip expressions do
+            if overwritten.any (fun target => readsTupleTarget target value.raw) then
+              Macro.throwErrorAt stmt
+                "tuple assignment needs unsupported simultaneous register capture"
+            overwritten := name id :: overwritten
           -- Python evaluates all RHSs in the entry environment. Preserve
           -- unrelated ABI facts, and replace only the explicitly bound names.
           for (id,value) in targets.zip expressions do

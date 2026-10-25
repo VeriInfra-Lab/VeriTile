@@ -919,3 +919,35 @@ class QuantizedCacheVariantsRawBodyTests(unittest.TestCase):
             ("stride_os_h := groups", "stride_os_h := heads"),
             ('("Dest_loc",.i32)', '("Dest_loc",.i64)'),
         ])
+
+
+class LogSoftmaxRawBodyTests(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/log_softmax"
+
+    def test_forward_backward_and_existing_candidates_keep_signed_tuple_and_padding(self):
+        records = json.loads((self.directory / "jit-correspondence.json").read_text())
+        pairs = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual([p["mode"] for p in pairs], ["pasted_body"] * 4)
+        lean = (self.directory / "Kernels.lean").read_text()
+        for record in records:
+            common = [
+                ("tl.program_id(0).to(tl.int64)", "tl.program_id(0)"),
+                ("tl.program_id(1).to(tl.int64)", "tl.program_id(1)"),
+                ("tl.arange(0, BLOCK_N).to(tl.int64)", "tl.arange(0, BLOCK_N)"),
+                ("tl.cast(M, tl.int64)", "M"),
+                ("tl.cast(N, tl.int64)", "N"),
+                ("tl.cast(K, tl.int64)", "K"),
+                ("safe_n = tl.minimum(n_offset, n64 - 1)", "safe_n = n_offset"),
+                ("N := N", "N := K"),
+            ]
+            if record["lean_definition"].startswith("backward"):
+                common.append(("out_grad_ptr + offset, mask=mask, other=0.0",
+                               "out_grad_ptr + offset, mask=mask"))
+            for before, after in common:
+                with self.subTest(definition=record["lean_definition"], mutation=before):
+                    self.assertIn(before, lean)
+                    with self.assertRaises(ValueError):
+                        check((ROOT / record["python"]).read_text(), lean.replace(before, after),
+                              record["python_function"], record["lean_definition"],
+                              record["signature_definition"], record["expected_signature"],
+                              record["expected_call_bindings"])

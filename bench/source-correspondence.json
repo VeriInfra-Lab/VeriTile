@@ -8,8 +8,8 @@
     "task_status": {
       "legacy_ast_only": 1,
       "no_selected_jit_resolved": 2,
-      "selected_body_copy_checked": 74,
-      "uncovered_jit_functions": 106
+      "selected_body_copy_checked": 75,
+      "uncovered_jit_functions": 105
     },
     "example_status": {
       "authored_counterpart_body_copy_checked": 2,
@@ -17,12 +17,12 @@
       "spec_derived_body_copy_checked": 15
     },
     "selected_jit_functions": 328,
-    "uncovered_selected_jit_functions": 214,
-    "primary_files_with_int64_screen_warning": 29,
+    "uncovered_selected_jit_functions": 212,
+    "primary_files_with_int64_screen_warning": 28,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 82,
-        "antiquotes": 91,
+        "in_body_type_directives": 81,
+        "antiquotes": 90,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 8
       },
@@ -8523,9 +8523,9 @@
       "source_provenance": "selected_revision",
       "lean_screen": {
         "quotations": 4,
-        "in_body_type_directives": 4,
-        "antiquotes": 48,
-        "dsl_assignment": 4,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 30,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -8602,22 +8602,112 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "log_softmax_kernel_repaired",
+          "lean_definition": "forward",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "M": "M",
+            "N": "N",
+            "K": "K"
+          },
+          "statements": 16,
+          "runtime_parameters": {
+            "M": "integer",
+            "N": "integer",
+            "K": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_M",
+            "BLOCK_N"
+          ],
           "python": "bench/repairs/tritonbench_g/log_softmax/log_softmax_repaired.py",
-          "function": "log_softmax_kernel_repaired"
+          "lean": "bench/repairs/tritonbench_g/log_softmax/Kernels.lean"
         },
         {
+          "python_function": "log_softmax_kernel_repaired_index_commuted",
+          "lean_definition": "forwardCommuted",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "M": "M",
+            "N": "N",
+            "K": "K"
+          },
+          "statements": 16,
+          "runtime_parameters": {
+            "M": "integer",
+            "N": "integer",
+            "K": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_M",
+            "BLOCK_N"
+          ],
+          "python": "bench/repairs/tritonbench_g/log_softmax/candidate_kernels.py",
+          "lean": "bench/repairs/tritonbench_g/log_softmax/Kernels.lean"
+        },
+        {
+          "python_function": "log_softmax_backward_kernel_repaired",
+          "lean_definition": "backward",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "M": "M",
+            "N": "N",
+            "K": "K"
+          },
+          "statements": 15,
+          "runtime_parameters": {
+            "M": "integer",
+            "N": "integer",
+            "K": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_M",
+            "BLOCK_N"
+          ],
           "python": "bench/repairs/tritonbench_g/log_softmax/log_softmax_repaired.py",
-          "function": "log_softmax_backward_kernel_repaired"
+          "lean": "bench/repairs/tritonbench_g/log_softmax/Kernels.lean"
+        },
+        {
+          "python_function": "log_softmax_backward_kernel_repaired_index_commuted",
+          "lean_definition": "backwardCommuted",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "M": "M",
+            "N": "N",
+            "K": "K"
+          },
+          "statements": 15,
+          "runtime_parameters": {
+            "M": "integer",
+            "N": "integer",
+            "K": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_M",
+            "BLOCK_N"
+          ],
+          "python": "bench/repairs/tritonbench_g/log_softmax/candidate_kernels.py",
+          "lean": "bench/repairs/tritonbench_g/log_softmax/Kernels.lean"
         }
       ],
-      "int64_screen": "cast_not_visible_in_primary_quotation",
+      "uncovered_selected_jits": [],
+      "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/log_softmax/Kernels.lean": "a6ceeeecbc2690c4bedc0900e6290cc3c0d849ecad18292843f3d61bdf010291",
+        "bench/repairs/tritonbench_g/log_softmax/Kernels.lean": "8d922256c21122dd98c1281429c44d5ded66e2be4a4c1cbd8300503ba7358b76",
+        "bench/repairs/tritonbench_g/log_softmax/candidate_kernels.py": "f32549db1a1479b176b6a733edec79ae1cc8b1ab8d3c2efb7adc65dd910f2db7",
+        "bench/repairs/tritonbench_g/log_softmax/jit-correspondence.json": "e3235a752c86ff76f35a7954d008ea771fbd612a7e554ac053dec52fd4767ad3",
         "bench/repairs/tritonbench_g/log_softmax/log_softmax_repaired.py": "08c0bc96a866f435608f7487015cb54a2f7abf74f0985157eef401dedf206830"
       }
     },

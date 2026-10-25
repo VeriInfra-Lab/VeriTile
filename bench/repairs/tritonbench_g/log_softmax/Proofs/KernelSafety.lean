@@ -32,10 +32,13 @@ theorem forward_source [Inhabited A] (algebra : Algebra A) (O X : RegionName)
     run,step,evalExpr,evalComputeOp,evalOp_unfold,store,Option.bind,
     ComputeDType.eraseDType,numeric,bop,natLt,numericLt,Region.cast,
     TileShape.axisDim,hc,Nat.ne_of_gt hc,State.setReg,and_assoc,Nat.mul_comm BM]
+  all_goals simp only [← Int.natCast_mul, ← Int.natCast_add, Int.ofNat_lt, Nat.mul_comm BM]
   all_goals constructor
   all_goals
     intro i j hm hn hk
     first | apply input | apply output
+    rw [Kernel.signed_index_eq (show 0 < M by omega)
+      (show 0 < N by omega) (show 0 < K by omega)]
     simpa only [ite_mul] using active_bound M N K BM C s (i,j,PUnit.unit) ⟨hm,hn,hk⟩
 
 theorem backward_source [Inhabited A] (algebra : Algebra A) (Y G O : RegionName)
@@ -52,10 +55,13 @@ theorem backward_source [Inhabited A] (algebra : Algebra A) (Y G O : RegionName)
     run,step,evalExpr,evalComputeOp,evalOp_unfold,store,Option.bind,
     ComputeDType.eraseDType,numeric,bop,natLt,numericLt,Region.cast,
     TileShape.axisDim,State.setReg,and_assoc,Nat.mul_comm BM]
+  all_goals simp only [← Int.natCast_mul, ← Int.natCast_add, Int.ofNat_lt, Nat.mul_comm BM]
   all_goals refine ⟨?_,?_,?_⟩
   all_goals
     intro i j hm hn hk
     first | apply saved | apply gradient | apply output
+    rw [Kernel.signed_index_eq (show 0 < M by omega)
+      (show 0 < N by omega) (show 0 < K by omega)]
     simpa only [ite_mul] using active_bound M N K BM C s (i,j,PUnit.unit) ⟨hm,hn,hk⟩
 
 end

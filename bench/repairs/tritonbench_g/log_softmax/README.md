@@ -1,5 +1,21 @@
 # log_softmax: kernel proofs for the separate repair
 
+The selected repaired Python JITs and wrapper are unchanged. All four forward/
+backward original and existing index-candidate functions are now complete raw
+Python bodies in Kernels.lean, with pointer types, runtime M/N/K bindings and
+constexpr tile dimensions outside. Every signed64 PID/arange cast and the
+parenthesized three-value M/N/K cast assignment stays visible. The frontend
+accepts this independent tuple spelling without changing its evaluation order;
+unsupported dependent tuple updates are rejected explicitly.
+
+Kernel.signed_index_eq proves the strict signed clamp/Nat connection on positive
+dimensions. Existing masks separately cover every zero-dimension case, so no
+dimension assumption is added to the execution, memory or frame statements.
+Source safety and whole-state/failure candidate equivalence use the actual
+signed source. candidate_kernels.py is an explicitly authored Python counterpart
+of the two already existing Lean integer-address candidates, not a recovered
+historical source. No new comparison target or numerical law is introduced.
+
 The original benchmark is unchanged (SHA-256
 `ea7ae1e49d9dac09bb0fd692bebc73af80710370a05365f204f0a4213809ddaf`).
 Its forward `log(exp(delta) / sum(exp(delta)))` can underflow before the log:

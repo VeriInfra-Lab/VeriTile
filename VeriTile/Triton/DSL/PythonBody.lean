@@ -73,6 +73,12 @@ def sourceBlock.formatter : PrettyPrinter.Formatter := PrettyPrinter.Formatter.v
 declare_syntax_cat tritonPythonBody
 syntax sourceBlock : tritonPythonBody
 
+/-- Python permits parentheses around a tuple assignment RHS. Normalize only
+this spelling to the existing simultaneous-assignment compiler; the raw source
+and operand/target order are retained. -/
+syntax (name := tritonPythonParenthesizedAssignment)
+  ident ", " ident (", " ident)* " = " "(" tritonExpr ", " tritonExpr (", " tritonExpr)* ")" : tritonStmt
+
 private structure Line where
   indent : Nat
   text : String
@@ -226,6 +232,10 @@ private partial def normalizeAttributeCasts (raw : Syntax) : MacroM Syntax := do
   let rebuilt := match raw with
     | .node info kind _ => Syntax.node info kind children
     | _ => raw
+  if let `(tritonStmt| $a:ident, $b:ident $[, $ids:ident]* =
+      ($x:tritonExpr, $y:tritonExpr $[, $values:tritonExpr]*)) := rebuilt then
+    return (← `(tritonStmt| $a:ident, $b:ident $[, $ids:ident]* =
+      $x:tritonExpr, $y:tritonExpr $[, $values:tritonExpr]*)).raw
   unless rebuilt.getKind == ``tritonSourceHelperCall do return rebuilt
   let some callee := children[0]? | return rebuilt
   unless callee.isIdent do return rebuilt
