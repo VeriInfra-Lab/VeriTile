@@ -26072,7 +26072,66 @@
           "prior_source_pins_match": true
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/embedding_triton_kernel.json",
-        "statement_scope_unchanged": true
+        "statement_scope_unchanged": true,
+        "current_actual_source_bridges": {
+          "complete_actual_prefix_loop_output_frame_execution": {
+            "path": "bench/repairs/tritonbench_g/embedding_triton_kernel/Proofs/Execution.lean",
+            "sha256": "6474f16450dd087b9267968059f09cd7d2d3fab89b1481ad6dbc4749dd55e4ae"
+          },
+          "actual_loop_body_trace_safety": {
+            "path": "bench/repairs/tritonbench_g/embedding_triton_kernel/Proofs/StructuralAccess.lean",
+            "sha256": "15e5522dcb61fa296d08d66af59e53a28a890529b9677d757ae6306bbd5b59f6"
+          },
+          "complete_original_and_candidate_trace_safety": {
+            "path": "bench/repairs/tritonbench_g/embedding_triton_kernel/Proofs/ProgramSafety.lean",
+            "sha256": "dc5a729116340fa9f9d5bad079246718b9346eb9263a62c0ebf5ad7dd359b2b6"
+          },
+          "whole_state_and_failure_equivalence": {
+            "path": "bench/repairs/tritonbench_g/embedding_triton_kernel/Proofs/Rewrite.lean",
+            "sha256": "3908b8eaa97cdfd9df666d9a2ccc5a788ebfea8fb9ed16ea1d2b44f2ac73433e"
+          },
+          "independent_mathematical_lookup": {
+            "path": "bench/repairs/tritonbench_g/embedding_triton_kernel/Contract.lean",
+            "sha256": "76c2e9a9aed8b6a10f2b885d0aa3bc1902548977e7d6f2894e6ed065a7df4956"
+          },
+          "actual_source_to_logical_output_and_bounds": {
+            "path": "bench/repairs/tritonbench_g/embedding_triton_kernel/Proofs/Kernel.lean",
+            "sha256": "905ffa72d5897d5c8b2d52d3772e483bfb52de7dfdea133092a53053b58b4681"
+          },
+          "full_grid_outputs_and_frame": {
+            "path": "bench/repairs/tritonbench_g/embedding_triton_kernel/Proofs/Grid.lean",
+            "sha256": "5525cc0c1efa7e3ffab78cbecc1b4e5a63a81ad74168272fb1bef00632600583"
+          },
+          "retained_machine_width_and_pointer_refinement": {
+            "path": "bench/repairs/tritonbench_g/embedding_triton_kernel/Proofs/Native.lean",
+            "sha256": "76eecaf3fe454970f9087f4d86af858d9907d9fe46626a32d7405eb00e2c109b"
+          },
+          "input_admission_and_address_contract": {
+            "path": "bench/repairs/tritonbench_g/embedding_triton_kernel/Proofs/Bounds.lean",
+            "sha256": "c4b88510c145902bdd95526f7459464c8c45165657ed9326a7f6e85f21f08f0e"
+          },
+          "physical_output_and_exterior_frame": {
+            "path": "bench/repairs/tritonbench_g/embedding_triton_kernel/Proofs/Physical.lean",
+            "sha256": "90df39719d32f4570dcf88091d4d630bc5a4936daf3f5c4876c9966d48c8a037"
+          },
+          "checked_tensor_metadata_binding": {
+            "path": "bench/repairs/tritonbench_g/embedding_triton_kernel/Proofs/TensorBinding.lean",
+            "sha256": "31b6f56c50d2b257191fae628b4e51b4c981a6bfb198ddc52194ae26c35e38b0"
+          },
+          "actual_public_IO_implementation": {
+            "path": "bench/repairs/tritonbench_g/embedding_triton_kernel/Proofs/IOImplements.lean",
+            "sha256": "f8298791b902383936706a6deac2604057172720ccbb0dd41b9ed56f9a2a22e9"
+          },
+          "actual_native_and_successful_pair_scope": {
+            "path": "bench/repairs/tritonbench_g/embedding_triton_kernel/Proofs/SuccessfulEquivalence.lean",
+            "sha256": "34617d28ce4f33a8731ff2899f91f6b4e6aca83cf3cc0b2702fd6bff5fc91213"
+          },
+          "canonical_complete_public_io": {
+            "path": "bench/repairs/tritonbench_g/embedding_triton_kernel/IO.lean",
+            "sha256": "5cae7756689a83d221ab7368746292b02730fe16d95f12930bd2a13931efb298"
+          }
+        },
+        "current_body_source_review": "Both unchanged selected Python functions are pasted directly, including all four explicit signed64 widenings, original names and typo hiden_size, loop and mask/selection/subtraction order. External metadata supplies the existing FP32 payload pointers, signed32 ID storage, five annotated signed64 runtime values and four constexpr bindings. The actual widened row-register execution is re-proved directly: constructive prefix/chunk success, complete 64-iteration output and exterior-memory frame, unchanged public mathematical and physical domains, and actual source/candidate access traces through successor states. Integer Nat/Int cast identities connect evaluated source addresses with the same logical coordinates; no FP conversion identity is assumed. The exact full-state/failure equivalence now commutes the actual signed integer multiplication, with no FP assumptions. All 26 task modules replay, preserving arbitrary FP32 payloads including NaN/sign/denormal words, invalid-ID positive-zero outputs, checked signed-ID and pointer/native-index bounds, full grid, independent mathematical lookup, typed/physical outputs, Tensor and host scopes. Actual source is not replaced by the older natural-register model; no task-specific source generator or hand-written AST is used. No shared frontend source changed in this batch; all transitive affected roots are inventoried and cold-replayed with initially empty project objects. Unchanged prior scopes keep their preceding complete independent receipt, and the combined warm/joint replay checks integration."
       },
       "fp_program_pair": {
         "actual_pairs": [
@@ -26105,12 +26164,12 @@
         "bench/repairs/tritonbench_g/embedding_triton_kernel/Correct.lean": "04eae4c39b31fd2043e08d8c93d7acdd605ade40af7b9226ba13fab5f3233db5",
         "bench/repairs/tritonbench_g/embedding_triton_kernel/FPEquiv.lean": "95af6c807facaab9a3b2d7709a9746e10d44b8412f7d245af1bf20a66a0af2c7",
         "bench/repairs/tritonbench_g/embedding_triton_kernel/IO.lean": "5cae7756689a83d221ab7368746292b02730fe16d95f12930bd2a13931efb298",
-        "bench/repairs/tritonbench_g/embedding_triton_kernel/Kernels.lean": "2e9e9011e3fee1e0bbfa62bf42b8b9597c4c0beded51190b15263fd48c59a19f",
+        "bench/repairs/tritonbench_g/embedding_triton_kernel/Kernels.lean": "9e99615f5db55766b5ad55398a2028252f4e8fe1933a5f4e75ce5dbc7ad80c68",
         "bench/repairs/tritonbench_g/embedding_triton_kernel/Proofs/HeadlineLookup.lean": "ec2d699cb6a3f2b020cbc043fac7888edeb1b11474d8a61c3c783a396035a5b2",
         "bench/repairs/tritonbench_g/embedding_triton_kernel/Proofs/LogicalIO.lean": "a2ae71acde12af8467f8abadec97aab186210969b8e34040a75ff727f80d5033",
-        "bench/repairs/tritonbench_g/embedding_triton_kernel/Proofs/Rewrite.lean": "c96f9b2f192f325da1e3b13114f1d14cb0d1d75956db464ca57a916e7d6f333c",
+        "bench/repairs/tritonbench_g/embedding_triton_kernel/Proofs/Rewrite.lean": "3908b8eaa97cdfd9df666d9a2ccc5a788ebfea8fb9ed16ea1d2b44f2ac73433e",
         "bench/repairs/tritonbench_g/embedding_triton_kernel/Proofs/IOImplements.lean": "f8298791b902383936706a6deac2604057172720ccbb0dd41b9ed56f9a2a22e9",
-        "bench/repairs/tritonbench_g/embedding_triton_kernel/Proofs/Execution.lean": "0dee7f836388c9e53640065bf78aac6190d4e4e98ace3bc6b3296cbc003c8b41",
+        "bench/repairs/tritonbench_g/embedding_triton_kernel/Proofs/Execution.lean": "6474f16450dd087b9267968059f09cd7d2d3fab89b1481ad6dbc4749dd55e4ae",
         "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
         "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
         "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8",
@@ -26126,10 +26185,11 @@
         "bench/repairs/tritonbench_g/embedding_triton_kernel/Proofs/KernelRealResult.lean": "f1378c7b74eb317c0b817e96f34486038cdaedb448a6438f30693d7f10b32fd4",
         "bench/repairs/tritonbench_g/embedding_triton_kernel/Proofs/Native.lean": "76eecaf3fe454970f9087f4d86af858d9907d9fe46626a32d7405eb00e2c109b",
         "bench/repairs/tritonbench_g/embedding_triton_kernel/Proofs/Physical.lean": "90df39719d32f4570dcf88091d4d630bc5a4936daf3f5c4876c9966d48c8a037",
-        "bench/repairs/tritonbench_g/embedding_triton_kernel/Proofs/ProgramSafety.lean": "4bdb35022078395f437674371b1edb4019daa1ddcf9e52eb1ef93698a131ed89",
-        "bench/repairs/tritonbench_g/embedding_triton_kernel/Proofs/StructuralAccess.lean": "d50662c10ed3a6b01d3d0d647a24d5b78df8bb1783a79aab114ac8db8857f425",
+        "bench/repairs/tritonbench_g/embedding_triton_kernel/Proofs/ProgramSafety.lean": "dc5a729116340fa9f9d5bad079246718b9346eb9263a62c0ebf5ad7dd359b2b6",
+        "bench/repairs/tritonbench_g/embedding_triton_kernel/Proofs/StructuralAccess.lean": "15e5522dcb61fa296d08d66af59e53a28a890529b9677d757ae6306bbd5b59f6",
         "bench/repairs/tritonbench_g/embedding_triton_kernel/Proofs/SuccessfulEquivalence.lean": "34617d28ce4f33a8731ff2899f91f6b4e6aca83cf3cc0b2702fd6bff5fc91213",
-        "bench/repairs/tritonbench_g/embedding_triton_kernel/Proofs/TensorBinding.lean": "31b6f56c50d2b257191fae628b4e51b4c981a6bfb198ddc52194ae26c35e38b0"
+        "bench/repairs/tritonbench_g/embedding_triton_kernel/Proofs/TensorBinding.lean": "31b6f56c50d2b257191fae628b4e51b4c981a6bfb198ddc52194ae26c35e38b0",
+        "bench/repairs/tritonbench_g/embedding_triton_kernel/jit-correspondence.json": "133785eb550d7f1fa025c2cf4e2675bec6dde58ec8f4804fc7578f03779b576c"
       },
       "source_pin_provenance": {
         "bench/repairs/tritonbench_g/embedding_triton_kernel/Contract.lean": {
@@ -26283,43 +26343,27 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/embedding_triton_kernel.json",
-        "sha256": "bcfc6ce0c6973e3c9f7de865dedbb367181e9be1403474be80337104411ce1aa",
-        "task": "embedding_triton_kernel"
+        "path": "bench/review-checkpoints/2026-10-25/native-embedding-body/review.json",
+        "sha256": "2ba76d685bee5666803bded868755adde22bf3a2efcbd98e4e6080bafa7b0447"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "limits": [
-          "The official comparator is unavailable; no comparator PASS is claimed.",
-          "External pinned Lean/Mathlib artifacts are reused.",
-          "No new GPU or numerical experiment. The existing matmul_leakyrelu numerical deferral remains.",
-          "Historical cache/tmp evidence bytes were not recovered. Current build and axiom checks replace the missing proof receipts, not the historical hashes or independent-review claim.",
-          "Seven optional historical KV ABI/raw/host/Tensor/backing modules remain unrecovered and outside the selected main source scope."
-        ],
+        "scope": "Combined public/deep local replay and joint import; all affected task roots and complete dependencies cold-replayed independently. Shared source is unchanged; prior independent receipts remain valid.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/selected-build.json",
-            "sha256": "924f91ab59eb29597e96e7fc7a2c001bce1517ca9b87b27dddf66fd1cd2c843d"
+            "path": "bench/review-checkpoints/2026-10-25/native-embedding-body/integration.log.gz",
+            "sha256": "8bb31f62e9e517e78d5a2ae5019c6f5b27d0511d2fa22618b4f0370dca968b97"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/embedding_triton_kernel.lean",
-            "sha256": "c86946a5b40c4c3f3c8ea2d5af5e926fe8ce450810e2c8d6225ecace584bd5d2"
-          },
-          {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/embedding_triton_kernel.log.gz",
-            "sha256": "8fb64cb7805f0e4c8a113a55ba2d96df44578dc3119bfd776bf14c963173e574"
-          },
-          {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/review.json",
-            "sha256": "ee91221d2a053fc635b53f67a17c35b9789058bfe5967a3f354f339fe4f0ef9d"
+            "path": "bench/review-checkpoints/2026-10-25/native-embedding-body/clean-build.log.gz",
+            "sha256": "ca78193371ff32af9e0f6ec9302409439afeb75cb5964c24a95121711e1aefd8"
           }
         ],
-        "joint_import_exit_code": 0,
-        "headline_count": 2,
-        "previous_validation": {
-          "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/superseded-proof-evidence.json.gz",
-          "sha256": "707ace709b2347ce26ab517cb2e4dbbfaa859eedf1634743b30f2da77cfb38e4"
-        }
+        "limits": [
+          "Official comparator tools built but required host isolation is unavailable; actual failure retained.",
+          "One demonstrated pre-existing numerical receipt hash failure; no GPU experiments.",
+          "Task body corpus incomplete; merge awaits human review."
+        ]
       },
       "field_provenance": {
         "mathematical_target": [

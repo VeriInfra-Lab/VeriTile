@@ -43169,7 +43169,7 @@
         ],
         "accepted_sha256": {
           "bench/repairs/tritonbench_g/embedding_triton_kernel/embedding_triton_kernel_repaired.py": "39f241a85d2343ab45b475357620c58f1c7dcd383398f94563ac763554998dd5",
-          "bench/repairs/tritonbench_g/embedding_triton_kernel/Kernels.lean": "a9868776734b4ea27960c2314aca66b5a5e528b97fc94f3628d165b2a6bcd378",
+          "bench/repairs/tritonbench_g/embedding_triton_kernel/Kernels.lean": "9e99615f5db55766b5ad55398a2028252f4e8fe1933a5f4e75ce5dbc7ad80c68",
           "bench/repairs/tritonbench_g/embedding_triton_kernel/Contract.lean": "76c2e9a9aed8b6a10f2b885d0aa3bc1902548977e7d6f2894e6ed065a7df4956",
           "bench/repairs/tritonbench_g/embedding_triton_kernel/Correct.lean": "c73bfdb03cf027fe09434648e9dad72728a9a2b94c3ec069ad2f2a69f7bc0561",
           "bench/repairs/tritonbench_g/embedding_triton_kernel/FPEquiv.lean": "95af6c807facaab9a3b2d7709a9746e10d44b8412f7d245af1bf20a66a0af2c7",
@@ -43251,6 +43251,23 @@
             "source_preservation_and_checks": ".veritile-cache/finish-pending-105-20261021/source-only/embedding_triton_kernel/delivery.json",
             "source_sha256": "427f3f61b7426e1e9ad8d2eb0d98ee8a23088cd18024e4225bca4be43cd0bdc8",
             "scope": "Source readability only; existing domain, precision, candidates, theorem scopes and proof status retained."
+          },
+          "current_source_replay": {
+            "review": {
+              "path": "bench/review-checkpoints/2026-10-25/native-embedding-body/review.json",
+              "sha256": "2ba76d685bee5666803bded868755adde22bf3a2efcbd98e4e6080bafa7b0447"
+            },
+            "code_commit": "d896ae75417e674d7afbf3b24723805ef40dddef",
+            "integration": {
+              "path": "bench/review-checkpoints/2026-10-25/native-embedding-body/integration.log.gz",
+              "sha256": "8bb31f62e9e517e78d5a2ae5019c6f5b27d0511d2fa22618b4f0370dca968b97"
+            },
+            "independent_clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-25/native-embedding-body/clean-build.log.gz",
+              "sha256": "ca78193371ff32af9e0f6ec9302409439afeb75cb5964c24a95121711e1aefd8"
+            },
+            "source_body_mode": "pasted_body",
+            "notes": "Both unchanged selected Python functions are pasted directly, including all four explicit signed64 widenings, original names and typo hiden_size, loop and mask/selection/subtraction order. External metadata supplies the existing FP32 payload pointers, signed32 ID storage, five annotated signed64 runtime values and four constexpr bindings. The actual widened row-register execution is re-proved directly: constructive prefix/chunk success, complete 64-iteration output and exterior-memory frame, unchanged public mathematical and physical domains, and actual source/candidate access traces through successor states. Integer Nat/Int cast identities connect evaluated source addresses with the same logical coordinates; no FP conversion identity is assumed. The exact full-state/failure equivalence now commutes the actual signed integer multiplication, with no FP assumptions. All 26 task modules replay, preserving arbitrary FP32 payloads including NaN/sign/denormal words, invalid-ID positive-zero outputs, checked signed-ID and pointer/native-index bounds, full grid, independent mathematical lookup, typed/physical outputs, Tensor and host scopes. Actual source is not replaced by the older natural-register model; no task-specific source generator or hand-written AST is used. No shared frontend source changed in this batch; all transitive affected roots are inventoried and cold-replayed with initially empty project objects. Unchanged prior scopes keep their preceding complete independent receipt, and the combined warm/joint replay checks integration."
           }
         },
         "transformation_rules": [],
@@ -43717,9 +43734,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/embedding_triton_kernel.json",
-            "sha256": "bcfc6ce0c6973e3c9f7de865dedbb367181e9be1403474be80337104411ce1aa",
-            "task": "embedding_triton_kernel"
+            "path": "bench/review-checkpoints/2026-10-25/native-embedding-body/review.json",
+            "sha256": "2ba76d685bee5666803bded868755adde22bf3a2efcbd98e4e6080bafa7b0447"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.EmbeddingTritonKernel.Correct.embedding_kernel_correctness",
@@ -43781,9 +43797,13 @@
           }
         },
         "jit_correspondence": {
-          "status": "missing_explicit_int64_cast",
-          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
-          "scope": "Statement correspondence is separate from prior model proof acceptance."
+          "status": "selected_body_copy_checked",
+          "inventory": "bench/source-correspondence.json",
+          "review_evidence": {
+            "path": "bench/review-checkpoints/2026-10-25/native-embedding-body/review.json",
+            "sha256": "2ba76d685bee5666803bded868755adde22bf3a2efcbd98e4e6080bafa7b0447"
+          },
+          "scope": "All selected original and retained candidate bodies, explicitly shared identical sources, independent source ABI/provenance and complete proof replay."
         }
       }
     },
@@ -146117,7 +146137,7 @@
     "remaining_substantive_gaps": 0,
     "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
     "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
-    "audit_sha256": "03abb20c58a81c81201c8ada63086486fec11a7a5ee2bd907f7438299240634a",
+    "audit_sha256": "7322f99f0e3510274b1e62f4e8b41a9f36e1bc33c52d0bad9e7d411e30823dfa",
     "guard": "bench/check_main_formula_review.py",
     "validation": "bench/review-checkpoints/2026-10-23/reference-separation/validation.json",
     "proof_completion_changed": false,
@@ -146283,12 +146303,12 @@
   "jit_correspondence_review": {
     "date": "2026-10-25",
     "review": {
-      "path": "bench/review-checkpoints/2026-10-25/native-fused-activation-body/review.json",
-      "sha256": "09a867944fbd4a99b6392f7714eb8847c2d2582947fa2cfb60635c4e08156b03"
+      "path": "bench/review-checkpoints/2026-10-25/native-embedding-body/review.json",
+      "sha256": "2ba76d685bee5666803bded868755adde22bf3a2efcbd98e4e6080bafa7b0447"
     },
     "inventory": {
       "path": "bench/source-correspondence.json",
-      "sha256": "74f11a8ef3f762a6dc55622dc50d262843b821864b73192d0e4ec8288e464eeb"
+      "sha256": "e243785fa38cb060ba49ecad104ab3a543d3c78486d1fbd2d94fe5c8ff444a29"
     },
     "pasted_body_entry_tasks": [
       "adam_update_triton",
@@ -146304,6 +146324,7 @@
       "destindex_copy_kv1",
       "destindex_copy_kv2",
       "dropout_triton",
+      "embedding_triton_kernel",
       "f8_conversion_utils",
       "fast_rope_embedding",
       "fused_activation",
@@ -146349,15 +146370,15 @@
       "vector_addition",
       "vector_addition_custom"
     ],
-    "scope": "19/19 examples, 57/183 selected tasks migrated. Remaining 123 uncovered tasks, one old AST mapping and two unresolved/indirect entries remain pending.",
+    "scope": "19/19 examples, 58/183 selected tasks migrated. Remaining 122 uncovered tasks, one old AST mapping and two unresolved/indirect entries remain pending.",
     "counts": {
       "tasks": 183,
       "examples": 19,
       "task_status": {
         "legacy_ast_only": 1,
         "no_selected_jit_resolved": 2,
-        "selected_body_copy_checked": 57,
-        "uncovered_jit_functions": 123
+        "selected_body_copy_checked": 58,
+        "uncovered_jit_functions": 122
       },
       "example_status": {
         "authored_counterpart_body_copy_checked": 2,
@@ -146365,12 +146386,12 @@
         "spec_derived_body_copy_checked": 15
       },
       "selected_jit_functions": 328,
-      "uncovered_selected_jit_functions": 239,
-      "primary_files_with_int64_screen_warning": 38,
+      "uncovered_selected_jit_functions": 237,
+      "primary_files_with_int64_screen_warning": 37,
       "primary_lean_file_features": {
         "tasks": {
-          "in_body_type_directives": 98,
-          "antiquotes": 107,
+          "in_body_type_directives": 97,
+          "antiquotes": 106,
           "dsl_loop": 1,
           "dsl_numeric_helpers": 8
         },
@@ -146385,12 +146406,12 @@
     "previous_review": {
       "date": "2026-10-25",
       "review": {
-        "path": "bench/review-checkpoints/2026-10-25/native-matmul-bodies/review.json",
-        "sha256": "35b4152129b10d499c5da7923fd27452b3c6960951e97a014456be9c59e9aff1"
+        "path": "bench/review-checkpoints/2026-10-25/native-fused-activation-body/review.json",
+        "sha256": "09a867944fbd4a99b6392f7714eb8847c2d2582947fa2cfb60635c4e08156b03"
       },
       "inventory": {
         "path": "bench/source-correspondence.json",
-        "sha256": "d246844783acad08390728bf35502b6e1cd3bae584d1f38809af4a564c23d908"
+        "sha256": "74f11a8ef3f762a6dc55622dc50d262843b821864b73192d0e4ec8288e464eeb"
       },
       "pasted_body_entry_tasks": [
         "adam_update_triton",
@@ -146408,6 +146429,7 @@
         "dropout_triton",
         "f8_conversion_utils",
         "fast_rope_embedding",
+        "fused_activation",
         "fused_recurrent_hgrn",
         "index_select_bwd",
         "index_select_cat",
@@ -146450,15 +146472,15 @@
         "vector_addition",
         "vector_addition_custom"
       ],
-      "scope": "19/19 examples, 56/183 selected tasks migrated. Remaining 124 uncovered tasks, one old AST mapping and two unresolved/indirect entries remain pending.",
+      "scope": "19/19 examples, 57/183 selected tasks migrated. Remaining 123 uncovered tasks, one old AST mapping and two unresolved/indirect entries remain pending.",
       "counts": {
         "tasks": 183,
         "examples": 19,
         "task_status": {
           "legacy_ast_only": 1,
           "no_selected_jit_resolved": 2,
-          "selected_body_copy_checked": 56,
-          "uncovered_jit_functions": 124
+          "selected_body_copy_checked": 57,
+          "uncovered_jit_functions": 123
         },
         "example_status": {
           "authored_counterpart_body_copy_checked": 2,
@@ -146466,12 +146488,12 @@
           "spec_derived_body_copy_checked": 15
         },
         "selected_jit_functions": 328,
-        "uncovered_selected_jit_functions": 241,
+        "uncovered_selected_jit_functions": 239,
         "primary_files_with_int64_screen_warning": 38,
         "primary_lean_file_features": {
           "tasks": {
             "in_body_type_directives": 98,
-            "antiquotes": 108,
+            "antiquotes": 107,
             "dsl_loop": 1,
             "dsl_numeric_helpers": 8
           },
@@ -146486,12 +146508,12 @@
       "previous_review": {
         "date": "2026-10-25",
         "review": {
-          "path": "bench/review-checkpoints/2026-10-25/native-chunked-cumsum-body/review.json",
-          "sha256": "a5c0300ce3359e6f3334a9ce2e81f4e1e0ca3c864bbca1847750e43e9d03a3b9"
+          "path": "bench/review-checkpoints/2026-10-25/native-matmul-bodies/review.json",
+          "sha256": "35b4152129b10d499c5da7923fd27452b3c6960951e97a014456be9c59e9aff1"
         },
         "inventory": {
           "path": "bench/source-correspondence.json",
-          "sha256": "0c76656ff478ed025bfa63fc84b8d4b765f84f0bafeb36279841c61eecd28da6"
+          "sha256": "d246844783acad08390728bf35502b6e1cd3bae584d1f38809af4a564c23d908"
         },
         "pasted_body_entry_tasks": [
           "adam_update_triton",
@@ -146521,6 +146543,7 @@
           "l2_norm_triton2",
           "logsumexp_fwd",
           "masked_add_cuda",
+          "matmul_kernel",
           "matrix_reduction",
           "matrix_transpose",
           "mean_reduction",
@@ -146550,15 +146573,15 @@
           "vector_addition",
           "vector_addition_custom"
         ],
-        "scope": "19/19 examples, 55/183 selected tasks migrated. Remaining 125 uncovered tasks, one old AST mapping and two unresolved/indirect entries remain pending.",
+        "scope": "19/19 examples, 56/183 selected tasks migrated. Remaining 124 uncovered tasks, one old AST mapping and two unresolved/indirect entries remain pending.",
         "counts": {
           "tasks": 183,
           "examples": 19,
           "task_status": {
             "legacy_ast_only": 1,
             "no_selected_jit_resolved": 2,
-            "selected_body_copy_checked": 55,
-            "uncovered_jit_functions": 125
+            "selected_body_copy_checked": 56,
+            "uncovered_jit_functions": 124
           },
           "example_status": {
             "authored_counterpart_body_copy_checked": 2,
@@ -146566,12 +146589,12 @@
             "spec_derived_body_copy_checked": 15
           },
           "selected_jit_functions": 328,
-          "uncovered_selected_jit_functions": 242,
+          "uncovered_selected_jit_functions": 241,
           "primary_files_with_int64_screen_warning": 38,
           "primary_lean_file_features": {
             "tasks": {
               "in_body_type_directives": 98,
-              "antiquotes": 109,
+              "antiquotes": 108,
               "dsl_loop": 1,
               "dsl_numeric_helpers": 8
             },
@@ -146586,12 +146609,12 @@
         "previous_review": {
           "date": "2026-10-25",
           "review": {
-            "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/review.json",
-            "sha256": "ed580f4dc7a6267d53e484bce9b81803fe0f63ed470b1ab28f62ced2f8347a74"
+            "path": "bench/review-checkpoints/2026-10-25/native-chunked-cumsum-body/review.json",
+            "sha256": "a5c0300ce3359e6f3334a9ce2e81f4e1e0ca3c864bbca1847750e43e9d03a3b9"
           },
           "inventory": {
             "path": "bench/source-correspondence.json",
-            "sha256": "c5d5442d22447ce22e5b28a953ad6d932c7413d3eca555c9418b8b5ec2b1d71f"
+            "sha256": "0c76656ff478ed025bfa63fc84b8d4b765f84f0bafeb36279841c61eecd28da6"
           },
           "pasted_body_entry_tasks": [
             "adam_update_triton",
@@ -146599,6 +146622,7 @@
             "add_value",
             "cache_transform_triton",
             "chunk_cumsum_kernel",
+            "chunked_cumsum_fwd",
             "cosine_compute",
             "dequantize_matmul",
             "dequantize_rowwise",
@@ -146649,15 +146673,15 @@
             "vector_addition",
             "vector_addition_custom"
           ],
-          "scope": "19/19 examples, 54/183 selected tasks migrated. Remaining 126 uncovered tasks, one old AST mapping and two unresolved/indirect entries remain pending.",
+          "scope": "19/19 examples, 55/183 selected tasks migrated. Remaining 125 uncovered tasks, one old AST mapping and two unresolved/indirect entries remain pending.",
           "counts": {
             "tasks": 183,
             "examples": 19,
             "task_status": {
               "legacy_ast_only": 1,
               "no_selected_jit_resolved": 2,
-              "selected_body_copy_checked": 54,
-              "uncovered_jit_functions": 126
+              "selected_body_copy_checked": 55,
+              "uncovered_jit_functions": 125
             },
             "example_status": {
               "authored_counterpart_body_copy_checked": 2,
@@ -146665,12 +146689,12 @@
               "spec_derived_body_copy_checked": 15
             },
             "selected_jit_functions": 328,
-            "uncovered_selected_jit_functions": 243,
+            "uncovered_selected_jit_functions": 242,
             "primary_files_with_int64_screen_warning": 38,
             "primary_lean_file_features": {
               "tasks": {
-                "in_body_type_directives": 99,
-                "antiquotes": 110,
+                "in_body_type_directives": 98,
+                "antiquotes": 109,
                 "dsl_loop": 1,
                 "dsl_numeric_helpers": 8
               },
@@ -146685,12 +146709,12 @@
           "previous_review": {
             "date": "2026-10-25",
             "review": {
-              "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/review.json",
-              "sha256": "5bebde802ac9d6e433f2b04ed02d3f834c54a62ca109075b841dd7a92e87463f"
+              "path": "bench/review-checkpoints/2026-10-25/native-hgrn-swiglu-relu-bodies/review.json",
+              "sha256": "ed580f4dc7a6267d53e484bce9b81803fe0f63ed470b1ab28f62ced2f8347a74"
             },
             "inventory": {
               "path": "bench/source-correspondence.json",
-              "sha256": "a04e20886135ccd9021c011eb51caaa55f1aad6da07087f02aa7cd43ca7b5fc4"
+              "sha256": "c5d5442d22447ce22e5b28a953ad6d932c7413d3eca555c9418b8b5ec2b1d71f"
             },
             "pasted_body_entry_tasks": [
               "adam_update_triton",
@@ -146707,6 +146731,7 @@
               "dropout_triton",
               "f8_conversion_utils",
               "fast_rope_embedding",
+              "fused_recurrent_hgrn",
               "index_select_bwd",
               "index_select_cat",
               "kcache_copy_triton",
@@ -146724,6 +146749,7 @@
               "mul_exponent_compensator",
               "nested_loops_processing",
               "quant_transpose_kernel",
+              "relu_triton_kernel",
               "rms_norm_triton",
               "rmsnorm_fused",
               "rmsnorm_fused_llama",
@@ -146738,6 +146764,7 @@
               "softmax_triton1",
               "softmax_triton2",
               "square_matrix",
+              "swiglu_backward",
               "swiglu_fwd",
               "triton_mul2",
               "triton_softmax",
@@ -146745,15 +146772,15 @@
               "vector_addition",
               "vector_addition_custom"
             ],
-            "scope": "19/19 examples, 51/183 selected tasks migrated. Remaining 129 uncovered tasks, one old AST mapping and two unresolved/indirect entries remain pending.",
+            "scope": "19/19 examples, 54/183 selected tasks migrated. Remaining 126 uncovered tasks, one old AST mapping and two unresolved/indirect entries remain pending.",
             "counts": {
               "tasks": 183,
               "examples": 19,
               "task_status": {
                 "legacy_ast_only": 1,
                 "no_selected_jit_resolved": 2,
-                "selected_body_copy_checked": 51,
-                "uncovered_jit_functions": 129
+                "selected_body_copy_checked": 54,
+                "uncovered_jit_functions": 126
               },
               "example_status": {
                 "authored_counterpart_body_copy_checked": 2,
@@ -146761,12 +146788,12 @@
                 "spec_derived_body_copy_checked": 15
               },
               "selected_jit_functions": 328,
-              "uncovered_selected_jit_functions": 248,
+              "uncovered_selected_jit_functions": 243,
               "primary_files_with_int64_screen_warning": 38,
               "primary_lean_file_features": {
                 "tasks": {
-                  "in_body_type_directives": 101,
-                  "antiquotes": 113,
+                  "in_body_type_directives": 99,
+                  "antiquotes": 110,
                   "dsl_loop": 1,
                   "dsl_numeric_helpers": 8
                 },
@@ -146781,18 +146808,19 @@
             "previous_review": {
               "date": "2026-10-25",
               "review": {
-                "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
-                "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
+                "path": "bench/review-checkpoints/2026-10-25/native-scan-and-logsumexp-bodies/review.json",
+                "sha256": "5bebde802ac9d6e433f2b04ed02d3f834c54a62ca109075b841dd7a92e87463f"
               },
               "inventory": {
                 "path": "bench/source-correspondence.json",
-                "sha256": "c772e9edb8077afc175d9e9379ccc85b0497fea9e40243f96c31b974ab8546d0"
+                "sha256": "a04e20886135ccd9021c011eb51caaa55f1aad6da07087f02aa7cd43ca7b5fc4"
               },
               "pasted_body_entry_tasks": [
                 "adam_update_triton",
                 "add_example",
                 "add_value",
                 "cache_transform_triton",
+                "chunk_cumsum_kernel",
                 "cosine_compute",
                 "dequantize_matmul",
                 "dequantize_rowwise",
@@ -146811,6 +146839,7 @@
                 "l2_norm_bwd",
                 "l2_norm_triton1",
                 "l2_norm_triton2",
+                "logsumexp_fwd",
                 "masked_add_cuda",
                 "matrix_reduction",
                 "matrix_transpose",
@@ -146839,15 +146868,15 @@
                 "vector_addition",
                 "vector_addition_custom"
               ],
-              "scope": "19/19 examples, 49/183 selected tasks migrated. Remaining 131 uncovered tasks, one old AST mapping and two unresolved/indirect entries remain pending.",
+              "scope": "19/19 examples, 51/183 selected tasks migrated. Remaining 129 uncovered tasks, one old AST mapping and two unresolved/indirect entries remain pending.",
               "counts": {
                 "tasks": 183,
                 "examples": 19,
                 "task_status": {
                   "legacy_ast_only": 1,
                   "no_selected_jit_resolved": 2,
-                  "selected_body_copy_checked": 49,
-                  "uncovered_jit_functions": 131
+                  "selected_body_copy_checked": 51,
+                  "uncovered_jit_functions": 129
                 },
                 "example_status": {
                   "authored_counterpart_body_copy_checked": 2,
@@ -146855,12 +146884,12 @@
                   "spec_derived_body_copy_checked": 15
                 },
                 "selected_jit_functions": 328,
-                "uncovered_selected_jit_functions": 251,
+                "uncovered_selected_jit_functions": 248,
                 "primary_files_with_int64_screen_warning": 38,
                 "primary_lean_file_features": {
                   "tasks": {
-                    "in_body_type_directives": 103,
-                    "antiquotes": 115,
+                    "in_body_type_directives": 101,
+                    "antiquotes": 113,
                     "dsl_loop": 1,
                     "dsl_numeric_helpers": 8
                   },
@@ -146875,12 +146904,12 @@
               "previous_review": {
                 "date": "2026-10-25",
                 "review": {
-                  "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/review.json",
-                  "sha256": "1222701672649471102a5ca303decde4452af17c4f9bbb881d4ec9373fb6fd40"
+                  "path": "bench/review-checkpoints/2026-10-25/native-rmsnorm-body/review.json",
+                  "sha256": "0a1975fc48cf4ccd066d7ffa7586c833482a90ef70cfa5234a6e5d145de1bb2f"
                 },
                 "inventory": {
                   "path": "bench/source-correspondence.json",
-                  "sha256": "2aa73a79f4776769f4cdb2134c1a9b3412c6b5be317cfa9d26240d329204d650"
+                  "sha256": "c772e9edb8077afc175d9e9379ccc85b0497fea9e40243f96c31b974ab8546d0"
                 },
                 "pasted_body_entry_tasks": [
                   "adam_update_triton",
@@ -146912,6 +146941,7 @@
                   "mul_exponent_compensator",
                   "nested_loops_processing",
                   "quant_transpose_kernel",
+                  "rms_norm_triton",
                   "rmsnorm_fused",
                   "rmsnorm_fused_llama",
                   "rmsnorm_implementation",
@@ -146932,15 +146962,15 @@
                   "vector_addition",
                   "vector_addition_custom"
                 ],
-                "scope": "19/19 examples, 48/183 selected tasks migrated. Remaining 132 uncovered tasks, one old AST mapping and two unresolved/indirect entries remain pending.",
+                "scope": "19/19 examples, 49/183 selected tasks migrated. Remaining 131 uncovered tasks, one old AST mapping and two unresolved/indirect entries remain pending.",
                 "counts": {
                   "tasks": 183,
                   "examples": 19,
                   "task_status": {
                     "legacy_ast_only": 1,
                     "no_selected_jit_resolved": 2,
-                    "selected_body_copy_checked": 48,
-                    "uncovered_jit_functions": 132
+                    "selected_body_copy_checked": 49,
+                    "uncovered_jit_functions": 131
                   },
                   "example_status": {
                     "authored_counterpart_body_copy_checked": 2,
@@ -146948,12 +146978,12 @@
                     "spec_derived_body_copy_checked": 15
                   },
                   "selected_jit_functions": 328,
-                  "uncovered_selected_jit_functions": 252,
+                  "uncovered_selected_jit_functions": 251,
                   "primary_files_with_int64_screen_warning": 38,
                   "primary_lean_file_features": {
                     "tasks": {
-                      "in_body_type_directives": 104,
-                      "antiquotes": 116,
+                      "in_body_type_directives": 103,
+                      "antiquotes": 115,
                       "dsl_loop": 1,
                       "dsl_numeric_helpers": 8
                     },
@@ -146968,12 +146998,12 @@
                 "previous_review": {
                   "date": "2026-10-25",
                   "review": {
-                    "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/review.json",
-                    "sha256": "9c4b23e21146ea1e28c573df70315b23be4935f55bfff3c2528fa943a3338e70"
+                    "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/review.json",
+                    "sha256": "1222701672649471102a5ca303decde4452af17c4f9bbb881d4ec9373fb6fd40"
                   },
                   "inventory": {
                     "path": "bench/source-correspondence.json",
-                    "sha256": "4e551db4b873fe5ab2a5df9dfa568e0f01812524d9891f3db47785ef60f8d2db"
+                    "sha256": "2aa73a79f4776769f4cdb2134c1a9b3412c6b5be317cfa9d26240d329204d650"
                   },
                   "pasted_body_entry_tasks": [
                     "adam_update_triton",
@@ -146986,6 +147016,7 @@
                     "destindex_copy",
                     "destindex_copy_kv1",
                     "destindex_copy_kv2",
+                    "dropout_triton",
                     "f8_conversion_utils",
                     "fast_rope_embedding",
                     "index_select_bwd",
@@ -147011,6 +147042,7 @@
                     "rope_embedding",
                     "rotary_emb",
                     "rotary_emb_nopad",
+                    "seeded_dropout",
                     "sin_computation",
                     "sin_kernel",
                     "softmax_triton1",
@@ -147023,15 +147055,15 @@
                     "vector_addition",
                     "vector_addition_custom"
                   ],
-                  "scope": "19/19 examples, 46/183 selected tasks migrated. Remaining 134 uncovered tasks, one old AST mapping and two unresolved/indirect entries remain pending.",
+                  "scope": "19/19 examples, 48/183 selected tasks migrated. Remaining 132 uncovered tasks, one old AST mapping and two unresolved/indirect entries remain pending.",
                   "counts": {
                     "tasks": 183,
                     "examples": 19,
                     "task_status": {
                       "legacy_ast_only": 1,
                       "no_selected_jit_resolved": 2,
-                      "selected_body_copy_checked": 46,
-                      "uncovered_jit_functions": 134
+                      "selected_body_copy_checked": 48,
+                      "uncovered_jit_functions": 132
                     },
                     "example_status": {
                       "authored_counterpart_body_copy_checked": 2,
@@ -147039,12 +147071,12 @@
                       "spec_derived_body_copy_checked": 15
                     },
                     "selected_jit_functions": 328,
-                    "uncovered_selected_jit_functions": 256,
+                    "uncovered_selected_jit_functions": 252,
                     "primary_files_with_int64_screen_warning": 38,
                     "primary_lean_file_features": {
                       "tasks": {
-                        "in_body_type_directives": 106,
-                        "antiquotes": 118,
+                        "in_body_type_directives": 104,
+                        "antiquotes": 116,
                         "dsl_loop": 1,
                         "dsl_numeric_helpers": 8
                       },
@@ -147059,12 +147091,12 @@
                   "previous_review": {
                     "date": "2026-10-25",
                     "review": {
-                      "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/review.json",
-                      "sha256": "cc0c10e36cea7b70f84c7391b8908d8303c6cf1ccb260675a2e4624c9c7a3c6a"
+                      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/review.json",
+                      "sha256": "9c4b23e21146ea1e28c573df70315b23be4935f55bfff3c2528fa943a3338e70"
                     },
                     "inventory": {
                       "path": "bench/source-correspondence.json",
-                      "sha256": "dfd8baa05dd51fdcdded5fd521342edc497f2e9831b50d8b187b18d98f6eb4e7"
+                      "sha256": "4e551db4b873fe5ab2a5df9dfa568e0f01812524d9891f3db47785ef60f8d2db"
                     },
                     "pasted_body_entry_tasks": [
                       "adam_update_triton",
@@ -147093,6 +147125,7 @@
                       "matrix_transpose",
                       "mean_reduction",
                       "mul_exponent_compensator",
+                      "nested_loops_processing",
                       "quant_transpose_kernel",
                       "rmsnorm_fused",
                       "rmsnorm_fused_llama",
@@ -147113,15 +147146,15 @@
                       "vector_addition",
                       "vector_addition_custom"
                     ],
-                    "scope": "19/19 examples, 45/183 selected tasks migrated. Remaining 135 uncovered tasks, one old AST mapping and two unresolved/indirect entries remain pending.",
+                    "scope": "19/19 examples, 46/183 selected tasks migrated. Remaining 134 uncovered tasks, one old AST mapping and two unresolved/indirect entries remain pending.",
                     "counts": {
                       "tasks": 183,
                       "examples": 19,
                       "task_status": {
                         "legacy_ast_only": 1,
                         "no_selected_jit_resolved": 2,
-                        "selected_body_copy_checked": 45,
-                        "uncovered_jit_functions": 135
+                        "selected_body_copy_checked": 46,
+                        "uncovered_jit_functions": 134
                       },
                       "example_status": {
                         "authored_counterpart_body_copy_checked": 2,
@@ -147129,12 +147162,12 @@
                         "spec_derived_body_copy_checked": 15
                       },
                       "selected_jit_functions": 328,
-                      "uncovered_selected_jit_functions": 257,
-                      "primary_files_with_int64_screen_warning": 39,
+                      "uncovered_selected_jit_functions": 256,
+                      "primary_files_with_int64_screen_warning": 38,
                       "primary_lean_file_features": {
                         "tasks": {
-                          "in_body_type_directives": 107,
-                          "antiquotes": 119,
+                          "in_body_type_directives": 106,
+                          "antiquotes": 118,
                           "dsl_loop": 1,
                           "dsl_numeric_helpers": 8
                         },
@@ -147149,12 +147182,12 @@
                     "previous_review": {
                       "date": "2026-10-25",
                       "review": {
-                        "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/review.json",
-                        "sha256": "c5d5190f7f71f5f95866f918ec1ad92b7d57f65363928b2215a91511662fd8c2"
+                        "path": "bench/review-checkpoints/2026-10-25/native-index-select-body/review.json",
+                        "sha256": "cc0c10e36cea7b70f84c7391b8908d8303c6cf1ccb260675a2e4624c9c7a3c6a"
                       },
                       "inventory": {
                         "path": "bench/source-correspondence.json",
-                        "sha256": "53e0c25a7be0ad9054cdab4f8cb19cfcef15ffb38bf76c4652fc67a0162de75c"
+                        "sha256": "dfd8baa05dd51fdcdded5fd521342edc497f2e9831b50d8b187b18d98f6eb4e7"
                       },
                       "pasted_body_entry_tasks": [
                         "adam_update_triton",
@@ -147170,6 +147203,7 @@
                         "f8_conversion_utils",
                         "fast_rope_embedding",
                         "index_select_bwd",
+                        "index_select_cat",
                         "kcache_copy_triton",
                         "kldiv_compute",
                         "kldiv_triton",
@@ -147202,15 +147236,15 @@
                         "vector_addition",
                         "vector_addition_custom"
                       ],
-                      "scope": "19/19 examples, 44/183 selected tasks migrated. Remaining 136 uncovered tasks, one old AST mapping and two unresolved/indirect entries remain pending.",
+                      "scope": "19/19 examples, 45/183 selected tasks migrated. Remaining 135 uncovered tasks, one old AST mapping and two unresolved/indirect entries remain pending.",
                       "counts": {
                         "tasks": 183,
                         "examples": 19,
                         "task_status": {
                           "legacy_ast_only": 1,
                           "no_selected_jit_resolved": 2,
-                          "selected_body_copy_checked": 44,
-                          "uncovered_jit_functions": 136
+                          "selected_body_copy_checked": 45,
+                          "uncovered_jit_functions": 135
                         },
                         "example_status": {
                           "authored_counterpart_body_copy_checked": 2,
@@ -147218,12 +147252,12 @@
                           "spec_derived_body_copy_checked": 15
                         },
                         "selected_jit_functions": 328,
-                        "uncovered_selected_jit_functions": 259,
-                        "primary_files_with_int64_screen_warning": 40,
+                        "uncovered_selected_jit_functions": 257,
+                        "primary_files_with_int64_screen_warning": 39,
                         "primary_lean_file_features": {
                           "tasks": {
-                            "in_body_type_directives": 108,
-                            "antiquotes": 120,
+                            "in_body_type_directives": 107,
+                            "antiquotes": 119,
                             "dsl_loop": 1,
                             "dsl_numeric_helpers": 8
                           },
@@ -147238,12 +147272,12 @@
                       "previous_review": {
                         "date": "2026-10-25",
                         "review": {
-                          "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/review.json",
-                          "sha256": "468fe0752d3f3392ccf9d11f5a308c46afafcc57bbd7d8c930daf9c9743f17f1"
+                          "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/review.json",
+                          "sha256": "c5d5190f7f71f5f95866f918ec1ad92b7d57f65363928b2215a91511662fd8c2"
                         },
                         "inventory": {
                           "path": "bench/source-correspondence.json",
-                          "sha256": "45c5fbf6bf95fe7abae659ad5e52114ddb8d499b1b2562c916acdbfa8f494212"
+                          "sha256": "53e0c25a7be0ad9054cdab4f8cb19cfcef15ffb38bf76c4652fc67a0162de75c"
                         },
                         "pasted_body_entry_tasks": [
                           "adam_update_triton",
@@ -147262,6 +147296,7 @@
                           "kcache_copy_triton",
                           "kldiv_compute",
                           "kldiv_triton",
+                          "kv_cache_copy",
                           "l2_norm_bwd",
                           "l2_norm_triton1",
                           "l2_norm_triton2",
@@ -147276,6 +147311,8 @@
                           "rmsnorm_implementation",
                           "rmsnorm_triton",
                           "rope_embedding",
+                          "rotary_emb",
+                          "rotary_emb_nopad",
                           "sin_computation",
                           "sin_kernel",
                           "softmax_triton1",
@@ -147288,15 +147325,15 @@
                           "vector_addition",
                           "vector_addition_custom"
                         ],
-                        "scope": "19/19 examples, 41/183 selected tasks migrated. Remaining 139 uncovered tasks, one old AST mapping and two unresolved/indirect entries remain pending.",
+                        "scope": "19/19 examples, 44/183 selected tasks migrated. Remaining 136 uncovered tasks, one old AST mapping and two unresolved/indirect entries remain pending.",
                         "counts": {
                           "tasks": 183,
                           "examples": 19,
                           "task_status": {
                             "legacy_ast_only": 1,
                             "no_selected_jit_resolved": 2,
-                            "selected_body_copy_checked": 41,
-                            "uncovered_jit_functions": 139
+                            "selected_body_copy_checked": 44,
+                            "uncovered_jit_functions": 136
                           },
                           "example_status": {
                             "authored_counterpart_body_copy_checked": 2,
@@ -147304,12 +147341,12 @@
                             "spec_derived_body_copy_checked": 15
                           },
                           "selected_jit_functions": 328,
-                          "uncovered_selected_jit_functions": 264,
+                          "uncovered_selected_jit_functions": 259,
                           "primary_files_with_int64_screen_warning": 40,
                           "primary_lean_file_features": {
                             "tasks": {
-                              "in_body_type_directives": 111,
-                              "antiquotes": 123,
+                              "in_body_type_directives": 108,
+                              "antiquotes": 120,
                               "dsl_loop": 1,
                               "dsl_numeric_helpers": 8
                             },
@@ -147324,12 +147361,12 @@
                         "previous_review": {
                           "date": "2026-10-25",
                           "review": {
-                            "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/review.json",
-                            "sha256": "7ad406f260fa76e41402ee51a97881bad0a4045d8742d60dffaf5f929af01ba0"
+                            "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/review.json",
+                            "sha256": "468fe0752d3f3392ccf9d11f5a308c46afafcc57bbd7d8c930daf9c9743f17f1"
                           },
                           "inventory": {
                             "path": "bench/source-correspondence.json",
-                            "sha256": "2cbbbaecac4b1c5454a7fa63d28fe86a7b4f8fd250ab9295a2cf89b2240c2a6b"
+                            "sha256": "45c5fbf6bf95fe7abae659ad5e52114ddb8d499b1b2562c916acdbfa8f494212"
                           },
                           "pasted_body_entry_tasks": [
                             "adam_update_triton",
@@ -147339,9 +147376,13 @@
                             "cosine_compute",
                             "dequantize_matmul",
                             "dequantize_rowwise",
+                            "destindex_copy",
+                            "destindex_copy_kv1",
+                            "destindex_copy_kv2",
                             "f8_conversion_utils",
                             "fast_rope_embedding",
                             "index_select_bwd",
+                            "kcache_copy_triton",
                             "kldiv_compute",
                             "kldiv_triton",
                             "l2_norm_bwd",
@@ -147370,15 +147411,15 @@
                             "vector_addition",
                             "vector_addition_custom"
                           ],
-                          "scope": "19/19 examples, 37/183 selected tasks migrated. Remaining 143 uncovered tasks, one old AST mapping and two unresolved/indirect entries remain pending.",
+                          "scope": "19/19 examples, 41/183 selected tasks migrated. Remaining 139 uncovered tasks, one old AST mapping and two unresolved/indirect entries remain pending.",
                           "counts": {
                             "tasks": 183,
                             "examples": 19,
                             "task_status": {
                               "legacy_ast_only": 1,
                               "no_selected_jit_resolved": 2,
-                              "selected_body_copy_checked": 37,
-                              "uncovered_jit_functions": 143
+                              "selected_body_copy_checked": 41,
+                              "uncovered_jit_functions": 139
                             },
                             "example_status": {
                               "authored_counterpart_body_copy_checked": 2,
@@ -147386,12 +147427,12 @@
                               "spec_derived_body_copy_checked": 15
                             },
                             "selected_jit_functions": 328,
-                            "uncovered_selected_jit_functions": 269,
+                            "uncovered_selected_jit_functions": 264,
                             "primary_files_with_int64_screen_warning": 40,
                             "primary_lean_file_features": {
                               "tasks": {
-                                "in_body_type_directives": 114,
-                                "antiquotes": 126,
+                                "in_body_type_directives": 111,
+                                "antiquotes": 123,
                                 "dsl_loop": 1,
                                 "dsl_numeric_helpers": 8
                               },
@@ -147404,14 +147445,14 @@
                             }
                           },
                           "previous_review": {
-                            "date": "2026-10-24",
+                            "date": "2026-10-25",
                             "review": {
-                              "path": "bench/review-checkpoints/2026-10-24/native-dequant-transpose-and-kl/review.json",
-                              "sha256": "c1894ec4d0379b63895135513a9565d5ff95b47bb4a39c381bfb9ea8a24cc029"
+                              "path": "bench/review-checkpoints/2026-10-25/native-rope-bodies/review.json",
+                              "sha256": "7ad406f260fa76e41402ee51a97881bad0a4045d8742d60dffaf5f929af01ba0"
                             },
                             "inventory": {
                               "path": "bench/source-correspondence.json",
-                              "sha256": "cb7c7244d72b74472c17d8a216caed5dc8f5eb7d669f92cb482b412c6d17d520"
+                              "sha256": "2cbbbaecac4b1c5454a7fa63d28fe86a7b4f8fd250ab9295a2cf89b2240c2a6b"
                             },
                             "pasted_body_entry_tasks": [
                               "adam_update_triton",
@@ -147422,6 +147463,7 @@
                               "dequantize_matmul",
                               "dequantize_rowwise",
                               "f8_conversion_utils",
+                              "fast_rope_embedding",
                               "index_select_bwd",
                               "kldiv_compute",
                               "kldiv_triton",
@@ -147438,6 +147480,7 @@
                               "rmsnorm_fused_llama",
                               "rmsnorm_implementation",
                               "rmsnorm_triton",
+                              "rope_embedding",
                               "sin_computation",
                               "sin_kernel",
                               "softmax_triton1",
@@ -147450,15 +147493,15 @@
                               "vector_addition",
                               "vector_addition_custom"
                             ],
-                            "scope": "19/19 examples, 35/183 selected tasks migrated. Remaining 145 uncovered tasks, one old AST mapping and two unresolved/indirect entries remain pending.",
+                            "scope": "19/19 examples, 37/183 selected tasks migrated. Remaining 143 uncovered tasks, one old AST mapping and two unresolved/indirect entries remain pending.",
                             "counts": {
                               "tasks": 183,
                               "examples": 19,
                               "task_status": {
                                 "legacy_ast_only": 1,
                                 "no_selected_jit_resolved": 2,
-                                "selected_body_copy_checked": 35,
-                                "uncovered_jit_functions": 145
+                                "selected_body_copy_checked": 37,
+                                "uncovered_jit_functions": 143
                               },
                               "example_status": {
                                 "authored_counterpart_body_copy_checked": 2,
@@ -147466,12 +147509,12 @@
                                 "spec_derived_body_copy_checked": 15
                               },
                               "selected_jit_functions": 328,
-                              "uncovered_selected_jit_functions": 271,
+                              "uncovered_selected_jit_functions": 269,
                               "primary_files_with_int64_screen_warning": 40,
                               "primary_lean_file_features": {
                                 "tasks": {
-                                  "in_body_type_directives": 116,
-                                  "antiquotes": 128,
+                                  "in_body_type_directives": 114,
+                                  "antiquotes": 126,
                                   "dsl_loop": 1,
                                   "dsl_numeric_helpers": 8
                                 },
@@ -147486,12 +147529,12 @@
                             "previous_review": {
                               "date": "2026-10-24",
                               "review": {
-                                "path": "bench/review-checkpoints/2026-10-24/native-fp8-and-strided-l2/review.json",
-                                "sha256": "6db42be904eed369a158e039b3ba543de0d989e8c75f789e51e7ed341c497243"
+                                "path": "bench/review-checkpoints/2026-10-24/native-dequant-transpose-and-kl/review.json",
+                                "sha256": "c1894ec4d0379b63895135513a9565d5ff95b47bb4a39c381bfb9ea8a24cc029"
                               },
                               "inventory": {
                                 "path": "bench/source-correspondence.json",
-                                "sha256": "d7eb971caf4fc58760eaaa8ce6562bab7f235e0db410a3acb21cd8052994407f"
+                                "sha256": "cb7c7244d72b74472c17d8a216caed5dc8f5eb7d669f92cb482b412c6d17d520"
                               },
                               "pasted_body_entry_tasks": [
                                 "adam_update_triton",
@@ -147499,10 +147542,12 @@
                                 "add_value",
                                 "cache_transform_triton",
                                 "cosine_compute",
+                                "dequantize_matmul",
                                 "dequantize_rowwise",
                                 "f8_conversion_utils",
                                 "index_select_bwd",
                                 "kldiv_compute",
+                                "kldiv_triton",
                                 "l2_norm_bwd",
                                 "l2_norm_triton1",
                                 "l2_norm_triton2",
@@ -147511,6 +147556,7 @@
                                 "matrix_transpose",
                                 "mean_reduction",
                                 "mul_exponent_compensator",
+                                "quant_transpose_kernel",
                                 "rmsnorm_fused",
                                 "rmsnorm_fused_llama",
                                 "rmsnorm_implementation",
@@ -147527,15 +147573,15 @@
                                 "vector_addition",
                                 "vector_addition_custom"
                               ],
-                              "scope": "19/19 examples, 32/183 selected tasks migrated. Remaining 148 uncovered tasks, one old AST mapping and two unresolved/indirect entries remain pending.",
+                              "scope": "19/19 examples, 35/183 selected tasks migrated. Remaining 145 uncovered tasks, one old AST mapping and two unresolved/indirect entries remain pending.",
                               "counts": {
                                 "tasks": 183,
                                 "examples": 19,
                                 "task_status": {
                                   "legacy_ast_only": 1,
                                   "no_selected_jit_resolved": 2,
-                                  "selected_body_copy_checked": 32,
-                                  "uncovered_jit_functions": 148
+                                  "selected_body_copy_checked": 35,
+                                  "uncovered_jit_functions": 145
                                 },
                                 "example_status": {
                                   "authored_counterpart_body_copy_checked": 2,
@@ -147543,12 +147589,12 @@
                                   "spec_derived_body_copy_checked": 15
                                 },
                                 "selected_jit_functions": 328,
-                                "uncovered_selected_jit_functions": 275,
+                                "uncovered_selected_jit_functions": 271,
                                 "primary_files_with_int64_screen_warning": 40,
                                 "primary_lean_file_features": {
                                   "tasks": {
-                                    "in_body_type_directives": 119,
-                                    "antiquotes": 131,
+                                    "in_body_type_directives": 116,
+                                    "antiquotes": 128,
                                     "dsl_loop": 1,
                                     "dsl_numeric_helpers": 8
                                   },
@@ -147563,12 +147609,12 @@
                               "previous_review": {
                                 "date": "2026-10-24",
                                 "review": {
-                                  "path": "bench/review-checkpoints/2026-10-24/native-five-task-bodies/review.json",
-                                  "sha256": "7168b14b06251c694d6f883bbe881572061f350d84dd912f2d830bdbc11dd831"
+                                  "path": "bench/review-checkpoints/2026-10-24/native-fp8-and-strided-l2/review.json",
+                                  "sha256": "6db42be904eed369a158e039b3ba543de0d989e8c75f789e51e7ed341c497243"
                                 },
                                 "inventory": {
                                   "path": "bench/source-correspondence.json",
-                                  "sha256": "11c006a79ea262b7b2ede320b9c4b493e5b4c86064c2d44f83020e366391b848"
+                                  "sha256": "d7eb971caf4fc58760eaaa8ce6562bab7f235e0db410a3acb21cd8052994407f"
                                 },
                                 "pasted_body_entry_tasks": [
                                   "adam_update_triton",
@@ -147577,8 +147623,10 @@
                                   "cache_transform_triton",
                                   "cosine_compute",
                                   "dequantize_rowwise",
+                                  "f8_conversion_utils",
                                   "index_select_bwd",
                                   "kldiv_compute",
+                                  "l2_norm_bwd",
                                   "l2_norm_triton1",
                                   "l2_norm_triton2",
                                   "masked_add_cuda",
@@ -147602,15 +147650,15 @@
                                   "vector_addition",
                                   "vector_addition_custom"
                                 ],
-                                "scope": "19/19 examples, 30/183 selected tasks migrated. Remaining 150 uncovered tasks, one old AST mapping and two unresolved/indirect entries remain pending.",
+                                "scope": "19/19 examples, 32/183 selected tasks migrated. Remaining 148 uncovered tasks, one old AST mapping and two unresolved/indirect entries remain pending.",
                                 "counts": {
                                   "tasks": 183,
                                   "examples": 19,
                                   "task_status": {
                                     "legacy_ast_only": 1,
                                     "no_selected_jit_resolved": 2,
-                                    "selected_body_copy_checked": 30,
-                                    "uncovered_jit_functions": 150
+                                    "selected_body_copy_checked": 32,
+                                    "uncovered_jit_functions": 148
                                   },
                                   "example_status": {
                                     "authored_counterpart_body_copy_checked": 2,
@@ -147618,12 +147666,12 @@
                                     "spec_derived_body_copy_checked": 15
                                   },
                                   "selected_jit_functions": 328,
-                                  "uncovered_selected_jit_functions": 278,
+                                  "uncovered_selected_jit_functions": 275,
                                   "primary_files_with_int64_screen_warning": 40,
                                   "primary_lean_file_features": {
                                     "tasks": {
-                                      "in_body_type_directives": 120,
-                                      "antiquotes": 132,
+                                      "in_body_type_directives": 119,
+                                      "antiquotes": 131,
                                       "dsl_loop": 1,
                                       "dsl_numeric_helpers": 8
                                     },
@@ -147638,12 +147686,12 @@
                                 "previous_review": {
                                   "date": "2026-10-24",
                                   "review": {
-                                    "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
-                                    "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
+                                    "path": "bench/review-checkpoints/2026-10-24/native-five-task-bodies/review.json",
+                                    "sha256": "7168b14b06251c694d6f883bbe881572061f350d84dd912f2d830bdbc11dd831"
                                   },
                                   "inventory": {
                                     "path": "bench/source-correspondence.json",
-                                    "sha256": "e05d4c44fea3650cfcb10a19de12193216aec7f417658023771c3f651655fef7"
+                                    "sha256": "11c006a79ea262b7b2ede320b9c4b493e5b4c86064c2d44f83020e366391b848"
                                   },
                                   "pasted_body_entry_tasks": [
                                     "adam_update_triton",
@@ -147655,9 +147703,11 @@
                                     "index_select_bwd",
                                     "kldiv_compute",
                                     "l2_norm_triton1",
+                                    "l2_norm_triton2",
                                     "masked_add_cuda",
                                     "matrix_reduction",
                                     "matrix_transpose",
+                                    "mean_reduction",
                                     "mul_exponent_compensator",
                                     "rmsnorm_fused",
                                     "rmsnorm_fused_llama",
@@ -147665,22 +147715,25 @@
                                     "rmsnorm_triton",
                                     "sin_computation",
                                     "sin_kernel",
+                                    "softmax_triton1",
+                                    "softmax_triton2",
                                     "square_matrix",
                                     "swiglu_fwd",
                                     "triton_mul2",
                                     "triton_softmax",
+                                    "var_len_copy",
                                     "vector_addition",
                                     "vector_addition_custom"
                                   ],
-                                  "scope": "19/19 examples, 25/183 selected tasks migrated. Remaining 155 uncovered tasks, one old AST mapping and two unresolved/indirect entries remain pending.",
+                                  "scope": "19/19 examples, 30/183 selected tasks migrated. Remaining 150 uncovered tasks, one old AST mapping and two unresolved/indirect entries remain pending.",
                                   "counts": {
                                     "tasks": 183,
                                     "examples": 19,
                                     "task_status": {
                                       "legacy_ast_only": 1,
                                       "no_selected_jit_resolved": 2,
-                                      "selected_body_copy_checked": 25,
-                                      "uncovered_jit_functions": 155
+                                      "selected_body_copy_checked": 30,
+                                      "uncovered_jit_functions": 150
                                     },
                                     "example_status": {
                                       "authored_counterpart_body_copy_checked": 2,
@@ -147688,12 +147741,12 @@
                                       "spec_derived_body_copy_checked": 15
                                     },
                                     "selected_jit_functions": 328,
-                                    "uncovered_selected_jit_functions": 287,
-                                    "primary_files_with_int64_screen_warning": 42,
+                                    "uncovered_selected_jit_functions": 278,
+                                    "primary_files_with_int64_screen_warning": 40,
                                     "primary_lean_file_features": {
                                       "tasks": {
-                                        "in_body_type_directives": 125,
-                                        "antiquotes": 137,
+                                        "in_body_type_directives": 120,
+                                        "antiquotes": 132,
                                         "dsl_loop": 1,
                                         "dsl_numeric_helpers": 8
                                       },
@@ -147708,12 +147761,12 @@
                                   "previous_review": {
                                     "date": "2026-10-24",
                                     "review": {
-                                      "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
-                                      "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
+                                      "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+                                      "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
                                     },
                                     "inventory": {
                                       "path": "bench/source-correspondence.json",
-                                      "sha256": "e60e31d67793a55346bee617f045bbf1e1d69321db37f56cbd402b8a96235e38"
+                                      "sha256": "e05d4c44fea3650cfcb10a19de12193216aec7f417658023771c3f651655fef7"
                                     },
                                     "pasted_body_entry_tasks": [
                                       "adam_update_triton",
@@ -147738,18 +147791,19 @@
                                       "square_matrix",
                                       "swiglu_fwd",
                                       "triton_mul2",
+                                      "triton_softmax",
                                       "vector_addition",
                                       "vector_addition_custom"
                                     ],
-                                    "scope": "19/19 examples, 24/183 selected tasks migrated. Remaining 156 uncovered tasks, one old AST mapping and two unresolved/indirect entries remain pending.",
+                                    "scope": "19/19 examples, 25/183 selected tasks migrated. Remaining 155 uncovered tasks, one old AST mapping and two unresolved/indirect entries remain pending.",
                                     "counts": {
                                       "tasks": 183,
                                       "examples": 19,
                                       "task_status": {
                                         "legacy_ast_only": 1,
                                         "no_selected_jit_resolved": 2,
-                                        "selected_body_copy_checked": 24,
-                                        "uncovered_jit_functions": 156
+                                        "selected_body_copy_checked": 25,
+                                        "uncovered_jit_functions": 155
                                       },
                                       "example_status": {
                                         "authored_counterpart_body_copy_checked": 2,
@@ -147757,12 +147811,12 @@
                                         "spec_derived_body_copy_checked": 15
                                       },
                                       "selected_jit_functions": 328,
-                                      "uncovered_selected_jit_functions": 288,
-                                      "primary_files_with_int64_screen_warning": 43,
+                                      "uncovered_selected_jit_functions": 287,
+                                      "primary_files_with_int64_screen_warning": 42,
                                       "primary_lean_file_features": {
                                         "tasks": {
-                                          "in_body_type_directives": 126,
-                                          "antiquotes": 138,
+                                          "in_body_type_directives": 125,
+                                          "antiquotes": 137,
                                           "dsl_loop": 1,
                                           "dsl_numeric_helpers": 8
                                         },
@@ -147777,12 +147831,12 @@
                                     "previous_review": {
                                       "date": "2026-10-24",
                                       "review": {
-                                        "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
-                                        "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
+                                        "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
+                                        "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
                                       },
                                       "inventory": {
                                         "path": "bench/source-correspondence.json",
-                                        "sha256": "9b727c3676e9826ca7a941c95e7e592cb271db2ddffb059984935d29e812abef"
+                                        "sha256": "e60e31d67793a55346bee617f045bbf1e1d69321db37f56cbd402b8a96235e38"
                                       },
                                       "pasted_body_entry_tasks": [
                                         "adam_update_triton",
@@ -147795,6 +147849,7 @@
                                         "kldiv_compute",
                                         "l2_norm_triton1",
                                         "masked_add_cuda",
+                                        "matrix_reduction",
                                         "matrix_transpose",
                                         "mul_exponent_compensator",
                                         "rmsnorm_fused",
@@ -147809,15 +147864,15 @@
                                         "vector_addition",
                                         "vector_addition_custom"
                                       ],
-                                      "scope": "19/19 examples, 23/183 selected tasks migrated. Remaining 157 uncovered tasks, one old AST mapping and two unresolved/indirect entries remain pending.",
+                                      "scope": "19/19 examples, 24/183 selected tasks migrated. Remaining 156 uncovered tasks, one old AST mapping and two unresolved/indirect entries remain pending.",
                                       "counts": {
                                         "tasks": 183,
                                         "examples": 19,
                                         "task_status": {
                                           "legacy_ast_only": 1,
                                           "no_selected_jit_resolved": 2,
-                                          "selected_body_copy_checked": 23,
-                                          "uncovered_jit_functions": 157
+                                          "selected_body_copy_checked": 24,
+                                          "uncovered_jit_functions": 156
                                         },
                                         "example_status": {
                                           "authored_counterpart_body_copy_checked": 2,
@@ -147825,12 +147880,12 @@
                                           "spec_derived_body_copy_checked": 15
                                         },
                                         "selected_jit_functions": 328,
-                                        "uncovered_selected_jit_functions": 289,
+                                        "uncovered_selected_jit_functions": 288,
                                         "primary_files_with_int64_screen_warning": 43,
                                         "primary_lean_file_features": {
                                           "tasks": {
-                                            "in_body_type_directives": 127,
-                                            "antiquotes": 139,
+                                            "in_body_type_directives": 126,
+                                            "antiquotes": 138,
                                             "dsl_loop": 1,
                                             "dsl_numeric_helpers": 8
                                           },
@@ -147845,12 +147900,12 @@
                                       "previous_review": {
                                         "date": "2026-10-24",
                                         "review": {
-                                          "path": "bench/review-checkpoints/2026-10-24/native-adam-and-masked-add/review.json",
-                                          "sha256": "111c71c3db622951f0bc6d00567fc6bd9bbfc418f883ecc02bd08184df82a430"
+                                          "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
+                                          "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
                                         },
                                         "inventory": {
                                           "path": "bench/source-correspondence.json",
-                                          "sha256": "64efdd0717c399b411a42503de2eabb31d3aa0b1f1beadfadf4f72339a7fde25"
+                                          "sha256": "9b727c3676e9826ca7a941c95e7e592cb271db2ddffb059984935d29e812abef"
                                         },
                                         "pasted_body_entry_tasks": [
                                           "adam_update_triton",
@@ -147864,6 +147919,7 @@
                                           "l2_norm_triton1",
                                           "masked_add_cuda",
                                           "matrix_transpose",
+                                          "mul_exponent_compensator",
                                           "rmsnorm_fused",
                                           "rmsnorm_fused_llama",
                                           "rmsnorm_implementation",
@@ -147872,18 +147928,19 @@
                                           "sin_kernel",
                                           "square_matrix",
                                           "swiglu_fwd",
+                                          "triton_mul2",
                                           "vector_addition",
                                           "vector_addition_custom"
                                         ],
-                                        "scope": "All 19 examples and 21 selected tasks have native body correspondence. Remaining 159 uncovered tasks, one old AST mapping and two unresolved/indirect entries remain pending.",
+                                        "scope": "19/19 examples, 23/183 selected tasks migrated. Remaining 157 uncovered tasks, one old AST mapping and two unresolved/indirect entries remain pending.",
                                         "counts": {
                                           "tasks": 183,
                                           "examples": 19,
                                           "task_status": {
                                             "legacy_ast_only": 1,
                                             "no_selected_jit_resolved": 2,
-                                            "selected_body_copy_checked": 21,
-                                            "uncovered_jit_functions": 159
+                                            "selected_body_copy_checked": 23,
+                                            "uncovered_jit_functions": 157
                                           },
                                           "example_status": {
                                             "authored_counterpart_body_copy_checked": 2,
@@ -147891,12 +147948,12 @@
                                             "spec_derived_body_copy_checked": 15
                                           },
                                           "selected_jit_functions": 328,
-                                          "uncovered_selected_jit_functions": 295,
-                                          "primary_files_with_int64_screen_warning": 44,
+                                          "uncovered_selected_jit_functions": 289,
+                                          "primary_files_with_int64_screen_warning": 43,
                                           "primary_lean_file_features": {
                                             "tasks": {
-                                              "in_body_type_directives": 128,
-                                              "antiquotes": 141,
+                                              "in_body_type_directives": 127,
+                                              "antiquotes": 139,
                                               "dsl_loop": 1,
                                               "dsl_numeric_helpers": 8
                                             },
@@ -147911,14 +147968,15 @@
                                         "previous_review": {
                                           "date": "2026-10-24",
                                           "review": {
-                                            "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/review.json",
-                                            "sha256": "4b15d23fd6ceb27300536e1f88c559ca4c18cc15ae6bfb6fabaf4097a2db49ff"
+                                            "path": "bench/review-checkpoints/2026-10-24/native-adam-and-masked-add/review.json",
+                                            "sha256": "111c71c3db622951f0bc6d00567fc6bd9bbfc418f883ecc02bd08184df82a430"
                                           },
                                           "inventory": {
                                             "path": "bench/source-correspondence.json",
-                                            "sha256": "ceea4a8db31fd372e98189adf6b6a4c7c7e5fd4231c690cef1698343187c6a37"
+                                            "sha256": "64efdd0717c399b411a42503de2eabb31d3aa0b1f1beadfadf4f72339a7fde25"
                                           },
                                           "pasted_body_entry_tasks": [
+                                            "adam_update_triton",
                                             "add_example",
                                             "add_value",
                                             "cache_transform_triton",
@@ -147927,6 +147985,7 @@
                                             "index_select_bwd",
                                             "kldiv_compute",
                                             "l2_norm_triton1",
+                                            "masked_add_cuda",
                                             "matrix_transpose",
                                             "rmsnorm_fused",
                                             "rmsnorm_fused_llama",
@@ -147939,15 +147998,15 @@
                                             "vector_addition",
                                             "vector_addition_custom"
                                           ],
-                                          "scope": "All 19 worked examples now have raw native body sources with explicit provenance and complete proof replay, including the full selected-config grid connections. Task migrations continue; pending entries remain pending.",
+                                          "scope": "All 19 examples and 21 selected tasks have native body correspondence. Remaining 159 uncovered tasks, one old AST mapping and two unresolved/indirect entries remain pending.",
                                           "counts": {
                                             "tasks": 183,
                                             "examples": 19,
                                             "task_status": {
                                               "legacy_ast_only": 1,
                                               "no_selected_jit_resolved": 2,
-                                              "selected_body_copy_checked": 19,
-                                              "uncovered_jit_functions": 161
+                                              "selected_body_copy_checked": 21,
+                                              "uncovered_jit_functions": 159
                                             },
                                             "example_status": {
                                               "authored_counterpart_body_copy_checked": 2,
@@ -147955,12 +148014,12 @@
                                               "spec_derived_body_copy_checked": 15
                                             },
                                             "selected_jit_functions": 328,
-                                            "uncovered_selected_jit_functions": 297,
+                                            "uncovered_selected_jit_functions": 295,
                                             "primary_files_with_int64_screen_warning": 44,
                                             "primary_lean_file_features": {
                                               "tasks": {
-                                                "in_body_type_directives": 130,
-                                                "antiquotes": 143,
+                                                "in_body_type_directives": 128,
+                                                "antiquotes": 141,
                                                 "dsl_loop": 1,
                                                 "dsl_numeric_helpers": 8
                                               },
@@ -147975,12 +148034,12 @@
                                           "previous_review": {
                                             "date": "2026-10-24",
                                             "review": {
-                                              "path": "bench/review-checkpoints/2026-10-24/native-fused-pipelines/review.json",
-                                              "sha256": "5aa92bba55c68455972543a93f51085be5cc769c65718339d4122b58820adf31"
+                                              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/review.json",
+                                              "sha256": "4b15d23fd6ceb27300536e1f88c559ca4c18cc15ae6bfb6fabaf4097a2db49ff"
                                             },
                                             "inventory": {
                                               "path": "bench/source-correspondence.json",
-                                              "sha256": "1b1b5dd4fa34ebc4baf9189e5650b2df617cc34fce377a6fe1fc4636f0398e77"
+                                              "sha256": "ceea4a8db31fd372e98189adf6b6a4c7c7e5fd4231c690cef1698343187c6a37"
                                             },
                                             "pasted_body_entry_tasks": [
                                               "add_example",
@@ -148003,7 +148062,7 @@
                                               "vector_addition",
                                               "vector_addition_custom"
                                             ],
-                                            "scope": "Committed native fused pipeline batch with complete source, mathematical and typed FP proofs plus full combined and cold replay. Pending corpus entries remain pending.",
+                                            "scope": "All 19 worked examples now have raw native body sources with explicit provenance and complete proof replay, including the full selected-config grid connections. Task migrations continue; pending entries remain pending.",
                                             "counts": {
                                               "tasks": 183,
                                               "examples": 19,
@@ -148015,10 +148074,8 @@
                                               },
                                               "example_status": {
                                                 "authored_counterpart_body_copy_checked": 2,
-                                                "no_independent_python_reference": 2,
-                                                "selected_body_copy_checked": 1,
-                                                "spec_derived_body_copy_checked": 13,
-                                                "uncovered_jit_functions": 1
+                                                "selected_body_copy_checked": 2,
+                                                "spec_derived_body_copy_checked": 15
                                               },
                                               "selected_jit_functions": 328,
                                               "uncovered_selected_jit_functions": 297,
@@ -148032,7 +148089,7 @@
                                                 },
                                                 "examples": {
                                                   "in_body_type_directives": 0,
-                                                  "antiquotes": 3,
+                                                  "antiquotes": 0,
                                                   "dsl_loop": 0,
                                                   "dsl_numeric_helpers": 0
                                                 }
@@ -148041,12 +148098,12 @@
                                             "previous_review": {
                                               "date": "2026-10-24",
                                               "review": {
-                                                "path": "bench/review-checkpoints/2026-10-24/native-online-softmax/review.json",
-                                                "sha256": "af788332b44388d044268d597802192241738655fbde343c95948b051ac381b5"
+                                                "path": "bench/review-checkpoints/2026-10-24/native-fused-pipelines/review.json",
+                                                "sha256": "5aa92bba55c68455972543a93f51085be5cc769c65718339d4122b58820adf31"
                                               },
                                               "inventory": {
                                                 "path": "bench/source-correspondence.json",
-                                                "sha256": "8d36495c2807782fe1aafaf7d0cbd15aed776dcfedf3aeec6e14232c99d884b5"
+                                                "sha256": "1b1b5dd4fa34ebc4baf9189e5650b2df617cc34fce377a6fe1fc4636f0398e77"
                                               },
                                               "pasted_body_entry_tasks": [
                                                 "add_example",
@@ -148069,7 +148126,7 @@
                                                 "vector_addition",
                                                 "vector_addition_custom"
                                               ],
-                                              "scope": "Literal selected-source AST/signature checks with full public/deep and cold proof replay for the committed batch; all other pending entries remain pending.",
+                                              "scope": "Committed native fused pipeline batch with complete source, mathematical and typed FP proofs plus full combined and cold replay. Pending corpus entries remain pending.",
                                               "counts": {
                                                 "tasks": 183,
                                                 "examples": 19,
@@ -148081,9 +148138,9 @@
                                                 },
                                                 "example_status": {
                                                   "authored_counterpart_body_copy_checked": 2,
-                                                  "no_independent_python_reference": 4,
+                                                  "no_independent_python_reference": 2,
                                                   "selected_body_copy_checked": 1,
-                                                  "spec_derived_body_copy_checked": 11,
+                                                  "spec_derived_body_copy_checked": 13,
                                                   "uncovered_jit_functions": 1
                                                 },
                                                 "selected_jit_functions": 328,
@@ -148098,7 +148155,7 @@
                                                   },
                                                   "examples": {
                                                     "in_body_type_directives": 0,
-                                                    "antiquotes": 5,
+                                                    "antiquotes": 3,
                                                     "dsl_loop": 0,
                                                     "dsl_numeric_helpers": 0
                                                   }
@@ -148107,12 +148164,12 @@
                                               "previous_review": {
                                                 "date": "2026-10-24",
                                                 "review": {
-                                                  "path": "bench/review-checkpoints/2026-10-24/native-statistics-loops/review.json",
-                                                  "sha256": "fa31d27c5e5701ab02f884e62b411e771915c9fe4ee0db67c62055ef84804e38"
+                                                  "path": "bench/review-checkpoints/2026-10-24/native-online-softmax/review.json",
+                                                  "sha256": "af788332b44388d044268d597802192241738655fbde343c95948b051ac381b5"
                                                 },
                                                 "inventory": {
                                                   "path": "bench/source-correspondence.json",
-                                                  "sha256": "af5de3da18d03b89786abc77e9461bc27f87783b51486ab9f47035d12a4eb8f1"
+                                                  "sha256": "8d36495c2807782fe1aafaf7d0cbd15aed776dcfedf3aeec6e14232c99d884b5"
                                                 },
                                                 "pasted_body_entry_tasks": [
                                                   "add_example",
@@ -148147,9 +148204,9 @@
                                                   },
                                                   "example_status": {
                                                     "authored_counterpart_body_copy_checked": 2,
-                                                    "no_independent_python_reference": 5,
+                                                    "no_independent_python_reference": 4,
                                                     "selected_body_copy_checked": 1,
-                                                    "spec_derived_body_copy_checked": 10,
+                                                    "spec_derived_body_copy_checked": 11,
                                                     "uncovered_jit_functions": 1
                                                   },
                                                   "selected_jit_functions": 328,
@@ -148164,8 +148221,8 @@
                                                     },
                                                     "examples": {
                                                       "in_body_type_directives": 0,
-                                                      "antiquotes": 6,
-                                                      "dsl_loop": 1,
+                                                      "antiquotes": 5,
+                                                      "dsl_loop": 0,
                                                       "dsl_numeric_helpers": 0
                                                     }
                                                   }
@@ -148173,12 +148230,12 @@
                                                 "previous_review": {
                                                   "date": "2026-10-24",
                                                   "review": {
-                                                    "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/review.json",
-                                                    "sha256": "830a15b2352abf9a9022b92f54e5f283c3d5b0b016b78312d6f7b1cb79c75eda"
+                                                    "path": "bench/review-checkpoints/2026-10-24/native-statistics-loops/review.json",
+                                                    "sha256": "fa31d27c5e5701ab02f884e62b411e771915c9fe4ee0db67c62055ef84804e38"
                                                   },
                                                   "inventory": {
                                                     "path": "bench/source-correspondence.json",
-                                                    "sha256": "fd2d3f2822102d4558999ac06a204902583e454ea65d4067c985c6f2b7bd00f6"
+                                                    "sha256": "af5de3da18d03b89786abc77e9461bc27f87783b51486ab9f47035d12a4eb8f1"
                                                   },
                                                   "pasted_body_entry_tasks": [
                                                     "add_example",
@@ -148213,9 +148270,9 @@
                                                     },
                                                     "example_status": {
                                                       "authored_counterpart_body_copy_checked": 2,
-                                                      "no_independent_python_reference": 7,
+                                                      "no_independent_python_reference": 5,
                                                       "selected_body_copy_checked": 1,
-                                                      "spec_derived_body_copy_checked": 8,
+                                                      "spec_derived_body_copy_checked": 10,
                                                       "uncovered_jit_functions": 1
                                                     },
                                                     "selected_jit_functions": 328,
@@ -148230,21 +148287,21 @@
                                                       },
                                                       "examples": {
                                                         "in_body_type_directives": 0,
-                                                        "antiquotes": 8,
-                                                        "dsl_loop": 3,
-                                                        "dsl_numeric_helpers": 2
+                                                        "antiquotes": 6,
+                                                        "dsl_loop": 1,
+                                                        "dsl_numeric_helpers": 0
                                                       }
                                                     }
                                                   },
                                                   "previous_review": {
                                                     "date": "2026-10-24",
                                                     "review": {
-                                                      "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/review.json",
-                                                      "sha256": "298d6e3b178efd98b858d22c28c62f19cd2f16ed5a2d52fb751f4eab9f27cc03"
+                                                      "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/review.json",
+                                                      "sha256": "830a15b2352abf9a9022b92f54e5f283c3d5b0b016b78312d6f7b1cb79c75eda"
                                                     },
                                                     "inventory": {
                                                       "path": "bench/source-correspondence.json",
-                                                      "sha256": "24c53e490a0ff7568c59f8e7878f107806db6239a29ef52b817d5e058a62e8f4"
+                                                      "sha256": "fd2d3f2822102d4558999ac06a204902583e454ea65d4067c985c6f2b7bd00f6"
                                                     },
                                                     "pasted_body_entry_tasks": [
                                                       "add_example",
@@ -148258,6 +148315,8 @@
                                                       "matrix_transpose",
                                                       "rmsnorm_fused",
                                                       "rmsnorm_fused_llama",
+                                                      "rmsnorm_implementation",
+                                                      "rmsnorm_triton",
                                                       "sin_computation",
                                                       "sin_kernel",
                                                       "square_matrix",
@@ -148265,15 +148324,15 @@
                                                       "vector_addition",
                                                       "vector_addition_custom"
                                                     ],
-                                                    "scope": "Full selected-source inventory with explicit new-example provenance, exact AST/signature/call binding checks and combined deep/cold proof replay. Pending tasks/examples remain pending.",
+                                                    "scope": "Literal selected-source AST/signature checks with full public/deep and cold proof replay for the committed batch; all other pending entries remain pending.",
                                                     "counts": {
                                                       "tasks": 183,
                                                       "examples": 19,
                                                       "task_status": {
                                                         "legacy_ast_only": 1,
                                                         "no_selected_jit_resolved": 2,
-                                                        "selected_body_copy_checked": 17,
-                                                        "uncovered_jit_functions": 163
+                                                        "selected_body_copy_checked": 19,
+                                                        "uncovered_jit_functions": 161
                                                       },
                                                       "example_status": {
                                                         "authored_counterpart_body_copy_checked": 2,
@@ -148283,12 +148342,12 @@
                                                         "uncovered_jit_functions": 1
                                                       },
                                                       "selected_jit_functions": 328,
-                                                      "uncovered_selected_jit_functions": 299,
+                                                      "uncovered_selected_jit_functions": 297,
                                                       "primary_files_with_int64_screen_warning": 44,
                                                       "primary_lean_file_features": {
                                                         "tasks": {
-                                                          "in_body_type_directives": 132,
-                                                          "antiquotes": 145,
+                                                          "in_body_type_directives": 130,
+                                                          "antiquotes": 143,
                                                           "dsl_loop": 1,
                                                           "dsl_numeric_helpers": 8
                                                         },
@@ -148303,12 +148362,12 @@
                                                     "previous_review": {
                                                       "date": "2026-10-24",
                                                       "review": {
-                                                        "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/review.json",
-                                                        "sha256": "c6713d2f7d682731fb478ff034627b60a13827dbd10f9646c25dda8b931f2052"
+                                                        "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/review.json",
+                                                        "sha256": "298d6e3b178efd98b858d22c28c62f19cd2f16ed5a2d52fb751f4eab9f27cc03"
                                                       },
                                                       "inventory": {
                                                         "path": "bench/source-correspondence.json",
-                                                        "sha256": "5c80ef7b09379b23632d01541fb7ed1b78f553da9c311a889eba292b0c17b3d7"
+                                                        "sha256": "24c53e490a0ff7568c59f8e7878f107806db6239a29ef52b817d5e058a62e8f4"
                                                       },
                                                       "pasted_body_entry_tasks": [
                                                         "add_example",
@@ -148320,6 +148379,8 @@
                                                         "kldiv_compute",
                                                         "l2_norm_triton1",
                                                         "matrix_transpose",
+                                                        "rmsnorm_fused",
+                                                        "rmsnorm_fused_llama",
                                                         "sin_computation",
                                                         "sin_kernel",
                                                         "square_matrix",
@@ -148327,76 +148388,139 @@
                                                         "vector_addition",
                                                         "vector_addition_custom"
                                                       ],
-                                                      "scope": "Full selected-source inventory, exact body AST/signature/call binding checks and this batch proof replay. Pending tasks/examples remain pending.",
+                                                      "scope": "Full selected-source inventory with explicit new-example provenance, exact AST/signature/call binding checks and combined deep/cold proof replay. Pending tasks/examples remain pending.",
                                                       "counts": {
                                                         "tasks": 183,
                                                         "examples": 19,
                                                         "task_status": {
                                                           "legacy_ast_only": 1,
                                                           "no_selected_jit_resolved": 2,
-                                                          "selected_body_copy_checked": 15,
-                                                          "uncovered_jit_functions": 165
+                                                          "selected_body_copy_checked": 17,
+                                                          "uncovered_jit_functions": 163
                                                         },
                                                         "example_status": {
                                                           "authored_counterpart_body_copy_checked": 2,
-                                                          "no_independent_python_reference": 16,
-                                                          "selected_body_copy_checked": 1
+                                                          "no_independent_python_reference": 7,
+                                                          "selected_body_copy_checked": 1,
+                                                          "spec_derived_body_copy_checked": 8,
+                                                          "uncovered_jit_functions": 1
                                                         },
                                                         "selected_jit_functions": 328,
-                                                        "uncovered_selected_jit_functions": 301,
+                                                        "uncovered_selected_jit_functions": 299,
                                                         "primary_files_with_int64_screen_warning": 44,
                                                         "primary_lean_file_features": {
                                                           "tasks": {
-                                                            "in_body_type_directives": 134,
-                                                            "antiquotes": 147,
+                                                            "in_body_type_directives": 132,
+                                                            "antiquotes": 145,
                                                             "dsl_loop": 1,
                                                             "dsl_numeric_helpers": 8
                                                           },
                                                           "examples": {
                                                             "in_body_type_directives": 0,
-                                                            "antiquotes": 16,
+                                                            "antiquotes": 8,
                                                             "dsl_loop": 3,
-                                                            "dsl_numeric_helpers": 3
+                                                            "dsl_numeric_helpers": 2
                                                           }
                                                         }
                                                       },
                                                       "previous_review": {
                                                         "date": "2026-10-24",
                                                         "review": {
-                                                          "path": "bench/review-checkpoints/2026-10-24/body-signature/review.json",
-                                                          "sha256": "ef34d2e2961519e1e1e633df9bdee8f87c6aca88b2c26ddfe6732e46f67e4153",
-                                                          "task": "dequantize_rowwise"
+                                                          "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/review.json",
+                                                          "sha256": "c6713d2f7d682731fb478ff034627b60a13827dbd10f9646c25dda8b931f2052"
                                                         },
                                                         "inventory": {
-                                                          "path": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
-                                                          "sha256": "30a7ad90bbaa69eb96a79280ca9061b0aafce73d1dec3bc02ce8eb89f4098c75"
+                                                          "path": "bench/source-correspondence.json",
+                                                          "sha256": "5c80ef7b09379b23632d01541fb7ed1b78f553da9c311a889eba292b0c17b3d7"
                                                         },
-                                                        "counts": {
-                                                          "not_certified_by_this_screen": 137,
-                                                          "missing_explicit_int64_cast": 44,
-                                                          "exact_ast_correspondence": 2
-                                                        },
-                                                        "scope": "Selected source inventory and explicit int64-cast screen; unflagged tasks are NOT full correspondence passes. No semantic counterexample is inferred from an omitted cast.",
                                                         "pasted_body_entry_tasks": [
-                                                          "dequantize_rowwise"
+                                                          "add_example",
+                                                          "add_value",
+                                                          "cache_transform_triton",
+                                                          "cosine_compute",
+                                                          "dequantize_rowwise",
+                                                          "index_select_bwd",
+                                                          "kldiv_compute",
+                                                          "l2_norm_triton1",
+                                                          "matrix_transpose",
+                                                          "sin_computation",
+                                                          "sin_kernel",
+                                                          "square_matrix",
+                                                          "swiglu_fwd",
+                                                          "vector_addition",
+                                                          "vector_addition_custom"
                                                         ],
+                                                        "scope": "Full selected-source inventory, exact body AST/signature/call binding checks and this batch proof replay. Pending tasks/examples remain pending.",
+                                                        "counts": {
+                                                          "tasks": 183,
+                                                          "examples": 19,
+                                                          "task_status": {
+                                                            "legacy_ast_only": 1,
+                                                            "no_selected_jit_resolved": 2,
+                                                            "selected_body_copy_checked": 15,
+                                                            "uncovered_jit_functions": 165
+                                                          },
+                                                          "example_status": {
+                                                            "authored_counterpart_body_copy_checked": 2,
+                                                            "no_independent_python_reference": 16,
+                                                            "selected_body_copy_checked": 1
+                                                          },
+                                                          "selected_jit_functions": 328,
+                                                          "uncovered_selected_jit_functions": 301,
+                                                          "primary_files_with_int64_screen_warning": 44,
+                                                          "primary_lean_file_features": {
+                                                            "tasks": {
+                                                              "in_body_type_directives": 134,
+                                                              "antiquotes": 147,
+                                                              "dsl_loop": 1,
+                                                              "dsl_numeric_helpers": 8
+                                                            },
+                                                            "examples": {
+                                                              "in_body_type_directives": 0,
+                                                              "antiquotes": 16,
+                                                              "dsl_loop": 3,
+                                                              "dsl_numeric_helpers": 3
+                                                            }
+                                                          }
+                                                        },
                                                         "previous_review": {
                                                           "date": "2026-10-24",
                                                           "review": {
-                                                            "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/review.json",
-                                                            "sha256": "0b8760be924064ef707a370aab9ca343d75d1c23dc8c7c497960c4b963074fcd",
-                                                            "task": "triton_argmax"
+                                                            "path": "bench/review-checkpoints/2026-10-24/body-signature/review.json",
+                                                            "sha256": "ef34d2e2961519e1e1e633df9bdee8f87c6aca88b2c26ddfe6732e46f67e4153",
+                                                            "task": "dequantize_rowwise"
                                                           },
                                                           "inventory": {
-                                                            "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
-                                                            "sha256": "1edf14f56bdbd3e7a011d9febab64e26ba35f6d2d07c2269f9dd0c4733c9155f"
+                                                            "path": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
+                                                            "sha256": "30a7ad90bbaa69eb96a79280ca9061b0aafce73d1dec3bc02ce8eb89f4098c75"
                                                           },
                                                           "counts": {
                                                             "not_certified_by_this_screen": 137,
-                                                            "missing_explicit_int64_cast": 45,
-                                                            "exact_ast_correspondence": 1
+                                                            "missing_explicit_int64_cast": 44,
+                                                            "exact_ast_correspondence": 2
                                                           },
-                                                          "scope": "Selected source inventory and explicit int64-cast screen; unflagged tasks are NOT full correspondence passes. No semantic counterexample is inferred from an omitted cast."
+                                                          "scope": "Selected source inventory and explicit int64-cast screen; unflagged tasks are NOT full correspondence passes. No semantic counterexample is inferred from an omitted cast.",
+                                                          "pasted_body_entry_tasks": [
+                                                            "dequantize_rowwise"
+                                                          ],
+                                                          "previous_review": {
+                                                            "date": "2026-10-24",
+                                                            "review": {
+                                                              "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/review.json",
+                                                              "sha256": "0b8760be924064ef707a370aab9ca343d75d1c23dc8c7c497960c4b963074fcd",
+                                                              "task": "triton_argmax"
+                                                            },
+                                                            "inventory": {
+                                                              "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+                                                              "sha256": "1edf14f56bdbd3e7a011d9febab64e26ba35f6d2d07c2269f9dd0c4733c9155f"
+                                                            },
+                                                            "counts": {
+                                                              "not_certified_by_this_screen": 137,
+                                                              "missing_explicit_int64_cast": 45,
+                                                              "exact_ast_correspondence": 1
+                                                            },
+                                                            "scope": "Selected source inventory and explicit int64-cast screen; unflagged tasks are NOT full correspondence passes. No semantic counterexample is inferred from an omitted cast."
+                                                          }
                                                         }
                                                       }
                                                     }

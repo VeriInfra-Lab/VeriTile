@@ -1,0 +1,233 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "d896ae75417e674d7afbf3b24723805ef40dddef",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "embedding_triton_kernel"
+  ],
+  "semantic_review": {
+    "embedding_triton_kernel": "Both unchanged selected Python functions are pasted directly, including all four explicit signed64 widenings, original names and typo hiden_size, loop and mask/selection/subtraction order. External metadata supplies the existing FP32 payload pointers, signed32 ID storage, five annotated signed64 runtime values and four constexpr bindings. The actual widened row-register execution is re-proved directly: constructive prefix/chunk success, complete 64-iteration output and exterior-memory frame, unchanged public mathematical and physical domains, and actual source/candidate access traces through successor states. Integer Nat/Int cast identities connect evaluated source addresses with the same logical coordinates; no FP conversion identity is assumed. The exact full-state/failure equivalence now commutes the actual signed integer multiplication, with no FP assumptions. All 26 task modules replay, preserving arbitrary FP32 payloads including NaN/sign/denormal words, invalid-ID positive-zero outputs, checked signed-ID and pointer/native-index bounds, full grid, independent mathematical lookup, typed/physical outputs, Tensor and host scopes. Actual source is not replaced by the older natural-register model; no task-specific source generator or hand-written AST is used. No shared frontend source changed in this batch; all transitive affected roots are inventoried and cold-replayed with initially empty project objects. Unchanged prior scopes keep their preceding complete independent receipt, and the combined warm/joint replay checks integration."
+  },
+  "example_regression_scope": "Example and shared frontend source is unchanged. Combined warm/joint replay checks integration; the previous full independent receipt remains the fresh proof evidence for unchanged prior scopes. No fresh cold replay of unchanged examples is claimed.",
+  "verification": {
+    "frontend_regressions": {
+      "status": "UNCHANGED_SHARED_FRONTEND",
+      "configured_modules": 95,
+      "scope": "The shared frontend and its existing Lean regressions are unchanged from corrected code 517b66a60c2532f867bc8cf4efe57ec715e87315. All configured roots are retained in the combined warm/joint replay. The entire affected task closure, including the shared compiler, is rebuilt independently from initially empty project objects. New Python checks pin all four source widenings, mask-before-subtraction order and signed64 ABI metadata."
+    },
+    "integration": {
+      "status": "PASS",
+      "explicit_modules": 2036,
+      "jobs": 11232
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 26,
+      "jobs": 3511,
+      "scope": "All changed task modules and every transitive affected root from the combined import graph, with complete dependencies. Shared Lean source is unchanged, so unrelated prior scopes retain their preceding independent receipt.",
+      "project_build_initially_present": false,
+      "veritile_cache_initially_present": false,
+      "only_fixed_external_dependencies_reused": true
+    },
+    "joint_import": "PASS: all 2036 roots",
+    "task_directories": "All 26 embedding modules pass 3511 focused jobs; complete independent lookup, signed IDs, raw execution, actual trace safety, strict whole-state/failure pair, full grid/frame, physical bits and Tensor/host scopes.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 68
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 313,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by the old numerical receipt; no false repin."
+    },
+    "official_comparator": "UNAVAILABLE: actual frozen-source invocations report required host isolation unavailable. Pinned official tools are installed, but host Landlock ABI v4 is below required v5 and systemd user bus is unavailable. No isolation bypass.",
+    "optional_cpu_contract": "UNAVAILABLE: torch missing; actual failure retained.",
+    "gpu_or_numerical_experiment": "Not run; no new numerical law or hardware-conformance claim.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending."
+  },
+  "source_pairs": {
+    "total": 198,
+    "pasted_body": 193,
+    "legacy_ast": 5
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-25/native-embedding-body/source-closure.json",
+    "sha256": "631de7fcf1fd0e784c19e8c35771343698b545f4136f4f4d64060e39667fcd21"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "legacy_ast_only": 1,
+      "no_selected_jit_resolved": 2,
+      "selected_body_copy_checked": 58,
+      "uncovered_jit_functions": 122
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 328,
+    "uncovered_selected_jit_functions": 237,
+    "primary_files_with_int64_screen_warning": 37,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 97,
+        "antiquotes": 106,
+        "dsl_loop": 1,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-embedding-body/all-python.log.gz",
+      "sha256": "8498e2c60bb9d2f29c73645803396726591fb6852ed8de5595f4a447fa04c972"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-embedding-body/changed-bench__repairs__tritonbench_g__embedding_triton_kernel__Kernels-comparator.log",
+      "sha256": "39eeb5e4211769e8229a0130073affe50cb2ccf6e019a57bed89c217271e6f64"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-embedding-body/changed-bench__repairs__tritonbench_g__embedding_triton_kernel__Proofs__Execution-comparator.log",
+      "sha256": "179f678ff4268d41b8e884a0a04b1d90c8f9424253d5de15b50e243fb03d81e6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-embedding-body/changed-bench__repairs__tritonbench_g__embedding_triton_kernel__Proofs__ProgramSafety-comparator.log",
+      "sha256": "546b9967f0843521ffbd9105a84ede93768a024f8c105e5fcbd8394768a590b0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-embedding-body/changed-bench__repairs__tritonbench_g__embedding_triton_kernel__Proofs__Rewrite-comparator.log",
+      "sha256": "a2e327619ec7b1baddbe2738030e614f88a2bda9e1089265f5741bb852e6e2b7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-embedding-body/changed-bench__repairs__tritonbench_g__embedding_triton_kernel__Proofs__StructuralAccess-comparator.log",
+      "sha256": "cd9893029e0371d83c5ef74a4acf4008a6c5be74b398697cebea274b289cea46"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-embedding-body/clean-build.log.gz",
+      "sha256": "ca78193371ff32af9e0f6ec9302409439afeb75cb5964c24a95121711e1aefd8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-embedding-body/clean-modules.json",
+      "sha256": "8d347103077639ccea288e66ecf87963eaa7d841958e2322479dfbb1057f6867"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-embedding-body/clean-setup.log",
+      "sha256": "7a8ee8a06f368a0ed37b706e338415d92ab6c461847b1f08d1c9041338f993ef"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-embedding-body/comparator-invocations.json",
+      "sha256": "fbf21c7c1f17305e3ad48d2036cdb6bade8ced364a3c57d1eaa2d06cc33afe75"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-embedding-body/comparator-preflight.log",
+      "sha256": "d9255026a27595d0a04e154bc4a9c609c8422b012fc13cb1ae4de2417afea36d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-embedding-body/comparator-setup.log",
+      "sha256": "bea658f19aea48f8965a3d6525da1300e599d9a3f0a05b992071c97bcaffd6df"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-embedding-body/comparator-tools.json",
+      "sha256": "d541ac407f7aa8679c8ba23dd4df72ac363730bbb67e45bd7959ec752e6b0c53"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-embedding-body/comparator.log",
+      "sha256": "cfa0e6f3083b30603c293dcb91b0e4f74f405c6593e6bd362736b557f355d862"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-embedding-body/contract.log",
+      "sha256": "61dc4daadfc300ebfafd229e94a4433ffecfd6b6bd7e7360cdc0c312bd1747b8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-embedding-body/corpus-guard.log",
+      "sha256": "4518f73f5d95b5041a870cd0e93e3a3367f2deb9d830e6e4c4d1a7066d1d369d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-embedding-body/embedding_triton_kernel-Real-comparator.log",
+      "sha256": "664b5a0441518f6d91d4eac051ad5b5e20878eb948848ddad58695c94ee1389c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-embedding-body/embedding_triton_kernel-comparator.log",
+      "sha256": "b38ebf545a6a046c409eba84b8c41faaef8299a510ee4d78a5b434ba7bdb5e1a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-embedding-body/embedding_triton_kernel-contract.log",
+      "sha256": "2bd7998170d0dab88a7ff591bd852d5dc8624dfd42f534c0eecdb3ea8f2007e0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-embedding-body/existing-cpu-pair-check.log",
+      "sha256": "1712ae210884f272952086187b6f6acd4820326e8cffcfefd38b394808e0b9c3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-embedding-body/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-embedding-body/integration.log.gz",
+      "sha256": "8bb31f62e9e517e78d5a2ae5019c6f5b27d0511d2fa22618b4f0370dca968b97"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-embedding-body/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-embedding-body/joint.lean",
+      "sha256": "e92b0c4cfb931434f133af4f6bbb004d6a90b15d196b386f392c8ea1812c8a4e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-embedding-body/joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-embedding-body/main-focused.log.gz",
+      "sha256": "87317d70160abee122078b4de036ef574c1c341bb7a057369eff6c09d627d56c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-embedding-body/modules.json",
+      "sha256": "3c12d480e2c6f5fd1728f24cc1f3652bebc03c84e6c2e89e11f4d1792a300e29"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-embedding-body/pairs.json",
+      "sha256": "a1c2522edeb53fa592a96f905354cabc1fc2064b37a880a83bb8f2964bd7c2b0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-embedding-body/previous-selected-reviews.json.gz",
+      "sha256": "420e4e474b3373e788971cc6e07e6fe8b60aea946eb66f65059d800a3ada2e8f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-embedding-body/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-embedding-body/python-tests.log",
+      "sha256": "4fed4d6568746417b5b67b6aa1906f7c296fd87c5bb24487c2268a3236d3a21c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-embedding-body/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-embedding-body/source-closure.json",
+      "sha256": "631de7fcf1fd0e784c19e8c35771343698b545f4136f4f4d64060e39667fcd21"
+    }
+  ]
+}
