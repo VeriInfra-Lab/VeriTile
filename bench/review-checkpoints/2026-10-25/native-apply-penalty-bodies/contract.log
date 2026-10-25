@@ -1,0 +1,45 @@
+apply_penalty raw-source-check
+[
+  {
+    "python_function": "_fwd_kernel_apply_penalty_repaired",
+    "lean_definition": "kernel",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "stride_logit_b": "stride_logit_b",
+      "stride_logit_s": "_stride_logit_s"
+    },
+    "statements": 17,
+    "runtime_parameters": {
+      "stride_logit_b": "integer",
+      "stride_logit_s": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_P"
+    ]
+  },
+  {
+    "python_function": "_fwd_kernel_apply_penalty_reciprocal",
+    "lean_definition": "reciprocalKernel",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "stride_logit_b": "stride_logit_b",
+      "stride_logit_s": "_stride_logit_s"
+    },
+    "statements": 17,
+    "runtime_parameters": {
+      "stride_logit_b": "integer",
+      "stride_logit_s": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_P"
+    ]
+  }
+]
+
+apply_penalty contract
+apply_penalty: 52 actual-wrapper/source cases passed; no GPU execution
+

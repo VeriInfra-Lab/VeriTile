@@ -1,0 +1,20 @@
+{
+  "parent": "a5518c675145f1b7a91b804495c01ca3d906aa67",
+  "secondary_code_base": "7cf25535575a298263a33368ecc06ea566c87d2f",
+  "files": {
+    "VeriTile/Triton/DSL/Expansion/Main.lean": "a7505437c2518e1c7484328287e0e80eb2ccaa72ca5924b153da61315617e930",
+    "bench/repairs/tritonbench_g/apply_penalty/Kernels.lean": "ef669ec2419f2d621c51a81c2ca30dd5147bb9bcd54884c180dfbbfbf67e82d7",
+    "bench/repairs/tritonbench_g/apply_penalty/Misc/TensorBridge.lean": "23a8d7cc2ae299132299c400f748d4303db425808172c48c594a014bc7b8c7bd",
+    "bench/repairs/tritonbench_g/apply_penalty/Proofs/AccessSafety.lean": "d2a96b9b9d426d204133af4eea8ad69bd689ba98fdc57486f6d86f95e38a3d21",
+    "bench/repairs/tritonbench_g/apply_penalty/Proofs/Projection.lean": "13e9d5bf5ef8aa77280e886fce2e6dbfbd83742b0f585e19e7ed863f24d31f3a",
+    "bench/repairs/tritonbench_g/apply_penalty/Proofs/Real.lean": "67b6dccfe6af7fead3942f82f4b1c0ba7656ddbe9be5b3b0c3e826e5064a5cab",
+    "bench/repairs/tritonbench_g/apply_penalty/Proofs/RealIO.lean": "5554dae00d8899421fb9acd11db6be97c0484d31923b425914c554c9832016c9",
+    "bench/repairs/tritonbench_g/apply_penalty/Proofs/Rewrite.lean": "d5493f390e049653406d3e34f791a060e16ef9665f1875319f99b2798ebfd345",
+    "bench/repairs/tritonbench_g/apply_penalty/Proofs/Schedule.lean": "c3fe3e46a6dcabbdae78b8eff120e57fbf8b7fd79243c567c6bcafbf26320643",
+    "bench/repairs/tritonbench_g/apply_penalty/README.md": "3a84e6e667b7f221aa1ffa0777687c7c5193f36db5e269626308ecb364e75d8f",
+    "bench/repairs/tritonbench_g/apply_penalty/check_contract.py": "bf547ddd80b86b79f2a36743249a0b4b16850a95723fb442b388f65925176416",
+    "bench/repairs/tritonbench_g/apply_penalty/jit-correspondence.json": "5ae2299972549a8188b76774554f61e47b7c671ed76fafcbaa4b96df6db6bbc8",
+    "bench/tests/CallSignature.lean": "66ff177b7c952c50bf247d97af91a76fe0bc74f4c1cd0bc5dfe1b6125ac0377b",
+    "bench/tests/test_jit_correspondence.py": "5eff10c67910b56a942d30f1476961e81ad0ed656fb08d2947b0e221a8fec3ea"
+  }
+}

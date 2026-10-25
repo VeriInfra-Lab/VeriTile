@@ -1,0 +1,27 @@
+{
+  "code_commit": "d1eb1ba42bf79a20b0943dbdd978bfc22ba0de3b",
+  "raw_bodies": [
+    {
+      "task": "apply_penalty",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/apply_penalty/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    }
+  ],
+  "cpu_contracts": [
+    {
+      "task": "apply_penalty",
+      "command": [
+        "python3",
+        "bench/repairs/tritonbench_g/apply_penalty/check_contract.py"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    }
+  ]
+}

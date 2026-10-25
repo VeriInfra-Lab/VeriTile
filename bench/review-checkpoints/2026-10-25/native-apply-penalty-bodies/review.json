@@ -1,0 +1,402 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "d1eb1ba42bf79a20b0943dbdd978bfc22ba0de3b",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "apply_penalty"
+  ],
+  "semantic_review": {
+    "adam_update_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "add_example": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "add_value": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "cache_transform_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "chunk_cumsum_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "chunked_cumsum_fwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "cosine_compute": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "dequantize_matmul": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "dequantize_rowwise": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "destindex_copy": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "destindex_copy_kv1": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "destindex_copy_kv2": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "dropout_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "embedding_triton_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "f8_conversion_utils": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "fast_rope_embedding": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "fused_activation": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "fused_recurrent_hgrn": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "index_select_bwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "index_select_cat": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "int8_matmul_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "kcache_copy_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "kldiv_compute": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "kldiv_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "kv_cache_copy": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "l2_norm_bwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "l2_norm_triton1": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "l2_norm_triton2": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "logsumexp_fwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "masked_add_cuda": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "masked_select": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "matmul_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "matrix_reduction": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "matrix_transpose": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "max_reduction": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "mean_reduction": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "mul_exponent_compensator": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "nested_loops_processing": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "quant_transpose_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "relu_triton_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "reversed_cumsum": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "reversed_cumsum_scalar": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rms_norm_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rmsnorm_fused": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rmsnorm_fused_llama": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rmsnorm_implementation": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rmsnorm_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rope_embedding": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rotary_emb": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rotary_emb_nopad": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "seeded_dropout": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "sin_computation": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "sin_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "softmax_triton1": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "softmax_triton2": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "square_matrix": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "swiglu_backward": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "swiglu_fwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "token_softmax_bloom": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "token_softmax_llama": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "triton_mul2": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "triton_softmax": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "var_len_copy": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "vector_addition": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "vector_addition_custom": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared fresh-add assignment inference fix and the apply-penalty raw-body migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "apply_penalty": "Both unchanged selected seventeen-statement Python original and existing reciprocal candidate are independently checked against complete raw quotations. Every program-ID/metadata/arange/stride cast, source temporary, literal, mask, zero padding, count promotion, repetition comparison and store remains. Pointer/constexpr/call metadata stays outside the body, recording four FP32 buffers, actual signed INT32 IDs/counts/cumsum through the existing nonnegative logical channels, two runtime integer strides and the block constexpr. No generic mathematical stride range is narrowed and the existing native bounds/host checks remain. Unannotated Python stride parameters use mathematical integer metadata without a fixed native ABI claim; both original explicit INT64 value casts remain. The shared frontend routes a fresh dest=old+rhs through ordinary assignment inference so a later natural-valued load cannot retag an already signed offset. Its complete explicit-AST program, including inputs/output, both logical loads, address/mask and actual unsigned-store conversion, fails on prior code and passes after the fix; the 95 frontend and ten previous legacy regression roots all pass. No broad cast-inference override is reintroduced. Both complete FP executions are derived from the actual source and the original DIV-MUL-RCP domain/finite/nonzero premises are retained exactly. Full tagged-memory equality, failure/success, in-place store ordering, arbitrary repeated IDs in FP equivalence and exterior frame remain. Strict Nat/Int normalization connects the actual signed source to the independent mathematical memory observations and exact access-safety judgment; the prior false AST identity is removed without equating register states. Public Real IO and retained checked Tensor/whole-grid applications now use the canonical raw source. All 26 task roots replay, keeping Real active-write injectivity and the original native interpretation boundaries. The CPU probe uses the shared raw quotation checker before its existing bounded cast-erasing NumPy interpreter; 52 actual-wrapper/source controls pass. This is not native INT64-boundary/FMA conformance or a new numerical experiment. No selected Python JIT, public IO, input domain or numerical dependency changes.",
+    "kv_cache_filling": "Shared frontend dependency regression only. Source/candidate bodies and mathematical/numerical scopes are unchanged; exact public/deep roots are recorded in modules.json. No new body migration is counted.",
+    "triton_argmax": "Shared frontend dependency regression only. Source/candidate bodies and mathematical/numerical scopes are unchanged; exact public/deep roots are recorded in modules.json. No new body migration is counted."
+  },
+  "example_regression_scope": "All 19 examples and their complete helpers replay warm, jointly and in the complete initially-empty shared-frontend checkout. Their exact source/dependency bytes are unchanged by the final task-only metadata clarification and the final warm/joint union also passes.",
+  "verification": {
+    "frontend_regressions": {
+      "status": "PASS",
+      "configured_modules": 95,
+      "scope": "All 95 frontend roots plus ten previous legacy regressions pass as 105 roots, 3822 jobs. New complete explicit-AST signed fresh-add/load/store guard rejects prior code and passes the fix. The entire combined root set then replays warm, jointly and independently with initially empty project objects at 3cfa3fcb. Final metadata changes are task-local; shared-source identity and all final affected roots are checked separately."
+    },
+    "integration": {
+      "status": "PASS",
+      "explicit_modules": 2304,
+      "jobs": 11551
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 26,
+      "jobs": 3504,
+      "scope": "Final task-local metadata snapshot: all 26 task roots and their full transitive dependencies, including all 23 affected combined roots. The shared frontend already passed a full 2304-root initially-empty-project replay at 3cfa3fcb; its source and unit bytes are identical in the final snapshot. Exact snapshot linkage and both replay logs are retained.",
+      "project_build_initially_present": false,
+      "veritile_cache_initially_present": false,
+      "only_fixed_external_dependencies_reused": true
+    },
+    "joint_import": "PASS: all 2304 roots",
+    "task_directories": "All 26 apply-penalty roots pass as 3504 jobs, including actual mathematical/FP source execution, metadata/count conversion, access safety, public IO, whole-grid, Tensor and retained optional historical applications. The shared frontend passes the complete 2304-root warm/joint/independent-clean union at 3cfa3fcb. Final task-only metadata clarification replays all 26 task roots independently from empty objects and all 2304 roots warm and jointly; changed-source and dependency linkage is explicit.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 79
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 324,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by its old numerical receipt; no false repin."
+    },
+    "official_comparator": "UNAVAILABLE: actual frozen-source invocations report required host isolation unavailable. Pinned tools are installed; host Landlock ABI v4 is below required v5 and the systemd user bus is unavailable. No isolation bypass.",
+    "task_local_inspections": "The complete-body checkers pass independently for both selected original/candidate pairs. The actual NumPy wrapper/source probe passes all 52 controls after checking raw bodies with casts preserved. It does not exercise native signed64 boundaries or compiled FMA. Selected JIT Python and prior numerical evidence remain unchanged.",
+    "gpu_or_numerical_experiment": "Not run; no new numerical law or hardware-conformance claim.",
+    "shared_frontend_full_clean_replay": {
+      "status": "PASS",
+      "code_commit": "3cfa3fcb9671db827c8081f24c6dc146cda6b03b",
+      "explicit_modules": 2304,
+      "jobs": 11551,
+      "joint_import": "PASS",
+      "project_build_initially_present": false,
+      "veritile_cache_initially_present": false,
+      "final_shared_source_identical": {
+        "VeriTile/Triton/DSL/Expansion/Main.lean": "a7505437c2518e1c7484328287e0e80eb2ccaa72ca5924b153da61315617e930",
+        "bench/tests/CallSignature.lean": "66ff177b7c952c50bf247d97af91a76fe0bc74f4c1cd0bc5dfe1b6125ac0377b"
+      },
+      "final_delta": "Only the task signature/manifest/README and corpus inventory clarify that unannotated Python strides use mathematical integer metadata. Both source INT64 casts remain; no shared source or proof changes."
+    },
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending."
+  },
+  "source_pairs": {
+    "total": 216,
+    "pasted_body": 211,
+    "legacy_ast": 5
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/source-closure.json",
+    "sha256": "ccb3d0c8e6a7ec9d4e8542ecf861dc8fdd95a36dc57b56741d1675aadee533e3"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "legacy_ast_only": 1,
+      "no_selected_jit_resolved": 2,
+      "selected_body_copy_checked": 66,
+      "uncovered_jit_functions": 114
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 328,
+    "uncovered_selected_jit_functions": 224,
+    "primary_files_with_int64_screen_warning": 32,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 90,
+        "antiquotes": 99,
+        "dsl_loop": 1,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/all-python.log.gz",
+      "sha256": "ea1a842c8d04ff4f8825b123b730fc1c5d6f9ef39ee0447442ab5a12ee18d7a8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/apply_penalty-Real-comparator.log",
+      "sha256": "5e51c270aa084067377422798329b4b408988b8099b4756c19bd3568600140c6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/apply_penalty-comparator.log",
+      "sha256": "76a485a954388643d6cc63f134dde03dcd98414d443915a897f398cdeeef045a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/apply_penalty-contract.log",
+      "sha256": "dfd464c77291e5af057740ce1f2aa9453960cef3d55afd6d256cf871c3eeba09"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/apply_penalty-raw-source-check.log",
+      "sha256": "c22ba36f46823fd6471c76ba5c537df1304e9d417892fd55ab076e60deda3059"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/changed-VeriTile__Triton__DSL__Expansion__Main-comparator.log",
+      "sha256": "9d888901aff5e547887c44d8fff6735ebde08fd0dcef9036a91114dbc21904ad"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/changed-bench__repairs__tritonbench_g__apply_penalty__Kernels-comparator.log",
+      "sha256": "70ce195fd7f0cfb043b99fa85f49f66478219da84e3481e826250d704eadb3a5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/changed-bench__repairs__tritonbench_g__apply_penalty__Misc__TensorBridge-comparator.log",
+      "sha256": "7190975564bbbebfb9bd5ba9a432f72e70906f64a6f3900f1e46509630f8fb93"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/changed-bench__repairs__tritonbench_g__apply_penalty__Proofs__AccessSafety-comparator.log",
+      "sha256": "ab373086cb3172e22c0718f2527d51571da260e979596fb4f9426fd6754778d6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/changed-bench__repairs__tritonbench_g__apply_penalty__Proofs__Projection-comparator.log",
+      "sha256": "3b487a2a9d9dedc983c3d9e5f4eb325bacfd6e23d11af8f8b3243448167cd8c1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/changed-bench__repairs__tritonbench_g__apply_penalty__Proofs__Real-comparator.log",
+      "sha256": "4fb10ef19336bea975896d91c48c0b3ed6ce35cbbf7d9e847be69ad8b8bdb7fc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/changed-bench__repairs__tritonbench_g__apply_penalty__Proofs__RealIO-comparator.log",
+      "sha256": "ab94aa69a1d9ac529370b0ab1e1968b4e9ea5830ce9c6de3f32c6e5afe9766be"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/changed-bench__repairs__tritonbench_g__apply_penalty__Proofs__Rewrite-comparator.log",
+      "sha256": "077505c19d027fce323c2485027993fd3c3ed089f89019b9d02f6574c3da9fbd"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/changed-bench__repairs__tritonbench_g__apply_penalty__Proofs__Schedule-comparator.log",
+      "sha256": "3184056d8ec2b55bff3d9fd401776b8b7ad9a5ce1d53c2b2ceaa0a10a9c7450f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/changed-bench__tests__CallSignature-comparator.log",
+      "sha256": "95bfbfcfcb1540fc3c1162372e40a3ae8ce89c7d09735420836711802fd705a7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/clean-build.log.gz",
+      "sha256": "cad645668811b01222a2f751e299b06a2495a8f5a2348c4210e32665f8021330"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/clean-setup.log",
+      "sha256": "9916464d65bc6038f3cdae755623ca49d69f501fc57352fb7fd10c74360ea821"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/comparator-invocations.json",
+      "sha256": "207028a399ecd74b8d0a076c49c7216f74682c648941943e9303d579b0677967"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/comparator-preflight.log",
+      "sha256": "d9255026a27595d0a04e154bc4a9c609c8422b012fc13cb1ae4de2417afea36d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/comparator-setup.log",
+      "sha256": "bea658f19aea48f8965a3d6525da1300e599d9a3f0a05b992071c97bcaffd6df"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/comparator-tools.json",
+      "sha256": "d541ac407f7aa8679c8ba23dd4df72ac363730bbb67e45bd7959ec752e6b0c53"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/comparator.log",
+      "sha256": "3ae9fc725d92deba93a6985d43de9757b0b85917dee332a061ffa34522b7a486"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/contract.log",
+      "sha256": "113da22fd341c9e0ce2cb66aebdb0284261d3888263c43713bfd70542a58ba0a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/corpus-guard.log",
+      "sha256": "65ad2a8c08f7e92b86138683bdfa4616fcaa76b5e6c79806fa1ad39c0e94d9ea"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/final-integer-strides-development.log.gz",
+      "sha256": "c8c20ea7fddd0bb85d01c0b00aa990234f027fac619b972c14ac5a9044e7e714"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/final-source-link.json",
+      "sha256": "2a58ca0c7ae0920324da5978c424207500d68b13af144bfe344cf58043ba79ac"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/final-transitive-affected-roots.txt",
+      "sha256": "b001e67dbc80909e43e116632552d3cbf133d38bcb069c77ad9249c3424a6fd5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/focused-modules.txt",
+      "sha256": "5e1b333cadc43793e8537c44c10aa61ec11e992b847639aa037b189ae2ada9e6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/fresh-assignment-and-legacy-regressions.log.gz",
+      "sha256": "8fb10a0dc816a151be30b96539c7c4247a0b9fcf446b2b0523b726f6123f549f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/inspections.json",
+      "sha256": "dd69a874b55a546327ce92782b77fca87fbff037d1b5da8f8299b1f8156b89ee"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/integration.log.gz",
+      "sha256": "19a94ec73c34fe6a02fd00d08974cb5e2dd0b4cfd4ca9386cf1d8da85fddc9c9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/joint.lean",
+      "sha256": "6bd15727c689271cffb3711cd83f7707403f376570813d4f8e5cb3cdc10edb4f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/modules.json",
+      "sha256": "a5cdf60f4bc4a32d595516878d7a63075465276a72b4a00b9830300038d5a71f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/pairs.json",
+      "sha256": "f724a2c60f77e7c2b575a9449cf2544e6f9bf9e6285424c731abcf9b71a78ef0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/previous-selected-reviews.json.gz",
+      "sha256": "8a650702498a2cea5db81a4d9ac35d6ab3c449580c90ab2751900c41a3734eb2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/python-tests.log",
+      "sha256": "af1b76d1a4734dce9ec93d37db739a9dae42f3b9cfe1d656669fac66e7c5bc23"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/regression-modules.txt",
+      "sha256": "1c6fdfda8183498b765fb90fc9b9a75f5dc85a37875f62a09eff520132dbfe26"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/secondary-cpu-controls.log",
+      "sha256": "dfd464c77291e5af057740ce1f2aa9453960cef3d55afd6d256cf871c3eeba09"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/secondary-focused-development.log.gz",
+      "sha256": "ed1adb5fedc404dfd81e84801ae3604dd00664106d716f29a06a0e9e5232b811"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/shared-frontend-clean-build.log.gz",
+      "sha256": "4d0c35991fecb1814ea900ba51f4bcc1fb11bfe0018109396f2dbe00fcc731bb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/shared-frontend-clean-setup.log",
+      "sha256": "826707f12e05ec44b0b9dd0ae753ee17ca3c071f69205c1b8953ed81f3f32409"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/shared-frontend-integration.log.gz",
+      "sha256": "7a097662c448897a5a9436ea725bdacba660839d62d43f59cde86fd0ff92acc3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/shared-frontend-joint.lean",
+      "sha256": "6bd15727c689271cffb3711cd83f7707403f376570813d4f8e5cb3cdc10edb4f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/shared-frontend-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/shared-frontend-source-closure.json",
+      "sha256": "ad8b57323ef3f0b4c93792835a29e95111226f39364de5298fb278e723cb7bc0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/signed-rebind-fixed.log",
+      "sha256": "22e632c8350c402130cab331d90dd8b60c5a8a06803555d8c39a6e228abcf763"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/signed-rebind-probe.lean.txt",
+      "sha256": "550336f4302e433fce6fa30c84e175ecea0e1d6c33f49a5904f15c48af0671f4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/signed-rebind-rejected.log",
+      "sha256": "5660a77666292b3fc295546acfcd6bfa1ea80d07c6f85c11c788d8f35ac22729"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/source-closure.json",
+      "sha256": "ccb3d0c8e6a7ec9d4e8542ecf861dc8fdd95a36dc57b56741d1675aadee533e3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-apply-penalty-bodies/transferred-files.json",
+      "sha256": "f035e2e0486aa1963485eccb07f2f306feed20e7ab0275478da490686a3644ec"
+    }
+  ]
+}

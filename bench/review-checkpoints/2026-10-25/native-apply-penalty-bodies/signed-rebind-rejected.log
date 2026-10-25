@@ -1,0 +1,12 @@
+/tmp/penalty64-signed-rebind-unit.lean:12:2: error: nat expression: dtype mismatch
+/tmp/penalty64-signed-rebind-unit.lean:30:0: error: Not a definitional equality: the left-hand side
+  source P C Out B N
+is not definitionally equal to the right-hand side
+  expected P C Out B N
+/tmp/penalty64-signed-rebind-unit.lean:31:49: error: Type mismatch
+  rfl
+has type
+  ?m.3 = ?m.3
+but is expected to have type
+  source P C Out B N = expected P C Out B N
+/tmp/penalty64-signed-rebind-unit.lean:32:0: error: VeriTile.Tests.NaturalSignedOffsetRebind.complete_kernel: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

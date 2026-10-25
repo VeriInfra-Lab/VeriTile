@@ -1,0 +1,47 @@
+{
+  "initial_full_shared_code": "3cfa3fcb9671db827c8081f24c6dc146cda6b03b",
+  "final_code": "d1eb1ba42bf79a20b0943dbdd978bfc22ba0de3b",
+  "final_changed_files": [
+    "bench/repairs/tritonbench_g/apply_penalty/Kernels.lean",
+    "bench/repairs/tritonbench_g/apply_penalty/README.md",
+    "bench/repairs/tritonbench_g/apply_penalty/jit-correspondence.json",
+    "bench/source-correspondence.json"
+  ],
+  "metadata_clarification": "Unannotated Python strides use ScalarType.integer. Both original explicit INT64 value casts remain. No shared source or proof changed after the complete shared-frontend replay.",
+  "shared_sha256": {
+    "VeriTile/Triton/DSL/Expansion/Main.lean": "a7505437c2518e1c7484328287e0e80eb2ccaa72ca5924b153da61315617e930",
+    "bench/tests/CallSignature.lean": "66ff177b7c952c50bf247d97af91a76fe0bc74f4c1cd0bc5dfe1b6125ac0377b"
+  },
+  "all_changed_source_files_task_local": true,
+  "transitive_affected_roots": [
+    "bench.repairs.tritonbench_g.apply_penalty.Correct",
+    "bench.repairs.tritonbench_g.apply_penalty.FPEquiv",
+    "bench.repairs.tritonbench_g.apply_penalty.IO",
+    "bench.repairs.tritonbench_g.apply_penalty.Kernels",
+    "bench.repairs.tritonbench_g.apply_penalty.Misc.AuxiliaryCorrect",
+    "bench.repairs.tritonbench_g.apply_penalty.Misc.FPObservation",
+    "bench.repairs.tritonbench_g.apply_penalty.Misc.TensorBridge",
+    "bench.repairs.tritonbench_g.apply_penalty.Proofs.AccessSafety",
+    "bench.repairs.tritonbench_g.apply_penalty.Proofs.Binding",
+    "bench.repairs.tritonbench_g.apply_penalty.Proofs.Counterexamples",
+    "bench.repairs.tritonbench_g.apply_penalty.Proofs.Execution",
+    "bench.repairs.tritonbench_g.apply_penalty.Proofs.FP",
+    "bench.repairs.tritonbench_g.apply_penalty.Proofs.KernelResults",
+    "bench.repairs.tritonbench_g.apply_penalty.Proofs.LegacyGrid",
+    "bench.repairs.tritonbench_g.apply_penalty.Proofs.LegacyNative",
+    "bench.repairs.tritonbench_g.apply_penalty.Proofs.LogicalReader",
+    "bench.repairs.tritonbench_g.apply_penalty.Proofs.Memory",
+    "bench.repairs.tritonbench_g.apply_penalty.Proofs.Projection",
+    "bench.repairs.tritonbench_g.apply_penalty.Proofs.PublicEquivalence",
+    "bench.repairs.tritonbench_g.apply_penalty.Proofs.Real",
+    "bench.repairs.tritonbench_g.apply_penalty.Proofs.RealIO",
+    "bench.repairs.tritonbench_g.apply_penalty.Proofs.Rewrite",
+    "bench.repairs.tritonbench_g.apply_penalty.Proofs.Schedule"
+  ],
+  "final_changed_sha256": {
+    "bench/repairs/tritonbench_g/apply_penalty/Kernels.lean": "f7478b18c499d2e8d6ec20301b190bfc3e713b5629e889b851d032e49b5364d7",
+    "bench/repairs/tritonbench_g/apply_penalty/README.md": "7d783ecde2f5f457dc7a0b431331d086aef4940185d50d92af32dadce48c5c36",
+    "bench/repairs/tritonbench_g/apply_penalty/jit-correspondence.json": "c5c2f889102cef91c7f8cd778fd8ad5e0c5f9814f2ab6caa8db2217e2b0ff154",
+    "bench/source-correspondence.json": "38c23211a40b7bf76f39789f31625dc28dcc31b7ce50d448fe42e51b03df6d90"
+  }
+}

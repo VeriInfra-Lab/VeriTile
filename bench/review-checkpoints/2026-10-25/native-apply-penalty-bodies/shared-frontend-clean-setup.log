@@ -1,0 +1,4 @@
+From /tmp/veritile-pr18-review
+ * branch                codex/body-copy-cache-and-constexpr -> FETCH_HEAD
+HEAD is now at 3cfa3fcb9 Copy exact apply penalty JIT bodies and reprove signed execution and access safety
+{"code_commit": "3cfa3fcb9671db827c8081f24c6dc146cda6b03b", "project_build_initially_present": false, "veritile_cache_initially_present": false, "only_fixed_external_dependencies_reused": true, "packages_target": "/home/argustest/lizn/VeriTile/.lake/packages", "roots": "all 2304 combined roots and full dependency closure after shared frontend change"}
