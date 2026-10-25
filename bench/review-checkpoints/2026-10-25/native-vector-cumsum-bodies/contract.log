@@ -1,0 +1,60 @@
+chunk_cumsum_vector raw-source-check
+[
+  {
+    "python_function": "chunk_global_cumsum_vector_kernel",
+    "lean_definition": "source",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "runtime_registers",
+    "call_bindings": null,
+    "statements": 11,
+    "runtime_parameters": {},
+    "constexpr_parameters": [
+      "BS",
+      "BT",
+      "H",
+      "S",
+      "T",
+      "s_s_b",
+      "s_s_d",
+      "s_s_h",
+      "s_s_t",
+      "s_z_b",
+      "s_z_d",
+      "s_z_h",
+      "s_z_t"
+    ]
+  },
+  {
+    "python_function": "chunk_global_cumsum_vector_kernel_sum_left",
+    "lean_definition": "sumLeft",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "runtime_registers",
+    "call_bindings": null,
+    "statements": 11,
+    "runtime_parameters": {},
+    "constexpr_parameters": [
+      "BS",
+      "BT",
+      "H",
+      "S",
+      "T",
+      "s_s_b",
+      "s_s_d",
+      "s_s_h",
+      "s_s_t",
+      "s_z_b",
+      "s_z_d",
+      "s_z_h",
+      "s_z_t"
+    ]
+  }
+]
+
+chunk_cumsum_vector contract
+Traceback (most recent call last):
+  File "/tmp/veritile-hgrn54-clean/bench/repairs/tritonbench_g/chunk_cumsum_vector/check_contract.py", line 14, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'
+

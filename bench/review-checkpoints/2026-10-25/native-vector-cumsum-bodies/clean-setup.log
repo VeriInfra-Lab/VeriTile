@@ -1,0 +1,2 @@
+HEAD is now at 4f6413b2d Copy full vector cumsum Python bodies and reprove signed forward loops
+{"code_commit": "4f6413b2d785a3b8ccf584883a1ca06169391c78", "project_build_initially_present": false, "veritile_cache_initially_present": false, "only_fixed_external_dependencies_reused": true, "packages_target": "/home/argustest/lizn/VeriTile/.lake/packages", "roots": "all 55 affected task roots and complete transitive dependencies"}

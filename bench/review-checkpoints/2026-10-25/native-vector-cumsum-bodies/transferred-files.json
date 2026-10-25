@@ -1,0 +1,28 @@
+{
+  "parent": "476a56b8e460ccb8b1da5c376e7aac6c168a8548",
+  "secondary_code_base": "d1eb1ba42bf79a20b0943dbdd978bfc22ba0de3b",
+  "files": {
+    "bench/repairs/tritonbench_g/chunk_cumsum_vector/Kernels.lean": "dc090dcab784934f05cae2036a5edcf446fbd3bf8bcdf3cad50eef47e97bd150",
+    "bench/repairs/tritonbench_g/chunk_cumsum_vector/Proofs/CandidateExecution.lean": "602c73ed81096623a23a291e67410015b5ac10441471316149d7dca8835cffbd",
+    "bench/repairs/tritonbench_g/chunk_cumsum_vector/Proofs/CandidateProgram.lean": "f8fc35a89ab726c1acd788f863a1656c9ff9331204b830d49c77c21cb450aed8",
+    "bench/repairs/tritonbench_g/chunk_cumsum_vector/Proofs/CandidateStep.lean": "39298dd5caa336998beeff07db0a8a16cbd9dbd92fdfe2120700fa6cf32c40d6",
+    "bench/repairs/tritonbench_g/chunk_cumsum_vector/Proofs/FPAccessPrefix.lean": "d061c2f398a26ef03c9c64aecad6c0b78d567cfe05116b6e608a636b2280623e",
+    "bench/repairs/tritonbench_g/chunk_cumsum_vector/Proofs/FPAccessSource.lean": "e8e937fdd17c360e6b1d435265e8914569198c6bd4ab49e79f1d48869a97356f",
+    "bench/repairs/tritonbench_g/chunk_cumsum_vector/Proofs/FPExecution.lean": "b8ee0a2fbcb7994d92ca1451bb7cec446437481b0948576b9883d580a61decf0",
+    "bench/repairs/tritonbench_g/chunk_cumsum_vector/Proofs/FPProgram.lean": "8e5d8cbbeeb2a5e4281c9410791a474025e86bbe406e8e5617c148fb33992816",
+    "bench/repairs/tritonbench_g/chunk_cumsum_vector/Proofs/FPStep.lean": "06634b982be43b3a2c8dec742c00152ed6dc288673345e48f5202e7b5dd1df35",
+    "bench/repairs/tritonbench_g/chunk_cumsum_vector/Proofs/FPValues.lean": "fee7eb23b14aeb1d04251a91d1a744ada4aa0bc0f9239f7b42cb19bcea33a5c4",
+    "bench/repairs/tritonbench_g/chunk_cumsum_vector/Proofs/IndexProgram.lean": "fd275b9c29e893a4d6562c65a0293236320e929547f1329c20ed65c120e765bc",
+    "bench/repairs/tritonbench_g/chunk_cumsum_vector/Proofs/RealAccessPrefix.lean": "38787b66a3b407f95c3a3fe052e5436b5bd37206af5d00f7da2ec9fed24a85cf",
+    "bench/repairs/tritonbench_g/chunk_cumsum_vector/Proofs/RealAccessSource.lean": "1edf453d457141ac4b138eaff91bba502032ff52ce3eb0daedba96ff89cb0f38",
+    "bench/repairs/tritonbench_g/chunk_cumsum_vector/Proofs/RealExecution.lean": "d909a1b797083fe2f550a76476e5f9549cb0266388c16c1314dacba504f41414",
+    "bench/repairs/tritonbench_g/chunk_cumsum_vector/Proofs/RealLoop.lean": "abb391d9358931fd37ad1ff3ff84f31498839b87c59792358df8f23e7e38e364",
+    "bench/repairs/tritonbench_g/chunk_cumsum_vector/Proofs/RealProgram.lean": "353859a15e972543f9464285db7af5fb2c943ed3399a54d9d49d9e6a2ee0bc43",
+    "bench/repairs/tritonbench_g/chunk_cumsum_vector/Proofs/RealStep.lean": "189eb4a49282adaa2cf567f1e392af003ac63fb06ecda41eb10d51156b46ba6c",
+    "bench/repairs/tritonbench_g/chunk_cumsum_vector/Proofs/RealValues.lean": "311ba6277e752d57822f509eb833357210a34448c0c93ea13ffafc9f8f75831d",
+    "bench/repairs/tritonbench_g/chunk_cumsum_vector/README.md": "d5198351ea484c731aef6fe4a85bf6ece3b5ba78d10179d18c8cced0f810aedd",
+    "bench/repairs/tritonbench_g/chunk_cumsum_vector/check_contract.py": "e3260b386acfdd66d373122d6ebb2357957df7e0ebe427d7b16da8539703b9be",
+    "bench/repairs/tritonbench_g/chunk_cumsum_vector/jit-correspondence.json": "1318763126e22276717623634e3be07cc59ff628fdb69f675d33f94faa5b172f",
+    "bench/tests/test_jit_correspondence.py": "f863d6a7a6d3b5e047ac55ea95cd4587958f07166f24fc0f6754dead740c1146"
+  }
+}

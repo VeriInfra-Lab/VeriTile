@@ -1,0 +1,27 @@
+{
+  "code_commit": "4f6413b2d785a3b8ccf584883a1ca06169391c78",
+  "raw_bodies": [
+    {
+      "task": "chunk_cumsum_vector",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/chunk_cumsum_vector/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    }
+  ],
+  "cpu_contracts": [
+    {
+      "task": "chunk_cumsum_vector",
+      "command": [
+        "python3",
+        "bench/repairs/tritonbench_g/chunk_cumsum_vector/check_contract.py"
+      ],
+      "exit_code": 1,
+      "status": "UNAVAILABLE"
+    }
+  ]
+}

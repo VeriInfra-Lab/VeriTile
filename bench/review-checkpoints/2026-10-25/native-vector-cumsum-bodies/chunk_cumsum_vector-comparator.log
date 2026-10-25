@@ -1,0 +1,4 @@
+{"name": "chunk_cumsum_vector", "file": "bench/repairs/tritonbench_g/chunk_cumsum_vector/FPEquiv.lean", "sha256": "9060f4c7442f860d3d132a32415b1ce7e280cb077f3a78401649bbdc433293c0", "command": ["python3", "scripts/check_comparator.py", "--file", "bench/repairs/tritonbench_g/chunk_cumsum_vector/FPEquiv.lean", "--trust"], "exit_code": 1, "code_commit": "4f6413b2d785a3b8ccf584883a1ca06169391c78"}
+[FAIL] Official comparator isolation is unavailable:
+- systemd AF_UNIX restriction: Failed to connect to bus: Operation not permitted (consider using --machine=<user>@.host --user to connect to bus of other user)
+- Landlock sandbox: [landrun:error] 2026/10/25 20:04:26 Failed to apply sandbox: failed to apply Landlock filesystem restrictions: missing kernel Landlock support. Got Landlock ABI v4, wanted {Landlock V5; FS: all; Net: ∅}
