@@ -1,0 +1,7 @@
+/tmp/int8asm61-static-assert-repro.lean:20:60: warning: This simp argument is unused:
+  FP.Structural.stepAlg
+
+Hint: Omit it from the simp argument list.
+  simp [̵s̵o̵u̵r̵c̵e̵,̵C̵o̵m̵p̵u̵t̵e̵K̵e̵r̵n̵e̵l̵.̵s̵u̵r̵f̵a̵c̵e̵B̵o̵d̵y̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵s̵t̵e̵p̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵s̵t̵e̵p̵A̵l̵g̵,̵e̵v̵a̵l̵O̵p̵_̵u̵n̵f̵o̵l̵d̵]̵[̲s̲o̲u̲r̲c̲e̲,̲ ̲C̲o̲m̲p̲u̲t̲e̲K̲e̲r̲n̲e̲l̲.̲s̲u̲r̲f̲a̲c̲e̲B̲o̲d̲y̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲s̲t̲e̲p̲,̲ ̲e̲v̲a̲l̲O̲p̲_̲u̲n̲f̲o̲l̲d̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

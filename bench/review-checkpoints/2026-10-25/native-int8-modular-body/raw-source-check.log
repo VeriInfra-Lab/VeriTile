@@ -1,0 +1,41 @@
+{
+  "status": "PASS",
+  "scope": "complete raw body and reviewed call metadata",
+  "pairs": [
+    {
+      "python_function": "matmul_kernel",
+      "lean_definition": "kernel",
+      "status": "PASS",
+      "mode": "pasted_body",
+      "argument_mode": "integer_per_call_specialization",
+      "call_bindings": {
+        "M": "M",
+        "N": "N",
+        "stride_am": "stride_am",
+        "stride_ak": "stride_ak",
+        "stride_bk": "stride_bk",
+        "stride_bn": "stride_bn",
+        "stride_cm": "stride_cm",
+        "stride_cn": "stride_cn"
+      },
+      "statements": 23,
+      "runtime_parameters": {
+        "M": "integer",
+        "N": "integer",
+        "stride_am": "integer",
+        "stride_ak": "integer",
+        "stride_bk": "integer",
+        "stride_bn": "integer",
+        "stride_cm": "integer",
+        "stride_cn": "integer"
+      },
+      "constexpr_parameters": [
+        "BLOCK_SIZE_K",
+        "BLOCK_SIZE_M",
+        "BLOCK_SIZE_N",
+        "GROUP_SIZE_M",
+        "K"
+      ]
+    }
+  ]
+}

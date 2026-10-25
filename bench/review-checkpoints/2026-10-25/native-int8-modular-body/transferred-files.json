@@ -1,0 +1,19 @@
+[
+  "VeriTile/Triton/DSL/Expansion/Main.lean",
+  "VeriTile/Triton/DSL/PythonBody.lean",
+  "VeriTile/Triton/DSL/Syntax.lean",
+  "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Kernels.lean",
+  "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/AccessSafety.lean",
+  "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/SourcePreservation.lean",
+  "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/TileComplete.lean",
+  "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/TileReference.lean",
+  "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/TileSource.lean",
+  "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/README.md",
+  "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/generate_kernel_source.py",
+  "bench/tests/CallSignature.lean",
+  "bench/tests/test_jit_correspondence.py",
+  "VeriTile/Triton/DSL/Expansion/InlineAsm.lean",
+  "VeriTile/Triton/Float/StructuralLoopNormalization.lean",
+  "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/LegacyQuotedSource.lean",
+  "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/jit-correspondence.json"
+]

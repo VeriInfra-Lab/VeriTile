@@ -1,0 +1,30 @@
+{
+  "code_commit": "0f0031af316f58f9207d43037707fa08e3c8b9d5",
+  "raw_body": {
+    "status": "PASS",
+    "command": [
+      "python3",
+      "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/generate_kernel_source.py",
+      "--check"
+    ],
+    "exit_code": 0
+  },
+  "compiler": {
+    "status": "UNAVAILABLE",
+    "command": [
+      "python3",
+      "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/check_compiler_barrier.py",
+      "--output",
+      "/tmp/int8asm61-unavailable-compiler"
+    ],
+    "exit_code": 1
+  },
+  "delivery": {
+    "status": "UNAVAILABLE",
+    "command": [
+      "python3",
+      "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/check_delivery.py"
+    ],
+    "exit_code": 1
+  }
+}

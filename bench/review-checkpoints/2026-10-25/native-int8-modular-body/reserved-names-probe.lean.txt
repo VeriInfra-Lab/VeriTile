@@ -1,0 +1,27 @@
+import VeriTile.Triton.DSL.CallSignature
+import VeriTile.Meta.StatementAudit
+namespace VeriTile.Tests.PythonReservedNames
+open VeriTile.Triton
+
+def signature : CallSignature where
+  pointers := [("X",.fp32),("Y",.fp32)]
+  constexpr := ["B"]
+
+def source (X Y : RegionName) (B : Nat) : ComputeKernel :=
+  with_triton_signature signature in triton {
+    partial = tl.program_id(0)
+    prefix = partial * B + tl.arange(0, B)
+    values = tl.load(X + prefix)
+    tl.store(Y + prefix, values)
+  }
+
+theorem complete_program (X Y : RegionName) (B : Nat) : source X Y B = triton {
+    tl.ports inputs=[X], outputs=[Y]
+    tl.region X = tl.float32, Y = tl.float32
+    «partial» = tl.program_id(0)
+    «prefix» = «partial» * $(B) + tl.arange(0, $(B))
+    values = tl.load(X + «prefix»)
+    tl.store(Y + «prefix», values)
+  } := rfl
+#axiomsClean complete_program
+end VeriTile.Tests.PythonReservedNames

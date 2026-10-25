@@ -1,0 +1,34 @@
+/tmp/int8asm61-reserved-repro.lean:11:44: error: unsupported Python Triton body: <input>:2:0: expected '}'
+/tmp/int8asm61-reserved-repro.lean:18:0: error: Not a definitional equality: the left-hand side
+  source X Y B
+is not definitionally equal to the right-hand side
+  ComputeKernel.mk [X] [Y]
+    [ComputeStmt.assign TileDType.nat [] "partial" (ComputeExpr.alg (Op.programId 0)),
+      ComputeStmt.assign TileDType.nat [B] "prefix"
+        (ComputeExpr.alg
+          (Op.add NumericDType.nat Broadcast.scalarL
+            (Op.mul NumericDType.nat Broadcast.nil (Op.ref TileDType.nat [] "partial") (Op.constNat B)) (Op.arange B))),
+      ComputeStmt.assign TileDType.real [B] "values"
+        (ComputeExpr.compute
+          (ComputeOp.load ComputeDType.fp32 (MemAccess.region X (Op.ref TileDType.nat [B] "prefix")) MaskOpt.none)),
+      ComputeStmt.store TileDType.real [B] (MemAccess.region Y (Op.ref TileDType.nat [B] "prefix"))
+        (ComputeExpr.compute (ComputeOp.alg ComputeDType.fp32 (Op.ref TileDType.real [B] "values"))) MaskOpt.none]
+/tmp/int8asm61-reserved-repro.lean:25:7: error: Type mismatch
+  rfl
+has type
+  ?m.56 = ?m.56
+but is expected to have type
+  source X Y B =
+    ComputeKernel.mk [X] [Y]
+      [ComputeStmt.assign TileDType.nat [] "partial" (ComputeExpr.alg (Op.programId 0)),
+        ComputeStmt.assign TileDType.nat [B] "prefix"
+          (ComputeExpr.alg
+            (Op.add NumericDType.nat Broadcast.scalarL
+              (Op.mul NumericDType.nat Broadcast.nil (Op.ref TileDType.nat [] "partial") (Op.constNat B))
+              (Op.arange B))),
+        ComputeStmt.assign TileDType.real [B] "values"
+          (ComputeExpr.compute
+            (ComputeOp.load ComputeDType.fp32 (MemAccess.region X (Op.ref TileDType.nat [B] "prefix")) MaskOpt.none)),
+        ComputeStmt.store TileDType.real [B] (MemAccess.region Y (Op.ref TileDType.nat [B] "prefix"))
+          (ComputeExpr.compute (ComputeOp.alg ComputeDType.fp32 (Op.ref TileDType.real [B] "values"))) MaskOpt.none]
+/tmp/int8asm61-reserved-repro.lean:26:0: error: VeriTile.Tests.PythonReservedNames.complete_program: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

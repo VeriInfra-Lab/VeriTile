@@ -1,0 +1,21 @@
+import VeriTile.Triton.DSL.CallSignature
+import VeriTile.Triton.Float.Structural
+namespace VeriTile.Tests.StaticAssertionSource
+open VeriTile.Triton FP.Structural
+
+def signature : CallSignature where
+  pointers := [("X",.fp32)]
+  constexpr := ["B"]
+
+def source (X : RegionName) (B : Nat) : ComputeKernel :=
+  with_triton_signature signature in triton {
+    tl.static_assert(B % 4 == 0, "B must be a multiple of four")
+    lanes = tl.arange(0, B)
+    value = tl.load(X + lanes)
+    tl.store(X + lanes, value)
+  }
+
+example {α : Type} [Inhabited α] (M : Algebra α) (s : State α) (X : RegionName) (B : Nat) :
+    ((source X B).surfaceBody.head?).bind (fun statement => FP.Structural.step M statement s) = some s := by
+  simp [source,ComputeKernel.surfaceBody,FP.Structural.step,FP.Structural.stepAlg,evalOp_unfold]
+end VeriTile.Tests.StaticAssertionSource

@@ -1,0 +1,374 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "0f0031af316f58f9207d43037707fa08e3c8b9d5",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "int8_matmul_kernel"
+  ],
+  "selected_source_directories": {
+    "int8_matmul_kernel": "int8_matmul_kernel_modular_checked"
+  },
+  "semantic_review": {
+    "adam_update_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "add_example": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "add_value": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "cache_transform_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "chunk_cumsum_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "chunked_cumsum_fwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "cosine_compute": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "dequantize_matmul": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "dequantize_rowwise": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "destindex_copy": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "destindex_copy_kv1": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "destindex_copy_kv2": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "dropout_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "embedding_triton_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "f8_conversion_utils": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "fast_rope_embedding": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "fused_activation": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "fused_recurrent_hgrn": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "index_select_bwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "index_select_cat": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "kcache_copy_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "kldiv_compute": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "kldiv_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "kv_cache_copy": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "l2_norm_bwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "l2_norm_triton1": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "l2_norm_triton2": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "logsumexp_fwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "masked_add_cuda": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "masked_select": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "matmul_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "matrix_reduction": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "matrix_transpose": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "max_reduction": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "mean_reduction": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "mul_exponent_compensator": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "nested_loops_processing": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "quant_transpose_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "relu_triton_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rms_norm_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rmsnorm_fused": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rmsnorm_fused_llama": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rmsnorm_implementation": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rmsnorm_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rope_embedding": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rotary_emb": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rotary_emb_nopad": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "seeded_dropout": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "sin_computation": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "sin_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "softmax_triton1": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "softmax_triton2": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "square_matrix": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "swiglu_backward": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "swiglu_fwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "triton_mul2": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "triton_softmax": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "var_len_copy": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "vector_addition": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "vector_addition_custom": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after generic checked inline add.u32 parsing, Python identifier escaping and canonical executable static-assert marker. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "int8_matmul_kernel": "The unchanged selected matmul_kernel is pasted with all 23 top-level statements, nested loops, every int8 and pointer-element cast, masks, static assertion and exact inline add.u32 assembly string plus all five ABI options. The generic frontend accepts only the modeled pure two-register single-result word-add ABI, rejects mismatched/duplicate/missing options, effectful/floating operands and other instructions, and lowers to the existing strict modulo32 then signed32 integer primitive. Whole-ComputeKernel identity and reordered-ABI/negative guards validate that lowering; it adds no FP law and proves no hardware/compiler conformance. Python partial/prefix identifiers are escaped only in the parsed view, leaving raw text untouched. The static-assert no-runtime-work marker now executes directly; its unchanged admission predicate is still discharged for all fifteen configurations. TileSource.source is the actual quotedSource, with a checked rfl equality and no statement-list projection. New counted-loop/unit-range execution and access-safety lemmas preserve complete states, failure and actual successor traces. All actual source math, low32, ordered native leaf, complete-grid, host, Tensor, memory frame and access results are re-proved on the current loop constructors and folded constexpr bound. The final int32 storage cast remains present and is proved neutral using actual canonical signed32 accumulation, including zero-trip loops, without assuming an integer or FP cast identity. Historical pre-copy quotation equality remains explicitly historical in proof-only snapshots, not a false identity to current raw syntax. Both compared programs are two real configurations of this same selected Python kernel; all fifteen configurations remain. No source rewrite, new candidate, numerical premise, domain restriction or public-scope loss is introduced. All 43 task roots and all 95 configured frontend regression roots pass; previous tasks and all examples replay completely. Offline compiler artifacts and old cache-specific delivery verification are unavailable in this clean checkout and are not reported as new passes.",
+    "kv_cache_filling": "Shared frontend dependency regression only. Source/candidate bodies and mathematical/numerical scopes are unchanged; exact public/deep roots are recorded in modules.json. No new body migration is counted.",
+    "triton_argmax": "Shared frontend dependency regression only. Source/candidate bodies and mathematical/numerical scopes are unchanged; exact public/deep roots are recorded in modules.json. No new body migration is counted."
+  },
+  "example_regression_scope": "All 19 examples and their complete helpers replay locally, jointly and in an initially empty independent project checkout; source, domains and numerical classifications remain unchanged.",
+  "verification": {
+    "frontend_regressions": {
+      "status": "PASS",
+      "configured_modules": 95,
+      "scope": "Complete ComputeKernel inline add.u32 identity, reordered ABI identity, nine negative ABI/argument guards, complete Python reserved-name identity and actual executable static-assert no-op proof; all existing precision, cast, range, shape, String and numerical guards replay. Native operand width/range remains the caller refinement."
+    },
+    "integration": {
+      "status": "PASS",
+      "explicit_modules": 2139,
+      "jobs": 11359
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 2139,
+      "jobs": 11359,
+      "scope": "Every combined root and full dependency closure after the shared frontend change.",
+      "project_build_initially_present": false,
+      "veritile_cache_initially_present": false,
+      "only_fixed_external_dependencies_reused": true
+    },
+    "joint_import": "PASS: all 2139 roots",
+    "task_directories": "All 43 task roots, all 95 frontend roots, all prior migrated tasks, examples and retained optional/historical scopes. The 138 focused roots pass 3807 jobs. Source transfer was byte checked before freezing.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 74
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 319,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by its old numerical receipt; no false repin."
+    },
+    "official_comparator": "UNAVAILABLE: actual frozen-source invocations report required host isolation unavailable. Pinned tools are installed; host Landlock ABI v4 is below required v5 and the systemd user bus is unavailable. No isolation bypass.",
+    "task_local_inspections": "The actual complete-body checker passes on frozen source. Read-only offline compiler/delivery inspections cannot find their historical cache evidence; actual logs are retained. No CPU numerical contract exists for this task and no compiler or GPU pass is invented.",
+    "gpu_or_numerical_experiment": "Not run; no new numerical law or hardware-conformance claim.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending."
+  },
+  "source_pairs": {
+    "total": 206,
+    "pasted_body": 201,
+    "legacy_ast": 5
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/source-closure.json",
+    "sha256": "6dbf308b480d71d0d5c9d3306ff8ca7a2cce66875a76c98bef7b8f97955cc88a"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "legacy_ast_only": 1,
+      "no_selected_jit_resolved": 2,
+      "selected_body_copy_checked": 61,
+      "uncovered_jit_functions": 119
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 328,
+    "uncovered_selected_jit_functions": 232,
+    "primary_files_with_int64_screen_warning": 37,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 95,
+        "antiquotes": 104,
+        "dsl_loop": 1,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/all-python.log.gz",
+      "sha256": "d101e03c4ba84a4953e03bcb1d27ad7a8cb1c88973cf30cd843567181cb58658"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/asm-unit.log.gz",
+      "sha256": "8340f00f9b1d16343025737bcc7e36269b9817f194c5580789c5e77b3496f094"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/changed-VeriTile__Triton__DSL__Expansion__InlineAsm-comparator.log",
+      "sha256": "d1f8d207ac39c9b5d2ba77a47f9dc8ec2fe5a5afb782b6cdf0d10c1c416b20f1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/changed-VeriTile__Triton__DSL__Expansion__Main-comparator.log",
+      "sha256": "4f135e2f8e5fa9887773dd2a584b159c5ead3ec3de9622b7032b27cade7bbb5c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/changed-VeriTile__Triton__DSL__PythonBody-comparator.log",
+      "sha256": "56904c8164a13c11f266a04feb9c8b9778a4aea2b2464d6aa0f27e21c068aac8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/changed-VeriTile__Triton__DSL__Syntax-comparator.log",
+      "sha256": "3a030f5b8cfabd9fa63446c7b21df66a1641623aa194104420417b213b4df2ac"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/changed-VeriTile__Triton__Float__StructuralLoopNormalization-comparator.log",
+      "sha256": "14e12eca2fa5c5ad90684fee4676fbaff383f0f5372d367e9278479eb8538d5c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/changed-bench__repairs__tritonbench_g__int8_matmul_kernel_modular_checked__Kernels-comparator.log",
+      "sha256": "7ef9ab1d2e982c9b5a6f45eeb4c18e5a51e83d42acf111b19c25991eab21f989"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/changed-bench__repairs__tritonbench_g__int8_matmul_kernel_modular_checked__Proofs__AccessSafety-comparator.log",
+      "sha256": "29fb6cb7fc05d8aa9119cb5f6618ef1a6ba0583bd73fc91d1094f7ea09255a19"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/changed-bench__repairs__tritonbench_g__int8_matmul_kernel_modular_checked__Proofs__LegacyQuotedSource-comparator.log",
+      "sha256": "68e2822b11a1138a0becea5d40c9ace096079905d708bb04ee0f06c61493b95b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/changed-bench__repairs__tritonbench_g__int8_matmul_kernel_modular_checked__Proofs__SourcePreservation-comparator.log",
+      "sha256": "29d2ec1aec58d61c8b67d562286c427cfd9cda77389e804811265b75ed041a98"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/changed-bench__repairs__tritonbench_g__int8_matmul_kernel_modular_checked__Proofs__TileComplete-comparator.log",
+      "sha256": "3e4ecd2e2ff6f006bd37e52f35e3848987c551578561d691972de0bc29839159"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/changed-bench__repairs__tritonbench_g__int8_matmul_kernel_modular_checked__Proofs__TileReference-comparator.log",
+      "sha256": "eb40d1b10a9e0747a54accb495f1c8f97034ab8aaaac92eb32114e0ac1fd1217"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/changed-bench__repairs__tritonbench_g__int8_matmul_kernel_modular_checked__Proofs__TileSource-comparator.log",
+      "sha256": "3f74e3075f6faa64228b660281e2d62349dd6ab485e16051f5da2a21086b5aab"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/changed-bench__tests__CallSignature-comparator.log",
+      "sha256": "337a43615cff226621035b88936b11da7c4d0f325d540b2cae14ad8fb76df563"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/clean-build.log.gz",
+      "sha256": "c2e251c4b90b9662f39ac39bcdd826db9bb716ab8757108e0a6b0ca67d1dec06"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/clean-setup.log",
+      "sha256": "9016f4d4f3cd14215b5b8b2c576258a3cf510b91962b8489d1bb4cb80f1af3f0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/comparator-invocations.json",
+      "sha256": "b5069d336ef7d30ea3ebd91dea0262a3627aa317a0514fbd1505e45543d5efa7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/comparator-preflight.log",
+      "sha256": "d9255026a27595d0a04e154bc4a9c609c8422b012fc13cb1ae4de2417afea36d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/comparator-setup.log",
+      "sha256": "bea658f19aea48f8965a3d6525da1300e599d9a3f0a05b992071c97bcaffd6df"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/comparator-tools.json",
+      "sha256": "d541ac407f7aa8679c8ba23dd4df72ac363730bbb67e45bd7959ec752e6b0c53"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/comparator.log",
+      "sha256": "69880e92522516a02475841304ea8ff8d7d48f3d00cc19596cd81004b566501a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/compiler-inspection.log",
+      "sha256": "a27c02dc9651989c26b848bd170b21794d555526b95e0b70c417a0d3bb7240bc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/contract.log",
+      "sha256": "07d716987dba970d3396231d9c4c71b1911277b9def18e777b180420cf398a48"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/corpus-guard.log",
+      "sha256": "f40aabaf10306bfdf1b7abd829c8b9b1202341822c0f78ee53836aa7d8767693"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/delivery-inspection.log",
+      "sha256": "d9f8c1b769151144832d7dfc3cd5fc9a332b18b449c5367f76025e39ed8665f7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/focused-modules.txt",
+      "sha256": "3c84991b166016b505448a6f95172412757f7e87c55f1f99a27d9e529e419a30"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/inspections.json",
+      "sha256": "b3848dad5b14fe665d0a59a330e9ca72f451654b37379d417ade43705326501d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/int8_matmul_kernel_modular_checked-Real-comparator.log",
+      "sha256": "6862ca501356d868346482c4cfea8d413bb69508e2062c653ac793220fbbcc7f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/int8_matmul_kernel_modular_checked-comparator.log",
+      "sha256": "549d2e91b07353cb2cf42c67796e9543167108f9396d6e0bae90bb31561aaff8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/integration.log.gz",
+      "sha256": "a0bca60b1e2f1826f7b5f3c24e4d8e1df0c165fa5ad85b0b73f0ba99ffc3959c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/joint.lean",
+      "sha256": "3fb65554897dff7cbddb939e6ac9f3a5cf4cb9d95ef43a2471902263b5d7cf2e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/modules.json",
+      "sha256": "c1b3f999742fe64c3991bb0510228d1de621a27c943956b68ca8cd4855fa68c1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/pairs.json",
+      "sha256": "68d560a55a266555a00fbd7bf7e5f3374ec8968ad215ba63bf6602b5a858d231"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/previous-selected-reviews.json.gz",
+      "sha256": "75cd7880e9ee04fea486ed4af13bb651ce99649f71136417e9a51d2a2f692703"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/python-tests.log",
+      "sha256": "013faea68a8214d510bad04b83180c55b26a717d1f46f9440d0ee4ef364eb80f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/raw-source-check.log",
+      "sha256": "c01c6fa16fa4c3d78bfa592e5ec12d5644c9625a9ff3c607c6e908d9c899d752"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/record-initial-id-failure.log",
+      "sha256": "1298b9900a50bf1a97df4e6a7d5bebacd20eb52ead655729d0ca8ea7191e010f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/reserved-fixed.log",
+      "sha256": "01182cedf5b14072d2da134775e7c56674e72854450d851d807decfb4c135d65"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/reserved-names-probe.lean.txt",
+      "sha256": "07427d583238a7fb9aa42774ad1b0c88407b8681ead5d15494cf63e578f7243b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/reserved-rejected.log",
+      "sha256": "10d4bc5bbaa9ca7f4d6bbc4f7916498866ebf8735318bf45ff63e1c6933cc6cd"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/secondary-focused-development.log.gz",
+      "sha256": "3c89c06508bc3669e817745e9f1025bc0cd724b044498340d4391d674087ebae"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/source-closure.json",
+      "sha256": "6dbf308b480d71d0d5c9d3306ff8ca7a2cce66875a76c98bef7b8f97955cc88a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/static-assert-fixed.log",
+      "sha256": "fcdbe768c0e00440b10e566c75967f8a5d8cc54701d5ada955fdbe09cf9b7605"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/static-assert-probe.lean.txt",
+      "sha256": "d53c1a69ec5c52bbafac29f7054737940ef4185195211e8ca75f5155e6e8114b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/static-assert-rejected.log",
+      "sha256": "c64dfd4326ecb601a850ecfbf7bc343a676f75fd7613aa5d11ef554ea726423f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-int8-modular-body/transferred-files.json",
+      "sha256": "0ff157ceb46308881eabcf9aaf6536dc4200efdfe2f5fa2f1077dacec6d1280f"
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+From /tmp/veritile-pr18-review
+ * branch                codex/body-copy-cache-and-constexpr -> FETCH_HEAD
+HEAD is now at 0f0031af3 Preserve literal int8 matmul body and reprove actual execution and safety
+{"code_commit": "0f0031af316f58f9207d43037707fa08e3c8b9d5", "project_build_initially_present": false, "veritile_cache_initially_present": false, "only_fixed_external_dependencies_reused": true, "packages_target": "/home/argustest/lizn/VeriTile/.lake/packages"}

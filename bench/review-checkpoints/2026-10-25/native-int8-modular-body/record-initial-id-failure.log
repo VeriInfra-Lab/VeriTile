@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/tmp/record_int8asm61_review.py", line 65, in <module>
+    (ev/'previous-selected-reviews.json.gz').write_bytes(gzip.compress(json.dumps({'tasks':[rows[n] for n in sorted(notes)],'ledger_tasks':[tasks[n] for n in sorted(notes)]},ensure_ascii=False,indent=2).encode(),mtime=0))
+                                                                                            ~~~~^^^
+KeyError: 'int8_matmul_kernel_modular_checked'
