@@ -581,3 +581,57 @@ def invalidHalfCarry (X Y : RegionName) (B : Nat) : ComputeKernel :=
 
 #axiomsClean complete_program
 end VeriTile.Tests.CallSignature.LiveDotStorage
+
+
+namespace VeriTile.Tests.CallSignature.StringChoice
+open VeriTile.Triton
+
+def signature : CallSignature where
+  pointers := [("X",.fp32),("Y",.fp32)]
+  constexpr := ["mode"]
+
+def source (X Y : RegionName) (chooseLeft : Bool) : ComputeKernel :=
+  let mode := if chooseLeft then "left" else "right"
+  with_triton_signature signature in triton {
+    x = tl.load(X)
+    if mode != "left":
+        result = -x
+    elif mode == "left":
+        result = x
+    tl.store(Y, result)
+  }
+
+/-- A String if/elif is exhaustive only because the actual caller supplies
+these two literal alternatives. The redundant second test adds no cast. -/
+theorem complete_program (X Y : RegionName) (chooseLeft : Bool) :
+    source X Y chooseLeft =
+      (let other := !chooseLeft; triton {
+        tl.ports inputs=[X], outputs=[Y]
+        tl.region X = tl.float32, Y = tl.float32
+        x = tl.load(X)
+        if other {
+          result = -x
+        } else {
+          result = x
+        }
+        tl.store(Y, result)
+      }) := by cases chooseLeft <;> rfl
+
+/-- error: string constexpr requires a literal or a finite conditional of string literals -/
+#guard_msgs in
+def opaqueString (mode : String) : ComputeKernel :=
+  with_triton_signature ({constexpr := ["mode"]} : CallSignature) in triton {
+    if mode == "left":
+        result = 1
+  }
+
+/-- error: string constexpr mutation is unsupported -/
+#guard_msgs in
+def mutatedString : ComputeKernel :=
+  let mode := "left"
+  with_triton_signature ({constexpr := ["mode"]} : CallSignature) in triton {
+    mode = "right"
+  }
+
+#axiomsClean complete_program
+end VeriTile.Tests.CallSignature.StringChoice

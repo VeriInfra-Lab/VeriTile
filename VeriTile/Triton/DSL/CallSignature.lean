@@ -262,6 +262,79 @@ private partial def staticNatBound (constants assigned : List Name)
       if ← isDefEq (← inferType value) (mkConst ``Nat) then return some term else return none
   | _ => return none
 
+/-- Finite literal results of an immutable string caller expression. The union
+is conservative: correlations between caller conditions are never assumed. -/
+private partial def finiteStringValues (value : Expr) : TermElabM (List String) := do
+  let value ← instantiateMVars value
+  if let .lit (.strVal s) := value then return [s]
+  if let .fvar id := value then
+    if let some rhs := (← id.getDecl).value? then return ← finiteStringValues rhs
+  if let .letE _ _ rhs body _ := value then
+    return ← finiteStringValues (body.instantiate1 rhs)
+  if let .mdata _ inner := value then return ← finiteStringValues inner
+  if value.isAppOfArity ``ite 5 then
+    let args := value.getAppArgs
+    return ((← finiteStringValues args[3]!) ++ (← finiteStringValues args[4]!)).eraseDups
+  let reduced ← whnf value
+  if let .lit (.strVal s) := reduced then return [s]
+  throwError "string constexpr requires a literal or a finite conditional of string literals"
+
+private abbrev StringChoices := List (Name × List String)
+
+/-- Eliminate only string tests forced by the actual caller's finite literal
+choices and preceding tests on that same immutable name. This lets dtype flow
+see exhaustive if/elif source paths without inventing an else for other values. -/
+private partial def specializeStringBlock (choices : StringChoices)
+    (stmts : List (TSyntax `tritonStmt)) : MacroM (List (TSyntax `tritonStmt)) := do
+  let mut result := []
+  for st in stmts do
+    let branches : Option (TSyntax `tritonExpr × Array (TSyntax `tritonStmt) ×
+        Array (TSyntax `tritonStmt) × Bool) := match st with
+      | `(tritonStmt| if $cond:tritonExpr { $yes:tritonStmt* } else { $no:tritonStmt* }) =>
+          some (cond,yes,no,Bool.true)
+      | `(tritonStmt| if $cond:tritonExpr { $yes:tritonStmt* }) =>
+          some (cond,yes,#[],Bool.false)
+      | _ => none
+    if let some (cond,yes,no,hasElse) := branches then
+      let test : Option (Name × String × Bool) := match cond with
+        | `(tritonExpr| $id:ident == $s:str) => some (id.getId.eraseMacroScopes,s.getString,Bool.true)
+        | `(tritonExpr| $id:ident != $s:str) => some (id.getId.eraseMacroScopes,s.getString,Bool.false)
+        | _ => none
+      if let some (name,literal,equal) := test then
+        if let some (_,values) := choices.find? (fun p => p.1 == name) then
+          let yesValues := values.filter (fun s => (s == literal) == equal)
+          let noValues := values.filter (fun s => (s == literal) != equal)
+          let replace (values : List String) := choices.map (fun p =>
+            if p.1 == name then (name,values) else p)
+          if yesValues.isEmpty then
+            result := result ++ (← specializeStringBlock (replace noValues) no.toList)
+            continue
+          if noValues.isEmpty then
+            result := result ++ (← specializeStringBlock (replace yesValues) yes.toList)
+            continue
+          let yes := (← specializeStringBlock (replace yesValues) yes.toList).toArray
+          let no := (← specializeStringBlock (replace noValues) no.toList).toArray
+          result := result ++ [← if hasElse then `(tritonStmt| if $cond { $yes* } else { $no* })
+            else `(tritonStmt| if $cond { $yes* })]
+          continue
+      let yes := (← specializeStringBlock choices yes.toList).toArray
+      let no := (← specializeStringBlock choices no.toList).toArray
+      result := result ++ [← if hasElse then `(tritonStmt| if $cond { $yes* } else { $no* })
+        else `(tritonStmt| if $cond { $yes* })]
+      continue
+    match st with
+    | `(tritonStmt| for $i:ident in range($a:tritonExpr, $b:tritonExpr, $c:tritonExpr) { $body:tritonStmt* }) =>
+        let body := (← specializeStringBlock choices body.toList).toArray
+        result := result ++ [← `(tritonStmt| for $i in range($a,$b,$c) { $body* })]
+    | `(tritonStmt| for $i:ident in range($a:tritonExpr, $b:tritonExpr) { $body:tritonStmt* }) =>
+        let body := (← specializeStringBlock choices body.toList).toArray
+        result := result ++ [← `(tritonStmt| for $i in range($a,$b) { $body* })]
+    | `(tritonStmt| for $i:ident in range($a:tritonExpr) { $body:tritonStmt* }) =>
+        let body := (← specializeStringBlock choices body.toList).toArray
+        result := result ++ [← `(tritonStmt| for $i in range($a) { $body* })]
+    | _ => result := result ++ [st]
+  return result
+
 /-- Evaluate immutable Nat constexpr quotients at specialization time, as the
 source JIT does for valid compile-time dimensions. Literal zero divisors keep
 an explicit divide node; runtime and mutable names keep the runtime path.
@@ -473,6 +546,15 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
       let stmts ← liftMacroM <| Constexpr.lower stmts.toList
       let stmts := stmts.toArray
       let assigned := stmts.toList.flatMap (fun st => assignedNames st.raw)
+      let mut strings : StringChoices := []
+      for constant in constants do
+        let name := Name.mkSimple constant
+        let value ← elabTerm (mkIdent name) none
+        if ← isDefEq (← inferType value) (mkConst ``String) then
+          for st in stmts do
+            rejectArgumentMutation [name] st.raw "string constexpr mutation is unsupported"
+          strings := strings ++ [(name, ← finiteStringValues value)]
+      let stmts := (← liftMacroM <| specializeStringBlock strings stmts.toList).toArray
       for stmt in stmts do rejectConstexprIteratorShadow constants stmt.raw
       let stmts ← stmts.mapM fun st => do
         return (⟨← foldStaticNatQuotients (constants.map Name.mkSimple) assigned st.raw⟩ : TSyntax `tritonStmt)
@@ -485,6 +567,10 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
         let id : TSyntax `term := ⟨mkIdent name⟩
         let value ← elabTerm id none
         let dtype ← inferType value
+        -- String comparisons are compile-time Boolean expressions in the DSL.
+        -- Keep the caller's String name visible to that existing compiler;
+        -- finite branch pruning above has already checked its possible values.
+        if ← isDefEq dtype (mkConst ``String) then continue
         let expression ←
           if ← isDefEq dtype (mkConst ``Nat) then
             -- Expose actual closed constexpr literals to the source-width
@@ -499,7 +585,7 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
             liftMacroM `(tritonExpr| $(($id:term : ℝ)))
           else if ← isDefEq dtype (mkConst ``Bool) then
             liftMacroM `(tritonExpr| $(($id:term : Bool)))
-          else throwError "unsupported constexpr carrier; expected Nat, Int, Real or Bool"
+          else throwError "unsupported constexpr carrier; expected Nat, Int, Real, Bool or a finite String"
         values := values ++ [(name,expression)]
       let integerArguments := scalars.filterMap fun (name,kind) =>
         match kind with

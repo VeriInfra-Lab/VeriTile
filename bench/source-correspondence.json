@@ -8,8 +8,8 @@
     "task_status": {
       "legacy_ast_only": 1,
       "no_selected_jit_resolved": 2,
-      "selected_body_copy_checked": 56,
-      "uncovered_jit_functions": 124
+      "selected_body_copy_checked": 57,
+      "uncovered_jit_functions": 123
     },
     "example_status": {
       "authored_counterpart_body_copy_checked": 2,
@@ -17,12 +17,12 @@
       "spec_derived_body_copy_checked": 15
     },
     "selected_jit_functions": 328,
-    "uncovered_selected_jit_functions": 241,
+    "uncovered_selected_jit_functions": 239,
     "primary_files_with_int64_screen_warning": 38,
     "primary_lean_file_features": {
       "tasks": {
         "in_body_type_directives": 98,
-        "antiquotes": 108,
+        "antiquotes": 107,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 8
       },
@@ -5289,8 +5289,8 @@
       "lean_screen": {
         "quotations": 2,
         "in_body_type_directives": 0,
-        "antiquotes": 10,
-        "dsl_assignment": 8,
+        "antiquotes": 0,
+        "dsl_assignment": 15,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -5309,23 +5309,54 @@
           "explicit_int64_casts": []
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "fused_add_mul_activation_kernel",
+          "lean_definition": "kernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "runtime_registers",
+          "call_bindings": null,
+          "statements": 10,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "activation",
+            "multiplier",
+            "num_weights",
+            "xnumel"
+          ],
           "python": "bench/repairs/tritonbench_g/fused_activation/fused_activation_repaired.py",
-          "function": "fused_add_mul_activation_kernel"
+          "lean": "bench/repairs/tritonbench_g/fused_activation/Kernels.lean"
         },
         {
+          "python_function": "fused_add_mul_activation_commuted_kernel",
+          "lean_definition": "commutedKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "runtime_registers",
+          "call_bindings": null,
+          "statements": 10,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "activation",
+            "multiplier",
+            "num_weights",
+            "xnumel"
+          ],
           "python": "bench/repairs/tritonbench_g/fused_activation/fused_activation_repaired.py",
-          "function": "fused_add_mul_activation_commuted_kernel"
+          "lean": "bench/repairs/tritonbench_g/fused_activation/Kernels.lean"
         }
       ],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/fused_activation/Kernels.lean": "6541db370a14819296c31f5ac207bb1cb4c350c76e4ab0ac4811293e634c2c6d",
-        "bench/repairs/tritonbench_g/fused_activation/fused_activation_repaired.py": "82fe50f71806105a4e336a9831bbde71bf01e2d417c9a180f4f357c99cbbe81b"
+        "bench/repairs/tritonbench_g/fused_activation/Kernels.lean": "c31b4b86d065929f44b070006f0766adb4d493a5ef064e1ee2533990b1afd901",
+        "bench/repairs/tritonbench_g/fused_activation/fused_activation_repaired.py": "82fe50f71806105a4e336a9831bbde71bf01e2d417c9a180f4f357c99cbbe81b",
+        "bench/repairs/tritonbench_g/fused_activation/jit-correspondence.json": "db22db7a88c40d919371cde2ca0f52f781cc81a8037db0828bc9a0d3e8688c56"
       }
     },
     {

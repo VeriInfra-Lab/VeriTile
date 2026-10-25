@@ -1,4 +1,4 @@
-import bench.repairs.tritonbench_g.fused_activation.Kernels
+import bench.repairs.tritonbench_g.fused_activation.Proofs.SourcePreservation
 import bench.tritonbench_g.vector_addition.Proofs.TypedFloat
 
 namespace VeriTile.Bench.Repairs.FusedActivation

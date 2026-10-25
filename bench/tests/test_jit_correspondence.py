@@ -476,3 +476,26 @@ class MatmulRawBodyTests(unittest.TestCase):
                       record["python_function"], record["lean_definition"],
                       record["signature_definition"], record["expected_signature"],
                       record["expected_call_bindings"])
+
+
+class FusedActivationRawBodyTests(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/fused_activation"
+
+    def test_both_existing_functions_keep_their_string_comparisons(self):
+        pairs = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual(len(pairs), 2)
+        self.assertTrue(all(p["mode"] == "pasted_body" for p in pairs))
+
+    def test_string_branches_and_operation_order_cannot_be_replaced(self):
+        records = json.loads((self.directory / "jit-correspondence.json").read_text())
+        lean = (self.directory / "Kernels.lean").read_text()
+        for before, after in [('if activation == "sigmoid":', 'if useSigmoid:'),
+                              ('elif activation == "relu":', 'else:'),
+                              ('multiplier * tmp3 + tmp0 + tmp1', 'tmp1 + (multiplier * tmp3 + tmp0)'),
+                              ('tl.arange(0, BLOCK_SIZE)[:]', 'tl.arange(0, BLOCK_SIZE)')]:
+            record = records[0]
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                self.assertIn(before, lean)
+                check((ROOT / record["python"]).read_text(), lean.replace(before, after, 1),
+                      record["python_function"], record["lean_definition"],
+                      record["signature_definition"], record["expected_signature"])
