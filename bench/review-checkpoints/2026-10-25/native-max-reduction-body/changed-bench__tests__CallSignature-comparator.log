@@ -1,0 +1,4 @@
+{"name": "changed-bench__tests__CallSignature", "file": "bench/tests/CallSignature.lean", "sha256": "b0a991f5e2dec1c7425f95445dd254e20584804b73fa77abc2d6f22e8a67a2cd", "command": ["python3", "scripts/check_comparator.py", "--file", "bench/tests/CallSignature.lean", "--trust"], "exit_code": 1, "code_commit": "22db3680cfcd55f5305bed58588c2c7fea414dbe"}
+[FAIL] Official comparator isolation is unavailable:
+- systemd AF_UNIX restriction: Failed to connect to bus: Operation not permitted (consider using --machine=<user>@.host --user to connect to bus of other user)
+- Landlock sandbox: [landrun:error] 2026/10/25 14:42:35 Failed to apply sandbox: failed to apply Landlock filesystem restrictions: missing kernel Landlock support. Got Landlock ABI v4, wanted {Landlock V5; FS: all; Net: ∅}

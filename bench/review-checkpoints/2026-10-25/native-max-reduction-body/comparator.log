@@ -1,0 +1,60 @@
+{"name": "max_reduction", "file": "bench/repairs/tritonbench_g/max_reduction/FPEquiv.lean", "sha256": "497916102d3c66e5c6355f7d6c29d92d09d419b95f884e7b611df55508a408df", "command": ["python3", "scripts/check_comparator.py", "--file", "bench/repairs/tritonbench_g/max_reduction/FPEquiv.lean", "--trust"], "exit_code": 1, "code_commit": "22db3680cfcd55f5305bed58588c2c7fea414dbe"}
+[FAIL] Official comparator isolation is unavailable:
+- systemd AF_UNIX restriction: Failed to connect to bus: Operation not permitted (consider using --machine=<user>@.host --user to connect to bus of other user)
+- Landlock sandbox: [landrun:error] 2026/10/25 14:42:33 Failed to apply sandbox: failed to apply Landlock filesystem restrictions: missing kernel Landlock support. Got Landlock ABI v4, wanted {Landlock V5; FS: all; Net: ∅}
+
+{"name": "max_reduction-Real", "file": "bench/repairs/tritonbench_g/max_reduction/Correct.lean", "sha256": "9c113e1eaca9cb6558c91cef5305071ef2618176891d1fa63f2ae3386585b955", "command": ["python3", "scripts/check_comparator.py", "--file", "bench/repairs/tritonbench_g/max_reduction/Correct.lean", "--trust"], "exit_code": 1, "code_commit": "22db3680cfcd55f5305bed58588c2c7fea414dbe"}
+[FAIL] Official comparator isolation is unavailable:
+- systemd AF_UNIX restriction: Failed to connect to bus: Operation not permitted (consider using --machine=<user>@.host --user to connect to bus of other user)
+- Landlock sandbox: [landrun:error] 2026/10/25 14:42:34 Failed to apply sandbox: failed to apply Landlock filesystem restrictions: missing kernel Landlock support. Got Landlock ABI v4, wanted {Landlock V5; FS: all; Net: ∅}
+
+{"name": "changed-VeriTile__Triton__DSL__TypedStores", "file": "VeriTile/Triton/DSL/TypedStores.lean", "sha256": "43431c8f2e23f156ac89f1236dff5ce7c34b592e9e91a6fa7f587150c9b0c74a", "command": ["python3", "scripts/check_comparator.py", "--file", "VeriTile/Triton/DSL/TypedStores.lean", "--trust"], "exit_code": 1, "code_commit": "22db3680cfcd55f5305bed58588c2c7fea414dbe"}
+[FAIL] Official comparator isolation is unavailable:
+- systemd AF_UNIX restriction: Failed to connect to bus: Operation not permitted (consider using --machine=<user>@.host --user to connect to bus of other user)
+- Landlock sandbox: [landrun:error] 2026/10/25 14:42:34 Failed to apply sandbox: failed to apply Landlock filesystem restrictions: missing kernel Landlock support. Got Landlock ABI v4, wanted {Landlock V5; FS: all; Net: ∅}
+
+{"name": "changed-bench__repairs__tritonbench_g__max_reduction__IO", "file": "bench/repairs/tritonbench_g/max_reduction/IO.lean", "sha256": "23eae84c2aa4096c481d454d9c55c99df5cd21763eb1b0d979fe126519580378", "command": ["python3", "scripts/check_comparator.py", "--file", "bench/repairs/tritonbench_g/max_reduction/IO.lean", "--trust"], "exit_code": 1, "code_commit": "22db3680cfcd55f5305bed58588c2c7fea414dbe"}
+[FAIL] Official comparator isolation is unavailable:
+- systemd AF_UNIX restriction: Failed to connect to bus: Operation not permitted (consider using --machine=<user>@.host --user to connect to bus of other user)
+- Landlock sandbox: [landrun:error] 2026/10/25 14:42:34 Failed to apply sandbox: failed to apply Landlock filesystem restrictions: missing kernel Landlock support. Got Landlock ABI v4, wanted {Landlock V5; FS: all; Net: ∅}
+
+{"name": "changed-bench__repairs__tritonbench_g__max_reduction__Kernels", "file": "bench/repairs/tritonbench_g/max_reduction/Kernels.lean", "sha256": "ebf08cd12784e053c03dcb0ca0e87d0c7cd4447ccdc1f0928efc170533594e67", "command": ["python3", "scripts/check_comparator.py", "--file", "bench/repairs/tritonbench_g/max_reduction/Kernels.lean", "--trust"], "exit_code": 1, "code_commit": "22db3680cfcd55f5305bed58588c2c7fea414dbe"}
+[FAIL] Official comparator isolation is unavailable:
+- systemd AF_UNIX restriction: Failed to connect to bus: Operation not permitted (consider using --machine=<user>@.host --user to connect to bus of other user)
+- Landlock sandbox: [landrun:error] 2026/10/25 14:42:34 Failed to apply sandbox: failed to apply Landlock filesystem restrictions: missing kernel Landlock support. Got Landlock ABI v4, wanted {Landlock V5; FS: all; Net: ∅}
+
+{"name": "changed-bench__repairs__tritonbench_g__max_reduction__Proofs__AccessSafety", "file": "bench/repairs/tritonbench_g/max_reduction/Proofs/AccessSafety.lean", "sha256": "00c547f67f86f6a97dd839f2d697e8de2af93ece413ad715e76a54c4a8a80d7c", "command": ["python3", "scripts/check_comparator.py", "--file", "bench/repairs/tritonbench_g/max_reduction/Proofs/AccessSafety.lean", "--trust"], "exit_code": 1, "code_commit": "22db3680cfcd55f5305bed58588c2c7fea414dbe"}
+[FAIL] Official comparator isolation is unavailable:
+- systemd AF_UNIX restriction: Failed to connect to bus: Operation not permitted (consider using --machine=<user>@.host --user to connect to bus of other user)
+- Landlock sandbox: [landrun:error] 2026/10/25 14:42:34 Failed to apply sandbox: failed to apply Landlock filesystem restrictions: missing kernel Landlock support. Got Landlock ABI v4, wanted {Landlock V5; FS: all; Net: ∅}
+
+{"name": "changed-bench__repairs__tritonbench_g__max_reduction__Proofs__AlgorithmSource", "file": "bench/repairs/tritonbench_g/max_reduction/Proofs/AlgorithmSource.lean", "sha256": "b5d0ccd84fcbb67324c4c1b96e971c479f6ea6ee925edaca26f8d1eaa2f0576a", "command": ["python3", "scripts/check_comparator.py", "--file", "bench/repairs/tritonbench_g/max_reduction/Proofs/AlgorithmSource.lean", "--trust"], "exit_code": 1, "code_commit": "22db3680cfcd55f5305bed58588c2c7fea414dbe"}
+[FAIL] Official comparator isolation is unavailable:
+- systemd AF_UNIX restriction: Failed to connect to bus: Operation not permitted (consider using --machine=<user>@.host --user to connect to bus of other user)
+- Landlock sandbox: [landrun:error] 2026/10/25 14:42:34 Failed to apply sandbox: failed to apply Landlock filesystem restrictions: missing kernel Landlock support. Got Landlock ABI v4, wanted {Landlock V5; FS: all; Net: ∅}
+
+{"name": "changed-bench__repairs__tritonbench_g__max_reduction__Proofs__LegacyRealResults", "file": "bench/repairs/tritonbench_g/max_reduction/Proofs/LegacyRealResults.lean", "sha256": "c1fc608f0ba9a267da012bc7931bf9ce86d4baaa1d120f1b9e717d2884d6e9dd", "command": ["python3", "scripts/check_comparator.py", "--file", "bench/repairs/tritonbench_g/max_reduction/Proofs/LegacyRealResults.lean", "--trust"], "exit_code": 1, "code_commit": "22db3680cfcd55f5305bed58588c2c7fea414dbe"}
+[FAIL] Official comparator isolation is unavailable:
+- systemd AF_UNIX restriction: Failed to connect to bus: Operation not permitted (consider using --machine=<user>@.host --user to connect to bus of other user)
+- Landlock sandbox: [landrun:error] 2026/10/25 14:42:34 Failed to apply sandbox: failed to apply Landlock filesystem restrictions: missing kernel Landlock support. Got Landlock ABI v4, wanted {Landlock V5; FS: all; Net: ∅}
+
+{"name": "changed-bench__repairs__tritonbench_g__max_reduction__Proofs__LogicalIO", "file": "bench/repairs/tritonbench_g/max_reduction/Proofs/LogicalIO.lean", "sha256": "e27b41c5de5b114589de97eb02ea1ced88d5d57b6e492d9b3bc1b3752b1ffe9d", "command": ["python3", "scripts/check_comparator.py", "--file", "bench/repairs/tritonbench_g/max_reduction/Proofs/LogicalIO.lean", "--trust"], "exit_code": 1, "code_commit": "22db3680cfcd55f5305bed58588c2c7fea414dbe"}
+[FAIL] Official comparator isolation is unavailable:
+- systemd AF_UNIX restriction: Failed to connect to bus: Operation not permitted (consider using --machine=<user>@.host --user to connect to bus of other user)
+- Landlock sandbox: [landrun:error] 2026/10/25 14:42:34 Failed to apply sandbox: failed to apply Landlock filesystem restrictions: missing kernel Landlock support. Got Landlock ABI v4, wanted {Landlock V5; FS: all; Net: ∅}
+
+{"name": "changed-bench__repairs__tritonbench_g__max_reduction__Proofs__Rewrite", "file": "bench/repairs/tritonbench_g/max_reduction/Proofs/Rewrite.lean", "sha256": "a2e917de15892f92f59f0f5e235a6ae15164dbbba50afaf4368cdaa6d6d52f52", "command": ["python3", "scripts/check_comparator.py", "--file", "bench/repairs/tritonbench_g/max_reduction/Proofs/Rewrite.lean", "--trust"], "exit_code": 1, "code_commit": "22db3680cfcd55f5305bed58588c2c7fea414dbe"}
+[FAIL] Official comparator isolation is unavailable:
+- systemd AF_UNIX restriction: Failed to connect to bus: Operation not permitted (consider using --machine=<user>@.host --user to connect to bus of other user)
+- Landlock sandbox: [landrun:error] 2026/10/25 14:42:34 Failed to apply sandbox: failed to apply Landlock filesystem restrictions: missing kernel Landlock support. Got Landlock ABI v4, wanted {Landlock V5; FS: all; Net: ∅}
+
+{"name": "changed-bench__repairs__tritonbench_g__max_reduction__Proofs__Source", "file": "bench/repairs/tritonbench_g/max_reduction/Proofs/Source.lean", "sha256": "e1fdd37f0962834df35ad5d84ec1ed59451f1f32d7806e924d9b30beb1e4d4e9", "command": ["python3", "scripts/check_comparator.py", "--file", "bench/repairs/tritonbench_g/max_reduction/Proofs/Source.lean", "--trust"], "exit_code": 1, "code_commit": "22db3680cfcd55f5305bed58588c2c7fea414dbe"}
+[FAIL] Official comparator isolation is unavailable:
+- systemd AF_UNIX restriction: Failed to connect to bus: Operation not permitted (consider using --machine=<user>@.host --user to connect to bus of other user)
+- Landlock sandbox: [landrun:error] 2026/10/25 14:42:34 Failed to apply sandbox: failed to apply Landlock filesystem restrictions: missing kernel Landlock support. Got Landlock ABI v4, wanted {Landlock V5; FS: all; Net: ∅}
+
+{"name": "changed-bench__tests__CallSignature", "file": "bench/tests/CallSignature.lean", "sha256": "b0a991f5e2dec1c7425f95445dd254e20584804b73fa77abc2d6f22e8a67a2cd", "command": ["python3", "scripts/check_comparator.py", "--file", "bench/tests/CallSignature.lean", "--trust"], "exit_code": 1, "code_commit": "22db3680cfcd55f5305bed58588c2c7fea414dbe"}
+[FAIL] Official comparator isolation is unavailable:
+- systemd AF_UNIX restriction: Failed to connect to bus: Operation not permitted (consider using --machine=<user>@.host --user to connect to bus of other user)
+- Landlock sandbox: [landrun:error] 2026/10/25 14:42:35 Failed to apply sandbox: failed to apply Landlock filesystem restrictions: missing kernel Landlock support. Got Landlock ABI v4, wanted {Landlock V5; FS: all; Net: ∅}
+

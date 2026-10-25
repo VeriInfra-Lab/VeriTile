@@ -1,0 +1,4 @@
+From /tmp/veritile-pr18-review
+ * branch                codex/body-copy-cache-and-constexpr -> FETCH_HEAD
+HEAD is now at 22db3680c Paste raw max reduction bodies and reprove widened source and flat IO
+{"code_commit": "22db3680cfcd55f5305bed58588c2c7fea414dbe", "project_build_initially_present": false, "veritile_cache_initially_present": false, "only_fixed_external_dependencies_reused": true, "packages_target": "/home/argustest/lizn/VeriTile/.lake/packages"}

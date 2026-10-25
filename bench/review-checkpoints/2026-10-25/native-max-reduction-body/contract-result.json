@@ -1,0 +1,10 @@
+{
+  "task": "max_reduction",
+  "command": [
+    "python3",
+    "bench/repairs/tritonbench_g/max_reduction/check_contract.py"
+  ],
+  "code_commit": "22db3680cfcd55f5305bed58588c2c7fea414dbe",
+  "exit_code": 0,
+  "status": "PASS"
+}

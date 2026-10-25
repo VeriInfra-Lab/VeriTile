@@ -1,0 +1,15 @@
+{
+  "status": "EXPECTED_FAIL_BEFORE_FIX_PASS_AFTER_FIX",
+  "old_frontend_commit": "d896ae75417e674d7afbf3b24723805ef40dddef",
+  "old_frontend_sha256": "78d653c499489b23318fd5226bfb0ca48a9d261aa5bbc23054da67ccf68d2f08",
+  "new_frontend": {
+    "path": "VeriTile/Triton/DSL/TypedStores.lean",
+    "sha256": "43431c8f2e23f156ac89f1236dff5ce7c34b592e9e91a6fa7f587150c9b0c74a"
+  },
+  "regression_unit": {
+    "path": "bench/tests/CallSignature.lean",
+    "namespace": "VeriTile.Tests.CallSignature.IndexedMaximumStorage",
+    "sha256": "b0a991f5e2dec1c7425f95445dd254e20584804b73fa77abc2d6f22e8a67a2cd"
+  },
+  "scope": "The complete paired-maximum kernel AST rejects the old spurious FP32 value-store cast. The fixed AST has no extra value conversion and retains the signed-int64 position-store conversion. The rejected phase was the new unit against the unchanged old frontend; it is not a rejected published source freeze."
+}

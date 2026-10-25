@@ -1,0 +1,124 @@
+{
+  "task": "max_reduction",
+  "status": "no_issue_identified",
+  "selected_public_entries": [
+    "bench/repairs/tritonbench_g/max_reduction/Contract.lean",
+    "bench/repairs/tritonbench_g/max_reduction/Correct.lean",
+    "bench/repairs/tritonbench_g/max_reduction/FPEquiv.lean"
+  ],
+  "assessment": {
+    "organization": "The main logical tensor equivalences/views already live in the selected task IO.lean, with complete judgment and execution connections in Proofs/. No separate same-task logical-view definition remains to migrate; distinct candidate/native thin views are retained.",
+    "preservation": {
+      "all_recorded_source_bytes_unchanged": true,
+      "full_public_judgment_types": "All selected Correct/FPEquiv and IO source bytes match saved before and the pinned prior owner report; their previous successful full-scope/source/joint checks are reused, with no fresh Lean replay claimed.",
+      "audit": {
+        "path": ".veritile-cache/io-unification-20261023/queue10/audit.json",
+        "sha256": "b916c524819e4d2aeb54d8b0da86ac8fa5acadac06522b6a90fc19ada2136a5b"
+      }
+    },
+    "different_stage_or_encoding_exceptions": [],
+    "previous_assessment": {
+      "manifest": "bench/review-checkpoints/2026-10-22/logical-readers/io-audit.json",
+      "task": "max_reduction"
+    }
+  },
+  "distinct_views": "Masked Algorithm stage views and structural source/native ProgramIO views use different value encodings; dimension reduction also has strided value and signed-int64 index channels and cannot be merged with the two actual one-dimensional stages. All three main results remain.",
+  "readers": [
+    {
+      "path": "bench/repairs/tritonbench_g/max_reduction/Correct.lean",
+      "sha256": "9c113e1eaca9cb6558c91cef5305071ef2618176891d1fa63f2ae3386585b955"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/max_reduction/FPEquiv.lean",
+      "sha256": "497916102d3c66e5c6355f7d6c29d92d09d419b95f884e7b611df55508a408df"
+    }
+  ],
+  "io_sources": [
+    {
+      "path": "VeriTile/Triton/Float/LogicalProgramIO.lean",
+      "sha256": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358"
+    },
+    {
+      "path": "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean",
+      "sha256": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+    },
+    {
+      "path": "VeriTile/Triton/Memory/LogicalIO.lean",
+      "sha256": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/max_reduction/IO.lean",
+      "sha256": "b571d1f68489a4c1c61b8319453523de010432af5249d218242bb85d9e83535c"
+    }
+  ],
+  "changed_paths": [],
+  "review_evidence": {
+    "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/max_reduction.json",
+    "sha256": "4b36bcfb3cd96dbfa8fcfb5a30f4acf97e2848b6f2b0180127b66067969980ca",
+    "task": "max_reduction"
+  },
+  "preservation_and_build_passed": true,
+  "validation_limits": {
+    "known_out_of_scope_findings": [
+      "The single RealIO.observe interpretation adapter remains in Proofs.RealIO; its optional relocation was explicitly withdrawn as unnecessary for IO deduplication."
+    ]
+  },
+  "remaining_issues": [],
+  "main_formula_review": {
+    "audit": "bench/review-checkpoints/2026-10-22/main-formulas/audit.json",
+    "review_evidence": {
+      "path": ".veritile-cache/headline-formulas-20261022/queue10/result.json",
+      "sha256": "3f00836bb1feb1dcc1ce6a390d99babb1d281bc7f97e57c4171efea2483ce93a",
+      "task_index": 8,
+      "task": "max_reduction"
+    },
+    "io_data_unchanged": true
+  },
+  "previous_io_sources": [
+    {
+      "path": "bench/repairs/tritonbench_g/max_reduction/IO.lean",
+      "sha256": "db38dcc7db765ae876c2e49ce5441d37183f5b8be55d5090256fb587b63849a0"
+    }
+  ],
+  "previous_review_evidence": {
+    "path": "bench/review-checkpoints/2026-10-22/logical-readers/tasks/max_reduction.json",
+    "sha256": "df76254242535d5af6392801122ac9ddd36e8edfb5cd11df500a835775e828a6",
+    "task": "max_reduction"
+  },
+  "unchanged_prior_io_source_origins": {
+    "bench/repairs/tritonbench_g/max_reduction/IO.lean": [
+      {
+        "path": "bench/repairs/tritonbench_g/max_reduction/IO.lean",
+        "sha256": "db38dcc7db765ae876c2e49ce5441d37183f5b8be55d5090256fb587b63849a0"
+      }
+    ]
+  },
+  "logical_reader_review": {
+    "path": "bench/review-checkpoints/2026-10-22/logical-readers/tasks/max_reduction.json",
+    "sha256": "df76254242535d5af6392801122ac9ddd36e8edfb5cd11df500a835775e828a6",
+    "task": "max_reduction"
+  },
+  "previous_assessment": "The complete stage/dimension IO records already live in task IO.lean and readers use thin interpretations. A single Real-specific observer remains with its mathematical connection helper; it is not a duplicated record.",
+  "previous_changed_paths": [],
+  "previous_canonical_io_declarations": [
+    {
+      "path": "bench/repairs/tritonbench_g/max_reduction/IO.lean",
+      "definitions": [
+        "PublicIO.stage1Real",
+        "PublicIO.stage2Real",
+        "PublicIO.stageLaunch",
+        "PublicIO.stageIO",
+        "PublicIO.stageCandidate",
+        "PublicIO.dimensionLaunch",
+        "PublicIO.dimensionIO",
+        "PublicIO.dimensionCandidate"
+      ],
+      "sha256": "db38dcc7db765ae876c2e49ce5441d37183f5b8be55d5090256fb587b63849a0"
+    }
+  ],
+  "io_unification_review": {
+    "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/max_reduction.json",
+    "sha256": "4b36bcfb3cd96dbfa8fcfb5a30f4acf97e2848b6f2b0180127b66067969980ca",
+    "task": "max_reduction"
+  }
+}

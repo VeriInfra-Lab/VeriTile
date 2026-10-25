@@ -1,0 +1,339 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "22db3680cfcd55f5305bed58588c2c7fea414dbe",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "max_reduction"
+  ],
+  "semantic_review": {
+    "adam_update_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "add_example": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "add_value": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "cache_transform_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "chunk_cumsum_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "chunked_cumsum_fwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "cosine_compute": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "dequantize_matmul": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "dequantize_rowwise": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "destindex_copy": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "destindex_copy_kv1": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "destindex_copy_kv2": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "dropout_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "embedding_triton_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "f8_conversion_utils": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "fast_rope_embedding": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "fused_activation": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "fused_recurrent_hgrn": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "index_select_bwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "index_select_cat": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "kcache_copy_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "kldiv_compute": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "kldiv_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "kv_cache_copy": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "l2_norm_bwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "l2_norm_triton1": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "l2_norm_triton2": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "logsumexp_fwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "masked_add_cuda": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "matmul_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "matrix_reduction": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "matrix_transpose": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "mean_reduction": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "mul_exponent_compensator": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "nested_loops_processing": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "quant_transpose_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "relu_triton_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rms_norm_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rmsnorm_fused": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rmsnorm_fused_llama": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rmsnorm_implementation": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rmsnorm_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rope_embedding": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rotary_emb": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rotary_emb_nopad": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "seeded_dropout": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "sin_computation": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "sin_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "softmax_triton1": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "softmax_triton2": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "square_matrix": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "swiglu_backward": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "swiglu_fwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "triton_mul2": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "triton_softmax": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "var_len_copy": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "vector_addition": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "vector_addition_custom": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the paired maximum dtype-flow fix. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "max_reduction": "All three unchanged selected repaired Python JIT bodies are pasted directly, retaining every explicit int64 cast, paired maximum, negative-infinity padding, source name, statement, mask and value/index store order. candidate_kernels.py is explicitly a new Python counterpart of the three existing Lean integer/mask candidates, not recovered historical source. The six whole bodies are checked against their separate sources. Pointer FP32/int64 storage, annotated int32 scalar arguments and block constexpr metadata stay outside the quotations. The shared dtype pass now tracks the known FP32 value of paired indexed maximum separately from its integer position, eliminating a spurious FP32 self-cast while retaining the actual int64 index-store conversion. The complete AST regression fails before that fix and passes afterward; no unknown integer width or other floating dtype is guessed. Actual widened-source execution, arbitrary tree/scalar backend memory effects, all active address traces, complete source/candidate state and failure rewrites, independent global/dimension Real mathematics and least-index ties are re-proved or replayed. A new direct AlgorithmSource bridge evaluates all three actual erased sources under arbitrary flat placements and states and proves the same success/failure and entire memory as the old mathematical projections for the existing positive reduction width. It uses only Nat/Int cast identities and memory-only scatter lemmas; it does not claim differing integer register carriers have identical ASTs or states. The first-stage public masked IO and retained complete flat dimension IO now explicitly transport through that evaluated connection. Both typed output streams, full grids, frame, checked machine addresses, opaque/native reduction trees, Tensor and host scopes are retained across all 41 task modules. The old generic all-storage source snapshots remain unchanged and are honestly separate from the current raw-source connection. No FP conversion identity, reassociation, reduction-tree permutation, new numerical assumption or narrowed domain is introduced."
+  },
+  "example_regression_scope": "All 19 examples and their complete helpers replay locally, jointly and in an initially empty independent project checkout; source, domains and numerical classifications remain unchanged.",
+  "verification": {
+    "frontend_regressions": {
+      "status": "PASS",
+      "configured_modules": 95,
+      "scope": "All configured frontend guards replay. Paired indexed maximum has a complete-program precision regression with no FP32 value self-cast and the retained int64 index-store conversion; the new unit fails against the previous frontend. Existing loop, integer, shape, dtype, constexpr, untyped numeral and String guards all remain in the full replay."
+    },
+    "integration": {
+      "status": "PASS",
+      "explicit_modules": 2077,
+      "jobs": 11270
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 2077,
+      "jobs": 11270,
+      "scope": "Every combined root and full dependency closure after the shared frontend change.",
+      "project_build_initially_present": false,
+      "veritile_cache_initially_present": false,
+      "only_fixed_external_dependencies_reused": true
+    },
+    "joint_import": "PASS: all 2077 roots",
+    "task_directories": "All 41 max_reduction modules, all 95 frontend modules, all prior migrated roots, examples and retained historical/optional scopes. The 136 focused development roots pass 3794 jobs; the transferred source bytes were checked before freezing.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 70
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 315,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by its old numerical receipt; no false repin."
+    },
+    "official_comparator": "UNAVAILABLE: actual frozen-source invocations report required host isolation unavailable. Pinned tools are installed; host Landlock ABI v4 is below required v5 and the systemd user bus is unavailable. No isolation bypass.",
+    "optional_cpu_contract": {
+      "status": "PASS",
+      "cases": 71,
+      "scope": "Existing actual-wrapper/body NumPy contract tests and square-root boundaries. No GPU or hardware numerical claim."
+    },
+    "gpu_or_numerical_experiment": "Not run; no new numerical law or hardware-conformance claim.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending."
+  },
+  "source_pairs": {
+    "total": 204,
+    "pasted_body": 199,
+    "legacy_ast": 5
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/source-closure.json",
+    "sha256": "4cd57bf856e28fb040002d7c1d0698be24225bb0d4ad8ddd8ff2e486c43f5d78"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "legacy_ast_only": 1,
+      "no_selected_jit_resolved": 2,
+      "selected_body_copy_checked": 59,
+      "uncovered_jit_functions": 121
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 328,
+    "uncovered_selected_jit_functions": 234,
+    "primary_files_with_int64_screen_warning": 37,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 97,
+        "antiquotes": 106,
+        "dsl_loop": 1,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/all-python.log.gz",
+      "sha256": "a724ea293316939f233d1ba54c5a502ded613351bcfef6c257cb3d96037710b3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/changed-VeriTile__Triton__DSL__TypedStores-comparator.log",
+      "sha256": "0a8785960d81bfaeb55b084032e1f27e760ca6bd75a10af499c899a377c73752"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/changed-bench__repairs__tritonbench_g__max_reduction__IO-comparator.log",
+      "sha256": "5aa0f28544a1cca57b55c11fdb3a97eddd5e4a19a02def66e2f8072c82ba45e2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/changed-bench__repairs__tritonbench_g__max_reduction__Kernels-comparator.log",
+      "sha256": "1830aa8fa624098b590aa6b99f421f43d85108bcb43713c4e4888883cdc970f5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/changed-bench__repairs__tritonbench_g__max_reduction__Proofs__AccessSafety-comparator.log",
+      "sha256": "d47ca639fc693395b259d965536743b798373409beb35d25b00c3c74d3ebaa27"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/changed-bench__repairs__tritonbench_g__max_reduction__Proofs__AlgorithmSource-comparator.log",
+      "sha256": "0fa10624eb3aee8f588587110b91b0f403412d4fe24190f013b2e3a5fcc02c4b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/changed-bench__repairs__tritonbench_g__max_reduction__Proofs__LegacyRealResults-comparator.log",
+      "sha256": "bb12007d7ce30fe08b59fead115a925c4243369d19d7899c061bbca9fd1dd380"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/changed-bench__repairs__tritonbench_g__max_reduction__Proofs__LogicalIO-comparator.log",
+      "sha256": "eda364a3d18b52c33916b274105995b7a6dd5841e9b08e54d1093bb8660f473b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/changed-bench__repairs__tritonbench_g__max_reduction__Proofs__Rewrite-comparator.log",
+      "sha256": "040993bf9098780fce0d4d5251b03dd3eaee48ddfa64c02f98d06487124affdd"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/changed-bench__repairs__tritonbench_g__max_reduction__Proofs__Source-comparator.log",
+      "sha256": "d73f9a5244d204d1aa6dfc14912ae7f7769415a0337fac587e83e077068a825f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/changed-bench__tests__CallSignature-comparator.log",
+      "sha256": "e54b220d461e2da54aac2509e770e20ced082862d58654db9288f4351a21e8d7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/clean-build.log.gz",
+      "sha256": "ab285dc40bcb548f0d0127099163ca6133a962fb3ecb5dfd6cfa7275d22f90f3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/clean-setup.log",
+      "sha256": "d39fe33a7591038befc2ab3efaa92c925458d7685edd17b771f9a450bcc4f62f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/comparator-invocations.json",
+      "sha256": "5bf61f53eeed721d2a5f4919fca704bc1aa351ac69b3dff86dd24b30e5fa6ecd"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/comparator-preflight.log",
+      "sha256": "d9255026a27595d0a04e154bc4a9c609c8422b012fc13cb1ae4de2417afea36d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/comparator-setup.log",
+      "sha256": "bea658f19aea48f8965a3d6525da1300e599d9a3f0a05b992071c97bcaffd6df"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/comparator-tools.json",
+      "sha256": "d541ac407f7aa8679c8ba23dd4df72ac363730bbb67e45bd7959ec752e6b0c53"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/comparator.log",
+      "sha256": "e8eb666c9559c968f8c6e8f72314e89d4c62c351827cc79f471d643aea2b6b1b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/contract-result.json",
+      "sha256": "4346f2c441b7df4be0e0d74a8aa6bb2cceb000a630c4ea545885d492693eaadd"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/contract.log",
+      "sha256": "7849e3394ca5d1c85e9d625c4e4da6b5c59b0c3b8dbc6a15f3a526d000728efd"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/corpus-guard.log",
+      "sha256": "7102e3f19cda93a4536986e1a0ccee20189d83b5e4e7f5e48106155b07148d3f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/focused-modules.txt",
+      "sha256": "fc79948f84e6172b79fd8bb8e49f621db584f7d754dc694ec76223db411b68cc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/integration.log.gz",
+      "sha256": "ea8ec58c747ec9fd7f12aefa9be8e705a4bfd51d3d07d92467e3a50476eb1e8d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/io-guard-stale-pin.log",
+      "sha256": "e0aecfcd643192400386d5e1860f7dfc188c207044f31bce8da6af87f4f191a6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/io-organization-delta.json",
+      "sha256": "ad46d17e54e276791a82266552175e1e58975fb77696511371db5fbd08f5b313"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/joint.lean",
+      "sha256": "d939e7eecad5961e5163560e7eaddaf9c02e60c92fc09d42008c79bf35209506"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/max_reduction-Real-comparator.log",
+      "sha256": "dd83c4939ba357795dd819a9a5433c8b9bc0c2a3b5aadb2d1cfd44d3c6e5bb8e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/max_reduction-comparator.log",
+      "sha256": "1749552c0446fd9dc60edd5555b0ccd9b12569a6443f29d21cbf837dced348d3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/max_reduction-contract.log",
+      "sha256": "463aa5e77d22bd723a83c0ec97430758a1b40b558600a410f7bd37e321fc53c4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/modules.json",
+      "sha256": "330bd2ee130df1adc1a33e6c935fd9e0af4a287dcf37eac19dc155ad25bd0eda"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/paired-cast-fixed.log.gz",
+      "sha256": "053d26d29f3e91905ac931d0af6902b39ac501d05e5744c46631999d010cb779"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/paired-cast-regression.json",
+      "sha256": "baf7ba08a49b30cc78f9d19781328bb342829fac7f0a0a3f939511702d9000dc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/paired-cast-rejected.log.gz",
+      "sha256": "e946364119da9634a61bc5ce340381a4776f802305e42577ff649fa0a0431a77"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/pairs.json",
+      "sha256": "57c70f882aaed30391bd8c8a89a9b9412a26de2fe8143171d7046e41a533b356"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/previous-io-organization-review.json",
+      "sha256": "a15c0dea246a3acbf5b024fe58111f0cc4669ef4349306aeaa3f3efda4f31a56"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/previous-selected-reviews.json.gz",
+      "sha256": "08e34edfafc1edd39ea0da9e7c3383472428d03d46191610d362ea1a4049126b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/python-tests.log",
+      "sha256": "a371837b65bc19fe0217d67faae85cd4dac2ab28526630b9029dfcd5f88a0aa4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/secondary-focused-development.log.gz",
+      "sha256": "1195ac6108f8a37590d51bc4f3e302de300df7bd2de3a01f3d6ae63c4f23c090"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/source-closure.json",
+      "sha256": "4cd57bf856e28fb040002d7c1d0698be24225bb0d4ad8ddd8ff2e486c43f5d78"
+    }
+  ]
+}
