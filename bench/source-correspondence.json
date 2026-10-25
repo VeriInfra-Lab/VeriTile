@@ -8,8 +8,8 @@
     "task_status": {
       "legacy_ast_only": 1,
       "no_selected_jit_resolved": 2,
-      "selected_body_copy_checked": 45,
-      "uncovered_jit_functions": 135
+      "selected_body_copy_checked": 46,
+      "uncovered_jit_functions": 134
     },
     "example_status": {
       "authored_counterpart_body_copy_checked": 2,
@@ -17,12 +17,12 @@
       "spec_derived_body_copy_checked": 15
     },
     "selected_jit_functions": 328,
-    "uncovered_selected_jit_functions": 257,
-    "primary_files_with_int64_screen_warning": 39,
+    "uncovered_selected_jit_functions": 256,
+    "primary_files_with_int64_screen_warning": 38,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 107,
-        "antiquotes": 119,
+        "in_body_type_directives": 106,
+        "antiquotes": 118,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 8
       },
@@ -9768,9 +9768,9 @@
       "source_provenance": "selected_revision",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 64,
-        "dsl_assignment": 5,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 18,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -9812,18 +9812,58 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "nested3_repaired",
+          "lean_definition": "quotedOriginal",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "stride_m": "stride_m",
+            "stride_n": "stride_n",
+            "n_elements": "n_elements"
+          },
+          "statements": 11,
+          "runtime_parameters": {
+            "stride_m": "integer",
+            "stride_n": "integer",
+            "n_elements": "integer"
+          },
+          "constexpr_parameters": [],
           "python": "bench/repairs/tritonbench_g/nested_loops_processing/nested_loops_processing_repaired.py",
-          "function": "nested3_repaired"
+          "lean": "bench/repairs/tritonbench_g/nested_loops_processing/Kernels.lean"
+        },
+        {
+          "python_function": "nested3_index_commuted",
+          "lean_definition": "quotedCommuted",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "stride_m": "stride_m",
+            "stride_n": "stride_n",
+            "n_elements": "n_elements"
+          },
+          "statements": 11,
+          "runtime_parameters": {
+            "stride_m": "integer",
+            "stride_n": "integer",
+            "n_elements": "integer"
+          },
+          "constexpr_parameters": [],
+          "python": "bench/repairs/tritonbench_g/nested_loops_processing/index_commuted.py",
+          "lean": "bench/repairs/tritonbench_g/nested_loops_processing/Kernels.lean"
         }
       ],
-      "int64_screen": "cast_not_visible_in_primary_quotation",
+      "uncovered_selected_jits": [],
+      "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/nested_loops_processing/Kernels.lean": "b291f08bbe82416f2b81fc52770819195259ff23f0e34ebed865430b267e725e",
+        "bench/repairs/tritonbench_g/nested_loops_processing/Kernels.lean": "e6522ffcbebe02d8cfc098e1657c4d1e60dae92012252f8ecca15ead27e025df",
+        "bench/repairs/tritonbench_g/nested_loops_processing/index_commuted.py": "bb5c5d8f5b8273795d031fa0d34181ff3b34e6dcf616e0b09d3adb758b29b319",
+        "bench/repairs/tritonbench_g/nested_loops_processing/jit-correspondence.json": "9d17ab0bc9df99ccff05dc0167d6ede9ffd9911e796236cc294a0a2f85a43304",
         "bench/repairs/tritonbench_g/nested_loops_processing/nested_loops_processing_repaired.py": "a08dd24a7f0d8884eb56f4e9ee1aedb2abae29c0b0088dac4c50c66312b2c75a"
       }
     },

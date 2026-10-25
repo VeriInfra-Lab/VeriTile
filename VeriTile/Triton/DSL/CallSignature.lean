@@ -190,6 +190,28 @@ private partial def rejectArgumentMutation (names : List Name) (raw : Syntax)
     reject ⟨raw[1]⟩
   for arg in raw.getArgs do rejectArgumentMutation names arg message
 
+/-- Specialize call inputs in statement order. A direct integer-parameter
+assignment reads its entry value on the RHS and binds the original source LHS.
+All later uses read that local register, including after a zero-trip loop.
+Conditional/loop overwrites before definite assignment, tuple/augmented writes
+and FP parameter rebinding remain rejected by the existing mutation checker. -/
+private def bindCallStatements (integers : List Name)
+    (values : List (Name × TSyntax `tritonExpr))
+    (stmts : Array (TSyntax `tritonStmt)) : TermElabM (Array (TSyntax `tritonStmt)) := do
+  let mut current := values
+  let mut result := #[]
+  for st in stmts do
+    if let `(tritonStmt| $id:ident = $rhs:tritonExpr) := st then
+      let name := id.getId.eraseMacroScopes
+      if integers.contains name && current.any (fun value => value.1 == name) then
+        let rhs : TSyntax `tritonExpr := ⟨← liftMacroM <| bindSourceValues current rhs.raw⟩
+        result := result.push (← liftMacroM `(tritonStmt| $id:ident = $rhs:tritonExpr))
+        current := current.filter (fun value => value.1 != name)
+        continue
+    rejectArgumentMutation (current.map Prod.fst) st.raw
+    result := result.push (⟨← liftMacroM <| bindSourceValues current st.raw⟩ : TSyntax `tritonStmt)
+  return result
+
 private partial def assignedNames (raw : Syntax) : List Name := Id.run do
   let mut names := assignmentTargets raw
   if raw.getNumArgs > 1 && raw[0].isAtom && raw[1].isIdent &&
@@ -335,7 +357,6 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
         unless scalars.all (fun (name,kind) =>
             (kind matches .fp32 | .fp64) || values.any (fun p => p.1.toString == name)) do
           throwError "every integer runtime scalar needs an explicit call binding"
-        for stmt in stmts do rejectArgumentMutation (values.map Prod.fst) stmt.raw
       -- A pointer argument may already point into an allocation. This
       -- binds that call value without changing the pasted callee body. Offset
       -- units are elements in the existing region model; native byte/width
@@ -392,8 +413,11 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
             liftMacroM `(tritonExpr| $(($id:term : Bool)))
           else throwError "unsupported constexpr carrier; expected Nat, Int, Real or Bool"
         values := values ++ [(name,expression)]
-      let stmts ← liftMacroM <| stmts.mapM fun st => do
-        return (⟨← bindSourceValues values st.raw⟩ : TSyntax `tritonStmt)
+      let integerArguments := scalars.filterMap fun (name,kind) =>
+        match kind with
+        | .integer | .i32 | .i64 => some (Name.mkSimple name)
+        | _ => none
+      let stmts ← bindCallStatements integerArguments values stmts
       let metadata ← liftMacroM <| stmts.toList.mapM fun st => do
         return (⟨← sourcePortView st.raw⟩ : TSyntax `tritonStmt)
       let (reads, writes) := Metadata.blockRegions metadata

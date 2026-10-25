@@ -3644,7 +3644,7 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
             let lhs : EOut :=
               { term := lhsTerm, dtype := lhsDType, shape := lhsShape,
                 computeTerm := lhsComputeTerm?, computeDType? := lhsComputeDType? }
-            let rhs0 ← expandUpdateOperand i e
+            let rhs0 ← integralSourceLiteral lhs.dtype e (← expandUpdateOperand i e)
             let rhs ←
               if lhs.dtype == .real && rhs0.dtype == .nat then
                 match ← expandLeanAntiquoteAs? .real e with
@@ -3652,6 +3652,7 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
                 | none => pure rhs0
               else
                 pure rhs0
+            let (lhs, rhs) ← coerceNatIntOperands "`+=`" lhs rhs
             let (lhs, rhs) ← coerceRealArithOperands "`+=`" lhs rhs
             ensureComputeArithComposable "`+=` lhs" lhs
             ensureComputeArithComposable "`+=` rhs" rhs
@@ -3734,7 +3735,7 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
       let lhs : EOut :=
         { term := lhsTerm, dtype := lhsDType, shape := lhsShape,
           computeTerm := lhsComputeTerm?, computeDType? := lhsComputeDType? }
-      let rhs0 ← expandUpdateOperand i e
+      let rhs0 ← integralSourceLiteral lhs.dtype e (← expandUpdateOperand i e)
       let rhs ←
         if lhs.dtype == .real && rhs0.dtype == .nat then
           match ← expandLeanAntiquoteAs? .real e with
@@ -3742,6 +3743,7 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
           | none => pure rhs0
         else
           pure rhs0
+      let (lhs, rhs) ← coerceNatIntOperands "`-=`" lhs rhs
       let (lhs, rhs) ← coerceRealArithOperands "`-=`" lhs rhs
       ensureComputeArithComposable "`-=` lhs" lhs
       ensureComputeArithComposable "`-=` rhs" rhs
@@ -3787,7 +3789,7 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
       let lhs : EOut :=
         { term := lhsTerm, dtype := lhsDType, shape := lhsShape,
           computeTerm := lhsComputeTerm?, computeDType? := lhsComputeDType? }
-      let rhs0 ← expandUpdateOperand i e
+      let rhs0 ← integralSourceLiteral lhs.dtype e (← expandUpdateOperand i e)
       let rhs ←
         if lhs.dtype == .real && rhs0.dtype == .nat then
           match ← expandLeanAntiquoteAs? .real e with
@@ -3795,6 +3797,7 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
           | none => pure rhs0
         else
           pure rhs0
+      let (lhs, rhs) ← coerceNatIntOperands "`*=`" lhs rhs
       let (lhs, rhs) ← coerceRealArithOperands "`*=`" lhs rhs
       ensureComputeArithComposable "`*=` lhs" lhs
       ensureComputeArithComposable "`*=` rhs" rhs

@@ -1,5 +1,6 @@
 import VeriTile.Triton.DSL.CallSignature
 import VeriTile.Triton.Float.Erasure
+import VeriTile.Triton.Float.Structural
 import VeriTile.Triton.Semantics.Step
 import VeriTile.Meta.StatementAudit
 
@@ -224,4 +225,91 @@ def floatLiteralIsNotInteger (I : RegionName) : ComputeKernel :=
     length = tl.load(I) - 1.0
   }
 #axiomsClean signed_source_literals
+/-- Entry arguments are used before their assignment; later reads use locals. -/
+def overwrittenIntegers (n m : Int) : ComputeKernel :=
+  with_triton_call ({scalars := [("n",.integer),("m",.integer)]} : CallSignature)
+    call_args [n := n, m := m] in triton {
+      before = n
+      n = tl.cast(n, tl.int64)
+      m = tl.cast(m, tl.int64)
+      n = n + m
+      after = n
+    }
+theorem integer_assignment_order (n m : Int) : overwrittenIntegers n m = triton {
+    before = $((n : Int))
+    n = tl.cast($((n : Int)), tl.int64)
+    m = tl.cast($((m : Int)), tl.int64)
+    n = n + m
+    after = n
+  } := rfl
+
+def overwrittenLoop (n : Int) (trips : Nat) : ComputeKernel :=
+  with_triton_call ({scalars := [("n",.integer),("trips",.integer)]} : CallSignature)
+    call_args [n := n, trips := trips] in triton {
+      n = tl.cast(n, tl.int64)
+      for i in range(trips):
+        n += 1
+      after = n
+    }
+theorem integer_assignment_loop (n : Int) (trips : Nat) : overwrittenLoop n trips = triton {
+    n = tl.cast($((n : Int)), tl.int64)
+    tl.for i in $(trips) {
+      n += $((1 : Int))
+    }
+    after = n
+  } := rfl
+
+/-- error: per-call specialization does not yet support reassigned scalar arguments -/
+#guard_msgs in
+def conditionalArgumentOverwrite (n : Int) (flag : Bool) : ComputeKernel :=
+  with_triton_call ({scalars := [("n",.integer)], constexpr := ["flag"]} : CallSignature)
+    call_args [n := n] in triton {
+      if flag:
+        n = tl.cast(n, tl.int64)
+      after = n
+    }
+
+/-- error: per-call specialization does not yet support reassigned scalar arguments -/
+#guard_msgs in
+def loopArgumentOverwrite (n : Int) (trips : Nat) : ComputeKernel :=
+  with_triton_call ({scalars := [("n",.integer),("trips",.integer)]} : CallSignature)
+    call_args [n := n, trips := trips] in triton {
+      for i in range(trips):
+        n = tl.cast(n, tl.int64)
+      after = n
+    }
+
+/-- error: per-call specialization does not yet support reassigned scalar arguments -/
+#guard_msgs in
+def floatingArgumentOverwrite (gain : ℝ) : ComputeKernel :=
+  with_triton_call ({scalars := [("gain",.fp32)]} : CallSignature)
+    call_args [gain := gain] in triton {
+      gain = gain + 1.0
+    }
+
+
+/-- Even an empty source loop sees the initialized argument, independent of
+arbitrary stale registers in the caller state. -/
+theorem integer_assignment_zero_trip {A : Type} [Inhabited A]
+    (M : FP.Structural.Algebra A) (n : Int) (s : FP.Structural.State A) :
+    (FP.Structural.exec M (overwrittenLoop n 0) s).map (fun t => t.regs .int [] "after") =
+      some (some (fun _ => n)) := by
+  simp [integer_assignment_loop,FP.Structural.exec,FP.Structural.run,FP.Structural.step,
+    FP.Structural.loop,FP.Structural.evalExpr,FP.Structural.evalOp_unfold,FP.Structural.State.setReg]
+
+/-- The next source read observes the updated local, preserving integer dtype. -/
+theorem integer_assignment_one_trip {A : Type} [Inhabited A]
+    (M : FP.Structural.Algebra A) (n : Int) (s : FP.Structural.State A) :
+    (FP.Structural.exec M (overwrittenLoop n 1) s).map (fun t => t.regs .int [] "after") =
+      some (some (fun _ => n + 1)) := by
+  simp [integer_assignment_loop,FP.Structural.exec,FP.Structural.run,FP.Structural.step,
+    FP.Structural.loop,FP.Structural.evalExpr,FP.Structural.evalOp_unfold,FP.Structural.State.setReg,
+    FP.Structural.numeric,FP.Structural.bop]
+  rfl
+#axiomsClean integer_assignment_zero_trip
+#axiomsClean integer_assignment_one_trip
+
+#axiomsClean integer_assignment_order
+#axiomsClean integer_assignment_loop
+
 end VeriTile.Tests.CallSignature

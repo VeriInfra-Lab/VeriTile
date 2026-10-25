@@ -1,0 +1,92 @@
+[
+  {
+    "lean": "bench/repairs/tritonbench_g/nested_loops_processing/Kernels.lean",
+    "lean_definition": "quotedOriginal",
+    "python": "bench/repairs/tritonbench_g/nested_loops_processing/nested_loops_processing_repaired.py",
+    "python_function": "nested3_repaired",
+    "signature_definition": "sourceSignature",
+    "expected_call_bindings": {
+      "stride_m": "stride_m",
+      "stride_n": "stride_n",
+      "n_elements": "n_elements"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "in_ptr",
+          "i32"
+        ],
+        [
+          "out_ptr",
+          "i32"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_m",
+          "integer"
+        ],
+        [
+          "stride_n",
+          "integer"
+        ],
+        [
+          "n_elements",
+          "integer"
+        ]
+      ],
+      "constexpr": [],
+      "readPorts": [
+        "in_ptr"
+      ],
+      "writePorts": [
+        "out_ptr"
+      ]
+    }
+  },
+  {
+    "lean": "bench/repairs/tritonbench_g/nested_loops_processing/Kernels.lean",
+    "lean_definition": "quotedCommuted",
+    "python": "bench/repairs/tritonbench_g/nested_loops_processing/index_commuted.py",
+    "python_function": "nested3_index_commuted",
+    "signature_definition": "sourceSignature",
+    "expected_call_bindings": {
+      "stride_m": "stride_m",
+      "stride_n": "stride_n",
+      "n_elements": "n_elements"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "in_ptr",
+          "i32"
+        ],
+        [
+          "out_ptr",
+          "i32"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_m",
+          "integer"
+        ],
+        [
+          "stride_n",
+          "integer"
+        ],
+        [
+          "n_elements",
+          "integer"
+        ]
+      ],
+      "constexpr": [],
+      "readPorts": [
+        "in_ptr"
+      ],
+      "writePorts": [
+        "out_ptr"
+      ]
+    }
+  }
+]
