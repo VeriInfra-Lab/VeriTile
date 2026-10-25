@@ -451,3 +451,83 @@ theorem complete_program (X Y : RegionName) (B : Nat) :
     positional X Y B = named X Y B := rfl
 #axiomsClean complete_program
 end VeriTile.Tests.CallSignature.PositionalMaximumStore
+
+namespace VeriTile.Tests.CallSignature.MixedFP32Storage
+open VeriTile.Triton
+noncomputable section
+
+def signature : CallSignature where
+  pointers := [("X",.fp32),("Y",.fp32)]
+  scalars := []
+  constexpr := []
+  typedFP32Pointers := ["X"]
+
+def source (X Y : RegionName) : ComputeKernel :=
+  with_triton_signature signature in triton {
+    x = tl.load(X).to(tl.float32)
+    y = tl.load(Y).to(tl.float32)
+  }
+/-- The two source-FP32 pointers retain distinct interpreter cell channels
+required by the existing IO. Both explicit source conversion events remain. -/
+theorem complete_channels (X Y : RegionName) : source X Y =
+    (let dtype : FloatDType := .fp32; triton {
+      tl.ports inputs=[X,Y], outputs=[]
+      tl.region X = DTYPE, Y = tl.float32
+      x = tl.load(X).to(tl.float32)
+      y = tl.load(Y).to(tl.float32)
+    }) := rfl
+
+/-- error: typed FP32 pointers must be distinct FP32 pointer parameter names -/
+#guard_msgs in
+def unknownPointer (X : RegionName) : ComputeKernel :=
+  with_triton_signature ({pointers := [("X",.fp32)], typedFP32Pointers := ["Z"]} : CallSignature) in
+  triton { x = tl.load(X) }
+
+/-- error: typed FP32 pointers must be distinct FP32 pointer parameter names -/
+#guard_msgs in
+def wrongSourceDtype (X : RegionName) : ComputeKernel :=
+  with_triton_signature ({pointers := [("X",.fp16)], typedFP32Pointers := ["X"]} : CallSignature) in
+  triton { x = tl.load(X) }
+
+/-- error: typed FP32 pointers must be distinct FP32 pointer parameter names -/
+#guard_msgs in
+def duplicatePointer (X : RegionName) : ComputeKernel :=
+  with_triton_signature ({pointers := [("X",.fp32)], typedFP32Pointers := ["X","X"]} : CallSignature) in
+  triton { x = tl.load(X) }
+
+#axiomsClean complete_channels
+end
+end VeriTile.Tests.CallSignature.MixedFP32Storage
+
+namespace VeriTile.Tests.CallSignature.ScanStorage
+open VeriTile.Triton
+
+def signature : CallSignature where
+  pointers := [("X",.fp32),("Y",.fp32),("Half",.fp16)]
+  scalars := []
+  constexpr := ["B"]
+
+def source (X Y Half : RegionName) (B : Nat) : ComputeKernel :=
+  with_triton_signature signature in triton {
+    lanes = tl.arange(0, B)
+    value = tl.load(X + lanes).to(tl.float32)
+    inclusive = tl.cumsum(value, axis=0)
+    tl.store(Y + lanes, inclusive)
+    tl.store(Half + lanes, inclusive)
+  }
+
+/-- An FP32 scan needs no same-dtype store conversion. An FP16 destination
+still requires its actual narrowing operation. Both stores are checked together. -/
+theorem complete_program (X Y Half : RegionName) (B : Nat) :
+    source X Y Half B = triton {
+      tl.ports inputs=[X], outputs=[Y,Half]
+      tl.region X = tl.float32, Y = tl.float32, Half = tl.float16
+      lanes = tl.arange(0, B)
+      value = tl.load(X + lanes).to(tl.float32)
+      inclusive = tl.cumsum(value, axis=0)
+      tl.store(Y + lanes, inclusive)
+      tl.store(Half + lanes, inclusive.to(tl.float16))
+    } := rfl
+
+#axiomsClean complete_program
+end VeriTile.Tests.CallSignature.ScanStorage

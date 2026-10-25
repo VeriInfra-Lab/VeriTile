@@ -4,7 +4,7 @@ import textwrap
 from pathlib import Path
 import unittest
 
-from bench.jit_correspondence import check, check_manifest, quotation
+from bench.jit_correspondence import check, check_manifest, quotation, call_signature
 
 ROOT = Path(__file__).resolve().parents[2]
 DIRECTORY = ROOT / "bench/repairs/tritonbench_g/triton_argmax_nan_first"
@@ -415,3 +415,38 @@ class SwiGluBackwardAndReluBodyTests(unittest.TestCase):
                 check(python, lean.replace(before, after, 1), record["python_function"],
                       record["lean_definition"], record["signature_definition"],
                       record["expected_signature"], record["expected_call_bindings"])
+
+
+class ChunkedCumsumRawBodyTests(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/chunked_cumsum_fwd"
+
+    def test_original_and_existing_scale_first_candidate(self):
+        pairs = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual(len(pairs), 2)
+        self.assertTrue(all(pair["mode"] == "pasted_body" for pair in pairs))
+
+    def test_mixed_storage_channels_and_unsigned_casts_are_pinned(self):
+        record = json.loads((self.directory / "jit-correspondence.json").read_text())[0]
+        python = (ROOT / record["python"]).read_text()
+        lean = (ROOT / record["lean"]).read_text()
+        for before, after in [('typedFP32Pointers := ["dt_ptr", "A_ptr"]',
+                               'typedFP32Pointers := ["dt_ptr"]'),
+                              ('seqlen = tl.cast(seqlen, tl.uint64)', 'seqlen = seqlen'),
+                              ('dt_min), dt_max)', 'dt_max), dt_min)'),
+                              ('if DT_SOFTPLUS:', 'if True:')]:
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                self.assertIn(before, lean)
+                check(python, lean.replace(before, after, 1), record["python_function"],
+                      record["lean_definition"], record["signature_definition"],
+                      record["expected_signature"], record["expected_call_bindings"])
+
+    def test_selective_storage_metadata_rejects_expressions_and_invalid_names(self):
+        lean = (self.directory / "Kernels.lean").read_text()
+        original = 'typedFP32Pointers := ["dt_ptr", "A_ptr"]'
+        for replacement in ['typedFP32Pointers := selected',
+                            'typedFP32Pointers := ["dt_ptr"] ++ ["A_ptr"]',
+                            'typedFP32Pointers := ["missing"]',
+                            'typedFP32Pointers := ["dt_ptr", "dt_ptr"]',
+                            'typedFP32Pointers := [1]']:
+            with self.subTest(replacement=replacement), self.assertRaises(ValueError):
+                call_signature(lean.replace(original, replacement, 1), "callSignature")

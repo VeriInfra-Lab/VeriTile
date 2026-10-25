@@ -195,6 +195,19 @@ def call_signature(text: str, name: str) -> dict:
         raise ValueError("typed FP32 storage selection must be a literal Boolean")
     if storage:
         fields["typedFP32Storage"] = storage[1] == "true"
+    selected_storage = re.search(r"\btypedFP32Pointers\s*:=\s*(\[[^\]]*\])(?=\s*(?:[A-Za-z_]\w*\s*:=|$))", match[1], re.S)
+    if re.search(r"\btypedFP32Pointers\s*:=", match[1]) and not selected_storage:
+        raise ValueError("typed FP32 pointers must be a literal list")
+    if selected_storage:
+        try:
+            selected = ast.literal_eval(selected_storage[1])
+        except (ValueError, SyntaxError) as exc:
+            raise ValueError("typed FP32 pointers must be a literal list") from exc
+        if (not isinstance(selected, list) or not all(isinstance(n, str) for n in selected)
+                or len(selected) != len(set(selected))
+                or not set(selected) <= {n for n, dtype in fields["pointers"] if dtype == "fp32"}):
+            raise ValueError("typed FP32 pointers must be distinct FP32 pointer parameter names")
+        fields["typedFP32Pointers"] = selected
     names = [n for n, _ in fields["pointers"] + fields["scalars"]] + fields["constexpr"]
     if len(names) != len(set(names)):
         raise ValueError("duplicate call signature parameter")

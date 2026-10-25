@@ -24,6 +24,10 @@ structure CallSignature where
   This chooses an interpreter representation, not another source dtype or an
   extra cast. The default uses the profiled real carrier. -/
   typedFP32Storage : Bool := Bool.false
+  /-- Select typed FP32 input/output channels individually when the existing
+  IO mixes typed and profiled FP32 memory representations. No source cast is
+  inserted and every named pointer still has source dtype FP32. -/
+  typedFP32Pointers : List String := []
   /-- Optional public memory roles when pointer rebinding prevents the legacy
   collector from recovering the original region. These are interface metadata,
   not instructions or claims that an access succeeds. -/
@@ -365,6 +369,11 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
       let typedFP32 := storage.isConstOf ``Bool.true
       unless typedFP32 || storage.isConstOf ``Bool.false do
         throwError "typed FP32 storage selection must be statically known"
+      let typedFP32Names ← (← listValues (← mkAppM ``Triton.CallSignature.typedFP32Pointers #[profile])).mapM stringValue
+      unless typedFP32Names.eraseDups.length == typedFP32Names.length &&
+          typedFP32Names.all (fun name => pointers.any (fun p => p.1 == name && p.2 == .fp32)) do
+        throwError "typed FP32 pointers must be distinct FP32 pointer parameter names"
+      let usesTypedFP32 := typedFP32 || !typedFP32Names.isEmpty
       let scalars ← bindings scalarTypeValue (← mkAppM ``Triton.CallSignature.scalars #[profile])
       let constants ← (← listValues (← mkAppM ``Triton.CallSignature.constexpr #[profile])).mapM stringValue
       let readPorts ← (← listValues (← mkAppM ``Triton.CallSignature.readPorts #[profile])).mapM stringValue
@@ -377,7 +386,7 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
         return (⟨← Inference.normalizeControlFlow st.raw⟩ : TSyntax `tritonStmt)
       let names := pointers.map Prod.fst ++ scalars.map Prod.fst ++ constants
       unless names.eraseDups.length == names.length do throwError "duplicate name in call signature"
-      if typedFP32 && names.contains "dtype" then
+      if usesTypedFP32 && names.contains "dtype" then
         throwError "typed FP32 storage reserves the metadata dtype alias"
       for stmt in stmts do rejectBodyMetadata stmt.raw
       let mut values : List (Name × TSyntax `tritonExpr) := []
@@ -523,7 +532,7 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
         declarations := declarations.push (← `(tritonStmt| tl.ports inputs=[$inputs,*], outputs=[$outputs,*]))
         for (name, kind) in pointers do
           let id := mkIdent (Name.mkSimple name)
-          let dt ← if typedFP32 && kind == .fp32 then
+          let dt ← if (typedFP32 || typedFP32Names.contains name) && kind == .fp32 then
               `(tritonDType| DTYPE)
             else do
               let some dt ← dtypeSyntaxOfName? (SourceDType.dtypeName kind)
@@ -549,7 +558,7 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
         let body ← TypedStores.lower (pointers.map (fun (name, kind) => (Name.mkSimple name, kind))) scalarTypes stmts.toList
         let emitted := declarations ++ body.toArray
         let compiled ← `(triton { $emitted* })
-        if typedFP32 then
+        if usesTypedFP32 then
           -- DTYPE is interface metadata, evaluated before any source statement.
           let dtype := mkIdent `dtype
           `(let $dtype:ident : FloatDType := FloatDType.fp32; $compiled)

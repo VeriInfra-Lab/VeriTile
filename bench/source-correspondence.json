@@ -8,8 +8,8 @@
     "task_status": {
       "legacy_ast_only": 1,
       "no_selected_jit_resolved": 2,
-      "selected_body_copy_checked": 54,
-      "uncovered_jit_functions": 126
+      "selected_body_copy_checked": 55,
+      "uncovered_jit_functions": 125
     },
     "example_status": {
       "authored_counterpart_body_copy_checked": 2,
@@ -17,12 +17,12 @@
       "spec_derived_body_copy_checked": 15
     },
     "selected_jit_functions": 328,
-    "uncovered_selected_jit_functions": 243,
+    "uncovered_selected_jit_functions": 242,
     "primary_files_with_int64_screen_warning": 38,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 99,
-        "antiquotes": 110,
+        "in_body_type_directives": 98,
+        "antiquotes": 109,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 8
       },
@@ -2615,9 +2615,9 @@
       "source_provenance": "selected_revision",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 6,
-        "antiquotes": 40,
-        "dsl_assignment": 7,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 43,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -2630,19 +2630,129 @@
           "explicit_int64_casts": []
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_chunk_cumsum_fwd_kernel",
+          "lean_definition": "source",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "mixed_integer_calls_and_runtime_registers",
+          "call_bindings": {
+            "batch": "batch",
+            "seqlen": "seqlen",
+            "nheads": "nheads",
+            "chunk_size": "chunk_size",
+            "stride_dt_batch": "stride_dt_batch",
+            "stride_dt_seqlen": "stride_dt_seqlen",
+            "stride_dt_head": "stride_dt_head",
+            "stride_A_head": "stride_A_head",
+            "stride_dt_bias_head": "stride_dt_bias_head",
+            "stride_dt_out_batch": "stride_dt_out_batch",
+            "stride_dt_out_chunk": "stride_dt_out_chunk",
+            "stride_dt_out_head": "stride_dt_out_head",
+            "stride_dt_out_csize": "stride_dt_out_csize",
+            "stride_dA_cs_batch": "stride_dA_cs_batch",
+            "stride_dA_cs_chunk": "stride_dA_cs_chunk",
+            "stride_dA_cs_head": "stride_dA_cs_head",
+            "stride_dA_cs_csize": "stride_dA_cs_csize"
+          },
+          "statements": 26,
+          "runtime_parameters": {
+            "batch": "integer",
+            "seqlen": "integer",
+            "nheads": "integer",
+            "chunk_size": "integer",
+            "dt_min": "fp32",
+            "dt_max": "fp32",
+            "stride_dt_batch": "integer",
+            "stride_dt_seqlen": "integer",
+            "stride_dt_head": "integer",
+            "stride_A_head": "integer",
+            "stride_dt_bias_head": "integer",
+            "stride_dt_out_batch": "integer",
+            "stride_dt_out_chunk": "integer",
+            "stride_dt_out_head": "integer",
+            "stride_dt_out_csize": "integer",
+            "stride_dA_cs_batch": "integer",
+            "stride_dA_cs_chunk": "integer",
+            "stride_dA_cs_head": "integer",
+            "stride_dA_cs_csize": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE_CHUNK",
+            "BLOCK_SIZE_H",
+            "DT_SOFTPLUS",
+            "HAS_DT_BIAS"
+          ],
           "python": "bench/repairs/tritonbench_g/chunked_cumsum_fwd/chunked_cumsum_fwd_repaired.py",
-          "function": "_chunk_cumsum_fwd_kernel"
+          "lean": "bench/repairs/tritonbench_g/chunked_cumsum_fwd/Kernels.lean"
+        },
+        {
+          "python_function": "chunk_cumsum_scale_first",
+          "lean_definition": "scaleFirst",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "mixed_integer_calls_and_runtime_registers",
+          "call_bindings": {
+            "batch": "batch",
+            "seqlen": "seqlen",
+            "nheads": "nheads",
+            "chunk_size": "chunk_size",
+            "stride_dt_batch": "stride_dt_batch",
+            "stride_dt_seqlen": "stride_dt_seqlen",
+            "stride_dt_head": "stride_dt_head",
+            "stride_A_head": "stride_A_head",
+            "stride_dt_bias_head": "stride_dt_bias_head",
+            "stride_dt_out_batch": "stride_dt_out_batch",
+            "stride_dt_out_chunk": "stride_dt_out_chunk",
+            "stride_dt_out_head": "stride_dt_out_head",
+            "stride_dt_out_csize": "stride_dt_out_csize",
+            "stride_dA_cs_batch": "stride_dA_cs_batch",
+            "stride_dA_cs_chunk": "stride_dA_cs_chunk",
+            "stride_dA_cs_head": "stride_dA_cs_head",
+            "stride_dA_cs_csize": "stride_dA_cs_csize"
+          },
+          "statements": 26,
+          "runtime_parameters": {
+            "batch": "integer",
+            "seqlen": "integer",
+            "nheads": "integer",
+            "chunk_size": "integer",
+            "dt_min": "fp32",
+            "dt_max": "fp32",
+            "stride_dt_batch": "integer",
+            "stride_dt_seqlen": "integer",
+            "stride_dt_head": "integer",
+            "stride_A_head": "integer",
+            "stride_dt_bias_head": "integer",
+            "stride_dt_out_batch": "integer",
+            "stride_dt_out_chunk": "integer",
+            "stride_dt_out_head": "integer",
+            "stride_dt_out_csize": "integer",
+            "stride_dA_cs_batch": "integer",
+            "stride_dA_cs_chunk": "integer",
+            "stride_dA_cs_head": "integer",
+            "stride_dA_cs_csize": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE_CHUNK",
+            "BLOCK_SIZE_H",
+            "DT_SOFTPLUS",
+            "HAS_DT_BIAS"
+          ],
+          "python": "bench/repairs/tritonbench_g/chunked_cumsum_fwd/candidate_kernels.py",
+          "lean": "bench/repairs/tritonbench_g/chunked_cumsum_fwd/Kernels.lean"
         }
       ],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/chunked_cumsum_fwd/Kernels.lean": "6629723f4bf952554d4e423633420e2646b86cd264f4175f37ba4c889aad8061",
-        "bench/repairs/tritonbench_g/chunked_cumsum_fwd/chunked_cumsum_fwd_repaired.py": "5f834ef4712a5f138681eb9c97ec332c43119e716e4d3c82fa8537fc0ec02d2a"
+        "bench/repairs/tritonbench_g/chunked_cumsum_fwd/Kernels.lean": "12aa754b7b8b2e499e6d1e6c9ecfc9372125672bdd036f764f9d63934b8ea79a",
+        "bench/repairs/tritonbench_g/chunked_cumsum_fwd/candidate_kernels.py": "c9e9756621d870ca98858abec1fe68e266014f9a3ca7eb9baad17ee4c78ffcb2",
+        "bench/repairs/tritonbench_g/chunked_cumsum_fwd/chunked_cumsum_fwd_repaired.py": "5f834ef4712a5f138681eb9c97ec332c43119e716e4d3c82fa8537fc0ec02d2a",
+        "bench/repairs/tritonbench_g/chunked_cumsum_fwd/jit-correspondence.json": "6c2e4762f7675100904584c13f1c5a099159a4a4bab2d667d36662b982ab999f"
       }
     },
     {
