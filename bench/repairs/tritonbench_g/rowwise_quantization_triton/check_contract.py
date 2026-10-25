@@ -2,11 +2,15 @@
 import ast
 import contextlib
 import importlib.util
+import sys
 from pathlib import Path
 from types import SimpleNamespace
 import torch
 
 HERE = Path(__file__).resolve().parent
+ROOT = HERE.parents[3]
+sys.path.insert(0, str(ROOT))
+from bench.jit_correspondence import check_manifest
 SOURCE = HERE / "rowwise_quantization_triton_repaired.py"
 spec = importlib.util.spec_from_file_location("add_contract_helpers", HERE.parent / "add_example/check_contract.py")
 helpers = importlib.util.module_from_spec(spec)
@@ -97,6 +101,7 @@ def main():
     assert "columns x≤2^20" in contract and "rows x<2^31" in contract
     source = (HERE / "Kernels.lean").read_text()
     assert ".Proofs." not in source
+    assert [(p["mode"], p["statements"]) for p in check_manifest(ROOT, HERE / "jit-correspondence.json")] == [("pasted_body", 12), ("pasted_body", 12)]
 
     accepted = 0
     for rows, cols in [(0, 1), (0, 2**20), (1, 1), (2, 3), (3, 17), (2, 129), (1, 513)]:

@@ -1,5 +1,16 @@
 # Quantized cache transform: kernel-only proof
 
+The selected Python JIT is unchanged. The complete original and existing
+early-address candidate are pasted as raw function bodies in Kernels.lean;
+pointer storage, runtime stride bindings and constexpr values remain outside.
+All source INT64 casts, signed INT32 metadata, original masks, scale dtype
+access, quotient/conversion order and both stores are retained.
+Proofs/SourceIdentity.lean proves each complete executable statement list
+equal to its previous program. candidate_kernels.py is an explicitly authored
+Python counterpart of the already existing Lean candidate, rather than a
+recovered historical original. It moves only the two output address assignments
+before floating quantization. No performance measurement is claimed.
+
 The canonical candidate scatters INT8 codes and FP32 scales into the two
 caller-owned caches and returns `None`. Its Python, guards, launch options and
 source arithmetic are unchanged in this proof update. The source SHA256 is

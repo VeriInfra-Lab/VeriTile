@@ -1,5 +1,16 @@
 # Grouped quantized destination scatter
 
+The selected Python JIT is unchanged. The complete original and existing
+early-address candidate are pasted as raw function bodies in Kernels.lean;
+pointer storage, runtime stride bindings and constexpr values remain outside.
+All source INT64 casts, signed INT32 metadata, original masks, scale dtype
+access, quotient/conversion order and both stores are retained.
+Proofs/SourceIdentity.lean proves each complete executable statement list
+equal to its previous program. candidate_kernels.py is an explicitly authored
+Python counterpart of the already existing Lean candidate, rather than a
+recovered historical original. It moves only the two output address assignments
+before floating quantization. No performance measurement is claimed.
+
 `Correct.lean` exposes the shared `ProgramIO.ImplementsOn` specification;
 `Misc/NativeCorrect.lean` retains the ordinary native theorem for the complete Real/native source, both output channels and the
 exact exterior frame. The public layout and actual launch schedule are in `IO.lean`.

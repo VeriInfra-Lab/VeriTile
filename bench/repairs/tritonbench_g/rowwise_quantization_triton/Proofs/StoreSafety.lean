@@ -18,7 +18,7 @@ theorem candidate_safe (M : Algebra α) (round : α → BitVec 64) (equal : α �
     QuantizeIntegerStage.TraceSafe (KernelExecution.backend M equal) (some round) bounds
       ⟨Candidate.source "x" "q" "m" columns width,fun _ => none,QuantizeIntegerStage.outputRegister⟩ s := by
   simp (maxSteps := 1500000) [QuantizeIntegerStage.TraceSafe,
-    Candidate.source,ComputeKernel.surfaceBody,
+    Candidate.source,earlyMaximumSource,ComputeKernel.surfaceBody,
     QuantizeIntegerStage.Safety.traceSafeList_unfold,QuantizeIntegerStage.Safety.stepSafe_unfold,
     QuantizeIntegerStage.Safety.safeExpr_unfold,QuantizeIntegerStage.step,QuantizeIntegerStage.evalExpr,
     QuantizeIntegerStage.store,QuantizeIntegerStage.storedInteger,QuantizeIntegerStage.outputRegister,
@@ -27,6 +27,7 @@ theorem candidate_safe (M : Algebra α) (round : α → BitVec 64) (equal : α �
     FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,FP.Structural.store,numeric,numericLt,
     numericEq,natLt,bop,KernelExecution.backend,State.setReg,ComputeDType.eraseDType,
     ofFloat,toFloat,Region.cast,Option.bind,TileShape.axisDim,hw,hm]
+  simp only [← Int.natCast_mul, ← Int.natCast_add, Int.toNat_natCast]
   exact ⟨hx,hq⟩
 
 #axiomsClean candidate_safe

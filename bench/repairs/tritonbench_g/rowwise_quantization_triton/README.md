@@ -38,9 +38,15 @@ kernel, not Python wrapper/allocator execution.
 ## Source execution and proof organization
 
 `Kernels.lean` contains the complete readable `triton {}` source and retained
-scalar/byte definitions. The Real proof and optional native proof use the same quoted source. The
-natural-index presentation erases the explicit signed64 casts only under the
-separately proved machine-index refinement, including padded inactive lanes.
+scalar/byte definitions. Both original and existing early-maximum-store candidate
+are complete raw Python bodies in this shared file; Candidate.lean is a
+transparent alias. Pointer storage types, the unused runtime argument and
+constexpr parameters are outside the quotation. The signed64 program-ID cast,
+tl.full multiplication, integer-zero masking, ordinary division, llrint and
+both implicit store conversions are retained. The Real proof and optional
+native proof use these actual bodies. Natural logical addresses are connected
+to the signed source addresses by exact integer identities, with the existing
+native machine-index refinement including padded inactive lanes.
 The maximum reduction uses one explicit `Launch.tree`, selected independently
 of input payloads; its leaves cover every padded lane exactly once.
 
@@ -107,17 +113,15 @@ compilation or from a CPU AST check.
 
 ## Evidence and references
 
-Task-scoped build receipts and the final delivery packet live under
-`.veritile-cache/task-deliveries/rowwise_quantization_triton/`. Both public
-entries and every new kernel proof module have successful current-source
-build receipts. The combined entry audit passed with standard-base axioms
-only and independent-target checks; the packet pins sources, objects, evidence
-and the actual build/audit drivers. Batch acceptance and independent replay
-remain the parent integrator's separate checks.
-The targeted checker covers fourteen complete CPU AST output-pair/frame cases
-and thirteen guard rejections, including empty batches, zero rows, tails,
-nonzero input storage offsets and width/grid admission boundaries. CUDA and
-launches are mocked; this is not a GPU or numerical-assumption experiment.
+Current source/proof replay and its limits are recorded in the tracked
+bench/review-checkpoints receipts. No source dependency or proof result is
+supplied by .veritile-cache. The raw-body checker compares both complete
+twelve-statement functions and their ABI against unchanged Python; regression
+mutations check casts, integer literal type, division operands, masks and
+implicit storage conversion. The CPU checker retains fourteen output-pair/frame
+cases and thirteen guard rejections; its availability and actual result are
+recorded separately. Mocked CUDA/launch checks do not establish GPU behavior
+or numerical-assumption admission.
 
 The semantic boundary follows the [CUDA libdevice llrintf specification](https://docs.nvidia.com/cuda/libdevice-users-guide/__nv_llrintf.html),
 [Triton maximum](https://triton-lang.org/main/python-api/generated/triton.language.maximum.html),
@@ -167,7 +171,7 @@ by this format conversion.
 
 ## Early maximum store candidate, 2026-10-21
 
-`Candidate.lean` contains a complete ordinary Triton source body. It moves the
+`Candidate.lean` transparently references the complete candidate body in `Kernels.lean`. It moves the
 FP16 row-maximum store directly after the maximum reduction, before `safe_max`,
 division, scaling, `llrint` and the INT8 output store. The original input tile
 has already been loaded. The FP16 maximum and INT8 output use distinct regions,

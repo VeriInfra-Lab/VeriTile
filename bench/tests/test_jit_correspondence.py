@@ -820,3 +820,102 @@ class QuantizeGlobalPreciseBodyTests(unittest.TestCase):
                 check((ROOT / record["python"]).read_text(), lean.replace(before, after),
                       record["python_function"], record["lean_definition"], record["signature_definition"],
                       record["expected_signature"], record["expected_call_bindings"])
+
+
+class RowwiseQuantizationRawBodyTests(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/rowwise_quantization_triton"
+
+    def test_both_bodies_keep_signed_coordinates_zero_type_and_store_order(self):
+        records = json.loads((self.directory / "jit-correspondence.json").read_text())
+        pairs = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual([(p["mode"], p["statements"]) for p in pairs],
+                         [("pasted_body", 12), ("pasted_body", 12)])
+        lean = (self.directory / "Kernels.lean").read_text()
+        for record in records:
+            for before, after in [
+                ("tl.program_id(axis=0).to(tl.int64)", "tl.program_id(axis=0)"),
+                ("tl.full((), BLOCK_SIZE, tl.int64)", "BLOCK_SIZE"),
+                ("tl.where(row_mask, abs_x, 0)", "tl.where(row_mask, abs_x, 0.0)"),
+                ("x / safe_max", "safe_max / x"),
+                ("output, mask=row_mask", "output"),
+                ("tl.store(output_maxs + pid, max_val)",
+                 "tl.store(output_maxs + pid, max_val.to(tl.float16))"),
+                ('("output_maxs",.fp16)', '("output_maxs",.fp32)'),
+            ]:
+                with self.subTest(definition=record["lean_definition"], mutation=before):
+                    self.assertIn(before, lean)
+                    with self.assertRaises(ValueError):
+                        check((ROOT / record["python"]).read_text(), lean.replace(before, after),
+                              record["python_function"], record["lean_definition"],
+                              record["signature_definition"], record["expected_signature"])
+
+
+class QuantizedScatterRawBodyTests(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/quantize_copy_kv"
+
+    def test_both_bodies_preserve_half_scale_and_zero_maximum_branch(self):
+        records = json.loads((self.directory / "jit-correspondence.json").read_text())
+        pairs = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual([(p["mode"], p["statements"]) for p in pairs],
+                         [("pasted_body", 14), ("pasted_body", 14)])
+        lean = (self.directory / "Kernels.lean").read_text()
+        for record in records:
+            for before, after in [
+                ("tl.program_id(0).to(tl.int64)", "tl.program_id(0)"),
+                ("(maximum / 127.0).to(tl.float16)", "(maximum / 127.0).to(tl.float32)"),
+                ("data_scale.to(tl.float32)", "data_scale"),
+                ("maximum[:, None] == 0.0", "data_scale == 0.0"),
+                ("stride_dest := 1", "stride_dest := p.width"),
+                ("stride_o_bs := denseStride", "stride_o_bs := p.width"),
+                ("q_src_data, mask=offs_h[:, None] < head_num", "q_src_data"),
+            ]:
+                with self.subTest(definition=record["lean_definition"], mutation=before):
+                    self.assertIn(before, lean)
+                    with self.assertRaises(ValueError):
+                        check((ROOT / record["python"]).read_text(), lean.replace(before, after),
+                              record["python_function"], record["lean_definition"],
+                              record["signature_definition"], record["expected_signature"],
+                              record["expected_call_bindings"])
+
+
+class QuantizedCacheVariantsRawBodyTests(unittest.TestCase):
+    def verify_variant(self, task, count, mutations):
+        directory = ROOT / "bench/repairs/tritonbench_g" / task
+        records = json.loads((directory / "jit-correspondence.json").read_text())
+        pairs = check_manifest(ROOT, directory / "jit-correspondence.json")
+        self.assertEqual([(p["mode"], p["statements"]) for p in pairs],
+                         [("pasted_body", count), ("pasted_body", count)])
+        lean = (directory / "Kernels.lean").read_text()
+        for record in records:
+            for before, after in mutations:
+                with self.subTest(task=task, definition=record["lean_definition"], mutation=before):
+                    self.assertIn(before, lean)
+                    with self.assertRaises(ValueError):
+                        check((ROOT / record["python"]).read_text(), lean.replace(before, after),
+                              record["python_function"], record["lean_definition"],
+                              record["signature_definition"], record["expected_signature"],
+                              record["expected_call_bindings"])
+
+    def test_logical_width_mask_and_fp32_scale_dtype_access(self):
+        self.verify_variant("quantize_kv_transform", 14, [
+            ("tl.program_id(0).to(tl.int64)", "tl.program_id(0)"),
+            ("tl.load(Dest_loc + cur_index * stride_dest).to(tl.int64)",
+             "tl.load(Dest_loc + cur_index * stride_dest)"),
+            ("(offs_d[None, :] < head_dim)", "(offs_d[None, :] < head_num)"),
+            ("(maximum / 127.0).to(Out_scale.dtype.element_ty)", "(maximum / 127.0)"),
+            ("data_scale.to(tl.float32)", "data_scale"),
+            ("head_dim := p.columns", "head_dim := p.width"),
+            ('("Dest_loc",.i32)', '("Dest_loc",.i64)'),
+        ])
+
+    def test_two_dimensional_group_geometry_and_scale_mask(self):
+        self.verify_variant("quantize_kv_copy", 15, [
+            ("tl.program_id(1).to(tl.int64)", "tl.program_id(1)"),
+            ("tl.arange(0, BLOCK_GROUP_DIM).to(tl.int64)",
+             "tl.arange(0, BLOCK_GROUP_DIM)"),
+            ("(maximum / 127.0).to(Out_scale.dtype.element_ty)", "(maximum / 127.0)"),
+            ("src_data / denominator[:, None]", "src_data / denominator"),
+            ("data_scale, mask=offs_g < group_size", "data_scale"),
+            ("stride_os_h := groups", "stride_os_h := heads"),
+            ('("Dest_loc",.i32)', '("Dest_loc",.i64)'),
+        ])
