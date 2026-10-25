@@ -1,0 +1,4 @@
+{"name": "changed-VeriTile__Triton__Memory__FlattenR", "file": "VeriTile/Triton/Memory/FlattenR.lean", "sha256": "ac66af79f891bceefc284a81f4958b0e1f299e57feb4a6c5bd55ca64fa20e23b", "command": ["python3", "scripts/check_comparator.py", "--file", "VeriTile/Triton/Memory/FlattenR.lean", "--trust"], "exit_code": 1, "code_commit": "645086289ff4aa392dad31a8c51f7a1fea996de1"}
+[FAIL] Official comparator isolation is unavailable:
+- systemd AF_UNIX restriction: Failed to connect to bus: Operation not permitted (consider using --machine=<user>@.host --user to connect to bus of other user)
+- Landlock sandbox: [landrun:error] 2026/10/25 21:26:18 Failed to apply sandbox: failed to apply Landlock filesystem restrictions: missing kernel Landlock support. Got Landlock ABI v4, wanted {Landlock V5; FS: all; Net: ∅}

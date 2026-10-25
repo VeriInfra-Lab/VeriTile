@@ -1,0 +1,4 @@
+{"name": "changed-VeriTile__Triton__Float__EvalOpR", "file": "VeriTile/Triton/Float/EvalOpR.lean", "sha256": "46dcc32626fb61f936069b5278bd73fe8ba8860c9891930f104531ba9e0fa4df", "command": ["python3", "scripts/check_comparator.py", "--file", "VeriTile/Triton/Float/EvalOpR.lean", "--trust"], "exit_code": 1, "code_commit": "645086289ff4aa392dad31a8c51f7a1fea996de1"}
+[FAIL] Official comparator isolation is unavailable:
+- systemd AF_UNIX restriction: Failed to connect to bus: Operation not permitted (consider using --machine=<user>@.host --user to connect to bus of other user)
+- Landlock sandbox: [landrun:error] 2026/10/25 21:26:18 Failed to apply sandbox: failed to apply Landlock filesystem restrictions: missing kernel Landlock support. Got Landlock ABI v4, wanted {Landlock V5; FS: all; Net: ∅}

@@ -1,0 +1,409 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "645086289ff4aa392dad31a8c51f7a1fea996de1",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "quantize_global"
+  ],
+  "semantic_review": {
+    "adam_update_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "add_example": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "add_value": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "apply_penalty": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "cache_transform_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "chunk_cumsum_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "chunk_cumsum_vector": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "chunked_cumsum_fwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "cosine_compute": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "dequantize_matmul": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "dequantize_rowwise": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "destindex_copy": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "destindex_copy_kv1": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "destindex_copy_kv2": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "dropout_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "embedding_triton_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "f8_conversion_utils": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "fast_rope_embedding": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "fused_activation": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "fused_recurrent_hgrn": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "index_select_bwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "index_select_cat": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "int8_matmul_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "kcache_copy_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "kldiv_compute": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "kldiv_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "kv_cache_copy": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "l2_norm_bwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "l2_norm_triton1": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "l2_norm_triton2": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "logsumexp_fwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "masked_add_cuda": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "masked_select": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "matmul_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "matrix_reduction": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "matrix_transpose": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "max_reduction": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "mean_reduction": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "mul_exponent_compensator": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "nested_loops_processing": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "quant_transpose_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "relu_triton_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "reversed_cumsum": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "reversed_cumsum_scalar": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rms_norm_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rmsnorm_fused": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rmsnorm_fused_llama": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rmsnorm_implementation": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rmsnorm_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rope_embedding": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rotary_emb": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rotary_emb_nopad": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "seeded_dropout": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "sin_computation": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "sin_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "softmax_triton1": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "softmax_triton2": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "square_matrix": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "swiglu_backward": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "swiglu_fwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "token_attn_mistral": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "token_attn_reduceV": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "token_softmax_bloom": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "token_softmax_llama": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "triton_mul2": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "triton_softmax": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "var_len_copy": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "vector_addition": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "vector_addition_custom": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared precise-divide IR/frontend extension and raw quantizer migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "kv_cache_filling": "Shared frontend dependency regression only. Source/candidate bodies and mathematical/numerical scopes are unchanged; exact public/deep roots are recorded in modules.json. No new body migration is counted.",
+    "quantize_global": "The unchanged selected thirteen-statement Python function is checked against its complete raw quotation, including program-ID/arange INT64 casts, annotated INT64 n_elements/base arguments, all source names, masks, safe offsets, FP32 loads and casts, the actual tl.div_rn intrinsic, separate multiplication/clamps, llrint64 and implicit signed INT8 storage. Pointer/call/constexpr metadata stays outside the body. A new separate Op.divRN and optional Structural.Algebra.divRN callback preserve precise FP32 division without aliasing ordinary division or its reciprocal rewrite rules. Missing support fails even on empty tiles. The body-copy type checker requires known FP32 operands or explicit conversions, including mask and range-bound uses, and operand-local precision scopes remain intact. Complete exact algorithm/rounding/erasure/memory typing, flattening and locality congruences extend to the new node. The dedicated source regression proves exact emitted IR, independent callback dispatch, no ordinary fallback, empty-tile behavior, broadcasting and nested FP64-product-to-FP32 conversion precision; FP64/unknown-family/store-mask misuse is rejected. The actual task precise assignment is proved by rfl. Source execution is re-proved through the dedicated existing Scalar.div/RNE primitive port; ordinary backend division is no longer rebound. Strict Nat/Int identities normalize signed source addresses and pure integer modular lemmas connect the real implicit INT8 conversion to the existing byte-store observer, retaining full tagged memory. All 30 task roots replay, preserving independent Real nearest-even quantization including zero maximum, both retained configurations, all nonempty repeated autotune schedules, complete FP IO equivalence, source access safety, exterior frames and retained Tensor/native/host applications. No input condition, scalar numerical port, numerical identity or experiment is added. The CPU probe uses the full raw-body/ABI/call-binding gate rather than the obsolete natural-index slash projection; actual execution remains unavailable because Torch is missing. Python JIT and wrapper are unchanged.",
+    "triton_argmax": "Shared frontend dependency regression only. Source/candidate bodies and mathematical/numerical scopes are unchanged; exact public/deep roots are recorded in modules.json. No new body migration is counted."
+  },
+  "example_regression_scope": "All 19 examples and their complete helpers replay warm, jointly and independently from initially empty project objects after the shared IR/frontend extension; source bodies, mathematical/numerical domains and existing proof scopes are unchanged.",
+  "verification": {
+    "frontend_regressions": {
+      "status": "PASS",
+      "configured_modules": 96,
+      "scope": "All 96 frontend roots and ten retained legacy controls pass as 106 roots; their union with all 30 task roots passes as 136 roots/8814 jobs. The full combined root set then independently replays after the shared IR/frontend change."
+    },
+    "integration": {
+      "status": "PASS",
+      "explicit_modules": 2491,
+      "jobs": 11744
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 2491,
+      "jobs": 11744,
+      "scope": "All 2491 combined roots and their complete transitive dependencies after the shared IR/frontend change, with initially empty project objects and only fixed external dependencies reused.",
+      "project_build_initially_present": false,
+      "veritile_cache_initially_present": false,
+      "only_fixed_external_dependencies_reused": true
+    },
+    "build_resource_interruption": "An earlier warm/clean attempt stopped with disk-full error 28. Its raw logs and setup are retained. Only task-owned historical project objects were removed; sources/evidence and external dependencies were preserved. One zero-byte warm project object was detected and removed before the final warm retry; the corresponding failed log and exact object list are retained. The independent clean replay restarted with empty project objects at the same frozen commit.",
+    "joint_import": "PASS: all 2491 roots",
+    "task_directories": "All 30 quantizer roots pass, including actual raw precise-source execution, exact scalar/byte memory, signed-address safety, Real nearest-even formula, complete configuration-schedule FP equivalence and retained Tensor/host/native/full-frame scopes. Every earlier migrated task/example and frontend/control root replays in the full warm/joint/independent-clean union.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 83
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 328,
+      "errors": 1,
+      "reason": "The pre-existing numerical receipt remains stale for Structural.lean: the preceding published snapshot already failed the same check. This batch changes the file again; no false repin or new numerical-admission claim."
+    },
+    "official_comparator": "UNAVAILABLE: actual frozen-source invocations report required host isolation unavailable. Pinned tools are installed; host Landlock ABI v4 is below required v5 and the systemd user bus is unavailable. No isolation bypass.",
+    "task_local_inspections": "The complete thirteen-statement original body, annotated ABI and actual call values pass. The actual CPU probe requires missing Torch; its failure is retained and not counted as a pass. Selected Python JIT/wrapper and prior experimental evidence remain unchanged.",
+    "gpu_or_numerical_experiment": "Not run; no new numerical law or hardware-conformance claim.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending."
+  },
+  "source_pairs": {
+    "total": 223,
+    "pasted_body": 218,
+    "legacy_ast": 5
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/source-closure.json",
+    "sha256": "ca834a74c2991f2952ba40bb38823e805891082ef41ab382b5c9caea8ff0c38e"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "legacy_ast_only": 1,
+      "no_selected_jit_resolved": 2,
+      "selected_body_copy_checked": 70,
+      "uncovered_jit_functions": 110
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 328,
+    "uncovered_selected_jit_functions": 219,
+    "primary_files_with_int64_screen_warning": 30,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 86,
+        "antiquotes": 95,
+        "dsl_loop": 1,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/all-python.log.gz",
+      "sha256": "14f4fc06df8b9da7ea49da8b6b562f5839c1049d4d1107071100061d1b4713b4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/changed-VeriTile__Triton__Core__Ast-comparator.log",
+      "sha256": "16a19d78d524f93f318e57be275d3cc7a9522869ee7ecee34efca9ec0b48ed04"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/changed-VeriTile__Triton__DSL__Expansion__Main-comparator.log",
+      "sha256": "273159661f87d965392958ab629492ff3d292209c56e099e509ca2a3dc1e3fed"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/changed-VeriTile__Triton__DSL__Inference-comparator.log",
+      "sha256": "75e7b1fdcd0675f695d6b11821f180e84572bdea0517bdcbf4c7b281fee11b84"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/changed-VeriTile__Triton__DSL__Metadata-comparator.log",
+      "sha256": "63181762980e16fa799653382c88bb3053fc72a165ffa903cd2ade38fdb857cc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/changed-VeriTile__Triton__DSL__Syntax-comparator.log",
+      "sha256": "ac9d0d5a1f715ee751e83b150d16f5fe2fbb2ea2b06f6eee02a423a7a92d0f42"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/changed-VeriTile__Triton__DSL__TypedStores-comparator.log",
+      "sha256": "52166519d0b1f6c841557f107777c34a3c6250b15a69f950e3289a8cd3136ff7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/changed-VeriTile__Triton__Float__Erasure-comparator.log",
+      "sha256": "cd8d74ab4c238220fa37c8942c9a3571cf22873ded684a6f219e62cdd89f74f1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/changed-VeriTile__Triton__Float__EvalOpR-comparator.log",
+      "sha256": "8cd5d06e8527d2cf71cec6c927cd3499e9326373ee78f84ae5159c194171c8bb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/changed-VeriTile__Triton__Float__Structural-comparator.log",
+      "sha256": "5dc9db4bfdac8e7d39f6a53adc2e9671a89a23b172d34b3b1905567f78b4d14f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/changed-VeriTile__Triton__Float__StructuralSafety-comparator.log",
+      "sha256": "fa8f95479e9613935354a2a110098fc8ce5035a417e9251508d9c634b2553164"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/changed-VeriTile__Triton__Memory__Bounds-comparator.log",
+      "sha256": "1f0665bf7a024b9fee605baa4ede4fe6e6a52660e87a9e29bf9e912a6ca630e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/changed-VeriTile__Triton__Memory__Flatten-comparator.log",
+      "sha256": "961e858a2f5db0260aee19470dc119b06c419fd15c4a7557b182a2984edd2dd9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/changed-VeriTile__Triton__Memory__FlattenR-comparator.log",
+      "sha256": "fa4d7e97d9471bae607545fc8ca01ba73459c740910b45b4df258f31739c6787"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/changed-VeriTile__Triton__Memory__Locality-comparator.log",
+      "sha256": "9f216464cea0e7093505e81f2fb6ed81e0047a16966b7b276887f5aef108cbd1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/changed-VeriTile__Triton__Memory__Typing__Checker-comparator.log",
+      "sha256": "778e30ed1c219d938f719af09a8c903318c602699cdfbe5015751376e770303f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/changed-VeriTile__Triton__Memory__Typing__Contracts-comparator.log",
+      "sha256": "3bf3abb2510eb3ebd566c440a0a67c4c0fa002e66557c5f32fb3c5c2083b1bfb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/changed-VeriTile__Triton__Semantics__EvalOp-comparator.log",
+      "sha256": "598171d56ea41919973f27527216474609045c3edb280d6c2721831ffeacb9e3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/changed-bench__repairs__tritonbench_g__quantize_global__Kernels-comparator.log",
+      "sha256": "7858432ff2f86ee2a0e2d8521d472c1f02602ac133b3b5388ece0b956c9d42f2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/changed-bench__repairs__tritonbench_g__quantize_global__Model-comparator.log",
+      "sha256": "67ba2afed53893d53abcd1f15b172749ac294de479528f8ef7fb875bbc3bab53"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/changed-bench__repairs__tritonbench_g__quantize_global__Proofs__KernelSafety-comparator.log",
+      "sha256": "058fab0890fdb374c2e9b6812561dc1ae33a7c029efbc74c3dec1db95186d26b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/changed-bench__repairs__tritonbench_g__quantize_global__Proofs__Source-comparator.log",
+      "sha256": "b91d25640f36bfac8662b5cfb889decf5775e6fbb43dc17d6abffd9cc029928b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/changed-bench__tests__DivRNSource-comparator.log",
+      "sha256": "24dcc63f697bd92337e6702f5c68117428aa50fe0c92c51aeee6fb398108927f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/clean-build.log.gz",
+      "sha256": "02b4b91f3dcc5c0effa561f17533346ddca4212ad352b99da5e2d4987d38832a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/clean-setup.log",
+      "sha256": "43ac2a1ce4bffcd0d2e80a4d1f162ee4095df3dd369effdced6d51883c2ab4c3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/comparator-invocations.json",
+      "sha256": "d786e2c14ec0bb48c71841c6eef66ad7bea155f59a93034aaa2a7f0a01928ebe"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/comparator-preflight.log",
+      "sha256": "d9255026a27595d0a04e154bc4a9c609c8422b012fc13cb1ae4de2417afea36d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/comparator-setup.log",
+      "sha256": "bea658f19aea48f8965a3d6525da1300e599d9a3f0a05b992071c97bcaffd6df"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/comparator-tools.json",
+      "sha256": "d541ac407f7aa8679c8ba23dd4df72ac363730bbb67e45bd7959ec752e6b0c53"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/comparator.log",
+      "sha256": "d848f76996b19ff6a0c53f6bc58effd09822b2a3b9ed994d789b129934cfece0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/contract.log",
+      "sha256": "ea12548a48e0455399954d25d626639adffabe6fadeaa70ab6486339bd24876f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/corpus-guard.log",
+      "sha256": "0d6417dec1a14cf3946689c8ee65265a8653a11312c1316bef2be55faf15e746"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/damaged-project-objects.json",
+      "sha256": "f5b0734adf320f035c7662b14eca963cac76214b244a8204bb71646f72c22258"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/focused-modules.txt",
+      "sha256": "850b24e8c082437ef1107fde60e7e2460283b1ce61b8c68f38e13bc2c4a0b015"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/frontend-and-legacy-regressions.log.gz",
+      "sha256": "e3e5b4d4191fb4396390a03a7f0da5a1febb56a59049703bce8521652ec454d3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/inspections.json",
+      "sha256": "a78c99b1545742173bf4ad0f976db23c3ba67ce718cb1fe5c022ed33933fb344"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/integration.log.gz",
+      "sha256": "9db2ab42ec02eba4b710138780c006fde324361f8a02b3c8c8a9f3030db6cb6a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/interrupted-clean-disk-full.log.gz",
+      "sha256": "6227d28aaafdce55d1fc05a22a22381ed53b7a38b7d87e7f1348c4b44cc83ab2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/interrupted-clean-setup.log",
+      "sha256": "43ac2a1ce4bffcd0d2e80a4d1f162ee4095df3dd369effdced6d51883c2ab4c3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/interrupted-warm-disk-full.log.gz",
+      "sha256": "5b33903fd26cd88f65fc2683befbe89bf260acb6f4a035c565a98ccc8f1e3333"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/io-organization-delta.json",
+      "sha256": "9d6582bb23b5349a5be2c926795cd08887a9313624d13dd0f2d2c3e0f5fb5a8e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/joint.lean",
+      "sha256": "372eabb1f52d3bc6eaf6ecf3b3d36f47d311e933956f65169cd29a46311d712f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/modules.json",
+      "sha256": "4cbca0b4dd0ac47987bdc3afb8521d8a1491bd001a4667be0f2a8a0f58399ff6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/pairs.json",
+      "sha256": "aab28a0c81de86162297b80dfcce2ae69466f522b6a9c5b5f1826cc3e213c9a6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/previous-selected-reviews.json.gz",
+      "sha256": "6d052bdd53845f16732ba5b9fcbe4e4c06b25b036e5d5b258835ab50ceb6199d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/python-tests.log",
+      "sha256": "8fa1c36766dd78b4d64077fd836c5e350dc1f786504d9559f8eef627642574dd"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/quantize_global-Real-comparator.log",
+      "sha256": "21c63bef5fdadec1f25098c25221ebcc497f9c3d0129206c34531ef2a71b621b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/quantize_global-comparator.log",
+      "sha256": "14f56ce28f33fd5cd7c4e8fd446e0dcc230e0aaf3cdfd4ba2e26bfc77d1ab795"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/quantize_global-contract.log",
+      "sha256": "950090bc6b9e0a2d5d34601aa9dda6481b185955fb6b86985429a53cf56c6d79"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/quantize_global-raw-source-check.log",
+      "sha256": "9b65d77b9237aadfb1d82d95ee67260da4df29d8ff3ff2dad72d327577a3da47"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/secondary-focused-development.log.gz",
+      "sha256": "57904faaf83487ea28c8fd39a57a2269264c9c6298efcc2c23f0b2175dec1980"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/source-closure.json",
+      "sha256": "ca834a74c2991f2952ba40bb38823e805891082ef41ab382b5c9caea8ff0c38e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/transferred-files.json",
+      "sha256": "3d5635e3c2e23e4fc6b1c12717d026c2d0a09eeee66499aead8854c8e50b8208"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/warm-damaged-object-retry.log.gz",
+      "sha256": "0dbeb72a78c8e381c7b5c945d95baccd1447c036b9bff2587b04fb833b89d6f7"
+    }
+  ]
+}

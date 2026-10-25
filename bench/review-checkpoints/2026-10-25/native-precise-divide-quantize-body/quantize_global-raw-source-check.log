@@ -1,0 +1,21 @@
+[
+  {
+    "python_function": "_quantize_global_repaired",
+    "lean_definition": "source",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "n_elements": "N",
+      "base": "base"
+    },
+    "statements": 13,
+    "runtime_parameters": {
+      "n_elements": "i64",
+      "base": "i64"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE"
+    ]
+  }
+]

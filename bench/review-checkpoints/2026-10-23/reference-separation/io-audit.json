@@ -27665,7 +27665,7 @@
         },
         {
           "path": "bench/repairs/tritonbench_g/quantize_global/Model.lean",
-          "sha256": "f9168b76550db14092111c48f5579672bd83f3118d69e5db43424e6dff8770a3"
+          "sha256": "582d8c4d53d2ddca8499b969b02c5ae4a1ac8c825b89d64275cecea3767c4bcb"
         }
       ],
       "changed_paths": [
@@ -27776,6 +27776,10 @@
         "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/quantize_global.json",
         "sha256": "3018002e75b1e44dc7011a2e1c0dd76e93a3c7e0618a1308496af76c738bb415",
         "task": "quantize_global"
+      },
+      "current_precise_divide_binding_review": {
+        "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/io-organization-delta.json",
+        "sha256": "9d6582bb23b5349a5be2c926795cd08887a9313624d13dd0f2d2c3e0f5fb5a8e"
       }
     },
     {
@@ -36722,6 +36726,10 @@
     {
       "path": "bench/review-checkpoints/2026-10-25/native-max-reduction-body/io-organization-delta.json",
       "sha256": "ad46d17e54e276791a82266552175e1e58975fb77696511371db5fbd08f5b313"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/io-organization-delta.json",
+      "sha256": "9d6582bb23b5349a5be2c926795cd08887a9313624d13dd0f2d2c3e0f5fb5a8e"
     }
   ]
 }

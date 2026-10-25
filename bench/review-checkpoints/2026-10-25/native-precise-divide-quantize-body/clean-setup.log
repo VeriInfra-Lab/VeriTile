@@ -1,0 +1,2 @@
+HEAD is now at 645086289 Preserve precise div_rn and complete signed quantize source execution
+{"code_commit": "645086289ff4aa392dad31a8c51f7a1fea996de1", "project_build_initially_present": false, "veritile_cache_initially_present": false, "only_fixed_external_dependencies_reused": true, "packages_target": "/home/argustest/lizn/VeriTile/.lake/packages", "roots": "all 2491 combined roots and complete transitive dependencies after the shared precise-divide IR/frontend extension"}

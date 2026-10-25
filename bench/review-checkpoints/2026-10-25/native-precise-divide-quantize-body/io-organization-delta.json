@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "task": "quantize_global",
+  "code_commit": "645086289ff4aa392dad31a8c51f7a1fea996de1",
+  "changed_source": {
+    "path": "bench/repairs/tritonbench_g/quantize_global/Model.lean",
+    "before_sha256": "f9168b76550db14092111c48f5579672bd83f3118d69e5db43424e6dff8770a3",
+    "after_sha256": "582d8c4d53d2ddca8499b969b02c5ae4a1ac8c825b89d64275cecea3767c4bcb"
+  },
+  "review": "IO layouts, named tensors, channel encodings, original input domains and complete repeated autotune schedules retain their existing definitions. The backend data binding is intentionally corrected: the existing RNE a.div primitive is supplied through the distinct divRN callback used by the unchanged Python source. Ordinary binary division now delegates to rest.binary rather than aliasing precise division. This is not a claim that the two backends agree on arbitrary ordinary-div programs. All actual source execution, signed storage/safety, independent Real quantization, public complete-schedule FP equivalence and retained Tensor/native/host/frame applications are re-proved on the frozen source with all 30 task roots inside the 2491-root warm/joint/initial-empty-independent replay. No new numerical law, domain condition or IO scope restriction is added.",
+  "verification": {
+    "warm": "9db2ab42ec02eba4b710138780c006fde324361f8a02b3c8c8a9f3030db6cb6a",
+    "independent_initially_empty_project": "02b4b91f3dcc5c0effa561f17533346ddca4212ad352b99da5e2d4987d38832a",
+    "all_task_roots": 30,
+    "combined_roots": 2491,
+    "jobs": 11744
+  }
+}

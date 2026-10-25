@@ -1,0 +1,33 @@
+{
+  "parent": "a3aaae32aaac97c03171bcff6dd5897bda8696fa",
+  "secondary_code_base": "19e752794415503728c8e1e6043394100a5fa409",
+  "files": {
+    "VeriTile/Triton/Core/Ast.lean": "08b1a8a73a079ada4674d8cb559f21980734acb7172f18a0a23003a66db1b5b5",
+    "VeriTile/Triton/DSL/Expansion/Main.lean": "87c604b9f813b0803eae770299d2d55c0c8a84f11940f1418aa204efa3fcda09",
+    "VeriTile/Triton/DSL/Inference.lean": "ac48793034005ce6828e500742061aece03c5c89aca32c7dad204a0a11e09d67",
+    "VeriTile/Triton/DSL/Metadata.lean": "bda57fc078b83c92238e2d6dc4b848ee6d7962a13579316c931f2097d18d33fb",
+    "VeriTile/Triton/DSL/Syntax.lean": "f21915840819f4609cfceac3c9568b26786c48c63c09043cc981b478bf3140b4",
+    "VeriTile/Triton/DSL/TypedStores.lean": "8a160546dfac88386a8b0cc62828c8602d51bc2550075ddb85aad578fef419e5",
+    "VeriTile/Triton/Float/Erasure.lean": "b171f1da84b6cfdf06d0ecf8ef6d23b35cf038c62a020fa717fdd5da5012bc6f",
+    "VeriTile/Triton/Float/EvalOpR.lean": "46dcc32626fb61f936069b5278bd73fe8ba8860c9891930f104531ba9e0fa4df",
+    "VeriTile/Triton/Float/Structural.lean": "3ae38b05ef1cf466fe8b9afd1e6ca57c496f231aa5e192b47dae2482ad1167dd",
+    "VeriTile/Triton/Float/StructuralSafety.lean": "f114c12d820012319e3599ac6d1f0bf9ed7faf2e011b75bb4d34ab9295034af2",
+    "VeriTile/Triton/Memory/Bounds.lean": "f23d3e570350a2ef329b0699701729a4e6c13a0f23564b9bc9e9c3dcb202ab3d",
+    "VeriTile/Triton/Memory/Flatten.lean": "c9b5c390c4963772e72e641ed61cab072347f7f665d85a96f97d0f0a436f5a83",
+    "VeriTile/Triton/Memory/FlattenR.lean": "ac66af79f891bceefc284a81f4958b0e1f299e57feb4a6c5bd55ca64fa20e23b",
+    "VeriTile/Triton/Memory/Locality.lean": "cb033b6afe2f3689c6f1a3ec9fa0374ed84868b09232ff8d983b3ca6eea37b8d",
+    "VeriTile/Triton/Memory/Typing/Checker.lean": "167cbf4feb0711bc83bb1d2f66dc47497f64d7442ce6f6befe032cf65f602f8b",
+    "VeriTile/Triton/Memory/Typing/Contracts.lean": "9da5d54e956067cd427007e9fcef1dca889a09360b9e13baf86939052bcb64ab",
+    "VeriTile/Triton/Semantics/EvalOp.lean": "26e1d2f49db66169d477bc57c9be3f32726a26bb95d8d011564bad36df573745",
+    "bench/repairs/tritonbench_g/quantize_global/Kernels.lean": "ea2cb0c59d1db71ead370ba20a3da03593565be455dd6660331f885b26c377fe",
+    "bench/repairs/tritonbench_g/quantize_global/Model.lean": "582d8c4d53d2ddca8499b969b02c5ae4a1ac8c825b89d64275cecea3767c4bcb",
+    "bench/repairs/tritonbench_g/quantize_global/Proofs/KernelSafety.lean": "2765e12fc1850faae9419e9cb766aff835bec05908f352b147d83a231e3e1a91",
+    "bench/repairs/tritonbench_g/quantize_global/Proofs/Source.lean": "c4712661a7f1b66587f7bc2a9ebce054f9f423868f46bd9b6097698830c6985c",
+    "bench/repairs/tritonbench_g/quantize_global/README.md": "ad7ad9e4300b9831ad2aeba0efccdf8559ff8c6b05196b594098b5130a07e9e0",
+    "bench/repairs/tritonbench_g/quantize_global/check_contract.py": "3cae06f664b92eb8e5f399af36c761852432d9db06f37dbee112b04b66912b1f",
+    "bench/repairs/tritonbench_g/quantize_global/jit-correspondence.json": "75590b8c530f2e322d6c2c8056a558ead6a38a527652a39f1d5d6c51f022c89b",
+    "bench/tests/DivRNSource.lean": "439c847aa74ef7d6f2d9e811c63d709335e91f6ce0f9b43caabe4d0db231be76",
+    "bench/tests/test_jit_correspondence.py": "a52513dab442cd4fd3a7d602bf948da57210b44be0e75217f32e2db4f973c569",
+    "lakefile.toml": "8bba3c7f0f6fbed1bc41fcc542677add83af76e093185498c271e02a8bbd9f91"
+  }
+}

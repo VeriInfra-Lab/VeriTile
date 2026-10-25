@@ -1,0 +1,10 @@
+{
+  "reference_magic_hex": "6f6c65616e",
+  "removed_project_artifacts": [
+    "bench/repairs/tritonbench_g/dropout_triton/Proofs/RealEndpoints.olean",
+    "bench/repairs/tritonbench_g/dropout_triton/Proofs/RealEndpoints.olean.hash",
+    "bench/repairs/tritonbench_g/dropout_triton/Proofs/RealEndpoints.trace",
+    "bench/repairs/tritonbench_g/dropout_triton/Proofs/RealEndpoints.ilean",
+    "bench/repairs/tritonbench_g/dropout_triton/Proofs/RealEndpoints.ilean.hash"
+  ]
+}

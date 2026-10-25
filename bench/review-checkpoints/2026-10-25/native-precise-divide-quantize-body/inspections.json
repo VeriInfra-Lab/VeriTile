@@ -1,0 +1,27 @@
+{
+  "code_commit": "645086289ff4aa392dad31a8c51f7a1fea996de1",
+  "raw_bodies": [
+    {
+      "task": "quantize_global",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/quantize_global/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    }
+  ],
+  "cpu_contracts": [
+    {
+      "task": "quantize_global",
+      "command": [
+        "python3",
+        "bench/repairs/tritonbench_g/quantize_global/check_contract.py"
+      ],
+      "exit_code": 1,
+      "status": "UNAVAILABLE"
+    }
+  ]
+}
