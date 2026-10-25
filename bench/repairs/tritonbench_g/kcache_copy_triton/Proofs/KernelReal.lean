@@ -60,7 +60,7 @@ def source (p : Parameters) := (originalKernel p).toAlgKernel
 is used. FP32 compute loads project directly to the Real channel. -/
 theorem projection (p : Parameters) :
     (originalKernel p).toAlgorithm? = .ok (source p) := by
-  simp [source,originalKernel,kernel,ComputeKernel.surfaceBody,ComputeKernel.toAlgorithm?,
+  simp [source,originalKernel,kernel,quotedOriginal,quotedCommuted,ComputeKernel.surfaceBody,ComputeKernel.toAlgorithm?,
     ComputeKernel.toAlgKernel,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
     ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,ComputeDType.eraseDType,Except.bind,bind]
   all_goals rfl
@@ -79,7 +79,7 @@ theorem decomposition (p : Parameters) :
 
 theorem head_run (p : Parameters) (s : BlockState) :
     stepStmts (headBody p) s=some (headState p s) := by
-  simp [headBody,headState,sequence,source,originalKernel,kernel,ComputeKernel.surfaceBody,
+  simp [headBody,headState,sequence,source,originalKernel,kernel,quotedOriginal,quotedCommuted,ComputeKernel.surfaceBody,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,
     ComputeOp.toAlgorithm?,ComputeDType.eraseDType,
@@ -94,7 +94,7 @@ theorem head_run (p : Parameters) (s : BlockState) :
 
 theorem metadata_run (p : Parameters) (s : BlockState) :
     stepStmts (metadataBody p) (headState p s)=some (metadataState p s) := by
-  simp [metadataBody,metadataState,headState,selectedBlock,position,sequence,source,originalKernel,kernel,ComputeKernel.surfaceBody,
+  simp [metadataBody,metadataState,headState,selectedBlock,position,sequence,source,originalKernel,kernel,quotedOriginal,quotedCommuted,ComputeKernel.surfaceBody,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,
     ComputeOp.toAlgorithm?,ComputeDType.eraseDType,
@@ -109,7 +109,7 @@ theorem metadata_run (p : Parameters) (s : BlockState) :
 theorem tail_run (p : Parameters) (s : BlockState) :
     stepStmts (tailBody p) (metadataState p s)=some (finalState p s) := by
   simp [tailBody,finalState,preparedState,metadataState,headState,sourceOffset,targetOffset,
-    Int.add_comm,Int.add_left_comm,Int.add_assoc,BlockState.readMemValue,source,originalKernel,kernel,ComputeKernel.surfaceBody,
+    Int.add_comm,Int.add_left_comm,Int.add_assoc,BlockState.readMemValue,source,originalKernel,kernel,quotedOriginal,quotedCommuted,ComputeKernel.surfaceBody,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,
     ComputeOp.toAlgorithm?,ComputeDType.eraseDType,

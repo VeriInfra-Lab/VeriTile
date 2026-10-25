@@ -167,4 +167,35 @@ def changingFloatLoop (X Z Y : RegionName) (B : Nat) : ComputeKernel :=
 #axiomsClean reassign_conversion
 #axiomsClean integer_literal
 #axiomsClean cast_load_port
+/-- Signed metadata may be loaded and widened inside an integer expression;
+there is no floating load event to erase. -/
+def nestedIntegerRead (X : RegionName) (delta : Int) : ComputeKernel :=
+  with_triton_call ({pointers := [("X",.i32)],scalars := [("delta",.integer)]} : CallSignature)
+    call_args [delta := delta] in triton {
+    shifted = tl.load(X).to(tl.int64) + delta
+  }
+def nestedIntegerReference (X : RegionName) (delta : Int) : ComputeKernel := triton {
+  tl.ports inputs=[X], outputs=[]
+  tl.region X = tl.int32
+  shifted = tl.load(X).to(tl.int64) + $((delta : Int))
+}
+theorem nested_integer_read_preserves_program (X : RegionName) (delta : Int) :
+    nestedIntegerRead X delta = nestedIntegerReference X delta := rfl
+
+/-- error: nested load source precision is unsupported by the current frontend -/
+#guard_msgs in
+def floatingReadCastToInteger (X : RegionName) : ComputeKernel :=
+  with_triton_signature ({pointers := [("X",.fp32)]} : CallSignature) in triton {
+    shifted = tl.load(X).to(tl.int64) + 1
+  }
+
+/-- error: nested load source precision is unsupported by the current frontend -/
+#guard_msgs in
+def floatingReadInIntegerMask (X F : RegionName) : ComputeKernel :=
+  with_triton_signature ({pointers := [("X",.i32),("F",.fp32)]} : CallSignature) in triton {
+    value = tl.load(X, mask=tl.load(F) > 0.0).to(tl.int64)
+  }
+
+#axiomsClean nested_integer_read_preserves_program
+
 end VeriTile.Tests.TypedStores

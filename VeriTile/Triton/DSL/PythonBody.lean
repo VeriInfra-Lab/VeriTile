@@ -208,6 +208,12 @@ def statements (environment : Environment) (body : TSyntax `tritonPythonBody) : 
     | .error message => Macro.throwErrorAt body ("unsupported Python Triton body: " ++ message)
   let `(triton { $stmts:tritonStmt* }) := stx
     | Macro.throwErrorAt body "invalid compiled Python body"
+  -- A no-value return at the end of the function is its ordinary exit.
+  -- Normalize only this top-level terminal statement. Nested returns and
+  -- nonterminal returns still require the existing control-flow semantics;
+  -- they must never become a loop-local no-op.
+  if let some last := stmts.back? then
+    if let `(tritonStmt| return) := last then return stmts.pop
   return stmts
 
 end VeriTile.Triton.DSL.PythonBody

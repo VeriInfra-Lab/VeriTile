@@ -142,6 +142,47 @@ def positionalReductionArgument (n : Int) : ComputeKernel :=
     n = tl.max(tl.arange(0, 4), 0)
   }
 
+/-- A final function return is retained in the pasted source and denotes the
+same complete execution as the function's implicit end. -/
+def terminalReturn (X Y : RegionName) : ComputeKernel :=
+  with_triton_signature ({pointers := [("X",.fp32),("Y",.fp32)]} : CallSignature) in
+  triton {
+    value = tl.load(X)
+    tl.store(Y, value)
+    return
+  }
+def implicitReturn (X Y : RegionName) : ComputeKernel :=
+  with_triton_signature ({pointers := [("X",.fp32),("Y",.fp32)]} : CallSignature) in
+  triton {
+    value = tl.load(X)
+    tl.store(Y, value)
+  }
+theorem terminal_return_preserves_whole_program (X Y : RegionName) :
+    terminalReturn X Y = implicitReturn X Y := rfl
+
+def onlyReturn : ComputeKernel :=
+  with_triton_signature ({} : CallSignature) in triton { return }
+theorem return_only_is_empty : onlyReturn = ComputeKernel.mk [] [] [] := rfl
+
+/-- error: `return` is only supported as the sole body statement of `if cond { return }` -/
+#guard_msgs in
+def loopReturn : ComputeKernel :=
+  with_triton_signature ({} : CallSignature) in triton {
+    for i in range(2):
+        return
+  }
+
+/-- error: `return` is only supported as the sole body statement of `if cond { return }` -/
+#guard_msgs in
+def nonterminalReturn (X : RegionName) : ComputeKernel :=
+  with_triton_signature ({pointers := [("X",.fp32)]} : CallSignature) in triton {
+    return
+    tl.store(X, 0.0)
+  }
+
+#axiomsClean terminal_return_preserves_whole_program
+#axiomsClean return_only_is_empty
+
 #axiomsClean original_comments_indentation_and_integer_calls
 #axiomsClean scalar_cast_is_retained
 #axiomsClean signed_call_executes
