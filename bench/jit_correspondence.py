@@ -208,6 +208,20 @@ def call_signature(text: str, name: str) -> dict:
                 or not set(selected) <= {n for n, dtype in fields["pointers"] if dtype == "fp32"}):
             raise ValueError("typed FP32 pointers must be distinct FP32 pointer parameter names")
         fields["typedFP32Pointers"] = selected
+    natural = re.search(r"\bnaturalIntegerPointers\s*:=\s*(\[[^\]]*\])(?=\s*(?:[A-Za-z_]\w*\s*:=|$))", match[1], re.S)
+    if re.search(r"\bnaturalIntegerPointers\s*:=", match[1]) and not natural:
+        raise ValueError("natural integer pointers must be a literal list")
+    if natural:
+        try:
+            selected = ast.literal_eval(natural[1])
+        except (ValueError, SyntaxError) as exc:
+            raise ValueError("natural integer pointers must be a literal list") from exc
+        integers = {"i8", "i16", "i32", "i64", "u8", "u16", "u32", "u64"}
+        if (not isinstance(selected, list) or not all(isinstance(n, str) for n in selected)
+                or len(selected) != len(set(selected))
+                or not set(selected) <= {n for n, dtype in fields["pointers"] if dtype in integers}):
+            raise ValueError("natural integer pointers must be distinct integer pointer parameter names")
+        fields["naturalIntegerPointers"] = selected
     names = [n for n, _ in fields["pointers"] + fields["scalars"]] + fields["constexpr"]
     if len(names) != len(set(names)):
         raise ValueError("duplicate call signature parameter")

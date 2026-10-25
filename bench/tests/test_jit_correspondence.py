@@ -565,3 +565,39 @@ class MaxReductionRawBodyTests(unittest.TestCase):
                 check((ROOT / record["python"]).read_text(), lean.replace(before, after, 1),
                       record["python_function"], definition, record["signature_definition"],
                       record["expected_signature"], record["expected_call_bindings"])
+
+
+class MaskedSelectRawBodyTests(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/masked_select"
+
+    def test_complete_original_body_and_natural_prefix_storage_view(self):
+        pairs = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual(len(pairs), 1)
+        self.assertEqual((pairs[0]["mode"], pairs[0]["statements"]), ("pasted_body", 7))
+        record = json.loads((self.directory / "jit-correspondence.json").read_text())[0]
+        lean = (self.directory / "Kernels.lean").read_text()
+        for before, after in [
+            ('naturalIntegerPointers := ["prefix_sum_ptr"]', 'naturalIntegerPointers := []'),
+            ('("prefix_sum_ptr",.i64)', '("prefix_sum_ptr",.u64)'),
+            ('.to(tl.int1)', ''),
+            ('other=0.0) - 1', 'other=0.0) - 0'),
+            ('mask=(select_mask and mask)', 'mask=(mask and select_mask)'),
+        ]:
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                self.assertIn(before, lean)
+                check((ROOT / record["python"]).read_text(), lean.replace(before, after, 1),
+                      record["python_function"], record["lean_definition"], record["signature_definition"],
+                      record["expected_signature"], record["expected_call_bindings"])
+
+    def test_natural_integer_metadata_rejects_unreviewed_expressions_and_noninteger_names(self):
+        lean = (self.directory / "Kernels.lean").read_text()
+        before = 'naturalIntegerPointers := ["prefix_sum_ptr"]'
+        for replacement in [
+            'naturalIntegerPointers := names',
+            'naturalIntegerPointers := ["prefix_sum_ptr"] ++ more',
+            'naturalIntegerPointers := ["inp_ptr"]',
+            'naturalIntegerPointers := ["missing"]',
+            'naturalIntegerPointers := ["prefix_sum_ptr", "prefix_sum_ptr"]',
+        ]:
+            with self.subTest(replacement=replacement), self.assertRaisesRegex(ValueError, "natural integer"):
+                call_signature(lean.replace(before, replacement), "callSignature")

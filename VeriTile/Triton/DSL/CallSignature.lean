@@ -28,6 +28,11 @@ structure CallSignature where
   IO mixes typed and profiled FP32 memory representations. No source cast is
   inserted and every named pointer still has source dtype FP32. -/
   typedFP32Pointers : List String := []
+  /-- Keep a caller's already typed natural-valued integer memory channel.
+  The pointer still has its declared source integer storage dtype. This is a
+  mathematical carrier choice for the existing IO, not a native range proof;
+  the caller must retain its storage-width/nonnegative refinement. -/
+  naturalIntegerPointers : List String := []
   /-- Optional public memory roles when pointer rebinding prevents the legacy
   collector from recovering the original region. These are interface metadata,
   not instructions or claims that an access succeeds. -/
@@ -456,6 +461,20 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
           typedFP32Names.all (fun name => pointers.any (fun p => p.1 == name && p.2 == .fp32)) do
         throwError "typed FP32 pointers must be distinct FP32 pointer parameter names"
       let usesTypedFP32 := typedFP32 || !typedFP32Names.isEmpty
+      let naturalIntegerNames ← (← listValues
+        (← mkAppM ``Triton.CallSignature.naturalIntegerPointers #[profile])).mapM stringValue
+      let integerStorage : List SourceDType := [.i8,.i16,.i32,.i64,.u8,.u16,.u32,.u64]
+      unless naturalIntegerNames.eraseDups.length == naturalIntegerNames.length &&
+          naturalIntegerNames.all (fun name => pointers.any
+            (fun p => p.1 == name && integerStorage.contains p.2)) do
+        throwError "natural integer pointers must be distinct integer pointer parameter names"
+      for name in naturalIntegerNames do
+        let id := mkIdent (Name.mkSimple name)
+        let value ← elabTerm (⟨id.raw⟩ : TSyntax `term) none
+        let type ← whnf (← inferType value)
+        unless type.isAppOfArity ``Triton.Region 1 &&
+            type.getAppArgs[0]!.isConstOf ``Triton.TileDType.nat do
+          throwError "natural integer pointer requires an already typed Region .nat caller"
       let scalars ← bindings scalarTypeValue (← mkAppM ``Triton.CallSignature.scalars #[profile])
       let constants ← (← listValues (← mkAppM ``Triton.CallSignature.constexpr #[profile])).mapM stringValue
       let readPorts ← (← listValues (← mkAppM ``Triton.CallSignature.readPorts #[profile])).mapM stringValue
@@ -628,6 +647,7 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
         let outputs ← if writePorts.isEmpty then orderedPorts writes else pure (explicitPorts writePorts)
         declarations := declarations.push (← `(tritonStmt| tl.ports inputs=[$inputs,*], outputs=[$outputs,*]))
         for (name, kind) in pointers do
+          if naturalIntegerNames.contains name then continue
           let id := mkIdent (Name.mkSimple name)
           let dt ← if (typedFP32 || typedFP32Names.contains name) && kind == .fp32 then
               `(tritonDType| DTYPE)

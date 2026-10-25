@@ -690,3 +690,65 @@ theorem complete_program (X V I : RegionName) (B : Nat) : source X V I B = trito
   } := rfl
 #axiomsClean complete_program
 end VeriTile.Tests.CallSignature.IndexedMaximumStorage
+
+namespace VeriTile.Tests.CallSignature.NaturalIntegerMemory
+open VeriTile.Triton
+
+def signature : CallSignature where
+  pointers := [("X",.fp32),("P",.i64),("Y",.fp32)]
+  constexpr := ["B"]
+  naturalIntegerPointers := ["P"]
+
+def source (X Y : RegionName) (P : Region .nat) (B : Nat) : ComputeKernel :=
+  with_triton_signature signature in triton {
+    lanes = tl.arange(0, B)
+    values = tl.load(X + lanes)
+    prefix_value = tl.load(P + lanes)
+    indices = prefix_value - 1
+    tl.store(Y + indices, values)
+  }
+
+/-- Source integer storage can use an explicitly chosen existing natural IO
+carrier. The complete AST retains that channel and integer arithmetic; it
+neither inserts an FP32 store cast nor claims a native integer range bound. -/
+theorem complete_program (X Y : RegionName) (P : Region .nat) (B : Nat) :
+    source X Y P B = ComputeKernel.mk [X,P.cast] [Y]
+      [.assign .nat [B] "lanes" (.alg (.arange B)),
+       .assign .real [B] "values" (.compute (.load .fp32
+         (.region X (.ref .nat [B] "lanes")) .none)),
+       .assign .nat [B] "prefix_value" (.alg (.load .nat
+         (.region P (.ref .nat [B] "lanes")) .none)),
+       .assign .nat [B] "indices" (.alg (.sub .nat Broadcast.scalarR
+         (.ref .nat [B] "prefix_value") (.constNat 1))),
+       .store .real [B] (.region Y (.ref .nat [B] "indices"))
+         (.compute (.alg .fp32 (.ref .real [B] "values"))) .none] := rfl
+
+/-- error: natural integer pointer requires an already typed Region .nat caller -/
+#guard_msgs in
+example (X Y P : RegionName) (B : Nat) : ComputeKernel :=
+  with_triton_signature signature in triton {
+    lanes = tl.arange(0, B)
+    values = tl.load(P + lanes)
+    tl.store(Y + lanes, values)
+  }
+
+/-- error: natural integer pointers must be distinct integer pointer parameter names -/
+#guard_msgs in
+example (X Y : RegionName) (P : Region .nat) (B : Nat) : ComputeKernel :=
+  with_triton_signature { signature with naturalIntegerPointers := ["X"] } in triton {
+    lanes = tl.arange(0, B)
+    values = tl.load(P + lanes)
+    tl.store(Y + lanes, values)
+  }
+
+/-- error: natural integer pointers must be distinct integer pointer parameter names -/
+#guard_msgs in
+example (X Y : RegionName) (P : Region .nat) (B : Nat) : ComputeKernel :=
+  with_triton_signature { signature with naturalIntegerPointers := ["P","P"] } in triton {
+    lanes = tl.arange(0, B)
+    values = tl.load(P + lanes)
+    tl.store(Y + lanes, values)
+  }
+
+#axiomsClean complete_program
+end VeriTile.Tests.CallSignature.NaturalIntegerMemory

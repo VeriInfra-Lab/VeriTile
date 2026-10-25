@@ -135,3 +135,23 @@ loads/stores. GPU execution and independent numerical replay are not claimed.
 `Misc/TensorBridge.lean` exposes optional check correspondences and prepared-buffer
 bindings as ordinary theorems. The primary files do not import this bridge;
 `Correct.prefix_int64_meaning` remains supporting kernel arithmetic.
+
+
+## Raw Python function body
+
+`Kernels.lean` directly pastes the complete unchanged `masked_select_kernel`
+body from `masked_select_repaired.py`, including its Boolean cast, prefix
+subtraction, original mask order and store. Pointer storage, the runtime size,
+block constexpr and memory roles are supplied outside the quotation.
+`jit-correspondence.json` checks the complete body and this metadata.
+
+The existing prefix input is a natural-valued mathematical IO channel for
+Torch's signed-int64 cumsum storage. `naturalIntegerPointers` explicitly keeps
+that already typed channel while recording int64 source storage. This metadata
+requires an actual `Region .nat` caller; it proves no native range or sign fact.
+The unchanged prefix/IO/native proofs retain those obligations and the original
+valid input domain. `Proofs/SourcePreservation.lean` proves the entire new
+`ComputeKernel` equal to the former FP32 source for every invocation, including
+ports, all statements and conversions. Thus the actual raw body retains the
+existing arbitrary-state execution, safety, output, exterior frame and all
+configuration-equivalence scopes without adding an FP identity or assumption.
