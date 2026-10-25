@@ -635,3 +635,28 @@ def mutatedString : ComputeKernel :=
 
 #axiomsClean complete_program
 end VeriTile.Tests.CallSignature.StringChoice
+
+
+namespace VeriTile.Tests.CallSignature.UninferredNumericalCaller
+open VeriTile.Triton
+
+def source (X : RegionName) : ComputeKernel :=
+  let B := 64
+  with_triton_signature ({pointers := [("X",.fp32)], constexpr := ["B"]} : CallSignature) in
+  triton {
+    lanes = tl.arange(0, B)
+    value = tl.load(X + lanes)
+    tl.store(X + lanes, value)
+  }
+
+/-- Inspecting whether a caller is a String must never assign String to an
+unsolved numeral type. The pre-existing Nat specialization still determines B. -/
+theorem complete_program (X : RegionName) : source X = triton {
+    tl.ports inputs=[X], outputs=[X]
+    tl.region X = tl.float32
+    lanes = tl.arange(0, $(64))
+    value = tl.load(X + lanes)
+    tl.store(X + lanes, value)
+  } := rfl
+#axiomsClean complete_program
+end VeriTile.Tests.CallSignature.UninferredNumericalCaller

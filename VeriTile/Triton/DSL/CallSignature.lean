@@ -550,7 +550,9 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
       for constant in constants do
         let name := Name.mkSimple constant
         let value ← elabTerm (mkIdent name) none
-        if ← isDefEq (← inferType value) (mkConst ``String) then
+        -- Classification must not solve an untyped numeral's carrier as
+        -- String. The existing Nat/Int/Real specialization owns that choice.
+        if (← whnf (← inferType value)).isConstOf ``String then
           for st in stmts do
             rejectArgumentMutation [name] st.raw "string constexpr mutation is unsupported"
           strings := strings ++ [(name, ← finiteStringValues value)]
@@ -570,7 +572,7 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
         -- String comparisons are compile-time Boolean expressions in the DSL.
         -- Keep the caller's String name visible to that existing compiler;
         -- finite branch pruning above has already checked its possible values.
-        if ← isDefEq dtype (mkConst ``String) then continue
+        if (← whnf dtype).isConstOf ``String then continue
         let expression ←
           if ← isDefEq dtype (mkConst ``Nat) then
             -- Expose actual closed constexpr literals to the source-width
