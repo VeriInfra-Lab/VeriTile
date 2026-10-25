@@ -40,3 +40,31 @@ unaligned storage. `check_lowering.py` checks eight offline SM80 compilations,
 including scalar-one specialization. No GPU numerical conformance was measured.
 
 The checked public `checked_call` / `checked_fp_call` endpoints compose empty and launch validation. Empty dispatch preserves the supplied descriptor and current memory without canonical inactive strides. Live calls reject mixed FP32/int32 input-byte overlap while retaining same-dtype input aliases. The regression checker uses a fixed random seed; its comparison against a double-precision reference is an approximation check, separate from the word-level FP theorem.
+
+
+The selected checked Python function body is now pasted unchanged into
+`Source.lean`; `jit-correspondence.json` pins its actual `*_grid_y_checked`
+source rather than substituting the side copy in this repair directory.
+Pointer/constexpr metadata and every runtime argument binding stay outside the
+body. The existing public contract selects FP32 floating storage and signed
+INT32 metadata; its nonnegative mathematical metadata channels and native
+bounds remain. The old unused dtype helper parameter has been removed: every
+actual and proved call already selected FP32, and no public theorem or accepted
+input is restricted. No source cast, loop, address, mask or store is added.
+The terminal no-value `return` remains in the quotation and uses the frontend's
+ordinary terminal-exit normalization.
+
+`Proofs/SourceIdentity.lean` proves that the complete executable statement list
+is identical to the prior selected FP32 program. All existing execution,
+mathematical formula, ordered native-word target, admission, empty/live wrapper
+and physical-frame proofs are then replayed directly against the current
+source. Their rounded scalar instruction ports, ordered reduction choices and
+compiler boundaries remain; this migration introduces no floating identity,
+source-level candidate or whole-kernel premise. The earlier validation above
+is historical evidence; the current frozen-source build and unavailable tool
+attempts are recorded separately in the task ledger. No GPU or new numerical
+experiment runs in this migration.
+
+The probability mask still uses the attention length; the gathered-location
+and value masks separately use the sequence end and window start. Both are
+checked by the source regression guard, including a rejected mask substitution.
