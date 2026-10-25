@@ -8,8 +8,8 @@
     "task_status": {
       "legacy_ast_only": 1,
       "no_selected_jit_resolved": 2,
-      "selected_body_copy_checked": 67,
-      "uncovered_jit_functions": 113
+      "selected_body_copy_checked": 69,
+      "uncovered_jit_functions": 111
     },
     "example_status": {
       "authored_counterpart_body_copy_checked": 2,
@@ -17,12 +17,12 @@
       "spec_derived_body_copy_checked": 15
     },
     "selected_jit_functions": 328,
-    "uncovered_selected_jit_functions": 222,
+    "uncovered_selected_jit_functions": 220,
     "primary_files_with_int64_screen_warning": 31,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 89,
-        "antiquotes": 98,
+        "in_body_type_directives": 87,
+        "antiquotes": 96,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 8
       },
@@ -15316,13 +15316,13 @@
       "lean": "bench/repairs/tritonbench_g/token_attn_mistral_grid_y_checked/Kernels.lean",
       "source_provenance": "selected_revision",
       "lean_screen": {
-        "quotations": 1,
-        "in_body_type_directives": 1,
-        "antiquotes": 26,
+        "quotations": 0,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
         "dsl_assignment": 4,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 1
+        "load_dtype_extension": 0
       },
       "python_jits": [
         {
@@ -15332,18 +15332,117 @@
           "explicit_int64_casts": []
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_fwd_kernel_token_att2",
+          "lean_definition": "source",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "stride_b_req_idx": "stride_b_req_idx",
+            "stride_b_seq_len": "stride_b_seq_len",
+            "stride_b_att_start": "stride_b_att_start",
+            "stride_b_att_len": "stride_b_att_len",
+            "stride_req_to_tokens_b": "stride_req_to_tokens_b",
+            "stride_req_to_tokens_s": "stride_req_to_tokens_s",
+            "stride_ph": "stride_ph",
+            "stride_pbs": "stride_pbs",
+            "stride_vbs": "stride_vbs",
+            "stride_vh": "stride_vh",
+            "stride_vd": "stride_vd",
+            "stride_obs": "stride_obs",
+            "stride_oh": "stride_oh",
+            "stride_od": "stride_od",
+            "kv_group_num": "kv_group_num",
+            "sliding_window": "sliding_window"
+          },
+          "statements": 20,
+          "runtime_parameters": {
+            "stride_b_req_idx": "integer",
+            "stride_b_seq_len": "integer",
+            "stride_b_att_start": "integer",
+            "stride_b_att_len": "integer",
+            "stride_req_to_tokens_b": "integer",
+            "stride_req_to_tokens_s": "integer",
+            "stride_ph": "integer",
+            "stride_pbs": "integer",
+            "stride_vbs": "integer",
+            "stride_vh": "integer",
+            "stride_vd": "integer",
+            "stride_obs": "integer",
+            "stride_oh": "integer",
+            "stride_od": "integer",
+            "kv_group_num": "integer",
+            "sliding_window": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_DMODEL",
+            "BLOCK_N"
+          ],
           "python": "bench/repairs/tritonbench_g/token_attn_mistral_grid_y_checked/token_attn_mistral_grid_y_checked.py",
-          "function": "_fwd_kernel_token_att2"
+          "lean": "bench/repairs/tritonbench_g/token_attn_mistral/Source.lean"
+        },
+        {
+          "python_function": "_fwd_kernel_token_att2_affine",
+          "lean_definition": "affineSource",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "stride_b_req_idx": "stride_b_req_idx",
+            "stride_b_seq_len": "stride_b_seq_len",
+            "stride_b_att_start": "stride_b_att_start",
+            "stride_b_att_len": "stride_b_att_len",
+            "stride_req_to_tokens_b": "stride_req_to_tokens_b",
+            "stride_req_to_tokens_s": "stride_req_to_tokens_s",
+            "stride_ph": "stride_ph",
+            "stride_pbs": "stride_pbs",
+            "stride_vbs": "stride_vbs",
+            "stride_vh": "stride_vh",
+            "stride_vd": "stride_vd",
+            "stride_obs": "stride_obs",
+            "stride_oh": "stride_oh",
+            "stride_od": "stride_od",
+            "kv_group_num": "kv_group_num",
+            "sliding_window": "sliding_window"
+          },
+          "statements": 20,
+          "runtime_parameters": {
+            "stride_b_req_idx": "integer",
+            "stride_b_seq_len": "integer",
+            "stride_b_att_start": "integer",
+            "stride_b_att_len": "integer",
+            "stride_req_to_tokens_b": "integer",
+            "stride_req_to_tokens_s": "integer",
+            "stride_ph": "integer",
+            "stride_pbs": "integer",
+            "stride_vbs": "integer",
+            "stride_vh": "integer",
+            "stride_vd": "integer",
+            "stride_obs": "integer",
+            "stride_oh": "integer",
+            "stride_od": "integer",
+            "kv_group_num": "integer",
+            "sliding_window": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_DMODEL",
+            "BLOCK_N"
+          ],
+          "python": "bench/repairs/tritonbench_g/token_attn_mistral_grid_y_checked/token_attn_mistral_affine.py",
+          "lean": "bench/repairs/tritonbench_g/token_attn_mistral/Source.lean"
         }
       ],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/token_attn_mistral_grid_y_checked/Kernels.lean": "68987bae04e4e75867351dfbcb52cb91e31a39d85f1201e03bb97edc934c7413",
+        "bench/repairs/tritonbench_g/token_attn_mistral/Source.lean": "ce35d391f4a99f5a82795b902aac6cf2c3d1407ea9313f770ad2baa21d80ac58",
+        "bench/repairs/tritonbench_g/token_attn_mistral_grid_y_checked/Kernels.lean": "3955e0c82e6a07357d4377501adf687a6e0fd99eac0b08f452788a4a8136eac4",
+        "bench/repairs/tritonbench_g/token_attn_mistral_grid_y_checked/jit-correspondence.json": "4503a0281aeeb872578620ef61b8089dca5509696e3aec2983c1d8c7c007ae13",
+        "bench/repairs/tritonbench_g/token_attn_mistral_grid_y_checked/token_attn_mistral_affine.py": "1493c32c4c3cdc7840b9df5f75c7ae295144d330d011658cf125a559ba721b45",
         "bench/repairs/tritonbench_g/token_attn_mistral_grid_y_checked/token_attn_mistral_grid_y_checked.py": "0c5cf97e58ab9539ba589afa4bda50e033222236826001b1ab7019c3d49bbabe"
       }
     },
@@ -15354,13 +15453,13 @@
       "lean": "bench/repairs/tritonbench_g/token_attn_reduceV_grid_y_checked/Kernels.lean",
       "source_provenance": "selected_revision",
       "lean_screen": {
-        "quotations": 1,
-        "in_body_type_directives": 1,
-        "antiquotes": 23,
+        "quotations": 0,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
         "dsl_assignment": 4,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 1
+        "load_dtype_extension": 0
       },
       "python_jits": [
         {
@@ -15370,18 +15469,109 @@
           "explicit_int64_casts": []
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_fwd_kernel_token_att2",
+          "lean_definition": "source",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "stride_b_req_idx": "stride_b_req_idx",
+            "stride_b_start_loc": "stride_b_start_loc",
+            "stride_b_seq_len": "stride_b_seq_len",
+            "stride_req_to_tokens_b": "stride_req_to_tokens_b",
+            "stride_req_to_tokens_s": "stride_req_to_tokens_s",
+            "stride_ph": "stride_ph",
+            "stride_pbs": "stride_pbs",
+            "stride_vbs": "stride_vbs",
+            "stride_vh": "stride_vh",
+            "stride_vd": "stride_vd",
+            "stride_obs": "stride_obs",
+            "stride_oh": "stride_oh",
+            "stride_od": "stride_od",
+            "kv_group_num": "kv_group_num"
+          },
+          "statements": 19,
+          "runtime_parameters": {
+            "stride_b_req_idx": "integer",
+            "stride_b_start_loc": "integer",
+            "stride_b_seq_len": "integer",
+            "stride_req_to_tokens_b": "integer",
+            "stride_req_to_tokens_s": "integer",
+            "stride_ph": "integer",
+            "stride_pbs": "integer",
+            "stride_vbs": "integer",
+            "stride_vh": "integer",
+            "stride_vd": "integer",
+            "stride_obs": "integer",
+            "stride_oh": "integer",
+            "stride_od": "integer",
+            "kv_group_num": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_DMODEL",
+            "BLOCK_N"
+          ],
           "python": "bench/repairs/tritonbench_g/token_attn_reduceV_grid_y_checked/token_attn_reduceV_grid_y_checked.py",
-          "function": "_fwd_kernel_token_att2"
+          "lean": "bench/repairs/tritonbench_g/token_attn_reduceV/Source.lean"
+        },
+        {
+          "python_function": "_fwd_kernel_token_att2_affine",
+          "lean_definition": "affineSource",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "stride_b_req_idx": "stride_b_req_idx",
+            "stride_b_start_loc": "stride_b_start_loc",
+            "stride_b_seq_len": "stride_b_seq_len",
+            "stride_req_to_tokens_b": "stride_req_to_tokens_b",
+            "stride_req_to_tokens_s": "stride_req_to_tokens_s",
+            "stride_ph": "stride_ph",
+            "stride_pbs": "stride_pbs",
+            "stride_vbs": "stride_vbs",
+            "stride_vh": "stride_vh",
+            "stride_vd": "stride_vd",
+            "stride_obs": "stride_obs",
+            "stride_oh": "stride_oh",
+            "stride_od": "stride_od",
+            "kv_group_num": "kv_group_num"
+          },
+          "statements": 19,
+          "runtime_parameters": {
+            "stride_b_req_idx": "integer",
+            "stride_b_start_loc": "integer",
+            "stride_b_seq_len": "integer",
+            "stride_req_to_tokens_b": "integer",
+            "stride_req_to_tokens_s": "integer",
+            "stride_ph": "integer",
+            "stride_pbs": "integer",
+            "stride_vbs": "integer",
+            "stride_vh": "integer",
+            "stride_vd": "integer",
+            "stride_obs": "integer",
+            "stride_oh": "integer",
+            "stride_od": "integer",
+            "kv_group_num": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_DMODEL",
+            "BLOCK_N"
+          ],
+          "python": "bench/repairs/tritonbench_g/token_attn_reduceV_grid_y_checked/token_attn_reduceV_affine.py",
+          "lean": "bench/repairs/tritonbench_g/token_attn_reduceV/Source.lean"
         }
       ],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/token_attn_reduceV_grid_y_checked/Kernels.lean": "c8d164338f49ae9261e4a8366db03f72394139171d4ca3073e42b5d1723640d1",
+        "bench/repairs/tritonbench_g/token_attn_reduceV/Source.lean": "e580016e0b5388d52ea0f84c30ab050262f2cfde8a87daca752b2ba8d589670b",
+        "bench/repairs/tritonbench_g/token_attn_reduceV_grid_y_checked/Kernels.lean": "ac48e9a618ab51242a7516c7c35143159571156b617a3607095ffbd70a800211",
+        "bench/repairs/tritonbench_g/token_attn_reduceV_grid_y_checked/jit-correspondence.json": "824d7db79312145292a4da2f926068f5542a191c36983e8f132c5fff3affe6c5",
+        "bench/repairs/tritonbench_g/token_attn_reduceV_grid_y_checked/token_attn_reduceV_affine.py": "f9d739a435d4c5ed5c0ed69a5aea7bc8e9be0e299c9ef1aa7805c7aaff8be3e3",
         "bench/repairs/tritonbench_g/token_attn_reduceV_grid_y_checked/token_attn_reduceV_grid_y_checked.py": "35b3502fa9e93d09b5ac05dc8ad59cacd516542a69968f894e4da293869dcd82"
       }
     },

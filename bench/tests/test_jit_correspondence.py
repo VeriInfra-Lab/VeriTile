@@ -763,35 +763,36 @@ class ChunkCumsumVectorRawBodyTests(unittest.TestCase):
 class GatheredTokenAttentionRawBodyTests(unittest.TestCase):
     def test_complete_weighted_sum_bodies_bind_the_selected_fp32_calls(self):
         for task, statements in [("token_attn_reduceV", 19), ("token_attn_mistral", 20)]:
-            directory = ROOT / "bench/repairs/tritonbench_g" / task
+            directory = ROOT / "bench/repairs/tritonbench_g" / (task + "_grid_y_checked")
             records = json.loads((directory / "jit-correspondence.json").read_text())
             pairs = check_manifest(ROOT, directory / "jit-correspondence.json")
-            self.assertEqual(len(pairs), 1)
-            self.assertEqual((pairs[0]["mode"], pairs[0]["statements"]), ("pasted_body", statements))
-            record = records[0]
-            lean = (directory / "Source.lean").read_text()
-            for before, after in [
-                ("start_n * stride_pbs", "start_n"),
-                ("acc += tl.sum(p_value[:, None] * v_value, 0)", "acc += tl.sum(p_value[:, None] * v_value, 1)"),
-                ("acc = acc.to(Out.dtype.element_ty)", "acc = acc"),
-                ('("Prob",.fp32)', '("Prob",.fp16)'),
-                ('("B_Seqlen",.i32)', '("B_Seqlen",.i64)'),
-                ("stride_vh := stride_vh", "stride_vh := stride_vbs"),
-            ]:
-                with self.subTest(task=task, before=before), self.assertRaises(ValueError):
-                    self.assertIn(before, lean)
-                    check((ROOT / record["python"]).read_text(), lean.replace(before, after),
-                          record["python_function"], record["lean_definition"], record["signature_definition"],
-                          record["expected_signature"], record["expected_call_bindings"])
+            self.assertEqual(len(pairs), 2)
+            self.assertTrue(all((p["mode"], p["statements"]) == ("pasted_body", statements) for p in pairs))
+            self.assertEqual({r["lean_definition"] for r in records}, {"source", "affineSource"})
+            for record in records:
+                lean = (ROOT / record["lean"]).read_text()
+                for before, after in [
+                    ("start_n * stride_pbs", "start_n"),
+                    ("acc += tl.sum(p_value[:, None] * v_value, 0)", "acc += tl.sum(p_value[:, None] * v_value, 1)"),
+                    ("acc = acc.to(Out.dtype.element_ty)", "acc = acc"),
+                    ('("Prob",.fp32)', '("Prob",.fp16)'),
+                    ('("B_Seqlen",.i32)', '("B_Seqlen",.i64)'),
+                    ("stride_vh := stride_vh", "stride_vh := stride_vbs"),
+                ]:
+                    with self.subTest(task=task, definition=record["lean_definition"], before=before), self.assertRaises(ValueError):
+                        self.assertIn(before, lean)
+                        check((ROOT / record["python"]).read_text(), lean.replace(before, after),
+                              record["python_function"], record["lean_definition"], record["signature_definition"],
+                              record["expected_signature"], record["expected_call_bindings"])
 
     def test_sliding_window_value_mask_retains_its_own_sequence_bound(self):
-        directory = ROOT / "bench/repairs/tritonbench_g/token_attn_mistral"
-        record = json.loads((directory / "jit-correspondence.json").read_text())[0]
-        lean = (directory / "Source.lean").read_text()
-        before = "mask=(start_n + offs_n + cur_batch_start_index) < cur_batch_seq_len"
-        self.assertIn(before, lean)
-        with self.assertRaises(ValueError):
-            check((ROOT / record["python"]).read_text(),
-                  lean.replace(before, "mask=(start_n + offs_n) < cur_att_seq_len"),
-                  record["python_function"], record["lean_definition"], record["signature_definition"],
-                  record["expected_signature"], record["expected_call_bindings"])
+        directory = ROOT / "bench/repairs/tritonbench_g/token_attn_mistral_grid_y_checked"
+        for record in json.loads((directory / "jit-correspondence.json").read_text()):
+            lean = (ROOT / record["lean"]).read_text()
+            before = "mask=(start_n + offs_n + cur_batch_start_index) < cur_batch_seq_len"
+            self.assertIn(before, lean)
+            with self.subTest(definition=record["lean_definition"]), self.assertRaises(ValueError):
+                check((ROOT / record["python"]).read_text(),
+                      lean.replace(before, "mask=(start_n + offs_n) < cur_att_seq_len"),
+                      record["python_function"], record["lean_definition"], record["signature_definition"],
+                      record["expected_signature"], record["expected_call_bindings"])
