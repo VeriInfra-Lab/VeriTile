@@ -28,7 +28,7 @@ theorem source_run {α : Type} [Inhabited α] (M : Algebra α)
     (input output : RegionName) (ib ob W N B : Nat) (s : State α) :
     ∃ t, FP.Structural.exec M (kernel input output ib ob W N B) s=some t ∧
       t.mem=(outputState M cmp input output ib ob W N B s).mem := by
-  simp [kernel, FP.Structural.exec, run, step, evalExpr, evalComputeOp, evalOp_unfold,
+  simp [kernel, Coordinates.kernel, FP.Structural.exec, run, step, evalExpr, evalComputeOp, evalOp_unfold,
     Option.bind, ComputeDType.eraseDType, numeric, numericLe, numericLt, natLt, FP.Structural.bop, store, hc,
     outputState, scalar, Region.cast, ofFloat, toFloat]
   simp +contextual only [ite_true]
@@ -41,7 +41,7 @@ theorem fused_run {α : Type} [Inhabited α] (M : Algebra α)
     (input output : RegionName) (ib ob W N B : Nat) (s : State α) :
     ∃ t, FP.Structural.exec M (fusedKernel input output ib ob W N B) s=some t ∧
       t.mem=(outputState M cmp input output ib ob W N B s).mem := by
-  simp [fusedKernel, FP.Structural.exec, run, step, evalExpr, evalComputeOp, evalOp_unfold,
+  simp [fusedKernel, Coordinates.fusedKernel, FP.Structural.exec, run, step, evalExpr, evalComputeOp, evalOp_unfold,
     Option.bind, ComputeDType.eraseDType, numeric, numericLe, numericLt, natLt, FP.Structural.bop, store, hc,
     outputState, scalar, Region.cast, ofFloat, toFloat]
   simp +contextual only [ite_true]

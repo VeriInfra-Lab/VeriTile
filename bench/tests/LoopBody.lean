@@ -82,4 +82,40 @@ def hiddenCarryWrite (X : RegionName) : ComputeKernel :=
 
 #axiomsClean complete_loop
 #axiomsClean overwritten_bound
+
+namespace ImmutableTwoArgumentRange
+
+def source (N : Nat) : ComputeKernel :=
+  with_triton_signature ({constexpr := ["N"]} : CallSignature) in triton {
+    total = 0
+    for _ in range(0, N):
+        total += _
+  }
+/-- Immutable call-time endpoints choose a static natural loop. The original
+underscore is both the written counter and the value read in the body. -/
+theorem complete_program (N : Nat) : source N = triton {
+    total = 0
+    for «_» in range($(0), $(N), $(1)) {
+      total += «_»
+    }
+  } := rfl
+
+def overwritten (N : Nat) : ComputeKernel :=
+  with_triton_signature ({constexpr := ["N"]} : CallSignature) in triton {
+    N = 1
+    for _ in range(0, N):
+        total = _
+  }
+/-- Reassignment prevents caller N from becoming the actual loop endpoint. -/
+theorem local_endpoint (N : Nat) : overwritten N = triton {
+    N = 1
+    for «_» in range((0), N, 1) {
+      total = «_»
+    }
+  } := rfl
+
+#axiomsClean complete_program
+#axiomsClean local_endpoint
+end ImmutableTwoArgumentRange
+
 end VeriTile.Tests.LoopBody

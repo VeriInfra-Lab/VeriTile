@@ -1,46 +1,47 @@
-import VeriTile.Triton
+import bench.repairs.tritonbench_g.relu_triton_kernel.CoordinateModels
+import VeriTile.Triton.DSL.CallSignature
 
-/-! Canonical readable FP32 repair and the existing store-inline candidate.
-The original benchmark is kept separately: its pid-zero store gate is defective.
-`ib`, `ob`, and `elementBytes` only choose pointer coordinates for optional
-physical-memory proofs; the Python kernel uses element offsets (0, 0, 1). -/
+/-! Complete, unchanged Python function bodies. Pointer dtypes come from the
+call interface; arbitrary-base/stride models used by physical proofs are kept
+explicitly in CoordinateModels.lean. -/
 namespace VeriTile.Bench.Repairs.ReluTritonKernel
 open VeriTile.Triton
-
 def blockSize : Nat := 1024
 def gridCount (n : Nat) : Nat := (n + 1023) / 1024
+abbrev kernel := Coordinates.kernel
+abbrev fusedKernel := Coordinates.fusedKernel
 
-def kernel (input output : RegionName) (ib ob elementBytes N B : Nat) : ComputeKernel :=
-  let x_ptr : Region .fp32 := input.cast
-  let out_ptr : Region .fp32 := output.cast
+def callSignature : CallSignature where
+  pointers := [("x_ptr",.fp32),("out_ptr",.fp32)]
+  scalars := []
+  constexpr := ["N","block_size"]
+
+def body (x_ptr out_ptr : RegionName) (N block_size : Nat) : ComputeKernel :=
+  with_triton_signature callSignature in
   triton {
     pid = tl.program_id(0)
-    block_start = pid * $(B)
-    offsets = block_start + tl.arange(0, $(B))
-    mask = offsets < $(N)
-    x = tl.load(x_ptr + ($(ib) + $(elementBytes) * offsets), mask=mask)
+    block_start = pid * block_size
+    offsets = block_start + tl.arange(0, block_size)
+    mask = offsets < N
+    x = tl.load(x_ptr + offsets, mask=mask)
     result = tl.where(x >= 0, x, 0.0)
-    tl.store(out_ptr + ($(ob) + $(elementBytes) * offsets), result, mask=mask)
+    tl.store(out_ptr + offsets, result, mask=mask)
   }
 
-/-- The same existing store-inline transformation, applied after the gate fix.
-Only the private result register disappears; comparison and selection retain
-FP32 precision, all input words, and the original masked load/store. -/
-def fusedKernel (input output : RegionName) (ib ob elementBytes N B : Nat) : ComputeKernel :=
-  let x_ptr : Region .fp32 := input.cast
-  let out_ptr : Region .fp32 := output.cast
+def inlinedBody (x_ptr out_ptr : RegionName) (N block_size : Nat) : ComputeKernel :=
+  with_triton_signature callSignature in
   triton {
+    """Existing store-inline candidate; the wrapper selects relu_kernel."""
     pid = tl.program_id(0)
-    block_start = pid * $(B)
-    offsets = block_start + tl.arange(0, $(B))
-    mask = offsets < $(N)
-    x = tl.load(x_ptr + ($(ib) + $(elementBytes) * offsets), mask=mask)
-    tl.store(out_ptr + ($(ob) + $(elementBytes) * offsets), tl.where(x >= 0, x, 0.0), mask=mask)
+    block_start = pid * block_size
+    offsets = block_start + tl.arange(0, block_size)
+    mask = offsets < N
+    x = tl.load(x_ptr + offsets, mask=mask)
+    tl.store(out_ptr + offsets, tl.where(x >= 0, x, 0.0), mask=mask)
   }
 
-/-- Source selected by the checked Python wrapper. -/
-def originalKernel (N : Nat) : ComputeKernel := kernel "x" "out" 0 0 1 N blockSize
+def originalKernel (N : Nat) : ComputeKernel := body "x" "out" N blockSize
 
-def inlinedKernel (N : Nat) : ComputeKernel := fusedKernel "x" "out" 0 0 1 N blockSize
+def inlinedKernel (N : Nat) : ComputeKernel := inlinedBody "x" "out" N blockSize
 
 end VeriTile.Bench.Repairs.ReluTritonKernel

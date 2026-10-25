@@ -23,7 +23,7 @@ theorem scalar (rest : Algebra ℝ) (x : ℝ) :
   · simp [h,max_eq_right h]
   · simp [h,max_eq_left (le_of_not_ge h)]
 
-#specNonCircular reference avoiding [kernel,Structural.scalar,Host.runWrapper]
+#specNonCircular reference avoiding [kernel, Coordinates.kernel,Structural.scalar,Host.runWrapper]
 #axiomsClean scalar
 end
 end VeriTile.Bench.Repairs.ReluTritonKernel.RealProofs

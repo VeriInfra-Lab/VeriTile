@@ -1,3 +1,4 @@
+import bench.repairs.tritonbench_g.relu_triton_kernel.Proofs.SourcePreservation
 import bench.repairs.tritonbench_g.relu_triton_kernel.Proofs.Structural
 import bench.repairs.tritonbench_g.relu_triton_kernel.IO
 
@@ -17,7 +18,8 @@ theorem full_memory_equiv {α : Type} [Inhabited α] (M : Algebra α)
       FP.Structural.exec M (inlinedKernel N) s = some b ∧ a.mem = b.mem := by
   obtain ⟨a, ha, hma⟩ := Structural.source_run M cmp hc "x" "out" 0 0 1 N blockSize s
   obtain ⟨b, hb, hmb⟩ := Structural.fused_run M cmp hc "x" "out" 0 0 1 N blockSize s
-  exact ⟨a, b, ha, hb, hma.trans hmb.symm⟩
+  exact ⟨a, b, (SourcePreservation.original M "x" "out" N blockSize s).trans ha,
+    (SourcePreservation.candidate M "x" "out" N blockSize s).trans hb, hma.trans hmb.symm⟩
 
 /-- The output tile and exterior frame follow from the same complete source runs.
 The active-mask frame is stronger than the public full-tile FP observation. -/
@@ -35,7 +37,8 @@ theorem inlined_observations {α : Type} [Inhabited α] (M : Algebra α)
         b.mem r o = s.mem r o) := by
   obtain ⟨a, ha, hma⟩ := Structural.source_run M cmp hc "x" "out" 0 0 1 N blockSize s
   obtain ⟨b, hb, hmb⟩ := Structural.fused_run M cmp hc "x" "out" 0 0 1 N blockSize s
-  refine ⟨a, b, ha, hb, ?_, ?_, ?_⟩
+  refine ⟨a, b, (SourcePreservation.original M "x" "out" N blockSize s).trans ha,
+    (SourcePreservation.candidate M "x" "out" N blockSize s).trans hb, ?_, ?_, ?_⟩
   · intro i
     exact congrFun (congrFun (hma.trans hmb.symm) "out") (s.pids 0 * blockSize + i.val)
   · intro r o outside

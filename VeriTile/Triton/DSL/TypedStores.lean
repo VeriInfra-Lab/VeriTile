@@ -233,6 +233,16 @@ private def checkAssignmentLoads (pointers : Types) (value : TSyntax `tritonExpr
   -- Direct load-and-method-cast is a supported complete ComputeExpr as well.
   rejectNestedLoads pointers value.raw Bool.true
 
+/-- A complete load with an explicit method cast is composable in the
+existing augmented-arithmetic compiler. Keep arbitrary nested FP loads on the
+rejected path so a load precision boundary cannot silently disappear. -/
+private def checkAugmentedLoads (pointers : Types) (value : TSyntax `tritonExpr) : MacroM Unit := do
+  match value with
+  | `(tritonExpr| tl.load($_:tritonExpr $[, $_:tritonMemKwarg]*).to($_:tritonDType))
+  | `(tritonExpr| tl.load($_:tritonExpr, $_:tritonExpr $[, $_:tritonMemKwarg]*).to($_:tritonDType)) =>
+      checkAssignmentLoads pointers value
+  | _ => rejectNestedLoads pointers value.raw
+
 private partial def rejectPointerRebinding (pointers : Types) (raw : Syntax) : MacroM Unit := do
   if let `(tritonStmt| $id:ident = $value:tritonExpr) := raw then
     if let some dtype := lookup pointers id then
@@ -349,7 +359,7 @@ private partial def lowerWithState (pointers : Types) (values : Values)
           if let some dtype := valueType pointers values value then
             nextValues := (name id, dtype) :: nextValues
       | `(tritonStmt| $id:ident += $value:tritonExpr) =>
-          rejectNestedLoads pointers value.raw
+          checkAugmentedLoads pointers value
           let expression ← `(tritonExpr| $id:ident + $value:tritonExpr)
           let dtype := valueType pointers values expression
           checkInvariant invariants id dtype
@@ -358,7 +368,7 @@ private partial def lowerWithState (pointers : Types) (values : Values)
           if (lookup pointers id).isNone then
             nextPointers := pointers.filter (fun entry => entry.1 != name id)
       | `(tritonStmt| $id:ident -= $value:tritonExpr) =>
-          rejectNestedLoads pointers value.raw
+          checkAugmentedLoads pointers value
           let expression ← `(tritonExpr| $id:ident - $value:tritonExpr)
           let dtype := valueType pointers values expression
           checkInvariant invariants id dtype
@@ -367,7 +377,7 @@ private partial def lowerWithState (pointers : Types) (values : Values)
           if (lookup pointers id).isNone then
             nextPointers := pointers.filter (fun entry => entry.1 != name id)
       | `(tritonStmt| $id:ident *= $value:tritonExpr) =>
-          rejectNestedLoads pointers value.raw
+          checkAugmentedLoads pointers value
           let expression ← `(tritonExpr| $id:ident * $value:tritonExpr)
           let dtype := valueType pointers values expression
           checkInvariant invariants id dtype
@@ -376,7 +386,7 @@ private partial def lowerWithState (pointers : Types) (values : Values)
           if (lookup pointers id).isNone then
             nextPointers := pointers.filter (fun entry => entry.1 != name id)
       | `(tritonStmt| $id:ident /= $value:tritonExpr) =>
-          rejectNestedLoads pointers value.raw
+          checkAugmentedLoads pointers value
           let expression ← `(tritonExpr| $id:ident / $value:tritonExpr)
           let dtype := valueType pointers values expression
           checkInvariant invariants id dtype

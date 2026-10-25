@@ -196,6 +196,24 @@ def render (raw : String) : Except String String := do
   for _ in levels.tail! do output := output.push "}"
   return "\n".intercalate output.toList
 
+/-- These are ordinary Python identifiers but reserved by Lean's lexer.
+Escape them only in the parsed view; raw source and quoted strings stay intact.
+The underscore remains the actual register name, including when it is read. -/
+private partial def escapeSourceIdentifiers (input : List Char) (output : String := "") :
+    Except String String := do
+  match input with
+  | [] => return output
+  | c :: tail =>
+      if c == '\"' || c == '\'' then
+        let (raw, rest, _) ← stringToken c tail
+        escapeSourceIdentifiers rest (output ++ String.ofList raw)
+      else if c.isAlpha || c == '_' then
+        let restOfWord := tail.takeWhile (fun ch => ch.isAlphanum || ch == '_')
+        let word := String.ofList (c :: restOfWord)
+        let word := if word == "do" || word == "_" then "«" ++ word ++ "»" else word
+        escapeSourceIdentifiers (tail.drop restOfWord.length) (output ++ word)
+      else escapeSourceIdentifiers tail (output.push c)
+
 /-- The original raw token is preserved in the syntax node. -/
 def rawText (body : TSyntax `tritonPythonBody) : String := body.raw[0].getAtomVal
 
@@ -227,6 +245,9 @@ private partial def normalizeAttributeCasts (raw : Syntax) : MacroM Syntax := do
 
 def statements (environment : Environment) (body : TSyntax `tritonPythonBody) : MacroM (Array (TSyntax `tritonStmt)) := do
   let text ← match render (rawText body) with
+    | .ok text => pure text
+    | .error message => Macro.throwErrorAt body message
+  let text ← match escapeSourceIdentifiers text.toList with
     | .ok text => pure text
     | .error message => Macro.throwErrorAt body message
   let stx ← match Parser.runParserCategory environment `term ("triton {\n" ++ text ++ "\n}") with

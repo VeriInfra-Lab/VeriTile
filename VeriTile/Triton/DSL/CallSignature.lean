@@ -296,6 +296,9 @@ private partial def specializeRanges (constants assigned : List Name) (raw : Syn
     let bb ← staticSignedRangeBound constants assigned b
     if aa.raw != a.raw || bb.raw != b.raw then
       return (← liftMacroM `(tritonStmt| for $i in range($aa, $bb) { $body* })).raw
+    if let some start ← staticNatBound constants assigned a then
+      if let some stop ← staticNatBound constants assigned b then
+        return (← liftMacroM `(tritonStmt| for $i in range($($start), $($stop), $((1 : Nat))) { $body* })).raw
   if let `(tritonStmt| for $i:ident in range($n:tritonExpr) { $body:tritonStmt* }) := next then
     if let some n ← staticNatBound constants assigned n then
       return (← liftMacroM `(tritonStmt| tl.for $i in $($n) { $body* })).raw
@@ -359,6 +362,9 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
       for ports in [readPorts,writePorts] do
         unless ports.eraseDups.length == ports.length && ports.all (fun name => pointers.any (fun p => p.1 == name)) do
           throwError "memory ports must be distinct pointer parameter names"
+      -- Dtype dataflow must see the same structured if/elif tree as execution.
+      let stmts ← liftMacroM <| stmts.mapM fun st => do
+        return (⟨← Inference.normalizeControlFlow st.raw⟩ : TSyntax `tritonStmt)
       let names := pointers.map Prod.fst ++ scalars.map Prod.fst ++ constants
       unless names.eraseDups.length == names.length do throwError "duplicate name in call signature"
       if typedFP32 && names.contains "dtype" then

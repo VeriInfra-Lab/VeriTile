@@ -26,7 +26,7 @@ theorem result (N : Nat) (s : BlockState) (xs : Fin blockSize → ℝ)
         some (if s.pid * blockSize + i.val < N then max 0 (xs i)
           else s.readMem "out" (s.pid * blockSize + i.val)) := by
   intro i
-  simp [observeAt, exec, originalKernel, kernel, stepStmts, stepStmt, evalOp.eq_def,
+  simp [observeAt, exec, originalKernel, body, kernel, Coordinates.kernel, stepStmts, stepStmt, evalOp.eq_def,
     Tile.bop, Tile.cop, Tile.select, NumericDType.add, NumericDType.mul,
     ComparableDType.lt, ComparableDType.ge, Region.cast, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, ComputeDType.eraseDType]
   rw [BlockState.scatter_readback_prop_masked_nd _
@@ -53,7 +53,7 @@ theorem frame (N : Nat) (s t : BlockState)
     (hmiss : ∀ i : Fin blockSize, s.pid * blockSize + i.val < N →
       ¬("out" = r ∧ s.pid * blockSize + i.val = o)) :
     t.mem r o = s.mem r o := by
-  simp [exec, originalKernel, kernel, ComputeKernel.toAlgKernel, stepStmts, stepStmt,
+  simp [exec, originalKernel, body, kernel, Coordinates.kernel, ComputeKernel.toAlgKernel, stepStmts, stepStmt,
     evalOp.eq_def, Tile.bop, Tile.cop, Tile.select,
     NumericDType.add, NumericDType.mul, ComparableDType.lt, ComparableDType.ge,
     Region.cast, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, ComputeDType.eraseDType] at he
@@ -93,7 +93,7 @@ theorem region_run (N : Nat) (s : BlockState) (xs : Fin blockSize → ℝ)
 
 theorem flattenOk (N : Nat) : ((originalKernel N).toAlgKernel).FlattenOk := by
   unfold Kernel.FlattenOk
-  simp [originalKernel, kernel, ComputeKernel.toAlgKernel, Region.cast, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, ComputeDType.eraseDType,
+  simp [originalKernel, body, kernel, Coordinates.kernel, ComputeKernel.toAlgKernel, Region.cast, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, ComputeDType.eraseDType,
     StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk]
 
 theorem traceSafe (N : Nat) (bounds : RegionBounds) (s : BlockState)
@@ -103,7 +103,7 @@ theorem traceSafe (N : Nat) (bounds : RegionBounds) (s : BlockState)
       s.pid * blockSize + j.val < bounds "out") :
     Kernel.TraceSafe bounds (originalKernel N).toAlgKernel s := by
   unfold Kernel.TraceSafe
-  simp [originalKernel, kernel, ComputeKernel.toAlgKernel, Region.cast, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, ComputeDType.eraseDType,
+  simp [originalKernel, body, kernel, Coordinates.kernel, ComputeKernel.toAlgKernel, Region.cast, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, ComputeDType.eraseDType,
     Stmt.TraceSafeList, Stmt.TraceSafe, Op.SafeAt, MaskOpt.SafeAt,
     stepStmt, evalOp.eq_def, Tile.bop, Tile.cop, Tile.select,
     NumericDType.add, NumericDType.mul, ComparableDType.lt, ComparableDType.ge,
@@ -111,7 +111,7 @@ theorem traceSafe (N : Nat) (bounds : RegionBounds) (s : BlockState)
     MaskOpt.Active, BlockState.setReg]
   exact ⟨fun a ha => hx a ha, fun a ha => hout a ha⟩
 
-#specNonCircular formula avoiding [kernel, originalKernel, fusedKernel]
+#specNonCircular formula avoiding [kernel, Coordinates.kernel, originalKernel, fusedKernel]
 #axiomsClean region_run
 #axiomsClean traceSafe
 end

@@ -359,3 +359,59 @@ class LogsumexpRawBodyCorrespondence(unittest.TestCase):
             with self.subTest(before=before), self.assertRaises(ValueError):
                 check(python, lean.replace(before, after, 1), record["python_function"],
                       record["lean_definition"], record["signature_definition"], record["expected_signature"])
+
+
+class HgrnRawBodyTests(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/fused_recurrent_hgrn"
+
+    def test_three_source_pairs_and_shared_candidate_backward(self):
+        records = json.loads((self.directory / "jit-correspondence.json").read_text())
+        self.assertEqual(len(check_manifest(ROOT, self.directory / "jit-correspondence.json")), 3)
+        record = records[1]
+        result = check((self.directory / "fused_recurrent_hgrn_stride_folded.py").read_text(),
+                       (self.directory / "Kernels.lean").read_text(),
+                       record["python_function"], record["lean_definition"],
+                       record["signature_definition"], record["expected_signature"])
+        self.assertEqual(result["mode"], "pasted_body")
+
+    def test_counter_cast_seed_and_reverse_branch_cannot_drift(self):
+        records = json.loads((self.directory / "jit-correspondence.json").read_text())
+        lean = (self.directory / "Kernels.lean").read_text()
+        for index, before, after in [
+            (0, "for _ in range(0, T)", "for _i in range(0, T)"),
+            (0, "b_h += tl.load(p_h0", "b_h = tl.load(p_h0"),
+            (0, "b_x = tl.load(p_x, mask=mask, other=0).to(tl.float32)",
+                "b_x = tl.load(p_x, mask=mask, other=0)"),
+            (1, "elif USE_INITIAL_STATE:", "elif USE_FINAL_GRAD:"),
+            (1, "p_do = do +", "p_do = o +"),
+        ]:
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                record = records[index]
+                self.assertIn(before, lean)
+                check((ROOT / record["python"]).read_text(), lean.replace(before, after, 1),
+                      record["python_function"], record["lean_definition"],
+                      record["signature_definition"], record["expected_signature"])
+
+
+class SwiGluBackwardAndReluBodyTests(unittest.TestCase):
+    def test_all_selected_bodies_and_existing_candidates(self):
+        for name in ("swiglu_backward", "relu_triton_kernel"):
+            with self.subTest(task=name):
+                records = check_manifest(ROOT, ROOT / "bench/repairs/tritonbench_g" / name / "jit-correspondence.json")
+                self.assertEqual(len(records), 2)
+                self.assertTrue(all(r["mode"] == "pasted_body" for r in records))
+
+    def test_optional_recomputation_order_and_tail_mask_stay_exact(self):
+        directory = ROOT / "bench/repairs/tritonbench_g/swiglu_backward"
+        record = json.loads((directory / "jit-correspondence.json").read_text())[0]
+        python = (ROOT / record["python"]).read_text()
+        lean = (ROOT / record["lean"]).read_text()
+        for before, after in (("if RECOMPUTE_OUTPUT:", "if True:"),
+                              ("x_sigmoid * (1 + x * (1 - x_sigmoid)) * y * dout",
+                               "dout * y * x_sigmoid * (1 + x * (1 - x_sigmoid))"),
+                              ("mask=cols < ncols", "mask=cols <= ncols")):
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                self.assertIn(before, lean)
+                check(python, lean.replace(before, after, 1), record["python_function"],
+                      record["lean_definition"], record["signature_definition"],
+                      record["expected_signature"], record["expected_call_bindings"])

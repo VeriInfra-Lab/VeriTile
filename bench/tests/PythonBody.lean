@@ -187,3 +187,85 @@ def nonterminalReturn (X : RegionName) : ComputeKernel :=
 #axiomsClean scalar_cast_is_retained
 #axiomsClean signed_call_executes
 end VeriTile.Tests.PythonBody
+
+namespace VeriTile.Tests.PythonBody.ReservedAndControlFlow
+open VeriTile.Triton FP.Structural
+noncomputable section
+
+def keyword (p : RegionName) : ComputeKernel :=
+  let «do» := p
+  with_triton_signature ({pointers := [("do",.fp32)]} : CallSignature) in
+  triton {
+    _ = tl.load(do).to(tl.float32)
+    copied = _
+  }
+
+/-- The source spelling denotes real names, including reads of `_`. -/
+theorem keyword_names (p : RegionName) : keyword p = (let P : RegionName := p; triton {
+    tl.ports inputs=[P], outputs=[]
+    tl.region P = tl.float32
+    «_» = tl.load(P).to(tl.float32)
+    copied = «_»
+  }) := rfl
+
+
+def augmented (X Y : RegionName) : ComputeKernel :=
+  with_triton_signature ({pointers := [("X",.fp16),("Y",.fp32)]} : CallSignature) in
+  triton {
+    acc = tl.zeros([4], dtype=tl.float32)
+    acc += tl.load(X + tl.arange(0, 4)).to(tl.float32)
+    tl.store(Y + tl.arange(0, 4), acc)
+  }
+/-- The FP16 load, explicit FP32 conversion and FP32 add all survive. -/
+theorem augmented_precision (X Y : RegionName) : augmented X Y = triton {
+    tl.ports inputs=[X], outputs=[Y]
+    tl.region X = tl.float16, Y = tl.float32
+    acc = tl.zeros([4], dtype=tl.float32)
+    acc += tl.load(X + tl.arange(0, 4)).to(tl.float32)
+    tl.store(Y + tl.arange(0, 4), acc)
+  } := rfl
+
+/-- error: nested load source precision is unsupported by the current frontend -/
+#guard_msgs in
+def nestedAugmented (X : RegionName) : ComputeKernel :=
+  with_triton_signature ({pointers := [("X",.fp16)]} : CallSignature) in
+  triton {
+    acc = tl.zeros([4], dtype=tl.float32)
+    acc += 2.0 * tl.load(X + tl.arange(0, 4)).to(tl.float32)
+  }
+
+def branched (X Y : RegionName) : ComputeKernel :=
+  with_triton_signature ({pointers := [("X",.fp32),("Y",.fp32)]} : CallSignature) in
+  triton {
+    i = tl.program_id(0)
+    if i > 1:
+        value = tl.load(X).to(tl.float32)
+    elif i > 0:
+        value = tl.load(X + 1).to(tl.float32)
+    else:
+        value = tl.full([], 0, tl.float32)
+    tl.store(Y, value)
+  }
+/-- All branches retain their load boundary and common dtype. No redundant
+store conversion is introduced when the source spelled `elif`. -/
+theorem branch_precision (X Y : RegionName) : branched X Y = triton {
+    tl.ports inputs=[X], outputs=[Y]
+    tl.region X = tl.float32, Y = tl.float32
+    i = tl.program_id(0)
+    if i > 1 {
+      value = tl.load(X).to(tl.float32)
+    } else {
+      if i > 0 {
+        value = tl.load(X + 1).to(tl.float32)
+      } else {
+        value = tl.full([], 0, tl.float32)
+      }
+    }
+    tl.store(Y, value)
+  } := rfl
+
+#axiomsClean keyword_names
+#axiomsClean augmented_precision
+#axiomsClean branch_precision
+end
+end VeriTile.Tests.PythonBody.ReservedAndControlFlow
