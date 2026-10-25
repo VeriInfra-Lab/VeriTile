@@ -499,3 +499,31 @@ class FusedActivationRawBodyTests(unittest.TestCase):
                 check((ROOT / record["python"]).read_text(), lean.replace(before, after, 1),
                       record["python_function"], record["lean_definition"],
                       record["signature_definition"], record["expected_signature"])
+
+
+class EmbeddingRawBodyTests(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/embedding_triton_kernel"
+
+    def test_both_existing_signed_index_functions(self):
+        pairs = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual(len(pairs), 2)
+        self.assertTrue(all(p["mode"] == "pasted_body" for p in pairs))
+
+    def test_each_widening_and_mask_order_stays_in_the_source(self):
+        record = json.loads((self.directory / "jit-correspondence.json").read_text())[0]
+        lean = (self.directory / "Kernels.lean").read_text()
+        for before, after in [
+            ("tl.program_id(0).to(tl.int64)", "tl.program_id(0)"),
+            ("tl.arange(0, BLOCK_NN).to(tl.int64)", "tl.arange(0, BLOCK_NN)"),
+            ("tl.arange(0, BLOCK_DMODEL).to(tl.int64)", "tl.arange(0, BLOCK_DMODEL)"),
+            ("other=0).to(tl.int64)", "other=0)"),
+            ("tl.where(id_mask, token_ids, vob_start_id) - vob_start_id",
+             "tl.where(id_mask, token_ids - vob_start_id, 0)"),
+            ('("n_ctx",.i64)', '("n_ctx",.integer)'),
+        ]:
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                self.assertIn(before, lean)
+                check((ROOT / record["python"]).read_text(), lean.replace(before, after, 1),
+                      record["python_function"], record["lean_definition"],
+                      record["signature_definition"], record["expected_signature"],
+                      record["expected_call_bindings"])
