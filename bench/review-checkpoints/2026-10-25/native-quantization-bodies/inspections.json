@@ -1,0 +1,87 @@
+{
+  "code_commit": "74b9687c742dfdb53ad5365f31b8ed67400c11fe",
+  "raw_bodies": [
+    {
+      "task": "rowwise_quantization_triton",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/rowwise_quantization_triton/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    {
+      "task": "quantize_copy_kv",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/quantize_copy_kv/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    {
+      "task": "quantize_kv_transform",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/quantize_kv_transform/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    {
+      "task": "quantize_kv_copy",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/quantize_kv_copy/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    }
+  ],
+  "cpu_contracts": [
+    {
+      "task": "rowwise_quantization_triton",
+      "command": [
+        "python3",
+        "bench/repairs/tritonbench_g/rowwise_quantization_triton/check_contract.py"
+      ],
+      "exit_code": 1,
+      "status": "UNAVAILABLE"
+    },
+    {
+      "task": "quantize_copy_kv",
+      "command": [
+        "python3",
+        "bench/repairs/tritonbench_g/quantize_copy_kv/check_contract.py"
+      ],
+      "exit_code": 1,
+      "status": "UNAVAILABLE"
+    },
+    {
+      "task": "quantize_kv_transform",
+      "command": [
+        "python3",
+        "bench/repairs/tritonbench_g/quantize_kv_transform/check_contract.py"
+      ],
+      "exit_code": 1,
+      "status": "UNAVAILABLE"
+    },
+    {
+      "task": "quantize_kv_copy",
+      "command": [
+        "python3",
+        "bench/repairs/tritonbench_g/quantize_kv_copy/check_contract.py"
+      ],
+      "exit_code": 1,
+      "status": "UNAVAILABLE"
+    }
+  ]
+}

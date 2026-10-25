@@ -1,0 +1,34 @@
+[
+  {
+    "python_function": "_quantize_rowwise",
+    "lean_definition": "source",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "runtime_registers",
+    "call_bindings": null,
+    "statements": 12,
+    "runtime_parameters": {
+      "n_elements": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE",
+      "P2"
+    ]
+  },
+  {
+    "python_function": "_quantize_rowwise_early_max",
+    "lean_definition": "earlyMaximumSource",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "runtime_registers",
+    "call_bindings": null,
+    "statements": 12,
+    "runtime_parameters": {
+      "n_elements": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE",
+      "P2"
+    ]
+  }
+]

@@ -1,0 +1,86 @@
+[
+  {
+    "python_function": "_fwd_kernel_destindex_copy_quantize_kv",
+    "lean_definition": "source",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "stride_k_bs": "rowStride",
+      "stride_k_h": "headStride",
+      "stride_k_g": "8",
+      "stride_k_d": "1",
+      "stride_o_bs": "rowStride",
+      "stride_o_h": "headStride",
+      "stride_o_g": "8",
+      "stride_o_d": "1",
+      "stride_os_bs": "scaleStride",
+      "stride_os_h": "groups",
+      "stride_os_g": "1",
+      "stride_dest": "1",
+      "group_size": "groups"
+    },
+    "statements": 15,
+    "runtime_parameters": {
+      "stride_k_bs": "integer",
+      "stride_k_h": "integer",
+      "stride_k_g": "integer",
+      "stride_k_d": "integer",
+      "stride_o_bs": "integer",
+      "stride_o_h": "integer",
+      "stride_o_g": "integer",
+      "stride_o_d": "integer",
+      "stride_os_bs": "integer",
+      "stride_os_h": "integer",
+      "stride_os_g": "integer",
+      "stride_dest": "integer",
+      "group_size": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_GROUP_DIM",
+      "BLOCK_GROUP_NUM"
+    ]
+  },
+  {
+    "python_function": "_fwd_kernel_destindex_copy_quantize_kv_address_early",
+    "lean_definition": "addressEarly",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "stride_k_bs": "rowStride",
+      "stride_k_h": "headStride",
+      "stride_k_g": "8",
+      "stride_k_d": "1",
+      "stride_o_bs": "rowStride",
+      "stride_o_h": "headStride",
+      "stride_o_g": "8",
+      "stride_o_d": "1",
+      "stride_os_bs": "scaleStride",
+      "stride_os_h": "groups",
+      "stride_os_g": "1",
+      "stride_dest": "1",
+      "group_size": "groups"
+    },
+    "statements": 15,
+    "runtime_parameters": {
+      "stride_k_bs": "integer",
+      "stride_k_h": "integer",
+      "stride_k_g": "integer",
+      "stride_k_d": "integer",
+      "stride_o_bs": "integer",
+      "stride_o_h": "integer",
+      "stride_o_g": "integer",
+      "stride_o_d": "integer",
+      "stride_os_bs": "integer",
+      "stride_os_h": "integer",
+      "stride_os_g": "integer",
+      "stride_dest": "integer",
+      "group_size": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_GROUP_DIM",
+      "BLOCK_GROUP_NUM"
+    ]
+  }
+]

@@ -1,0 +1,413 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "74b9687c742dfdb53ad5365f31b8ed67400c11fe",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "rowwise_quantization_triton",
+    "quantize_copy_kv",
+    "quantize_kv_transform",
+    "quantize_kv_copy"
+  ],
+  "semantic_review": {
+    "adam_update_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "add_example": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "add_value": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "apply_penalty": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "cache_transform_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "chunk_cumsum_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "chunk_cumsum_vector": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "chunked_cumsum_fwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "cosine_compute": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "dequantize_matmul": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "dequantize_rowwise": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "destindex_copy": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "destindex_copy_kv1": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "destindex_copy_kv2": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "dropout_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "embedding_triton_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "f8_conversion_utils": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "fast_rope_embedding": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "fused_activation": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "fused_recurrent_hgrn": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "index_select_bwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "index_select_cat": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "int8_matmul_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "kcache_copy_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "kldiv_compute": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "kldiv_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "kv_cache_copy": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "l2_norm_bwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "l2_norm_triton1": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "l2_norm_triton2": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "logsumexp_fwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "masked_add_cuda": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "masked_select": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "matmul_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "matrix_reduction": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "matrix_transpose": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "max_reduction": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "mean_reduction": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "mul_exponent_compensator": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "nested_loops_processing": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "quant_transpose_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "quantize_global": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "relu_triton_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "reversed_cumsum": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "reversed_cumsum_scalar": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rms_norm_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rmsnorm_fused": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rmsnorm_fused_llama": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rmsnorm_implementation": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rmsnorm_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rope_embedding": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rotary_emb": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rotary_emb_nopad": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "seeded_dropout": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "sin_computation": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "sin_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "softmax_triton1": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "softmax_triton2": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "square_matrix": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "swiglu_backward": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "swiglu_fwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "token_attn_mistral": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "token_attn_reduceV": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "token_softmax_bloom": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "token_softmax_llama": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "triton_mul2": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "triton_softmax": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "var_len_copy": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "vector_addition": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "vector_addition_custom": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the four task-local quantization raw-body migrations. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "quantize_copy_kv": "The selected unchanged original fourteen-statement body and the previously existing integer-address candidate are pasted in shared Kernels entries. FP32 input, signed INT64 destination storage, INT8 codes, FP16 scales, all source INT64 casts, exact stride/head bindings, maximum reduction, scale rounding to half and promotion back to FP32, the original-maximum zero branch, quotient/conversion order, masks and both stores are retained. Runtime argument/constexpr/storage metadata stays outside the body; a named outer denseStride supplies the same existing contiguous caller value. Proofs/SourceIdentity proves complete original and candidate executable statement lists identical to their previous programs by rfl and standard-base audit. All forty-seven roots re-prove actual source execution, complete memory and access safety, independent Real quantization, full token-schedule FP equivalence, native and Tensor applications and all frames with unchanged domains and numerical ports. The only candidate change commutes an integer address product; no FP identity or numerical experiment is used. candidate_kernels.py is a newly authored Python translation of this pre-existing Lean candidate, explicitly labeled as a counterpart rather than a recovered historical original. The selected Python JIT and wrapper are unchanged.",
+    "quantize_kv_copy": "The unchanged selected fifteen-statement grouped quantizer and its existing early-address candidate are copied completely. Both executable statement lists are proved equal to the previous source programs by rfl with standard-base audits. Actual two-dimensional PID INT64 casts, group/column arange casts, signed INT32 destination promotion, four input/output strides, scale group stride, fixed eight-column group, source scale dtype.element_ty conversion, denominator broadcasting, all original masks and both stores are retained. Pointer/call/constexpr metadata stays outside the bodies with the same current caller values. All thirty-nine roots preserve complete source execution, grid scheduling, source access safety, signed native coordinate/metadata refinement, exact logical Real group formula, full FP candidate IO equivalence, native/Tensor/host applications and both exterior frames. Qualifying pre-existing Lean Boolean terms in a retained Host helper restores parsing without changing propositions; set_option retains its ordinary Boolean option spelling. The candidate moves only two pure output address assignments before floating quantization and adds no numerical identity or premise. Its authored Python counterpart translates the already existing Lean candidate and is labeled accordingly. Selected original Python JIT and wrapper remain unchanged.",
+    "quantize_kv_transform": "The complete unchanged selected original and existing early-address candidate are pasted as fourteen-statement bodies. Both whole executable statement lists are proved identical to their previous programs by rfl with standard-base audits. Call metadata retains FP32 input/scale, INT32 destination storage, INT8 codes, all existing runtime stride/head/logical-width values and two constexpr tile sizes outside the bodies. PID/arange INT64 casts, INT32 destination-to-INT64 promotion, independent logical head and column masks, padded zero loads, scale dtype.element_ty access and explicit FP32 promotion, original maximum zero check, quotient/INT8 conversion order and both stores remain verbatim. All forty-four roots preserve successful source/grid execution in arbitrary complete token order, source safety, native indexing, independent Real logical-width maximum and code/scale formulas, full FP IO equivalence, Tensor/native applications and complete exterior memory frames. The existing candidate only schedules two pure output pointer assignments before floating quantization. No numerical law, scalar port, domain or scope changes. Its Python counterpart is explicitly authored from that existing Lean candidate, not a recovered original. The selected original Python JIT/wrapper is unchanged.",
+    "rowwise_quantization_triton": "Both unchanged selected Python original and pre-existing early-maximum-store candidate are pasted as complete twelve-statement bodies in the shared Kernels entry. Pointer storage FP32/INT8/FP16, the unused n_elements runtime argument and two constexpr parameters are metadata outside the bodies. Every PID INT64 cast, tl.full INT64 multiplication, arange, integer-zero masking, ordinary division, llrint64 and implicit INT8/FP16 store conversion is retained. Successful source execution and complete tagged memory are re-proved using exact signed/Nat address identities and the actual integer signed-byte encoding; maximum masking keeps integer 0 exactly as Python. Both source access-safety proofs and exact full-state early-store commutation replay. The existing signed-byte low-bit identity repairs a missing step in a retained native readback leaf; qualifying one pre-existing Lean Boolean literal fixes parsing without changing its proposition. All forty roots preserve independent maximum/nearest-even Real formulas, arbitrary full row permutations, complete FP IO equivalence, native and Tensor/host applications, both typed outputs and logical/physical exterior frames. Every original FP32 word remains admitted, with the same exceptional conversion policy, scalar primitive ports and payload-independent maximum tree. No numerical identity, assumption, input condition or source instruction is added. Candidate.source is a transparent alias to the single canonical candidate quotation. Python JITs and wrappers are unchanged."
+  },
+  "example_regression_scope": "All 19 examples and their complete helpers replay in the warm and joint union. The task-local changes introduce no new example dependency or mathematical/numerical scope change.",
+  "verification": {
+    "frontend_regressions": {
+      "status": "PASS",
+      "configured_modules": 96,
+      "scope": "No shared frontend changes in this batch. Existing complete frontend and semantic regression roots replay in the warm and joint union."
+    },
+    "integration": {
+      "status": "PASS",
+      "explicit_modules": 2661,
+      "jobs": 11928
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 170,
+      "jobs": 8671,
+      "scope": "All 170 task roots and their full transitive dependencies in an initially empty project checkout. Other migrated tasks/examples replay warm and jointly; no shared library source changed.",
+      "project_build_initially_present": false,
+      "veritile_cache_initially_present": false,
+      "only_fixed_external_dependencies_reused": true
+    },
+    "joint_import": "PASS: all 2661 roots",
+    "task_directories": "All 170 explicit roots include all four selected task directories, original/candidate source and identity proofs, actual execution and access safety, independent mathematical formulas, complete public Real/FP IO, arbitrary full grids and retained Tensor/native/host/frame applications. Every earlier migrated task/example and frontend root replays warm and jointly.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 87
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 332,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by its old numerical receipt; no false repin."
+    },
+    "official_comparator": "UNAVAILABLE: actual frozen-source invocations report required host isolation unavailable. Pinned tools are installed; host Landlock ABI v4 is below required v5 and the systemd user bus is unavailable. No isolation bypass.",
+    "task_local_inspections": "All eight complete original/candidate bodies pass their raw-body and ABI/call-binding gates. Actual CPU probes require missing Torch; failures are retained and not counted as passes. Four selected original JIT/wrappers and all prior experimental evidence remain unchanged. Three Python candidate counterparts are explicitly authored from already existing Lean candidates; the rowwise Python candidate already existed.",
+    "gpu_or_numerical_experiment": "Not run; no new numerical law or hardware-conformance claim.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending."
+  },
+  "source_pairs": {
+    "total": 231,
+    "pasted_body": 226,
+    "legacy_ast": 5
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/source-closure.json",
+    "sha256": "001f4b13ce4074bc965fd7abd9023ad1496b68f4e746533f15b3bc80d8a41a7d"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "legacy_ast_only": 1,
+      "no_selected_jit_resolved": 2,
+      "selected_body_copy_checked": 74,
+      "uncovered_jit_functions": 106
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 328,
+    "uncovered_selected_jit_functions": 214,
+    "primary_files_with_int64_screen_warning": 29,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 82,
+        "antiquotes": 91,
+        "dsl_loop": 1,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/all-python.log.gz",
+      "sha256": "3bce1650a9ea200990a3f610802dcab790c8e1cbfc5dbddfb2b3621df5ffd219"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/changed-bench__repairs__tritonbench_g__quantize_copy_kv__Kernels-comparator.log",
+      "sha256": "a00973a2917e1854a0c439d3c4cc17abc590e67f3889ff6e04301d350c9c79d4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/changed-bench__repairs__tritonbench_g__quantize_copy_kv__Proofs__AccessSafety-comparator.log",
+      "sha256": "0d0bac57d421ab5a8a13e99fae8f50f28c496600a19d40f1ca67bdac5fa2c9e4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/changed-bench__repairs__tritonbench_g__quantize_copy_kv__Proofs__KernelExecution-comparator.log",
+      "sha256": "e51124af795ba0721fbebadb2b4c900044e997c994222f2bf713683ef5ac45a0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/changed-bench__repairs__tritonbench_g__quantize_copy_kv__Proofs__SourceIdentity-comparator.log",
+      "sha256": "57fc9c9f2f1d42a553660ac61e3d7aedddc0833f0fa0d699becee8eee4ee9666"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/changed-bench__repairs__tritonbench_g__quantize_kv_copy__Kernels-comparator.log",
+      "sha256": "668e219ab24dc557703b2ea08cd58dd67f1300aadee6333bb94f90678b3338db"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/changed-bench__repairs__tritonbench_g__quantize_kv_copy__Proofs__Host-comparator.log",
+      "sha256": "55ff5a3d47013bb04523d4e0e182f68c3f1feb4ca57859f38fb79f5c5edd98b5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/changed-bench__repairs__tritonbench_g__quantize_kv_copy__Proofs__SourceIdentity-comparator.log",
+      "sha256": "634468b8da65b0d2f63aaa328a3579de2699a39b8876bb1acdf7b30eb6e0a027"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/changed-bench__repairs__tritonbench_g__quantize_kv_transform__Kernels-comparator.log",
+      "sha256": "ea2a9fb06b5c41e782354b3571bfa803a25e6591b1e5d28f9090f34f6534dd3b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/changed-bench__repairs__tritonbench_g__quantize_kv_transform__Proofs__SourceIdentity-comparator.log",
+      "sha256": "e176187878abf8b3d4fe533baa56f5b8a55af806ddfd4e22107db68e82748e94"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/changed-bench__repairs__tritonbench_g__rowwise_quantization_triton__Candidate-comparator.log",
+      "sha256": "a03ce9d5094737e389cf1ae9100f69abf703cf76c56aee3c387bea65cd3a6e2c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/changed-bench__repairs__tritonbench_g__rowwise_quantization_triton__Kernels-comparator.log",
+      "sha256": "2df500b94b8b9fe7c8cd7e9cc4bb8f8f423963cc8fadf432ba4f0740cc06dc46"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/changed-bench__repairs__tritonbench_g__rowwise_quantization_triton__Proofs__FP-comparator.log",
+      "sha256": "10643ca68b2cb08232f4c165cb743396a8cbea507ff74fa78c068c87b7da16f4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/changed-bench__repairs__tritonbench_g__rowwise_quantization_triton__Proofs__KernelNativeResult-comparator.log",
+      "sha256": "a747d36d1f59e0ecd09494ea09b4719d9858df77d7e94dee60177baf940204d2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/changed-bench__repairs__tritonbench_g__rowwise_quantization_triton__Proofs__KernelResult-comparator.log",
+      "sha256": "0c6cb252c50ae8ab7127002cbf548644c7387c3544c8e90f2342103c3b432436"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/changed-bench__repairs__tritonbench_g__rowwise_quantization_triton__Proofs__SourceSafety-comparator.log",
+      "sha256": "afc9031cdf3db5849e44a195199ce3fe41c22ddda4267ab3643477a65ac6c6c3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/changed-bench__repairs__tritonbench_g__rowwise_quantization_triton__Proofs__StoreSafety-comparator.log",
+      "sha256": "b34274a66d4c64ea6fdf54ef432c0770a62acfa54011a738677bcf2701e5d505"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/changed-bench__repairs__tritonbench_g__rowwise_quantization_triton__Proofs__StoreSchedule-comparator.log",
+      "sha256": "fb5574b7969bee0dfa565ba00f20ee99a81eba113210685c65b0f13a039cf4bd"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/clean-build.log.gz",
+      "sha256": "f568b1e61fcf55279c1c56b59dc21eff85035f8b0601e06da7fe28a8b1a32d92"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/clean-setup.log",
+      "sha256": "4d3a1a9236f62536a50e07194437eed9d7fd34bd487c9d742d1c9fc8b19ca4a4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/comparator-invocations.json",
+      "sha256": "77deefbcc6941d89538ce777ff9461fdb122e68072e5374681601a8e707dcd8c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/comparator-preflight.log",
+      "sha256": "d9255026a27595d0a04e154bc4a9c609c8422b012fc13cb1ae4de2417afea36d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/comparator-setup.log",
+      "sha256": "bea658f19aea48f8965a3d6525da1300e599d9a3f0a05b992071c97bcaffd6df"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/comparator-tools.json",
+      "sha256": "d541ac407f7aa8679c8ba23dd4df72ac363730bbb67e45bd7959ec752e6b0c53"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/comparator.log",
+      "sha256": "6df3a70ecb7239936839345e168f6034b0e1cdd08543a2332372e046569b3794"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/contract.log",
+      "sha256": "5c5e68874ab01d68a73486163c2d76338bbfd7641e8bd5e4246d3303793c6181"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/corpus-guard.log",
+      "sha256": "018c3aa07ca47decde41a6b9a01780e06e07fde91d2f2a884f2c7ec1ebf3cdc4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/focused-modules.txt",
+      "sha256": "b761565738bdedf7114d086fe88509012e3fe27d187f08c2b241c1e29abcfd93"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/inspections.json",
+      "sha256": "b7684f99cbc4cbbe12e4a2099508df1dd5d0f6982d6b8934b48c9e3f7be67ff6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/integration.log.gz",
+      "sha256": "972e99bb833119cfdb9bbc4cae93d339312f645b2b7927daf4fed30f11715ee1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/joint.lean",
+      "sha256": "5c1af75d86d2740c04cc20e4a1734813974897e8d9961c4d3e8efdcb281fd178"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/modules.json",
+      "sha256": "e6384ed3d4a7434ca0eb3155e126cd83b9a9ab3ce1523ae912f8fc92eb93cf90"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/pairs.json",
+      "sha256": "322c6564c301504282ee5a9ae2a717fcb9ccf5436df5d2a6537e8a2eb7a69853"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/previous-selected-reviews.json.gz",
+      "sha256": "2b927071d5463332093d3cc25745d1839a4657d5079528f37268ceccace35066"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/python-tests.log",
+      "sha256": "27b984c9a3f11cab02f8002a4204878d1c69a73f29c26b89de2bf5dc9f48fbd5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/quantize_copy_kv-Real-comparator.log",
+      "sha256": "f8bb33539b658010e56d634939a7fbe1c9e5ee2b17ee7025bb4f85ef2d033381"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/quantize_copy_kv-comparator.log",
+      "sha256": "c500b6124859c45fda679d76e215a44f66a394c7db260558e1833e43bd21cfbf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/quantize_copy_kv-contract.log",
+      "sha256": "7d75e6a965a8fdcefb54bbc6d6c32e74e1e1989fc565859722f5cfb6d9685181"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/quantize_copy_kv-raw-source-check.log",
+      "sha256": "2df95b313ab0d7b5e214ce57fb0654bc391331d7e98afdce7a42fcb854d61aca"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/quantize_kv_copy-Real-comparator.log",
+      "sha256": "a4f3ed453440272226e83c95964e131f9930c80fa54ca631b65d27452f6f4450"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/quantize_kv_copy-comparator.log",
+      "sha256": "1d0cd28158f0c132f8d1662b45d8ce6b72af0c646696ad22d499f289bbefcd61"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/quantize_kv_copy-contract.log",
+      "sha256": "5875849252f2299c0d658e43056f98f3d8a975edf23fc8660b5d8a33911dc78b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/quantize_kv_copy-raw-source-check.log",
+      "sha256": "500ebd44dea38c031b30d40e848754ad9d0f3695ebf2ef2766a900d6a9a0e0ee"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/quantize_kv_transform-Real-comparator.log",
+      "sha256": "0f6c27f9efe9eb55ab29d5279c4f74fab7bd327a3b3bb308936c59a732425469"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/quantize_kv_transform-comparator.log",
+      "sha256": "cc0ec6d91a2431d2abb97d6e557b8c3c59b5586674688adf876f8117ed2a25b3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/quantize_kv_transform-contract.log",
+      "sha256": "24145024d8eaa68e18ebf0d94a14c9cb1d127fb74f129a3d8bd63f1159fe0d7f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/quantize_kv_transform-raw-source-check.log",
+      "sha256": "5b51cd894bbb5903f9213f181fe8f9797e349271eb1f5a32277dfe7923571298"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/rowwise_quantization_triton-Real-comparator.log",
+      "sha256": "31b3589fc3df13a5ef8861ec485c3c541cd75d1cd7c46f0d322146a8e5544377"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/rowwise_quantization_triton-comparator.log",
+      "sha256": "fe8917c7c7fc2f1ac936f20e675503ca0905ef263a6994e5f49cfc6398cb0733"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/rowwise_quantization_triton-contract.log",
+      "sha256": "fdbc293dc1ee08561f9b2882c82c59d215a16bfda8a4f578a59098f1403f296d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/rowwise_quantization_triton-raw-source-check.log",
+      "sha256": "ca10afd532f6871b52a43ac9dc4dba5f95b4116f112bb7bf44ecaa090bdd195d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/secondary-focused-development.log.gz",
+      "sha256": "8dfba457b2dc095bfcaf83666c76193ff123f3f500e08889823b5645c247f7b9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/source-closure.json",
+      "sha256": "001f4b13ce4074bc965fd7abd9023ad1496b68f4e746533f15b3bc80d8a41a7d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-quantization-bodies/transferred-files.json",
+      "sha256": "d75ff5ac30a2362499bf163597e4b760f8b75119ece2faab29db5f1c9a0fbc6b"
+    }
+  ]
+}

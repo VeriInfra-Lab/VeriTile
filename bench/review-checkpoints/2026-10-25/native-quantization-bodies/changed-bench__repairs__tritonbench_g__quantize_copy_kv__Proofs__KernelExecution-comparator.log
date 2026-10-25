@@ -1,0 +1,4 @@
+{"name": "changed-bench__repairs__tritonbench_g__quantize_copy_kv__Proofs__KernelExecution", "file": "bench/repairs/tritonbench_g/quantize_copy_kv/Proofs/KernelExecution.lean", "sha256": "b222635cae65eba7f1518944304b72c3ab27661a55877ecb69dd3619b5eb9e4b", "command": ["python3", "scripts/check_comparator.py", "--file", "bench/repairs/tritonbench_g/quantize_copy_kv/Proofs/KernelExecution.lean", "--trust"], "exit_code": 1, "code_commit": "74b9687c742dfdb53ad5365f31b8ed67400c11fe"}
+[FAIL] Official comparator isolation is unavailable:
+- systemd AF_UNIX restriction: Failed to connect to bus: Operation not permitted (consider using --machine=<user>@.host --user to connect to bus of other user)
+- Landlock sandbox: [landrun:error] 2026/10/25 22:08:27 Failed to apply sandbox: failed to apply Landlock filesystem restrictions: missing kernel Landlock support. Got Landlock ABI v4, wanted {Landlock V5; FS: all; Net: ∅}

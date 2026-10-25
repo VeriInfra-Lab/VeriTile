@@ -1,0 +1,2 @@
+HEAD is now at 74b9687c7 Preserve raw rowwise and quantized cache source bodies with complete proof replay
+{"code_commit": "74b9687c742dfdb53ad5365f31b8ed67400c11fe", "project_build_initially_present": false, "veritile_cache_initially_present": false, "only_fixed_external_dependencies_reused": true, "packages_target": "/home/argustest/lizn/VeriTile/.lake/packages", "roots": 170}

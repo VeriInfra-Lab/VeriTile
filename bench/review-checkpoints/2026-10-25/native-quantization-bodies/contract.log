@@ -1,0 +1,304 @@
+rowwise_quantization_triton raw-source-check
+[
+  {
+    "python_function": "_quantize_rowwise",
+    "lean_definition": "source",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "runtime_registers",
+    "call_bindings": null,
+    "statements": 12,
+    "runtime_parameters": {
+      "n_elements": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE",
+      "P2"
+    ]
+  },
+  {
+    "python_function": "_quantize_rowwise_early_max",
+    "lean_definition": "earlyMaximumSource",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "runtime_registers",
+    "call_bindings": null,
+    "statements": 12,
+    "runtime_parameters": {
+      "n_elements": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE",
+      "P2"
+    ]
+  }
+]
+
+rowwise_quantization_triton contract
+Traceback (most recent call last):
+  File "/tmp/veritile-hgrn54-clean/bench/repairs/tritonbench_g/rowwise_quantization_triton/check_contract.py", line 8, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'
+
+quantize_copy_kv raw-source-check
+[
+  {
+    "python_function": "_fwd_kernel_destindex_copy_quantize_kv",
+    "lean_definition": "originalSource",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "stride_k_bs": "denseStride",
+      "stride_k_h": "p.width",
+      "stride_k_d": "1",
+      "stride_dest": "1",
+      "stride_o_bs": "denseStride",
+      "stride_o_h": "p.width",
+      "stride_o_d": "1",
+      "stride_os_bs": "p.heads",
+      "stride_os_h": "1",
+      "head_num": "p.heads"
+    },
+    "statements": 14,
+    "runtime_parameters": {
+      "stride_k_bs": "integer",
+      "stride_k_h": "integer",
+      "stride_k_d": "integer",
+      "stride_dest": "integer",
+      "stride_o_bs": "integer",
+      "stride_o_h": "integer",
+      "stride_o_d": "integer",
+      "stride_os_bs": "integer",
+      "stride_os_h": "integer",
+      "head_num": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_DMODEL",
+      "BLOCK_HEAD"
+    ]
+  },
+  {
+    "python_function": "_fwd_kernel_destindex_copy_quantize_kv_commuted",
+    "lean_definition": "commutedSource",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "stride_k_bs": "denseStride",
+      "stride_k_h": "p.width",
+      "stride_k_d": "1",
+      "stride_dest": "1",
+      "stride_o_bs": "denseStride",
+      "stride_o_h": "p.width",
+      "stride_o_d": "1",
+      "stride_os_bs": "p.heads",
+      "stride_os_h": "1",
+      "head_num": "p.heads"
+    },
+    "statements": 14,
+    "runtime_parameters": {
+      "stride_k_bs": "integer",
+      "stride_k_h": "integer",
+      "stride_k_d": "integer",
+      "stride_dest": "integer",
+      "stride_o_bs": "integer",
+      "stride_o_h": "integer",
+      "stride_o_d": "integer",
+      "stride_os_bs": "integer",
+      "stride_os_h": "integer",
+      "head_num": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_DMODEL",
+      "BLOCK_HEAD"
+    ]
+  }
+]
+
+quantize_copy_kv contract
+Traceback (most recent call last):
+  File "/tmp/veritile-hgrn54-clean/bench/repairs/tritonbench_g/quantize_copy_kv/check_contract.py", line 10, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'
+
+quantize_kv_transform raw-source-check
+[
+  {
+    "python_function": "_fwd_kernel_destindex_copy_quantize_kv",
+    "lean_definition": "kernel",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "stride_k_bs": "denseStride",
+      "stride_k_h": "p.columns",
+      "stride_k_d": "1",
+      "stride_dest": "1",
+      "stride_o_bs": "denseStride",
+      "stride_o_h": "p.columns",
+      "stride_o_d": "1",
+      "stride_os_bs": "p.heads",
+      "stride_os_h": "1",
+      "head_num": "p.heads",
+      "head_dim": "p.columns"
+    },
+    "statements": 14,
+    "runtime_parameters": {
+      "stride_k_bs": "integer",
+      "stride_k_h": "integer",
+      "stride_k_d": "integer",
+      "stride_dest": "integer",
+      "stride_o_bs": "integer",
+      "stride_o_h": "integer",
+      "stride_o_d": "integer",
+      "stride_os_bs": "integer",
+      "stride_os_h": "integer",
+      "head_num": "integer",
+      "head_dim": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_DMODEL",
+      "BLOCK_HEAD"
+    ]
+  },
+  {
+    "python_function": "_fwd_kernel_destindex_copy_quantize_kv_address_early",
+    "lean_definition": "addressEarly",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "stride_k_bs": "denseStride",
+      "stride_k_h": "p.columns",
+      "stride_k_d": "1",
+      "stride_dest": "1",
+      "stride_o_bs": "denseStride",
+      "stride_o_h": "p.columns",
+      "stride_o_d": "1",
+      "stride_os_bs": "p.heads",
+      "stride_os_h": "1",
+      "head_num": "p.heads",
+      "head_dim": "p.columns"
+    },
+    "statements": 14,
+    "runtime_parameters": {
+      "stride_k_bs": "integer",
+      "stride_k_h": "integer",
+      "stride_k_d": "integer",
+      "stride_dest": "integer",
+      "stride_o_bs": "integer",
+      "stride_o_h": "integer",
+      "stride_o_d": "integer",
+      "stride_os_bs": "integer",
+      "stride_os_h": "integer",
+      "head_num": "integer",
+      "head_dim": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_DMODEL",
+      "BLOCK_HEAD"
+    ]
+  }
+]
+
+quantize_kv_transform contract
+Traceback (most recent call last):
+  File "/tmp/veritile-hgrn54-clean/bench/repairs/tritonbench_g/quantize_kv_transform/check_contract.py", line 10, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'
+
+quantize_kv_copy raw-source-check
+[
+  {
+    "python_function": "_fwd_kernel_destindex_copy_quantize_kv",
+    "lean_definition": "source",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "stride_k_bs": "rowStride",
+      "stride_k_h": "headStride",
+      "stride_k_g": "8",
+      "stride_k_d": "1",
+      "stride_o_bs": "rowStride",
+      "stride_o_h": "headStride",
+      "stride_o_g": "8",
+      "stride_o_d": "1",
+      "stride_os_bs": "scaleStride",
+      "stride_os_h": "groups",
+      "stride_os_g": "1",
+      "stride_dest": "1",
+      "group_size": "groups"
+    },
+    "statements": 15,
+    "runtime_parameters": {
+      "stride_k_bs": "integer",
+      "stride_k_h": "integer",
+      "stride_k_g": "integer",
+      "stride_k_d": "integer",
+      "stride_o_bs": "integer",
+      "stride_o_h": "integer",
+      "stride_o_g": "integer",
+      "stride_o_d": "integer",
+      "stride_os_bs": "integer",
+      "stride_os_h": "integer",
+      "stride_os_g": "integer",
+      "stride_dest": "integer",
+      "group_size": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_GROUP_DIM",
+      "BLOCK_GROUP_NUM"
+    ]
+  },
+  {
+    "python_function": "_fwd_kernel_destindex_copy_quantize_kv_address_early",
+    "lean_definition": "addressEarly",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "stride_k_bs": "rowStride",
+      "stride_k_h": "headStride",
+      "stride_k_g": "8",
+      "stride_k_d": "1",
+      "stride_o_bs": "rowStride",
+      "stride_o_h": "headStride",
+      "stride_o_g": "8",
+      "stride_o_d": "1",
+      "stride_os_bs": "scaleStride",
+      "stride_os_h": "groups",
+      "stride_os_g": "1",
+      "stride_dest": "1",
+      "group_size": "groups"
+    },
+    "statements": 15,
+    "runtime_parameters": {
+      "stride_k_bs": "integer",
+      "stride_k_h": "integer",
+      "stride_k_g": "integer",
+      "stride_k_d": "integer",
+      "stride_o_bs": "integer",
+      "stride_o_h": "integer",
+      "stride_o_g": "integer",
+      "stride_o_d": "integer",
+      "stride_os_bs": "integer",
+      "stride_os_h": "integer",
+      "stride_os_g": "integer",
+      "stride_dest": "integer",
+      "group_size": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_GROUP_DIM",
+      "BLOCK_GROUP_NUM"
+    ]
+  }
+]
+
+quantize_kv_copy contract
+Traceback (most recent call last):
+  File "/tmp/veritile-hgrn54-clean/bench/repairs/tritonbench_g/quantize_kv_copy/check_contract.py", line 10, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'
+

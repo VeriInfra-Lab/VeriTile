@@ -1,0 +1,4 @@
+{"name": "quantize_kv_transform-Real", "file": "bench/repairs/tritonbench_g/quantize_kv_transform/Correct.lean", "sha256": "b3e82db81ea97b7ce8abcac54fba545f53bcd48885c45417b0f10d35c8e04ac6", "command": ["python3", "scripts/check_comparator.py", "--file", "bench/repairs/tritonbench_g/quantize_kv_transform/Correct.lean", "--trust"], "exit_code": 1, "code_commit": "74b9687c742dfdb53ad5365f31b8ed67400c11fe"}
+[FAIL] Official comparator isolation is unavailable:
+- systemd AF_UNIX restriction: Failed to connect to bus: Operation not permitted (consider using --machine=<user>@.host --user to connect to bus of other user)
+- Landlock sandbox: [landrun:error] 2026/10/25 22:08:27 Failed to apply sandbox: failed to apply Landlock filesystem restrictions: missing kernel Landlock support. Got Landlock ABI v4, wanted {Landlock V5; FS: all; Net: ∅}
