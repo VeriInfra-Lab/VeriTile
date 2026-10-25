@@ -15,6 +15,15 @@ declare_syntax_cat tritonMemKwarg
 declare_syntax_cat tritonReduceKwarg
 declare_syntax_cat tritonScanOp
 declare_syntax_cat tritonDType
+declare_syntax_cat tritonInlineAsmKwarg
+
+-- An inline instruction keeps its literal text and complete call ABI. The
+-- expander accepts only explicitly modeled instruction/constraint profiles.
+syntax ident "=" tritonExpr : tritonInlineAsmKwarg
+syntax ident "=" tritonDType : tritonInlineAsmKwarg
+syntax ident "=" "[" tritonExpr,* "]" : tritonInlineAsmKwarg
+syntax (name := tritonInlineAsm) "tl.inline_asm_elementwise(" str
+  ("," tritonInlineAsmKwarg)* ")" : tritonExpr
 
 -- Expressions
 syntax num : tritonExpr

@@ -72,6 +72,28 @@ def outerValues (cast : Word32 → Byte) (p : Parameters) (s : State Word32) : N
   | 0 => fun _ => 0
   | field+1 => innerValues cast p s field (outerValues cast p s field) p.steps
 
+/-- Every accumulated result is already a signed32 word, including zero-trip
+inner loops. The actual implicit INT32 output conversion therefore preserves it. -/
+theorem innerValues_word (cast : Word32 → Byte) (p : Parameters) (s : State Word32)
+    (field : Nat) (initial : CIndex p → Int) (i : CIndex p)
+    (seed : ∃ word : Word32, initial i = word.toInt) (count : Nat) :
+    ∃ word : Word32, innerValues cast p s field initial count i = word.toInt := by
+  cases count with
+  | zero => exact seed
+  | succ count =>
+    exact ⟨ptxAdd32 (BitVec.ofInt 32 (innerValues cast p s field initial count i))
+      (BitVec.ofInt 32 (wordDot (aValue cast p s field count) (bValue p s field count) i)), rfl⟩
+
+theorem outerValues_word (cast : Word32 → Byte) (p : Parameters) (s : State Word32)
+    (count : Nat) (i : CIndex p) :
+    ∃ word : Word32, outerValues cast p s count i = word.toInt := by
+  induction count with
+  | zero => exact ⟨0,rfl⟩
+  | succ count ih => exact innerValues_word cast p s count _ i ih p.steps
+
+#axiomsClean innerValues_word
+#axiomsClean outerValues_word
+
 def outputOffset (p : Parameters) (s : State Word32) (i : CIndex p) : Nat :=
   p.outputRowStride*(rowBlock p s*p.blockRows+i.1.val)+
     p.outputColumnStride*(columnBlock p s*p.blockColumns+i.2.1.val)

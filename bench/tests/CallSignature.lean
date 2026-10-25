@@ -752,3 +752,191 @@ example (X Y : RegionName) (P : Region .nat) (B : Nat) : ComputeKernel :=
 
 #axiomsClean complete_program
 end VeriTile.Tests.CallSignature.NaturalIntegerMemory
+
+namespace VeriTile.Tests.PythonReservedNames
+open VeriTile.Triton
+
+def signature : CallSignature where
+  pointers := [("X",.fp32),("Y",.fp32)]
+  constexpr := ["B"]
+
+def source (X Y : RegionName) (B : Nat) : ComputeKernel :=
+  with_triton_signature signature in triton {
+    partial = tl.program_id(0)
+    prefix = partial * B + tl.arange(0, B)
+    values = tl.load(X + prefix)
+    tl.store(Y + prefix, values)
+  }
+
+theorem complete_program (X Y : RegionName) (B : Nat) : source X Y B = triton {
+    tl.ports inputs=[X], outputs=[Y]
+    tl.region X = tl.float32, Y = tl.float32
+    «partial» = tl.program_id(0)
+    «prefix» = «partial» * $(B) + tl.arange(0, $(B))
+    values = tl.load(X + «prefix»)
+    tl.store(Y + «prefix», values)
+  } := rfl
+#axiomsClean complete_program
+end VeriTile.Tests.PythonReservedNames
+
+namespace VeriTile.Tests.CallSignature.InlineAddU32
+open VeriTile.Triton
+
+def signature : CallSignature where
+  pointers := [("X",.i32),("Y",.i32),("Z",.i32)]
+  constexpr := ["B"]
+
+def source (X Y Z : RegionName) (B : Nat) : ComputeKernel :=
+  with_triton_signature signature in triton {
+    lanes = tl.arange(0, B)
+    left = tl.load(X + lanes)
+    right = tl.load(Y + lanes)
+    result = tl.inline_asm_elementwise("add.u32 $0, $1, $2;", constraints="=r,r,r", args=[left, right], dtype=tl.int32, is_pure=True, pack=1)
+    tl.store(Z + lanes, result)
+  }
+
+/-- The complete source call compiles to the established modulo32/signed32
+instruction, retaining both input reads, output storage and native ABI. -/
+theorem complete_program (X Y Z : RegionName) (B : Nat) : source X Y Z B = triton {
+    tl.ports inputs=[X,Y], outputs=[Z]
+    tl.region X = tl.int32, Y = tl.int32, Z = tl.int32
+    lanes = tl.arange(0, $(B))
+    left = tl.load(X + lanes)
+    right = tl.load(Y + lanes)
+    result = ((left + right).to(tl.uint32)).to(tl.int32)
+    tl.store(Z + lanes, result)
+  } := rfl
+
+/-- error: inline ASM: only the modeled add.u32 instruction is supported -/
+#guard_msgs in
+example (X Y Z : RegionName) (B : Nat) : ComputeKernel :=
+  with_triton_signature signature in triton {
+    lanes = tl.arange(0, B)
+    left = tl.load(X + lanes)
+    right = tl.load(Y + lanes)
+    result = tl.inline_asm_elementwise("sub.u32 $0, $1, $2;", constraints="=r,r,r", args=[left, right], dtype=tl.int32, is_pure=True, pack=1)
+    tl.store(Z + lanes, result)
+  }
+
+/-- error: inline ASM: constraints must be the literal =r,r,r -/
+#guard_msgs in
+example (X Y Z : RegionName) (B : Nat) : ComputeKernel :=
+  with_triton_signature signature in triton {
+    lanes = tl.arange(0, B)
+    left = tl.load(X + lanes)
+    right = tl.load(Y + lanes)
+    result = tl.inline_asm_elementwise("add.u32 $0, $1, $2;", constraints="=r,l,l", args=[left, right], dtype=tl.int32, is_pure=True, pack=1)
+    tl.store(Z + lanes, result)
+  }
+
+/-- error: inline ASM: is_pure must be literal True -/
+#guard_msgs in
+example (X Y Z : RegionName) (B : Nat) : ComputeKernel :=
+  with_triton_signature signature in triton {
+    lanes = tl.arange(0, B)
+    left = tl.load(X + lanes)
+    right = tl.load(Y + lanes)
+    result = tl.inline_asm_elementwise("add.u32 $0, $1, $2;", constraints="=r,r,r", args=[left, right], dtype=tl.int32, is_pure=False, pack=1)
+    tl.store(Z + lanes, result)
+  }
+
+/-- error: inline ASM: pack must be literal 1 -/
+#guard_msgs in
+example (X Y Z : RegionName) (B : Nat) : ComputeKernel :=
+  with_triton_signature signature in triton {
+    lanes = tl.arange(0, B)
+    left = tl.load(X + lanes)
+    right = tl.load(Y + lanes)
+    result = tl.inline_asm_elementwise("add.u32 $0, $1, $2;", constraints="=r,r,r", args=[left, right], dtype=tl.int32, is_pure=True, pack=2)
+    tl.store(Z + lanes, result)
+  }
+
+/-- error: inline ASM: result dtype must be tl.int32 -/
+#guard_msgs in
+example (X Y Z : RegionName) (B : Nat) : ComputeKernel :=
+  with_triton_signature signature in triton {
+    lanes = tl.arange(0, B)
+    left = tl.load(X + lanes)
+    right = tl.load(Y + lanes)
+    result = tl.inline_asm_elementwise("add.u32 $0, $1, $2;", constraints="=r,r,r", args=[left, right], dtype=tl.float32, is_pure=True, pack=1)
+    tl.store(Z + lanes, result)
+  }
+
+/-- error: inline ASM: args must be two integer register identifiers -/
+#guard_msgs in
+example (X Y Z : RegionName) (B : Nat) : ComputeKernel :=
+  with_triton_signature signature in triton {
+    lanes = tl.arange(0, B)
+    left = tl.load(X + lanes)
+    right = tl.load(Y + lanes)
+    result = tl.inline_asm_elementwise("add.u32 $0, $1, $2;", constraints="=r,r,r", args=[tl.load(X + lanes), right], dtype=tl.int32, is_pure=True, pack=1)
+    tl.store(Z + lanes, result)
+  }
+
+/-- error: inline ASM add.u32: operands must use integer registers -/
+#guard_msgs in
+example (X Y Z : RegionName) (B : Nat) : ComputeKernel :=
+  with_triton_signature { signature with pointers := [("X",.fp32),("Y",.fp32),("Z",.i32)] } in triton {
+    lanes = tl.arange(0, B)
+    left = tl.load(X + lanes)
+    right = tl.load(Y + lanes)
+    result = tl.inline_asm_elementwise("add.u32 $0, $1, $2;", constraints="=r,r,r", args=[left, right], dtype=tl.int32, is_pure=True, pack=1)
+    tl.store(Z + lanes, result)
+  }
+
+/-- error: inline ASM: duplicate ABI option -/
+#guard_msgs in
+example (X Y Z : RegionName) (B : Nat) : ComputeKernel :=
+  with_triton_signature signature in triton {
+    lanes = tl.arange(0, B)
+    left = tl.load(X + lanes)
+    right = tl.load(Y + lanes)
+    result = tl.inline_asm_elementwise("add.u32 $0, $1, $2;", constraints="=r,r,r", args=[left, right], dtype=tl.int32, is_pure=True, pack=1, pack=1)
+    tl.store(Z + lanes, result)
+  }
+
+/-- error: inline ASM: complete ABI options are required -/
+#guard_msgs in
+example (X Y Z : RegionName) (B : Nat) : ComputeKernel :=
+  with_triton_signature signature in triton {
+    lanes = tl.arange(0, B)
+    left = tl.load(X + lanes)
+    right = tl.load(Y + lanes)
+    result = tl.inline_asm_elementwise("add.u32 $0, $1, $2;", constraints="=r,r,r", args=[left, right], dtype=tl.int32, is_pure=True)
+    tl.store(Z + lanes, result)
+  }
+
+/-- Python keyword order does not change the checked instruction ABI. -/
+theorem reordered_abi (X Y Z : RegionName) (B : Nat) : source X Y Z B =
+    with_triton_signature signature in triton {
+      lanes = tl.arange(0, B)
+      left = tl.load(X + lanes)
+      right = tl.load(Y + lanes)
+      result = tl.inline_asm_elementwise("add.u32 $0, $1, $2;", pack=1, dtype=tl.int32, args=[left, right], is_pure=True, constraints="=r,r,r")
+      tl.store(Z + lanes, result)
+    } := rfl
+
+#axiomsClean reordered_abi
+#axiomsClean complete_program
+end VeriTile.Tests.CallSignature.InlineAddU32
+
+namespace VeriTile.Tests.StaticAssertionSource
+open VeriTile.Triton FP.Structural
+
+def signature : CallSignature where
+  pointers := [("X",.fp32)]
+  constexpr := ["B"]
+
+def source (X : RegionName) (B : Nat) : ComputeKernel :=
+  with_triton_signature signature in triton {
+    tl.static_assert(B % 4 == 0, "B must be a multiple of four")
+    lanes = tl.arange(0, B)
+    value = tl.load(X + lanes)
+    tl.store(X + lanes, value)
+  }
+
+theorem assertion_step_noop {α : Type} [Inhabited α] (M : Algebra α) (s : State α) (X : RegionName) (B : Nat) :
+    ((source X B).surfaceBody.head?).bind (fun statement => FP.Structural.step M statement s) = some s := by
+  simp [source,ComputeKernel.surfaceBody,FP.Structural.step,FP.Structural.stepAlg,evalOp_unfold]
+#axiomsClean assertion_step_noop
+end VeriTile.Tests.StaticAssertionSource

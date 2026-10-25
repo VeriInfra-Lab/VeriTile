@@ -8,8 +8,8 @@
     "task_status": {
       "legacy_ast_only": 1,
       "no_selected_jit_resolved": 2,
-      "selected_body_copy_checked": 60,
-      "uncovered_jit_functions": 120
+      "selected_body_copy_checked": 61,
+      "uncovered_jit_functions": 119
     },
     "example_status": {
       "authored_counterpart_body_copy_checked": 2,
@@ -17,12 +17,12 @@
       "spec_derived_body_copy_checked": 15
     },
     "selected_jit_functions": 328,
-    "uncovered_selected_jit_functions": 233,
+    "uncovered_selected_jit_functions": 232,
     "primary_files_with_int64_screen_warning": 37,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 96,
-        "antiquotes": 105,
+        "in_body_type_directives": 95,
+        "antiquotes": 104,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 8
       },
@@ -6193,12 +6193,12 @@
       "source_provenance": "selected_revision",
       "lean_screen": {
         "quotations": 1,
-        "in_body_type_directives": 1,
-        "antiquotes": 56,
-        "dsl_assignment": 1,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 14,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 2
+        "load_dtype_extension": 3
       },
       "python_jits": [
         {
@@ -6208,19 +6208,53 @@
           "explicit_int64_casts": []
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "matmul_kernel",
+          "lean_definition": "kernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "M": "M",
+            "N": "N",
+            "stride_am": "stride_am",
+            "stride_ak": "stride_ak",
+            "stride_bk": "stride_bk",
+            "stride_bn": "stride_bn",
+            "stride_cm": "stride_cm",
+            "stride_cn": "stride_cn"
+          },
+          "statements": 23,
+          "runtime_parameters": {
+            "M": "integer",
+            "N": "integer",
+            "stride_am": "integer",
+            "stride_ak": "integer",
+            "stride_bk": "integer",
+            "stride_bn": "integer",
+            "stride_cm": "integer",
+            "stride_cn": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE_K",
+            "BLOCK_SIZE_M",
+            "BLOCK_SIZE_N",
+            "GROUP_SIZE_M",
+            "K"
+          ],
           "python": "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/int8_matmul_kernel_modular_checked.py",
-          "function": "matmul_kernel"
+          "lean": "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Kernels.lean"
         }
       ],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Kernels.lean": "df95f31068da17f237f900e09e1a162aa0bd36aa44d1bcdc5643613736fa2caf",
-        "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/int8_matmul_kernel_modular_checked.py": "5fb5ed4e23f10e9e65aba367755153d8562ef7812ca8c64ee753ca9569af5059"
+        "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Kernels.lean": "e58a5651042e30f9db44d45a69c5d5d3906e37c85e455d295173ede839d449e3",
+        "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/int8_matmul_kernel_modular_checked.py": "5fb5ed4e23f10e9e65aba367755153d8562ef7812ca8c64ee753ca9569af5059",
+        "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/jit-correspondence.json": "d80d0752199f514ed06e549e06c08a633d9925a70a89be57966dc0729a108ba3"
       }
     },
     {

@@ -601,3 +601,33 @@ class MaskedSelectRawBodyTests(unittest.TestCase):
         ]:
             with self.subTest(replacement=replacement), self.assertRaisesRegex(ValueError, "natural integer"):
                 call_signature(lean.replace(before, replacement), "callSignature")
+
+
+class Int8AsmRawBodyTests(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked"
+
+    def test_original_body_keeps_assembly_and_its_complete_abi(self):
+        pairs = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual(len(pairs), 1)
+        self.assertEqual((pairs[0]["mode"], pairs[0]["statements"]), ("pasted_body", 23))
+
+    def test_assembly_cast_shape_and_call_metadata_cannot_drift(self):
+        record = json.loads((self.directory / "jit-correspondence.json").read_text())[0]
+        lean = (self.directory / "Kernels.lean").read_text()
+        for before, after in [
+            ('"add.u32 $0, $1, $2;"', '"sub.u32 $0, $1, $2;"'),
+            ('constraints="=r,r,r"', 'constraints="=r,l,l"'),
+            ('args=[accumulator, partial]', 'args=[partial, accumulator]'),
+            ('is_pure=True', 'is_pure=False'),
+            ('pack=1', 'pack=2'),
+            ('.to(tl.int8)', ''),
+            ('tl.zeros((BLOCK_SIZE_M, BLOCK_SIZE_N)', 'tl.zeros([BLOCK_SIZE_M, BLOCK_SIZE_N]'),
+            ('partial = tl.dot', 'block_sum = tl.dot'),
+            ('("b_ptr",.u8)', '("b_ptr",.i8)'),
+            ('stride_am := stride_am', 'stride_am := stride_ak'),
+        ]:
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                self.assertIn(before, lean)
+                check((ROOT / record["python"]).read_text(), lean.replace(before, after, 1),
+                      record["python_function"], record["lean_definition"], record["signature_definition"],
+                      record["expected_signature"], record["expected_call_bindings"])

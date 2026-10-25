@@ -77,6 +77,7 @@ import VeriTile.Triton.DSL.Expansion.Memory
 import VeriTile.Triton.DSL.Expansion.Compute
 import VeriTile.Triton.DSL.Expansion.DType
 import VeriTile.Triton.DSL.Expansion.Control
+import VeriTile.Triton.DSL.Expansion.InlineAsm
 import VeriTile.Triton.DSL.Expansion.DirectRandom
 import VeriTile.Triton.DSL.Syntax
 import VeriTile.Triton.DSL.Typing
@@ -1111,6 +1112,15 @@ partial def natBlockPtrOffsets (env : Env) (ctx : String)
   pure (← natListTerm staticOffsets.toList, ← opListTerm offsetOps.toList, hasDynamic)
 
 partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := do
+  if let `(tritonExpr| tl.inline_asm_elementwise($assembly:str $[, $kwargs:tritonInlineAsmKwarg]*)) := stx then
+    let (a,b) ← inlineAddU32Arguments assembly kwargs
+    let left ← expandExpr env a
+    let right ← expandExpr env b
+    unless [.int,.int32].contains left.dtype && [.int,.int32].contains right.dtype do
+      Macro.throwError "inline ASM add.u32: operands must use integer registers"
+    -- Each operand is a register read, used once. Preserve the exact prior
+    -- modulo32/signed32 primitive; this is not floating addition or an FMA.
+    return ← expandExpr env (← `(tritonExpr| (($a:tritonExpr + $b:tritonExpr).to(tl.uint32)).to(tl.int32)))
   -- The source's explicit output-pointer cast can be Bool -> Bool. Preserve
   -- its actual operand instead of treating the register as a numeric load.
   if let some (e, dt) := methodCast? stx then
@@ -3935,8 +3945,11 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
         Bool.false)
   | `(tritonStmt| tl.static_assert($cond:tritonExpr $[, $_msg:str]?)) => do
       discard <| expandExpr env cond
+      -- Static admission belongs to the caller's compile-time contract. Keep
+      -- the canonical no-runtime-work marker executable by both interpreters;
+      -- an arbitrary projected algorithm statement remains unsupported.
       pure (← `(Stmt.ifThen (Op.constBool Bool.false) []),
-        ← `(ComputeStmt.alg (Stmt.ifThen (Op.constBool Bool.false) [])), env,
+        ← `(ComputeStmt.ifThen (Op.constBool Bool.false) []), env,
         Bool.false)
   | `(tritonStmt| tl.for $i:ident in $($n:term) { $stmts:tritonStmt* }) => do
       let nameLit ← identAsStr i

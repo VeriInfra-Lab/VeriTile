@@ -210,7 +210,7 @@ private partial def escapeSourceIdentifiers (input : List Char) (output : String
       else if c.isAlpha || c == '_' then
         let restOfWord := tail.takeWhile (fun ch => ch.isAlphanum || ch == '_')
         let word := String.ofList (c :: restOfWord)
-        let word := if word == "do" || word == "_" then "«" ++ word ++ "»" else word
+        let word := if ["do", "_", "partial", "prefix"].contains word then "«" ++ word ++ "»" else word
         escapeSourceIdentifiers (tail.drop restOfWord.length) (output ++ word)
       else escapeSourceIdentifiers tail (output.push c)
 
