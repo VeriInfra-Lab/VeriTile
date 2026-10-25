@@ -1,0 +1,18 @@
+kv_cache_copy
+Traceback (most recent call last):
+  File "/tmp/veritile-cache-rotary44-clean/bench/repairs/tritonbench_g/kv_cache_copy/check_contract.py", line 8, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'
+
+rotary_emb_nopad
+Traceback (most recent call last):
+  File "/tmp/veritile-cache-rotary44-clean/bench/repairs/tritonbench_g/rotary_emb_nopad/check_contract.py", line 8, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'
+
+rotary_emb
+Traceback (most recent call last):
+  File "/tmp/veritile-cache-rotary44-clean/bench/repairs/tritonbench_g/rotary_emb/check_contract.py", line 8, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'
+

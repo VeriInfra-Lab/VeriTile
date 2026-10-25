@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/tmp/veritile-cache-rotary44-clean/bench/repairs/tritonbench_g/rotary_emb_nopad/check_contract.py", line 8, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'

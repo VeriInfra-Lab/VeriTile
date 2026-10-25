@@ -1,0 +1,352 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "048fdf36b116d749260c9851d49fe9224aea5e88",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "kv_cache_copy",
+    "rotary_emb_nopad",
+    "rotary_emb"
+  ],
+  "semantic_review": {
+    "adam_update_triton": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "add_example": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "add_value": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "cache_transform_triton": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "cosine_compute": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "dequantize_matmul": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "dequantize_rowwise": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "destindex_copy": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "destindex_copy_kv1": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "destindex_copy_kv2": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "f8_conversion_utils": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "fast_rope_embedding": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "index_select_bwd": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "kcache_copy_triton": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "kldiv_compute": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "kldiv_triton": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "l2_norm_bwd": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "l2_norm_triton1": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "l2_norm_triton2": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "masked_add_cuda": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "matrix_reduction": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "matrix_transpose": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "mean_reduction": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "mul_exponent_compensator": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "quant_transpose_kernel": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "rmsnorm_fused": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "rmsnorm_fused_llama": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "rmsnorm_implementation": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "rmsnorm_triton": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "rope_embedding": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "sin_computation": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "sin_kernel": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "softmax_triton1": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "softmax_triton2": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "square_matrix": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "swiglu_fwd": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "triton_mul2": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "triton_softmax": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "var_len_copy": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "vector_addition": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "vector_addition_custom": "Generic immutable Nat constexpr quotient/static-loop specialization and weak integer literal arithmetic/comparison regressions; caller Lean-term boundaries, floating literal/register/cast precision and complete old numerical/IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "kv_cache_filling": "Shared frontend dependency regression only: source/candidate bodies and all mathematical/numerical scopes are unchanged at this code checkpoint. Exact public/deep roots are recorded in modules.json. No body migration is counted for this task unless the source inventory independently records it.",
+    "rotary_emb": "Paste the unchanged actual _rotary_kernel body including final return, every explicit signed64 widening, integer 2 and 1 literals, runtime ROTARY_DIM/HEAD_Q/HEAD_K roles, independent sine strides, every repeated coefficient load, all head/token/pair masks and the four Q-before-K stores. Four pointer profiles, fourteen integer runtime roles and three constexpr dimensions stay outside. Newly authored index_commuted.py is explicitly only the counterpart of the existing Lean integer head-block product candidate. For both entire original and candidate programs, prove Option.map whole-memory equality to the complete retained old typed source under arbitrary floating primitives, parameters and states. This preserves failure/success and every cell, allowing the exact Nat/signed representation difference of internal index registers. Directly replay the full actual source-pair equality and safety and all independent Real, ordered native, complete input/IO/output/frame, arbitrary program and whole-grid word/byte, host and actual-Tensor results. Existing dimensions, partial-rotary factor semantics, independent coefficient extents, padded heads and empty behavior remain. No numerical rewrite or added domain premise.",
+    "rotary_emb_nopad": "Paste both actual original Python bodies unchanged, including every explicit int64 cast, independent coefficient strides, all Q/K masks, all GQA paths, signed metadata reads, literal early head return, and cache-before-Q store order. Runtime strides/counts and all constexpr dimensions have their actual source roles outside the quote. New address_shared.py is explicitly only the Python counterpart of the pre-existing Lean Q-address CSE, not a historical original or unrelated new optimization. Connect each entire original/candidate execution separately to the retained old full source for arbitrary floating primitives, layouts and initial states: Option.map memory equality preserves success/failure and every memory cell. This is the correct observation when the frontend uses an exact nonnegative Nat index register where the old source had an Int register; do not assert false AST or transient-register equality. The early >= return is checked through its actual negated signed <= predicate. Recheck both full actual safety traces, actual original/candidate complete-state pair equality and trace equivalence, independent Real targets, existing ordered native graphs, all IO/input-domain/output/frame/schedule results, padded/empty/GQA and cache paths, raw words, byte, host and Tensor conclusions, at the entire old scope.",
+    "triton_argmax": "Shared frontend dependency regression only: source/candidate bodies and all mathematical/numerical scopes are unchanged at this code checkpoint. Exact public/deep roots are recorded in modules.json. No body migration is counted for this task unless the source inventory independently records it.",
+    "kv_cache_copy": "Both actual selected original and already-existing Python candidate bodies are unchanged and pasted verbatim. Retain the literal tl.static_range(HEAD_DIM // KCACHE_X), shifted tl.arange(split_x*KCACHE_X,(split_x+1)*KCACHE_X), unconditional INT32 metadata loads, signed division/remainder, all six pointers, every K/V load and both cache stores, plus terminal return. All eighteen runtime roles and two constexpr parameters stay external, including unused stride_kcd; a complete-kernel theorem proves independence for every actual unused argument. The shared frontend lowers the actual compile-time quotient and shifted span; a whole-body rfl theorem connects every original/candidate parameter family to the entire retained typed source and historical generated source. Ports explicitly state actual parameter order independently of first-load order. Recheck all split iterations, original dimensions, metadata and layout guards, both cache layouts, independent K/V strides, complete success, access safety, both output tiles and every exterior cell, retained word/byte/event/host/Tensor scopes. No new numerical law or stronger input condition."
+  },
+  "example_regression_scope": "All 19 examples and their complete imported helpers replay locally, jointly and independently from Git. Their sources, formulas, numerical contracts and scopes are unchanged.",
+  "verification": {
+    "frontend_regressions": {
+      "status": "PASS",
+      "configured_modules": 93,
+      "previous_verified_code": "1096167405eb7cd3f30abd153af98ab337182796",
+      "scope": "All 93 configured frontend regressions, including exact full kernels for constexpr quotient/static shifted arange and signed source literals; runtime/mutable static bounds and scientific floating-literal misuse retain explicit rejection. Earlier terminal-return/integer-read/precision regressions remain included; no failed targets omitted."
+    },
+    "integration": {
+      "status": "PASS",
+      "explicit_modules": 1539,
+      "jobs": 10556
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 1539,
+      "jobs": 10556,
+      "project_build_initially_present": false,
+      "veritile_cache_initially_present": false,
+      "only_fixed_external_dependencies_reused": true
+    },
+    "joint_import": "PASS: all 1539 roots",
+    "task_directories": "Every Lean file in all three newly migrated task directories, including optional native/host/Tensor readers and all complete semantic/source-binding proofs.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 45
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 290,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by the old numerical receipt; prior baseline preserved, no false repin."
+    },
+    "official_comparator": "UNAVAILABLE: actual frozen-source invocations report host isolation unavailable. The official pinned comparator/exporter/landrun successfully built with a SHA256-verified local Go toolchain. Host Landlock ABI v4 cannot satisfy required v5, and the systemd user bus is unavailable. Isolation checks remain fail-closed.",
+    "optional_cpu_contract": "UNAVAILABLE: current environment lacks torch; actual failure retained.",
+    "gpu_or_numerical_experiment": "Not run. No new numeric laws, axioms or hardware-conformance claim.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending."
+  },
+  "source_pairs": {
+    "total": 161,
+    "pasted_body": 156,
+    "legacy_ast": 5
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/source-closure.json",
+    "sha256": "a3cc458c62eb47b749310e95a3d696a60d79214861c55a4985452f81dd475b1f"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "legacy_ast_only": 1,
+      "no_selected_jit_resolved": 2,
+      "selected_body_copy_checked": 44,
+      "uncovered_jit_functions": 136
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 328,
+    "uncovered_selected_jit_functions": 259,
+    "primary_files_with_int64_screen_warning": 40,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 108,
+        "antiquotes": 120,
+        "dsl_loop": 1,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/CallSignature-comparator.log",
+      "sha256": "409b0f5ed9fa380ee961938eeb1bd14f4e64dcbbc5780d21ae0533096ad66e18"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/all-python.log.gz",
+      "sha256": "957e714a6949e0c7449c551b09eb3a10e65ba2f5cd86cb992ff03924894294bc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/changed-VeriTile__Triton__DSL__CallSignature-comparator.log",
+      "sha256": "aa09b3ce1cc54082678b31bcfc4983484dedbe024afaee39b6cc685fba0583ef"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/changed-VeriTile__Triton__DSL__Expansion__Compute-comparator.log",
+      "sha256": "5697b6291b57b12129f4c13fcc09725c0c0122f2bd2904b293614f17196d3cc0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/changed-VeriTile__Triton__DSL__Expansion__Main-comparator.log",
+      "sha256": "4df59b1d64c0c7b1a02e3e45b56b26dc530002de49659e86db7824d0015eeecf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/changed-VeriTile__Triton__DSL__Syntax-comparator.log",
+      "sha256": "f69ca03c5922bc447b1c547786364ea69df9144b07e56b4725583aa8e8630040"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/changed-VeriTile__Triton__DSL__TypedStores-comparator.log",
+      "sha256": "e69ebf94546355d112c75c9256fb32fee5c5ee9852cbc7969007d54ba427e446"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/changed-bench__repairs__tritonbench_g__kv_cache_copy__Kernels-comparator.log",
+      "sha256": "e222899c9d9814f2e5b4c4ad64258461f2a898edfcfeb9b92fc61b483678e461"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/changed-bench__repairs__tritonbench_g__kv_cache_copy__Proofs__KernelFP-comparator.log",
+      "sha256": "4264d107648d016670d6da80ee4090cdb55b067bf10361d13639fe38964c4905"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/changed-bench__repairs__tritonbench_g__kv_cache_copy__Proofs__KernelReal-comparator.log",
+      "sha256": "5f30c2dfd7fde93812dca589906f168855a93d9ab52deca3fc02cdefaa1ea05a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/changed-bench__repairs__tritonbench_g__kv_cache_copy__Proofs__KernelSafety-comparator.log",
+      "sha256": "35507ee516b630210274db65f738c88cd2bec54892042ded0aa59c5437fadc53"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/changed-bench__repairs__tritonbench_g__kv_cache_copy__Proofs__LegacyPastedSurface-comparator.log",
+      "sha256": "800a66a99330f60d0e748d8e50bc7c75bbb40e901091a2db83d0122d65cfa9e4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/changed-bench__repairs__tritonbench_g__kv_cache_copy__Proofs__SourcePreservation-comparator.log",
+      "sha256": "bf8ba22218921a31a438b3588fc4177af185b18b6dbde13758eff64fec5b42ca"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/changed-bench__repairs__tritonbench_g__rotary_emb__Kernels-comparator.log",
+      "sha256": "d9ea7c33c50e09d280eea81b67cb1f9fb6e083adfc864c46455dde9811e5706f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/changed-bench__repairs__tritonbench_g__rotary_emb__Proofs__LegacyPastedSurface-comparator.log",
+      "sha256": "5f917ab413c34c2ecc3b116606fdd3a5d6f1e67d30ae3d5f28bdc17ad37a40d9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/changed-bench__repairs__tritonbench_g__rotary_emb__Proofs__SourcePreservation-comparator.log",
+      "sha256": "f4dddbad778c47c35276573708e12546518d79c0761811e83d8c726986898275"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/changed-bench__repairs__tritonbench_g__rotary_emb_nopad__Kernels-comparator.log",
+      "sha256": "4266694a41e9bfd4e4af59ba54d7bcfc016070a8c997378192824686170e52ff"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/changed-bench__repairs__tritonbench_g__rotary_emb_nopad__Proofs__LegacyPastedSurface-comparator.log",
+      "sha256": "d3598a1c610a189657f57126ac0c24fcfb4ab5eaa82559e7d53dbaa675686407"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/changed-bench__repairs__tritonbench_g__rotary_emb_nopad__Proofs__SourcePreservation-comparator.log",
+      "sha256": "bf17b7e646f979f8fd74bd59f4b49d5a92e95f34ab8ae0c7a3750226a8f89a02"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/changed-bench__repairs__tritonbench_g__rotary_emb_nopad__Proofs__SourceSafety-comparator.log",
+      "sha256": "e568280dc60cb344f5ea1f6c21040a1d729493407522368af8589016f6dcf1d9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/changed-bench__repairs__tritonbench_g__rotary_emb_nopad__Proofs__Typed-comparator.log",
+      "sha256": "6cb022717949397316558c6e3f01398ae3abdbb3323c83377f01b44c4a1b1e86"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/clean-build.log.gz",
+      "sha256": "a809841cedb647cb163ab3b89315d63e6783e7a3c9804581629fdacd3afba2dc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/clean-setup.log",
+      "sha256": "6d8bb3252c9f4d4d5e939dba16d5b082cbc1446bfe27c4e40f88bbdb5ce21df3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/comparator-invocations.json",
+      "sha256": "a9b5062efb7c771356073ba0b768bd2e5f0de91d871813ae2ddd7fe419166932"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/comparator-preflight.log",
+      "sha256": "d9255026a27595d0a04e154bc4a9c609c8422b012fc13cb1ae4de2417afea36d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/comparator-setup.log",
+      "sha256": "bea658f19aea48f8965a3d6525da1300e599d9a3f0a05b992071c97bcaffd6df"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/comparator-tools.json",
+      "sha256": "d541ac407f7aa8679c8ba23dd4df72ac363730bbb67e45bd7959ec752e6b0c53"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/comparator.log",
+      "sha256": "a7435129e29c18593f6825c5c779f40ed708568dfef5772f4dc099b25c4bc0ff"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/contract.log",
+      "sha256": "05d418b9fa826116370cbf228601d7b61745f1c6173b547b755372fca5b9a10d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/corpus-guard.log",
+      "sha256": "cf15c49808d9d0bfee5d66aae98b9158924e6af8877de9ad80593a249962b828"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/integration.log.gz",
+      "sha256": "50d6f719795b6d362d751a95bac74f7afe0e58dc1bc406a015ea4fdb485f12ae"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/joint.lean",
+      "sha256": "5eda3c367dfed09d3de4ba5093f856de214c53dc650c98e44d8506f027463656"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/kv_cache_copy-Real-comparator.log",
+      "sha256": "d0116e20050cfad929bc58aa3bd1bf1ac238e0f9ad4bedb2acde6523e3f65dad"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/kv_cache_copy-comparator.log",
+      "sha256": "2e03b99eee82c6998ecedbede7cfebcd962b952258a32aa15afd899fe6a83035"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/kv_cache_copy-contract.log",
+      "sha256": "9743bead80afda4c5d24b351ad20ae224e09426598572086a852bad4b5ead80e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/modules.json",
+      "sha256": "1b23e997c216308983f11feac87101d69c6c335e9afab50ee2089e07027c5262"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/pairs.json",
+      "sha256": "f425fd7d141be2da69e6bdc187e3c7dfdd9655aa2f3056b3eb11ea6256302004"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/previous-selected-reviews.json.gz",
+      "sha256": "9b4c8d399144b46df527e0752dfe10719f02055b112de3bfbb044eba670fec8d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/python-tests.log",
+      "sha256": "3c03a458500b8563c9a89989e3f47173e9d625dae2c3d5663b6c391d4706a278"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/rotary_emb-Real-comparator.log",
+      "sha256": "157cce1074983a0624516d9b5fae150920da67e5b5d3025cf11773d9a626cae6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/rotary_emb-comparator.log",
+      "sha256": "5352d55834a137d24faa6d7d9ee7adbed2e49a1ef9f30e31de89c02c4671899a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/rotary_emb-contract.log",
+      "sha256": "534568e87c7b0f004d7a9b904f6473aead68915b59a9f75c2e3e77a5a194fdca"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/rotary_emb_nopad-Real-comparator.log",
+      "sha256": "905746fbb542fcbad0c7fb3c75537284ffe5430a0119e43fd0d8f38e8be86632"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/rotary_emb_nopad-comparator.log",
+      "sha256": "e38f8600abbc12487724dc9e5430650ee2751a2838cf295c72f2ebea12e02f93"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/rotary_emb_nopad-contract.log",
+      "sha256": "376c2d563dfaae7247e7b843692545535325ad3d1bda305c26913d3389a74383"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-cache-and-rotary-bodies/source-closure.json",
+      "sha256": "a3cc458c62eb47b749310e95a3d696a60d79214861c55a4985452f81dd475b1f"
+    }
+  ]
+}
