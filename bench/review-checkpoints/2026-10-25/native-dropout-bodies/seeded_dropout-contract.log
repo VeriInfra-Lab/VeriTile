@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/tmp/veritile-dropout48-clean/bench/repairs/tritonbench_g/seeded_dropout/Proofs/check_contract.py", line 9, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'

@@ -1,0 +1,4 @@
+{"name": "changed-bench__tests__CallRandomABI", "file": "bench/tests/CallRandomABI.lean", "sha256": "1e05d90ee71f4e9c31e023be12badf5e258cf4634385d7bdd87f8243238105c7", "command": ["python3", "scripts/check_comparator.py", "--file", "bench/tests/CallRandomABI.lean", "--trust"], "exit_code": 1, "code_commit": "323c49f2dd6f62b6beee05cc4980b548aa9787b0"}
+[FAIL] Official comparator isolation is unavailable:
+- systemd AF_UNIX restriction: Failed to connect to bus: Operation not permitted (consider using --machine=<user>@.host --user to connect to bus of other user)
+- Landlock sandbox: [landrun:error] 2026/10/25 06:35:58 Failed to apply sandbox: failed to apply Landlock filesystem restrictions: missing kernel Landlock support. Got Landlock ABI v4, wanted {Landlock V5; FS: all; Net: ∅}

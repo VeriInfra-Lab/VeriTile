@@ -1,0 +1,450 @@
+[
+  {
+    "name": "dropout_triton",
+    "file": "bench/repairs/tritonbench_g/dropout_triton/FPEquiv.lean",
+    "sha256": "7f5477c4f2d35296d2de5e98275604a4a606a26f0e776c27e6edf7e48518978f",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/dropout_triton/FPEquiv.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "323c49f2dd6f62b6beee05cc4980b548aa9787b0"
+  },
+  {
+    "name": "dropout_triton-Real",
+    "file": "bench/repairs/tritonbench_g/dropout_triton/Correct.lean",
+    "sha256": "e27ec06aad7b2d4ccf0282d95f23b7b34c8bf285c6481326faa7a9553a400781",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/dropout_triton/Correct.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "323c49f2dd6f62b6beee05cc4980b548aa9787b0"
+  },
+  {
+    "name": "seeded_dropout",
+    "file": "bench/repairs/tritonbench_g/seeded_dropout/FPEquiv.lean",
+    "sha256": "0a666d84e98be58d044362783bbc4cbd9dc9debf1d1ec8a2e26ed0464fc0f32a",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/seeded_dropout/FPEquiv.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "323c49f2dd6f62b6beee05cc4980b548aa9787b0"
+  },
+  {
+    "name": "seeded_dropout-Real",
+    "file": "bench/repairs/tritonbench_g/seeded_dropout/Correct.lean",
+    "sha256": "c2dc41a517f4ce6cc56cac99c7810bf0c3aba255527ae99d64f82efdc0e625f6",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/seeded_dropout/Correct.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "323c49f2dd6f62b6beee05cc4980b548aa9787b0"
+  },
+  {
+    "name": "changed-VeriTile__Triton__DSL__CallSignature",
+    "file": "VeriTile/Triton/DSL/CallSignature.lean",
+    "sha256": "fb48fa0ca2d75659939fb2aba508e7fbac6ddc445e385e4f622706d752f2e2e0",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "VeriTile/Triton/DSL/CallSignature.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "323c49f2dd6f62b6beee05cc4980b548aa9787b0"
+  },
+  {
+    "name": "changed-VeriTile__Triton__DSL__Expansion__Compute",
+    "file": "VeriTile/Triton/DSL/Expansion/Compute.lean",
+    "sha256": "0cfa05945c2d0d7f18a20dadd59f30fab6d190a54c2b751b807ae56ee4d45c42",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "VeriTile/Triton/DSL/Expansion/Compute.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "323c49f2dd6f62b6beee05cc4980b548aa9787b0"
+  },
+  {
+    "name": "changed-VeriTile__Triton__DSL__RandomProfile",
+    "file": "VeriTile/Triton/DSL/RandomProfile.lean",
+    "sha256": "41ca2d187a5a6d37d8469427a799e4803463277c1f36f536d10f3006d714d4c3",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "VeriTile/Triton/DSL/RandomProfile.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "323c49f2dd6f62b6beee05cc4980b548aa9787b0"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__add_value__Proofs__Rewrite",
+    "file": "bench/repairs/tritonbench_g/add_value/Proofs/Rewrite.lean",
+    "sha256": "f33589fd6b79aa2df5deb4111c5a95ecccbe4f385caa2cfcfaa84e4cb76655d5",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/add_value/Proofs/Rewrite.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "323c49f2dd6f62b6beee05cc4980b548aa9787b0"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__dropout_triton__Kernels",
+    "file": "bench/repairs/tritonbench_g/dropout_triton/Kernels.lean",
+    "sha256": "d2e12650ab2a16bc47f3b2d838409ca5f2573f4e49d4a2d836d8a99f0a456e0f",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/dropout_triton/Kernels.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "323c49f2dd6f62b6beee05cc4980b548aa9787b0"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__dropout_triton__Proofs__LegacyPastedSurface",
+    "file": "bench/repairs/tritonbench_g/dropout_triton/Proofs/LegacyPastedSurface.lean",
+    "sha256": "906ac0555c785ff9e7bad2325aa8c5b3ca218ddfa54cb94169b9c9f3833fcb30",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/dropout_triton/Proofs/LegacyPastedSurface.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "323c49f2dd6f62b6beee05cc4980b548aa9787b0"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__dropout_triton__Proofs__RealEndpoints",
+    "file": "bench/repairs/tritonbench_g/dropout_triton/Proofs/RealEndpoints.lean",
+    "sha256": "75b8c5963feb85c6bc36ae783f12bbb339d17c25fe9f2101c5b68cb9b70c4af9",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/dropout_triton/Proofs/RealEndpoints.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "323c49f2dd6f62b6beee05cc4980b548aa9787b0"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__dropout_triton__Proofs__RealInterpretation",
+    "file": "bench/repairs/tritonbench_g/dropout_triton/Proofs/RealInterpretation.lean",
+    "sha256": "9b5411acc6f737897e318fbd40822a3cdf87d9400d49494cb3c7677ff27d0fdc",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/dropout_triton/Proofs/RealInterpretation.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "323c49f2dd6f62b6beee05cc4980b548aa9787b0"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__dropout_triton__Proofs__Region",
+    "file": "bench/repairs/tritonbench_g/dropout_triton/Proofs/Region.lean",
+    "sha256": "c4c4f4b0873d65af16a867dd4ad078ba8df1becfa0d215b81a79e88c31c07fde",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/dropout_triton/Proofs/Region.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "323c49f2dd6f62b6beee05cc4980b548aa9787b0"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__dropout_triton__Proofs__Rewrite",
+    "file": "bench/repairs/tritonbench_g/dropout_triton/Proofs/Rewrite.lean",
+    "sha256": "af2b5326594e733c4ae316f4bac38ec36f3ff3e81bff9c89b1371e71faafa10d",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/dropout_triton/Proofs/Rewrite.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "323c49f2dd6f62b6beee05cc4980b548aa9787b0"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__dropout_triton__Proofs__Source",
+    "file": "bench/repairs/tritonbench_g/dropout_triton/Proofs/Source.lean",
+    "sha256": "09f259618f68294d07bec0bfbdb409527c51cb45c68eebdfd2008fc12207db27",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/dropout_triton/Proofs/Source.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "323c49f2dd6f62b6beee05cc4980b548aa9787b0"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__dropout_triton__Proofs__Typed",
+    "file": "bench/repairs/tritonbench_g/dropout_triton/Proofs/Typed.lean",
+    "sha256": "7c384b990c615d8005019afa9c14749f6df31200b43d833a36de3c52341b0faf",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/dropout_triton/Proofs/Typed.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "323c49f2dd6f62b6beee05cc4980b548aa9787b0"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__seeded_dropout__Kernels",
+    "file": "bench/repairs/tritonbench_g/seeded_dropout/Kernels.lean",
+    "sha256": "02d35b524dc48904e5f5eef70abf440c2344778cccd676588b584b6a53239989",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/seeded_dropout/Kernels.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "323c49f2dd6f62b6beee05cc4980b548aa9787b0"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__seeded_dropout__Misc__HostFPEquiv",
+    "file": "bench/repairs/tritonbench_g/seeded_dropout/Misc/HostFPEquiv.lean",
+    "sha256": "b71f511d6e3d88d91038a9e5c960f45e68522b5b1cc328ca281127af4c084ee3",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/seeded_dropout/Misc/HostFPEquiv.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "323c49f2dd6f62b6beee05cc4980b548aa9787b0"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__seeded_dropout__Proofs__ActualTile",
+    "file": "bench/repairs/tritonbench_g/seeded_dropout/Proofs/ActualTile.lean",
+    "sha256": "7100ee00a95a8d72022435e3dd3c08d3db12f4157090c95557e547b76fc7f06c",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/seeded_dropout/Proofs/ActualTile.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "323c49f2dd6f62b6beee05cc4980b548aa9787b0"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__seeded_dropout__Proofs__Host",
+    "file": "bench/repairs/tritonbench_g/seeded_dropout/Proofs/Host.lean",
+    "sha256": "299bb98c2c81ce5ded7e622a9be59667f5c83b9de5be2444ae109917c4ccc007",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/seeded_dropout/Proofs/Host.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "323c49f2dd6f62b6beee05cc4980b548aa9787b0"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__seeded_dropout__Proofs__KernelExecution",
+    "file": "bench/repairs/tritonbench_g/seeded_dropout/Proofs/KernelExecution.lean",
+    "sha256": "68a0e08fec45e83a7141a73d6e818a0d1140db27f8faa0be54007876b63cd0e4",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/seeded_dropout/Proofs/KernelExecution.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "323c49f2dd6f62b6beee05cc4980b548aa9787b0"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__seeded_dropout__Proofs__KernelReal",
+    "file": "bench/repairs/tritonbench_g/seeded_dropout/Proofs/KernelReal.lean",
+    "sha256": "1a5ac89da786c713ea3579305ef8bf0b5da88c4e058eb4a03c4d996b0f1fb2f2",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/seeded_dropout/Proofs/KernelReal.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "323c49f2dd6f62b6beee05cc4980b548aa9787b0"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__seeded_dropout__Proofs__LegacyKernelExecution",
+    "file": "bench/repairs/tritonbench_g/seeded_dropout/Proofs/LegacyKernelExecution.lean",
+    "sha256": "09c67ac3a8da08cf82b6eed3eaee37422789cdc4916c3e1e93c69781d7b96664",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/seeded_dropout/Proofs/LegacyKernelExecution.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "323c49f2dd6f62b6beee05cc4980b548aa9787b0"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__seeded_dropout__Proofs__LegacyPastedSurface",
+    "file": "bench/repairs/tritonbench_g/seeded_dropout/Proofs/LegacyPastedSurface.lean",
+    "sha256": "925db2970282d99ac45e781bdd7a42026036ac84b89c6356a488aae3c90c347f",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/seeded_dropout/Proofs/LegacyPastedSurface.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "323c49f2dd6f62b6beee05cc4980b548aa9787b0"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__seeded_dropout__Proofs__LogicalResult",
+    "file": "bench/repairs/tritonbench_g/seeded_dropout/Proofs/LogicalResult.lean",
+    "sha256": "66877e47cda7a6174f494a73dd9949cc4cb4f089e31e0526cfcdfa0e87f343c1",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/seeded_dropout/Proofs/LogicalResult.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "323c49f2dd6f62b6beee05cc4980b548aa9787b0"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__seeded_dropout__Proofs__ParametricExecutionModel",
+    "file": "bench/repairs/tritonbench_g/seeded_dropout/Proofs/ParametricExecutionModel.lean",
+    "sha256": "584841af8de0c7177e81bcd15ccea89d9eee77ccb88c7358843e9d743f28b3af",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/seeded_dropout/Proofs/ParametricExecutionModel.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "323c49f2dd6f62b6beee05cc4980b548aa9787b0"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__seeded_dropout__Proofs__Projection",
+    "file": "bench/repairs/tritonbench_g/seeded_dropout/Proofs/Projection.lean",
+    "sha256": "08569e84ee576720d18541522bbba459924d2bd45d21e53d281ff05b1a01dd10",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/seeded_dropout/Proofs/Projection.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "323c49f2dd6f62b6beee05cc4980b548aa9787b0"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__seeded_dropout__Proofs__PublicIO",
+    "file": "bench/repairs/tritonbench_g/seeded_dropout/Proofs/PublicIO.lean",
+    "sha256": "cdc2193a00575b298cda7ab1c48d5c44bf17ad0007a18f6ce0a36c7674454e04",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/seeded_dropout/Proofs/PublicIO.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "323c49f2dd6f62b6beee05cc4980b548aa9787b0"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__seeded_dropout__Proofs__SourcePreservation",
+    "file": "bench/repairs/tritonbench_g/seeded_dropout/Proofs/SourcePreservation.lean",
+    "sha256": "a06fcc751b9e8c85bac1f2aa46f1024da86902d801fbb2eabbb2e04b40cadf7a",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/seeded_dropout/Proofs/SourcePreservation.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "323c49f2dd6f62b6beee05cc4980b548aa9787b0"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__seeded_dropout__Proofs__SourceSafety",
+    "file": "bench/repairs/tritonbench_g/seeded_dropout/Proofs/SourceSafety.lean",
+    "sha256": "bc660d9994201acd8bdbe6806f4cd47d37726867d92a6417d88ca989a82394e7",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/seeded_dropout/Proofs/SourceSafety.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "323c49f2dd6f62b6beee05cc4980b548aa9787b0"
+  },
+  {
+    "name": "changed-bench__tests__CallRandomABI",
+    "file": "bench/tests/CallRandomABI.lean",
+    "sha256": "1e05d90ee71f4e9c31e023be12badf5e258cf4634385d7bdd87f8243238105c7",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/tests/CallRandomABI.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "323c49f2dd6f62b6beee05cc4980b548aa9787b0"
+  },
+  {
+    "name": "changed-bench__tests__CallSignature",
+    "file": "bench/tests/CallSignature.lean",
+    "sha256": "ad05361a27332261c7646a588fcd701fa04dc9afbb39a7823be662d87f4dfc87",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/tests/CallSignature.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "323c49f2dd6f62b6beee05cc4980b548aa9787b0"
+  }
+]

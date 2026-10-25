@@ -1,0 +1,375 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "323c49f2dd6f62b6beee05cc4980b548aa9787b0",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "dropout_triton",
+    "seeded_dropout"
+  ],
+  "semantic_review": {
+    "adam_update_triton": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "add_example": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "add_value": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task. Concrete constexpr normalization exposes 1024 in the candidate; the existing commuted_memory helper now unfolds blockSize on both sides. Its original finite condition, strict addition commutation and complete-memory statement remain unchanged.",
+    "cache_transform_triton": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "cosine_compute": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "dequantize_matmul": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "dequantize_rowwise": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "destindex_copy": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "destindex_copy_kv1": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "destindex_copy_kv2": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "f8_conversion_utils": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "fast_rope_embedding": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "index_select_bwd": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "index_select_cat": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "kcache_copy_triton": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "kldiv_compute": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "kldiv_triton": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "kv_cache_copy": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "l2_norm_bwd": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "l2_norm_triton1": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "l2_norm_triton2": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "masked_add_cuda": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "matrix_reduction": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "matrix_transpose": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "mean_reduction": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "mul_exponent_compensator": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "nested_loops_processing": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "quant_transpose_kernel": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "rmsnorm_fused": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "rmsnorm_fused_llama": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "rmsnorm_implementation": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "rmsnorm_triton": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "rope_embedding": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "rotary_emb": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "rotary_emb_nopad": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "sin_computation": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "sin_kernel": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "softmax_triton1": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "softmax_triton2": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "square_matrix": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "swiglu_fwd": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "triton_mul2": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "triton_softmax": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "var_len_copy": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "vector_addition": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "vector_addition_custom": "The previously migrated raw original/candidate bodies and complete mathematical/numerical/IO domains replay after the shared legacy Real literal recovery, typed call RNG provenance, checked FP32 comparison argument scope and concrete constexpr normalization. All prior task roots, all 19 examples, all 94 configured frontend regressions and the new actual dropout sources occur in the complete local and initially empty independent combined replay and joint import. No new body migration, numerical law, narrowed domain or hardware claim is assigned to this regression-only task.",
+    "dropout_triton": "Both existing Python original/candidate functions are unchanged. Their complete eight-statement bodies are pasted directly, with pointer/scalar/constexpr metadata outside the body. Remove the old extra output.to(float32), retain the integer mask load, original selection, eager division including the unselected branch, exact masks and store. Source proves complete optional typed-state equality to the explicitly historical model only under the already-defined identity-cast backend, plus complete Real execution, actual access-trace and arbitrary FlatAlloc execution connections. No cast identity is postulated for arbitrary M. Actual original/candidate full state equality, including failure, is independently proved under arbitrary profiled primitive backends with an empty FP rule set. Reprove primary independent Real and complete FP IO, safety, success, outputs/frame, and all old Real partial-domain/flat/word/negative-zero/physical/host/Tensor scopes. All 24 directory modules replay.",
+    "kv_cache_filling": "Shared frontend dependency regression only: source/candidate bodies and all mathematical/numerical scopes are unchanged at this code checkpoint. Exact public/deep roots are recorded in modules.json. No body migration is counted for this task unless the source inventory independently records it.",
+    "seeded_dropout": "The two existing Python functions remain unchanged and are copied completely into six nine-statement quotations for the actual i32/i64/u64 seed ABIs. Pointer/scalar types, int32 host extent, FP32 probability, fixed BLOCK_SIZE=1024 and runtime call values remain outside the body. No seed_arg/BLOCK_SIZE_arg assignments, source_integer directive or extra output cast occurs in the authority. Checked call ABI provenance selects the exact RNG seed width and retains runtime range failure, then its identity marker is erased from published values. FP32 probability keeps its precision through the actual random>p Boolean comparison. ParametricExecutionModel supplies complete original/candidate source equations at 1024; ActualTile proves actual canonical Philox execution, success, all outputs, independent Real formula and every exterior memory cell. SourceSafety checks both actual traces; KernelExecution proves unconditional failure-inclusive full-state source-pair equality under arbitrary M. The old extra-register/self-cast skeleton and its exact generic results are explicitly historical. SourcePreservation defines an explicit backend adapter for that model, proves scalar connection and complete successful memory observation equality under exactly the existing host seed/extent/grid contract, with no arbitrary-M identity-cast axiom. Optional current host results use the actual scalar formula and this explicit interpreter adapter; selected_kernel_memory connects each admitted actual launched source call, while legacy_checked_fp32 retains the earlier generic self-cast theorem. All seed branches, all payloads, eager division when p rounds to one, allocation/setup outcomes and native index/physical/Tensor scopes remain. All 27 directory modules replay.",
+    "triton_argmax": "Shared frontend dependency regression only: source/candidate bodies and all mathematical/numerical scopes are unchanged at this code checkpoint. Exact public/deep roots are recorded in modules.json. No body migration is counted for this task unless the source inventory independently records it."
+  },
+  "example_regression_scope": "All 19 examples and their complete helpers replay locally, jointly and in an initially empty independent project checkout. Their bodies, mathematical domains and numerical classifications remain unchanged.",
+  "verification": {
+    "frontend_regressions": {
+      "status": "PASS",
+      "configured_modules": 94,
+      "scope": "All 94 configured modules: preserve the earlier static/range/rebinding/precision guards, recover legacy Real arithmetic before integer literal retargeting, pin all three seed ABI instructions, prove invalid i32/u64 complete executions fail, reject unsigned Int and unknown mathematical integer ABI, and check actual FP32 threshold operand scope."
+    },
+    "integration": {
+      "status": "PASS",
+      "explicit_modules": 1677,
+      "jobs": 10745
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 1677,
+      "jobs": 10745,
+      "scope": "Every combined root and complete dependency closure; full replay required because shared frontend source changed.",
+      "project_build_initially_present": false,
+      "veritile_cache_initially_present": false,
+      "only_fixed_external_dependencies_reused": true
+    },
+    "joint_import": "PASS: all 1677 roots",
+    "task_directories": "All 51 Lean modules in dropout_triton and seeded_dropout, including every public/optional/historical entry and complete actual source/execution/safety/memory bridges; all previous migration directory roots are retained.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 48
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 293,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by the old numerical receipt; prior baseline preserved, no false repin."
+    },
+    "official_comparator": "UNAVAILABLE: every actual frozen-source invocation reports required host isolation unavailable. Pinned official comparator/exporter/landrun and SHA256-verified Go toolchain are installed; host Landlock ABI v4 is below required v5, and the systemd user bus is unavailable. No isolation bypass.",
+    "optional_cpu_contract": "UNAVAILABLE: current environment lacks torch; actual failure retained.",
+    "gpu_or_numerical_experiment": "Not run. No new numerical law, axiom or hardware-conformance claim.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending."
+  },
+  "source_pairs": {
+    "total": 173,
+    "pasted_body": 168,
+    "legacy_ast": 5
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/source-closure.json",
+    "sha256": "a4e6ee0348624670b3483080088df14e09da2cd893f7ae0641f2ae05972c8c12"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "legacy_ast_only": 1,
+      "no_selected_jit_resolved": 2,
+      "selected_body_copy_checked": 48,
+      "uncovered_jit_functions": 132
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 328,
+    "uncovered_selected_jit_functions": 252,
+    "primary_files_with_int64_screen_warning": 38,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 104,
+        "antiquotes": 116,
+        "dsl_loop": 1,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/all-python.log.gz",
+      "sha256": "578ccdb31ad9031bee48b249e1f0f960b00800d90da6d2099f32b37bde1dd4ed"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/changed-VeriTile__Triton__DSL__CallSignature-comparator.log",
+      "sha256": "6abcaca0da365f7c4d679a02224acb0480edf0d2290099eb0cbe118064fb35a0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/changed-VeriTile__Triton__DSL__Expansion__Compute-comparator.log",
+      "sha256": "52b838d2962097b6483b1ec4691fd20fa1ca530f9af02b27a9dc5568e145b3fa"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/changed-VeriTile__Triton__DSL__RandomProfile-comparator.log",
+      "sha256": "9d8b4dd9d4afdaa3884b8abe125fa79eb2e42baa519c02c73b4d7d73968c7b96"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/changed-bench__repairs__tritonbench_g__add_value__Proofs__Rewrite-comparator.log",
+      "sha256": "c9f5e391ef6892825ad600068aa0e129d7817b151cdcd173f03d7e797ce0c015"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/changed-bench__repairs__tritonbench_g__dropout_triton__Kernels-comparator.log",
+      "sha256": "c05aa53213a67fff07600eb2f0ba6c041cd566e18352603709875de0efef4bd7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/changed-bench__repairs__tritonbench_g__dropout_triton__Proofs__LegacyPastedSurface-comparator.log",
+      "sha256": "4c8100706e38e1b1a988fd3618b71735651a339fddde3decda379e4aa62746cc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/changed-bench__repairs__tritonbench_g__dropout_triton__Proofs__RealEndpoints-comparator.log",
+      "sha256": "44a7ec9fc2ff18048069a8257d48b2cd5b9e89bcce7282f94cd02c4bab7b4560"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/changed-bench__repairs__tritonbench_g__dropout_triton__Proofs__RealInterpretation-comparator.log",
+      "sha256": "03478eebfbfad54905b56a337e8d3abe739eab42a14dd3eb40fdd1ec1d8bde62"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/changed-bench__repairs__tritonbench_g__dropout_triton__Proofs__Region-comparator.log",
+      "sha256": "6430732cf11c56bad8fee129d332e6b9a4ba17db45dd827e867b0270ff58c44f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/changed-bench__repairs__tritonbench_g__dropout_triton__Proofs__Rewrite-comparator.log",
+      "sha256": "dce7ebf68d3e924a3fe8e2c7333e245254980ad2d1475dda6ae1c871062561c3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/changed-bench__repairs__tritonbench_g__dropout_triton__Proofs__Source-comparator.log",
+      "sha256": "e3e23f9b152dd4c4c117ffb0d06086180a31fdb0cf73e1b072a2574a23012f28"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/changed-bench__repairs__tritonbench_g__dropout_triton__Proofs__Typed-comparator.log",
+      "sha256": "71efe59c66d5c465907aec138c76d4adceac11f807a1b3016d4fb0266e0b837e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/changed-bench__repairs__tritonbench_g__seeded_dropout__Kernels-comparator.log",
+      "sha256": "16967e8ed0e51ffc411c171786d89386d5ac2b7e4b6a5644d217e1182daefeb4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/changed-bench__repairs__tritonbench_g__seeded_dropout__Misc__HostFPEquiv-comparator.log",
+      "sha256": "a915cdb95da0bf2f652272717cfe972930953e02273c11696ab623a57b24078b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/changed-bench__repairs__tritonbench_g__seeded_dropout__Proofs__ActualTile-comparator.log",
+      "sha256": "4277721e92c924ab78d0193bf5eec774ae660c9839b96e646cad981084d5fc1a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/changed-bench__repairs__tritonbench_g__seeded_dropout__Proofs__Host-comparator.log",
+      "sha256": "eec452726b2f2b91a4a07e1d560920bcbf50e8bdd89e44caf5d7c84eff919ef4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/changed-bench__repairs__tritonbench_g__seeded_dropout__Proofs__KernelExecution-comparator.log",
+      "sha256": "aa52b199a355bb5a55a76bf275968c72c902110073107ba37770ec04d83f9d90"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/changed-bench__repairs__tritonbench_g__seeded_dropout__Proofs__KernelReal-comparator.log",
+      "sha256": "88296d8f3194074d1bdcfdc16cc6f6ca8d076767a683ce8337b08516cdd8b270"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/changed-bench__repairs__tritonbench_g__seeded_dropout__Proofs__LegacyKernelExecution-comparator.log",
+      "sha256": "6f22530bf289909c44e22c2132af549770b4f6dd076ec5195786d39f71c51a3b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/changed-bench__repairs__tritonbench_g__seeded_dropout__Proofs__LegacyPastedSurface-comparator.log",
+      "sha256": "36919efaa679c5b0288c0df40857cb0882dddf8ea378a7e2fdcd36547902d012"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/changed-bench__repairs__tritonbench_g__seeded_dropout__Proofs__LogicalResult-comparator.log",
+      "sha256": "2fd5ca5a6ad0cf8033769b5e1956dd9955d5640d79d65b18c3c8b140db353ae4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/changed-bench__repairs__tritonbench_g__seeded_dropout__Proofs__ParametricExecutionModel-comparator.log",
+      "sha256": "787d45681ff9748f90dc0fb4bc40cd0aaf6ac60456bec45c36f38a63ef652b66"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/changed-bench__repairs__tritonbench_g__seeded_dropout__Proofs__Projection-comparator.log",
+      "sha256": "7048e00247d9b21b80ea598a781ae250c7c19b5b646e07fb0a29e1b4223a6cf3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/changed-bench__repairs__tritonbench_g__seeded_dropout__Proofs__PublicIO-comparator.log",
+      "sha256": "c813d183b704486075379e8d1056bf95d4b2941d95f33ba0110d294c202867c9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/changed-bench__repairs__tritonbench_g__seeded_dropout__Proofs__SourcePreservation-comparator.log",
+      "sha256": "4683f2f961ada987b398f156c2745d29945bf733e069419576f921c4f07ebed4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/changed-bench__repairs__tritonbench_g__seeded_dropout__Proofs__SourceSafety-comparator.log",
+      "sha256": "3fc58ed59a015d00c7ed2540b315706cc7a77bc595b3f90e9fe95bdd670eceaa"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/changed-bench__tests__CallRandomABI-comparator.log",
+      "sha256": "f59a41864256aa3da1d289ba9bb16860ab37ffd6cef72c9ab82f7f523979d8b0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/changed-bench__tests__CallSignature-comparator.log",
+      "sha256": "f6abf13f1d21dd16bf133cc2702b82f47bc3cd8235295a4081b3a2281c402581"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/clean-build.log.gz",
+      "sha256": "aa6e92bd228a7da09b2e6df8bcef035e98e8d29fc825fcf24673f893661f4273"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/clean-setup.log",
+      "sha256": "4e4f7bee699d555deab3385c3c5930510cec00002872e176945a00f2cb78c5ea"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/comparator-invocations.json",
+      "sha256": "ffeb4e21b4297428d3198d5b87f8da1a6f49bd9e935a1a2198d63ec323fee8d8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/comparator-preflight.log",
+      "sha256": "d9255026a27595d0a04e154bc4a9c609c8422b012fc13cb1ae4de2417afea36d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/comparator-setup.log",
+      "sha256": "bea658f19aea48f8965a3d6525da1300e599d9a3f0a05b992071c97bcaffd6df"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/comparator-tools.json",
+      "sha256": "d541ac407f7aa8679c8ba23dd4df72ac363730bbb67e45bd7959ec752e6b0c53"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/comparator.log",
+      "sha256": "86deadf65ce8496343474f2ec8bcf27e092dafc2b2130ede7a5f5e214662f6c3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/contract.log",
+      "sha256": "9dee41a0bf15d424d49408d5dc467dd5836e62978cff4d860b7cb0b30d065190"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/corpus-guard.log",
+      "sha256": "e0dccf258778a21ac962470260036d6e8bf54f9bd7600723ba80731551b85689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/dropout_triton-Real-comparator.log",
+      "sha256": "9429bd63d8dd485935ab046d65d751c504c80d28414f5a8c6f37b2d78abb5e4f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/dropout_triton-comparator.log",
+      "sha256": "ab199cd5c2d530a57f96c7cf8aba0d955e2a24643d8183b8472ea2824b25bf59"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/dropout_triton-contract.log",
+      "sha256": "70c605a033a3fb9daf082c7277efe78f8bf296c45a141bdf5b6ff8c525f3132f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/integration.log.gz",
+      "sha256": "ed6c768d243d7f8d90f7acb0d53701279996058e88033cf6f19e491c3e069731"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/joint.lean",
+      "sha256": "0bd468718a71b6066ac8a3dac627d8d95fc53971f1e1e6a0c0c4e68a12856862"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/modules.json",
+      "sha256": "95844672ad658af4c51f50e693dc4c963c7de1727e3e63f0ed02751b7994ec2e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/pairs.json",
+      "sha256": "54c3912a3a51a7171c1ef52c653a00cf04d3801faba5ce160222257731689e02"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/previous-selected-reviews.json.gz",
+      "sha256": "065fb1b22eb7928a4a15b6846867d138b0fda2e61dbb8aecce8db07c2c3376f2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/python-tests.log",
+      "sha256": "c59ce7b6809efbddec47266c4d8f74ab63017b4110ecf5021b85e1da630f93b1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/seeded_dropout-Real-comparator.log",
+      "sha256": "cb1a48fe9a35bc7dc4502e335d835b02dcb2b34fe699cb74125407802becd5f6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/seeded_dropout-comparator.log",
+      "sha256": "dfcc7b3468c49e8092950495e70b62a1f5f3277673db04c8898cfdb5a29e63dc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/seeded_dropout-contract.log",
+      "sha256": "01599b129eb20b8be49f72bc2ae94afb0aa464b03071cd54a0b91f9edf8f2206"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-dropout-bodies/source-closure.json",
+      "sha256": "a4e6ee0348624670b3483080088df14e09da2cd893f7ae0641f2ae05972c8c12"
+    }
+  ]
+}
