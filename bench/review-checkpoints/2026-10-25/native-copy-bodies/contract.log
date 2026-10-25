@@ -1,0 +1,24 @@
+destindex_copy
+Traceback (most recent call last):
+  File "/tmp/veritile-copy41-clean/bench/repairs/tritonbench_g/destindex_copy/check_contract.py", line 7, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'
+
+destindex_copy_kv1
+Traceback (most recent call last):
+  File "/tmp/veritile-copy41-clean/bench/repairs/tritonbench_g/destindex_copy_kv1/check_contract.py", line 8, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'
+
+destindex_copy_kv2
+Traceback (most recent call last):
+  File "/tmp/veritile-copy41-clean/bench/repairs/tritonbench_g/destindex_copy_kv2/check_contract.py", line 8, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'
+
+kcache_copy_triton
+Traceback (most recent call last):
+  File "/tmp/veritile-copy41-clean/bench/repairs/tritonbench_g/kcache_copy_triton/check_contract.py", line 9, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'
+

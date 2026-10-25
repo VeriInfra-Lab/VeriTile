@@ -1,0 +1,400 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "1096167405eb7cd3f30abd153af98ab337182796",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "destindex_copy",
+    "destindex_copy_kv1",
+    "destindex_copy_kv2",
+    "kcache_copy_triton"
+  ],
+  "semantic_review": {
+    "adam_update_triton": "Generic source terminal-return semantics and known integer nested-load provenance regression; floating nested-load rejection, precision/casts and all existing numerical and complete IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "add_example": "Generic source terminal-return semantics and known integer nested-load provenance regression; floating nested-load rejection, precision/casts and all existing numerical and complete IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "add_value": "Generic source terminal-return semantics and known integer nested-load provenance regression; floating nested-load rejection, precision/casts and all existing numerical and complete IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "cache_transform_triton": "Generic source terminal-return semantics and known integer nested-load provenance regression; floating nested-load rejection, precision/casts and all existing numerical and complete IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "cosine_compute": "Generic source terminal-return semantics and known integer nested-load provenance regression; floating nested-load rejection, precision/casts and all existing numerical and complete IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "dequantize_matmul": "Generic source terminal-return semantics and known integer nested-load provenance regression; floating nested-load rejection, precision/casts and all existing numerical and complete IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "dequantize_rowwise": "Generic source terminal-return semantics and known integer nested-load provenance regression; floating nested-load rejection, precision/casts and all existing numerical and complete IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "f8_conversion_utils": "Generic source terminal-return semantics and known integer nested-load provenance regression; floating nested-load rejection, precision/casts and all existing numerical and complete IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "fast_rope_embedding": "Generic source terminal-return semantics and known integer nested-load provenance regression; floating nested-load rejection, precision/casts and all existing numerical and complete IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "index_select_bwd": "Generic source terminal-return semantics and known integer nested-load provenance regression; floating nested-load rejection, precision/casts and all existing numerical and complete IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "kldiv_compute": "Generic source terminal-return semantics and known integer nested-load provenance regression; floating nested-load rejection, precision/casts and all existing numerical and complete IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "kldiv_triton": "Generic source terminal-return semantics and known integer nested-load provenance regression; floating nested-load rejection, precision/casts and all existing numerical and complete IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "l2_norm_bwd": "Generic source terminal-return semantics and known integer nested-load provenance regression; floating nested-load rejection, precision/casts and all existing numerical and complete IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "l2_norm_triton1": "Generic source terminal-return semantics and known integer nested-load provenance regression; floating nested-load rejection, precision/casts and all existing numerical and complete IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "l2_norm_triton2": "Generic source terminal-return semantics and known integer nested-load provenance regression; floating nested-load rejection, precision/casts and all existing numerical and complete IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "masked_add_cuda": "Generic source terminal-return semantics and known integer nested-load provenance regression; floating nested-load rejection, precision/casts and all existing numerical and complete IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "matrix_reduction": "Generic source terminal-return semantics and known integer nested-load provenance regression; floating nested-load rejection, precision/casts and all existing numerical and complete IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "matrix_transpose": "Generic source terminal-return semantics and known integer nested-load provenance regression; floating nested-load rejection, precision/casts and all existing numerical and complete IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "mean_reduction": "Generic source terminal-return semantics and known integer nested-load provenance regression; floating nested-load rejection, precision/casts and all existing numerical and complete IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "mul_exponent_compensator": "Generic source terminal-return semantics and known integer nested-load provenance regression; floating nested-load rejection, precision/casts and all existing numerical and complete IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "quant_transpose_kernel": "Generic source terminal-return semantics and known integer nested-load provenance regression; floating nested-load rejection, precision/casts and all existing numerical and complete IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "rmsnorm_fused": "Generic source terminal-return semantics and known integer nested-load provenance regression; floating nested-load rejection, precision/casts and all existing numerical and complete IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "rmsnorm_fused_llama": "Generic source terminal-return semantics and known integer nested-load provenance regression; floating nested-load rejection, precision/casts and all existing numerical and complete IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "rmsnorm_implementation": "Generic source terminal-return semantics and known integer nested-load provenance regression; floating nested-load rejection, precision/casts and all existing numerical and complete IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "rmsnorm_triton": "Generic source terminal-return semantics and known integer nested-load provenance regression; floating nested-load rejection, precision/casts and all existing numerical and complete IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "rope_embedding": "Generic source terminal-return semantics and known integer nested-load provenance regression; floating nested-load rejection, precision/casts and all existing numerical and complete IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "sin_computation": "Generic source terminal-return semantics and known integer nested-load provenance regression; floating nested-load rejection, precision/casts and all existing numerical and complete IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "sin_kernel": "Generic source terminal-return semantics and known integer nested-load provenance regression; floating nested-load rejection, precision/casts and all existing numerical and complete IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "softmax_triton1": "Generic source terminal-return semantics and known integer nested-load provenance regression; floating nested-load rejection, precision/casts and all existing numerical and complete IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "softmax_triton2": "Generic source terminal-return semantics and known integer nested-load provenance regression; floating nested-load rejection, precision/casts and all existing numerical and complete IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "square_matrix": "Generic source terminal-return semantics and known integer nested-load provenance regression; floating nested-load rejection, precision/casts and all existing numerical and complete IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "swiglu_fwd": "Generic source terminal-return semantics and known integer nested-load provenance regression; floating nested-load rejection, precision/casts and all existing numerical and complete IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "triton_mul2": "Generic source terminal-return semantics and known integer nested-load provenance regression; floating nested-load rejection, precision/casts and all existing numerical and complete IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "triton_softmax": "Generic source terminal-return semantics and known integer nested-load provenance regression; floating nested-load rejection, precision/casts and all existing numerical and complete IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "var_len_copy": "Generic source terminal-return semantics and known integer nested-load provenance regression; floating nested-load rejection, precision/casts and all existing numerical and complete IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "vector_addition": "Generic source terminal-return semantics and known integer nested-load provenance regression; floating nested-load rejection, precision/casts and all existing numerical and complete IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "vector_addition_custom": "Generic source terminal-return semantics and known integer nested-load provenance regression; floating nested-load rejection, precision/casts and all existing numerical and complete IO scopes remain checked. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "destindex_copy": "The selected _copy_heads original and the selected kv1 original have exactly identical complete Python function bodies and parameter roles, including the final return; the AST equality was checked before sharing. The task transparently uses the actual raw Kv1 source and its retained row-index candidate. Its own manifest separately checks the original selected Python against that true shared quotation. The two distinct payload planes retain independent head/feature shapes and every real original schedule, argument guard/order, buffer identity, output/byte/frame, Real/FP/native/host/Tensor scope. New candidate Python is clearly attributed to the shared pre-existing Lean candidate. No unrelated candidate or generated substitute original.",
+    "destindex_copy_kv1": "The original selected Python is unchanged. Paste the complete actual body with unmasked scalar INT32 destination load, both formed pointer expressions, every original independent runtime stride/count, load padding, exact original mask and final return. Source storage and runtime/constexpr roles are external. Remove the old Lean-only k.to(float32) store; true homogeneous FP32 storage semantics remain. Newly authored Python is explicitly only the counterpart of the pre-existing integer source-row-product candidate. Prove both entire new/old executions equal under the already defined raw-copy backend, for arbitrary remaining primitives, states and layouts, including success/failure, all registers and every cell. Do not assume cast identity for arbitrary floating algebras. Directly replay the actual full original/candidate execution equality for arbitrary floating algebras, all Real/FP, access safety, output/frame, fixed-word/byte, host and Tensor conclusions without narrowing domains or adding numeric laws. Both head and feature masks, singleton/empty cases and all existing geometry are retained.",
+    "destindex_copy_kv2": "The original selected Python is unchanged. Paste the complete actual body with unmasked scalar INT32 destination load, both formed pointer expressions, every original independent runtime stride/count, load padding, exact original mask and final return. Source storage and runtime/constexpr roles are external. Remove the old Lean-only k.to(float32) store; true homogeneous FP32 storage semantics remain. Newly authored Python is explicitly only the counterpart of the pre-existing integer source-row-product candidate. Prove both entire new/old executions equal under the already defined raw-copy backend, for arbitrary remaining primitives, states and layouts, including success/failure, all registers and every cell. Do not assume cast identity for arbitrary floating algebras. Directly replay the actual full original/candidate execution equality for arbitrary floating algebras, all Real/FP, access safety, output/frame, fixed-word/byte, host and Tensor conclusions without narrowing domains or adding numeric laws. Only the original head mask is present. The old admitted power-of-two feature-width premise and every lane remain; no extra feature mask is invented.",
+    "kcache_copy_triton": "Paste both actual selected original and already-present Python candidate bodies, including all signed64 casts, negative token shift, INT32 metadata loads, signed division/remainder, full address/order, FP32 load/store and terminal return. Twelve runtime integer call roles stay external; HEAD_DIM and KCACHE_X remain constexpr. Retain both unused source arguments stride_kcx and HEAD_DIM. The old layout API uses compatible unused defaults, and an entire-kernel rfl theorem proves independence for every actual unused argument, so no false caller-value restriction is added. Keep typed Region.int metadata bindings to preserve the actual pointer-base phantom dtype, rather than silently changing it through RegionName. A whole-function-family rfl theorem equates each full original/candidate to the proof-only old full source for every layout and both versions. All old Real/FP, explicit index refinement, negative shift, complete read/write safety, arbitrary primitive/source words, empty/partial launches, full outputs/frame, byte order, host and Tensor scopes replay. Generic frontend permits a no-value return only at the function end; nested/nonterminal returns retain existing rejection. It permits nested integer reads only from known actual integer storage, recursively checking address/mask children; floating reads remain rejected even under integer casts or inside an integer outer load. Whole-program and negative regressions cover these paths. No numeric law, new word theorem or whole-program premise."
+  },
+  "example_regression_scope": "All 19 examples and their complete imported helpers replay locally, jointly and independently from Git. Their sources, formulas, numerical contracts and scopes are unchanged.",
+  "verification": {
+    "frontend_regressions": {
+      "status": "PASS",
+      "configured_modules": 93,
+      "previous_verified_code": "ce0b0bdbf4b3588764cd2108fdf97d0f6d6b2f44",
+      "scope": "All 93 configured frontend regressions, including complete terminal-return and integer-read source equalities, nested/nonterminal-return rejections, and floating-read rejection under integer casts/masks; no failed targets omitted."
+    },
+    "integration": {
+      "status": "PASS",
+      "explicit_modules": 1420,
+      "jobs": 10445
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 1420,
+      "jobs": 10445,
+      "project_build_initially_present": false,
+      "veritile_cache_initially_present": false,
+      "only_fixed_external_dependencies_reused": true
+    },
+    "joint_import": "PASS: all 1420 roots",
+    "task_directories": "Every Lean file in all four newly migrated task directories, including optional native/host/Tensor readers and all complete semantic/source-binding proofs.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 45
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 290,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by the old numerical receipt; prior baseline preserved, no false repin."
+    },
+    "official_comparator": "UNAVAILABLE: actual frozen-source invocations report host isolation unavailable. The official pinned comparator/exporter/landrun successfully built with a SHA256-verified local Go toolchain. Host Landlock ABI v4 cannot satisfy required v5, and the systemd user bus is unavailable. Isolation checks remain fail-closed.",
+    "optional_cpu_contract": "UNAVAILABLE: current environment lacks torch; actual failure retained.",
+    "gpu_or_numerical_experiment": "Not run. No new numeric laws, axioms or hardware-conformance claim.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending."
+  },
+  "source_pairs": {
+    "total": 153,
+    "pasted_body": 148,
+    "legacy_ast": 5
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/source-closure.json",
+    "sha256": "c9ee762aa0c17b607b9215f1d9fd210520b0935d1fbf7e0ddebb8a0382b7d18b"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "legacy_ast_only": 1,
+      "no_selected_jit_resolved": 2,
+      "selected_body_copy_checked": 41,
+      "uncovered_jit_functions": 139
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 328,
+    "uncovered_selected_jit_functions": 264,
+    "primary_files_with_int64_screen_warning": 40,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 111,
+        "antiquotes": 123,
+        "dsl_loop": 1,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/CallSignature-comparator.log",
+      "sha256": "b1f18e602de63dd4c9c59db5871478ce87006a258f4349a66197c284798ac44b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/DecayCumsumTypedExecution-comparator.log",
+      "sha256": "6ae136379047262e977b41777a247efc777af84890363a305cf8ce310f87b81f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/EquivTactics-comparator.log",
+      "sha256": "a26691666eb068c01bafbc21af1810b6a93c3c85c4d28f8d122b4d4dfa2bfb76"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/FP4Source-comparator.log",
+      "sha256": "3bfd7a28664c85b3d754fadf03c9a88be38f85d3a22edaa53c98b49a35043f7f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/FPComputeAddition-comparator.log",
+      "sha256": "28ab31b83a1ecfed095de103c2980086953ba92b8ee6de73a85d2d3fa5286f51"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/FPConstantBranchContexts-comparator.log",
+      "sha256": "32d1d78de98cdd1908eacb45c1a38ddb70804f0225d076207eccac0db3e1103b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/FPSoftmaxForwardPointer-comparator.log",
+      "sha256": "c5b77f000d52bc7a417b6de99bdf6976abc84447bbe27e06c8b517bac09491c9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/FastRopeSource-comparator.log",
+      "sha256": "cdb966b26480980ae2c2c063918eae9dc353f118fb2e8e750cf637d68fe40429"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/FloatMinMaxPromotion-comparator.log",
+      "sha256": "50a691872cfd3b1b073ece36d1d1436654ae76af37f397bf9baf8dab98c9c167"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/LoadCastStorage-comparator.log",
+      "sha256": "460c7d10fdf7db4bcaf94e83804dad5320180c44ec4f203c5883bf757f9a3016"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/RegisterDTypeLoad-comparator.log",
+      "sha256": "74a2106d6ec959da56eb614daf864f290c4b23d467174888037057da5761c4e1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/SignedBitwiseSource-comparator.log",
+      "sha256": "ffa7f36a9f2f20221c06b2341620b1d1b3915f445cc762ed4bceb579eb60c690"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/SourceDType-comparator.log",
+      "sha256": "c6726b7f1f9e7aa72e449eaada7ba366920840366baca13e415bed77dde94f24"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/all-python.log.gz",
+      "sha256": "b39a3ceaeea5a7417038b563bca7de8e593ce965a9c03dfedcfbdd82a3a707c9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/changed-VeriTile__Triton__DSL__CallSignature-comparator.log",
+      "sha256": "d2708ba878160b8eeeabf5af07bcf970cb9f6dc5934286c474843fe8e7a0167a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/changed-VeriTile__Triton__DSL__Expansion__Compute-comparator.log",
+      "sha256": "908cc54169cdbd67fb69afb85002477344a0e2b35d4a820263417dffe2ec717c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/changed-VeriTile__Triton__DSL__Expansion__Main-comparator.log",
+      "sha256": "a28fa1c0e88ab140210fc049e090205c976b20b933c463f9e024b2da5f9035be"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/changed-VeriTile__Triton__DSL__SourceDType-comparator.log",
+      "sha256": "ddc02ca26c2ea16c439f202c07a56d98e37ced9f7abc8643bed76fe88054bb23"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/changed-bench__repairs__tritonbench_g__fast_rope_embedding__Contract-comparator.log",
+      "sha256": "085fa9f3f964c2bc2d112851930ce02314a26a8cbcd9f325303e4bd2a5e29bf3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/changed-bench__repairs__tritonbench_g__fast_rope_embedding__Kernels-comparator.log",
+      "sha256": "b1a61223c404e4a55039c737b0d7ba0f4d6ace6d28dd5e544f736ec89b04a797"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/changed-bench__repairs__tritonbench_g__fast_rope_embedding__Proofs__AccessSafety-comparator.log",
+      "sha256": "9dcc1d95bdf900cd732a3e4ae1c6517f6debf19c4526a2b7460db12ad5e1b930"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/changed-bench__repairs__tritonbench_g__fast_rope_embedding__Proofs__KernelInterface-comparator.log",
+      "sha256": "bb262b734983bb9aa8ed61986137ca53357d5ec0985cebf65c2d90bfdf30f243"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/changed-bench__repairs__tritonbench_g__fast_rope_embedding__Proofs__KernelRegressions-comparator.log",
+      "sha256": "d41086dbf1dd57b5ac0c2dbee3bb851296a49c3e2d8759566cb379008476a127"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/changed-bench__repairs__tritonbench_g__rope_embedding__IO-comparator.log",
+      "sha256": "7dc17cfad696ba5a64f233e480c211d138724b4868ce22b303746617b3d876f7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/changed-bench__repairs__tritonbench_g__rope_embedding__Kernels-comparator.log",
+      "sha256": "e1cd7bc98ec1e60d17b28e39019670957b2d762ea11b3b0884bd52907f3e1356"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/changed-bench__repairs__tritonbench_g__rope_embedding__Misc__NativeCorrect-comparator.log",
+      "sha256": "421d5f3efb8ec6e1543872b9ea1046950ba84623f461541eb621e4f5d4893ce7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/changed-bench__repairs__tritonbench_g__rope_embedding__Proofs__Interface-comparator.log",
+      "sha256": "f28515934e2de180b620edf90a892d5557783e368483463891eb10282d3cfb0c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/changed-bench__repairs__tritonbench_g__rope_embedding__Proofs__Pair-comparator.log",
+      "sha256": "c0755e42e2e4b6c119df26dc29f61a901093d3de4badda2e23ce426f41f8810a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/changed-bench__repairs__tritonbench_g__rope_embedding__Proofs__Source-comparator.log",
+      "sha256": "53a5d803d933fd987f249ff321483aa7098c4aa2385e80d17951e13ab339f266"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/changed-bench__repairs__tritonbench_g__rope_embedding__Proofs__SourceBinding-comparator.log",
+      "sha256": "54bc9aaa6bb581e84b28d3a205f1eeba622168e206b6d0d1a34831d23b3497d8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/changed-bench__repairs__tritonbench_g__rope_embedding__Proofs__SourceSafety-comparator.log",
+      "sha256": "6b8579f9fa3f11797d960c4f43b1ec16b15285115ab78daae76cc3d2f0a6ad52"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/clean-build.log.gz",
+      "sha256": "314de8c383398c91593c1670f7f44ba33c0c6916a4f5544d1b8a147a47fa0cd4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/clean-setup.log",
+      "sha256": "5b7800a307f26d4c691b13fabec0973d360a9c244434b37d923337b1ec6b3c4f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/comparator-invocations.json",
+      "sha256": "90a7fc2e26a084a7b5e070fae2db1927e994883c16f8e4f121ff13e2a329c5e1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/comparator-preflight.log",
+      "sha256": "d9255026a27595d0a04e154bc4a9c609c8422b012fc13cb1ae4de2417afea36d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/comparator-setup.log",
+      "sha256": "bea658f19aea48f8965a3d6525da1300e599d9a3f0a05b992071c97bcaffd6df"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/comparator-tools.json",
+      "sha256": "d541ac407f7aa8679c8ba23dd4df72ac363730bbb67e45bd7959ec752e6b0c53"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/comparator.log",
+      "sha256": "c0a98eef7170a1f965bc42c9e9f06306fa2b0da56cc7a8d646444eb9156f0898"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/contract.log",
+      "sha256": "262fa067532907856d9fc04bf5529c3307ef941609625a6bae4ba05703b2f2e3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/corpus-guard.log",
+      "sha256": "023ff421e4c98713f67776cd6e1539b7488669c3e44a22bd9a0b29967be0ef5e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/destindex_copy-comparator.log",
+      "sha256": "3f21e9a25fc9ad082abf6f4aa2a5c00e5e162f5d4d4953fbf24acb664abaafda"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/destindex_copy-contract.log",
+      "sha256": "0ce1a6d1ff3397c0b565c1f5250d4ebb9876475fa9fd6c2f1972262415b06e75"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/destindex_copy_kv1-comparator.log",
+      "sha256": "15a3f4fe6fb7ced35422c0ce759df5915ab34e7febfc211e8e9b0216727e0026"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/destindex_copy_kv1-contract.log",
+      "sha256": "8e9bb2c681641c29c4ba15489ce604feef2771d681d4b29d1da3df9ea6453b74"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/destindex_copy_kv2-comparator.log",
+      "sha256": "8820d0f9ded2cfbe670fe8119b4e803a80d481622a954dfee2c822dd97394340"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/destindex_copy_kv2-contract.log",
+      "sha256": "a91d565a0ea30025e9d8d9aaf011d48099e9aa94dc72b01d4f8d3304d4e89f28"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/fast_rope_embedding-Real-comparator.log",
+      "sha256": "9e096970b722e6b9061c5f29941a6ea6b26c5ac746db0948a1c3b3e09e940a34"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/fast_rope_embedding-comparator.log",
+      "sha256": "dc4eb18a0b815afa06fd7f4e02770373f88cbbc3a704c55c6b5d4d3eb1f30014"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/integration.log.gz",
+      "sha256": "52100b61537f79f38baa56e39686ae30e5ca82d95f2ba446d9e16ffb8f4f60bd"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/joint.lean",
+      "sha256": "1083ff58482eaa6bdd1883b056651f4eca062b537665445c2cb9e850b8536863"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/kcache_copy_triton-comparator.log",
+      "sha256": "ad282c8b0fa8aa63ee7fb027a41ac86cd7f309ad7e410de8325a01d853a7c8c5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/kcache_copy_triton-contract.log",
+      "sha256": "77724e062ce1ead57787d2e5fd15edd62b3abe1c3948fa972f47ff3e34ab2cc6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/modules.json",
+      "sha256": "2030bd35ee7802991c6cae24da18ee09fb4247d1a537eb8dc84d1bf8ed7c5ed1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/pairs.json",
+      "sha256": "196c6da0939583f0e5aafb18ca655981c6ca2d35388a6d4d778d9ed548083bb1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/previous-selected-reviews.json.gz",
+      "sha256": "46ef8b664e5fccda206ae9bc272518ff29b2fcc1cc9a2d348a3ba9a7ce4b7546"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/python-tests.log",
+      "sha256": "806b89f849fa03ab30ed48704a719d8d432158e6769ff253af4c3c7aeffcaaf4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/rope_embedding-Real-comparator.log",
+      "sha256": "2066fdfeee4a2f5e11f87f64335c165ac6517617bcda6716102cca12a8f01b10"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/rope_embedding-comparator.log",
+      "sha256": "cc469e35b70a239160f1a489b3ec7538abec8810b7017abbfba460e4b56684e0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-copy-bodies/source-closure.json",
+      "sha256": "c9ee762aa0c17b607b9215f1d9fd210520b0935d1fbf7e0ddebb8a0382b7d18b"
+    }
+  ]
+}
