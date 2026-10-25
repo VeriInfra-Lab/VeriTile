@@ -1,0 +1,337 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "517b66a60c2532f867bc8cf4efe57ec715e87315",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "fused_activation"
+  ],
+  "semantic_review": {
+    "adam_update_triton": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "add_example": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "add_value": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "cache_transform_triton": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "chunk_cumsum_kernel": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "chunked_cumsum_fwd": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "cosine_compute": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "dequantize_matmul": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "dequantize_rowwise": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "destindex_copy": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "destindex_copy_kv1": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "destindex_copy_kv2": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "dropout_triton": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "f8_conversion_utils": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "fast_rope_embedding": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "fused_recurrent_hgrn": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "index_select_bwd": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "index_select_cat": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "kcache_copy_triton": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "kldiv_compute": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "kldiv_triton": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "kv_cache_copy": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "l2_norm_bwd": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "l2_norm_triton1": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "l2_norm_triton2": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "logsumexp_fwd": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "masked_add_cuda": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "matmul_kernel": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "matrix_reduction": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "matrix_transpose": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "mean_reduction": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "mul_exponent_compensator": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "nested_loops_processing": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "quant_transpose_kernel": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "relu_triton_kernel": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "rms_norm_triton": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "rmsnorm_fused": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "rmsnorm_fused_llama": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "rmsnorm_implementation": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "rmsnorm_triton": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "rope_embedding": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "rotary_emb": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "rotary_emb_nopad": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "seeded_dropout": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "sin_computation": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "sin_kernel": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "softmax_triton1": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "softmax_triton2": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "square_matrix": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "swiglu_backward": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "swiglu_fwd": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "triton_mul2": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "triton_softmax": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "var_len_copy": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "vector_addition": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "vector_addition_custom": "Previously migrated original/candidate raw bodies and all existing mathematical, numerical and IO scopes replay after finite caller String specialization. This is regression only: no new body migration, FP identity, narrowed domain or hardware claim is assigned to this task.",
+    "fused_activation": "Both existing selected Python functions remain unchanged and their complete bodies are pasted directly. The original String equality and elif, absence of a final else, source slicing, positional masks, eviction option and all operation order remain in the quotation. Pointer storage, sizes, multiplier and actual String constexpr alternatives are supplied outside. The pre-existing Boolean caller API selects the same two valid String alternatives; it does not replace any written source condition. The shared frontend conservatively unions literal results of the actual immutable caller expression, uses preceding equality/inequality tests on that same name, and removes only impossible tests/branches before dtype flow. It rejects unsupported opaque and mutable String constants rather than guessing a default branch. SourcePreservation proves COMPLETE original and candidate ComputeKernel identities on both Boolean caller choices, for arbitrary regions/sizes/multiplier and thus arbitrary primitive backends, including all ports, successful/failing states and traces. RealInterface now explicitly rewrites through the already-proved Projection identity before applying original mathematical/trace results, instead of relying on a formerly definitional Boolean spelling. All 29 task modules replay, preserving the independent sigmoid/ReLU mathematics, complete regional source safety/success/outputs/frame and read-only alias scope, checked Tensor views, strict guarded bias-addition equivalence, native FMA graph/word bindings, complete grid and historical/optional scopes. String carrier classification inspects canonical types without unifying unresolved numeric carriers; the new untyped-B=64 regression preserves existing Nat inference. The initial source exposing that regression was rejected and both full builds were interrupted before this corrected replay. No FP contraction law, cast identity, new numerical assumption, changed native boundary or narrowed domain is introduced."
+  },
+  "example_regression_scope": "All 19 examples and complete helpers replay locally, jointly and in an initially empty independent project checkout; their source, domains and numerical classifications are unchanged.",
+  "verification": {
+    "frontend_regressions": {
+      "status": "PASS",
+      "configured_modules": 95,
+      "scope": "All configured mutation, shape, integer/RNG, signed/literal/static loops, dtype-flow and conversion guards replay. New String checks verify finite caller alternatives and equality/inequality pruning by a complete AST identity, keep the genuine implicit store type without an FP32 self-cast, and reject opaque and mutable Strings. Python mutation checks reject replacing String conditions/elif, slicing deletion and altered arithmetic order. Regression found before publication: the initial String probe unified an unresolved numeric carrier with String. Both old full builds were interrupted (130) and discarded. Both String probes now inspect canonical types without unification, preserving the prior Nat/Int/Real specialization. A tracked complete-kernel let-B-equals-64 regression and the independent minimal reproducer pass; the latter has only an unused-variable warning. All final source and clean-build evidence is for the corrected freeze, never the rejected source."
+    },
+    "integration": {
+      "status": "PASS",
+      "explicit_modules": 2010,
+      "jobs": 11206
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 2010,
+      "jobs": 11206,
+      "scope": "Every combined root and dependency closure after shared frontend changes.",
+      "project_build_initially_present": false,
+      "veritile_cache_initially_present": false,
+      "only_fixed_external_dependencies_reused": true
+    },
+    "joint_import": "PASS: all 2010 roots",
+    "task_directories": "All 29 fused activation task modules, all 95 configured frontend regressions, all prior migrated roots, examples and historical/optional scopes. Focused 171 roots including the 47-module previous matmul task pass 3859 jobs.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 66
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 311,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by the old numerical receipt; no false repin."
+    },
+    "official_comparator": "UNAVAILABLE: actual frozen-source invocations report required host isolation unavailable. Pinned official tools are installed, but host Landlock ABI v4 is below required v5 and systemd user bus is unavailable. No isolation bypass.",
+    "optional_cpu_contract": "UNAVAILABLE: torch missing; actual failure retained.",
+    "gpu_or_numerical_experiment": "Not run; no new numerical law or hardware-conformance claim.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending."
+  },
+  "source_pairs": {
+    "total": 196,
+    "pasted_body": 191,
+    "legacy_ast": 5
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-25/native-fused-activation-body/source-closure.json",
+    "sha256": "e6e8a405e4ec73b03a66b23285b335779365d1395945f04d178c16e4cced1e87"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "legacy_ast_only": 1,
+      "no_selected_jit_resolved": 2,
+      "selected_body_copy_checked": 57,
+      "uncovered_jit_functions": 123
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 328,
+    "uncovered_selected_jit_functions": 239,
+    "primary_files_with_int64_screen_warning": 38,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 98,
+        "antiquotes": 107,
+        "dsl_loop": 1,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-fused-activation-body/all-python.log.gz",
+      "sha256": "0088406d6648a1bbd280513c8d294d24093ac532dc617c3718a7ae1753110cc5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-fused-activation-body/changed-VeriTile__Triton__DSL__CallSignature-comparator.log",
+      "sha256": "8212ae103660482b330b9143cd8e987d2d263f0320ff0bb0667657487fdc48d5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-fused-activation-body/changed-bench__repairs__tritonbench_g__fused_activation__Kernels-comparator.log",
+      "sha256": "7ae842625606cad2151f4fbc08850cdf21307fbb2aeed0b7ba604e6266adf647"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-fused-activation-body/changed-bench__repairs__tritonbench_g__fused_activation__Proofs__LegacyPastedSurface-comparator.log",
+      "sha256": "76ac8875d500f1564cabdb6cd681961f02b628d00cc498743c21c12763f1bb8d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-fused-activation-body/changed-bench__repairs__tritonbench_g__fused_activation__Proofs__RealInterface-comparator.log",
+      "sha256": "2e2b6986c2ca422296a85d09bf65e778bf5c5e98569cda8a7ecf719c441141d1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-fused-activation-body/changed-bench__repairs__tritonbench_g__fused_activation__Proofs__Source-comparator.log",
+      "sha256": "fba72b153581cdbca0237935a3db20c4956f8f73d96486994fbd165dfc01fa46"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-fused-activation-body/changed-bench__repairs__tritonbench_g__fused_activation__Proofs__SourcePreservation-comparator.log",
+      "sha256": "a22969162a088d8782aee1caa76a19898cc9ef2edc71b73dc0bdbbc8b434f6b0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-fused-activation-body/changed-bench__tests__CallSignature-comparator.log",
+      "sha256": "36fb07589aeed171f5b1d657f9c510ca623d9b8643194836d5b341d7e4db722e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-fused-activation-body/clean-build.log.gz",
+      "sha256": "bf6e30153b25cdc49b0076e3f675e2a369fdf093cd591ff052de72ac74a46560"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-fused-activation-body/clean-setup.log",
+      "sha256": "15a0571d93dd7069e975142829ef7a55e5cec0b35bbfc79e5808c445d3e1165a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-fused-activation-body/comparator-invocations.json",
+      "sha256": "e30fb85f396e7e6cdff386a7b0907359f3706d5f76b6df576a0ee9bb9ab8b7d3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-fused-activation-body/comparator-preflight.log",
+      "sha256": "d9255026a27595d0a04e154bc4a9c609c8422b012fc13cb1ae4de2417afea36d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-fused-activation-body/comparator-setup.log",
+      "sha256": "bea658f19aea48f8965a3d6525da1300e599d9a3f0a05b992071c97bcaffd6df"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-fused-activation-body/comparator-tools.json",
+      "sha256": "d541ac407f7aa8679c8ba23dd4df72ac363730bbb67e45bd7959ec752e6b0c53"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-fused-activation-body/comparator.log",
+      "sha256": "cbc913882a7a52e0254d660e446ac844cfddf36275db8d9c5b0c1e052aae58f9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-fused-activation-body/contract.log",
+      "sha256": "173a9c3b235ffd7ebf57a36205fbf18bc002d11012399cfbb499fff2c424f451"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-fused-activation-body/corpus-guard.log",
+      "sha256": "5a09210e54f5647612407a74889db46a1e6902e5c38d7af2f6887679136c4ffa"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-fused-activation-body/corrected-numeric-probe.log",
+      "sha256": "55acbc28f29307a5204fc23cfc2a8dd4ebb52596f3c7682b7d76796318402602"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-fused-activation-body/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-fused-activation-body/fused_activation-Real-comparator.log",
+      "sha256": "4fe285a5610db88284d665fcd4188ca62179a75f48bba004e16e64260603bad1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-fused-activation-body/fused_activation-comparator.log",
+      "sha256": "92ee8674498fa8e2db72d77a2171153eb60f00f965affc356c251d4d8cb2739c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-fused-activation-body/fused_activation-contract.log",
+      "sha256": "ac7f0873e9f24bb8f75dc329066f5e112e8abfbf8eef7bcabf6e40936504e49c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-fused-activation-body/integration.log.gz",
+      "sha256": "831216e04b6b92e667508a56c433ac011952a1d73109afbd16bac6ead473c4b1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-fused-activation-body/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-fused-activation-body/joint.lean",
+      "sha256": "59bb33431f2fa41dcb8177c900be684b3f91657525bf9cc7da1faa3464b07225"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-fused-activation-body/joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-fused-activation-body/main-focused.log.gz",
+      "sha256": "71e6574bad46d27428541d978de3f04ebb6666cf3aa9f020395fc70e5e53d7ed"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-fused-activation-body/modules.json",
+      "sha256": "7207c937a322d548078c4198829ef9a0229a34a30d7aeaa30ed47c3325ef46bf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-fused-activation-body/numeric-probe-rejected.log",
+      "sha256": "45b1aefc7f5b55827463c47a5f8e542b3c6ae768f57b61888c09b69995966f68"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-fused-activation-body/numeric-probe-repro.lean",
+      "sha256": "f6ecdbcc95a10f2fb0fde7ea9ba2b3f335fbc1770a06c4c2141d9a7e3f37507c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-fused-activation-body/old-infinity-guard.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-fused-activation-body/pairs.json",
+      "sha256": "8da8b7c27f9968df7f9f9632a13fcce07eeba55686855623dbcb9686bbb6c17b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-fused-activation-body/previous-selected-reviews.json.gz",
+      "sha256": "99fc9aecb5d8defed33b103ab63f8c85e1c6941893fd710ee9d8b55b19f41a49"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-fused-activation-body/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-fused-activation-body/python-tests.log",
+      "sha256": "2ccb3ab7aff188edaeebddb89ffe5f953f54e585f8a9c501fa33b312560e2ea9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-fused-activation-body/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-fused-activation-body/rejected-clean-build.log.gz",
+      "sha256": "3cd3ee6bc756ff09a20c4d5a8f74be90abef4193a3269bcd0d9e553b83e2a71b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-fused-activation-body/rejected-clean-setup.log",
+      "sha256": "34474e16786103a50c0b4dd16f56524042017144d9b04510c6585f30509cd8cf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-fused-activation-body/rejected-integration.log.gz",
+      "sha256": "ace364bd5790881841b352e110c01807fdaccf64a437dbcb1fd5ac9fc1be3417"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-fused-activation-body/rejected-status.json",
+      "sha256": "dc52768eadbe24ea7f8ab96d6d68946391bb78f652f7a95b7792b675147d3271"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-fused-activation-body/signed-address-guard.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-fused-activation-body/signed-range-guard.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-fused-activation-body/source-closure.json",
+      "sha256": "e6e8a405e4ec73b03a66b23285b335779365d1395945f04d178c16e4cced1e87"
+    }
+  ],
+  "rejected_previous_source": {
+    "code_commit": "8b7ef6770dcb9dbb92d10f35e5e78eae91756b83",
+    "reason": "String classification used unification and assigned String to an unsolved numeric caller type.",
+    "minimal_reproducer_exit_code": 1,
+    "main_full_replay_exit_code": 130,
+    "clean_full_replay_exit_code": 130,
+    "scope": "Both interrupted before final acceptance; no receipt or publication accepts this source. Corrected final replay must start with empty generated project objects in independent checkout."
+  }
+}

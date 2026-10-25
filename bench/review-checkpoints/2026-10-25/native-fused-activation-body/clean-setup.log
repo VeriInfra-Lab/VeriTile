@@ -1,0 +1,3 @@
+HEAD is now at 517b66a60 Inspect String carriers without solving numeric caller metavariables
+Reuse the owned source checkout only: every generated project object removed before this frozen-source replay.
+No project build or .veritile-cache at start; only fixed external dependencies reused.

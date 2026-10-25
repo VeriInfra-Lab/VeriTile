@@ -1,0 +1,8 @@
+{
+  "code_commit": "8b7ef6770dcb9dbb92d10f35e5e78eae91756b83",
+  "reason": "String classification used unification and assigned String to an unsolved numeric caller type.",
+  "minimal_reproducer_exit_code": 1,
+  "main_full_replay_exit_code": 130,
+  "clean_full_replay_exit_code": 130,
+  "scope": "Both interrupted before final acceptance; no receipt or publication accepts this source. Corrected final replay must start with empty generated project objects in independent checkout."
+}

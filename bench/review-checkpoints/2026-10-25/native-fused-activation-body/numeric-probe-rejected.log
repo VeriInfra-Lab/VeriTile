@@ -1,0 +1,8 @@
+/tmp/string57-numeric-probe-repro.lean:5:2: error: string constexpr requires a literal or a finite conditional of string literals
+/tmp/string57-numeric-probe-repro.lean:4:11: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  OfNat String 64
+numerals are polymorphic in Lean, but the numeral `64` cannot be used in a context where the expected type is
+  String
+due to the absence of the instance above
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
