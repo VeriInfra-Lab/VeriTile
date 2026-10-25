@@ -1,0 +1,4 @@
+{"name": "changed-bench__repairs__tritonbench_g__nested_loops_processing__Proofs__SignedMemory", "file": "bench/repairs/tritonbench_g/nested_loops_processing/Proofs/SignedMemory.lean", "sha256": "778b64075fa6e22cd8269ee3996f3b86d529b42c687a54ce42a0107b4a572752", "command": ["python3", "scripts/check_comparator.py", "--file", "bench/repairs/tritonbench_g/nested_loops_processing/Proofs/SignedMemory.lean", "--trust"], "exit_code": 1, "code_commit": "36dc4dc5cfe1d77f66536662e8235ec1c3d47de7"}
+[FAIL] Official comparator isolation is unavailable:
+- systemd AF_UNIX restriction: Failed to connect to bus: Operation not permitted (consider using --machine=<user>@.host --user to connect to bus of other user)
+- Landlock sandbox: [landrun:error] 2026/10/25 04:33:43 Failed to apply sandbox: failed to apply Landlock filesystem restrictions: missing kernel Landlock support. Got Landlock ABI v4, wanted {Landlock V5; FS: all; Net: ∅}

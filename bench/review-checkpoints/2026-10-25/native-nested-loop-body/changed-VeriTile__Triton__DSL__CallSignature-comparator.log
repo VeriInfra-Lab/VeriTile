@@ -1,0 +1,4 @@
+{"name": "changed-VeriTile__Triton__DSL__CallSignature", "file": "VeriTile/Triton/DSL/CallSignature.lean", "sha256": "0c4fa1068531c49b2420814be5243f3148686eb6f4b916239bc9669aed31f0d5", "command": ["python3", "scripts/check_comparator.py", "--file", "VeriTile/Triton/DSL/CallSignature.lean", "--trust"], "exit_code": 1, "code_commit": "36dc4dc5cfe1d77f66536662e8235ec1c3d47de7"}
+[FAIL] Official comparator isolation is unavailable:
+- systemd AF_UNIX restriction: Failed to connect to bus: Operation not permitted (consider using --machine=<user>@.host --user to connect to bus of other user)
+- Landlock sandbox: [landrun:error] 2026/10/25 04:33:43 Failed to apply sandbox: failed to apply Landlock filesystem restrictions: missing kernel Landlock support. Got Landlock ABI v4, wanted {Landlock V5; FS: all; Net: ∅}

@@ -1,0 +1,364 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "36dc4dc5cfe1d77f66536662e8235ec1c3d47de7",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "nested_loops_processing"
+  ],
+  "semantic_review": {
+    "adam_update_triton": "The exact unchanged Python original/candidate bodies and complete mathematical/numerical/IO domains of this previously migrated task replay after the shared frontend integer-argument rebinding and integer augmented-literal fixes. All prior task directories, all 19 examples and all 93 frontend regressions are present in the complete local and initially empty independent combined replays and joint import. No body migration, new numerical law, weakened scope or hardware claim is added for this regression-only task.",
+    "add_example": "The exact unchanged Python original/candidate bodies and complete mathematical/numerical/IO domains of this previously migrated task replay after the shared frontend integer-argument rebinding and integer augmented-literal fixes. All prior task directories, all 19 examples and all 93 frontend regressions are present in the complete local and initially empty independent combined replays and joint import. No body migration, new numerical law, weakened scope or hardware claim is added for this regression-only task.",
+    "add_value": "The exact unchanged Python original/candidate bodies and complete mathematical/numerical/IO domains of this previously migrated task replay after the shared frontend integer-argument rebinding and integer augmented-literal fixes. All prior task directories, all 19 examples and all 93 frontend regressions are present in the complete local and initially empty independent combined replays and joint import. No body migration, new numerical law, weakened scope or hardware claim is added for this regression-only task.",
+    "cache_transform_triton": "The exact unchanged Python original/candidate bodies and complete mathematical/numerical/IO domains of this previously migrated task replay after the shared frontend integer-argument rebinding and integer augmented-literal fixes. All prior task directories, all 19 examples and all 93 frontend regressions are present in the complete local and initially empty independent combined replays and joint import. No body migration, new numerical law, weakened scope or hardware claim is added for this regression-only task.",
+    "cosine_compute": "The exact unchanged Python original/candidate bodies and complete mathematical/numerical/IO domains of this previously migrated task replay after the shared frontend integer-argument rebinding and integer augmented-literal fixes. All prior task directories, all 19 examples and all 93 frontend regressions are present in the complete local and initially empty independent combined replays and joint import. No body migration, new numerical law, weakened scope or hardware claim is added for this regression-only task.",
+    "dequantize_matmul": "The exact unchanged Python original/candidate bodies and complete mathematical/numerical/IO domains of this previously migrated task replay after the shared frontend integer-argument rebinding and integer augmented-literal fixes. All prior task directories, all 19 examples and all 93 frontend regressions are present in the complete local and initially empty independent combined replays and joint import. No body migration, new numerical law, weakened scope or hardware claim is added for this regression-only task.",
+    "dequantize_rowwise": "The exact unchanged Python original/candidate bodies and complete mathematical/numerical/IO domains of this previously migrated task replay after the shared frontend integer-argument rebinding and integer augmented-literal fixes. All prior task directories, all 19 examples and all 93 frontend regressions are present in the complete local and initially empty independent combined replays and joint import. No body migration, new numerical law, weakened scope or hardware claim is added for this regression-only task.",
+    "destindex_copy": "The exact unchanged Python original/candidate bodies and complete mathematical/numerical/IO domains of this previously migrated task replay after the shared frontend integer-argument rebinding and integer augmented-literal fixes. All prior task directories, all 19 examples and all 93 frontend regressions are present in the complete local and initially empty independent combined replays and joint import. No body migration, new numerical law, weakened scope or hardware claim is added for this regression-only task.",
+    "destindex_copy_kv1": "The exact unchanged Python original/candidate bodies and complete mathematical/numerical/IO domains of this previously migrated task replay after the shared frontend integer-argument rebinding and integer augmented-literal fixes. All prior task directories, all 19 examples and all 93 frontend regressions are present in the complete local and initially empty independent combined replays and joint import. No body migration, new numerical law, weakened scope or hardware claim is added for this regression-only task.",
+    "destindex_copy_kv2": "The exact unchanged Python original/candidate bodies and complete mathematical/numerical/IO domains of this previously migrated task replay after the shared frontend integer-argument rebinding and integer augmented-literal fixes. All prior task directories, all 19 examples and all 93 frontend regressions are present in the complete local and initially empty independent combined replays and joint import. No body migration, new numerical law, weakened scope or hardware claim is added for this regression-only task.",
+    "f8_conversion_utils": "The exact unchanged Python original/candidate bodies and complete mathematical/numerical/IO domains of this previously migrated task replay after the shared frontend integer-argument rebinding and integer augmented-literal fixes. All prior task directories, all 19 examples and all 93 frontend regressions are present in the complete local and initially empty independent combined replays and joint import. No body migration, new numerical law, weakened scope or hardware claim is added for this regression-only task.",
+    "fast_rope_embedding": "The exact unchanged Python original/candidate bodies and complete mathematical/numerical/IO domains of this previously migrated task replay after the shared frontend integer-argument rebinding and integer augmented-literal fixes. All prior task directories, all 19 examples and all 93 frontend regressions are present in the complete local and initially empty independent combined replays and joint import. No body migration, new numerical law, weakened scope or hardware claim is added for this regression-only task.",
+    "index_select_bwd": "The exact unchanged Python original/candidate bodies and complete mathematical/numerical/IO domains of this previously migrated task replay after the shared frontend integer-argument rebinding and integer augmented-literal fixes. All prior task directories, all 19 examples and all 93 frontend regressions are present in the complete local and initially empty independent combined replays and joint import. No body migration, new numerical law, weakened scope or hardware claim is added for this regression-only task.",
+    "index_select_cat": "The exact unchanged Python original/candidate bodies and complete mathematical/numerical/IO domains of this previously migrated task replay after the shared frontend integer-argument rebinding and integer augmented-literal fixes. All prior task directories, all 19 examples and all 93 frontend regressions are present in the complete local and initially empty independent combined replays and joint import. No body migration, new numerical law, weakened scope or hardware claim is added for this regression-only task.",
+    "kcache_copy_triton": "The exact unchanged Python original/candidate bodies and complete mathematical/numerical/IO domains of this previously migrated task replay after the shared frontend integer-argument rebinding and integer augmented-literal fixes. All prior task directories, all 19 examples and all 93 frontend regressions are present in the complete local and initially empty independent combined replays and joint import. No body migration, new numerical law, weakened scope or hardware claim is added for this regression-only task.",
+    "kldiv_compute": "The exact unchanged Python original/candidate bodies and complete mathematical/numerical/IO domains of this previously migrated task replay after the shared frontend integer-argument rebinding and integer augmented-literal fixes. All prior task directories, all 19 examples and all 93 frontend regressions are present in the complete local and initially empty independent combined replays and joint import. No body migration, new numerical law, weakened scope or hardware claim is added for this regression-only task.",
+    "kldiv_triton": "The exact unchanged Python original/candidate bodies and complete mathematical/numerical/IO domains of this previously migrated task replay after the shared frontend integer-argument rebinding and integer augmented-literal fixes. All prior task directories, all 19 examples and all 93 frontend regressions are present in the complete local and initially empty independent combined replays and joint import. No body migration, new numerical law, weakened scope or hardware claim is added for this regression-only task.",
+    "kv_cache_copy": "The exact unchanged Python original/candidate bodies and complete mathematical/numerical/IO domains of this previously migrated task replay after the shared frontend integer-argument rebinding and integer augmented-literal fixes. All prior task directories, all 19 examples and all 93 frontend regressions are present in the complete local and initially empty independent combined replays and joint import. No body migration, new numerical law, weakened scope or hardware claim is added for this regression-only task.",
+    "l2_norm_bwd": "The exact unchanged Python original/candidate bodies and complete mathematical/numerical/IO domains of this previously migrated task replay after the shared frontend integer-argument rebinding and integer augmented-literal fixes. All prior task directories, all 19 examples and all 93 frontend regressions are present in the complete local and initially empty independent combined replays and joint import. No body migration, new numerical law, weakened scope or hardware claim is added for this regression-only task.",
+    "l2_norm_triton1": "The exact unchanged Python original/candidate bodies and complete mathematical/numerical/IO domains of this previously migrated task replay after the shared frontend integer-argument rebinding and integer augmented-literal fixes. All prior task directories, all 19 examples and all 93 frontend regressions are present in the complete local and initially empty independent combined replays and joint import. No body migration, new numerical law, weakened scope or hardware claim is added for this regression-only task.",
+    "l2_norm_triton2": "The exact unchanged Python original/candidate bodies and complete mathematical/numerical/IO domains of this previously migrated task replay after the shared frontend integer-argument rebinding and integer augmented-literal fixes. All prior task directories, all 19 examples and all 93 frontend regressions are present in the complete local and initially empty independent combined replays and joint import. No body migration, new numerical law, weakened scope or hardware claim is added for this regression-only task.",
+    "masked_add_cuda": "The exact unchanged Python original/candidate bodies and complete mathematical/numerical/IO domains of this previously migrated task replay after the shared frontend integer-argument rebinding and integer augmented-literal fixes. All prior task directories, all 19 examples and all 93 frontend regressions are present in the complete local and initially empty independent combined replays and joint import. No body migration, new numerical law, weakened scope or hardware claim is added for this regression-only task.",
+    "matrix_reduction": "The exact unchanged Python original/candidate bodies and complete mathematical/numerical/IO domains of this previously migrated task replay after the shared frontend integer-argument rebinding and integer augmented-literal fixes. All prior task directories, all 19 examples and all 93 frontend regressions are present in the complete local and initially empty independent combined replays and joint import. No body migration, new numerical law, weakened scope or hardware claim is added for this regression-only task.",
+    "matrix_transpose": "The exact unchanged Python original/candidate bodies and complete mathematical/numerical/IO domains of this previously migrated task replay after the shared frontend integer-argument rebinding and integer augmented-literal fixes. All prior task directories, all 19 examples and all 93 frontend regressions are present in the complete local and initially empty independent combined replays and joint import. No body migration, new numerical law, weakened scope or hardware claim is added for this regression-only task.",
+    "mean_reduction": "The exact unchanged Python original/candidate bodies and complete mathematical/numerical/IO domains of this previously migrated task replay after the shared frontend integer-argument rebinding and integer augmented-literal fixes. All prior task directories, all 19 examples and all 93 frontend regressions are present in the complete local and initially empty independent combined replays and joint import. No body migration, new numerical law, weakened scope or hardware claim is added for this regression-only task.",
+    "mul_exponent_compensator": "The exact unchanged Python original/candidate bodies and complete mathematical/numerical/IO domains of this previously migrated task replay after the shared frontend integer-argument rebinding and integer augmented-literal fixes. All prior task directories, all 19 examples and all 93 frontend regressions are present in the complete local and initially empty independent combined replays and joint import. No body migration, new numerical law, weakened scope or hardware claim is added for this regression-only task.",
+    "quant_transpose_kernel": "The exact unchanged Python original/candidate bodies and complete mathematical/numerical/IO domains of this previously migrated task replay after the shared frontend integer-argument rebinding and integer augmented-literal fixes. All prior task directories, all 19 examples and all 93 frontend regressions are present in the complete local and initially empty independent combined replays and joint import. No body migration, new numerical law, weakened scope or hardware claim is added for this regression-only task.",
+    "rmsnorm_fused": "The exact unchanged Python original/candidate bodies and complete mathematical/numerical/IO domains of this previously migrated task replay after the shared frontend integer-argument rebinding and integer augmented-literal fixes. All prior task directories, all 19 examples and all 93 frontend regressions are present in the complete local and initially empty independent combined replays and joint import. No body migration, new numerical law, weakened scope or hardware claim is added for this regression-only task.",
+    "rmsnorm_fused_llama": "The exact unchanged Python original/candidate bodies and complete mathematical/numerical/IO domains of this previously migrated task replay after the shared frontend integer-argument rebinding and integer augmented-literal fixes. All prior task directories, all 19 examples and all 93 frontend regressions are present in the complete local and initially empty independent combined replays and joint import. No body migration, new numerical law, weakened scope or hardware claim is added for this regression-only task.",
+    "rmsnorm_implementation": "The exact unchanged Python original/candidate bodies and complete mathematical/numerical/IO domains of this previously migrated task replay after the shared frontend integer-argument rebinding and integer augmented-literal fixes. All prior task directories, all 19 examples and all 93 frontend regressions are present in the complete local and initially empty independent combined replays and joint import. No body migration, new numerical law, weakened scope or hardware claim is added for this regression-only task.",
+    "rmsnorm_triton": "The exact unchanged Python original/candidate bodies and complete mathematical/numerical/IO domains of this previously migrated task replay after the shared frontend integer-argument rebinding and integer augmented-literal fixes. All prior task directories, all 19 examples and all 93 frontend regressions are present in the complete local and initially empty independent combined replays and joint import. No body migration, new numerical law, weakened scope or hardware claim is added for this regression-only task.",
+    "rope_embedding": "The exact unchanged Python original/candidate bodies and complete mathematical/numerical/IO domains of this previously migrated task replay after the shared frontend integer-argument rebinding and integer augmented-literal fixes. All prior task directories, all 19 examples and all 93 frontend regressions are present in the complete local and initially empty independent combined replays and joint import. No body migration, new numerical law, weakened scope or hardware claim is added for this regression-only task.",
+    "rotary_emb": "The exact unchanged Python original/candidate bodies and complete mathematical/numerical/IO domains of this previously migrated task replay after the shared frontend integer-argument rebinding and integer augmented-literal fixes. All prior task directories, all 19 examples and all 93 frontend regressions are present in the complete local and initially empty independent combined replays and joint import. No body migration, new numerical law, weakened scope or hardware claim is added for this regression-only task.",
+    "rotary_emb_nopad": "The exact unchanged Python original/candidate bodies and complete mathematical/numerical/IO domains of this previously migrated task replay after the shared frontend integer-argument rebinding and integer augmented-literal fixes. All prior task directories, all 19 examples and all 93 frontend regressions are present in the complete local and initially empty independent combined replays and joint import. No body migration, new numerical law, weakened scope or hardware claim is added for this regression-only task.",
+    "sin_computation": "The exact unchanged Python original/candidate bodies and complete mathematical/numerical/IO domains of this previously migrated task replay after the shared frontend integer-argument rebinding and integer augmented-literal fixes. All prior task directories, all 19 examples and all 93 frontend regressions are present in the complete local and initially empty independent combined replays and joint import. No body migration, new numerical law, weakened scope or hardware claim is added for this regression-only task.",
+    "sin_kernel": "The exact unchanged Python original/candidate bodies and complete mathematical/numerical/IO domains of this previously migrated task replay after the shared frontend integer-argument rebinding and integer augmented-literal fixes. All prior task directories, all 19 examples and all 93 frontend regressions are present in the complete local and initially empty independent combined replays and joint import. No body migration, new numerical law, weakened scope or hardware claim is added for this regression-only task.",
+    "softmax_triton1": "The exact unchanged Python original/candidate bodies and complete mathematical/numerical/IO domains of this previously migrated task replay after the shared frontend integer-argument rebinding and integer augmented-literal fixes. All prior task directories, all 19 examples and all 93 frontend regressions are present in the complete local and initially empty independent combined replays and joint import. No body migration, new numerical law, weakened scope or hardware claim is added for this regression-only task.",
+    "softmax_triton2": "The exact unchanged Python original/candidate bodies and complete mathematical/numerical/IO domains of this previously migrated task replay after the shared frontend integer-argument rebinding and integer augmented-literal fixes. All prior task directories, all 19 examples and all 93 frontend regressions are present in the complete local and initially empty independent combined replays and joint import. No body migration, new numerical law, weakened scope or hardware claim is added for this regression-only task.",
+    "square_matrix": "The exact unchanged Python original/candidate bodies and complete mathematical/numerical/IO domains of this previously migrated task replay after the shared frontend integer-argument rebinding and integer augmented-literal fixes. All prior task directories, all 19 examples and all 93 frontend regressions are present in the complete local and initially empty independent combined replays and joint import. No body migration, new numerical law, weakened scope or hardware claim is added for this regression-only task.",
+    "swiglu_fwd": "The exact unchanged Python original/candidate bodies and complete mathematical/numerical/IO domains of this previously migrated task replay after the shared frontend integer-argument rebinding and integer augmented-literal fixes. All prior task directories, all 19 examples and all 93 frontend regressions are present in the complete local and initially empty independent combined replays and joint import. No body migration, new numerical law, weakened scope or hardware claim is added for this regression-only task.",
+    "triton_mul2": "The exact unchanged Python original/candidate bodies and complete mathematical/numerical/IO domains of this previously migrated task replay after the shared frontend integer-argument rebinding and integer augmented-literal fixes. All prior task directories, all 19 examples and all 93 frontend regressions are present in the complete local and initially empty independent combined replays and joint import. No body migration, new numerical law, weakened scope or hardware claim is added for this regression-only task.",
+    "triton_softmax": "The exact unchanged Python original/candidate bodies and complete mathematical/numerical/IO domains of this previously migrated task replay after the shared frontend integer-argument rebinding and integer augmented-literal fixes. All prior task directories, all 19 examples and all 93 frontend regressions are present in the complete local and initially empty independent combined replays and joint import. No body migration, new numerical law, weakened scope or hardware claim is added for this regression-only task.",
+    "var_len_copy": "The exact unchanged Python original/candidate bodies and complete mathematical/numerical/IO domains of this previously migrated task replay after the shared frontend integer-argument rebinding and integer augmented-literal fixes. All prior task directories, all 19 examples and all 93 frontend regressions are present in the complete local and initially empty independent combined replays and joint import. No body migration, new numerical law, weakened scope or hardware claim is added for this regression-only task.",
+    "vector_addition": "The exact unchanged Python original/candidate bodies and complete mathematical/numerical/IO domains of this previously migrated task replay after the shared frontend integer-argument rebinding and integer augmented-literal fixes. All prior task directories, all 19 examples and all 93 frontend regressions are present in the complete local and initially empty independent combined replays and joint import. No body migration, new numerical law, weakened scope or hardware claim is added for this regression-only task.",
+    "vector_addition_custom": "The exact unchanged Python original/candidate bodies and complete mathematical/numerical/IO domains of this previously migrated task replay after the shared frontend integer-argument rebinding and integer augmented-literal fixes. All prior task directories, all 19 examples and all 93 frontend regressions are present in the complete local and initially empty independent combined replays and joint import. No body migration, new numerical law, weakened scope or hardware claim is added for this regression-only task.",
+    "kv_cache_filling": "Shared frontend dependency regression only: source/candidate bodies and all mathematical/numerical scopes are unchanged at this code checkpoint. Exact public/deep roots are recorded in modules.json. No body migration is counted for this task unless the source inventory independently records it.",
+    "nested_loops_processing": "The selected repaired Python original is unchanged and pasted verbatim with its three leading runtime int64 casts, four signed arange casts, all three literal two-trip loops, every 2*stride_n update, count-1 signed clamp, unique/mask, 14 cached loads, 24 stores and 24 barriers. New index_commuted.py is clearly only the Python counterpart of the already-existing integer-index Lean candidate. External ABI keeps two int32 pointers and all three runtime integers; the public contiguous minor-stride=1 and count/cols domain are unchanged. SignedStep through SignedFinish prove actual complete execution from arbitrary states under arbitrary floating primitives with the actual signed registers. The initialized count/minor-stride invariant is proved and carried through real loop successors. Historical natural-address proofs are explicitly labeled and kept in Proofs; granular SignedMemory proves equality of every final memory cell, and SourcePreservation proves complete optional memory observations for both old/new originals and candidates, including success/failure. Actual source-pair full-state execution equality uses only exact Int multiplication commutation. SourceSafety independently checks the actual signed clamped addresses/masks/barriers through all loops and both variants. Actual final signed address registers are connected to the natural 28/48 coordinate formulas. Reprove primary Real/empty-rule FP, complete success/safety/output/frame, all int32 word/byte/physical/barrier/host/Tensor and historical scopes. Fix the pre-existing stale optional target_real flat-index name after the logical matrix reader migration, retain its full flat domain and additionally prove the current logical matrix target Real equation. No new public premise, floating law or source omission. All 59 task modules replay.",
+    "triton_argmax": "Shared frontend dependency regression only: source/candidate bodies and all mathematical/numerical scopes are unchanged at this code checkpoint. Exact public/deep roots are recorded in modules.json. No body migration is counted for this task unless the source inventory independently records it."
+  },
+  "example_regression_scope": "All 19 examples and their complete helpers replay locally, jointly and in an initially empty independent project checkout. Their bodies, mathematical domains and numerical classifications remain unchanged.",
+  "verification": {
+    "frontend_regressions": {
+      "status": "PASS",
+      "configured_modules": 93,
+      "scope": "All configured modules, including complete integer-argument rebinding kernels, reads before/after overwrite, actual zero/one-trip execution tests and preserved conditional/loop/FP/constexpr/tuple mutation guards; integer +=/-=/*= retain integer literals. All earlier static-range, quotient, signed literals, return and precision regressions remain present."
+    },
+    "integration": {
+      "status": "PASS",
+      "explicit_modules": 1625,
+      "jobs": 10668
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 1625,
+      "jobs": 10668,
+      "scope": "Every combined root and complete dependency closure; full replay required because shared frontend source changed.",
+      "project_build_initially_present": false,
+      "veritile_cache_initially_present": false,
+      "only_fixed_external_dependencies_reused": true
+    },
+    "joint_import": "PASS: all 1625 roots",
+    "task_directories": "All 59 Lean modules in nested_loops_processing, including every public/optional/historical entry and complete actual execution/safety/memory/register bridges.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 45
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 290,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by the old numerical receipt; prior baseline preserved, no false repin."
+    },
+    "official_comparator": "UNAVAILABLE: every actual frozen-source invocation reports required host isolation unavailable. Pinned official comparator/exporter/landrun and SHA256-verified Go toolchain are installed; host Landlock ABI v4 is below required v5, and the systemd user bus is unavailable. No isolation bypass.",
+    "optional_cpu_contract": "UNAVAILABLE: current environment lacks torch; actual failure retained.",
+    "gpu_or_numerical_experiment": "Not run. No new numerical law, axiom or hardware-conformance claim.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending."
+  },
+  "source_pairs": {
+    "total": 165,
+    "pasted_body": 160,
+    "legacy_ast": 5
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/source-closure.json",
+    "sha256": "841de4c2178d93c673205a310a81053790dce844dee22c8b2b4c88e24c9a496e"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "legacy_ast_only": 1,
+      "no_selected_jit_resolved": 2,
+      "selected_body_copy_checked": 46,
+      "uncovered_jit_functions": 134
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 328,
+    "uncovered_selected_jit_functions": 256,
+    "primary_files_with_int64_screen_warning": 38,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 106,
+        "antiquotes": 118,
+        "dsl_loop": 1,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/all-python.log.gz",
+      "sha256": "62706fbb9a3b8ac6e9e1b5ff52fb12aafb8203991f317c89eeb6258f74d3eabe"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/changed-VeriTile__Triton__DSL__CallSignature-comparator.log",
+      "sha256": "072a3911205c418197e5067aa9414114fed37a51f23561c37fd42b3ebe23e962"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/changed-VeriTile__Triton__DSL__Expansion__Main-comparator.log",
+      "sha256": "9ca400ad21dda5ce29c9640d5922041ed05efc08ef5114f7836f82ca59a8aa8d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/changed-bench__repairs__tritonbench_g__nested_loops_processing__Kernels-comparator.log",
+      "sha256": "19bec0f38833dadb7b9c9e0f43202cd8c98b12217256886d5c00341aad91c876"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/changed-bench__repairs__tritonbench_g__nested_loops_processing__Misc__KernelNativeResult-comparator.log",
+      "sha256": "7526cfab7b0591a194cfeafd47a354eeab71097552ecbf465d4fa1745e50de11"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/changed-bench__repairs__tritonbench_g__nested_loops_processing__Misc__KernelRealResult-comparator.log",
+      "sha256": "fea93ee06da02adf09f34a9bc1bea55c2c9364234e11feaead74ce4cb6ea0470"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/changed-bench__repairs__tritonbench_g__nested_loops_processing__Misc__TargetProperties-comparator.log",
+      "sha256": "72c52582e0348b7f5a4bc1fcab4dd9f2d2e317d500f8ce101d3de2465a29b7ea"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/changed-bench__repairs__tritonbench_g__nested_loops_processing__Proofs__IOImplements-comparator.log",
+      "sha256": "147d5ca9632fdde32970242ab0487329f3c6ff9f351cbf7216c5972074e56b0d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/changed-bench__repairs__tritonbench_g__nested_loops_processing__Proofs__LegacyFP-comparator.log",
+      "sha256": "f5eb3b60c4952d376b61ae884d028450f3e709e0dea474ba5ca99c4ea2c71975"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/changed-bench__repairs__tritonbench_g__nested_loops_processing__Proofs__LegacyPastedSurface-comparator.log",
+      "sha256": "15ae024c2651b78b5c77cf38e2c1dc57336941d45b8ad4667c1179407d8e95b9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/changed-bench__repairs__tritonbench_g__nested_loops_processing__Proofs__SafetyInvariant-comparator.log",
+      "sha256": "cda2085f3ab94bbcc3d53fef567b03b2ee86b1a860ce6b27f3ee3384ca6807ca"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/changed-bench__repairs__tritonbench_g__nested_loops_processing__Proofs__SignedFinish-comparator.log",
+      "sha256": "155077209e9116063bdef135a93ab7d2b471c0457ea201be929bd6899cc9fffd"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/changed-bench__repairs__tritonbench_g__nested_loops_processing__Proofs__SignedInitialize-comparator.log",
+      "sha256": "03f4da8825e29abc8abeb137400b124dfff6bef658f78556e453c43f9a233997"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/changed-bench__repairs__tritonbench_g__nested_loops_processing__Proofs__SignedLoop-comparator.log",
+      "sha256": "67b214ce72bcf241ee2d5f0980ee2f2722eba9ce2a9b17397d0c849222be74d8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/changed-bench__repairs__tritonbench_g__nested_loops_processing__Proofs__SignedMemory-comparator.log",
+      "sha256": "da707ce40a6f227c8877c4231095ef544efeb43d16bc20f8e79bafb99e6453b6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/changed-bench__repairs__tritonbench_g__nested_loops_processing__Proofs__SignedMiddle-comparator.log",
+      "sha256": "8ab006bd4aedab73d3c1c6d769f417cdde121cc33bf8e4830fd895f97173fdbb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/changed-bench__repairs__tritonbench_g__nested_loops_processing__Proofs__SignedOffsets-comparator.log",
+      "sha256": "d91788e4687b3d3beb37775f7f279eb20d3b369c7b1c6d75f7ae6a88c4572880"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/changed-bench__repairs__tritonbench_g__nested_loops_processing__Proofs__SignedOuter-comparator.log",
+      "sha256": "5e8fd96f9597df8da56f3cfbe5c849c1866b40bb0525a90a5d33ca1a0bd80d89"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/changed-bench__repairs__tritonbench_g__nested_loops_processing__Proofs__SignedStep-comparator.log",
+      "sha256": "58c0371817d1621a89a60e1f74cfa8aa6b970f53aef3c89f8f0b2df63d25bc8d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/changed-bench__repairs__tritonbench_g__nested_loops_processing__Proofs__SourcePreservation-comparator.log",
+      "sha256": "08977a5729852f3163a5b7b919454049aa428d1e6ff7adcda127a9ee9458d369"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/changed-bench__repairs__tritonbench_g__nested_loops_processing__Proofs__SourceSafety-comparator.log",
+      "sha256": "e34671ba67f797cb40e001c3783a1bd0632d9981a94769c1e9e6ea2cd20ed692"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/changed-bench__repairs__tritonbench_g__nested_loops_processing__Proofs__TypedFP-comparator.log",
+      "sha256": "ab066fe071e7ea3e7885100c31d9ed22cbe264710c45d69d4aa1df2c1416acf7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/changed-bench__repairs__tritonbench_g__nested_loops_processing__Proofs__TypedFinish-comparator.log",
+      "sha256": "9b99d0b2fa19e54bad9e10bd8435806822335c6ae9a9c7a104967243177782a3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/changed-bench__repairs__tritonbench_g__nested_loops_processing__Proofs__TypedInitialize-comparator.log",
+      "sha256": "2ceb6c1a71c3a2c751c8ec544a15f712ab477a6314d6a45a788c0b94734af0a2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/changed-bench__repairs__tritonbench_g__nested_loops_processing__Proofs__TypedLoop-comparator.log",
+      "sha256": "3cf251cb236f6f6b33a9b668c481a4c4cb4ac3f36766058e5916603051b75f8c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/changed-bench__repairs__tritonbench_g__nested_loops_processing__Proofs__TypedMemory-comparator.log",
+      "sha256": "2d62fa7d31b481320ef19524f4a987d10d685e731f03ea5d2ae08afa700dd6dd"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/changed-bench__repairs__tritonbench_g__nested_loops_processing__Proofs__TypedMiddle-comparator.log",
+      "sha256": "817863d2b9161d672ce4d4400b3db82e70965a0f4f83534509c7c91cd782bc68"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/changed-bench__repairs__tritonbench_g__nested_loops_processing__Proofs__TypedOuter-comparator.log",
+      "sha256": "99b529d86b9f7bfd0b08fa25d39a9fa799f0e3ac9c151cee24364849bf821744"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/changed-bench__repairs__tritonbench_g__nested_loops_processing__Proofs__TypedStep-comparator.log",
+      "sha256": "7cac36f713157a57f75b55a9ec55bebae75a7a0be73b87c2809ff0ffaf5fb7d1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/changed-bench__tests__CallSignature-comparator.log",
+      "sha256": "21ef7cbb8bd668fcbbdc7d7040868730224adefe54d488c55f6184bf578573a7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/clean-build.log.gz",
+      "sha256": "a469f75d2ca6194ed0b7cf4daa6de4f058af99a4807233450173beee3ad9ab83"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/clean-setup.log",
+      "sha256": "27d3731cd19297dbe49406c26d487f684c11d60853d29c69d8915acbc44eb684"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/comparator-invocations.json",
+      "sha256": "c95588000d7ba83c2e03882de813fdb2264401c8bcdb35f6243b476e3c16061c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/comparator-preflight.log",
+      "sha256": "d9255026a27595d0a04e154bc4a9c609c8422b012fc13cb1ae4de2417afea36d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/comparator-setup.log",
+      "sha256": "bea658f19aea48f8965a3d6525da1300e599d9a3f0a05b992071c97bcaffd6df"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/comparator-tools.json",
+      "sha256": "d541ac407f7aa8679c8ba23dd4df72ac363730bbb67e45bd7959ec752e6b0c53"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/comparator.log",
+      "sha256": "b8047c07ac9994a552777e61515a7ab4d8eba58e4317acd691de9d84933db727"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/contract.log",
+      "sha256": "a20c9fcda5ac0bed0fd7b3eaa15fc686d07acdb33716f3321831dbd58cecc888"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/corpus-guard.log",
+      "sha256": "a9304d37559a8d4b62719f7b003da6dbee5fac438e4a7a84db5df6636c02cce0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/integration.log.gz",
+      "sha256": "04c6b0748f374951f6d82919f55cd12f912f5a416ed0696f8d89cb8b496e72aa"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/joint.lean",
+      "sha256": "9528cb5f5722e52a7a044c14f932b4d46acdcfdfc1c61e9662c95a36a120b118"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/modules.json",
+      "sha256": "74102ba6b928816dc94fc5c266ab8b5de787d0e1cde26ac5d63fbd5545b567ab"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/nested_loops_processing-Real-comparator.log",
+      "sha256": "d40ba7b0b3c21fd89a1a98cee411c9e960382c58c66bd25d6abbfcf8113737ac"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/nested_loops_processing-comparator.log",
+      "sha256": "b7e4457fa4d8d0794946f0bd572bd5c8d3c34284dd685c3c8d150aea7249e7f0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/nested_loops_processing-contract.log",
+      "sha256": "0b972ee59b67a9856a833533de875603d4889798c1680507e78078cdf3345338"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/pairs.json",
+      "sha256": "83754e3f23ee8d119133dcb05affde87dce8665913b05df13ef023fce210f38a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/previous-selected-reviews.json.gz",
+      "sha256": "6823fdb61f70f440ff8a6d33c2df46338bfecca6b5063ec9b6dcbde9e38938ba"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/python-tests.log",
+      "sha256": "567116112cde4cd4d8c56e6547a8527091bf46997370a2fdf150fa2f4d887ab6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-25/native-nested-loop-body/source-closure.json",
+      "sha256": "841de4c2178d93c673205a310a81053790dce844dee22c8b2b4c88e24c9a496e"
+    }
+  ]
+}

@@ -1,0 +1,436 @@
+[
+  {
+    "name": "nested_loops_processing",
+    "file": "bench/repairs/tritonbench_g/nested_loops_processing/FPEquiv.lean",
+    "sha256": "c11745c1cb7d34d7e8379b944a2bc44713ed5ddbbf1988825aa6043abbe6f389",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/nested_loops_processing/FPEquiv.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "36dc4dc5cfe1d77f66536662e8235ec1c3d47de7"
+  },
+  {
+    "name": "nested_loops_processing-Real",
+    "file": "bench/repairs/tritonbench_g/nested_loops_processing/Correct.lean",
+    "sha256": "28f71e3a8ae2eaa9f97da60d4520c96c3090fae23f728f703ba54080eb7d68ed",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/nested_loops_processing/Correct.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "36dc4dc5cfe1d77f66536662e8235ec1c3d47de7"
+  },
+  {
+    "name": "changed-VeriTile__Triton__DSL__CallSignature",
+    "file": "VeriTile/Triton/DSL/CallSignature.lean",
+    "sha256": "0c4fa1068531c49b2420814be5243f3148686eb6f4b916239bc9669aed31f0d5",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "VeriTile/Triton/DSL/CallSignature.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "36dc4dc5cfe1d77f66536662e8235ec1c3d47de7"
+  },
+  {
+    "name": "changed-VeriTile__Triton__DSL__Expansion__Main",
+    "file": "VeriTile/Triton/DSL/Expansion/Main.lean",
+    "sha256": "dd566b1cdfdd6edec1564b62c309df3ccb95e4ef44b7b5829dc906e77e1ab827",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "VeriTile/Triton/DSL/Expansion/Main.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "36dc4dc5cfe1d77f66536662e8235ec1c3d47de7"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__nested_loops_processing__Kernels",
+    "file": "bench/repairs/tritonbench_g/nested_loops_processing/Kernels.lean",
+    "sha256": "e6522ffcbebe02d8cfc098e1657c4d1e60dae92012252f8ecca15ead27e025df",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/nested_loops_processing/Kernels.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "36dc4dc5cfe1d77f66536662e8235ec1c3d47de7"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__nested_loops_processing__Misc__KernelNativeResult",
+    "file": "bench/repairs/tritonbench_g/nested_loops_processing/Misc/KernelNativeResult.lean",
+    "sha256": "53a9adb432ff5dfe351729aaab81be3178b0907cc5e5e4d7a0d83e5dcaf7f8b5",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/nested_loops_processing/Misc/KernelNativeResult.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "36dc4dc5cfe1d77f66536662e8235ec1c3d47de7"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__nested_loops_processing__Misc__KernelRealResult",
+    "file": "bench/repairs/tritonbench_g/nested_loops_processing/Misc/KernelRealResult.lean",
+    "sha256": "365fa1ba033f73d2202ba360331d9cf2ab1dd127fa17ac4c340017b4cd57653d",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/nested_loops_processing/Misc/KernelRealResult.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "36dc4dc5cfe1d77f66536662e8235ec1c3d47de7"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__nested_loops_processing__Misc__TargetProperties",
+    "file": "bench/repairs/tritonbench_g/nested_loops_processing/Misc/TargetProperties.lean",
+    "sha256": "3bfc1484d81a2d47d38fb73112df76133822b07388ed474a65c6d506b024c9a0",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/nested_loops_processing/Misc/TargetProperties.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "36dc4dc5cfe1d77f66536662e8235ec1c3d47de7"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__nested_loops_processing__Proofs__IOImplements",
+    "file": "bench/repairs/tritonbench_g/nested_loops_processing/Proofs/IOImplements.lean",
+    "sha256": "03158c8a07bfbc6f2d14545549cea6b4f4366c0fbe919f855c887e260974d225",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/nested_loops_processing/Proofs/IOImplements.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "36dc4dc5cfe1d77f66536662e8235ec1c3d47de7"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__nested_loops_processing__Proofs__LegacyFP",
+    "file": "bench/repairs/tritonbench_g/nested_loops_processing/Proofs/LegacyFP.lean",
+    "sha256": "1f0b0ae243c4b6640290920a61cd643d3bb4030c449a208b7f37abf6c60e3348",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/nested_loops_processing/Proofs/LegacyFP.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "36dc4dc5cfe1d77f66536662e8235ec1c3d47de7"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__nested_loops_processing__Proofs__LegacyPastedSurface",
+    "file": "bench/repairs/tritonbench_g/nested_loops_processing/Proofs/LegacyPastedSurface.lean",
+    "sha256": "fbab33457ac22ede839f9825e4a02bde9c58cf85200088108069882a1d1b85e9",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/nested_loops_processing/Proofs/LegacyPastedSurface.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "36dc4dc5cfe1d77f66536662e8235ec1c3d47de7"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__nested_loops_processing__Proofs__SafetyInvariant",
+    "file": "bench/repairs/tritonbench_g/nested_loops_processing/Proofs/SafetyInvariant.lean",
+    "sha256": "19b6bb9192c0d517ab90a27e35fbfb00c7d79ff72d3fb0690235b08d2069e67f",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/nested_loops_processing/Proofs/SafetyInvariant.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "36dc4dc5cfe1d77f66536662e8235ec1c3d47de7"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__nested_loops_processing__Proofs__SignedFinish",
+    "file": "bench/repairs/tritonbench_g/nested_loops_processing/Proofs/SignedFinish.lean",
+    "sha256": "caacbba5246a74852e380ea9ff24f6e4dc252584cc673a51365c41f7be641154",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/nested_loops_processing/Proofs/SignedFinish.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "36dc4dc5cfe1d77f66536662e8235ec1c3d47de7"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__nested_loops_processing__Proofs__SignedInitialize",
+    "file": "bench/repairs/tritonbench_g/nested_loops_processing/Proofs/SignedInitialize.lean",
+    "sha256": "5a728aaa71e510307a55209527bd7a4ad428219494e0c0d0e8fe2acb5e85e2c9",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/nested_loops_processing/Proofs/SignedInitialize.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "36dc4dc5cfe1d77f66536662e8235ec1c3d47de7"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__nested_loops_processing__Proofs__SignedLoop",
+    "file": "bench/repairs/tritonbench_g/nested_loops_processing/Proofs/SignedLoop.lean",
+    "sha256": "ceb6e12d17d1b047267d73da43a5fb9dbcd0b494359c739ca7541810797a4862",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/nested_loops_processing/Proofs/SignedLoop.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "36dc4dc5cfe1d77f66536662e8235ec1c3d47de7"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__nested_loops_processing__Proofs__SignedMemory",
+    "file": "bench/repairs/tritonbench_g/nested_loops_processing/Proofs/SignedMemory.lean",
+    "sha256": "778b64075fa6e22cd8269ee3996f3b86d529b42c687a54ce42a0107b4a572752",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/nested_loops_processing/Proofs/SignedMemory.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "36dc4dc5cfe1d77f66536662e8235ec1c3d47de7"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__nested_loops_processing__Proofs__SignedMiddle",
+    "file": "bench/repairs/tritonbench_g/nested_loops_processing/Proofs/SignedMiddle.lean",
+    "sha256": "4de4e7da66738b8107fa124542851bcfb2e0ecfcc48b7b2bba82e7dcd7345581",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/nested_loops_processing/Proofs/SignedMiddle.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "36dc4dc5cfe1d77f66536662e8235ec1c3d47de7"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__nested_loops_processing__Proofs__SignedOffsets",
+    "file": "bench/repairs/tritonbench_g/nested_loops_processing/Proofs/SignedOffsets.lean",
+    "sha256": "3a84091379cec3ff81f151b16ef8aa80981179be0b4b396b8ed5b769b96a14d9",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/nested_loops_processing/Proofs/SignedOffsets.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "36dc4dc5cfe1d77f66536662e8235ec1c3d47de7"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__nested_loops_processing__Proofs__SignedOuter",
+    "file": "bench/repairs/tritonbench_g/nested_loops_processing/Proofs/SignedOuter.lean",
+    "sha256": "277e0c67feedc3afcc678ce3438730b5f68a0caf66d3d584cb0b7662a8e2cea8",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/nested_loops_processing/Proofs/SignedOuter.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "36dc4dc5cfe1d77f66536662e8235ec1c3d47de7"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__nested_loops_processing__Proofs__SignedStep",
+    "file": "bench/repairs/tritonbench_g/nested_loops_processing/Proofs/SignedStep.lean",
+    "sha256": "21502a2d77f35f3e5a7362442ab4e103f733235146f3b84dd035c76cd63cdd7c",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/nested_loops_processing/Proofs/SignedStep.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "36dc4dc5cfe1d77f66536662e8235ec1c3d47de7"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__nested_loops_processing__Proofs__SourcePreservation",
+    "file": "bench/repairs/tritonbench_g/nested_loops_processing/Proofs/SourcePreservation.lean",
+    "sha256": "16962bdc5a272ff8cb22d7ad5176020d96f688c798883c37313de457d9e2a805",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/nested_loops_processing/Proofs/SourcePreservation.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "36dc4dc5cfe1d77f66536662e8235ec1c3d47de7"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__nested_loops_processing__Proofs__SourceSafety",
+    "file": "bench/repairs/tritonbench_g/nested_loops_processing/Proofs/SourceSafety.lean",
+    "sha256": "bb77e9d857cb12c746bf95ae5df7f63867d5044a00b81d14631a106307762bcb",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/nested_loops_processing/Proofs/SourceSafety.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "36dc4dc5cfe1d77f66536662e8235ec1c3d47de7"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__nested_loops_processing__Proofs__TypedFP",
+    "file": "bench/repairs/tritonbench_g/nested_loops_processing/Proofs/TypedFP.lean",
+    "sha256": "9fbf1c729c5d2994543e1e88568d60faf182f70beaf94a4aef82524570708f3f",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/nested_loops_processing/Proofs/TypedFP.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "36dc4dc5cfe1d77f66536662e8235ec1c3d47de7"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__nested_loops_processing__Proofs__TypedFinish",
+    "file": "bench/repairs/tritonbench_g/nested_loops_processing/Proofs/TypedFinish.lean",
+    "sha256": "15df1082a4a44d60ab3b0b5b47c977a66b0f548db8f25bf92fda6cf465811bd2",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/nested_loops_processing/Proofs/TypedFinish.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "36dc4dc5cfe1d77f66536662e8235ec1c3d47de7"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__nested_loops_processing__Proofs__TypedInitialize",
+    "file": "bench/repairs/tritonbench_g/nested_loops_processing/Proofs/TypedInitialize.lean",
+    "sha256": "882776db78047290538e11a688f0a7691e0b3e78c7b3ea6500d04f7a2648a30a",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/nested_loops_processing/Proofs/TypedInitialize.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "36dc4dc5cfe1d77f66536662e8235ec1c3d47de7"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__nested_loops_processing__Proofs__TypedLoop",
+    "file": "bench/repairs/tritonbench_g/nested_loops_processing/Proofs/TypedLoop.lean",
+    "sha256": "89da2f0c952933276dc909e25fe1f268d155047deefbfeebd550767d3a379393",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/nested_loops_processing/Proofs/TypedLoop.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "36dc4dc5cfe1d77f66536662e8235ec1c3d47de7"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__nested_loops_processing__Proofs__TypedMemory",
+    "file": "bench/repairs/tritonbench_g/nested_loops_processing/Proofs/TypedMemory.lean",
+    "sha256": "681fc288c56d4c74f49dd8038e0cb97edc36585de098ef2b4c26f2370196041b",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/nested_loops_processing/Proofs/TypedMemory.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "36dc4dc5cfe1d77f66536662e8235ec1c3d47de7"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__nested_loops_processing__Proofs__TypedMiddle",
+    "file": "bench/repairs/tritonbench_g/nested_loops_processing/Proofs/TypedMiddle.lean",
+    "sha256": "0db50398275f39cf29462fa4a7ceb4167ab6b462e84f6f88d7a33fe64361a343",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/nested_loops_processing/Proofs/TypedMiddle.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "36dc4dc5cfe1d77f66536662e8235ec1c3d47de7"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__nested_loops_processing__Proofs__TypedOuter",
+    "file": "bench/repairs/tritonbench_g/nested_loops_processing/Proofs/TypedOuter.lean",
+    "sha256": "8d871a61a1ab8f659a3607802e0c4a81f204ad9776e82ff36cf01609068c1c78",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/nested_loops_processing/Proofs/TypedOuter.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "36dc4dc5cfe1d77f66536662e8235ec1c3d47de7"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__nested_loops_processing__Proofs__TypedStep",
+    "file": "bench/repairs/tritonbench_g/nested_loops_processing/Proofs/TypedStep.lean",
+    "sha256": "b473df0effc1be8d3d756b49a9f5b18e0e090b4c634061f14f86c885ad562109",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/nested_loops_processing/Proofs/TypedStep.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "36dc4dc5cfe1d77f66536662e8235ec1c3d47de7"
+  },
+  {
+    "name": "changed-bench__tests__CallSignature",
+    "file": "bench/tests/CallSignature.lean",
+    "sha256": "35e69e6f45eb128f652e413d20c2e5ad5ab110a4c95308ff194b1b9cf2bc22e1",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/tests/CallSignature.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "36dc4dc5cfe1d77f66536662e8235ec1c3d47de7"
+  }
+]

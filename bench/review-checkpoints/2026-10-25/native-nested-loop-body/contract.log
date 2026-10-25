@@ -1,0 +1,6 @@
+nested_loops_processing
+Traceback (most recent call last):
+  File "/tmp/veritile-nested46-clean/bench/repairs/tritonbench_g/nested_loops_processing/check_contract.py", line 6, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'
+
