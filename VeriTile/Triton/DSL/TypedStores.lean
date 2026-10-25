@@ -63,7 +63,7 @@ private partial def dtypeToken (raw : Syntax) : Option Name :=
   else if raw.getNumArgs == 1 then dtypeToken raw[0]
   else none
 
-private def explicitCastType (e : TSyntax `tritonExpr) : Option Triton.SourceDType := do
+private def explicitCastType (pointers : Types) (e : TSyntax `tritonExpr) : Option Triton.SourceDType := do
   let direct : Option (TSyntax `tritonDType) := match e with
     | `(tritonExpr| tl.load($_:tritonExpr $[, $_:tritonMemKwarg]*).to($dtype:tritonDType)) => some dtype
     | `(tritonExpr| tl.load($_:tritonExpr, $_:tritonExpr $[, $_:tritonMemKwarg]*).to($dtype:tritonDType)) => some dtype
@@ -71,13 +71,17 @@ private def explicitCastType (e : TSyntax `tritonExpr) : Option Triton.SourceDTy
   if let some dt := direct then
     let target ← dtypeToken dt.raw
     return ← sourceKinds.find? (fun dtype => SourceDType.dtypeName dtype == target)
-  unless (methodCast? e).isSome || e.raw.getArgs.any
-      (fun arg => arg.isAtom && arg.getAtomVal == "to") do failure
+  unless (methodCast? e).isSome ||
+      [``tritonMethodCastElementTy,``tritonMethodCastElementTyIdent,
+       ``tritonIdentMethodCastElementTyIdent,``tritonIdentMethodCastElementTyIdentSpaced].contains e.raw.getKind ||
+      e.raw.getArgs.any (fun arg => arg.isAtom && arg.getAtomVal == "to") do failure
   let target ← (methodCastTargetName? e).orElse fun _ => do
     let (_, dtype) ← methodCast? e
     dtypeToken dtype.raw
-  sourceKinds.find?
-    (fun dtype => SourceDType.dtypeName dtype == target)
+  match target with
+  | .str (.str pointer "dtype") "element_ty"
+  | .str (.str pointer "type") "element_ty" => lookup pointers (mkIdent pointer)
+  | _ => sourceKinds.find? (fun dtype => SourceDType.dtypeName dtype == target)
 
 private def constructorType (e : TSyntax `tritonExpr) : Option Triton.SourceDType := do
   let args := e.raw.getArgs
@@ -114,7 +118,7 @@ private partial def valueType (pointers : Types) (values : Values)
     | .typed .fp32, .typed integer | .typed integer, .typed .fp32 =>
         if [.fp16,.bf16,.i8,.i16,.i32,.i64,.u8,.u16,.u32,.u64,.boolean].contains integer then some .fp32 else none
     | _, _ => none
-  if let some dtype := (explicitCastType e).orElse (fun _ => constructorType e) then some (.typed dtype) else
+  if let some dtype := (explicitCastType pointers e).orElse (fun _ => constructorType e) then some (.typed dtype) else
   match e with
   | `(tritonExpr| $id:ident) => (values.find? (fun entry => entry.1 == name id)).map Prod.snd
   | `(tritonExpr| ($inner:tritonExpr)) => valueType pointers values inner

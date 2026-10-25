@@ -1,0 +1,272 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/rms_norm_triton/rms_norm_triton_repaired.py",
+    "python_function": "rms_norm_kernel",
+    "lean": "bench/repairs/tritonbench_g/rms_norm_triton/Kernels.lean",
+    "lean_definition": "kernel",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "Y",
+          "fp32"
+        ],
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "W",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "y_stride_r",
+          "i32"
+        ],
+        [
+          "y_stride_c",
+          "i32"
+        ],
+        [
+          "x_stride_r",
+          "i32"
+        ],
+        [
+          "x_stride_c",
+          "i32"
+        ],
+        [
+          "N",
+          "i32"
+        ],
+        [
+          "eps",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "X",
+        "W"
+      ],
+      "writePorts": [
+        "Y"
+      ]
+    },
+    "expected_call_bindings": {
+      "y_stride_r": "N",
+      "y_stride_c": "unitStride",
+      "x_stride_r": "N",
+      "x_stride_c": "unitStride",
+      "N": "N",
+      "eps": "eps"
+    },
+    "profile_variant": "specialized_epsilon"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/rms_norm_triton/rms_norm_triton_repaired.py",
+    "python_function": "rms_norm_kernel",
+    "lean": "bench/repairs/tritonbench_g/rms_norm_triton/Kernels.lean",
+    "lean_definition": "runtimeKernel",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "Y",
+          "fp32"
+        ],
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "W",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "y_stride_r",
+          "i32"
+        ],
+        [
+          "y_stride_c",
+          "i32"
+        ],
+        [
+          "x_stride_r",
+          "i32"
+        ],
+        [
+          "x_stride_c",
+          "i32"
+        ],
+        [
+          "N",
+          "i32"
+        ],
+        [
+          "eps",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "X",
+        "W"
+      ],
+      "writePorts": [
+        "Y"
+      ]
+    },
+    "expected_call_bindings": {
+      "y_stride_r": "N",
+      "y_stride_c": "unitStride",
+      "x_stride_r": "N",
+      "x_stride_c": "unitStride",
+      "N": "N"
+    },
+    "profile_variant": "runtime_epsilon"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/rms_norm_triton/candidate_kernels.py",
+    "python_function": "rms_norm_kernel_index_commuted",
+    "lean": "bench/repairs/tritonbench_g/rms_norm_triton/Kernels.lean",
+    "lean_definition": "indexCommutedKernel",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "Y",
+          "fp32"
+        ],
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "W",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "y_stride_r",
+          "i32"
+        ],
+        [
+          "y_stride_c",
+          "i32"
+        ],
+        [
+          "x_stride_r",
+          "i32"
+        ],
+        [
+          "x_stride_c",
+          "i32"
+        ],
+        [
+          "N",
+          "i32"
+        ],
+        [
+          "eps",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "X",
+        "W"
+      ],
+      "writePorts": [
+        "Y"
+      ]
+    },
+    "expected_call_bindings": {
+      "y_stride_r": "N",
+      "y_stride_c": "unitStride",
+      "x_stride_r": "N",
+      "x_stride_c": "unitStride",
+      "N": "N",
+      "eps": "eps"
+    },
+    "profile_variant": "specialized_epsilon"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/rms_norm_triton/candidate_kernels.py",
+    "python_function": "rms_norm_kernel_index_commuted",
+    "lean": "bench/repairs/tritonbench_g/rms_norm_triton/Kernels.lean",
+    "lean_definition": "runtimeCandidate",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "Y",
+          "fp32"
+        ],
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "W",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "y_stride_r",
+          "i32"
+        ],
+        [
+          "y_stride_c",
+          "i32"
+        ],
+        [
+          "x_stride_r",
+          "i32"
+        ],
+        [
+          "x_stride_c",
+          "i32"
+        ],
+        [
+          "N",
+          "i32"
+        ],
+        [
+          "eps",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "X",
+        "W"
+      ],
+      "writePorts": [
+        "Y"
+      ]
+    },
+    "expected_call_bindings": {
+      "y_stride_r": "N",
+      "y_stride_c": "unitStride",
+      "x_stride_r": "N",
+      "x_stride_c": "unitStride",
+      "N": "N"
+    },
+    "profile_variant": "runtime_epsilon"
+  }
+]

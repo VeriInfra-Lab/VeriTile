@@ -42,18 +42,30 @@ allocation and `physicalIndex` map. The ordinary contiguous-copy preservation
 law is used only to connect those input values to the actual kernel loads.
 It supplies no RMSNorm result.
 
-`Kernels.lean` shares the readable typed DSL in
-`bench/tritonbench_g/rms_norm_triton/Kernels.lean`; `source_identity` and
-`source_row_identity` bind the selected row kernel to that source. The DSL
-retains the FP32 input cast, zero-padded masked loads, runtime-epsilon ABI
-annotation, reciprocal of sqrt, and output cast **before** weighting. The
-native auxiliary theorem compares execution against an independent native
-instruction recurrence. The pair reuses the already specified
-`Proofs/LegacyKernels.typed .fp32 .fp32 Bool.true` candidate: its row bases use
-`N * pid` in place of `pid * N` for both X and Y. The original is
-definitionally the existing `Bool.false` source. The proof uses natural-number
-multiplication commutativity and retains every floating operation, cast,
-reduction, mask, store and observer. No new Python candidate is introduced.
+`Kernels.lean` pastes the complete eleven-statement original and the existing
+row-index candidate, with both runtime-argument and literal-verification
+interfaces. Pointer/scalar dtypes, contiguous strides and constexpr block size
+are outside the bodies. The original Python is unchanged. `candidate_kernels.py`
+is the newly recorded Python counterpart of the already-existing Lean candidate;
+its only changes are the two row-base integer products. The source retains its
+input cast, masked zero padding, reciprocal of sqrt, `Y.dtype.element_ty` cast
+before weighting, and masked store. No epsilon cast is inserted into the body.
+The frontend tracks the pointer element cast so that the store adds no redundant
+conversion.
+
+`IO.lean` owns one complete memory interface and schedules the actual
+`runtimeKernel`/`runtimeCandidate`. Each invocation supplies epsilon through its
+FP32 register argument. The generic compatibility interface explicitly supplies
+the earlier ABI-converted value; the mathematical interpretation reduces that
+value to the independent Real epsilon. The native interface supplies the named
+`Term.parameter "eps"`, whose word interpretation is exactly `M.epsilon`.
+`RuntimeObserved.epsilon_word` checks this scalar connection independently of the
+output. `ActualRow` proves actual execution, every readback and the exterior
+frame for arbitrary argument values; `ActualGrid` proves every complete row
+order. `SourcePreservation.row_execution` connects complete memory observations
+to the historical source after moving its ABI conversion to the call. This
+connection assumes no identity law for arbitrary casts. The earlier literal
+source identities are explicitly archived in `LegacyPastedSurface`.
 
 Native scalar IEEE operations, literal/integer conversion, runtime epsilon
 conversion and the compiler's actual lane-specific reduction trees are
@@ -96,22 +108,25 @@ experiment dependency.
 
 `Proofs/SourceSafety.lean` proves the actual row trace safe and composes every
 row in the exact schedule. `Proofs/PublicIO.lean` binds logical inputs and
-reuses the existing complete-grid result; it also preserves empty rows and
+composes the actual complete-grid result; it also preserves empty rows and
 empty normalized axes. `Proofs/KernelReal.lean` and `Proofs/KernelObserved.lean`
 retain the earlier raw operational statements as ordinary theorems.
 
 The original complete checked Tensor applications are ordinary theorems `TensorBridge.Real.kernel_correct` and `TensorBridge.Native.kernel_native_equivalence`; their prepared-storage correspondence, physical memory results and supported domain are unchanged.
 
-## Source-only organization (2026-10-22)
+## Body correspondence and verification
 
-The original continues to reuse the complete public ordinary FP32 quotation in
-`bench/tritonbench_g/rms_norm_triton/Kernels.lean`. The selected existing
-`indexCommutedKernel` is now a complete ordinary quotation in the repair's
-public `Kernels.lean`, preserving both integer row-base commutations and every
-floating operation/cast. `Proofs/SourcePreservation.lean` retains the original
-`legacy_original_identity` name and proves equality of both complete source
-functions to the historical typed family by `rfl`; the pair imports that proof
-entry. The historical generic precision branches and source checker are unchanged.
-All original domains, runtime epsilon words, reduction profiles, grids, safety,
-frames, main declarations, numerical assumptions and completion counts remain
-unchanged.
+`jit-correspondence.json` checks all four quotations against the original and
+recorded candidate Python functions, including runtime and symbolic per-call
+epsilon interfaces. Every source statement, order and cast is checked. The
+original `do_not_specialize=["eps"]` JIT option remains intact.
+
+The current runtime source pair has unconditional complete-state equality,
+including failure, under arbitrary primitive backends. The public FP entry also
+proves safe successful schedules, every observed output and both frames. Its FP
+assumption list remains empty. The Real and native readers retain their old
+independent formulas, full matrix/weight IO, all word inputs, empty row grids,
+separation conditions and complete row permutations. Native primitive/compiler
+conformance remains an explicit model boundary. Current build and source-check
+evidence is recorded in review checkpoints; older CPU and numerical results
+retain their historical scope. No new GPU experiment is performed.

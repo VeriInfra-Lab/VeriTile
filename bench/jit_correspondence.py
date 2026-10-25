@@ -356,9 +356,11 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
 def validate_manifest_records(records: list[dict]) -> None:
     """Allow explicit distinct ABI profiles of one Python function.
 
-    A profile tag cannot excuse a duplicate mapping: both a distinct Lean
-    definition and a distinct checked ABI are required. Ordinary duplicate
-    records continue to fail closed.
+    A profile tag cannot excuse a duplicate mapping. Besides distinct Lean
+    definitions, require distinct checked ABIs or distinct sets of scalar
+    arguments specialized at the call. The latter checks both literal and
+    runtime-register interfaces of the same source, without treating argument
+    alias renaming or an empty binding list as a different interface.
     """
     lean_keys = [(r["lean"], r["lean_definition"]) for r in records]
     if len(lean_keys) != len(set(lean_keys)):
@@ -377,10 +379,15 @@ def validate_manifest_records(records: list[dict]) -> None:
             signature = record.get("expected_signature")
             if not record.get("signature_definition") or not isinstance(signature, dict):
                 raise ValueError("reused Python correspondence requires checked ABI profiles")
-            abis.append(json.dumps({key: signature.get(key) for key in
-                                   ("pointers", "scalars", "constexpr")}, sort_keys=True))
+            bindings = record.get("expected_call_bindings") or {}
+            if not isinstance(bindings, dict):
+                raise ValueError("reused Python correspondence requires checked call bindings")
+            abis.append(json.dumps({
+                "abi": {key: signature.get(key) for key in ("pointers", "scalars", "constexpr")},
+                "specialized_scalars": sorted(bindings),
+            }, sort_keys=True))
         if len(abis) != len(set(abis)):
-            raise ValueError("reused Python correspondence has duplicate ABI profiles")
+            raise ValueError("reused Python correspondence has duplicate ABI profiles and scalar call modes")
 
 
 def check_manifest(root: Path, manifest: Path) -> list[dict]:

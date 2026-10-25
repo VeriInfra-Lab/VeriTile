@@ -151,7 +151,8 @@ class IntegerCallBodyTests(unittest.TestCase):
                 records = check_manifest(ROOT, ROOT / "bench/repairs/tritonbench_g" / task / "jit-correspondence.json")
                 self.assertTrue(all(r["mode"] == "pasted_body" for r in records))
                 self.assertTrue(all(r["argument_mode"] in
-                                    ("integer_per_call_specialization", "mixed_integer_calls_and_runtime_registers")
+                                    ("integer_per_call_specialization", "mixed_integer_calls_and_runtime_registers",
+                         "typed_per_call_specialization")
                                     for r in records))
 
     def test_spec_derived_example_bodies_remain_exact(self):
@@ -282,6 +283,29 @@ class SeededCallABI(unittest.TestCase):
                               ("output, mask=mask)", "(output).to(tl.float32), mask=mask)")]:
             with self.subTest(before=before), self.assertRaises(ValueError):
                 self.compare(record, lean=self.lean.replace(before, after, 1))
+
+
+class ScalarCallModeCorrespondence(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / "bench/repairs/tritonbench_g/rmsnorm_fused_llama"
+        self.records = json.loads((self.directory / "jit-correspondence.json").read_text())
+
+    def test_runtime_and_literal_argument_forms_check_every_body(self):
+        results = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual(len(results), 4)
+        self.assertEqual({r["lean_definition"] for r in results},
+                         {"kernel", "runtimeKernel", "indexCommutedKernel", "runtimeCandidate"})
+        self.assertEqual({"eps" in r["call_bindings"] for r in results}, {True, False})
+
+    def test_renaming_bindings_does_not_allow_duplicate_interfaces(self):
+        from bench.jit_correspondence import validate_manifest_records
+        record = next(r for r in self.records if r["lean_definition"] == "runtimeKernel")
+        duplicate = json.loads(json.dumps(record))
+        duplicate["lean_definition"] = "renamed_copy"
+        duplicate["profile_variant"] = "renamed_alias"
+        duplicate["expected_call_bindings"] = {k: "another_alias" for k in record["expected_call_bindings"]}
+        with self.assertRaisesRegex(ValueError, "duplicate ABI"):
+            validate_manifest_records([record, duplicate])
 
 if __name__ == "__main__":
     unittest.main()

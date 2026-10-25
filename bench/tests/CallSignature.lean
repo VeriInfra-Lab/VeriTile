@@ -334,3 +334,55 @@ example (n : Nat) : (triton { a = 1 + $((n : Nat)) }) =
 example (n : Int) : (triton { a = 1 + $((n : Int)) }) =
     (triton { a = $((1 : Int)) + $((n : Int)) }) := rfl
 end VeriTile.Tests.CallSignature
+
+
+namespace VeriTile.Tests.CallSignature.PointerCastStore
+open VeriTile.Triton
+noncomputable section
+
+def profile : CallSignature where
+  pointers := [("X",.fp32),("Y",.fp32)]
+  scalars := [("stride",.i32)]
+
+-- The explicit source cast remains; storing its FP32 result must add no second
+-- cast, including after rebinding the typed output pointer.
+def attributeCast (X Y : RegionName) (n : Nat) : ComputeKernel :=
+  with_triton_call profile call_args [stride := n] in
+  triton {
+    Y += stride
+    x = tl.load(X)
+    y = (x * x).to(Y.dtype.element_ty)
+    output = y * x
+    tl.store(Y, output)
+  }
+def explicitCast (X Y : RegionName) (n : Nat) : ComputeKernel :=
+  with_triton_call profile call_args [stride := n] in
+  triton {
+    Y += stride
+    x = tl.load(X)
+    y = (x * x).to(tl.float32)
+    output = y * x
+    tl.store(Y, output)
+  }
+example (X Y : RegionName) (n : Nat) : attributeCast X Y n = explicitCast X Y n := rfl
+
+def legacyAttribute (X Y : RegionName) : ComputeKernel :=
+  with_triton_signature ({pointers := [("X",.fp32),("Y",.fp16)]} : CallSignature) in
+  triton {
+    x = tl.load(X)
+    y = (x).to(Y.type.element_ty)
+    tl.store(Y, y)
+  }
+def explicitHalf (X Y : RegionName) : ComputeKernel :=
+  with_triton_signature ({pointers := [("X",.fp32),("Y",.fp16)]} : CallSignature) in
+  triton {
+    x = tl.load(X)
+    y = x.to(tl.float16)
+    tl.store(Y, y)
+  }
+example (X Y : RegionName) : legacyAttribute X Y = explicitHalf X Y := rfl
+
+#guard_msgs (drop info) in
+#auditModuleAxioms
+end
+end VeriTile.Tests.CallSignature.PointerCastStore
