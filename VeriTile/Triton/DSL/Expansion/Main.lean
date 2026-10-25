@@ -2253,6 +2253,11 @@ private partial def containsExplicitConversion (env : Env) (raw : Syntax) : Bool
     (match e with
       | `(tritonExpr| tl.toReal($_:tritonExpr)) => Bool.true
       | `(tritonExpr| tl.cast($_:tritonExpr, $_:tritonDType)) => Bool.true
+      -- Direct load-plus-cast has a dedicated parser node, so methodCast?
+      -- alone does not expose the conversion. A later address-use Nat pin
+      -- must not change the result of an explicit signed widening.
+      | `(tritonExpr| tl.load($_:tritonExpr $[, $_:tritonMemKwarg]*).to($_:tritonDType))
+      | `(tritonExpr| tl.load($_:tritonExpr, $_:tritonExpr $[, $_:tritonMemKwarg]*).to($_:tritonDType)) => Bool.true
       | _ => Bool.false) || raw.getArgs.any (containsExplicitConversion env)
 
 /-- Carry known floating and int32 storage into nested load expressions, and
@@ -2818,6 +2823,25 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
     | `(tritonExpr| tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*).to(tl.int1)) =>
         integerBoolLoadCast p kwargs none
     | _ => return none
+  -- A natural-valued logical memory channel still needs its explicit signed
+  -- widening. The destination of .to(int64) cannot retag the source load as
+  -- an Int cell, even when later address uses pin its destination register.
+  let naturalLoadWidening? (dest : Ident) (e : TSyntax `tritonExpr) : MacroM (Option EOut) := do
+    let load? ← match e with
+      | `(tritonExpr| (tl.load($p:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*)).to(tl.int64))
+      | `(tritonExpr| tl.load($p:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*).to(tl.int64)) =>
+          pure (some (p, kwargs, some mask))
+      | `(tritonExpr| (tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*)).to(tl.int64))
+      | `(tritonExpr| tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*).to(tl.int64)) =>
+          pure (some (p, kwargs, none))
+      | _ => pure none
+    let some (p, kwargs, mask) := load? | return none
+    let hint ← loadDTypeHint dest p
+    if hint != some DInfo.nat then return none
+    let loaded ← expandLoad expandExpr expandStaticPtrExpr env p kwargs
+      (defaultDType := hint) (positionalMask := mask)
+    ensureDType .nat loaded.dtype "natural load widened to signed int64"
+    return some ⟨← `(Op.castNatToInt $loaded.term), .int, loaded.shape, none, none⟩
   -- Preserve signed source storage and apply explicit i32 narrowing before
   -- assignment inference. Same-width i32 casts retain their existing AST.
   let signedLoadCast? (dest : Ident) (e : TSyntax `tritonExpr) : MacroM (Option EOut) := do
@@ -2911,6 +2935,7 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
   let expandUpdateOperand (dest : Ident) (e : TSyntax `tritonExpr) : MacroM EOut := do
     if let some loaded ← machineLoadCast? e then return loaded
     if let some loaded ← floatLoadCast? dest e then return loaded
+    if let some loaded ← naturalLoadWidening? dest e then return loaded
     if let some loaded ← signedLoadCast? dest e then return loaded
     -- A machine cast establishes the signed result before address-use
     -- inference. Keep its negative values until the final address projection.
@@ -2945,6 +2970,7 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
     if let some loaded ← machineLoadCast? e then return loaded
     if let some loaded ← integerBoolLoadCast? e then return loaded
     if let some loaded ← floatLoadCast? dest e then return loaded
+    if let some loaded ← naturalLoadWidening? dest e then return loaded
     if let some loaded ← signedLoadCast? dest e then return loaded
     -- A machine cast establishes the signed result before address-use
     -- inference. Keep its negative values until the final address projection.
@@ -2964,7 +2990,7 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
       match inferred.dtype with
       -- A nested explicit signed cast/shift carries a known native width too.
       -- A later bitcast/address pin must not erase it before signed bitwise ops.
-      | .int8 | .int32 | .real | .fp32 | .fp16 | .bf16 | .f8e4 | .f8e5 | .floatVar _ => return inferred
+      | .int | .int8 | .int32 | .real | .fp32 | .fp16 | .bf16 | .f8e4 | .f8e5 | .floatVar _ => return inferred
       | _ => pure ()
     if intPinned.contains dest.getId.toString then
       -- Signed offset propagation can also reach a named pointer binding.

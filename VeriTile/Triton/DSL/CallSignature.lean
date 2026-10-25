@@ -17,7 +17,7 @@ inductive ScalarType where
   | i32 | i64 | u32 | u64
 
 structure CallSignature where
-  pointers : List (String × SourceDType) := []
+  pointers : List (String × PointerType) := []
   scalars : List (String × ScalarType) := []
   constexpr : List String := []
   /-- Keep the typed FP32 memory channel used by a caller's existing IO.
@@ -63,17 +63,18 @@ private def stringValue (value : Expr) : TermElabM String := do
   if let .lit (.strVal s) := value then return s
   throwError "call signature names must be string literals"
 
-private def dtypeValue (value : Expr) : TermElabM Triton.SourceDType := do
+private def dtypeValue (value : Expr) : TermElabM Triton.PointerType := do
   let value ← whnf value
-  let kinds : List (Name × Triton.SourceDType) :=
-    [(``Triton.SourceDType.fp16,.fp16),(``Triton.SourceDType.bf16,.bf16),
-     (``Triton.SourceDType.fp32,.fp32),(``Triton.SourceDType.fp64,.fp64),
-     (``Triton.SourceDType.f8e4,.f8e4),(``Triton.SourceDType.f8e5,.f8e5),
-     (``Triton.SourceDType.i8,.i8),(``Triton.SourceDType.i16,.i16),
-     (``Triton.SourceDType.i32,.i32),(``Triton.SourceDType.i64,.i64),
-     (``Triton.SourceDType.u8,.u8),(``Triton.SourceDType.u16,.u16),
-     (``Triton.SourceDType.u32,.u32),(``Triton.SourceDType.u64,.u64),
-     (``Triton.SourceDType.boolean,.boolean)]
+  let kinds : List (Name × Triton.PointerType) :=
+    [(``Triton.PointerType.fp16,.fp16),(``Triton.PointerType.bf16,.bf16),
+     (``Triton.PointerType.fp32,.fp32),(``Triton.PointerType.fp64,.fp64),
+     (``Triton.PointerType.f8e4,.f8e4),(``Triton.PointerType.f8e5,.f8e5),
+     (``Triton.PointerType.i8,.i8),(``Triton.PointerType.i16,.i16),
+     (``Triton.PointerType.i32,.i32),(``Triton.PointerType.i64,.i64),
+     (``Triton.PointerType.u8,.u8),(``Triton.PointerType.u16,.u16),
+     (``Triton.PointerType.u32,.u32),(``Triton.PointerType.u64,.u64),
+     (``Triton.PointerType.boolean,.boolean),
+     (``Triton.PointerType.inputFloat,.inputFloat),(``Triton.PointerType.outputFloat,.outputFloat)]
   if let some (_,kind) := kinds.find? (fun p => value.isConstOf p.1) then return kind
   throwError "call signature dtypes must be statically known"
 
@@ -461,9 +462,18 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
           typedFP32Names.all (fun name => pointers.any (fun p => p.1 == name && p.2 == .fp32)) do
         throwError "typed FP32 pointers must be distinct FP32 pointer parameter names"
       let usesTypedFP32 := typedFP32 || !typedFP32Names.isEmpty
+      -- Family aliases are caller-owned FloatDType values, not constexpr
+      -- scalar expressions and not a promise that every case is FP32.
+      for (kind, familyName) in [(PointerType.inputFloat, "dtype"), (PointerType.outputFloat, "out_dtype")] do
+        if pointers.any (fun p => p.2 == kind) then
+          if familyName == "dtype" && usesTypedFP32 then
+            throwError "inputFloat metadata cannot share the fixed typed-FP32 dtype alias"
+          let value ← elabTerm (mkIdent (Name.mkSimple familyName)) none
+          unless (← whnf (← inferType value)).isConstOf ``Triton.FloatDType do
+            throwError "floating pointer family requires an already typed FloatDType caller alias"
       let naturalIntegerNames ← (← listValues
         (← mkAppM ``Triton.CallSignature.naturalIntegerPointers #[profile])).mapM stringValue
-      let integerStorage : List SourceDType := [.i8,.i16,.i32,.i64,.u8,.u16,.u32,.u64]
+      let integerStorage : List PointerType := [.i8,.i16,.i32,.i64,.u8,.u16,.u32,.u64]
       unless naturalIntegerNames.eraseDups.length == naturalIntegerNames.length &&
           naturalIntegerNames.all (fun name => pointers.any
             (fun p => p.1 == name && integerStorage.contains p.2)) do
@@ -647,12 +657,20 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
         let outputs ← if writePorts.isEmpty then orderedPorts writes else pure (explicitPorts writePorts)
         declarations := declarations.push (← `(tritonStmt| tl.ports inputs=[$inputs,*], outputs=[$outputs,*]))
         for (name, kind) in pointers do
-          if naturalIntegerNames.contains name then continue
           let id := mkIdent (Name.mkSimple name)
+          if naturalIntegerNames.contains name then
+            -- The existing unsigned storage spelling selects the Nat memory
+            -- carrier in the expression compiler. Source signedness/width
+            -- remains the declared PointerType above; this mathematical view
+            -- introduces neither an instruction nor an unsigned native ABI.
+            -- An explicit source .to(int64) must cast this load, never change
+            -- its underlying memory channel through later address-use hints.
+            declarations := declarations.push (← `(tritonStmt| tl.region $id:ident = tl.uint64))
+            continue
           let dt ← if (typedFP32 || typedFP32Names.contains name) && kind == .fp32 then
               `(tritonDType| DTYPE)
             else do
-              let some dt ← dtypeSyntaxOfName? (SourceDType.dtypeName kind)
+              let some dt ← dtypeSyntaxOfName? (PointerType.dtypeName kind)
                 | Macro.throwError "unsupported pointer dtype"
               pure dt
           declarations := declarations.push (← `(tritonStmt| tl.region $id:ident = $dt:tritonDType))

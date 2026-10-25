@@ -181,7 +181,7 @@ def call_signature(text: str, name: str) -> dict:
         value = re.search(r"\b" + field + r"\s*:=\s*(\[[^\]]*\])", match[1])
         if not value:
             raise ValueError(f"missing call signature field: {field}")
-        source = re.sub(r"\.(fp16|bf16|fp32|fp64|f8e4|f8e5|i8|i16|i32|i64|u8|u16|u32|u64|boolean|integer)\b", r'"\1"', value[1])
+        source = re.sub(r"\.(fp16|bf16|fp32|fp64|f8e4|f8e5|i8|i16|i32|i64|u8|u16|u32|u64|boolean|integer|inputFloat|outputFloat)\b", r'"\1"', value[1])
         fields[field] = json.loads(json.dumps(ast.literal_eval(source)))
     for field in ("readPorts", "writePorts"):
         value = re.search(r"\b" + field + r"\s*:=\s*(\[[^\]]*\])", match[1])

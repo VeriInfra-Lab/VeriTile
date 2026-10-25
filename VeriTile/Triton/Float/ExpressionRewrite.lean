@@ -46,6 +46,17 @@ failure. No identity or range assertion about the conversion is assumed. -/
   simp only [Structural.evalOp]
   rw [h t ht]
 
+/-- Natural logical indices keep their explicit signed widening through
+expression rewrites. Both operand failures are preserved; no native range or
+machine-width assertion follows from this mathematical conversion. -/
+@[spec_rule] theorem op_nat_to_int {α : Type} [Inhabited α]
+    (M : Algebra α) (s : State α) (before : List ComputeStmt)
+    (a b : Op .nat shape) (h : OpEquivalent M s before a b) :
+    OpEquivalent M s before (.castNatToInt a) (.castNatToInt b) := by
+  intro t ht
+  simp only [Structural.evalOp]
+  rw [h t ht]
+
 /-- Changing a block pointer's base by an equal integer expression preserves
 its offsets, layout and evaluation failure. This supplies no floating law. -/
 @[spec_rule] theorem op_block_ptr_base {α : Type} [Inhabited α]

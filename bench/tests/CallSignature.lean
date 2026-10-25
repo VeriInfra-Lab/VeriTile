@@ -940,3 +940,84 @@ theorem assertion_step_noop {α : Type} [Inhabited α] (M : Algebra α) (s : Sta
   simp [source,ComputeKernel.surfaceBody,FP.Structural.step,FP.Structural.stepAlg,evalOp_unfold]
 #axiomsClean assertion_step_noop
 end VeriTile.Tests.StaticAssertionSource
+
+namespace VeriTile.Tests.FloatingPointerFamilies
+open VeriTile.Triton
+
+def signature : CallSignature where
+  pointers := [("X",.inputFloat),("Y",.outputFloat)]
+  constexpr := ["B"]
+
+def source (dtype out_dtype : FloatDType) (X Y : RegionName) (B : Nat) : ComputeKernel :=
+  with_triton_signature signature in triton {
+    lanes = tl.arange(0, B)
+    values = tl.load(X + lanes).to(tl.float32)
+    tl.store(Y + lanes, values.to(Y.dtype.element_ty))
+  }
+
+def expected (dtype out_dtype : FloatDType) (X Y : RegionName) (B : Nat) : ComputeKernel := triton {
+  tl.ports inputs=[X], outputs=[Y]
+  tl.region X = DTYPE, Y = OUT_DTYPE
+  lanes = tl.arange(0, $(B))
+  values = tl.load(X + lanes).to(tl.float32)
+  tl.store(Y + lanes, (values).to(Y.dtype.element_ty))
+}
+
+theorem complete_kernel (dtype out_dtype : FloatDType) (X Y : RegionName) (B : Nat) :
+    source dtype out_dtype X Y B = expected dtype out_dtype X Y B := rfl
+#axiomsClean complete_kernel
+
+/-- error: floating pointer family requires an already typed FloatDType caller alias -/
+#guard_msgs in
+example (dtype : Nat) (out_dtype : FloatDType) (X Y : RegionName) (B : Nat) : ComputeKernel :=
+  with_triton_signature signature in triton {
+    values = tl.load(X)
+    tl.store(Y, values)
+  }
+
+/-- error: inputFloat metadata cannot share the fixed typed-FP32 dtype alias -/
+#guard_msgs in
+example (dtype out_dtype : FloatDType) (X Y : RegionName) (B : Nat) : ComputeKernel :=
+  with_triton_signature { signature with typedFP32Storage := Bool.true } in triton {
+    values = tl.load(X)
+    tl.store(Y, values)
+  }
+
+/-- error: floating pointer family requires an already typed FloatDType caller alias -/
+#guard_msgs in
+example (dtype : FloatDType) (out_dtype : Nat) (X Y : RegionName) (B : Nat) : ComputeKernel :=
+  with_triton_signature signature in triton {
+    values = tl.load(X)
+    tl.store(Y, values)
+  }
+
+end VeriTile.Tests.FloatingPointerFamilies
+
+namespace VeriTile.Tests.NaturalSignedAddress
+open VeriTile.Triton
+
+def signature : CallSignature where
+  pointers := [("P",.i32),("Out",.i64)]
+  scalars := [("stride",.i64)]
+  naturalIntegerPointers := ["P"]
+
+def source (P : Region .nat) (Out : RegionName) (stride : Nat) : ComputeKernel :=
+  with_triton_call signature call_args [stride := stride] in triton {
+    pid = tl.program_id(0).to(tl.int64)
+    index = tl.load(P + pid * stride).to(tl.int64)
+    tl.store(Out + index, pid)
+  }
+
+def expected (P : Region .nat) (Out : RegionName) (stride : Nat) : ComputeKernel :=
+  .mk [P.cast] [Out]
+    [.assign .int [] "pid" (.alg (.castNatToInt (.programId 0))),
+     .assign .int [] "index" (.alg (.castNatToInt
+       (.load .nat (.region P (.castIntToNat
+         (.mul .int .nil (.ref .int [] "pid") (.castNatToInt (.constNat stride))))) .none))),
+     .store .int [] (.region Out (.castIntToNat (.ref .int [] "index")))
+       (.alg (.ref .int [] "pid")) .none]
+
+theorem complete_kernel (P : Region .nat) (Out : RegionName) (stride : Nat) :
+    source P Out stride = expected P Out stride := rfl
+#axiomsClean complete_kernel
+end VeriTile.Tests.NaturalSignedAddress

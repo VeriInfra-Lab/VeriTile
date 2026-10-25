@@ -631,3 +631,35 @@ class Int8AsmRawBodyTests(unittest.TestCase):
                 check((ROOT / record["python"]).read_text(), lean.replace(before, after, 1),
                       record["python_function"], record["lean_definition"], record["signature_definition"],
                       record["expected_signature"], record["expected_call_bindings"])
+
+
+class TokenSoftmaxRawBodyTests(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/token_softmax_llama"
+
+    def test_both_independent_originals_match_the_shared_source(self):
+        for name in ["token_softmax_llama", "token_softmax_bloom"]:
+            with self.subTest(task=name):
+                pairs = check_manifest(ROOT, ROOT / "bench/repairs/tritonbench_g" / name / "jit-correspondence.json")
+                self.assertEqual(len(pairs), 2)
+                self.assertTrue(all((p["mode"], p["statements"]) == ("pasted_body", 11) for p in pairs))
+
+    def test_all_source_casts_mask_and_floating_family_are_pinned(self):
+        record = json.loads((self.directory / "jit-correspondence.json").read_text())[0]
+        lean = (self.directory / "Kernels.lean").read_text()
+        mutations = [
+            ("tl.program_id(0).to(tl.int64)", "tl.program_id(0)"),
+            ("tl.program_id(1).to(tl.int64)", "tl.program_id(1)"),
+            ("tl.arange(0, BLOCK_SIZE).to(tl.int64)", "tl.arange(0, BLOCK_SIZE)"),
+            ("cur_batch * stride_length).to(tl.int64)", "cur_batch * stride_length)"),
+            ("cur_batch * stride_start).to(tl.int64)", "cur_batch * stride_start)"),
+            ('("Logics",.inputFloat)', '("Logics",.fp32)'),
+            ('("B_Seqlen",.i32)', '("B_Seqlen",.i64)'),
+            ("mask=col_offsets < cur_batch_seq_len", "mask=col_offsets <= cur_batch_seq_len"),
+            ("stride_prob_bs := stride_prob_bs", "stride_prob_bs := stride_logic_bs"),
+        ]
+        for before, after in mutations:
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                self.assertIn(before, lean)
+                check((ROOT / record["python"]).read_text(), lean.replace(before, after, 1),
+                      record["python_function"], record["lean_definition"], record["signature_definition"],
+                      record["expected_signature"], record["expected_call_bindings"])
