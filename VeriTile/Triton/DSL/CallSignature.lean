@@ -109,6 +109,8 @@ private partial def rejectBodyMetadata (raw : Syntax) : TermElabM Unit := do
     throwErrorAt raw "runtime scalar types belong in the call signature, outside the pasted body"
   if let `(tritonStmt| $_:ident := $_:tritonExpr) := raw then
     throwErrorAt raw "use Python assignment syntax in the pasted body"
+  if raw.getKind == ``tritonPythonWeakLiteral then
+    throwErrorAt raw "source literal markers are internal compiler syntax"
   if let `(tritonExpr| $($_:term)) := raw then
     throwErrorAt raw "Lean antiquotes do not belong in the pasted body"
   for arg in raw.getArgs do rejectBodyMetadata arg
@@ -523,6 +525,8 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
           "source helper names cannot be rebound"
       let stmts ← liftMacroM <| stmts.mapM fun stmt => do
         return (⟨← SourceFunction.expand checkedFunctions stmt.raw⟩ : TSyntax `tritonStmt)
+      let stmts ← liftMacroM <| stmts.mapM fun stmt => do
+        return (⟨← PythonBody.markWeakLiterals stmt.raw⟩ : TSyntax `tritonStmt)
       let mut values : List (Name × TSyntax `tritonExpr) := []
       let mut fp32Values := Bool.false
       if let some args := callValues then

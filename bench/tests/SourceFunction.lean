@@ -154,6 +154,27 @@ def namespaceCannotSupplyValue (X Y : RegionName) : ComputeKernel :=
     tl.store(Y, y)
   }
 
+/-- error: source literal markers are internal compiler syntax -/
+#guard_msgs in
+def cannotSupplyCompilerMetadata (X Y : RegionName) : ComputeKernel :=
+  with_triton_signature signature in triton {
+    x = tl.load(X)
+    y = tl.where(x > 0, x, tl.__python_literal(0))
+    tl.store(Y, y)
+  }
+
+def metadataHelper : SourceFunction := triton_function metadata_helper(x) in triton {
+  return tl.where(x > 0, x, tl.__python_literal(0))
+}
+/-- error: source literal markers are internal compiler syntax -/
+#guard_msgs in
+def helperCannotSupplyCompilerMetadata (X Y : RegionName) : ComputeKernel :=
+  with_triton_signature ({signature with functions := [metadataHelper]} : CallSignature) in triton {
+    x = tl.load(X)
+    y = metadata_helper(x)
+    tl.store(Y, y)
+  }
+
 #axiomsClean registered_definition_owns_callee
 #axiomsClean complete_expansion
 end

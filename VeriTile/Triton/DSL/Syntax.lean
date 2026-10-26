@@ -28,6 +28,9 @@ syntax (name := tritonInlineAsm) "tl.inline_asm_elementwise(" str
 -- Expressions
 syntax num : tritonExpr
 syntax scientific : tritonExpr
+-- Source-origin metadata only: inserted after checking a pasted Python body.
+-- The expression compiler erases this wrapper after applying Python promotion.
+syntax (name := tritonPythonWeakLiteral) "tl.__python_literal(" tritonExpr ")" : tritonExpr
 syntax "true" : tritonExpr
 syntax "false" : tritonExpr
 syntax "None" : tritonExpr
@@ -238,11 +241,11 @@ syntax "tl.make_block_ptr(" ident "=" tritonExpr ", " ident "=" "(" tritonExpr,*
   ")" ", " ident "=" "(" tritonExpr,* ")" ", " ident "=" "(" tritonExpr,* ")"
   ", " ident "=" "(" tritonExpr,* ")" ")" : tritonExpr
 -- The positional singleton tuples emitted by strided pointwise Triton writers.
-syntax (name := tritonRankOneBlockPtr) "tl.make_block_ptr(" tritonExpr "," "(" tritonExpr ",)"
-  "," "(" tritonExpr ",)" "," "(" tritonExpr ",)" "," "(" tritonExpr ",)"
-  "," ident "=" "(" tritonExpr ",)" ")" : tritonExpr
+syntax (name := tritonRankOneBlockPtr) "tl.make_block_ptr(" tritonExpr "," "(" tritonExpr "," ")"
+  "," "(" tritonExpr "," ")" "," "(" tritonExpr "," ")" "," "(" tritonExpr "," ")"
+  "," ident "=" "(" tritonExpr "," ")" ")" : tritonExpr
 syntax (name := tritonRankOneBoundary) (priority := high)
-  "boundary_check=(" tritonExpr ",)" : tritonMemKwarg
+  "boundary_check=(" tritonExpr "," ")" : tritonMemKwarg
 
 syntax "tl.advance(" tritonExpr ", " "[" tritonExpr,* "]" ")" : tritonExpr
 syntax "tl.advance(" tritonExpr ", " "(" tritonExpr,* ")" ")" : tritonExpr

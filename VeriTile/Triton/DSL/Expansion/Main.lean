@@ -728,6 +728,7 @@ partial def expandWhereFromCond (env : Env) (c' : EOut)
   -- Do not reinterpret floating literals, explicit casts or runtime values.
   let rec integerLiteral (dtype : DInfo) (e : TSyntax `tritonExpr) : MacroM (Option EOut) := do
     match e with
+    | `(tritonExpr| tl.__python_literal($inner:tritonExpr)) => integerLiteral dtype inner
     | `(tritonExpr| ($inner:tritonExpr)) => integerLiteral dtype inner
     | `(tritonExpr| $n:num) =>
         if dtype == .nat then return some ⟨← `(Op.constNat $n), .nat, .scalar, none, none⟩
@@ -1267,6 +1268,7 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
               explicitFloatCast dst e'
   | none =>
   match stx with
+  | `(tritonExpr| tl.__python_literal($inner:tritonExpr)) => expandExpr env inner
   | `(tritonExpr| $n:num) =>
       -- Bare numeric literals are `ℝ` data constants (e.g. `1` in `1 / s`).
       pure ⟨← `(Op.const $n), .real, SInfo.scalar, none, none⟩

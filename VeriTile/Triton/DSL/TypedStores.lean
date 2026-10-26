@@ -129,6 +129,7 @@ private partial def valueType (pointers : Types) (values : Values)
     | _, _ => none
   if let some dtype := (explicitCastType pointers e).orElse (fun _ => constructorType e) then some (.typed dtype) else
   match e with
+  | `(tritonExpr| tl.__python_literal($inner:tritonExpr)) => valueType pointers values inner
   | `(tritonExpr| $id:ident) => (values.find? (fun entry => entry.1 == name id)).map Prod.snd
   | `(tritonExpr| ($inner:tritonExpr)) => valueType pointers values inner
   | `(tritonExpr| $((VeriTile.Triton.DSL.TypedStores.fp32CallValue $_:term : ℝ))) => some (.typed .fp32)

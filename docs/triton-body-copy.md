@@ -111,3 +111,8 @@ AST 相同只是源码检查。迁移还须重放公开 Real/FP 证明，并保�
 `spec_derived_native_source`，注明新来源，并固定数学规格文件的 SHA256。
 检查通过后状态为 `spec_derived_body_copy_checked`，与历史 Python 对照状态
 分别统计。语法对照仍须配合实际程序的 Real、FP、执行和内存证明重新验证。
+
+Python comparison/select numeric literals receive the tensor operand dtype only
+in the copied-function-body frontend. The historical typed DSL retains its
+existing literal convention. Internal source-origin annotations are compiler
+metadata and are rejected in user bodies and registered helper definitions.

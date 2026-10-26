@@ -38,6 +38,8 @@ private partial def namesIn (raw : Syntax) : List Name :=
   else raw.getArgs.toList.flatMap namesIn
 
 private partial def rejectSplices (raw : Syntax) : MacroM Unit := do
+  if raw.getKind == ``tritonPythonWeakLiteral then
+    Macro.throwErrorAt raw "source literal markers are internal compiler syntax"
   let expression : TSyntax `tritonExpr := ⟨raw⟩
   if let `(tritonExpr| $($_:term)) := expression then
     Macro.throwErrorAt raw "Lean antiquotes do not belong in source helpers"

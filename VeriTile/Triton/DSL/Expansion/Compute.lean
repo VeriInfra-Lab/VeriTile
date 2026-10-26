@@ -60,6 +60,7 @@ def ensureComputeCmpComposable (ctx : String) (e : EOut) : MacroM Unit := do
 private partial def floatingLiteralValue? (e : TSyntax `tritonExpr) :
     MacroM (Option (TSyntax `term)) := do
   match e with
+  | `(tritonExpr| tl.__python_literal($inner:tritonExpr)) => floatingLiteralValue? inner
   | `(tritonExpr| $n:num) => return some (← `(($n : ℝ)))
   | `(tritonExpr| $n:scientific) => return some (← `(($n : ℝ)))
   | `(tritonExpr| ($inner:tritonExpr)) => floatingLiteralValue? inner
@@ -97,6 +98,7 @@ element dtype. Source syntax distinguishes it from registers and explicit casts;
 the target-format literal is retained as a literal event, not a cast identity. -/
 def floatingSourceLiteral (other : EOut) (source : TSyntax `tritonExpr)
     (fallback : EOut) : MacroM EOut := do
+  unless source.raw.getKind == ``tritonPythonWeakLiteral do return fallback
   let floating := match other.dtype with
     | .fp32 | .fp16 | .bf16 | .f8e4 | .f8e5 | .floatVar _ => Bool.true
     | _ => Bool.false
@@ -112,6 +114,7 @@ partial def integralSourceLiteral (other : DInfo)
     (source : TSyntax `tritonExpr) (fallback : EOut) : MacroM EOut := do
   unless [.nat,.int,.int8,.int32].contains other do return fallback
   match source with
+  | `(tritonExpr| tl.__python_literal($inner:tritonExpr)) => integralSourceLiteral other inner fallback
   | `(tritonExpr| ($inner:tritonExpr)) => integralSourceLiteral other inner fallback
   | `(tritonExpr| $n:num) =>
       if other == .nat then return ⟨← `(Op.constNat $n), .nat, SInfo.scalar, none, none⟩
