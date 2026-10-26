@@ -77,12 +77,14 @@ Q/K/V vector stores. Metadata is loaded from the entry memory, not supplied. -/
 theorem execution_memory (rest : Algebra α) (ops : Ops α) (p : Parameters) (s : State α) :
     (execution rest ops p s).val.mem=(written rest ops p s).mem := by
   have nonnegative (n : Nat) : ¬(n : Int)<0 := by omega
+  have halfCast : (p.HEAD_DIM : Int)/2 = ((p.HEAD_DIM/2 : Nat) : Int) := rfl
   by_cases leader : s.pids 0%p.KV_GROUP_NUM=0
   all_goals
     simp (config := {contextual := Bool.true, maxSteps := 1000000}) [execution,written,scatter,active,pair,load,zero,
       dataOffset,coefficientOffset,cacheOffset,valueOffset,valueCacheOffset,past,block,slot,head,dimension,
       sourcePair,component,leader,bop,Broadcast.leftIndex,Broadcast.rightIndex,
-      integralFloorDiv,integralMod,quot,rem,nonnegative,masked_scatter_memory]
+      integralFloorDiv,integralMod,quot,rem,nonnegative,masked_scatter_memory,
+      -Int.natCast_ediv,halfCast,Nat.cast_lt]
 
 #axiomsClean execution_memory
 end

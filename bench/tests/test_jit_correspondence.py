@@ -1039,3 +1039,32 @@ class LogSoftmaxRawBodyTests(unittest.TestCase):
                               record["python_function"], record["lean_definition"],
                               record["signature_definition"], record["expected_signature"],
                               record["expected_call_bindings"])
+
+
+class FusedDecodingRotaryRawBodyTests(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/fused_rotary_embedding_tile_checked"
+
+    def test_complete_q_k_cache_and_full_width_v_bodies(self):
+        pairs = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual([(p["mode"], p["statements"]) for p in pairs],
+                         [("pasted_body", 21), ("pasted_body", 21)])
+
+    def test_cast_cache_mask_integer_channel_and_runtime_stride_drift_are_rejected(self):
+        records = json.loads((self.directory / "jit-correspondence.json").read_text())
+        lean = (self.directory / "Kernels.lean").read_text()
+        for record in records:
+            for before, after in [
+                ("tl.program_id(1).to(tl.int64)", "tl.program_id(1)"),
+                ("tl.arange(0, BLOCK_HALF).to(tl.int64)", "tl.arange(0, BLOCK_HALF)"),
+                ("handle_kv = cur_head_idx % KV_GROUP_NUM == 0", "handle_kv = cur_head_idx == 0"),
+                ("dim_range < HEAD_DIM", "dim_range < BLOCK_HALF"),
+                ("length_stride := length_stride", "length_stride := q_token_stride"),
+                ('("context_lengths",.i32)', '("context_lengths",.i64)'),
+            ]:
+                with self.subTest(definition=record["lean_definition"], mutation=before):
+                    self.assertIn(before, lean)
+                    with self.assertRaises(ValueError):
+                        check((ROOT / record["python"]).read_text(), lean.replace(before, after),
+                              record["python_function"], record["lean_definition"],
+                              record["signature_definition"], record["expected_signature"],
+                              record["expected_call_bindings"])

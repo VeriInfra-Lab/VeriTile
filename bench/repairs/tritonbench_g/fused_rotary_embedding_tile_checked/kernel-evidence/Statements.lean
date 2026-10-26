@@ -1,5 +1,7 @@
 import bench.repairs.tritonbench_g.fused_rotary_embedding_tile_checked.Correct
 import bench.repairs.tritonbench_g.fused_rotary_embedding_tile_checked.FPEquiv
+import bench.repairs.tritonbench_g.fused_rotary_embedding_tile_checked.Misc.NativeCorrect
+import bench.repairs.tritonbench_g.fused_rotary_embedding_tile_checked.Misc.TensorBridge
 
 open VeriTile.Bench.Repairs.FusedRotaryEmbeddingTileChecked
 #print inputChecks
@@ -17,7 +19,11 @@ open VeriTile.Bench.Repairs.FusedRotaryEmbeddingTileChecked
 #print FPEquiv.fused_rotary_native
 #axiomsClean Correct.fused_rotary_real
 #axiomsClean FPEquiv.fused_rotary_native
-#specNonCircular VeriTile.Bench.Repairs.FusedRotaryEmbedding.formula avoiding [Source.kernel,Source.grid,Correct.invoke]
-#specNonCircular VeriTile.Bench.Repairs.FusedRotaryEmbedding.wordFormula avoiding [Source.kernel,Source.grid,FPEquiv.invoke]
-#specNonCircular TensorObservation.Binding avoiding [Source.kernel,Source.grid,FPEquiv.invoke]
+#specNonCircular VeriTile.Bench.Repairs.FusedRotaryEmbedding.formula avoiding [Source.kernel,Source.grid,Source.invocation]
+#specNonCircular VeriTile.Bench.Repairs.FusedRotaryEmbedding.wordFormula avoiding [Source.kernel,Source.grid,Source.invocation]
+#specNonCircular TensorObservation.Binding avoiding [Source.kernel,Source.grid,Source.invocation]
 #specNonCircular FPEquiv.fused_rotary_native avoiding [VeriTile.Bench.Repairs.FusedRotaryEmbedding.realOps,VeriTile.Bench.Repairs.FusedRotaryEmbedding.formula]
+
+#print FPEquiv.kernel_equivalent
+#axiomsClean FPEquiv.kernel_equivalent
+#axiomsClean Source.source_safe
