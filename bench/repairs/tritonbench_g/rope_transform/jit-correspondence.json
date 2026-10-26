@@ -1,0 +1,156 @@
+[
+  {
+    "lean": "bench/repairs/tritonbench_g/rope_transform/Kernels.lean",
+    "lean_definition": "source",
+    "python": "bench/repairs/tritonbench_g/rope_transform/rope_transform_repaired.py",
+    "python_function": "_triton_rope",
+    "signature_definition": "callSignature",
+    "expected_call_bindings": {
+      "q_row_stride": "q_row_stride",
+      "k_row_stride": "k_row_stride",
+      "cos_row_stride": "cos_row_stride",
+      "sin_row_stride": "sin_row_stride",
+      "sl": "sl"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "q_ptr",
+          "inputFloat"
+        ],
+        [
+          "k_ptr",
+          "inputFloat"
+        ],
+        [
+          "cos",
+          "outputFloat"
+        ],
+        [
+          "sin",
+          "outputFloat"
+        ]
+      ],
+      "scalars": [
+        [
+          "q_row_stride",
+          "integer"
+        ],
+        [
+          "k_row_stride",
+          "integer"
+        ],
+        [
+          "cos_row_stride",
+          "integer"
+        ],
+        [
+          "sin_row_stride",
+          "integer"
+        ],
+        [
+          "sl",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "bs",
+        "n_qh",
+        "n_kh",
+        "hd",
+        "pad_n_qh",
+        "pad_n_kh",
+        "pad_hd",
+        "BLOCK_SIZE",
+        "BACKWARD_PASS"
+      ],
+      "readPorts": [
+        "q_ptr",
+        "k_ptr",
+        "cos",
+        "sin"
+      ],
+      "writePorts": [
+        "q_ptr",
+        "k_ptr"
+      ]
+    }
+  },
+  {
+    "lean": "bench/repairs/tritonbench_g/rope_transform/Kernels.lean",
+    "lean_definition": "indexShared",
+    "python": "bench/repairs/tritonbench_g/rope_transform/candidate_kernels.py",
+    "python_function": "_triton_rope_index_shared",
+    "signature_definition": "callSignature",
+    "expected_call_bindings": {
+      "q_row_stride": "q_row_stride",
+      "k_row_stride": "k_row_stride",
+      "cos_row_stride": "cos_row_stride",
+      "sin_row_stride": "sin_row_stride",
+      "sl": "sl"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "q_ptr",
+          "inputFloat"
+        ],
+        [
+          "k_ptr",
+          "inputFloat"
+        ],
+        [
+          "cos",
+          "outputFloat"
+        ],
+        [
+          "sin",
+          "outputFloat"
+        ]
+      ],
+      "scalars": [
+        [
+          "q_row_stride",
+          "integer"
+        ],
+        [
+          "k_row_stride",
+          "integer"
+        ],
+        [
+          "cos_row_stride",
+          "integer"
+        ],
+        [
+          "sin_row_stride",
+          "integer"
+        ],
+        [
+          "sl",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "bs",
+        "n_qh",
+        "n_kh",
+        "hd",
+        "pad_n_qh",
+        "pad_n_kh",
+        "pad_hd",
+        "BLOCK_SIZE",
+        "BACKWARD_PASS"
+      ],
+      "readPorts": [
+        "q_ptr",
+        "k_ptr",
+        "cos",
+        "sin"
+      ],
+      "writePorts": [
+        "q_ptr",
+        "k_ptr"
+      ]
+    }
+  }
+]

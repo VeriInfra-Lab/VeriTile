@@ -1068,3 +1068,38 @@ class FusedDecodingRotaryRawBodyTests(unittest.TestCase):
                               record["python_function"], record["lean_definition"],
                               record["signature_definition"], record["expected_signature"],
                               record["expected_call_bindings"])
+
+
+class RopeFunctionBodyTests(unittest.TestCase):
+    def test_both_pitch_variants_keep_full_original_and_index_candidate(self):
+        for task in ["rope_transform", "rope_backward_transform"]:
+            directory = ROOT / "bench/repairs/tritonbench_g" / task
+            pairs = check_manifest(ROOT, directory / "jit-correspondence.json")
+            self.assertEqual([(p["mode"], p["statements"]) for p in pairs],
+                             [("pasted_body", 23), ("pasted_body", 23)])
+
+    def test_coefficient_casts_branches_padding_and_runtime_pitches_are_pinned(self):
+        for task in ["rope_transform", "rope_backward_transform"]:
+            directory = ROOT / "bench/repairs/tritonbench_g" / task
+            records = json.loads((directory / "jit-correspondence.json").read_text())
+            lean = (directory / "Kernels.lean").read_text()
+            mutations = [
+                (".to(sin_row.dtype)", ""),
+                ("if not BACKWARD_PASS:", "if BACKWARD_PASS:"),
+                ("tl.arange(0, pad_hd // 2)", "tl.arange(0, hd // 2)"),
+                ("new_q_tile_2, mask=second_q_mask", "new_q_tile_2"),
+                ('("q_ptr",.inputFloat)', '("q_ptr",.outputFloat)'),
+                ("sl := sl", "sl := q_row_stride"),
+            ]
+            if task == "rope_backward_transform":
+                mutations += [("cos_offsets * cos_col_stride", "cos_offsets"),
+                              ("cos_offsets * sin_col_stride", "cos_offsets")]
+            for record in records:
+                for before, after in mutations:
+                    with self.subTest(task=task, definition=record["lean_definition"], mutation=before):
+                        self.assertIn(before, lean)
+                        with self.assertRaises(ValueError):
+                            check((ROOT / record["python"]).read_text(), lean.replace(before, after),
+                                  record["python_function"], record["lean_definition"],
+                                  record["signature_definition"], record["expected_signature"],
+                                  record["expected_call_bindings"])

@@ -8,8 +8,8 @@
     "task_status": {
       "legacy_ast_only": 1,
       "no_selected_jit_resolved": 2,
-      "selected_body_copy_checked": 78,
-      "uncovered_jit_functions": 102
+      "selected_body_copy_checked": 80,
+      "uncovered_jit_functions": 100
     },
     "example_status": {
       "authored_counterpart_body_copy_checked": 2,
@@ -17,12 +17,12 @@
       "spec_derived_body_copy_checked": 15
     },
     "selected_jit_functions": 328,
-    "uncovered_selected_jit_functions": 206,
+    "uncovered_selected_jit_functions": 204,
     "primary_files_with_int64_screen_warning": 28,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 79,
-        "antiquotes": 87,
+        "in_body_type_directives": 77,
+        "antiquotes": 85,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 8
       },
@@ -13456,9 +13456,9 @@
       "source_provenance": "selected_revision",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 58,
-        "dsl_assignment": 2,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 21,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -13471,18 +13471,94 @@
           "explicit_int64_casts": []
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_triton_rope",
+          "lean_definition": "source",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "q_row_stride": "q_row_stride",
+            "k_row_stride": "k_row_stride",
+            "cos_row_stride": "cos_row_stride",
+            "cos_col_stride": "cos_col_stride",
+            "sin_row_stride": "sin_row_stride",
+            "sin_col_stride": "sin_col_stride",
+            "sl": "sl"
+          },
+          "statements": 23,
+          "runtime_parameters": {
+            "q_row_stride": "integer",
+            "k_row_stride": "integer",
+            "cos_row_stride": "integer",
+            "cos_col_stride": "integer",
+            "sin_row_stride": "integer",
+            "sin_col_stride": "integer",
+            "sl": "integer"
+          },
+          "constexpr_parameters": [
+            "BACKWARD_PASS",
+            "BLOCK_SIZE",
+            "bs",
+            "hd",
+            "n_kh",
+            "n_qh",
+            "pad_hd",
+            "pad_n_kh",
+            "pad_n_qh"
+          ],
           "python": "bench/repairs/tritonbench_g/rope_backward_transform/rope_backward_transform_repaired.py",
-          "function": "_triton_rope"
+          "lean": "bench/repairs/tritonbench_g/rope_backward_transform/Kernels.lean"
+        },
+        {
+          "python_function": "_triton_rope_index_shared",
+          "lean_definition": "indexShared",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "q_row_stride": "q_row_stride",
+            "k_row_stride": "k_row_stride",
+            "cos_row_stride": "cos_row_stride",
+            "cos_col_stride": "cos_col_stride",
+            "sin_row_stride": "sin_row_stride",
+            "sin_col_stride": "sin_col_stride",
+            "sl": "sl"
+          },
+          "statements": 23,
+          "runtime_parameters": {
+            "q_row_stride": "integer",
+            "k_row_stride": "integer",
+            "cos_row_stride": "integer",
+            "cos_col_stride": "integer",
+            "sin_row_stride": "integer",
+            "sin_col_stride": "integer",
+            "sl": "integer"
+          },
+          "constexpr_parameters": [
+            "BACKWARD_PASS",
+            "BLOCK_SIZE",
+            "bs",
+            "hd",
+            "n_kh",
+            "n_qh",
+            "pad_hd",
+            "pad_n_kh",
+            "pad_n_qh"
+          ],
+          "python": "bench/repairs/tritonbench_g/rope_backward_transform/candidate_kernels.py",
+          "lean": "bench/repairs/tritonbench_g/rope_backward_transform/Kernels.lean"
         }
       ],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/rope_backward_transform/Kernels.lean": "3d8af33c59a229167890c1d26507e0acef4db0f2a00085cb68269b37588530f8",
+        "bench/repairs/tritonbench_g/rope_backward_transform/Kernels.lean": "60bc585707400488cf7a9f8198e4c353b7113a17030d5de533ecb51b85d8678f",
+        "bench/repairs/tritonbench_g/rope_backward_transform/candidate_kernels.py": "0b6416dbc1266b57bfd6e02ba6d2d99f32777f258222123ea7d40eeb5fdeb1cd",
+        "bench/repairs/tritonbench_g/rope_backward_transform/jit-correspondence.json": "8f07b9e656785586aa6076467bb75080ace6391fb4d3c77008c892c2a1f60df5",
         "bench/repairs/tritonbench_g/rope_backward_transform/rope_backward_transform_repaired.py": "2fb8908af0d5a2b419c2aa493ebf377bfff19bff2676655f18a354263c11b93c"
       }
     },
@@ -13588,9 +13664,9 @@
       "source_provenance": "selected_revision",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 54,
-        "dsl_assignment": 2,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 17,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -13603,18 +13679,86 @@
           "explicit_int64_casts": []
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_triton_rope",
+          "lean_definition": "source",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "q_row_stride": "q_row_stride",
+            "k_row_stride": "k_row_stride",
+            "cos_row_stride": "cos_row_stride",
+            "sin_row_stride": "sin_row_stride",
+            "sl": "sl"
+          },
+          "statements": 23,
+          "runtime_parameters": {
+            "q_row_stride": "integer",
+            "k_row_stride": "integer",
+            "cos_row_stride": "integer",
+            "sin_row_stride": "integer",
+            "sl": "integer"
+          },
+          "constexpr_parameters": [
+            "BACKWARD_PASS",
+            "BLOCK_SIZE",
+            "bs",
+            "hd",
+            "n_kh",
+            "n_qh",
+            "pad_hd",
+            "pad_n_kh",
+            "pad_n_qh"
+          ],
           "python": "bench/repairs/tritonbench_g/rope_transform/rope_transform_repaired.py",
-          "function": "_triton_rope"
+          "lean": "bench/repairs/tritonbench_g/rope_transform/Kernels.lean"
+        },
+        {
+          "python_function": "_triton_rope_index_shared",
+          "lean_definition": "indexShared",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "q_row_stride": "q_row_stride",
+            "k_row_stride": "k_row_stride",
+            "cos_row_stride": "cos_row_stride",
+            "sin_row_stride": "sin_row_stride",
+            "sl": "sl"
+          },
+          "statements": 23,
+          "runtime_parameters": {
+            "q_row_stride": "integer",
+            "k_row_stride": "integer",
+            "cos_row_stride": "integer",
+            "sin_row_stride": "integer",
+            "sl": "integer"
+          },
+          "constexpr_parameters": [
+            "BACKWARD_PASS",
+            "BLOCK_SIZE",
+            "bs",
+            "hd",
+            "n_kh",
+            "n_qh",
+            "pad_hd",
+            "pad_n_kh",
+            "pad_n_qh"
+          ],
+          "python": "bench/repairs/tritonbench_g/rope_transform/candidate_kernels.py",
+          "lean": "bench/repairs/tritonbench_g/rope_transform/Kernels.lean"
         }
       ],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/rope_transform/Kernels.lean": "35be53534e8280d36a147b8eb1b470bba64db3dcdfef025dfe7de16fe159e422",
+        "bench/repairs/tritonbench_g/rope_transform/Kernels.lean": "1a42006083e4d98e4e7f56de115ccde6f5bf5665d056e37b580ac1cf93e92bb7",
+        "bench/repairs/tritonbench_g/rope_transform/candidate_kernels.py": "5efdc66485938b3a2bee3e221cbac792d4611a77f906d90d2a4baaaf10a18232",
+        "bench/repairs/tritonbench_g/rope_transform/jit-correspondence.json": "8096cb81b9917e05bd972a7daf7a3500de4b3ec4b91ac2ff96aeb2306a7171f5",
         "bench/repairs/tritonbench_g/rope_transform/rope_transform_repaired.py": "daddf5be173d6b04740e71f405f4ed46a8efdce54b2fd75f882c7dc878c7d9eb"
       }
     },
