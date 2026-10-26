@@ -1,0 +1,160 @@
+rope_transform raw-source-check
+[
+  {
+    "python_function": "_triton_rope",
+    "lean_definition": "source",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "q_row_stride": "q_row_stride",
+      "k_row_stride": "k_row_stride",
+      "cos_row_stride": "cos_row_stride",
+      "sin_row_stride": "sin_row_stride",
+      "sl": "sl"
+    },
+    "statements": 23,
+    "runtime_parameters": {
+      "q_row_stride": "integer",
+      "k_row_stride": "integer",
+      "cos_row_stride": "integer",
+      "sin_row_stride": "integer",
+      "sl": "integer"
+    },
+    "constexpr_parameters": [
+      "BACKWARD_PASS",
+      "BLOCK_SIZE",
+      "bs",
+      "hd",
+      "n_kh",
+      "n_qh",
+      "pad_hd",
+      "pad_n_kh",
+      "pad_n_qh"
+    ]
+  },
+  {
+    "python_function": "_triton_rope_index_shared",
+    "lean_definition": "indexShared",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "q_row_stride": "q_row_stride",
+      "k_row_stride": "k_row_stride",
+      "cos_row_stride": "cos_row_stride",
+      "sin_row_stride": "sin_row_stride",
+      "sl": "sl"
+    },
+    "statements": 23,
+    "runtime_parameters": {
+      "q_row_stride": "integer",
+      "k_row_stride": "integer",
+      "cos_row_stride": "integer",
+      "sin_row_stride": "integer",
+      "sl": "integer"
+    },
+    "constexpr_parameters": [
+      "BACKWARD_PASS",
+      "BLOCK_SIZE",
+      "bs",
+      "hd",
+      "n_kh",
+      "n_qh",
+      "pad_hd",
+      "pad_n_kh",
+      "pad_n_qh"
+    ]
+  }
+]
+
+rope_transform contract
+Traceback (most recent call last):
+  File "/tmp/veritile-pr18-review/bench/repairs/tritonbench_g/rope_transform/check_contract.py", line 7, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'
+
+rope_backward_transform raw-source-check
+[
+  {
+    "python_function": "_triton_rope",
+    "lean_definition": "source",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "q_row_stride": "q_row_stride",
+      "k_row_stride": "k_row_stride",
+      "cos_row_stride": "cos_row_stride",
+      "cos_col_stride": "cos_col_stride",
+      "sin_row_stride": "sin_row_stride",
+      "sin_col_stride": "sin_col_stride",
+      "sl": "sl"
+    },
+    "statements": 23,
+    "runtime_parameters": {
+      "q_row_stride": "integer",
+      "k_row_stride": "integer",
+      "cos_row_stride": "integer",
+      "cos_col_stride": "integer",
+      "sin_row_stride": "integer",
+      "sin_col_stride": "integer",
+      "sl": "integer"
+    },
+    "constexpr_parameters": [
+      "BACKWARD_PASS",
+      "BLOCK_SIZE",
+      "bs",
+      "hd",
+      "n_kh",
+      "n_qh",
+      "pad_hd",
+      "pad_n_kh",
+      "pad_n_qh"
+    ]
+  },
+  {
+    "python_function": "_triton_rope_index_shared",
+    "lean_definition": "indexShared",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "q_row_stride": "q_row_stride",
+      "k_row_stride": "k_row_stride",
+      "cos_row_stride": "cos_row_stride",
+      "cos_col_stride": "cos_col_stride",
+      "sin_row_stride": "sin_row_stride",
+      "sin_col_stride": "sin_col_stride",
+      "sl": "sl"
+    },
+    "statements": 23,
+    "runtime_parameters": {
+      "q_row_stride": "integer",
+      "k_row_stride": "integer",
+      "cos_row_stride": "integer",
+      "cos_col_stride": "integer",
+      "sin_row_stride": "integer",
+      "sin_col_stride": "integer",
+      "sl": "integer"
+    },
+    "constexpr_parameters": [
+      "BACKWARD_PASS",
+      "BLOCK_SIZE",
+      "bs",
+      "hd",
+      "n_kh",
+      "n_qh",
+      "pad_hd",
+      "pad_n_kh",
+      "pad_n_qh"
+    ]
+  }
+]
+
+rope_backward_transform contract
+Traceback (most recent call last):
+  File "/tmp/veritile-pr18-review/bench/repairs/tritonbench_g/rope_backward_transform/check_contract.py", line 8, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'
+

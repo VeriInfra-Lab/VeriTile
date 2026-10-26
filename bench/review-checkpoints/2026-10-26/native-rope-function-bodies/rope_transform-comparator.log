@@ -1,0 +1,4 @@
+{"name": "rope_transform", "file": "bench/repairs/tritonbench_g/rope_transform/FPEquiv.lean", "sha256": "a0e88cdcb5a9e10b5fd3ef30ce738987a3a3ab73850bc648a1e0a1a0fc1637e0", "command": ["python3", "scripts/check_comparator.py", "--file", "bench/repairs/tritonbench_g/rope_transform/FPEquiv.lean", "--trust"], "exit_code": 1, "code_commit": "52b9fc7062dce3885374d2889b49f997a3e004bc"}
+[FAIL] Official comparator isolation is unavailable:
+- systemd AF_UNIX restriction: Failed to connect to bus: Operation not permitted (consider using --machine=<user>@.host --user to connect to bus of other user)
+- Landlock sandbox: [landrun:error] 2026/10/26 04:13:35 Failed to apply sandbox: failed to apply Landlock filesystem restrictions: missing kernel Landlock support. Got Landlock ABI v4, wanted {Landlock V5; FS: all; Net: ∅}

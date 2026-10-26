@@ -1,0 +1,47 @@
+{
+  "code_commit": "52b9fc7062dce3885374d2889b49f997a3e004bc",
+  "raw_bodies": [
+    {
+      "task": "rope_transform",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/rope_transform/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    {
+      "task": "rope_backward_transform",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/rope_backward_transform/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    }
+  ],
+  "cpu_contracts": [
+    {
+      "task": "rope_transform",
+      "command": [
+        "python3",
+        "bench/repairs/tritonbench_g/rope_transform/check_contract.py"
+      ],
+      "exit_code": 1,
+      "status": "UNAVAILABLE"
+    },
+    {
+      "task": "rope_backward_transform",
+      "command": [
+        "python3",
+        "bench/repairs/tritonbench_g/rope_backward_transform/check_contract.py"
+      ],
+      "exit_code": 1,
+      "status": "UNAVAILABLE"
+    }
+  ]
+}

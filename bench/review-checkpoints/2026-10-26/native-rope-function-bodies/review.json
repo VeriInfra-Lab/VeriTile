@@ -1,0 +1,379 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "52b9fc7062dce3885374d2889b49f997a3e004bc",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "rope_transform",
+    "rope_backward_transform"
+  ],
+  "semantic_review": {
+    "adam_update_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "add_example": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "add_value": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "apply_penalty": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "cache_transform_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "chunk_cumsum_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "chunk_cumsum_vector": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "chunked_cumsum_fwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "cosine_compute": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "dequantize_matmul": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "dequantize_rowwise": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "destindex_copy": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "destindex_copy_kv1": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "destindex_copy_kv2": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "dropout_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "embedding_triton_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "f8_conversion_utils": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "fast_rope_embedding": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "fused_activation": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "fused_recurrent_hgrn": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "fused_rotary_embedding": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "index_select_bwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "index_select_cat": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "int8_matmul_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "kcache_copy_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "kldiv_compute": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "kldiv_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "kv_cache_copy": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "l2_norm_bwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "l2_norm_triton1": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "l2_norm_triton2": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "log_softmax": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "logsumexp_fwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "masked_add_cuda": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "masked_select": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "matmul_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "matrix_reduction": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "matrix_transpose": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "max_reduction": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "mean_reduction": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "mul_exponent_compensator": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "nested_loops_processing": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "quant_transpose_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "quantize_copy_kv": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "quantize_global": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "quantize_kv_copy": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "quantize_kv_transform": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "relu_strided_buffer": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "relu_triton_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "reversed_cumsum": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "reversed_cumsum_scalar": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rms_norm_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rmsnorm_fused": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rmsnorm_fused_llama": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rmsnorm_implementation": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rmsnorm_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rope_embedding": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rotary_emb": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rotary_emb_nopad": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rowwise_quantization_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "seeded_dropout": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "sin_computation": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "sin_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "softmax_triton1": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "softmax_triton2": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "square_matrix": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "swiglu_backward": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "swiglu_fwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "swiglu_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "token_attn_mistral": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "token_attn_reduceV": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "token_softmax_bloom": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "token_softmax_llama": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "triton_mul2": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "triton_softmax": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "var_len_copy": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "vector_addition": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "vector_addition_custom": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the two task-local forward/backward RoPE raw-body migrations. The shared VeriTile sources and build configuration are unchanged from the previous full independent replay. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rope_backward_transform": "The selected original Python JIT/wrapper and public Correct/FPEquiv/IO/Contract files are unchanged. Original and existing index-shared candidate are complete 23-statement raw bodies, with four pointer floating families, seven runtime mathematical integer bindings and nine constexpr roles outside. Unlike the forward task, cosine and sine have independent column strides; both remain at the exact coefficient loads, including zero strides. All original load-to-coefficient casts, both branches, padded masks and implicit stores remain. Candidate Python is explicitly authored from the existing Q/K coordinate/mask CSE. The task-local proof source now directly references canonical Kernels.source, and constructive execution, independent ordered memory formula, actual source access safety and every retained proof are re-established from it. The existing full-state/failure CSE, independent fixed-coefficient Real adjoint, all accepted native words, backward complete grid, original Tensor/table strides and storage offsets, empty/short/odd/one-empty-head behavior, caller-device binding and exterior frames remain intact. No whole-kernel assumption, FP identity, numerical experiment or domain narrowing.",
+    "rope_transform": "The selected original Python JIT/wrapper and all public mathematical/FP/IO/contracts are unchanged. Original and existing index-shared candidate are complete 23-statement raw bodies. Four pointer floating families, five runtime mathematical integer stride/sequence bindings and nine constexpr roles are outside each body. Every coefficient/input load, explicit conversion to sin_row.dtype, padded coordinate/mask expression, both branches and four implicit destination-storage conversions remain exact. Candidate Python is explicitly authored from the pre-existing four-expression Q/K index/mask CSE. The former duplicated typed source had a different AST after actual raw frontend lowering, including static quotient folding and retained typed casts; no false AST equality or cast erasure is asserted. Proofs/ActualSource constructively re-proves total actual execution and its complete memory effect against the unchanged independent ordered masked-memory formula for arbitrary initial registers, memory and floating primitives. Task-level T.kernel/execution exports bind that actual source to the existing mathematical, native, host and frame derivations. The historical typed implementation and algorithm-erasure audit remain byte-identical; historical_erased_source_shape explicitly identifies that historical model and is not used to justify current source correctness. Actual current source safety unfolds the canonical body before recursive safety evaluation. All forward Real rotation, both source branches, actual CSE full-state/failure equality, complete grids, accepted Tensor/device/storage-offset/empty paths, source masks and exterior byte/typed frames retain their original scope. No new numerical law, FP premise or input restriction."
+  },
+  "example_regression_scope": "All 19 examples replay warm/joint. Their source bodies and shared VeriTile compiler/build configuration remain unchanged from the full independent2703-root replay at source4ee9d7406ee20d78092718c12f24ee84f0e10e0b, receipt3a25fbb6f5c07013b67dc2069358c8666689d3e4. Later fused-rotary task closure and this complete RoPE closure are independently replayed as separately recorded.",
+  "verification": {
+    "frontend_regressions": {
+      "status": "PASS",
+      "configured_modules": 98,
+      "scope": "All existing frontend roots replay in the warm/joint union; shared compiler/configuration bytes are unchanged from the prior full independent replay. This batch changes only the selected task and Python validation."
+    },
+    "integration": {
+      "status": "PASS",
+      "explicit_modules": 2827,
+      "jobs": 12121
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 92,
+      "jobs": 3616,
+      "scope": "All 92 selected-task and retained historical roots and their full transitive dependencies compile from initially empty project objects at this exact final source commit. The shared VeriTile compiler/build configuration and retained historical forward source are unchanged; previous complete independent source replays remain retained.",
+      "project_build_initially_present": false,
+      "veritile_cache_initially_present": false,
+      "only_fixed_external_dependencies_reused": true
+    },
+    "joint_import": "PASS: all 2827 roots",
+    "task_directories": "All 83 selected-task roots (39 forward including the new ActualSource connection and 44 backward) plus nine retained historical forward roots replay. Actual execution, independent memory/formula, source safety, full-state/failure CSE and complete grid/Tensor/host/frame scopes are preserved.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 100
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 345,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by its old numerical receipt; no false repin."
+    },
+    "official_comparator": "UNAVAILABLE: actual frozen-source invocations report required host isolation unavailable. Pinned tools are installed; host Landlock ABI v4 is below required v5 and the systemd user bus is unavailable. No isolation bypass.",
+    "task_local_inspections": "All four complete raw bodies pass source, dtype-role and actual call-binding checks. Both actual CPU JIT/host probes require missing Torch and are unavailable, not passes. Original Python and existing numerical models remain unchanged.",
+    "gpu_or_numerical_experiment": "Not run; no new numerical law or hardware-conformance claim.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending."
+  },
+  "source_pairs": {
+    "total": 249,
+    "pasted_body": 244,
+    "legacy_ast": 5
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-26/native-rope-function-bodies/source-closure.json",
+    "sha256": "8cee3c109b56e971229446b996b8cc1dec325d5839d0c60b893c0be02e10d187"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "legacy_ast_only": 1,
+      "no_selected_jit_resolved": 2,
+      "selected_body_copy_checked": 80,
+      "uncovered_jit_functions": 100
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 328,
+    "uncovered_selected_jit_functions": 204,
+    "primary_files_with_int64_screen_warning": 28,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 77,
+        "antiquotes": 85,
+        "dsl_loop": 1,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "implementation_connection": {
+    "current_forward": "Direct actual raw execution and unchanged independent memory formula via Proofs/ActualSource.lean.",
+    "current_backward": "Task proof source aliases canonical raw source, and all constructive results replay.",
+    "historical_erasure": "Historical forward source and AST-erasure audit are unchanged; the task helper is explicitly renamed historical_erased_source_shape and no longer claims AST identity for the current copied source.",
+    "semantic_scope": "No Real/FP/grid/native/Tensor/host/safety/frame statement or input domain is narrowed."
+  },
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-rope-function-bodies/actual-forward-safety.log.gz",
+      "sha256": "ffd422336c59354abbb6af07d0c3228cabf3cdc671cc5f17a3dfb8fb9bac4505"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-rope-function-bodies/actual-source-connections.log.gz",
+      "sha256": "a12bdb7a902c74e715767805fa7547d8dae2bdb3eb6d356793a23491530a5442"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-rope-function-bodies/all-python.log.gz",
+      "sha256": "3ecf6f29bc099f32d9536e643f92291f0649037aef09e058ec15c0b95ea69ba5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-rope-function-bodies/changed-bench__repairs__tritonbench_g__rope_backward_transform__Kernels-comparator.log",
+      "sha256": "9d8007d6bd944e802d1919575906c078d04caffa6cfb915f8e2479b71c9820b8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-rope-function-bodies/changed-bench__repairs__tritonbench_g__rope_backward_transform__Proofs__AccessSafety-comparator.log",
+      "sha256": "2105f1fd3941c6c416f99d028aba012fed0252df90becba10c7714037fbd872b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-rope-function-bodies/changed-bench__repairs__tritonbench_g__rope_backward_transform__Proofs__TypedProof-comparator.log",
+      "sha256": "3db46d7d57e0bb4e52c219fc7245a758b90b56706f1087591f2c0a09f78d4cfa"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-rope-function-bodies/changed-bench__repairs__tritonbench_g__rope_backward_transform__Proofs__TypedSource-comparator.log",
+      "sha256": "acc76edec50d307c02c458652644d8905c27845ab4bbc07a6c614ab0eb0e7fd1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-rope-function-bodies/changed-bench__repairs__tritonbench_g__rope_transform__Kernels-comparator.log",
+      "sha256": "a4134c6b232edf2945c7c72ebc9bc13d01456701fe525c2241b0a64ec4f0c8c8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-rope-function-bodies/changed-bench__repairs__tritonbench_g__rope_transform__Proofs__AccessSafety-comparator.log",
+      "sha256": "8abda14514721d8617f3111e86b97401d725511bfc1966137cac48cb1b31f0fd"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-rope-function-bodies/changed-bench__repairs__tritonbench_g__rope_transform__Proofs__ActualSource-comparator.log",
+      "sha256": "34abe0e9346e477659294ca808895930f9e1d555edaf808a8fcd28b32d0012ad"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-rope-function-bodies/changed-bench__repairs__tritonbench_g__rope_transform__Proofs__Index-comparator.log",
+      "sha256": "96d309497c9d0c9f663f470c7a1097c69a5245b4eeaee00df0c751b1c16394ae"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-rope-function-bodies/changed-bench__repairs__tritonbench_g__rope_transform__Proofs__Real-comparator.log",
+      "sha256": "53990afd8bc729076ef77a4effff437699521346633a1f4a96758729211dba1c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-rope-function-bodies/clean-build.log.gz",
+      "sha256": "0eb433a92568c8101d5329969f73f90f8be5c9ea47c8119cd03b74f42e7cba21"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-rope-function-bodies/clean-setup.log",
+      "sha256": "dd51bc39110539f1f18e1953ccde9d250795b7286300a494c530b59a902298ad"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-rope-function-bodies/comparator-invocations.json",
+      "sha256": "0864cd56b28959c6e3b6bf14bac09cd25e9d51f2735afd38635603e8441e90f2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-rope-function-bodies/comparator-preflight.log",
+      "sha256": "d9255026a27595d0a04e154bc4a9c609c8422b012fc13cb1ae4de2417afea36d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-rope-function-bodies/comparator-setup.log",
+      "sha256": "bea658f19aea48f8965a3d6525da1300e599d9a3f0a05b992071c97bcaffd6df"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-rope-function-bodies/comparator-tools.json",
+      "sha256": "d541ac407f7aa8679c8ba23dd4df72ac363730bbb67e45bd7959ec752e6b0c53"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-rope-function-bodies/comparator.log",
+      "sha256": "ea78c85f991a7acd3ad65a61e00b8dfe230f98cf63452bd644c20c0323434d16"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-rope-function-bodies/contract.log",
+      "sha256": "72c2442817b111bbec06a50ccddb474ce28347d8b01f81e9f96b316e2c30ba5f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-rope-function-bodies/corpus-guard.log",
+      "sha256": "91267d7f9d2f48c93dd799255d264a9c387afd380a201169d5e589567f83803f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-rope-function-bodies/focused-modules.txt",
+      "sha256": "c15bbe71a6157c92dafef75f227825aad3ea0880de965359ad9fa75449c8d719"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-rope-function-bodies/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-rope-function-bodies/inspections.json",
+      "sha256": "0588d2e589083df3b42e6d43af9ddb0ce8e154f234d1710339bc176cfd7ed37e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-rope-function-bodies/integration.log.gz",
+      "sha256": "c726f81dcec5d25bca3080a5a39a4f9e5ac6fb7eefad7b33e7af80156409d8da"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-rope-function-bodies/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-rope-function-bodies/joint.lean",
+      "sha256": "32688ecdbe1794ad9ef3228d7f5f8ed2a5c935dff9a1b2520a2d42b8ebbf6eb1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-rope-function-bodies/joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-rope-function-bodies/modules.json",
+      "sha256": "edc0a3171b775c48ec85be6ea8c9e575e6191bf2f5887ad0a1bc6f6e81c9a18f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-rope-function-bodies/pairs.json",
+      "sha256": "bc39844851b3f1e43887507a7e2b2c309ecabafd7838de9a0d32cc8254c9c607"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-rope-function-bodies/previous-selected-reviews.json.gz",
+      "sha256": "e9866b7da78a96f0df4b2ca6b79383cefab7606dfc5347e099348b7fca3197c4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-rope-function-bodies/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-rope-function-bodies/python-invocations.json",
+      "sha256": "226f3563b754ac85424dde15762ad1d1d783dd87ed1e22cf193effacc75a6d79"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-rope-function-bodies/python-tests.log",
+      "sha256": "2bc956476037b9558277e6821373f2e25135716559587991ded8f99afefc62de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-rope-function-bodies/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-rope-function-bodies/rope_backward_transform-Real-comparator.log",
+      "sha256": "edec339aeda30e2c3ad6bb48138b0aada30119d491174b6870d0756618b55cc9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-rope-function-bodies/rope_backward_transform-comparator.log",
+      "sha256": "f5c614bd29cb9331d072f2aaae3a30a92c88e130df4eb1806b2bd692a753e286"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-rope-function-bodies/rope_backward_transform-contract.log",
+      "sha256": "04ffc8c6138d9867cf90bf99bbcc3b2aa2f953deb664e1636f1183c12ccd5ab9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-rope-function-bodies/rope_backward_transform-raw-source-check.log",
+      "sha256": "b04ceaa2033593b65ef5d69934f3abeea761d6a6b5cd1f85387063d69b064708"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-rope-function-bodies/rope_transform-Real-comparator.log",
+      "sha256": "ac5894a57ea5473de3dbbeacbc9ea91f4368c17af5e8c87335e742bd6adb4a68"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-rope-function-bodies/rope_transform-comparator.log",
+      "sha256": "d960004c6def83d49d3d512bfd4a7e37e49913ba01b56b5b704c3b03701fd74d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-rope-function-bodies/rope_transform-contract.log",
+      "sha256": "b7e862cc032b8a0f07ddb4ab2d2043a51932735d9024f5d59c27e8cbd2095e81"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-rope-function-bodies/rope_transform-raw-source-check.log",
+      "sha256": "9a77ff27828c6af7e8c9eeb8ba1413c2f988f1eb2f57507a3174c90e3ac3af41"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-rope-function-bodies/secondary-focused-development.log.gz",
+      "sha256": "e15949999ee0b7f2d27329c71649031052ee63041e14198601e6e9ee92b51e9f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-rope-function-bodies/secondary-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-rope-function-bodies/source-closure.json",
+      "sha256": "8cee3c109b56e971229446b996b8cc1dec325d5839d0c60b893c0be02e10d187"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-rope-function-bodies/task-source-closure.json",
+      "sha256": "a04dc4edafbd201d3361c5134cd2ca0696620b4a39e9fa751b1c380eba80b553"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-rope-function-bodies/transferred-files.json",
+      "sha256": "4aa84bed57ac38ae91b470697664bbd081a83c7318f6d9f465eaba7d04602bf5"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "parent": "592f4739c82f83ab48fee179f3e4625beb81408c",
+  "secondary_base": "1b9cca89f54524a029ed71966aabdb813db2e8f8",
+  "shared_core_unchanged": true,
+  "historical_forward_source_and_proofs_unchanged": true,
+  "files": {
+    "bench/repairs/tritonbench_g/rope_backward_transform/Kernels.lean": "60bc585707400488cf7a9f8198e4c353b7113a17030d5de533ecb51b85d8678f",
+    "bench/repairs/tritonbench_g/rope_backward_transform/Proofs/AccessSafety.lean": "750be8634a910b096b6f150fd2a9241023b17bc9796429308e17ae04074342d5",
+    "bench/repairs/tritonbench_g/rope_backward_transform/Proofs/TypedProof.lean": "600660be874f68a0ed3c3dd732bdd77b715da29a6ee5bc21524dd74fd396881c",
+    "bench/repairs/tritonbench_g/rope_backward_transform/Proofs/TypedSource.lean": "ae39d3afa696fd5dfe215ea6aec6fcd5daa6818296ed0922dab5888fafa9fdc2",
+    "bench/repairs/tritonbench_g/rope_backward_transform/README.md": "31b59bcd28faed86406c3944eb57f707608072327a10a0b2f5c240cfca116262",
+    "bench/repairs/tritonbench_g/rope_backward_transform/candidate_kernels.py": "0b6416dbc1266b57bfd6e02ba6d2d99f32777f258222123ea7d40eeb5fdeb1cd",
+    "bench/repairs/tritonbench_g/rope_backward_transform/jit-correspondence.json": "8f07b9e656785586aa6076467bb75080ace6391fb4d3c77008c892c2a1f60df5",
+    "bench/repairs/tritonbench_g/rope_transform/Kernels.lean": "1a42006083e4d98e4e7f56de115ccde6f5bf5665d056e37b580ac1cf93e92bb7",
+    "bench/repairs/tritonbench_g/rope_transform/Proofs/AccessSafety.lean": "cd5ff1a7a66b3a883e227004171c034e68f61cc54e6782bb741901b312a2f0ba",
+    "bench/repairs/tritonbench_g/rope_transform/Proofs/ActualSource.lean": "57b35cb001cf1c72fb693cbd51911291945572bde73409e985844b8872a0b6a7",
+    "bench/repairs/tritonbench_g/rope_transform/Proofs/Index.lean": "d522eb6ebb8366e58087d12a4f83eed8825c370433b075f926e6ee8530b8e96d",
+    "bench/repairs/tritonbench_g/rope_transform/Proofs/Real.lean": "7a7d36940c0cd4528df3c996a144287ac8fa0284abbed8ade5d52ac1ee686590",
+    "bench/repairs/tritonbench_g/rope_transform/README.md": "4da5174a637bcb3bdabe87f5aa378cb89ecb00368884a2a8ff40da9c14e230de",
+    "bench/repairs/tritonbench_g/rope_transform/candidate_kernels.py": "5efdc66485938b3a2bee3e221cbac792d4611a77f906d90d2a4baaaf10a18232",
+    "bench/repairs/tritonbench_g/rope_transform/jit-correspondence.json": "8096cb81b9917e05bd972a7daf7a3500de4b3ec4b91ac2ff96aeb2306a7171f5",
+    "bench/tests/test_jit_correspondence.py": "7669e1271a489d4e802eb087315c65676b2116f74dc8c7334b1f6603201ab4d3"
+  },
+  "code_commit": "52b9fc7062dce3885374d2889b49f997a3e004bc"
+}
