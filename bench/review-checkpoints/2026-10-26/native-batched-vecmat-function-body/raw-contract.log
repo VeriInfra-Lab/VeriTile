@@ -1,0 +1,48 @@
+[
+  {
+    "python_function": "batched_vecmat_kernel",
+    "lean_definition": "kernel",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "dim_m": "dim_m",
+      "dim_n": "dim_n",
+      "dim_k": "dim_k"
+    },
+    "statements": 9,
+    "runtime_parameters": {
+      "dim_m": "integer",
+      "dim_n": "integer",
+      "dim_k": "integer"
+    },
+    "constexpr_parameters": [
+      "block_k",
+      "block_m",
+      "block_n"
+    ]
+  },
+  {
+    "python_function": "batched_vecmat_block_first",
+    "lean_definition": "blockFirstKernel",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "dim_m": "dim_m",
+      "dim_n": "dim_n",
+      "dim_k": "dim_k"
+    },
+    "statements": 9,
+    "runtime_parameters": {
+      "dim_m": "integer",
+      "dim_n": "integer",
+      "dim_k": "integer"
+    },
+    "constexpr_parameters": [
+      "block_k",
+      "block_m",
+      "block_n"
+    ]
+  }
+]

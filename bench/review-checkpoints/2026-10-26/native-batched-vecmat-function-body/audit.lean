@@ -1,0 +1,11 @@
+import bench.repairs.tritonbench_g.batched_vecmat_mult.Correct
+import bench.repairs.tritonbench_g.batched_vecmat_mult.FPEquiv
+import bench.tests.TypedStores
+
+#axiomsClean VeriTile.Bench.Repairs.BatchedVecmatMult.Correctness.batched_vecmat_grid_real
+#axiomsClean VeriTile.Bench.Repairs.BatchedVecmatMult.Equivalence.block_first_strict
+#axiomsClean VeriTile.Bench.TritonBenchG.BatchedVecmatMult.SourceGraph.complete_correct
+#axiomsClean VeriTile.Bench.Repairs.BatchedVecmatMult.KernelSafety.source_safe
+#axiomsClean VeriTile.Bench.Repairs.BatchedVecmatMult.BlockFirst.complete_correct
+#axiomsClean VeriTile.Bench.Repairs.BatchedVecmatMult.BlockFirst.source_safe
+#print_fp_assumptions VeriTile.Bench.Repairs.BatchedVecmatMult.Equivalence.block_first_strict

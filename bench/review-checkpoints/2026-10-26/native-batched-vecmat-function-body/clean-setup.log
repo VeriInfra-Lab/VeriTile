@@ -1,0 +1,3 @@
+HEAD is now at be3d30a34 Copy complete batched vecmat bodies and preserve constructor and broadcast dtype flow
+{"code_commit": "be3d30a3447331e9a778103e1b99e866a6af4162", "project_build_initially_present": false, "veritile_cache_initially_present": false, "fixed_external_packages_reused": "/home/argustest/lizn/VeriTile/.lake/packages"}
+Lean (version 4.29.0, x86_64-unknown-linux-gnu, commit 98dc76e3c0a9b856c9b98726b713fb04fab16740, Release)

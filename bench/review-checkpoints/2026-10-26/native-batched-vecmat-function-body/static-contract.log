@@ -1,0 +1,1 @@
+PASS: exact original-to-selected dimension/PID widening and unchanged ordered wrapper after existing scalar precheck; actual script static assertions executed without optional CPU imports.

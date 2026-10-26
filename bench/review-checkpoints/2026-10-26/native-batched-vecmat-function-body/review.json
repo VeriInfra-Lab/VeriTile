@@ -1,0 +1,424 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "be3d30a3447331e9a778103e1b99e866a6af4162",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "batched_vecmat_mult"
+  ],
+  "semantic_review": {
+    "adam_update_triton": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "add_example": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "add_value": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "apply_penalty": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "cache_transform_triton": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "chunk_cumsum_kernel": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "chunk_cumsum_vector": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "chunked_cumsum_fwd": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "cosine_compute": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "dequantize_matmul": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "dequantize_rowwise": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "destindex_copy": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "destindex_copy_kv1": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "destindex_copy_kv2": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "dropout_triton": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "embedding_triton_kernel": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "f8_conversion_utils": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "fast_rope_embedding": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "fused_activation": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "fused_recurrent_hgrn": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "fused_rotary_embedding": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "index_select_bwd": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "index_select_cat": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "int8_matmul_kernel": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "kcache_copy_triton": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "kldiv_compute": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "kldiv_triton": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "kv_cache_copy": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "l2_norm_bwd": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "l2_norm_triton1": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "l2_norm_triton2": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "log_softmax": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "logsumexp_fwd": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "masked_add_cuda": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "masked_select": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "matmul_kernel": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "matrix_reduction": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "matrix_transpose": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "max_reduction": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "mean_reduction": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "mul_exponent_compensator": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "nested_loops_processing": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "quant_transpose_kernel": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "quantize_copy_kv": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "quantize_global": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "quantize_kv_copy": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "quantize_kv_transform": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "relu_strided_buffer": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "relu_triton_kernel": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "reversed_cumsum": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "reversed_cumsum_scalar": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "rms_norm_triton": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "rmsnorm_fused": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "rmsnorm_fused_llama": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "rmsnorm_implementation": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "rmsnorm_triton": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "rope_backward_transform": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "rope_embedding": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "rope_transform": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "rotary_emb": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "rotary_emb_nopad": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "rowwise_quantization_triton": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "seeded_dropout": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "sin_computation": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "sin_kernel": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "softmax_triton1": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "softmax_triton2": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "square_matrix": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "swiglu_backward": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "swiglu_fwd": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "swiglu_triton": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "token_attn_mistral": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "token_attn_reduceV": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "token_softmax_bloom": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "token_softmax_llama": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "triton_mul2": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "triton_softmax": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "var_len_copy": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "vector_addition": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "vector_addition_custom": "Regression after the shared constructor/broadcast dtype-flow fix: original and candidate raw body text, selected Python and public mathematical/FP/domain scopes are unchanged. Their complete previously selected public/deep roots replay warm/joint and independently from empty project objects in the explicit 2871-root union at the final source commit. No new numerical law or body migration is counted for this task.",
+    "batched_vecmat_mult": "Selected original Python JIT/wrapper, Correct/FPEquiv/IO/Contract remain byte-identical. Kernels now contains both complete nine-statement original and existing block-first candidate raw bodies. Runtime dimensions, pointer FP32 storage and constexpr block bindings are outside. Both dimension INT64 casts, both program-ID INT64 casts, signed K-loop, unmasked A/B loads, tuple broadcast, axis-2 sum, transpose, zero carry, carry-add order and output store are retained. Candidate Python is explicitly authored from the existing carry operand exchange. The generic frontend resolves constructor dtype attributes from the call profile and tracks each broadcast output in the entry environment, removing an invented same-FP32 store cast while preserving explicit narrowing and genuine output conversions. Unsupported simultaneous tuple capture is rejected. SourceGraph.source directly aliases the actual canonical source; constructive signed prologue/loop/tail and memory/frame proofs, both actual source safety proofs, candidate execution, full floor grid, all-word contracted FP32 observations and strict add_comm carry proof, independent full-K Real formula, finite-int64 execution refinement, host/Tensor/address/storage-offset/empty/K=0 paths and exterior frames replay with their existing scope. HistoricalCorrect.io explicitly retains its old cast-free source and is not claimed as an AST projection of the copied source. The optional unselected shared TypedExecution model witness has an unchanged baseline failure, recorded separately; all 41 canonical selected task roots and the three changed shared SourceGraph roots pass. No FP cast identity, new axiom, whole-kernel premise, domain narrowing, GPU experiment or hardware-conformance claim."
+  },
+  "compiler_change": {
+    "file": "VeriTile/Triton/DSL/TypedStores.lean",
+    "behavior": "Resolve tl.zeros/tl.full dtype=pointer.dtype.element_ty through source call metadata; propagate the separate broadcast result dtypes from the entry environment; reject unsupported simultaneous register capture. Preserve all explicit conversions and real output precision changes.",
+    "regressions": "TypedStores.lean checks no invented final store cast after a constructor/broadcast/possibly-empty loop, heterogeneous FP16/FP32 broadcast stores, explicit narrowing followed by actual widening, attributed tl.full, and a rejected input-overwriting broadcast tuple."
+  },
+  "verification": {
+    "frontend_regressions": {
+      "status": "PASS",
+      "configured_modules": 98,
+      "scope": "All configured frontend roots in the complete warm/joint and initially-empty union."
+    },
+    "integration": {
+      "status": "PASS",
+      "explicit_modules": 2871,
+      "jobs": 12197
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 2871,
+      "jobs": 12197,
+      "project_build_initially_present": false,
+      "veritile_cache_initially_present": false,
+      "only_fixed_external_dependencies_imported": true,
+      "project_objects_imported_from_other_checkouts": false,
+      "resumed_same_initially_empty_tree_after_disk_exhaustion": true,
+      "lineage": {
+        "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/clean-lineage.json",
+        "sha256": "84e703f83e81264e7dd06e3324c5b6607799f6ac3f2f07de7fb386700dd4538e"
+      },
+      "scope": "Complete 2871-root local project rebuild at this exact source commit from initially empty project objects; interrupted for disk exhaustion and resumed in the same independent tree without importing project objects, then jointly imported."
+    },
+    "joint_import": "PASS: all 2871 roots, warm and independent",
+    "task_directories": "PASS: all 41 canonical selected task roots and three changed shared SourceGraph roots; actual safe executions, independent memory/formula, original/candidate full grids, strict FP observations, native/finite-index/host/Tensor/frame results. Exploratory unselected historical witness failure is recorded separately.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 102
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 347,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by an old numerical receipt; no false repin."
+    },
+    "task_source_and_static_contract": "PASS: two complete nine-statement raw bodies, actual ABI/call bindings, original widening-only repair and existing ordered wrapper static assertions.",
+    "official_comparator": "UNAVAILABLE: 14 actual frozen-source comparator/trust attempts. Pinned installed binary hashes verified; host Landlock ABI v4 is below required v5 and systemd user isolation is unavailable. No bypass.",
+    "cpu_contract": "UNAVAILABLE: actual unchanged checker requires missing Torch. Static AST assertions were separately executed and passed; CPU launches not claimed.",
+    "legacy_unselected_proof": {
+      "status": "KNOWN_PREEXISTING_UNSELECTED_LEGACY_PROOF_FAILURE",
+      "file": "bench/tritonbench_g/attention_fwd_triton3/Proofs/FPModel.lean",
+      "sha256": "63e1a57b9da1e784f2342c067815a98735cc05273c6042bb7c301665e28eaeab",
+      "baseline_commit": "ad355b7c1e97192e86d05f63ea57f4d626c3b6f5",
+      "current_code_commit": "be3d30a3447331e9a778103e1b99e866a6af4162",
+      "command": [
+        "lake",
+        "build",
+        "bench.tritonbench_g.attention_fwd_triton3.Proofs.FPModel"
+      ],
+      "baseline_exit_code": 1,
+      "expanded_legacy_build_exit_code": 1,
+      "scope": "The optional old shared batched vecmat TypedExecution imports this abstract Real-backend witness. Its existing proof does not discharge the current fixed strict-theory model obligation and no longer handles the strict-entry filter. The same unchanged file fails at the published parent. It is not in the canonical selected 41-root task proof chain. No axiom or whole-model premise was added to hide the gap; its old source and statement remain unchanged. Passing roots are explicit in modules.json; the 82-root exploratory failure is retained separately."
+    },
+    "gpu_or_numerical_experiment": "Not run; no new numerical law or hardware-conformance claim.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending; the separate unchanged optional legacy FPModel baseline failure is recorded explicitly."
+  },
+  "source_pairs": {
+    "total": 251,
+    "pasted_body": 246,
+    "legacy_ast": 5
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/source-closure.json",
+    "sha256": "e6aa24b72a3ddd67cc5662401075604e8823883b83d4b97b6f6710e08515c2e6"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "legacy_ast_only": 1,
+      "no_selected_jit_resolved": 2,
+      "selected_body_copy_checked": 81,
+      "uncovered_jit_functions": 99
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 328,
+    "uncovered_selected_jit_functions": 203,
+    "primary_files_with_int64_screen_warning": 28,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 77,
+        "antiquotes": 85,
+        "dsl_loop": 1,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "example_regression_scope": "All 19 examples and all previously selected task regression roots replay warm/joint and independently from empty project objects after the shared frontend change. Source bodies and specifications are unchanged.",
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/VeriTile__Triton__DSL__TypedStores-comparator.log",
+      "sha256": "dc1979db60da49c2af5b2bf993635d998ba2d36a0162fc7011297979c1d0175d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/all-python.log",
+      "sha256": "25aabee138ec71dd8945a96ce9f964d1233a11c3cc6af5631bf63c1fa6b94357"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/all.log.gz",
+      "sha256": "d5e619f9c85a031844d4e7624a346adbebdafb5282e982fedd0babae96fe6cf2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/audit.lean",
+      "sha256": "77bd57b3914d86f44b20f5a879e0d9653b50abd8344eb987dcdad512587e7efc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/audit.log",
+      "sha256": "16a7ae1cc3329cd1bc5320ed9d1933e06ee7091293a15393987cc051fbd3ffcc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/bench__repairs__tritonbench_g__batched_vecmat_mult__Correct-comparator.log",
+      "sha256": "dc1979db60da49c2af5b2bf993635d998ba2d36a0162fc7011297979c1d0175d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/bench__repairs__tritonbench_g__batched_vecmat_mult__FPEquiv-comparator.log",
+      "sha256": "dc1979db60da49c2af5b2bf993635d998ba2d36a0162fc7011297979c1d0175d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/bench__repairs__tritonbench_g__batched_vecmat_mult__Kernels-comparator.log",
+      "sha256": "dc1979db60da49c2af5b2bf993635d998ba2d36a0162fc7011297979c1d0175d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/bench__repairs__tritonbench_g__batched_vecmat_mult__Misc__HistoricalCorrect-comparator.log",
+      "sha256": "dc1979db60da49c2af5b2bf993635d998ba2d36a0162fc7011297979c1d0175d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/bench__repairs__tritonbench_g__batched_vecmat_mult__Proofs__KernelSafety-comparator.log",
+      "sha256": "dc1979db60da49c2af5b2bf993635d998ba2d36a0162fc7011297979c1d0175d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/bench__repairs__tritonbench_g__batched_vecmat_mult__Proofs__PairComplete-comparator.log",
+      "sha256": "dc1979db60da49c2af5b2bf993635d998ba2d36a0162fc7011297979c1d0175d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/bench__repairs__tritonbench_g__batched_vecmat_mult__Proofs__PairExecution-comparator.log",
+      "sha256": "dc1979db60da49c2af5b2bf993635d998ba2d36a0162fc7011297979c1d0175d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/bench__repairs__tritonbench_g__batched_vecmat_mult__Proofs__PairModel-comparator.log",
+      "sha256": "dc1979db60da49c2af5b2bf993635d998ba2d36a0162fc7011297979c1d0175d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/bench__repairs__tritonbench_g__batched_vecmat_mult__Proofs__PairSafety-comparator.log",
+      "sha256": "dc1979db60da49c2af5b2bf993635d998ba2d36a0162fc7011297979c1d0175d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/bench__tests__TypedStores-comparator.log",
+      "sha256": "dc1979db60da49c2af5b2bf993635d998ba2d36a0162fc7011297979c1d0175d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/bench__tritonbench_g__batched_vecmat_mult__Proofs__SourceGraphComplete-comparator.log",
+      "sha256": "d69357f71e5044cf4310d2588eb7686028d8a039dec91103dd1b85cc948741c3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/bench__tritonbench_g__batched_vecmat_mult__Proofs__SourceGraphExecution-comparator.log",
+      "sha256": "d69357f71e5044cf4310d2588eb7686028d8a039dec91103dd1b85cc948741c3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/bench__tritonbench_g__batched_vecmat_mult__Proofs__SourceGraphModel-comparator.log",
+      "sha256": "d69357f71e5044cf4310d2588eb7686028d8a039dec91103dd1b85cc948741c3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/clean-build-interrupted-enospc.log.gz",
+      "sha256": "8d23d02967d909d1e60e0c9c962e5a157891c16ddf0c77e5533f9f253e96bd3f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/clean-build.log.gz",
+      "sha256": "26c01682a1faa495b96f4c0139aed9a9139bd13f3654436b2592cb668b881c76"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/clean-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/clean-lineage.json",
+      "sha256": "84e703f83e81264e7dd06e3324c5b6607799f6ac3f2f07de7fb386700dd4538e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/clean-setup.log",
+      "sha256": "38f6140a11b44bb72bfaa2588ffaa1847c9672cb6734a9c35f597ed329fa7d14"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/comparator-invocations.json",
+      "sha256": "483ee481628d1a08f7113a8590b549d605bf9841e86ba0f7f6ad37d205622430"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/comparator-preflight.log",
+      "sha256": "dc1979db60da49c2af5b2bf993635d998ba2d36a0162fc7011297979c1d0175d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/comparator-tools.json",
+      "sha256": "28998e17d51b0fb5930f7489e64512a57f8a8146d1470063a624a75bbabdb0d3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/comparator.log",
+      "sha256": "a64ebaa94e09793720d936ddc6606c8dcb734081094f56cea45f57a67b0c4714"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/corpus-guard.log",
+      "sha256": "ab14c03f7b160a7558d46822a9f85c0a680fda67041c4473cbcf36282778ba18"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/cpu-contract.log",
+      "sha256": "58cc1b202779b66b1d070e43f836bf73d84686f4f079f8b87720b8583f019bbf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/extended-legacy-build.log.gz",
+      "sha256": "824070ea0dc47c9f589188b13aea85a018f1800e577b1eb238ade2dd97dadcf3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/extended-legacy-modules.txt",
+      "sha256": "a9252c2291bbc0ef4241698fd04b73fb2a2bfc4a8b1b13d9762d28fc15cd733f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/focused-modules.txt",
+      "sha256": "e667b50c53a1ede3193f40a8f6faecc8de0fbe8b1c12963554270a4b60c93506"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/inspections.json",
+      "sha256": "81a321b592d07d6182f3f51e18baed6e2f7b24ed37348ae6af3233565c8c2bc7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/integration.log.gz",
+      "sha256": "636588d694477cc7b8a2fdb71a25b54b7454a9e0bc44d1f5affafbf569512573"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/joint-all.lean",
+      "sha256": "6b16e1ec2630a496c0ce0fde34350b6247b7f277c3712af5d3dca6ba2a89bac5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/joint-all.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/legacy-baseline.log.gz",
+      "sha256": "c3a201c72acf31bc0fc0abba9ea58d2acc2f306831279b7c33715de59e19f9e0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/legacy-failure.json",
+      "sha256": "42169b868c457f3ba731366aed26ffda42b451ac5d50242f9baf1a54a8715b63"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/modules.json",
+      "sha256": "6393a6a9990ff536ef8cf7dc8a1c9d479c99fce760c70d7c3ff7fe90672296e9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/pairs.json",
+      "sha256": "829296acddfc574d1b2e4788014adfce46c9f4ded59309d301b24021044ea85c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/previous-selected-reviews.json.gz",
+      "sha256": "ec056c0a7a84d3dba700a13da5fb595f727a1901acfdcc1e8925c89828fcd243"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/python-invocations.json",
+      "sha256": "cc808856fe1220a4cb1d478eb422b20815b0479320dece815d48f71461c4f4a2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/python-tests.log",
+      "sha256": "0f29a7203251b21f049645ccd0e4f144c598b4bc6c19b1f1c12329e9fdf1ad58"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/raw-contract.log",
+      "sha256": "df22e5d77038f468665481c13981bebf05a9516742ec715e318a07df6235a4bb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/safety12.log.gz",
+      "sha256": "77626e67116f1825b2793c0753e0a26720896929b44fac7671e48045c9056b46"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/source-closure.json",
+      "sha256": "e6aa24b72a3ddd67cc5662401075604e8823883b83d4b97b6f6710e08515c2e6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/space-recovery.json",
+      "sha256": "1347efc8f53349ced1815ba00ca28cbed0c350a4685ebee0dd2c7194435fc31b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/static-contract.log",
+      "sha256": "28c9ab3d219e38dba01d813cc4d1f86ea4f5f31547567aaebc51645bc4868bcd"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-batched-vecmat-function-body/transferred-files.json",
+      "sha256": "257929a399b6474a0351bdb975ebd636b36fc0347ce87816438be501476bc541"
+    }
+  ]
+}

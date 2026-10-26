@@ -1,0 +1,15 @@
+{
+  "status": "KNOWN_PREEXISTING_UNSELECTED_LEGACY_PROOF_FAILURE",
+  "file": "bench/tritonbench_g/attention_fwd_triton3/Proofs/FPModel.lean",
+  "sha256": "63e1a57b9da1e784f2342c067815a98735cc05273c6042bb7c301665e28eaeab",
+  "baseline_commit": "ad355b7c1e97192e86d05f63ea57f4d626c3b6f5",
+  "current_code_commit": "be3d30a3447331e9a778103e1b99e866a6af4162",
+  "command": [
+    "lake",
+    "build",
+    "bench.tritonbench_g.attention_fwd_triton3.Proofs.FPModel"
+  ],
+  "baseline_exit_code": 1,
+  "expanded_legacy_build_exit_code": 1,
+  "scope": "The optional old shared batched vecmat TypedExecution imports this abstract Real-backend witness. Its existing proof does not discharge the current fixed strict-theory model obligation and no longer handles the strict-entry filter. The same unchanged file fails at the published parent. It is not in the canonical selected 41-root task proof chain. No axiom or whole-model premise was added to hide the gap; its old source and statement remain unchanged. Passing roots are explicit in modules.json; the 82-root exploratory failure is retained separately."
+}

@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/tmp/veritile-pr18-review/bench/repairs/tritonbench_g/batched_vecmat_mult/check_contract.py", line 15, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'

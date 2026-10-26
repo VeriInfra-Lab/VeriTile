@@ -1,0 +1,1 @@
+14 actual frozen-source official comparator/trust invocations unavailable: host isolation requires Landlock v5 (host v4) and a usable systemd bus. Current pinned binary hashes verified; no bypass.

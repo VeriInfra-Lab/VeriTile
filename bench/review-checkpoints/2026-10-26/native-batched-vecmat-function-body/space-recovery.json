@@ -1,0 +1,16 @@
+{
+  "user_cleared_secondary_build": true,
+  "disk_before": [
+    2131038728192,
+    2124502683648,
+    6519267328
+  ],
+  "additional_regenerable_cache_removed": "/tmp/veritile-pr18-review/.lake/build",
+  "completed_warm_and_joint_and_axiom_audit_logs_preserved": true,
+  "source_external_packages_and_all_evidence_preserved": true,
+  "disk_after": [
+    2131038728192,
+    2094824685568,
+    36197265408
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "code_commit": "be3d30a3447331e9a778103e1b99e866a6af4162",
+  "raw_bodies": [
+    {
+      "task": "batched_vecmat_mult",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/batched_vecmat_mult/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    }
+  ],
+  "cpu_contracts": [
+    {
+      "task": "batched_vecmat_mult",
+      "command": [
+        "python3",
+        "bench/repairs/tritonbench_g/batched_vecmat_mult/check_contract.py"
+      ],
+      "exit_code": 1,
+      "status": "UNAVAILABLE"
+    }
+  ],
+  "static_original_repair_and_wrapper_contract": "PASS: exact original-to-selected dimension/PID widening and unchanged ordered wrapper after existing scalar precheck; actual script static assertions executed without optional CPU imports.",
+  "unchanged_selected_python_sha256": "52071f219522e5099e7a09c034964b96eea391b3f67c498959bfb9c74b0a007f"
+}

@@ -1,0 +1,34 @@
+.............................................................................................................................................................E.............................................................................................................................................................................................
+======================================================================
+ERROR: test_exact_numerical_bindings (unittest.loader._FailedTest.test_exact_numerical_bindings)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_exact_numerical_bindings
+Traceback (most recent call last):
+  File "/home/argustest/miniconda3/lib/python3.13/unittest/loader.py", line 396, in _find_test_path
+    module = self._get_module_from_name(name)
+  File "/home/argustest/miniconda3/lib/python3.13/unittest/loader.py", line 339, in _get_module_from_name
+    __import__(name)
+    ~~~~~~~~~~^^^^^^
+  File "/tmp/veritile-pr18-review/bench/tests/test_exact_numerical_bindings.py", line 15, in <module>
+    legacy,authority,queue=collect(REPO)
+                           ~~~~~~~^^^^^^
+  File "/tmp/veritile-pr18-review/bench/exact_numerical_bindings.py", line 275, in collect
+    authority=derive_authority(root);legacy=collect_legacy(root)
+  File "/tmp/veritile-pr18-review/bench/exact_numerical_bindings.py", line 186, in derive_authority
+    _,algebra_ref=b.bind('repo','VeriTile/Triton/Float/Structural.lean',access_deps['files']['VeriTile/Triton/Float/Structural.lean']['sha256'])
+                  ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/veritile-pr18-review/bench/exact_numerical_bindings.py", line 62, in bind
+    fail(expected is None or actual==expected,'bound source/hash changed: '+package+':'+path)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/veritile-pr18-review/bench/exact_numerical_bindings.py", line 46, in fail
+    if not condition:raise ValueError(message)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: bound source/hash changed: repo:VeriTile/Triton/Float/Structural.lean
+
+
+----------------------------------------------------------------------
+Ran 347 tests in 121.261s
+
+FAILED (errors=1)
+{"inventory_tasks": 184, "tasks_with_native_recipes": 4}
+{"inventory_tasks": 184, "tasks_with_native_recipes": 4}

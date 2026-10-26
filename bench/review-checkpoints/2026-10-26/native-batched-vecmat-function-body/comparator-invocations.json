@@ -1,0 +1,226 @@
+[
+  {
+    "name": "VeriTile__Triton__DSL__TypedStores",
+    "file": "VeriTile/Triton/DSL/TypedStores.lean",
+    "sha256": "21610b381f88278320eee3a901016edaece9d6753109cfc77544551c43df9e16",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "VeriTile/Triton/DSL/TypedStores.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "be3d30a3447331e9a778103e1b99e866a6af4162",
+    "status": "UNAVAILABLE",
+    "log": "/tmp/vecmat75-VeriTile__Triton__DSL__TypedStores-comparator.log"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__batched_vecmat_mult__Correct",
+    "file": "bench/repairs/tritonbench_g/batched_vecmat_mult/Correct.lean",
+    "sha256": "bae9330cbbc25b498800c143f4513b241390c6629883d36e5b188e5533ef67b5",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/batched_vecmat_mult/Correct.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "be3d30a3447331e9a778103e1b99e866a6af4162",
+    "status": "UNAVAILABLE",
+    "log": "/tmp/vecmat75-bench__repairs__tritonbench_g__batched_vecmat_mult__Correct-comparator.log"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__batched_vecmat_mult__FPEquiv",
+    "file": "bench/repairs/tritonbench_g/batched_vecmat_mult/FPEquiv.lean",
+    "sha256": "e437b1fb98c7706c29ea8b6d4c85693b3604d806a77fc577e6298b87e78375d3",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/batched_vecmat_mult/FPEquiv.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "be3d30a3447331e9a778103e1b99e866a6af4162",
+    "status": "UNAVAILABLE",
+    "log": "/tmp/vecmat75-bench__repairs__tritonbench_g__batched_vecmat_mult__FPEquiv-comparator.log"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__batched_vecmat_mult__Kernels",
+    "file": "bench/repairs/tritonbench_g/batched_vecmat_mult/Kernels.lean",
+    "sha256": "fdfd563acbb8a7595df38ea2cb5b897e639e9cc4e4de411f196eeb390f837e58",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/batched_vecmat_mult/Kernels.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "be3d30a3447331e9a778103e1b99e866a6af4162",
+    "status": "UNAVAILABLE",
+    "log": "/tmp/vecmat75-bench__repairs__tritonbench_g__batched_vecmat_mult__Kernels-comparator.log"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__batched_vecmat_mult__Misc__HistoricalCorrect",
+    "file": "bench/repairs/tritonbench_g/batched_vecmat_mult/Misc/HistoricalCorrect.lean",
+    "sha256": "9c2629b6486dc3e1d7134183a5640523eadb4339ce4cc8fc6e7b3d0fe70a8bc3",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/batched_vecmat_mult/Misc/HistoricalCorrect.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "be3d30a3447331e9a778103e1b99e866a6af4162",
+    "status": "UNAVAILABLE",
+    "log": "/tmp/vecmat75-bench__repairs__tritonbench_g__batched_vecmat_mult__Misc__HistoricalCorrect-comparator.log"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__batched_vecmat_mult__Proofs__KernelSafety",
+    "file": "bench/repairs/tritonbench_g/batched_vecmat_mult/Proofs/KernelSafety.lean",
+    "sha256": "a73a2878192bf8cd8690cfd8e2323f44680dc8901059f448b07bdb3787679530",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/batched_vecmat_mult/Proofs/KernelSafety.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "be3d30a3447331e9a778103e1b99e866a6af4162",
+    "status": "UNAVAILABLE",
+    "log": "/tmp/vecmat75-bench__repairs__tritonbench_g__batched_vecmat_mult__Proofs__KernelSafety-comparator.log"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__batched_vecmat_mult__Proofs__PairComplete",
+    "file": "bench/repairs/tritonbench_g/batched_vecmat_mult/Proofs/PairComplete.lean",
+    "sha256": "198d5e677319352110791901943ae56ab0da6b478e87e6696663d8264c170404",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/batched_vecmat_mult/Proofs/PairComplete.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "be3d30a3447331e9a778103e1b99e866a6af4162",
+    "status": "UNAVAILABLE",
+    "log": "/tmp/vecmat75-bench__repairs__tritonbench_g__batched_vecmat_mult__Proofs__PairComplete-comparator.log"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__batched_vecmat_mult__Proofs__PairExecution",
+    "file": "bench/repairs/tritonbench_g/batched_vecmat_mult/Proofs/PairExecution.lean",
+    "sha256": "41cf05a21b19c54f674ceb794500588f701d4a22c35f55fd1ce7df7f791d2f64",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/batched_vecmat_mult/Proofs/PairExecution.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "be3d30a3447331e9a778103e1b99e866a6af4162",
+    "status": "UNAVAILABLE",
+    "log": "/tmp/vecmat75-bench__repairs__tritonbench_g__batched_vecmat_mult__Proofs__PairExecution-comparator.log"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__batched_vecmat_mult__Proofs__PairModel",
+    "file": "bench/repairs/tritonbench_g/batched_vecmat_mult/Proofs/PairModel.lean",
+    "sha256": "731b8c9098417ebb3f9325d2e51f15ac44b3a745b26c0c380caae0538da6a33d",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/batched_vecmat_mult/Proofs/PairModel.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "be3d30a3447331e9a778103e1b99e866a6af4162",
+    "status": "UNAVAILABLE",
+    "log": "/tmp/vecmat75-bench__repairs__tritonbench_g__batched_vecmat_mult__Proofs__PairModel-comparator.log"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__batched_vecmat_mult__Proofs__PairSafety",
+    "file": "bench/repairs/tritonbench_g/batched_vecmat_mult/Proofs/PairSafety.lean",
+    "sha256": "c400ecb7aa51995021d37dabcbcf6aab1a3ed41cb7ab6b9ae5e103a70e3688d0",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/batched_vecmat_mult/Proofs/PairSafety.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "be3d30a3447331e9a778103e1b99e866a6af4162",
+    "status": "UNAVAILABLE",
+    "log": "/tmp/vecmat75-bench__repairs__tritonbench_g__batched_vecmat_mult__Proofs__PairSafety-comparator.log"
+  },
+  {
+    "name": "bench__tests__TypedStores",
+    "file": "bench/tests/TypedStores.lean",
+    "sha256": "a289a602fd29e252e91754cc9f3ebb3331b00c42a6aafd0e5c73dac8651afcb6",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/tests/TypedStores.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "be3d30a3447331e9a778103e1b99e866a6af4162",
+    "status": "UNAVAILABLE",
+    "log": "/tmp/vecmat75-bench__tests__TypedStores-comparator.log"
+  },
+  {
+    "name": "bench__tritonbench_g__batched_vecmat_mult__Proofs__SourceGraphComplete",
+    "file": "bench/tritonbench_g/batched_vecmat_mult/Proofs/SourceGraphComplete.lean",
+    "sha256": "4f859724941d4826943f4a42d25425140a8c94905d25d1aaf3d827f98d5a8256",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/tritonbench_g/batched_vecmat_mult/Proofs/SourceGraphComplete.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "be3d30a3447331e9a778103e1b99e866a6af4162",
+    "status": "UNAVAILABLE",
+    "log": "/tmp/vecmat75-bench__tritonbench_g__batched_vecmat_mult__Proofs__SourceGraphComplete-comparator.log"
+  },
+  {
+    "name": "bench__tritonbench_g__batched_vecmat_mult__Proofs__SourceGraphExecution",
+    "file": "bench/tritonbench_g/batched_vecmat_mult/Proofs/SourceGraphExecution.lean",
+    "sha256": "2d2b98bb2074d3f1d2d7a268aa72b6d04090aae251fe082657dc92bde578fc73",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/tritonbench_g/batched_vecmat_mult/Proofs/SourceGraphExecution.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "be3d30a3447331e9a778103e1b99e866a6af4162",
+    "status": "UNAVAILABLE",
+    "log": "/tmp/vecmat75-bench__tritonbench_g__batched_vecmat_mult__Proofs__SourceGraphExecution-comparator.log"
+  },
+  {
+    "name": "bench__tritonbench_g__batched_vecmat_mult__Proofs__SourceGraphModel",
+    "file": "bench/tritonbench_g/batched_vecmat_mult/Proofs/SourceGraphModel.lean",
+    "sha256": "1d84934edbc4b1933ba559e4ddf5343686e682013c39dc66bd009b90bf66ac59",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/tritonbench_g/batched_vecmat_mult/Proofs/SourceGraphModel.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "be3d30a3447331e9a778103e1b99e866a6af4162",
+    "status": "UNAVAILABLE",
+    "log": "/tmp/vecmat75-bench__tritonbench_g__batched_vecmat_mult__Proofs__SourceGraphModel-comparator.log"
+  }
+]
