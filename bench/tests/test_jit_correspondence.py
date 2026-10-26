@@ -1133,3 +1133,56 @@ class BatchedVecmatFunctionBodyTests(unittest.TestCase):
                               record["python_function"], record["lean_definition"],
                               record["signature_definition"], record["expected_signature"],
                               record["expected_call_bindings"])
+
+
+class FlashDecodeFunctionBodyTests(unittest.TestCase):
+    tasks = ["flash_decode2_llama", "flash_decode2_phi_block_checked"]
+
+    def compare(self, record, lean):
+        return check((ROOT / record["python"]).read_text(), lean,
+                     record["python_function"], record["lean_definition"],
+                     record["signature_definition"], record["expected_signature"],
+                     record["expected_call_bindings"])
+
+    def test_complete_original_and_existing_cse_bodies(self):
+        for task in self.tasks:
+            directory = ROOT / "bench/repairs/tritonbench_g" / task
+            results = check_manifest(ROOT, directory / "jit-correspondence.json")
+            self.assertEqual([(x["mode"], x["statements"]) for x in results],
+                             [("pasted_body", 13), ("pasted_body", 13)])
+
+    def test_signed_casts_masks_and_canonical_runtime_stride_products_are_pinned(self):
+        for task in self.tasks:
+            directory = ROOT / "bench/repairs/tritonbench_g" / task
+            records = json.loads((directory / "jit-correspondence.json").read_text())
+            for record in records:
+                lean = (ROOT / record["lean"]).read_text()
+                mutations = [
+                    ("tl.program_id(0).to(tl.int64)", "tl.program_id(0)"),
+                    ("tl.program_id(1).to(tl.int64)", "tl.program_id(1)"),
+                    ("tl.load(B_Seqlen + cur_batch).to(tl.int64)", "tl.load(B_Seqlen + cur_batch)"),
+                    ("stride_mid_ob := H * S * D", "stride_mid_ob := H * S"),
+                    ("stride_mid_os := D", "stride_mid_os := H"),
+                    ("stride_obs := H * D", "stride_obs := D"),
+                    ("new_max_logic = tl.maximum(tlogic, max_logic)",
+                     "new_max_logic = tl.minimum(tlogic, max_logic)"),
+                ]
+                if "phi" in task:
+                    mutations += [("mask=offs_d < head_dim", "mask=offs_d <= head_dim"),
+                                  ("head_dim := D", "head_dim := BD")]
+                for before, after in mutations:
+                    with self.subTest(task=task, definition=record["lean_definition"], mutation=before):
+                        self.assertIn(before, lean)
+                        with self.assertRaises(ValueError):
+                            self.compare(record, lean.replace(before, after))
+
+    def test_stride_products_accept_spacing_but_reject_calls_and_changed_grouping(self):
+        task = ROOT / "bench/repairs/tritonbench_g/flash_decode2_llama"
+        record = json.loads((task / "jit-correspondence.json").read_text())[0]
+        lean = (ROOT / record["lean"]).read_text()
+        self.compare(record, lean.replace("stride_mid_ob := H * S * D",
+                                        "stride_mid_ob := (H*S) * D"))
+        for value in ["H * (S * D)", "wrong(H, S, D)", "H[S] * D"]:
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                self.compare(record, lean.replace("stride_mid_ob := H * S * D",
+                                                 "stride_mid_ob := " + value))

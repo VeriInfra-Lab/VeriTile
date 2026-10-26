@@ -8,8 +8,8 @@
     "task_status": {
       "legacy_ast_only": 1,
       "no_selected_jit_resolved": 2,
-      "selected_body_copy_checked": 81,
-      "uncovered_jit_functions": 99
+      "selected_body_copy_checked": 83,
+      "uncovered_jit_functions": 97
     },
     "example_status": {
       "authored_counterpart_body_copy_checked": 2,
@@ -17,12 +17,12 @@
       "spec_derived_body_copy_checked": 15
     },
     "selected_jit_functions": 328,
-    "uncovered_selected_jit_functions": 203,
-    "primary_files_with_int64_screen_warning": 28,
+    "uncovered_selected_jit_functions": 201,
+    "primary_files_with_int64_screen_warning": 26,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 77,
-        "antiquotes": 85,
+        "in_body_type_directives": 75,
+        "antiquotes": 83,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 8
       },
@@ -5303,13 +5303,13 @@
       "lean": "bench/repairs/tritonbench_g/flash_decode2_llama/Kernels.lean",
       "source_provenance": "selected_revision",
       "lean_screen": {
-        "quotations": 1,
-        "in_body_type_directives": 1,
-        "antiquotes": 15,
-        "dsl_assignment": 5,
+        "quotations": 0,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 1,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 1
+        "load_dtype_extension": 0
       },
       "python_jits": [
         {
@@ -5332,19 +5332,94 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_fwd_kernel_flash_decode_stage2",
+          "lean_definition": "llama",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "stride_mid_ob": "H * S * D",
+            "stride_mid_oh": "S * D",
+            "stride_mid_os": "D",
+            "stride_mid_od": "1",
+            "stride_mid_o_eb": "H * S",
+            "stride_mid_o_eh": "S",
+            "stride_mid_o_es": "1",
+            "stride_obs": "H * D",
+            "stride_oh": "D",
+            "stride_od": "1"
+          },
+          "statements": 13,
+          "runtime_parameters": {
+            "stride_mid_ob": "integer",
+            "stride_mid_oh": "integer",
+            "stride_mid_os": "integer",
+            "stride_mid_od": "integer",
+            "stride_mid_o_eb": "integer",
+            "stride_mid_o_eh": "integer",
+            "stride_mid_o_es": "integer",
+            "stride_obs": "integer",
+            "stride_oh": "integer",
+            "stride_od": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_DMODEL",
+            "BLOCK_SEQ"
+          ],
           "python": "bench/repairs/tritonbench_g/flash_decode2_llama/flash_decode2_llama_repaired.py",
-          "function": "_fwd_kernel_flash_decode_stage2"
+          "lean": "bench/repairs/tritonbench_g/flash_decode2_phi/Kernels.lean"
+        },
+        {
+          "python_function": "_fwd_kernel_flash_decode_stage2_shared_base",
+          "lean_definition": "llamaSharedBase",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "stride_mid_ob": "H * S * D",
+            "stride_mid_oh": "S * D",
+            "stride_mid_os": "D",
+            "stride_mid_od": "1",
+            "stride_mid_o_eb": "H * S",
+            "stride_mid_o_eh": "S",
+            "stride_mid_o_es": "1",
+            "stride_obs": "H * D",
+            "stride_oh": "D",
+            "stride_od": "1"
+          },
+          "statements": 13,
+          "runtime_parameters": {
+            "stride_mid_ob": "integer",
+            "stride_mid_oh": "integer",
+            "stride_mid_os": "integer",
+            "stride_mid_od": "integer",
+            "stride_mid_o_eb": "integer",
+            "stride_mid_o_eh": "integer",
+            "stride_mid_o_es": "integer",
+            "stride_obs": "integer",
+            "stride_oh": "integer",
+            "stride_od": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_DMODEL",
+            "BLOCK_SEQ"
+          ],
+          "python": "bench/repairs/tritonbench_g/flash_decode2_llama/candidate_kernels.py",
+          "lean": "bench/repairs/tritonbench_g/flash_decode2_phi/Kernels.lean"
         }
       ],
-      "int64_screen": "cast_not_visible_in_primary_quotation",
+      "uncovered_selected_jits": [],
+      "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/flash_decode2_llama/Kernels.lean": "71103573c13893c48efeb92b2d28757b325dbe9df291d177b45aa018a90bfb2d",
-        "bench/repairs/tritonbench_g/flash_decode2_llama/flash_decode2_llama_repaired.py": "2d8a58c053404bcc7b8b58117aaea53cb4eed4742ddcadc90c8eaa6075e34c85"
+        "bench/repairs/tritonbench_g/flash_decode2_llama/Kernels.lean": "1dd0379c6d86f52a2bcddfb55a85c7a7b54ec7f8e312d990020d84ff809e0de6",
+        "bench/repairs/tritonbench_g/flash_decode2_llama/candidate_kernels.py": "0af6ae5b662bd2c81965b532a8448cffd993e6892b7054b8dc8b26f22fa6dea9",
+        "bench/repairs/tritonbench_g/flash_decode2_llama/flash_decode2_llama_repaired.py": "2d8a58c053404bcc7b8b58117aaea53cb4eed4742ddcadc90c8eaa6075e34c85",
+        "bench/repairs/tritonbench_g/flash_decode2_llama/jit-correspondence.json": "3d7d4d10fc35dc5a947d05d29ab6634d84c06d8e6c4e082e919e6faf32d66e86",
+        "bench/repairs/tritonbench_g/flash_decode2_phi/Kernels.lean": "3055971466fb14e92ed7d159e4b3a453c9e23f2ea3b80e3aa0a493836d236840"
       }
     },
     {
@@ -5354,13 +5429,13 @@
       "lean": "bench/repairs/tritonbench_g/flash_decode2_phi_block_checked/Kernels.lean",
       "source_provenance": "selected_revision",
       "lean_screen": {
-        "quotations": 1,
-        "in_body_type_directives": 1,
-        "antiquotes": 17,
-        "dsl_assignment": 6,
+        "quotations": 0,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 2,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 1
+        "load_dtype_extension": 0
       },
       "python_jits": [
         {
@@ -5383,19 +5458,98 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_fwd_kernel_flash_decode_stage2",
+          "lean_definition": "phi",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "stride_mid_ob": "H * S * D",
+            "stride_mid_oh": "S * D",
+            "stride_mid_os": "D",
+            "stride_mid_od": "1",
+            "stride_mid_o_eb": "H * S",
+            "stride_mid_o_eh": "S",
+            "stride_mid_o_es": "1",
+            "stride_obs": "H * D",
+            "stride_oh": "D",
+            "stride_od": "1",
+            "head_dim": "D"
+          },
+          "statements": 13,
+          "runtime_parameters": {
+            "stride_mid_ob": "integer",
+            "stride_mid_oh": "integer",
+            "stride_mid_os": "integer",
+            "stride_mid_od": "integer",
+            "stride_mid_o_eb": "integer",
+            "stride_mid_o_eh": "integer",
+            "stride_mid_o_es": "integer",
+            "stride_obs": "integer",
+            "stride_oh": "integer",
+            "stride_od": "integer",
+            "head_dim": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_DMODEL",
+            "BLOCK_SEQ"
+          ],
           "python": "bench/repairs/tritonbench_g/flash_decode2_phi_block_checked/flash_decode2_phi_block_checked.py",
-          "function": "_fwd_kernel_flash_decode_stage2"
+          "lean": "bench/repairs/tritonbench_g/flash_decode2_phi/Kernels.lean"
+        },
+        {
+          "python_function": "_fwd_kernel_flash_decode_stage2_shared_base",
+          "lean_definition": "phiSharedBase",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "stride_mid_ob": "H * S * D",
+            "stride_mid_oh": "S * D",
+            "stride_mid_os": "D",
+            "stride_mid_od": "1",
+            "stride_mid_o_eb": "H * S",
+            "stride_mid_o_eh": "S",
+            "stride_mid_o_es": "1",
+            "stride_obs": "H * D",
+            "stride_oh": "D",
+            "stride_od": "1",
+            "head_dim": "D"
+          },
+          "statements": 13,
+          "runtime_parameters": {
+            "stride_mid_ob": "integer",
+            "stride_mid_oh": "integer",
+            "stride_mid_os": "integer",
+            "stride_mid_od": "integer",
+            "stride_mid_o_eb": "integer",
+            "stride_mid_o_eh": "integer",
+            "stride_mid_o_es": "integer",
+            "stride_obs": "integer",
+            "stride_oh": "integer",
+            "stride_od": "integer",
+            "head_dim": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_DMODEL",
+            "BLOCK_SEQ"
+          ],
+          "python": "bench/repairs/tritonbench_g/flash_decode2_phi_block_checked/candidate_kernels.py",
+          "lean": "bench/repairs/tritonbench_g/flash_decode2_phi/Kernels.lean"
         }
       ],
-      "int64_screen": "cast_not_visible_in_primary_quotation",
+      "uncovered_selected_jits": [],
+      "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/flash_decode2_phi_block_checked/Kernels.lean": "5dec1a2a0f289a87ed8a42a821e0735cd05ba9a866d7cd833dcb0fa9b2ba6907",
-        "bench/repairs/tritonbench_g/flash_decode2_phi_block_checked/flash_decode2_phi_block_checked.py": "e40385d5a9c3c674443f90d14f539298e36bc890ba32229b8c31101e14334653"
+        "bench/repairs/tritonbench_g/flash_decode2_phi/Kernels.lean": "3055971466fb14e92ed7d159e4b3a453c9e23f2ea3b80e3aa0a493836d236840",
+        "bench/repairs/tritonbench_g/flash_decode2_phi_block_checked/Kernels.lean": "86a8f2e795e399ef249d704a35b1c5abd7eea6d5b0e17bd7a7c137b53fe378af",
+        "bench/repairs/tritonbench_g/flash_decode2_phi_block_checked/candidate_kernels.py": "4a4a4d3a0702182fd37f02193d73ba181d1c772affb3ecb6f5c130f50de1e06d",
+        "bench/repairs/tritonbench_g/flash_decode2_phi_block_checked/flash_decode2_phi_block_checked.py": "e40385d5a9c3c674443f90d14f539298e36bc890ba32229b8c31101e14334653",
+        "bench/repairs/tritonbench_g/flash_decode2_phi_block_checked/jit-correspondence.json": "91d01e55019dd6a435635a870dbfa1c968cf034f3a5d059acc43add7a2ac9b78"
       }
     },
     {

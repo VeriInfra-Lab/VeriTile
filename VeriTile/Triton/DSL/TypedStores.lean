@@ -142,6 +142,7 @@ private partial def valueType (pointers : Types) (values : Values)
   | `(tritonExpr| $(($_:term : ℝ))) => some .floatingLiteral
   | `(tritonExpr| $_:num) | `(tritonExpr| -$_:num) => some .integerLiteral
   | `(tritonExpr| $_:scientific) | `(tritonExpr| -$_:scientific)
+  | `(tritonExpr| -inf)
   | `(tritonExpr| float($_:term)) | `(tritonExpr| -float($_:term)) => some .floatingLiteral
   | `(tritonExpr| tl.load($p:tritonExpr, $_mask:tritonExpr $[, $kwargs:tritonMemKwarg]*)) =>
       if kwargs.any (fun kw => dtypeOverride kw.raw) then none else (pointerType pointers p).map ValueInfo.typed
@@ -216,6 +217,41 @@ private partial def valueType (pointers : Types) (values : Values)
       return .typed result
   | `(tritonExpr| tl.trans($a:tritonExpr)) => valueType pointers values a
   | _ => none
+
+/-- An ordinary Python assignment materializes a numeric scalar as a tensor;
+an inline scalar remains weak. Classify the source floating literal before it
+enters register dataflow. Triton's to_tensor_type uses the FP32 normal range,
+zero and infinities; other finite literals require an FP64 tensor frontend.
+See triton/compiler/code_generator.py::_sanitize_target_value and
+triton/language/semantic.py::to_tensor_type in the upstream implementation. -/
+private partial def literalTensorFloatType (e : TSyntax `tritonExpr) : Option Triton.PointerType :=
+  match e with
+  | `(tritonExpr| tl.__python_literal($inner:tritonExpr))
+  | `(tritonExpr| ($inner:tritonExpr))
+  | `(tritonExpr| -$inner:tritonExpr) => literalTensorFloatType inner
+  | `(tritonExpr| $n:scientific) =>
+      let (mantissa,denominator,exponent) := n.getScientific
+      let value := (_root_.Float.ofScientific mantissa denominator exponent).abs
+      let lower := _root_.Float.ofBinaryScientific 1 (-126)
+      let upper := _root_.Float.ofBinaryScientific 16777215 104
+      if value == 0 || value.isInf || (lower ≤ value && value ≤ upper)
+      then some .fp32 else some .fp64
+  | `(tritonExpr| -inf) => some .fp32
+  | `(tritonExpr| float($arg:term))
+  | `(tritonExpr| -float($arg:term)) =>
+      if arg.raw.isNatLit? == some 0 then some .fp32 else
+      match arg with
+      | `(term| $s:str) => if ["inf","-inf"].contains s.getString then some .fp32 else none
+      | _ => none
+  | _ => none
+
+private def assignedValueType (pointers : Types) (values : Values)
+    (e : TSyntax `tritonExpr) : MacroM (Option ValueInfo) := do
+  match literalTensorFloatType e with
+  | some .fp32 => return some (.typed .fp32)
+  | some .fp64 =>
+      Macro.throwErrorAt e "fp64 scalar literal assignment is not supported by this source frontend"
+  | _ => return valueType pointers values e
 
 private partial def containsStore (raw : Syntax) : Bool :=
   (raw.isAtom && raw.getAtomVal == "tl.store") || raw.getArgs.any containsStore
@@ -375,7 +411,7 @@ private partial def lowerWithState (pointers : Types) (values : Values)
           for (id,value) in [(a,x),(b,y)] do
             if (lookup pointers id).isSome then
               Macro.throwErrorAt stmt "pointer tuple assignment needs an explicit supported binding"
-            let dtype := valueType pointers values value
+            let dtype ← assignedValueType pointers values value
             checkInvariant invariants id dtype
             nextPointers := nextPointers.filter (fun entry => entry.1 != name id)
             nextValues := nextValues.filter (fun entry => entry.1 != name id)
@@ -386,7 +422,7 @@ private partial def lowerWithState (pointers : Types) (values : Values)
           checkAssignmentLoads pointers values y
           if (lookup pointers a).isSome then
             Macro.throwErrorAt stmt "pointer tuple assignment needs an explicit supported binding"
-          let dtype := valueType pointers values x
+          let dtype ← assignedValueType pointers values x
           checkInvariant invariants a dtype
           nextPointers := pointers.filter (fun entry => entry.1 != name a)
           nextValues := values.filter (fun entry => entry.1 != name a)
@@ -427,7 +463,7 @@ private partial def lowerWithState (pointers : Types) (values : Values)
             if (lookup pointers id).isSome || (pointerType pointers value).isSome then
               Macro.throwErrorAt stmt "pointer tuple assignment needs an explicit supported binding"
             checkAssignmentLoads pointers values value
-            let dtype := valueType pointers values value
+            let dtype ← assignedValueType pointers values value
             checkInvariant invariants id dtype
             nextPointers := nextPointers.filter (fun entry => entry.1 != name id)
             nextValues := nextValues.filter (fun entry => entry.1 != name id)
@@ -448,12 +484,13 @@ private partial def lowerWithState (pointers : Types) (values : Values)
             nextValues := (name id, dtype) :: nextValues
       | `(tritonStmt| $id:ident = $value:tritonExpr) =>
           checkAssignmentLoads pointers values value
-          checkInvariant invariants id (valueType pointers values value)
+          let dtype ← assignedValueType pointers values value
+          checkInvariant invariants id dtype
           nextPointers := pointers.filter (fun entry => entry.1 != name id)
           nextValues := values.filter (fun entry => entry.1 != name id)
           if let some dtype := pointerType pointers value then
             nextPointers := (name id, dtype) :: nextPointers
-          if let some dtype := valueType pointers values value then
+          if let some dtype := dtype then
             nextValues := (name id, dtype) :: nextValues
       | `(tritonStmt| $id:ident += $value:tritonExpr) =>
           checkAugmentedLoads pointers values value

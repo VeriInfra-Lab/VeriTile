@@ -287,4 +287,91 @@ def broadcastOverwritesInput (X Y : RegionName) : ComputeKernel :=
 #axiomsClean broadcast_retains_each_precision
 #axiomsClean attributed_constructor_keeps_output_conversion
 
+
+/-- Ordinary numeric assignment creates an FP32 tensor. Both scalar carries
+remain FP32 through an empty or nonempty source loop; no store cast is added. -/
+def scalarLoopSignature : CallSignature where
+  pointers := [("X",.fp32),("Y",.fp32)]
+  constexpr := ["K"]
+
+def scalarLoop (X Y : RegionName) (K : Nat) : ComputeKernel :=
+  with_triton_signature scalarLoopSignature in triton {
+    total = 0.0
+    maximum = -float('inf')
+    for i in range(K):
+      x = tl.load(X + i)
+      maximum = tl.maximum(maximum, x)
+      total = total + tl.exp(x - maximum)
+    tl.store(Y, total)
+  }
+
+def scalarLoopReference (X Y : RegionName) (K : Nat) : ComputeKernel := triton {
+  tl.region X = tl.float32, Y = tl.float32
+  total = 0.0
+  maximum = -float("inf")
+  for i in tl.static_range($(K)) {
+    x = tl.load(X + i)
+    maximum = tl.maximum(maximum, x)
+    total = total + tl.exp(x - maximum)
+  }
+  tl.store(Y, total)
+}
+
+theorem scalar_loop_dtype_and_store (X Y : RegionName) (K : Nat) :
+    scalarLoop X Y K = scalarLoopReference X Y K := rfl
+
+/-- An assigned float is a tensor; an inline literal is a weak operand.
+The latter's FP16 result still needs a genuine FP32 output conversion. -/
+def literalAssignment (X Y : RegionName) : ComputeKernel :=
+  with_triton_signature ({pointers := [("X",.fp16),("Y",.fp32)]} : CallSignature) in triton {
+    zero = 0.0
+    x = tl.load(X)
+    assigned = zero + x
+    tl.store(Y, assigned)
+    inline = 0.0 + x
+    tl.store(Y + 1, inline)
+  }
+
+def literalAssignmentReference (X Y : RegionName) : ComputeKernel := triton {
+  tl.ports inputs=[X], outputs=[Y]
+  tl.region X = tl.float16, Y = tl.float32
+  zero = 0.0
+  x = tl.load(X)
+  assigned = zero + x
+  tl.store(Y, assigned)
+  inline = 0.0 + x
+  tl.store(Y + 1, inline.to(tl.float32))
+}
+
+theorem assigned_and_inline_literal_precision (X Y : RegionName) :
+    literalAssignment X Y = literalAssignmentReference X Y := rfl
+
+/-- Tuple assignment materializes each numeric leaf with its own source type. -/
+def literalTuple (Y : RegionName) : ComputeKernel :=
+  with_triton_signature ({pointers := [("Y",.fp32)]} : CallSignature) in triton {
+    a, b = 0.0, -float('inf')
+    tl.store(Y, a)
+    tl.store(Y + 1, b)
+  }
+
+theorem literal_tuple_no_invented_store_cast (Y : RegionName) :
+    (literalTuple Y).surfaceBody.drop 1 =
+      [.store .real [] (.region Y (.constNat 0)) (.alg (.ref .real [] "a")) .none,
+       .store .real [] (.region Y (.constNat 1))
+         (.alg (.ref .real [] "b")) .none] := rfl
+
+/- Unsupported FP64 scalar materialization cannot silently enter an FP32
+loop or erase a genuine output conversion. -/
+/-- error: fp64 scalar literal assignment is not supported by this source frontend -/
+#guard_msgs in
+def fp64LiteralAssignment (Y : RegionName) : ComputeKernel :=
+  with_triton_signature ({pointers := [("Y",.fp32)]} : CallSignature) in triton {
+    x = 1e-50
+    tl.store(Y, x)
+  }
+
+#axiomsClean scalar_loop_dtype_and_store
+#axiomsClean assigned_and_inline_literal_precision
+#axiomsClean literal_tuple_no_invented_store_cast
+
 end VeriTile.Tests.TypedStores
