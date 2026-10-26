@@ -1,0 +1,198 @@
+relu_strided_buffer raw-source-check
+[
+  {
+    "python_function": "relu_forward",
+    "lean_definition": "reluFunction",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "inferred_helper_values",
+    "call_bindings": null,
+    "statements": 1,
+    "runtime_parameters": {},
+    "constexpr_parameters": [],
+    "body_kind": "helper",
+    "helper_parameters": [
+      "x"
+    ]
+  },
+  {
+    "python_function": "relu_forward_kernel_rank_1",
+    "lean_definition": "originalBody",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "in0_stride0": "c.input.stride",
+      "out0_stride0": "c.output.stride",
+      "s0": "c.n",
+      "num_tasks": "c.n",
+      "tiles_per_cta": "c.tiles"
+    },
+    "statements": 3,
+    "runtime_parameters": {
+      "in0_stride0": "integer",
+      "out0_stride0": "integer",
+      "s0": "integer",
+      "num_tasks": "integer",
+      "tiles_per_cta": "integer"
+    },
+    "constexpr_parameters": [
+      "in0_stride_order0",
+      "one_tile_per_cta",
+      "out0_stride_order0",
+      "tile_size0"
+    ],
+    "source_functions": [
+      "reluFunction"
+    ],
+    "pointer_offsets": {
+      "in0_ptr": "c.input.base",
+      "out0_ptr": "c.output.base"
+    }
+  },
+  {
+    "python_function": "relu_forward_kernel_rank_1_folded_count",
+    "lean_definition": "foldedBody",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "in0_stride0": "c.input.stride",
+      "out0_stride0": "c.output.stride",
+      "s0": "c.n",
+      "num_tasks": "c.n",
+      "tiles_per_cta": "c.tiles"
+    },
+    "statements": 3,
+    "runtime_parameters": {
+      "in0_stride0": "integer",
+      "out0_stride0": "integer",
+      "s0": "integer",
+      "num_tasks": "integer",
+      "tiles_per_cta": "integer"
+    },
+    "constexpr_parameters": [
+      "in0_stride_order0",
+      "one_tile_per_cta",
+      "out0_stride_order0",
+      "tile_size0"
+    ],
+    "source_functions": [
+      "reluFunction"
+    ],
+    "pointer_offsets": {
+      "in0_ptr": "c.input.base",
+      "out0_ptr": "c.output.base"
+    }
+  }
+]
+
+relu_strided_buffer contract
+Traceback (most recent call last):
+  File "/tmp/veritile-pr18-review/bench/repairs/tritonbench_g/relu_strided_buffer/Proofs/check_contract.py", line 10, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'
+
+swiglu_triton raw-source-check
+[
+  {
+    "python_function": "silu",
+    "lean_definition": "siluFunction",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "inferred_helper_values",
+    "call_bindings": null,
+    "statements": 1,
+    "runtime_parameters": {},
+    "constexpr_parameters": [],
+    "body_kind": "helper",
+    "helper_parameters": [
+      "x"
+    ]
+  },
+  {
+    "python_function": "_swiglu_forward_kernel",
+    "lean_definition": "forwardKernel",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "stride": "stride"
+    },
+    "statements": 10,
+    "runtime_parameters": {
+      "stride": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE",
+      "n_cols"
+    ],
+    "source_functions": [
+      "siluFunction"
+    ]
+  },
+  {
+    "python_function": "_swiglu_backward_kernel",
+    "lean_definition": "backwardKernel",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "stride": "stride"
+    },
+    "statements": 15,
+    "runtime_parameters": {
+      "stride": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE",
+      "n_cols"
+    ]
+  },
+  {
+    "python_function": "_swiglu_forward_kernel_index_commuted",
+    "lean_definition": "forwardIndexCommuted",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "stride": "stride"
+    },
+    "statements": 10,
+    "runtime_parameters": {
+      "stride": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE",
+      "n_cols"
+    ],
+    "source_functions": [
+      "siluFunction"
+    ]
+  },
+  {
+    "python_function": "_swiglu_backward_kernel_index_commuted",
+    "lean_definition": "backwardIndexCommuted",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "stride": "stride"
+    },
+    "statements": 15,
+    "runtime_parameters": {
+      "stride": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE",
+      "n_cols"
+    ]
+  }
+]
+
+swiglu_triton contract
+Traceback (most recent call last):
+  File "/tmp/veritile-pr18-review/bench/repairs/tritonbench_g/swiglu_triton/check_contract.py", line 7, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'
+

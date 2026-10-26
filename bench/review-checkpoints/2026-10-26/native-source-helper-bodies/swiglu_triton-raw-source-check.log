@@ -1,0 +1,95 @@
+[
+  {
+    "python_function": "silu",
+    "lean_definition": "siluFunction",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "inferred_helper_values",
+    "call_bindings": null,
+    "statements": 1,
+    "runtime_parameters": {},
+    "constexpr_parameters": [],
+    "body_kind": "helper",
+    "helper_parameters": [
+      "x"
+    ]
+  },
+  {
+    "python_function": "_swiglu_forward_kernel",
+    "lean_definition": "forwardKernel",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "stride": "stride"
+    },
+    "statements": 10,
+    "runtime_parameters": {
+      "stride": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE",
+      "n_cols"
+    ],
+    "source_functions": [
+      "siluFunction"
+    ]
+  },
+  {
+    "python_function": "_swiglu_backward_kernel",
+    "lean_definition": "backwardKernel",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "stride": "stride"
+    },
+    "statements": 15,
+    "runtime_parameters": {
+      "stride": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE",
+      "n_cols"
+    ]
+  },
+  {
+    "python_function": "_swiglu_forward_kernel_index_commuted",
+    "lean_definition": "forwardIndexCommuted",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "stride": "stride"
+    },
+    "statements": 10,
+    "runtime_parameters": {
+      "stride": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE",
+      "n_cols"
+    ],
+    "source_functions": [
+      "siluFunction"
+    ]
+  },
+  {
+    "python_function": "_swiglu_backward_kernel_index_commuted",
+    "lean_definition": "backwardIndexCommuted",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "stride": "stride"
+    },
+    "statements": 15,
+    "runtime_parameters": {
+      "stride": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE",
+      "n_cols"
+    ]
+  }
+]

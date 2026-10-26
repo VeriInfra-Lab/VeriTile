@@ -1,0 +1,4 @@
+{"name": "changed-VeriTile__Triton__DSL__PythonBody", "file": "VeriTile/Triton/DSL/PythonBody.lean", "sha256": "187c3c0b8d003409c22c364309d56c8b55a73df20cc434ed61385cfbd79675c8", "command": ["python3", "scripts/check_comparator.py", "--file", "VeriTile/Triton/DSL/PythonBody.lean", "--trust"], "exit_code": 1, "code_commit": "4ee9d7406ee20d78092718c12f24ee84f0e10e0b"}
+[FAIL] Official comparator isolation is unavailable:
+- systemd AF_UNIX restriction: Failed to connect to bus: Operation not permitted (consider using --machine=<user>@.host --user to connect to bus of other user)
+- Landlock sandbox: [landrun:error] 2026/10/26 02:32:35 Failed to apply sandbox: failed to apply Landlock filesystem restrictions: missing kernel Landlock support. Got Landlock ABI v4, wanted {Landlock V5; FS: all; Net: ∅}

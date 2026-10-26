@@ -1,0 +1,47 @@
+{
+  "code_commit": "4ee9d7406ee20d78092718c12f24ee84f0e10e0b",
+  "raw_bodies": [
+    {
+      "task": "relu_strided_buffer",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/relu_strided_buffer/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    {
+      "task": "swiglu_triton",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/swiglu_triton/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    }
+  ],
+  "cpu_contracts": [
+    {
+      "task": "relu_strided_buffer",
+      "command": [
+        "python3",
+        "bench/repairs/tritonbench_g/relu_strided_buffer/Proofs/check_contract.py"
+      ],
+      "exit_code": 1,
+      "status": "UNAVAILABLE"
+    },
+    {
+      "task": "swiglu_triton",
+      "command": [
+        "python3",
+        "bench/repairs/tritonbench_g/swiglu_triton/check_contract.py"
+      ],
+      "exit_code": 1,
+      "status": "UNAVAILABLE"
+    }
+  ]
+}

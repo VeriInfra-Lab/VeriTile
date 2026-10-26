@@ -1,0 +1,2 @@
+HEAD is now at 4ee9d7406 Isolate Python weak literals and preserve independent tuple tokens
+{"code_commit": "4ee9d7406ee20d78092718c12f24ee84f0e10e0b", "project_build_initially_present": false, "veritile_cache_initially_present": false, "only_fixed_external_dependencies_reused": true, "packages_target": "/home/argustest/lizn/VeriTile/.lake/packages", "roots": "all combined roots after shared source helper, signed rank-one pointer and typed literal frontend changes"}

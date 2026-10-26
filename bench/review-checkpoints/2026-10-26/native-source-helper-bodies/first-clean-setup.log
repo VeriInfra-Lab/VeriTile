@@ -1,0 +1,2 @@
+HEAD is now at ed3e2a8ce Preserve raw ReLU and SwiGLU bodies with checked source helpers and signed block pointers
+{"code_commit": "ed3e2a8ce394e58780f8d97ce5d52dac2025777d", "project_build_initially_present": false, "veritile_cache_initially_present": false, "only_fixed_external_dependencies_reused": true, "packages_target": "/home/argustest/lizn/VeriTile/.lake/packages", "roots": "all combined roots after shared source helper, signed rank-one pointer and typed literal frontend changes"}

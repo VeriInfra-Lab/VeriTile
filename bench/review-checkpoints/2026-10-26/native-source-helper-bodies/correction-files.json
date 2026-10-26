@@ -1,0 +1,42 @@
+{
+  "parent_failed_full_replay_source": "ed3e2a8ce394e58780f8d97ce5d52dac2025777d",
+  "files": {
+    "VeriTile/Triton/DSL/CallSignature.lean": {
+      "before": "f63227280888d8b6fad600ba29d57a51775896524d4e65294f5a3dfb5ee33492",
+      "after": "a248b79c42db831a91acabf4110094175087654478d69c7c77d84b9fdd112131"
+    },
+    "VeriTile/Triton/DSL/Expansion/Compute.lean": {
+      "before": "44611355b08e092b5fab5728518bd3a3f9e844af70fd2beac31b10fb735a9a85",
+      "after": "6bde861f1441cec7befdd541af77505788a43b260390584b609b6e553139374a"
+    },
+    "VeriTile/Triton/DSL/Expansion/Main.lean": {
+      "before": "5cc7d6fdd15d41062f2c84ae71c61df8051aadad4ccc3e5c132bc47fa2df6d24",
+      "after": "bbf0700fe1b6fc894f441098525501c931420ec7fdd6f98dd9932edf46bd9941"
+    },
+    "VeriTile/Triton/DSL/PythonBody.lean": {
+      "before": "875c29eccaa2bc0fcf6413a3e8aa5f33151bcfe7bb1063e04c270a0aac7980ff",
+      "after": "187c3c0b8d003409c22c364309d56c8b55a73df20cc434ed61385cfbd79675c8"
+    },
+    "VeriTile/Triton/DSL/SourceFunction.lean": {
+      "before": "7861acf1ee8c1c4bbd46313c0e9e1ba84243490e8e4d81a50de539c16ae4dacf",
+      "after": "158029c312581d1bf88118199b311b6246db42f37ece939d6827291efd002827"
+    },
+    "VeriTile/Triton/DSL/Syntax.lean": {
+      "before": "8de9dc0bd48a24f34b4dc6ad5861d180606c50a81c01ffeabba84f04c7fccf33",
+      "after": "7948709964f0c1660576bf7fe2358b10737bdd5091ac22d67d98d742f642e7fe"
+    },
+    "VeriTile/Triton/DSL/TypedStores.lean": {
+      "before": "83bd43b6c2e4e9cf5a3be39006e32e24786789e2485cf4931260a68b4a8ec8ee",
+      "after": "9ef8e5b08a60bd01343162ee2b6f3354a4fe143429b2821247b0f05dbe58e9c9"
+    },
+    "bench/tests/SourceFunction.lean": {
+      "before": "2f8f13d705b882765d8493bf309a11a5c25f4213c52a0b05ff65aa9382d6f37b",
+      "after": "b660308e9833f54a0167adc41ab2aff3b24f1c9f55aa354af0c9e1213441dd57"
+    },
+    "docs/triton-body-copy.md": {
+      "before": "58b25fba4ba66ec35a4667ea1504bd39d079e6a6824391bf6ac20c9dac17a6c3",
+      "after": "643dfd4faf06d21002ed145a7b9d8d86de953586db5322a192f17f7241e3d988"
+    }
+  },
+  "corrected_source": "4ee9d7406ee20d78092718c12f24ee84f0e10e0b"
+}

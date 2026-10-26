@@ -1,0 +1,442 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "4ee9d7406ee20d78092718c12f24ee84f0e10e0b",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "relu_strided_buffer",
+    "swiglu_triton"
+  ],
+  "semantic_review": {
+    "adam_update_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "add_example": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "add_value": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "apply_penalty": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "cache_transform_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "chunk_cumsum_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "chunk_cumsum_vector": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "chunked_cumsum_fwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "cosine_compute": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "dequantize_matmul": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "dequantize_rowwise": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "destindex_copy": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "destindex_copy_kv1": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "destindex_copy_kv2": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "dropout_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "embedding_triton_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "f8_conversion_utils": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "fast_rope_embedding": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "fused_activation": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "fused_recurrent_hgrn": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "index_select_bwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "index_select_cat": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "int8_matmul_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "kcache_copy_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "kldiv_compute": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "kldiv_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "kv_cache_copy": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "l2_norm_bwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "l2_norm_triton1": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "l2_norm_triton2": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "log_softmax": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "logsumexp_fwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "masked_add_cuda": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "masked_select": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "matmul_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "matrix_reduction": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "matrix_transpose": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "max_reduction": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "mean_reduction": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "mul_exponent_compensator": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "nested_loops_processing": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "quant_transpose_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "quantize_copy_kv": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "quantize_global": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "quantize_kv_copy": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "quantize_kv_transform": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "relu_triton_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "reversed_cumsum": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "reversed_cumsum_scalar": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rms_norm_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rmsnorm_fused": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rmsnorm_fused_llama": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rmsnorm_implementation": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rmsnorm_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rope_embedding": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rotary_emb": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rotary_emb_nopad": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "rowwise_quantization_triton": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "seeded_dropout": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "sin_computation": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "sin_kernel": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "softmax_triton1": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "softmax_triton2": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "square_matrix": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "swiglu_backward": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "swiglu_fwd": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "token_attn_mistral": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "token_attn_reduceV": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "token_softmax_bloom": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "token_softmax_llama": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "triton_mul2": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "triton_softmax": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "var_len_copy": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "vector_addition": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "vector_addition_custom": "Previously migrated raw original/candidate bodies and all mathematical, numerical, execution and IO scopes fully replay after the shared checked source-helper, signed rank-one pointer and source-literal frontend migration. Regression only: this does not count a new body migration, introduce an FP identity, narrow a domain or claim hardware conformance.",
+    "kv_cache_filling": "Shared frontend dependency regression only. Source/candidate bodies and mathematical/numerical scopes are unchanged; exact public/deep roots are recorded in modules.json. No new body migration is counted.",
+    "relu_strided_buffer": "The selected original Python helper, full writer and host wrapper are unchanged. The original helper return and both original/candidate full writer bodies are copied verbatim, including one-tile/grid-stride branches, PID, cdiv, loop, every block-pointer shape/stride/offset/order/boundary option, load/element-type casts, helper call and casted store. Metadata for FP32 storage, five runtime mathematical integers, constexpr parameters, source helpers and signed pointer origins stays outside the body. Candidate Python is explicitly authored from the existing unused-tile-count fold. Checked rank-one lowering captures signed logical coordinates and shape at pointer construction and preserves lower/upper bounds, negative coordinates, physical signed stride, undefined padding and explicit casts. The raw FP32 helper zero is a target-format literal; private proof-only adaptation reuses historical tile lemmas, with the actual concrete Real/native zero connection re-proved rather than asserting an arbitrary FP cast identity. Complete execution, grid, input/schedule safety, independent Real formula, FP candidate failed/successful run equivalence, all native words, Tensor/host and memory frames retain their existing public scopes. Branch decomposition and historical adaptation stay in Proofs and do not construct authoritative Kernels. No new FP premise, numerical experiment or input restriction.",
+    "swiglu_triton": "The selected original Python silu helper, both forward/backward JITs and host wrappers are unchanged. One helper and four complete original/existing candidate writer bodies are copied verbatim. Both PID INT64 casts, signed row origins and pointer increments, arange, masks, zero padding, FP32 conversions, sigmoid, explicit arithmetic/FMA order and final stores remain visible. FP32 pointer storage, runtime mathematical integer strides, constexpr n_cols/block width and the checked helper registration remain outside bodies. Candidate Python is explicitly authored from the pre-existing three-stage integer-product commutations. Four whole ComputeKernel identities in Proofs/BodyCopy connect actual raw bodies to the existing typed execution families, with standard-base axiom audits. All 35 task roots preserve independent forward/VJP Real formulas, both full-grid FP candidate directions, native graph/reduction/word observations, safety, host/Tensor and memory frames. No new numeric identity, FP premise, host restriction or model-scope reduction.",
+    "triton_argmax": "Shared frontend dependency regression only. Source/candidate bodies and mathematical/numerical scopes are unchanged; exact public/deep roots are recorded in modules.json. No new body migration is counted."
+  },
+  "example_regression_scope": "All 19 examples and their complete helpers replay warm, jointly and independently from initially empty project objects after the shared source-helper/signed rank-one pointer/source-literal frontend change. Their mathematical/numerical domains and source bodies are unchanged.",
+  "verification": {
+    "frontend_regressions": {
+      "status": "PASS",
+      "configured_modules": 98,
+      "scope": "All 98 frontend roots and retained recent/control roots, plus all 23 ReLU and 35 SwiGLU roots, pass as a 403-root union after the shared source-helper/signed rank-one pointer/source-literal changes. Full combined roots/dependencies independently replay from initially empty project objects."
+    },
+    "integration": {
+      "status": "PASS",
+      "explicit_modules": 2703,
+      "jobs": 11975
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 2703,
+      "jobs": 11975,
+      "scope": "All 2703 combined roots and their full transitive dependencies in an initially empty project checkout after the shared Python-body source-helper and rank-one pointer frontend change. All previously migrated tasks and all examples replay independently as part of the same full source closure.",
+      "project_build_initially_present": false,
+      "veritile_cache_initially_present": false,
+      "only_fixed_external_dependencies_reused": true
+    },
+    "joint_import": "PASS: all 2703 roots",
+    "task_directories": "All 23 ReLU and 35 SwiGLU roots cover full original/candidate execution, checked source helper meaning, all signed casts/block-pointer bounds, full-state/failure candidate equivalence, independent Real/VJP formulas and retained grids/FP/Tensor/native/host/frame scopes. Every earlier migrated task/example and all frontend/control roots replay warm, jointly and independently from initially empty project objects in the full combined 2703-root union.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 96
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 341,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by its old numerical receipt; no false repin."
+    },
+    "official_comparator": "UNAVAILABLE: actual frozen-source invocations report required host isolation unavailable. Pinned tools are installed; host Landlock ABI v4 is below required v5 and the systemd user bus is unavailable. No isolation bypass.",
+    "task_local_inspections": "All eight raw helper/writer pairs (two helpers and six writer bodies) pass source, ABI and actual call-binding checks. Both actual CPU probes require missing Torch; failures are retained and not counted as passes. Original Python JITs/helpers/wrappers and prior experiments remain unchanged. Three candidate Python functions explicitly translate existing Lean candidates.",
+    "gpu_or_numerical_experiment": "Not run; no new numerical law or hardware-conformance claim.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending."
+  },
+  "source_pairs": {
+    "total": 243,
+    "pasted_body": 238,
+    "legacy_ast": 5
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/source-closure.json",
+    "sha256": "d4da0e4986fccc5a2a85d020de30557a88e9d60d04eb6b8f4bcc590c1881473d"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "legacy_ast_only": 1,
+      "no_selected_jit_resolved": 2,
+      "selected_body_copy_checked": 77,
+      "uncovered_jit_functions": 103
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 328,
+    "uncovered_selected_jit_functions": 207,
+    "primary_files_with_int64_screen_warning": 28,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 80,
+        "antiquotes": 88,
+        "dsl_loop": 1,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "frontend_compatibility_correction": {
+    "initial_source": "ed3e2a8ce394e58780f8d97ce5d52dac2025777d",
+    "initial_full_replay": "FAILED and interrupted; actual logs retained",
+    "issues": [
+      "Combined comma-close token interfered with existing inline ASM trailing commas.",
+      "Python weak literal dtype inference affected legacy DSL layer_norm_liger.BackwardRun."
+    ],
+    "correction": "Use independent comma/close tokens; only the copied-source frontend marks comparison/select weak literals. Legacy DSL retains its prior literal convention. User/helper attempts to supply internal metadata are rejected.",
+    "final_replay": "This receipt describes only the corrected source full warm/joint/initially-empty replay."
+  },
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/all-python.log.gz",
+      "sha256": "512f511f40634c796d20a04024e1fffa7a2a675b8bbbb744b440d5246504ab31"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/changed-VeriTile__Triton__DSL__CallSignature-comparator.log",
+      "sha256": "d940b061fb0123e9496509b09200d6b3b40a37da165ff1e3af25e30693c31407"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/changed-VeriTile__Triton__DSL__Expansion__Compute-comparator.log",
+      "sha256": "795c2bc7302e4fa9995fc6d29aae21c66b4c9aa6216a4652dac45c4aa6b076e6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/changed-VeriTile__Triton__DSL__Expansion__Main-comparator.log",
+      "sha256": "54c86076783459b212732a66e49ddf4d512053e0212ea61fbac83f3dde5008c2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/changed-VeriTile__Triton__DSL__PythonBody-comparator.log",
+      "sha256": "1e7592ca11340874f71f97f4d10dcf85066b1837e7907b674abc4cd8f4f356f3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/changed-VeriTile__Triton__DSL__RankOneBlockPtr-comparator.log",
+      "sha256": "ad2de9523198444c2541ad7a4c287ed73eaabc5c168a22ad025a643d0c15f39c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/changed-VeriTile__Triton__DSL__SourceFunction-comparator.log",
+      "sha256": "cce562c0aa44b7a19408c96bec619d63992c27ee44e43828c56f7e6be44ac64b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/changed-VeriTile__Triton__DSL__Syntax-comparator.log",
+      "sha256": "9156bde090656f5cab0b8b237aef6cd7107fe0f45010b30823bc686fef36f42b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/changed-VeriTile__Triton__DSL__TypedStores-comparator.log",
+      "sha256": "27ba4f8cad43dd5466275d21255b395ded86b0fe9f61ab6f02a73e4fe83f51f7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/changed-bench__repairs__tritonbench_g__relu_strided_buffer__Kernels-comparator.log",
+      "sha256": "a2255c951446dec10dae5ef01b50b905da5a6a09d72aaa4715f63ba657d8169a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/changed-bench__repairs__tritonbench_g__relu_strided_buffer__Misc__TensorBridge-comparator.log",
+      "sha256": "09619c32b832b753120eebcc1d406f3adb978304b79f180074cbaf286e961192"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/changed-bench__repairs__tritonbench_g__relu_strided_buffer__Proofs__Kernel-comparator.log",
+      "sha256": "d7fd8ad844c4ecc7a95cb395e6058134f28391299b608297082dc63d4abaab05"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/changed-bench__repairs__tritonbench_g__relu_strided_buffer__Proofs__KernelNativeResult-comparator.log",
+      "sha256": "febbd4ca984907c5e33710c2b5555567e2cd88d868e03951ad217f962c2260e6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/changed-bench__repairs__tritonbench_g__relu_strided_buffer__Proofs__KernelRealResult-comparator.log",
+      "sha256": "1201c5064585505f0dbb245b57bc1e30c213e82285e3562e920dd064c90ece6f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/changed-bench__repairs__tritonbench_g__relu_strided_buffer__Proofs__PublicIO-comparator.log",
+      "sha256": "1e4ed98548144e080adac504c7cb6ffeae0e346aa4df63c665a783bc89006f63"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/changed-bench__repairs__tritonbench_g__relu_strided_buffer__Proofs__Source-comparator.log",
+      "sha256": "b0deb58254fb90ccede2c222f7f64471feb02c863b66671261e87df2719c72c0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/changed-bench__repairs__tritonbench_g__relu_strided_buffer__Proofs__SourceSafety-comparator.log",
+      "sha256": "4f2ba8f827146512b2c5b1d0f55c0443683119440246047448ee63672be0c5d7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/changed-bench__repairs__tritonbench_g__relu_strided_buffer__Proofs__TileSafety-comparator.log",
+      "sha256": "2560a03114c67c01f531b80cda495ea72b7bd1f8fefe55a4a375c6e9674086f6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/changed-bench__repairs__tritonbench_g__swiglu_triton__Kernels-comparator.log",
+      "sha256": "f88bb95a5e6c320902c91103e06bdeeb7a68c13d5fa856da1e86740149faa1f3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/changed-bench__repairs__tritonbench_g__swiglu_triton__Proofs__BodyCopy-comparator.log",
+      "sha256": "383d08323aa9e4e008b2df3e4a16b35f1cde310abd430ffaf040b18ff3e93049"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/changed-bench__tests__PointerOffsets-comparator.log",
+      "sha256": "aa93f9416e5adf7a722845fe88e385438f035d01f3c9760c8273828697c30420"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/changed-bench__tests__RankOneBlockPtr-comparator.log",
+      "sha256": "dd9efd1fcb4c56f0bf59c8ce207e3b3e928b62d28c82a300d47439c451634957"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/changed-bench__tests__SourceFunction-comparator.log",
+      "sha256": "3a14076f2f1546d666903faa026fd2083024361569f1bae36a12dcdd5981038a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/clean-build.log.gz",
+      "sha256": "ac6e7ef9a4e1cf53e4cd463dee452a88368ca26ea631916eeb179b3df51865f0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/clean-setup.log",
+      "sha256": "27914f73b32ac5aac3fdc40b14707116bc5c38d5782f6dcd10b278587ded4895"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/comparator-invocations.json",
+      "sha256": "07805e3f58d7ac6107a93ce0e1e868982185dcd3a4341b8f7a1cb255f97be174"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/comparator-preflight.log",
+      "sha256": "d9255026a27595d0a04e154bc4a9c609c8422b012fc13cb1ae4de2417afea36d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/comparator-setup.log",
+      "sha256": "bea658f19aea48f8965a3d6525da1300e599d9a3f0a05b992071c97bcaffd6df"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/comparator-tools.json",
+      "sha256": "d541ac407f7aa8679c8ba23dd4df72ac363730bbb67e45bd7959ec752e6b0c53"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/comparator.log",
+      "sha256": "e5802b83c0f6c8b935f7bd188ebf2cf22068ad25e0dca8b25a77dece2ca94602"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/contract.log",
+      "sha256": "43b87d72548959daa518278df95b219661a0545d96b876a9d330e0eecd1fe93f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/corpus-guard.log",
+      "sha256": "d2a7124375a060f3d00f3411d19b5571381737897f200f5e14d3d0df7b7b9b38"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/correction-files.json",
+      "sha256": "c43afb628536b396633634c675458c0f70b60970dc6273237b362058dda3381f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/correction-freeze.log",
+      "sha256": "47b35f9a68833df4489013536a81d5d9dfd6577e23aa31a7c3e708f8b4af7e6c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/first-clean-setup.log",
+      "sha256": "147a7ce9fcae159c1dc2ab2cccea1591cbcff18921fe66a1c22607c1286ed20b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/first-failed-integration.log.gz",
+      "sha256": "93494582bafcb9f6b923ba9cbb8556da7287048fa73df933e60ef25459073427"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/first-interrupted-clean-build.log.gz",
+      "sha256": "adfbd1dbf891e8528cfb03dfcfed376cdb2dd063d6cb976979428b397f8d9dc4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/focused-modules.txt",
+      "sha256": "b1a009b51f543e82bd94f1ceb7548dfefb6fe93a8d101af30b237b30045ab99e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/frontend-compatibility.log.gz",
+      "sha256": "2928c30fb971611ce74cb39ce6f4eb10e0feb2946be39de50725d52c768a59da"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/inspections.json",
+      "sha256": "551c773a79d2f9c261237f65759bf5d9b95805fa8966be4d0bb208af30bafb10"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/integration.log.gz",
+      "sha256": "ba04fcd4da1e8b8359a2b68a93cac17bdeead394f61231de83e7b0bac4045b23"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/joint.lean",
+      "sha256": "6fe289224c6ce9d7bc0afb6abed892007cd07624cf16d0e06c1f286c3075e7ea"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/modules.json",
+      "sha256": "5a9ac5d9aae580b262efdb45f97e16984b7fa764aee22301918006f9f1966d77"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/pairs.json",
+      "sha256": "7cbb2aae330d0c0f31b28ea11f73614b7de97883d1af00febd0999fac864fba2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/previous-selected-reviews.json.gz",
+      "sha256": "c5b1b3d795c89a7154e7db9f1eec9f724a42294c616462bbbe27268bb4f074d1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/python-invocations.json",
+      "sha256": "da0b6028312b30eb509b50c1a352f55d718452f01a999654d46bb2bbaea66888"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/python-tests.log",
+      "sha256": "88ae70e0b6784c6bc0799470fa899949fb285c1945b38b8c6647e479e1014ebd"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/relu_strided_buffer-Real-comparator.log",
+      "sha256": "043aa9b9a8e814c17e9fd6ed7358ebf437c42802288af3119aced626cb3c7d7d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/relu_strided_buffer-comparator.log",
+      "sha256": "e97243a8483f1694028fe2d029997b347bf5907cc366b729c341676a40b3848d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/relu_strided_buffer-contract.log",
+      "sha256": "bd48e454a76b15832b2fb9272e8bee9a579e83c4b27e188e627e1c685f0a8091"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/relu_strided_buffer-raw-source-check.log",
+      "sha256": "4582ae37acaa7697295a3259df04faea6a1e88806e60e2f36e9f15634f8d680e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/secondary-focused-development.log.gz",
+      "sha256": "681c55a77959040ba200a3fb98aed42f8cede24c7c8aad98bd0f605622694a6b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/source-closure.json",
+      "sha256": "d4da0e4986fccc5a2a85d020de30557a88e9d60d04eb6b8f4bcc590c1881473d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/swiglu_triton-Real-comparator.log",
+      "sha256": "4c7894418f110b0de9bc134e2bc4ae1d36b4eaec7aff9ec641be1946a3c277e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/swiglu_triton-comparator.log",
+      "sha256": "18e1447bc81be8cf887261cce930d9ec00fd53af6132eebb8a860d8a8b8a0f26"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/swiglu_triton-contract.log",
+      "sha256": "52a78c7f31b509db33963d01bfd08f8b65c75988ccae9a89bf1fe5ed59351410"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/swiglu_triton-raw-source-check.log",
+      "sha256": "5e96c63dc6701cbe1dc3fe621f09799a72eaea8b8b46743ac05f895b7d0e7eea"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-source-helper-bodies/transferred-files.json",
+      "sha256": "6628efccc0bf7162fb292637e8c97f1ac20572692dc252f6383f31d841bc1025"
+    }
+  ]
+}
