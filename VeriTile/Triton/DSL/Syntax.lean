@@ -237,6 +237,13 @@ syntax "tl.make_block_ptr(" ident "=" tritonExpr ", " ident "=" "(" tritonExpr,*
 syntax "tl.make_block_ptr(" ident "=" tritonExpr ", " ident "=" "(" tritonExpr,*
   ")" ", " ident "=" "(" tritonExpr,* ")" ", " ident "=" "(" tritonExpr,* ")"
   ", " ident "=" "(" tritonExpr,* ")" ")" : tritonExpr
+-- The positional singleton tuples emitted by strided pointwise Triton writers.
+syntax (name := tritonRankOneBlockPtr) "tl.make_block_ptr(" tritonExpr "," "(" tritonExpr ",)"
+  "," "(" tritonExpr ",)" "," "(" tritonExpr ",)" "," "(" tritonExpr ",)"
+  "," ident "=" "(" tritonExpr ",)" ")" : tritonExpr
+syntax (name := tritonRankOneBoundary) (priority := high)
+  "boundary_check=(" tritonExpr ",)" : tritonMemKwarg
+
 syntax "tl.advance(" tritonExpr ", " "[" tritonExpr,* "]" ")" : tritonExpr
 syntax "tl.advance(" tritonExpr ", " "(" tritonExpr,* ")" ")" : tritonExpr
 syntax "tl.advance(" tritonExpr ", " ident "=" "(" tritonExpr,* ")" ")" : tritonExpr

@@ -1,0 +1,132 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/relu_strided_buffer/relu_strided_buffer_repaired.py",
+    "python_function": "relu_forward",
+    "lean": "bench/repairs/tritonbench_g/relu_strided_buffer/Kernels.lean",
+    "lean_definition": "reluFunction"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/relu_strided_buffer/relu_strided_buffer_repaired.py",
+    "python_function": "relu_forward_kernel_rank_1",
+    "lean": "bench/repairs/tritonbench_g/relu_strided_buffer/Kernels.lean",
+    "lean_definition": "originalBody",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "in0_ptr",
+          "fp32"
+        ],
+        [
+          "out0_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "in0_stride0",
+          "integer"
+        ],
+        [
+          "out0_stride0",
+          "integer"
+        ],
+        [
+          "s0",
+          "integer"
+        ],
+        [
+          "num_tasks",
+          "integer"
+        ],
+        [
+          "tiles_per_cta",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "in0_stride_order0",
+        "out0_stride_order0",
+        "tile_size0",
+        "one_tile_per_cta"
+      ],
+      "typedFP32Storage": true,
+      "functions": [
+        "reluFunction"
+      ]
+    },
+    "expected_call_bindings": {
+      "in0_stride0": "c.input.stride",
+      "out0_stride0": "c.output.stride",
+      "s0": "c.n",
+      "num_tasks": "c.n",
+      "tiles_per_cta": "c.tiles"
+    },
+    "expected_pointer_offsets": {
+      "in0_ptr": "c.input.base",
+      "out0_ptr": "c.output.base"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/relu_strided_buffer/candidate_kernels.py",
+    "python_function": "relu_forward_kernel_rank_1_folded_count",
+    "lean": "bench/repairs/tritonbench_g/relu_strided_buffer/Kernels.lean",
+    "lean_definition": "foldedBody",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "in0_ptr",
+          "fp32"
+        ],
+        [
+          "out0_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "in0_stride0",
+          "integer"
+        ],
+        [
+          "out0_stride0",
+          "integer"
+        ],
+        [
+          "s0",
+          "integer"
+        ],
+        [
+          "num_tasks",
+          "integer"
+        ],
+        [
+          "tiles_per_cta",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "in0_stride_order0",
+        "out0_stride_order0",
+        "tile_size0",
+        "one_tile_per_cta"
+      ],
+      "typedFP32Storage": true,
+      "functions": [
+        "reluFunction"
+      ]
+    },
+    "expected_call_bindings": {
+      "in0_stride0": "c.input.stride",
+      "out0_stride0": "c.output.stride",
+      "s0": "c.n",
+      "num_tasks": "c.n",
+      "tiles_per_cta": "c.tiles"
+    },
+    "expected_pointer_offsets": {
+      "in0_ptr": "c.input.base",
+      "out0_ptr": "c.output.base"
+    }
+  }
+]

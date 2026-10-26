@@ -8,6 +8,18 @@ open TritonBenchG.ReluStridedBuffer HostPlan SignedView Whole
 noncomputable section
 local instance : Inhabited (FP.Value .fp32) := ⟨FP.Value.zero .fp32⟩
 
+/-- Both concrete zero constructions produce the positive FP32 zero word.
+This closes the historical literal/cast bridge without a new FP assumption. -/
+theorem source_zero (rest : Algebra (FP.Value .fp32)) :
+    scalarZero (fp32Backend rest) = StructuralTile.scalarZero (fp32Backend rest) := by
+  simp [scalarZero,StructuralTile.scalarZero,fp32Backend,WordTile.backend,
+    FP.Software.scalarFP32,FP.Software.fp32Context,zeroLiterals]
+
+theorem source_scalar_word (rest : Algebra (FP.Value .fp32)) (z : FP.Value .fp32) :
+    scalarResult (fp32Backend rest) WordTile.orderedLt z = WordTile.wordRelu z := by
+  rw [scalarResult_eq_historical _ _ (source_zero rest)]
+  exact WordTile.scalarResult_word (zeroLiterals rest) .ieeeValue (zero_literal_exact rest) z
+
 /-- Exact kernel equivalence for every FP32 word and both original branches.
 The actual candidate constant-folds the unused integer tile-count computation.
 Both kernels succeed and every typed memory cell agrees. No floating rewrite
@@ -46,9 +58,10 @@ theorem relu_strided_buffer_grid_equiv (rest : Algebra (FP.Value .fp32))
   refine ⟨final,final,ran,(grid_folded_execution _ _ s).symm.trans ran,rfl,?_,inputFrame,frame,bounds⟩
   intro i hi
   rw [result i hi,values i hi]
-  simp [Cell.read,fp32Backend,
-    WordTile.scalarResult_word _ _ (zero_literal_exact rest),fp32_result_classification,fp32Result]
+  simp [Cell.read,source_scalar_word,fp32_result_classification,fp32Result]
 
+#axiomsClean source_zero
+#axiomsClean source_scalar_word
 #axiomsClean relu_strided_buffer_folded_equiv
 #axiomsClean relu_strided_buffer_grid_equiv
 #guard_msgs (drop info) in

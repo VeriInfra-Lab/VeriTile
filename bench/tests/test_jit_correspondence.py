@@ -307,6 +307,94 @@ class ScalarCallModeCorrespondence(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "duplicate ABI"):
             validate_manifest_records([record, duplicate])
 
+
+class SourceFunctionBodyTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / "bench/repairs/tritonbench_g/relu_strided_buffer"
+        self.lean = (self.directory / "Kernels.lean").read_text()
+        self.python = (self.directory / "relu_strided_buffer_repaired.py").read_text()
+        self.manifest = self.directory / "jit-correspondence.json"
+
+    def test_helper_and_both_complete_branches(self):
+        pairs = check_manifest(ROOT, self.manifest)
+        self.assertEqual(len(pairs), 3)
+        self.assertEqual(pairs[0]["body_kind"], "helper")
+        self.assertEqual(pairs[0]["helper_parameters"], ["x"])
+        for pair in pairs[1:]:
+            self.assertEqual(pair["source_functions"], ["reluFunction"])
+
+    def test_helper_source_and_parameter_names_cannot_change(self):
+        for before, after in [("relu_forward(x)", "relu_forward(y)"),
+                              ("return tl.where(x > 0, x, 0)", "return tl.where(x >= 0, x, 0)")]:
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                self.assertIn(before, self.lean)
+                check(self.python, self.lean.replace(before, after, 1),
+                      "relu_forward", "reluFunction")
+
+    def test_helper_pair_cannot_be_omitted_from_manifest(self):
+        import tempfile
+        records = json.loads(self.manifest.read_text())[1:]
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".json") as temporary:
+            json.dump(records, temporary)
+            temporary.flush()
+            with self.assertRaisesRegex(ValueError, "helper"):
+                check_manifest(ROOT, Path(temporary.name))
+
+    def test_original_casts_tuples_and_boundary_checks_are_checked(self):
+        record = json.loads(self.manifest.read_text())[1]
+        for before, after in [(".to(in0_ptr.type.element_ty)", ""),
+                              ("boundary_check=(in0_stride_order0,)", "boundary_check=(1,)"),
+                              ("(in0_stride0,)", "(1,)"),
+                              ("num_tasks := c.n", "num_tasks := c.tiles")]:
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                self.assertIn(before, self.lean)
+                check(self.python, self.lean.replace(before, after, 1),
+                      record["python_function"], record["lean_definition"],
+                      record["signature_definition"], record["expected_signature"],
+                      expected_call_bindings=record["expected_call_bindings"],
+                      expected_pointer_offsets=record["expected_pointer_offsets"])
+
+
+class SwigluSourceFunctionTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / "bench/repairs/tritonbench_g/swiglu_triton"
+        self.lean = (self.directory / "Kernels.lean").read_text()
+        self.python = (self.directory / "swiglu_triton_repaired.py").read_text()
+        self.manifest = self.directory / "jit-correspondence.json"
+        self.records = json.loads(self.manifest.read_text())
+
+    def compare(self, lean, position):
+        record = self.records[position]
+        return check(self.python, lean, record["python_function"], record["lean_definition"],
+                     record["signature_definition"], record["expected_signature"],
+                     expected_call_bindings=record["expected_call_bindings"])
+
+    def test_original_helper_and_all_four_complete_writers(self):
+        pairs = check_manifest(ROOT, self.manifest)
+        self.assertEqual(len(pairs), 5)
+        self.assertEqual(pairs[0]["body_kind"], "helper")
+        self.assertEqual(pairs[1]["source_functions"], ["siluFunction"])
+        self.assertEqual(pairs[3]["source_functions"], ["siluFunction"])
+
+    def test_same_named_shorthand_cannot_hide_changed_helper_source(self):
+        changed = self.lean.replace("return x * tl.sigmoid(x)", "return x", 1)
+        with self.assertRaises(ValueError):
+            check(self.python, changed, "silu", "siluFunction")
+
+    def test_original_casts_and_integer_products_are_retained(self):
+        for before, after in [(".to(tl.int64)", ""),
+                              ("a_ptr += program_id * stride", "a_ptr += stride * program_id")]:
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                self.assertIn(before, self.lean)
+                self.compare(self.lean.replace(before, after, 1), 1)
+
+    def test_backward_floating_order_is_retained(self):
+        before = "dc_row * (silu_a * (1 - sig_a) + sig_a) * b_row"
+        after = "(dc_row * b_row) * (silu_a * (1 - sig_a) + sig_a)"
+        self.assertIn(before, self.lean)
+        with self.assertRaises(ValueError):
+            self.compare(self.lean.replace(before, after, 1), 2)
+
 if __name__ == "__main__":
     unittest.main()
 

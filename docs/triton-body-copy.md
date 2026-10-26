@@ -30,8 +30,8 @@ def source (X Y : RegionName) (n BLOCK : Nat) : ComputeKernel :=
 FP32/FP64 运行标量保留为有精度的寄存器，由题级 IO 调用绑定。例如
 `l2_norm_triton1` 只特化整数 `N`，epsilon 仍由实际调用提供。所有标量均以
 寄存器提供时可以使用 `with_triton_signature signature in triton { ... }`。
-目前按调用特化的整数参数不能在函数体中重新赋值或被循环变量遮蔽；不支持的
-情况会报错。
+直接整数参数赋值按原始语句顺序绑定，后续语句读取局部寄存器。尚不支持的
+分支赋值、tuple／augmented 参数改写和循环变量遮蔽会报错。
 
 在每次使用都已有明确 FP32 计算精度的上下文中，也可用 `call_args` 绑定
 具有 `ℝ` 载体的 FP32 调用值。前端先检查精度，再发布程序；FP64、FP16 或
@@ -61,6 +61,35 @@ constexpr 名称不能同时充当循环变量。`tl.zeros((B,), tl.float32)` �
 范围和索引投影的证明仍由对应调用契约提供。
 当前任意表达式内部嵌套 load 的精度事件还不能完整表达，因此前端会报错，
 不能把这种源码登记为迁移完成。浮点数乘布尔 mask 会保留乘法及 0/1 转换。
+
+纯 helper 的原始函数体也可以单独粘贴，通过外部调用签名登记：
+
+```lean
+def reluFunction : SourceFunction :=
+  triton_function relu_forward(x) in triton {
+    return tl.where(x > 0, x, 0)
+  }
+
+def reluSignature : CallSignature where
+  pointers := [("X",.fp32),("Y",.fp32)]
+  functions := [reluFunction]
+```
+
+主函数体保留 `y = relu_forward(x)`。helper 参数类型由调用的实际值决定；
+不会把整个 helper 结果作为假设或外部原语。当前支持一个 `return` 表达式，
+以及由已登记 helper 组成的调用。调用实参须为已有变量；自由名称、递归、错误
+参数个数、把 helper 当作值、需要复制 load／表达式的实参都会被拒绝。多语句／多结果
+helper 和 libdevice 别名尚不在这个接口的支持范围内。对照清单必须同时包含
+helper 的原始 Python 与 Lean 定义，不能只核对主函数里的调用名称。
+
+原生 rank-one block pointer 支持完整的 positional singleton tuple 参数，
+如 `tl.make_block_ptr(X, (N,), (stride,), (offset,), (B,), order=(0,))`。
+前端在构造时保存逻辑坐标与 shape，以带符号整数累加元素地址，最后才转成
+内存索引；因此后续改写原始坐标变量不会改变已经构造的指针。`boundary_check`
+核对轴 0 并保留上下边界；默认 masked 值保持 undefined，显式 zero padding
+保留为零。原始 load/store 的 element dtype cast 继续执行。尚未支持的指针
+复制、advance、跨分支逃逸和 padding 类型会报错；现有高秩 named block
+pointer 路径另行保留。这个索引 lowering 不代替 native 地址范围与无溢出证明。
 
 每题的 `jit-correspondence.json` 指向真实选定 Python 和实际 Lean 定义。
 检查器比较完整 Python AST，并核对外部签名与调用绑定：

@@ -741,6 +741,8 @@ partial def expandWhereFromCond (env : Env) (c' : EOut)
     | _ => return none
   let a' := (← integerLiteral b'.dtype a).getD a'
   let b' := (← integerLiteral a'.dtype b).getD b'
+  let a' ← floatingSourceLiteral b' a a'
+  let b' ← floatingSourceLiteral a' b b'
   let (a', b') := if a'.dtype == b'.dtype then (a', b')
     else (a'.forgetStorageWidth, b'.forgetStorageWidth)
   -- Triton 3.5.1 casts integer conditions to int1 with `value != 0`.

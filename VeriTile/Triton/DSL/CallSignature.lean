@@ -1,5 +1,7 @@
 import VeriTile.Triton.DSL.TypedStores
 import VeriTile.Triton.DSL.PythonBody
+import VeriTile.Triton.DSL.RankOneBlockPtr
+import VeriTile.Triton.DSL.SourceFunction
 import VeriTile.Triton.DSL.Constexpr
 import Lean
 
@@ -38,6 +40,9 @@ structure CallSignature where
   not instructions or claims that an access succeeds. -/
   readPorts : List String := []
   writePorts : List String := []
+  /-- Checked original helper definitions supplied by the caller. Their
+  signatures and raw bodies remain outside the pasted writer quotation. -/
+  functions : List SourceFunction := []
 
 namespace DSL.CallSignature
 open Lean Elab Term Meta
@@ -500,6 +505,24 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
       if usesTypedFP32 && names.contains "dtype" then
         throwError "typed FP32 storage reserves the metadata dtype alias"
       for stmt in stmts do rejectBodyMetadata stmt.raw
+      let sourceFunctions ← listValues (← mkAppM ``Triton.CallSignature.functions #[profile])
+      let helperNames ← sourceFunctions.mapM fun function => do
+        stringValue (← mkAppM ``Triton.SourceFunction.name #[function])
+      unless helperNames.eraseDups.length == helperNames.length &&
+          helperNames.all (fun helper => !names.contains helper) do
+        throwError "source helper names must be distinct from call parameters"
+      let environment ← getEnv
+      let checkedFunctions ← sourceFunctions.mapM fun function => do
+        let functionName ← stringValue (← mkAppM ``Triton.SourceFunction.name #[function])
+        let parameters ← (← listValues
+          (← mkAppM ``Triton.SourceFunction.parameters #[function])).mapM stringValue
+        let source ← stringValue (← mkAppM ``Triton.SourceFunction.body #[function])
+        liftMacroM <| SourceFunction.check environment functionName parameters source helperNames
+      for stmt in stmts do
+        rejectArgumentMutation (helperNames.map Name.mkSimple) stmt.raw
+          "source helper names cannot be rebound"
+      let stmts ← liftMacroM <| stmts.mapM fun stmt => do
+        return (⟨← SourceFunction.expand checkedFunctions stmt.raw⟩ : TSyntax `tritonStmt)
       let mut values : List (Name × TSyntax `tritonExpr) := []
       let mut fp32Values := Bool.false
       if let some args := callValues then
@@ -557,9 +580,13 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
           if pointerValues.any (fun p => p.1 == name) then
             throwErrorAt id "duplicate pointer offset binding"
           let argument ← elabTerm value none
-          unless ← isDefEq (← inferType argument) (mkConst ``Nat) do
-            throwErrorAt value "pointer offset must have a Nat element-offset carrier"
-          let expression ← liftMacroM `(tritonExpr| ($id:ident + $(($value:term : Nat))))
+          let carrier ← inferType argument
+          let expression ←
+            if ← isDefEq carrier (mkConst ``Nat) then
+              liftMacroM `(tritonExpr| ($id:ident + $(($value:term : Nat))))
+            else if ← isDefEq carrier (mkConst ``Int) then
+              liftMacroM `(tritonExpr| ($id:ident + $(($value:term : Int))))
+            else throwErrorAt value "pointer offset must have a Nat or Int element-offset carrier"
           pointerValues := pointerValues ++ [(name,expression)]
         for stmt in stmts do
           rejectArgumentMutation (pointerValues.map Prod.fst) stmt.raw
@@ -623,6 +650,7 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
         | .integer | .i32 | .i64 | .u32 | .u64 => some (Name.mkSimple name)
         | _ => none
       let stmts ← bindCallStatements integerArguments values stmts
+      let stmts ← RankOneBlockPtr.lower stmts
       let metadata ← liftMacroM <| stmts.toList.mapM fun st => do
         return (⟨← sourcePortView st.raw⟩ : TSyntax `tritonStmt)
       let (reads, writes) := Metadata.blockRegions metadata

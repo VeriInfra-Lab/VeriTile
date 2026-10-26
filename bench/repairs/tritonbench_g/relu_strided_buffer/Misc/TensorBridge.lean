@@ -39,7 +39,7 @@ theorem relu_strided_buffer_kernel_correctness (rest : Algebra ℝ) (x y : ViewM
   refine ⟨final,ran,?_,inputFrame,frame,bounds⟩
   intro i hi
   rw [result i hi,values i hi]
-  simp [Cell.read,real_scalar]
+  simp [Cell.read,KernelRealResult.source_scalar]
 
 /-- Checked strided-domain specialization: both complete kernel grids execute,
 all words have the independent ordered-ReLU result, and input/exterior frames
@@ -70,8 +70,7 @@ theorem relu_strided_buffer_grid_equiv (rest : Algebra (FP.Value .fp32))
   refine ⟨final,final,ran,(grid_folded_execution _ _ s).symm.trans ran,rfl,?_,inputFrame,frame,bounds⟩
   intro i hi
   rw [result i hi,values i hi]
-  simp [Cell.read,fp32Backend,
-    WordTile.scalarResult_word _ _ (zero_literal_exact rest),fp32_result_classification,fp32Result]
+  simp [Cell.read,KernelNativeResult.source_scalar_word,fp32_result_classification,fp32Result]
 
 #axiomsClean relu_strided_buffer_kernel_correctness
 #axiomsClean relu_strided_buffer_grid_equiv

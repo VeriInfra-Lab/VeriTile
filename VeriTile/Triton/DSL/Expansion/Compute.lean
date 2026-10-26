@@ -92,6 +92,19 @@ private def scalarLiteralAt (dtype : DInfo) (e : EOut) : MacroM EOut := do
       return { e with term := ← `(Op.constFloat $proof $value), dtype := dtype }
   | _ => return e
 
+/-- A weak source scalar in a floating comparison/select takes the tensor's
+element dtype. Source syntax distinguishes it from registers and explicit casts;
+the target-format literal is retained as a literal event, not a cast identity. -/
+def floatingSourceLiteral (other : EOut) (source : TSyntax `tritonExpr)
+    (fallback : EOut) : MacroM EOut := do
+  let floating := match other.dtype with
+    | .fp32 | .fp16 | .bf16 | .f8e4 | .f8e5 | .floatVar _ => Bool.true
+    | _ => Bool.false
+  unless floating do return fallback
+  let some value ← floatingLiteralValue? source | return fallback
+  let proof ← other.dtype.floatProof
+  return ⟨← `(Op.constFloat $proof $value), other.dtype, SInfo.scalar, none, none⟩
+
 /-- A plain Python integer literal keeps its integer tensor operand’s carrier.
 Only source literals are retargeted; a floating register or explicit floating
 cast must never be silently converted to the other operand's integer type. -/
@@ -504,6 +517,8 @@ partial def expandCmp (expandExpr : ExprExpander) (env : Env) (ctx : String) (op
   let b' ← expandExpr env b
   let a' ← integralSourceLiteral b'.dtype a a'
   let b' ← integralSourceLiteral a'.dtype b b'
+  let a' ← floatingSourceLiteral b' a a'
+  let b' ← floatingSourceLiteral a' b b'
   let b' ←
     if a'.dtype == .nat && b'.dtype == .real then
       match b with
