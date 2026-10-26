@@ -1,0 +1,86 @@
+[
+  {
+    "name": "fused_rotary_embedding_tile_checked",
+    "file": "bench/repairs/tritonbench_g/fused_rotary_embedding_tile_checked/FPEquiv.lean",
+    "sha256": "484704402d8e9b388d1cbdc712fafcbda9b4df5adeca2a1e86e3bf05f0586b4f",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/fused_rotary_embedding_tile_checked/FPEquiv.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "defd91fe6dbbbaf427822b23da5f9b7297015211"
+  },
+  {
+    "name": "fused_rotary_embedding_tile_checked-Real",
+    "file": "bench/repairs/tritonbench_g/fused_rotary_embedding_tile_checked/Correct.lean",
+    "sha256": "b4cc3f74379407032ad87ec3bf76c21cc39c14949899866cda9cb18e6ca19e42",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/fused_rotary_embedding_tile_checked/Correct.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "defd91fe6dbbbaf427822b23da5f9b7297015211"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__fused_rotary_embedding_tile_checked__Kernels",
+    "file": "bench/repairs/tritonbench_g/fused_rotary_embedding_tile_checked/Kernels.lean",
+    "sha256": "19af510a546a041c65cc0b1b8cb534bc506020cf0903c5e43900bf4af7182883",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/fused_rotary_embedding_tile_checked/Kernels.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "defd91fe6dbbbaf427822b23da5f9b7297015211"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__fused_rotary_embedding_tile_checked__Proofs__Program",
+    "file": "bench/repairs/tritonbench_g/fused_rotary_embedding_tile_checked/Proofs/Program.lean",
+    "sha256": "72ee93808cd187199bec81d980e07a2e83659ddf5cb8b1e08757a012620bda67",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/fused_rotary_embedding_tile_checked/Proofs/Program.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "defd91fe6dbbbaf427822b23da5f9b7297015211"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__fused_rotary_embedding_tile_checked__Proofs__SourceSafety",
+    "file": "bench/repairs/tritonbench_g/fused_rotary_embedding_tile_checked/Proofs/SourceSafety.lean",
+    "sha256": "79952115947f12dba0a3f5981e9c4204e9ffddfa5d10aa2c3d63a8b063ee4820",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/fused_rotary_embedding_tile_checked/Proofs/SourceSafety.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "defd91fe6dbbbaf427822b23da5f9b7297015211"
+  },
+  {
+    "name": "changed-bench__repairs__tritonbench_g__fused_rotary_embedding_tile_checked__kernel-evidence__Statements",
+    "file": "bench/repairs/tritonbench_g/fused_rotary_embedding_tile_checked/kernel-evidence/Statements.lean",
+    "sha256": "1fdac1bbf62b48d6e841ea73f56004426c02e4e2494e995f0719f320e0bb01f2",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/fused_rotary_embedding_tile_checked/kernel-evidence/Statements.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "defd91fe6dbbbaf427822b23da5f9b7297015211"
+  }
+]

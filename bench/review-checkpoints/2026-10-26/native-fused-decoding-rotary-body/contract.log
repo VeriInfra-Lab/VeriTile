@@ -1,0 +1,157 @@
+fused_rotary_embedding_tile_checked raw-source-check
+[
+  {
+    "python_function": "decoding_fused_rotary_embedding_kernel",
+    "lean_definition": "kernel",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "x": "x",
+      "q_token_stride": "q_token_stride",
+      "q_head_stride": "q_head_stride",
+      "q_dim_stride": "q_dim_stride",
+      "k_token_stride": "k_token_stride",
+      "k_head_stride": "k_head_stride",
+      "k_dim_stride": "k_dim_stride",
+      "v_token_stride": "v_token_stride",
+      "v_head_stride": "v_head_stride",
+      "v_dim_stride": "v_dim_stride",
+      "cos_token_stride": "cos_token_stride",
+      "cos_stride": "cos_stride",
+      "sin_token_stride": "sin_token_stride",
+      "sin_stride": "sin_stride",
+      "length_stride": "length_stride",
+      "kcb_stride": "kcb_stride",
+      "kch_stride": "kch_stride",
+      "kcsplit_x_stride": "kcsplit_x_stride",
+      "kcs_stride": "kcs_stride",
+      "kcd_stride": "kcd_stride",
+      "vcb_stride": "vcb_stride",
+      "vch_stride": "vch_stride",
+      "vcs_stride": "vcs_stride",
+      "vcd_stride": "vcd_stride",
+      "bts_stride": "bts_stride",
+      "btb_stride": "btb_stride",
+      "block_size": "block_size"
+    },
+    "statements": 21,
+    "runtime_parameters": {
+      "x": "integer",
+      "q_token_stride": "integer",
+      "q_head_stride": "integer",
+      "q_dim_stride": "integer",
+      "k_token_stride": "integer",
+      "k_head_stride": "integer",
+      "k_dim_stride": "integer",
+      "v_token_stride": "integer",
+      "v_head_stride": "integer",
+      "v_dim_stride": "integer",
+      "cos_token_stride": "integer",
+      "cos_stride": "integer",
+      "sin_token_stride": "integer",
+      "sin_stride": "integer",
+      "length_stride": "integer",
+      "kcb_stride": "integer",
+      "kch_stride": "integer",
+      "kcsplit_x_stride": "integer",
+      "kcs_stride": "integer",
+      "kcd_stride": "integer",
+      "vcb_stride": "integer",
+      "vch_stride": "integer",
+      "vcs_stride": "integer",
+      "vcd_stride": "integer",
+      "bts_stride": "integer",
+      "btb_stride": "integer",
+      "block_size": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_DIM",
+      "BLOCK_HALF",
+      "HEAD_DIM",
+      "KV_GROUP_NUM"
+    ]
+  },
+  {
+    "python_function": "decoding_fused_rotary_embedding_shared_q_offset",
+    "lean_definition": "kernelSharedQOffset",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "x": "x",
+      "q_token_stride": "q_token_stride",
+      "q_head_stride": "q_head_stride",
+      "q_dim_stride": "q_dim_stride",
+      "k_token_stride": "k_token_stride",
+      "k_head_stride": "k_head_stride",
+      "k_dim_stride": "k_dim_stride",
+      "v_token_stride": "v_token_stride",
+      "v_head_stride": "v_head_stride",
+      "v_dim_stride": "v_dim_stride",
+      "cos_token_stride": "cos_token_stride",
+      "cos_stride": "cos_stride",
+      "sin_token_stride": "sin_token_stride",
+      "sin_stride": "sin_stride",
+      "length_stride": "length_stride",
+      "kcb_stride": "kcb_stride",
+      "kch_stride": "kch_stride",
+      "kcsplit_x_stride": "kcsplit_x_stride",
+      "kcs_stride": "kcs_stride",
+      "kcd_stride": "kcd_stride",
+      "vcb_stride": "vcb_stride",
+      "vch_stride": "vch_stride",
+      "vcs_stride": "vcs_stride",
+      "vcd_stride": "vcd_stride",
+      "bts_stride": "bts_stride",
+      "btb_stride": "btb_stride",
+      "block_size": "block_size"
+    },
+    "statements": 21,
+    "runtime_parameters": {
+      "x": "integer",
+      "q_token_stride": "integer",
+      "q_head_stride": "integer",
+      "q_dim_stride": "integer",
+      "k_token_stride": "integer",
+      "k_head_stride": "integer",
+      "k_dim_stride": "integer",
+      "v_token_stride": "integer",
+      "v_head_stride": "integer",
+      "v_dim_stride": "integer",
+      "cos_token_stride": "integer",
+      "cos_stride": "integer",
+      "sin_token_stride": "integer",
+      "sin_stride": "integer",
+      "length_stride": "integer",
+      "kcb_stride": "integer",
+      "kch_stride": "integer",
+      "kcsplit_x_stride": "integer",
+      "kcs_stride": "integer",
+      "kcd_stride": "integer",
+      "vcb_stride": "integer",
+      "vch_stride": "integer",
+      "vcs_stride": "integer",
+      "vcd_stride": "integer",
+      "bts_stride": "integer",
+      "btb_stride": "integer",
+      "block_size": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_DIM",
+      "BLOCK_HALF",
+      "HEAD_DIM",
+      "KV_GROUP_NUM"
+    ]
+  }
+]
+
+fused_rotary_embedding_tile_checked contract
+Traceback (most recent call last):
+  File "/tmp/veritile-pr18-review/bench/repairs/tritonbench_g/fused_rotary_embedding_tile_checked/kernel-evidence/check_candidate.py", line 44, in <module>
+    exec(compile(ast.Module(body=harness.body[:stop], type_ignores=[]), str(OLD / 'check_contract.py'), 'exec'), support)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/veritile-pr18-review/bench/repairs/tritonbench_g/fused_rotary_embedding/check_contract.py", line 9, in <module>
+    import torch,triton
+ModuleNotFoundError: No module named 'torch'
+

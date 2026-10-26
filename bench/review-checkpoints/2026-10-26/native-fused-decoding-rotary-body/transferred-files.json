@@ -1,0 +1,16 @@
+{
+  "parent": "3a25fbb6f5c07013b67dc2069358c8666689d3e4",
+  "secondary_base": "1b9cca89f54524a029ed71966aabdb813db2e8f8",
+  "shared_core_unchanged": true,
+  "files": {
+    "bench/repairs/tritonbench_g/fused_rotary_embedding_tile_checked/Kernels.lean": "19af510a546a041c65cc0b1b8cb534bc506020cf0903c5e43900bf4af7182883",
+    "bench/repairs/tritonbench_g/fused_rotary_embedding_tile_checked/Proofs/Program.lean": "72ee93808cd187199bec81d980e07a2e83659ddf5cb8b1e08757a012620bda67",
+    "bench/repairs/tritonbench_g/fused_rotary_embedding_tile_checked/Proofs/SourceSafety.lean": "79952115947f12dba0a3f5981e9c4204e9ffddfa5d10aa2c3d63a8b063ee4820",
+    "bench/repairs/tritonbench_g/fused_rotary_embedding_tile_checked/README.md": "ed51a266ce5b2809ffef92918ae97ef4d5670b392d1a0a2c161c00c8c77da320",
+    "bench/repairs/tritonbench_g/fused_rotary_embedding_tile_checked/kernel-evidence/Statements.lean": "1fdac1bbf62b48d6e841ea73f56004426c02e4e2494e995f0719f320e0bb01f2",
+    "bench/repairs/tritonbench_g/fused_rotary_embedding_tile_checked/candidate_kernels.py": "6ceb413a72dbba1df0ab83558d102ccceabb3fe4f50e363cdd9382e1011fbdbe",
+    "bench/repairs/tritonbench_g/fused_rotary_embedding_tile_checked/jit-correspondence.json": "34281d10e6db937219a5cfb09fc87ac8215eb1f50b050a71242147d598f47392",
+    "bench/tests/test_jit_correspondence.py": "63b42ebc0e7a766dea98dc4cbee2ac33559a4a29f2eb29d2f7cf7b3cc0594357"
+  },
+  "code_commit": "2d697216e12ad334066e4e0acc77318698e127fd"
+}

@@ -1,0 +1,31 @@
+[
+  {
+    "name": "targeted",
+    "command": [
+      "python3",
+      "-m",
+      "unittest",
+      "bench.tests.test_jit_correspondence",
+      "bench.tests.test_body_corpus"
+    ],
+    "exit_code": 0,
+    "code_commit": "defd91fe6dbbbaf427822b23da5f9b7297015211",
+    "log": "/tmp/fused-rotary73-python-tests.log"
+  },
+  {
+    "name": "all-unittest",
+    "command": [
+      "python3",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "bench/tests",
+      "-p",
+      "test_*.py"
+    ],
+    "exit_code": 1,
+    "code_commit": "defd91fe6dbbbaf427822b23da5f9b7297015211",
+    "log": "/tmp/fused-rotary73-all-python.log"
+  }
+]

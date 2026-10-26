@@ -1,0 +1,11 @@
+{
+  "parent": "2d697216e12ad334066e4e0acc77318698e127fd",
+  "files": {
+    "bench/repairs/tritonbench_g/fused_rotary_embedding_tile_checked/kernel-evidence/check_candidate.py": {
+      "before": "3eafa56a9e07cb734729e4db8f2c680e663ae9aea5684a0d34c41c3250f3532d",
+      "after": "cf6200a0e0210c30fc52e941cdb3f8fb5fabd3b0542402abba5207cade7b8e37"
+    }
+  },
+  "Lean_sources_and_build_configuration_changed": false,
+  "code_commit": "defd91fe6dbbbaf427822b23da5f9b7297015211"
+}

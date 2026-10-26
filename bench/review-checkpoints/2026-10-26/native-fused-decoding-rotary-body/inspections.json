@@ -1,0 +1,27 @@
+{
+  "code_commit": "defd91fe6dbbbaf427822b23da5f9b7297015211",
+  "raw_bodies": [
+    {
+      "task": "fused_rotary_embedding_tile_checked",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/fused_rotary_embedding_tile_checked/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    }
+  ],
+  "cpu_contracts": [
+    {
+      "task": "fused_rotary_embedding_tile_checked",
+      "command": [
+        "python3",
+        "bench/repairs/tritonbench_g/fused_rotary_embedding_tile_checked/kernel-evidence/check_candidate.py"
+      ],
+      "exit_code": 1,
+      "status": "UNAVAILABLE"
+    }
+  ]
+}

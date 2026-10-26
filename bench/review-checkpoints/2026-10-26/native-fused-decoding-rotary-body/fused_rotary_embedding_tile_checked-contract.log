@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/tmp/veritile-pr18-review/bench/repairs/tritonbench_g/fused_rotary_embedding_tile_checked/kernel-evidence/check_candidate.py", line 44, in <module>
+    exec(compile(ast.Module(body=harness.body[:stop], type_ignores=[]), str(OLD / 'check_contract.py'), 'exec'), support)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/veritile-pr18-review/bench/repairs/tritonbench_g/fused_rotary_embedding/check_contract.py", line 9, in <module>
+    import torch,triton
+ModuleNotFoundError: No module named 'torch'
