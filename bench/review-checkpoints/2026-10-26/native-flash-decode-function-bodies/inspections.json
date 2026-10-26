@@ -1,0 +1,79 @@
+{
+  "code_commit": "073fcdc11c86115e41ad7993cf54e6b1f081acbd",
+  "raw_bodies": [
+    {
+      "task": "flash_decode2_llama",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/flash_decode2_llama/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "073fcdc11c86115e41ad7993cf54e6b1f081acbd",
+      "status": "PASS",
+      "log": "/tmp/decode76-flash_decode2_llama-raw.log"
+    },
+    {
+      "task": "flash_decode2_phi_block_checked",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/flash_decode2_phi_block_checked/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "073fcdc11c86115e41ad7993cf54e6b1f081acbd",
+      "status": "PASS",
+      "log": "/tmp/decode76-flash_decode2_phi_block_checked-raw.log"
+    }
+  ],
+  "cpu_contracts": [
+    {
+      "task": "flash_decode2_llama",
+      "command": [
+        "python3",
+        "bench/repairs/tritonbench_g/flash_decode2_llama/check_contract.py"
+      ],
+      "exit_code": 1,
+      "status": "UNAVAILABLE",
+      "code_commit": "073fcdc11c86115e41ad7993cf54e6b1f081acbd",
+      "log": "/tmp/decode76-flash_decode2_llama-cpu.log",
+      "scope": "actual selected checker"
+    },
+    {
+      "task": "flash_decode2_phi",
+      "command": [
+        "python3",
+        "bench/repairs/tritonbench_g/flash_decode2_phi/check_contract.py"
+      ],
+      "exit_code": 1,
+      "status": "UNAVAILABLE",
+      "code_commit": "073fcdc11c86115e41ad7993cf54e6b1f081acbd",
+      "log": "/tmp/decode76-flash_decode2_phi-cpu.log",
+      "scope": "historical shared checker; not the selected Phi Block wrapper"
+    }
+  ],
+  "selected_phi_cpu_checker": "not present; historical shared checker is separately labeled",
+  "unchanged_selected_sources_and_wrappers": [
+    {
+      "task": "flash_decode2_llama",
+      "path": "bench/repairs/tritonbench_g/flash_decode2_llama/flash_decode2_llama_repaired.py",
+      "source_sha256": "2d8a58c053404bcc7b8b58117aaea53cb4eed4742ddcadc90c8eaa6075e34c85",
+      "jit_ast_sha256": "adeb6fb723940d6b9d26bc12808b1837c35f68c5df6463250f923dd315b392b5",
+      "host_ast_sha256": "f8f69e7564b90edc5ccdaa315176a292ffe38c7f1c02c4b0691f1804945bb683",
+      "top_level_statements": 13,
+      "status": "PASS"
+    },
+    {
+      "task": "flash_decode2_phi_block_checked",
+      "path": "bench/repairs/tritonbench_g/flash_decode2_phi_block_checked/flash_decode2_phi_block_checked.py",
+      "source_sha256": "e40385d5a9c3c674443f90d14f539298e36bc890ba32229b8c31101e14334653",
+      "jit_ast_sha256": "d3bf8f50cd0c615965e6bbe9d2378880487baa84f91f7507366c2e178ae1e386",
+      "host_ast_sha256": "84da38b896201813714602312efa6eea311be2a847b658b1d65ae1755df23f15",
+      "top_level_statements": 13,
+      "status": "PASS"
+    }
+  ],
+  "scope": "Raw-body/ABI correspondence and unchanged source/host ASTs. Does not claim execution of unavailable CPU or GPU checks."
+}

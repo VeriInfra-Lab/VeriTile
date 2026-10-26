@@ -1,0 +1,194 @@
+[
+  {
+    "name": "VeriTile__Triton__DSL__TypedStores",
+    "file": "VeriTile/Triton/DSL/TypedStores.lean",
+    "sha256": "6b923aa90cb18c4bd6526a83282535070e804865d356d4f7eab83e9a3812a2d7",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "VeriTile/Triton/DSL/TypedStores.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "073fcdc11c86115e41ad7993cf54e6b1f081acbd",
+    "status": "UNAVAILABLE",
+    "log": "/tmp/decode76-VeriTile__Triton__DSL__TypedStores-comparator.log"
+  },
+  {
+    "name": "bench__tests__TypedStores",
+    "file": "bench/tests/TypedStores.lean",
+    "sha256": "4dfc8de1d07ef7740332967ff3e295fb7d1f2a4525eca5632a1ffbc281b5f1a0",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/tests/TypedStores.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "073fcdc11c86115e41ad7993cf54e6b1f081acbd",
+    "status": "UNAVAILABLE",
+    "log": "/tmp/decode76-bench__tests__TypedStores-comparator.log"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__flash_decode2_phi__Kernels",
+    "file": "bench/repairs/tritonbench_g/flash_decode2_phi/Kernels.lean",
+    "sha256": "3055971466fb14e92ed7d159e4b3a453c9e23f2ea3b80e3aa0a493836d236840",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/flash_decode2_phi/Kernels.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "073fcdc11c86115e41ad7993cf54e6b1f081acbd",
+    "status": "UNAVAILABLE",
+    "log": "/tmp/decode76-bench__repairs__tritonbench_g__flash_decode2_phi__Kernels-comparator.log"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__flash_decode2_phi__Proofs__SourceConnection",
+    "file": "bench/repairs/tritonbench_g/flash_decode2_phi/Proofs/SourceConnection.lean",
+    "sha256": "b39bd895586df9d8e276efaa86201a6ffda52d136f974a81d1981b66cca16d53",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/flash_decode2_phi/Proofs/SourceConnection.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "073fcdc11c86115e41ad7993cf54e6b1f081acbd",
+    "status": "UNAVAILABLE",
+    "log": "/tmp/decode76-bench__repairs__tritonbench_g__flash_decode2_phi__Proofs__SourceConnection-comparator.log"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__flash_decode2_phi__Proofs__Execution",
+    "file": "bench/repairs/tritonbench_g/flash_decode2_phi/Proofs/Execution.lean",
+    "sha256": "4a654dece80a710d6592cf681e86f10287c9b3d804e8123bcf77111a3171dc3b",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/flash_decode2_phi/Proofs/Execution.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "073fcdc11c86115e41ad7993cf54e6b1f081acbd",
+    "status": "UNAVAILABLE",
+    "log": "/tmp/decode76-bench__repairs__tritonbench_g__flash_decode2_phi__Proofs__Execution-comparator.log"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__flash_decode2_llama__Proofs__AccessSafety",
+    "file": "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/AccessSafety.lean",
+    "sha256": "814cf22f45eb13e3b282fcc43851a98d370efda373d35d101544c81d2210594b",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/AccessSafety.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "073fcdc11c86115e41ad7993cf54e6b1f081acbd",
+    "status": "UNAVAILABLE",
+    "log": "/tmp/decode76-bench__repairs__tritonbench_g__flash_decode2_llama__Proofs__AccessSafety-comparator.log"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__flash_decode2_llama__Correct",
+    "file": "bench/repairs/tritonbench_g/flash_decode2_llama/Correct.lean",
+    "sha256": "f3019b13215049d531e83084de87f5dea7f7451196ad07af86e121f546e24371",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/flash_decode2_llama/Correct.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "073fcdc11c86115e41ad7993cf54e6b1f081acbd",
+    "status": "UNAVAILABLE",
+    "log": "/tmp/decode76-bench__repairs__tritonbench_g__flash_decode2_llama__Correct-comparator.log"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__flash_decode2_llama__FPEquiv",
+    "file": "bench/repairs/tritonbench_g/flash_decode2_llama/FPEquiv.lean",
+    "sha256": "49ea9d9fd34ce27023a81dc584998f3330b5303e99e315a4420391321cbac3ea",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/flash_decode2_llama/FPEquiv.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "073fcdc11c86115e41ad7993cf54e6b1f081acbd",
+    "status": "UNAVAILABLE",
+    "log": "/tmp/decode76-bench__repairs__tritonbench_g__flash_decode2_llama__FPEquiv-comparator.log"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__flash_decode2_llama__Proofs__SourcePair",
+    "file": "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/SourcePair.lean",
+    "sha256": "4dde9cd033b7bb4316670a874a19e31b711f0c18335cb7104684e13f01650702",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/SourcePair.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "073fcdc11c86115e41ad7993cf54e6b1f081acbd",
+    "status": "UNAVAILABLE",
+    "log": "/tmp/decode76-bench__repairs__tritonbench_g__flash_decode2_llama__Proofs__SourcePair-comparator.log"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__flash_decode2_phi_block_checked__Correct",
+    "file": "bench/repairs/tritonbench_g/flash_decode2_phi_block_checked/Correct.lean",
+    "sha256": "3e9f7ae2f32ba03c5dcba475641061b15dc42c0a040da71aa012ab798efbf569",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/flash_decode2_phi_block_checked/Correct.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "073fcdc11c86115e41ad7993cf54e6b1f081acbd",
+    "status": "UNAVAILABLE",
+    "log": "/tmp/decode76-bench__repairs__tritonbench_g__flash_decode2_phi_block_checked__Correct-comparator.log"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__flash_decode2_phi_block_checked__FPEquiv",
+    "file": "bench/repairs/tritonbench_g/flash_decode2_phi_block_checked/FPEquiv.lean",
+    "sha256": "a042edbb74997229ea4881ace60af4457763d5aa91a8dad5325b24ac1d7fefa3",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/flash_decode2_phi_block_checked/FPEquiv.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "073fcdc11c86115e41ad7993cf54e6b1f081acbd",
+    "status": "UNAVAILABLE",
+    "log": "/tmp/decode76-bench__repairs__tritonbench_g__flash_decode2_phi_block_checked__FPEquiv-comparator.log"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__flash_decode2_phi_block_checked__Proofs__SourcePair",
+    "file": "bench/repairs/tritonbench_g/flash_decode2_phi_block_checked/Proofs/SourcePair.lean",
+    "sha256": "3adea6780db631e50a628a1d61bb655dde32d45f7ef0962f13332beb2f02bf0f",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/flash_decode2_phi_block_checked/Proofs/SourcePair.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "073fcdc11c86115e41ad7993cf54e6b1f081acbd",
+    "status": "UNAVAILABLE",
+    "log": "/tmp/decode76-bench__repairs__tritonbench_g__flash_decode2_phi_block_checked__Proofs__SourcePair-comparator.log"
+  }
+]

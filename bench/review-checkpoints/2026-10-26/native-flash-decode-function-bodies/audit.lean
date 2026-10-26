@@ -1,0 +1,19 @@
+import bench.repairs.tritonbench_g.flash_decode2_llama.Correct
+import bench.repairs.tritonbench_g.flash_decode2_llama.FPEquiv
+import bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.Correct
+import bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.FPEquiv
+import bench.tests.TypedStores
+
+#axiomsClean VeriTile.Bench.Repairs.FlashDecode2.complete
+#axiomsClean VeriTile.Bench.Repairs.FlashDecode2.rangeInt_complete
+#axiomsClean VeriTile.Bench.Repairs.FlashDecode2.AccessSafety.source_safe
+#axiomsClean VeriTile.Bench.Repairs.FlashDecode2Llama.SourcePair.address_exec
+#axiomsClean VeriTile.Bench.Repairs.FlashDecode2Llama.SourcePair.source_exec
+#axiomsClean VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.SourcePair.address_exec
+#axiomsClean VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.SourcePair.source_exec
+#axiomsClean VeriTile.Bench.Repairs.FlashDecode2Llama.Correct.kernel_real
+#axiomsClean VeriTile.Bench.Repairs.FlashDecode2Llama.FPEquiv.kernel_equivalent
+#axiomsClean VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.Correct.kernel_real
+#axiomsClean VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.FPEquiv.kernel_equivalent
+#print_fp_assumptions VeriTile.Bench.Repairs.FlashDecode2Llama.FPEquiv.kernel_equivalent
+#print_fp_assumptions VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.FPEquiv.kernel_equivalent

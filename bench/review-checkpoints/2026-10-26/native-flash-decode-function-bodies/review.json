@@ -1,0 +1,385 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "073fcdc11c86115e41ad7993cf54e6b1f081acbd",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "flash_decode2_llama",
+    "flash_decode2_phi"
+  ],
+  "semantic_review": {
+    "adam_update_triton": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "add_example": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "add_value": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "apply_penalty": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "batched_vecmat_mult": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "cache_transform_triton": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "chunk_cumsum_kernel": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "chunk_cumsum_vector": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "chunked_cumsum_fwd": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "cosine_compute": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "dequantize_matmul": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "dequantize_rowwise": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "destindex_copy": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "destindex_copy_kv1": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "destindex_copy_kv2": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "dropout_triton": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "embedding_triton_kernel": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "f8_conversion_utils": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "fast_rope_embedding": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "flash_decode2_llama": "The original Python JIT and wrapper and public Correct/FPEquiv/IO/Contract are byte-identical. Four complete 13-statement original/existing shared-base candidate bodies are visible in the shared FlashDecode2 Kernels; selected entries explicitly alias that same implementation. All three INT64 PID/length conversions, plain arange, guarded signed ceil-count, assigned 0.0 and negative-infinity state, zero FP32 vector, signed loop, load/max/exp/update order, final division/store and terminal return are retained. Phi retains both head_dim masks; Llama remains unmasked. The unchanged canonical wrapper ABI supplies actual H*S*D/S*D/H*S strides and Phi head_dim outside each quotation. Candidate source is explicitly authored from the pre-existing integer shared-row-base CSE and is not claimed for independent arbitrary strides. The source checker pins arithmetic bindings syntactically and rejects regrouping/calls/indexing. The generic frontend materializes ordinary FP32 floating constants while inline literals stay weak; unsupported FP64 literal assignments fail closed, preserving explicit conversions and avoiding an invented final store cast. Constructive signed source execution, complete output memory and exterior frame, actual signed-loop access safety and full-state/failure-preserving CSE are proved for arbitrary opaque floating algebras. Both unchanged complete-grid mathematical exponential-weighted summaries, full-grid FP equivalence, finite index/native observations, original geometry/positive/Fits domains, host/Tensor/storage/empty-grid scopes replay. Only integer arithmetic and exact Real literal normalization are used in these structural connections; no FP cast identity, new axiom, whole-kernel/model premise, domain narrowing or numerical experiment.",
+    "flash_decode2_phi": "The original Python JIT and wrapper and public Correct/FPEquiv/IO/Contract are byte-identical. Four complete 13-statement original/existing shared-base candidate bodies are visible in the shared FlashDecode2 Kernels; selected entries explicitly alias that same implementation. All three INT64 PID/length conversions, plain arange, guarded signed ceil-count, assigned 0.0 and negative-infinity state, zero FP32 vector, signed loop, load/max/exp/update order, final division/store and terminal return are retained. Phi retains both head_dim masks; Llama remains unmasked. The unchanged canonical wrapper ABI supplies actual H*S*D/S*D/H*S strides and Phi head_dim outside each quotation. Candidate source is explicitly authored from the pre-existing integer shared-row-base CSE and is not claimed for independent arbitrary strides. The source checker pins arithmetic bindings syntactically and rejects regrouping/calls/indexing. The generic frontend materializes ordinary FP32 floating constants while inline literals stay weak; unsupported FP64 literal assignments fail closed, preserving explicit conversions and avoiding an invented final store cast. Constructive signed source execution, complete output memory and exterior frame, actual signed-loop access safety and full-state/failure-preserving CSE are proved for arbitrary opaque floating algebras. Both unchanged complete-grid mathematical exponential-weighted summaries, full-grid FP equivalence, finite index/native observations, original geometry/positive/Fits domains, host/Tensor/storage/empty-grid scopes replay. Only integer arithmetic and exact Real literal normalization are used in these structural connections; no FP cast identity, new axiom, whole-kernel/model premise, domain narrowing or numerical experiment.",
+    "fused_activation": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "fused_recurrent_hgrn": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "fused_rotary_embedding": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "index_select_bwd": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "index_select_cat": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "int8_matmul_kernel": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "kcache_copy_triton": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "kldiv_compute": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "kldiv_triton": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "kv_cache_copy": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "l2_norm_bwd": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "l2_norm_triton1": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "l2_norm_triton2": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "log_softmax": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "logsumexp_fwd": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "masked_add_cuda": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "masked_select": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "matmul_kernel": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "matrix_reduction": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "matrix_transpose": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "max_reduction": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "mean_reduction": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "mul_exponent_compensator": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "nested_loops_processing": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "quant_transpose_kernel": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "quantize_copy_kv": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "quantize_global": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "quantize_kv_copy": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "quantize_kv_transform": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "relu_strided_buffer": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "relu_triton_kernel": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "reversed_cumsum": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "reversed_cumsum_scalar": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "rms_norm_triton": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "rmsnorm_fused": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "rmsnorm_fused_llama": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "rmsnorm_implementation": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "rmsnorm_triton": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "rope_backward_transform": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "rope_embedding": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "rope_transform": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "rotary_emb": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "rotary_emb_nopad": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "rowwise_quantization_triton": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "seeded_dropout": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "sin_computation": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "sin_kernel": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "softmax_triton1": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "softmax_triton2": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "square_matrix": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "swiglu_backward": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "swiglu_fwd": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "swiglu_triton": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "token_attn_mistral": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "token_attn_reduceV": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "token_softmax_bloom": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "token_softmax_llama": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "triton_mul2": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "triton_softmax": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "var_len_copy": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "vector_addition": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law.",
+    "vector_addition_custom": "Regression after ordinary floating-literal assignment dtype tracking: source body, selected original Python and public Real/FP/domain scopes are unchanged. All previously selected complete public/deep roots replay in the explicit 2948-root warm/joint and independent initially-empty build at the final source commit. This is not counted as a new migration or numerical law."
+  },
+  "compiler_change": {
+    "file": "VeriTile/Triton/DSL/TypedStores.lean",
+    "behavior": "Ordinary floating scalar assignment materializes a typed tensor; inline literals remain weak. Retain stable carried FP32 types through possibly-empty loops and each tuple/broadcast output. Unsupported FP64 assignment fails closed.",
+    "official_primary_references": [
+      "https://raw.githubusercontent.com/triton-lang/triton/main/python/triton/compiler/code_generator.py",
+      "https://raw.githubusercontent.com/triton-lang/triton/main/python/triton/language/semantic.py"
+    ],
+    "regressions": "Four new Lean regressions: zero/negative-infinity loop carries; assigned-versus-inline FP16 promotion and real output cast; tuple initialization and stores; reject unsupported FP64 literal."
+  },
+  "verification": {
+    "focused": {
+      "status": "PASS",
+      "explicit_modules": 77,
+      "jobs": 3538
+    },
+    "warm_and_joint": {
+      "status": "PASS",
+      "explicit_modules": 2948,
+      "jobs": 12274
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 2948,
+      "jobs": 12274,
+      "project_build_initially_present": false,
+      "veritile_cache_initially_present": false,
+      "only_fixed_external_dependencies_imported": true,
+      "project_objects_imported_from_other_checkouts": false,
+      "setup": {
+        "path": "bench/review-checkpoints/2026-10-26/native-flash-decode-function-bodies/clean-setup.json",
+        "sha256": "b95e6009719a0fc143cb4c927db3d803aa48d0e2eae7f6ed52a0060f7e678022"
+      }
+    },
+    "trust": "PASS: standalone actual source execution/safety/CSE and both public Real/FP theorem footprints use only standard base; both FP assumptions print none.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 105
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 350,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by old numerical receipt; no false repin."
+    },
+    "source": "PASS: all four complete raw bodies, actual ABI arithmetic bindings, selected Python and host ASTs unchanged from published parent.",
+    "official_comparator": "UNAVAILABLE: 12 actual frozen-source comparator/trust attempts; pinned binaries verified. Host Landlock ABI v4 is below required v5 and systemd user isolation unavailable. No bypass.",
+    "cpu": "Selected Llama and historical shared Phi checker attempts unavailable due missing Torch. Selected Phi Block provides no task CPU checker; historical Phi attempt is labeled separately and does not certify the selected wrapper.",
+    "gpu_or_numerical_experiment": "Not run.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending; the known unchanged numerical receipt failure remains explicit."
+  },
+  "source_pairs": {
+    "total": 255,
+    "pasted_body": 250,
+    "legacy_ast": 5
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-26/native-flash-decode-function-bodies/source-closure.json",
+    "sha256": "243247153741bd160d941bf4542882abeb5f3654d9475c07ded9a4ca51a736ab"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "legacy_ast_only": 1,
+      "no_selected_jit_resolved": 2,
+      "selected_body_copy_checked": 83,
+      "uncovered_jit_functions": 97
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 328,
+    "uncovered_selected_jit_functions": 201,
+    "primary_files_with_int64_screen_warning": 26,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 75,
+        "antiquotes": 83,
+        "dsl_loop": 1,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "example_regression_scope": "All 19 examples and previously selected task roots replay warm/joint and independently from empty project objects after the shared frontend change. Bodies and public specifications unchanged.",
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-flash-decode-function-bodies/VeriTile__Triton__DSL__TypedStores-comparator.log",
+      "sha256": "092c08f81c0edaa1ac81d186ecd75d6dec5803fcd8bd45f20a33e738a383a025"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-flash-decode-function-bodies/all-python.log",
+      "sha256": "768b9592312aabe55d07e5f524e1b85d404f76b25ff5ed899d41c1a251b45e55"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-flash-decode-function-bodies/all.log.gz",
+      "sha256": "e626c1a85bcb812d5c31b89bd1d308bb4d21564563b7e86e565d525ccce9f77d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-flash-decode-function-bodies/all2.log.gz",
+      "sha256": "2a613f3e5e7459e07bc17157f250d3982d00d7025b6c2dc814335de75dc19b52"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-flash-decode-function-bodies/audit.lean",
+      "sha256": "c608b2111857fefbe1825052d53c67b8c03029caedcdccb55155f0eee582071b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-flash-decode-function-bodies/audit.log",
+      "sha256": "135ffbde81e36464e28f001b185bcfd71cfb6ca051ad03deab746cedf376d514"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-flash-decode-function-bodies/baseline.json",
+      "sha256": "8370afd5b5f3b123878cb6d27d738583cf9951e1b10889c109ed59198fe1fa7b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-flash-decode-function-bodies/bench__repairs__tritonbench_g__flash_decode2_llama__Correct-comparator.log",
+      "sha256": "092c08f81c0edaa1ac81d186ecd75d6dec5803fcd8bd45f20a33e738a383a025"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-flash-decode-function-bodies/bench__repairs__tritonbench_g__flash_decode2_llama__FPEquiv-comparator.log",
+      "sha256": "092c08f81c0edaa1ac81d186ecd75d6dec5803fcd8bd45f20a33e738a383a025"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-flash-decode-function-bodies/bench__repairs__tritonbench_g__flash_decode2_llama__Proofs__AccessSafety-comparator.log",
+      "sha256": "092c08f81c0edaa1ac81d186ecd75d6dec5803fcd8bd45f20a33e738a383a025"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-flash-decode-function-bodies/bench__repairs__tritonbench_g__flash_decode2_llama__Proofs__SourcePair-comparator.log",
+      "sha256": "092c08f81c0edaa1ac81d186ecd75d6dec5803fcd8bd45f20a33e738a383a025"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-flash-decode-function-bodies/bench__repairs__tritonbench_g__flash_decode2_phi__Kernels-comparator.log",
+      "sha256": "092c08f81c0edaa1ac81d186ecd75d6dec5803fcd8bd45f20a33e738a383a025"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-flash-decode-function-bodies/bench__repairs__tritonbench_g__flash_decode2_phi__Proofs__Execution-comparator.log",
+      "sha256": "092c08f81c0edaa1ac81d186ecd75d6dec5803fcd8bd45f20a33e738a383a025"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-flash-decode-function-bodies/bench__repairs__tritonbench_g__flash_decode2_phi__Proofs__SourceConnection-comparator.log",
+      "sha256": "092c08f81c0edaa1ac81d186ecd75d6dec5803fcd8bd45f20a33e738a383a025"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-flash-decode-function-bodies/bench__repairs__tritonbench_g__flash_decode2_phi_block_checked__Correct-comparator.log",
+      "sha256": "092c08f81c0edaa1ac81d186ecd75d6dec5803fcd8bd45f20a33e738a383a025"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-flash-decode-function-bodies/bench__repairs__tritonbench_g__flash_decode2_phi_block_checked__FPEquiv-comparator.log",
+      "sha256": "092c08f81c0edaa1ac81d186ecd75d6dec5803fcd8bd45f20a33e738a383a025"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-flash-decode-function-bodies/bench__repairs__tritonbench_g__flash_decode2_phi_block_checked__Proofs__SourcePair-comparator.log",
+      "sha256": "092c08f81c0edaa1ac81d186ecd75d6dec5803fcd8bd45f20a33e738a383a025"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-flash-decode-function-bodies/bench__tests__TypedStores-comparator.log",
+      "sha256": "092c08f81c0edaa1ac81d186ecd75d6dec5803fcd8bd45f20a33e738a383a025"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-flash-decode-function-bodies/clean-build.log.gz",
+      "sha256": "bf710e889ed14bd69ee65a672dfbf9a0c96eb5a4403e3d9086ce8ea5b6e24ddf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-flash-decode-function-bodies/clean-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-flash-decode-function-bodies/clean-setup.json",
+      "sha256": "b95e6009719a0fc143cb4c927db3d803aa48d0e2eae7f6ed52a0060f7e678022"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-flash-decode-function-bodies/comparator-invocations.json",
+      "sha256": "98c56c71acb1b1c5f9ba72b3e7102a7d438eae028962141bf1813dd3a110cb4b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-flash-decode-function-bodies/comparator-tools.json",
+      "sha256": "28998e17d51b0fb5930f7489e64512a57f8a8146d1470063a624a75bbabdb0d3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-flash-decode-function-bodies/corpus-guard.log",
+      "sha256": "d5e3ff424c6b07083c65870b7446ed12655640737c213f525328a67e74417f24"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-flash-decode-function-bodies/exec3.log.gz",
+      "sha256": "a193be3da0aab062c58c9d26d1181b7260a6955657c237a1c631bab7d119820b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-flash-decode-function-bodies/flash_decode2_llama-cpu.log",
+      "sha256": "0224a7ab1849770dfaeb963a957403fd5fbc56d10581fce726a603514e7e58f1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-flash-decode-function-bodies/flash_decode2_llama-raw.log",
+      "sha256": "79ae68e2f498c0d3107db516d6d3ff22e7569a86664a755417ac602496773b63"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-flash-decode-function-bodies/flash_decode2_phi-cpu.log",
+      "sha256": "04d35ed745c1837a670afba72fdbd59aa8b063c571946d59baab19ce3c53bccd"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-flash-decode-function-bodies/flash_decode2_phi_block_checked-raw.log",
+      "sha256": "6de2f54dec8126d66fad8971857a74c696c7f10df5cda7a7c9a4aaab0526d476"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-flash-decode-function-bodies/float-literal-inventory.json",
+      "sha256": "e04b60c03cc97c74d59cf21e7214b794c519d74ed0b9b7fef76729cc3501a5bc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-flash-decode-function-bodies/focused-modules.txt",
+      "sha256": "75c57a8e235fff2f14ffd3e4711c6ff87d0e89e70573de6eb8ce759bd41f6b51"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-flash-decode-function-bodies/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-flash-decode-function-bodies/inspections.json",
+      "sha256": "0d013a747fdcb0f4e5d729459993d492ed274bc5eacc794d507e1f15289b91c5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-flash-decode-function-bodies/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-flash-decode-function-bodies/joint-all.lean",
+      "sha256": "d443643b9d5d0b0f5548e4931f3a554aad371cfcf8e63830fc20c7aac2dccfb2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-flash-decode-function-bodies/joint-all.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-flash-decode-function-bodies/joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-flash-decode-function-bodies/literal-tests2.log",
+      "sha256": "55f0ccec6eff6a341affee65bad45b0f046c0fe60c8b5985b3c0da7dcf6f7880"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-flash-decode-function-bodies/modules.json",
+      "sha256": "24d65be0eed727497bf2e7deb723d75a047bd8d1b17b49e753b4b48917328d51"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-flash-decode-function-bodies/pairs.json",
+      "sha256": "20b2c98bdc2758b6a3e17c5f390024692f155d7e503cc306a317beec5c3a6963"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-flash-decode-function-bodies/previous-selected-reviews.json.gz",
+      "sha256": "bcc66f9d990c87153ef4e4bc4db939d2154854c1d517e50892b14330f5f51bcb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-flash-decode-function-bodies/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-flash-decode-function-bodies/python-invocations.json",
+      "sha256": "be25d610ce360f99cdf8582afb9813815ebebbf2461cb10ef4f05c59fd9c7743"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-flash-decode-function-bodies/python-tests.log",
+      "sha256": "b8dc7b576361f19cb8bcbe46b59ab64c7439922aba23fe7f7a462139bcdaaa51"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-flash-decode-function-bodies/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-flash-decode-function-bodies/source-closure.json",
+      "sha256": "243247153741bd160d941bf4542882abeb5f3654d9475c07ded9a4ca51a736ab"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-26/native-flash-decode-function-bodies/transferred-files.json",
+      "sha256": "e1eeb9ee52a2c17d3048c92a2c59eb700bcce704b71879d9370cab8b32b38b42"
+    }
+  ]
+}

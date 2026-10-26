@@ -1,0 +1,50 @@
+⚠ [789/809] Replayed VeriTile.Triton.DSL.Expansion.Common
+warning: VeriTile/Triton/DSL/Expansion/Common.lean:203:29: unused variable `ctx`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+✔ [813/815] Built VeriTile.Triton.DSL.TypedStores (7.1s)
+✔ [814/815] Built VeriTile.Triton.DSL.CallSignature (15s)
+⚠ [815/815] Built bench.tests.TypedStores (2.7s)
+info: bench/tests/TypedStores.lean:163:0: VeriTile.Tests.TypedStores.integer_loop_conversion: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/tests/TypedStores.lean:164:0: VeriTile.Tests.TypedStores.byte_identity: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+info: bench/tests/TypedStores.lean:165:0: VeriTile.Tests.TypedStores.arithmetic_conversion: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/tests/TypedStores.lean:166:0: VeriTile.Tests.TypedStores.cross_dtype_conversion: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/tests/TypedStores.lean:167:0: VeriTile.Tests.TypedStores.reassign_conversion: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/tests/TypedStores.lean:168:0: VeriTile.Tests.TypedStores.integer_literal: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+info: bench/tests/TypedStores.lean:169:0: VeriTile.Tests.TypedStores.cast_load_port: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+info: bench/tests/TypedStores.lean:199:0: VeriTile.Tests.TypedStores.nested_integer_read_preserves_program: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+warning: bench/tests/TypedStores.lean:260:20: unused variable `X`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: bench/tests/TypedStores.lean:266:29: unused variable `X`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+info: bench/tests/TypedStores.lean:286:0: VeriTile.Tests.TypedStores.attribute_broadcast_loop_preserves_casts: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/tests/TypedStores.lean:287:0: VeriTile.Tests.TypedStores.broadcast_retains_each_precision: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/tests/TypedStores.lean:288:0: VeriTile.Tests.TypedStores.attributed_constructor_keeps_output_conversion: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/tests/TypedStores.lean:373:0: VeriTile.Tests.TypedStores.scalar_loop_dtype_and_store: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/tests/TypedStores.lean:374:0: VeriTile.Tests.TypedStores.assigned_and_inline_literal_precision: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: bench/tests/TypedStores.lean:375:0: VeriTile.Tests.TypedStores.literal_tuple_no_invented_store_cast: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+Build completed successfully (815 jobs).

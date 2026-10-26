@@ -1,0 +1,11 @@
+{
+  "code_commit": "073fcdc11c86115e41ad7993cf54e6b1f081acbd",
+  "checkout": "/tmp/veritile-pr18-review",
+  "project_build_initially_present": false,
+  "veritile_cache_initially_present": false,
+  "project_objects_imported_from_other_checkouts": false,
+  "fixed_external_packages_reused": "/home/argustest/lizn/VeriTile/.lake/packages",
+  "lean_version": "Lean (version 4.29.0, x86_64-unknown-linux-gnu, commit 98dc76e3c0a9b856c9b98726b713fb04fab16740, Release)",
+  "build_exit_code": 0,
+  "joint_exit_code": 0
+}

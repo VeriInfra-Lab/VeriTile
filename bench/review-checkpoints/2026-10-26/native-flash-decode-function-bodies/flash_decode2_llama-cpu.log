@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/tmp/veritile-pr18-review/bench/repairs/tritonbench_g/flash_decode2_llama/check_contract.py", line 6, in <module>
+    runpy.run_path(str(Path(__file__).resolve().parent.parent / "flash_decode2_phi" / "check_contract.py"))["checks"]("flash_decode2_llama")
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/tmp/veritile-pr18-review/bench/repairs/tritonbench_g/flash_decode2_phi/check_contract.py", line 7, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'
