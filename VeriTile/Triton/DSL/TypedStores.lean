@@ -92,17 +92,22 @@ private def explicitCastType (pointers : Types) (e : TSyntax `tritonExpr) : Opti
   | .str (.str pointer "type") "element_ty" => lookup pointers (mkIdent pointer)
   | _ => sourceKinds.find? (fun dtype => PointerType.dtypeName dtype == target)
 
-private def constructorType (e : TSyntax `tritonExpr) : Option Triton.PointerType := do
+private def constructorType (pointers : Types) (e : TSyntax `tritonExpr) : Option Triton.PointerType := do
+  let resolve (target : Name) : Option Triton.PointerType :=
+    match target with
+    | .str (.str pointer "dtype") "element_ty"
+    | .str (.str pointer "type") "element_ty" => lookup pointers (mkIdent pointer)
+    | _ => sourceKinds.find? (fun dtype => PointerType.dtypeName dtype == target)
   let args := e.raw.getArgs
   let first ← args[0]?
   unless first.isAtom && ["tl.zeros(","tl.full("].contains first.getAtomVal do failure
   for i in [:args.size] do
     if args[i]!.isIdent && args[i]!.getId.eraseMacroScopes == `dtype && i+2 < args.size then
       let target ← dtypeToken args[i+2]!
-      return ← sourceKinds.find? (fun dtype => PointerType.dtypeName dtype == target)
+      return ← resolve target
   for arg in args do
     if let some target := dtypeToken arg then
-      if let some dtype := sourceKinds.find? (fun dtype => PointerType.dtypeName dtype == target) then
+      if let some dtype := resolve target then
         return dtype
   match e with
   | `(tritonExpr| tl.zeros([$_:tritonExpr,*])) => return .fp32
@@ -127,7 +132,7 @@ private partial def valueType (pointers : Types) (values : Values)
     | .typed .fp32, .typed integer | .typed integer, .typed .fp32 =>
         if [.fp16,.bf16,.i8,.i16,.i32,.i64,.u8,.u16,.u32,.u64,.boolean].contains integer then some .fp32 else none
     | _, _ => none
-  if let some dtype := (explicitCastType pointers e).orElse (fun _ => constructorType e) then some (.typed dtype) else
+  if let some dtype := (explicitCastType pointers e).orElse (fun _ => constructorType pointers e) then some (.typed dtype) else
   match e with
   | `(tritonExpr| tl.__python_literal($inner:tritonExpr)) => valueType pointers values inner
   | `(tritonExpr| $id:ident) => (values.find? (fun entry => entry.1 == name id)).map Prod.snd
@@ -358,6 +363,34 @@ private partial def lowerWithState (pointers : Types) (values : Values)
         let (body,_,_) ← lowerWithState pointers entry body.toList (invariants ++ stable)
         return (body.toArray, stable)
       match stmt with
+      | `(tritonStmt| $a:ident, $b:ident = tl.broadcast($x:tritonExpr, $y:tritonExpr))
+      | `(tritonStmt| $a:ident, $b:ident := tl.broadcast($x:tritonExpr, $y:tritonExpr)) =>
+          -- Broadcasting changes shapes, not element dtypes. Both result
+          -- types are read from the entry environment, as in Python tuples.
+          if readsTupleTarget (name a) y.raw then
+            Macro.throwErrorAt stmt
+              "tuple assignment needs unsupported simultaneous register capture"
+          checkAssignmentLoads pointers values x
+          checkAssignmentLoads pointers values y
+          for (id,value) in [(a,x),(b,y)] do
+            if (lookup pointers id).isSome then
+              Macro.throwErrorAt stmt "pointer tuple assignment needs an explicit supported binding"
+            let dtype := valueType pointers values value
+            checkInvariant invariants id dtype
+            nextPointers := nextPointers.filter (fun entry => entry.1 != name id)
+            nextValues := nextValues.filter (fun entry => entry.1 != name id)
+            if let some dtype := dtype then nextValues := (name id,dtype) :: nextValues
+      | `(tritonStmt| $a:ident, _ = tl.broadcast($x:tritonExpr, $y:tritonExpr))
+      | `(tritonStmt| $a:ident, _ := tl.broadcast($x:tritonExpr, $y:tritonExpr)) =>
+          checkAssignmentLoads pointers values x
+          checkAssignmentLoads pointers values y
+          if (lookup pointers a).isSome then
+            Macro.throwErrorAt stmt "pointer tuple assignment needs an explicit supported binding"
+          let dtype := valueType pointers values x
+          checkInvariant invariants a dtype
+          nextPointers := pointers.filter (fun entry => entry.1 != name a)
+          nextValues := values.filter (fun entry => entry.1 != name a)
+          if let some dtype := dtype then nextValues := (name a,dtype) :: nextValues
       | `(tritonStmt| $maximum:ident, $position:ident = tl.max($input:tritonExpr $[, $kwargs:tritonReduceKwarg]*))
       | `(tritonStmt| $maximum:ident, $position:ident := tl.max($input:tritonExpr $[, $kwargs:tritonReduceKwarg]*)) =>
           let reduction ← `(tritonExpr| tl.max($input:tritonExpr $[, $kwargs:tritonReduceKwarg]*))

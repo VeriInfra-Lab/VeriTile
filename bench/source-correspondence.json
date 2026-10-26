@@ -8,8 +8,8 @@
     "task_status": {
       "legacy_ast_only": 1,
       "no_selected_jit_resolved": 2,
-      "selected_body_copy_checked": 80,
-      "uncovered_jit_functions": 100
+      "selected_body_copy_checked": 81,
+      "uncovered_jit_functions": 99
     },
     "example_status": {
       "authored_counterpart_body_copy_checked": 2,
@@ -17,7 +17,7 @@
       "spec_derived_body_copy_checked": 15
     },
     "selected_jit_functions": 328,
-    "uncovered_selected_jit_functions": 204,
+    "uncovered_selected_jit_functions": 203,
     "primary_files_with_int64_screen_warning": 28,
     "primary_lean_file_features": {
       "tasks": {
@@ -1139,13 +1139,13 @@
       "lean": "bench/repairs/tritonbench_g/batched_vecmat_mult/Kernels.lean",
       "source_provenance": "selected_revision",
       "lean_screen": {
-        "quotations": 0,
+        "quotations": 2,
         "in_body_type_directives": 0,
         "antiquotes": 0,
-        "dsl_assignment": 4,
+        "dsl_assignment": 22,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 0
+        "load_dtype_extension": 2
       },
       "python_jits": [
         {
@@ -1172,19 +1172,67 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "batched_vecmat_kernel",
+          "lean_definition": "kernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "dim_m": "dim_m",
+            "dim_n": "dim_n",
+            "dim_k": "dim_k"
+          },
+          "statements": 9,
+          "runtime_parameters": {
+            "dim_m": "integer",
+            "dim_n": "integer",
+            "dim_k": "integer"
+          },
+          "constexpr_parameters": [
+            "block_k",
+            "block_m",
+            "block_n"
+          ],
           "python": "bench/repairs/tritonbench_g/batched_vecmat_mult/batched_vecmat_mult_int64.py",
-          "function": "batched_vecmat_kernel"
+          "lean": "bench/repairs/tritonbench_g/batched_vecmat_mult/Kernels.lean"
+        },
+        {
+          "python_function": "batched_vecmat_block_first",
+          "lean_definition": "blockFirstKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "dim_m": "dim_m",
+            "dim_n": "dim_n",
+            "dim_k": "dim_k"
+          },
+          "statements": 9,
+          "runtime_parameters": {
+            "dim_m": "integer",
+            "dim_n": "integer",
+            "dim_k": "integer"
+          },
+          "constexpr_parameters": [
+            "block_k",
+            "block_m",
+            "block_n"
+          ],
+          "python": "bench/repairs/tritonbench_g/batched_vecmat_mult/candidate_kernels.py",
+          "lean": "bench/repairs/tritonbench_g/batched_vecmat_mult/Kernels.lean"
         }
       ],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/batched_vecmat_mult/Kernels.lean": "9c2f482a1f00f2b65cc11c5927aaf54c9fa6d6b057b1d44cd5d6b13594ae1eae",
-        "bench/repairs/tritonbench_g/batched_vecmat_mult/batched_vecmat_mult_int64.py": "52071f219522e5099e7a09c034964b96eea391b3f67c498959bfb9c74b0a007f"
+        "bench/repairs/tritonbench_g/batched_vecmat_mult/Kernels.lean": "fdfd563acbb8a7595df38ea2cb5b897e639e9cc4e4de411f196eeb390f837e58",
+        "bench/repairs/tritonbench_g/batched_vecmat_mult/batched_vecmat_mult_int64.py": "52071f219522e5099e7a09c034964b96eea391b3f67c498959bfb9c74b0a007f",
+        "bench/repairs/tritonbench_g/batched_vecmat_mult/candidate_kernels.py": "1f444428286d6c218951241090eec467e053d671564fe036ba9c4dd1ba575fd5",
+        "bench/repairs/tritonbench_g/batched_vecmat_mult/jit-correspondence.json": "2360f027a0a4e6af292f02dc38a7e076bb4b51f91d3d7ebcf29dd81dfa9188c6"
       }
     },
     {

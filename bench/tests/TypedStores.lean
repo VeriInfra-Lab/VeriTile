@@ -198,4 +198,93 @@ def floatingReadInIntegerMask (X F : RegionName) : ComputeKernel :=
 
 #axiomsClean nested_integer_read_preserves_program
 
+
+/-- Source dtype attributes survive constructor, broadcast, reduction, and a
+possibly empty loop. The opaque backend must see no invented store cast. -/
+def attributedLoopSignature : CallSignature where
+  pointers := [("A",.fp32),("B",.fp32),("Y",.fp32)]
+  constexpr := ["N","K"]
+
+def attributedLoop (A B Y : RegionName) (N K : Nat) : ComputeKernel :=
+  with_triton_signature attributedLoopSignature in triton {
+    total = tl.zeros([N], dtype=A.dtype.element_ty)
+    for k in range(K):
+      a = tl.load(A + tl.arange(0, N))
+      b = tl.load(B + tl.arange(0, N))
+      expanded_a, _ = tl.broadcast(a, b)
+      total += expanded_a * b
+    tl.store(Y + tl.arange(0, N), total)
+  }
+
+theorem attribute_broadcast_loop_preserves_casts (A B Y : RegionName) (N K : Nat) :
+    (attributedLoop A B Y N K).surfaceBody.getLast? =
+      some (.store .real [N] (.region Y (.arange N))
+        (.alg (.ref .real [N] "total")) .none) := rfl
+
+/-- Broadcasting each result retains its own dtype, including different input
+precisions and a subsequent explicit narrowing conversion. -/
+def mixedBroadcast (X Y : RegionName) : ComputeKernel :=
+  with_triton_signature ({pointers := [("X",.fp16),("Y",.fp32)]} : CallSignature) in triton {
+    x = tl.load(X)
+    y = tl.load(Y)
+    a, b = tl.broadcast(x, y)
+    tl.store(X, a)
+    tl.store(Y, b)
+    z = b.to(tl.float16)
+    tl.store(X, z)
+    tl.store(Y, z)
+  }
+
+def mixedBroadcastReference (X Y : RegionName) : ComputeKernel := triton {
+  tl.ports inputs=[X,Y], outputs=[X,Y]
+  tl.region X = tl.float16, Y = tl.float32
+  x = tl.load(X)
+  y = tl.load(Y)
+  a, b = tl.broadcast(x, y)
+  tl.store(X, a)
+  tl.store(Y, b)
+  z = b.to(tl.float16)
+  tl.store(X, z)
+  tl.store(Y, z.to(tl.float32))
+}
+
+theorem broadcast_retains_each_precision (X Y : RegionName) :
+    mixedBroadcast X Y = mixedBroadcastReference X Y := rfl
+
+/-- Inferring a constructor's input dtype must still retain a real change in
+the output dtype. This covers tl.full as well as the zero constructor. -/
+def attributedFullSignature : CallSignature where
+  pointers := [("X",.fp16),("Y",.fp32)]
+  constexpr := ["N"]
+
+def attributedFull (X Y : RegionName) (N : Nat) : ComputeKernel :=
+  with_triton_signature attributedFullSignature in triton {
+    x = tl.full([N], 0, dtype=X.dtype.element_ty)
+    tl.store(Y + tl.arange(0, N), x)
+  }
+
+def attributedFullReference (X Y : RegionName) (N : Nat) : ComputeKernel := triton {
+  tl.ports inputs=[], outputs=[Y]
+  tl.region X = tl.float16, Y = tl.float32
+  x = tl.full([$(N)], 0, dtype=X.dtype.element_ty)
+  tl.store(Y + tl.arange(0, $(N)), x.to(tl.float32))
+}
+
+theorem attributed_constructor_keeps_output_conversion (X Y : RegionName) (N : Nat) :
+    attributedFull X Y N = attributedFullReference X Y N := rfl
+
+/-- error: tuple assignment needs unsupported simultaneous register capture -/
+#guard_msgs in
+def broadcastOverwritesInput (X Y : RegionName) : ComputeKernel :=
+  with_triton_signature ({pointers := [("X",.fp32),("Y",.fp32)]} : CallSignature) in triton {
+    a = tl.load(X)
+    b = tl.load(Y)
+    a, b = tl.broadcast(b, a)
+    tl.store(Y, b)
+  }
+
+#axiomsClean attribute_broadcast_loop_preserves_casts
+#axiomsClean broadcast_retains_each_precision
+#axiomsClean attributed_constructor_keeps_output_conversion
+
 end VeriTile.Tests.TypedStores
