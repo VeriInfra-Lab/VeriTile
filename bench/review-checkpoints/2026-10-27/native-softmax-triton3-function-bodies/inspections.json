@@ -1,0 +1,44 @@
+{
+  "code_commit": "4e25e4497d1a64cbb4fe6ede9e3da24dd2d50382",
+  "raw_bodies": [
+    {
+      "name": "raw-body-check",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/softmax_triton3/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "4e25e4497d1a64cbb4fe6ede9e3da24dd2d50382",
+      "log": "/tmp/softmax85-raw-body-check.log",
+      "status": "PASS"
+    }
+  ],
+  "cpu": {
+    "name": "cpu-final",
+    "command": [
+      "python3",
+      "bench/repairs/tritonbench_g/softmax_triton3/check_contract.py"
+    ],
+    "exit_code": 1,
+    "code_commit": "4e25e4497d1a64cbb4fe6ede9e3da24dd2d50382",
+    "log": "/tmp/softmax85-cpu-final.log",
+    "status": "UNAVAILABLE"
+  },
+  "original_python_wrappers_and_public_statements": {
+    "status": "PASS",
+    "sha256": {
+      "bench/repairs/tritonbench_g/softmax_triton3/IO.lean": "c4aeb934dd0b139c5f77f33a2ed5d94a32db4ba67db69b72ad65757f75fd1d23",
+      "bench/repairs/tritonbench_g/softmax_triton3/softmax_triton3_repaired.py": "8c53f4e7571d8ff95fa8dc48954581a4852446c13b84f43fdfeaeba4aeeb9fdc",
+      "bench/repairs/tritonbench_g/softmax_triton3/Contract.lean": "006986e049396bd7b100c55e71f163ec09450e9cca396ed809ed90183758d2d0",
+      "bench/repairs/tritonbench_g/softmax_triton3/Correct.lean": "d8ee488935fd237bdf0f93b110a3d66fae2687168ba4910ca803363d92f5bac9",
+      "bench/repairs/tritonbench_g/softmax_triton3/SourceIO.lean": "84979760696baef9ad145313015dca42b1f98b1f668822146b72bb28daede6e6",
+      "bench/repairs/tritonbench_g/softmax_triton3/check_contract.py": "2aece8b0f988286eba889b25c55c7d5da633515a0645d79f073d9472e51a1b2f",
+      "bench/repairs/tritonbench_g/softmax_triton3/FPEquiv.lean": "0b55e85edfb2dd5bc307e6cd7eeb5bcdfa7a0a131d8ff37c2d7944d45079d485",
+      "bench/repairs/tritonbench_g/softmax_triton3/Proofs/Contract.lean": "ed34930510dc44f25328b11132415b23c039bff8ff344f88340bb4af22d31ee9",
+      "bench/repairs/tritonbench_g/softmax_triton3/Proofs/SourceIO.lean": "5619de7411df5298cbf3de989fdc992b0c5a5cd0d0b59a90f3740791ec3bbcd0"
+    }
+  },
+  "scope": "Both complete original/existing guarded candidate bodies. Signed index casts, None checks, all FP32 load casts, finite classifiers, 1.0 literals and runtime division fallback retained. External caller metadata ties optional pointer presence to original mask selection. Full actual Real/FP/native/safety and IO proofs replayed without the false historical AST identity. No new numerical law, GPU experiment or domain narrowing."
+}

@@ -1,0 +1,31 @@
+[
+  {
+    "name": "python-tests",
+    "command": [
+      "python3",
+      "-m",
+      "unittest",
+      "bench.tests.test_jit_correspondence",
+      "bench.tests.test_body_corpus"
+    ],
+    "exit_code": 0,
+    "code_commit": "4e25e4497d1a64cbb4fe6ede9e3da24dd2d50382",
+    "log": "/tmp/softmax85-python-tests.log"
+  },
+  {
+    "name": "all-python",
+    "command": [
+      "python3",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "bench/tests",
+      "-p",
+      "test_*.py"
+    ],
+    "exit_code": 1,
+    "code_commit": "4e25e4497d1a64cbb4fe6ede9e3da24dd2d50382",
+    "log": "/tmp/softmax85-all-python.log"
+  }
+]

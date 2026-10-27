@@ -1,0 +1,122 @@
+[
+  {
+    "name": "build",
+    "command": [
+      "lake",
+      "build",
+      "bench.repairs.tritonbench_g.softmax_triton3.Contract",
+      "bench.repairs.tritonbench_g.softmax_triton3.Correct",
+      "bench.repairs.tritonbench_g.softmax_triton3.FPEquiv",
+      "bench.repairs.tritonbench_g.softmax_triton3.IO",
+      "bench.repairs.tritonbench_g.softmax_triton3.Kernels",
+      "bench.repairs.tritonbench_g.softmax_triton3.Misc.CheckedPair",
+      "bench.repairs.tritonbench_g.softmax_triton3.Misc.HostCorrect",
+      "bench.repairs.tritonbench_g.softmax_triton3.Misc.HostFPEquiv",
+      "bench.repairs.tritonbench_g.softmax_triton3.Misc.NativeCorrect",
+      "bench.repairs.tritonbench_g.softmax_triton3.Misc.TensorBridge",
+      "bench.repairs.tritonbench_g.softmax_triton3.Proofs.Addresses",
+      "bench.repairs.tritonbench_g.softmax_triton3.Proofs.Binding",
+      "bench.repairs.tritonbench_g.softmax_triton3.Proofs.Contract",
+      "bench.repairs.tritonbench_g.softmax_triton3.Proofs.FP",
+      "bench.repairs.tritonbench_g.softmax_triton3.Proofs.Host",
+      "bench.repairs.tritonbench_g.softmax_triton3.Proofs.KernelBinding",
+      "bench.repairs.tritonbench_g.softmax_triton3.Proofs.KernelNativeResult",
+      "bench.repairs.tritonbench_g.softmax_triton3.Proofs.KernelRealResult",
+      "bench.repairs.tritonbench_g.softmax_triton3.Proofs.KernelSource",
+      "bench.repairs.tritonbench_g.softmax_triton3.Proofs.LogicalIO",
+      "bench.repairs.tritonbench_g.softmax_triton3.Proofs.Model",
+      "bench.repairs.tritonbench_g.softmax_triton3.Proofs.NativeGraph",
+      "bench.repairs.tritonbench_g.softmax_triton3.Proofs.NativeIO",
+      "bench.repairs.tritonbench_g.softmax_triton3.Proofs.NativeIOResult",
+      "bench.repairs.tritonbench_g.softmax_triton3.Proofs.NativeSource",
+      "bench.repairs.tritonbench_g.softmax_triton3.Proofs.Pair",
+      "bench.repairs.tritonbench_g.softmax_triton3.Proofs.PairExecution",
+      "bench.repairs.tritonbench_g.softmax_triton3.Proofs.PairSafety",
+      "bench.repairs.tritonbench_g.softmax_triton3.Proofs.Real",
+      "bench.repairs.tritonbench_g.softmax_triton3.Proofs.RealExecution",
+      "bench.repairs.tritonbench_g.softmax_triton3.Proofs.RealIO",
+      "bench.repairs.tritonbench_g.softmax_triton3.Proofs.SourceIO",
+      "bench.repairs.tritonbench_g.softmax_triton3.Proofs.StructuralSafety",
+      "bench.repairs.tritonbench_g.softmax_triton3.SourceIO"
+    ],
+    "log": "/tmp/softmax85-focus-build.log",
+    "exit_code": 0
+  },
+  {
+    "name": "focus-joint",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/softmax85-focus-joint.lean"
+    ],
+    "log": "/tmp/softmax85-focus-joint.log",
+    "exit_code": 0
+  },
+  {
+    "name": "standalone-OptionalPointerBody",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "bench/tests/OptionalPointerBody.lean"
+    ],
+    "log": "/tmp/softmax85-standalone-OptionalPointerBody.log",
+    "exit_code": 0
+  },
+  {
+    "name": "standalone-CallSignature",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "bench/tests/CallSignature.lean"
+    ],
+    "log": "/tmp/softmax85-standalone-CallSignature.log",
+    "exit_code": 0
+  },
+  {
+    "name": "standalone-SourceDTypeBody",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "bench/tests/SourceDTypeBody.lean"
+    ],
+    "log": "/tmp/softmax85-standalone-SourceDTypeBody.log",
+    "exit_code": 0
+  },
+  {
+    "name": "standalone-LoopBody",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "bench/tests/LoopBody.lean"
+    ],
+    "log": "/tmp/softmax85-standalone-LoopBody.log",
+    "exit_code": 0
+  },
+  {
+    "name": "standalone-ValueDTypeBody",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "bench/tests/ValueDTypeBody.lean"
+    ],
+    "log": "/tmp/softmax85-standalone-ValueDTypeBody.log",
+    "exit_code": 0
+  },
+  {
+    "name": "audit",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/softmax85-audit.lean"
+    ],
+    "log": "/tmp/softmax85-audit.log",
+    "exit_code": 0
+  }
+]

@@ -1,0 +1,37 @@
+{
+  "code_commit": "39d72ecfdbb6fa19401aacf1a51944fc1716e0d6",
+  "checkout": "/tmp/veritile-body77",
+  "explicit_modules": 3402,
+  "scope": "All cumulative task/example/frontend roots and their full import closure.",
+  "project_build_initially_present": false,
+  "veritile_cache_initially_present": false,
+  "project_objects_imported_from_other_checkouts": false,
+  "fixed_external_packages_reused": "/home/argustest/lizn/VeriTile/.lake/packages",
+  "previous_cache_cleanup": {
+    "removed": "/tmp/veritile-body77/.lake/build",
+    "reason": "Remove only this owned, completed chunk delta project cache after the published receipt. The auxiliary unchanged GEGLU baseline also completed and its logs/hashes are retained; source and evidence are retained. Rebuild all 3402 cumulative roots and their dependency closure from empty project objects. Shared frontend changes require the cumulative independent replay.",
+    "previous_receipt": "baba0761ccce41e51e9e1a15bfe0db430ed29e21",
+    "auxiliary_completed_baseline": "/tmp/geglu86-baseline.json"
+  },
+  "changed_source_sha256": {
+    "VeriTile/Triton/DSL/CallSignature.lean": "286f4429c8c46b7eb2a0c3d11d239c2270894c9b8bbaa5b950ac60b35a67a9f5",
+    "VeriTile/Triton/DSL/OptionalPointer.lean": "83c19dc62c9c99e21cb9bbe2805e65bed1768dc0f422091cf884ab18e707ef46",
+    "bench/jit_correspondence.py": "61605fa22fc829acafbeb21c108165ff042cd89bc35304be63106fa44fea7e9f",
+    "bench/repairs/tritonbench_g/softmax_triton3/Kernels.lean": "1ff967ec491809aecb0cf820f4efe4b31eecc1da255a37d9deae275f8e053e16",
+    "bench/repairs/tritonbench_g/softmax_triton3/Proofs/FP.lean": "31a708405e60dfe996561fb9b4a2d9d48edb7fbfbaa9a68217cd30021092901a",
+    "bench/repairs/tritonbench_g/softmax_triton3/Proofs/KernelSource.lean": "bc2692cacce28177ec85e2d43997a3c12075c7ccaf0f4b2cb8223bd81c4051fc",
+    "bench/repairs/tritonbench_g/softmax_triton3/Proofs/Pair.lean": "e1d58ef50b0d6efc58e727acce61008e06084aa12ee7c4b7db4c2a9d8fddfadf",
+    "bench/repairs/tritonbench_g/softmax_triton3/Proofs/PairExecution.lean": "84575ac2488ae8b0471b15b23e7bd57bab2b460f3e59c40ea26a66d1fe503d6e",
+    "bench/repairs/tritonbench_g/softmax_triton3/Proofs/PairSafety.lean": "0e4d35105cb9e30d5644cd4293ddf9dbdd0afac0970abb3e96f7e51a65cc1ed8",
+    "bench/repairs/tritonbench_g/softmax_triton3/Proofs/Real.lean": "b524fd0ae1e1838fed27339951ddf3605b6e6e5b4a80578734c0eb5675416910",
+    "bench/repairs/tritonbench_g/softmax_triton3/Proofs/RealExecution.lean": "6c3fe557659c49bda4c43110ee7a600922f2c920204cff7dda915c8578e0e2fb",
+    "bench/repairs/tritonbench_g/softmax_triton3/Proofs/RealIO.lean": "ea99b0fec229807ca6ef1b38cddb6a127dd78703d68daea59f694a8659b2878b",
+    "bench/repairs/tritonbench_g/softmax_triton3/Proofs/StructuralSafety.lean": "6b1a5b4a5616f40fd6ed4dddc2493db9b187068d7029f3f9e62b2de79a717173",
+    "bench/repairs/tritonbench_g/softmax_triton3/README.md": "0fafca2b64fdd0222b330304e1d96a1de4f7ae0cef6cc78ebf64e436dbdf7927",
+    "bench/repairs/tritonbench_g/softmax_triton3/jit-correspondence.json": "e5e118281414bb37e5a46aab896df58d58fb5f40b84730fbd11a5aeb600f88b2",
+    "bench/source-correspondence.json": "442607c8024212f0cd9a627e5a6a94471948b4c9c34343c7734a55aec072d066",
+    "bench/tests/OptionalPointerBody.lean": "e98500dcc9239650b311f3b276a0032487ddce7eca34d45b4afad91ead180cab",
+    "bench/tests/test_jit_correspondence.py": "3333af41b7891aaaf67136e091c33c931031cacbaeae0c70490194df27277a8d"
+  },
+  "build_exit_code": 1
+}

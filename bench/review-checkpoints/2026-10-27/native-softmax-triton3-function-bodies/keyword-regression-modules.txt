@@ -1,0 +1,9 @@
+bench.repairs.tritonbench_g.add_example.Proofs.Execution
+bench.repairs.tritonbench_g.add_value.Proofs.Execution
+bench.repairs.tritonbench_g.index_select_bwd.Proofs.Numerics
+bench.repairs.tritonbench_g.kldiv_compute.Proofs.Checked.Execution
+bench.repairs.tritonbench_g.kldiv_triton.Proofs.Grid
+bench.repairs.tritonbench_g.sin_computation.Proofs.Execution
+bench.repairs.tritonbench_g.sin_kernel.Proofs.Execution
+bench.repairs.tritonbench_g.square_matrix.Proofs.Memory
+bench.repairs.tritonbench_g.vector_addition_custom.Proofs.Execution
