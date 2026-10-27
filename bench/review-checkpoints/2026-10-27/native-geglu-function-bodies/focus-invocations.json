@@ -1,0 +1,142 @@
+[
+  {
+    "name": "build",
+    "command": [
+      "lake",
+      "build",
+      "bench.repairs.tritonbench_g.geglu_tanh_triton.Contract",
+      "bench.repairs.tritonbench_g.geglu_tanh_triton.Correct",
+      "bench.repairs.tritonbench_g.geglu_tanh_triton.FPEquiv",
+      "bench.repairs.tritonbench_g.geglu_tanh_triton.IO",
+      "bench.repairs.tritonbench_g.geglu_tanh_triton.Kernels",
+      "bench.repairs.tritonbench_g.geglu_tanh_triton.Misc.NativeIO",
+      "bench.repairs.tritonbench_g.geglu_tanh_triton.Misc.NativeObservation",
+      "bench.repairs.tritonbench_g.geglu_tanh_triton.Misc.PhysicalIO",
+      "bench.repairs.tritonbench_g.geglu_tanh_triton.Misc.RawNativeApplication",
+      "bench.repairs.tritonbench_g.geglu_tanh_triton.Misc.TensorBridge",
+      "bench.repairs.tritonbench_g.geglu_tanh_triton.Proofs.AccessSafety",
+      "bench.repairs.tritonbench_g.geglu_tanh_triton.Proofs.DirectBinding",
+      "bench.repairs.tritonbench_g.geglu_tanh_triton.Proofs.DirectHost",
+      "bench.repairs.tritonbench_g.geglu_tanh_triton.Proofs.Grid",
+      "bench.repairs.tritonbench_g.geglu_tanh_triton.Proofs.HostFP32",
+      "bench.repairs.tritonbench_g.geglu_tanh_triton.Proofs.HostReal",
+      "bench.repairs.tritonbench_g.geglu_tanh_triton.Proofs.InputGuards",
+      "bench.repairs.tritonbench_g.geglu_tanh_triton.Proofs.Kernel",
+      "bench.repairs.tritonbench_g.geglu_tanh_triton.Proofs.LogicalCoordinates",
+      "bench.repairs.tritonbench_g.geglu_tanh_triton.Proofs.Math",
+      "bench.repairs.tritonbench_g.geglu_tanh_triton.Proofs.Native",
+      "bench.repairs.tritonbench_g.geglu_tanh_triton.Proofs.NativeSource",
+      "bench.repairs.tritonbench_g.geglu_tanh_triton.Proofs.Physical",
+      "bench.repairs.tritonbench_g.geglu_tanh_triton.Proofs.PublicIO",
+      "bench.repairs.tritonbench_g.geglu_tanh_triton.Proofs.RawCorrect",
+      "bench.repairs.tritonbench_g.geglu_tanh_triton.Proofs.RawKernel",
+      "bench.repairs.tritonbench_g.geglu_tanh_triton.Proofs.RawNative",
+      "bench.repairs.tritonbench_g.geglu_tanh_triton.Proofs.Real",
+      "bench.repairs.tritonbench_g.geglu_tanh_triton.Proofs.Rewrite",
+      "bench.repairs.tritonbench_g.geglu_tanh_triton.Proofs.Scalar",
+      "bench.repairs.tritonbench_g.geglu_tanh_triton.Proofs.Source",
+      "bench.repairs.tritonbench_g.geglu_tanh_triton.Proofs.Tile"
+    ],
+    "log": "/tmp/geglu86-focus-build.log",
+    "exit_code": 0
+  },
+  {
+    "name": "focus-joint",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/geglu86-focus-joint.lean"
+    ],
+    "log": "/tmp/geglu86-focus-joint.log",
+    "exit_code": 0
+  },
+  {
+    "name": "standalone-SourceIntrinsicBody",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "bench/tests/SourceIntrinsicBody.lean"
+    ],
+    "log": "/tmp/geglu86-standalone-SourceIntrinsicBody.log",
+    "exit_code": 0
+  },
+  {
+    "name": "standalone-PythonConstantsBody",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "bench/tests/PythonConstantsBody.lean"
+    ],
+    "log": "/tmp/geglu86-standalone-PythonConstantsBody.log",
+    "exit_code": 0
+  },
+  {
+    "name": "standalone-OptionalPointerBody",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "bench/tests/OptionalPointerBody.lean"
+    ],
+    "log": "/tmp/geglu86-standalone-OptionalPointerBody.log",
+    "exit_code": 0
+  },
+  {
+    "name": "standalone-CallSignature",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "bench/tests/CallSignature.lean"
+    ],
+    "log": "/tmp/geglu86-standalone-CallSignature.log",
+    "exit_code": 0
+  },
+  {
+    "name": "standalone-SourceDTypeBody",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "bench/tests/SourceDTypeBody.lean"
+    ],
+    "log": "/tmp/geglu86-standalone-SourceDTypeBody.log",
+    "exit_code": 0
+  },
+  {
+    "name": "standalone-LoopBody",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "bench/tests/LoopBody.lean"
+    ],
+    "log": "/tmp/geglu86-standalone-LoopBody.log",
+    "exit_code": 0
+  },
+  {
+    "name": "standalone-ValueDTypeBody",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "bench/tests/ValueDTypeBody.lean"
+    ],
+    "log": "/tmp/geglu86-standalone-ValueDTypeBody.log",
+    "exit_code": 0
+  },
+  {
+    "name": "audit",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/geglu86-audit.lean"
+    ],
+    "log": "/tmp/geglu86-audit.log",
+    "exit_code": 0
+  }
+]

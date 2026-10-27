@@ -1,0 +1,32 @@
+{
+  "code_commit": "a4ac2c24a8dcb853e2719cf33de0f7d2568a5576",
+  "checkout": "/tmp/veritile-body77",
+  "explicit_modules": 3434,
+  "scope": "All cumulative task/example/frontend roots and their full import closure.",
+  "project_build_initially_present": false,
+  "veritile_cache_initially_present": false,
+  "project_objects_imported_from_other_checkouts": false,
+  "fixed_external_packages_reused": "/home/argustest/lizn/VeriTile/.lake/packages",
+  "previous_cache_cleanup": {
+    "removed": "/tmp/veritile-body77/.lake/build",
+    "reason": "Remove only this owned, completed optional-pointer softmax project cache after its published receipt; source and evidence are retained. Rebuild all 3434 cumulative roots and their dependency closure from empty project objects. Shared frontend changes require the cumulative independent replay.",
+    "previous_receipt": "9b48f315866a3da3612f81ff42e7671ef5256d35"
+  },
+  "changed_source_sha256": {
+    "VeriTile/Triton/DSL/CallSignature.lean": "2955256930434428bca6f1397ef963f71ccbf93b0b73487732cdc6d19de2fb53",
+    "VeriTile/Triton/DSL/PythonConstants.lean": "fa6db2930401f0d3a48e8f30c47336f960e59c1a143baafac6ae5382977b9060",
+    "VeriTile/Triton/DSL/SourceIntrinsic.lean": "83faffe424605621b61c0a3488d940eb13200f18d031c927d0b3aa33f09d8c00",
+    "VeriTile/Triton/DSL/TypedStores.lean": "a01a9ef36328a7059630ce6875cd0037b791ceaae3a7c1fb83609571b97c6d3b",
+    "bench/jit_correspondence.py": "3e2aa0c51b1853404c3f98ee8e3a9185b1fc6bf490284543b1bc6b52281609d0",
+    "bench/repairs/tritonbench_g/geglu_tanh_triton/Kernels.lean": "61ce51f8a71b2128e642d9574d13e9b01a76fb027c5d839b1c709e9b39416b1f",
+    "bench/repairs/tritonbench_g/geglu_tanh_triton/README.md": "851e89508983696d03f5e42c9441b0b579062aa6042eaa2f6d76a05becd80a2c",
+    "bench/repairs/tritonbench_g/geglu_tanh_triton/candidate_kernels.py": "095439288de9ebd2653ec9f3516ef95de1bffbc473f47b705df4de0f706ccef7",
+    "bench/repairs/tritonbench_g/geglu_tanh_triton/jit-correspondence.json": "83ab04084ed1a3c8a6463de2e73b5d01ee56a137fe0a2a9aef86f8b220456799",
+    "bench/source-correspondence.json": "236c6e345a700ea0b4bbea2a6d41f0ad5f7bb4e94ccfdca1001bd11a8cff0d2f",
+    "bench/tests/PythonConstantsBody.lean": "775a82135e0d33fa01efa3626409a027b7c6e34e0fcfe9fabb430d7fffef36f7",
+    "bench/tests/SourceIntrinsicBody.lean": "0a332f9a6724dea0ba97098d302c6a4cf6b07241e0afe5e53286755ac8b14498",
+    "bench/tests/test_jit_correspondence.py": "88c1d316da5cddeda07ad55997b0fa7988202d5567c8793521407a4af333aa0a"
+  },
+  "build_exit_code": 0,
+  "joint_exit_code": 0
+}

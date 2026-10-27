@@ -1,0 +1,610 @@
+[
+  {
+    "name": "VeriTile__Triton__DSL__CallSignature-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "VeriTile/Triton/DSL/CallSignature.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "a4ac2c24a8dcb853e2719cf33de0f7d2568a5576",
+    "log": "/tmp/geglu86-VeriTile__Triton__DSL__CallSignature-comparator.log",
+    "file": "VeriTile/Triton/DSL/CallSignature.lean",
+    "sha256": "2955256930434428bca6f1397ef963f71ccbf93b0b73487732cdc6d19de2fb53",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "VeriTile__Triton__DSL__PythonConstants-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "VeriTile/Triton/DSL/PythonConstants.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "a4ac2c24a8dcb853e2719cf33de0f7d2568a5576",
+    "log": "/tmp/geglu86-VeriTile__Triton__DSL__PythonConstants-comparator.log",
+    "file": "VeriTile/Triton/DSL/PythonConstants.lean",
+    "sha256": "fa6db2930401f0d3a48e8f30c47336f960e59c1a143baafac6ae5382977b9060",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "VeriTile__Triton__DSL__SourceIntrinsic-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "VeriTile/Triton/DSL/SourceIntrinsic.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "a4ac2c24a8dcb853e2719cf33de0f7d2568a5576",
+    "log": "/tmp/geglu86-VeriTile__Triton__DSL__SourceIntrinsic-comparator.log",
+    "file": "VeriTile/Triton/DSL/SourceIntrinsic.lean",
+    "sha256": "83faffe424605621b61c0a3488d940eb13200f18d031c927d0b3aa33f09d8c00",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "VeriTile__Triton__DSL__TypedStores-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "VeriTile/Triton/DSL/TypedStores.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "a4ac2c24a8dcb853e2719cf33de0f7d2568a5576",
+    "log": "/tmp/geglu86-VeriTile__Triton__DSL__TypedStores-comparator.log",
+    "file": "VeriTile/Triton/DSL/TypedStores.lean",
+    "sha256": "a01a9ef36328a7059630ce6875cd0037b791ceaae3a7c1fb83609571b97c6d3b",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__geglu_tanh_triton__Contract-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/geglu_tanh_triton/Contract.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "a4ac2c24a8dcb853e2719cf33de0f7d2568a5576",
+    "log": "/tmp/geglu86-bench__repairs__tritonbench_g__geglu_tanh_triton__Contract-comparator.log",
+    "file": "bench/repairs/tritonbench_g/geglu_tanh_triton/Contract.lean",
+    "sha256": "a51588fefd92e64c8740941ae67fce3a01592c24a2baa11f625aaa275013cf61",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__geglu_tanh_triton__Correct-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/geglu_tanh_triton/Correct.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "a4ac2c24a8dcb853e2719cf33de0f7d2568a5576",
+    "log": "/tmp/geglu86-bench__repairs__tritonbench_g__geglu_tanh_triton__Correct-comparator.log",
+    "file": "bench/repairs/tritonbench_g/geglu_tanh_triton/Correct.lean",
+    "sha256": "af82ea1153675b67f1c79203a7d4ff0ecdc79e9e6b9065c895e0c8f04c43fcb7",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__geglu_tanh_triton__FPEquiv-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/geglu_tanh_triton/FPEquiv.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "a4ac2c24a8dcb853e2719cf33de0f7d2568a5576",
+    "log": "/tmp/geglu86-bench__repairs__tritonbench_g__geglu_tanh_triton__FPEquiv-comparator.log",
+    "file": "bench/repairs/tritonbench_g/geglu_tanh_triton/FPEquiv.lean",
+    "sha256": "049e2450bcd31ecf0b882d14a570737e5850eb220c53f6c4234ff41776bd63a5",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__geglu_tanh_triton__IO-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/geglu_tanh_triton/IO.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "a4ac2c24a8dcb853e2719cf33de0f7d2568a5576",
+    "log": "/tmp/geglu86-bench__repairs__tritonbench_g__geglu_tanh_triton__IO-comparator.log",
+    "file": "bench/repairs/tritonbench_g/geglu_tanh_triton/IO.lean",
+    "sha256": "f3c3377d3d5868b5d832db8f7b0818775630086bace5de5785baa4f40cbfac26",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__geglu_tanh_triton__Kernels-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/geglu_tanh_triton/Kernels.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "a4ac2c24a8dcb853e2719cf33de0f7d2568a5576",
+    "log": "/tmp/geglu86-bench__repairs__tritonbench_g__geglu_tanh_triton__Kernels-comparator.log",
+    "file": "bench/repairs/tritonbench_g/geglu_tanh_triton/Kernels.lean",
+    "sha256": "61ce51f8a71b2128e642d9574d13e9b01a76fb027c5d839b1c709e9b39416b1f",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__geglu_tanh_triton__Misc__NativeIO-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/geglu_tanh_triton/Misc/NativeIO.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "a4ac2c24a8dcb853e2719cf33de0f7d2568a5576",
+    "log": "/tmp/geglu86-bench__repairs__tritonbench_g__geglu_tanh_triton__Misc__NativeIO-comparator.log",
+    "file": "bench/repairs/tritonbench_g/geglu_tanh_triton/Misc/NativeIO.lean",
+    "sha256": "86b7efb382b0b130ae15cda91a6f42d8f1b4c8052fbfa19c0954665ce8708320",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__geglu_tanh_triton__Misc__NativeObservation-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/geglu_tanh_triton/Misc/NativeObservation.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "a4ac2c24a8dcb853e2719cf33de0f7d2568a5576",
+    "log": "/tmp/geglu86-bench__repairs__tritonbench_g__geglu_tanh_triton__Misc__NativeObservation-comparator.log",
+    "file": "bench/repairs/tritonbench_g/geglu_tanh_triton/Misc/NativeObservation.lean",
+    "sha256": "7da158616b6454312ecdf47a5af7ee9318bc1ff39c205644c6f5f9951d713665",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__geglu_tanh_triton__Misc__PhysicalIO-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/geglu_tanh_triton/Misc/PhysicalIO.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "a4ac2c24a8dcb853e2719cf33de0f7d2568a5576",
+    "log": "/tmp/geglu86-bench__repairs__tritonbench_g__geglu_tanh_triton__Misc__PhysicalIO-comparator.log",
+    "file": "bench/repairs/tritonbench_g/geglu_tanh_triton/Misc/PhysicalIO.lean",
+    "sha256": "49d3c28fb7ac773f113a466369a02d2aa0d96ed75041c0b2329894aaff21dffc",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__geglu_tanh_triton__Misc__RawNativeApplication-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/geglu_tanh_triton/Misc/RawNativeApplication.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "a4ac2c24a8dcb853e2719cf33de0f7d2568a5576",
+    "log": "/tmp/geglu86-bench__repairs__tritonbench_g__geglu_tanh_triton__Misc__RawNativeApplication-comparator.log",
+    "file": "bench/repairs/tritonbench_g/geglu_tanh_triton/Misc/RawNativeApplication.lean",
+    "sha256": "230ef8bbea3e6cc51c1c14bceb8b7a7b8893e11cd08ab9dac76d95aecf987fd6",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__geglu_tanh_triton__Misc__TensorBridge-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/geglu_tanh_triton/Misc/TensorBridge.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "a4ac2c24a8dcb853e2719cf33de0f7d2568a5576",
+    "log": "/tmp/geglu86-bench__repairs__tritonbench_g__geglu_tanh_triton__Misc__TensorBridge-comparator.log",
+    "file": "bench/repairs/tritonbench_g/geglu_tanh_triton/Misc/TensorBridge.lean",
+    "sha256": "311cbd28f2894398f4687001f19cd3f3df77c64630a4f786f2d608de4a3192aa",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__geglu_tanh_triton__Proofs__AccessSafety-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/AccessSafety.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "a4ac2c24a8dcb853e2719cf33de0f7d2568a5576",
+    "log": "/tmp/geglu86-bench__repairs__tritonbench_g__geglu_tanh_triton__Proofs__AccessSafety-comparator.log",
+    "file": "bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/AccessSafety.lean",
+    "sha256": "5d2f2f669637cff56f8173d384438cf58f9471184adaf06ac5b09ea49964c853",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__geglu_tanh_triton__Proofs__DirectBinding-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/DirectBinding.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "a4ac2c24a8dcb853e2719cf33de0f7d2568a5576",
+    "log": "/tmp/geglu86-bench__repairs__tritonbench_g__geglu_tanh_triton__Proofs__DirectBinding-comparator.log",
+    "file": "bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/DirectBinding.lean",
+    "sha256": "7e0d260608ad0ddf82eea8572df7aaba63aaa7d8061c3f9919ef56859d089dac",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__geglu_tanh_triton__Proofs__DirectHost-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/DirectHost.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "a4ac2c24a8dcb853e2719cf33de0f7d2568a5576",
+    "log": "/tmp/geglu86-bench__repairs__tritonbench_g__geglu_tanh_triton__Proofs__DirectHost-comparator.log",
+    "file": "bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/DirectHost.lean",
+    "sha256": "8e6a19f08ccfe0d049f31bcb07376d12e884c17df49bdd541607d41cd7f9eef3",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__geglu_tanh_triton__Proofs__Grid-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Grid.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "a4ac2c24a8dcb853e2719cf33de0f7d2568a5576",
+    "log": "/tmp/geglu86-bench__repairs__tritonbench_g__geglu_tanh_triton__Proofs__Grid-comparator.log",
+    "file": "bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Grid.lean",
+    "sha256": "259928fd92ac692d5be6c1f117f38efe76523306103631f298ed3c7847e26556",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__geglu_tanh_triton__Proofs__HostFP32-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/HostFP32.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "a4ac2c24a8dcb853e2719cf33de0f7d2568a5576",
+    "log": "/tmp/geglu86-bench__repairs__tritonbench_g__geglu_tanh_triton__Proofs__HostFP32-comparator.log",
+    "file": "bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/HostFP32.lean",
+    "sha256": "78932f72d90d2c7ceb03fbf4efb3c79d9c83c3296745b3e2e7130b46467aa54c",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__geglu_tanh_triton__Proofs__HostReal-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/HostReal.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "a4ac2c24a8dcb853e2719cf33de0f7d2568a5576",
+    "log": "/tmp/geglu86-bench__repairs__tritonbench_g__geglu_tanh_triton__Proofs__HostReal-comparator.log",
+    "file": "bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/HostReal.lean",
+    "sha256": "551e6310f92cab657889dceb2f16c49afc604c7719985ec179d607483d254bec",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__geglu_tanh_triton__Proofs__InputGuards-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/InputGuards.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "a4ac2c24a8dcb853e2719cf33de0f7d2568a5576",
+    "log": "/tmp/geglu86-bench__repairs__tritonbench_g__geglu_tanh_triton__Proofs__InputGuards-comparator.log",
+    "file": "bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/InputGuards.lean",
+    "sha256": "b43aef1c3ede0aa421561f30bab9bd852ba1c315b5f5869dc905874ce2270a65",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__geglu_tanh_triton__Proofs__Kernel-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Kernel.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "a4ac2c24a8dcb853e2719cf33de0f7d2568a5576",
+    "log": "/tmp/geglu86-bench__repairs__tritonbench_g__geglu_tanh_triton__Proofs__Kernel-comparator.log",
+    "file": "bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Kernel.lean",
+    "sha256": "7d653731194942fe12e7437af0986053d6ae5ea67ce05f5420d8b68ee7b2917c",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__geglu_tanh_triton__Proofs__LogicalCoordinates-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/LogicalCoordinates.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "a4ac2c24a8dcb853e2719cf33de0f7d2568a5576",
+    "log": "/tmp/geglu86-bench__repairs__tritonbench_g__geglu_tanh_triton__Proofs__LogicalCoordinates-comparator.log",
+    "file": "bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/LogicalCoordinates.lean",
+    "sha256": "198a44b5af10f84626f444b3dd94fce77e4d37076080450dc09d8b25e7051c5c",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__geglu_tanh_triton__Proofs__Math-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Math.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "a4ac2c24a8dcb853e2719cf33de0f7d2568a5576",
+    "log": "/tmp/geglu86-bench__repairs__tritonbench_g__geglu_tanh_triton__Proofs__Math-comparator.log",
+    "file": "bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Math.lean",
+    "sha256": "d20da321f770b3165f178a7037dfbcdd32f2b8f357395600ba5dbe0232dcf6da",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__geglu_tanh_triton__Proofs__Native-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Native.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "a4ac2c24a8dcb853e2719cf33de0f7d2568a5576",
+    "log": "/tmp/geglu86-bench__repairs__tritonbench_g__geglu_tanh_triton__Proofs__Native-comparator.log",
+    "file": "bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Native.lean",
+    "sha256": "2b85709afc51c323c24837eff2d1631a0689a8d1ca3b9b75da4bdd86b2450f26",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__geglu_tanh_triton__Proofs__NativeSource-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/NativeSource.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "a4ac2c24a8dcb853e2719cf33de0f7d2568a5576",
+    "log": "/tmp/geglu86-bench__repairs__tritonbench_g__geglu_tanh_triton__Proofs__NativeSource-comparator.log",
+    "file": "bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/NativeSource.lean",
+    "sha256": "971ad4561bae3e89e4ae603f460629ac3210df89d2b4e09c3a9ffd8ca5d6fcc4",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__geglu_tanh_triton__Proofs__Physical-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Physical.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "a4ac2c24a8dcb853e2719cf33de0f7d2568a5576",
+    "log": "/tmp/geglu86-bench__repairs__tritonbench_g__geglu_tanh_triton__Proofs__Physical-comparator.log",
+    "file": "bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Physical.lean",
+    "sha256": "12807d9ec951aff673ec0136b5561222f02e73e808e4bfd69e31325e522a5f4f",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__geglu_tanh_triton__Proofs__PublicIO-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/PublicIO.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "a4ac2c24a8dcb853e2719cf33de0f7d2568a5576",
+    "log": "/tmp/geglu86-bench__repairs__tritonbench_g__geglu_tanh_triton__Proofs__PublicIO-comparator.log",
+    "file": "bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/PublicIO.lean",
+    "sha256": "a240f74c7ca285106488db69ecdb7ad1217b192927bc2b64bf892e98791c2b24",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__geglu_tanh_triton__Proofs__RawCorrect-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/RawCorrect.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "a4ac2c24a8dcb853e2719cf33de0f7d2568a5576",
+    "log": "/tmp/geglu86-bench__repairs__tritonbench_g__geglu_tanh_triton__Proofs__RawCorrect-comparator.log",
+    "file": "bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/RawCorrect.lean",
+    "sha256": "af95e3fcb28df85ab2e8d1ea90658f46c7717b138c483a753d93a2b35ec23b93",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__geglu_tanh_triton__Proofs__RawKernel-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/RawKernel.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "a4ac2c24a8dcb853e2719cf33de0f7d2568a5576",
+    "log": "/tmp/geglu86-bench__repairs__tritonbench_g__geglu_tanh_triton__Proofs__RawKernel-comparator.log",
+    "file": "bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/RawKernel.lean",
+    "sha256": "ff474120e56815eb0ee2b31bbbfb2407ee66226817fb92133134584c1cb2c284",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__geglu_tanh_triton__Proofs__RawNative-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/RawNative.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "a4ac2c24a8dcb853e2719cf33de0f7d2568a5576",
+    "log": "/tmp/geglu86-bench__repairs__tritonbench_g__geglu_tanh_triton__Proofs__RawNative-comparator.log",
+    "file": "bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/RawNative.lean",
+    "sha256": "0bf1a0566087a72762a8471ae25d082fb2f705c99569d37e6d98f18c13411e3f",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__geglu_tanh_triton__Proofs__Real-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Real.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "a4ac2c24a8dcb853e2719cf33de0f7d2568a5576",
+    "log": "/tmp/geglu86-bench__repairs__tritonbench_g__geglu_tanh_triton__Proofs__Real-comparator.log",
+    "file": "bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Real.lean",
+    "sha256": "c4120be34311fa31f09ee012edc1cf2a7b5814e926dcaf8a2924ce5157eafa1c",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__geglu_tanh_triton__Proofs__Rewrite-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Rewrite.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "a4ac2c24a8dcb853e2719cf33de0f7d2568a5576",
+    "log": "/tmp/geglu86-bench__repairs__tritonbench_g__geglu_tanh_triton__Proofs__Rewrite-comparator.log",
+    "file": "bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Rewrite.lean",
+    "sha256": "78f8587216788ba71d9a8128323fb27d9d0bf4299497a96baec0193e6b27387f",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__geglu_tanh_triton__Proofs__Scalar-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Scalar.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "a4ac2c24a8dcb853e2719cf33de0f7d2568a5576",
+    "log": "/tmp/geglu86-bench__repairs__tritonbench_g__geglu_tanh_triton__Proofs__Scalar-comparator.log",
+    "file": "bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Scalar.lean",
+    "sha256": "0a95f8fd39b16cad30784eb629c812984abe9df2705a2e8bbb6a5b1dd773fd18",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__geglu_tanh_triton__Proofs__Source-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Source.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "a4ac2c24a8dcb853e2719cf33de0f7d2568a5576",
+    "log": "/tmp/geglu86-bench__repairs__tritonbench_g__geglu_tanh_triton__Proofs__Source-comparator.log",
+    "file": "bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Source.lean",
+    "sha256": "a9f863d2d7f690bee0466c4bc14e5966021886bb705b3442761a144cb5d71dbc",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__geglu_tanh_triton__Proofs__Tile-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Tile.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "a4ac2c24a8dcb853e2719cf33de0f7d2568a5576",
+    "log": "/tmp/geglu86-bench__repairs__tritonbench_g__geglu_tanh_triton__Proofs__Tile-comparator.log",
+    "file": "bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Tile.lean",
+    "sha256": "b72d010b8520ce1bc2ef9944778b0e4c6d0e420a50899ce09ff9141e12575e83",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__tests__PythonConstantsBody-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/tests/PythonConstantsBody.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "a4ac2c24a8dcb853e2719cf33de0f7d2568a5576",
+    "log": "/tmp/geglu86-bench__tests__PythonConstantsBody-comparator.log",
+    "file": "bench/tests/PythonConstantsBody.lean",
+    "sha256": "775a82135e0d33fa01efa3626409a027b7c6e34e0fcfe9fabb430d7fffef36f7",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__tests__SourceIntrinsicBody-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/tests/SourceIntrinsicBody.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "a4ac2c24a8dcb853e2719cf33de0f7d2568a5576",
+    "log": "/tmp/geglu86-bench__tests__SourceIntrinsicBody-comparator.log",
+    "file": "bench/tests/SourceIntrinsicBody.lean",
+    "sha256": "0a332f9a6724dea0ba97098d302c6a4cf6b07241e0afe5e53286755ac8b14498",
+    "status": "UNAVAILABLE"
+  }
+]

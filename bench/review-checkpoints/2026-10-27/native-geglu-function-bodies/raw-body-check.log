@@ -1,0 +1,58 @@
+[
+  {
+    "python_function": "_geglu_tanh_forward_kernel_repaired",
+    "lean_definition": "forwardKernel",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "runtime_registers",
+    "call_bindings": null,
+    "statements": 12,
+    "runtime_parameters": {},
+    "constexpr_parameters": [
+      "BLOCK_SIZE",
+      "n_elements"
+    ]
+  },
+  {
+    "python_function": "forward_index_commuted_kernel",
+    "lean_definition": "forwardIndexCommuted",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "runtime_registers",
+    "call_bindings": null,
+    "statements": 12,
+    "runtime_parameters": {},
+    "constexpr_parameters": [
+      "BLOCK_SIZE",
+      "n_elements"
+    ]
+  },
+  {
+    "python_function": "_geglu_tanh_backward_kernel_repaired",
+    "lean_definition": "backwardKernel",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "runtime_registers",
+    "call_bindings": null,
+    "statements": 18,
+    "runtime_parameters": {},
+    "constexpr_parameters": [
+      "BLOCK_SIZE",
+      "n_elements"
+    ]
+  },
+  {
+    "python_function": "backward_index_commuted_kernel",
+    "lean_definition": "backwardIndexCommuted",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "runtime_registers",
+    "call_bindings": null,
+    "statements": 18,
+    "runtime_parameters": {},
+    "constexpr_parameters": [
+      "BLOCK_SIZE",
+      "n_elements"
+    ]
+  }
+]
