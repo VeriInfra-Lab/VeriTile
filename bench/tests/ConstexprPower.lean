@@ -105,6 +105,20 @@ def underflow (X Y : RegionName) (B : Nat) : ComputeKernel :=
     tl.store(Y + offsets, x * scale)
   }
 
+/-- Grouping both the complete RHS and its literal base remains transparent. -/
+def groupedSource (X Y : RegionName) (B : Nat) : ComputeKernel :=
+  with_triton_signature profile in triton {
+    scale: tl.constexpr = (((2.0) ** (127 - 15)))
+    offsets = tl.arange(0, B)
+    x = tl.load(X + offsets)
+    y = x * scale
+    tl.store(Y + offsets, y)
+  }
+
+theorem grouped_source (X Y : RegionName) (B : Nat) :
+    groupedSource X Y B = expanded X Y B := rfl
+
+#axiomsClean grouped_source
 #axiomsClean complete_source
 #axiomsClean reciprocal_source
 end
