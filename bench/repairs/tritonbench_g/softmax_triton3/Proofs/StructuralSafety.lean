@@ -4,6 +4,7 @@ import VeriTile.Triton.Float.StructuralSafety
 namespace VeriTile.Bench.Repairs.SoftmaxTriton3.Floating
 open VeriTile.Triton FP.Structural
 noncomputable section
+set_option linter.unusedSimpArgs false
 set_option maxHeartbeats 4000000
 set_option maxRecDepth 16000
 
@@ -17,11 +18,11 @@ theorem source_trace_safe {α : Type} [Inhabited α] (M : Algebra α)
     (output : ∀ j : Fin B,j.val<n → s.pids 0*n+j.val<bounds out) :
     TraceSafe M bounds (softmax_kernel out inp mask n n B hasMask) s := by
   cases hasMask <;>
-    simp [TraceSafe,softmax_kernel,ComputeKernel.surfaceBody,
+    simp [← Int.natCast_mul,← Int.natCast_add,-Nat.cast_mul,-Nat.cast_add, TraceSafe,softmax_kernel,ComputeKernel.surfaceBody,
       Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
       Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
       Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
-      run,step,evalExpr,evalComputeOp,evalOp,store,State.setReg,numeric,natLt,bop,
+      run,step,evalExpr,evalComputeOp,evalOp,store,State.setReg,numeric,numericLt,natLt,bop,
       TileShape.axisDim,positive,Option.bind,Function.comp_def,ComputeDType.eraseDType,toFloat,ofFloat]
   · exact ⟨input,output⟩
   · exact ⟨input,masks rfl,output⟩

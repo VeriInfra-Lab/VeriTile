@@ -25,7 +25,7 @@ theorem row_memory {α : Type} [Inhabited α] (R : FP.ScalarArithmetic.Rules)
       (fun i => ports.finite (num i)) PUnit.unit = B
   all_goals by_cases hf : ports.finite den = Bool.true
   all_goals by_cases hz : ports.atLeast (M.literal (some .fp32) .real 1) den = Bool.true
-  all_goals dsimp [num,den,numeratorValue,
+  all_goals dsimp [← Int.natCast_mul,← Int.natCast_add,-Nat.cast_mul,-Nat.cast_add, num,den,numeratorValue,
     denominatorValue] at hc hf hz
   · have finite := enabled_values M D ports B hcount num den ⟨hc,hf,hz⟩
     have values (i : TileIndex [B]) :
@@ -36,7 +36,7 @@ theorem row_memory {α : Type} [Inhabited α] (R : FP.ScalarArithmetic.Rules)
     cases hasMask
     all_goals
       dsimp at hc hf hz
-      simp [originalExecution,
+      simp [← Int.natCast_mul,← Int.natCast_add,-Nat.cast_mul,-Nat.cast_add, originalExecution,
         candidateExecution,numeratorValue,
         denominatorValue,dif_pos,dif_neg,hc,hf,hz,
         Bool.false_eq_true,Bool.true_eq_false,bop,Broadcast.leftIndex,
@@ -50,7 +50,7 @@ theorem row_memory {α : Type} [Inhabited α] (R : FP.ScalarArithmetic.Rules)
       by_cases hi : i.1.val < n
       · simp only [hi,↓reduceIte]
         have eq := values i
-        dsimp [num,den,numeratorValue,
+        dsimp [← Int.natCast_mul,← Int.natCast_add,-Nat.cast_mul,-Nat.cast_add, num,den,numeratorValue,
           denominatorValue] at eq
         simp only [hi,↓reduceIte] at eq
         exact congrArg (fun value => fun r o =>
@@ -60,7 +60,7 @@ theorem row_memory {α : Type} [Inhabited α] (R : FP.ScalarArithmetic.Rules)
   all_goals cases hasMask
   all_goals
     dsimp at hc hf hz
-    simp [originalExecution,
+    simp [← Int.natCast_mul,← Int.natCast_add,-Nat.cast_mul,-Nat.cast_add, originalExecution,
       candidateExecution,numeratorValue,
       denominatorValue,dif_pos,dif_neg,hc,hf,hz,
       Bool.false_eq_true,Bool.true_eq_false,

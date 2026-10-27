@@ -4,6 +4,7 @@ namespace VeriTile.Bench.Repairs.SoftmaxTriton3.Floating
 open VeriTile.Triton FP.Structural
 open VeriTile.Bench.Repairs.SoftmaxTriton1 hiding blockSize numWarps
 noncomputable section
+set_option linter.unusedSimpArgs false
 set_option maxHeartbeats 3000000
 abbrev access {α} [Inhabited α] := @SoftmaxTriton1.Floating.access α _
 
@@ -37,7 +38,7 @@ theorem expression_congr {α} (M : Algebra α) (n B : Nat)
     expression M n B xs mx i=expression M n B ys my i := by
   have row : inputRow M n B xs=inputRow M n B ys := by
     funext j
-    by_cases h : j.1.val<n <;> simp [inputRow,h,same j.1]
+    by_cases h : j.1.val<n <;> simp [← Int.natCast_mul,← Int.natCast_add,-Nat.cast_mul,-Nat.cast_add, inputRow,h,same j.1]
   cases mx with
   | none =>
     cases my with
@@ -49,7 +50,7 @@ theorem expression_congr {α} (M : Algebra α) (n B : Nat)
     | some g =>
       have mask : maskRow M n B f=maskRow M n B g := by
         funext j
-        by_cases h : j.1.val<n <;> simp [maskRow,h,sameMask f g rfl rfl j.1]
+        by_cases h : j.1.val<n <;> simp [← Int.natCast_mul,← Int.natCast_add,-Nat.cast_mul,-Nat.cast_add, maskRow,h,sameMask f g rfl rfl j.1]
       unfold expression
       rw [row]
       dsimp only
@@ -70,8 +71,8 @@ theorem row_value {α} [Inhabited α] (M : Algebra α) (out inp mask : RegionNam
       (fun j => (s.mem inp (s.pids 0*n+j.val)).read .real)
       (if hasMask then some (fun j => (s.mem mask (s.pids 0*n+j.val)).read .real) else none) i) := by
   cases hasMask <;>
-    simp [exec,softmax_kernel,VeriTile.Bench.TritonBenchG.SoftmaxTriton3.softmax_kernel,
-      run,step,evalExpr,evalComputeOp,evalOp,store,State.setReg,numeric,natLt,bop,
+    simp [← Int.natCast_mul,← Int.natCast_add,-Nat.cast_mul,-Nat.cast_add, exec,softmax_kernel,
+      run,step,evalExpr,evalComputeOp,evalOp,store,State.setReg,numeric,numericLt,natLt,bop,
       TileShape.axisDim,hB,Option.bind,Function.comp_def,ComputeDType.eraseDType,toFloat,ofFloat] at runEq
   all_goals subst t
   all_goals rw [SoftmaxTriton1.Floating.masked_readback_active (shape := [B]) out
@@ -88,8 +89,8 @@ theorem row_frame {α} [Inhabited α] (M : Algebra α) (out inp mask : RegionNam
     (r : RegionName) (a : Nat) (miss : r≠out ∨ ∀ c,c<n → a≠s.pids 0*n+c) :
     t.mem r a=s.mem r a := by
   cases hasMask <;>
-    simp [exec,softmax_kernel,VeriTile.Bench.TritonBenchG.SoftmaxTriton3.softmax_kernel,
-      run,step,evalExpr,evalComputeOp,evalOp,store,State.setReg,numeric,natLt,bop,
+    simp [← Int.natCast_mul,← Int.natCast_add,-Nat.cast_mul,-Nat.cast_add, exec,softmax_kernel,
+      run,step,evalExpr,evalComputeOp,evalOp,store,State.setReg,numeric,numericLt,natLt,bop,
       TileShape.axisDim,hB,Option.bind,Function.comp_def,ComputeDType.eraseDType,toFloat,ofFloat] at runEq
   all_goals subst t
   all_goals apply State.masked_scatter_frame
@@ -99,8 +100,8 @@ theorem row_frame {α} [Inhabited α] (M : Algebra α) (out inp mask : RegionNam
 theorem terminates {α} [Inhabited α] (M : Algebra α) (out inp : RegionName) (mask : Option RegionName)
     (rows n B p : Nat) (hB : 0<B) (s : State α) : ∃ t,evaluate M out inp mask rows n B p s=some t := by
   cases mask <;>
-    simp [evaluate,exec,softmax_kernel,VeriTile.Bench.TritonBenchG.SoftmaxTriton3.softmax_kernel,
-      run,step,evalExpr,evalComputeOp,evalOp,store,State.setReg,numeric,natLt,bop,
+    simp [← Int.natCast_mul,← Int.natCast_add,-Nat.cast_mul,-Nat.cast_add, evaluate,exec,softmax_kernel,
+      run,step,evalExpr,evalComputeOp,evalOp,store,State.setReg,numeric,numericLt,natLt,bop,
       TileShape.axisDim,hB,Option.bind,Function.comp_def,ComputeDType.eraseDType,toFloat,ofFloat]
 
 theorem source {α} [Inhabited α] (M : Algebra α) : Source access (evaluate M) (formula M) := by

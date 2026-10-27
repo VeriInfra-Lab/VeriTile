@@ -219,6 +219,15 @@ def call_signature(text: str, name: str) -> dict:
             raise ValueError("source dtype pointers must be distinct parameter names")
         fields["sourceDTypePointers"] = values
     pointer_names = {n for n, _ in fields["pointers"]} | set(fields.get("sourceDTypePointers", []))
+    optional = re.search(r"\boptionalPointers\s*:=\s*(\[[^\]]*\])", match[1])
+    if re.search(r"\boptionalPointers\s*:=", match[1]) and not optional:
+        raise ValueError("optional pointers must be a literal list")
+    if optional:
+        values = ast.literal_eval(optional[1])
+        if (not isinstance(values, list) or not all(isinstance(n, str) for n in values)
+                or len(values) != len(set(values)) or not set(values) <= pointer_names):
+            raise ValueError("optional pointers must be distinct declared pointer names")
+        fields["optionalPointers"] = values
     for field in ("readPorts", "writePorts"):
         value = re.search(r"\b" + field + r"\s*:=\s*(\[[^\]]*\])", match[1])
         if value:
@@ -287,7 +296,8 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
           signature_definition: str | None = None, expected_signature: dict | None = None,
           expected_call_bindings: dict | None = None,
           expected_pointer_offsets: dict | None = None,
-          expected_source_dtype: dict | None = None) -> dict:
+          expected_source_dtype: dict | None = None,
+          expected_pointer_presence: dict | None = None) -> dict:
     functions = [n for n in ast.parse(python_text).body
                  if isinstance(n, ast.FunctionDef) and n.name == python_function]
     if len(functions) != 1:
@@ -336,6 +346,20 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
     call_bindings = None
     pointer_offsets = None
     source_dtype = None
+    pointer_presence = None
+    presence_syntax = list(re.finditer(r"\bpointer_presence\s*\[([^\]]*)\]\s+(?=in\b)", signature))
+    if presence_syntax:
+        if len(presence_syntax) != 1 or signature_definition is None:
+            raise ValueError("pointer presence requires one checked call signature")
+        pointer_presence = {}
+        for binding in presence_syntax[0][1].split(","):
+            entry = re.fullmatch(r"\s*(\w+)\s*:=\s*([\w.]+)\s*", binding)
+            if not entry or entry[1] in pointer_presence:
+                raise ValueError("unsupported or duplicate pointer presence binding")
+            pointer_presence[entry[1]] = entry[2]
+        signature = signature[:presence_syntax[0].start()] + signature[presence_syntax[0].end():]
+    if pointer_presence != expected_pointer_presence:
+        raise ValueError("pointer presence differs from the reviewed invocation")
     if expected_source_dtype is not None and signature_definition is None:
         raise ValueError("source dtype binding requires a checked call signature")
     if expected_pointer_offsets is not None and signature_definition is None:
@@ -399,6 +423,8 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
         if source_dtype != expected_source_dtype:
             raise ValueError("source dtype binding differs from the reviewed invocation")
         profile = call_signature(lean_text, signature_definition)
+        if set(profile.get("optionalPointers", [])) != set(pointer_presence or {}):
+            raise ValueError("optional pointer declarations and caller presence bindings differ")
         if profile.get("sourceDTypePointers", []) != ([source_dtype["pointer"]] if source_dtype else []):
             raise ValueError("source dtype pointer declaration and invocation differ")
         if expected_signature is not None and profile != expected_signature:
@@ -480,6 +506,8 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
         result["source_functions"] = profile["functions"]
     if pointer_offsets is not None:
         result["pointer_offsets"] = pointer_offsets
+    if pointer_presence is not None:
+        result["pointer_presence"] = pointer_presence
     if source_dtype is not None:
         result["source_dtype"] = source_dtype
     if jit_options is not None:
@@ -517,7 +545,7 @@ def validate_manifest_records(records: list[dict]) -> None:
             if not isinstance(bindings, dict):
                 raise ValueError("reused Python correspondence requires checked call bindings")
             abis.append(json.dumps({
-                "abi": {key: signature.get(key) for key in ("pointers", "scalars", "constexpr")},
+                "abi": {key: signature.get(key) for key in ("pointers", "scalars", "constexpr", "optionalPointers")},
                 "specialized_scalars": sorted(bindings),
             }, sort_keys=True))
         if len(abis) != len(set(abis)):
@@ -533,7 +561,7 @@ def check_manifest(root: Path, manifest: Path) -> list[dict]:
                        record["python_function"], record["lean_definition"],
                        record.get("signature_definition"), record.get("expected_signature"),
                        record.get("expected_call_bindings"), record.get("expected_pointer_offsets"),
-                       record.get("expected_source_dtype"))
+                       record.get("expected_source_dtype"), record.get("expected_pointer_presence"))
         if "profile_variant" in record:
             result["profile_variant"] = record["profile_variant"]
         results.append(result)

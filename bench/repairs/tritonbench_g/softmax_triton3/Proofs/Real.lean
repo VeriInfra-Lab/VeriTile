@@ -1,5 +1,6 @@
+import bench.repairs.tritonbench_g.softmax_triton3.Proofs.RealExecution
 import bench.repairs.tritonbench_g.softmax_triton3.Proofs.Model
-import bench.tritonbench_g.softmax_triton3.Proofs.Real
+import bench.tritonbench_g.softmax_triton3.Proofs.Spec
 import bench.repairs.tritonbench_g.softmax_triton1.Proofs.KernelMath
 namespace VeriTile.Bench.Repairs.SoftmaxTriton3.RealModel
 open VeriTile.Triton
@@ -29,7 +30,7 @@ theorem source : Source access evaluate formula := by
     cases ms with
     | some ms => simp at matching
     | none =>
-      obtain ⟨u,hu,hv,hf⟩ := VeriTile.Bench.TritonBenchG.SoftmaxTriton3.softmax_kernel_region_run
+      obtain ⟨u,hu,hv,hf⟩ := RawReal.softmax_kernel_region_run
         out inp inp n n B hB (launchState rows p s) (fun j => xs j.val)
         (by intro j hj;exact input j.val hj)
       have eq : u=t := Option.some.inj (hu.symm.trans run)
@@ -50,7 +51,7 @@ theorem source : Source access evaluate formula := by
     cases ms with
     | none => simp at matching
     | some ms =>
-      obtain ⟨u,hu,hv,hf⟩ := VeriTile.Bench.TritonBenchG.SoftmaxTriton3.softmax_kernel_masked_region_run
+      obtain ⟨u,hu,hv,hf⟩ := RawReal.softmax_kernel_masked_region_run
         out inp mask n n B hB (launchState rows p s) (fun j => xs j.val) (fun j => ms j.val)
         (by intro j hj;exact input j.val hj) (by intro j hj;exact masks mask rfl j.val hj)
       have eq : u=t := Option.some.inj (hu.symm.trans run)
@@ -72,12 +73,12 @@ theorem terminates (out inp : RegionName) (mask : Option RegionName) (rows n B p
     (hB : 0<B) (s : BlockState) : ∃ t,evaluate out inp mask rows n B p s=some t := by
   cases mask with
   | none =>
-    obtain ⟨t,h,_,_⟩ := VeriTile.Bench.TritonBenchG.SoftmaxTriton3.softmax_kernel_region_run
+    obtain ⟨t,h,_,_⟩ := RawReal.softmax_kernel_region_run
       out inp inp n n B hB (launchState rows p s)
       (fun j => s.readMem inp (p*n+j.val)) (by intros;rfl)
     exact ⟨t,h⟩
   | some mask =>
-    obtain ⟨t,h,_,_⟩ := VeriTile.Bench.TritonBenchG.SoftmaxTriton3.softmax_kernel_masked_region_run
+    obtain ⟨t,h,_,_⟩ := RawReal.softmax_kernel_masked_region_run
       out inp mask n n B hB (launchState rows p s)
       (fun j => s.readMem inp (p*n+j.val)) (fun j => s.readMem mask (p*n+j.val))
       (by intros;rfl) (by intros;rfl)

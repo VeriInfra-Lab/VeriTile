@@ -1499,3 +1499,60 @@ class ChunkDeltaFunctionBodyTests(unittest.TestCase):
                     self.assertIn(before, lean)
                     with self.assertRaises(ValueError):
                         self.compare(record, lean.replace(before, after))
+
+class SoftmaxTriton3BodyTests(unittest.TestCase):
+    def setUp(self):
+        self.directory = ROOT / 'bench/repairs/tritonbench_g/softmax_triton3'
+        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+        self.python = (self.directory / 'softmax_triton3_repaired.py').read_text()
+        self.lean = (self.directory / 'Kernels.lean').read_text()
+
+    def compare(self, lean=None, record=None):
+        r = self.records[0] if record is None else record
+        return check(self.python, self.lean if lean is None else lean,
+                     r['python_function'], r['lean_definition'], r['signature_definition'],
+                     r['expected_signature'], r['expected_call_bindings'],
+                     expected_pointer_presence=r.get('expected_pointer_presence'))
+
+    def test_both_complete_bodies(self):
+        pairs = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        self.assertEqual([p['statements'] for p in pairs], [14, 17])
+        self.assertTrue(all(p['mode'] == 'pasted_body' for p in pairs))
+        self.assertTrue(all(p['pointer_presence'] == {'mask_ptr': 'HAS_MASK'} for p in pairs))
+
+    def test_casts_none_test_and_caller_types_are_preserved(self):
+        for before, after in [
+            ('tl.program_id(0).to(tl.int64)', 'tl.program_id(0)'),
+            ('tl.arange(0, BLOCK_SIZE).to(tl.int64)', 'tl.arange(0, BLOCK_SIZE)'),
+            ('if mask_ptr is not None:', 'if mask_ptr is None:'),
+            ('pointer_presence [mask_ptr := HAS_MASK]', 'pointer_presence [mask_ptr := Bool.true]'),
+            ('optionalPointers := ["mask_ptr"]', 'optionalPointers := []'),
+            ('("row_stride",.i64)', '("row_stride",.i32)'),
+        ]:
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                self.compare(self.lean.replace(before, after, 1))
+
+    def test_presence_binding_requires_review(self):
+        record = dict(self.records[0])
+        record.pop('expected_pointer_presence')
+        with self.assertRaises(ValueError):
+            self.compare(record=record)
+
+    def test_duplicate_and_unknown_presence_bindings_are_rejected(self):
+        for binding in ['mask_ptr := HAS_MASK, mask_ptr := HAS_MASK',
+                        'input_ptr := HAS_MASK', 'mask_ptr := (HAS_MASK)']:
+            with self.subTest(binding=binding), self.assertRaises(ValueError):
+                self.compare(self.lean.replace('mask_ptr := HAS_MASK', binding, 1))
+
+    def test_duplicate_optional_declarations_are_rejected(self):
+        with self.assertRaises(ValueError):
+            self.compare(self.lean.replace('optionalPointers := ["mask_ptr"]',
+                                          'optionalPointers := ["mask_ptr","mask_ptr"]'))
+
+    def test_candidate_fallback_and_float_literal_are_preserved(self):
+        for before, after in [('denominator >= 1.0', 'denominator >= 0.0'),
+                              ('1.0 / denominator', '1.0 * denominator'),
+                              ('softmax_output = numerator / denominator',
+                               'softmax_output = numerator * denominator')]:
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                self.compare(self.lean.replace(before, after), self.records[1])

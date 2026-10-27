@@ -1,3 +1,4 @@
+import VeriTile.Triton.DSL.OptionalPointer
 import VeriTile.Triton.DSL.TypedStores
 import VeriTile.Triton.DSL.PythonBody
 import VeriTile.Triton.DSL.RankOneBlockPtr
@@ -25,6 +26,8 @@ structure CallSignature where
   The source_dtype entrypoint checks every constructor, including integer and
   floating storage; it does not restrict the caller to one dtype. -/
   sourceDTypePointers : List String := []
+  /-- Pointer parameters whose None/non-None specialization is supplied by the caller. -/
+  optionalPointers : List String := []
   scalars : List (String × ScalarType) := []
   constexpr : List String := []
   /-- Keep the typed FP32 memory channel used by a caller's existing IO.
@@ -61,6 +64,10 @@ syntax "with_triton_signature " term " source_dtype " ident " := " term " in "
   "triton" tritonPythonBody : term
 declare_syntax_cat tritonCallBinding
 syntax ident " := " term : tritonCallBinding
+syntax "with_triton_signature " term " pointer_presence " "[" tritonCallBinding,* "]" " in "
+  "triton" tritonPythonBody : term
+syntax "with_triton_call " term " call_args " "[" tritonCallBinding,* "]"
+  " pointer_presence " "[" tritonCallBinding,* "]" " in " "triton" tritonPythonBody : term
 syntax "with_triton_call " term " call_args " "[" tritonCallBinding,* "]" " in "
   "triton" tritonPythonBody : term
 syntax "with_triton_call " term " call_args " "[" tritonCallBinding,* "]"
@@ -484,12 +491,33 @@ Nat/Int carriers use the existing mathematical index projection;
 native signed-width bounds must still be established by the task's IO/contract. -/
 private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tritonStmt))
     (callValues : Option (Array (TSyntax `tritonCallBinding)))
-    (pointerOffsets : Option (Array (TSyntax `tritonCallBinding)) := none) : TermElabM Expr := do
+    (pointerOffsets : Option (Array (TSyntax `tritonCallBinding)) := none)
+    (pointerPresence : Option (Array (TSyntax `tritonCallBinding)) := none) : TermElabM Expr := do
       let profile ← elabTermEnsuringType profile (mkConst ``Triton.CallSignature)
       let dtypePointers ← listValues (← mkAppM ``Triton.CallSignature.sourceDTypePointers #[profile])
       unless dtypePointers.isEmpty do
         throwError "source dtype pointer requires its source_dtype invocation binding"
       let pointers ← bindings dtypeValue (← mkAppM ``Triton.CallSignature.pointers #[profile])
+      let optionalNames ← (← listValues
+        (← mkAppM ``Triton.CallSignature.optionalPointers #[profile])).mapM stringValue
+      unless optionalNames.eraseDups.length == optionalNames.length &&
+          optionalNames.all (fun name => pointers.any (fun p => p.1 == name)) do
+        throwError "optional pointers must be distinct declared pointer names"
+      let mut presence : OptionalPointer.Presence := []
+      for arg in pointerPresence.getD #[] do
+        let `(tritonCallBinding| $id:ident := $value:term) := arg
+          | throwErrorAt arg "invalid pointer presence binding"
+        let name := id.getId.eraseMacroScopes
+        unless optionalNames.contains name.toString do
+          throwErrorAt id "presence binding requires a declared optional pointer"
+        if presence.any (fun entry => entry.1 == name) then
+          throwErrorAt id "duplicate pointer presence binding"
+        let _ ← elabTermEnsuringType value (mkConst ``Bool)
+        let expression ← liftMacroM `(tritonExpr| $(($value:term : Bool)))
+        presence := presence ++ [(name,expression)]
+      unless optionalNames.all (fun name => presence.any (fun entry => entry.1.toString == name)) do
+        throwError "every optional pointer needs an explicit caller presence binding"
+
       let storage ← whnf (← mkAppM ``Triton.CallSignature.typedFP32Storage #[profile])
       let typedFP32 := storage.isConstOf ``Bool.true
       unless typedFP32 || storage.isConstOf ``Bool.false do
@@ -582,6 +610,7 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
         pure declarations
       let stmts ← liftMacroM <| stmts.mapM fun stmt => do
         return (⟨← SourceFunction.expand ordinaryFunctions stmt.raw⟩ : TSyntax `tritonStmt)
+      let stmts ← liftMacroM <| OptionalPointer.specialize presence stmts
       let stmts ← liftMacroM <| stmts.mapM fun stmt => do
         return (⟨← PythonBody.markWeakLiterals stmt.raw⟩ : TSyntax `tritonStmt)
       let mut values : List (Name × TSyntax `tritonExpr) := []
@@ -836,6 +865,15 @@ private def elaborateSourceDType (profile : TSyntax `term) (pointer : Ident)
   mkAppOptM ``Triton.SourceDType.casesOn (#[some motive,some actual] ++ branches.map some)
 
 elab_rules : term
+  | `(with_triton_signature $profile:term pointer_presence [$presence:tritonCallBinding,*] in triton $body:tritonPythonBody) => do
+      let environment ← getEnv
+      let stmts ← liftMacroM <| PythonBody.statements environment body
+      elaborateCall profile stmts none none (some presence.getElems)
+  | `(with_triton_call $profile:term call_args [$args:tritonCallBinding,*]
+      pointer_presence [$presence:tritonCallBinding,*] in triton $body:tritonPythonBody) => do
+      let environment ← getEnv
+      let stmts ← liftMacroM <| PythonBody.statements environment body
+      elaborateCall profile stmts (some args.getElems) none (some presence.getElems)
   | `(with_triton_signature $profile:term source_dtype $pointer:ident := $kind:term in triton $body:tritonPythonBody) => do
       let environment ← getEnv
       let stmts ← liftMacroM <| PythonBody.statements environment body
