@@ -29,7 +29,7 @@ theorem chunk_safe (M : Algebra α) (p : Parameters) (flag : Bool) (red row star
           (traceSafeList_cons_of_step ?_ (step4 M p flag red row start eps carry s h)
             (traceSafeList_cons_intro ?_ (by intro t _;exact traceSafeList_nil _ _ _))))))
   all_goals cases flag
-  all_goals simp only [command,forwardBody,forwardTemplateBody,forwardTemplate,KernelDSL.forward,KernelDSL.forwardDefault,KernelDSL.forwardLog,epsilonLoss,
+  all_goals simp only [command,forwardBody,forwardTemplateBody,forwardTemplate,KernelDSL.forward,KernelDSL.forwardDefault,KernelDSL.forwardLog,KernelDSL.forwardBody,epsilonLoss,
     ComputeKernel.surfaceBody,List.getD,List.getElem?_cons_zero,List.getElem?_cons_succ,Option.getD,
     List.take,List.drop,List.nil_append,List.cons_append,
     stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,safeAddress_unfold,
@@ -37,12 +37,15 @@ theorem chunk_safe (M : Algebra α) (p : Parameters) (flag : Bool) (red row star
     evalOp_unfold,Option.bind_eq_bind,Option.pure_def,Option.bind,
     engine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     f0,f1,f2,SafetyBackward.b0,SafetyBackward.b1,SafetyBackward.b2,f3,f4,f5,State.setReg,
-    h.y,h.t,h.o,h.base,h.epsilon,h.sum,
+    h.y,h.t,h.o,h.base,h.epsilon,h.sum,h.cols,
     numeric,numericLt,numericEq,natLt,FP.Structural.bop,Region.cast,
     ne_eq,not_false_eq_true,not_true_eq_false,String.reduceEq,reduceCtorEq,
     decide_eq_true_eq,ite_true,ite_false,dite_true,dite_false,Bool.false_eq_true,Bool.true_eq,
     Option.some.injEq,forall_eq,forall_eq',exists_eq_left,exists_eq_left',true_and,and_true,
     Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_add,Int.toNat_natCast,Int.ofNat_lt]
+  all_goals try (solve | simp only [Bool.not_false,Bool.not_true,Bool.false_eq_true,Bool.true_eq,
+    ite_true,ite_false,traceSafeList_cons,traceSafeList_nil,stepSafe_unfold,safeExpr_unfold,
+    safeCompute_unfold,safeOp_unfold,precisionContext,true_and,and_true,implies_true,forall_const])
   all_goals first | exact fun j hj => hy j.1 hj | exact fun j hj => ht j.1 hj | skip
   all_goals by_cases hr : red=0
   all_goals simp only [hr,ite_true,ite_false]
@@ -72,10 +75,10 @@ theorem chunk_safe (M : Algebra α) (p : Parameters) (flag : Bool) (red row star
   apply SafetyBackward.pure_trace
   intro cmd member state
   cases flag
-  all_goals simp only [forwardPrefix,forwardTemplate,KernelDSL.forward,KernelDSL.forwardDefault,KernelDSL.forwardLog,ComputeKernel.surfaceBody,List.take,
+  all_goals simp only [forwardPrefix,forwardTemplate,KernelDSL.forward,KernelDSL.forwardDefault,KernelDSL.forwardLog,KernelDSL.forwardBody,ComputeKernel.surfaceBody,List.take,
     Bool.false_eq_true,Bool.true_eq,ite_true,ite_false,
     List.mem_cons,List.not_mem_nil,or_false] at member
-  all_goals rcases member with rfl | rfl | rfl | rfl | rfl | rfl
+  all_goals rcases member with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
   all_goals simp only [stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
     precisionContext,and_true]
 
@@ -106,7 +109,7 @@ theorem finish_safe (M : Algebra α) (p : Parameters) (flag : Bool) (red row : N
     (bounds : RegionName → Nat) (ho : red≠0 → row<bounds p.O) :
     traceSafeList (engine M) bounds (forwardFinish p flag red) s := by
   cases flag <;> by_cases hr : red=0
-  all_goals simp only [forwardFinish,forwardTemplate,KernelDSL.forward,KernelDSL.forwardDefault,KernelDSL.forwardLog,ComputeKernel.surfaceBody,List.drop,
+  all_goals simp only [forwardFinish,forwardTemplate,KernelDSL.forward,KernelDSL.forwardDefault,KernelDSL.forwardLog,KernelDSL.forwardBody,ComputeKernel.surfaceBody,List.drop,
     Bool.false_eq_true,Bool.true_eq,ite_true,ite_false]
   all_goals apply traceSafeList_cons_intro
   all_goals try (intro final _;exact traceSafeList_nil _ _ _)
@@ -145,13 +148,13 @@ theorem source_safe (M : Algebra α) (p : Parameters) (flag : Bool) (red : Nat)
   have ready := Tile.prefix_registers M p flag red eps s
   obtain ⟨looped,ran,_,registers⟩ := Program.loop_complete M p flag red (s.pids 0) eps 0
     (Tile.zero M) _ ready positive
-  have stepRun : step (engine M) (.forRangeInt "i" (.constInt 0) (.constInt p.cols)
+  have stepRun : step (engine M) (.forRangeInt "i" (.constInt 0) (.ref .int [] "n_cols")
       (.constNat p.block) (forwardBody p flag red)) (Tile.prefixRun M p flag red eps s).val=some looped := by
-    simpa only [step,evalOp_unfold,Option.bind_eq_bind,Option.pure_def,Option.bind] using ran
+    simpa only [step,evalOp_unfold,Option.bind_eq_bind,Option.pure_def,Option.bind,ready.cols] using ran
   refine traceSafeList_cons_of_step ?_ stepRun
     (finish_safe M p flag red (s.pids 0) eps _ looped registers bounds hs)
   simp only [stepSafe_unfold,safeOp_unfold,evalOp_unfold,Option.bind_eq_bind,
-    Option.pure_def,Option.bind,true_and]
+    Option.pure_def,Option.bind,true_and,ready.cols]
   exact range_safe M p flag red (s.pids 0) 0 eps (Tile.zero M) _ ready positive bounds hy ht ho
 
 #axiomsClean source_safe

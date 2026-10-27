@@ -23,10 +23,10 @@ def finishRun {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (flag
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp [forwardFinish,forwardTemplate,KernelDSL.forward,KernelDSL.forwardDefault,KernelDSL.forwardLog,ComputeKernel.surfaceBody,run,step,evalExpr,
+    simp [forwardFinish,forwardTemplate,KernelDSL.forward,KernelDSL.forwardDefault,KernelDSL.forwardLog,KernelDSL.forwardBody,ComputeKernel.surfaceBody,run,step,evalExpr,
       evalComputeOp,evalOp_unfold,Option.bind,Algebra.withDefaultPrecision,resolvePrecision,
       ComputeDType.eraseDType,State.setReg,numeric,numericEq,numericLt,natLt,
-      FP.Structural.bop,store,Region.cast,hr,h.o,h.sum]
+      FP.Structural.bop,store,Region.cast,hr,h.o,h.sum,h.cols,h.cols]
     rfl
 
 theorem finish_memory {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (flag : Bool)
@@ -52,10 +52,10 @@ theorem row_complete {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters
   let carry := (loopModel M p flag red (s.pids 0) eps 0 (prepared.mem,zero M)).2
   let final := (finishRun M p flag red (s.pids 0) eps carry looped hr).val
   have hf := (finishRun M p flag red (s.pids 0) eps carry looped hr).property
-  have hs : step (engine M) (.forRangeInt "i" (.constInt 0) (.constInt p.cols)
+  have hs : step (engine M) (.forRangeInt "i" (.constInt 0) (.ref .int [] "n_cols")
       (.constNat p.block) (forwardBody p flag red)) prepared=some looped := by
-    simpa [step,evalOp_unfold] using hl
-  have hloop : run (engine M) [.forRangeInt "i" (.constInt 0) (.constInt p.cols)
+    simpa [step,evalOp_unfold,prepared,hi.cols] using hl
+  have hloop : run (engine M) [.forRangeInt "i" (.constInt 0) (.ref .int [] "n_cols")
       (.constNat p.block) (forwardBody p flag red)] prepared=some looped := by
     simp [run,hs]
   refine ⟨final,?_,?_⟩

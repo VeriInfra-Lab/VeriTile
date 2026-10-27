@@ -1,28 +1,58 @@
 import bench.repairs.tritonbench_g.kldiv_ops.IO
-import bench.tritonbench_g.kldiv_ops.Proofs.FP
+import bench.tritonbench_g.geglu_tanh_triton.Proofs.FP
 import VeriTile.Triton.Float.StructuralSafety
 
-/-! The existing signed output-row pointer candidate, transplanted to the current
-runtime-epsilon forward and complete backward sources. No floating rewrite is used. -/
+/-! The full original and candidate differ only at one signed output-row
+pointer product. All casts, branches, loads and floating expressions remain. -/
 namespace VeriTile.Bench.Repairs.KldivOps.SourcePair
 open VeriTile Triton FP.Structural FP.ProfiledRewrite Safety
-
 noncomputable section
 set_option maxHeartbeats 2000000
 set_option maxRecDepth 24000
 set_option linter.unusedSimpArgs false
 variable {α : Type} [Inhabited α]
 
+def rowPointer (candidate : Bool) (name : RegName) (region : RegionName) (stride : RegName) : ComputeStmt :=
+  .assign .ptr [] name (.alg (.ptrAdd .nil (.ptrBase region) (.castIntToNat
+    (if candidate then .mul .int .nil (.ref .int [] stride) (.ref .int [] "pid")
+     else .mul .int .nil (.ref .int [] "pid") (.ref .int [] stride)))))
+
+theorem rowPointer_step (M : Algebra α) (s : State α) (name : RegName)
+    (region : RegionName) (stride : RegName) :
+    step (engine M) (rowPointer Bool.true name region stride) s =
+      step (engine M) (rowPointer Bool.false name region stride) s := by
+  have h := VeriTile.Bench.TritonBenchG.GegluTanhTriton.FPProof.signed_ptr_index_commutes
+    M s [] region (.ref .int [] "pid") (.ref .int [] stride) s (by simp [run])
+  symm
+  simpa only [rowPointer, Bool.false_eq_true, ↓reduceIte, step, evalExpr] using
+    congrArg (fun x => x >>= fun value => some (s.setReg name .ptr [] value)) h
+
+theorem context_run (M : Algebra α) (before after : List ComputeStmt)
+    (name : RegName) (region : RegionName) (stride : RegName) (s : State α) :
+    run (engine M) (before ++ rowPointer Bool.true name region stride :: after) s =
+      run (engine M) (before ++ rowPointer Bool.false name region stride :: after) s := by
+  simp only [run_append,run,rowPointer_step]
+
+theorem context_safe (M : Algebra α) (bounds : RegionName → Nat) (before after : List ComputeStmt)
+    (name : RegName) (region : RegionName) (stride : RegName) (s : State α) :
+    traceSafeList (engine M) bounds (before ++ rowPointer Bool.true name region stride :: after) s ↔
+      traceSafeList (engine M) bounds (before ++ rowPointer Bool.false name region stride :: after) s := by
+  simp only [traceSafeList_append,traceSafeList_cons,rowPointer_step]
+  simp only [rowPointer,Bool.false_eq_true,Bool.true_eq,ite_true,ite_false,
+    stepSafe_unfold,safeExpr_unfold,safeOp_unfold,true_and,and_true]
+
 theorem forward_decomposition (p : Parameters) (flag candidate : Bool) (red : Nat) :
     (if candidate then KernelDSL.forwardCandidate p flag red else KernelDSL.forward p flag red).surfaceBody =
-      VeriTile.Bench.TritonBenchG.KldivOps.FPProof.forwardPrefix candidate p.Y p.T p.O p.cols p.cols (if red=0 then p.cols else 1) ++
-        (KernelDSL.forward p flag red).surfaceBody.drop 4 := by
+      (KernelDSL.forward p flag red).surfaceBody.take 7 ++
+      rowPointer candidate "loss_ptr" p.O "loss_stride" ::
+      (KernelDSL.forward p flag red).surfaceBody.drop 8 := by
   cases flag <;> cases candidate <;> rfl
 
 theorem backward_decomposition (p : Parameters) (flag candidate : Bool) :
     (if candidate then KernelDSL.backwardCandidate p flag else KernelDSL.backward p flag).surfaceBody =
-      VeriTile.Bench.TritonBenchG.KldivOps.FPProof.backwardPrefix candidate p.T p.O p.cols p.cols ++
-        (KernelDSL.backward p flag).surfaceBody.drop 3 := by
+      (KernelDSL.backward p flag).surfaceBody.take 5 ++
+      rowPointer candidate "new_grads_ptr" p.O "new_grads_stride" ::
+      (KernelDSL.backward p flag).surfaceBody.drop 6 := by
   cases flag <;> cases candidate <;> rfl
 
 theorem forward_run (M : Algebra α) (p : Parameters) (flag : Bool) (red : Nat) (s : State α) :
@@ -32,7 +62,7 @@ theorem forward_run (M : Algebra α) (p : Parameters) (flag : Bool) (red : Nat) 
     forward_decomposition p flag Bool.true red]
   conv_rhs => rw [show (KernelDSL.forward p flag red).surfaceBody = _ from
     forward_decomposition p flag Bool.false red]
-  exact (VeriTile.Bench.TritonBenchG.KldivOps.FPProof.forward_prefix_run M s _ _ _ _ _ _ _).symm
+  exact context_run M _ _ _ _ _ s
 
 theorem backward_run (M : Algebra α) (p : Parameters) (flag : Bool) (s : State α) :
     run (engine M) (KernelDSL.backwardCandidate p flag).surfaceBody s =
@@ -41,27 +71,7 @@ theorem backward_run (M : Algebra α) (p : Parameters) (flag : Bool) (s : State 
     backward_decomposition p flag Bool.true]
   conv_rhs => rw [show (KernelDSL.backward p flag).surfaceBody = _ from
     backward_decomposition p flag Bool.false]
-  exact (VeriTile.Bench.TritonBenchG.KldivOps.FPProof.backward_prefix_run M s _ _ _ _ _).symm
-
-private theorem pure_trace (M : Algebra α) (bounds : RegionName → Nat)
-    (code : List ComputeStmt) (safe : ∀ cmd ∈ code, ∀ s, stepSafe (engine M) bounds cmd s)
-    (s : State α) : traceSafeList (engine M) bounds code s := by
-  induction code generalizing s with
-  | nil => exact traceSafeList_nil _ _ _
-  | cons cmd rest ih =>
-    apply traceSafeList_cons_intro (safe cmd (by simp) s)
-    intro t _
-    exact ih (fun next h => safe next (by simp [h])) t
-
-private theorem prefix_safe (M : Algebra α) (bounds : RegionName → Nat)
-    (Y T O : RegionName) (sy st so : Nat) (v : Bool) (s : State α) :
-    traceSafeList (engine M) bounds (VeriTile.Bench.TritonBenchG.KldivOps.FPProof.forwardPrefix v Y T O sy st so) s ∧
-      traceSafeList (engine M) bounds (VeriTile.Bench.TritonBenchG.KldivOps.FPProof.backwardPrefix v T O st so) s := by
-  constructor <;> apply pure_trace <;> intro cmd member before
-  all_goals simp only [VeriTile.Bench.TritonBenchG.KldivOps.FPProof.forwardPrefix,VeriTile.Bench.TritonBenchG.KldivOps.FPProof.backwardPrefix,List.mem_cons,List.not_mem_nil,or_false] at member
-  all_goals rcases member with rfl | rfl | rfl | rfl
-  all_goals cases v <;> simp only [VeriTile.Bench.TritonBenchG.KldivOps.FPProof.rowPointer,Bool.false_eq_true,Bool.true_eq,ite_true,ite_false,
-    stepSafe_unfold,safeExpr_unfold,safeOp_unfold,true_and,and_true]
+  exact context_run M _ _ _ _ _ s
 
 theorem forward_safe (M : Algebra α) (p : Parameters) (flag : Bool) (red : Nat)
     (bounds : RegionName → Nat) (s : State α) :
@@ -72,12 +82,7 @@ theorem forward_safe (M : Algebra α) (p : Parameters) (flag : Bool) (red : Nat)
     forward_decomposition p flag Bool.true red]
   conv_rhs => rw [show (KernelDSL.forward p flag red).surfaceBody = _ from
     forward_decomposition p flag Bool.false red]
-  rw [traceSafeList_append,traceSafeList_append]
-  have runs := VeriTile.Bench.TritonBenchG.KldivOps.FPProof.forward_prefix_run M s p.Y p.T p.O p.cols p.cols (if red=0 then p.cols else 1) []
-  simp only [List.append_nil] at runs
-  simp only [(prefix_safe M bounds p.Y p.T p.O p.cols p.cols (if red=0 then p.cols else 1) Bool.true s).1,
-    (prefix_safe M bounds p.Y p.T p.O p.cols p.cols (if red=0 then p.cols else 1) Bool.false s).1,
-    true_and,runs]
+  exact context_safe M bounds _ _ _ _ _ s
 
 theorem backward_safe (M : Algebra α) (p : Parameters) (flag : Bool)
     (bounds : RegionName → Nat) (s : State α) :
@@ -88,11 +93,7 @@ theorem backward_safe (M : Algebra α) (p : Parameters) (flag : Bool)
     backward_decomposition p flag Bool.true]
   conv_rhs => rw [show (KernelDSL.backward p flag).surfaceBody = _ from
     backward_decomposition p flag Bool.false]
-  rw [traceSafeList_append,traceSafeList_append]
-  have runs := VeriTile.Bench.TritonBenchG.KldivOps.FPProof.backward_prefix_run M s p.T p.O p.cols p.cols []
-  simp only [List.append_nil] at runs
-  simp only [(prefix_safe M bounds p.Y p.T p.O p.cols p.cols p.cols Bool.true s).2,
-    (prefix_safe M bounds p.Y p.T p.O p.cols p.cols p.cols Bool.false s).2,true_and,runs]
+  exact context_safe M bounds _ _ _ _ _ s
 
 #axiomsClean forward_run
 #axiomsClean backward_run

@@ -1,4 +1,4 @@
-import VeriTile.Triton.DSL
+import VeriTile.Triton.DSL.CallSignature
 import VeriTile.Triton.Float.Structural
 import VeriTile.Meta.StatementAudit
 
@@ -12,210 +12,197 @@ structure Parameters where
   (rows cols block : Nat)
   deriving Repr
 
-/-! Complete selected FP32 sources. Epsilon is supplied through the invocation's
-runtime scalar ABI. The existing candidate commutes only the signed output-row
-product, preserving every loop, branch, mask, reduction and floating operation. -/
+/-! Complete unchanged selected forward/backward bodies and the existing
+output-row index-commutation candidates. Pointer types, runtime call bindings,
+constexpr flags and block size remain outside each pasted Python body. -/
 namespace KernelDSL
 
-def forwardDefault (p : Parameters) (red : Nat) : ComputeKernel :=
-  let Y := p.Y
-  let T := p.T
-  let O := p.O
-  triton {
-    tl.ports inputs=[Y,T], outputs=[O]
-    tl.region Y = tl.float32, T = tl.float32, O = tl.float32
-    tl.param eps : tl.float32
+def forwardSignature : CallSignature where
+  pointers := [("y_ptr",.fp32),("gt_ptr",.fp32),("loss_ptr",.fp32)]
+  scalars := [("y_stride",.integer),("gt_stride",.integer),("loss_stride",.integer),
+    ("n_cols",.integer),("eps",.fp32)]
+  constexpr := ["BLOCK_SIZE","log_target","reduction"]
+  readPorts := ["y_ptr","gt_ptr"]
+  writePorts := ["loss_ptr"]
+
+def backwardSignature : CallSignature where
+  pointers := [("target_ptr",.fp32),("new_grads_ptr",.fp32)]
+  scalars := [("target_stride",.integer),("new_grads_stride",.integer),("n_cols",.integer)]
+  constexpr := ["BLOCK_SIZE","log_target"]
+  readPorts := ["target_ptr"]
+  writePorts := ["new_grads_ptr"]
+
+def forwardBody (p : Parameters) (log_target : Bool) (reduction : Nat) : ComputeKernel :=
+  let y_ptr := p.Y
+  let gt_ptr := p.T
+  let loss_ptr := p.O
+  let outputStride : Nat := if reduction = 0 then p.cols else 1
+  let BLOCK_SIZE := p.block
+  with_triton_call forwardSignature call_args [
+    y_stride := p.cols, gt_stride := p.cols, loss_stride := outputStride, n_cols := p.cols] in triton {
+    n_cols = tl.cast(n_cols, tl.int64)
+    y_stride = tl.cast(y_stride, tl.int64)
+    gt_stride = tl.cast(gt_stride, tl.int64)
+    loss_stride = tl.cast(loss_stride, tl.int64)
     pid = tl.program_id(0).to(tl.int64)
-    Y += pid * $(p.cols)
-    T += pid * $(p.cols)
-    O += pid * $((if red=0 then p.cols else 1 : Nat))
-    base_offsets = tl.arange(0, $(p.block)).to(tl.int64)
+    y_ptr += pid * y_stride
+    gt_ptr += pid * gt_stride
+    loss_ptr += pid * loss_stride
+
+    base_offsets = tl.cast(tl.arange(0, BLOCK_SIZE), tl.int64)
+
     loss_sum = 0.0
-    for i in range(0, $((p.cols : Int)), $(p.block)) {
-      offsets = i + base_offsets
-      mask = offsets < $((p.cols : Int))
-      y = tl.load(Y + offsets, mask=mask, other=0.0)
-      y_true = tl.load(T + offsets, mask=mask, other=0.0)
-      loss = y_true * (tl.log(tl.maximum(y_true,eps.to(tl.float32))) - y)
-      if $(red) == $(0) {
-        tl.store(O + offsets, loss, mask=mask)
-      } else {
-        loss = tl.where(mask, loss, 0.0)
-        loss_sum += tl.sum(loss, axis=0)
-      }
-    }
-    if $(red) != $(0) { tl.store(O, loss_sum) }
+    for i in range(0, n_cols, BLOCK_SIZE):
+        offsets = i + base_offsets
+        mask = offsets < n_cols
+        y = tl.load(y_ptr + offsets, mask=mask, other=0.0)
+        y_true = tl.load(gt_ptr + offsets, mask=mask, other=0.0)
+
+        # KL(y_true || y) = y_true * (log(y_true) - log(y))
+        # We compute KL(y_true || y) with y in the log-space
+        if not log_target:
+            loss = y_true * (tl.log(tl.maximum(y_true, eps)) - y)
+        else:
+            loss = tl.exp(y_true) * (y_true - y)
+
+        if reduction == 0:  # _REDUCTION_MODE_NONE
+            tl.store(loss_ptr + offsets, loss, mask=mask)
+        else:
+            loss = tl.where(mask, loss, 0.0)
+            loss_sum += tl.sum(loss, axis=0)
+
+    if reduction != 0:
+        tl.store(loss_ptr, loss_sum)
   }
 
-def forwardLog (p : Parameters) (red : Nat) : ComputeKernel :=
-  let Y := p.Y
-  let T := p.T
-  let O := p.O
-  triton {
-    tl.ports inputs=[Y,T], outputs=[O]
-    tl.region Y = tl.float32, T = tl.float32, O = tl.float32
-    tl.param eps : tl.float32
+def forwardCandidateBody (p : Parameters) (log_target : Bool) (reduction : Nat) : ComputeKernel :=
+  let y_ptr := p.Y
+  let gt_ptr := p.T
+  let loss_ptr := p.O
+  let outputStride : Nat := if reduction = 0 then p.cols else 1
+  let BLOCK_SIZE := p.block
+  with_triton_call forwardSignature call_args [
+    y_stride := p.cols, gt_stride := p.cols, loss_stride := outputStride, n_cols := p.cols] in triton {
+    n_cols = tl.cast(n_cols, tl.int64)
+    y_stride = tl.cast(y_stride, tl.int64)
+    gt_stride = tl.cast(gt_stride, tl.int64)
+    loss_stride = tl.cast(loss_stride, tl.int64)
     pid = tl.program_id(0).to(tl.int64)
-    Y += pid * $(p.cols)
-    T += pid * $(p.cols)
-    O += pid * $((if red=0 then p.cols else 1 : Nat))
-    base_offsets = tl.arange(0, $(p.block)).to(tl.int64)
+    y_ptr += pid * y_stride
+    gt_ptr += pid * gt_stride
+    loss_ptr += loss_stride * pid
+
+    base_offsets = tl.cast(tl.arange(0, BLOCK_SIZE), tl.int64)
+
     loss_sum = 0.0
-    for i in range(0, $((p.cols : Int)), $(p.block)) {
-      offsets = i + base_offsets
-      mask = offsets < $((p.cols : Int))
-      y = tl.load(Y + offsets, mask=mask, other=0.0)
-      y_true = tl.load(T + offsets, mask=mask, other=0.0)
-      loss = tl.exp(y_true) * (y_true - y)
-      if $(red) == $(0) {
-        tl.store(O + offsets, loss, mask=mask)
-      } else {
-        loss = tl.where(mask, loss, 0.0)
-        loss_sum += tl.sum(loss, axis=0)
-      }
-    }
-    if $(red) != $(0) { tl.store(O, loss_sum) }
+    for i in range(0, n_cols, BLOCK_SIZE):
+        offsets = i + base_offsets
+        mask = offsets < n_cols
+        y = tl.load(y_ptr + offsets, mask=mask, other=0.0)
+        y_true = tl.load(gt_ptr + offsets, mask=mask, other=0.0)
+
+        # KL(y_true || y) = y_true * (log(y_true) - log(y))
+        # We compute KL(y_true || y) with y in the log-space
+        if not log_target:
+            loss = y_true * (tl.log(tl.maximum(y_true, eps)) - y)
+        else:
+            loss = tl.exp(y_true) * (y_true - y)
+
+        if reduction == 0:  # _REDUCTION_MODE_NONE
+            tl.store(loss_ptr + offsets, loss, mask=mask)
+        else:
+            loss = tl.where(mask, loss, 0.0)
+            loss_sum += tl.sum(loss, axis=0)
+
+    if reduction != 0:
+        tl.store(loss_ptr, loss_sum)
   }
+
+def backwardBody (p : Parameters) (log_target : Bool) : ComputeKernel :=
+  let target_ptr := p.T
+  let new_grads_ptr := p.O
+  let BLOCK_SIZE := p.block
+  with_triton_call backwardSignature call_args [
+    target_stride := p.cols, new_grads_stride := p.cols, n_cols := p.cols] in triton {
+    n_cols = tl.cast(n_cols, tl.int64)
+    target_stride = tl.cast(target_stride, tl.int64)
+    new_grads_stride = tl.cast(new_grads_stride, tl.int64)
+    pid = tl.program_id(0).to(tl.int64)
+
+    target_ptr += pid * target_stride
+    new_grads_ptr += pid * new_grads_stride
+
+    offsets = tl.cast(tl.arange(0, BLOCK_SIZE), tl.int64)
+    mask = offsets < n_cols
+
+    for i in range(0, n_cols, BLOCK_SIZE):
+        offsets = i + tl.cast(tl.arange(0, BLOCK_SIZE), tl.int64)
+        mask = offsets < n_cols
+
+        target = tl.load(target_ptr + offsets, mask=mask, other=0.0)
+
+        if not log_target:
+            res = target * -1
+        else:
+            res = -tl.exp(target)
+
+        tl.store(new_grads_ptr + offsets, res, mask=mask)
+  }
+
+def backwardCandidateBody (p : Parameters) (log_target : Bool) : ComputeKernel :=
+  let target_ptr := p.T
+  let new_grads_ptr := p.O
+  let BLOCK_SIZE := p.block
+  with_triton_call backwardSignature call_args [
+    target_stride := p.cols, new_grads_stride := p.cols, n_cols := p.cols] in triton {
+    n_cols = tl.cast(n_cols, tl.int64)
+    target_stride = tl.cast(target_stride, tl.int64)
+    new_grads_stride = tl.cast(new_grads_stride, tl.int64)
+    pid = tl.program_id(0).to(tl.int64)
+
+    target_ptr += pid * target_stride
+    new_grads_ptr += new_grads_stride * pid
+
+    offsets = tl.cast(tl.arange(0, BLOCK_SIZE), tl.int64)
+    mask = offsets < n_cols
+
+    for i in range(0, n_cols, BLOCK_SIZE):
+        offsets = i + tl.cast(tl.arange(0, BLOCK_SIZE), tl.int64)
+        mask = offsets < n_cols
+
+        target = tl.load(target_ptr + offsets, mask=mask, other=0.0)
+
+        if not log_target:
+            res = target * -1
+        else:
+            res = -tl.exp(target)
+
+        tl.store(new_grads_ptr + offsets, res, mask=mask)
+  }
+
+def forwardDefault (p : Parameters) (red : Nat) : ComputeKernel :=
+  forwardBody p Bool.false red
 
 def forwardDefaultCommuted (p : Parameters) (red : Nat) : ComputeKernel :=
-  let Y := p.Y
-  let T := p.T
-  let O := p.O
-  triton {
-    tl.ports inputs=[Y,T], outputs=[O]
-    tl.region Y = tl.float32, T = tl.float32, O = tl.float32
-    tl.param eps : tl.float32
-    pid = tl.program_id(0).to(tl.int64)
-    Y += pid * $(p.cols)
-    T += pid * $(p.cols)
-    O += $((if red=0 then p.cols else 1 : Nat)) * pid
-    base_offsets = tl.arange(0, $(p.block)).to(tl.int64)
-    loss_sum = 0.0
-    for i in range(0, $((p.cols : Int)), $(p.block)) {
-      offsets = i + base_offsets
-      mask = offsets < $((p.cols : Int))
-      y = tl.load(Y + offsets, mask=mask, other=0.0)
-      y_true = tl.load(T + offsets, mask=mask, other=0.0)
-      loss = y_true * (tl.log(tl.maximum(y_true,eps.to(tl.float32))) - y)
-      if $(red) == $(0) {
-        tl.store(O + offsets, loss, mask=mask)
-      } else {
-        loss = tl.where(mask, loss, 0.0)
-        loss_sum += tl.sum(loss, axis=0)
-      }
-    }
-    if $(red) != $(0) { tl.store(O, loss_sum) }
-  }
+  forwardCandidateBody p Bool.false red
+
+def forwardLog (p : Parameters) (red : Nat) : ComputeKernel :=
+  forwardBody p Bool.true red
 
 def forwardLogCommuted (p : Parameters) (red : Nat) : ComputeKernel :=
-  let Y := p.Y
-  let T := p.T
-  let O := p.O
-  triton {
-    tl.ports inputs=[Y,T], outputs=[O]
-    tl.region Y = tl.float32, T = tl.float32, O = tl.float32
-    tl.param eps : tl.float32
-    pid = tl.program_id(0).to(tl.int64)
-    Y += pid * $(p.cols)
-    T += pid * $(p.cols)
-    O += $((if red=0 then p.cols else 1 : Nat)) * pid
-    base_offsets = tl.arange(0, $(p.block)).to(tl.int64)
-    loss_sum = 0.0
-    for i in range(0, $((p.cols : Int)), $(p.block)) {
-      offsets = i + base_offsets
-      mask = offsets < $((p.cols : Int))
-      y = tl.load(Y + offsets, mask=mask, other=0.0)
-      y_true = tl.load(T + offsets, mask=mask, other=0.0)
-      loss = tl.exp(y_true) * (y_true - y)
-      if $(red) == $(0) {
-        tl.store(O + offsets, loss, mask=mask)
-      } else {
-        loss = tl.where(mask, loss, 0.0)
-        loss_sum += tl.sum(loss, axis=0)
-      }
-    }
-    if $(red) != $(0) { tl.store(O, loss_sum) }
-  }
+  forwardCandidateBody p Bool.true red
 
 def backwardDefault (p : Parameters) : ComputeKernel :=
-  let T := p.T
-  let O := p.O
-  triton {
-    tl.ports inputs=[T], outputs=[O]
-    tl.region T = tl.float32, O = tl.float32
-    pid = tl.program_id(0).to(tl.int64)
-    T += pid * $(p.cols)
-    O += pid * $(p.cols)
-    offsets = tl.arange(0, $(p.block)).to(tl.int64)
-    mask = offsets < $((p.cols : Int))
-    for i in range(0, $((p.cols : Int)), $(p.block)) {
-      offsets = i + tl.arange(0, $(p.block)).to(tl.int64)
-      mask = offsets < $((p.cols : Int))
-      target = tl.load(T + offsets, mask=mask, other=0.0)
-      res = target * -1
-      tl.store(O + offsets, res, mask=mask)
-    }
-  }
-
-def backwardLog (p : Parameters) : ComputeKernel :=
-  let T := p.T
-  let O := p.O
-  triton {
-    tl.ports inputs=[T], outputs=[O]
-    tl.region T = tl.float32, O = tl.float32
-    pid = tl.program_id(0).to(tl.int64)
-    T += pid * $(p.cols)
-    O += pid * $(p.cols)
-    offsets = tl.arange(0, $(p.block)).to(tl.int64)
-    mask = offsets < $((p.cols : Int))
-    for i in range(0, $((p.cols : Int)), $(p.block)) {
-      offsets = i + tl.arange(0, $(p.block)).to(tl.int64)
-      mask = offsets < $((p.cols : Int))
-      target = tl.load(T + offsets, mask=mask, other=0.0)
-      res = -tl.exp(target)
-      tl.store(O + offsets, res, mask=mask)
-    }
-  }
+  backwardBody p Bool.false
 
 def backwardDefaultCommuted (p : Parameters) : ComputeKernel :=
-  let T := p.T
-  let O := p.O
-  triton {
-    tl.ports inputs=[T], outputs=[O]
-    tl.region T = tl.float32, O = tl.float32
-    pid = tl.program_id(0).to(tl.int64)
-    T += pid * $(p.cols)
-    O += $(p.cols) * pid
-    offsets = tl.arange(0, $(p.block)).to(tl.int64)
-    mask = offsets < $((p.cols : Int))
-    for i in range(0, $((p.cols : Int)), $(p.block)) {
-      offsets = i + tl.arange(0, $(p.block)).to(tl.int64)
-      mask = offsets < $((p.cols : Int))
-      target = tl.load(T + offsets, mask=mask, other=0.0)
-      res = target * -1
-      tl.store(O + offsets, res, mask=mask)
-    }
-  }
+  backwardCandidateBody p Bool.false
+
+def backwardLog (p : Parameters) : ComputeKernel :=
+  backwardBody p Bool.true
 
 def backwardLogCommuted (p : Parameters) : ComputeKernel :=
-  let T := p.T
-  let O := p.O
-  triton {
-    tl.ports inputs=[T], outputs=[O]
-    tl.region T = tl.float32, O = tl.float32
-    pid = tl.program_id(0).to(tl.int64)
-    T += pid * $(p.cols)
-    O += $(p.cols) * pid
-    offsets = tl.arange(0, $(p.block)).to(tl.int64)
-    mask = offsets < $((p.cols : Int))
-    for i in range(0, $((p.cols : Int)), $(p.block)) {
-      offsets = i + tl.arange(0, $(p.block)).to(tl.int64)
-      mask = offsets < $((p.cols : Int))
-      target = tl.load(T + offsets, mask=mask, other=0.0)
-      res = -tl.exp(target)
-      tl.store(O + offsets, res, mask=mask)
-    }
-  }
+  backwardCandidateBody p Bool.true
 
 /- Each complete quotation declares its original ABI before pointer rebinding. -/
 def forward (p : Parameters) (flag : Bool) (red : Nat) : ComputeKernel :=

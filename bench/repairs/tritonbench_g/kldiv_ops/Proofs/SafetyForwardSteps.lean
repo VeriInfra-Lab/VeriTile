@@ -33,15 +33,15 @@ theorem step0 (M : Algebra α) (p : Parameters) (flag : Bool) (red row start : N
     (eps carry : α) (s : State α) (h : Tile.Registers p red row eps carry s) :
     step (engine M) (command p flag red 0) (f0 s start)=some (f1 p s start) := by
   cases flag
-  all_goals simp only [command,forwardBody,forwardTemplateBody,forwardTemplate,KernelDSL.forward,KernelDSL.forwardDefault,KernelDSL.forwardLog,epsilonLoss,
+  all_goals simp only [command,forwardBody,forwardTemplateBody,forwardTemplate,KernelDSL.forward,KernelDSL.forwardDefault,KernelDSL.forwardLog,KernelDSL.forwardBody,epsilonLoss,
     ComputeKernel.surfaceBody,List.getD,List.getElem?_cons_zero,List.getElem?_cons_succ,Option.getD,
     List.take,List.drop,List.nil_append,List.cons_append,
     Bool.false_eq_true,Bool.true_eq,ite_true,ite_false,
-    step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind_eq_bind,Option.pure_def,Option.bind,
+    step,run,evalExpr,evalComputeOp,evalOp_unfold,Option.bind_eq_bind,Option.pure_def,Option.bind,
     engine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,State.setReg,
     numeric,numericLt,natLt,FP.Structural.bop,Region.cast,
     f0,f1,f2,SafetyBackward.b0,SafetyBackward.b1,SafetyBackward.b2,f3,f4,f5,raw,Tile.scalar,Tile.zero,ofFloat,toFloat,FloatDType.toTileDType,id_eq,Function.comp_apply,
-    ←Int.natCast_add,Int.toNat_natCast,Int.ofNat_lt,Tile.active_int,h.y,h.t,h.o,h.base,h.epsilon,h.sum,
+    ←Int.natCast_add,Int.toNat_natCast,Int.ofNat_lt,Tile.active_int,h.y,h.t,h.o,h.base,h.epsilon,h.sum,h.cols,
     ne_eq,not_false_eq_true,not_true_eq_false,String.reduceEq,reduceCtorEq,
     decide_eq_true_eq,ite_true,ite_false,dite_true,dite_false,
     Broadcast.leftIndex,Broadcast.rightIndex]
@@ -52,15 +52,15 @@ theorem step1 (M : Algebra α) (p : Parameters) (flag : Bool) (red row start : N
     (eps carry : α) (s : State α) (h : Tile.Registers p red row eps carry s) :
     step (engine M) (command p flag red 1) (f1 p s start)=some (f2 p s start) := by
   cases flag
-  all_goals simp only [command,forwardBody,forwardTemplateBody,forwardTemplate,KernelDSL.forward,KernelDSL.forwardDefault,KernelDSL.forwardLog,epsilonLoss,
+  all_goals simp only [command,forwardBody,forwardTemplateBody,forwardTemplate,KernelDSL.forward,KernelDSL.forwardDefault,KernelDSL.forwardLog,KernelDSL.forwardBody,epsilonLoss,
     ComputeKernel.surfaceBody,List.getD,List.getElem?_cons_zero,List.getElem?_cons_succ,Option.getD,
     List.take,List.drop,List.nil_append,List.cons_append,
     Bool.false_eq_true,Bool.true_eq,ite_true,ite_false,
-    step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind_eq_bind,Option.pure_def,Option.bind,
+    step,run,evalExpr,evalComputeOp,evalOp_unfold,Option.bind_eq_bind,Option.pure_def,Option.bind,
     engine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,State.setReg,
     numeric,numericLt,natLt,FP.Structural.bop,Region.cast,
     f0,f1,f2,SafetyBackward.b0,SafetyBackward.b1,SafetyBackward.b2,f3,f4,f5,raw,Tile.scalar,Tile.zero,ofFloat,toFloat,FloatDType.toTileDType,id_eq,Function.comp_apply,
-    ←Int.natCast_add,Int.toNat_natCast,Int.ofNat_lt,Tile.active_int,h.y,h.t,h.o,h.base,h.epsilon,h.sum,
+    ←Int.natCast_add,Int.toNat_natCast,Int.ofNat_lt,Tile.active_int,h.y,h.t,h.o,h.base,h.epsilon,h.sum,h.cols,
     ne_eq,not_false_eq_true,not_true_eq_false,String.reduceEq,reduceCtorEq,
     decide_eq_true_eq,ite_true,ite_false,dite_true,dite_false,
     Broadcast.leftIndex,Broadcast.rightIndex]
@@ -79,15 +79,15 @@ theorem step2 (M : Algebra α) (p : Parameters) (flag : Bool) (red row start : N
     (eps carry : α) (s : State α) (h : Tile.Registers p red row eps carry s) :
     step (engine M) (command p flag red 2) (f2 p s start)=some (f3 M p s row start) := by
   cases flag
-  all_goals simp only [command,forwardBody,forwardTemplateBody,forwardTemplate,KernelDSL.forward,KernelDSL.forwardDefault,KernelDSL.forwardLog,epsilonLoss,
+  all_goals simp only [command,forwardBody,forwardTemplateBody,forwardTemplate,KernelDSL.forward,KernelDSL.forwardDefault,KernelDSL.forwardLog,KernelDSL.forwardBody,epsilonLoss,
     ComputeKernel.surfaceBody,List.getD,List.getElem?_cons_zero,List.getElem?_cons_succ,Option.getD,
     List.take,List.drop,List.nil_append,List.cons_append,
     Bool.false_eq_true,Bool.true_eq,ite_true,ite_false,
-    step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind_eq_bind,Option.pure_def,Option.bind,
+    step,run,evalExpr,evalComputeOp,evalOp_unfold,Option.bind_eq_bind,Option.pure_def,Option.bind,
     engine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,State.setReg,
     numeric,numericLt,natLt,FP.Structural.bop,Region.cast,
     f0,f1,f2,SafetyBackward.b0,SafetyBackward.b1,SafetyBackward.b2,f3,f4,f5,raw,Tile.scalar,Tile.zero,ofFloat,toFloat,FloatDType.toTileDType,id_eq,Function.comp_apply,
-    ←Int.natCast_add,Int.toNat_natCast,Int.ofNat_lt,Tile.active_int,h.y,h.t,h.o,h.base,h.epsilon,h.sum,
+    ←Int.natCast_add,Int.toNat_natCast,Int.ofNat_lt,Tile.active_int,h.y,h.t,h.o,h.base,h.epsilon,h.sum,h.cols,
     ne_eq,not_false_eq_true,not_true_eq_false,String.reduceEq,reduceCtorEq,
     decide_eq_true_eq,ite_true,ite_false,dite_true,dite_false,
     Broadcast.leftIndex,Broadcast.rightIndex]
@@ -98,15 +98,15 @@ theorem step3 (M : Algebra α) (p : Parameters) (flag : Bool) (red row start : N
     (eps carry : α) (s : State α) (h : Tile.Registers p red row eps carry s) :
     step (engine M) (command p flag red 3) (f3 M p s row start)=some (f4 M p s row start) := by
   cases flag
-  all_goals simp only [command,forwardBody,forwardTemplateBody,forwardTemplate,KernelDSL.forward,KernelDSL.forwardDefault,KernelDSL.forwardLog,epsilonLoss,
+  all_goals simp only [command,forwardBody,forwardTemplateBody,forwardTemplate,KernelDSL.forward,KernelDSL.forwardDefault,KernelDSL.forwardLog,KernelDSL.forwardBody,epsilonLoss,
     ComputeKernel.surfaceBody,List.getD,List.getElem?_cons_zero,List.getElem?_cons_succ,Option.getD,
     List.take,List.drop,List.nil_append,List.cons_append,
     Bool.false_eq_true,Bool.true_eq,ite_true,ite_false,
-    step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind_eq_bind,Option.pure_def,Option.bind,
+    step,run,evalExpr,evalComputeOp,evalOp_unfold,Option.bind_eq_bind,Option.pure_def,Option.bind,
     engine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,State.setReg,
     numeric,numericLt,natLt,FP.Structural.bop,Region.cast,
     f0,f1,f2,SafetyBackward.b0,SafetyBackward.b1,SafetyBackward.b2,f3,f4,f5,raw,Tile.scalar,Tile.zero,ofFloat,toFloat,FloatDType.toTileDType,id_eq,Function.comp_apply,
-    ←Int.natCast_add,Int.toNat_natCast,Int.ofNat_lt,Tile.active_int,h.y,h.t,h.o,h.base,h.epsilon,h.sum,
+    ←Int.natCast_add,Int.toNat_natCast,Int.ofNat_lt,Tile.active_int,h.y,h.t,h.o,h.base,h.epsilon,h.sum,h.cols,
     ne_eq,not_false_eq_true,not_true_eq_false,String.reduceEq,reduceCtorEq,
     decide_eq_true_eq,ite_true,ite_false,dite_true,dite_false,
     Broadcast.leftIndex,Broadcast.rightIndex]
@@ -117,15 +117,15 @@ theorem step4 (M : Algebra α) (p : Parameters) (flag : Bool) (red row start : N
     (eps carry : α) (s : State α) (h : Tile.Registers p red row eps carry s) :
     step (engine M) (command p flag red 4) (f4 M p s row start)=some (f5 M p flag eps s row start) := by
   cases flag
-  all_goals simp only [command,forwardBody,forwardTemplateBody,forwardTemplate,KernelDSL.forward,KernelDSL.forwardDefault,KernelDSL.forwardLog,epsilonLoss,
+  all_goals simp only [command,forwardBody,forwardTemplateBody,forwardTemplate,KernelDSL.forward,KernelDSL.forwardDefault,KernelDSL.forwardLog,KernelDSL.forwardBody,epsilonLoss,
     ComputeKernel.surfaceBody,List.getD,List.getElem?_cons_zero,List.getElem?_cons_succ,Option.getD,
     List.take,List.drop,List.nil_append,List.cons_append,
     Bool.false_eq_true,Bool.true_eq,ite_true,ite_false,
-    step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind_eq_bind,Option.pure_def,Option.bind,
+    step,run,evalExpr,evalComputeOp,evalOp_unfold,Option.bind_eq_bind,Option.pure_def,Option.bind,
     engine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,State.setReg,
     numeric,numericLt,natLt,FP.Structural.bop,Region.cast,
     f0,f1,f2,SafetyBackward.b0,SafetyBackward.b1,SafetyBackward.b2,f3,f4,f5,raw,Tile.scalar,Tile.zero,ofFloat,toFloat,FloatDType.toTileDType,id_eq,Function.comp_apply,
-    ←Int.natCast_add,Int.toNat_natCast,Int.ofNat_lt,Tile.active_int,h.y,h.t,h.o,h.base,h.epsilon,h.sum,
+    ←Int.natCast_add,Int.toNat_natCast,Int.ofNat_lt,Tile.active_int,h.y,h.t,h.o,h.base,h.epsilon,h.sum,h.cols,
     ne_eq,not_false_eq_true,not_true_eq_false,String.reduceEq,reduceCtorEq,
     decide_eq_true_eq,ite_true,ite_false,dite_true,dite_false,
     Broadcast.leftIndex,Broadcast.rightIndex]

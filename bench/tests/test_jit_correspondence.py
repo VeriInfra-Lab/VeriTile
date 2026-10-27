@@ -1336,3 +1336,43 @@ class IsfiniteFunctionBodyTests(unittest.TestCase):
         self.assertNotEqual(source, changed)
         with self.assertRaisesRegex(ValueError, "source import"):
             self.compare(record, (ROOT / record["lean"]).read_text(), changed)
+
+
+class KldivOpsFunctionBodyTests(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/kldiv_ops"
+
+    def compare(self, record, lean):
+        kwargs = {k: v for k, v in record.items() if k not in ("python", "lean")}
+        return check((ROOT / record["python"]).read_text(), lean, **kwargs)
+
+    def test_complete_forward_and_backward_bodies_are_verbatim(self):
+        pairs = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual([(p["mode"], p["statements"]) for p in pairs],
+                         [("pasted_body", 12)] * 2 + [("pasted_body", 9)] * 2)
+        for record in json.loads((self.directory / "jit-correspondence.json").read_text()):
+            source = (ROOT / record["python"]).read_text()
+            fn = next(n for n in ast.parse(source).body if isinstance(n, ast.FunctionDef)
+                      and n.name == record["python_function"])
+            raw = "\n".join(source.splitlines()[fn.body[0].lineno-1:fn.end_lineno])
+            lean = (ROOT / record["lean"]).read_text()
+            self.assertEqual(textwrap.dedent(raw).strip(),
+                             textwrap.dedent(quotation(lean, record["lean_definition"])[1]).strip())
+
+    def test_cast_branch_epsilon_mask_and_call_binding_drift_is_rejected(self):
+        common = [("n_cols = tl.cast(n_cols, tl.int64)", "n_cols = n_cols"),
+                  ("if not log_target:", "if log_target:"),
+                  ("offsets < n_cols", "offsets <= n_cols"),
+                  ("n_cols := p.cols", "n_cols := p.rows")]
+        for record in json.loads((self.directory / "jit-correspondence.json").read_text()):
+            lean = (ROOT / record["lean"]).read_text()
+            mutations = common + ([("tl.maximum(y_true, eps)", "tl.maximum(y_true, eps.to(tl.float32))"),
+                                   ("loss = tl.where(mask, loss, 0.0)", "loss = loss"),
+                                   ("loss_stride := outputStride", "loss_stride := p.cols")]
+                                  if record["lean_definition"].startswith("forward") else
+                                  [("res = target * -1", "res = -target"),
+                                   ("new_grads_stride := p.cols", "new_grads_stride := p.rows")])
+            for before, after in mutations:
+                with self.subTest(definition=record["lean_definition"], mutation=before):
+                    self.assertIn(before, lean)
+                    with self.assertRaises(ValueError):
+                        self.compare(record, lean.replace(before, after))

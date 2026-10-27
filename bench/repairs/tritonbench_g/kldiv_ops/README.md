@@ -38,10 +38,25 @@ representability of an ordinary successful launch, rather than a new guard.
 
 ## Executed program and physical result
 
-`Kernels.lean` is the complete readable typed forward/backward DSL. Its external
-epsilon declaration supplies only a register type and emits no instruction or
-value; the execution binds the actual ABI scalar. Literal typed-AST equalities
-connect it to the preserved `Proofs/HistoricalKernels.lean` proofs.
+`Kernels.lean` contains the complete forward and backward Python function bodies,
+including every integer cast, both target branches, signed chunk loops and masks.
+Pointer types, runtime strides and dimensions, constexpr flags and block size are
+supplied outside the quotation by `CallSignature`. Runtime epsilon is a typed
+ABI register bound by the invocation. The pasted body uses the original `eps`
+operand directly; it does not add the old transcription's `eps.to(tl.float32)`.
+The symbolic scalar graph is derived again from these actual source expressions;
+no arbitrary FP cast identity is assumed. The independent Real formula and
+concrete native FP32 lowering retain their original scope.
+
+The original `kldiv_ops_repaired.py` and its checked wrappers remain unchanged.
+`candidate_kernels.py` records the Python spelling of the already existing Lean
+candidate: only the signed output-row pointer multiplication is commuted.
+It is a new source counterpart for that existing candidate, with provenance
+stated in the file; it is not the historical conditional numerical candidate.
+`jit-correspondence.json` checks all four bodies and their call profiles.
+`Proofs/HistoricalKernels.lean` now decomposes the actual complete quotations.
+The execution and safety invariants include the source's signed `n_cols`
+register and integer `base_offsets`, retaining all chunk and empty-input cases.
 
 `Proofs/KernelExecution.lean` defines an `Option` execution that runs each
 complete typed source row against the current shared physical memory and
@@ -110,13 +125,12 @@ five ordinary failure prefixes, and 182 actual source/reference/frame cases.
 These are source controls, not GPU conformance or numerical-law validation.
 The new Lean endpoints and supporting lemmas use standard-base axiom audits.
 
-### Implementation-equivalence review (2026-10-21)
+### Complete original/candidate comparison
 
-The complete forward/backward source-to-native results are ordinary auxiliary
-theorems in `Misc/NativeCorrect.lean`; their public declaration names, runtime FP32
-epsilon ABI, full row/chunk schedules, reduction modes and frames are retained.
-The existing original-task candidate commutes only the exact signed output-row
-product. `Proofs/TypedPreservation.lean` already preserves its backward pairs,
-but no corresponding full repaired runtime-epsilon forward candidate connection
-has been proved. Backward-only equivalence cannot complete this whole task.
-No implementation-equivalence headline is claimed until that bridge exists.
+`Proofs/SourcePair.lean` proves equality of complete state execution, including
+failures, and equivalence of access safety for both actual forward and backward
+pairs under every numerical algebra. It uses signed integer multiplication
+commutativity at the single changed pointer assignment; every surrounding
+statement is retained. `FPEquiv.lean` connects these results to both public
+whole-grid program comparisons with the existing empty numerical assumption
+set. The source-to-native results remain separate auxiliary results.
