@@ -74,7 +74,7 @@ globs = [
   "bench.tests.NativeMatrixLoop",
   "bench.tests.NativeMaxLoop",
   "bench.tests.LoopBody",
-  "bench.tests.ScalarAssignmentBody", "bench.tests.LoopTupleLoadBody",
+  "bench.tests.ScalarAssignmentBody", "bench.tests.LoopTupleLoadBody", "bench.tests.InlineSuiteBody",
   "bench.tests.BoolMaskMultiply",
   "bench.tests.FP32CallValue",
   "bench.tests.TypedStores",

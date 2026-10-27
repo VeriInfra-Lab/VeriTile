@@ -63,6 +63,97 @@ def jit_functions(path: Path) -> list[dict]:
     return sorted(result, key=lambda f: f["line"])
 
 
+def delegated_sources(root: Path, wrapper: Path) -> list[dict]:
+    """Recognize the explicit local importlib loader used by checked wrappers.
+
+    Read source only: no imports or wrapper code are executed. Resolve only a
+    literal sibling filename, with the standard pathlib/importlib bindings and
+    one unmodified spec/module binding. Every JIT in the loaded file is required,
+    including functions selected by host branches inside that file.
+    """
+    tree = ast.parse(wrapper.read_text())
+    standard_importlib = any(isinstance(n, ast.Import) and any(
+        a.name == "importlib.util" and a.asname is None for a in n.names) for n in tree.body)
+    standard_path = any(isinstance(n, ast.ImportFrom) and n.module == "pathlib"
+        and n.level == 0 and any(a.name == "Path" and a.asname is None for a in n.names) for n in tree.body)
+    if not (standard_importlib and standard_path):
+        return []
+    specs, modules, resolved = {}, {}, []
+    available = set()
+    for node in tree.body:
+        if isinstance(node, ast.Import):
+            available.update(a.name for a in node.names if a.asname is None)
+        if isinstance(node, ast.ImportFrom) and node.module == "pathlib" and node.level == 0:
+            available.update("pathlib." + a.name for a in node.names if a.asname is None)
+        if isinstance(node, ast.Assign) and len(node.targets) == 1 and isinstance(node.targets[0], ast.Name):
+            name, value = node.targets[0].id, node.value
+            if not isinstance(value, ast.Call):
+                continue
+            if (ast.unparse(value.func) == "importlib.util.spec_from_file_location"
+                    and len(value.args) == 2 and not value.keywords
+                    and {"importlib.util", "pathlib.Path"} <= available):
+                target = value.args[1]
+                if not (isinstance(value.args[0], ast.Constant) and isinstance(value.args[0].value, str)
+                        and isinstance(target, ast.Call) and isinstance(target.func, ast.Attribute)
+                        and target.func.attr == "with_name" and len(target.args) == 1
+                        and not target.keywords and ast.unparse(target.func.value) == "Path(__file__)"
+                        and isinstance(target.args[0], ast.Constant) and isinstance(target.args[0].value, str)):
+                    continue
+                filename = target.args[0].value
+                if Path(filename).name != filename or not filename.endswith(".py"):
+                    raise ValueError("delegated Python source must be a literal sibling .py file")
+                path = local(root, (wrapper.parent / filename).relative_to(root).as_posix())
+                if not path.is_file():
+                    raise ValueError(f"missing delegated Python source: {path}")
+                specs[name] = (path, node.lineno)
+            elif (ast.unparse(value.func) == "importlib.util.module_from_spec"
+                    and len(value.args) == 1 and not value.keywords
+                    and isinstance(value.args[0], ast.Name) and value.args[0].id in specs):
+                modules[name] = value.args[0].id
+        elif isinstance(node, ast.Expr) and isinstance(node.value, ast.Call):
+            call = node.value
+            if len(call.args) != 1 or call.keywords or not isinstance(call.args[0], ast.Name):
+                continue
+            module = call.args[0].id
+            if module not in modules:
+                continue
+            spec = modules[module]
+            if ast.unparse(call.func) == spec + ".loader.exec_module":
+                path, line = specs[spec]
+                resolved.append({"python": path.relative_to(root).as_posix(), "spec": spec,
+                    "module_binding": module, "spec_line": line, "load_line": node.lineno})
+    if not resolved:
+        return []
+    if any(isinstance(n, ast.ImportFrom) and any(a.name == "*" for a in n.names)
+           for n in ast.walk(tree)):
+        raise ValueError("wildcard import makes delegated loader binding ambiguous")
+    protected = {"importlib": 0, "Path": 0, "__file__": 0}
+    for entry in resolved:
+        protected[entry["spec"]] = protected[entry["module_binding"]] = 1
+    stores = Counter()
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Name) and isinstance(node.ctx, (ast.Store, ast.Del)):
+            stores[node.id] += 1
+        elif isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+            stores[node.name] += 1
+        elif isinstance(node, (ast.Attribute, ast.Subscript)) and isinstance(node.ctx, (ast.Store, ast.Del)):
+            value = node.value
+            while isinstance(value, (ast.Attribute, ast.Subscript)):
+                value = value.value
+            if isinstance(value, ast.Name) and value.id in protected:
+                raise ValueError("delegated Python loader binding is mutated")
+    if any(stores[name] != count for name, count in protected.items()):
+        raise ValueError("delegated Python loader binding is rebound")
+    # A second import of a protected name is also a rebinding, even though
+    # Python's AST does not represent import targets with ast.Store.
+    imported = Counter(a.asname or (a.name.split(".")[0] if isinstance(n, ast.Import) else a.name)
+        for n in ast.walk(tree) if isinstance(n, (ast.Import, ast.ImportFrom)) for a in n.names)
+    if imported["importlib"] != 1 or imported["Path"] != 1 or any(
+            imported[name] for name in protected if name not in {"importlib", "Path"}):
+        raise ValueError("delegated Python loader import is rebound")
+    return resolved
+
+
 def lean_features(path: Path) -> dict:
     code = lean_code_mask(path.read_text())
     patterns = {
@@ -101,6 +192,19 @@ def inspect(root: Path, task: str, python: str | None, lean: str, kind: str,
         if len(names) != len(set(names)):
             raise ValueError(f"ambiguous selected Python JIT names: {python}")
         expected = [(python, name) for name in names]
+        if not expected:
+            delegation = delegated_sources(root, path)
+            if delegation:
+                row["python_source_delegations"] = delegation
+                for source in dict.fromkeys(entry["python"] for entry in delegation):
+                    source_path = local(root, source)
+                    hashes[source] = digest(source_path)
+                    functions = jit_functions(source_path)
+                    resolved_names = [fn["function"] for fn in functions]
+                    if len(resolved_names) != len(set(resolved_names)):
+                        raise ValueError(f"ambiguous delegated Python JIT names: {source}")
+                    row["python_jits"].extend({**fn, "python": source} for fn in functions)
+                    expected.extend((source, name) for name in resolved_names)
     else:
         row["python_jits"] = []
 
@@ -132,6 +236,8 @@ def inspect(root: Path, task: str, python: str | None, lean: str, kind: str,
     row["int64_screen"] = ("cast_not_visible_in_primary_quotation" if python_casts
                             and row["lean_screen"]["quotations"] and not lean_casts else "inconclusive")
     row["body_copy_scope"] = "selected Python file and every explicitly declared correspondence pair"
+    if row.get("python_source_delegations"):
+        row["body_copy_scope"] += "; every JIT in the statically resolved local delegated source"
     if python is None:
         row["status"] = "no_independent_python_reference"
     elif not expected:

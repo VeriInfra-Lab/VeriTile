@@ -17,6 +17,15 @@ abbrev shape := VeriTile.Bench.Repairs.SoftmaxFlaggems.Native.shape
 abbrev observe := KernelCompiler.observe
 end Compiler
 
+/-- The existing compiler observation removes only its same-FP32 cast node.
+This is a definitional property of the selected lowering, not an identity for
+an arbitrary floating-point algebra. -/
+theorem observe_model_cast (R : Compiler.Reductions) (I : Compiler.Instructions)
+    (S : Compiler.Schedule) (value : Compiler.Term) :
+    Compiler.observe I S (KernelModel.cast (Compiler.algebra R) value) =
+      Compiler.observe I S value := rfl
+
+
 /-- Every input term leaf contains the actual word of the prepared argument
 view. Int64 labels remain exact integers from their own byte-bound region. -/
 def entry (p : Parameters) (words : State Word) : State Compiler.Term where
@@ -64,10 +73,12 @@ def backwardLane (R : Compiler.Reductions) (p : Parameters) (words : State Word)
     (Compiler.algebra R) p (entry p words) inputs.parameters.blockPositive valid views.outputsDistinct
   simp only [entry,pids.1] at lseRead lossRead frame
   refine ⟨final,execution,?_,?_,frame⟩
-  · apply congrArg (Compiler.observe I S)
+  · rw [forwardLSE, observe_model_cast]
+    apply congrArg (Compiler.observe I S)
     simpa only [tensorValue,views.lseView.index launch.row (by simpa using launch.rowBound),
       views.lseView.regionEq,Nat.add_sub_cancel_left,forwardLSE,entry] using lseRead
-  · apply congrArg (Compiler.observe I S)
+  · rw [fullLoss, observe_model_cast]
+    apply congrArg (Compiler.observe I S)
     simpa only [tensorValue,views.lossView.index launch.row launch.rowBound,
       views.lossView.regionEq,Nat.add_sub_cancel_left,fullLoss,entry] using lossRead
 
@@ -97,10 +108,12 @@ def backwardLane (R : Compiler.Reductions) (p : Parameters) (words : State Word)
       have hb := launch.blockBound
       simp only [Nat.succ_mul] at bound
       omega
+    rw [forwardLSE, observe_model_cast]
     apply congrArg (Compiler.observe I S)
     simpa only [tensorValue,views.lseView.index _ hi,views.lseView.regionEq,
       Nat.add_sub_cancel_left,forwardLSE,entry] using lseRead
   · intro first
+    rw [partialLoss, observe_model_cast]
     apply congrArg (Compiler.observe I S)
     simpa only [tensorValue,views.lossView.index launch.row launch.rowBound,
       views.lossView.regionEq,Nat.add_sub_cancel_left,partialLoss,entry] using lossRead first

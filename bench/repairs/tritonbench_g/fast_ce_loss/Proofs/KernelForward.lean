@@ -23,8 +23,8 @@ variable {α : Type} [Inhabited α]
   simpa only [Rat.cast_one] using congrArg (fun q : ℚ => (q : ℝ)) h
 
 def forwardMemory (M : Algebra α) (p : Parameters) (initial : State α) : State α :=
-  (initial.write p.lse (initial.pids 0) (.mk .real (KernelModel.cast M (lseValue M p initial 0)))).write
-    p.loss (initial.pids 0) (.mk .real (KernelModel.cast M (forwardLoss M p initial)))
+  (initial.write p.lse (initial.pids 0) (.mk .real (lseValue M p initial 0))).write
+    p.loss (initial.pids 0) (.mk .real (forwardLoss M p initial))
 
 /-- Complete source execution derives the final memory from the entry state.
 The caller supplies only the active reduction width and ordinary label range. -/

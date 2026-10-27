@@ -304,6 +304,77 @@ def call_signature(text: str, name: str) -> dict:
         raise ValueError("duplicate call signature parameter")
     return fields
 
+def check_unary_imports(python_text: str, expected: dict[str, str]) -> None:
+    """Resolve imports and a direct imported-module attribute alias, without execution.
+
+    `from ... import tanh as f` and `from ... import libdevice; f = libdevice.tanh`
+    bind the same function object. Calls, computed attributes and rebinding a
+    checked alias are rejected. An earlier reassignment invalidates a module
+    import before an attribute alias can use it.
+    """
+    imported, bound = {}, {}
+
+    def target(expr):
+        if isinstance(expr, ast.Name):
+            return imported.get(expr.id)
+        if isinstance(expr, ast.Attribute):
+            parent = target(expr.value)
+            return parent + "." + expr.attr if parent else None
+        return None
+
+    def bind(name, value):
+        if name in bound:
+            raise ValueError("unary source import name is rebound")
+        imported[name] = value
+        if name in expected:
+            bound[name] = value
+
+    for node in ast.parse(python_text).body:
+        if isinstance(node, ast.ImportFrom) and node.module is not None:
+            if node.level:
+                raise ValueError("relative import makes unary source binding ambiguous")
+            if any(a.name == "*" for a in node.names):
+                raise ValueError("wildcard import makes unary source binding ambiguous")
+            for alias in node.names:
+                bind(alias.asname or alias.name, node.module + "." + alias.name)
+            continue
+        if isinstance(node, ast.Import):
+            for alias in node.names:
+                name = alias.asname or alias.name.split(".")[0]
+                if name in expected:
+                    raise ValueError("unary source import name is rebound")
+                bind(name, alias.name if alias.asname else name)
+            continue
+        if (isinstance(node, ast.Assign) and len(node.targets) == 1
+                and isinstance(node.targets[0], ast.Name)
+                and node.targets[0].id in expected):
+            name = node.targets[0].id
+            value = target(node.value)
+            if value != expected[name]:
+                raise ValueError("unary source import differs from the original Python binding")
+            bind(name, value)
+            continue
+        for child in ast.walk(node):
+            if isinstance(child, (ast.Attribute, ast.Subscript)) and isinstance(child.ctx, (ast.Store, ast.Del)):
+                root = child.value
+                while isinstance(root, (ast.Attribute, ast.Subscript)):
+                    root = root.value
+                if isinstance(root, ast.Name):
+                    if root.id in expected:
+                        raise ValueError("unary source import name is rebound")
+                    imported.pop(root.id, None)
+            if isinstance(child, ast.Name) and isinstance(child.ctx, (ast.Store, ast.Del)):
+                if child.id in expected:
+                    raise ValueError("unary source import name is rebound")
+                imported.pop(child.id, None)
+            if isinstance(child, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+                if child.name in expected:
+                    raise ValueError("unary source import name is rebound")
+                imported.pop(child.name, None)
+    if bound != expected:
+        raise ValueError("unary source import differs from the original Python binding")
+
+
 def check(python_text: str, lean_text: str, python_function: str, lean_definition: str,
           signature_definition: str | None = None, expected_signature: dict | None = None,
           expected_call_bindings: dict | None = None,
@@ -450,25 +521,7 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
                 raise ValueError("finite source import differs from the original Python binding")
         unary_imports = dict(profile.get("unaryImports", []))
         if unary_imports:
-            bound = {}
-            for node in ast.parse(python_text).body:
-                if isinstance(node, ast.ImportFrom) and node.module is not None:
-                    if any(a.name == "*" for a in node.names):
-                        raise ValueError("wildcard import makes unary source binding ambiguous")
-                    for alias in node.names:
-                        name = alias.asname or alias.name
-                        if name in unary_imports:
-                            bound[name] = node.module + "." + alias.name
-                else:
-                    if isinstance(node, ast.Import) and any((a.asname or a.name.split(".")[0]) in unary_imports for a in node.names):
-                        raise ValueError("unary source import name is rebound")
-                    for child in ast.walk(node):
-                        if isinstance(child, ast.Name) and isinstance(child.ctx, (ast.Store, ast.Del)) and child.id in unary_imports:
-                            raise ValueError("unary source import name is rebound")
-                    if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)) and node.name in unary_imports:
-                        raise ValueError("unary source import name is rebound")
-            if bound != unary_imports:
-                raise ValueError("unary source import differs from the original Python binding")
+            check_unary_imports(python_text, unary_imports)
         if any(isinstance(n, ast.Call) and isinstance(n.func, ast.Name) and n.func.id == "tanh"
                for n in ast.walk(function)) and "tanh" not in unary_imports:
             raise ValueError("bare tanh requires its original source import binding")

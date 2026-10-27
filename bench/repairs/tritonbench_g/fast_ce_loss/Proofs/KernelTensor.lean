@@ -72,8 +72,6 @@ def logicalReal (interpret : Word → ℝ) (words : State Word) (tensor : Tensor
     KernelReal.algebra p initial inputs.parameters.blockPositive (valid.imp_right And.left) views.outputsDistinct
   have lse := KernelMath.lse_full p initial flags x inputs.parameters.vocabPositive covered values
   have loss := KernelMath.loss_full p initial flags x inputs.parameters.vocabPositive covered values valid
-  have cast_id (a : WithBot ℝ) : KernelModel.cast KernelReal.algebra a=a := rfl
-  simp only [cast_id] at lseRead lossRead
   rw [lse] at lseRead
   rw [loss,target] at lossRead
   simp only [initial,realState,pids.1] at lseRead lossRead frame
@@ -111,8 +109,6 @@ def logicalReal (interpret : Word → ℝ) (words : State Word) (tensor : Tensor
     KernelReal.algebra p initial inputs.parameters.blockPositive (valid.imp_right And.left) views.outputsDistinct
   have lse := KernelMath.lse_block p initial flags x launch.block inputs.parameters.blockPositive start values
   have loss := KernelMath.loss_partial p initial flags x values valid
-  have cast_id (a : WithBot ℝ) : KernelModel.cast KernelReal.algebra a=a := rfl
-  simp only [cast_id] at lseRead lossRead
   have blockPid : initial.pids 1=launch.block := pids.2
   rw [blockPid,lse] at lseRead
   simp only [loss,target] at lossRead
