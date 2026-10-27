@@ -45,7 +45,7 @@ structure DynamicRange where
   body : List ComputeStmt
   after : List ComputeStmt
 
-/-- Locate a top-level natural range by its index register. Static bounds are
+/-- Locate a top-level natural range by its index register. Single-bound loops and static ranges are
 represented by constant operations; the original statement is not rewritten.
 Other statements
 remain in the prefix, so common insertions need no numeric statement offset.
@@ -60,6 +60,14 @@ def dynamicRange? (code : List ComputeStmt) (index : RegName)
       if name = index then
         match occurrence with
         | 0 => some ⟨[], start, stop, stride, body, rest⟩
+        | n + 1 => (dynamicRange? rest index n).map fun r =>
+            { r with before := st :: r.before }
+      else (dynamicRange? rest index occurrence).map fun r =>
+        { r with before := st :: r.before }
+    | .forLoop name count body =>
+      if name = index then
+        match occurrence with
+        | 0 => some ⟨[], .constNat 0, .constNat count, .constNat 1, body, rest⟩
         | n + 1 => (dynamicRange? rest index n).map fun r =>
             { r with before := st :: r.before }
       else (dynamicRange? rest index occurrence).map fun r =>

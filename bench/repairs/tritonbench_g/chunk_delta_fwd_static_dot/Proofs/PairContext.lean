@@ -1,3 +1,4 @@
+import VeriTile.Triton.Float.StructuralLoopNormalization
 import bench.repairs.tritonbench_g.chunk_delta_fwd_static_dot.Kernels
 import VeriTile.Triton.Float.StructuralSafety
 import VeriTile.Triton.Float.Loop
@@ -80,6 +81,18 @@ theorem range_stmt (M : Algebra α) (idx : RegName) (start stop stride : Nat)
           | some t => simp only; rw [ih (cur+stride) (by simp_wf; omega) t]
         · simp [hc]
     exact go start s
+
+/-- The raw single-argument Python range is a counted loop. The conversion
+preserves complete execution (including failure) and every access trace. -/
+theorem loop_stmt (M : Algebra α) (idx : RegName) (stop : Nat)
+    {xs ys : List ComputeStmt} (body : CodeAgree M xs ys) :
+    StmtAgree M (.forLoop idx stop xs) (.forLoop idx stop ys) := by
+  have h := range_stmt M idx 0 stop 1 body
+  constructor
+  · intro s
+    simpa only [FP.Structural.step, loop_eq_range] using h.runs s
+  · intro bounds s
+    simpa only [stepSafe_unfold, loopSafe_eq_rangeSafe] using h.safe bounds s
 
 
 end

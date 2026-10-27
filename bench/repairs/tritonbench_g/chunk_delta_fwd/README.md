@@ -1,3 +1,12 @@
+The shared Lean source in `Kernels.lean` now contains the verbatim function
+body from the selected static-dot Python file, whose kernel body is unchanged
+from this predecessor. Pointer types and scalar/constexpr bindings are outside
+the quotation. Both nested ranges, tuple PIDs, dtype queries, casts and optional
+branches remain visible. Existing execution, Real and conditional native scopes
+are preserved; this source migration does not repair the predecessor's broader
+input-domain defect documented below. The selected contract and address-fold
+candidate are documented in `../chunk_delta_fwd_static_dot/README.md`.
+
 # Checked delta-forward repair
 
 **Current status: source defect pending repair.** The checked source admits

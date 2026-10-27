@@ -72,7 +72,7 @@ private partial def dtypeToken (raw : Syntax) : Option Name :=
   else if raw.getNumArgs == 1 then dtypeToken raw[0]
   else none
 
-private def explicitCastType (pointers : Types) (e : TSyntax `tritonExpr) : Option Triton.PointerType := do
+private def explicitCastType (pointers : Types) (values : Values) (e : TSyntax `tritonExpr) : Option Triton.PointerType := do
   let direct : Option (TSyntax `tritonDType) := match e with
     | `(tritonExpr| tl.load($_:tritonExpr $[, $_:tritonMemKwarg]*).to($dtype:tritonDType)) => some dtype
     | `(tritonExpr| tl.load($_:tritonExpr, $_:tritonExpr $[, $_:tritonMemKwarg]*).to($dtype:tritonDType)) => some dtype
@@ -90,6 +90,9 @@ private def explicitCastType (pointers : Types) (e : TSyntax `tritonExpr) : Opti
   match target with
   | .str (.str pointer "dtype") "element_ty"
   | .str (.str pointer "type") "element_ty" => lookup pointers (mkIdent pointer)
+  | .str tensor "dtype" => do
+      let (_, .typed dtype) ← values.find? (fun entry => entry.1 == tensor) | none
+      return dtype
   | _ => sourceKinds.find? (fun dtype => PointerType.dtypeName dtype == target)
 
 private def constructorType (pointers : Types) (e : TSyntax `tritonExpr) : Option Triton.PointerType := do
@@ -145,7 +148,7 @@ private partial def valueType (pointers : Types) (values : Values)
             [.i8,.i16,.i32,.i64,.u8,.u16,.u32,.u64,.boolean].contains left then some (if right == .bf16 then .fp32 else right)
         else none
     | _, _ => none
-  if let some dtype := (explicitCastType pointers e).orElse (fun _ => constructorType pointers e) then some (.typed dtype) else
+  if let some dtype := (explicitCastType pointers values e).orElse (fun _ => constructorType pointers e) then some (.typed dtype) else
   match e with
   | `(tritonExpr| tl.__python_literal($inner:tritonExpr)) => valueType pointers values inner
   | `(tritonExpr| $id:ident) => (values.find? (fun entry => entry.1 == name id)).map Prod.snd

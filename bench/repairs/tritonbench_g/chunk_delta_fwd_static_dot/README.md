@@ -1,3 +1,33 @@
+# Python body correspondence
+
+`../chunk_delta_fwd/Kernels.lean` contains the complete raw selected Python
+body and its existing address-grouping candidate. This directory's
+`Kernels.lean` explicitly shares those two definitions. `callSignature` supplies
+the FP32 pointer types, runtime strides and constexpr arguments outside the
+quotations. Block-pointer destinations are named as output ports; conservative
+read-port collection also counts descriptor construction bases. The public IO
+retains the exact four input channels, three outputs, optional masks and frames.
+
+The quoted bodies preserve the tuple program-ID assignment, both state flags,
+both `range(...)` loops, positional block-pointer arguments, boundary tuples,
+all pointer/value dtype queries, explicit casts and both `allow_tf32=False` dots.
+The original `chunk_delta_fwd_static_dot.py` and wrapper are unchanged.
+`candidate_kernels.py` is newly written Python for the already established Lean
+candidate: only three state/history integer address products are regrouped.
+The original function signature and all autotune configurations are retained.
+`check_pair_source.py` compares the complete function AST; the correspondence
+manifest checks both verbatim quoted bodies and caller bindings.
+
+Proof decomposition follows the actual tuple prefix and counted loops.
+`StructuralLoopNormalization` connects counted loops to the existing unit-stride
+range proofs, including execution failure and trace safety. The canonical
+program is never rebuilt from a proof-only statement-list transformation.
+`TypedStores` resolves known value `.dtype` queries while retaining every cast;
+negative guards reject loop-carried dtype changes. No cast identity or floating
+arithmetic rewrite is introduced, and public domains and numerical models stay
+unchanged. Validation and its exact source hashes are in the latest body-review
+receipt; earlier CPU/compiler observations below are historical evidence.
+
 Optional Tensor/native applications, host results and audit readers are in `Misc/`; canonical `Correct.lean` and `FPEquiv.lean` do not re-export these optional results. Declaration names and proof scopes are preserved.
 
 Current two-program result (2026-10-22):
@@ -37,9 +67,10 @@ optional `Misc/NativeCorrect.lean` results retain their declared scopes.
 
 This is a separate input-contract candidate for `chunk_delta_fwd`. It preserves
 the checked kernel computation and changes only which nonempty launches are
-admitted. The frozen source, diagnosis and conditional proofs in
-`../chunk_delta_fwd/` remain unchanged; accepting this candidate does not prove
-the original broader domain correct.
+admitted. The original Python source, diagnosis and conditional theorem scopes in
+`../chunk_delta_fwd/` remain unchanged. Its shared Lean source is migrated to
+the raw function body and its proofs reconnected; accepting the selected
+contract does not prove the original broader domain correct.
 
 The Python entry is `chunk_fwd_h_fn_static_dot(k,w,u,BT,initial_state=None,
 final_state=None)`, also exported as `chunk_fwd_h_fn`. Its sole new assertion is:
@@ -118,14 +149,16 @@ evaluated FP32 source operands; raw input words are identity leaves.
 ## Organization and boundaries
 
 `Kernels.lean` reuses the authoritative readable `triton` quotation from
-`../chunk_delta_fwd/Kernels.lean`. The candidate Python kernel AST is identical
-to the frozen Python kernel AST. There is no parallel handwritten AST.
+`../chunk_delta_fwd/Kernels.lean`. The static-dot wrapper uses the same original Python kernel AST as its
+predecessor; the separately named address-fold candidate differs only at the
+three documented integer products. There is no parallel handwritten AST.
 Canonical entries are `Contract.lean`, `Correct.lean` and `FPEquiv.lean`.
 The optional native theorem is in `Misc/NativeCorrect.lean`. `IO.lean`
 exposes the four input channels, three outputs, source flags, weight strides
 and complete schedule. `Proofs/ReferenceTargets.lean` provides independent finite-input Real
-and native formulas. Operational helpers are under `Proofs/`. Existing execution, ownership, independent Real,
-finite pointer and scalar byte-store proofs are reused without editing them.
+and native formulas. Operational helpers are under `Proofs/`. Existing execution, ownership, independent Real, finite pointer and scalar
+byte-store results retain their scope; the execution and safety decompositions
+are reconnected to the raw tuple assignment and counted loops.
 
 The inherited `Allocations` structure is used only as supplied pre-kernel
 output tensor metadata and separation. No successful wrapper execution,
@@ -142,7 +175,7 @@ bound and no numerical experiment TODO. All admitted FP32 words remain in
 scope. Runtime grid-product overflow and segmented-launch compatibility remain
 deferred outside this candidate.
 
-## Validation
+## Historical validation
 
 - `python check_contract.py`: exact kernel AST identity and wrapper AST
   difference restricted to the documented guard, 12 preserved floating

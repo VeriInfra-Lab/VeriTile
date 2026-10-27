@@ -1456,3 +1456,46 @@ class SoftmaxOptimizeFunctionBodyTests(unittest.TestCase):
                     self.assertIn(before, lean)
                     with self.assertRaises(ValueError):
                         self.compare(record, lean.replace(before, after))
+
+
+class ChunkDeltaFunctionBodyTests(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot"
+
+    def compare(self, record, lean):
+        kwargs = {k: v for k, v in record.items() if k not in ("python", "lean")}
+        return check((ROOT / record["python"]).read_text(), lean, **kwargs)
+
+    def test_complete_original_and_address_candidate_are_verbatim(self):
+        pairs = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual([(p["mode"], p["statements"]) for p in pairs],
+                         [("pasted_body", 5), ("pasted_body", 5)])
+        for record in json.loads((self.directory / "jit-correspondence.json").read_text()):
+            source = (ROOT / record["python"]).read_text()
+            fn = next(n for n in ast.parse(source).body if isinstance(n, ast.FunctionDef)
+                      and n.name == record["python_function"])
+            raw = "\n".join(source.splitlines()[fn.body[0].lineno-1:fn.end_lineno])
+            lean = (ROOT / record["lean"]).read_text()
+            self.assertEqual(textwrap.dedent(raw).strip(),
+                             textwrap.dedent(quotation(lean, record["lean_definition"])[1]).strip())
+
+    def test_dtype_queries_tf32_flags_boundaries_loops_and_strides_cannot_drift(self):
+        mutations = [("b_h.to(b_k.dtype)", "b_h"),
+                     ("b_v.to(b_k.dtype)", "b_v.to(tl.float16)"),
+                     ("b_h.to(p_h.dtype.element_ty)", "b_h.to(tl.float32)"),
+                     ("b_v.to(p_v_new.dtype.element_ty)", "b_v"),
+                     ("allow_tf32=False", "allow_tf32=True"),
+                     ("boundary_check=(0, 1)", "boundary_check=(0,)"),
+                     ("range(tl.cdiv(BT, BC))", "range(BT // BC)"),
+                     ("range(NT)", "range(NT - 1)"),
+                     ("if USE_INITIAL_STATE:", "if not USE_INITIAL_STATE:"),
+                     ("if STORE_FINAL_STATE:", "if not STORE_FINAL_STATE:"),
+                     ("s_w_t := p.wTime", "s_w_t := p.K"),
+                     ('writePorts := ["v_new", "h", "final_state"]',
+                      'writePorts := ["v_new", "h"]')]
+        for record in json.loads((self.directory / "jit-correspondence.json").read_text()):
+            lean = (ROOT / record["lean"]).read_text()
+            for before, after in mutations:
+                with self.subTest(definition=record["lean_definition"], mutation=before):
+                    self.assertIn(before, lean)
+                    with self.assertRaises(ValueError):
+                        self.compare(record, lean.replace(before, after))
