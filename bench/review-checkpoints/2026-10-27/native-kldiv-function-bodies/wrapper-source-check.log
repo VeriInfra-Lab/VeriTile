@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "source_and_all_wrappers_byte_unchanged": true,
+  "source_sha256": "5a610a722d441f13cccdf9ef8443f994046b26bd1fbec5f858c12d1f8809a20d",
+  "pairs": [
+    {
+      "source": "_kldiv_kernel_forward",
+      "candidate": "_kldiv_kernel_forward_index_commuted",
+      "only_body_delta": "loss_ptr += loss_stride * pid",
+      "top_level_statements": 12
+    },
+    {
+      "source": "_kldiv_kernel_backward",
+      "candidate": "_kldiv_kernel_backward_index_commuted",
+      "only_body_delta": "new_grads_ptr += new_grads_stride * pid",
+      "top_level_statements": 9
+    }
+  ],
+  "candidate_provenance": "Python spelling of the existing Lean output-row integer-commutation candidate; no floating rewrite."
+}

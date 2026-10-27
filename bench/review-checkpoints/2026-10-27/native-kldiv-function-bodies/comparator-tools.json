@@ -1,0 +1,29 @@
+{
+  "reused_pinned_official_tools": true,
+  "source_metadata": {
+    "version": "go1.24.13",
+    "file": {
+      "filename": "go1.24.13.linux-amd64.tar.gz",
+      "os": "linux",
+      "arch": "amd64",
+      "version": "go1.24.13",
+      "sha256": "1fc94b57134d51669c72173ad5d49fd62afb0f1db9bf3f798fd98ee423f8d730",
+      "size": 78709986,
+      "kind": "archive"
+    },
+    "install": "/tmp/veritile-review-tools/go1.24.13",
+    "sha256_verified": true,
+    "comparator_commit": "2a00b30df5e9173e70c4e4ec669fdf03da3163b9",
+    "landrun_commit": "5283024a2f49b28046c3b4a06d7d775c058d4d80",
+    "binaries": {
+      "comparator": "112d9982e984d0da0a618dc27b61f0fd0e13ea84d9b309904e4d439dce9b6789",
+      "landrun": "1ac728f02203845974a566010ee4dccbcf41148c68a893c16004c955299e5240",
+      "lean4export": "4a9bf267ecb506e9965e523071ab662986c04446de3a40443fd27d87829698cf"
+    }
+  },
+  "current_binary_sha256": {
+    "comparator": "112d9982e984d0da0a618dc27b61f0fd0e13ea84d9b309904e4d439dce9b6789",
+    "landrun": "1ac728f02203845974a566010ee4dccbcf41148c68a893c16004c955299e5240",
+    "lean4export": "4a9bf267ecb506e9965e523071ab662986c04446de3a40443fd27d87829698cf"
+  }
+}

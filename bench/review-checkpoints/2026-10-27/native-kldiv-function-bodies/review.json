@@ -1,0 +1,318 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "f27fed23e8f8db1cd4255bfdf946f9ea6920060a",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "kldiv_ops"
+  ],
+  "regression_only_pending_body_tasks": [],
+  "semantic_review": {
+    "kldiv_ops": "Four complete forward/backward original and existing integer-commuted candidate functions are pasted in Kernels.lean, preserving all original statements, explicit integer casts, dynamic n_cols loop bound, both log_target branches, all runtime reduction codes, remasking and final stores. Pointer/scalar types, output stride and constexpr bindings are outside the bodies. Original Python, its wrapper, existing conditional candidate, and public Correct/FPEquiv/IO/Contract are byte-identical. candidate_kernels.py spells the pre-existing Lean integer output-row commute; AST checks permit only the single multiplication swap and function rename in each candidate. This is not a new numerical candidate. Removed the old Lean-only eps.to(tl.float32), retaining the original plain eps. Reproved actual forward/backward execution, row/chunk/grid results, access safety, Real formula and concrete native FP32 epsilon lowering without assuming a cast identity for arbitrary floating operations. Dynamic signed indices and pointer registers now follow the exact source. The actual full original/candidate executions, including failures, and access safety agree for every algebra by signed integer multiplication commutation. Existing Real, native, host and Tensor applications replay for all original modes, empty axes, aliases and exterior frame. No domain narrowing, new numerical assumption, axiom or whole-kernel premise. The prior task baseline failed at outdated Nat-index Tile proofs; all 85 task roots now pass. The first FP assumption printer hit its 4M heartbeat budget after 18 base audits passed; a temporary audit-only 32M budget retry passed with both pair printers reporting none. Source and theorem budgets were not changed."
+  },
+  "compiler_change": {
+    "files": [],
+    "behavior": "No shared frontend change."
+  },
+  "verification": {
+    "baseline": "FAIL before this migration: historical Tile proof used obsolete Nat indices; retained baseline evidence, not a passing precondition.",
+    "focused": {
+      "status": "PASS",
+      "explicit_modules": 85,
+      "jobs": 3664
+    },
+    "warm_and_joint": {
+      "status": "PASS",
+      "explicit_modules": 3162,
+      "jobs": 12532
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 3162,
+      "jobs": 12532,
+      "project_build_initially_present": false,
+      "project_objects_imported_from_other_checkouts": false,
+      "only_fixed_external_dependencies_imported": true,
+      "setup": {
+        "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/final-clean-setup.json",
+        "sha256": "ded8d9293d4632b18b7a5846d6f927f494bf541b7aadbe10661af073c0a8710b"
+      }
+    },
+    "trust": "PASS: 18 actual-source/public/epsilon-lowering axiom footprints use only standard base. Both complete forward_pair/backward_pair print no FP assumptions. Initial printer resource failure and successful audit-only retry retained.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 114
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 359,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by old numerical receipt; no false repin."
+    },
+    "source": "PASS: four full raw bodies, external signatures and runtime stride bindings; exact existing integer commute and byte-identical original wrapper.",
+    "official_comparator": "UNAVAILABLE: 13 actual frozen-source attempts with verified pinned binaries. Host Landlock ABI v4 is below required v5; no systemd user isolation or bypass.",
+    "cpu": "UNAVAILABLE: actual check_contract.py invocation requires missing Torch.",
+    "gpu_or_numerical_experiment": "Not run.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending; the known unchanged numerical receipt failure remains explicit."
+  },
+  "source_pairs": {
+    "total": 270,
+    "pasted_body": 265,
+    "legacy_ast": 5
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/source-closure.json",
+    "sha256": "86179d6c57390c2f6ff067d1e6232b85fdeb928c838d566b939d595ca9911514"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "legacy_ast_only": 1,
+      "no_selected_jit_resolved": 2,
+      "selected_body_copy_checked": 87,
+      "uncovered_jit_functions": 93
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 328,
+    "uncovered_selected_jit_functions": 193,
+    "primary_files_with_int64_screen_warning": 26,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 71,
+        "antiquotes": 79,
+        "dsl_loop": 1,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "example_regression_scope": "All 19 selected examples and all previous recorded task roots replay warm/joint and independently from empty project objects. Unselected historical model gaps are not relabeled as passing.",
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/all-python.log",
+      "sha256": "313f21fab7ee760a98ba845bd4a5b67840ade47733231180eb7346a573fc53a5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/audit-first.lean",
+      "sha256": "859f9fb3b6678aa1c1cef60dc196f0148f17c30e99a57af1419af1713b7f06ba"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/audit-first.log",
+      "sha256": "88890d606d5fa5c4f115e6c311409ace2e3f64a270e2034854afffa8c0279ff7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/audit.lean",
+      "sha256": "34c6040bf77de62fd6b3c6c964a5cdd86fa1d155689850acaba93f99034ce284"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/audit.log",
+      "sha256": "7c282c706cf52391229b6e3f4752d65ccc9b6f1436e43684a7a17a6667f1152b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/baseline-build.log.gz",
+      "sha256": "6a89f7f1677b087acfbf2e1812e2932f4c79705711908d0daacfebfd63b202d0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/baseline.json",
+      "sha256": "667c68b49f974f70bfe3e7008cb52b7cabd6e2682c804d9a15c5f002b9576b73"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/bench__repairs__tritonbench_g__kldiv_ops__Correct-comparator.log",
+      "sha256": "ad557f401a2d44e834352a629754dffe7b0fe03804e17318ab69b2a89a3e4f39"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/bench__repairs__tritonbench_g__kldiv_ops__FPEquiv-comparator.log",
+      "sha256": "ad557f401a2d44e834352a629754dffe7b0fe03804e17318ab69b2a89a3e4f39"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/bench__repairs__tritonbench_g__kldiv_ops__Kernels-comparator.log",
+      "sha256": "ad557f401a2d44e834352a629754dffe7b0fe03804e17318ab69b2a89a3e4f39"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/bench__repairs__tritonbench_g__kldiv_ops__Proofs__Backward-comparator.log",
+      "sha256": "ad557f401a2d44e834352a629754dffe7b0fe03804e17318ab69b2a89a3e4f39"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/bench__repairs__tritonbench_g__kldiv_ops__Proofs__Chunk-comparator.log",
+      "sha256": "ad557f401a2d44e834352a629754dffe7b0fe03804e17318ab69b2a89a3e4f39"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/bench__repairs__tritonbench_g__kldiv_ops__Proofs__Forward-comparator.log",
+      "sha256": "ad557f401a2d44e834352a629754dffe7b0fe03804e17318ab69b2a89a3e4f39"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/bench__repairs__tritonbench_g__kldiv_ops__Proofs__HistoricalKernels-comparator.log",
+      "sha256": "ad557f401a2d44e834352a629754dffe7b0fe03804e17318ab69b2a89a3e4f39"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/bench__repairs__tritonbench_g__kldiv_ops__Proofs__SafetyBackward-comparator.log",
+      "sha256": "ad557f401a2d44e834352a629754dffe7b0fe03804e17318ab69b2a89a3e4f39"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/bench__repairs__tritonbench_g__kldiv_ops__Proofs__SafetyBackwardSteps-comparator.log",
+      "sha256": "ad557f401a2d44e834352a629754dffe7b0fe03804e17318ab69b2a89a3e4f39"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/bench__repairs__tritonbench_g__kldiv_ops__Proofs__SafetyForward-comparator.log",
+      "sha256": "ad557f401a2d44e834352a629754dffe7b0fe03804e17318ab69b2a89a3e4f39"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/bench__repairs__tritonbench_g__kldiv_ops__Proofs__SafetyForwardSteps-comparator.log",
+      "sha256": "ad557f401a2d44e834352a629754dffe7b0fe03804e17318ab69b2a89a3e4f39"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/bench__repairs__tritonbench_g__kldiv_ops__Proofs__SourcePair-comparator.log",
+      "sha256": "ad557f401a2d44e834352a629754dffe7b0fe03804e17318ab69b2a89a3e4f39"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/bench__repairs__tritonbench_g__kldiv_ops__Proofs__Tile-comparator.log",
+      "sha256": "ad557f401a2d44e834352a629754dffe7b0fe03804e17318ab69b2a89a3e4f39"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/check-pair.py",
+      "sha256": "f9f4d996559b8b6fec9184d8a598992e45b2d0afdd4d7ae8807cd9f1f5b82d03"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/comparator-invocations.json",
+      "sha256": "0ad6150acc429037ba80b98dfb81e6b4ea39b93d1ff80f71f480cf81ea13dcdf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/comparator-tools.json",
+      "sha256": "28998e17d51b0fb5930f7489e64512a57f8a8146d1470063a624a75bbabdb0d3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/corpus-guard.log",
+      "sha256": "4cc0f6b31ad21664b3dd1ce2ca2fb8c28a4560353d42130c3e48e636edee0f9e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/cpu-final.log",
+      "sha256": "71032f891778e462430ee208b748866efb17557464977d6b24a107ad99ff864e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/final-clean-build.log.gz",
+      "sha256": "cdc1b1e4645895b830e8ea9c6ca2b46509208eb26542eb3e543ff9a5a1f900d3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/final-clean-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/final-clean-setup.json",
+      "sha256": "ded8d9293d4632b18b7a5846d6f927f494bf541b7aadbe10661af073c0a8710b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/focus-final-modules.txt",
+      "sha256": "f9d2758a8c517b2e603241765251143468eef7e31f103c6d8abc794a9f042c9b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/focus-final.log.gz",
+      "sha256": "3e3890e8dc19a2137e0c66f5ea83ca17721a501523ee344fb70ceedcee4b8626"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/focus-invocations-first.json",
+      "sha256": "075132e68840068c978e245878fb6cea2b160f87ba5cddbd57b14927f55a482e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/focus-invocations.json",
+      "sha256": "c9e0e994f8cae286bf1ed84188e61d123e31ddb2fab6723e470cf8bdae1d50eb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/focus-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/inspections.json",
+      "sha256": "391faeb3f28be72caf11d84afc8ff3a1aa3b7d7387a9d35858afcb33bde1bce0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/integration-final.log.gz",
+      "sha256": "94434c6db88dfe8aecb86db08763557e23d84d982aa9dee5fec2f14caca32c78"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/joint-all.lean",
+      "sha256": "e207f733f440ea1f2e2051686da283b549460d9b9a14c27081def242eaef4a02"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/joint-final.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/modules.json",
+      "sha256": "6b7e7525876ed498cb7a7433edb2aafdbb0910fba337894c706e2f302a133e43"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/pairs.json",
+      "sha256": "1f3dca6fbcb592b9a6a2f426d59c75f041b5862e2152c257e79188394cddf0db"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/previous-cache-cleanup.json",
+      "sha256": "8a79bcbd461f5924a7bde316375e435e212f622d8643838c7e569cd1eb0b4a86"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/previous-reviews.json.gz",
+      "sha256": "aa0092814159bc43d67c4e713a65c0556809bdaca2a485f27b7b4a51c82eec2e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/python-invocations.json",
+      "sha256": "d2140346cd576e89e8dbb3a51a6430e0d8a2fd5bfbd309acda2b41158e28e568"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/python-tests.log",
+      "sha256": "b44e37fffc2bf3002af4a43dd4dcbc7649ee2942c49ae23927e22ba94b99cd28"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/raw-body-check.log",
+      "sha256": "4f7479207f1bd2e61d6c9c3d095647a28084c5683c7dd9067d3191730546c340"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/source-closure.json",
+      "sha256": "86179d6c57390c2f6ff067d1e6232b85fdeb928c838d566b939d595ca9911514"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/transferred-files.json",
+      "sha256": "7607e715d242a9909eb29316c2bbb313ee9360729739229a41f63736b17a0386"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/warm-final-invocation.json",
+      "sha256": "2ed031514bdfa95075e0a1620eb6e93b3714d38c06691bb95fcdeef8cbf301d3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/wrapper-source-check.log",
+      "sha256": "96be905bc81e79a736698dd6e2b8241c367e077d1b6d4841c512074bf255a71d"
+    }
+  ]
+}

@@ -43152,7 +43152,38 @@
           "original_public_names_and_full_judgment_types_preserved": "Public theorem source is byte-identical; moved IO definition blocks remain contiguous and byte-identical with original namespaces. Existing complete iff/execution/safety/frame proofs retain their original bodies. Changed-task public Lean checks display those full judgments."
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/kldiv_ops.json",
-        "statement_scope_unchanged": true
+        "statement_scope_unchanged": true,
+        "current_actual_source_bridges": {
+          "complete_original_and_candidate_bodies": {
+            "path": "bench/repairs/tritonbench_g/kldiv_ops/Kernels.lean",
+            "sha256": "5c2a67dcd9f27dade9607a7abf9847170e36800074ab694b3fdd8ebb51a04fac"
+          },
+          "full_pair_execution_and_safety": {
+            "path": "bench/repairs/tritonbench_g/kldiv_ops/Proofs/SourcePair.lean",
+            "sha256": "f4aa2ffc43a73edfcd9914642a5ec186de6e7dce74e42a1eefb9a48dcbcc11ac"
+          },
+          "forward_complete_execution": {
+            "path": "bench/repairs/tritonbench_g/kldiv_ops/Proofs/Forward.lean",
+            "sha256": "2e7958241c902b6a8ecfb0aa5eefa677307e39780d3fd6624758a289dc8bb251"
+          },
+          "backward_complete_execution": {
+            "path": "bench/repairs/tritonbench_g/kldiv_ops/Proofs/Backward.lean",
+            "sha256": "953149803b94d2983a788fba97b66db4147be98d81d4d52b1e6000f3525190b4"
+          },
+          "forward_actual_safety": {
+            "path": "bench/repairs/tritonbench_g/kldiv_ops/Proofs/SafetyForward.lean",
+            "sha256": "00ca20e55bbc5d86c84d5a7f97639a9e1c91aae3679adb4ae3057e1cf93ea732"
+          },
+          "backward_actual_safety": {
+            "path": "bench/repairs/tritonbench_g/kldiv_ops/Proofs/SafetyBackward.lean",
+            "sha256": "b40790732a2d8ab45f835d67b162b7630e37043d9f6c1ced550c308a2ff3c62e"
+          },
+          "source_epsilon_and_index_semantics": {
+            "path": "bench/repairs/tritonbench_g/kldiv_ops/Proofs/Tile.lean",
+            "sha256": "c4a93c3acfbc0134c4bec32c4e91aa963bab39d0ceaf01b364b09a44773928a0"
+          }
+        },
+        "current_body_source_review": "Four complete forward/backward original and existing integer-commuted candidate functions are pasted in Kernels.lean, preserving all original statements, explicit integer casts, dynamic n_cols loop bound, both log_target branches, all runtime reduction codes, remasking and final stores. Pointer/scalar types, output stride and constexpr bindings are outside the bodies. Original Python, its wrapper, existing conditional candidate, and public Correct/FPEquiv/IO/Contract are byte-identical. candidate_kernels.py spells the pre-existing Lean integer output-row commute; AST checks permit only the single multiplication swap and function rename in each candidate. This is not a new numerical candidate. Removed the old Lean-only eps.to(tl.float32), retaining the original plain eps. Reproved actual forward/backward execution, row/chunk/grid results, access safety, Real formula and concrete native FP32 epsilon lowering without assuming a cast identity for arbitrary floating operations. Dynamic signed indices and pointer registers now follow the exact source. The actual full original/candidate executions, including failures, and access safety agree for every algebra by signed integer multiplication commutation. Existing Real, native, host and Tensor applications replay for all original modes, empty axes, aliases and exterior frame. No domain narrowing, new numerical assumption, axiom or whole-kernel premise. The prior task baseline failed at outdated Nat-index Tile proofs; all 85 task roots now pass. The first FP assumption printer hit its 4M heartbeat budget after 18 base audits passed; a temporary audit-only 32M budget retry passed with both pair printers reporting none. Source and theorem budgets were not changed."
       },
       "fp_program_pair": {
         "actual_pair": [
@@ -43163,7 +43194,8 @@
         "numerical_dependency": "R=[]; structural address rewriting, no floating numeric law.",
         "current_experimental_rules_used": 0,
         "new_or_deferred_experiments": 0,
-        "source_unchanged": true
+        "source_unchanged": false,
+        "source_migration": "Exact original Python bodies, removed fabricated epsilon cast; both complete actual grids re-proved. Original Python and public statements unchanged."
       },
       "numerical_dependencies": "R=[]; structural address rewriting, no floating numeric law.",
       "status": "fixed",
@@ -43178,7 +43210,7 @@
         "bench/repairs/tritonbench_g/kldiv_ops/Correct.lean": "ada1385cb0867671bc5b17001b0eb9841247e17dc0caafd8423cd18879b08b9c",
         "bench/repairs/tritonbench_g/kldiv_ops/FPEquiv.lean": "f81fd9229f51068ef179266b290c1c6dde5885884b91addb5d627808ed0183b4",
         "bench/repairs/tritonbench_g/kldiv_ops/IO.lean": "3838d0c42a9337dc071faf646991b38feea802ef2c3999445ff8bec8d7e13371",
-        "bench/repairs/tritonbench_g/kldiv_ops/Kernels.lean": "ea0f72237457679f483ae4f21de90381868f6f1e0c30eec975d94aa0823e4120",
+        "bench/repairs/tritonbench_g/kldiv_ops/Kernels.lean": "5c2a67dcd9f27dade9607a7abf9847170e36800074ab694b3fdd8ebb51a04fac",
         "bench/repairs/tritonbench_g/kldiv_ops/Proofs/LogicalReader.lean": "f03caab31d2537df727f0a25ea50e7c9694cb3a685323ad53de726cffe203776",
         "bench/repairs/tritonbench_g/kldiv_ops/Proofs/IOReal.lean": "70b728776051caf1027c27e929391631748541ba2d3d2279054d693cc1013896",
         "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
@@ -43195,7 +43227,7 @@
         "bench/repairs/tritonbench_g/kldiv_ops/Misc/RealHost.lean": "985cea8a091e5052c09d1b7da20ff771ab4fdf646e688f1cc24529810e72a6b0",
         "bench/repairs/tritonbench_g/kldiv_ops/Misc/TensorBridge.lean": "dd4cf3b35d9fc33495e0459207c0117db48c8998cfab6cc869cb0ce72d9d99c8",
         "bench/repairs/tritonbench_g/kldiv_ops/Proofs/AllFrames.lean": "7cd5b4aab9ffdadd5bacafe3d49bcfc2059944a44dec982af5c4a5f2cd62da81",
-        "bench/repairs/tritonbench_g/kldiv_ops/Proofs/Backward.lean": "68057a7f2910409a6207526fd6349cd0186b94d2de1417ce5ff0fbf54de90f80",
+        "bench/repairs/tritonbench_g/kldiv_ops/Proofs/Backward.lean": "953149803b94d2983a788fba97b66db4147be98d81d4d52b1e6000f3525190b4",
         "bench/repairs/tritonbench_g/kldiv_ops/Proofs/BackwardCoverage.lean": "cb142884d17321b1f538637b726083f9076a26dc9381d436080b661fad3777bf",
         "bench/repairs/tritonbench_g/kldiv_ops/Proofs/BackwardValues.lean": "c1c3ffe5901177726c6a34d4e18533c63a13129e008a73c1c655733ec547e9e7",
         "bench/repairs/tritonbench_g/kldiv_ops/Proofs/Broadcast.lean": "048663b83e46d8f05c694a99dd87c7c28ae94badd1679bbdfc197644b998a938",
@@ -43213,17 +43245,17 @@
         "bench/repairs/tritonbench_g/kldiv_ops/Proofs/Checked/Real.lean": "1dd19cb0703c7dbd73650973e0a56cf43fac95ba2dbb12c4f2cad47e02afb71b",
         "bench/repairs/tritonbench_g/kldiv_ops/Proofs/Checked/Runtime.lean": "f3cf5513e265918ec7523ad833e1d3562575791131fc7f8ab0f6347e6c017106",
         "bench/repairs/tritonbench_g/kldiv_ops/Proofs/Checked/Source.lean": "16f797904f094f2b8e2f2d09b8bfbaf8fed0a7c5a8af2c71e2300a4b1e735cc0",
-        "bench/repairs/tritonbench_g/kldiv_ops/Proofs/Chunk.lean": "17022e4de1bda5fe2f210b8dcb7e810e993d87dcb4f6ed506af1f32f51ae94cd",
+        "bench/repairs/tritonbench_g/kldiv_ops/Proofs/Chunk.lean": "a481bd3741c0fc1621291d63b518cb0835e26fa858eb72a91f861d63f57a2bae",
         "bench/repairs/tritonbench_g/kldiv_ops/Proofs/ConditionalCorrect.lean": "950c304d8e30a219cb0e30139da7026b7f9c5f6d74db85f0b185cbf65917c596",
         "bench/repairs/tritonbench_g/kldiv_ops/Proofs/ConditionalFPEquiv.lean": "4308dff34bb72bc6cf6b5cb97eb8a592634c9bfed51728741346cc03084911c2",
         "bench/repairs/tritonbench_g/kldiv_ops/Proofs/Coverage.lean": "4ede536445ce11056d93328c902d2f5892ecc3fab5b1b998235f53aaff31a50c",
         "bench/repairs/tritonbench_g/kldiv_ops/Proofs/FPGraph.lean": "1d8e4090290bc408c6337af58727a130dfaaa6ff6b173fd0bdf271b9556f0bdc",
         "bench/repairs/tritonbench_g/kldiv_ops/Proofs/FailureTrace.lean": "dead066264ccd01f206b6363b30be5c0cb9ade9bf771dc12fe13a6a4a13bf740",
-        "bench/repairs/tritonbench_g/kldiv_ops/Proofs/Forward.lean": "6dd0603bfd6a9c8d3bee0bcd21f1011a7630ede20c9ed1af340c1935aa8bfe4d",
+        "bench/repairs/tritonbench_g/kldiv_ops/Proofs/Forward.lean": "2e7958241c902b6a8ecfb0aa5eefa677307e39780d3fd6624758a289dc8bb251",
         "bench/repairs/tritonbench_g/kldiv_ops/Proofs/ForwardValues.lean": "adc1ae3d9ff4212c4930e6373bc807498df4bb0c9f2e9e0a87b0bb18b5a646b5",
         "bench/repairs/tritonbench_g/kldiv_ops/Proofs/Frames.lean": "6034ed68ef498ce687d2ef44fa15316c792e0531852ff97c51831b14a2e68898",
         "bench/repairs/tritonbench_g/kldiv_ops/Proofs/GridPair.lean": "771079cbaa50af442f8b48cbb8617ff8c00aebff4f69f6fe5c88d40b6008544c",
-        "bench/repairs/tritonbench_g/kldiv_ops/Proofs/HistoricalKernels.lean": "5d5d1ef9f53db59396e32963437de2c9f3aced2e8356d664c1e9a06f40ca89aa",
+        "bench/repairs/tritonbench_g/kldiv_ops/Proofs/HistoricalKernels.lean": "d587b4bdf2de6d58daea26f17aa1d91e46d56b8fc8dfa01fa63b80e0c9592111",
         "bench/repairs/tritonbench_g/kldiv_ops/Proofs/Host.lean": "27ea893769893345fe1c950e34c8198dcde0ed5cf70e243fe759faa74447c0ab",
         "bench/repairs/tritonbench_g/kldiv_ops/Proofs/HostBackward.lean": "e1b496b3337fb6fc63cceaa5d8cf3687317dabbaaaca405207657bb3a1bcdee9",
         "bench/repairs/tritonbench_g/kldiv_ops/Proofs/HostBackwardFinish.lean": "5ffaa5ef3b329bdea93f94b2561050aaa781e30c9c26dc28201a069c1da24b7a",
@@ -43252,16 +43284,19 @@
         "bench/repairs/tritonbench_g/kldiv_ops/Proofs/RealFormula.lean": "c56cebf2da7c686bab2cc481b9d6d197f1109b37c96d2371879d35ddff228887",
         "bench/repairs/tritonbench_g/kldiv_ops/Proofs/RealGrid.lean": "d20830d5179b8b6ca055cc6b7083238fa82ce0f7c10a3a01badfa4dbabcc4a73",
         "bench/repairs/tritonbench_g/kldiv_ops/Proofs/RealHost.lean": "7ae68aa13adb305b7b22d5bcf0b657e161f8c2bda13b0afff0889df5cf46a0e1",
-        "bench/repairs/tritonbench_g/kldiv_ops/Proofs/SafetyBackward.lean": "8dba13e151344ba0990e95d6af8dfd242f099bae82699b661c800a4410d5be7a",
-        "bench/repairs/tritonbench_g/kldiv_ops/Proofs/SafetyBackwardSteps.lean": "445e3faf947bda3417c431e148014fe489a9ad36b50dd64b3e75be843249a95a",
-        "bench/repairs/tritonbench_g/kldiv_ops/Proofs/SafetyForward.lean": "e214ca47ee463a107315de14ff68e9aae131cb886464d5094e4ceb1279cc5419",
-        "bench/repairs/tritonbench_g/kldiv_ops/Proofs/SafetyForwardSteps.lean": "af2f944dfe5bf9226d8db6be89b38a12bab7ff1f3280b735fbe49482ef2e16d9",
+        "bench/repairs/tritonbench_g/kldiv_ops/Proofs/SafetyBackward.lean": "b40790732a2d8ab45f835d67b162b7630e37043d9f6c1ced550c308a2ff3c62e",
+        "bench/repairs/tritonbench_g/kldiv_ops/Proofs/SafetyBackwardSteps.lean": "e650d843f635705dfb53a8781cee82a60bd5434b326eee2a7d086c632438ce10",
+        "bench/repairs/tritonbench_g/kldiv_ops/Proofs/SafetyForward.lean": "00ca20e55bbc5d86c84d5a7f97639a9e1c91aae3679adb4ae3057e1cf93ea732",
+        "bench/repairs/tritonbench_g/kldiv_ops/Proofs/SafetyForwardSteps.lean": "34b73b7d14f3389deb16cc24bd7e15c199e4e545d55cffc8917c0bdb8e14d5b1",
         "bench/repairs/tritonbench_g/kldiv_ops/Proofs/SoftwareProfile.lean": "02960b403511d7f47a38a7c73e864f87bbbf3880461d713d468fc59f8e7f0c4b",
         "bench/repairs/tritonbench_g/kldiv_ops/Proofs/SourceBytes.lean": "d32a5c002f901f7cfc7e57afeec93246815c5cbfa52f089bf27aa08639c6748b",
-        "bench/repairs/tritonbench_g/kldiv_ops/Proofs/SourcePair.lean": "3da795783f9da064448ed6d22b26a6cc7f3d44cb3931fdeb9964b15e88b56ccf",
+        "bench/repairs/tritonbench_g/kldiv_ops/Proofs/SourcePair.lean": "f4aa2ffc43a73edfcd9914642a5ec186de6e7dce74e42a1eefb9a48dcbcc11ac",
         "bench/repairs/tritonbench_g/kldiv_ops/Proofs/Storage.lean": "672a280cbe3d0fac287592d10a12a5ea93e60c25271e8c37dbed50a3f6075c92",
-        "bench/repairs/tritonbench_g/kldiv_ops/Proofs/Tile.lean": "20c5af2023538f897fc8a7259d98a7e2bb63bc76cfef6657e6d38b7755d6a1a0",
-        "bench/repairs/tritonbench_g/kldiv_ops/Proofs/TypedPreservation.lean": "c0e381b2a2e4ae0d612ef30bc023dac5f88eba36d162603cbacf4135eb4f38ee"
+        "bench/repairs/tritonbench_g/kldiv_ops/Proofs/Tile.lean": "c4a93c3acfbc0134c4bec32c4e91aa963bab39d0ceaf01b364b09a44773928a0",
+        "bench/repairs/tritonbench_g/kldiv_ops/Proofs/TypedPreservation.lean": "c0e381b2a2e4ae0d612ef30bc023dac5f88eba36d162603cbacf4135eb4f38ee",
+        "bench/repairs/tritonbench_g/kldiv_ops/README.md": "a02eaff9c633b5053e39113564691940f938c4f63bd64593887257d4ee3fd140",
+        "bench/repairs/tritonbench_g/kldiv_ops/jit-correspondence.json": "11afe89e7931cd1b077d061a9f8d26ca64f634818bdebb035ba746bdc98916e4",
+        "bench/repairs/tritonbench_g/kldiv_ops/candidate_kernels.py": "b2485449ac834155c3d0e0da6baf7a0f1e233b177c4b58ea0e196237a75ec143"
       },
       "source_pin_provenance": {
         "bench/repairs/tritonbench_g/kldiv_ops/Contract.lean": {
@@ -43720,43 +43755,27 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/kldiv_ops.json",
-        "sha256": "4f00be060a779e14687db0bd239cbbe2485652c6123b04d0cf8abad3ab68c4c6",
-        "task": "kldiv_ops"
+        "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/review.json",
+        "sha256": "278da897bdfa712c7d2b0ca51279b3dc7bea1e49eec8ef328350705a4877bec2"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "limits": [
-          "The official comparator is unavailable; no comparator PASS is claimed.",
-          "External pinned Lean/Mathlib artifacts are reused.",
-          "No new GPU or numerical experiment. The existing matmul_leakyrelu numerical deferral remains.",
-          "Historical cache/tmp evidence bytes were not recovered. Current build and axiom checks replace the missing proof receipts, not the historical hashes or independent-review claim.",
-          "Seven optional historical KV ABI/raw/host/Tensor/backing modules remain unrecovered and outside the selected main source scope."
-        ],
+        "scope": "All 3162 public/deep roots and joint imports pass warm and independently from empty project artifacts; all 85 task modules included.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/selected-build.json",
-            "sha256": "924f91ab59eb29597e96e7fc7a2c001bce1517ca9b87b27dddf66fd1cd2c843d"
+            "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/integration-final.log.gz",
+            "sha256": "94434c6db88dfe8aecb86db08763557e23d84d982aa9dee5fec2f14caca32c78"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/kldiv_ops.lean",
-            "sha256": "213530657670f0adc9f980c3217fe5bbd48df2749fa5219b47d750b9b12bd495"
-          },
-          {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/kldiv_ops.log.gz",
-            "sha256": "d9438345aa84b9d1f1b8f674857c2fa9ee614d1b93847b709f270781d3ac0c92"
-          },
-          {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/review.json",
-            "sha256": "ee91221d2a053fc635b53f67a17c35b9789058bfe5967a3f354f339fe4f0ef9d"
+            "path": "bench/review-checkpoints/2026-10-27/native-kldiv-function-bodies/final-clean-build.log.gz",
+            "sha256": "cdc1b1e4645895b830e8ea9c6ca2b46509208eb26542eb3e543ff9a5a1f900d3"
           }
         ],
-        "joint_import_exit_code": 0,
-        "headline_count": 4,
-        "previous_validation": {
-          "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/superseded-proof-evidence.json.gz",
-          "sha256": "707ace709b2347ce26ab517cb2e4dbbfaa859eedf1634743b30f2da77cfb38e4"
-        }
+        "limits": [
+          "Official comparator isolation and optional Torch checker unavailable; actual attempts retained.",
+          "Known unchanged numerical receipt hash failure.",
+          "Corpus remains incomplete; merge awaits explicit human review."
+        ]
       },
       "field_provenance": {
         "mathematical_target": [

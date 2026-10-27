@@ -1,0 +1,47 @@
+{
+  "code_commit": "f27fed23e8f8db1cd4255bfdf946f9ea6920060a",
+  "raw_bodies_and_wrapper": [
+    {
+      "name": "raw-body-check",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/kldiv_ops/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "f27fed23e8f8db1cd4255bfdf946f9ea6920060a",
+      "log": "/tmp/kldiv80-raw-body-check.log",
+      "status": "PASS"
+    },
+    {
+      "name": "wrapper-source-check",
+      "command": [
+        "python3",
+        "/tmp/kldiv80-check-pair.py"
+      ],
+      "exit_code": 0,
+      "code_commit": "f27fed23e8f8db1cd4255bfdf946f9ea6920060a",
+      "log": "/tmp/kldiv80-wrapper-source-check.log",
+      "status": "PASS"
+    }
+  ],
+  "cpu": {
+    "name": "cpu-final",
+    "command": [
+      "python3",
+      "bench/repairs/tritonbench_g/kldiv_ops/check_contract.py"
+    ],
+    "exit_code": 1,
+    "code_commit": "f27fed23e8f8db1cd4255bfdf946f9ea6920060a",
+    "log": "/tmp/kldiv80-cpu-final.log",
+    "status": "UNAVAILABLE"
+  },
+  "unchanged_selected_source_and_wrapper": {
+    "path": "bench/repairs/tritonbench_g/kldiv_ops/kldiv_ops_repaired.py",
+    "source_sha256": "5a610a722d441f13cccdf9ef8443f994046b26bd1fbec5f858c12d1f8809a20d",
+    "status": "PASS",
+    "whole_selected_python_and_wrapper_unchanged": true
+  },
+  "scope": "Four complete original/existing index-commuted candidate forward/backward bodies, both target branches, all reductions, casts, remasking and full loop order. Original checked wrapper unchanged; new Python spelling only for the existing Lean candidate. No GPU or new numerical experiment."
+}

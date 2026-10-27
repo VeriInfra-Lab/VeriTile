@@ -1,0 +1,35 @@
+{
+  "code_commit": "f27fed23e8f8db1cd4255bfdf946f9ea6920060a",
+  "checkout": "/tmp/veritile-body77",
+  "project_build_initially_present": false,
+  "veritile_cache_initially_present": false,
+  "project_objects_imported_from_other_checkouts": false,
+  "fixed_external_packages_reused": "/home/argustest/lizn/VeriTile/.lake/packages",
+  "previous_completed_project_cache_removed": {
+    "removed": "/tmp/veritile-body77/.lake/build",
+    "reason": "Completed independently rebuilt 79 project artifacts, after immutable evidence and receipt were published. Only this owned regenerable cache is removed; sources, evidence and pinned external dependencies remain.",
+    "verified_receipt": "f0c86c73e80e33c26633ff50b75096db55554bfe",
+    "previous_build_exit_code": 0,
+    "previous_joint_exit_code": 0
+  },
+  "changed_source_sha256": {
+    "bench/repairs/tritonbench_g/kldiv_ops/Kernels.lean": "5c2a67dcd9f27dade9607a7abf9847170e36800074ab694b3fdd8ebb51a04fac",
+    "bench/repairs/tritonbench_g/kldiv_ops/Proofs/Backward.lean": "953149803b94d2983a788fba97b66db4147be98d81d4d52b1e6000f3525190b4",
+    "bench/repairs/tritonbench_g/kldiv_ops/Proofs/Chunk.lean": "a481bd3741c0fc1621291d63b518cb0835e26fa858eb72a91f861d63f57a2bae",
+    "bench/repairs/tritonbench_g/kldiv_ops/Proofs/Forward.lean": "2e7958241c902b6a8ecfb0aa5eefa677307e39780d3fd6624758a289dc8bb251",
+    "bench/repairs/tritonbench_g/kldiv_ops/Proofs/HistoricalKernels.lean": "d587b4bdf2de6d58daea26f17aa1d91e46d56b8fc8dfa01fa63b80e0c9592111",
+    "bench/repairs/tritonbench_g/kldiv_ops/Proofs/SafetyBackward.lean": "b40790732a2d8ab45f835d67b162b7630e37043d9f6c1ced550c308a2ff3c62e",
+    "bench/repairs/tritonbench_g/kldiv_ops/Proofs/SafetyBackwardSteps.lean": "e650d843f635705dfb53a8781cee82a60bd5434b326eee2a7d086c632438ce10",
+    "bench/repairs/tritonbench_g/kldiv_ops/Proofs/SafetyForward.lean": "00ca20e55bbc5d86c84d5a7f97639a9e1c91aae3679adb4ae3057e1cf93ea732",
+    "bench/repairs/tritonbench_g/kldiv_ops/Proofs/SafetyForwardSteps.lean": "34b73b7d14f3389deb16cc24bd7e15c199e4e545d55cffc8917c0bdb8e14d5b1",
+    "bench/repairs/tritonbench_g/kldiv_ops/Proofs/SourcePair.lean": "f4aa2ffc43a73edfcd9914642a5ec186de6e7dce74e42a1eefb9a48dcbcc11ac",
+    "bench/repairs/tritonbench_g/kldiv_ops/Proofs/Tile.lean": "c4a93c3acfbc0134c4bec32c4e91aa963bab39d0ceaf01b364b09a44773928a0",
+    "bench/repairs/tritonbench_g/kldiv_ops/README.md": "a02eaff9c633b5053e39113564691940f938c4f63bd64593887257d4ee3fd140",
+    "bench/repairs/tritonbench_g/kldiv_ops/candidate_kernels.py": "b2485449ac834155c3d0e0da6baf7a0f1e233b177c4b58ea0e196237a75ec143",
+    "bench/repairs/tritonbench_g/kldiv_ops/jit-correspondence.json": "11afe89e7931cd1b077d061a9f8d26ca64f634818bdebb035ba746bdc98916e4",
+    "bench/source-correspondence.json": "c5925be8c3c946ecb39ed285b847b5a60f0332364bca97ab6cf7bdbfc6a7da66",
+    "bench/tests/test_jit_correspondence.py": "615a6e4d9e83411883782b35cc39cdead9f0065993076afb1f024376b6cb8180"
+  },
+  "build_exit_code": 0,
+  "joint_exit_code": 0
+}
