@@ -1,0 +1,349 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "8974950b3dc42560ec84feb1ba46ccaa04afd345",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "softmax_optimize"
+  ],
+  "semantic_review": {
+    "softmax_optimize": "The original prev_multiple_of helper, original four-loop kernel and existing index-commuted candidate are pasted verbatim in Kernels.lean. Both Python modules, wrappers and public Correct/FPEquiv/Contract/IO are byte-identical. All explicit casts, dtype queries, NaN/infinity guards, reduction order, loop bounds, masks and stores remain. Pointer types and constexpr/call metadata stay outside the function bodies. Only used runtime N is bound externally; unused M remains declared in the signature. The former fabricated cols register is removed and proofs follow the actual N binding before pid assignment. The actual cdiv expression N+(B-1) is connected to the former proof value under the existing positive tile condition. Candidate remains exactly four integer address commutations; no floating arithmetic rewrite or fabricated cast identity. Complete arbitrary-model pair execution/failure/safety and the full Real/concrete FP row/grid, frame, host and Tensor proofs are replayed. No new axiom, whole-kernel premise, numerical experiment, public domain narrowing or shared frontend change."
+  },
+  "compiler_change": {
+    "files": [],
+    "behavior": "No shared frontend changes."
+  },
+  "verification": {
+    "baseline": {
+      "status": "PASS",
+      "explicit_modules": 54,
+      "jobs": 3598
+    },
+    "focused": {
+      "status": "PASS",
+      "explicit_modules": 54,
+      "jobs": 3598
+    },
+    "warm_and_joint": {
+      "status": "PASS",
+      "explicit_modules": 3303,
+      "jobs": 12716
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 54,
+      "scope": "All softmax_optimize roots and their complete import closure; not a cumulative cold rebuild.",
+      "jobs": 3598,
+      "project_build_initially_present": false,
+      "project_objects_imported_from_other_checkouts": false,
+      "only_fixed_external_dependencies_imported": true,
+      "setup": {
+        "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/final-clean-setup.json",
+        "sha256": "bac833c5112340740d87c193eaf58a822988c8063e0325e8c5e5ecce0e74f97c"
+      }
+    },
+    "trust": "PASS: 21 actual-source/public/typed-bridge footprints use only standard base. Public softmax_source_equiv reports no FP assumptions.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 119
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 364,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by old numerical receipt; no false repin."
+    },
+    "source": "PASS: three complete raw bodies, exactly four existing integer address commutations, external call bindings and byte-identical Python/wrappers.",
+    "official_comparator": "UNAVAILABLE: 22 actual final-source attempts with verified pinned binaries. Host Landlock ABI v4 is below required v5; no systemd user isolation or bypass.",
+    "cpu": "UNAVAILABLE: actual check_index_candidate.py CPU interpreter invocation requires missing Torch.",
+    "gpu_or_numerical_experiment": "Not run.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending; the known unchanged numerical receipt failure remains explicit."
+  },
+  "source_pairs": {
+    "total": 273,
+    "pasted_body": 273,
+    "legacy_ast": 0
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/source-closure.json",
+    "sha256": "dcdac27d18eed5e1ea5c3f5dc160c4839fb6d204db7f44290b95addcb62c316d"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "no_selected_jit_resolved": 2,
+      "selected_body_copy_checked": 89,
+      "uncovered_jit_functions": 92
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 328,
+    "uncovered_selected_jit_functions": 191,
+    "primary_files_with_int64_screen_warning": 26,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 69,
+        "antiquotes": 77,
+        "dsl_loop": 1,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "example_regression_scope": "All 19 selected examples and prior recorded task roots replay in cumulative warm/joint integration; earlier independent cold receipts remain. No shared frontend change.",
+  "previous_cumulative_cold_review": {
+    "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/review.json",
+    "sha256": "cf4265ca583bbae37cac7aa86901c1a3e3b24e33d8444a72299cafa40a5e5228"
+  },
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/all-python.log",
+      "sha256": "7f3887954e9fd99c04f7b625df2b231f46539fa96f6644a86b74398ef54e0db9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/audit-targets.json",
+      "sha256": "68ddb73cba6f1f913813ebcc576592cee33737d6eb4bbffbe81b4dfc952467da"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/audit.lean",
+      "sha256": "e341be84763bfb760ea59c7b3ea7bc3dae58d366a73ddfc5f66319b4583bca5a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/audit.log",
+      "sha256": "2e89e72556d096152afe4bff5ebfd8b7058babc092758e284ec0fa1dd4f1dd63"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/baseline-build.log.gz",
+      "sha256": "8c805f4256f66f03704fddb796c444e885ac2af1cb47032659ade41ffeb7a815"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/baseline.json",
+      "sha256": "774ae463305ba2c270220ff2a51f9a6505123680f8d494e2908e3444033075ec"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/bench__repairs__tritonbench_g__softmax_optimize__Correct-comparator.log",
+      "sha256": "b6a7f9d8a19634dcf05e3f42ca0f8672d64bc807c44bb37a4ca4016796ac7d24"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/bench__repairs__tritonbench_g__softmax_optimize__FPEquiv-comparator.log",
+      "sha256": "b6a7f9d8a19634dcf05e3f42ca0f8672d64bc807c44bb37a4ca4016796ac7d24"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/bench__repairs__tritonbench_g__softmax_optimize__Kernels-comparator.log",
+      "sha256": "b6a7f9d8a19634dcf05e3f42ca0f8672d64bc807c44bb37a4ca4016796ac7d24"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/bench__repairs__tritonbench_g__softmax_optimize__Proofs__FPComplete-comparator.log",
+      "sha256": "b6a7f9d8a19634dcf05e3f42ca0f8672d64bc807c44bb37a4ca4016796ac7d24"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/bench__repairs__tritonbench_g__softmax_optimize__Proofs__FPExecution-comparator.log",
+      "sha256": "b6a7f9d8a19634dcf05e3f42ca0f8672d64bc807c44bb37a4ca4016796ac7d24"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/bench__repairs__tritonbench_g__softmax_optimize__Proofs__FPFrame-comparator.log",
+      "sha256": "b6a7f9d8a19634dcf05e3f42ca0f8672d64bc807c44bb37a4ca4016796ac7d24"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/bench__repairs__tritonbench_g__softmax_optimize__Proofs__FirstLoops-comparator.log",
+      "sha256": "b6a7f9d8a19634dcf05e3f42ca0f8672d64bc807c44bb37a4ca4016796ac7d24"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/bench__repairs__tritonbench_g__softmax_optimize__Proofs__FirstPass-comparator.log",
+      "sha256": "b6a7f9d8a19634dcf05e3f42ca0f8672d64bc807c44bb37a4ca4016796ac7d24"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/bench__repairs__tritonbench_g__softmax_optimize__Proofs__IOSafetyBodies-comparator.log",
+      "sha256": "6612d608c6eeb2bfc64cf4dedab46ad147044529c9b57f1b6f98a9a41aa63375"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/bench__repairs__tritonbench_g__softmax_optimize__Proofs__IOSafetyLoops-comparator.log",
+      "sha256": "6612d608c6eeb2bfc64cf4dedab46ad147044529c9b57f1b6f98a9a41aa63375"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/bench__repairs__tritonbench_g__softmax_optimize__Proofs__Input-comparator.log",
+      "sha256": "6612d608c6eeb2bfc64cf4dedab46ad147044529c9b57f1b6f98a9a41aa63375"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/bench__repairs__tritonbench_g__softmax_optimize__Proofs__KernelRewrite-comparator.log",
+      "sha256": "6612d608c6eeb2bfc64cf4dedab46ad147044529c9b57f1b6f98a9a41aa63375"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/bench__repairs__tritonbench_g__softmax_optimize__Proofs__OutputBodies-comparator.log",
+      "sha256": "6612d608c6eeb2bfc64cf4dedab46ad147044529c9b57f1b6f98a9a41aa63375"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/bench__repairs__tritonbench_g__softmax_optimize__Proofs__OutputProperties-comparator.log",
+      "sha256": "6612d608c6eeb2bfc64cf4dedab46ad147044529c9b57f1b6f98a9a41aa63375"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/bench__repairs__tritonbench_g__softmax_optimize__Proofs__Primitive-comparator.log",
+      "sha256": "6612d608c6eeb2bfc64cf4dedab46ad147044529c9b57f1b6f98a9a41aa63375"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/bench__repairs__tritonbench_g__softmax_optimize__Proofs__Reduction-comparator.log",
+      "sha256": "6612d608c6eeb2bfc64cf4dedab46ad147044529c9b57f1b6f98a9a41aa63375"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/bench__repairs__tritonbench_g__softmax_optimize__Proofs__SecondLoops-comparator.log",
+      "sha256": "6612d608c6eeb2bfc64cf4dedab46ad147044529c9b57f1b6f98a9a41aa63375"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/bench__repairs__tritonbench_g__softmax_optimize__Proofs__SecondPass-comparator.log",
+      "sha256": "6612d608c6eeb2bfc64cf4dedab46ad147044529c9b57f1b6f98a9a41aa63375"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/bench__repairs__tritonbench_g__softmax_optimize__Proofs__Source-comparator.log",
+      "sha256": "6612d608c6eeb2bfc64cf4dedab46ad147044529c9b57f1b6f98a9a41aa63375"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/bench__repairs__tritonbench_g__softmax_optimize__Proofs__SourceCandidate-comparator.log",
+      "sha256": "6612d608c6eeb2bfc64cf4dedab46ad147044529c9b57f1b6f98a9a41aa63375"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/bench__repairs__tritonbench_g__softmax_optimize__Proofs__SourceIO-comparator.log",
+      "sha256": "6612d608c6eeb2bfc64cf4dedab46ad147044529c9b57f1b6f98a9a41aa63375"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/bench__repairs__tritonbench_g__softmax_optimize__Proofs__TypedSource-comparator.log",
+      "sha256": "6612d608c6eeb2bfc64cf4dedab46ad147044529c9b57f1b6f98a9a41aa63375"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/check-pair.py",
+      "sha256": "6fececc70d4df8f5d97ef763e12074744cc638db5da73b1a7df6eb24038b155a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/comparator-invocations.json",
+      "sha256": "04226b708a5d847be2604514e5e600e89c2db2bbe662b02c69394c494e37524c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/comparator-tools.json",
+      "sha256": "28998e17d51b0fb5930f7489e64512a57f8a8146d1470063a624a75bbabdb0d3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/corpus-guard.log",
+      "sha256": "2f0c26313242a6d73e57bea850e5d58fc5c66c692b8089a193215cbf84efbee6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/cpu-final.log",
+      "sha256": "2b71196b0ff0c155d8f03ff2d80924784b87d7d6c35a3482cfc8f271867602aa"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/final-clean-build.log.gz",
+      "sha256": "9c93d02ab7f51bea0f323e6ca467048187498d57e3671f9c8063d23559eae8e7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/final-clean-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/final-clean-setup.json",
+      "sha256": "bac833c5112340740d87c193eaf58a822988c8063e0325e8c5e5ecce0e74f97c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/focus-final-modules.txt",
+      "sha256": "cff8941df11116e4cff3c3531a1d3f9a3e480b4341890be46674d503343ce7e6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/focus-final.log.gz",
+      "sha256": "2d2b7210c5fcd31509549eda6029583e102308bf72003dc8e8b6f03370a10fd4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/focus-invocations.json",
+      "sha256": "da3c61cea7da935183a7799f030f267c3d69bb183d2487537019016f9e9f172a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/focus-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/inspections.json",
+      "sha256": "bc27d5e6b4c66fa2778ef5a3ba2e2a65cbb753f799b337bc5ea7806adc1fb581"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/integration-final.log.gz",
+      "sha256": "1a05cd0d53e2dd4c158a776b06469f04d3186b96dd2f54f7e6b69056694a95af"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/joint-all.lean",
+      "sha256": "97c2946002defc09a4083338d17ad3042bfc4249c70872698d04be51c39d446a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/joint-final.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/modules.json",
+      "sha256": "44856fb55ba92a9335bab11e6250ff6dadfa5a78574e4338b6d3009f1f686898"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/pairs.json",
+      "sha256": "6d2343038a9279d7aa6909ac8f6a8cbb95278494aeb0f31a243b086228aa0552"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/previous-reviews.json.gz",
+      "sha256": "9f81f73cbb07894771e372a039aa62a0fe1e4d86b5a2bc4dfc9a006e063eeba5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/python-invocations.json",
+      "sha256": "51440fbd1c665e74e54d190723d5809f9ca96a6a1a7c664e765f9e5d09da1daf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/python-tests.log",
+      "sha256": "e51da21f71df039958308aa0d116c3d914041bb9f74c8794441f11e54efadd09"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/raw-body-check.log",
+      "sha256": "00bea609573e65e1c5f7ac4230c4ad9a710ad71e2f167dff6a49ab2dc6a715e9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/source-closure.json",
+      "sha256": "dcdac27d18eed5e1ea5c3f5dc160c4839fb6d204db7f44290b95addcb62c316d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/transferred-files.json",
+      "sha256": "1eb4fe089d2c2987324088bcecade4c992ccd39db7e1663dcebffc9863efc587"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/warm-final-invocation.json",
+      "sha256": "ba7ca53631b00f35ddad35c4fa188fcd4e08cb8d7f4c3ae8aadd9d35fa9d4c8a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/wrapper-source-check.log",
+      "sha256": "13bf235a2d0421523e7a7d4d3e39eb8fbb67c03e2c4479a3ce74fc6680a8ed3a"
+    }
+  ]
+}

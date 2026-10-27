@@ -1,0 +1,23 @@
+[
+  "Source.source_body",
+  "ReadableSource.candidate_preserved",
+  "KernelRewrite.equivalent",
+  "KernelRewrite.execution",
+  "Reduction.previous_eval",
+  "Reduction.seed_run",
+  "Reduction.first_pass",
+  "IOSafety.source_safe",
+  "SourceIO.selected_tile_io",
+  "FPExecution.prelude",
+  "FPExecution.input_body",
+  "FPExecution.reduction",
+  "FPExecution.output_body",
+  "FPExecution.complete",
+  "FPExecution.complete_row",
+  "Correct.softmax_row_correct",
+  "FPEquiv.softmax_source_equiv",
+  "KernelReal.complete_all",
+  "KernelNative.complete_all",
+  "TensorBridge.softmax_kernel_correct",
+  "TensorBridge.softmax_kernel_fp32"
+]

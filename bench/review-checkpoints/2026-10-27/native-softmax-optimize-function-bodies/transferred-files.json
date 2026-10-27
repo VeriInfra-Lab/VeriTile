@@ -1,0 +1,31 @@
+{
+  "parent": "9aaac3cbaeb6272406613fa6c6eb3d81e430ff6d",
+  "shared_core_changed": [],
+  "original_candidate_python_wrappers_and_public_statements_unchanged": true,
+  "files": {
+    "bench/repairs/tritonbench_g/softmax_optimize/Kernels.lean": "e2ebc4e5b4695f11a4f8c9cae95c98c17e82a56b89092629b17e8f50f03c138d",
+    "bench/repairs/tritonbench_g/softmax_optimize/Proofs/FPComplete.lean": "071303f59510d6b0e975d5b4cd338012c53830adf8cde1d190520a13c69576f6",
+    "bench/repairs/tritonbench_g/softmax_optimize/Proofs/FPExecution.lean": "a28902f00c1765d4d078b45e1f6077b88342861ed88c4f1297c4697f9bafc1c6",
+    "bench/repairs/tritonbench_g/softmax_optimize/Proofs/FPFrame.lean": "ab067eb589995ba213bcbb37ee97d2d057a00072cda5349708afe74151e4cd2a",
+    "bench/repairs/tritonbench_g/softmax_optimize/Proofs/FirstLoops.lean": "18cffb1d94d22025f63a958a293c5bb804e0797a3c5be1e7ed5a1a762be480a3",
+    "bench/repairs/tritonbench_g/softmax_optimize/Proofs/FirstPass.lean": "e313ad65d7583766e781c81dbf6cb9602bd36ae837a4189fc820ed62dbbd41e6",
+    "bench/repairs/tritonbench_g/softmax_optimize/Proofs/IOSafetyBodies.lean": "bacaacba9526c23a9609c865d9fc63c397207ab3a5e66c505725ebd0b8ee0ccd",
+    "bench/repairs/tritonbench_g/softmax_optimize/Proofs/IOSafetyLoops.lean": "17169752af00a86e27f9e2900df6afbe691afe8f061ed66f5ef843331040d930",
+    "bench/repairs/tritonbench_g/softmax_optimize/Proofs/Input.lean": "58854742d455873ad1209f1c489945adb46dd248720ecb358b195269bdd86560",
+    "bench/repairs/tritonbench_g/softmax_optimize/Proofs/KernelRewrite.lean": "9256661e804ac41f18f713a75dca550d5759d908be3fc2551d2037b2f53f0551",
+    "bench/repairs/tritonbench_g/softmax_optimize/Proofs/OutputBodies.lean": "d6463c24616ee9223defe8a7b66d1b127c69c8d2f4589bd5a4a4db6ce9d1fe51",
+    "bench/repairs/tritonbench_g/softmax_optimize/Proofs/OutputProperties.lean": "c1adc02fd7ae41e7f2d36f0478624be893385ef0198ec150a691f0517d3232e9",
+    "bench/repairs/tritonbench_g/softmax_optimize/Proofs/Primitive.lean": "d0ce510179079f0a7a865266be1b02595d0d73b044434bbd67b0336066a19466",
+    "bench/repairs/tritonbench_g/softmax_optimize/Proofs/Reduction.lean": "47381bd570b06150625f9aad1817e6dcbfe3c38a6bc8fc119cd3c4f8ce57c947",
+    "bench/repairs/tritonbench_g/softmax_optimize/Proofs/SecondLoops.lean": "3a789705d581e4e2e54eb387bd8843a25ffcfae5a641b14563152cf68bd77b29",
+    "bench/repairs/tritonbench_g/softmax_optimize/Proofs/SecondPass.lean": "411819d73f7685a31bbf08bc3a9ca1510968132fd49444f2aeea307e79e9ef70",
+    "bench/repairs/tritonbench_g/softmax_optimize/Proofs/Source.lean": "ee074dcb8da0f9bf45463c303b4b7648d48e83a326eca4a90cc2ece59a59a42e",
+    "bench/repairs/tritonbench_g/softmax_optimize/Proofs/SourceCandidate.lean": "30e92a8eb46f1fd20d37e2d2a9f5dc837c81cfcf8ecf67250a7cc93892d1c8dc",
+    "bench/repairs/tritonbench_g/softmax_optimize/Proofs/SourceIO.lean": "4e4412c4b5bb90eaee5f4ea9eb22bda0c7d071712fc5269a23e7a081e2607ab1",
+    "bench/repairs/tritonbench_g/softmax_optimize/Proofs/TypedSource.lean": "d97d674e4e3c8714e5009f7ea06ec7e7a474afda15c1d9ec64715cc49702f365",
+    "bench/repairs/tritonbench_g/softmax_optimize/README.md": "b88729f717a0c0bad805e7a8f849ea4358e6195cc2dda2131dac3a75aad9734d",
+    "bench/repairs/tritonbench_g/softmax_optimize/jit-correspondence.json": "0f7086535e556da35166f633cc3d26f6c2ff354338069a5877db4ac08ad9de1d",
+    "bench/tests/test_jit_correspondence.py": "65f69ad11528e387830b8d4f97c003e669bba98d8bc5a5987d41652312f44b9a"
+  },
+  "code_commit": "8974950b3dc42560ec84feb1ba46ccaa04afd345"
+}

@@ -77983,7 +77983,34 @@
           "definition_preservation": "Every task source byte equals its saved before snapshot; applicable release pins also match."
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/softmax_optimize.json",
-        "statement_scope_unchanged": true
+        "statement_scope_unchanged": true,
+        "current_actual_source_bridges": {
+          "raw_original_helper_and_candidate": {
+            "path": "bench/repairs/tritonbench_g/softmax_optimize/Kernels.lean",
+            "sha256": "e2ebc4e5b4695f11a4f8c9cae95c98c17e82a56b89092629b17e8f50f03c138d"
+          },
+          "complete_pair_execution_failure_safety": {
+            "path": "bench/repairs/tritonbench_g/softmax_optimize/Proofs/KernelRewrite.lean",
+            "sha256": "9256661e804ac41f18f713a75dca550d5759d908be3fc2551d2037b2f53f0551"
+          },
+          "source_cdiv_and_prefix_connection": {
+            "path": "bench/repairs/tritonbench_g/softmax_optimize/Proofs/Reduction.lean",
+            "sha256": "47381bd570b06150625f9aad1817e6dcbfe3c38a6bc8fc119cd3c4f8ce57c947"
+          },
+          "actual_concrete_fp_loops": {
+            "path": "bench/repairs/tritonbench_g/softmax_optimize/Proofs/FPExecution.lean",
+            "sha256": "a28902f00c1765d4d078b45e1f6077b88342861ed88c4f1297c4697f9bafc1c6"
+          },
+          "complete_source_io": {
+            "path": "bench/repairs/tritonbench_g/softmax_optimize/Proofs/SourceIO.lean",
+            "sha256": "4e4412c4b5bb90eaee5f4ea9eb22bda0c7d071712fc5269a23e7a081e2607ab1"
+          },
+          "full_row_frame": {
+            "path": "bench/repairs/tritonbench_g/softmax_optimize/Proofs/FPFrame.lean",
+            "sha256": "ab067eb589995ba213bcbb37ee97d2d057a00072cda5349708afe74151e4cd2a"
+          }
+        },
+        "current_body_source_review": "The original prev_multiple_of helper, original four-loop kernel and existing index-commuted candidate are pasted verbatim in Kernels.lean. Both Python modules, wrappers and public Correct/FPEquiv/Contract/IO are byte-identical. All explicit casts, dtype queries, NaN/infinity guards, reduction order, loop bounds, masks and stores remain. Pointer types and constexpr/call metadata stay outside the function bodies. Only used runtime N is bound externally; unused M remains declared in the signature. The former fabricated cols register is removed and proofs follow the actual N binding before pid assignment. The actual cdiv expression N+(B-1) is connected to the former proof value under the existing positive tile condition. Candidate remains exactly four integer address commutations; no floating arithmetic rewrite or fabricated cast identity. Complete arbitrary-model pair execution/failure/safety and the full Real/concrete FP row/grid, frame, host and Tensor proofs are replayed. No new axiom, whole-kernel premise, numerical experiment, public domain narrowing or shared frontend change."
       },
       "fp_program_pair": {
         "original": "FPEquiv.original Y X M N",
@@ -78009,11 +78036,11 @@
         "bench/repairs/tritonbench_g/softmax_optimize/FPEquiv.lean": "763b5b1537ce2d3ad88967f138fbfd3a91e4d6a9e7c7d59724333157eda6eea0",
         "bench/repairs/tritonbench_g/softmax_optimize/IO.lean": "c66ec92ce7ead8c795e3240b6e802a9357ad65ac79d4319e8fdae782d4bb236f",
         "bench/repairs/tritonbench_g/softmax_optimize/Proofs/LogicalResult.lean": "d8ad5bb337f92d2c802ce94a485deee8429a0c290e42ec73447f7e42187ced24",
-        "bench/repairs/tritonbench_g/softmax_optimize/Kernels.lean": "7f912c9b4e32c614f121ab9fd61fbaeec54737b506acb6ef80fdc18994a6b9e0",
+        "bench/repairs/tritonbench_g/softmax_optimize/Kernels.lean": "e2ebc4e5b4695f11a4f8c9cae95c98c17e82a56b89092629b17e8f50f03c138d",
         "bench/repairs/tritonbench_g/softmax_optimize/Proofs/IOCorrect.lean": "0a09c693db544016cca5393c7b14e1e27df63fb5f4f1d51e880359431a7f523b",
         "bench/repairs/tritonbench_g/softmax_optimize/Proofs/Config.lean": "3562bc1dc789a61a5c24ddbf6d9758a9f1b6ec3cd4d5af88d16c54747ca2c4a1",
-        "bench/repairs/tritonbench_g/softmax_optimize/Proofs/SourceIO.lean": "694e3a19d2163041e87c62814000ba683540761b8b7285532fa1ceefd1dc5f87",
-        "bench/repairs/tritonbench_g/softmax_optimize/Proofs/KernelRewrite.lean": "38a2b6eef90dbda34b9057a8b3e7de35233c829eeeaadbaf293bf2491300143f",
+        "bench/repairs/tritonbench_g/softmax_optimize/Proofs/SourceIO.lean": "4e4412c4b5bb90eaee5f4ea9eb22bda0c7d071712fc5269a23e7a081e2607ab1",
+        "bench/repairs/tritonbench_g/softmax_optimize/Proofs/KernelRewrite.lean": "9256661e804ac41f18f713a75dca550d5759d908be3fc2551d2037b2f53f0551",
         "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
         "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
         "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8",
@@ -78022,20 +78049,20 @@
         "bench/repairs/tritonbench_g/softmax_optimize/Proofs/Bytes.lean": "03d581d63f8f6f941c6394382c5f1f53375278784aaae70f6ab094555d44db4a",
         "bench/repairs/tritonbench_g/softmax_optimize/Proofs/Contract.lean": "bd719ffcf32a5d0fbcd90eeb0a7bb7e2ee21be394a05400454467344bffee314",
         "bench/repairs/tritonbench_g/softmax_optimize/Proofs/DenseBytes.lean": "1f30d7f471edc65fd7e2deb4d9e885d27677f6ace56466ff2ab741a3005d59a5",
-        "bench/repairs/tritonbench_g/softmax_optimize/Proofs/FPComplete.lean": "13517ee45eb03a24fd52b1216760e504d41f917299b107c3e45982a1bd5c111d",
-        "bench/repairs/tritonbench_g/softmax_optimize/Proofs/FPExecution.lean": "9d4b757f57425f905f9d37e2365f5aee7262b71427f736e4da86352e3eec601c",
-        "bench/repairs/tritonbench_g/softmax_optimize/Proofs/FPFrame.lean": "a2b8dd84140a4f731f938099ca268b12a33b216c6393ba5a03eb7f2e114bccab",
-        "bench/repairs/tritonbench_g/softmax_optimize/Proofs/FirstLoops.lean": "8ce3106ce821391b4f305367b8dbca38657339c841abc1fb7832a091ace042ae",
-        "bench/repairs/tritonbench_g/softmax_optimize/Proofs/FirstPass.lean": "e3ed933707c19c9864a82f5a8470924301b846c47d4cfe05c61663c596b5276c",
+        "bench/repairs/tritonbench_g/softmax_optimize/Proofs/FPComplete.lean": "071303f59510d6b0e975d5b4cd338012c53830adf8cde1d190520a13c69576f6",
+        "bench/repairs/tritonbench_g/softmax_optimize/Proofs/FPExecution.lean": "a28902f00c1765d4d078b45e1f6077b88342861ed88c4f1297c4697f9bafc1c6",
+        "bench/repairs/tritonbench_g/softmax_optimize/Proofs/FPFrame.lean": "ab067eb589995ba213bcbb37ee97d2d057a00072cda5349708afe74151e4cd2a",
+        "bench/repairs/tritonbench_g/softmax_optimize/Proofs/FirstLoops.lean": "18cffb1d94d22025f63a958a293c5bb804e0797a3c5be1e7ed5a1a762be480a3",
+        "bench/repairs/tritonbench_g/softmax_optimize/Proofs/FirstPass.lean": "e313ad65d7583766e781c81dbf6cb9602bd36ae837a4189fc820ed62dbbd41e6",
         "bench/repairs/tritonbench_g/softmax_optimize/Proofs/Graph.lean": "f73c17edadf0e5b8e5e676966504d60385d2dfd318e9858940a1e81270256982",
         "bench/repairs/tritonbench_g/softmax_optimize/Proofs/GridReal.lean": "0b18292ab9cde30f9a05bde31ac3b027b4156fa3e351502c7932001098b8846f",
         "bench/repairs/tritonbench_g/softmax_optimize/Proofs/Host.lean": "cc6a64875cbeb43e9a7c038f99d1757fd5908ed31be1e9d9e3ee8a59a3e19ba2",
         "bench/repairs/tritonbench_g/softmax_optimize/Proofs/HostCorrect.lean": "f4078f9de5885a68bd21f11d6ebe1877d0ef31d2f8b30d50d329c01a37e81eb8",
         "bench/repairs/tritonbench_g/softmax_optimize/Proofs/HostFPEquiv.lean": "2046e5643aa43ea06bcca43839b8b901c8baef89687611925539396773b5b3d7",
         "bench/repairs/tritonbench_g/softmax_optimize/Proofs/IOSafety.lean": "060e540658fc848d4b4fd63a5c5da5c33669e89cc84336fe327ce3f8fc586f2d",
-        "bench/repairs/tritonbench_g/softmax_optimize/Proofs/IOSafetyBodies.lean": "abcbe2263ad3387948ca6cd7e6051b306b2c0d4bbe23fb8b43599593b8f9c7ca",
-        "bench/repairs/tritonbench_g/softmax_optimize/Proofs/IOSafetyLoops.lean": "14e3c4333bd36066c64d20ba44807cdcabe2d8b7d4ab3df0539ccde9cca32b90",
-        "bench/repairs/tritonbench_g/softmax_optimize/Proofs/Input.lean": "3974fcd79d9b404a35e405491929b294641d25c93ff2f4867283f2cdb2432fcc",
+        "bench/repairs/tritonbench_g/softmax_optimize/Proofs/IOSafetyBodies.lean": "bacaacba9526c23a9609c865d9fc63c397207ab3a5e66c505725ebd0b8ee0ccd",
+        "bench/repairs/tritonbench_g/softmax_optimize/Proofs/IOSafetyLoops.lean": "17169752af00a86e27f9e2900df6afbe691afe8f061ed66f5ef843331040d930",
+        "bench/repairs/tritonbench_g/softmax_optimize/Proofs/Input.lean": "58854742d455873ad1209f1c489945adb46dd248720ecb358b195269bdd86560",
         "bench/repairs/tritonbench_g/softmax_optimize/Proofs/KernelAlgebra.lean": "5c32e776a0cbd98c390baad21af9df75b69fdb51f5b844829b141d45503ecec2",
         "bench/repairs/tritonbench_g/softmax_optimize/Proofs/KernelNative.lean": "7e5d5b7904e5b12b0a2227089d91d213edccd9d85dc5e804cc90a81effcfb5f3",
         "bench/repairs/tritonbench_g/softmax_optimize/Proofs/KernelNativeResults.lean": "dfbda61f5731dc01cf16ff3de4e5b3c6e5d70a6ad27acb4db07fd1d78477a9df",
@@ -78047,20 +78074,22 @@
         "bench/repairs/tritonbench_g/softmax_optimize/Proofs/NativeProgram.lean": "84e7b9c922c88151288cc2d9ca1b9c5171dff6616f99337db536707cc5347a06",
         "bench/repairs/tritonbench_g/softmax_optimize/Proofs/NativeStores.lean": "149cabcf6a9f5f40b1c0abc21090cd0fbe0477bb22882982dbf0013bfe110f8e",
         "bench/repairs/tritonbench_g/softmax_optimize/Proofs/Output.lean": "0653417d020a2109faa77250e907bd9743c66aa44450958669bda5bd31696565",
-        "bench/repairs/tritonbench_g/softmax_optimize/Proofs/OutputBodies.lean": "7c128b86a0a30f177187bb19f56bfbc320ce50eafd19a2131382a13e2f59437e",
-        "bench/repairs/tritonbench_g/softmax_optimize/Proofs/OutputProperties.lean": "f1cff351f26242b3e3776d8ff278d7e0773654248bd47d47f71d8caa10a17289",
+        "bench/repairs/tritonbench_g/softmax_optimize/Proofs/OutputBodies.lean": "d6463c24616ee9223defe8a7b66d1b127c69c8d2f4589bd5a4a4db6ce9d1fe51",
+        "bench/repairs/tritonbench_g/softmax_optimize/Proofs/OutputProperties.lean": "c1adc02fd7ae41e7f2d36f0478624be893385ef0198ec150a691f0517d3232e9",
         "bench/repairs/tritonbench_g/softmax_optimize/Proofs/Pointers.lean": "268eeb160d26d2ce9c82be9416d55dc98c090ee119b399ed6cae6914f0f13d11",
-        "bench/repairs/tritonbench_g/softmax_optimize/Proofs/Primitive.lean": "99b555eda2c21f6ef9430c642778307c1e7bdb5901966c6fc42541efbf14b99c",
+        "bench/repairs/tritonbench_g/softmax_optimize/Proofs/Primitive.lean": "d0ce510179079f0a7a865266be1b02595d0d73b044434bbd67b0336066a19466",
         "bench/repairs/tritonbench_g/softmax_optimize/Proofs/Profile.lean": "75f3427b90f859248b27d492e71dbb6ce4ce1c81a9e9f9d4c7961df468ad83d2",
         "bench/repairs/tritonbench_g/softmax_optimize/Proofs/Recurrence.lean": "f4abe5c89eb8baa1d5e798f5be7c17cbbaff83fd4cfbb37d76dfbc689096ed43",
-        "bench/repairs/tritonbench_g/softmax_optimize/Proofs/Reduction.lean": "8ff319e4b0cf83894a5bc72db314eb80b12da32bdf12dd7bc1a8333d9a309ebd",
+        "bench/repairs/tritonbench_g/softmax_optimize/Proofs/Reduction.lean": "47381bd570b06150625f9aad1817e6dcbfe3c38a6bc8fc119cd3c4f8ce57c947",
         "bench/repairs/tritonbench_g/softmax_optimize/Proofs/RowGraph.lean": "f38808c13ec856c2daec8baeed222b993d110f40cd3b847b56794fd7e16e650d",
-        "bench/repairs/tritonbench_g/softmax_optimize/Proofs/SecondLoops.lean": "3c4a8b624c2e29994a828eaf00bc8ee3663141770d057399d682ca71e10f7043",
-        "bench/repairs/tritonbench_g/softmax_optimize/Proofs/SecondPass.lean": "288336146634d273c0900da086b2e83075253ad1bfd2c8aeedf1afcf82516448",
-        "bench/repairs/tritonbench_g/softmax_optimize/Proofs/Source.lean": "ce5535bfcd4a94be03a61c4646e1557fb37896bacaee6bfbb9a1fc933e67f268",
-        "bench/repairs/tritonbench_g/softmax_optimize/Proofs/SourceCandidate.lean": "e156957794d4500fd3c431fb174a060feb07c81c7635c6666268631a193c9cdf",
+        "bench/repairs/tritonbench_g/softmax_optimize/Proofs/SecondLoops.lean": "3a789705d581e4e2e54eb387bd8843a25ffcfae5a641b14563152cf68bd77b29",
+        "bench/repairs/tritonbench_g/softmax_optimize/Proofs/SecondPass.lean": "411819d73f7685a31bbf08bc3a9ca1510968132fd49444f2aeea307e79e9ef70",
+        "bench/repairs/tritonbench_g/softmax_optimize/Proofs/Source.lean": "ee074dcb8da0f9bf45463c303b4b7648d48e83a326eca4a90cc2ece59a59a42e",
+        "bench/repairs/tritonbench_g/softmax_optimize/Proofs/SourceCandidate.lean": "30e92a8eb46f1fd20d37e2d2a9f5dc837c81cfcf8ecf67250a7cc93892d1c8dc",
         "bench/repairs/tritonbench_g/softmax_optimize/Proofs/TensorBinding.lean": "2c2e52326d8e2cd684d2fe137acb6cae32b7a24eec188d94e9b97d88c86dd910",
-        "bench/repairs/tritonbench_g/softmax_optimize/Proofs/TypedSource.lean": "edad95790f452ea1d1da88db0cd3d58168842b83f98fec656f070940f92ead8a"
+        "bench/repairs/tritonbench_g/softmax_optimize/Proofs/TypedSource.lean": "d97d674e4e3c8714e5009f7ea06ec7e7a474afda15c1d9ec64715cc49702f365",
+        "bench/repairs/tritonbench_g/softmax_optimize/README.md": "b88729f717a0c0bad805e7a8f849ea4358e6195cc2dda2131dac3a75aad9734d",
+        "bench/repairs/tritonbench_g/softmax_optimize/jit-correspondence.json": "0f7086535e556da35166f633cc3d26f6c2ff354338069a5877db4ac08ad9de1d"
       },
       "source_pin_provenance": {
         "bench/repairs/tritonbench_g/softmax_optimize/Contract.lean": {
@@ -78354,43 +78383,27 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/softmax_optimize.json",
-        "sha256": "5d307071b99f6abc771dcaee78acab4250f7726fcb5e86d39ee2f12cff941625",
-        "task": "softmax_optimize"
+        "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/review.json",
+        "sha256": "b089df9f9e5d6488e010549eeabbced4059c7ff4063d743fcf1cb4facb6f0f80"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "limits": [
-          "The official comparator is unavailable; no comparator PASS is claimed.",
-          "External pinned Lean/Mathlib artifacts are reused.",
-          "No new GPU or numerical experiment. The existing matmul_leakyrelu numerical deferral remains.",
-          "Historical cache/tmp evidence bytes were not recovered. Current build and axiom checks replace the missing proof receipts, not the historical hashes or independent-review claim.",
-          "Seven optional historical KV ABI/raw/host/Tensor/backing modules remain unrecovered and outside the selected main source scope."
-        ],
+        "scope": "All 54 task roots and joint import pass warm and independently from empty project artifacts. All 3303 cumulative public/deep roots and joint imports pass warm; no shared core changes.",
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/selected-build.json",
-            "sha256": "924f91ab59eb29597e96e7fc7a2c001bce1517ca9b87b27dddf66fd1cd2c843d"
+            "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/integration-final.log.gz",
+            "sha256": "1a05cd0d53e2dd4c158a776b06469f04d3186b96dd2f54f7e6b69056694a95af"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/softmax_optimize.lean",
-            "sha256": "313eff0d29be4c676e2c0ed9a34669d6967c608cba1d0905120db5f20acd8b29"
-          },
-          {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/softmax_optimize.log.gz",
-            "sha256": "85dedef64ee895e4a66323ee19db1e3906e7af8c2cc5715ea3215a26bc80bdb6"
-          },
-          {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/review.json",
-            "sha256": "ee91221d2a053fc635b53f67a17c35b9789058bfe5967a3f354f339fe4f0ef9d"
+            "path": "bench/review-checkpoints/2026-10-27/native-softmax-optimize-function-bodies/final-clean-build.log.gz",
+            "sha256": "9c93d02ab7f51bea0f323e6ca467048187498d57e3671f9c8063d23559eae8e7"
           }
         ],
-        "joint_import_exit_code": 0,
-        "headline_count": 2,
-        "previous_validation": {
-          "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/superseded-proof-evidence.json.gz",
-          "sha256": "707ace709b2347ce26ab517cb2e4dbbfaa859eedf1634743b30f2da77cfb38e4"
-        }
+        "limits": [
+          "Official comparator isolation and optional Torch checker unavailable; actual attempts retained.",
+          "Known unchanged numerical receipt hash failure.",
+          "Corpus remains incomplete; merge awaits explicit human review."
+        ]
       },
       "field_provenance": {
         "mathematical_target": [

@@ -1,0 +1,50 @@
+{
+  "code_commit": "8974950b3dc42560ec84feb1ba46ccaa04afd345",
+  "raw_bodies_and_wrapper": [
+    {
+      "name": "raw-body-check",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/softmax_optimize/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "8974950b3dc42560ec84feb1ba46ccaa04afd345",
+      "log": "/tmp/softmax82-raw-body-check.log",
+      "status": "PASS"
+    },
+    {
+      "name": "wrapper-source-check",
+      "command": [
+        "python3",
+        "/tmp/softmax82-check-pair.py"
+      ],
+      "exit_code": 0,
+      "code_commit": "8974950b3dc42560ec84feb1ba46ccaa04afd345",
+      "log": "/tmp/softmax82-wrapper-source-check.log",
+      "status": "PASS"
+    }
+  ],
+  "cpu": {
+    "name": "cpu-final",
+    "command": [
+      "python3",
+      "bench/repairs/tritonbench_g/softmax_optimize/check_index_candidate.py"
+    ],
+    "exit_code": 1,
+    "code_commit": "8974950b3dc42560ec84feb1ba46ccaa04afd345",
+    "log": "/tmp/softmax82-cpu-final.log",
+    "status": "UNAVAILABLE"
+  },
+  "unchanged_selected_source_and_wrapper": {
+    "candidate_path": "bench/repairs/tritonbench_g/softmax_optimize/softmax_optimize_index_commuted.py",
+    "candidate_sha256": "ef4ae9b47d1a31db2bc42e7427ab957d33be1c14988e3f8478f7dd36b0c29edd",
+    "candidate_and_wrapper_unchanged": true,
+    "path": "bench/repairs/tritonbench_g/softmax_optimize/softmax_optimize_repaired.py",
+    "source_sha256": "b019cf887fd78db7708f38955364d6409f4a126ca2db0aba2b0ec154d304251c",
+    "status": "PASS",
+    "whole_selected_python_and_wrapper_unchanged": true
+  },
+  "scope": "Exact original helper and both unchanged original/candidate four-loop Python bodies; all casts, guards, masks, loop bounds and stores. Candidate retains exactly four integer address commutations. Runtime N supplied outside the body; complete Real, concrete FP, failure, frame and safety proofs replayed. No shared frontend change or GPU/numerical experiment."
+}
