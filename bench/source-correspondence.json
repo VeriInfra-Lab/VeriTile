@@ -7,8 +7,8 @@
     "examples": 19,
     "task_status": {
       "no_selected_jit_resolved": 2,
-      "selected_body_copy_checked": 94,
-      "uncovered_jit_functions": 87
+      "selected_body_copy_checked": 95,
+      "uncovered_jit_functions": 86
     },
     "example_status": {
       "authored_counterpart_body_copy_checked": 2,
@@ -16,13 +16,13 @@
       "spec_derived_body_copy_checked": 15
     },
     "selected_jit_functions": 328,
-    "uncovered_selected_jit_functions": 183,
-    "primary_files_with_int64_screen_warning": 24,
+    "uncovered_selected_jit_functions": 179,
+    "primary_files_with_int64_screen_warning": 23,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 64,
-        "antiquotes": 72,
-        "dsl_loop": 1,
+        "in_body_type_directives": 63,
+        "antiquotes": 71,
+        "dsl_loop": 0,
         "dsl_numeric_helpers": 8
       },
       "examples": {
@@ -4536,10 +4536,10 @@
       "source_provenance": "selected_revision",
       "lean_screen": {
         "quotations": 8,
-        "in_body_type_directives": 8,
-        "antiquotes": 84,
-        "dsl_assignment": 9,
-        "dsl_loop": 8,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 53,
+        "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
       },
@@ -4637,31 +4637,201 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "diag_ssm_forward_kernel",
+          "lean_definition": "forwardTyped",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "length": "length",
+            "batch_size": "batch_size",
+            "dim": "dim"
+          },
+          "statements": 10,
+          "runtime_parameters": {
+            "length": "integer",
+            "batch_size": "integer",
+            "dim": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/repairs/tritonbench_g/diag_ssm_triton/diag_ssm_triton_repaired.py",
-          "function": "diag_ssm_forward_kernel"
+          "lean": "bench/repairs/tritonbench_g/diag_ssm_triton/Kernels.lean"
         },
         {
-          "python": "bench/repairs/tritonbench_g/diag_ssm_triton/diag_ssm_triton_repaired.py",
-          "function": "diag_ssm_backward_kernel"
+          "python_function": "diag_ssm_forward_kernel_index_commuted",
+          "lean_definition": "forwardIndexCommuted",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "length": "length",
+            "batch_size": "batch_size",
+            "dim": "dim"
+          },
+          "statements": 10,
+          "runtime_parameters": {
+            "length": "integer",
+            "batch_size": "integer",
+            "dim": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
+          "python": "bench/repairs/tritonbench_g/diag_ssm_triton/candidate_kernels.py",
+          "lean": "bench/repairs/tritonbench_g/diag_ssm_triton/Kernels.lean"
         },
         {
+          "python_function": "diag_ssm_backward_kernel",
+          "lean_definition": "backwardTyped",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "length": "length",
+            "batch_size": "batch_size",
+            "dim": "dim"
+          },
+          "statements": 13,
+          "runtime_parameters": {
+            "length": "integer",
+            "batch_size": "integer",
+            "dim": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/repairs/tritonbench_g/diag_ssm_triton/diag_ssm_triton_repaired.py",
-          "function": "diag_ssm_forward_kernel_complex"
+          "lean": "bench/repairs/tritonbench_g/diag_ssm_triton/Kernels.lean"
         },
         {
+          "python_function": "diag_ssm_backward_kernel_index_commuted",
+          "lean_definition": "backwardIndexCommuted",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "length": "length",
+            "batch_size": "batch_size",
+            "dim": "dim"
+          },
+          "statements": 13,
+          "runtime_parameters": {
+            "length": "integer",
+            "batch_size": "integer",
+            "dim": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
+          "python": "bench/repairs/tritonbench_g/diag_ssm_triton/candidate_kernels.py",
+          "lean": "bench/repairs/tritonbench_g/diag_ssm_triton/Kernels.lean"
+        },
+        {
+          "python_function": "diag_ssm_forward_kernel_complex",
+          "lean_definition": "complexForwardTyped",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "length": "length",
+            "batch_size": "batch_size",
+            "dim": "dim"
+          },
+          "statements": 12,
+          "runtime_parameters": {
+            "length": "integer",
+            "batch_size": "integer",
+            "dim": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/repairs/tritonbench_g/diag_ssm_triton/diag_ssm_triton_repaired.py",
-          "function": "diag_ssm_backward_kernel_complex"
+          "lean": "bench/repairs/tritonbench_g/diag_ssm_triton/Kernels.lean"
+        },
+        {
+          "python_function": "diag_ssm_forward_kernel_complex_index_commuted",
+          "lean_definition": "complexForwardIndexCommuted",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "length": "length",
+            "batch_size": "batch_size",
+            "dim": "dim"
+          },
+          "statements": 12,
+          "runtime_parameters": {
+            "length": "integer",
+            "batch_size": "integer",
+            "dim": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
+          "python": "bench/repairs/tritonbench_g/diag_ssm_triton/candidate_kernels.py",
+          "lean": "bench/repairs/tritonbench_g/diag_ssm_triton/Kernels.lean"
+        },
+        {
+          "python_function": "diag_ssm_backward_kernel_complex",
+          "lean_definition": "complexBackwardTyped",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "length": "length",
+            "batch_size": "batch_size",
+            "dim": "dim"
+          },
+          "statements": 18,
+          "runtime_parameters": {
+            "length": "integer",
+            "batch_size": "integer",
+            "dim": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
+          "python": "bench/repairs/tritonbench_g/diag_ssm_triton/diag_ssm_triton_repaired.py",
+          "lean": "bench/repairs/tritonbench_g/diag_ssm_triton/Kernels.lean"
+        },
+        {
+          "python_function": "diag_ssm_backward_kernel_complex_index_commuted",
+          "lean_definition": "complexBackwardIndexCommuted",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "length": "length",
+            "batch_size": "batch_size",
+            "dim": "dim"
+          },
+          "statements": 18,
+          "runtime_parameters": {
+            "length": "integer",
+            "batch_size": "integer",
+            "dim": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
+          "python": "bench/repairs/tritonbench_g/diag_ssm_triton/candidate_kernels.py",
+          "lean": "bench/repairs/tritonbench_g/diag_ssm_triton/Kernels.lean"
         }
       ],
-      "int64_screen": "cast_not_visible_in_primary_quotation",
+      "uncovered_selected_jits": [],
+      "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/diag_ssm_triton/Kernels.lean": "7e973ace4bd72529aefa2d99890d67fbd00bc26ee80e30bcaef62b0b82fd0912",
-        "bench/repairs/tritonbench_g/diag_ssm_triton/diag_ssm_triton_repaired.py": "f4093c767a2e53fed90c15415e37f58cb3843437a3c434ffaa2ec5e83982f340"
+        "bench/repairs/tritonbench_g/diag_ssm_triton/Kernels.lean": "025d5567db4cd47b29d33c8464ff36e7725b44ae3af7df66154245c0200cf68d",
+        "bench/repairs/tritonbench_g/diag_ssm_triton/candidate_kernels.py": "8cddf9a18ae4fbc2f43e754db6e4dd64ff3db83441fc0704ba26eb47c0fd1651",
+        "bench/repairs/tritonbench_g/diag_ssm_triton/diag_ssm_triton_repaired.py": "f4093c767a2e53fed90c15415e37f58cb3843437a3c434ffaa2ec5e83982f340",
+        "bench/repairs/tritonbench_g/diag_ssm_triton/jit-correspondence.json": "fad68a367f91e043f4bd626b991153cdfc37f2ea1ae00aa3a00e54a73bd8f35f"
       }
     },
     {

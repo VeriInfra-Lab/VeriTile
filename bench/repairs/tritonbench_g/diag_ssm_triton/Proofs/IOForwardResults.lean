@@ -57,8 +57,8 @@ theorem forward_complex_correct (p : ForwardLayout) (length : Nat) :
   refine ⟨?_,?_⟩
   · intro bounds hb
     have h := ComplexForwardSafety.trace_safe p u length bounds (forward_bounds_complex p length u v bounds hb)
-    simpa only [forwardIO,forwardKernel,↓reduceIte,Kernel.TraceSafe,Kernels.ReadableSource.complex_forward_preserved,
-      Erasure.complexForward_body] using h
+    have actual := (SourceComplex.forward_trace p length u bounds).mpr h
+    simpa only [forwardIO, forwardKernel, ↓reduceIte] using actual
   · obtain ⟨final,he,ho,hf⟩ := RegionCorrectness.complex_forward p length u
     refine ⟨final,he,?_,?_⟩
     · intro o k ha

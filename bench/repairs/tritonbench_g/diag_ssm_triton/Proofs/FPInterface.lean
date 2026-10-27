@@ -1,5 +1,5 @@
 import bench.repairs.tritonbench_g.diag_ssm_triton.Proofs.FPExecution
-import bench.tritonbench_g.diag_ssm_triton.Proofs.FP
+import bench.repairs.tritonbench_g.diag_ssm_triton.Proofs.SourcePair
 import VeriTile.Triton.Float.ProfiledSoundness
 
 /-! Successful full-memory equivalence for the existing index-commuted
@@ -33,9 +33,9 @@ theorem forward_equiv (s x transition y : RegionName) (length batch dim block : 
   · rfl
   intro α _ M D hM u _
   obtain ⟨v, hv⟩ := FPExecution.forward_success (FP.ProfiledRewrite.engine M) s x transition y length batch dim block u
-  have equal := FP.ProfiledRewrite.sound
-    (FPProof.forward_equivalent .fp32 s x transition y length batch dim block) α M D hM u
-    (by simp [FPProof.forwardProgram])
+  have equal := SourcePair.execution (FP.ProfiledRewrite.engine M) .forward
+    {s := s, x := x, transition := transition, y := y, gradS := s, gradX := x, gradTransition := transition, gradY := y,
+      length := length, batch := batch, dim := dim, block := block} u
   exact ⟨v, v, hv, equal.symm.trans hv, rfl⟩
 
 #print_fp_assumptions forward_equiv
@@ -55,9 +55,9 @@ theorem backward_equiv (s transition y gs gx gl gy : RegionName) (length batch d
   · rfl
   intro α _ M D hM u _
   obtain ⟨v, hv⟩ := FPExecution.backward_success (FP.ProfiledRewrite.engine M) s transition y gs gx gl gy length batch dim block u
-  have equal := FP.ProfiledRewrite.sound
-    (FPProof.backward_equivalent .fp32 s transition y gs gx gl gy length batch dim block) α M D hM u
-    (by simp [FPProof.backwardProgram])
+  have equal := SourcePair.execution (FP.ProfiledRewrite.engine M) .backward
+    {s := s, x := s, transition := transition, y := y, gradS := gs, gradX := gx, gradTransition := gl, gradY := gy,
+      length := length, batch := batch, dim := dim, block := block} u
   exact ⟨v, v, hv, equal.symm.trans hv, rfl⟩
 
 #print_fp_assumptions backward_equiv
@@ -77,9 +77,9 @@ theorem complexForward_equiv (s x y transition : RegionName) (length batch dim b
   · rfl
   intro α _ M D hM u _
   obtain ⟨v, hv⟩ := FPExecution.complexForward_success (FP.ProfiledRewrite.engine M) s x y transition length batch dim block u
-  have equal := FP.ProfiledRewrite.sound
-    (FPProof.complexForward_equivalent s x y transition length batch dim block) α M D hM u
-    (by simp [FPProof.complexForwardProgram])
+  have equal := SourcePair.execution (FP.ProfiledRewrite.engine M) .complexForward
+    {s := s, x := x, transition := transition, y := y, gradS := s, gradX := x, gradTransition := transition, gradY := y,
+      length := length, batch := batch, dim := dim, block := block} u
   exact ⟨v, v, hv, equal.symm.trans hv, rfl⟩
 
 #print_fp_assumptions complexForward_equiv
@@ -99,9 +99,9 @@ theorem complexBackward_equiv (s transition y gs gx gl gy : RegionName) (length 
   · rfl
   intro α _ M D hM u _
   obtain ⟨v, hv⟩ := FPExecution.complexBackward_success (FP.ProfiledRewrite.engine M) s transition y gs gx gl gy length batch dim block u
-  have equal := FP.ProfiledRewrite.sound
-    (FPProof.complexBackward_equivalent s transition y gs gx gl gy length batch dim block) α M D hM u
-    (by simp [FPProof.complexBackwardProgram])
+  have equal := SourcePair.execution (FP.ProfiledRewrite.engine M) .complexBackward
+    {s := s, x := s, transition := transition, y := y, gradS := gs, gradX := gx, gradTransition := gl, gradY := gy,
+      length := length, batch := batch, dim := dim, block := block} u
   exact ⟨v, v, hv, equal.symm.trans hv, rfl⟩
 
 #print_fp_assumptions complexBackward_equiv

@@ -377,6 +377,16 @@ private partial def checkDivRN (pointers : Types) (values : Values) (raw : Synta
 private def checkAssignmentLoads (pointers : Types) (values : Values)
     (value : TSyntax `tritonExpr) : MacroM Unit := do
   checkDivRN pointers values value.raw
+  -- Negating one complete load keeps its floating load event and then its
+  -- ordered negation. Other nested load expressions still fail closed.
+  if let `(tritonExpr| -$loaded:tritonExpr) := value then
+    let isCompleteLoad := match loaded with
+      | `(tritonExpr| tl.load($_:tritonExpr $[, $_:tritonMemKwarg]*)) => Bool.true
+      | `(tritonExpr| tl.load($_:tritonExpr, $_:tritonExpr $[, $_:tritonMemKwarg]*)) => Bool.true
+      | _ => Bool.false
+    if isCompleteLoad then
+      rejectNestedLoads pointers loaded.raw Bool.true
+      return
   -- The existing integer frontend preserves a direct tl.cast(load(...), dtype)
   -- just like load(...).to(dtype). Integer reads have no floating load event.
   -- Keep arbitrary nested floating loads rejected: their load precision must
@@ -545,8 +555,14 @@ private partial def lowerWithState (pointers : Types) (values : Values)
           let expressions := #[x,y] ++ rhs
           unless targets.size == expressions.size do
             Macro.throwErrorAt stmt "tuple assignment needs one value per target"
+          -- A loop-carried tuple is checked per target below, against the
+          -- entry environment. Its dtype must remain invariant, and the
+          -- sequential IR still cannot capture an overwritten RHS register.
           if targets.any (fun id => invariants.any (fun entry => entry.1 == name id)) then
-            Macro.throwErrorAt stmt "unsupported statement involving a loop-carried source dtype"
+            unless expressions.all (fun value => match value with
+              | `(tritonExpr| $_:ident) => Bool.true
+              | _ => Bool.false) do
+              Macro.throwErrorAt stmt "unsupported statement involving a loop-carried source dtype"
           let mut overwritten : List Name := []
           for (id,value) in targets.zip expressions do
             if overwritten.any (fun target => readsTupleTarget target value.raw) then
