@@ -4,6 +4,12 @@ import VeriTile.Meta.StatementAudit
 namespace VeriTile.Tests.OptionalPointerBody
 open VeriTile.Triton
 
+/-- The optional-pointer infix must not reserve an ordinary Lean identifier. -/
+theorem ordinary_lean_names (is : Nat) :
+    (fun is : Nat => is + 1) is = is + 1 := rfl
+
+#axiomsClean ordinary_lean_names
+
 def signature : CallSignature where
   pointers := [("X", .fp32), ("M", .fp32), ("Y", .fp32)]
   optionalPointers := ["M"]

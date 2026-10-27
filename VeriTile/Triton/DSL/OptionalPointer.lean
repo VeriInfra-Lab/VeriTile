@@ -1,3 +1,4 @@
+import Lean.Parser.Extra
 import VeriTile.Triton.DSL.Syntax
 
 /-! Optional pointer tests are specialization metadata supplied by the caller.
@@ -7,8 +8,11 @@ not invent an address or a successful load for an absent argument. -/
 namespace VeriTile.Triton.DSL.OptionalPointer
 open Lean
 
-syntax:50 tritonExpr:51 " is " "not " "None" : tritonExpr
-syntax:50 tritonExpr:51 " is " "None" : tritonExpr
+/-- Include identifiers in Pratt dispatch without reserving `is` in Lean. -/
+meta def optionalIs := Lean.Parser.nonReservedSymbol "is" Bool.true
+
+syntax:50 tritonExpr:51 optionalIs &"not" &"None" : tritonExpr
+syntax:50 tritonExpr:51 optionalIs &"None" : tritonExpr
 
 abbrev Presence := List (Name × TSyntax `tritonExpr)
 
