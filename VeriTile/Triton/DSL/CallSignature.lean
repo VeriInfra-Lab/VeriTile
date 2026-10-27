@@ -1,3 +1,4 @@
+import VeriTile.Triton.DSL.ConstexprMask
 import VeriTile.Triton.DSL.PythonConstants
 import VeriTile.Triton.DSL.SourceIntrinsic
 import VeriTile.Triton.DSL.OptionalPointer
@@ -493,7 +494,7 @@ private partial def referencesSourceImports (names : List String) (raw : Syntax)
 the caller. Their source ABI remains in `scalars`, never in `constexpr`.
 Nat/Int carriers use the existing mathematical index projection;
 native signed-width bounds must still be established by the task's IO/contract. -/
-private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tritonStmt))
+private def elaborateCallCore (profile : TSyntax `term) (stmts : Array (TSyntax `tritonStmt))
     (callValues : Option (Array (TSyntax `tritonCallBinding)))
     (pointerOffsets : Option (Array (TSyntax `tritonCallBinding)) := none)
     (pointerPresence : Option (Array (TSyntax `tritonCallBinding)) := none) : TermElabM Expr := do
@@ -842,6 +843,43 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
         if e.isAppOfArity ``TypedStores.fp32CallValue 1 then some e.appArg! else
         if e.isAppOfArity ``Random.sourceIntCallValue 2 ||
             e.isAppOfArity ``Random.sourceNatCallValue 2 then some e.appArg! else none
+
+/-- A caller's Boolean constexpr may select differently shaped masks or None.
+Elaborate every possible specialization and retain the caller's actual Boolean
+selector. Runtime Boolean parameters never select this path. -/
+private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tritonStmt))
+    (callValues : Option (Array (TSyntax `tritonCallBinding)))
+    (pointerOffsets : Option (Array (TSyntax `tritonCallBinding)) := none)
+    (pointerPresence : Option (Array (TSyntax `tritonCallBinding)) := none) : TermElabM Expr := do
+  unless stmts.any (fun st => ConstexprMask.needed st.raw) do
+    return ← elaborateCallCore profile stmts callValues pointerOffsets pointerPresence
+  for stmt in stmts do rejectBodyMetadata stmt.raw
+  let signature ← elabTermEnsuringType profile (mkConst ``Triton.CallSignature)
+  let constants ← (← listValues (← mkAppM ``Triton.CallSignature.constexpr #[signature])).mapM stringValue
+  let mut booleans : List (Name × Expr) := []
+  for name in constants do
+    let id := Name.mkSimple name
+    let value ← elabTerm (mkIdent id) none
+    if (← whnf (← inferType value)).isConstOf ``Bool then
+      for stmt in stmts do
+        rejectArgumentMutation [id] stmt.raw "Boolean constexpr cannot be rebound during mask specialization"
+      booleans := booleans ++ [(id,value)]
+  let stmts ← liftMacroM <| stmts.mapM fun st => do
+    return (⟨← Inference.normalizeControlFlow st.raw⟩ : TSyntax `tritonStmt)
+  let rec cases (remaining : List (Name × Expr)) (choices : ConstexprMask.Choices) : TermElabM Expr := do
+    match remaining with
+    | [] =>
+        let body ← liftMacroM <| ConstexprMask.lower choices stmts
+        elaborateCallCore profile body callValues pointerOffsets pointerPresence
+    | (name,value) :: rest =>
+        let reduced ← whnf value
+        if reduced.isConstOf ``Bool.false then return ← cases rest ((name,Bool.false) :: choices)
+        if reduced.isConstOf ``Bool.true then return ← cases rest ((name,Bool.true) :: choices)
+        let no ← cases rest ((name,Bool.false) :: choices)
+        let yes ← cases rest ((name,Bool.true) :: choices)
+        let motive := mkLambda `flag BinderInfo.default (mkConst ``Bool) (mkConst ``Triton.ComputeKernel)
+        mkAppOptM ``Bool.casesOn #[some motive,some value,some no,some yes]
+  cases booleans []
 
 /-- The call provides the dtype; the copied function retains dtype queries.
 Each finite dtype case goes through the same ordinary checked call elaborator. -/

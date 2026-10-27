@@ -7,8 +7,8 @@
     "examples": 19,
     "task_status": {
       "no_selected_jit_resolved": 2,
-      "selected_body_copy_checked": 92,
-      "uncovered_jit_functions": 89
+      "selected_body_copy_checked": 93,
+      "uncovered_jit_functions": 88
     },
     "example_status": {
       "authored_counterpart_body_copy_checked": 2,
@@ -16,12 +16,12 @@
       "spec_derived_body_copy_checked": 15
     },
     "selected_jit_functions": 328,
-    "uncovered_selected_jit_functions": 186,
+    "uncovered_selected_jit_functions": 185,
     "primary_files_with_int64_screen_warning": 25,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 66,
-        "antiquotes": 74,
+        "in_body_type_directives": 65,
+        "antiquotes": 73,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 8
       },
@@ -1987,13 +1987,13 @@
       "lean": "bench/repairs/tritonbench_g/bmm_optimized_grid_axes_checked/Kernels.lean",
       "source_provenance": "selected_revision",
       "lean_screen": {
-        "quotations": 16,
-        "in_body_type_directives": 16,
-        "antiquotes": 536,
-        "dsl_assignment": 5,
+        "quotations": 2,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 34,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 16
+        "load_dtype_extension": 2
       },
       "python_jits": [
         {
@@ -2003,19 +2003,75 @@
           "explicit_int64_casts": []
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "bmm_kernel",
+          "lean_definition": "kernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "M": "p.M",
+            "N": "p.N",
+            "K": "p.K"
+          },
+          "statements": 20,
+          "runtime_parameters": {
+            "M": "i32",
+            "N": "i32",
+            "K": "i32"
+          },
+          "constexpr_parameters": [
+            "DIVISIBLE_K",
+            "DIVISIBLE_M",
+            "DIVISIBLE_N",
+            "GROUP_M",
+            "TILE_K",
+            "TILE_M",
+            "TILE_N"
+          ],
           "python": "bench/repairs/tritonbench_g/bmm_optimized_grid_axes_checked/bmm_optimized_grid_axes_checked.py",
-          "function": "bmm_kernel"
+          "lean": "bench/repairs/tritonbench_g/bmm_optimized_grid_axes_checked/Kernels.lean"
+        },
+        {
+          "python_function": "bmm_quotient_remainder",
+          "lean_definition": "quotientRemainder",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "M": "p.M",
+            "N": "p.N",
+            "K": "p.K"
+          },
+          "statements": 20,
+          "runtime_parameters": {
+            "M": "i32",
+            "N": "i32",
+            "K": "i32"
+          },
+          "constexpr_parameters": [
+            "DIVISIBLE_K",
+            "DIVISIBLE_M",
+            "DIVISIBLE_N",
+            "GROUP_M",
+            "TILE_K",
+            "TILE_M",
+            "TILE_N"
+          ],
+          "python": "bench/repairs/tritonbench_g/bmm_optimized_grid_axes_checked/candidate_kernels.py",
+          "lean": "bench/repairs/tritonbench_g/bmm_optimized_grid_axes_checked/Kernels.lean"
         }
       ],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/bmm_optimized_grid_axes_checked/Kernels.lean": "5de6aae59f890d80e8ee2ce77fdb9799976896ee0036c837daf5a3bb9315f877",
-        "bench/repairs/tritonbench_g/bmm_optimized_grid_axes_checked/bmm_optimized_grid_axes_checked.py": "0342f9f81c4bf02b24166d996bd49392a928422e0c7dc9d4a0d96bf49a7f2ed8"
+        "bench/repairs/tritonbench_g/bmm_optimized_grid_axes_checked/Kernels.lean": "f2b5abbd4154b6fe69ffde13466aeed4153011f7b56a238d24e9b2e83d34d57a",
+        "bench/repairs/tritonbench_g/bmm_optimized_grid_axes_checked/bmm_optimized_grid_axes_checked.py": "0342f9f81c4bf02b24166d996bd49392a928422e0c7dc9d4a0d96bf49a7f2ed8",
+        "bench/repairs/tritonbench_g/bmm_optimized_grid_axes_checked/candidate_kernels.py": "a2e0085f57cefa6e53b79b80a0b7c33be7fe7001b3fefc30c8ed07fbcb4b869b",
+        "bench/repairs/tritonbench_g/bmm_optimized_grid_axes_checked/jit-correspondence.json": "e29d8b0766e20a31257865dc20b34c506ac008a4624edc59c7b0e668d841df28"
       }
     },
     {

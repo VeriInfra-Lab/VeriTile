@@ -1557,6 +1557,61 @@ class SoftmaxTriton3BodyTests(unittest.TestCase):
             with self.subTest(before=before), self.assertRaises(ValueError):
                 self.compare(self.lean.replace(before, after), self.records[1])
 
+class BmmConstexprBodyTests(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/bmm_optimized_grid_axes_checked"
+
+    def test_two_complete_bodies(self):
+        pairs = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual([p["statements"] for p in pairs], [20,20])
+        self.assertTrue(all(p["mode"] == "pasted_body" for p in pairs))
+
+    def test_masks_branches_tuple_loop_and_dot_cannot_drift(self):
+        records = json.loads((self.directory / "jit-correspondence.json").read_text())
+        for record in records:
+            python = (ROOT / record["python"]).read_text()
+            lean = (ROOT / record["lean"]).read_text()
+            for before, after in [
+                ("mask_a = None", "mask_a = True"),
+                ("if DIVISIBLE_M and DIVISIBLE_K:", "if DIVISIBLE_M:"),
+                ("pid_m, pid_n = pidx, pidy", "pid_m, pid_n = pidy, pidx"),
+                ("for _ in range(num_iters):", "for _ in range(num_iters + 1):"),
+                ("mask_b = mask_k[:, None] & mask_n[None, :]", "mask_b = mask_n[None, :]"),
+                ("tl.dot(a, b, allow_tf32=False)", "tl.dot(a, b, allow_tf32=True)"),
+                ("tl.store(o_ptrs, o, mask_c)", "tl.store(o_ptrs, o)"),
+            ]:
+                self.assertIn(before, lean)
+                with self.subTest(definition=record["lean_definition"], change=before), self.assertRaises(ValueError):
+                    check(python,lean.replace(before,after),**{k:v for k,v in record.items() if k not in ["python","lean"]})
+
+    def test_runtime_sizes_and_constexpr_flags_keep_their_types(self):
+        record=json.loads((self.directory / "jit-correspondence.json").read_text())[0]
+        python=(ROOT/record["python"]).read_text();lean=(ROOT/record["lean"]).read_text()
+        for before,after in [('("M",.i32)','("M",.i64)'),
+                             ('"DIVISIBLE_K"]','"DIFFERENT_FLAG"]'),
+                             ('M := p.M, N := p.N, K := p.K','M := p.N, N := p.N, K := p.K')]:
+            self.assertIn(before,lean)
+            with self.subTest(change=before),self.assertRaises(ValueError):
+                check(python,lean.replace(before,after),**{k:v for k,v in record.items() if k not in ["python","lean"]})
+
+    def test_candidate_changes_only_the_existing_integer_remainder(self):
+        import copy
+        original = ast.parse((self.directory / "bmm_optimized_grid_axes_checked.py").read_text())
+        candidate = ast.parse((self.directory / "candidate_kernels.py").read_text())
+        expected = copy.deepcopy(next(n for n in original.body if isinstance(n, ast.FunctionDef) and n.name == "bmm_kernel"))
+        expected.name = "bmm_quotient_remainder"
+        assignments = [n for n in ast.walk(expected) if isinstance(n, ast.Assign)
+                       and any(isinstance(t, ast.Name) and t.id == "inner_group_id" for t in n.targets)]
+        self.assertEqual(len(assignments),1)
+        self.assertEqual(ast.unparse(assignments[0].value),"pid % num_CTA_per_group")
+        assignments[0].value = ast.parse("pid - (pid // num_CTA_per_group) * num_CTA_per_group",mode="eval").body
+        actual = next(n for n in candidate.body if isinstance(n,ast.FunctionDef) and n.name == expected.name)
+        self.assertEqual(ast.dump(expected,include_attributes=False),ast.dump(actual,include_attributes=False))
+        for name in ["heur_divisible_m","heur_divisible_n","heur_divisible_k"]:
+            left=next(n for n in original.body if isinstance(n,ast.FunctionDef) and n.name == name)
+            right=next(n for n in candidate.body if isinstance(n,ast.FunctionDef) and n.name == name)
+            self.assertEqual(ast.dump(left,include_attributes=False),ast.dump(right,include_attributes=False))
+
+
 class GegluFunctionBodyTests(unittest.TestCase):
     directory = ROOT / "bench/repairs/tritonbench_g/geglu_tanh_triton"
 
