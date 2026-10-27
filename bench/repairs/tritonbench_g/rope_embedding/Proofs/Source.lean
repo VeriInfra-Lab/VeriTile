@@ -15,7 +15,7 @@ structure Parameters where
   (rowStride cosineStride sineStride length dimension heads width : Nat)
 
 /-- The unchanged four-head body, including both loaded halves, both stores,
-the backwards sign, load-to-sine casts and FP32 output conversion. -/
+the backwards sign, load-to-sine casts and ordinary FP32 stores. -/
 def source (p : Parameters) (backward : Bool) : ComputeKernel :=
   Kernels.rope p.input p.cosine p.sine
     p.rowStride p.cosineStride p.sineStride p.length p.dimension p.heads p.width backward
@@ -82,7 +82,7 @@ def value {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters)
       (M.binary (some .fp32) .real .mul b (cs i)) (M.binary (some .fp32) .real .mul a (ss i))
     else M.binary (some .fp32) .real .sub
       (M.binary (some .fp32) .real .mul a (cs i)) (M.binary (some .fp32) .real .mul b (ss i))
-  M.cast (some .fp32) .real .real v
+  v
 
 def written {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters)
     (row head : Nat) (cs ss : Lane p → α) (s : State α) : State α :=
