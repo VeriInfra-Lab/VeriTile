@@ -1,0 +1,140 @@
+[
+  {
+    "name": "focus-final",
+    "command": [
+      "lake",
+      "build",
+      "bench.repairs.tritonbench_g.isfinite_kernel.Contract",
+      "bench.repairs.tritonbench_g.isfinite_kernel.Correct",
+      "bench.repairs.tritonbench_g.isfinite_kernel.FPEquiv",
+      "bench.repairs.tritonbench_g.isfinite_kernel.IO",
+      "bench.repairs.tritonbench_g.isfinite_kernel.Kernels",
+      "bench.repairs.tritonbench_g.isfinite_kernel.Misc.LegacyCorrect",
+      "bench.repairs.tritonbench_g.isfinite_kernel.Misc.LegacyFPEquiv",
+      "bench.repairs.tritonbench_g.isfinite_kernel.Misc.NativeEndpoints",
+      "bench.repairs.tritonbench_g.isfinite_kernel.Misc.RealEndpoints",
+      "bench.repairs.tritonbench_g.isfinite_kernel.Misc.TensorBridge",
+      "bench.repairs.tritonbench_g.isfinite_kernel.Misc.WordCorrect",
+      "bench.repairs.tritonbench_g.isfinite_kernel.Proofs.AccessSafety",
+      "bench.repairs.tritonbench_g.isfinite_kernel.Proofs.Contract",
+      "bench.repairs.tritonbench_g.isfinite_kernel.Proofs.EquivIO",
+      "bench.repairs.tritonbench_g.isfinite_kernel.Proofs.Equivalence",
+      "bench.repairs.tritonbench_g.isfinite_kernel.Proofs.Finite",
+      "bench.repairs.tritonbench_g.isfinite_kernel.Proofs.Host",
+      "bench.repairs.tritonbench_g.isfinite_kernel.Proofs.IO",
+      "bench.repairs.tritonbench_g.isfinite_kernel.Proofs.Kernel",
+      "bench.repairs.tritonbench_g.isfinite_kernel.Proofs.LegacySurface",
+      "bench.repairs.tritonbench_g.isfinite_kernel.Proofs.LogicalReader",
+      "bench.repairs.tritonbench_g.isfinite_kernel.Proofs.Lowering",
+      "bench.repairs.tritonbench_g.isfinite_kernel.Proofs.Memory",
+      "bench.repairs.tritonbench_g.isfinite_kernel.Proofs.Source",
+      "bench.repairs.tritonbench_g.isfinite_kernel.Proofs.SourceBridge",
+      "bench.repairs.tritonbench_g.isfinite_kernel.Proofs.SourcePreservation",
+      "bench.repairs.tritonbench_g.isfinite_kernel.Proofs.Storage",
+      "bench.tests.CallSignature",
+      "bench.tests.PythonBody",
+      "bench.tests.SourceFunction"
+    ],
+    "exit_code": 0,
+    "log": "/tmp/isfinite79-focus-final.log"
+  },
+  {
+    "name": "focus-joint",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/isfinite79-focus-joint.lean"
+    ],
+    "exit_code": 0,
+    "log": "/tmp/isfinite79-focus-joint.log"
+  },
+  {
+    "name": "audit",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/isfinite79-audit.lean"
+    ],
+    "exit_code": 0,
+    "log": "/tmp/isfinite79-audit.log"
+  },
+  {
+    "name": "standalone-IsfiniteHelperSource",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "bench/tests/IsfiniteHelperSource.lean"
+    ],
+    "exit_code": 0,
+    "log": "/tmp/isfinite79-standalone-IsfiniteHelperSource.log"
+  },
+  {
+    "name": "standalone-IsfiniteHelperCapture",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "bench/tests/IsfiniteHelperCapture.lean"
+    ],
+    "exit_code": 0,
+    "log": "/tmp/isfinite79-standalone-IsfiniteHelperCapture.log"
+  },
+  {
+    "name": "standalone-IsfinitePointerElementCast",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "bench/tests/IsfinitePointerElementCast.lean"
+    ],
+    "exit_code": 0,
+    "log": "/tmp/isfinite79-standalone-IsfinitePointerElementCast.log"
+  },
+  {
+    "name": "standalone-IsfiniteBlockLoadCast",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "bench/tests/IsfiniteBlockLoadCast.lean"
+    ],
+    "exit_code": 0,
+    "log": "/tmp/isfinite79-standalone-IsfiniteBlockLoadCast.log"
+  },
+  {
+    "name": "standalone-LegacyPointerElementCast",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "bench/tests/LegacyPointerElementCast.lean"
+    ],
+    "exit_code": 0,
+    "log": "/tmp/isfinite79-standalone-LegacyPointerElementCast.log"
+  },
+  {
+    "name": "standalone-DirectRandomFrontend",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "bench/tests/DirectRandomFrontend.lean"
+    ],
+    "exit_code": 0,
+    "log": "/tmp/isfinite79-standalone-DirectRandomFrontend.log"
+  },
+  {
+    "name": "standalone-BuiltinFloatZero",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "bench/tests/BuiltinFloatZero.lean"
+    ],
+    "exit_code": 0,
+    "log": "/tmp/isfinite79-standalone-BuiltinFloatZero.log"
+  }
+]

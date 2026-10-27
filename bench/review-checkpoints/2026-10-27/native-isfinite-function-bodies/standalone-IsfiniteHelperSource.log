@@ -1,0 +1,15 @@
+VeriTile.Tests.IsfiniteHelperSource.fp32_dispatch_retains_cast: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.IsfiniteHelperSource.fp64_dispatch_has_no_narrowing: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.IsfiniteHelperSource.bfloat16_dispatch_retains_widening: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.IsfiniteHelperSource.pointer_type_matches_dtype: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.IsfiniteHelperSource.bool_identity_cast: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

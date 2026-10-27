@@ -1,0 +1,36 @@
+VeriTile.Bench.Tests.DirectRandomFrontend.all_inputs_captured_before_aliasing_outputs: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Tests.DirectRandomFrontend.every_field_reads_all_original_captured_inputs: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Tests.DirectRandomFrontend.tuple_metadata_preserves_all_five_load_inputs: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Tests.DirectRandomFrontend.alias_has_fixed_fp32_conversion: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Tests.DirectRandomFrontend.mixed_add_has_actual_modulo: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Tests.DirectRandomFrontend.mixed_add_exec: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Tests.DirectRandomFrontend.mixed_add_overflow: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Tests.DirectRandomFrontend.mixed_add_negative: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Tests.DirectRandomFrontend.signed_counter_lowering: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Tests.DirectRandomFrontend.negative_offset_exec: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Tests.DirectRandomFrontend.actual_source_mixed_shapes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Tests.DirectRandomFrontend.store_cache_hints_preserve_memory_semantics: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

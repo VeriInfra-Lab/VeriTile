@@ -1,0 +1,409 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "09fe6f4f558805c6d7c05c8911b2bdb378d6a202",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "isfinite_kernel"
+  ],
+  "regression_only_pending_body_tasks": [
+    "kv_cache_filling",
+    "triton_argmax"
+  ],
+  "semantic_review": {
+    "adam_update_triton": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "add_example": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "add_value": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "apply_penalty": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "attention_fwd_triton1": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "batched_vecmat_mult": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "bgmv_expand_slice": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "cache_transform_triton": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "chunk_cumsum_kernel": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "chunk_cumsum_vector": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "chunked_cumsum_fwd": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "cosine_compute": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "dequantize_matmul": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "dequantize_rowwise": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "destindex_copy": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "destindex_copy_kv1": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "destindex_copy_kv2": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "dropout_triton": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "embedding_triton_kernel": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "f8_conversion_utils": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "fast_rope_embedding": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "flash_decode2_llama": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "flash_decode2_phi": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "fused_activation": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "fused_recurrent_hgrn": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "fused_rotary_embedding": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "index_select_bwd": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "index_select_cat": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "int8_matmul_kernel": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "isfinite_kernel": "The complete unchanged original isfinite_func helper and both original/existing index-commuted writer bodies are copied verbatim in Kernels.lean. Four writer quotations cover FP32 and FP64 input profiles with Bool output. All explicit INT64 index/stride casts, pointer-element casts, masks and stores are retained. Original CUDA import aliases are checked against the Python imports; the existing finite-helper validator checks the exact dtype predicate, both extern targets, unchanged argument and explicit FP32 narrow cast. Missing/changed bindings, shadowing and unsupported helper bodies are rejected. Source import metadata, pointer types, runtime size/stride values and constexpr BLOCK_SIZE are outside the body. The existing byte-region coordinate convention binds signed pointer origins and byte strides outside, with unchanged native element-width and allocation refinements. Negative/zero input strides, negative output strides, empty inputs, aliases and full input contract remain in scope. The entire executable statement list is definitionally equal to the historical proof view. The old collector omitted the actual x read port; the new full kernel records inputs x and outputs y. Whole-state execution including failures and actual access safety are definitionally preserved for every algebra. No floating cast identity is assumed by this bridge. Original Python/wrapper, public Correct/FPEquiv/IO/Contract, direct execution/safety, Real, all-word, native, host and Tensor proofs are byte-identical. The complete proof set is replayed, preserving observed Bool outputs and exterior frame, with the existing independent Real classifier and all-word exponent specification. No whole-kernel/model premise, new axiom, domain narrowing, Python replacement or numerical experiment is introduced.",
+    "kcache_copy_triton": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "kldiv_compute": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "kldiv_triton": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "kv_cache_copy": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "kv_cache_filling": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks. Python-body migration remains pending; its existing correspondence status is retained.",
+    "l2_norm_bwd": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "l2_norm_triton1": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "l2_norm_triton2": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "log_softmax": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "logsumexp_fwd": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "masked_add_cuda": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "masked_select": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "matmul_kernel": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "matrix_reduction": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "matrix_transpose": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "max_reduction": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "mean_reduction": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "mul_exponent_compensator": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "nested_loops_processing": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "quant_transpose_kernel": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "quantize_copy_kv": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "quantize_global": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "quantize_kv_copy": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "quantize_kv_transform": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "relu_strided_buffer": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "relu_triton_kernel": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "reversed_cumsum": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "reversed_cumsum_scalar": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "rms_norm_triton": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "rmsnorm_fused": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "rmsnorm_fused_llama": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "rmsnorm_implementation": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "rmsnorm_triton": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "rope_backward_transform": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "rope_embedding": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "rope_transform": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "rotary_emb": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "rotary_emb_nopad": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "rowwise_quantization_triton": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "seeded_dropout": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "sin_computation": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "sin_kernel": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "softmax_triton1": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "softmax_triton2": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "square_matrix": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "swiglu_backward": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "swiglu_fwd": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "swiglu_triton": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "token_attn_mistral": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "token_attn_reduceV": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "token_softmax_bloom": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "token_softmax_llama": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "triton_argmax": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks. Python-body migration remains pending; its existing correspondence status is retained.",
+    "triton_mul2": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "triton_softmax": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "var_len_copy": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "vector_addition": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "vector_addition_custom": "Shared frontend regression: imported finite classifiers use the existing exact dtype-dispatch checker with call-site import aliases; pure helpers accept the original unparenthesized conditional return syntax. Call signatures without imports retain the existing path. Source casts, mathematical/FP domains and public scope are unchanged. All 3077 recorded roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks."
+  },
+  "compiler_change": {
+    "files": [
+      "VeriTile/Triton/DSL/CallSignature.lean",
+      "VeriTile/Triton/DSL/SourceFunction.lean"
+    ],
+    "behavior": "Call signatures supply explicit CUDA finitef/isfinited import aliases outside the pasted bodies. Helpers referencing those aliases go through the existing exact finite-classifier validator; ordinary pure helpers retain their path. Raw unparenthesized conditional return expressions parse as the same conditional expression without changing source text.",
+    "regressions": "Complete FP32/FP64 classifier expansion agrees with direct primitives, including explicit narrow cast and Bool destination conversion. Negative tests reject changed helper cast, invalid unused import target, parameter/import collisions and alias rebinding. Seven existing finite-helper/capture/pointer/block-load/random regressions pass independently. Python guards check original import provenance, helper correspondence and both ABI variants."
+  },
+  "verification": {
+    "focused": {
+      "status": "PASS",
+      "explicit_modules": 30,
+      "jobs": 3594,
+      "additional_standalone_regression_files": 7,
+      "standalone_source_sha256": {
+        "bench/tests/IsfiniteHelperSource.lean": "eced1fd08826a32ac06c111f47eb1e1cc098af86d76c815c94d677133ad2f3e2",
+        "bench/tests/IsfiniteHelperCapture.lean": "8a76b824cf153f71888f36e5e75824de880d3b38822bbda9145cca3c54145cd3",
+        "bench/tests/IsfinitePointerElementCast.lean": "3913983a4deeb02518d1ba7e3cea9633c5f0a5b77432ccce285ec51deee7017c",
+        "bench/tests/IsfiniteBlockLoadCast.lean": "8fff1dd5b3c90a796bf2c5f11a8076b4ccf712e751aa6e66793b2589e9bf6029",
+        "bench/tests/LegacyPointerElementCast.lean": "230c8cb38aeecc3f31a7a1303eee5b7778f4afb0c946d4092940952de0b3d53d",
+        "bench/tests/DirectRandomFrontend.lean": "dbc0599c80e4d699bbef036dd3fa9fea09370b3bc298c68193129d203eb02a57",
+        "bench/tests/BuiltinFloatZero.lean": "1a768c6c65f565efad55838a50bb10e9bcb31210443e306660b56263037914e3"
+      }
+    },
+    "warm_and_joint": {
+      "status": "PASS",
+      "explicit_modules": 3077,
+      "jobs": 12438
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 3077,
+      "jobs": 12438,
+      "project_build_initially_present": false,
+      "project_objects_imported_from_other_checkouts": false,
+      "only_fixed_external_dependencies_imported": true,
+      "setup": {
+        "path": "bench/review-checkpoints/2026-10-27/native-isfinite-function-bodies/final-clean-setup.json",
+        "sha256": "b9a08cb2b567e4d2f34dec349059d373ba77bc05fd8ae2facf13c8a6c61fa3f7"
+      }
+    },
+    "trust": "PASS: 16 standalone actual-source/public theorem/compiler regression footprints use only standard base. Public isfinite_index_commuted_equiv prints no FP assumptions.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 112
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 357,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by old numerical receipt; no false repin."
+    },
+    "source": "PASS: original helper plus four complete original/existing candidate raw-body profiles, original CUDA imports, signed byte-view call bindings, exact integer commute and unchanged wrapper.",
+    "official_comparator": "UNAVAILABLE: 7 actual frozen-source attempts with verified pinned binary hashes. Host Landlock ABI v4 is below required v5 and no systemd user isolation; no bypass.",
+    "cpu": "UNAVAILABLE: actual existing test_revision.py invocation requires missing Torch; historical binder/offline observations are not relabeled as fresh passes.",
+    "gpu_or_numerical_experiment": "Not run.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending; the known unchanged numerical receipt failure remains explicit."
+  },
+  "source_pairs": {
+    "total": 266,
+    "pasted_body": 261,
+    "legacy_ast": 5
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-27/native-isfinite-function-bodies/source-closure.json",
+    "sha256": "ff6494d5c7ee00ebd6a24d72eefc9e0ae935829f3a56ad9e6567e12d2f811cc2"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "legacy_ast_only": 1,
+      "no_selected_jit_resolved": 2,
+      "selected_body_copy_checked": 86,
+      "uncovered_jit_functions": 94
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 328,
+    "uncovered_selected_jit_functions": 195,
+    "primary_files_with_int64_screen_warning": 26,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 72,
+        "antiquotes": 80,
+        "dsl_loop": 1,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "example_regression_scope": "All 19 selected examples and previous selected public/deep task roots replay warm/joint and independently from empty project objects. Existing unselected historical model gaps are not relabeled as passing by this explicitly scoped replay.",
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-isfinite-function-bodies/VeriTile__Triton__DSL__CallSignature-comparator.log",
+      "sha256": "9743ea6333bc6b000fbd279ebc5246bab481b140159279a001a271a86ee44732"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-isfinite-function-bodies/VeriTile__Triton__DSL__SourceFunction-comparator.log",
+      "sha256": "9743ea6333bc6b000fbd279ebc5246bab481b140159279a001a271a86ee44732"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-isfinite-function-bodies/all-python.log",
+      "sha256": "007ea8141b2d6335c4dae4fa1f5c3d12d8791e737a3feec746968e7d073721d9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-isfinite-function-bodies/audit.lean",
+      "sha256": "9f0e0416e02aa0531299d199c7cdbfdc52addf7b2628d5a5d6d200b81dff2cb8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-isfinite-function-bodies/audit.log",
+      "sha256": "2fcea8f70cfc30403e1f855ac122cfeebe3caa4ed6dcc36ade7a64d2a96ba05a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-isfinite-function-bodies/baseline.json",
+      "sha256": "d822fce22c11f877be9a1eb012e7de7a8cc249ac5ab3309cf912a3aada1ff8a9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-isfinite-function-bodies/bench__repairs__tritonbench_g__isfinite_kernel__Correct-comparator.log",
+      "sha256": "9743ea6333bc6b000fbd279ebc5246bab481b140159279a001a271a86ee44732"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-isfinite-function-bodies/bench__repairs__tritonbench_g__isfinite_kernel__FPEquiv-comparator.log",
+      "sha256": "9743ea6333bc6b000fbd279ebc5246bab481b140159279a001a271a86ee44732"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-isfinite-function-bodies/bench__repairs__tritonbench_g__isfinite_kernel__Kernels-comparator.log",
+      "sha256": "b7431d8c82b8d7c5c67b512c4c2c99aa8d194767e8915303107064750329b1b1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-isfinite-function-bodies/bench__repairs__tritonbench_g__isfinite_kernel__Proofs__SourcePreservation-comparator.log",
+      "sha256": "b7431d8c82b8d7c5c67b512c4c2c99aa8d194767e8915303107064750329b1b1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-isfinite-function-bodies/bench__tests__CallSignature-comparator.log",
+      "sha256": "b7431d8c82b8d7c5c67b512c4c2c99aa8d194767e8915303107064750329b1b1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-isfinite-function-bodies/check-pair.py",
+      "sha256": "7fcdd5681e68489b0ae95548a633e12d10dab8c9ae5b59b95e5bc55da36b2758"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-isfinite-function-bodies/comparator-invocations.json",
+      "sha256": "fdc3f75feeef50a671e1e5a2d9e3a4517b1773708bad920c555698f8a98bb01e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-isfinite-function-bodies/comparator-tools.json",
+      "sha256": "28998e17d51b0fb5930f7489e64512a57f8a8146d1470063a624a75bbabdb0d3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-isfinite-function-bodies/corpus-guard.log",
+      "sha256": "dceff603b461b26326f342e9361174d5a306731f13a3185de127a766f209dfa9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-isfinite-function-bodies/cpu-final.log",
+      "sha256": "49a0722e3d15ea0e79f7da3e69d17d4514bb71466d906f0990d32db45744da41"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-isfinite-function-bodies/final-clean-build.log.gz",
+      "sha256": "36eb537ec69c068c9baa8910a1d0e2df20fd0b5145d486b9980daaa3bdc747ba"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-isfinite-function-bodies/final-clean-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-isfinite-function-bodies/final-clean-setup.json",
+      "sha256": "b9a08cb2b567e4d2f34dec349059d373ba77bc05fd8ae2facf13c8a6c61fa3f7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-isfinite-function-bodies/focus-final-modules.txt",
+      "sha256": "2be91ae7a3ed5e4fe190d114cecc6014fb563022e2ceae1699f99a23a4deb647"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-isfinite-function-bodies/focus-final.log.gz",
+      "sha256": "1b7162697923d9d6ddd2e06c7c4ab96182b838c56c598452f81ab46f765d8d59"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-isfinite-function-bodies/focus-invocations.json",
+      "sha256": "9596624c051759f137e12798f5718f710f8bddbda02b39cea7fa9d1d1190f59e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-isfinite-function-bodies/focus-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-isfinite-function-bodies/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-isfinite-function-bodies/inspections.json",
+      "sha256": "755f86acd830a48522bc01efabe0fb1447d1e1b893e00891c679fe1b081d3ed9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-isfinite-function-bodies/integration-final.log.gz",
+      "sha256": "b277e3cbbd9b4e584a1aee29fbcecde6435799ba9b43e1f480fd60f8a9179c1a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-isfinite-function-bodies/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-isfinite-function-bodies/joint-all.lean",
+      "sha256": "521ff5a0d92e977e0c96f9733c5c16271f8d4c404f9269ac84717a1b38ce113c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-isfinite-function-bodies/joint-final.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-isfinite-function-bodies/modules.json",
+      "sha256": "56335bf703a1d16b1b055242433c5921cd448a261bb9c0f956b098d95364af63"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-isfinite-function-bodies/pairs.json",
+      "sha256": "18403af3c267829f76c6f321c448061b1243fb7dc375887c233b9d12f6832dab"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-isfinite-function-bodies/previous-cache-cleanup.json",
+      "sha256": "b8c4145bb8a228c6d8bced68bf2495c79ab7f35b6b102c9a569de9c67213980c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-isfinite-function-bodies/previous-reviews.json.gz",
+      "sha256": "183b7e9385240a341a5acca0a391d3f2ec890c082585cafae7ba9328f5036dba"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-isfinite-function-bodies/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-isfinite-function-bodies/python-invocations.json",
+      "sha256": "0573ad76b41fb91e72b439efe01288dddd549c57c168056df8c6877eb85b1aa3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-isfinite-function-bodies/python-tests.log",
+      "sha256": "6e9a3e572bf197510cd42bd78e3e61f8f295f962aeb8c94d291876cd80ad7800"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-isfinite-function-bodies/raw-body-check.log",
+      "sha256": "4a6884164ce9c909e6227b07c42f59505092b79d9691a6094440a06ef0f4b935"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-isfinite-function-bodies/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-isfinite-function-bodies/source-closure.json",
+      "sha256": "ff6494d5c7ee00ebd6a24d72eefc9e0ae935829f3a56ad9e6567e12d2f811cc2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-isfinite-function-bodies/standalone-BuiltinFloatZero.log",
+      "sha256": "796bd1f987d6d5899e6a20a0142a22b5f66423f95f1079f64d34cb870ccc65a2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-isfinite-function-bodies/standalone-DirectRandomFrontend.log",
+      "sha256": "10940afd4ca1c0a2b1724eadc9194296c043fa59baaa2781707c1b0c48f0162e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-isfinite-function-bodies/standalone-IsfiniteBlockLoadCast.log",
+      "sha256": "1d27c070e50fd72bc77eb46e847da4116a358e4d957cc74a0cf851141779bdee"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-isfinite-function-bodies/standalone-IsfiniteHelperCapture.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-isfinite-function-bodies/standalone-IsfiniteHelperSource.log",
+      "sha256": "2f93b87acbbf4a9db9e87524b00fa63ce28640546728ee9d6455d9bff69fd116"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-isfinite-function-bodies/standalone-IsfinitePointerElementCast.log",
+      "sha256": "c5aa736f581db7e2b4d60b90b8b670c504c35f411d523aa73560085b765bd642"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-isfinite-function-bodies/standalone-LegacyPointerElementCast.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-isfinite-function-bodies/transferred-files.json",
+      "sha256": "6f65b8e95ae48bc735e56c89ea3b927a4c99f1473e940198b40182d2526116d6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-isfinite-function-bodies/warm-final-invocation.json",
+      "sha256": "7bc2c656351b9a8c00e6473723e088778d7d9e79f784d044c09afdc64bfea492"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-isfinite-function-bodies/wrapper-source-check.log",
+      "sha256": "4afdd3ea348aadc129b214919516e9049f470073d5e21c76c1660cc23c31103d"
+    }
+  ]
+}

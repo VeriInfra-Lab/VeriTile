@@ -1,0 +1,12 @@
+VeriTile.Tests.IsfinitePointerElementCast.pointer_target_retains_explicit_conversion: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.IsfinitePointerElementCast.pointer_target_retains_fp64: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.IsfinitePointerElementCast.bool_pointer_matches_explicit: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.IsfinitePointerElementCast.bool_pointer_preserves_operand: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

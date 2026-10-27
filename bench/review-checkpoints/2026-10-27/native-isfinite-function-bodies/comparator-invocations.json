@@ -1,0 +1,114 @@
+[
+  {
+    "name": "VeriTile__Triton__DSL__CallSignature-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "VeriTile/Triton/DSL/CallSignature.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "09fe6f4f558805c6d7c05c8911b2bdb378d6a202",
+    "log": "/tmp/isfinite79-VeriTile__Triton__DSL__CallSignature-comparator.log",
+    "file": "VeriTile/Triton/DSL/CallSignature.lean",
+    "sha256": "fbad8d4e88ad553ccb6e051a59ef50e86b2ab5d8eb79e89f9727fbca17bea9c4",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "VeriTile__Triton__DSL__SourceFunction-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "VeriTile/Triton/DSL/SourceFunction.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "09fe6f4f558805c6d7c05c8911b2bdb378d6a202",
+    "log": "/tmp/isfinite79-VeriTile__Triton__DSL__SourceFunction-comparator.log",
+    "file": "VeriTile/Triton/DSL/SourceFunction.lean",
+    "sha256": "de2c350587aa27bb69c408d1f6d219a595dc0b005d72f0e7681cb554e497b6ff",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__isfinite_kernel__Correct-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/isfinite_kernel/Correct.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "09fe6f4f558805c6d7c05c8911b2bdb378d6a202",
+    "log": "/tmp/isfinite79-bench__repairs__tritonbench_g__isfinite_kernel__Correct-comparator.log",
+    "file": "bench/repairs/tritonbench_g/isfinite_kernel/Correct.lean",
+    "sha256": "c0541da79f703e4a4f7e024847a576129f56a7276ddc856a916eb889a06bf489",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__isfinite_kernel__FPEquiv-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/isfinite_kernel/FPEquiv.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "09fe6f4f558805c6d7c05c8911b2bdb378d6a202",
+    "log": "/tmp/isfinite79-bench__repairs__tritonbench_g__isfinite_kernel__FPEquiv-comparator.log",
+    "file": "bench/repairs/tritonbench_g/isfinite_kernel/FPEquiv.lean",
+    "sha256": "97c2499af0f3300c8edbc54fb92cc1cebd5ae55eb0c44120d538bc82dd50440d",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__isfinite_kernel__Kernels-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/isfinite_kernel/Kernels.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "09fe6f4f558805c6d7c05c8911b2bdb378d6a202",
+    "log": "/tmp/isfinite79-bench__repairs__tritonbench_g__isfinite_kernel__Kernels-comparator.log",
+    "file": "bench/repairs/tritonbench_g/isfinite_kernel/Kernels.lean",
+    "sha256": "d3624e351dabaa4c5bd463a7927adccfc60716f235dd857a59700be9d3351354",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__isfinite_kernel__Proofs__SourcePreservation-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/isfinite_kernel/Proofs/SourcePreservation.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "09fe6f4f558805c6d7c05c8911b2bdb378d6a202",
+    "log": "/tmp/isfinite79-bench__repairs__tritonbench_g__isfinite_kernel__Proofs__SourcePreservation-comparator.log",
+    "file": "bench/repairs/tritonbench_g/isfinite_kernel/Proofs/SourcePreservation.lean",
+    "sha256": "4bd6d4fe4c49843c48a179cb1c91240f26f297919e13ae189e4c5053e28b30a8",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__tests__CallSignature-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/tests/CallSignature.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "09fe6f4f558805c6d7c05c8911b2bdb378d6a202",
+    "log": "/tmp/isfinite79-bench__tests__CallSignature-comparator.log",
+    "file": "bench/tests/CallSignature.lean",
+    "sha256": "41b9fd56880f6e7a08a64c038ae06212dc39ec1ad51f327d9b036683f867d6ab",
+    "status": "UNAVAILABLE"
+  }
+]

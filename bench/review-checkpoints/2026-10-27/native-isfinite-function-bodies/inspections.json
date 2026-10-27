@@ -1,0 +1,58 @@
+{
+  "code_commit": "09fe6f4f558805c6d7c05c8911b2bdb378d6a202",
+  "raw_bodies_and_wrapper": [
+    {
+      "name": "raw-body-check",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/isfinite_kernel/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "09fe6f4f558805c6d7c05c8911b2bdb378d6a202",
+      "log": "/tmp/isfinite79-raw-body-check.log",
+      "status": "PASS"
+    },
+    {
+      "name": "wrapper-source-check",
+      "command": [
+        "python3",
+        "/tmp/isfinite79-check-pair.py"
+      ],
+      "exit_code": 0,
+      "code_commit": "09fe6f4f558805c6d7c05c8911b2bdb378d6a202",
+      "log": "/tmp/isfinite79-wrapper-source-check.log",
+      "status": "PASS"
+    }
+  ],
+  "cpu": {
+    "name": "cpu-final",
+    "command": [
+      "python3",
+      "bench/repairs/tritonbench_g/isfinite_kernel/test_revision.py"
+    ],
+    "exit_code": 1,
+    "code_commit": "09fe6f4f558805c6d7c05c8911b2bdb378d6a202",
+    "log": "/tmp/isfinite79-cpu-final.log",
+    "status": "UNAVAILABLE"
+  },
+  "unchanged_selected_source_and_wrapper": {
+    "path": "bench/repairs/tritonbench_g/isfinite_kernel/isfinite_kernel_repaired.py",
+    "source_sha256": "4c668f34fd9a1dbb12725599202e1c3ef2206ec209c2a10e0ed2b31b76a0dd43",
+    "status": "PASS",
+    "ast_sha256": {
+      "isfinite_func": "52ab0540c6db0822382bc5fc603a0f3fdffaae57d4c6d65201fe929778378204",
+      "isfinite_strided_chunk": "1aab9fa0dd1b5789b16bb85dcfdaf16daa17bd483777d73832e85f93adf70b07",
+      "isfinite_strided_chunk_index_commuted": "ca10c4e26e8a09e5f98511bef757a64f341a9043acff35d919f5c2a4dce62e34",
+      "isfinite_func_wrapper_rank_1_repaired": "744e7f60f5226dcc56aab820f7641ac60b8c67d5104d0ab863e5046200d8df7a"
+    },
+    "top_level_statements": {
+      "isfinite_func": 1,
+      "isfinite_strided_chunk": 7,
+      "isfinite_strided_chunk_index_commuted": 7,
+      "isfinite_func_wrapper_rank_1_repaired": 9
+    }
+  },
+  "scope": "Complete raw helper and both original/existing candidate bodies at FP32 and FP64 input profiles, checked import aliases, exact integer index commute and unchanged checked wrapper. No GPU or new numerical experiment."
+}

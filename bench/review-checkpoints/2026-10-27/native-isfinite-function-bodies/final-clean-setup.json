@@ -1,0 +1,31 @@
+{
+  "code_commit": "09fe6f4f558805c6d7c05c8911b2bdb378d6a202",
+  "checkout": "/tmp/veritile-body77",
+  "project_build_initially_present": false,
+  "veritile_cache_initially_present": false,
+  "project_objects_imported_from_other_checkouts": false,
+  "fixed_external_packages_reused": "/home/argustest/lizn/VeriTile/.lake/packages",
+  "previous_completed_project_cache_removed": {
+    "completed_receipt": "aea3449603970c3c56d8dc5e8a259737588ce58b",
+    "completed_code": "9e3dc2604b6cf3c729956888895c7a6973439597",
+    "removed": "/tmp/veritile-body77/.lake/build",
+    "scope": "Only owned completed project compilation cache; source, Git history, external packages and validation evidence retained.",
+    "source_status_unchanged": true,
+    "free_before": 25203531776,
+    "free_after": 36810285056
+  },
+  "changed_source_sha256": {
+    "VeriTile/Triton/DSL/CallSignature.lean": "fbad8d4e88ad553ccb6e051a59ef50e86b2ab5d8eb79e89f9727fbca17bea9c4",
+    "VeriTile/Triton/DSL/SourceFunction.lean": "de2c350587aa27bb69c408d1f6d219a595dc0b005d72f0e7681cb554e497b6ff",
+    "bench/jit_correspondence.py": "58934c3dfd5aa95e0bd946feb5bd331b250f06a1487c84981b790d343185dcc6",
+    "bench/repairs/tritonbench_g/isfinite_kernel/Kernels.lean": "d3624e351dabaa4c5bd463a7927adccfc60716f235dd857a59700be9d3351354",
+    "bench/repairs/tritonbench_g/isfinite_kernel/Proofs/SourcePreservation.lean": "4bd6d4fe4c49843c48a179cb1c91240f26f297919e13ae189e4c5053e28b30a8",
+    "bench/repairs/tritonbench_g/isfinite_kernel/README.md": "8c2e7e916794e7dfbf32400cbc63efd3a186d395048904c9dee6e785c71d0855",
+    "bench/repairs/tritonbench_g/isfinite_kernel/jit-correspondence.json": "0865c730603406136a876b81b28c4c89b95414599f41afd84b0d867436e5c266",
+    "bench/source-correspondence.json": "abf4308f823cdef8fe3bdcacf38bc9201c3455240dbb01d8f50262281e0e3774",
+    "bench/tests/CallSignature.lean": "41b9fd56880f6e7a08a64c038ae06212dc39ec1ad51f327d9b036683f867d6ab",
+    "bench/tests/test_jit_correspondence.py": "445e6f871bcfc8c18214c93e886a171fd17aa8a2a12f3ae6acb9976e798a86b7"
+  },
+  "build_exit_code": 0,
+  "joint_exit_code": 0
+}

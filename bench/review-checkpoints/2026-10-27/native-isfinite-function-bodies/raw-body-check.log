@@ -1,0 +1,133 @@
+[
+  {
+    "python_function": "isfinite_func",
+    "lean_definition": "finiteFunction",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "inferred_helper_values",
+    "call_bindings": null,
+    "statements": 1,
+    "runtime_parameters": {},
+    "constexpr_parameters": [],
+    "body_kind": "helper",
+    "helper_parameters": [
+      "x"
+    ]
+  },
+  {
+    "python_function": "isfinite_strided_chunk",
+    "lean_definition": "source32",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "in0_stride": "input.byteStride",
+      "out0_stride": "output.byteStride",
+      "n": "n"
+    },
+    "statements": 7,
+    "runtime_parameters": {
+      "in0_stride": "integer",
+      "out0_stride": "integer",
+      "n": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE"
+    ],
+    "source_functions": [
+      "finiteFunction"
+    ],
+    "pointer_offsets": {
+      "in0_ptr": "input.pointer",
+      "out0_ptr": "output.pointer"
+    },
+    "profile_variant": "fp32_input"
+  },
+  {
+    "python_function": "isfinite_strided_chunk_index_commuted",
+    "lean_definition": "candidate32",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "in0_stride": "input.byteStride",
+      "out0_stride": "output.byteStride",
+      "n": "n"
+    },
+    "statements": 7,
+    "runtime_parameters": {
+      "in0_stride": "integer",
+      "out0_stride": "integer",
+      "n": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE"
+    ],
+    "source_functions": [
+      "finiteFunction"
+    ],
+    "pointer_offsets": {
+      "in0_ptr": "input.pointer",
+      "out0_ptr": "output.pointer"
+    },
+    "profile_variant": "fp32_input"
+  },
+  {
+    "python_function": "isfinite_strided_chunk",
+    "lean_definition": "source64",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "in0_stride": "input.byteStride",
+      "out0_stride": "output.byteStride",
+      "n": "n"
+    },
+    "statements": 7,
+    "runtime_parameters": {
+      "in0_stride": "integer",
+      "out0_stride": "integer",
+      "n": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE"
+    ],
+    "source_functions": [
+      "finiteFunction"
+    ],
+    "pointer_offsets": {
+      "in0_ptr": "input.pointer",
+      "out0_ptr": "output.pointer"
+    },
+    "profile_variant": "fp64_input"
+  },
+  {
+    "python_function": "isfinite_strided_chunk_index_commuted",
+    "lean_definition": "candidate64",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "in0_stride": "input.byteStride",
+      "out0_stride": "output.byteStride",
+      "n": "n"
+    },
+    "statements": 7,
+    "runtime_parameters": {
+      "in0_stride": "integer",
+      "out0_stride": "integer",
+      "n": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE"
+    ],
+    "source_functions": [
+      "finiteFunction"
+    ],
+    "pointer_offsets": {
+      "in0_ptr": "input.pointer",
+      "out0_ptr": "output.pointer"
+    },
+    "profile_variant": "fp64_input"
+  }
+]

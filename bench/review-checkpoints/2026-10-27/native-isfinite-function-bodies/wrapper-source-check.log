@@ -1,0 +1,1 @@
+PASS: unchanged Python/wrapper, original helper/StridedBuffer, and exactly one candidate integer multiplication commute

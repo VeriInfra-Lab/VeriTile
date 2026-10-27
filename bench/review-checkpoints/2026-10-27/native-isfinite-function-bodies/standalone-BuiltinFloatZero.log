@@ -1,0 +1,6 @@
+VeriTile.Tests.BuiltinFloatZero.exact_literal: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.BuiltinFloatZero.masked_other: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

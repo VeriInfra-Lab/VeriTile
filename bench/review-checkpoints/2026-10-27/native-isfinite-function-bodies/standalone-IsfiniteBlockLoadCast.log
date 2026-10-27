@@ -1,0 +1,9 @@
+VeriTile.Tests.IsfiniteBlockLoadCast.fp32_load_cast_exact: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.IsfiniteBlockLoadCast.fp64_load_cast_exact: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.IsfiniteBlockLoadCast.bf16_load_cast_exact: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

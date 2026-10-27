@@ -1,0 +1,9 @@
+{
+  "completed_receipt": "aea3449603970c3c56d8dc5e8a259737588ce58b",
+  "completed_code": "9e3dc2604b6cf3c729956888895c7a6973439597",
+  "removed": "/tmp/veritile-body77/.lake/build",
+  "scope": "Only owned completed project compilation cache; source, Git history, external packages and validation evidence retained.",
+  "source_status_unchanged": true,
+  "free_before": 25203531776,
+  "free_after": 36810285056
+}
