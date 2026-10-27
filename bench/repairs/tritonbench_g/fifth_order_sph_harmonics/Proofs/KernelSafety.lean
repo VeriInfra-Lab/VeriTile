@@ -16,6 +16,9 @@ private theorem fold_regs {α ι : Type} (xs : List ι)
   | nil => rfl
   | cons i xs ih => simp only [List.foldl_cons, ih]; split <;> rfl
 
+private theorem nonnegative_index_lt (a : Int) (n : Nat) (h : 0 ≤ a) :
+    (a < (n : Int)) ↔ a.toNat < n := by omega
+
 /-- Bounds are precisely the active coordinate and eleven-channel output
 windows. Safety is proved for the actual complete source at any program ID. -/
 theorem forward {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters)
@@ -26,14 +29,16 @@ theorem forward {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters)
       r*p.outputWidth+p.columnOffset+c.val < bounds outputRegion) :
     TraceSafe M bounds (forwardKernel p) s := by
   simp (config := {maxSteps := 8000000}) [TraceSafe, forwardKernel, Original.kernel,
-    VeriTile.Bench.TritonBenchG.FifthOrderSphHarmonics.TypedFP.kernel,
-    VeriTile.Bench.TritonBenchG.FifthOrderSphHarmonics.TypedFP.source, forwardParameters,
+    Original.source, forwardParameters,
     ComputeKernel.surfaceBody, Safety.traceSafeList_unfold, Safety.stepSafe_unfold,
     Safety.safeExpr_unfold, Safety.safeCompute_unfold, Safety.safeOp_unfold,
     Safety.safeAddress_unfold, Safety.safeMask_unfold, Safety.addressSafe_unfold,
     Safety.maskActive_unfold, step, evalExpr, evalComputeOp, evalOp_unfold,
     State.setReg, store, ofFloat, toFloat, Region.cast, ComputeDType.eraseDType,
-    numeric, numericLt, natLt, bop, Option.bind, fold_regs]
+    numeric, numericLt, natLt, bop, Option.bind, fold_regs,
+    ← Int.natCast_mul, ← Int.natCast_add, -Nat.cast_mul, -Nat.cast_add]
+  all_goals norm_cast
+  all_goals try simp (disch := positivity) only [nonnegative_index_lt, Int.toNat_add, Int.toNat_mul, Int.toNat_natCast, Int.reduceToNat]
   have hc (c : Fin 3) (a : Fin p.blockSize)
       (active : a.val*3+p.blockSize*3*s.pids 0+c.val < 3*p.rows) :
       a.val*3+p.blockSize*3*s.pids 0+c.val < bounds coordinateRegion := by
@@ -65,7 +70,10 @@ theorem backward {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters)
     Safety.safeAddress_unfold, Safety.safeMask_unfold, Safety.addressSafe_unfold,
     Safety.maskActive_unfold, step, evalExpr, evalComputeOp, evalOp_unfold,
     State.setReg, store, ofFloat, toFloat, Region.cast, ComputeDType.eraseDType,
-    numeric, numericLt, natLt, bop, Option.bind, fold_regs]
+    numeric, numericLt, natLt, bop, Option.bind, fold_regs,
+    ← Int.natCast_mul, ← Int.natCast_add, -Nat.cast_mul, -Nat.cast_add]
+  all_goals norm_cast
+  all_goals try simp (disch := positivity) only [nonnegative_index_lt, Int.toNat_add, Int.toNat_mul, Int.toNat_natCast, Int.reduceToNat]
   have bounded (region : RegionName)
       (h : ∀ r, r < p.rows → ∀ c : Fin 3, r*3+c.val < bounds region)
       (c : Fin 3) (a : Fin p.blockSize)

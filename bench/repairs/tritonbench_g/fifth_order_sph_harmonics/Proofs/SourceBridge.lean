@@ -48,8 +48,7 @@ theorem program_projection (M : Algebra Word) (d : Grid.Direction) (p : Paramete
   cases d with
   | forward=>
     change image outputRegion base (p.outputWidth*p.rows) before (Execution.forward M p s).val.mem=_
-    simp only [Execution.forward]
-    rw [Old.execution_memory,Old.written_scatter]
+    rw [Execution.forward_memory,Old.written_scatter]
     exact fold_projection _ _ _ _ _ _ _ (fun _ _ h=>h) _ _
   | backward=>
     change image gradientRegion base (3*p.rows) before (Execution.backward M p s).val.mem=_

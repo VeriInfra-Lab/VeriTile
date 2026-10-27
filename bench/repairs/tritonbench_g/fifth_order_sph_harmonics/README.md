@@ -1,3 +1,30 @@
+# Copied Python function bodies
+
+`Kernels.lean` contains all 73 forward and 122 backward statements of
+`fifth_order_sph_harmonics_repaired.py`, and the complete corresponding
+power-reuse candidates from `candidate_kernels.py`. `jit-correspondence.json`
+checks all four bodies. Original casts, coefficient assignments, masked
+loads/stores and initial-gradient accumulation remain in their source order.
+Call signatures and invocation bindings supply pointer dtypes, constexpr
+parameters and runtime strides outside the pasted bodies. Runtime strides use
+the generic integer carrier; the explicit source int64 conversions are retained.
+
+Ordinary floating constant assignments create FP32 scalar tensors. The shared
+frontend records this precision in execution, including tuple assignment;
+inline weak constants remain inline. Exact negative zero is retained as an FP32
+bit pattern instead of being collapsed to rational zero. A finite literal is rejected if direct
+exact-decimal-to-FP32 conversion would disagree with Python's intervening
+binary64 rounding. This follows Triton's ordinary assignment conversion in
+[`visit_Assign` / `_sanitize_value`](https://github.com/triton-lang/triton/blob/v3.7.1/python/triton/compiler/code_generator.py)
+and [`to_tensor_type`](https://github.com/triton-lang/triton/blob/v3.7.1/python/triton/language/semantic.py).
+
+The execution proofs interpret the actual copied programs. Forward's memory
+connection reuses the independently specified eleven channel stores; it does
+not identify the complete register state with an older unsigned-index view.
+Backward likewise connects actual signed indices and stores to the existing
+ordered polynomial specification. Neither connection erases floating casts or
+assumes an arbitrary floating-point conversion is an identity.
+
 Optional Tensor/native applications, host results and audit readers are in `Misc/`; canonical `Correct.lean` and `FPEquiv.lean` do not re-export these optional results. Declaration names and proof scopes are preserved.
 
 Current FPEquiv pair (2026-10-21): the complete original grids are compared
@@ -126,8 +153,10 @@ values follow the declared model, including its NaN policy.
 
 ## Evidence
 
-Current evidence is in
-`.veritile-cache/task-deliveries/fifth_order_sph_harmonics/`:
+The following historical CPU/PTX measurements were recorded in the optional
+`.veritile-cache/task-deliveries/fifth_order_sph_harmonics/` delivery bundle.
+They are not a dependency of the Lean source or proof build, and this source
+migration does not claim to have rerun them:
 
 - Full normalized source/DSL AST equality: 73 forward and 122 backward
   statements, including all 12 explicit upstream-stride widening casts.
@@ -158,7 +187,7 @@ The task-root `source-binding.json`, `validation.json`,
 provenance. In particular, the old public Lean hashes and numerical deferrals
 in `source-binding.json`, and the 84/16 case counts in `validation.json`, do not
 describe the new public entries. Current proof pins and checks are recorded in
-the delivery packet and evidence directory named above.
+the committed review checkpoints. The historical delivery packet remains optional provenance.
 Host return identity/arity, allocator behavior and device guards are outside the
 new kernel acceptance boundary; the Python implementation and guards are
 unchanged by this proof revision.

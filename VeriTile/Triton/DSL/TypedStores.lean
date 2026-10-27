@@ -1,5 +1,6 @@
 import VeriTile.Triton.DSL.CallValue
 import VeriTile.Triton.DSL.PointerType
+import VeriTile.Triton.DSL.PythonConstants
 
 /-! Call-site store conversion with conservative source dtype tracking.
 A load and a register copy retain the source pointer's element type. Storing
@@ -253,7 +254,7 @@ private partial def valueType (pointers : Types) (values : Values)
 an inline scalar remains weak. Classify the source floating literal before it
 enters register dataflow. Triton's to_tensor_type uses the FP32 normal range,
 zero and infinities; other finite literals require an FP64 tensor frontend.
-See triton/compiler/code_generator.py::_sanitize_target_value and
+See triton/compiler/code_generator.py::_sanitize_value and
 triton/language/semantic.py::to_tensor_type in the upstream implementation. -/
 private partial def literalTensorFloatType (e : TSyntax `tritonExpr) : Option Triton.PointerType :=
   match e with
@@ -283,6 +284,53 @@ private def assignedValueType (pointers : Types) (values : Values)
   | some .fp64 =>
       Macro.throwErrorAt e "fp64 scalar literal assignment is not supported by this source frontend"
   | _ => return valueType pointers values e
+
+/-- Preserve the tensor creation performed by an ordinary Python assignment.
+The weak scalar used inside an expression must not be materialized this way.
+For finite decimal literals, check the intervening Python binary64 rounding
+before using the existing exact-literal FP32 node. -/
+private partial def materializeLiteral (e : TSyntax `tritonExpr) :
+    MacroM (TSyntax `tritonExpr) := do
+  unless literalTensorFloatType e == some .fp32 do return e
+  let rec infinity (e : TSyntax `tritonExpr) : Bool :=
+    match e with
+    | `(tritonExpr| tl.__python_literal($inner:tritonExpr))
+    | `(tritonExpr| ($inner:tritonExpr))
+    | `(tritonExpr| -$inner:tritonExpr) => infinity inner
+    | `(tritonExpr| -inf) => Bool.true
+    | `(tritonExpr| float($arg:term)) =>
+        match arg with
+        | `(term| $s:str) => ["inf","-inf"].contains s.getString
+        | _ => Bool.false
+    | _ => Bool.false
+  -- Infinity already has an exact source primitive. Positive infinity is a
+  -- typed FP32 bit-pattern operation: putting its algebraic placeholder into
+  -- tl.full would discard that operation and introduce an undefined register.
+  if infinity e then return e
+  let rec unwrap (e : TSyntax `tritonExpr) : TSyntax `tritonExpr :=
+    match e with
+    | `(tritonExpr| tl.__python_literal($inner:tritonExpr)) => unwrap inner
+    | _ => e
+  match PythonConstants.evaluate (unwrap e) with
+  | .error message => Macro.throwErrorAt e message
+  | .ok (some value) =>
+      let rec negativeSign (e : TSyntax `tritonExpr) : Bool :=
+        match e with
+        | `(tritonExpr| tl.__python_literal($inner:tritonExpr))
+        | `(tritonExpr| ($inner:tritonExpr)) => negativeSign inner
+        | `(tritonExpr| -$inner:tritonExpr) => !negativeSign inner
+        | _ => Bool.false
+      -- A rational literal cannot encode the sign of exact zero. Preserve
+      -- Python's -0.0 using the same checked FP32 bit-pattern primitive.
+      if value.ideal == 0 && negativeSign e then
+        let dtypeName := mkIdent `dtype
+        return ← `(tritonExpr| tl.bitcast(tl.full([], 2147483648, $dtypeName:ident=tl.uint32), tl.float32))
+      unless PythonConstants.roundBinary 24 (-149) 127 value.ideal ==
+          PythonConstants.roundBinary 24 (-149) 127 value.binary64 do
+        Macro.throwErrorAt e "scalar literal assignment needs unsupported binary64-to-FP32 double rounding"
+  | .ok none => pure ()
+  let dtypeName := mkIdent `dtype
+  `(tritonExpr| tl.full([], $e:tritonExpr, $dtypeName:ident=tl.float32))
 
 private partial def containsStore (raw : Syntax) : Bool :=
   (raw.isAtom && raw.getAtomVal == "tl.store") || raw.getArgs.any containsStore
@@ -516,6 +564,12 @@ private partial def lowerWithState (pointers : Types) (values : Values)
             nextValues := nextValues.filter (fun entry => entry.1 != name id)
             if let some dtype := dtype then
               nextValues := (name id, dtype) :: nextValues
+          let materialized ← expressions.mapM materializeLiteral
+          let x := materialized[0]!
+          let y := materialized[1]!
+          let rhs := materialized.extract 2 materialized.size
+          stmt ← `(tritonStmt| $a:ident, $b:ident $[, $ids:ident]* =
+            $x:tritonExpr, $y:tritonExpr $[, $rhs:tritonExpr]*)
       -- The grammar has a dedicated positional-axis assignment production.
       -- Its reduction dtype must enter the same dataflow as a generic RHS;
       -- otherwise a later store spuriously adds another destination cast.
@@ -532,6 +586,8 @@ private partial def lowerWithState (pointers : Types) (values : Values)
       | `(tritonStmt| $id:ident = $value:tritonExpr) =>
           checkAssignmentLoads pointers values value
           let dtype ← assignedValueType pointers values value
+          let materialized ← materializeLiteral value
+          stmt ← `(tritonStmt| $id:ident = $materialized:tritonExpr)
           checkInvariant invariants id dtype
           nextPointers := pointers.filter (fun entry => entry.1 != name id)
           nextValues := values.filter (fun entry => entry.1 != name id)

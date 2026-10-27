@@ -1612,6 +1612,79 @@ class BmmConstexprBodyTests(unittest.TestCase):
             self.assertEqual(ast.dump(left,include_attributes=False),ast.dump(right,include_attributes=False))
 
 
+class SphericalHarmonicFunctionBodyTests(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/fifth_order_sph_harmonics"
+
+    def test_all_four_complete_bodies(self):
+        pairs = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual([p["statements"] for p in pairs], [73, 73, 122, 122])
+        self.assertTrue(all(p["mode"] == "pasted_body" for p in pairs))
+
+    def test_casts_constants_masks_and_accumulation_cannot_drift(self):
+        records = json.loads((self.directory / "jit-correspondence.json").read_text())
+        checked = set()
+        for record in records:
+            python = (ROOT / record["python"]).read_text()
+            lean = (ROOT / record["lean"]).read_text()
+            body = quotation(lean, record["lean_definition"])[1]
+            import re
+            mutations = []
+            for pattern, replacement in [
+                (r"tl\.cast\(upstream_row_stride, tl\.int64\)", "upstream_row_stride"),
+                (r"tl\.cast\(upstream_col_stride, tl\.int64\)", "upstream_col_stride"),
+                (r"\.to\(tl\.int64\)", ""),
+                (r"mask=[^,)\n]+", "mask=True"),
+                (r"\+=", "="),
+                (r"CONST\d+ = -?\d+\.\d+", "CONST000 = 0.0"),
+            ]:
+                match = re.search(pattern, body)
+                if match:
+                    mutations.append((match.group(), replacement))
+                    checked.add(pattern)
+            for before, after in mutations:
+                with self.subTest(definition=record["lean_definition"], change=before), self.assertRaises(ValueError):
+                    check(python, lean.replace(before, after), **{
+                        k: v for k, v in record.items() if k not in ["python", "lean"]})
+        self.assertEqual(len(checked), 6)
+
+    def test_stride_bindings_and_pointer_types_cannot_drift(self):
+        record = json.loads((self.directory / "jit-correspondence.json").read_text())[2]
+        python = (ROOT / record["python"]).read_text()
+        lean = (ROOT / record["lean"]).read_text()
+        for before, after in [
+            ('("sph_grad_ptr",.fp32)', '("sph_grad_ptr",.fp16)'),
+            ('("upstream_row_stride",.integer)', '("upstream_row_stride",.i32)'),
+            ('upstream_row_stride := upstream_row_stride', 'upstream_row_stride := upstream_col_stride'),
+        ]:
+            self.assertIn(before, lean)
+            with self.subTest(change=before), self.assertRaises(ValueError):
+                check(python, lean.replace(before, after), **{
+                    k: v for k, v in record.items() if k not in ["python", "lean"]})
+
+    def test_candidates_only_reuse_existing_left_associated_powers(self):
+        import copy
+        original = ast.parse((self.directory / "fifth_order_sph_harmonics_repaired.py").read_text())
+        candidate = ast.parse((self.directory / "candidate_kernels.py").read_text())
+        for phase, source_name, depth in [
+            ("forward", "fifth_order_fwd_repaired", 5),
+            ("backward", "fifth_order_bwd_repaired", 4),
+        ]:
+            expected = copy.deepcopy(next(n for n in original.body if isinstance(n, ast.FunctionDef) and n.name == source_name))
+            expected.name = phase + "_powers_kernel"
+            positions = [i for i, n in enumerate(expected.body) if isinstance(n, ast.Assign)
+                         and isinstance(n.targets[0], ast.Name) and n.targets[0].id.startswith("VAR")]
+            self.assertEqual(positions, list(range(positions[0], positions[-1] + 1)))
+            powers = []
+            for coordinate, square in [("x", 8), ("y", 17), ("z", 26)]:
+                powers.append(f"VAR{square:02} = {coordinate} * {coordinate}")
+                for power in range(3, depth + 1):
+                    index = square - power + 2
+                    powers.append(f"VAR{index:02} = VAR{index+1:02} * {coordinate}")
+            expected.body[positions[0]:positions[-1] + 1] = ast.parse("\n".join(powers)).body
+            actual = next(n for n in candidate.body if isinstance(n, ast.FunctionDef) and n.name == expected.name)
+            self.assertEqual(ast.dump(expected, include_attributes=False), ast.dump(actual, include_attributes=False))
+
+
 class GegluFunctionBodyTests(unittest.TestCase):
     directory = ROOT / "bench/repairs/tritonbench_g/geglu_tanh_triton"
 

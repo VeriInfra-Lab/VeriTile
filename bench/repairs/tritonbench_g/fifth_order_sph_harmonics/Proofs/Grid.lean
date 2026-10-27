@@ -95,8 +95,15 @@ theorem forward_tile (M : Algebra α) (p : Parameters) (s : State α)
   obtain ⟨t,run,read,frame⟩:=
     VeriTile.Bench.TritonBenchG.FifthOrderSphHarmonics.TypedFP.source_correct M original s
       (by simp only [original,forwardParameters]; omega) cover
-  refine ⟨t,run,?_,?_⟩
+  have sameMemory : (Execution.forward M p s).val.mem = t.mem := by
+    have ht : t = (VeriTile.Bench.TritonBenchG.FifthOrderSphHarmonics.TypedFP.execution M original s).val :=
+      Option.some.inj (run.symm.trans
+        (VeriTile.Bench.TritonBenchG.FifthOrderSphHarmonics.TypedFP.execution M original s).property)
+    rw [ht, Execution.forward_memory,
+      VeriTile.Bench.TritonBenchG.FifthOrderSphHarmonics.TypedFP.execution_memory]
+  refine ⟨(Execution.forward M p s).val, (Execution.forward M p s).property, ?_, ?_⟩
   · intro c q active
+    rw [sameMemory]
     have bound : VeriTile.Bench.TritonBenchG.FifthOrderSphHarmonics.TypedFP.outputOffset original s c q<original.outputNumel := by
       rw [offset]
       change Readback.row p s q*p.outputWidth+p.columnOffset+c.val<p.outputWidth*p.rows
@@ -105,6 +112,7 @@ theorem forward_tile (M : Algebra α) (p : Parameters) (s : State α)
     rw [offset,VeriTile.Bench.TritonBenchG.FifthOrderSphHarmonics.TypedFP.rawExpected,coord] at h
     simpa only [original,forwardParameters,value,Reference.forwardValues] using h
   · intro region index outside
+    rw [sameMemory]
     apply frame
     rcases outside with h|h
     · exact Or.inl h
