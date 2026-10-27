@@ -1280,3 +1280,59 @@ class AttentionFwdFunctionBodyTests(unittest.TestCase):
                     self.assertIn(before, lean)
                     with self.assertRaises(ValueError):
                         self.compare(record, lean.replace(before, after))
+
+
+class IsfiniteFunctionBodyTests(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/isfinite_kernel"
+
+    def compare(self, record, lean, python=None):
+        kwargs = {k: v for k, v in record.items() if k not in ("python", "lean", "profile_variant")}
+        return check(python or (ROOT / record["python"]).read_text(), lean, **kwargs)
+
+    def test_original_helper_and_both_precisions_of_each_writer(self):
+        pairs = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual([(p["mode"], p["statements"]) for p in pairs],
+                         [("pasted_body", 1)] + [("pasted_body", 7)] * 4)
+        for record in json.loads((self.directory / "jit-correspondence.json").read_text()):
+            source = (ROOT / record["python"]).read_text()
+            fn = next(n for n in ast.parse(source).body if isinstance(n, ast.FunctionDef)
+                      and n.name == record["python_function"])
+            raw = "\n".join(source.splitlines()[fn.body[0].lineno-1:fn.end_lineno])
+            lean = (ROOT / record["lean"]).read_text()
+            self.assertEqual(textwrap.dedent(raw).strip(),
+                             textwrap.dedent(quotation(lean, record["lean_definition"])[1]).strip())
+
+    def test_signed_casts_precision_imports_and_call_coordinates_are_checked(self):
+        mutations = [
+            ("offsets.to(tl.int64)", "offsets"),
+            ("tl.cast(in0_stride, tl.int64)", "in0_stride"),
+            ("tl.cast(out0_stride, tl.int64)", "out0_stride"),
+            (".to(in0_ptr.type.element_ty)", ""),
+            ("out0.to(out0_ptr.type.element_ty)", "out0"),
+            ("offsets < n", "offsets <= n"),
+            ("in0_stride := input.byteStride", "in0_stride := output.byteStride"),
+            ("in0_ptr := input.pointer", "in0_ptr := output.pointer"),
+            ('("_isfinited","triton.language.extra.cuda.libdevice.isfinited")',
+             '("_isfinited","triton.language.extra.cuda.libdevice.finitef")'),
+        ]
+        records = json.loads((self.directory / "jit-correspondence.json").read_text())
+        for record in records[1:]:
+            lean = (ROOT / record["lean"]).read_text()
+            for before, after in mutations:
+                with self.subTest(definition=record["lean_definition"], mutation=before):
+                    self.assertIn(before, lean)
+                    with self.assertRaises(ValueError):
+                        self.compare(record, lean.replace(before, after))
+        helper = records[0]
+        for before, after in [("x.dtype.is_fp64()", "x.dtype.is_fp32()"),
+                              ("x.to(tl.float32)", "x"), ("_isfinited(x)", "_finitef(x)")]:
+            with self.assertRaises(ValueError):
+                self.compare(helper, lean.replace(before, after))
+
+    def test_original_import_binding_must_match_profile(self):
+        record = json.loads((self.directory / "jit-correspondence.json").read_text())[1]
+        source = (ROOT / record["python"]).read_text()
+        changed = source.replace("import isfinited as _isfinited", "import finitef as _isfinited")
+        self.assertNotEqual(source, changed)
+        with self.assertRaisesRegex(ValueError, "source import"):
+            self.compare(record, (ROOT / record["lean"]).read_text(), changed)

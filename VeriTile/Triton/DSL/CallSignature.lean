@@ -43,6 +43,10 @@ structure CallSignature where
   /-- Checked original helper definitions supplied by the caller. Their
   signatures and raw bodies remain outside the pasted writer quotation. -/
   functions : List SourceFunction := []
+  /-- Source import aliases for the checked CUDA finite-classification helper.
+  Only the explicit finitef/isfinited targets accepted by FiniteHelperSource
+  are supported. These bindings are metadata outside the pasted bodies. -/
+  finiteImports : List (String × String) := []
 
 namespace DSL.CallSignature
 open Lean Elab Term Meta
@@ -463,6 +467,10 @@ private partial def normalizeBoundaryTuples (raw : Syntax) : MacroM Syntax := do
   | .node info kind args => return .node info kind (← args.mapM normalizeBoundaryTuples)
   | _ => return raw
 
+private partial def referencesSourceImports (names : List String) (raw : Syntax) : Bool :=
+  (raw.isIdent && names.contains raw.getId.eraseMacroScopes.toString) ||
+    raw.getArgs.any (referencesSourceImports names)
+
 /-- A verification call specializes immutable runtime size values supplied by
 the caller. Their source ABI remains in `scalars`, never in `constexpr`.
 Nat/Int carriers use the existing mathematical index projection;
@@ -525,18 +533,45 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
       unless helperNames.eraseDups.length == helperNames.length &&
           helperNames.all (fun helper => !names.contains helper) do
         throwError "source helper names must be distinct from call parameters"
+      let finiteImports ← bindings stringValue (← mkAppM ``Triton.CallSignature.finiteImports #[profile])
+      let importedNames := finiteImports.map Prod.fst
+      unless importedNames.eraseDups.length == importedNames.length &&
+          importedNames.all (fun name => !names.contains name && !helperNames.contains name) do
+        throwError "source import aliases must be distinct from parameters and helpers"
       let environment ← getEnv
       let checkedFunctions ← sourceFunctions.mapM fun function => do
         let functionName ← stringValue (← mkAppM ``Triton.SourceFunction.name #[function])
         let parameters ← (← listValues
           (← mkAppM ``Triton.SourceFunction.parameters #[function])).mapM stringValue
         let source ← stringValue (← mkAppM ``Triton.SourceFunction.body #[function])
-        liftMacroM <| SourceFunction.check environment functionName parameters source helperNames
+        liftMacroM <| SourceFunction.check environment functionName parameters source (helperNames ++ importedNames)
       for stmt in stmts do
-        rejectArgumentMutation (helperNames.map Name.mkSimple) stmt.raw
-          "source helper names cannot be rebound"
+        rejectArgumentMutation ((helperNames ++ importedNames).map Name.mkSimple) stmt.raw
+          (if finiteImports.isEmpty then "source helper names cannot be rebound"
+           else "source helper and import names cannot be rebound")
+      -- Helpers which reference these explicit extern imports are validated
+      -- by the existing exact dtype-dispatch checker. Ordinary pure helpers
+      -- keep their existing capture-free expression expansion.
+      let finiteFunctions := checkedFunctions.filter (fun fn => referencesSourceImports importedNames fn.result.raw)
+      let ordinaryFunctions := checkedFunctions.filter (fun fn => !referencesSourceImports importedNames fn.result.raw)
+      let finiteDeclarations ← liftMacroM do
+        let mut declarations : Array (TSyntax `tritonStmt) := #[]
+        for (name,target) in finiteImports do
+          let aliasName := mkIdent (Name.mkSimple name)
+          let imported := mkIdent (target.toName)
+          declarations := declarations.push (← `(tritonStmt| tl.source_alias $aliasName:ident = $imported:ident))
+        for fn in finiteFunctions do
+          let [parameter] := fn.parameters
+            | Macro.throwError "finite source helper requires one parameter"
+          let helper := mkIdent fn.name
+          let parameter := mkIdent parameter
+          let expression := fn.result
+          declarations := declarations.push (← `(tritonStmt| tl.source_helper $helper:ident($parameter:ident) { return $expression:tritonExpr }))
+        -- Validate imports and helper expressions even if a helper is unused.
+        let _ ← FiniteHelperSource.prepare declarations.toList names
+        pure declarations
       let stmts ← liftMacroM <| stmts.mapM fun stmt => do
-        return (⟨← SourceFunction.expand checkedFunctions stmt.raw⟩ : TSyntax `tritonStmt)
+        return (⟨← SourceFunction.expand ordinaryFunctions stmt.raw⟩ : TSyntax `tritonStmt)
       let stmts ← liftMacroM <| stmts.mapM fun stmt => do
         return (⟨← PythonBody.markWeakLiterals stmt.raw⟩ : TSyntax `tritonStmt)
       let mut values : List (Name × TSyntax `tritonExpr) := []
@@ -737,7 +772,7 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
             | .fp64 => some (Name.mkSimple name, TypedStores.ValueInfo.typed .fp64)
             | _ => none
         let body ← TypedStores.lower (pointers.map (fun (name, kind) => (Name.mkSimple name, kind))) scalarTypes stmts.toList
-        let emitted := declarations ++ body.toArray
+        let emitted := finiteDeclarations ++ declarations ++ body.toArray
         let compiled ← `(triton { $emitted* })
         if usesTypedFP32 then
           -- DTYPE is interface metadata, evaluated before any source statement.
