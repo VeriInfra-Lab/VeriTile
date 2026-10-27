@@ -1,0 +1,10 @@
+{
+  "integration2": {
+    "exit_code": 130,
+    "reason": "Known regression failures collected; stop remaining obsolete Core12 compilation before applying fixes. Not counted as a passing verification."
+  },
+  "clean-build3": {
+    "exit_code": 130,
+    "reason": "Known old snapshot regression failures; final initially-empty rebuild still required."
+  }
+}

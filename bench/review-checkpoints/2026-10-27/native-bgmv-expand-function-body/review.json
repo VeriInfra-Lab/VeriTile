@@ -1,0 +1,611 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "bgmv_expand_slice"
+  ],
+  "regression_only_pending_body_tasks": [
+    "kv_cache_filling",
+    "triton_argmax"
+  ],
+  "semantic_review": {
+    "adam_update_triton": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "add_example": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "add_value": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "apply_penalty": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "batched_vecmat_mult": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "bgmv_expand_slice": "Four complete raw original/existing output-first candidate bodies cover both accepted signed metadata ABIs. Original Python JIT/wrapper, Correct/FPEquiv/Contract and host input restrictions are byte-identical. The 13 top-level Python AST nodes include the retained docstring. All int64 casts, sentinel early return, EVEN_K load alternatives, signed tl.cdiv, CAST_TYPE branch, signed N loop, actual masks, half multiply/sum, optional old-output addition and final store remain in the quotation. Dtypes, exact contiguous runtime strides and constexpr bindings are outside it. The candidate only exchanges the final FP32 addition operands. The proof-only constexpr view is connected to the complete raw body by full-state/failure equality and trace-safety equivalence for arbitrary opaque algebras; both metadata ABIs have complete-kernel equality. The ordered IO value formula removes the fabricated same-format FP32 cast after addition, while retaining the genuine half-to-FP32 widening and all geometry/channels. New independent SourceValues/SourceGrid support actual signed execution, exact full-grid output and exterior frame, access safety, Real dense-sum correctness, native/host/Tensor results and full-state/failure/safety-preserving FP equivalence. Original nonempty and empty-grid cases and broader backed abstract scope remain. No opaque FP cast identity, new axiom, whole-kernel/model premise, domain narrowing or numerical experiment is introduced.",
+    "cache_transform_triton": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "chunk_cumsum_kernel": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "chunk_cumsum_vector": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "chunked_cumsum_fwd": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "cosine_compute": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "dequantize_matmul": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "dequantize_rowwise": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "destindex_copy": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "destindex_copy_kv1": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "destindex_copy_kv2": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "dropout_triton": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "embedding_triton_kernel": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "f8_conversion_utils": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "fast_rope_embedding": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "flash_decode2_llama": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "flash_decode2_phi": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "fused_activation": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "fused_recurrent_hgrn": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "fused_rotary_embedding": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "index_select_bwd": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "index_select_cat": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "int8_matmul_kernel": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "kcache_copy_triton": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "kldiv_compute": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "kldiv_triton": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "kv_cache_copy": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "kv_cache_filling": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression. Python-body migration remains pending; the existing body-correspondence status is retained.",
+    "l2_norm_bwd": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "l2_norm_triton1": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "l2_norm_triton2": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "log_softmax": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "logsumexp_fwd": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "masked_add_cuda": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "masked_select": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "matmul_kernel": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "matrix_reduction": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "matrix_transpose": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "max_reduction": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "mean_reduction": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "mul_exponent_compensator": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "nested_loops_processing": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "quant_transpose_kernel": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "quantize_copy_kv": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "quantize_global": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "quantize_kv_copy": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "quantize_kv_transform": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "relu_strided_buffer": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "relu_triton_kernel": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "reversed_cumsum": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "reversed_cumsum_scalar": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "rms_norm_triton": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "rmsnorm_fused": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "rmsnorm_fused_llama": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "rmsnorm_implementation": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "rmsnorm_triton": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "rope_backward_transform": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "rope_embedding": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "rope_transform": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "rotary_emb": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "rotary_emb_nopad": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "rowwise_quantization_triton": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "seeded_dropout": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "sin_computation": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "sin_kernel": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "softmax_triton1": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "softmax_triton2": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "square_matrix": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "swiglu_backward": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "swiglu_fwd": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "swiglu_triton": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "token_attn_mistral": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "token_attn_reduceV": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "token_softmax_bloom": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "token_softmax_llama": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "triton_argmax": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression. Python-body migration remains pending; the existing body-correspondence status is retained.",
+    "triton_mul2": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "triton_softmax": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "var_len_copy": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "vector_addition": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression.",
+    "vector_addition_custom": "Shared frontend regression: actual signed source casts and C-style runtime integer division are retained; functional and method load casts retain the same source storage. Public Python/Kernels and mathematical/FP/input domains are unchanged. Proof register states, integer address conversions and source-view connections are updated where necessary. All recorded 3008 public/deep roots and their joint imports replay warm and independently from empty project objects. No new body migration or numerical law is counted for this regression."
+  },
+  "compiler_change": {
+    "files": [
+      "VeriTile/Triton/DSL/Expansion/Compute.lean",
+      "VeriTile/Triton/DSL/Expansion/Main.lean",
+      "VeriTile/Triton/DSL/Inference.lean",
+      "VeriTile/Triton/DSL/TypedStores.lean"
+    ],
+    "behavior": "Preserve explicit signed casts including natural arange; signed runtime cdiv follows (a+(b-1))//b with truncation toward zero. Preserve explicit conversion and ordinary floating promotion over whole-body index pins. Functional and method integer load casts share the actual source storage. Track half reductions and known floating promotions; constexpr branches lower their continuation in the selected type environment. Ambiguous BF16 integer caller/constexpr promotion stays conservative. Explicit casts and genuine output conversions remain.",
+    "official_primary_references": [
+      "https://raw.githubusercontent.com/triton-lang/triton/v3.7.1/python/triton/language/standard.py",
+      "https://raw.githubusercontent.com/triton-lang/triton/v3.7.1/python/triton/language/semantic.py"
+    ],
+    "regressions": "Signed negative cdiv/range bounds, direct INT64 arange assignment, original signed compound-arithmetic guard, existing native-width/bitcast/FP4/TritonSmoke/functional-load regressions, half reductions, mixed half promotion and constexpr-dependent output conversions."
+  },
+  "verification": {
+    "focused": {
+      "status": "PASS",
+      "explicit_modules": 112,
+      "jobs": 8620
+    },
+    "warm_and_joint": {
+      "status": "PASS",
+      "explicit_modules": 3008,
+      "jobs": 12342
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 3008,
+      "jobs": 12342,
+      "project_build_initially_present": false,
+      "project_objects_imported_from_other_checkouts": false,
+      "only_fixed_external_dependencies_imported": true,
+      "setup": {
+        "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/final-clean-setup.json",
+        "sha256": "d13cbbe76d6f0f065d08c5c155eb8b08a8db4faf512ac59a956a4c94af4c5048"
+      }
+    },
+    "trust": "PASS: 18 standalone actual-source/public theorem footprints, including the full Attention closed form, use only standard base. BGMV output_first_strict prints no FP assumptions.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 107
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 352,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by the old numerical receipt; no false repin."
+    },
+    "source": "PASS: four complete raw bodies and actual wrapper launch AST; original Python and host AST unchanged.",
+    "official_comparator": "UNAVAILABLE: 65 actual frozen-source attempts, with pinned binary hashes verified. Host Landlock ABI v4 is below required v5 and no systemd user isolation; no bypass.",
+    "cpu": "UNAVAILABLE: actual existing check_revision.py invocation retained; Torch unavailable in this host.",
+    "gpu_or_numerical_experiment": "Not run.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending; the known unchanged numerical receipt failure remains explicit."
+  },
+  "source_pairs": {
+    "total": 259,
+    "pasted_body": 254,
+    "legacy_ast": 5
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/source-closure.json",
+    "sha256": "f20d22e506e4907b2e19804bb0508c9dce83f7fecbf07ab6f635e4738e341d4b"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "legacy_ast_only": 1,
+      "no_selected_jit_resolved": 2,
+      "selected_body_copy_checked": 84,
+      "uncovered_jit_functions": 96
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 328,
+    "uncovered_selected_jit_functions": 200,
+    "primary_files_with_int64_screen_warning": 26,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 74,
+        "antiquotes": 82,
+        "dsl_loop": 1,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "example_regression_scope": "All 19 selected examples and previous selected public/deep task roots replay warm/joint and independently from empty project objects. Existing unselected legacy-model gaps are not relabeled as passing by this explicitly scoped 3008-root replay.",
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/VeriTile__Examples__AttentionForwardClosedForm-comparator.log",
+      "sha256": "64c7204f5e5dc2711aa57f4d3fb419f0e3451e0c015b02fbb57ad78656465199"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/VeriTile__Triton__DSL__Expansion__Compute-comparator.log",
+      "sha256": "64c7204f5e5dc2711aa57f4d3fb419f0e3451e0c015b02fbb57ad78656465199"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/VeriTile__Triton__DSL__Expansion__Main-comparator.log",
+      "sha256": "64c7204f5e5dc2711aa57f4d3fb419f0e3451e0c015b02fbb57ad78656465199"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/VeriTile__Triton__DSL__Inference-comparator.log",
+      "sha256": "64c7204f5e5dc2711aa57f4d3fb419f0e3451e0c015b02fbb57ad78656465199"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/VeriTile__Triton__DSL__TypedStores-comparator.log",
+      "sha256": "64c7204f5e5dc2711aa57f4d3fb419f0e3451e0c015b02fbb57ad78656465199"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/all-python.log",
+      "sha256": "f2870b165ff70190698a03615030cb19b215d04d264cd5dfd727698f6076d183"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/audit.lean",
+      "sha256": "5bedb5b1b9c0ab3c596270a88aeb84312f5a7e09e6ef56cb2ba53a70f754d1a9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/audit.log",
+      "sha256": "1688e9fca21a139f82c1731649c9b83529a5a109e531e3ae128e1ecc593fc897"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/baseline.json",
+      "sha256": "11d26e55d90e4c42f60b9f05b43389d94f4fb62fe35213647acb416cdd64002f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Correct-comparator.log",
+      "sha256": "64c7204f5e5dc2711aa57f4d3fb419f0e3451e0c015b02fbb57ad78656465199"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__FPEquiv-comparator.log",
+      "sha256": "64c7204f5e5dc2711aa57f4d3fb419f0e3451e0c015b02fbb57ad78656465199"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__IO-comparator.log",
+      "sha256": "64c7204f5e5dc2711aa57f4d3fb419f0e3451e0c015b02fbb57ad78656465199"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Kernels-comparator.log",
+      "sha256": "64c7204f5e5dc2711aa57f4d3fb419f0e3451e0c015b02fbb57ad78656465199"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Misc__NativeCorrect-comparator.log",
+      "sha256": "64c7204f5e5dc2711aa57f4d3fb419f0e3451e0c015b02fbb57ad78656465199"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Misc__TensorBridge-comparator.log",
+      "sha256": "64c7204f5e5dc2711aa57f4d3fb419f0e3451e0c015b02fbb57ad78656465199"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Native-comparator.log",
+      "sha256": "64c7204f5e5dc2711aa57f4d3fb419f0e3451e0c015b02fbb57ad78656465199"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Proofs__AccessSafety-comparator.log",
+      "sha256": "64c7204f5e5dc2711aa57f4d3fb419f0e3451e0c015b02fbb57ad78656465199"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Proofs__IOExecution-comparator.log",
+      "sha256": "64c7204f5e5dc2711aa57f4d3fb419f0e3451e0c015b02fbb57ad78656465199"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Proofs__IOGrid-comparator.log",
+      "sha256": "64c7204f5e5dc2711aa57f4d3fb419f0e3451e0c015b02fbb57ad78656465199"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Proofs__IOImplementation-comparator.log",
+      "sha256": "64c7204f5e5dc2711aa57f4d3fb419f0e3451e0c015b02fbb57ad78656465199"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Proofs__IOValues-comparator.log",
+      "sha256": "64c7204f5e5dc2711aa57f4d3fb419f0e3451e0c015b02fbb57ad78656465199"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Proofs__KernelNativeResults-comparator.log",
+      "sha256": "64c7204f5e5dc2711aa57f4d3fb419f0e3451e0c015b02fbb57ad78656465199"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Proofs__KernelRaw-comparator.log",
+      "sha256": "64c7204f5e5dc2711aa57f4d3fb419f0e3451e0c015b02fbb57ad78656465199"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Proofs__KernelRealResults-comparator.log",
+      "sha256": "083d2e14c0b5bf8d5a6978e53a2ac7ec3e929955c36c58a7acbdf9f2181c7258"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Proofs__PairConnection-comparator.log",
+      "sha256": "083d2e14c0b5bf8d5a6978e53a2ac7ec3e929955c36c58a7acbdf9f2181c7258"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Proofs__SourceGrid-comparator.log",
+      "sha256": "083d2e14c0b5bf8d5a6978e53a2ac7ec3e929955c36c58a7acbdf9f2181c7258"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Proofs__SourceSafety-comparator.log",
+      "sha256": "083d2e14c0b5bf8d5a6978e53a2ac7ec3e929955c36c58a7acbdf9f2181c7258"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Proofs__SourceValues-comparator.log",
+      "sha256": "083d2e14c0b5bf8d5a6978e53a2ac7ec3e929955c36c58a7acbdf9f2181c7258"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Proofs__SourceView-comparator.log",
+      "sha256": "083d2e14c0b5bf8d5a6978e53a2ac7ec3e929955c36c58a7acbdf9f2181c7258"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Real-comparator.log",
+      "sha256": "083d2e14c0b5bf8d5a6978e53a2ac7ec3e929955c36c58a7acbdf9f2181c7258"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__SignedBody-comparator.log",
+      "sha256": "083d2e14c0b5bf8d5a6978e53a2ac7ec3e929955c36c58a7acbdf9f2181c7258"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__SignedExecution-comparator.log",
+      "sha256": "083d2e14c0b5bf8d5a6978e53a2ac7ec3e929955c36c58a7acbdf9f2181c7258"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__SignedGrid-comparator.log",
+      "sha256": "083d2e14c0b5bf8d5a6978e53a2ac7ec3e929955c36c58a7acbdf9f2181c7258"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__SignedProgram-comparator.log",
+      "sha256": "083d2e14c0b5bf8d5a6978e53a2ac7ec3e929955c36c58a7acbdf9f2181c7258"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__SignedReadback-comparator.log",
+      "sha256": "083d2e14c0b5bf8d5a6978e53a2ac7ec3e929955c36c58a7acbdf9f2181c7258"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__SignedSetup-comparator.log",
+      "sha256": "083d2e14c0b5bf8d5a6978e53a2ac7ec3e929955c36c58a7acbdf9f2181c7258"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__SignedStages-comparator.log",
+      "sha256": "083d2e14c0b5bf8d5a6978e53a2ac7ec3e929955c36c58a7acbdf9f2181c7258"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__SurfaceSource-comparator.log",
+      "sha256": "083d2e14c0b5bf8d5a6978e53a2ac7ec3e929955c36c58a7acbdf9f2181c7258"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Targets-comparator.log",
+      "sha256": "083d2e14c0b5bf8d5a6978e53a2ac7ec3e929955c36c58a7acbdf9f2181c7258"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__TensorTarget-comparator.log",
+      "sha256": "083d2e14c0b5bf8d5a6978e53a2ac7ec3e929955c36c58a7acbdf9f2181c7258"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__dequantize_rowwise__Proofs__FPExecution-comparator.log",
+      "sha256": "083d2e14c0b5bf8d5a6978e53a2ac7ec3e929955c36c58a7acbdf9f2181c7258"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__embedding_triton_kernel__Proofs__Execution-comparator.log",
+      "sha256": "083d2e14c0b5bf8d5a6978e53a2ac7ec3e929955c36c58a7acbdf9f2181c7258"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__kldiv_triton__Proofs__BlockMemory-comparator.log",
+      "sha256": "083d2e14c0b5bf8d5a6978e53a2ac7ec3e929955c36c58a7acbdf9f2181c7258"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__kldiv_triton__Proofs__Statement-comparator.log",
+      "sha256": "083d2e14c0b5bf8d5a6978e53a2ac7ec3e929955c36c58a7acbdf9f2181c7258"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__kldiv_triton__Proofs__Tile-comparator.log",
+      "sha256": "083d2e14c0b5bf8d5a6978e53a2ac7ec3e929955c36c58a7acbdf9f2181c7258"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__l2_norm_bwd__Proofs__Statement-comparator.log",
+      "sha256": "b39150da9bf49dccaca8cb51e14b7b070810efd5a97581e892c3321812bb9a6e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__max_reduction__Proofs__LogicalIO-comparator.log",
+      "sha256": "b39150da9bf49dccaca8cb51e14b7b070810efd5a97581e892c3321812bb9a6e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__quantize_kv_copy__Proofs__AccessSafety-comparator.log",
+      "sha256": "b39150da9bf49dccaca8cb51e14b7b070810efd5a97581e892c3321812bb9a6e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__quantize_kv_copy__Proofs__KernelExecution-comparator.log",
+      "sha256": "b39150da9bf49dccaca8cb51e14b7b070810efd5a97581e892c3321812bb9a6e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__quantize_kv_copy__Proofs__Pair-comparator.log",
+      "sha256": "b39150da9bf49dccaca8cb51e14b7b070810efd5a97581e892c3321812bb9a6e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__reversed_cumsum__Proofs__FPIndices-comparator.log",
+      "sha256": "b39150da9bf49dccaca8cb51e14b7b070810efd5a97581e892c3321812bb9a6e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__reversed_cumsum__Proofs__FPProgram-comparator.log",
+      "sha256": "b39150da9bf49dccaca8cb51e14b7b070810efd5a97581e892c3321812bb9a6e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__reversed_cumsum__Proofs__FPStep-comparator.log",
+      "sha256": "b39150da9bf49dccaca8cb51e14b7b070810efd5a97581e892c3321812bb9a6e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__reversed_cumsum__Proofs__IndexProgram-comparator.log",
+      "sha256": "b39150da9bf49dccaca8cb51e14b7b070810efd5a97581e892c3321812bb9a6e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__reversed_cumsum__Proofs__RealProgram-comparator.log",
+      "sha256": "b39150da9bf49dccaca8cb51e14b7b070810efd5a97581e892c3321812bb9a6e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__reversed_cumsum__Proofs__RealStep-comparator.log",
+      "sha256": "b39150da9bf49dccaca8cb51e14b7b070810efd5a97581e892c3321812bb9a6e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__reversed_cumsum__Proofs__RealValues-comparator.log",
+      "sha256": "b39150da9bf49dccaca8cb51e14b7b070810efd5a97581e892c3321812bb9a6e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__reversed_cumsum__Proofs__SourceSafety-comparator.log",
+      "sha256": "b39150da9bf49dccaca8cb51e14b7b070810efd5a97581e892c3321812bb9a6e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__reversed_cumsum_scalar__Proofs__FPProgram-comparator.log",
+      "sha256": "b39150da9bf49dccaca8cb51e14b7b070810efd5a97581e892c3321812bb9a6e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__reversed_cumsum_scalar__Proofs__FPStep-comparator.log",
+      "sha256": "b39150da9bf49dccaca8cb51e14b7b070810efd5a97581e892c3321812bb9a6e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__reversed_cumsum_scalar__Proofs__FPValues-comparator.log",
+      "sha256": "b39150da9bf49dccaca8cb51e14b7b070810efd5a97581e892c3321812bb9a6e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__reversed_cumsum_scalar__Proofs__RealProgram-comparator.log",
+      "sha256": "b39150da9bf49dccaca8cb51e14b7b070810efd5a97581e892c3321812bb9a6e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__reversed_cumsum_scalar__Proofs__RealStep-comparator.log",
+      "sha256": "b39150da9bf49dccaca8cb51e14b7b070810efd5a97581e892c3321812bb9a6e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__reversed_cumsum_scalar__Proofs__RealValues-comparator.log",
+      "sha256": "b39150da9bf49dccaca8cb51e14b7b070810efd5a97581e892c3321812bb9a6e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__reversed_cumsum_scalar__Proofs__SourceSafety-comparator.log",
+      "sha256": "b39150da9bf49dccaca8cb51e14b7b070810efd5a97581e892c3321812bb9a6e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__repairs__tritonbench_g__softmax_triton1__Proofs__Rewrite-comparator.log",
+      "sha256": "b39150da9bf49dccaca8cb51e14b7b070810efd5a97581e892c3321812bb9a6e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__tests__RuntimeIntegerDivision-comparator.log",
+      "sha256": "b39150da9bf49dccaca8cb51e14b7b070810efd5a97581e892c3321812bb9a6e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__tests__TypedStores-comparator.log",
+      "sha256": "a9b8cb00b730ae02c8e3aaa3e0ef1bee246a3e705b800cf34da07d6a63d7de14"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/bench__tritonbench_g__triton_argmax__Proofs__BitCorrect-comparator.log",
+      "sha256": "a9b8cb00b730ae02c8e3aaa3e0ef1bee246a3e705b800cf34da07d6a63d7de14"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/comparator-invocations.json",
+      "sha256": "d2f06b85dce7fccc1283f4de4d3e44d599fdbc3213fb30162cf3083b4214cb08"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/comparator-tools.json",
+      "sha256": "28998e17d51b0fb5930f7489e64512a57f8a8146d1470063a624a75bbabdb0d3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/corpus-guard.log",
+      "sha256": "fb19effd59d0f7eef3f04f3bbdf8e179a421421aac7ad149c40595a5ad2a667a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/cpu-final.log",
+      "sha256": "873d8e3e913525700def920952a0d6ba75dd925966b1c47a884b20507cce6224"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/final-clean-build.log.gz",
+      "sha256": "b951e22dd3a7d16eda3b29fc071f7b0822aee3466e85af07c1a7a74dcc7a5e07"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/final-clean-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/final-clean-setup.json",
+      "sha256": "d13cbbe76d6f0f065d08c5c155eb8b08a8db4faf512ac59a956a4c94af4c5048"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/focus-final-modules.txt",
+      "sha256": "989c481a6db7a522f86ac3bd76466d5def55badaa4996bfbb24268de0ba6d14f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/focus-final.log.gz",
+      "sha256": "2ccf96998ed4427f67d23d7169d972d63976bd547db3e684f60ad453237e0b1e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/focus-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/inspections.json",
+      "sha256": "497146be5e60b207621807acff1d40281e31e838d08fdc0ab45ac1bd682b3345"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/integration-final.log.gz",
+      "sha256": "5f0d22620258071b3422e865d53218bf3eb09071145bb0dc547001911ec3280b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/io-organization-delta.json",
+      "sha256": "2b7a388dc96eedbafbde1f89e72fe8dae80b19da4bdfd6177dab4dde8b3eb276"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/joint-all.lean",
+      "sha256": "af888944044561fc148bfda454d087042770d4e6fa08f98568f7ed771675694b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/joint-final.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/modules.json",
+      "sha256": "be8554174bf2a3c184f7d0ccfb025d6bb18982da3ac2544bd5298fc9ba8de9fc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/pairs.json",
+      "sha256": "b64a71ad27830abc7b01e347c50052909fe1ae391721bed77db66aa9545c9229"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/preliminary-interruptions.json",
+      "sha256": "fd2b7a9cd3b29ab5717f66c1d626e3b516381baeb6b479ec6ec07371067676d1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/previous-io-review.json",
+      "sha256": "b8d97221f3af22ddaeaedc1d227814f92b30eac928f1054333ad4ab2ef94198c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/previous-reviews.json.gz",
+      "sha256": "4bf317a5ed54b0764922ce48ece767d995f7deebec6bd676b750f123d0086cf3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/python-invocations.json",
+      "sha256": "78ea7e9d5abe39fa89dd7e6243af1b853f7564d54367785de344438606fe6929"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/python-tests.log",
+      "sha256": "f63003bd4f6c9c496ab349a284dea518171d51218e13a542bd8f850d23cdf694"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/raw-body-check.log",
+      "sha256": "7931ae0c026dff20b53eadf58209f07cecb42ca54b001b1c127c8a65aacbf4cd"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/source-closure.json",
+      "sha256": "f20d22e506e4907b2e19804bb0508c9dce83f7fecbf07ab6f635e4738e341d4b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/space-recovery.json",
+      "sha256": "2de2d847cf560fcfa633fee4752500edbc89eec64924e254dcc2f7619a8d2389"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/transferred-files.json",
+      "sha256": "b12f743045f6a354162cb4686f91870c800563b286c6fe2fe2671b49ee6a4e18"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/warm-final-invocation.json",
+      "sha256": "2dd7091ed3a84ce9fc31c8925f19310e34f6ccf2a92e9b22b93e25c93e79e980"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/wrapper-source-check.log",
+      "sha256": "693d3d4f9f9005c03fee9a2ec6e7fb85a32a3fa9212bb5856528b00c82365a7d"
+    }
+  ]
+}

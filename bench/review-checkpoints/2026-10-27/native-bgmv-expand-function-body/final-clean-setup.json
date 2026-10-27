@@ -1,0 +1,14 @@
+{
+  "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+  "checkout": "/tmp/veritile-body77",
+  "previous_preliminary_project_build_removed": true,
+  "project_build_initially_present": false,
+  "veritile_cache_initially_present": false,
+  "project_objects_imported_from_other_checkouts": false,
+  "fixed_external_packages_reused": "/home/argustest/lizn/VeriTile/.lake/packages",
+  "changed_source_sha256": {
+    "bench/repairs/tritonbench_g/quantize_kv_copy/Proofs/Pair.lean": "84b2245ce211483d55481d3e511b00b5e74137e5f61e99fb6a2ec6393e9f2305"
+  },
+  "build_exit_code": 0,
+  "joint_exit_code": 0
+}

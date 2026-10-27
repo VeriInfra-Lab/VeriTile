@@ -1,0 +1,30 @@
+import bench.repairs.tritonbench_g.quantize_kv_copy.FPEquiv
+import VeriTile.Examples.AttentionForwardClosedForm
+import bench.repairs.tritonbench_g.bgmv_expand_slice_physical_tile_checked.Correct
+import bench.repairs.tritonbench_g.bgmv_expand_slice_physical_tile_checked.FPEquiv
+import bench.tests.TypedStores
+import bench.tests.RuntimeIntegerDivision
+import bench.tests.FPIntegerConversionNeg
+
+#axiomsClean VeriTile.Bench.Repairs.BgmvExpandSlicePhysicalTileChecked.SourceView.source_run
+#axiomsClean VeriTile.Bench.Repairs.BgmvExpandSlicePhysicalTileChecked.SourceView.source_safe
+#axiomsClean VeriTile.Bench.Repairs.BgmvExpandSlicePhysicalTileChecked.SourceView.original_index_abi
+#axiomsClean VeriTile.Bench.Repairs.BgmvExpandSlicePhysicalTileChecked.SourceView.candidate_index_abi
+#axiomsClean VeriTile.Bench.Repairs.BgmvExpandSlicePhysicalTileChecked.Signed.Execution.source_executes
+#axiomsClean VeriTile.Bench.Repairs.BgmvExpandSlicePhysicalTileChecked.PublicExecution.source_safe
+#axiomsClean VeriTile.Bench.Repairs.BgmvExpandSlicePhysicalTileChecked.PairConnection.source_pair
+#axiomsClean VeriTile.Bench.Repairs.BgmvExpandSlicePhysicalTileChecked.correct
+#axiomsClean VeriTile.Bench.Repairs.BgmvExpandSlicePhysicalTileChecked.Equivalence.output_first_strict
+#print_fp_assumptions VeriTile.Bench.Repairs.BgmvExpandSlicePhysicalTileChecked.Equivalence.output_first_strict
+
+#axiomsClean VeriTile.Examples.AttentionForwardClosedForm.qptrs_signed_eval
+#axiomsClean VeriTile.Examples.AttentionForwardClosedForm.kptrs_signed_eval
+#axiomsClean VeriTile.Examples.AttentionForwardClosedForm.vptrs_signed_eval
+#axiomsClean VeriTile.Examples.AttentionForwardClosedForm.preLoop_scalars
+#axiomsClean VeriTile.Examples.AttentionForwardClosedForm.preLoop
+
+#axiomsClean VeriTile.Examples.AttentionForwardClosedForm.attention_forward_triton_closed_form_correct
+
+#axiomsClean VeriTile.Bench.Repairs.QuantizeKvCopy.Pair.kernel_run
+#axiomsClean VeriTile.Bench.Repairs.QuantizeKvCopy.Pair.kernel_safe
+#axiomsClean VeriTile.Bench.Repairs.QuantizeKvCopy.Pair.equivalent

@@ -1,0 +1,177 @@
+{
+  "status": "PASS",
+  "source_sha256": "2c324c093c5c47c5a3537a298a83f00b4f6cd710d2020fade78e30d2974d9c6e",
+  "complete_original_and_candidate_bodies": [
+    {
+      "python_function": "_bgmv_expand_slice_kernel",
+      "lean_definition": "source",
+      "status": "PASS",
+      "mode": "pasted_body",
+      "argument_mode": "integer_per_call_specialization",
+      "call_bindings": {
+        "N": "h.N",
+        "K": "h.K",
+        "xm_stride": "h.K",
+        "xk_stride": "1",
+        "l0_stride": "h.N * h.K",
+        "lora_k_stride": "h.K",
+        "lora_n_stride": "1",
+        "cm_stride": "h.columns",
+        "cn_stride": "1",
+        "slice_offset": "h.slice"
+      },
+      "statements": 13,
+      "runtime_parameters": {
+        "N": "integer",
+        "K": "integer",
+        "xm_stride": "integer",
+        "xk_stride": "integer",
+        "l0_stride": "integer",
+        "lora_k_stride": "integer",
+        "lora_n_stride": "integer",
+        "cm_stride": "integer",
+        "cn_stride": "integer",
+        "slice_offset": "integer"
+      },
+      "constexpr_parameters": [
+        "ADD_INPUTS",
+        "BLOCK_K",
+        "BLOCK_N",
+        "CAST_TYPE",
+        "EVEN_K",
+        "SPLIT_N"
+      ],
+      "profile_variant": "indices_int64"
+    },
+    {
+      "python_function": "_bgmv_expand_slice_kernel_output_first",
+      "lean_definition": "outputFirst",
+      "status": "PASS",
+      "mode": "pasted_body",
+      "argument_mode": "integer_per_call_specialization",
+      "call_bindings": {
+        "N": "h.N",
+        "K": "h.K",
+        "xm_stride": "h.K",
+        "xk_stride": "1",
+        "l0_stride": "h.N * h.K",
+        "lora_k_stride": "h.K",
+        "lora_n_stride": "1",
+        "cm_stride": "h.columns",
+        "cn_stride": "1",
+        "slice_offset": "h.slice"
+      },
+      "statements": 13,
+      "runtime_parameters": {
+        "N": "integer",
+        "K": "integer",
+        "xm_stride": "integer",
+        "xk_stride": "integer",
+        "l0_stride": "integer",
+        "lora_k_stride": "integer",
+        "lora_n_stride": "integer",
+        "cm_stride": "integer",
+        "cn_stride": "integer",
+        "slice_offset": "integer"
+      },
+      "constexpr_parameters": [
+        "ADD_INPUTS",
+        "BLOCK_K",
+        "BLOCK_N",
+        "CAST_TYPE",
+        "EVEN_K",
+        "SPLIT_N"
+      ],
+      "profile_variant": "indices_int64"
+    },
+    {
+      "python_function": "_bgmv_expand_slice_kernel",
+      "lean_definition": "source32",
+      "status": "PASS",
+      "mode": "pasted_body",
+      "argument_mode": "integer_per_call_specialization",
+      "call_bindings": {
+        "N": "h.N",
+        "K": "h.K",
+        "xm_stride": "h.K",
+        "xk_stride": "1",
+        "l0_stride": "h.N * h.K",
+        "lora_k_stride": "h.K",
+        "lora_n_stride": "1",
+        "cm_stride": "h.columns",
+        "cn_stride": "1",
+        "slice_offset": "h.slice"
+      },
+      "statements": 13,
+      "runtime_parameters": {
+        "N": "integer",
+        "K": "integer",
+        "xm_stride": "integer",
+        "xk_stride": "integer",
+        "l0_stride": "integer",
+        "lora_k_stride": "integer",
+        "lora_n_stride": "integer",
+        "cm_stride": "integer",
+        "cn_stride": "integer",
+        "slice_offset": "integer"
+      },
+      "constexpr_parameters": [
+        "ADD_INPUTS",
+        "BLOCK_K",
+        "BLOCK_N",
+        "CAST_TYPE",
+        "EVEN_K",
+        "SPLIT_N"
+      ],
+      "profile_variant": "indices_int32"
+    },
+    {
+      "python_function": "_bgmv_expand_slice_kernel_output_first",
+      "lean_definition": "outputFirst32",
+      "status": "PASS",
+      "mode": "pasted_body",
+      "argument_mode": "integer_per_call_specialization",
+      "call_bindings": {
+        "N": "h.N",
+        "K": "h.K",
+        "xm_stride": "h.K",
+        "xk_stride": "1",
+        "l0_stride": "h.N * h.K",
+        "lora_k_stride": "h.K",
+        "lora_n_stride": "1",
+        "cm_stride": "h.columns",
+        "cn_stride": "1",
+        "slice_offset": "h.slice"
+      },
+      "statements": 13,
+      "runtime_parameters": {
+        "N": "integer",
+        "K": "integer",
+        "xm_stride": "integer",
+        "xk_stride": "integer",
+        "l0_stride": "integer",
+        "lora_k_stride": "integer",
+        "lora_n_stride": "integer",
+        "cm_stride": "integer",
+        "cn_stride": "integer",
+        "slice_offset": "integer"
+      },
+      "constexpr_parameters": [
+        "ADD_INPUTS",
+        "BLOCK_K",
+        "BLOCK_N",
+        "CAST_TYPE",
+        "EVEN_K",
+        "SPLIT_N"
+      ],
+      "profile_variant": "indices_int32"
+    }
+  ],
+  "wrapper_launch_checked": true,
+  "index_widths": [
+    32,
+    64
+  ],
+  "GPU_execution": false,
+  "native_numerical_conformance": false
+}

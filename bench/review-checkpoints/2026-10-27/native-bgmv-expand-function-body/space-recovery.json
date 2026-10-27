@@ -1,0 +1,12 @@
+{
+  "removed_only": "/tmp/veritile-pr18-review/.lake/build",
+  "reason": "Regenerable project build for completed batch76; its source and verification logs remain. This checkout has no active builder. Batch77 independent rebuild uses its separate owned checkout.",
+  "preserved": [
+    "source",
+    "Git history",
+    "logs",
+    "pinned external packages"
+  ],
+  "free_before": 26661597184,
+  "free_after": 38040268800
+}

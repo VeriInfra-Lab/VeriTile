@@ -1,0 +1,1042 @@
+[
+  {
+    "name": "VeriTile__Examples__AttentionForwardClosedForm-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "VeriTile/Examples/AttentionForwardClosedForm.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-VeriTile__Examples__AttentionForwardClosedForm-comparator.log",
+    "file": "VeriTile/Examples/AttentionForwardClosedForm.lean",
+    "sha256": "147eb1b866db010e50904f942a1dd46635238cf68e6ef3a6c6d821ef512f47b8",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "VeriTile__Triton__DSL__Expansion__Compute-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "VeriTile/Triton/DSL/Expansion/Compute.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-VeriTile__Triton__DSL__Expansion__Compute-comparator.log",
+    "file": "VeriTile/Triton/DSL/Expansion/Compute.lean",
+    "sha256": "422576859aa1aa4dcf8bdba83b86a44726807194cf0839d10f0ae348cf8d5356",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "VeriTile__Triton__DSL__Expansion__Main-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "VeriTile/Triton/DSL/Expansion/Main.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-VeriTile__Triton__DSL__Expansion__Main-comparator.log",
+    "file": "VeriTile/Triton/DSL/Expansion/Main.lean",
+    "sha256": "c32934f2afab797c91e7f856c476bd6633c4ee222d31f59c67792784966f8a64",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "VeriTile__Triton__DSL__Inference-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "VeriTile/Triton/DSL/Inference.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-VeriTile__Triton__DSL__Inference-comparator.log",
+    "file": "VeriTile/Triton/DSL/Inference.lean",
+    "sha256": "e98155c15100eae54b7e2778c14471f4fe208bc2af0ad4bcbf2b4b0b91f8eb5f",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "VeriTile__Triton__DSL__TypedStores-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "VeriTile/Triton/DSL/TypedStores.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-VeriTile__Triton__DSL__TypedStores-comparator.log",
+    "file": "VeriTile/Triton/DSL/TypedStores.lean",
+    "sha256": "627fbc8c977b343f5f49d9e2828e1a4e9e5bc61c63ca5538ec55f15ab383f443",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Correct-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Correct.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Correct-comparator.log",
+    "file": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Correct.lean",
+    "sha256": "ffb6b9798f85fa0aee5e4ed447cf525386ca4c66bcd01e955efa2a7d26cf4a62",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__FPEquiv-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/FPEquiv.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__FPEquiv-comparator.log",
+    "file": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/FPEquiv.lean",
+    "sha256": "f716a0358147db30eb5213ac3ef2b78f421558d89624c69788a05f04e54ba15b",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__IO-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/IO.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__IO-comparator.log",
+    "file": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/IO.lean",
+    "sha256": "6066e0cce6f266f7911f5e4bfb42e41038189ab049d95ec67ab074900675ccf3",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Kernels-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Kernels.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Kernels-comparator.log",
+    "file": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Kernels.lean",
+    "sha256": "b413bd28cec2676870926d1a031e379f490a39e28dbe1085503e5daab2a6ab18",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Misc__NativeCorrect-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Misc/NativeCorrect.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Misc__NativeCorrect-comparator.log",
+    "file": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Misc/NativeCorrect.lean",
+    "sha256": "73ba825ad15d65a649b2a966c70b48e15e047685534b67f94710cd523887b1d6",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Misc__TensorBridge-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Misc/TensorBridge.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Misc__TensorBridge-comparator.log",
+    "file": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Misc/TensorBridge.lean",
+    "sha256": "e37405c6400ed717200de35dcc96532d2c4143d82d07d30e1f41bd98886cc5f3",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Native-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Native.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Native-comparator.log",
+    "file": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Native.lean",
+    "sha256": "07b5191d65896c8876afe903dadff82176382b1f2446e5ee87b8692183ca5be9",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Proofs__AccessSafety-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/AccessSafety.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Proofs__AccessSafety-comparator.log",
+    "file": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/AccessSafety.lean",
+    "sha256": "3cec9b6b959cb38ae0d7120ce16dcc08dc02de810026642763429057c5dc6a94",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Proofs__IOExecution-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/IOExecution.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Proofs__IOExecution-comparator.log",
+    "file": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/IOExecution.lean",
+    "sha256": "4d6f72a4c00db192550521e9e0df6e38092e2bebdcd71e374ada7b3ffe00c10e",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Proofs__IOGrid-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/IOGrid.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Proofs__IOGrid-comparator.log",
+    "file": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/IOGrid.lean",
+    "sha256": "0c4e48ac2c947c0f5442803c44833df9cda46065f6039ee22328f84fab1ae07e",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Proofs__IOImplementation-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/IOImplementation.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Proofs__IOImplementation-comparator.log",
+    "file": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/IOImplementation.lean",
+    "sha256": "f40514edca647d567e2cd54a9a24e13119db0e8d46c87d8ddba36c3643e1f955",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Proofs__IOValues-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/IOValues.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Proofs__IOValues-comparator.log",
+    "file": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/IOValues.lean",
+    "sha256": "4d7fc99f79e783fe4faf72e7c62d63f9937acf4259e72a4d24bc7cc6619c8df4",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Proofs__KernelNativeResults-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/KernelNativeResults.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Proofs__KernelNativeResults-comparator.log",
+    "file": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/KernelNativeResults.lean",
+    "sha256": "e6f3b70346d32c5f8aef29b1bae47063fb2ff12aa8364cff10e9ecf05bc65f01",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Proofs__KernelRaw-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/KernelRaw.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Proofs__KernelRaw-comparator.log",
+    "file": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/KernelRaw.lean",
+    "sha256": "b65aa294f3a7d378418984a6de4f8e78ae8b3f0474ce1a603c5068ace9fd16a2",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Proofs__KernelRealResults-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/KernelRealResults.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Proofs__KernelRealResults-comparator.log",
+    "file": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/KernelRealResults.lean",
+    "sha256": "626540bd511f1804c396a4cb1af26b96af701866fbeda9b5ca8dd2fed70a5266",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Proofs__PairConnection-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/PairConnection.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Proofs__PairConnection-comparator.log",
+    "file": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/PairConnection.lean",
+    "sha256": "7b5f379e8d76d28e6e76ee27dc7507233fdcb398a288a9a6937ba5ae953a8bff",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Proofs__SourceGrid-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/SourceGrid.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Proofs__SourceGrid-comparator.log",
+    "file": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/SourceGrid.lean",
+    "sha256": "1426152619a0d98471c5459bab34049f95af98a81b045dacb77dec7ed74697cb",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Proofs__SourceSafety-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/SourceSafety.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Proofs__SourceSafety-comparator.log",
+    "file": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/SourceSafety.lean",
+    "sha256": "595b8a1a62f765d5838c24828309653b8e656fed0bdec140ad14eb7e8941347d",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Proofs__SourceValues-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/SourceValues.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Proofs__SourceValues-comparator.log",
+    "file": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/SourceValues.lean",
+    "sha256": "06b23a455b03cf7f3711dc5491ce09a5af391750f930f2e4da4971cb956e2628",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Proofs__SourceView-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/SourceView.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Proofs__SourceView-comparator.log",
+    "file": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/SourceView.lean",
+    "sha256": "dd2606b71e33511296f3e673ffa48629102e0cc1fd891d1c7931657539b05980",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Real-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Real.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Real-comparator.log",
+    "file": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Real.lean",
+    "sha256": "550e4520f55d0b6f7b11dd5041c34a1b777d561c0354928cf8ff6cea164642b4",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__SignedBody-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/SignedBody.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__SignedBody-comparator.log",
+    "file": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/SignedBody.lean",
+    "sha256": "a188f686094253ce11a68bef06b37bed0434eba8965449c3e27a05a29a9ae142",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__SignedExecution-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/SignedExecution.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__SignedExecution-comparator.log",
+    "file": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/SignedExecution.lean",
+    "sha256": "65ad800c5144933b86788360c669ed893d396efd80b3ab396159a78c4bc30cee",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__SignedGrid-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/SignedGrid.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__SignedGrid-comparator.log",
+    "file": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/SignedGrid.lean",
+    "sha256": "9c568187b78aad2fe08462228e9b6118efdd1239a5bc5c0f52e8456d53d91baf",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__SignedProgram-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/SignedProgram.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__SignedProgram-comparator.log",
+    "file": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/SignedProgram.lean",
+    "sha256": "43f24a5764f00acecd7fafb14504e782f9f106c0d626cfad20c6a0d0e7734af9",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__SignedReadback-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/SignedReadback.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__SignedReadback-comparator.log",
+    "file": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/SignedReadback.lean",
+    "sha256": "a7cb54d94dd442d0250efa682dff03a7252e551407b27bea0ce9c652f415bb4f",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__SignedSetup-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/SignedSetup.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__SignedSetup-comparator.log",
+    "file": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/SignedSetup.lean",
+    "sha256": "7f05706907ae83a460961e200f35d459452df22e4110d66886486d9d98a6b09a",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__SignedStages-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/SignedStages.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__SignedStages-comparator.log",
+    "file": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/SignedStages.lean",
+    "sha256": "980ce3ca265a2fb6595c201aef4dce4504086f1647bdb89b5b65368a4046d862",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__SurfaceSource-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/SurfaceSource.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__SurfaceSource-comparator.log",
+    "file": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/SurfaceSource.lean",
+    "sha256": "9b042506c83adfd94abaed7dc746eb999d12bc768412c3f9c6176f48f9f0ae9b",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Targets-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Targets.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__Targets-comparator.log",
+    "file": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Targets.lean",
+    "sha256": "247b0428ce6f41cc867c5fb956767d1a8c486b0712729a3000e8798325075bd4",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__TensorTarget-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/TensorTarget.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__bgmv_expand_slice_physical_tile_checked__TensorTarget-comparator.log",
+    "file": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/TensorTarget.lean",
+    "sha256": "23dd812682fcc5e029a4486449b6a4e973870afc27b552089549364714baf9f7",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__dequantize_rowwise__Proofs__FPExecution-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/FPExecution.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__dequantize_rowwise__Proofs__FPExecution-comparator.log",
+    "file": "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/FPExecution.lean",
+    "sha256": "a1de9fca44855989600f4a1ebcc0c43ceced062bbe98282af643b21ca642009e",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__embedding_triton_kernel__Proofs__Execution-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/embedding_triton_kernel/Proofs/Execution.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__embedding_triton_kernel__Proofs__Execution-comparator.log",
+    "file": "bench/repairs/tritonbench_g/embedding_triton_kernel/Proofs/Execution.lean",
+    "sha256": "4180237dad18e5afd95e08165ac88807674755003b7732ed03e4e5d3f7690bcc",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__kldiv_triton__Proofs__BlockMemory-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/kldiv_triton/Proofs/BlockMemory.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__kldiv_triton__Proofs__BlockMemory-comparator.log",
+    "file": "bench/repairs/tritonbench_g/kldiv_triton/Proofs/BlockMemory.lean",
+    "sha256": "714cf4d873b9c2d7d611d971ba5eaefd9507e5f9f0357a94aa048cdb44a31a73",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__kldiv_triton__Proofs__Statement-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/kldiv_triton/Proofs/Statement.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__kldiv_triton__Proofs__Statement-comparator.log",
+    "file": "bench/repairs/tritonbench_g/kldiv_triton/Proofs/Statement.lean",
+    "sha256": "0ac6dde17f25989d2c70ee25c5647f4613ef6969e5139a1ac2fd325ab2126852",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__kldiv_triton__Proofs__Tile-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/kldiv_triton/Proofs/Tile.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__kldiv_triton__Proofs__Tile-comparator.log",
+    "file": "bench/repairs/tritonbench_g/kldiv_triton/Proofs/Tile.lean",
+    "sha256": "2b334aa92f244cf2cc2593c4ff180bb29ecff03c9359a0230367df91603285a2",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__l2_norm_bwd__Proofs__Statement-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/l2_norm_bwd/Proofs/Statement.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__l2_norm_bwd__Proofs__Statement-comparator.log",
+    "file": "bench/repairs/tritonbench_g/l2_norm_bwd/Proofs/Statement.lean",
+    "sha256": "b227e4870c848409fff5afe0ffdd30be348316d2a3ce5849522cae0dd265de5a",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__max_reduction__Proofs__LogicalIO-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/max_reduction/Proofs/LogicalIO.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__max_reduction__Proofs__LogicalIO-comparator.log",
+    "file": "bench/repairs/tritonbench_g/max_reduction/Proofs/LogicalIO.lean",
+    "sha256": "27f877220cef83aab36281366a386268d2fe0f88cd694cb02c8e1a0a768b7dec",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__quantize_kv_copy__Proofs__AccessSafety-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/quantize_kv_copy/Proofs/AccessSafety.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__quantize_kv_copy__Proofs__AccessSafety-comparator.log",
+    "file": "bench/repairs/tritonbench_g/quantize_kv_copy/Proofs/AccessSafety.lean",
+    "sha256": "bac11d97290b28a017abf2a0ab226b4e7aca35312a1c139a9820832f7321dac2",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__quantize_kv_copy__Proofs__KernelExecution-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/quantize_kv_copy/Proofs/KernelExecution.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__quantize_kv_copy__Proofs__KernelExecution-comparator.log",
+    "file": "bench/repairs/tritonbench_g/quantize_kv_copy/Proofs/KernelExecution.lean",
+    "sha256": "77051fe20e35cbe4dde098206e4c125c0e7fdacfe98463fd0728834155e8ef79",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__quantize_kv_copy__Proofs__Pair-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/quantize_kv_copy/Proofs/Pair.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__quantize_kv_copy__Proofs__Pair-comparator.log",
+    "file": "bench/repairs/tritonbench_g/quantize_kv_copy/Proofs/Pair.lean",
+    "sha256": "84b2245ce211483d55481d3e511b00b5e74137e5f61e99fb6a2ec6393e9f2305",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__reversed_cumsum__Proofs__FPIndices-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/reversed_cumsum/Proofs/FPIndices.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__reversed_cumsum__Proofs__FPIndices-comparator.log",
+    "file": "bench/repairs/tritonbench_g/reversed_cumsum/Proofs/FPIndices.lean",
+    "sha256": "5393a02a8e9c04ff6bf52415ed3052e772a931ab01e49ab8dbc8d887e5d7b1dd",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__reversed_cumsum__Proofs__FPProgram-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/reversed_cumsum/Proofs/FPProgram.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__reversed_cumsum__Proofs__FPProgram-comparator.log",
+    "file": "bench/repairs/tritonbench_g/reversed_cumsum/Proofs/FPProgram.lean",
+    "sha256": "0420dac640a80efb39a19d672d06a51d7b88f87c82d6af74b2a621bcdc0400a2",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__reversed_cumsum__Proofs__FPStep-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/reversed_cumsum/Proofs/FPStep.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__reversed_cumsum__Proofs__FPStep-comparator.log",
+    "file": "bench/repairs/tritonbench_g/reversed_cumsum/Proofs/FPStep.lean",
+    "sha256": "41d14f33bba2e669e40bafe893856892a65cc283880a4bbbbb4bd2c6c00edf5b",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__reversed_cumsum__Proofs__IndexProgram-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/reversed_cumsum/Proofs/IndexProgram.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__reversed_cumsum__Proofs__IndexProgram-comparator.log",
+    "file": "bench/repairs/tritonbench_g/reversed_cumsum/Proofs/IndexProgram.lean",
+    "sha256": "3c6dcf5233a0f21e238400a395aefe60a6dd91652a22fbc97a1a5cfe7706468b",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__reversed_cumsum__Proofs__RealProgram-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/reversed_cumsum/Proofs/RealProgram.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__reversed_cumsum__Proofs__RealProgram-comparator.log",
+    "file": "bench/repairs/tritonbench_g/reversed_cumsum/Proofs/RealProgram.lean",
+    "sha256": "32c893c844972f12d12c032d4de637936bb6b9cfff56d454c047c1d8817a8a12",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__reversed_cumsum__Proofs__RealStep-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/reversed_cumsum/Proofs/RealStep.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__reversed_cumsum__Proofs__RealStep-comparator.log",
+    "file": "bench/repairs/tritonbench_g/reversed_cumsum/Proofs/RealStep.lean",
+    "sha256": "accc15223e564606ba3433d26b25ba6bcc4c832c832b129a69b612df365b9d8f",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__reversed_cumsum__Proofs__RealValues-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/reversed_cumsum/Proofs/RealValues.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__reversed_cumsum__Proofs__RealValues-comparator.log",
+    "file": "bench/repairs/tritonbench_g/reversed_cumsum/Proofs/RealValues.lean",
+    "sha256": "14449b2e2a49e4e9b268c113bae8a9d6be31fa2d5cc89554eaeebe3779899c28",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__reversed_cumsum__Proofs__SourceSafety-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/reversed_cumsum/Proofs/SourceSafety.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__reversed_cumsum__Proofs__SourceSafety-comparator.log",
+    "file": "bench/repairs/tritonbench_g/reversed_cumsum/Proofs/SourceSafety.lean",
+    "sha256": "7ce96a99ebc4f407ec3da931668ff7734994285a9fad1e63793e7c77d7dde294",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__reversed_cumsum_scalar__Proofs__FPProgram-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/reversed_cumsum_scalar/Proofs/FPProgram.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__reversed_cumsum_scalar__Proofs__FPProgram-comparator.log",
+    "file": "bench/repairs/tritonbench_g/reversed_cumsum_scalar/Proofs/FPProgram.lean",
+    "sha256": "4e9ce197223ca033b00f174776d618091cdc8c995d2c2ddb1e728161dbf99ae9",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__reversed_cumsum_scalar__Proofs__FPStep-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/reversed_cumsum_scalar/Proofs/FPStep.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__reversed_cumsum_scalar__Proofs__FPStep-comparator.log",
+    "file": "bench/repairs/tritonbench_g/reversed_cumsum_scalar/Proofs/FPStep.lean",
+    "sha256": "b056dbc9d742f4dea36bbb914cb3a2a258c9596525d18a19dc1fd6b59150d913",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__reversed_cumsum_scalar__Proofs__FPValues-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/reversed_cumsum_scalar/Proofs/FPValues.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__reversed_cumsum_scalar__Proofs__FPValues-comparator.log",
+    "file": "bench/repairs/tritonbench_g/reversed_cumsum_scalar/Proofs/FPValues.lean",
+    "sha256": "95ad684120c428b592bb11c3939bc52a9c1ec61c21c504801bc2b45454116da9",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__reversed_cumsum_scalar__Proofs__RealProgram-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/reversed_cumsum_scalar/Proofs/RealProgram.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__reversed_cumsum_scalar__Proofs__RealProgram-comparator.log",
+    "file": "bench/repairs/tritonbench_g/reversed_cumsum_scalar/Proofs/RealProgram.lean",
+    "sha256": "46cbe5abaf2689fb20a1323941ceb9d2ea67f8404d0c274c13866831628fcfbe",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__reversed_cumsum_scalar__Proofs__RealStep-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/reversed_cumsum_scalar/Proofs/RealStep.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__reversed_cumsum_scalar__Proofs__RealStep-comparator.log",
+    "file": "bench/repairs/tritonbench_g/reversed_cumsum_scalar/Proofs/RealStep.lean",
+    "sha256": "4be07154895c4e9fc30f3a1d46eec3f333c48a632f22baaf9d1dacdc5ac31625",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__reversed_cumsum_scalar__Proofs__RealValues-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/reversed_cumsum_scalar/Proofs/RealValues.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__reversed_cumsum_scalar__Proofs__RealValues-comparator.log",
+    "file": "bench/repairs/tritonbench_g/reversed_cumsum_scalar/Proofs/RealValues.lean",
+    "sha256": "c2bf37eadcdc14bce68e80078dab84fb6e8188124c3611407aba60c130432023",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__reversed_cumsum_scalar__Proofs__SourceSafety-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/reversed_cumsum_scalar/Proofs/SourceSafety.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__reversed_cumsum_scalar__Proofs__SourceSafety-comparator.log",
+    "file": "bench/repairs/tritonbench_g/reversed_cumsum_scalar/Proofs/SourceSafety.lean",
+    "sha256": "d6133fb54bf63ce7b3e3068caadfd9b370503fbe36e4e676a572bc598b166926",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__softmax_triton1__Proofs__Rewrite-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/softmax_triton1/Proofs/Rewrite.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__repairs__tritonbench_g__softmax_triton1__Proofs__Rewrite-comparator.log",
+    "file": "bench/repairs/tritonbench_g/softmax_triton1/Proofs/Rewrite.lean",
+    "sha256": "540058445f148fadd7613aebea9b827b4d98832accee267838614faaa32db413",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__tests__RuntimeIntegerDivision-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/tests/RuntimeIntegerDivision.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__tests__RuntimeIntegerDivision-comparator.log",
+    "file": "bench/tests/RuntimeIntegerDivision.lean",
+    "sha256": "91cfd4e5862dfbda6c4907f3e631ce5aff24ea9ab1ae09c0559b81709bf2f71b",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__tests__TypedStores-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/tests/TypedStores.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__tests__TypedStores-comparator.log",
+    "file": "bench/tests/TypedStores.lean",
+    "sha256": "37138715220d3544f313dc8295af7d7014cdb8f5f77a64cfe3aa4c4426c847ea",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__tritonbench_g__triton_argmax__Proofs__BitCorrect-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/tritonbench_g/triton_argmax/Proofs/BitCorrect.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-bench__tritonbench_g__triton_argmax__Proofs__BitCorrect-comparator.log",
+    "file": "bench/tritonbench_g/triton_argmax/Proofs/BitCorrect.lean",
+    "sha256": "5a4ee7ecf66bd1a3c5005473e13f8e2452d27c74426d95e3ed70cf5cab3c717e",
+    "status": "UNAVAILABLE"
+  }
+]

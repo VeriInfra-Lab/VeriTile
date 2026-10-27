@@ -1,0 +1,31 @@
+[
+  {
+    "name": "python-tests",
+    "command": [
+      "python3",
+      "-m",
+      "unittest",
+      "bench.tests.test_jit_correspondence",
+      "bench.tests.test_body_corpus"
+    ],
+    "exit_code": 0,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-python-tests.log"
+  },
+  {
+    "name": "all-python",
+    "command": [
+      "python3",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "bench/tests",
+      "-p",
+      "test_*.py"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-all-python.log"
+  }
+]

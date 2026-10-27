@@ -1,0 +1,221 @@
+{
+  "task": "bgmv_expand_slice",
+  "status": "fixed",
+  "selected_public_entries": [
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Contract.lean",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Correct.lean",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/FPEquiv.lean"
+  ],
+  "assessment": {
+    "organization": "The existing physical memory interface and the logical view used by the main theorem now reside together in task-level IO.lean; original namespaces and full judgments are retained. Execution, safety and complete connection proofs remain in Proofs.",
+    "preservation": {
+      "evidence": {
+        "path": ".veritile-cache/io-unification-20261023/queue02/preservation.json",
+        "sha256": "9a4c1f836b6f38f7601c7fcfaa8176eb48c1298cb8243ee1a1d9b1f1e1632c75"
+      },
+      "task_evidence": {
+        "moved_blocks": [
+          {
+            "from": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/LogicalIO.lean",
+            "to": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/IO.lean",
+            "body_sha256": "ce2de1a4430517ad907f0898fbdfdd229a541cf6eb8f4a6c7b06eca330d001d9",
+            "body_exact_substring": true,
+            "names": [
+              "LogicalInputs",
+              "logicalInputsEquiv",
+              "logicalOutputsEquiv",
+              "LogicalInputs.inputAt",
+              "logicalValid",
+              "gemvLogicalIO"
+            ]
+          },
+          {
+            "from": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/IO.lean",
+            "to": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/IO.lean",
+            "original_body_sha256": "e24ac5cfbe20d2b889018fd917954477b1641ec40ec63966cd1f0510486cf272",
+            "exact_body_after_two_lexical_spaces": true,
+            "body_exact_substring": false,
+            "normalized_body_exact_substring": true
+          }
+        ],
+        "import_only_changes": [
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/LogicalReader.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/Direct/FPSetup.lean"
+        ],
+        "byte_unchanged_files": [
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Real.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Correct.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/FPEquiv.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Native.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/SurfaceSource.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Target.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/SignedStages.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Inputs.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Targets.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Definitions.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Tensor.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/SignedGrid.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Memory.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Contract.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Kernels.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/TensorTarget.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Safety.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/ByteCodec.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/SignedSetup.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/SignedControl.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/SignedReadback.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/SignedBody.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/SignedExecution.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Stores.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/SignedProgram.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Misc/Audit.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Misc/NativeCorrect.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Misc/TensorBridge.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/KernelNativeResults.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/IOImplementation.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/IOSafety.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/AccessSafety.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/IOGrid.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/IOReal.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/PairIO.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/IOBindings.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/IOValues.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/KernelRaw.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/PairConnection.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/IOExecution.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/SourceSafety.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/KernelRealResults.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/Direct/FPProgram.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/Direct/FPScalarTree.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/Direct/FPControl.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/Direct/Geometry.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/Direct/FPBody.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/Direct/Kernels.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/Direct/FPReadback.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/Direct/FPStages.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/Direct/FPValues.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/Direct/FPGrid.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/Direct/Bounds.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/Direct/FPExecution.lean"
+        ],
+        "protected_entries_byte_unchanged": [
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Contract.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Correct.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/FPEquiv.lean",
+          "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Kernels.lean"
+        ],
+        "judgment_preservation": "The complete original physical IO bodies are retained (two whitespace disambiguations only for bgmv_expand_slice); all logical view declaration bodies including complete judgment types are byte-preserved. Contract, Correct, FPEquiv and Kernels source is byte unchanged. Proofs/LogicalReader signatures/bodies have only import changes.",
+        "lexical_disambiguation": {
+          "needed": true,
+          "reason": "Importing the logical view and concrete Real model exposes the Mathlib ≤i / <i notation; spaces preserve ordinary comparisons to index and inputWidth.",
+          "fixture": ".veritile-cache/io-unification-20261023/queue02/fixtures/bgmv_expand_slice_lexical_preservation.lean"
+        }
+      }
+    },
+    "different_stage_or_encoding_exceptions": [],
+    "previous_assessment": {
+      "manifest": "bench/review-checkpoints/2026-10-22/logical-readers/io-audit.json",
+      "task": "bgmv_expand_slice"
+    }
+  },
+  "distinct_views": "Real and native share the typed layout and parameterized source schedule. Public Real uses Real.algebra/reduction; the main strict pair fixes only the established FP32 software addition model. FP16 weights/reduction and signed metadata remain unchanged.",
+  "readers": [
+    {
+      "path": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Correct.lean",
+      "sha256": "ffb6b9798f85fa0aee5e4ed447cf525386ca4c66bcd01e955efa2a7d26cf4a62"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/FPEquiv.lean",
+      "sha256": "f716a0358147db30eb5213ac3ef2b78f421558d89624c69788a05f04e54ba15b"
+    }
+  ],
+  "io_sources": [
+    {
+      "path": "VeriTile/Triton/Float/LogicalProgramIO.lean",
+      "sha256": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358"
+    },
+    {
+      "path": "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean",
+      "sha256": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+    },
+    {
+      "path": "VeriTile/Triton/Memory/LogicalIO.lean",
+      "sha256": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/IO.lean",
+      "sha256": "7e197b3769c18a1c08c6324f991bff967b063634c01b1fde39f53e4087b83149"
+    }
+  ],
+  "changed_paths": [
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/IO.lean"
+  ],
+  "review_evidence": {
+    "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/bgmv_expand_slice.json",
+    "sha256": "2ab2a28ad0eda47b443b1395d59e04860e069ee9830641fa81cb5f6891e690e2",
+    "task": "bgmv_expand_slice"
+  },
+  "preservation_and_build_passed": true,
+  "validation_limits": {
+    "cache_refresh": "Root authorized source-unchanged Real.lean refresh after the old algebra object lacked the current Algebra constructor field; task-local dependent builds then passed."
+  },
+  "remaining_issues": [],
+  "main_formula_review": {
+    "audit": "bench/review-checkpoints/2026-10-22/main-formulas/audit.json",
+    "review_evidence": {
+      "path": ".veritile-cache/headline-formulas-20261022/queue02/result.json",
+      "sha256": "b9c04fba761b5cb744b83a7698b5402f712766af51dc07ac0b35e6a9bbe8b3a4",
+      "task_index": 2,
+      "task": "bgmv_expand_slice"
+    },
+    "io_data_unchanged": true
+  },
+  "previous_io_sources": [
+    {
+      "path": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/IO.lean",
+      "sha256": "13866ef6a928191fac0fb952c5313df43a4a8a415a9fd6b9de5421cf3440a67d"
+    }
+  ],
+  "previous_review_evidence": {
+    "path": "bench/review-checkpoints/2026-10-22/logical-readers/tasks/bgmv_expand_slice.json",
+    "sha256": "7a4769106d0743df582595b98b3d37eab79e8bc187d5bfed440e8d5ba5a5bb08",
+    "task": "bgmv_expand_slice"
+  },
+  "unchanged_prior_io_source_origins": {
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/IO.lean": [
+      {
+        "path": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/IO.lean",
+        "sha256": "13866ef6a928191fac0fb952c5313df43a4a8a415a9fd6b9de5421cf3440a67d"
+      }
+    ]
+  },
+  "logical_reader_review": {
+    "path": "bench/review-checkpoints/2026-10-22/logical-readers/tasks/bgmv_expand_slice.json",
+    "sha256": "7a4769106d0743df582595b98b3d37eab79e8bc187d5bfed440e8d5ba5a5bb08",
+    "task": "bgmv_expand_slice"
+  },
+  "previous_assessment": "IO.lean owns the unrestricted invocation, its finite-program specialization, the original complete ProgramIO and the candidate variant. Proofs/IOExecution and Proofs/PairIO retain execution, safety and equivalence proofs.",
+  "previous_changed_paths": [
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/IO.lean",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/IOExecution.lean",
+    "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Proofs/PairIO.lean"
+  ],
+  "previous_canonical_io_declarations": [
+    {
+      "path": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/IO.lean",
+      "definitions": [
+        "PublicExecution.invocation",
+        "PublicIO.invocation",
+        "PublicIO.sourceIO",
+        "PairIO.invocation",
+        "PairIO.candidate"
+      ],
+      "sha256": "13866ef6a928191fac0fb952c5313df43a4a8a415a9fd6b9de5421cf3440a67d"
+    }
+  ],
+  "io_unification_review": {
+    "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/bgmv_expand_slice.json",
+    "sha256": "2ab2a28ad0eda47b443b1395d59e04860e069ee9830641fa81cb5f6891e690e2",
+    "task": "bgmv_expand_slice"
+  }
+}

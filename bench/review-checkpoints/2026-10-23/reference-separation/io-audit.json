@@ -3257,6 +3257,19 @@
         "previous_assessment": {
           "manifest": "bench/review-checkpoints/2026-10-22/logical-readers/io-audit.json",
           "task": "bgmv_expand_slice"
+        },
+        "raw_body_source_alignment": {
+          "task": "bgmv_expand_slice",
+          "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+          "change": "Only localValue removes the fabricated FP32-to-FP32 cast around the optional FP32 addition. This corrects the ordered FP formula to the actual source and does not assert equality with the old opaque cast formula.",
+          "organization": "Physical and logical IO remain in the same task-level IO.lean. Read/write geometry, channels, masks, schedule, input bindings, logical bijections, public theorem text and domains are retained. Corrected values are connected by the actual raw-source execution, output/frame and safety proofs.",
+          "previous_io_sha256": "7e197b3769c18a1c08c6324f991bff967b063634c01b1fde39f53e4087b83149",
+          "current_io": {
+            "path": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/IO.lean",
+            "sha256": "6066e0cce6f266f7911f5e4bfb42e41038189ab049d95ec67ab074900675ccf3"
+          },
+          "validation": "All 112 focused/regression roots, all 3008 public/deep roots and joint imports pass, including the independent initially-empty project rebuild. No new FP identity or whole-kernel assumption.",
+          "remaining_io_organization_issues": []
         }
       },
       "distinct_views": "Real and native share the typed layout and parameterized source schedule. Public Real uses Real.algebra/reduction; the main strict pair fixes only the established FP32 software addition model. FP16 weights/reduction and signed metadata remain unchanged.",
@@ -3285,15 +3298,15 @@
         },
         {
           "path": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/IO.lean",
-          "sha256": "7e197b3769c18a1c08c6324f991bff967b063634c01b1fde39f53e4087b83149"
+          "sha256": "6066e0cce6f266f7911f5e4bfb42e41038189ab049d95ec67ab074900675ccf3"
         }
       ],
       "changed_paths": [
         "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/IO.lean"
       ],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/bgmv_expand_slice.json",
-        "sha256": "2ab2a28ad0eda47b443b1395d59e04860e069ee9830641fa81cb5f6891e690e2",
+        "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/io-organization-delta.json",
+        "sha256": "2b7a388dc96eedbafbde1f89e72fe8dae80b19da4bdfd6177dab4dde8b3eb276",
         "task": "bgmv_expand_slice"
       },
       "preservation_and_build_passed": true,
@@ -3358,6 +3371,15 @@
         "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/bgmv_expand_slice.json",
         "sha256": "2ab2a28ad0eda47b443b1395d59e04860e069ee9830641fa81cb5f6891e690e2",
         "task": "bgmv_expand_slice"
+      },
+      "previous_raw_body_review_evidence": {
+        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/bgmv_expand_slice.json",
+        "sha256": "2ab2a28ad0eda47b443b1395d59e04860e069ee9830641fa81cb5f6891e690e2",
+        "task": "bgmv_expand_slice"
+      },
+      "raw_body_io_review": {
+        "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/io-organization-delta.json",
+        "sha256": "2b7a388dc96eedbafbde1f89e72fe8dae80b19da4bdfd6177dab4dde8b3eb276"
       }
     },
     {
@@ -36730,6 +36752,10 @@
     {
       "path": "bench/review-checkpoints/2026-10-25/native-precise-divide-quantize-body/io-organization-delta.json",
       "sha256": "9d6582bb23b5349a5be2c926795cd08887a9313624d13dd0f2d2c3e0f5fb5a8e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bgmv-expand-function-body/io-organization-delta.json",
+      "sha256": "2b7a388dc96eedbafbde1f89e72fe8dae80b19da4bdfd6177dab4dde8b3eb276"
     }
   ]
 }

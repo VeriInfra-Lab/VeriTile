@@ -1,0 +1,49 @@
+{
+  "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+  "raw_bodies_and_wrapper": [
+    {
+      "name": "raw-body-check",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+      "log": "/tmp/bgmv77-raw-body-check.log",
+      "status": "PASS"
+    },
+    {
+      "name": "wrapper-source-check",
+      "command": [
+        "python3",
+        "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/check_source.py"
+      ],
+      "exit_code": 0,
+      "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+      "log": "/tmp/bgmv77-wrapper-source-check.log",
+      "status": "PASS"
+    }
+  ],
+  "cpu": {
+    "name": "cpu-final",
+    "command": [
+      "python3",
+      "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/check_revision.py"
+    ],
+    "exit_code": 1,
+    "code_commit": "2e946a28aeb5769e5fb1fa1d12a90fc5b83e4498",
+    "log": "/tmp/bgmv77-cpu-final.log",
+    "status": "UNAVAILABLE"
+  },
+  "unchanged_selected_source_and_wrapper": {
+    "path": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/bgmv_expand_slice_physical_tile_checked.py",
+    "source_sha256": "2c324c093c5c47c5a3537a298a83f00b4f6cd710d2020fade78e30d2974d9c6e",
+    "jit_ast_sha256": "f59e7c3ede834d87fbe0aab14114c9555702db2a84550f56dbf2151baf56b3e3",
+    "host_ast_sha256": "f798b6190dcab4151486f045b6a55dfd466c6a9e2669549dd4c3c4fc820a4125",
+    "top_level_ast_statements_including_docstring": 13,
+    "status": "PASS"
+  },
+  "scope": "Complete raw-body/ABI correspondence and unchanged original Python/host AST. CPU check status is the actual invocation; no GPU or numerical experiment."
+}
