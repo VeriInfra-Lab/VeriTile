@@ -1,0 +1,170 @@
+[
+  {
+    "python_function": "diag_ssm_forward_kernel",
+    "lean_definition": "forwardTyped",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "length": "length",
+      "batch_size": "batch_size",
+      "dim": "dim"
+    },
+    "statements": 10,
+    "runtime_parameters": {
+      "length": "integer",
+      "batch_size": "integer",
+      "dim": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE"
+    ]
+  },
+  {
+    "python_function": "diag_ssm_forward_kernel_index_commuted",
+    "lean_definition": "forwardIndexCommuted",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "length": "length",
+      "batch_size": "batch_size",
+      "dim": "dim"
+    },
+    "statements": 10,
+    "runtime_parameters": {
+      "length": "integer",
+      "batch_size": "integer",
+      "dim": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE"
+    ]
+  },
+  {
+    "python_function": "diag_ssm_backward_kernel",
+    "lean_definition": "backwardTyped",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "length": "length",
+      "batch_size": "batch_size",
+      "dim": "dim"
+    },
+    "statements": 13,
+    "runtime_parameters": {
+      "length": "integer",
+      "batch_size": "integer",
+      "dim": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE"
+    ]
+  },
+  {
+    "python_function": "diag_ssm_backward_kernel_index_commuted",
+    "lean_definition": "backwardIndexCommuted",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "length": "length",
+      "batch_size": "batch_size",
+      "dim": "dim"
+    },
+    "statements": 13,
+    "runtime_parameters": {
+      "length": "integer",
+      "batch_size": "integer",
+      "dim": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE"
+    ]
+  },
+  {
+    "python_function": "diag_ssm_forward_kernel_complex",
+    "lean_definition": "complexForwardTyped",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "length": "length",
+      "batch_size": "batch_size",
+      "dim": "dim"
+    },
+    "statements": 12,
+    "runtime_parameters": {
+      "length": "integer",
+      "batch_size": "integer",
+      "dim": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE"
+    ]
+  },
+  {
+    "python_function": "diag_ssm_forward_kernel_complex_index_commuted",
+    "lean_definition": "complexForwardIndexCommuted",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "length": "length",
+      "batch_size": "batch_size",
+      "dim": "dim"
+    },
+    "statements": 12,
+    "runtime_parameters": {
+      "length": "integer",
+      "batch_size": "integer",
+      "dim": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE"
+    ]
+  },
+  {
+    "python_function": "diag_ssm_backward_kernel_complex",
+    "lean_definition": "complexBackwardTyped",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "length": "length",
+      "batch_size": "batch_size",
+      "dim": "dim"
+    },
+    "statements": 18,
+    "runtime_parameters": {
+      "length": "integer",
+      "batch_size": "integer",
+      "dim": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE"
+    ]
+  },
+  {
+    "python_function": "diag_ssm_backward_kernel_complex_index_commuted",
+    "lean_definition": "complexBackwardIndexCommuted",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "length": "length",
+      "batch_size": "batch_size",
+      "dim": "dim"
+    },
+    "statements": 18,
+    "runtime_parameters": {
+      "length": "integer",
+      "batch_size": "integer",
+      "dim": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE"
+    ]
+  }
+]

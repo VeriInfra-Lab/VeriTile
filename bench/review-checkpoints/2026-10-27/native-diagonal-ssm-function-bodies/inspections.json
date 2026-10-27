@@ -1,0 +1,49 @@
+{
+  "code_commit": "f883eb6081530ea8581e88bb8a400a39e64ed56d",
+  "raw_bodies": [
+    {
+      "name": "raw-body-check",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/diag_ssm_triton/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "f883eb6081530ea8581e88bb8a400a39e64ed56d",
+      "log": "/tmp/ssm89-raw-body-check.log",
+      "status": "PASS"
+    }
+  ],
+  "candidate_rewrites": [
+    {
+      "status": "PASS",
+      "scope": "All four complete signatures, decorators, docstrings and function ASTs checked by DiagonalSsmFunctionBodyTests; only the existing integer program-id/block product is commuted."
+    }
+  ],
+  "cpu": {
+    "name": "cpu-final",
+    "command": [
+      "python3",
+      "bench/repairs/tritonbench_g/diag_ssm_triton/check_source.py"
+    ],
+    "exit_code": 1,
+    "code_commit": "f883eb6081530ea8581e88bb8a400a39e64ed56d",
+    "log": "/tmp/ssm89-cpu-final.log",
+    "status": "UNAVAILABLE"
+  },
+  "original_python_wrappers_and_public_statements": {
+    "status": "PASS",
+    "sha256": {
+      "bench/repairs/tritonbench_g/diag_ssm_triton/IO.lean": "a4c68e8ba1072fbb4dd67991e21cce31dd1256d5b51446c49c7363a90163590a",
+      "bench/repairs/tritonbench_g/diag_ssm_triton/Contract.lean": "b6d8467af408c109febd780fd6816227af90b2677e1c62811aba1a0beeb0c377",
+      "bench/repairs/tritonbench_g/diag_ssm_triton/diag_ssm_triton_repaired.py": "f4093c767a2e53fed90c15415e37f58cb3843437a3c434ffaa2ec5e83982f340",
+      "bench/repairs/tritonbench_g/diag_ssm_triton/Correct.lean": "220d8a01e230772a533c98bb19dcb892478ae45d7e9c409fc9e6ff6d68028b0d",
+      "bench/repairs/tritonbench_g/diag_ssm_triton/check_lowering.py": "a98a44ec63a15eed65dbc22cfb98d3b082431d9df98a6c0b35501dc79666b997",
+      "bench/repairs/tritonbench_g/diag_ssm_triton/check_source.py": "2734f324a2caa91b7aee12541465111c19c7100a485a226f9e3d4542f98542dd",
+      "bench/repairs/tritonbench_g/diag_ssm_triton/FPEquiv.lean": "a2427cc1f57b6b9b5673fdfaa621ab5d531a6b489b3ad35651690dc3e723f48c",
+      "bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/Contract.lean": "90491d1fe7b9a4a56b02e514b2cc12258bf3af56a8ac1d66b37f38d103190796"
+    }
+  },
+  "scope": "Eight complete raw real/complex forward/backward source and candidate bodies. Casts, reverse-time branches, conjugation, tuple updates and terminal stores retained. Actual execution, memory correspondence and safety reverified, including zero length. No new numerical law, domain narrowing or GPU experiment."
+}

@@ -1,0 +1,518 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/diag_ssm_triton/diag_ssm_triton_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/diag_ssm_triton/Kernels.lean",
+    "python_function": "diag_ssm_forward_kernel",
+    "lean_definition": "forwardTyped",
+    "signature_definition": "forwardTypedSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "s_ptr",
+          "fp32"
+        ],
+        [
+          "x_ptr",
+          "fp32"
+        ],
+        [
+          "lambda_ptr",
+          "fp32"
+        ],
+        [
+          "y_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "length",
+          "integer"
+        ],
+        [
+          "batch_size",
+          "integer"
+        ],
+        [
+          "dim",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "s_ptr",
+        "x_ptr",
+        "lambda_ptr"
+      ],
+      "writePorts": [
+        "y_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "length": "length",
+      "batch_size": "batch_size",
+      "dim": "dim"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/diag_ssm_triton/candidate_kernels.py",
+    "lean": "bench/repairs/tritonbench_g/diag_ssm_triton/Kernels.lean",
+    "python_function": "diag_ssm_forward_kernel_index_commuted",
+    "lean_definition": "forwardIndexCommuted",
+    "signature_definition": "forwardTypedSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "s_ptr",
+          "fp32"
+        ],
+        [
+          "x_ptr",
+          "fp32"
+        ],
+        [
+          "lambda_ptr",
+          "fp32"
+        ],
+        [
+          "y_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "length",
+          "integer"
+        ],
+        [
+          "batch_size",
+          "integer"
+        ],
+        [
+          "dim",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "s_ptr",
+        "x_ptr",
+        "lambda_ptr"
+      ],
+      "writePorts": [
+        "y_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "length": "length",
+      "batch_size": "batch_size",
+      "dim": "dim"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/diag_ssm_triton/diag_ssm_triton_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/diag_ssm_triton/Kernels.lean",
+    "python_function": "diag_ssm_backward_kernel",
+    "lean_definition": "backwardTyped",
+    "signature_definition": "backwardTypedSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "s_ptr",
+          "fp32"
+        ],
+        [
+          "lambda_ptr",
+          "fp32"
+        ],
+        [
+          "y_ptr",
+          "fp32"
+        ],
+        [
+          "grad_s_ptr",
+          "fp32"
+        ],
+        [
+          "grad_x_ptr",
+          "fp32"
+        ],
+        [
+          "grad_lambda_ptr",
+          "fp32"
+        ],
+        [
+          "grad_y_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "length",
+          "integer"
+        ],
+        [
+          "batch_size",
+          "integer"
+        ],
+        [
+          "dim",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "s_ptr",
+        "lambda_ptr",
+        "y_ptr",
+        "grad_y_ptr"
+      ],
+      "writePorts": [
+        "grad_s_ptr",
+        "grad_x_ptr",
+        "grad_lambda_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "length": "length",
+      "batch_size": "batch_size",
+      "dim": "dim"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/diag_ssm_triton/candidate_kernels.py",
+    "lean": "bench/repairs/tritonbench_g/diag_ssm_triton/Kernels.lean",
+    "python_function": "diag_ssm_backward_kernel_index_commuted",
+    "lean_definition": "backwardIndexCommuted",
+    "signature_definition": "backwardTypedSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "s_ptr",
+          "fp32"
+        ],
+        [
+          "lambda_ptr",
+          "fp32"
+        ],
+        [
+          "y_ptr",
+          "fp32"
+        ],
+        [
+          "grad_s_ptr",
+          "fp32"
+        ],
+        [
+          "grad_x_ptr",
+          "fp32"
+        ],
+        [
+          "grad_lambda_ptr",
+          "fp32"
+        ],
+        [
+          "grad_y_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "length",
+          "integer"
+        ],
+        [
+          "batch_size",
+          "integer"
+        ],
+        [
+          "dim",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "s_ptr",
+        "lambda_ptr",
+        "y_ptr",
+        "grad_y_ptr"
+      ],
+      "writePorts": [
+        "grad_s_ptr",
+        "grad_x_ptr",
+        "grad_lambda_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "length": "length",
+      "batch_size": "batch_size",
+      "dim": "dim"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/diag_ssm_triton/diag_ssm_triton_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/diag_ssm_triton/Kernels.lean",
+    "python_function": "diag_ssm_forward_kernel_complex",
+    "lean_definition": "complexForwardTyped",
+    "signature_definition": "complexForwardTypedSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "s_ptr",
+          "fp32"
+        ],
+        [
+          "x_ptr",
+          "fp32"
+        ],
+        [
+          "y_ptr",
+          "fp32"
+        ],
+        [
+          "lambda_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "length",
+          "integer"
+        ],
+        [
+          "batch_size",
+          "integer"
+        ],
+        [
+          "dim",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "s_ptr",
+        "x_ptr",
+        "lambda_ptr"
+      ],
+      "writePorts": [
+        "y_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "length": "length",
+      "batch_size": "batch_size",
+      "dim": "dim"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/diag_ssm_triton/candidate_kernels.py",
+    "lean": "bench/repairs/tritonbench_g/diag_ssm_triton/Kernels.lean",
+    "python_function": "diag_ssm_forward_kernel_complex_index_commuted",
+    "lean_definition": "complexForwardIndexCommuted",
+    "signature_definition": "complexForwardTypedSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "s_ptr",
+          "fp32"
+        ],
+        [
+          "x_ptr",
+          "fp32"
+        ],
+        [
+          "y_ptr",
+          "fp32"
+        ],
+        [
+          "lambda_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "length",
+          "integer"
+        ],
+        [
+          "batch_size",
+          "integer"
+        ],
+        [
+          "dim",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "s_ptr",
+        "x_ptr",
+        "lambda_ptr"
+      ],
+      "writePorts": [
+        "y_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "length": "length",
+      "batch_size": "batch_size",
+      "dim": "dim"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/diag_ssm_triton/diag_ssm_triton_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/diag_ssm_triton/Kernels.lean",
+    "python_function": "diag_ssm_backward_kernel_complex",
+    "lean_definition": "complexBackwardTyped",
+    "signature_definition": "complexBackwardTypedSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "s_ptr",
+          "fp32"
+        ],
+        [
+          "lambda_ptr",
+          "fp32"
+        ],
+        [
+          "y_ptr",
+          "fp32"
+        ],
+        [
+          "grad_s_ptr",
+          "fp32"
+        ],
+        [
+          "grad_x_ptr",
+          "fp32"
+        ],
+        [
+          "grad_lambda_ptr",
+          "fp32"
+        ],
+        [
+          "grad_y_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "length",
+          "integer"
+        ],
+        [
+          "batch_size",
+          "integer"
+        ],
+        [
+          "dim",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "s_ptr",
+        "lambda_ptr",
+        "y_ptr",
+        "grad_y_ptr"
+      ],
+      "writePorts": [
+        "grad_s_ptr",
+        "grad_x_ptr",
+        "grad_lambda_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "length": "length",
+      "batch_size": "batch_size",
+      "dim": "dim"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/diag_ssm_triton/candidate_kernels.py",
+    "lean": "bench/repairs/tritonbench_g/diag_ssm_triton/Kernels.lean",
+    "python_function": "diag_ssm_backward_kernel_complex_index_commuted",
+    "lean_definition": "complexBackwardIndexCommuted",
+    "signature_definition": "complexBackwardTypedSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "s_ptr",
+          "fp32"
+        ],
+        [
+          "lambda_ptr",
+          "fp32"
+        ],
+        [
+          "y_ptr",
+          "fp32"
+        ],
+        [
+          "grad_s_ptr",
+          "fp32"
+        ],
+        [
+          "grad_x_ptr",
+          "fp32"
+        ],
+        [
+          "grad_lambda_ptr",
+          "fp32"
+        ],
+        [
+          "grad_y_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "length",
+          "integer"
+        ],
+        [
+          "batch_size",
+          "integer"
+        ],
+        [
+          "dim",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "s_ptr",
+        "lambda_ptr",
+        "y_ptr",
+        "grad_y_ptr"
+      ],
+      "writePorts": [
+        "grad_s_ptr",
+        "grad_x_ptr",
+        "grad_lambda_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "length": "length",
+      "batch_size": "batch_size",
+      "dim": "dim"
+    }
+  }
+]

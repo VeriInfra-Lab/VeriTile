@@ -1,0 +1,1184 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "f883eb6081530ea8581e88bb8a400a39e64ed56d",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "diag_ssm_triton"
+  ],
+  "regression_only_pending_body_tasks": [
+    "kv_cache_filling"
+  ],
+  "semantic_review": {
+    "adam_update_triton": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "add_example": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "add_value": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "apply_penalty": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "attention_fwd_triton1": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "batched_vecmat_mult": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "bgmv_expand_slice": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "bmm_optimized": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "cache_transform_triton": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "chunk_cumsum_kernel": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "chunk_cumsum_vector": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "chunk_delta_fwd": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "chunked_cumsum_fwd": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "cosine_compute": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "dequantize_matmul": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "dequantize_rowwise": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "destindex_copy": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "destindex_copy_kv1": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "destindex_copy_kv2": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "diag_ssm_triton": "Eight full original/existing candidate bodies preserve real/complex forward/backward functions, docstrings, signed casts, reverse-time branches, conjugation, loop-carried tuple order and terminal stores. Candidate Python changes only the existing integer program-id/block multiplication order. Original Python/wrappers and public Correct/FPEquiv/Contract/IO remain byte-identical. Four actual-source execution, final-memory and trace-safety bridges connect the copied bodies to independent recurrences, including zero length. Signed source registers are related at reachable iterations; no false whole-AST or whole-register equality is used. SourceReferenceTrace bridges only fixed mathematical fragments to the existing trivially rounded safety view, then composes their local relations through loops. RegionCorrectness and public IO consume the actual memory and safety bridges. The four existing finite flat contracts are re-proved through actual-source memory and flattening bridges, preserving zero-length alias cases. The internal TypedPreservation module replaces invalid historical full-state reflexivity claims with actual original/index-commuted pairs. The four public FP pairs compare actual full programs and require no numerical assumptions. No floating cast identity, whole-kernel premise or domain narrowing.",
+    "dropout_triton": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "embedding_triton_kernel": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "f8_conversion_utils": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "fast_rope_embedding": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "fifth_order_sph_harmonics": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "flash_decode2_llama": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "flash_decode2_phi": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "fused_activation": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "fused_recurrent_hgrn": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "fused_rotary_embedding": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "geglu_tanh_triton": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "index_select_bwd": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "index_select_cat": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "int8_matmul_kernel": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "isfinite_kernel": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "kcache_copy_triton": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "kldiv_compute": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "kldiv_ops": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "kldiv_triton": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "kv_cache_copy": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "kv_cache_filling": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim. Python-body migration remains pending; its correspondence status is retained.",
+    "l2_norm_bwd": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "l2_norm_triton1": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "l2_norm_triton2": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "log_softmax": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "logsumexp_fwd": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "masked_add_cuda": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "masked_select": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "matmul_kernel": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "matrix_reduction": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "matrix_transpose": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "max_reduction": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "mean_reduction": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "mul_exponent_compensator": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "nested_loops_processing": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "quant_transpose_kernel": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "quantize_copy_kv": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "quantize_global": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "quantize_kv_copy": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "quantize_kv_transform": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "relu_strided_buffer": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "relu_triton_kernel": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "reversed_cumsum": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "reversed_cumsum_scalar": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "rms_norm_triton": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "rmsnorm_fused": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "rmsnorm_fused_llama": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "rmsnorm_implementation": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "rmsnorm_triton": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "rope_backward_transform": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "rope_embedding": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "rope_transform": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "rotary_emb": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "rotary_emb_nopad": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "rowwise_quantization_triton": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "seeded_dropout": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "sin_computation": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "sin_kernel": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "softmax_optimize": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "softmax_triton1": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "softmax_triton2": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "softmax_triton3": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "square_matrix": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "swiglu_backward": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "swiglu_fwd": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "swiglu_triton": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "token_attn_mistral": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "token_attn_reduceV": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "token_softmax_bloom": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "token_softmax_llama": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "triton_argmax": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "triton_mul2": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "triton_softmax": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "var_len_copy": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "vector_addition": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "vector_addition_custom": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim."
+  },
+  "compiler_change": {
+    "files": [
+      "VeriTile/Triton/DSL/TypedStores.lean"
+    ],
+    "behavior": "The shared frontend now accepts negation of one complete floating load, preserving its load precision and ordered negation. Other nested floating loads remain rejected. Loop-carried tuple assignments accept identifier-only right-hand sides, with the existing stable dtype and overwritten-register capture checks retained. All 100 registered frontend roots pass before the task rebuild; all 3651 cumulative roots and joint imports pass warm and independently from empty project objects. No numerical semantics or specification is weakened. Unchanged tasks receive regression evidence only, not a new migration claim."
+  },
+  "verification": {
+    "flat_connection_followup": "The complete task replay found two optional leaves still using historical AST reflexivity. PerProgram retains its four exact finite flat contracts using actual-source safety, supported-fragment and memory bridges, with positive-length-only separation unchanged. The internal TypedPreservation comparisons now name the four actual original/index-commuted pairs instead of claiming full-state identity with an unsigned historical model. Public Correct/FPEquiv/IO/Contract remain byte-identical. No frontend code changed after the passing 100-root preflight.",
+    "baseline": {
+      "status": "PASS",
+      "explicit_modules": 74,
+      "jobs": 3594
+    },
+    "frontend_preflight": {
+      "status": "PASS",
+      "explicit_modules": 100,
+      "jobs": 3752,
+      "scope": "All registered FPFrontendRegressions roots, including load-negation/loop-tuple AST preservation and three fail-closed rejection checks."
+    },
+    "focused": {
+      "status": "PASS",
+      "explicit_modules": 128,
+      "jobs": 3653,
+      "additional_scope": "Joint import, standalone frontend AST footprint, 166 actual-source/public/IO audits and four empty FP assumption reports."
+    },
+    "warm_and_joint": {
+      "status": "PASS",
+      "explicit_modules": 3651,
+      "jobs": 13285
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 3651,
+      "jobs": 13285,
+      "project_build_initially_present": false,
+      "project_objects_imported_from_other_checkouts": false,
+      "only_fixed_external_dependencies_imported": true,
+      "setup": {
+        "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/final-clean-setup.json",
+        "sha256": "ccf4474d77ad2fa01854110fcc96a782aed6faddf6416ba5260de587438f4f51"
+      }
+    },
+    "trust": "PASS: 166 actual-source/public/IO footprints and one new frontend AST footprint use only standard base. All four public FP entries print no FP assumptions.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 144
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 389,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by old numerical receipt; no false repin."
+    },
+    "source": "PASS: eight complete raw original/existing candidate bodies and exact caller bindings; original Python/wrappers/public statements unchanged, actual-source deep proofs updated and replayed.",
+    "official_comparator": "UNAVAILABLE: 130 actual final-source attempts with verified pinned binaries. Host Landlock ABI v4 is below required v5; no systemd user isolation or bypass.",
+    "cpu": "UNAVAILABLE: actual check_source.py CPU invocation requires missing Torch.",
+    "gpu_or_numerical_experiment": "Not run.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending; the known unchanged numerical receipt failure remains explicit."
+  },
+  "source_pairs": {
+    "total": 295,
+    "pasted_body": 295,
+    "legacy_ast": 0
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/source-closure.json",
+    "sha256": "d962d1126b0a34eee560ac82b78a65307b1b18c9a00540a63e0f924f541bd072"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "no_selected_jit_resolved": 2,
+      "selected_body_copy_checked": 95,
+      "uncovered_jit_functions": 86
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 328,
+    "uncovered_selected_jit_functions": 179,
+    "primary_files_with_int64_screen_warning": 23,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 63,
+        "antiquotes": 71,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "example_regression_scope": "All 19 selected examples and all previous recorded task roots replay warm/joint and independently from empty project objects. Unselected historical model gaps are not relabeled as passing.",
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/VeriTile__Triton__DSL__TypedStores-comparator.log",
+      "sha256": "9dacba6e57de66a0adf6a949dc6b3f5fbfb311ba4ffd2866943416e0a3949932"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/all-python.log",
+      "sha256": "0da5eba5cf28db1f28210ff60ce9fc89f0b36d50d01929134ce3a32eb330e01c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/audit-targets.json",
+      "sha256": "783844d0892cf0146f6ea4666a4dd88fb99821862e31029669213f4acc827dd3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/audit.lean",
+      "sha256": "e12553f9ad84083360505d1ab5695b4803f075b864de474242d9a37102e921b4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/audit.log.gz",
+      "sha256": "f3e2776647ab0336bdf3c003477a72ab99eb82a3da14693ea6324ceec5373db8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/baseline-build.log.gz",
+      "sha256": "c6c41fdc1622d49aa08c60931f2c8c0c36317eba99bcf42bbe8758e441e40366"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/baseline.json",
+      "sha256": "1f5b4a9a1e07baebd09445b9277ad9826bd2362e5e8225bbb98d416dec0bd6c6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/build-invocations.json",
+      "sha256": "8feef86d17eb98f392621a820397df4b8ecf77306d6555aa01ccb9080b603e65"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/focus-build.log.gz",
+      "sha256": "fef52e6b38db1bda37a103d6c4a8ec3b3ba7e72898c43a15568bb40ba121e745"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/VeriTile/Triton/DSL/TypedStores.lean",
+      "sha256": "ba68ed4636cae65275a81f9872b99a9d990befe56cb3206be2f6412cf3f99904"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Kernels.lean",
+      "sha256": "025d5567db4cd47b29d33c8464ff36e7725b44ae3af7df66154245c0200cf68d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/FPExecution.lean",
+      "sha256": "3c59bc1578eb94300cc80d5336487bf883f920128aea9ecfd80c845ee8a242ed"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/FPInterface.lean",
+      "sha256": "6a6ed86a4404e3c82c7a02fd91256bad213918abf2743e84d0dfc07be1f51a2b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/IOBackwardResults.lean",
+      "sha256": "ba94ebd9cf0f2f861478c2cd641798b50b3e39badc85ca0937fea77ed0a1cdc5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/IOForwardResults.lean",
+      "sha256": "a3ac5ca036343b0831505d8cfa9ca240dab435d3b349abd73aebfde08072ac39"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/IOForwardSafety.lean",
+      "sha256": "dfdeb0b464ebac8e73893ed1ef9be972eaeb07168312c287b592ef2a8dc0edd6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/IOSafety.lean",
+      "sha256": "4bceed485c5a8228b5fc2c80d6f05c7df4f94f7aead4b6d514dea2190bf60d4d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/ReadableSource.lean",
+      "sha256": "36af2134294f80dd165fc39a13d9181f97e473f52895ce29bc590c7b754eea05"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/RegionCorrectness.lean",
+      "sha256": "41744592d267ab5343d92d744530349280049fcf4d6d5c18fcf70d28617d3214"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceBackwardCompose.lean",
+      "sha256": "20f3f1e8d9d9c3b97c8c62039362f88ee89254274c1e4cfc18eb8a4ee95592cc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceBackwardCorrespondence.lean",
+      "sha256": "550611e3221de8545656cc44b9250d2ba8f6c70f189b7254bfce2235129d3e0a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceBackwardExecution.lean",
+      "sha256": "b3313270826d54b28e8518b6ab612eb8ed962197566bc10db089a70f5aec0a63"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceBackwardIndexedSafety.lean",
+      "sha256": "4307ba50aea94b28a34779fca39b10130f32419efaa63fe312a9116f0d9226cb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceBackwardLoop.lean",
+      "sha256": "d6795a66dca9cea9fba77ee5baad1a3e60e15677c6f7cf11a3f5d02a73d3cae7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceBackwardPost.lean",
+      "sha256": "79731a2dd514f17e40a78b77c0d3826f02f5a22a5e1670421e5d46e87491a3e1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceBackwardPostSafety.lean",
+      "sha256": "101fb27d1115cba6d0a8017e74545114e69d5b16c9e6124c0c54d7cd6ee66f3b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceBackwardPrefixSafety.lean",
+      "sha256": "09c02a87aef2b70f5600b67b88268ba947c90c149bcfb747b07ab929c70dfe18"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceBackwardPrevious.lean",
+      "sha256": "f6037a4bc1b54bfca3c85de49e3dc553e3f1773e2fa23ed25db8653a9dbefdf6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceBackwardPreviousSafety.lean",
+      "sha256": "e7115039aa38a2c1dfe5807138128a4d88c281ccc51ff95d251b374f452db462"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceBackwardRangeSafety.lean",
+      "sha256": "7ca0e7e0cefa87ea1c98fa52bd81ddaab0e573b520bb80e9bd7a27d353445458"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceBackwardRun.lean",
+      "sha256": "f87106eea1f3a48ce19c445d1ac59522a06fc9215a4911b0db5e7e40469e2cc0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceBackwardSafety.lean",
+      "sha256": "3ef049513189232d14e8457d42d0abdb35c348f603b19f9e2851d2a15983965f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceBackwardStages.lean",
+      "sha256": "22b2dd82ba8b95d18efa4b46f89fd32cd34c16ef6c34197178569ded08cce73b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceBackwardStepSafety.lean",
+      "sha256": "4a5c55baa458ea5bbcd63bfdfacff38fc6751836736bedadb710b5c911c44eaf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceBackwardSuffix.lean",
+      "sha256": "eb6fb5b079ce1e9beae0fdc8c1ccb006a1ee96a95b910fd3d673bf335fc16301"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceBackwardSuffixSafety.lean",
+      "sha256": "edd9cbdebb3a75ddacf1787cd32389ad3e8ab6fec28460cbfcf1574e64c4a504"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceComplexBackwardCompose.lean",
+      "sha256": "0c6c2e8e70fa2f5928c0567b4b77150c3f1ef806945bca47bfba724c88724bed"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceComplexBackwardCorrespondence.lean",
+      "sha256": "f3dd7d1c8007b4354fe2a4a233b4010e0cf454a412b83b06771a8db1bc6468c5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceComplexBackwardExecution.lean",
+      "sha256": "898c0c70f664c5b2ac4307d9afbe557260187e937fa9e11cf87c654b89949bbc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceComplexBackwardIndexedSafety.lean",
+      "sha256": "41a31ea53e57454f0fbf18267e40ce50d30c9b2db7ef901c7f43fb56a883b018"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceComplexBackwardLoop.lean",
+      "sha256": "fb44dd75806e77c00fd8aec053f7741a22dacb3806cabe993bc05a0636cdb22b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceComplexBackwardPost.lean",
+      "sha256": "abfb7a4349d016fbc83bf2d8a2e962d772d2e2516df7b00e4dc3e2919b55c75c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceComplexBackwardPostSafety.lean",
+      "sha256": "b3ba1caa9298ce1a0ad5b21752eb530e2aa176e73bf245efa3d1ef109ebc5670"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceComplexBackwardPrefixSafety.lean",
+      "sha256": "0454e9a9856618939220aa7fc7570abbf676e828d41333eb092349bdcef33dd9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceComplexBackwardPrevious.lean",
+      "sha256": "b29a1ea42886d83550a15923a96b29b2918159395d861ebbd742b61f56981803"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceComplexBackwardPreviousSafety.lean",
+      "sha256": "d60e337935a46ac45b0e0474ef461c8cc1f40b26730be5d529abcad9d362be15"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceComplexBackwardRun.lean",
+      "sha256": "c3b8ee4c979e3f6da3de5b9afba3820f4f5690aec9c56f67e36027d7c3ca1549"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceComplexBackwardSafety.lean",
+      "sha256": "13873b8f12bb8f0b9eab99947c93522b83b6bb8e9b977884e93d69d0d5f9ace9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceComplexBackwardStages.lean",
+      "sha256": "23aa6201da79623a1cf3ef8f24d42d248fcafb605ff2d121fa8a6d54fa112ffe"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceComplexBackwardStepSafety.lean",
+      "sha256": "999c4f7c362630580d9ca4363cceb90214fc689fd11c4705a1062319fb196e0f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceComplexBackwardSuffix.lean",
+      "sha256": "23f909e0edef4a8a7678165374f582c8521292c47795d75dfb3f9c0ea8480ecb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceComplexBackwardSuffixSafety.lean",
+      "sha256": "676c2c5acde7154d93726e30d49e02ec99455c46360b89146d5a5d205ae740db"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceComplexCorrespondence.lean",
+      "sha256": "72713d7eedfd6d9d6a809a40e1ad68a8ebf62161ae44f0964ea413202bd42237"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceComplexExecution.lean",
+      "sha256": "e9ea20de0bca83dccd84f37312f4feed51ee99b1b6c36db28904ba81ef857ea7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceComplexLoop.lean",
+      "sha256": "e09b7dd3b1d461f9b82e5a2a4b45a201c44fa4425c3e43592ad06a93a4d89366"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceComplexPrefixSafety.lean",
+      "sha256": "369b86361a3093b2009e4916181c99ec9f750c85e745e88baa28e6f6a654b02a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceComplexRun.lean",
+      "sha256": "d355812c44e9149e7e8f04c16328caa7917cdd910e9010aaac831b084897f333"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceComplexSafety.lean",
+      "sha256": "e73201e179de4ed0ce671c79c88da0001d904d22c879ef1134fb6f56a7cff963"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceComplexStepRelation.lean",
+      "sha256": "8092ff396e720d1614e06432179499637c2f86544d0eb42cc4b8aaa996c91cc7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceComplexStepSafety.lean",
+      "sha256": "7dc504980edccb9ba827d68da01f2fd9a7fa10ff21bb9b383607b093dc668672"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceLoopSimulation.lean",
+      "sha256": "d839a1903863f29d00c2543f7007b47c19f6854fcc74a4d2bea492375e803b89"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourcePair.lean",
+      "sha256": "f464482f359e03166365bdac8b7a24c88240e15e91e331f29e4fb9161b3acf1c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceRealCorrespondence.lean",
+      "sha256": "4502c3ab7e8a1a5afe366b189c6752314d111b8e483147873e3ff7c7c16d64c5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceRealExecution.lean",
+      "sha256": "d706020928cf27b920bfddf955dfa46faab0c142334b4a031e15fde4da9f7521"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceRealLoop.lean",
+      "sha256": "2c6bfb42162d328afad4ea3bc3324c02e42fd8f381d3b6a2f1573d7925f4f288"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceRealPrefixSafety.lean",
+      "sha256": "e7b99cc201ebf98ddde059229359bdaa0c9564513e4be3320983c1114b297b52"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceRealRun.lean",
+      "sha256": "1f8e2fbeeccf45c684a9e303cc2f9fdb2e4094961e82a8609149b5fdfcc90c65"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceRealSafety.lean",
+      "sha256": "f4f615e4e457505b42dd9a00e942e4dcb7fbfaa7ecdd80a75e5b5f3397fbd788"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceRealStep.lean",
+      "sha256": "e08322278f29bd15d3a7516e7014a4d4970dba7f2693e75be8dc4dec98ccc778"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceRealStepRelation.lean",
+      "sha256": "f5f2cad5d7a214258c05e79b8aad93c63e10e1659731e174e7c6c4b80a6215cf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceRealStepSafety.lean",
+      "sha256": "1b624bec44c7e95047c246932d704b786aa15a9aa00c3cf1ce68a3dbce9a458a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/Proofs/SourceReferenceTrace.lean",
+      "sha256": "feb91a26ded88ee07d14c57854e17241e36d531e18ea1d3855e9da9164296a1c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/candidate_kernels.py",
+      "sha256": "8cddf9a18ae4fbc2f43e754db6e4dd64ff3db83441fc0704ba26eb47c0fd1651"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/repairs/tritonbench_g/diag_ssm_triton/jit-correspondence.json",
+      "sha256": "fad68a367f91e043f4bd626b991153cdfc37f2ea1ae00aa3a00e54a73bd8f35f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/tests/LoopTupleLoadBody.lean",
+      "sha256": "0024ec0c70b2534d06d049d91288a307d98dc7464a09dc01f66f6bcda94b7e89"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/bench/tests/test_diag_ssm_body.py",
+      "sha256": "b896ae0601cd2bcf5fe429c27080de7e4c33b46aaf78e9d229cb4ac91515a824"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/source/lakefile.toml",
+      "sha256": "ec43306e24f580231f65005249a2d5c563d66d6a92908c5e85bbf827f7f98160"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/before-flat-connection/transferred-files.json",
+      "sha256": "d3acb7d61e798ae2b8188ea7ca98776d3147acc2125fb64c5493e6791e95ab0d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Contract-comparator.log",
+      "sha256": "9dacba6e57de66a0adf6a949dc6b3f5fbfb311ba4ffd2866943416e0a3949932"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Correct-comparator.log",
+      "sha256": "9dacba6e57de66a0adf6a949dc6b3f5fbfb311ba4ffd2866943416e0a3949932"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__FPEquiv-comparator.log",
+      "sha256": "9dacba6e57de66a0adf6a949dc6b3f5fbfb311ba4ffd2866943416e0a3949932"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__IO-comparator.log",
+      "sha256": "9dacba6e57de66a0adf6a949dc6b3f5fbfb311ba4ffd2866943416e0a3949932"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Kernels-comparator.log",
+      "sha256": "9dacba6e57de66a0adf6a949dc6b3f5fbfb311ba4ffd2866943416e0a3949932"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Misc__Auxiliary-comparator.log",
+      "sha256": "9dacba6e57de66a0adf6a949dc6b3f5fbfb311ba4ffd2866943416e0a3949932"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Misc__TensorBridge-comparator.log",
+      "sha256": "9dacba6e57de66a0adf6a949dc6b3f5fbfb311ba4ffd2866943416e0a3949932"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__Adjoint-comparator.log",
+      "sha256": "9dacba6e57de66a0adf6a949dc6b3f5fbfb311ba4ffd2866943416e0a3949932"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__Admission-comparator.log",
+      "sha256": "22621536aa242747f49815987af162c68549938b90012b450686d5bdc8fbfe9b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__Assertions-comparator.log",
+      "sha256": "22621536aa242747f49815987af162c68549938b90012b450686d5bdc8fbfe9b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__BackwardComplete-comparator.log",
+      "sha256": "22621536aa242747f49815987af162c68549938b90012b450686d5bdc8fbfe9b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__BackwardExecution-comparator.log",
+      "sha256": "22621536aa242747f49815987af162c68549938b90012b450686d5bdc8fbfe9b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__BackwardGrid-comparator.log",
+      "sha256": "22621536aa242747f49815987af162c68549938b90012b450686d5bdc8fbfe9b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__BackwardWrapper-comparator.log",
+      "sha256": "22621536aa242747f49815987af162c68549938b90012b450686d5bdc8fbfe9b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__BatchContributions-comparator.log",
+      "sha256": "22621536aa242747f49815987af162c68549938b90012b450686d5bdc8fbfe9b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__ByteMemory-comparator.log",
+      "sha256": "22621536aa242747f49815987af162c68549938b90012b450686d5bdc8fbfe9b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__Contract-comparator.log",
+      "sha256": "22621536aa242747f49815987af162c68549938b90012b450686d5bdc8fbfe9b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__Dispatch-comparator.log",
+      "sha256": "7eab64166ea6ae60234b235dd452d948e6fad5f7ab86d8627be01b7a8ca5299e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__EmptyShapes-comparator.log",
+      "sha256": "7eab64166ea6ae60234b235dd452d948e6fad5f7ab86d8627be01b7a8ca5299e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__Execution-comparator.log",
+      "sha256": "7eab64166ea6ae60234b235dd452d948e6fad5f7ab86d8627be01b7a8ca5299e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__FPExecution-comparator.log",
+      "sha256": "7eab64166ea6ae60234b235dd452d948e6fad5f7ab86d8627be01b7a8ca5299e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__FPInterface-comparator.log",
+      "sha256": "7eab64166ea6ae60234b235dd452d948e6fad5f7ab86d8627be01b7a8ca5299e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__Failure-comparator.log",
+      "sha256": "7eab64166ea6ae60234b235dd452d948e6fad5f7ab86d8627be01b7a8ca5299e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__FiniteOutputs-comparator.log",
+      "sha256": "7eab64166ea6ae60234b235dd452d948e6fad5f7ab86d8627be01b7a8ca5299e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__ForwardExecution-comparator.log",
+      "sha256": "7eab64166ea6ae60234b235dd452d948e6fad5f7ab86d8627be01b7a8ca5299e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__ForwardGrid-comparator.log",
+      "sha256": "7eab64166ea6ae60234b235dd452d948e6fad5f7ab86d8627be01b7a8ca5299e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__ForwardWrapper-comparator.log",
+      "sha256": "7eab64166ea6ae60234b235dd452d948e6fad5f7ab86d8627be01b7a8ca5299e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__GraphNumerics-comparator.log",
+      "sha256": "2c06019673d36dbf98ecd7910add58fa4108b30daa7c213be41d0fb8ad32d816"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__HeadlineRecurrences-comparator.log",
+      "sha256": "2c06019673d36dbf98ecd7910add58fa4108b30daa7c213be41d0fb8ad32d816"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__Host-comparator.log",
+      "sha256": "2c06019673d36dbf98ecd7910add58fa4108b30daa7c213be41d0fb8ad32d816"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__HostPaths-comparator.log",
+      "sha256": "2c06019673d36dbf98ecd7910add58fa4108b30daa7c213be41d0fb8ad32d816"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__HostSource-comparator.log",
+      "sha256": "2c06019673d36dbf98ecd7910add58fa4108b30daa7c213be41d0fb8ad32d816"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__IOBackwardResults-comparator.log",
+      "sha256": "2c06019673d36dbf98ecd7910add58fa4108b30daa7c213be41d0fb8ad32d816"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__IOBackwardSafetyBase-comparator.log",
+      "sha256": "2c06019673d36dbf98ecd7910add58fa4108b30daa7c213be41d0fb8ad32d816"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__IOBindings-comparator.log",
+      "sha256": "2c06019673d36dbf98ecd7910add58fa4108b30daa7c213be41d0fb8ad32d816"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__IOBounds-comparator.log",
+      "sha256": "2c06019673d36dbf98ecd7910add58fa4108b30daa7c213be41d0fb8ad32d816"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__IOComplexValues-comparator.log",
+      "sha256": "d04cddb1f0045058af0fac0483eae47b2a0dc4e4b87d21c9b67126effb959f49"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__IOForwardResults-comparator.log",
+      "sha256": "d04cddb1f0045058af0fac0483eae47b2a0dc4e4b87d21c9b67126effb959f49"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__IOForwardSafety-comparator.log",
+      "sha256": "d04cddb1f0045058af0fac0483eae47b2a0dc4e4b87d21c9b67126effb959f49"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__IOIndex-comparator.log",
+      "sha256": "d04cddb1f0045058af0fac0483eae47b2a0dc4e4b87d21c9b67126effb959f49"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__IOSafety-comparator.log",
+      "sha256": "d04cddb1f0045058af0fac0483eae47b2a0dc4e4b87d21c9b67126effb959f49"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__IOSafetyBase-comparator.log",
+      "sha256": "d04cddb1f0045058af0fac0483eae47b2a0dc4e4b87d21c9b67126effb959f49"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__IOValues-comparator.log",
+      "sha256": "d04cddb1f0045058af0fac0483eae47b2a0dc4e4b87d21c9b67126effb959f49"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__InputBinding-comparator.log",
+      "sha256": "d04cddb1f0045058af0fac0483eae47b2a0dc4e4b87d21c9b67126effb959f49"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__InterruptedGrid-comparator.log",
+      "sha256": "d04cddb1f0045058af0fac0483eae47b2a0dc4e4b87d21c9b67126effb959f49"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__LibraryContracts-comparator.log",
+      "sha256": "d04cddb1f0045058af0fac0483eae47b2a0dc4e4b87d21c9b67126effb959f49"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__LogicalIO-comparator.log",
+      "sha256": "d04cddb1f0045058af0fac0483eae47b2a0dc4e4b87d21c9b67126effb959f49"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__Mathematics-comparator.log",
+      "sha256": "7e148b13ef5ad0eee61e4451046e58d381c50e5d5eaa573225572c542ce94f50"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__NativeBinding-comparator.log",
+      "sha256": "7e148b13ef5ad0eee61e4451046e58d381c50e5d5eaa573225572c542ce94f50"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__NativeIndex-comparator.log",
+      "sha256": "7e148b13ef5ad0eee61e4451046e58d381c50e5d5eaa573225572c542ce94f50"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__NativeOperations-comparator.log",
+      "sha256": "7e148b13ef5ad0eee61e4451046e58d381c50e5d5eaa573225572c542ce94f50"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__NumericalPropagation-comparator.log",
+      "sha256": "7e148b13ef5ad0eee61e4451046e58d381c50e5d5eaa573225572c542ce94f50"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__OperandDomains-comparator.log",
+      "sha256": "7e148b13ef5ad0eee61e4451046e58d381c50e5d5eaa573225572c542ce94f50"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__OutputNumerics-comparator.log",
+      "sha256": "7e148b13ef5ad0eee61e4451046e58d381c50e5d5eaa573225572c542ce94f50"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__PerProgram-comparator.log",
+      "sha256": "7e148b13ef5ad0eee61e4451046e58d381c50e5d5eaa573225572c542ce94f50"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__PrimitiveNumerics-comparator.log",
+      "sha256": "7e148b13ef5ad0eee61e4451046e58d381c50e5d5eaa573225572c542ce94f50"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__Protocol-comparator.log",
+      "sha256": "7e148b13ef5ad0eee61e4451046e58d381c50e5d5eaa573225572c542ce94f50"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__PublicIO-comparator.log",
+      "sha256": "f8dd2c826a6589edd903fde7940ba8cc33016f3eb08c5d5b48f3dd46749fba4d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__ReadableSource-comparator.log",
+      "sha256": "f8dd2c826a6589edd903fde7940ba8cc33016f3eb08c5d5b48f3dd46749fba4d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__ReaderConnections-comparator.log",
+      "sha256": "f8dd2c826a6589edd903fde7940ba8cc33016f3eb08c5d5b48f3dd46749fba4d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__RealGraph-comparator.log",
+      "sha256": "f8dd2c826a6589edd903fde7940ba8cc33016f3eb08c5d5b48f3dd46749fba4d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__RealProjection-comparator.log",
+      "sha256": "f8dd2c826a6589edd903fde7940ba8cc33016f3eb08c5d5b48f3dd46749fba4d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__Reduction-comparator.log",
+      "sha256": "f8dd2c826a6589edd903fde7940ba8cc33016f3eb08c5d5b48f3dd46749fba4d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__RegionCorrectness-comparator.log",
+      "sha256": "f8dd2c826a6589edd903fde7940ba8cc33016f3eb08c5d5b48f3dd46749fba4d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SavedComposition-comparator.log",
+      "sha256": "f8dd2c826a6589edd903fde7940ba8cc33016f3eb08c5d5b48f3dd46749fba4d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__ScalarGraphs-comparator.log",
+      "sha256": "f8dd2c826a6589edd903fde7940ba8cc33016f3eb08c5d5b48f3dd46749fba4d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SoftwareConstants-comparator.log",
+      "sha256": "f8dd2c826a6589edd903fde7940ba8cc33016f3eb08c5d5b48f3dd46749fba4d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceActions-comparator.log",
+      "sha256": "6f4df6d73e651afa14a66bae19ad812a08f0178c36693ba00b1928fbc1732fa5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceBackwardCompose-comparator.log",
+      "sha256": "6f4df6d73e651afa14a66bae19ad812a08f0178c36693ba00b1928fbc1732fa5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceBackwardCorrespondence-comparator.log",
+      "sha256": "6f4df6d73e651afa14a66bae19ad812a08f0178c36693ba00b1928fbc1732fa5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceBackwardExecution-comparator.log",
+      "sha256": "6f4df6d73e651afa14a66bae19ad812a08f0178c36693ba00b1928fbc1732fa5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceBackwardIndexedSafety-comparator.log",
+      "sha256": "6f4df6d73e651afa14a66bae19ad812a08f0178c36693ba00b1928fbc1732fa5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceBackwardLoop-comparator.log",
+      "sha256": "6f4df6d73e651afa14a66bae19ad812a08f0178c36693ba00b1928fbc1732fa5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceBackwardPost-comparator.log",
+      "sha256": "6f4df6d73e651afa14a66bae19ad812a08f0178c36693ba00b1928fbc1732fa5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceBackwardPostSafety-comparator.log",
+      "sha256": "6f4df6d73e651afa14a66bae19ad812a08f0178c36693ba00b1928fbc1732fa5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceBackwardPrefixSafety-comparator.log",
+      "sha256": "a549a560746a3597d4b1bd0122924b37e30522cb1a8c6da310d899dd9489268b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceBackwardPrevious-comparator.log",
+      "sha256": "a549a560746a3597d4b1bd0122924b37e30522cb1a8c6da310d899dd9489268b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceBackwardPreviousSafety-comparator.log",
+      "sha256": "a549a560746a3597d4b1bd0122924b37e30522cb1a8c6da310d899dd9489268b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceBackwardRangeSafety-comparator.log",
+      "sha256": "a549a560746a3597d4b1bd0122924b37e30522cb1a8c6da310d899dd9489268b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceBackwardRun-comparator.log",
+      "sha256": "a549a560746a3597d4b1bd0122924b37e30522cb1a8c6da310d899dd9489268b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceBackwardSafety-comparator.log",
+      "sha256": "a549a560746a3597d4b1bd0122924b37e30522cb1a8c6da310d899dd9489268b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceBackwardStages-comparator.log",
+      "sha256": "a549a560746a3597d4b1bd0122924b37e30522cb1a8c6da310d899dd9489268b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceBackwardStepSafety-comparator.log",
+      "sha256": "a549a560746a3597d4b1bd0122924b37e30522cb1a8c6da310d899dd9489268b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceBackwardSuffix-comparator.log",
+      "sha256": "19ce044a37daa8171a17b632cdd9b8c07d825f41d0763c96d0766a56074d2edf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceBackwardSuffixSafety-comparator.log",
+      "sha256": "19ce044a37daa8171a17b632cdd9b8c07d825f41d0763c96d0766a56074d2edf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceComplexBackwardCompose-comparator.log",
+      "sha256": "19ce044a37daa8171a17b632cdd9b8c07d825f41d0763c96d0766a56074d2edf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceComplexBackwardCorrespondence-comparator.log",
+      "sha256": "19ce044a37daa8171a17b632cdd9b8c07d825f41d0763c96d0766a56074d2edf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceComplexBackwardExecution-comparator.log",
+      "sha256": "19ce044a37daa8171a17b632cdd9b8c07d825f41d0763c96d0766a56074d2edf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceComplexBackwardIndexedSafety-comparator.log",
+      "sha256": "19ce044a37daa8171a17b632cdd9b8c07d825f41d0763c96d0766a56074d2edf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceComplexBackwardLoop-comparator.log",
+      "sha256": "19ce044a37daa8171a17b632cdd9b8c07d825f41d0763c96d0766a56074d2edf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceComplexBackwardPost-comparator.log",
+      "sha256": "19ce044a37daa8171a17b632cdd9b8c07d825f41d0763c96d0766a56074d2edf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceComplexBackwardPostSafety-comparator.log",
+      "sha256": "19ce044a37daa8171a17b632cdd9b8c07d825f41d0763c96d0766a56074d2edf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceComplexBackwardPrefixSafety-comparator.log",
+      "sha256": "19ce044a37daa8171a17b632cdd9b8c07d825f41d0763c96d0766a56074d2edf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceComplexBackwardPrevious-comparator.log",
+      "sha256": "19ce044a37daa8171a17b632cdd9b8c07d825f41d0763c96d0766a56074d2edf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceComplexBackwardPreviousSafety-comparator.log",
+      "sha256": "19ce044a37daa8171a17b632cdd9b8c07d825f41d0763c96d0766a56074d2edf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceComplexBackwardRun-comparator.log",
+      "sha256": "5cd2311c432c7238528f8062079f1eed3a52e038fa9da399ebd9dc6bb35ec979"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceComplexBackwardSafety-comparator.log",
+      "sha256": "5cd2311c432c7238528f8062079f1eed3a52e038fa9da399ebd9dc6bb35ec979"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceComplexBackwardStages-comparator.log",
+      "sha256": "5cd2311c432c7238528f8062079f1eed3a52e038fa9da399ebd9dc6bb35ec979"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceComplexBackwardStepSafety-comparator.log",
+      "sha256": "5cd2311c432c7238528f8062079f1eed3a52e038fa9da399ebd9dc6bb35ec979"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceComplexBackwardSuffix-comparator.log",
+      "sha256": "5cd2311c432c7238528f8062079f1eed3a52e038fa9da399ebd9dc6bb35ec979"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceComplexBackwardSuffixSafety-comparator.log",
+      "sha256": "5cd2311c432c7238528f8062079f1eed3a52e038fa9da399ebd9dc6bb35ec979"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceComplexCorrespondence-comparator.log",
+      "sha256": "5cd2311c432c7238528f8062079f1eed3a52e038fa9da399ebd9dc6bb35ec979"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceComplexExecution-comparator.log",
+      "sha256": "5cd2311c432c7238528f8062079f1eed3a52e038fa9da399ebd9dc6bb35ec979"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceComplexLoop-comparator.log",
+      "sha256": "5cd2311c432c7238528f8062079f1eed3a52e038fa9da399ebd9dc6bb35ec979"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceComplexPrefixSafety-comparator.log",
+      "sha256": "36cbd5f075f682553ad0c2a46385e3fb8a070b7f73ecc3a962c505c96a265985"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceComplexRun-comparator.log",
+      "sha256": "36cbd5f075f682553ad0c2a46385e3fb8a070b7f73ecc3a962c505c96a265985"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceComplexSafety-comparator.log",
+      "sha256": "36cbd5f075f682553ad0c2a46385e3fb8a070b7f73ecc3a962c505c96a265985"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceComplexStepRelation-comparator.log",
+      "sha256": "36cbd5f075f682553ad0c2a46385e3fb8a070b7f73ecc3a962c505c96a265985"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceComplexStepSafety-comparator.log",
+      "sha256": "36cbd5f075f682553ad0c2a46385e3fb8a070b7f73ecc3a962c505c96a265985"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceFlatPreservation-comparator.log",
+      "sha256": "36cbd5f075f682553ad0c2a46385e3fb8a070b7f73ecc3a962c505c96a265985"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceLoopSimulation-comparator.log",
+      "sha256": "36cbd5f075f682553ad0c2a46385e3fb8a070b7f73ecc3a962c505c96a265985"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourcePair-comparator.log",
+      "sha256": "36cbd5f075f682553ad0c2a46385e3fb8a070b7f73ecc3a962c505c96a265985"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceRealCorrespondence-comparator.log",
+      "sha256": "36cbd5f075f682553ad0c2a46385e3fb8a070b7f73ecc3a962c505c96a265985"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceRealExecution-comparator.log",
+      "sha256": "59a97c97f9c12c370224e4878b0b73ee24a6dfe747f9142bd205c57d9a93da06"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceRealLoop-comparator.log",
+      "sha256": "59a97c97f9c12c370224e4878b0b73ee24a6dfe747f9142bd205c57d9a93da06"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceRealPrefixSafety-comparator.log",
+      "sha256": "59a97c97f9c12c370224e4878b0b73ee24a6dfe747f9142bd205c57d9a93da06"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceRealRun-comparator.log",
+      "sha256": "59a97c97f9c12c370224e4878b0b73ee24a6dfe747f9142bd205c57d9a93da06"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceRealSafety-comparator.log",
+      "sha256": "59a97c97f9c12c370224e4878b0b73ee24a6dfe747f9142bd205c57d9a93da06"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceRealStep-comparator.log",
+      "sha256": "59a97c97f9c12c370224e4878b0b73ee24a6dfe747f9142bd205c57d9a93da06"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceRealStepRelation-comparator.log",
+      "sha256": "59a97c97f9c12c370224e4878b0b73ee24a6dfe747f9142bd205c57d9a93da06"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceRealStepSafety-comparator.log",
+      "sha256": "59a97c97f9c12c370224e4878b0b73ee24a6dfe747f9142bd205c57d9a93da06"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__SourceReferenceTrace-comparator.log",
+      "sha256": "dba9e04428cad01cb1fc993c1e0b14a9fe5d64b1d70663a26cd19ee97bbc162f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__TensorLaws-comparator.log",
+      "sha256": "dba9e04428cad01cb1fc993c1e0b14a9fe5d64b1d70663a26cd19ee97bbc162f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__Tensors-comparator.log",
+      "sha256": "dba9e04428cad01cb1fc993c1e0b14a9fe5d64b1d70663a26cd19ee97bbc162f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__TileMemory-comparator.log",
+      "sha256": "dba9e04428cad01cb1fc993c1e0b14a9fe5d64b1d70663a26cd19ee97bbc162f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__TrajectoryNumerics-comparator.log",
+      "sha256": "dba9e04428cad01cb1fc993c1e0b14a9fe5d64b1d70663a26cd19ee97bbc162f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__TypedPreservation-comparator.log",
+      "sha256": "dba9e04428cad01cb1fc993c1e0b14a9fe5d64b1d70663a26cd19ee97bbc162f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__repairs__tritonbench_g__diag_ssm_triton__Proofs__WordCodec-comparator.log",
+      "sha256": "dba9e04428cad01cb1fc993c1e0b14a9fe5d64b1d70663a26cd19ee97bbc162f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/bench__tests__LoopTupleLoadBody-comparator.log",
+      "sha256": "dba9e04428cad01cb1fc993c1e0b14a9fe5d64b1d70663a26cd19ee97bbc162f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/build-invocations.json",
+      "sha256": "9bc342884b9cd3694b4d9d959e1112fabff3d5b9444f6d4fbbab031d611e1cf1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/canonical-task-files.json",
+      "sha256": "266a052bb159807b1c1cf2cd637c876cd3ec77ed77e3ba354850e7e86835bde2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/comparator-invocations.json",
+      "sha256": "5f06be493ee81b6f55f7d01513275fac53447e723305db70a8d446db0e030d80"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/comparator-tools.json",
+      "sha256": "28998e17d51b0fb5930f7489e64512a57f8a8146d1470063a624a75bbabdb0d3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/corpus-guard.log",
+      "sha256": "e648f792b1a3d9e1ac8f5c84f2bc98eeb1ae9b3937bdb295c8bcac67af066feb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/cpu-final.log",
+      "sha256": "cf232eb4b060f8c4d140ce23a83df263046f3ab2e532e602d2083d9e8c67e9b4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/final-clean-build.log.gz",
+      "sha256": "d806f01b55e3c75e75b23d316f5c3bb8f201fba01de1041e32f5c7caaa3be2e9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/final-clean-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/final-clean-setup.json",
+      "sha256": "ccf4474d77ad2fa01854110fcc96a782aed6faddf6416ba5260de587438f4f51"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/focus-build.log.gz",
+      "sha256": "6f2a5c6c68a9ed805d3f7e065f8653946cb42dee5b059a953c039fc10c9637ac"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/focus-invocations.json",
+      "sha256": "dbfe7214bf0ee58df44ac5dd7254cb0e306071b08e158e97652bf5841c5f71b0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/focus-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/focus-modules.txt",
+      "sha256": "ac344f54d7a773336bc4dc462869882f0760d10a097b7386a42c7186f928fd9d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/frontend-build.log.gz",
+      "sha256": "aadb01ab1534787197d5d19f34cd74c9513c7f9bb73d93aa9aec696583b62d2d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/frontend-modules.txt",
+      "sha256": "8094cba40f4f3d2583c07a8138a77e1e6d09c08e52749c780821bd2fc033750f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/inspections.json",
+      "sha256": "3b582893c28bfad012fe3190f4a288f33bbdbbc833336e707b5831caad2cd998"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/integration-final.log.gz",
+      "sha256": "78ba9cf5c6a3f7a12d2e7a959622282cebd5e312799d047dcd439e49b8690627"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/joint-all.lean",
+      "sha256": "9a042569567a9c62691634225dc1f09f3d8897edc477d0bb746cd82ab9eea52b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/joint-final.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/modules.json",
+      "sha256": "6e5cf48224e49d712432eeb60b0e80f8f2100cf69e0c3a332449b14a9078ccb4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/pairs.json",
+      "sha256": "6c72c4882f747fa0381ec619bb64748f6db515d18bcd0f6c2a0ab266ff3e7233"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/previous-reviews.json.gz",
+      "sha256": "09295950b9a19d616ce9c5795788194b1b847ec703ca38900d864f2cf7b50ae5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/python-invocations.json",
+      "sha256": "f8f0e5e8ba800454a1a0d06ac66c05f189a634f059ee6df41d2206f2d6e6f7cd"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/python-tests.log",
+      "sha256": "e8d8bfd2a2bcd4ed3994ce76ed245afbe6b669151a4bd8b09e6accfa0969b0f0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/raw-body-check.log",
+      "sha256": "d2511557684367d4f62693fc14cd9a0448e868f4b45e2a442e9b1040df1ba865"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/source-closure.json",
+      "sha256": "d962d1126b0a34eee560ac82b78a65307b1b18c9a00540a63e0f924f541bd072"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/standalone-LoopTupleLoadBody.log",
+      "sha256": "6c699c60d0be6a6689f0bb88b54c0c5cc28e0da2be2b8ac623e65908106cacdf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/transferred-files.json",
+      "sha256": "ad2766e17e47c1feb570bd9ddbe9b44e07fa397d243dbebab203589e8ece08fa"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/warm-final-invocation.json",
+      "sha256": "ec44982360630cffe875f68b71234fe5d7f0f37a9c383287189ce400ed827664"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-diagonal-ssm-function-bodies/workflow-counts.json",
+      "sha256": "4f9ebe3ddaf3aaf6c2c02fd3705088c79e292ebde40e0706fb29d74652a7b4a8"
+    }
+  ]
+}

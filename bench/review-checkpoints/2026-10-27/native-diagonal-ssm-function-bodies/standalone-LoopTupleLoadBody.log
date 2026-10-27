@@ -1,0 +1,3 @@
+VeriTile.Tests.LoopTupleLoadBody.preserves_load_negation_and_loop: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
