@@ -1,0 +1,57 @@
+{
+  "code_commit": "8837e6732969f95ae100323b76be30bf5b2bcf36",
+  "raw_bodies_and_wrapper": [
+    {
+      "name": "raw-body-check",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "8837e6732969f95ae100323b76be30bf5b2bcf36",
+      "log": "/tmp/chunkdelta83-raw-body-check.log",
+      "status": "PASS"
+    },
+    {
+      "name": "wrapper-source-check",
+      "command": [
+        "python3",
+        "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/check_pair_source.py"
+      ],
+      "exit_code": 0,
+      "code_commit": "8837e6732969f95ae100323b76be30bf5b2bcf36",
+      "log": "/tmp/chunkdelta83-wrapper-source-check.log",
+      "status": "PASS"
+    }
+  ],
+  "cpu": {
+    "name": "cpu-final",
+    "command": [
+      "python3",
+      "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/check_contract.py"
+    ],
+    "exit_code": 1,
+    "code_commit": "8837e6732969f95ae100323b76be30bf5b2bcf36",
+    "log": "/tmp/chunkdelta83-cpu-final.log",
+    "status": "UNAVAILABLE"
+  },
+  "unchanged_selected_source_and_wrapper": {
+    "candidate_path": "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/candidate_kernels.py",
+    "candidate_sha256": "8c15fa82f045ac9298ae447e2d09ea42ec8cf7b328510bc53296efd28f1101f4",
+    "candidate_origin": "New Python spelling of existing Lean addressFold candidate; complete signature/autotune/body AST differs only at three integer products.",
+    "status": "PASS",
+    "whole_selected_and_predecessor_python_and_wrappers_unchanged": true,
+    "unchanged_python_sha256": {
+      "bench/repairs/tritonbench_g/chunk_delta_fwd/chunk_delta_fwd_repaired.py": "cb102b78b196326239b44aa330b78f76d46120997a2b152ca94c52d67e74e193",
+      "bench/repairs/tritonbench_g/chunk_delta_fwd/check_min_dot.py": "576ceb906f3f0bfe1f1819fc1553d26617f95976317fa7e075fa59668e83811f",
+      "bench/repairs/tritonbench_g/chunk_delta_fwd/check_lowering.py": "c2069579495dfa6fd9043a7e987c74bef165fa1b9a07c0b19a1a6f222da62f57",
+      "bench/repairs/tritonbench_g/chunk_delta_fwd/check_contract.py": "290265f579df0d2e45621a11a9c3426eb89448ca7732e69e440d4755a836a846",
+      "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/chunk_delta_fwd_static_dot.py": "591848f81de55559a1c48131f7bbe30bb865f742d342202862ff9fcf6aa7f523",
+      "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/check_lowering.py": "47aaefa83aa0e9f62590ebe7eed2065dd725da771045c2c83ba4e8f4fb0c8fcd",
+      "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/check_contract.py": "b8dec09d51cfb2404f30555b3ff0afa8bbe77136513c247d6c56e223dc069772"
+    }
+  },
+  "scope": "Complete original and existing address-fold candidate raw bodies in shared canonical source; tuple PIDs, both nested counted loops, all runtime strides, optional states, dtype queries, casts, boundary checks and dot precision preserved. Actual full execution/failure/safety and existing Real/native IO scopes re-proved using standard counted-loop/range normalization. No GPU or new numerical experiment."
+}

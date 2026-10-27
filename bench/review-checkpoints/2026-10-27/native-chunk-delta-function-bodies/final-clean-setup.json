@@ -1,0 +1,28 @@
+{
+  "code_commit": "d94be4db8773be1839a7f1bd3a57688cc7c34c63",
+  "checkout": "/tmp/veritile-body77",
+  "explicit_modules": 3368,
+  "scope": "All cumulative task/example/frontend roots and their full import closure.",
+  "project_build_initially_present": false,
+  "veritile_cache_initially_present": false,
+  "project_objects_imported_from_other_checkouts": false,
+  "fixed_external_packages_reused": "/home/argustest/lizn/VeriTile/.lake/packages",
+  "previous_cache_cleanup": {
+    "removed": "/tmp/veritile-body77/.lake/build",
+    "reason": "Remove only this owned, completed failed initial chunk delta project cache after preserving logs and source; source and evidence retained. Rebuild all 3368 cumulative roots and their dependency closure from empty project objects. Shared frontend changes require the cumulative independent replay.",
+    "previous_failed_source": "8837e6732969f95ae100323b76be30bf5b2bcf36",
+    "initial_failure_evidence": "/tmp/chunkdelta83-before-rope-fix"
+  },
+  "changed_source_sha256": {
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/KernelRegressions.lean": "562a303042cb42e8661ac83bd9950af9940fe2596deadb04949ea30deecb321d",
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/LegacyStoreView.lean": "8707f1735b254565a460a5797720783bad322d7773d56d3637e0503fbad12cef",
+    "bench/repairs/tritonbench_g/fast_rope_embedding/Proofs/SourcePair.lean": "3b2cd6e248e76137cba9a7cc3ccc059d5ee450ecd8698f4822b670bfa0a0d578",
+    "bench/repairs/tritonbench_g/fast_rope_embedding/README.md": "3c45ef730f41b0f90ff392daceead58c162979407f9cbc46dfedad48bcf56f43",
+    "bench/repairs/tritonbench_g/rope_embedding/Proofs/Source.lean": "586a93cee52a54000ff5f8659506b3d8149c7d5e0cb3b073877a2a6cd32ff961",
+    "bench/repairs/tritonbench_g/rope_embedding/Proofs/Spec.lean": "8220e49fc4fdfaa38b96cf2cdcd6fa2fbe81264a6088e2a3175bc8b483e93e8d",
+    "bench/repairs/tritonbench_g/rope_embedding/README.md": "35b3e1d6c1e5be75d7eb388b83f8791a7af8a3bbce54c96e2d354236ce2794ad",
+    "bench/tests/ValueDTypeBody.lean": "71154c994ac93d516996b10481b6c28730a88ef4f5597afad488756c7f18976f"
+  },
+  "build_exit_code": 0,
+  "joint_exit_code": 0
+}

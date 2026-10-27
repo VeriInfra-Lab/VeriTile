@@ -1,0 +1,20 @@
+/tmp/chunkdelta83-staging/bench/repairs/tritonbench_g/chunk_delta_fwd/Range.lean:15:47: warning: This simp argument is unused:
+  if_false
+
+Hint: Omit it from the simp argument list.
+  simp only [show (1 : N̵a̵t̵)̵≠̵0̵N̲a̲t̲)̲ ̲≠̲ ̲0̲ from by d̵e̵c̵i̵d̵e̵,̵i̵f̵_̵f̵a̵l̵s̵e̵,̵d̲e̲c̲i̲d̲e̲,̲ show s̵t̵a̵r̵t̵<̵s̵t̵a̵r̵t̵+̵(̵n̵+̵1̵)̵s̲t̲a̲r̲t̲ ̲<̲ ̲s̲t̲a̲r̲t̲ ̲+̲ ̲(̲n̲ ̲+̲ ̲1̲)̲ by o̵m̵e̵g̵a̵,̵i̵f̵_̵t̵r̵u̵e̵,̵L̵i̵s̵t̵.̵r̵a̵n̵g̵e̵'̵_̵s̵u̵c̵c̵,̵L̵i̵s̵t̵.̵f̵o̵l̵d̵l̵_̵c̵o̵n̵s̵]̵o̲m̲e̲g̲a̲,̲ ̲i̲f̲_̲t̲r̲u̲e̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲L̲i̲s̲t̲.̲r̲a̲n̲g̲e̲'̲_̲s̲u̲c̲c̲,̲ ̲L̲i̲s̲t̲.̲f̲o̲l̲d̲l̲_̲c̲o̲n̲s̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/chunkdelta83-staging/bench/repairs/tritonbench_g/chunk_delta_fwd/Range.lean:16:38: warning: This simp argument is unused:
+  if_true
+
+Hint: Omit it from the simp argument list.
+  simp only [show (1 : N̵a̵t̵)̵≠̵0̵N̲a̲t̲)̲ ̲≠̲ ̲0̲ from by d̵e̵c̵i̵d̵e̵,̵i̵f̵_̵f̵a̵l̵s̵e̵,̵d̲e̲c̲i̲d̲e̲,̲ ̲i̲f̲_̲f̲a̲l̲s̲e̲,̲ show s̵t̵a̵r̵t̵<̵s̵t̵a̵r̵t̵+̵(̵n̵+̵1̵)̵s̲t̲a̲r̲t̲ ̲<̲ ̲s̲t̲a̲r̲t̲ ̲+̲ ̲(̲n̲ ̲+̲ ̲1̲)̲ by o̵m̵e̵g̵a̵,̵i̵f̵_̵t̵r̵u̵e̵,̵L̵i̵s̵t̵.̵r̵a̵n̵g̵e̵'̵_̵s̵u̵c̵c̵,̵L̵i̵s̵t̵.̵f̵o̵l̵d̵l̵_̵c̵o̵n̵s̵]̵o̲m̲e̲g̲a̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲L̲i̲s̲t̲.̲r̲a̲n̲g̲e̲'̲_̲s̲u̲c̲c̲,̲ ̲L̲i̲s̲t̲.̲f̲o̲l̲d̲l̲_̲c̲o̲n̲s̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.ChunkDeltaFwd.foldRange_succ: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.ChunkDeltaFwd.range_invariant: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,12 @@
+bench/repairs/tritonbench_g/chunk_delta_fwd/Kernels.lean:60: trailing whitespace.
++            p_v_new = tl.make_block_ptr(v_new + i_bh * s_vo_h, (T, V), (s_vo_t, s_vo_d), (i_t * BT + i_c * BC, i_v * BV), (BC, BV), (1, 0))   
+bench/repairs/tritonbench_g/chunk_delta_fwd/Kernels.lean:67: trailing whitespace.
++        b_h += b_h_cumsum      
+bench/repairs/tritonbench_g/chunk_delta_fwd/Kernels.lean:68: trailing whitespace.
++        
+bench/repairs/tritonbench_g/chunk_delta_fwd/Kernels.lean:114: trailing whitespace.
++            p_v_new = tl.make_block_ptr(v_new + i_bh * s_vo_h, (T, V), (s_vo_t, s_vo_d), (i_t * BT + i_c * BC, i_v * BV), (BC, BV), (1, 0))   
+bench/repairs/tritonbench_g/chunk_delta_fwd/Kernels.lean:121: trailing whitespace.
++        b_h += b_h_cumsum      
+bench/repairs/tritonbench_g/chunk_delta_fwd/Kernels.lean:122: trailing whitespace.
++        

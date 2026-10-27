@@ -1,0 +1,27 @@
+/tmp/chunkdelta83-staging/bench/repairs/tritonbench_g/chunk_delta_fwd/Kernels.lean:13:21: error: observed memory access is missing from the declared call ports
+/tmp/chunkdelta83-staging/bench/repairs/tritonbench_g/chunk_delta_fwd/Kernels.lean:79:0: error: Not a definitional equality: the left-hand side
+  (kernel p).surfaceBody
+is not definitionally equal to the right-hand side
+  (outer p).before ++ [ComputeStmt.forRange "i_t" 0 p.NT 1 (outer p).body] ++ (outer p).after
+/tmp/chunkdelta83-staging/bench/repairs/tritonbench_g/chunk_delta_fwd/Kernels.lean:81:68: error: Type mismatch
+  rfl
+has type
+  ?m.20 = ?m.20
+but is expected to have type
+  (kernel p).surfaceBody = (outer p).before ++ [ComputeStmt.forRange "i_t" 0 p.NT 1 (outer p).body] ++ (outer p).after
+/tmp/chunkdelta83-staging/bench/repairs/tritonbench_g/chunk_delta_fwd/Kernels.lean:82:0: error: Not a definitional equality: the left-hand side
+  (outer p).body
+is not definitionally equal to the right-hand side
+  (inner p).before ++ [ComputeStmt.forRangeDyn "i_c" (inner p).start (inner p).stop (inner p).stride (inner p).body] ++
+    (inner p).after
+/tmp/chunkdelta83-staging/bench/repairs/tritonbench_g/chunk_delta_fwd/Kernels.lean:84:110: error: Type mismatch
+  rfl
+has type
+  ?m.16 = ?m.16
+but is expected to have type
+  (outer p).body =
+    (inner p).before ++
+        [ComputeStmt.forRangeDyn "i_c" (inner p).start (inner p).stop (inner p).stride (inner p).body] ++
+      (inner p).after
+/tmp/chunkdelta83-staging/bench/repairs/tritonbench_g/chunk_delta_fwd/Kernels.lean:85:0: error: VeriTile.Bench.Repairs.ChunkDeltaFwd.outer_parts: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/chunkdelta83-staging/bench/repairs/tritonbench_g/chunk_delta_fwd/Kernels.lean:86:0: error: VeriTile.Bench.Repairs.ChunkDeltaFwd.inner_parts: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

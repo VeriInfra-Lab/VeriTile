@@ -1,0 +1,9 @@
+VeriTile.Bench.Repairs.ChunkDeltaFwdStaticDot.check_iff: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.ChunkDeltaFwdStaticDot.live_dot_minimum: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.ChunkDeltaFwdStaticDot.static_dot_iff: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.ChunkDeltaFwdStaticDot.InputContract: definition does not reference [VeriTile.Triton.FP.Structural.run,
+ VeriTile.Bench.Repairs.ChunkDeltaFwd.runGrid,
+ VeriTile.Bench.Repairs.ChunkDeltaFwd.gridMemory,
+ VeriTile.Bench.Repairs.ChunkDeltaFwd.states] — non-circular ✓

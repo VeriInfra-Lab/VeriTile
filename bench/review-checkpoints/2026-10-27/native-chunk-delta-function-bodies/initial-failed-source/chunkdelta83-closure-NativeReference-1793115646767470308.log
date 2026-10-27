@@ -1,0 +1,24 @@
+VeriTile.Bench.Repairs.ChunkDeltaFwdStaticDot.NativeReference.contribution_scalar: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.ChunkDeltaFwdStaticDot.NativeReference.correction_scalar: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.ChunkDeltaFwdStaticDot.NativeReference.one_subblock_native: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.ChunkDeltaFwdStaticDot.NativeReference.multiple_subblocks_native: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.ChunkDeltaFwdStaticDot.NativeReference.history: definition does not reference [VeriTile.Triton.FP.Structural.run,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.ChunkDeltaFwd.runGrid,
+ VeriTile.Bench.Repairs.ChunkDeltaFwd.gridMemory,
+ VeriTile.Bench.Repairs.ChunkDeltaFwd.states,
+ VeriTile.Bench.Repairs.ChunkDeltaFwd.historyValue] — non-circular ✓
+VeriTile.Bench.Repairs.ChunkDeltaFwdStaticDot.NativeReference.corrected: definition does not reference [VeriTile.Triton.FP.Structural.run,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.ChunkDeltaFwd.runGrid,
+ VeriTile.Bench.Repairs.ChunkDeltaFwd.gridMemory,
+ VeriTile.Bench.Repairs.ChunkDeltaFwd.states,
+ VeriTile.Bench.Repairs.ChunkDeltaFwd.correctedValue] — non-circular ✓

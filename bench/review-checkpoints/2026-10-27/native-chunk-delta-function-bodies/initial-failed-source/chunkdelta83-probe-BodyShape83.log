@@ -1,0 +1,71 @@
+fun p => ["other", "assign", "other", "other", "other"]
+fun p => 0
+fun X Y B => ["assign", "assign", "assign", "other", "other"]
+fun X Y B => ["assign", "assign", "assign", "forRangeDyn", "other"]
+/tmp/chunkdelta83-staging/bench/tests/BodyShape83.lean:19:2: error: Tactic `rfl` failed: The left-hand side
+  ComputeKernel.mk [X] [Y]
+    [ComputeStmt.assign TileDType.nat [B] "offsets" (ComputeExpr.alg (Op.arange B)),
+      ComputeStmt.assign TileDType.real [B] "reference"
+        (ComputeExpr.compute
+          (ComputeOp.load ComputeDType.fp32 (MemAccess.region X (Op.ref TileDType.nat [B] "offsets")) MaskOpt.none)),
+      ComputeStmt.assign TileDType.real [B] "accumulator"
+        (ComputeExpr.compute (ComputeOp.full [B] (ComputeOp.alg ComputeDType.fp32 (Op.const 0)))),
+      ComputeStmt.forLoop "i" 2
+        [ComputeStmt.assign TileDType.real [B] "accumulator"
+            (ComputeExpr.compute
+              (ComputeOp.alg ComputeDType.fp32
+                (Op.add NumericDType.real Broadcast.nil.consSame (Op.ref TileDType.real [B] "accumulator")
+                  (Op.castFloat FloatDType.real FloatDType.real (Op.ref TileDType.real [B] "reference")))))],
+      ComputeStmt.store TileDType.real [B] (MemAccess.region Y (Op.ref TileDType.nat [B] "offsets"))
+        (ComputeExpr.compute (ComputeOp.alg ComputeDType.fp32 (Op.ref TileDType.real [B] "accumulator"))) MaskOpt.none]
+is not definitionally equal to the right-hand side
+  ComputeKernel.mk [X] [Y]
+    [ComputeStmt.assign TileDType.nat [B] "offsets" (ComputeExpr.alg (Op.arange B)),
+      ComputeStmt.assign TileDType.real [B] "reference"
+        (ComputeExpr.compute
+          (ComputeOp.load ComputeDType.fp32 (MemAccess.region X (Op.ref TileDType.nat [B] "offsets")) MaskOpt.none)),
+      ComputeStmt.assign TileDType.real [B] "accumulator"
+        (ComputeExpr.compute (ComputeOp.full [B] (ComputeOp.alg ComputeDType.fp32 (Op.const 0)))),
+      ComputeStmt.forRangeDyn "i" (Op.constNat 0) (Op.constNat 2) (Op.constNat 1)
+        [ComputeStmt.assign TileDType.real [B] "accumulator"
+            (ComputeExpr.compute
+              (ComputeOp.alg ComputeDType.fp32
+                (Op.add NumericDType.real Broadcast.nil.consSame (Op.ref TileDType.real [B] "accumulator")
+                  (Op.castFloat FloatDType.real FloatDType.real (Op.ref TileDType.real [B] "reference")))))],
+      ComputeStmt.store TileDType.real [B] (MemAccess.region Y (Op.ref TileDType.nat [B] "offsets"))
+        (ComputeExpr.compute (ComputeOp.alg ComputeDType.fp32 (Op.ref TileDType.real [B] "accumulator"))) MaskOpt.none]
+
+X Y : RegionName
+B : ℕ
+⊢ ComputeKernel.mk [X] [Y]
+      [ComputeStmt.assign TileDType.nat [B] "offsets" (ComputeExpr.alg (Op.arange B)),
+        ComputeStmt.assign TileDType.real [B] "reference"
+          (ComputeExpr.compute
+            (ComputeOp.load ComputeDType.fp32 (MemAccess.region X (Op.ref TileDType.nat [B] "offsets")) MaskOpt.none)),
+        ComputeStmt.assign TileDType.real [B] "accumulator"
+          (ComputeExpr.compute (ComputeOp.full [B] (ComputeOp.alg ComputeDType.fp32 (Op.const 0)))),
+        ComputeStmt.forLoop "i" 2
+          [ComputeStmt.assign TileDType.real [B] "accumulator"
+              (ComputeExpr.compute
+                (ComputeOp.alg ComputeDType.fp32
+                  (Op.add NumericDType.real Broadcast.nil.consSame (Op.ref TileDType.real [B] "accumulator")
+                    (Op.castFloat FloatDType.real FloatDType.real (Op.ref TileDType.real [B] "reference")))))],
+        ComputeStmt.store TileDType.real [B] (MemAccess.region Y (Op.ref TileDType.nat [B] "offsets"))
+          (ComputeExpr.compute (ComputeOp.alg ComputeDType.fp32 (Op.ref TileDType.real [B] "accumulator")))
+          MaskOpt.none] =
+    ComputeKernel.mk [X] [Y]
+      [ComputeStmt.assign TileDType.nat [B] "offsets" (ComputeExpr.alg (Op.arange B)),
+        ComputeStmt.assign TileDType.real [B] "reference"
+          (ComputeExpr.compute
+            (ComputeOp.load ComputeDType.fp32 (MemAccess.region X (Op.ref TileDType.nat [B] "offsets")) MaskOpt.none)),
+        ComputeStmt.assign TileDType.real [B] "accumulator"
+          (ComputeExpr.compute (ComputeOp.full [B] (ComputeOp.alg ComputeDType.fp32 (Op.const 0)))),
+        ComputeStmt.forRangeDyn "i" (Op.constNat 0) (Op.constNat 2) (Op.constNat 1)
+          [ComputeStmt.assign TileDType.real [B] "accumulator"
+              (ComputeExpr.compute
+                (ComputeOp.alg ComputeDType.fp32
+                  (Op.add NumericDType.real Broadcast.nil.consSame (Op.ref TileDType.real [B] "accumulator")
+                    (Op.castFloat FloatDType.real FloatDType.real (Op.ref TileDType.real [B] "reference")))))],
+        ComputeStmt.store TileDType.real [B] (MemAccess.region Y (Op.ref TileDType.nat [B] "offsets"))
+          (ComputeExpr.compute (ComputeOp.alg ComputeDType.fp32 (Op.ref TileDType.real [B] "accumulator")))
+          MaskOpt.none]

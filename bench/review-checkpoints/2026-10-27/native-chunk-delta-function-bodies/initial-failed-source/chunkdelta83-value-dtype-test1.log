@@ -1,0 +1,11 @@
+bench/tests/ValueDTypeBody.lean:34:0: error: Not a definitional equality: the left-hand side
+  source X Y B
+is not definitionally equal to the right-hand side
+  expanded X Y B
+bench/tests/ValueDTypeBody.lean:35:37: error: Type mismatch
+  rfl
+has type
+  ?m.3 = ?m.3
+but is expected to have type
+  source X Y B = expanded X Y B
+bench/tests/ValueDTypeBody.lean:50:0: error: VeriTile.Tests.ValueDTypeBody.retained_explicit_cast: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

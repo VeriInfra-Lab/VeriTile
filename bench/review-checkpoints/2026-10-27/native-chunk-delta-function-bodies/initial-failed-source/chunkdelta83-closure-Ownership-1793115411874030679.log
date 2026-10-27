@@ -1,0 +1,4 @@
+VeriTile.Bench.Repairs.ChunkDeltaFwd.Ownership.valid: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.ChunkDeltaFwd.Ownership.h_offset: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.ChunkDeltaFwd.Ownership.c_offset: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.ChunkDeltaFwd.Ownership.f_offset: axiom footprint ⊆ standard base ✓  ([propext])

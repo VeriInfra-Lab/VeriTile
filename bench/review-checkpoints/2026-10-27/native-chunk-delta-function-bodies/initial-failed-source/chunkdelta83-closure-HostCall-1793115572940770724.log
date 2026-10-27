@@ -1,0 +1,12 @@
+VeriTile.Bench.Repairs.ChunkDeltaFwd.Host.execute_complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.ChunkDeltaFwd.Host.real_complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.ChunkDeltaFwd.Host.AllocationContract: definition does not reference [VeriTile.Bench.Repairs.ChunkDeltaFwd.Host.execute,
+ VeriTile.Bench.Repairs.ChunkDeltaFwd.runGrid,
+ VeriTile.Bench.Repairs.ChunkDeltaFwd.states] — non-circular ✓
+VeriTile.Bench.Repairs.ChunkDeltaFwd.Host.Post: definition does not reference [VeriTile.Bench.Repairs.ChunkDeltaFwd.Host.execute,
+ VeriTile.Bench.Repairs.ChunkDeltaFwd.runGrid,
+ VeriTile.Bench.Repairs.ChunkDeltaFwd.gridMemory] — non-circular ✓

@@ -1,0 +1,100 @@
+[
+  {
+    "python_function": "chunk_delta_rule_fwd_kernel_h",
+    "lean_definition": "kernel",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "s_qk_h": "p.T * p.K",
+      "s_qk_t": "p.K",
+      "s_qk_d": "1",
+      "s_w_b": "p.wBatch",
+      "s_w_h": "p.wHead",
+      "s_w_t": "p.wTime",
+      "s_w_d": "p.wDim",
+      "s_vo_h": "p.T * p.V",
+      "s_vo_t": "p.V",
+      "s_vo_d": "1",
+      "s_h_h": "p.NT * p.K * p.V",
+      "s_h_t": "p.V"
+    },
+    "statements": 5,
+    "runtime_parameters": {
+      "s_qk_h": "integer",
+      "s_qk_t": "integer",
+      "s_qk_d": "integer",
+      "s_w_b": "integer",
+      "s_w_h": "integer",
+      "s_w_t": "integer",
+      "s_w_d": "integer",
+      "s_vo_h": "integer",
+      "s_vo_t": "integer",
+      "s_vo_d": "integer",
+      "s_h_h": "integer",
+      "s_h_t": "integer"
+    },
+    "constexpr_parameters": [
+      "BC",
+      "BK",
+      "BT",
+      "BV",
+      "H",
+      "K",
+      "NT",
+      "STORE_FINAL_STATE",
+      "T",
+      "USE_INITIAL_STATE",
+      "V"
+    ]
+  },
+  {
+    "python_function": "chunk_delta_rule_fwd_kernel_h_address_fold",
+    "lean_definition": "addressFold",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "s_qk_h": "p.T * p.K",
+      "s_qk_t": "p.K",
+      "s_qk_d": "1",
+      "s_w_b": "p.wBatch",
+      "s_w_h": "p.wHead",
+      "s_w_t": "p.wTime",
+      "s_w_d": "p.wDim",
+      "s_vo_h": "p.T * p.V",
+      "s_vo_t": "p.V",
+      "s_vo_d": "1",
+      "s_h_h": "p.NT * p.K * p.V",
+      "s_h_t": "p.V"
+    },
+    "statements": 5,
+    "runtime_parameters": {
+      "s_qk_h": "integer",
+      "s_qk_t": "integer",
+      "s_qk_d": "integer",
+      "s_w_b": "integer",
+      "s_w_h": "integer",
+      "s_w_t": "integer",
+      "s_w_d": "integer",
+      "s_vo_h": "integer",
+      "s_vo_t": "integer",
+      "s_vo_d": "integer",
+      "s_h_h": "integer",
+      "s_h_t": "integer"
+    },
+    "constexpr_parameters": [
+      "BC",
+      "BK",
+      "BT",
+      "BV",
+      "H",
+      "K",
+      "NT",
+      "STORE_FINAL_STATE",
+      "T",
+      "USE_INITIAL_STATE",
+      "V"
+    ]
+  }
+]

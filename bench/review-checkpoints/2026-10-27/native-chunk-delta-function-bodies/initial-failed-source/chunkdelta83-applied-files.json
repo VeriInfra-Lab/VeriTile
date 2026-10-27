@@ -1,0 +1,20 @@
+[
+  "bench/repairs/tritonbench_g/chunk_delta_fwd/Kernels.lean",
+  "bench/repairs/tritonbench_g/chunk_delta_fwd/OuterLoop.lean",
+  "bench/repairs/tritonbench_g/chunk_delta_fwd/Program.lean",
+  "bench/repairs/tritonbench_g/chunk_delta_fwd/README.md",
+  "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Kernels.lean",
+  "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Proofs/PairContext.lean",
+  "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Proofs/PairSource.lean",
+  "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Proofs/SourceSafety.lean",
+  "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Proofs/SourceSafetyEdges.lean",
+  "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Proofs/SourceSafetyPrefix.lean",
+  "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/README.md",
+  "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/candidate_kernels.py",
+  "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/check_pair_source.py",
+  "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/jit-correspondence.json",
+  "VeriTile/Triton/DSL/TypedStores.lean",
+  "VeriTile/Triton/Source.lean",
+  "bench/tests/ValueDTypeBody.lean",
+  "bench/tests/test_jit_correspondence.py"
+]

@@ -1,0 +1,1471 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "d94be4db8773be1839a7f1bd3a57688cc7c34c63",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "chunk_delta_fwd"
+  ],
+  "regression_only_pending_body_tasks": [
+    "kv_cache_filling"
+  ],
+  "semantic_review": {
+    "adam_update_triton": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "add_example": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "add_value": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "apply_penalty": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "attention_fwd_triton1": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "batched_vecmat_mult": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "bgmv_expand_slice": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "cache_transform_triton": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "chunk_cumsum_kernel": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "chunk_cumsum_vector": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "chunk_delta_fwd": "The complete selected original Python body and the existing addressFold candidate are pasted verbatim in the shared chunk_delta_fwd/Kernels.lean; the selected task explicitly aliases both definitions. Original selected and predecessor Python modules, wrappers and public Correct/FPEquiv/Contract/IO/PairIO remain byte-identical. New candidate_kernels.py spells only the existing three state/history integer product regroupings and retains the original signature and all autotune configurations. Complete function AST and raw body/profile checks pass. Tuple program IDs, all runtime stride bindings, both nested range loops, optional initial/final state flags, positional block-pointer arguments, boundary tuples, dtype queries, explicit casts, both dots and allow_tf32=False remain. Caller metadata stays outside the bodies. Explicit write ports name the three block-pointer output destinations; conservative input-port collection also counts descriptor construction bases. The public IO retains its exact four actual input channels and three output channels with optional masks. The tuple prefix and both counted loops are connected to actual full execution and trace safety using existing proved loop/range normalization. The complete pair theorem includes success, failure, safety and the whole grid; existing independent Real recurrence, concrete ordered native model, rounded chunk overlap, arbitrary W strides, state options, aliases, output observation and exterior frames retain their scope. All 34 shared predecessor and 30 selected task modules are replayed. The predecessor broader-domain dot defect is not declared repaired; the selected static-dot conditions are unchanged. No new axiom, whole-kernel premise, arbitrary cast identity, floating rewrite, numerical experiment or domain narrowing.",
+    "chunked_cumsum_fwd": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "cosine_compute": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "dequantize_matmul": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "dequantize_rowwise": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "destindex_copy": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "destindex_copy_kv1": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "destindex_copy_kv2": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "dropout_triton": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "embedding_triton_kernel": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "f8_conversion_utils": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "fast_rope_embedding": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks. Cumulative rebuilding exposed two fabricated FP32 output casts in the old RoPE proof view. Actual raw bodies remain unchanged. The execution and ordered operation summaries now omit those nonexistent casts, while retaining both explicit input casts. The historical syntax view records the difference without asserting arbitrary cast identity. Both complete Real/native, public pair, safety, frame and optional Tensor/host scopes replay with their original mathematical formulas and domains.",
+    "flash_decode2_llama": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "flash_decode2_phi": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "fused_activation": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "fused_recurrent_hgrn": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "fused_rotary_embedding": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "index_select_bwd": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "index_select_cat": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "int8_matmul_kernel": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "isfinite_kernel": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "kcache_copy_triton": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "kldiv_compute": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "kldiv_ops": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "kldiv_triton": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "kv_cache_copy": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "kv_cache_filling": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks. Python-body migration remains pending; its correspondence status is retained.",
+    "l2_norm_bwd": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "l2_norm_triton1": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "l2_norm_triton2": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "log_softmax": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "logsumexp_fwd": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "masked_add_cuda": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "masked_select": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "matmul_kernel": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "matrix_reduction": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "matrix_transpose": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "max_reduction": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "mean_reduction": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "mul_exponent_compensator": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "nested_loops_processing": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "quant_transpose_kernel": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "quantize_copy_kv": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "quantize_global": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "quantize_kv_copy": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "quantize_kv_transform": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "relu_strided_buffer": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "relu_triton_kernel": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "reversed_cumsum": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "reversed_cumsum_scalar": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "rms_norm_triton": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "rmsnorm_fused": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "rmsnorm_fused_llama": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "rmsnorm_implementation": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "rmsnorm_triton": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "rope_backward_transform": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "rope_embedding": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks. Cumulative rebuilding exposed two fabricated FP32 output casts in the old RoPE proof view. Actual raw bodies remain unchanged. The execution and ordered operation summaries now omit those nonexistent casts, while retaining both explicit input casts. The historical syntax view records the difference without asserting arbitrary cast identity. Both complete Real/native, public pair, safety, frame and optional Tensor/host scopes replay with their original mathematical formulas and domains.",
+    "rope_transform": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "rotary_emb": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "rotary_emb_nopad": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "rowwise_quantization_triton": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "seeded_dropout": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "sin_computation": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "sin_kernel": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "softmax_optimize": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "softmax_triton1": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "softmax_triton2": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "square_matrix": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "swiglu_backward": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "swiglu_fwd": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "swiglu_triton": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "token_attn_mistral": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "token_attn_reduceV": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "token_softmax_bloom": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "token_softmax_llama": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "triton_argmax": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "triton_mul2": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "triton_softmax": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "var_len_copy": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "vector_addition": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks.",
+    "vector_addition_custom": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks."
+  },
+  "compiler_change": {
+    "files": [
+      "VeriTile/Triton/DSL/TypedStores.lean",
+      "VeriTile/Triton/Source.lean"
+    ],
+    "behavior": "TypedStores now recognizes an explicit cast to a previously known value dtype without erasing that cast. Unknown or changing loop-carried dtypes remain rejected. Source.dynamicRange? recognizes actual counted-loop nodes as constant start/stop/stride descriptors while retaining their original statement and surrounding context. Existing range cases and numerical semantics are unchanged. All 3368 recorded public/deep/frontend roots and joint imports replay warm and independently from empty project objects. No new migration or numerical rule is counted for unchanged tasks."
+  },
+  "verification": {
+    "baseline": {
+      "status": "PASS",
+      "explicit_modules": 64,
+      "jobs": 3696
+    },
+    "focused": {
+      "status": "PASS",
+      "explicit_modules": 133,
+      "jobs": 3783,
+      "additional_scope": "Four standalone frontend suites and 30-theorem audit, including both RoPE tasks."
+    },
+    "warm_and_joint": {
+      "status": "PASS",
+      "explicit_modules": 3368,
+      "jobs": 12929
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 3368,
+      "jobs": 12929,
+      "project_build_initially_present": false,
+      "project_objects_imported_from_other_checkouts": false,
+      "only_fixed_external_dependencies_imported": true,
+      "setup": {
+        "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/final-clean-setup.json",
+        "sha256": "7ece4834d45ae01dc99b929734085c9520106440796d6eea35b0aafe9dd2aee1"
+      }
+    },
+    "trust": "PASS: 30 actual-source/public/pair footprints use only standard base. Public chunk_delta_addressFold_equiv reports no FP assumptions.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 121
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 366,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by old numerical receipt; no false repin."
+    },
+    "source": "PASS: both complete raw bodies, exactly three existing integer address regroupings, unchanged autotune/signature, external call metadata and byte-identical original Python/wrappers.",
+    "official_comparator": "UNAVAILABLE: 25 actual final-source attempts with verified pinned binaries. Host Landlock ABI v4 is below required v5; no systemd user isolation or bypass.",
+    "cpu": "UNAVAILABLE: actual check_contract.py CPU interpreter invocation requires missing Torch.",
+    "gpu_or_numerical_experiment": "Not run.",
+    "staging_diagnostic": "A preliminary overlay encountered a transient missing GuardedRewrite object while the backing working checkout rebuilt it. This was not counted as a proof pass; the authoritative complete 64-root checkout replay and final cumulative empty-project replay pass.",
+    "initial_cumulative_failure_and_repair": {
+      "initial_source_commit": "8837e6732969f95ae100323b76be30bf5b2bcf36",
+      "status": "REPAIRED_AND_REPLAYED",
+      "warm_exit_code": 1,
+      "cold_exit_code": 1,
+      "cause_and_repair": "Cumulative rebuilding exposed two fabricated FP32 output casts in the old RoPE proof view. Actual raw bodies remain unchanged. The execution and ordered operation summaries now omit those nonexistent casts, while retaining both explicit input casts. The historical syntax view records the difference without asserting arbitrary cast identity. Both complete Real/native, public pair, safety, frame and optional Tensor/host scopes replay with their original mathematical formulas and domains.",
+      "evidence_directory": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source"
+    },
+    "source_formatting": "Six original trailing-whitespace lines are preserved inside the verbatim quotations. Strict diff whitespace checking passes elsewhere; blank-at-eol alone is permitted for that source file. No semantic edit followed focused verification.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending; the known unchanged numerical receipt failure remains explicit."
+  },
+  "source_pairs": {
+    "total": 275,
+    "pasted_body": 275,
+    "legacy_ast": 0
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/source-closure.json",
+    "sha256": "a2a92aa44f1e91864e6ca23260637ca140fd87e34ab70939ef551722620a47e4"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "no_selected_jit_resolved": 2,
+      "selected_body_copy_checked": 90,
+      "uncovered_jit_functions": 91
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 328,
+    "uncovered_selected_jit_functions": 190,
+    "primary_files_with_int64_screen_warning": 26,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 68,
+        "antiquotes": 76,
+        "dsl_loop": 1,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "example_regression_scope": "All 19 selected examples and all previous recorded task roots replay warm/joint and independently from empty project objects. Unselected historical model gaps are not relabeled as passing.",
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/VeriTile__Triton__DSL__TypedStores-comparator.log",
+      "sha256": "d97c583374f66d80934504828f1f4fc216fc38a2f35e551b2d40179c47fb9e20"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/VeriTile__Triton__Source-comparator.log",
+      "sha256": "d97c583374f66d80934504828f1f4fc216fc38a2f35e551b2d40179c47fb9e20"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/all-python.log",
+      "sha256": "4dea0fb8594d4684ce3f3473179f37fd9ec258a5eef051dd883f85098af6ccf2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/audit-targets.json",
+      "sha256": "445973131ea926a244d99fff56743986463bde33a772083cdae888c43f3ee050"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/audit.lean",
+      "sha256": "0c1f5427907b3491076e1aeedce4293980893c3cdaf58910ebb399a375f34fbf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/audit.log",
+      "sha256": "91b268a37c5a328dc23a282e77ca27fa45d25283e831227ae8efea464a263809"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/baseline-build.log.gz",
+      "sha256": "7db6f081180d3bb88814f12067d1c635dfbfdb118bb7cd66c6983da24ffc1f4c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/baseline.json",
+      "sha256": "9850b2de8a094bcb55d6e32e9f5043874a3d3a26e27ca9342541fac76dcfc8c5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/bench__repairs__tritonbench_g__chunk_delta_fwd__Correct-comparator.log",
+      "sha256": "d97c583374f66d80934504828f1f4fc216fc38a2f35e551b2d40179c47fb9e20"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/bench__repairs__tritonbench_g__chunk_delta_fwd__FPEquiv-comparator.log",
+      "sha256": "d97c583374f66d80934504828f1f4fc216fc38a2f35e551b2d40179c47fb9e20"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/bench__repairs__tritonbench_g__chunk_delta_fwd__Kernels-comparator.log",
+      "sha256": "d97c583374f66d80934504828f1f4fc216fc38a2f35e551b2d40179c47fb9e20"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/bench__repairs__tritonbench_g__chunk_delta_fwd__OuterLoop-comparator.log",
+      "sha256": "d97c583374f66d80934504828f1f4fc216fc38a2f35e551b2d40179c47fb9e20"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/bench__repairs__tritonbench_g__chunk_delta_fwd__Program-comparator.log",
+      "sha256": "d97c583374f66d80934504828f1f4fc216fc38a2f35e551b2d40179c47fb9e20"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/bench__repairs__tritonbench_g__chunk_delta_fwd_static_dot__Correct-comparator.log",
+      "sha256": "d97c583374f66d80934504828f1f4fc216fc38a2f35e551b2d40179c47fb9e20"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/bench__repairs__tritonbench_g__chunk_delta_fwd_static_dot__FPEquiv-comparator.log",
+      "sha256": "d97c583374f66d80934504828f1f4fc216fc38a2f35e551b2d40179c47fb9e20"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/bench__repairs__tritonbench_g__chunk_delta_fwd_static_dot__Kernels-comparator.log",
+      "sha256": "d97c583374f66d80934504828f1f4fc216fc38a2f35e551b2d40179c47fb9e20"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/bench__repairs__tritonbench_g__chunk_delta_fwd_static_dot__Proofs__PairContext-comparator.log",
+      "sha256": "d97c583374f66d80934504828f1f4fc216fc38a2f35e551b2d40179c47fb9e20"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/bench__repairs__tritonbench_g__chunk_delta_fwd_static_dot__Proofs__PairSource-comparator.log",
+      "sha256": "d97c583374f66d80934504828f1f4fc216fc38a2f35e551b2d40179c47fb9e20"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/bench__repairs__tritonbench_g__chunk_delta_fwd_static_dot__Proofs__SourceSafety-comparator.log",
+      "sha256": "d97c583374f66d80934504828f1f4fc216fc38a2f35e551b2d40179c47fb9e20"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/bench__repairs__tritonbench_g__chunk_delta_fwd_static_dot__Proofs__SourceSafetyEdges-comparator.log",
+      "sha256": "d97c583374f66d80934504828f1f4fc216fc38a2f35e551b2d40179c47fb9e20"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/bench__repairs__tritonbench_g__chunk_delta_fwd_static_dot__Proofs__SourceSafetyPrefix-comparator.log",
+      "sha256": "d97c583374f66d80934504828f1f4fc216fc38a2f35e551b2d40179c47fb9e20"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/bench__repairs__tritonbench_g__fast_rope_embedding__Correct-comparator.log",
+      "sha256": "d97c583374f66d80934504828f1f4fc216fc38a2f35e551b2d40179c47fb9e20"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/bench__repairs__tritonbench_g__fast_rope_embedding__FPEquiv-comparator.log",
+      "sha256": "d97c583374f66d80934504828f1f4fc216fc38a2f35e551b2d40179c47fb9e20"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/bench__repairs__tritonbench_g__fast_rope_embedding__Proofs__KernelRegressions-comparator.log",
+      "sha256": "d97c583374f66d80934504828f1f4fc216fc38a2f35e551b2d40179c47fb9e20"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/bench__repairs__tritonbench_g__fast_rope_embedding__Proofs__LegacyStoreView-comparator.log",
+      "sha256": "fb3723c7bb9906839d091264dd3f89e74d8792e06ecfed10e6f877527a07e37c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/bench__repairs__tritonbench_g__fast_rope_embedding__Proofs__SourcePair-comparator.log",
+      "sha256": "fb3723c7bb9906839d091264dd3f89e74d8792e06ecfed10e6f877527a07e37c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/bench__repairs__tritonbench_g__rope_embedding__Correct-comparator.log",
+      "sha256": "fb3723c7bb9906839d091264dd3f89e74d8792e06ecfed10e6f877527a07e37c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/bench__repairs__tritonbench_g__rope_embedding__FPEquiv-comparator.log",
+      "sha256": "fb3723c7bb9906839d091264dd3f89e74d8792e06ecfed10e6f877527a07e37c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/bench__repairs__tritonbench_g__rope_embedding__Proofs__Source-comparator.log",
+      "sha256": "fb3723c7bb9906839d091264dd3f89e74d8792e06ecfed10e6f877527a07e37c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/bench__repairs__tritonbench_g__rope_embedding__Proofs__Spec-comparator.log",
+      "sha256": "fb3723c7bb9906839d091264dd3f89e74d8792e06ecfed10e6f877527a07e37c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/bench__tests__ValueDTypeBody-comparator.log",
+      "sha256": "fb3723c7bb9906839d091264dd3f89e74d8792e06ecfed10e6f877527a07e37c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/comparator-invocations.json",
+      "sha256": "1b831f539d659ec31696c400be1385604ae34a9f43484c7a097dd4ca8940626b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/comparator-tools.json",
+      "sha256": "28998e17d51b0fb5930f7489e64512a57f8a8146d1470063a624a75bbabdb0d3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/corpus-guard.log",
+      "sha256": "8cca7828c4176090793e1e27fe363bdda717d2359df69148c13eac125a6bbd62"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/cpu-final.log",
+      "sha256": "b66ab90f098ba54ccd87c764571ffcb8796aceed7d3d1741501fad278025eaa4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/final-clean-build.log.gz",
+      "sha256": "3d1c23e0e28780449e4c232166aec5120b0a7b4806f16da3370c559399c4b815"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/final-clean-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/final-clean-setup.json",
+      "sha256": "7ece4834d45ae01dc99b929734085c9520106440796d6eea35b0aafe9dd2aee1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/focus-final-modules.txt",
+      "sha256": "e6bf97c4426e3cc19eab211484f959700e440504316ed5dc515fbc818882a059"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/focus-final.log.gz",
+      "sha256": "7c2d39d089ab0152cd6349006f7603a8c2640dec12f33fa0a06a5ed9e78620f2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/focus-invocations.json",
+      "sha256": "09d9b8a3cb38384d303a09056513b026f9df759b7061fd9364b3a38d97904257"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/focus-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-VeriTile__Triton__DSL__TypedStores-comparator.log",
+      "sha256": "bd3fb9b27569b18ec3c4de625de4d5a5279b6a2d3d96e384ef2d1aa4a7bc5797"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-VeriTile__Triton__Source-comparator.log",
+      "sha256": "bd3fb9b27569b18ec3c4de625de4d5a5279b6a2d3d96e384ef2d1aa4a7bc5797"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-all-modules.txt",
+      "sha256": "3e279c9a89d30211107e9d046eb0d3c2530f425060839c0c6aae8124bbbd7320"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-all-python.log",
+      "sha256": "cfdf6503320fb03ede57d016447b14b02eb73b5088a7f79d83b100ec7ad648ea"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-applied-files.json",
+      "sha256": "ac241e6544118c8703b5335815d7b628f012b085d9f5baad0103f3c8f07f4e6f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-audit-targets.json",
+      "sha256": "5ef9b3d41ff92d055080f852e9f0a7a6637678cbf9f85411533ca60a5afae57b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-audit.lean",
+      "sha256": "eff0c5b9052d63028a8c173b636ac09a9b1883b7ed5eea9efadc34272a5ccccd"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-audit.log",
+      "sha256": "e77d223d1e3c04f17f536d9adde482f8082bb2e09abf14281eeaf15f0da4a94b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-baseline-build.log.gz",
+      "sha256": "7db6f081180d3bb88814f12067d1c635dfbfdb118bb7cd66c6983da24ffc1f4c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-baseline.json",
+      "sha256": "9850b2de8a094bcb55d6e32e9f5043874a3d3a26e27ca9342541fac76dcfc8c5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-bench__repairs__tritonbench_g__chunk_delta_fwd__Correct-comparator.log",
+      "sha256": "bd3fb9b27569b18ec3c4de625de4d5a5279b6a2d3d96e384ef2d1aa4a7bc5797"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-bench__repairs__tritonbench_g__chunk_delta_fwd__FPEquiv-comparator.log",
+      "sha256": "9b7b1720253ee3b4f35d8bd44f756585843dabff11800281af835b6177766b64"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-bench__repairs__tritonbench_g__chunk_delta_fwd__Kernels-comparator.log",
+      "sha256": "9b7b1720253ee3b4f35d8bd44f756585843dabff11800281af835b6177766b64"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-bench__repairs__tritonbench_g__chunk_delta_fwd__OuterLoop-comparator.log",
+      "sha256": "9b7b1720253ee3b4f35d8bd44f756585843dabff11800281af835b6177766b64"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-bench__repairs__tritonbench_g__chunk_delta_fwd__Program-comparator.log",
+      "sha256": "9b7b1720253ee3b4f35d8bd44f756585843dabff11800281af835b6177766b64"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-bench__repairs__tritonbench_g__chunk_delta_fwd_static_dot__Correct-comparator.log",
+      "sha256": "9b7b1720253ee3b4f35d8bd44f756585843dabff11800281af835b6177766b64"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-bench__repairs__tritonbench_g__chunk_delta_fwd_static_dot__FPEquiv-comparator.log",
+      "sha256": "9b7b1720253ee3b4f35d8bd44f756585843dabff11800281af835b6177766b64"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-bench__repairs__tritonbench_g__chunk_delta_fwd_static_dot__Kernels-comparator.log",
+      "sha256": "9b7b1720253ee3b4f35d8bd44f756585843dabff11800281af835b6177766b64"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-bench__repairs__tritonbench_g__chunk_delta_fwd_static_dot__Proofs__PairContext-comparator.log",
+      "sha256": "abc6d6297f370ce2ea3c77595bf7a6f2988a9117b9f12c1463bc7d357c1033a2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-bench__repairs__tritonbench_g__chunk_delta_fwd_static_dot__Proofs__PairSource-comparator.log",
+      "sha256": "abc6d6297f370ce2ea3c77595bf7a6f2988a9117b9f12c1463bc7d357c1033a2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-bench__repairs__tritonbench_g__chunk_delta_fwd_static_dot__Proofs__SourceSafety-comparator.log",
+      "sha256": "abc6d6297f370ce2ea3c77595bf7a6f2988a9117b9f12c1463bc7d357c1033a2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-bench__repairs__tritonbench_g__chunk_delta_fwd_static_dot__Proofs__SourceSafetyEdges-comparator.log",
+      "sha256": "abc6d6297f370ce2ea3c77595bf7a6f2988a9117b9f12c1463bc7d357c1033a2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-bench__repairs__tritonbench_g__chunk_delta_fwd_static_dot__Proofs__SourceSafetyPrefix-comparator.log",
+      "sha256": "abc6d6297f370ce2ea3c77595bf7a6f2988a9117b9f12c1463bc7d357c1033a2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-bench__tests__ValueDTypeBody-comparator.log",
+      "sha256": "abc6d6297f370ce2ea3c77595bf7a6f2988a9117b9f12c1463bc7d357c1033a2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-both-chunk_delta_fwd.log",
+      "sha256": "5506e38bf7f33f4ce070a1394bdaf7e876d449ae11c1fd3dd361706811897861"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-both-chunk_delta_fwd_static_dot.log",
+      "sha256": "d8c10e65324c866241ee5ae6ede1a6f806f05ceb46987d41468fe037651fddbc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-Admission-1793115638716509738.log",
+      "sha256": "30b19ab947f59c3f474c3ddfd09bfc19d5073c5e8f772f88e5b77dd1e969ce07"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-Bounds-1793115569969334965.log",
+      "sha256": "613c67d8e66d1be085c7b5c9e2a847d89a1e3d97aae444ddb0d0c4630232abf1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-Contract-1793115641565892388.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-Contract-1793115644064299550.log",
+      "sha256": "ef4903925eb7f593779ec7af055d74033fc50bde42a9c61e0a31fa948e2b1ad4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-DiagonalGeometry-1793115482092809172.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-Entry-1793115358220984141.log",
+      "sha256": "4996978b365952ac70c14d91882fd31b038983a8a4e43fca67326226224f7f1b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-FP-1793115694450351895.log",
+      "sha256": "f3634d14de3ff167f8038665c9ade278d49ccefaf42b7d7923188018c793ed3a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-FP-1793115757269690892.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-FPBounds-1793115576397134730.log",
+      "sha256": "a6749f2d8d77522fdb2e1f40b6703f209df02efdac6e47c3ac6f499abcf5feec"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-FPComplete-1793115786479767697.log",
+      "sha256": "1b8183eb3ae836c64f5f8634eafd1a0366e3b8984ee383cd815d0ca4fbbd51e0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-FPDiagonal-1793115501702016614.log",
+      "sha256": "e479ce0971c37060a7189986fd87ebd41fb8cedddd41ba3958e9f7f22d5cfeab"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-FPDiagonalBranch-1793115539915190982.log",
+      "sha256": "eee8f0df68a20c956c88c48f2faa168a55d8b80ce28a640fb31864146e5fca52"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-FPDiagonalComplete-1793115546847623128.log",
+      "sha256": "1de290c7789514faee455e6f5e4e881b283bb01c39a2c832146e71131ceea084"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-FPDiagonalLoop-1793115536456717767.log",
+      "sha256": "a2e75ff53bbcd315d8441969de04bb10bf0846fce94d5864ae0ca0a6202fe5bb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-FPDiagonalReadback-1793115550910571278.log",
+      "sha256": "c2126c60e8aeac385fc1c058991c7530dea031595de3bc44d611d9e773d8d96a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-FPDiagonalValues-1793115525664287140.log",
+      "sha256": "155ffa24edc093d28b451f904a37dc1e37a2c954a724e82fde7fa5cd09896f9f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-FPExecution-1793115775318662827.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-FPGrid-1793115444799043761.log",
+      "sha256": "163e215cdf6a1718db473f0d536fe699ff8c4d2f5bfaeb460b06007bb6eb821e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-FPGrid-1793115871963982282.log",
+      "sha256": "50fa11d078df6f080c3d33db1faed60de46fe70bf6fff540c518c36ec75839a1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-FPHost-1793115579901254056.log",
+      "sha256": "9b74b71a14c000f3f8bd5675941d146be95f12a467f7186ca350f70d6d452171"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-FPInter-1793115458302847977.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-FPInterComplete-1793115476223948187.log",
+      "sha256": "36f59c21d08abc5e03981cbda4c02db0b5851a96c4787d46d4409c53931aa3b3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-FPInterValues-1793115470862733629.log",
+      "sha256": "76fc763d0ec9b042542ed37e6fc42114857d04edef33e135cf52bf3de922b022"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-FPMerge-1793115341725198751.log",
+      "sha256": "3a56e04d24538f0000185be5a0325307b0daf5469f35e9a21d3b09466176a956"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-FPMergeComplete-1793115554455254786.log",
+      "sha256": "97aee39261f010883684a3144d25261f5793ecb337079a5c4a41a5cef6e5a36b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-FPOutput-1793115347152255682.log",
+      "sha256": "762a5691aa1dc640d2e239799a6b7eeefde99a2f52a4858ff66038e3adcbbb64"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-FPOutputComplete-1793115434989124923.log",
+      "sha256": "8b2bc651910fb28818083c31e028860eb37a5114046a4e97c9da97ad3744c1e4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-FPOutputValues-1793115430706524265.log",
+      "sha256": "afa7facdfb28a93a71d51e17d92993f9b13f4ce3d75926da5086c8e838d14684"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-FPReadBounds-1793115584586437307.log",
+      "sha256": "dd90adacea9d60287a1174e63be86df5445bbbe9f285da6c09d93faeba782d7d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-FPReturned-1793115592552734582.log",
+      "sha256": "e807db394c8968e1b5102c61cd34954e3b2278e5ba1c30a1e16f0cd36f4c3dbf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-FPStages-1793115559203418859.log",
+      "sha256": "4f6a33e6ab98f2477330702c2bce627bc23cd911c6f33b75001c24ea8f2ee89b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-FPStorage-1793115441560196698.log",
+      "sha256": "a3a99e12d3045833e1a4616462fe196168933b1629cd1671bfe272ca8a2e81a3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-FPValue-1793115772022327920.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-Finish-1793115388402022293.log",
+      "sha256": "104090e1acd082e4b5aa0b173cdee11d85260eb70ae7820ccf912a576f88536d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-Geometry-1793115334233729202.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-Geometry-1793115395074233475.log",
+      "sha256": "280719a2a4e6f8204f0072403c50b759a4b1b22c916054e3130b991cb401c514"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-Grid-1793115406074792683.log",
+      "sha256": "cebc131046dde52ea8be726326cf8a08144a3501967cb278ac7b1e87191b49f8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-GridOutputs-1793115414492386719.log",
+      "sha256": "4f1a6451edbb1164f12702d3f17e6667c7aa1666fbfd72858b2e96cbb2093841"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-HostCall-1793115572940770724.log",
+      "sha256": "c2c0d1e8bdce4f62d187e2be8b65ae98995080f857ccedeb4fe6f60554aea56f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-HostFP-1793115729241416978.log",
+      "sha256": "424653aa8de1750407d34f831fd35ecfef73e375af73a2af6f8e9b1c6ffdde91"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-HostGeometry-1793115725674712828.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-HostLayout-1793115860539203539.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-HostMetadata-1793115563417416738.log",
+      "sha256": "e28ce98ebb603e2a86283fcb6a264f2c72c9ebb4bdc9f7733a390e1d2ad81d84"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-HostMetadata-1793115566787954262.log",
+      "sha256": "3bb1b18c8dd24fcf40d5be89abedbf23683ac42f019220f417fd7c69854d2528"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-HostReal-1793115868651938912.log",
+      "sha256": "d9ab22b842a9c38e1cb9472d0fbe7da01256db80af73404216c5a2cc7a87c3ad"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-IO-1793114350007370494.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-IO-1793115883291681534.log",
+      "sha256": "3390f2bbbdcb685c7be465d0fa7fb34c4dca3a9907a3d8d8dd9ad2897ec4c512"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-Inner-1793115366920910351.log",
+      "sha256": "5375fd39ba354e6336311bf59a0e28b126b9993f099bbd5448c0f608255661da"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-InnerLoop-1793115382657577079.log",
+      "sha256": "0dee146d096639ee70dc012a06706aaded9c3bb7809791ed639d288d1b267306"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-InterGrid-1793115485386082955.log",
+      "sha256": "17c49c7c2f1891a18383799f65f183f2959e22e55504b8f489a8de6fbf289e59"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-IntraGrid-1793115489661676781.log",
+      "sha256": "9d71cb096ca21592e116c976f573ee694094254316efbc6eec4e91b2fb80f036"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-Kernels-1793114207961127041.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-Kernels-1793114353222304143.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-Kernels-1793114521420817471.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-Kernels-1793115650537281826.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-Kernels-1793115668538703349.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-LocalReal-1793115330905077192.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-Logical-1793115451589544540.log",
+      "sha256": "5c30d9dedc29a004c718d1a6211d78841d89ec5b0ff4bfd4081dd18d363ada51"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-LogicalView-1793115692723961895.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-Memory-1793115364119804142.log",
+      "sha256": "109ae0bd84c3fa46f39aa9b8bb0e0df45cd96627876e2da3b39cdc86ff0d9d75"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-Model-1793115355456087938.log",
+      "sha256": "7af69394696ba48b99f97e7994402b3028e300ac280e160007cf98229961a4c4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-NativeComposition-1793115632267612276.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-NativeGraph-1793115635550659802.log",
+      "sha256": "fbf166ed042ae8948e4fdda2d1c93709378a2edcb8a4faec528b4b93ab22af88"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-NativeGraph-1793115875658837118.log",
+      "sha256": "c9fe073fdab8ba5a6a6b9a2add3b9f9c04d3321ec213010e4fc97b3b13c3dc9f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-NativeInstructions-1793115625329884829.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-NativeReduction-1793115600093246796.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-NativeReference-1793115646767470308.log",
+      "sha256": "46970277a41d08ed3943a5659481183c86a3d954383776aefb9c625ffbcb3bde"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-NativeStaging-1793115628829089505.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-OuterEdges-1793115375709743266.log",
+      "sha256": "cb30ee4421418bbb1413b6b115ff7a3e7367ef5b03e2c57426fd38190b2276a8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-OuterLoop-1793115385435389723.log",
+      "sha256": "0c360f9bc4d1cd695e2543fe73e9abb974da37341b7d797d7dd257873d7db337"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-OutputGrid-1793115337385793050.log",
+      "sha256": "e1f2f339e1f07095fee60493bdfc599ade3c2a5e9e70862c09bf9622da5981f3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-OutputTail-1793115327383849873.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-Ownership-1793115411874030679.log",
+      "sha256": "234595f3eb06c390f384dca024db5d36c08e2849e7a24a19ba90758c55a250e1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-Physical-1793115587867497796.log",
+      "sha256": "944066fc9e6b10409f281fe0b57496b6ee70ba70cde5b47a4be7cf67b93fff06"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-PhysicalReturned-1793115596163501835.log",
+      "sha256": "ceb24b80b7ea2fa270f96823917ff4a7492cc5dcbd442cd1a561b8400a337bc5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-ProducerGeometry-1793115454906268586.log",
+      "sha256": "55582833fd4280a6aa99d5fa336be76bee802793dff50f0d3e3a3006b93cb6bc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-Program-1793115392269765966.log",
+      "sha256": "42b12bcefde843f1763e6feb1d33c92217569e8eb8d4441999929bf52dfad4fb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-ProgramReadback-1793115403149479362.log",
+      "sha256": "3f3cf2bf7205e179bb0f375c37a1070f0a6ec846e5771af1c6cac73f53a3447e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-Range-1793115379917967873.log",
+      "sha256": "cd9ef9cafddc106822b183484935cabe8765c03fc5b6e0f8303e01d4ce64dc64"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-Readback-1793115400342587973.log",
+      "sha256": "0beb7db04e6f48e059882a3fba45c9b06df457cccc41845d5325526f69507d7b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealExecution-1793115840502056537.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealFlat-1793115856718744367.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealHMath-1793114605276007993.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealHPointers-1793114616963489014.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealHProgram-1793114611071646247.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealHSource-1793114542312234152.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealInterAccessSafety-1793114870392509661.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealInterAlgebra-1793114627248362875.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealInterExecution-1793114867201371414.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealInterFinal-1793114863954157962.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealInterFlat-1793114883021395205.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealInterIO-1793114886147951362.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealInterLoads-1793114624076563054.log",
+      "sha256": "9e4d3058b07141ee722b75b1c42f1389958811d503882b37cc6ed6f68d2174e1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealInterLoop-1793114735544626219.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealInterMath-1793114513879705140.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealInterPointers-1793114620186467906.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealInterProgram-1793114517161638563.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealInterSafety-1793114879650786920.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealInterSource-1793114478203327824.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealInterStep-1793114630763198739.log",
+      "sha256": "4d01a51a56f1f34955870d5b8f96b641d0e09c5b6afa907aa86e3aebd72987b4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealInterStepSafety-1793114876048630874.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealIntraAccessSafety-1793114971721405872.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealIntraAlgebra-1793114926106753267.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealIntraExecution-1793114968562380565.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealIntraFlat-1793114981853741182.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealIntraIO-1793114984938387752.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealIntraLoop-1793114937003183684.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealIntraMath-1793114914669311419.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealIntraMemory-1793114922120213124.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealIntraProgram-1793114917994680535.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealIntraSafety-1793114978553116454.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealIntraSetup-1793114929393600365.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealIntraSource-1793114889278452836.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealIntraStep-1793114933622652894.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealIntraStepSafety-1793114974918967415.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealMath-1793115417447572299.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealMath-1793115833813948086.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealMergeExecution-1793115305585197930.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealMergeFinal-1793115302347654444.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealMergeFlat-1793115314442479309.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealMergeIO-1793115317594897174.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealMergeLoop-1793115299091072777.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealMergeProgram-1793115288321726620.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealMergeSafety-1793115308814526070.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealMergeStep-1793115295168796676.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealModel-1793115420710582519.log",
+      "sha256": "6805a4db4a87bbbe0aab76d36cf4ed210641f2152267aae59b993982e7a42c85"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealOutput-1793114403289813234.log",
+      "sha256": "675a32a8693595597f8b365d26adba0bd54a5cb3fe3fe51aef5b32e85029a5f0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealOutputCandidate-1793114467819334110.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealOutputFlat-1793114471598882181.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealOutputIO-1793114474822771474.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealOutputSafety-1793114461776508400.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealOutputSource-1793114411168192267.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealOutputs-1793115427650537306.log",
+      "sha256": "475ad2351f87ecf092d9b7532cb0e5b506646804a19d5e33ba6cda6921bae9f4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealProgram-1793115794558392159.log",
+      "sha256": "8d8499db4509df969970b088daf8220e6efb881a2cbb0a176698d6beed7c488e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealSafety-1793115852158935785.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealSplitAccessSafety-1793115271096799947.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealSplitAlgebra-1793115025324779077.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealSplitExecution-1793115267714861404.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealSplitFlat-1793115281824121568.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealSplitIO-1793115285132570115.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealSplitLoop-1793115036462631456.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealSplitMath-1793115014287193761.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealSplitMemory-1793115021436662979.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealSplitProgram-1793115017424398201.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealSplitSafety-1793115278308621206.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealSplitSetup-1793115028605907553.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealSplitSource-1793114988007046342.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealSplitStep-1793115033111615705.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealSplitStepSafety-1793115274431781869.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealStep-1793115828073620849.log",
+      "sha256": "adb40d1ee139d994fad03a634867a396c8095efa05c9d24a609f0d82df0d8b41"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-RealValues-1793115423922989886.log",
+      "sha256": "3ac853114e7e068987ac1992c4d909b05f3615c74b24b0198d66a411eed975bd"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-ScalarGraph-1793115879592112650.log",
+      "sha256": "5ff6b1464e97507d5c46521a946bed44b5b4c88d0b03e592aa215e4f673791f6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-SourceBridge-1793115320687619994.log",
+      "sha256": "b296670747f46041b848374f0aa26af068022a946ac8bccadeccff24a657a692"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-SourceCompatibility-1793114204951479842.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-SourceSafetyBlockPointer-1793115889833912787.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-SourceSafetyEdges-1793115891253537288.log",
+      "sha256": "04a5f7dd50c1fb46209a09dd731618cc3d5bb75a3ad949e993506a07b62688c6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-SourceSafetyPrefix-1793115886890802108.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-SplitGeometry-1793115494009702421.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-SplitGrid-1793115497434399076.log",
+      "sha256": "b93fa18672d4fb07668f8de86db8c8b4b98d905bb9f7492ead4717190af06471"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-StoreRange-1793115397741078939.log",
+      "sha256": "0172d8af4c59d9055ae90e8ad354c14123b0687bb471d6227e5abcdaf6c98922"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-SumBlocks-1793115448075386124.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-TraceRewrite-1793114608507671836.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-Typed-1793115760437617043.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-WholeShape-1793115667041488237.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-closure-ZeroPadding-1793114255813506030.log",
+      "sha256": "e27a2755e8aa3eef95f62dbb63061c01c4733f69a6dec677a12a02ce84f9a719"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-code.txt",
+      "sha256": "556071cd7ebb45b49e6c70f4e240473c96673989c48484bd7c5da660cdfe0fc4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-comparator-invocations.json",
+      "sha256": "d60cfcfdc1cf54175c525ab6c07bb6ed5fb028aa36f0b7c31391d20914d70240"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-comparator-tools.json",
+      "sha256": "28998e17d51b0fb5930f7489e64512a57f8a8146d1470063a624a75bbabdb0d3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-cpu-final.log",
+      "sha256": "b66ab90f098ba54ccd87c764571ffcb8796aceed7d3d1741501fad278025eaa4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-direct-Kernels-1793114922922597063.log",
+      "sha256": "8d222a1487c1d3f65e53e618b0b973d949f038425f9c33473396c648102b0520"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-direct-Kernels-1793114926448817092.log",
+      "sha256": "d8c10e65324c866241ee5ae6ede1a6f806f05ceb46987d41468fe037651fddbc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-direct-PairContext-1793114929018767891.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-direct-PairSource-1793114932934106824.log",
+      "sha256": "9de9deb4c48441e5fa6d7e0b0587825b2457238420887f890cc8010b727226dc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-dtype-CallSignature1.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-dtype-Kernels1.log",
+      "sha256": "bd59cda3cff8a94fba45bbedf06fd15a3738e5ebfa8641e3364680838299cb18"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-dtype-TypedStores1.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-final-clean-build.log.gz",
+      "sha256": "6e93e1453ff127b104304c84cb15170d8ba7c280dfdef9d3491d367fa9a5bba3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-final-clean-setup.json",
+      "sha256": "4a25d5ca052383f22e5dce5c5c50a22ee3ce9b497717600b94f3dc3a2284777c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-focus-final-modules.txt",
+      "sha256": "919536da522ea6b6d790aa50f6f72c8991c68e6b3d0de690b6f0aef4ed1c665a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-focus-final.log.gz",
+      "sha256": "7a2bf16f8954c99e5d04586f731c7b7ad2bc332ccc3e9a2a83a55dba91dc81ea"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-focus-invocations.json",
+      "sha256": "a3d5877b884d5ea2b4bcd3624a6ba73b6b205440c90f271e646604df2868b2ae"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-focus-joint.lean",
+      "sha256": "07d03575ac7997d634d71b508e488aa01123902ca8412b4ce4b1b837ad43c47b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-focus-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-focus-modules.txt",
+      "sha256": "919536da522ea6b6d790aa50f6f72c8991c68e6b3d0de690b6f0aef4ed1c665a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-inspections.json",
+      "sha256": "3cf45d722fa774ae1cda5e384fb4a69dfad394478ce491be04d5780c279b7b26"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-integration-final.log.gz",
+      "sha256": "494527bb75b483a26f45ff346772d4a9500b82a3ab5c74f460ad93f8998db1b6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-joint-all.lean",
+      "sha256": "e839a04a8bb49cfd5bdf9f0311e0ce1775b7277e5c27311dee03d9a78f04f7a4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-kernel1.log",
+      "sha256": "d6bdee9632181bb4145bc6cbc0dd25bb9c6df369d8f7232621bca880c4ed4fcc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-kernel2.log",
+      "sha256": "312e203d8d0679022e72b540543c15e9eca936ecd0a8fbcd7c47d85fa6bca2f8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-lean-path.txt",
+      "sha256": "a3f1c8b5b9d0faf49777c21660cef9fa6d3caf325edf63712b08e994bd9ec9f0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-old-parts.lean.txt",
+      "sha256": "ce0991af78f775f8b60402a2f733b17625c4bb472ea342d80e4d9cf233c1b02a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-probe-BodyShape83.log",
+      "sha256": "80311505b3c726a93558c1d58c607363c2e8a48bfeac4ce66439eae350f52415"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-probe-Kernels.log",
+      "sha256": "7baebb9f704ad29fd8d74a6a7289d52ba810fc3b956c2948b5e69773d2ccb996"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-probe-ValueDTypeBody.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-proof-build1.log.gz",
+      "sha256": "7a2bf16f8954c99e5d04586f731c7b7ad2bc332ccc3e9a2a83a55dba91dc81ea"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-python-invocations.json",
+      "sha256": "8bb8816b4d6dea74e4047494df0eee71df4c1da5017dd0eb239b9ebfc0b8501e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-python-tests.log",
+      "sha256": "41a98c05ee762adaf6f2fe9ffc78355ed58db0234a7ba0cd915a59ed3360d8ae"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-ranges-Kernels1.log",
+      "sha256": "e1dda1b3a4ac04a0bdbcc44a4eb223216d2bed6c02d5b679fc5a912b5c29b356"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-ranges-Source1.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-raw-body-check.log",
+      "sha256": "ffe2197b942f085991081dfd9b90ec4dae74e10c1873e48d05032c1c075213fd"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-rope-direct-LegacyStoreView-1793117439450605777.log",
+      "sha256": "ce801659f4e78eb37f62447f9d0541db99e3dc0e45d63bbd5051fa901be06b31"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-rope-direct-LegacyStoreView-1793117718333520551.log",
+      "sha256": "4102df9cbde58cb486ed9e408436d5bbf83b6e5b221c86cc0cc373335c73943f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-rope-direct-LegacyStoreView-1793117750840431522.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-rope-direct-Source-1793117760709667415.log",
+      "sha256": "78454fb84c0cf77ef34f3b9b96b24ca2fcc97d94709a7923df56feb6db8d059e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-rope-direct-SourcePair-1793117752362005479.log",
+      "sha256": "5c8e8bd87b823c16177af08d9ae018c28a7c6364ff494febaaa5b08d74938d9e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-rope-direct-Spec-1793117758863686595.log",
+      "sha256": "43fcc47a801f0e6dc1aa22e34217150647fc901bcea427783ebe109a338d85a2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-rope-direct-ValueDTypeBody-1793117785754679680.log",
+      "sha256": "b896fc294fc17b5dd353fff7413b4fbc1650a59ab3c325cafc1e767875240929"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-rope-fix-lean-path.txt",
+      "sha256": "d9d16fa702b94d8d814430553976a83e8985e541fe6f238aa92e889be4d4a108"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-shape.lean",
+      "sha256": "2acb9bfac89f0899e05e7ceab656d65878c880ee05658d188c30bb383f6a9927"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-shape.log",
+      "sha256": "6a46c3eff25e82c34a56f5fc2c13f34c75aeb05d726d28a0d195559f2adce236"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-source-whitespace.log",
+      "sha256": "550bc2c918b434302242941d1022cf0b5b2dd0e7f837a9b73e3fba37c2a5ffba"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-staged-body-check.log",
+      "sha256": "ffe2197b942f085991081dfd9b90ec4dae74e10c1873e48d05032c1c075213fd"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-standalone-CallSignature.log",
+      "sha256": "87c100a89deee556ffbd89a64bbef1320c6355ba6e1401e0cf16ce12d27279ab"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-standalone-LoopBody.log",
+      "sha256": "1c5af0cee0da77bf411c10843337f3d0d604ec0b0b6fcd289ecef2f4aaf06f68"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-standalone-SourceDTypeBody.log",
+      "sha256": "1d08f1f64e2b1700e67d45e8992ecb3a872206d0be32439e18b3a637fda8906b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-standalone-ValueDTypeBody.log",
+      "sha256": "936b89ff7841ce3a6b0b4f910c17ed8b609ad39cd6a530e11a3d4722c288129b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-transferred-files.json",
+      "sha256": "96b3904b88211dddd31c695c696965905c514e35bbc36849cd310ce1877a8b61"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-value-dtype-test1.log",
+      "sha256": "bcf510834fee21ba5c3f35d24ea173551db08a95ad005bb69a88e0793a484976"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-value-dtype-test2.log",
+      "sha256": "936b89ff7841ce3a6b0b4f910c17ed8b609ad39cd6a530e11a3d4722c288129b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-warm-final-invocation.json",
+      "sha256": "f2706c1155c71da5b48db034705c54c2041be84f8125cfea92ead44154f43689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/initial-failed-source/chunkdelta83-wrapper-source-check.log",
+      "sha256": "d1efd4db10b7463745ea322747ab816d4a0bc6ce086005c0ae6ce108bf485a02"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/inspections.json",
+      "sha256": "98b84c4ee01defc6db3f2a1750d949bd2be1e50b29f2ea1408611ab19cb381cc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/integration-final.log.gz",
+      "sha256": "4f6caf293b3fa1429ba89e6ae74bd32f5a25a7e97a0df2876cc42d985ea941c6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/joint-all.lean",
+      "sha256": "518b9aa660c4adac825383c9dc0d7162ee34982d970bdcff43f4d8f75006e821"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/joint-final.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/modules.json",
+      "sha256": "38e4a64260c7756fcb21e58f31f70abc2b8a26844cd3526379c2116fe8ef2651"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/pairs.json",
+      "sha256": "4ff160e2433afd5c1ebe928c4090397f853aa92f745d551c822a32e78e336a1e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/previous-reviews.json.gz",
+      "sha256": "6b298e7a1d289276ba9bd2efadbac263dc3beb022b6be16422c524bbbbadf722"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/python-invocations.json",
+      "sha256": "35cb9bba9cab7a226302acdd2a38a4a1ebd8aa41318e54773a40c28a9f68f931"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/python-tests.log",
+      "sha256": "100c636a0f895ef72e5eb05c541c80076399d5279b432d5a02801350182562f1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/raw-body-check.log",
+      "sha256": "ffe2197b942f085991081dfd9b90ec4dae74e10c1873e48d05032c1c075213fd"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/source-closure.json",
+      "sha256": "a2a92aa44f1e91864e6ca23260637ca140fd87e34ab70939ef551722620a47e4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/source-whitespace.log",
+      "sha256": "550bc2c918b434302242941d1022cf0b5b2dd0e7f837a9b73e3fba37c2a5ffba"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/staging-transient-missing-object.log",
+      "sha256": "04a5f7dd50c1fb46209a09dd731618cc3d5bb75a3ad949e993506a07b62688c6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/standalone-CallSignature.log",
+      "sha256": "87c100a89deee556ffbd89a64bbef1320c6355ba6e1401e0cf16ce12d27279ab"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/standalone-LoopBody.log",
+      "sha256": "1c5af0cee0da77bf411c10843337f3d0d604ec0b0b6fcd289ecef2f4aaf06f68"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/standalone-SourceDTypeBody.log",
+      "sha256": "1d08f1f64e2b1700e67d45e8992ecb3a872206d0be32439e18b3a637fda8906b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/standalone-ValueDTypeBody.log",
+      "sha256": "b896fc294fc17b5dd353fff7413b4fbc1650a59ab3c325cafc1e767875240929"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/transferred-files.json",
+      "sha256": "c718b3cd9e75530159f09763253ac89aae50999e19c98659a8eaa7e63083ca4e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/warm-final-invocation.json",
+      "sha256": "84a4d45677238118bf3ed597035bede16decfe0919feff7e984d7cd75208ebc8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-chunk-delta-function-bodies/wrapper-source-check.log",
+      "sha256": "d1efd4db10b7463745ea322747ab816d4a0bc6ce086005c0ae6ce108bf485a02"
+    }
+  ]
+}

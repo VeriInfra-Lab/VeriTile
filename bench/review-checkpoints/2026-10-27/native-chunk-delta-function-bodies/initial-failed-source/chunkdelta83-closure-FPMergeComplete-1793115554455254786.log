@@ -1,0 +1,11 @@
+/tmp/chunkdelta83-staging/bench/repairs/tritonbench_g/chunk_gla_fwd/Proofs/FPMergeComplete.lean:48:2: warning: 'all_goals rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/chunkdelta83-staging/bench/repairs/tritonbench_g/chunk_gla_fwd/Proofs/FPMergeComplete.lean:48:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+VeriTile.Bench.Repairs.ChunkGlaFwd.FPMerge.value: definition does not reference [VeriTile.Triton.FP.Structural.run,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.Repairs.ChunkGlaFwd.FPMerge.source_memory: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

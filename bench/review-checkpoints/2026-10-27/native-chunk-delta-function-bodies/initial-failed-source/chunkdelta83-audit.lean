@@ -1,0 +1,23 @@
+import bench.repairs.tritonbench_g.chunk_delta_fwd_static_dot.Correct
+import bench.repairs.tritonbench_g.chunk_delta_fwd_static_dot.FPEquiv
+set_option maxHeartbeats 16000000
+#axiomsClean VeriTile.Bench.Repairs.ChunkDeltaFwd.outer_parts
+#axiomsClean VeriTile.Bench.Repairs.ChunkDeltaFwd.inner_parts
+#axiomsClean VeriTile.Bench.Repairs.ChunkDeltaFwd.entry_run
+#axiomsClean VeriTile.Bench.Repairs.ChunkDeltaFwd.entry_ready
+#axiomsClean VeriTile.Bench.Repairs.ChunkDeltaFwd.inner_values
+#axiomsClean VeriTile.Bench.Repairs.ChunkDeltaFwd.outerStep
+#axiomsClean VeriTile.Bench.Repairs.ChunkDeltaFwd.program
+#axiomsClean VeriTile.Bench.Repairs.ChunkDeltaFwdStaticDot.PairSource.loop_stmt
+#axiomsClean VeriTile.Bench.Repairs.ChunkDeltaFwdStaticDot.PairSource.complete
+#axiomsClean VeriTile.Bench.Repairs.ChunkDeltaFwdStaticDot.PairCorrect.invocation_run
+#axiomsClean VeriTile.Bench.Repairs.ChunkDeltaFwdStaticDot.PairCorrect.invocation_safe
+#axiomsClean VeriTile.Bench.Repairs.ChunkDeltaFwdStaticDot.PairCorrect.schedule_run
+#axiomsClean VeriTile.Bench.Repairs.ChunkDeltaFwdStaticDot.PairCorrect.schedule_safe
+#axiomsClean VeriTile.Bench.Repairs.ChunkDeltaFwdStaticDot.PairCorrect.equivalent
+#axiomsClean VeriTile.Bench.Repairs.ChunkDeltaFwdStaticDot.SourceSafety.source
+#axiomsClean VeriTile.Bench.Repairs.ChunkDeltaFwdStaticDot.IOImplements.real
+#axiomsClean VeriTile.Bench.Repairs.ChunkDeltaFwdStaticDot.IOImplements.native
+#axiomsClean VeriTile.Bench.Repairs.ChunkDeltaFwdStaticDot.Correct.chunk_delta_kernel_correct
+#axiomsClean VeriTile.Bench.Repairs.ChunkDeltaFwdStaticDot.FPEquiv.chunk_delta_addressFold_equiv
+#print_fp_assumptions VeriTile.Bench.Repairs.ChunkDeltaFwdStaticDot.FPEquiv.chunk_delta_addressFold_equiv

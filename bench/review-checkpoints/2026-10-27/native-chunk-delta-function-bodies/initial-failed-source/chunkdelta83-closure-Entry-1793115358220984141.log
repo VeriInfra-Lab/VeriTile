@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.ChunkDeltaFwd.entry_memory: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.ChunkDeltaFwd.entry_ready: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,12 @@
+/tmp/chunkdelta83-staging/bench/tritonbench_g/chunk_gla_fwd/Proofs/RealInterStep.lean:13:26: warning: unused variable `l`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/chunkdelta83-staging/bench/tritonbench_g/chunk_gla_fwd/Proofs/RealInterStep.lean:13:39: warning: unused variable `r`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/chunkdelta83-staging/bench/tritonbench_g/chunk_gla_fwd/Proofs/RealInterStep.lean:13:53: warning: unused variable `a`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/chunkdelta83-staging/bench/tritonbench_g/chunk_gla_fwd/Proofs/RealInterStep.lean:13:66: warning: unused variable `scale`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`

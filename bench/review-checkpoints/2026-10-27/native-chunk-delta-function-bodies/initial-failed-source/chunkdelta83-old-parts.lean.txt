@@ -1,0 +1,10 @@
+
+theorem outer_parts (p : Parameters) :
+    (kernel p).surfaceBody=(outer p).before++
+      [.forRange "i_t" 0 p.NT 1 (outer p).body]++(outer p).after := rfl
+theorem inner_parts (p : Parameters) :
+    (outer p).body=(inner p).before++
+      [.forRange "i_c" 0 ((p.BT + p.BC - 1) / p.BC) 1 (inner p).body]++(inner p).after := rfl
+#axiomsClean outer_parts
+#axiomsClean inner_parts
+end VeriTile.Bench.Repairs.ChunkDeltaFwd

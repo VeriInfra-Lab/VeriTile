@@ -1,0 +1,33 @@
+/tmp/chunkdelta83-staging/bench/repairs/tritonbench_g/chunk_delta_fwd/Kernels.lean:26:6: warning: unused variable `H`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/chunkdelta83-staging/bench/repairs/tritonbench_g/chunk_delta_fwd/Kernels.lean:27:6: warning: unused variable `T`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/chunkdelta83-staging/bench/repairs/tritonbench_g/chunk_delta_fwd/Kernels.lean:28:6: warning: unused variable `K`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/chunkdelta83-staging/bench/repairs/tritonbench_g/chunk_delta_fwd/Kernels.lean:29:6: warning: unused variable `V`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/chunkdelta83-staging/bench/repairs/tritonbench_g/chunk_delta_fwd/Kernels.lean:32:6: warning: unused variable `BK`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/chunkdelta83-staging/bench/repairs/tritonbench_g/chunk_delta_fwd/Kernels.lean:33:6: warning: unused variable `BV`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/chunkdelta83-staging/bench/repairs/tritonbench_g/chunk_delta_fwd/Kernels.lean:34:6: warning: unused variable `NT`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/chunkdelta83-staging/bench/repairs/tritonbench_g/chunk_delta_fwd/Kernels.lean:35:6: warning: unused variable `USE_INITIAL_STATE`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/chunkdelta83-staging/bench/repairs/tritonbench_g/chunk_delta_fwd/Kernels.lean:36:6: warning: unused variable `STORE_FINAL_STATE`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.Repairs.ChunkDeltaFwd.outer_parts: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.ChunkDeltaFwd.inner_parts: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

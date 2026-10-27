@@ -1,0 +1,14 @@
+/tmp/chunkdelta83-rope-fix/bench/repairs/tritonbench_g/rope_embedding/Proofs/Spec.lean:52:72: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/chunkdelta83-rope-fix/bench/repairs/tritonbench_g/rope_embedding/Proofs/Spec.lean:58:27: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+VeriTile.Bench.Repairs.RopeEmbedding.Spec.result: definition does not reference [VeriTile.Bench.Repairs.RopeEmbedding.scalarResult,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.Repairs.RopeEmbedding.ideal_result: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.RopeEmbedding.Spec.adjoint: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

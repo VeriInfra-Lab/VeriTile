@@ -1,0 +1,17 @@
+/tmp/chunkdelta83-staging/bench/repairs/tritonbench_g/chunk_gla_fwd/Proofs/FPReadBounds.lean:42:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.ChunkGlaFwd.FPReadBounds.diagonal_column`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/tmp/chunkdelta83-staging/bench/repairs/tritonbench_g/chunk_gla_fwd/Proofs/FPReadBounds.lean:56:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.ChunkGlaFwd.FPReadBounds.diagonal_query`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+VeriTile.Bench.Repairs.ChunkGlaFwd.FPReadBounds.diagonal_key: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.ChunkGlaFwd.FPReadBounds.merge_scratch: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.ChunkGlaFwd.FPReadBounds.output_history: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])

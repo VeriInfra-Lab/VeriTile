@@ -1,0 +1,3 @@
+VeriTile.Tests.ValueDTypeBody.retained_explicit_cast: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

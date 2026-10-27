@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.ChunkGlaSimple.FPValue.correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

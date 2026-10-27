@@ -1,0 +1,4 @@
+VeriTile.Bench.Repairs.ChunkDeltaFwd.foldRange_observe: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.ChunkDeltaFwd.foldRange_last: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

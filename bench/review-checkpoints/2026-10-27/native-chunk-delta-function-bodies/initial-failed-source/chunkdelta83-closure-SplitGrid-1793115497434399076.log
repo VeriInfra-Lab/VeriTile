@@ -1,0 +1,4 @@
+VeriTile.Bench.Repairs.ChunkGlaFwd.SplitGrid.tileValue: definition does not reference [VeriTile.Triton.exec] — non-circular ✓
+VeriTile.Bench.Repairs.ChunkGlaFwd.SplitGrid.readback_streamed: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

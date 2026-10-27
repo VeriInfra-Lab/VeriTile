@@ -1,0 +1,237 @@
+def VeriTile.Bench.Repairs.ChunkDeltaFwd.kernel : Parameters → VeriTile.Triton.ComputeKernel :=
+fun p =>
+  have k := { name := "key" };
+  have v := { name := "value" };
+  have d := { name := "weight" };
+  have v_new := { name := "corrected" };
+  have h := { name := "history" };
+  have initial_state := { name := "initial" };
+  have final_state := { name := "final" };
+  have H := p.H;
+  have T := p.T;
+  have K := p.K;
+  have V := p.V;
+  have BT := p.BT;
+  have BC := p.BC;
+  have BK := p.BK;
+  have BV := p.BV;
+  have NT := p.NT;
+  have USE_INITIAL_STATE := p.useSeed;
+  have STORE_FINAL_STATE := p.storeFinal;
+  VeriTile.Triton.ComputeKernel.mk [k, v, d, v_new, h, initial_state, final_state] []
+    [VeriTile.Triton.ComputeStmt.ifThen (VeriTile.Triton.Op.constBool «true»)
+        [VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.nat [] "i_k"
+            (VeriTile.Triton.ComputeExpr.alg (VeriTile.Triton.Op.programId 0)),
+          VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.nat [] "i_v"
+            (VeriTile.Triton.ComputeExpr.alg (VeriTile.Triton.Op.programId 1)),
+          VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.nat [] "i_bh"
+            (VeriTile.Triton.ComputeExpr.alg (VeriTile.Triton.Op.programId 2))],
+      VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.real [BK, BV] "b_h"
+        (VeriTile.Triton.ComputeExpr.compute
+          (VeriTile.Triton.ComputeOp.full [BK, BV]
+            (VeriTile.Triton.ComputeOp.alg VeriTile.Triton.ComputeDType.fp32 (VeriTile.Triton.Op.const 0)))),
+      VeriTile.Triton.ComputeStmt.ifThen (VeriTile.Triton.Op.constBool USE_INITIAL_STATE)
+        [VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.blockPtr [BK, BV] "p_h0"
+            (VeriTile.Triton.ComputeExpr.alg
+              (VeriTile.Triton.Op.makeBlockPtrDynOffsets initial_state
+                (VeriTile.Triton.Op.mul VeriTile.Triton.NumericDType.nat VeriTile.Triton.Broadcast.nil
+                  (VeriTile.Triton.Op.mul VeriTile.Triton.NumericDType.nat VeriTile.Triton.Broadcast.nil
+                    (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.nat [] "i_bh") (VeriTile.Triton.Op.constNat K))
+                  (VeriTile.Triton.Op.constNat V))
+                [K, V] [BK, BV] [V, 1]
+                [VeriTile.Triton.Op.mul VeriTile.Triton.NumericDType.nat VeriTile.Triton.Broadcast.nil
+                    (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.nat [] "i_k") (VeriTile.Triton.Op.constNat BK),
+                  VeriTile.Triton.Op.mul VeriTile.Triton.NumericDType.nat VeriTile.Triton.Broadcast.nil
+                    (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.nat [] "i_v") (VeriTile.Triton.Op.constNat BV)])),
+          VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.real [BK, BV] "b_h"
+            (VeriTile.Triton.ComputeExpr.compute
+              (VeriTile.Triton.ComputeOp.alg VeriTile.Triton.ComputeDType.fp32
+                (VeriTile.Triton.Op.castFloat VeriTile.Triton.FloatDType.real VeriTile.Triton.FloatDType.real
+                  (VeriTile.Triton.Op.load VeriTile.Triton.TileDType.real
+                    (VeriTile.Triton.MemAccess.blockPtr
+                      (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.blockPtr [BK, BV] "p_h0") [0, 1])
+                    VeriTile.Triton.MaskOpt.none))))],
+      VeriTile.Triton.ComputeStmt.forLoop "i_t" NT
+        [VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.blockPtr [BK, BV] "p_h"
+            (VeriTile.Triton.ComputeExpr.alg
+              (VeriTile.Triton.Op.makeBlockPtrDynOffsets h
+                (VeriTile.Triton.Op.add VeriTile.Triton.NumericDType.nat VeriTile.Triton.Broadcast.nil
+                  (VeriTile.Triton.Op.mul VeriTile.Triton.NumericDType.nat VeriTile.Triton.Broadcast.nil
+                    (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.nat [] "i_bh")
+                    (VeriTile.Triton.Op.constNat (p.NT * p.K * p.V)))
+                  (VeriTile.Triton.Op.mul VeriTile.Triton.NumericDType.nat VeriTile.Triton.Broadcast.nil
+                    (VeriTile.Triton.Op.mul VeriTile.Triton.NumericDType.nat VeriTile.Triton.Broadcast.nil
+                      (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.nat [] "i_t") (VeriTile.Triton.Op.constNat K))
+                    (VeriTile.Triton.Op.constNat V)))
+                [K, V] [BK, BV] [p.V, 1]
+                [VeriTile.Triton.Op.mul VeriTile.Triton.NumericDType.nat VeriTile.Triton.Broadcast.nil
+                    (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.nat [] "i_k") (VeriTile.Triton.Op.constNat BK),
+                  VeriTile.Triton.Op.mul VeriTile.Triton.NumericDType.nat VeriTile.Triton.Broadcast.nil
+                    (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.nat [] "i_v") (VeriTile.Triton.Op.constNat BV)])),
+          VeriTile.Triton.ComputeStmt.store VeriTile.Triton.TileDType.real [BK, BV]
+            (VeriTile.Triton.MemAccess.blockPtr
+              (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.blockPtr [BK, BV] "p_h") [0, 1])
+            (VeriTile.Triton.ComputeExpr.compute
+              (VeriTile.Triton.ComputeOp.alg VeriTile.Triton.ComputeDType.fp32
+                (VeriTile.Triton.Op.castFloat VeriTile.Triton.FloatDType.real VeriTile.Triton.FloatDType.real
+                  (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.real [BK, BV] "b_h"))))
+            VeriTile.Triton.MaskOpt.none,
+          VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.real [BK, BV] "b_h_cumsum"
+            (VeriTile.Triton.ComputeExpr.compute
+              (VeriTile.Triton.ComputeOp.full [BK, BV]
+                (VeriTile.Triton.ComputeOp.alg VeriTile.Triton.ComputeDType.fp32 (VeriTile.Triton.Op.const 0)))),
+          VeriTile.Triton.ComputeStmt.forLoop "i_c" ((BT + BC - 1) / BC)
+            [VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.blockPtr [BK, BC] "p_k"
+                (VeriTile.Triton.ComputeExpr.alg
+                  (VeriTile.Triton.Op.makeBlockPtrDynOffsets k
+                    (VeriTile.Triton.Op.mul VeriTile.Triton.NumericDType.nat VeriTile.Triton.Broadcast.nil
+                      (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.nat [] "i_bh")
+                      (VeriTile.Triton.Op.constNat (p.T * p.K)))
+                    [K, T] [BK, BC] [1, p.K]
+                    [VeriTile.Triton.Op.mul VeriTile.Triton.NumericDType.nat VeriTile.Triton.Broadcast.nil
+                        (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.nat [] "i_k")
+                        (VeriTile.Triton.Op.constNat BK),
+                      VeriTile.Triton.Op.add VeriTile.Triton.NumericDType.nat VeriTile.Triton.Broadcast.nil
+                        (VeriTile.Triton.Op.mul VeriTile.Triton.NumericDType.nat VeriTile.Triton.Broadcast.nil
+                          (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.nat [] "i_t")
+                          (VeriTile.Triton.Op.constNat BT))
+                        (VeriTile.Triton.Op.mul VeriTile.Triton.NumericDType.nat VeriTile.Triton.Broadcast.nil
+                          (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.nat [] "i_c")
+                          (VeriTile.Triton.Op.constNat BC))])),
+              VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.blockPtr [BC, BK] "p_d"
+                (VeriTile.Triton.ComputeExpr.alg
+                  (VeriTile.Triton.Op.makeBlockPtrDynOffsets d
+                    (VeriTile.Triton.Op.add VeriTile.Triton.NumericDType.nat VeriTile.Triton.Broadcast.nil
+                      (VeriTile.Triton.Op.mul VeriTile.Triton.NumericDType.nat VeriTile.Triton.Broadcast.nil
+                        (VeriTile.Triton.Op.tritonDiv VeriTile.Triton.IntegralDType.nat VeriTile.Triton.Broadcast.nil
+                          (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.nat [] "i_bh")
+                          (VeriTile.Triton.Op.constNat H))
+                        (VeriTile.Triton.Op.constNat p.wBatch))
+                      (VeriTile.Triton.Op.mul VeriTile.Triton.NumericDType.nat VeriTile.Triton.Broadcast.nil
+                        (VeriTile.Triton.Op.tritonMod VeriTile.Triton.IntegralDType.nat VeriTile.Triton.Broadcast.nil
+                          (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.nat [] "i_bh")
+                          (VeriTile.Triton.Op.constNat H))
+                        (VeriTile.Triton.Op.constNat p.wHead)))
+                    [T, K] [BC, BK] [p.wTime, p.wDim]
+                    [VeriTile.Triton.Op.add VeriTile.Triton.NumericDType.nat VeriTile.Triton.Broadcast.nil
+                        (VeriTile.Triton.Op.mul VeriTile.Triton.NumericDType.nat VeriTile.Triton.Broadcast.nil
+                          (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.nat [] "i_t")
+                          (VeriTile.Triton.Op.constNat BT))
+                        (VeriTile.Triton.Op.mul VeriTile.Triton.NumericDType.nat VeriTile.Triton.Broadcast.nil
+                          (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.nat [] "i_c")
+                          (VeriTile.Triton.Op.constNat BC)),
+                      VeriTile.Triton.Op.mul VeriTile.Triton.NumericDType.nat VeriTile.Triton.Broadcast.nil
+                        (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.nat [] "i_k")
+                        (VeriTile.Triton.Op.constNat BK)])),
+              VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.blockPtr [BC, BV] "p_v"
+                (VeriTile.Triton.ComputeExpr.alg
+                  (VeriTile.Triton.Op.makeBlockPtrDynOffsets v
+                    (VeriTile.Triton.Op.mul VeriTile.Triton.NumericDType.nat VeriTile.Triton.Broadcast.nil
+                      (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.nat [] "i_bh")
+                      (VeriTile.Triton.Op.constNat (p.T * p.V)))
+                    [T, V] [BC, BV] [p.V, 1]
+                    [VeriTile.Triton.Op.add VeriTile.Triton.NumericDType.nat VeriTile.Triton.Broadcast.nil
+                        (VeriTile.Triton.Op.mul VeriTile.Triton.NumericDType.nat VeriTile.Triton.Broadcast.nil
+                          (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.nat [] "i_t")
+                          (VeriTile.Triton.Op.constNat BT))
+                        (VeriTile.Triton.Op.mul VeriTile.Triton.NumericDType.nat VeriTile.Triton.Broadcast.nil
+                          (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.nat [] "i_c")
+                          (VeriTile.Triton.Op.constNat BC)),
+                      VeriTile.Triton.Op.mul VeriTile.Triton.NumericDType.nat VeriTile.Triton.Broadcast.nil
+                        (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.nat [] "i_v")
+                        (VeriTile.Triton.Op.constNat BV)])),
+              VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.blockPtr [BC, BV] "p_v_new"
+                (VeriTile.Triton.ComputeExpr.alg
+                  (VeriTile.Triton.Op.makeBlockPtrDynOffsets v_new
+                    (VeriTile.Triton.Op.mul VeriTile.Triton.NumericDType.nat VeriTile.Triton.Broadcast.nil
+                      (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.nat [] "i_bh")
+                      (VeriTile.Triton.Op.constNat (p.T * p.V)))
+                    [T, V] [BC, BV] [p.V, 1]
+                    [VeriTile.Triton.Op.add VeriTile.Triton.NumericDType.nat VeriTile.Triton.Broadcast.nil
+                        (VeriTile.Triton.Op.mul VeriTile.Triton.NumericDType.nat VeriTile.Triton.Broadcast.nil
+                          (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.nat [] "i_t")
+                          (VeriTile.Triton.Op.constNat BT))
+                        (VeriTile.Triton.Op.mul VeriTile.Triton.NumericDType.nat VeriTile.Triton.Broadcast.nil
+                          (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.nat [] "i_c")
+                          (VeriTile.Triton.Op.constNat BC)),
+                      VeriTile.Triton.Op.mul VeriTile.Triton.NumericDType.nat VeriTile.Triton.Broadcast.nil
+                        (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.nat [] "i_v")
+                        (VeriTile.Triton.Op.constNat BV)])),
+              VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.real [BK, BC] "b_k"
+                (VeriTile.Triton.ComputeExpr.compute
+                  (VeriTile.Triton.ComputeOp.load VeriTile.Triton.ComputeDType.fp32
+                    (VeriTile.Triton.MemAccess.blockPtr
+                      (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.blockPtr [BK, BC] "p_k") [0, 1])
+                    VeriTile.Triton.MaskOpt.none)),
+              VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.real [BC, BK] "b_d"
+                (VeriTile.Triton.ComputeExpr.compute
+                  (VeriTile.Triton.ComputeOp.load VeriTile.Triton.ComputeDType.fp32
+                    (VeriTile.Triton.MemAccess.blockPtr
+                      (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.blockPtr [BC, BK] "p_d") [0, 1])
+                    VeriTile.Triton.MaskOpt.none)),
+              VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.real [BC, BV] "b_v"
+                (VeriTile.Triton.ComputeExpr.compute
+                  (VeriTile.Triton.ComputeOp.load VeriTile.Triton.ComputeDType.fp32
+                    (VeriTile.Triton.MemAccess.blockPtr
+                      (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.blockPtr [BC, BV] "p_v") [0, 1])
+                    VeriTile.Triton.MaskOpt.none)),
+              VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.real [BC, BV] "b_v"
+                (VeriTile.Triton.ComputeExpr.compute
+                  (VeriTile.Triton.ComputeOp.alg VeriTile.Triton.ComputeDType.fp32
+                    (VeriTile.Triton.Op.sub VeriTile.Triton.NumericDType.real
+                      VeriTile.Triton.Broadcast.nil.consSame.consSame
+                      (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.real [BC, BV] "b_v")
+                      ((VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.real [BC, BK] "b_d").dot
+                        (VeriTile.Triton.Op.castFloat VeriTile.Triton.FloatDType.real VeriTile.Triton.FloatDType.real
+                          (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.real [BK, BV] "b_h"))
+                        (have __src := { };
+                        { outDType := __src.outDType, allowTF32 := some «false», inputPrecision := __src.inputPrecision,
+                          maxNumImpreciseAcc := __src.maxNumImpreciseAcc }))))),
+              VeriTile.Triton.ComputeStmt.store VeriTile.Triton.TileDType.real [BC, BV]
+                (VeriTile.Triton.MemAccess.blockPtr
+                  (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.blockPtr [BC, BV] "p_v_new") [0, 1])
+                (VeriTile.Triton.ComputeExpr.compute
+                  (VeriTile.Triton.ComputeOp.alg VeriTile.Triton.ComputeDType.fp32
+                    (VeriTile.Triton.Op.castFloat VeriTile.Triton.FloatDType.real VeriTile.Triton.FloatDType.real
+                      (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.real [BC, BV] "b_v"))))
+                VeriTile.Triton.MaskOpt.none,
+              VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.real [BK, BV] "b_h_cumsum"
+                (VeriTile.Triton.ComputeExpr.compute
+                  (VeriTile.Triton.ComputeOp.alg VeriTile.Triton.ComputeDType.fp32
+                    (VeriTile.Triton.Op.add VeriTile.Triton.NumericDType.real
+                      VeriTile.Triton.Broadcast.nil.consSame.consSame
+                      (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.real [BK, BV] "b_h_cumsum")
+                      ((VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.real [BK, BC] "b_k").dot
+                        (VeriTile.Triton.Op.castFloat VeriTile.Triton.FloatDType.real VeriTile.Triton.FloatDType.real
+                          (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.real [BC, BV] "b_v"))
+                        (have __src := { };
+                        { outDType := __src.outDType, allowTF32 := some «false», inputPrecision := __src.inputPrecision,
+                          maxNumImpreciseAcc := __src.maxNumImpreciseAcc })))))],
+          VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.real [BK, BV] "b_h"
+            (VeriTile.Triton.ComputeExpr.compute
+              (VeriTile.Triton.ComputeOp.alg VeriTile.Triton.ComputeDType.fp32
+                (VeriTile.Triton.Op.add VeriTile.Triton.NumericDType.real
+                  VeriTile.Triton.Broadcast.nil.consSame.consSame
+                  (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.real [BK, BV] "b_h")
+                  (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.real [BK, BV] "b_h_cumsum"))))],
+      VeriTile.Triton.ComputeStmt.ifThen (VeriTile.Triton.Op.constBool STORE_FINAL_STATE)
+        [VeriTile.Triton.ComputeStmt.assign VeriTile.Triton.TileDType.blockPtr [BK, BV] "p_ht"
+            (VeriTile.Triton.ComputeExpr.alg
+              (VeriTile.Triton.Op.makeBlockPtrDynOffsets final_state
+                (VeriTile.Triton.Op.mul VeriTile.Triton.NumericDType.nat VeriTile.Triton.Broadcast.nil
+                  (VeriTile.Triton.Op.mul VeriTile.Triton.NumericDType.nat VeriTile.Triton.Broadcast.nil
+                    (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.nat [] "i_bh") (VeriTile.Triton.Op.constNat K))
+                  (VeriTile.Triton.Op.constNat V))
+                [K, V] [BK, BV] [V, 1]
+                [VeriTile.Triton.Op.mul VeriTile.Triton.NumericDType.nat VeriTile.Triton.Broadcast.nil
+                    (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.nat [] "i_k") (VeriTile.Triton.Op.constNat BK),
+                  VeriTile.Triton.Op.mul VeriTile.Triton.NumericDType.nat VeriTile.Triton.Broadcast.nil
+                    (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.nat [] "i_v") (VeriTile.Triton.Op.constNat BV)])),
+          VeriTile.Triton.ComputeStmt.store VeriTile.Triton.TileDType.real [BK, BV]
+            (VeriTile.Triton.MemAccess.blockPtr
+              (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.blockPtr [BK, BV] "p_ht") [0, 1])
+            (VeriTile.Triton.ComputeExpr.compute
+              (VeriTile.Triton.ComputeOp.alg VeriTile.Triton.ComputeDType.fp32
+                (VeriTile.Triton.Op.castFloat VeriTile.Triton.FloatDType.real VeriTile.Triton.FloatDType.real
+                  (VeriTile.Triton.Op.ref VeriTile.Triton.TileDType.real [BK, BV] "b_h"))))
+            VeriTile.Triton.MaskOpt.none]]

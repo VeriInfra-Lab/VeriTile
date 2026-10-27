@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.ChunkDeltaFwd.Checked.Request.shape: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.ChunkDeltaFwd.Checked.Request.formed: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.ChunkDeltaFwd.Checked.Request.Admitted: definition does not reference [VeriTile.Triton.FP.Structural.run,
+ VeriTile.Bench.Repairs.ChunkDeltaFwd.runGrid,
+ VeriTile.Bench.Repairs.ChunkDeltaFwd.gridMemory,
+ VeriTile.Bench.Repairs.ChunkDeltaFwd.states] — non-circular ✓

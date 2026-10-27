@@ -1,0 +1,18 @@
+/tmp/chunkdelta83-staging/bench/repairs/tritonbench_g/chunk_gla_fwd/Proofs/FPStorage.lean:66:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.ChunkGlaFwd.FPStorage.flush_readback`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/tmp/chunkdelta83-staging/bench/repairs/tritonbench_g/chunk_gla_fwd/Proofs/FPStorage.lean:68:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.ChunkGlaFwd.FPStorage.flush_frame`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+VeriTile.Bench.Repairs.ChunkGlaFwd.FPStorage.export_import: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.ChunkGlaFwd.FPStorage.flush_readback: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.ChunkGlaFwd.FPStorage.flush_preserves_input: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

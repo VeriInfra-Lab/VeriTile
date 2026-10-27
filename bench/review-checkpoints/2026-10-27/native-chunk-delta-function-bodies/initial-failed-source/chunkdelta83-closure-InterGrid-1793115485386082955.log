@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.ChunkGlaFwd.InterGrid.readback: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

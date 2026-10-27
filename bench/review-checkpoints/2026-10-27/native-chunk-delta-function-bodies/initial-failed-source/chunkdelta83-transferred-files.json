@@ -1,0 +1,30 @@
+{
+  "parent": "3e64785e9f37a27f21a8648aeed4a969699bdf97",
+  "shared_core_changed": [
+    "VeriTile/Triton/DSL/TypedStores.lean",
+    "VeriTile/Triton/Source.lean"
+  ],
+  "original_python_wrappers_and_public_statements_unchanged": true,
+  "files": {
+    "VeriTile/Triton/DSL/TypedStores.lean": "315406f79bb6c15743ca7b024e6969c8ab532984c3bf280c1b5399ec33d6d723",
+    "VeriTile/Triton/Source.lean": "e6e0894c4353ca12fb6b0de4908c11057df0c7449aa57a7532a197d63b5ae05f",
+    "bench/repairs/tritonbench_g/chunk_delta_fwd/Kernels.lean": "f5952d26db5995c68deaffc5dbc8e9a5d39cd32d736af0443b6298cc5673a63f",
+    "bench/repairs/tritonbench_g/chunk_delta_fwd/OuterLoop.lean": "4aff0940ac575a4b647b534aada3ee6ff6138525e4dbd4240b6bd692aec5fcf9",
+    "bench/repairs/tritonbench_g/chunk_delta_fwd/Program.lean": "2906876119c98800840a423092739ca7f64134f23cea88ceff87789b7e9046ac",
+    "bench/repairs/tritonbench_g/chunk_delta_fwd/README.md": "ca89f09530be73575692b60f2bb0125785e2a9b5f5491b7e716aaa24c3f97177",
+    "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Kernels.lean": "02853b27a061222fc43ce72c7a90c5b14e4b3491139aa6d4cba366e6d63134da",
+    "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Proofs/PairContext.lean": "f5de1336c312016724734abc6eed279c0dc46b0efef7c4e958b4fd8776ca8230",
+    "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Proofs/PairSource.lean": "c189db91296f5fd248c5133dbe977d225ca65feb622f61de881ddb3d89652e0c",
+    "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Proofs/SourceSafety.lean": "c456606906fdf41b4152bd05b9e33dbc77b4111071b85d73cd9536c381fddf94",
+    "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Proofs/SourceSafetyEdges.lean": "665df5385169856af3b73d273de7b07a7ece32ded53950178f8eb08585b02a5b",
+    "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/Proofs/SourceSafetyPrefix.lean": "f0bcd43ce789fb20122754ac33d76549437f691624751f0aebc4d97f3bf7546b",
+    "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/README.md": "36342c65307da76eb4c8b353a40bedafcb534f3440e4ad104c1e9a6ad7db5a30",
+    "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/candidate_kernels.py": "8c15fa82f045ac9298ae447e2d09ea42ec8cf7b328510bc53296efd28f1101f4",
+    "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/check_pair_source.py": "41120f47dccfade0d4da7fda509a90cc60f693872f1055a73d3b5ef196a0514f",
+    "bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/jit-correspondence.json": "bee572b0061b63d2fd97eb661b7e2c803c0607d09b3cfb87a9dd3f98932aab58",
+    "bench/tests/ValueDTypeBody.lean": "94db90eb41ef664f7e22cbc2ccf0f4eb525e5d002ca3bd6c2cc9b2612afff70d",
+    "bench/tests/test_jit_correspondence.py": "e5e5e6c6dbbc78c32ed7b345902e513d2c95e3bd68b6cb5b9a5a777d6698d815"
+  },
+  "source_whitespace": "Six trailing-whitespace lines inside the two verbatim quotations match original/candidate Python exactly. Strict whitespace check passes elsewhere; only blank-at-eol is allowed for this quoted source file. No code or proof changed after the focused checks.",
+  "code_commit": "8837e6732969f95ae100323b76be30bf5b2bcf36"
+}

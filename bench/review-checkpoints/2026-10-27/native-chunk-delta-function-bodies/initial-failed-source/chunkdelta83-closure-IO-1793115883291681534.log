@@ -1,0 +1,12 @@
+/tmp/chunkdelta83-staging/bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/IO.lean:177:16: warning: 'apply Equiv.apply_symm_apply' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/chunkdelta83-staging/bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/IO.lean:177:16: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/chunkdelta83-staging/bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/IO.lean:195:16: warning: 'apply Equiv.apply_symm_apply' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/chunkdelta83-staging/bench/repairs/tritonbench_g/chunk_delta_fwd_static_dot/IO.lean:195:16: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
