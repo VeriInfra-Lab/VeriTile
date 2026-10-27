@@ -1,0 +1,6 @@
+VeriTile.Tests.SourceIntrinsicBody.import_and_store: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.SourceIntrinsicBody.alias_is_import_bound: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,18 @@
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/Checked/Real.lean:33:46: warning: This simp argument is unused:
+  if_pos rfl
+
+Hint: Omit it from the simp argument list.
+  simp only [̵e̵x̵p̵e̵c̵t̵e̵d̵,̵f̵o̵r̵w̵a̵r̵d̵E̵x̵p̵e̵c̵t̵e̵d̵,̵m̵o̵d̵e̵,̵r̵e̵d̵u̵c̵t̵i̵o̵n̵,̵i̵f̵_̵t̵r̵u̵e̵,̵p̵o̵i̵n̵t̵,̵a̵d̵a̵p̵t̵e̵r̵,̵i̵d̵_̵e̵q̵,̵t̵a̵r̵g̵e̵t̵,̵
+  ̵ ̵ ̵ ̵ ̵H̵o̵s̵t̵.̵R̵e̵d̵u̵c̵t̵i̵o̵n̵.̵c̵o̵d̵e̵,̵R̵e̵a̵l̵E̵x̵e̵c̵u̵t̵i̵o̵n̵.̵f̵o̵r̵w̵a̵r̵d̵,̵i̵f̵_̵p̵o̵s̵ ̵r̵f̵l̵]̵[̲e̲x̲p̲e̲c̲t̲e̲d̲,̲ ̲f̲o̲r̲w̲a̲r̲d̲E̲x̲p̲e̲c̲t̲e̲d̲,̲ ̲m̲o̲d̲e̲,̲ ̲r̲e̲d̲u̲c̲t̲i̲o̲n̲,̲ ̲i̲f̲_̲t̲r̲u̲e̲,̲ ̲p̲o̲i̲n̲t̲,̲ ̲a̲d̲a̲p̲t̲e̲r̲,̲ ̲i̲d̲_̲e̲q̲,̲ ̲t̲a̲r̲g̲e̲t̲,̲
+  ̲ ̲ ̲ ̲ ̲H̲o̲s̲t̲.̲R̲e̲d̲u̲c̲t̲i̲o̲n̲.̲c̲o̲d̲e̲,̲ ̲R̲e̲a̲l̲E̲x̲e̲c̲u̲t̲i̲o̲n̲.̲f̲o̲r̲w̲a̲r̲d̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.KldivOps.Contiguous.Real.target: definition does not reference [VeriTile.Bench.Repairs.KldivOps.Contiguous.forwardKernel,
+ VeriTile.Bench.Repairs.KldivOps.Contiguous.forwardExpected,
+ VeriTile.Bench.Repairs.KldivOps.Contiguous.expected] — non-circular ✓
+VeriTile.Bench.Repairs.KldivOps.Contiguous.Real.forward_target: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.KldivOps.Contiguous.Real.backward_target: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

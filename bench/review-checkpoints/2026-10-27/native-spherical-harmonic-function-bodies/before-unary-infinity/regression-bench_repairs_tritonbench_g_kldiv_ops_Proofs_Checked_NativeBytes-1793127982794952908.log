@@ -1,0 +1,5 @@
+VeriTile.Bench.Repairs.KldivOps.Contiguous.Native.forward_bytes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.KldivOps.Contiguous.Native.backward_bytes: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])

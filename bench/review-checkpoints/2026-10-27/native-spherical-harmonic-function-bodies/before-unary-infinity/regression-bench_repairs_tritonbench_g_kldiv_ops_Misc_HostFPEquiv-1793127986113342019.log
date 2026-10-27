@@ -1,0 +1,15 @@
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Misc/HostFPEquiv.lean:22:5: warning: unused variable `plans`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.Repairs.KldivOps.Contiguous.FPEquiv.forward: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.KldivOps.Contiguous.FPEquiv.backward: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.KldivOps.Contiguous.FPEquiv.forward_reference: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.KldivOps.Contiguous.FPEquiv.backward_reference: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

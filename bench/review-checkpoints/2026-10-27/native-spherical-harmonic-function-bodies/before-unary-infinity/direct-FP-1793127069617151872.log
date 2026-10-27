@@ -1,0 +1,14 @@
+/tmp/sph88-staging/bench/examples/FusedLayerNorm/Proofs/FP.lean:41:183: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/sph88-staging/bench/examples/FusedLayerNorm/Proofs/FP.lean:180:54: warning: This simp argument is unused:
+  loop
+
+Hint: Omit it from the simp argument list.
+  simp [twoPassLayerNormKernel, FP.Structural.exec, run, step, evalExpr, evalComputeOp,
+      evalOp_unfold, numeric, FP.Structural.bop, store, l̵o̵o̵p̵,̵
+  ̵ ̵ ̵ ̵ ̵TileShape.allIndices, TileShape.eraseAxis,
+  ̲  ̲ ̲ ̲Region.cast, ofFloat, toFloat,
+  ̵  ̵ ̵ ̵ComputeDType.eraseDType, State.setReg]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

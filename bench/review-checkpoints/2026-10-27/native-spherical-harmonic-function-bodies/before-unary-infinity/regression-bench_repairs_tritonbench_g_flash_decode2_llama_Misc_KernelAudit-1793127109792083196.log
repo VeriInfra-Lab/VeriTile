@@ -1,0 +1,54 @@
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelModel.typed: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelModel.count_bound: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelTensor.direct_logical: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelTensor.mid_read: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelTensor.log_read: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelTensor.output_index: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelNative.recurrence: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelReal.value: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelEndpoints.real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelEndpoints.native: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelSafety.pointers: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelSafety.offsets: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelSafety.length_add: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelSafety.maximal_q_once: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelModel.order: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelTensor.Arguments: definition does not reference [VeriTile.Bench.Repairs.FlashDecode2Llama.KernelModel.run,
+ VeriTile.Bench.Repairs.FlashDecode2.Grid.source,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.FlashDecode2Llama.KernelNative.target,
+ VeriTile.Bench.Repairs.FlashDecode2Llama.KernelReal.target] — non-circular ✓
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelNative.Ops: definition does not reference [VeriTile.Bench.Repairs.FlashDecode2Llama.KernelModel.run,
+ VeriTile.Bench.Repairs.FlashDecode2.Grid.source,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.FlashDecode2Llama.KernelNative.target,
+ VeriTile.Bench.Repairs.FlashDecode2Llama.KernelReal.target] — non-circular ✓
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelNative.schedule: definition does not reference [VeriTile.Bench.Repairs.FlashDecode2Llama.KernelTensor.word,
+ VeriTile.Bench.Repairs.FlashDecode2Llama.KernelTensor.lengths,
+ VeriTile.Bench.Repairs.FlashDecode2Llama.KernelNative.entry,
+ VeriTile.Bench.Repairs.FlashDecode2Llama.KernelNative.target] — non-circular ✓

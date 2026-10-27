@@ -1,0 +1,926 @@
+[
+  {
+    "module": "bench.examples.FusedLayerNorm.Kernels",
+    "log": "/tmp/sph88-regression-bench_examples_FusedLayerNorm_Kernels-1793126850187714338.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.examples.Welford.Kernels",
+    "log": "/tmp/sph88-regression-bench_examples_Welford_Kernels-1793126853553900221.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.examples.Welford.Proofs.Real",
+    "log": "/tmp/sph88-regression-bench_examples_Welford_Proofs_Real-1793126856470700934.log",
+    "exit_code": 1
+  },
+  {
+    "module": "bench.examples.FusedLayerNorm.Proofs.Real",
+    "blocked_by": "bench.examples.Welford.Proofs.Real"
+  },
+  {
+    "module": "bench.examples.FusedLayerNorm.Correct",
+    "blocked_by": "bench.examples.FusedLayerNorm.Proofs.Real"
+  },
+  {
+    "module": "bench.examples.Welford.Proofs.FP",
+    "log": "/tmp/sph88-regression-bench_examples_Welford_Proofs_FP-1793126872954679517.log",
+    "exit_code": 1
+  },
+  {
+    "module": "bench.examples.FusedLayerNorm.Proofs.FP",
+    "blocked_by": "bench.examples.Welford.Proofs.FP"
+  },
+  {
+    "module": "bench.examples.FusedLayerNorm.FPEquiv",
+    "blocked_by": "bench.examples.FusedLayerNorm.Proofs.FP"
+  },
+  {
+    "module": "bench.examples.FusedLayerNorm.Proofs.LegacyBody",
+    "log": "/tmp/sph88-regression-bench_examples_FusedLayerNorm_Proofs_LegacyBody-1793126891608244627.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.examples.FusedLayerNorm.Proofs.LegacyRealEquiv",
+    "log": "/tmp/sph88-regression-bench_examples_FusedLayerNorm_Proofs_LegacyRealEquiv-1793126895118806878.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.examples.Welford.Correct",
+    "blocked_by": "bench.examples.Welford.Proofs.Real"
+  },
+  {
+    "module": "bench.examples.Welford.FPEquiv",
+    "blocked_by": "bench.examples.Welford.Proofs.FP"
+  },
+  {
+    "module": "bench.examples.Welford.Proofs.LegacyBody",
+    "log": "/tmp/sph88-regression-bench_examples_Welford_Proofs_LegacyBody-1793126917020526973.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.examples.Welford.Proofs.LegacyRealEquiv",
+    "log": "/tmp/sph88-regression-bench_examples_Welford_Proofs_LegacyRealEquiv-1793126920095729746.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_llama.Contract",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_llama_Contract-1793126936015764632.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_llama.Proofs.RawKernel",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_llama_Proofs_RawKernel-1793126940184351266.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_llama.IO",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_llama_IO-1793126946838306351.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_llama.Proofs.AccessSafety",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_llama_Proofs_AccessSafety-1793126953255616023.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_llama.Proofs.PublicIO",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_llama_Proofs_PublicIO-1793126970940205033.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_llama.Proofs.RealIO",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_llama_Proofs_RealIO-1793126980411148230.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_llama.Proofs.LogicalIO",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_llama_Proofs_LogicalIO-1793126989040825417.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_llama.Correct",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_llama_Correct-1793126995324937711.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_llama.Proofs.KernelModel",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_llama_Proofs_KernelModel-1793127003887473122.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_llama.Proofs.KernelTensor",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_llama_Proofs_KernelTensor-1793127011874696789.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_llama.Proofs.KernelNative",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_llama_Proofs_KernelNative-1793127017338581896.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_llama.Proofs.RawNative",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_llama_Proofs_RawNative-1793127027248890872.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_llama.Proofs.NativeIO",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_llama_Proofs_NativeIO-1793127036872913788.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_llama.Kernels",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_llama_Kernels-1793127045079306618.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_llama.PairIO",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_llama_PairIO-1793127047524432849.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_llama.Proofs.SourcePair",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_llama_Proofs_SourcePair-1793127051732505671.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_llama.Proofs.IOPair",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_llama_Proofs_IOPair-1793127068748134156.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_llama.FPEquiv",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_llama_FPEquiv-1793127072788721266.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_llama.Proofs.KernelReal",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_llama_Proofs_KernelReal-1793127077648331138.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_llama.Proofs.KernelEndpoints",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_llama_Proofs_KernelEndpoints-1793127082181490619.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_llama.Proofs.KernelSafety",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_llama_Proofs_KernelSafety-1793127087938128429.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_llama.Proofs.KernelOrder",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_llama_Proofs_KernelOrder-1793127102402602178.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_llama.Misc.KernelAudit",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_llama_Misc_KernelAudit-1793127109792083196.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_llama.Misc.NativeCorrect",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_llama_Misc_NativeCorrect-1793127119964096576.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_llama.Misc.NativeKernelResult",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_llama_Misc_NativeKernelResult-1793127125704270080.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_llama.Misc.RealKernelResult",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_llama_Misc_RealKernelResult-1793127131535155924.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_llama.Misc.TensorBridge",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_llama_Misc_TensorBridge-1793127137309217231.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_llama.Proofs.HistoricalCorrect",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_llama_Proofs_HistoricalCorrect-1793127146789365275.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_llama.Proofs.HistoricalFPEquiv",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_llama_Proofs_HistoricalFPEquiv-1793127151598233852.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.Kernels",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_phi_block_checked_Kernels-1793127155204385506.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.Contract",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_phi_block_checked_Contract-1793127157203409598.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.Proofs.KernelModel",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_phi_block_checked_Proofs_KernelModel-1793127160658185213.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.Proofs.KernelTensor",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_phi_block_checked_Proofs_KernelTensor-1793127165206602988.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.Proofs.KernelNative",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_phi_block_checked_Proofs_KernelNative-1793127168358515041.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.Proofs.RawInterface",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_phi_block_checked_Proofs_RawInterface-1793127172349525344.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.IO",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_phi_block_checked_IO-1793127176332051328.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.Proofs.PublicIO",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_phi_block_checked_Proofs_PublicIO-1793127180096971977.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.Proofs.RealIO",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_phi_block_checked_Proofs_RealIO-1793127183903833030.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.Proofs.LogicalIO",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_phi_block_checked_Proofs_LogicalIO-1793127187369705087.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.Correct",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_phi_block_checked_Correct-1793127190594492609.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.PairIO",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_phi_block_checked_PairIO-1793127195056425576.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.Proofs.NativeIO",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_phi_block_checked_Proofs_NativeIO-1793127197700829371.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.Proofs.SourcePair",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_phi_block_checked_Proofs_SourcePair-1793127201018829065.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.Proofs.IOPair",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_phi_block_checked_Proofs_IOPair-1793127211080649376.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.FPEquiv",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_phi_block_checked_FPEquiv-1793127213729370783.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.Misc.NativeCorrect",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_phi_block_checked_Misc_NativeCorrect-1793127216839543625.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.Proofs.KernelReal",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_phi_block_checked_Proofs_KernelReal-1793127220609567441.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.Proofs.KernelEndpoints",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_phi_block_checked_Proofs_KernelEndpoints-1793127223854129439.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.Proofs.KernelSafety",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_phi_block_checked_Proofs_KernelSafety-1793127227432958172.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.Proofs.KernelReadback",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_phi_block_checked_Proofs_KernelReadback-1793127234479871905.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.Proofs.KernelIdealReadback",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_phi_block_checked_Proofs_KernelIdealReadback-1793127238682554814.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.Misc.TensorBridge",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_phi_block_checked_Misc_TensorBridge-1793127242163696937.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.Misc.RawResults",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_phi_block_checked_Misc_RawResults-1793127245802825366.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.Misc.SourceAudit",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_phi_block_checked_Misc_SourceAudit-1793127249290834836.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.Misc.Audit",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_flash_decode2_phi_block_checked_Misc_Audit-1793127253756569789.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.geglu_tanh_triton.Kernels",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_geglu_tanh_triton_Kernels-1793127258570077353.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.geglu_tanh_triton.Proofs.Physical",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_geglu_tanh_triton_Proofs_Physical-1793127260761420698.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.geglu_tanh_triton.Contract",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_geglu_tanh_triton_Contract-1793127264316146985.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.geglu_tanh_triton.Proofs.Math",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_geglu_tanh_triton_Proofs_Math-1793127266968812167.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.geglu_tanh_triton.Proofs.Scalar",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_geglu_tanh_triton_Proofs_Scalar-1793127270404743530.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.geglu_tanh_triton.Proofs.Real",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_geglu_tanh_triton_Proofs_Real-1793127272155153848.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.geglu_tanh_triton.IO",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_geglu_tanh_triton_IO-1793127275204406853.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.geglu_tanh_triton.Proofs.Tile",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_geglu_tanh_triton_Proofs_Tile-1793127277949615893.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.geglu_tanh_triton.Proofs.Grid",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_geglu_tanh_triton_Proofs_Grid-1793127295051745711.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.geglu_tanh_triton.Proofs.Rewrite",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_geglu_tanh_triton_Proofs_Rewrite-1793127298893944960.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.geglu_tanh_triton.Proofs.AccessSafety",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_geglu_tanh_triton_Proofs_AccessSafety-1793127303774804737.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.geglu_tanh_triton.Proofs.PublicIO",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_geglu_tanh_triton_Proofs_PublicIO-1793127335872943767.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.geglu_tanh_triton.Proofs.LogicalCoordinates",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_geglu_tanh_triton_Proofs_LogicalCoordinates-1793127341243939251.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.geglu_tanh_triton.Correct",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_geglu_tanh_triton_Correct-1793127343870581633.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.geglu_tanh_triton.Proofs.Native",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_geglu_tanh_triton_Proofs_Native-1793127348746763651.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.geglu_tanh_triton.Proofs.Source",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_geglu_tanh_triton_Proofs_Source-1793127353048647227.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.geglu_tanh_triton.Proofs.NativeSource",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_geglu_tanh_triton_Proofs_NativeSource-1793127356870814420.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.geglu_tanh_triton.Proofs.RawKernel",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_geglu_tanh_triton_Proofs_RawKernel-1793127363988828440.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.geglu_tanh_triton.Proofs.RawNative",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_geglu_tanh_triton_Proofs_RawNative-1793127367876774813.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.geglu_tanh_triton.FPEquiv",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_geglu_tanh_triton_FPEquiv-1793127372408618000.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.geglu_tanh_triton.Misc.NativeIO",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_geglu_tanh_triton_Misc_NativeIO-1793127377213846625.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.geglu_tanh_triton.Misc.RawNativeApplication",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_geglu_tanh_triton_Misc_RawNativeApplication-1793127380255221599.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.geglu_tanh_triton.Misc.NativeObservation",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_geglu_tanh_triton_Misc_NativeObservation-1793127383195029011.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.geglu_tanh_triton.Misc.PhysicalIO",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_geglu_tanh_triton_Misc_PhysicalIO-1793127386897028706.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.geglu_tanh_triton.Proofs.RawCorrect",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_geglu_tanh_triton_Proofs_RawCorrect-1793127392052509599.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.geglu_tanh_triton.Proofs.DirectBinding",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_geglu_tanh_triton_Proofs_DirectBinding-1793127396522461963.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.geglu_tanh_triton.Proofs.InputGuards",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_geglu_tanh_triton_Proofs_InputGuards-1793127400107092361.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.geglu_tanh_triton.Proofs.Kernel",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_geglu_tanh_triton_Proofs_Kernel-1793127403548131462.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.geglu_tanh_triton.Misc.TensorBridge",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_geglu_tanh_triton_Misc_TensorBridge-1793127407516229828.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.geglu_tanh_triton.Proofs.DirectHost",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_geglu_tanh_triton_Proofs_DirectHost-1793127411911300177.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.geglu_tanh_triton.Proofs.HostFP32",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_geglu_tanh_triton_Proofs_HostFP32-1793127416371854629.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.geglu_tanh_triton.Proofs.HostReal",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_geglu_tanh_triton_Proofs_HostReal-1793127428250778379.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.HostContract",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_HostContract-1793127438617460916.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.Checked.Contract",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_Checked_Contract-1793127444247426872.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.Checked.Binding",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_Checked_Binding-1793127451341458215.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Kernels",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Kernels-1793127457735192924.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.HistoricalKernels",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_HistoricalKernels-1793127461494090132.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.Tile",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_Tile-1793127466801452441.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.Chunk",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_Chunk-1793127514702862883.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.Loop",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_Loop-1793127533853610333.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.Forward",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_Forward-1793127541187105894.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.Backward",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_Backward-1793127549070616618.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.Storage",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_Storage-1793127578285210444.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.Host",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_Host-1793127586079799661.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.Native",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_Native-1793127595224600752.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.Library",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_Library-1793127602137889047.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.Launch",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_Launch-1793127609417263382.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.Preparation",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_Preparation-1793127618073498865.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.HostForward",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_HostForward-1793127624514902213.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.Frames",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_Frames-1793127635031125904.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.Coverage",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_Coverage-1793127642769753129.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.FPGraph",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_FPGraph-1793127651786619421.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.NativeBinding",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_NativeBinding-1793127659331119479.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.ForwardValues",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_ForwardValues-1793127667744872008.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.HostBackwardFinish",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_HostBackwardFinish-1793127676150533990.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.HostBackward",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_HostBackward-1793127684468402353.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.BackwardCoverage",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_BackwardCoverage-1793127693971134250.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.Broadcast",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_Broadcast-1793127702412354289.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.BackwardValues",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_BackwardValues-1793127712060875419.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Contract",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Contract-1793127724408140374.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.IO",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_IO-1793127733245572017.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.SafetyBackwardSteps",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_SafetyBackwardSteps-1793127742124895377.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.SafetyForwardSteps",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_SafetyForwardSteps-1793127753949063857.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.SafetyBackward",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_SafetyBackward-1793127765549515650.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.SafetyForward",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_SafetyForward-1793127782787479961.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.KernelResults",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_KernelResults-1793127807995549115.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.IOSchedule",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_IOSchedule-1793127813968867473.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.IOInterface",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_IOInterface-1793127819160085801.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.Real",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_Real-1793127825202202151.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.RealGrid",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_RealGrid-1793127831261292726.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.RealFormula",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_RealFormula-1793127837798278668.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.IOReal",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_IOReal-1793127843114240128.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.LogicalReader",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_LogicalReader-1793127847289063104.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Correct",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Correct-1793127852124506900.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.SourcePair",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_SourcePair-1793127856981458684.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.GridPair",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_GridPair-1793127862354554839.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.FPEquiv",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_FPEquiv-1793127867627461199.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Misc.RealHost",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Misc_RealHost-1793127873976678171.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Misc.RealBackward",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Misc_RealBackward-1793127878621845147.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.ByteRealization",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_ByteRealization-1793127882367730150.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.SourceBytes",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_SourceBytes-1793127886876245798.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.NativeFull",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_NativeFull-1793127890679902978.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.NativeReport",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_NativeReport-1793127894543954339.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.AllFrames",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_AllFrames-1793127898291764731.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.FailureTrace",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_FailureTrace-1793127902299729334.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.LibraryWitness",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_LibraryWitness-1793127906241718513.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Misc.ConditionalCorrect",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Misc_ConditionalCorrect-1793127910453401458.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.SoftwareProfile",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_SoftwareProfile-1793127914428240728.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.LocalNumerics",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_LocalNumerics-1793127918414700454.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.TypedPreservation",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_TypedPreservation-1793127922195214052.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Misc.ConditionalFPEquiv",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Misc_ConditionalFPEquiv-1793127926206221747.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.Checked.Source",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_Checked_Source-1793127930473557134.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.Checked.Runtime",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_Checked_Runtime-1793127935932077462.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.Checked.Finish",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_Checked_Finish-1793127938735454897.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.Checked.Host",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_Checked_Host-1793127942205763633.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.Checked.Frames",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_Checked_Frames-1793127946580915568.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.RealHost",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_RealHost-1793127950872487311.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.Checked.Real",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_Checked_Real-1793127953735512759.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.Checked.Execution",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_Checked_Execution-1793127959015713861.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.Checked.Direct",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_Checked_Direct-1793127963492692567.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Misc.HostCorrect",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Misc_HostCorrect-1793127970655399357.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.Checked.Native",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_Checked_Native-1793127975147345018.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.Checked.NativeBridge",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_Checked_NativeBridge-1793127979144616150.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.Checked.NativeBytes",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_Checked_NativeBytes-1793127982794952908.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Misc.HostFPEquiv",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Misc_HostFPEquiv-1793127986113342019.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.IONative",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_IONative-1793127990962600340.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Misc.NativeCorrect",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Misc_NativeCorrect-1793127993737083070.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Misc.RawCorrect",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Misc_RawCorrect-1793127997981634682.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Misc.RawFPEquiv",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Misc_RawFPEquiv-1793128001656888404.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.KernelExecution",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_KernelExecution-1793128005151309654.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Misc.TensorBridge",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Misc_TensorBridge-1793128010145449170.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.ConditionalCorrect",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_ConditionalCorrect-1793128016068144482.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.ConditionalFPEquiv",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_ConditionalFPEquiv-1793128018665622696.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.HostCorrect",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_HostCorrect-1793128021285091992.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.HostFPEquiv",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_HostFPEquiv-1793128023942210007.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.KernelSafety",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_KernelSafety-1793128026587629764.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.kldiv_ops.Proofs.RealBackward",
+    "log": "/tmp/sph88-regression-bench_repairs_tritonbench_g_kldiv_ops_Proofs_RealBackward-1793128029154458246.log",
+    "exit_code": 0
+  }
+]

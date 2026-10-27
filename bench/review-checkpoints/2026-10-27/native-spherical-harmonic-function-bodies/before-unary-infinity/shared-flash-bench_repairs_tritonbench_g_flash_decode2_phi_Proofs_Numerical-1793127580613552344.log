@@ -1,0 +1,15 @@
+VeriTile.Bench.Repairs.FlashDecode2.Numerical.ScalarLaws.operations_eq: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FlashDecode2.Numerical.values_supported: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2.Numerical.value_supported: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2.Numerical.whole_equiv: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2.Numerical.ScalarLaws: definition does not reference [VeriTile.Bench.Repairs.FlashDecode2.Host.invoke,
+ VeriTile.Bench.Repairs.FlashDecode2.Grid.source,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.FlashDecode2.Native.value] — non-circular ✓

@@ -1,0 +1,26 @@
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/Checked/Native.lean:79:5: warning: unused variable `h`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/Checked/Native.lean:112:35: warning: This simp argument is unused:
+  algebra
+
+Hint: Omit it from the simp argument list.
+  simp [̵T̵i̵l̵e̵.̵z̵e̵r̵o̵,̵a̵l̵g̵e̵b̵r̵a̵,̵l̵i̵t̵e̵r̵a̵l̵,̵a̵t̵o̵m̵]̵[̲T̲i̲l̲e̲.̲z̲e̲r̲o̲,̲ ̲l̲i̲t̲e̲r̲a̲l̲,̲ ̲a̲t̲o̲m̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.KldivOps.Contiguous.Native.loss: definition does not reference [VeriTile.Bench.Repairs.KldivOps.Tile.scalar,
+ VeriTile.Bench.Repairs.KldivOps.Program.grid,
+ VeriTile.Bench.Repairs.KldivOps.Contiguous.forwardKernel] — non-circular ✓
+VeriTile.Bench.Repairs.KldivOps.Contiguous.Native.row: definition does not reference [VeriTile.Bench.Repairs.KldivOps.FPGraph.row,
+ VeriTile.Bench.Repairs.KldivOps.Program.grid,
+ VeriTile.Bench.Repairs.KldivOps.Contiguous.forwardKernel] — non-circular ✓
+VeriTile.Bench.Repairs.KldivOps.Contiguous.Native.scalar_lowering: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.KldivOps.Contiguous.Native.backward_lowering: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.KldivOps.Contiguous.Native.row_lowering: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.KldivOps.Contiguous.Native.ports_eq: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])

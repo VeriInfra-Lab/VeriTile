@@ -1,0 +1,117 @@
+[
+  {
+    "module": "bench.repairs.tritonbench_g.fifth_order_sph_harmonics.Proofs.SourceExecution",
+    "exit_code": 0,
+    "log": "/tmp/sph88-direct-SourceExecution-1793128057263754081.log"
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.fifth_order_sph_harmonics.Proofs.Execution",
+    "exit_code": 0,
+    "log": "/tmp/sph88-direct-Execution-1793129275915853095.log"
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.fifth_order_sph_harmonics.Contract",
+    "log": "/tmp/sph88-task-Contract-1793129479195754783.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.fifth_order_sph_harmonics.Proofs.Readback",
+    "log": "/tmp/sph88-task-Readback-1793129481900647114.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.fifth_order_sph_harmonics.Proofs.Grid",
+    "log": "/tmp/sph88-task-Grid-1793129486865125885.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.fifth_order_sph_harmonics.Proofs.Packing",
+    "log": "/tmp/sph88-task-Packing-1793129492313864167.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.fifth_order_sph_harmonics.Proofs.Storage",
+    "log": "/tmp/sph88-task-Storage-1793129494986655892.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.fifth_order_sph_harmonics.Proofs.SourceBridge",
+    "log": "/tmp/sph88-task-SourceBridge-1793129498386321303.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.fifth_order_sph_harmonics.Proofs.Physical",
+    "log": "/tmp/sph88-task-Physical-1793129509265765997.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.fifth_order_sph_harmonics.Proofs.Contract",
+    "log": "/tmp/sph88-task-Contract-1793129523462915620.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.fifth_order_sph_harmonics.Proofs.Native",
+    "log": "/tmp/sph88-task-Native-1793129527273493646.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.fifth_order_sph_harmonics.Proofs.Access",
+    "log": "/tmp/sph88-task-Access-1793129530769812885.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.fifth_order_sph_harmonics.Proofs.Host",
+    "log": "/tmp/sph88-task-Host-1793129534290893248.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.fifth_order_sph_harmonics.Proofs.Reference",
+    "log": "/tmp/sph88-task-Reference-1793129540256902708.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.fifth_order_sph_harmonics.Proofs.Arithmetic",
+    "log": "/tmp/sph88-task-Arithmetic-1793129542917927996.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.fifth_order_sph_harmonics.Proofs.Software",
+    "log": "/tmp/sph88-task-Software-1793129546895663606.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.fifth_order_sph_harmonics.Proofs.FP",
+    "log": "/tmp/sph88-task-FP-1793129558575629902.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.fifth_order_sph_harmonics.Proofs.Equivalence",
+    "log": "/tmp/sph88-task-Equivalence-1793129561786422642.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.fifth_order_sph_harmonics.Proofs.Polynomial",
+    "log": "/tmp/sph88-task-Polynomial-1793129573478760866.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.fifth_order_sph_harmonics.Proofs.ScalarReal",
+    "log": "/tmp/sph88-task-ScalarReal-1793129637812635522.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.fifth_order_sph_harmonics.Proofs.KernelScalar",
+    "log": "/tmp/sph88-task-KernelScalar-1793129666711818358.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.fifth_order_sph_harmonics.IO",
+    "log": "/tmp/sph88-task-IO-1793129681233787196.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.fifth_order_sph_harmonics.Proofs.KernelSafety",
+    "log": "/tmp/sph88-task-KernelSafety-1793129684387125493.log",
+    "exit_code": 1
+  }
+]

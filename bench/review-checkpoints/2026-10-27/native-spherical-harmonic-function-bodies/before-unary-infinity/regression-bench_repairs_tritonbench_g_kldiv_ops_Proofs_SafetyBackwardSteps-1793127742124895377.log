@@ -1,0 +1,34 @@
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/SafetyBackwardSteps.lean:44:2: warning: 'all_goals norm_num only' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/SafetyBackwardSteps.lean:45:2: warning: 'all_goals
+  try simp only [FP.Structural.bop, Broadcast.leftIndex, Broadcast.rightIndex, Int.ofNat_lt]' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/SafetyBackwardSteps.lean:67:2: warning: 'all_goals norm_num only' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/SafetyBackwardSteps.lean:68:2: warning: 'all_goals
+  try simp only [FP.Structural.bop, Broadcast.leftIndex, Broadcast.rightIndex, Int.ofNat_lt]' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/SafetyBackwardSteps.lean:99:2: warning: 'all_goals
+  try simp only [FP.Structural.bop, Broadcast.leftIndex, Broadcast.rightIndex, Int.ofNat_lt]' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/SafetyBackwardSteps.lean:100:2: warning: 'all_goals rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/SafetyBackwardSteps.lean:99:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/SafetyBackwardSteps.lean:100:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/SafetyBackwardSteps.lean:120:2: warning: 'all_goals norm_num only' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/SafetyBackwardSteps.lean:121:2: warning: 'all_goals
+  try simp only [FP.Structural.bop, Broadcast.leftIndex, Broadcast.rightIndex, Int.ofNat_lt]' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`

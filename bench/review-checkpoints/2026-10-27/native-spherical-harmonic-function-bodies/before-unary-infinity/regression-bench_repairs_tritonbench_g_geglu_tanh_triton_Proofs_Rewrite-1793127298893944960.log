@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.GegluTanhTriton.Rewrite.execution_eq: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.GegluTanhTriton.Rewrite.selected_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

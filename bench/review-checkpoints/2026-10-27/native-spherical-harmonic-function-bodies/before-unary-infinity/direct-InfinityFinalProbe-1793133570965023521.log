@@ -1,0 +1,8 @@
+[ComputeStmt.assign TileDType.real [] "value"
+    (ComputeExpr.compute
+      (ComputeOp.bitcast ComputeDType.uint32 ComputeDType.fp32 positive._proof_1
+        (ComputeOp.alg ComputeDType.uint32 (Op.full [] (Op.constNat 2139095040)))))]
+[ComputeStmt.assign TileDType.real [] "value"
+    (ComputeExpr.compute
+      (ComputeOp.full []
+        (ComputeOp.alg ComputeDType.fp32 (Op.ref TileDType.real [] "__compute_bitcast_unprojected__"))))]

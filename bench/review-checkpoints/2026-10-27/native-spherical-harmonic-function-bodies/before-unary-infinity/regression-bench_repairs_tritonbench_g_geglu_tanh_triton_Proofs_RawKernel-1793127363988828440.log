@@ -1,0 +1,18 @@
+/tmp/sph88-staging/bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/RawKernel.lean:29:72: warning: unused variable `h`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/RawKernel.lean:53:55: warning: unused variable `h`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/RawKernel.lean:79:55: warning: unused variable `h`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.Repairs.GegluTanhTriton.RawKernel.run_spec: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.GegluTanhTriton.RawKernel.executes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.GegluTanhTriton.RawKernel.native_executes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

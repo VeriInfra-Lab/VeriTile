@@ -1,0 +1,50 @@
+{
+  "code_commit": "2043cf5d3567315f8cf56182dc6010afe35833a8",
+  "raw_bodies": [
+    {
+      "name": "raw-body-check",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "2043cf5d3567315f8cf56182dc6010afe35833a8",
+      "log": "/tmp/sph88-raw-body-check.log",
+      "status": "PASS"
+    }
+  ],
+  "candidate_rewrites": [
+    {
+      "status": "PASS",
+      "scope": "Only existing left-associated power reuse; complete signatures/decorators, constants, casts, loads and stores checked by SphericalHarmonicFunctionBodyTests."
+    }
+  ],
+  "cpu": {
+    "name": "cpu-final",
+    "command": [
+      "python3",
+      "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/test_revision.py"
+    ],
+    "exit_code": 1,
+    "code_commit": "2043cf5d3567315f8cf56182dc6010afe35833a8",
+    "log": "/tmp/sph88-cpu-final.log",
+    "status": "UNAVAILABLE"
+  },
+  "original_python_wrappers_and_public_statements": {
+    "status": "PASS",
+    "sha256": {
+      "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/IO.lean": "c1e60188bc6ef1e91188d45cdd7a096641369c9cd9f4db9636cea9c1d8eaca96",
+      "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/fifth_order_sph_harmonics_repaired.py": "f1060f3487cf89047e0e3d4ffcee9fa16671bc287233baefe75a847c53334377",
+      "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/test_revision.py": "c506c45fad0c9197f7d2e5dec6a7e8b5f50f20d2edc4b7f3d86bcf5fba6fa7dd",
+      "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Contract.lean": "f74de5d7245447c90af0b8891e12301c54e943d38c3246fc02f27e5327e4e44a",
+      "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/test_coefficients.py": "9f44c26222c33dd9fa64a14f62c3fe136fe9c8699e75b5fb25ab7efb426a93b9",
+      "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Correct.lean": "5d85cdb0c20f5c8eb9a0bc6ca9fa7c1e8cd890bcea918a92dc6dc03421bb6403",
+      "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/check_cuda_lowering.py": "9822c815e245ee07d388962387f3e1652f2e9d2c671a81fda30e2eb691b23fc1",
+      "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/FPEquiv.lean": "6016f9f05b0f6bfbf3964c4c84a33d221c431eca607dc8650073a494d0f2a862",
+      "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Proofs/Contract.lean": "3d18af16de3f4b4424b76c79f9bca7f552f613eb709df92a327b104baefcb49c"
+    }
+  },
+  "scope": "Four complete raw forward/backward source/candidate bodies. All casts, coefficients, masks and gradient accumulations retained. Actual full source execution, safety, output/frame and full-grid FP pair reverified. Shared ordinary scalar assignment materializes FP32 tensor precision. No new numerical law, domain narrowing or GPU experiment."
+}

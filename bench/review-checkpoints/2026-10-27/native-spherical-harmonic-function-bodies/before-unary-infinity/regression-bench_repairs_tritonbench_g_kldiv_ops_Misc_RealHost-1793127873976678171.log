@@ -1,0 +1,8 @@
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Misc/RealHost.lean:44:43: warning: This simp argument is unused:
+  Host.forwardKernelValue
+
+Hint: Omit it from the simp argument list.
+  simp [̵H̵o̵s̵t̵.̵r̵e̵d̵u̵c̵e̵d̵W̵o̵r̵d̵,̵l̵i̵b̵r̵a̵r̵y̵N̵u̵m̵e̵r̵i̵c̵s̵,̵H̵o̵s̵t̵.̵f̵o̵r̵w̵a̵r̵d̵K̵e̵r̵n̵e̵l̵V̵a̵l̵u̵e̵,̵f̵o̵r̵w̵a̵r̵d̵,̵H̵o̵s̵t̵.̵R̵e̵d̵u̵c̵t̵i̵o̵n̵.̵c̵o̵d̵e̵,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵s̵c̵a̵l̵a̵r̵_̵r̵e̵a̵l̵,̵t̵o̵t̵a̵l̵R̵o̵w̵s̵]̵[̲H̲o̲s̲t̲.̲r̲e̲d̲u̲c̲e̲d̲W̲o̲r̲d̲,̲ ̲l̲i̲b̲r̲a̲r̲y̲N̲u̲m̲e̲r̲i̲c̲s̲,̲ ̲f̲o̲r̲w̲a̲r̲d̲,̲ ̲H̲o̲s̲t̲.̲R̲e̲d̲u̲c̲t̲i̲o̲n̲.̲c̲o̲d̲e̲,̲ ̲s̲c̲a̲l̲a̲r̲_̲r̲e̲a̲l̲,̲ ̲t̲o̲t̲a̲l̲R̲o̲w̲s̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

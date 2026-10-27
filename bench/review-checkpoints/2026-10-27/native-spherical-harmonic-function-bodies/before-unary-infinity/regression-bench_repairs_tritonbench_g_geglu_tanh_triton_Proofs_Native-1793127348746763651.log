@@ -1,0 +1,12 @@
+VeriTile.Bench.Repairs.GegluTanhTriton.Native.compiledReference: definition does not reference [VeriTile.Bench.Repairs.GegluTanhTriton.Native.interpret,
+ VeriTile.Bench.Repairs.GegluTanhTriton.Native.sourceScalar,
+ VeriTile.Bench.Repairs.GegluTanhTriton.Tile.scalar] — non-circular ✓
+VeriTile.Bench.Repairs.GegluTanhTriton.Native.graph_lowering: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.GegluTanhTriton.Native.compiled_lowering: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.GegluTanhTriton.Native.primitive_bridge: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

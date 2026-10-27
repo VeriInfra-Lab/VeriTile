@@ -1,0 +1,4 @@
+VeriTile.Bench.Repairs.FlashDecode2Llama.Correct.kernel_real: statement's project surface ⊆ allowlist ✓
+VeriTile.Bench.Repairs.FlashDecode2Llama.Correct.kernel_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

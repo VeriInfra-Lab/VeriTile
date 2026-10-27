@@ -1,0 +1,8 @@
+{
+  "initial_source_commit": "2043cf5d3567315f8cf56182dc6010afe35833a8",
+  "final_source_commit": "81ab3835a267e18efa860a0c474ba58241202d2e",
+  "only_changed_file": "lakefile.toml",
+  "reason": "Register the existing verified ScalarAssignmentBody module for cumulative Lake builds. Both first cumulative invocations stopped at target resolution before elaboration.",
+  "all_lean_python_and_manifest_bytes_unchanged": true,
+  "retained_inspection_commit": "2043cf5d3567315f8cf56182dc6010afe35833a8"
+}

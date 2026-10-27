@@ -1,0 +1,46 @@
+/tmp/sph88-staging/bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Physical.lean:24:15: warning: Local variable 'a' resembles constructor 'VeriTile.Bench.Repairs.SwigluTriton.DirectPhysical.Role.a' - write '.a' (with a dot) or 'VeriTile.Bench.Repairs.SwigluTriton.DirectPhysical.Role.a' to use the constructor.
+
+Note: This linter can be disabled with `set_option linter.constructorNameAsVariable false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Physical.lean:24:17: warning: Local variable 'b' resembles constructor 'VeriTile.Bench.Repairs.SwigluTriton.DirectPhysical.Role.b' - write '.b' (with a dot) or 'VeriTile.Bench.Repairs.SwigluTriton.DirectPhysical.Role.b' to use the constructor.
+
+Note: This linter can be disabled with `set_option linter.constructorNameAsVariable false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Physical.lean:30:52: warning: Local variable 'a' resembles constructor 'VeriTile.Bench.Repairs.SwigluTriton.DirectPhysical.Role.a' - write '.a' (with a dot) or 'VeriTile.Bench.Repairs.SwigluTriton.DirectPhysical.Role.a' to use the constructor.
+
+Note: This linter can be disabled with `set_option linter.constructorNameAsVariable false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Physical.lean:30:54: warning: Local variable 'b' resembles constructor 'VeriTile.Bench.Repairs.SwigluTriton.DirectPhysical.Role.b' - write '.b' (with a dot) or 'VeriTile.Bench.Repairs.SwigluTriton.DirectPhysical.Role.b' to use the constructor.
+
+Note: This linter can be disabled with `set_option linter.constructorNameAsVariable false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Physical.lean:40:54: warning: Local variable 'a' resembles constructor 'VeriTile.Bench.Repairs.SwigluTriton.DirectPhysical.Role.a' - write '.a' (with a dot) or 'VeriTile.Bench.Repairs.SwigluTriton.DirectPhysical.Role.a' to use the constructor.
+
+Note: This linter can be disabled with `set_option linter.constructorNameAsVariable false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Physical.lean:40:56: warning: Local variable 'b' resembles constructor 'VeriTile.Bench.Repairs.SwigluTriton.DirectPhysical.Role.b' - write '.b' (with a dot) or 'VeriTile.Bench.Repairs.SwigluTriton.DirectPhysical.Role.b' to use the constructor.
+
+Note: This linter can be disabled with `set_option linter.constructorNameAsVariable false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Physical.lean:76:37: warning: This simp argument is unused:
+  if_false
+
+Hint: Omit it from the simp argument list.
+  simp only [̵t̵i̵l̵e̵,̵i̵f̵_̵f̵a̵l̵s̵e̵,̵i̵f̵_̵t̵r̵u̵e̵]̵[̲t̲i̲l̲e̲,̲ ̲i̲f̲_̲t̲r̲u̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Physical.lean:87:37: warning: This simp argument is unused:
+  if_false
+
+Hint: Omit it from the simp argument list.
+  simp only [̵t̵i̵l̵e̵,̵i̵f̵_̵f̵a̵l̵s̵e̵,̵i̵f̵_̵t̵r̵u̵e̵]̵[̲t̲i̲l̲e̲,̲ ̲i̲f̲_̲t̲r̲u̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Physical.lean:108:50: warning: This simp argument is unused:
+  if_false
+
+Hint: Omit it from the simp argument list.
+  simp only [̵t̵i̵l̵e̵,̵i̵f̵_̵f̵a̵l̵s̵e̵,̵i̵f̵_̵t̵r̵u̵e̵,̵o̵u̵t̵p̵u̵t̵R̵o̵l̵e̵]̵[̲t̲i̲l̲e̲,̲ ̲i̲f̲_̲t̲r̲u̲e̲,̲ ̲o̲u̲t̲p̲u̲t̲R̲o̲l̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.GegluTanhTriton.Physical.tile_values: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.GegluTanhTriton.Physical.run_values: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.GegluTanhTriton.Physical.run_bytes: axiom footprint ⊆ standard base ✓  ([propext])

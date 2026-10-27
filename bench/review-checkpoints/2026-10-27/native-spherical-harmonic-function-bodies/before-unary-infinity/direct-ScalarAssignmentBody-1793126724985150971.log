@@ -1,0 +1,9 @@
+VeriTile.Tests.ScalarAssignmentBody.ordinary_materializes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.ScalarAssignmentBody.tuple_materializes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.ScalarAssignmentBody.zero_and_infinity_materialize: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

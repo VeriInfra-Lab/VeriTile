@@ -1,0 +1,27 @@
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/AllFrames.lean:104:9: warning: Local variable 'unit' resembles constructor 'PUnit.unit' - write '.unit' (with a dot) or 'PUnit.unit' to use the constructor.
+
+Note: This linter can be disabled with `set_option linter.constructorNameAsVariable false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/AllFrames.lean:143:19: warning: Local variable 'unit' resembles constructor 'PUnit.unit' - write '.unit' (with a dot) or 'PUnit.unit' to use the constructor.
+
+Note: This linter can be disabled with `set_option linter.constructorNameAsVariable false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/AllFrames.lean:152:21: warning: Local variable 'unit' resembles constructor 'PUnit.unit' - write '.unit' (with a dot) or 'PUnit.unit' to use the constructor.
+
+Note: This linter can be disabled with `set_option linter.constructorNameAsVariable false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/AllFrames.lean:96:74: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/AllFrames.lean:114:35: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/AllFrames.lean:180:9: warning: Local variable 'unit' resembles constructor 'PUnit.unit' - write '.unit' (with a dot) or 'PUnit.unit' to use the constructor.
+
+Note: This linter can be disabled with `set_option linter.constructorNameAsVariable false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/AllFrames.lean:206:17: warning: Local variable 'unit' resembles constructor 'PUnit.unit' - write '.unit' (with a dot) or 'PUnit.unit' to use the constructor.
+
+Note: This linter can be disabled with `set_option linter.constructorNameAsVariable false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/AllFrames.lean:215:19: warning: Local variable 'unit' resembles constructor 'PUnit.unit' - write '.unit' (with a dot) or 'PUnit.unit' to use the constructor.
+
+Note: This linter can be disabled with `set_option linter.constructorNameAsVariable false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/AllFrames.lean:172:74: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`

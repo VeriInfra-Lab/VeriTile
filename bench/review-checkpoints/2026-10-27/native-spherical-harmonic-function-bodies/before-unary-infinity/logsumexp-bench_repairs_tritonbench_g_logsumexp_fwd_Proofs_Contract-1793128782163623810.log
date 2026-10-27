@@ -1,0 +1,10 @@
+VeriTile.Bench.Repairs.LogsumexpFwd.checkInputs_iff: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.LogsumexpFwd.input_numel: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LogsumexpFwd.scratch_bound: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LogsumexpFwd.input_offset_bound: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])

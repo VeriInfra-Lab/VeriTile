@@ -1,0 +1,24 @@
+/tmp/sph88-staging/bench/repairs/tritonbench_g/flash_decode2_phi_block_checked/Proofs/KernelReadback.lean:35:4: warning: This simp argument is unused:
+  show ("O" : RegionName) = "O" by rfl
+
+Hint: Omit it from the simp argument list.
+  simp only [̵P̵h̵y̵s̵i̵c̵a̵l̵.̵p̵r̵o̵j̵e̵c̵t̵O̵,̵N̵a̵t̵i̵v̵e̵.̵o̵b̵s̵e̵r̵v̵e̵,̵K̵e̵r̵n̵e̵l̵N̵a̵t̵i̵v̵e̵.̵e̵n̵t̵r̵y̵,̵l̵i̵f̵t̵,̵[̲P̲h̲y̲s̲i̲c̲a̲l̲.̲p̲r̲o̲j̲e̲c̲t̲O̲,̲ ̲N̲a̲t̲i̲v̲e̲.̲o̲b̲s̲e̲r̲v̲e̲,̲ ̲K̲e̲r̲n̲e̲l̲N̲a̲t̲i̲v̲e̲.̲e̲n̲t̲r̲y̲,̲ ̲l̲i̲f̲t̲,̲
+      show ("O" : RegionName)  ̵≠  ̵"L" by d̵e̵c̵i̵d̵e̵,̵i̵t̵e̵_̵f̵a̵l̵s̵e̵,̵
+  ̵ ̵ ̵ ̵ ̵s̵h̵o̵w̵ ̵(̵"̵O̵"̵ ̵:̵ ̵R̵e̵g̵i̵o̵n̵N̵a̵m̵e̵)̵ ̵=̵ ̵"̵O̵"̵ ̵b̵y̵ ̵r̵f̵l̵,̵o̵r̵_̵t̵r̵u̵e̵,̵i̵t̵e̵_̵t̵r̵u̵e̵,̵C̵e̵l̵l̵.̵r̵e̵a̵d̵_̵s̵a̵m̵e̵,̵N̵a̵t̵i̵v̵e̵.̵e̵v̵a̵l̵]̵d̲e̲c̲i̲d̲e̲,̲ ̲i̲t̲e̲_̲f̲a̲l̲s̲e̲,̲ ̲o̲r̲_̲t̲r̲u̲e̲,̲ ̲i̲t̲e̲_̲t̲r̲u̲e̲,̲ ̲C̲e̲l̲l̲.̲r̲e̲a̲d̲_̲s̲a̲m̲e̲,̲
+  ̲ ̲ ̲ ̲ ̲N̲a̲t̲i̲v̲e̲.̲e̲v̲a̲l̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.KernelReadback.native: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.KernelReadback.source_related: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.KernelReadback.exterior: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.KernelReadback.input_storage: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.KernelReadback.execute: definition does not reference [VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.KernelNative.target,
+ VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.KernelEndpoints.native] — non-circular ✓

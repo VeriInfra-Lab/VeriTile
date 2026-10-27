@@ -1,0 +1,9 @@
+/tmp/sph88-staging/bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Proofs/Grid.lean:80:4: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Proofs/Grid.lean:86:4: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Grid.launch_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

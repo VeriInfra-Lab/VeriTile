@@ -1,0 +1,2 @@
+VeriTile.Bench.Repairs.KldivOps.Contiguous.finishForward_spec: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

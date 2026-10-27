@@ -1,0 +1,6 @@
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Kernels.lean:124:6: warning: unused variable `BLOCK_SIZE`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Kernels.lean:155:6: warning: unused variable `BLOCK_SIZE`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`

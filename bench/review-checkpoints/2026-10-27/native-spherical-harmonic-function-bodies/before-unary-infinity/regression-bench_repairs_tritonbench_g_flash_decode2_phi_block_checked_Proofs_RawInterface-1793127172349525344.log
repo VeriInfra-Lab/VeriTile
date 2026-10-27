@@ -1,0 +1,9 @@
+VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.Raw.complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.Raw.native_value: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.Raw.nativeTerm: definition does not reference [VeriTile.Bench.Repairs.FlashDecode2.Grid.source,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.FlashDecode2.values] — non-circular ✓

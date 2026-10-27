@@ -1,0 +1,7 @@
+[codex/body-copy-cache-and-constexpr 2043cf5d3] Preserve raw spherical harmonic bodies and scalar tensor precision
+ 19 files changed, 1949 insertions(+), 492 deletions(-)
+ rewrite bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Kernels.lean (92%)
+ create mode 100644 bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Proofs/SourceExecution.lean
+ create mode 100644 bench/repairs/tritonbench_g/fifth_order_sph_harmonics/candidate_kernels.py
+ create mode 100644 bench/repairs/tritonbench_g/fifth_order_sph_harmonics/jit-correspondence.json
+ create mode 100644 bench/tests/ScalarAssignmentBody.lean

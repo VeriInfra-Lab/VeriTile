@@ -1,0 +1,9 @@
+VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.FPEquiv.target: definition does not reference [VeriTile.Bench.Repairs.FlashDecode2.Grid.source,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.FlashDecode2.values,
+ VeriTile.Bench.Repairs.FlashDecode2.Native.algebra,
+ VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.FPEquiv.decodeIO] — non-circular ✓
+VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.FPEquiv.kernel_native: statement's project surface ⊆ allowlist ✓
+VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.FPEquiv.kernel_native: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

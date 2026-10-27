@@ -1,0 +1,24 @@
+/tmp/sph88-staging/bench/repairs/tritonbench_g/geglu_tanh_triton/Kernels.lean:26:6: warning: unused variable `n_elements`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/geglu_tanh_triton/Kernels.lean:27:6: warning: unused variable `BLOCK_SIZE`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/geglu_tanh_triton/Kernels.lean:49:6: warning: unused variable `n_elements`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/geglu_tanh_triton/Kernels.lean:50:6: warning: unused variable `BLOCK_SIZE`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/geglu_tanh_triton/Kernels.lean:72:6: warning: unused variable `n_elements`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/geglu_tanh_triton/Kernels.lean:73:6: warning: unused variable `BLOCK_SIZE`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/geglu_tanh_triton/Kernels.lean:112:6: warning: unused variable `n_elements`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/geglu_tanh_triton/Kernels.lean:113:6: warning: unused variable `BLOCK_SIZE`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`

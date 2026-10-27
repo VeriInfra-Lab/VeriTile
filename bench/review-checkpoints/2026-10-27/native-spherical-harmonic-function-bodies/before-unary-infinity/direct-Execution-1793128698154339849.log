@@ -1,0 +1,4 @@
+/tmp/sph88-staging/bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Proofs/Execution.lean:76:12: error: `simp` made no progress
+/tmp/sph88-staging/bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Proofs/Execution.lean:96:12: error: `simp` made no progress
+/tmp/sph88-staging/bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Proofs/Execution.lean:99:0: error: VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Execution.backward_memory: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/sph88-staging/bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Proofs/Execution.lean:100:0: error: VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Execution.forward_memory: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

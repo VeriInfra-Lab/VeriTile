@@ -1,0 +1,24 @@
+/tmp/sph88-staging/bench/repairs/tritonbench_g/flash_decode2_phi/Kernels.lean:25:6: warning: unused variable `BLOCK_SEQ`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/flash_decode2_phi/Kernels.lean:26:6: warning: unused variable `BLOCK_DMODEL`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/flash_decode2_phi/Kernels.lean:67:6: warning: unused variable `BLOCK_SEQ`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/flash_decode2_phi/Kernels.lean:68:6: warning: unused variable `BLOCK_DMODEL`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/flash_decode2_phi/Kernels.lean:117:6: warning: unused variable `BLOCK_SEQ`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/flash_decode2_phi/Kernels.lean:118:6: warning: unused variable `BLOCK_DMODEL`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/flash_decode2_phi/Kernels.lean:160:6: warning: unused variable `BLOCK_SEQ`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/flash_decode2_phi/Kernels.lean:161:6: warning: unused variable `BLOCK_DMODEL`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`

@@ -1,0 +1,145 @@
+[
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Contract",
+    "log": "/tmp/sph88-logsumexp-bench_repairs_tritonbench_g_logsumexp_fwd_Contract-1793128768712506295.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Kernels",
+    "log": "/tmp/sph88-logsumexp-bench_repairs_tritonbench_g_logsumexp_fwd_Kernels-1793128771446693249.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.LegacyPastedSurface",
+    "log": "/tmp/sph88-logsumexp-bench_repairs_tritonbench_g_logsumexp_fwd_Proofs_LegacyPastedSurface-1793128773113852264.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.SourcePreservation",
+    "log": "/tmp/sph88-logsumexp-bench_repairs_tritonbench_g_logsumexp_fwd_Proofs_SourcePreservation-1793128775827502521.log",
+    "exit_code": 1
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.Source",
+    "blocked_by": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.SourcePreservation"
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.Engine",
+    "blocked_by": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.Source"
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.RawKernel",
+    "blocked_by": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.Engine"
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.IO",
+    "blocked_by": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.RawKernel"
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.Interface",
+    "blocked_by": "bench.repairs.tritonbench_g.logsumexp_fwd.IO"
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.RealIO",
+    "blocked_by": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.Interface"
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.LogicalReader",
+    "blocked_by": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.RealIO"
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Correct",
+    "blocked_by": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.LogicalReader"
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.PairIO",
+    "blocked_by": "bench.repairs.tritonbench_g.logsumexp_fwd.IO"
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.PairIO",
+    "blocked_by": "bench.repairs.tritonbench_g.logsumexp_fwd.PairIO"
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.FPEquiv",
+    "blocked_by": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.PairIO"
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Misc.NativeCorrect",
+    "blocked_by": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.Interface"
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Misc.TensorBridge",
+    "blocked_by": "bench.repairs.tritonbench_g.logsumexp_fwd.Correct"
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.AccessSafety",
+    "blocked_by": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.RawKernel"
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.Contract",
+    "log": "/tmp/sph88-logsumexp-bench_repairs_tritonbench_g_logsumexp_fwd_Proofs_Contract-1793128782163623810.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.Grid",
+    "blocked_by": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.Engine"
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.Host",
+    "blocked_by": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.Grid"
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.Machine",
+    "log": "/tmp/sph88-logsumexp-bench_repairs_tritonbench_g_logsumexp_fwd_Proofs_Machine-1793128787214533757.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.KernelBinding",
+    "log": "/tmp/sph88-logsumexp-bench_repairs_tritonbench_g_logsumexp_fwd_Proofs_KernelBinding-1793128790439808278.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.Real",
+    "blocked_by": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.Engine"
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.KernelMath",
+    "blocked_by": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.Real"
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.KernelResult",
+    "blocked_by": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.Grid"
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.Native",
+    "blocked_by": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.Engine"
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.NativeExecution",
+    "blocked_by": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.RawKernel"
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.PairSafety",
+    "blocked_by": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.RawKernel"
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.PairSource",
+    "blocked_by": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.Engine"
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.RealExecution",
+    "blocked_by": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.RawKernel"
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.WholeReal",
+    "blocked_by": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.Real"
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.WrapperCorrect",
+    "blocked_by": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.WholeReal"
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.WrapperFPEquiv",
+    "blocked_by": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.Host"
+  }
+]

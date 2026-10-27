@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.GegluTanhTriton.RawNative.geglu_kernel_fp32: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,93 @@
+[
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi.Kernels",
+    "log": "/tmp/sph88-shared-flash-bench_repairs_tritonbench_g_flash_decode2_phi_Kernels-1793127321716258934.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi.Proofs.SourceConnection",
+    "log": "/tmp/sph88-shared-flash-bench_repairs_tritonbench_g_flash_decode2_phi_Proofs_SourceConnection-1793127323707693709.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi.Proofs.Execution",
+    "log": "/tmp/sph88-shared-flash-bench_repairs_tritonbench_g_flash_decode2_phi_Proofs_Execution-1793127325220608250.log",
+    "exit_code": 1
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi.Proofs.Grid",
+    "blocked_by": "bench.repairs.tritonbench_g.flash_decode2_phi.Proofs.Execution"
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi.Proofs.Geometry",
+    "blocked_by": "bench.repairs.tritonbench_g.flash_decode2_phi.Proofs.Grid"
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi.Contract",
+    "blocked_by": "bench.repairs.tritonbench_g.flash_decode2_phi.Proofs.Geometry"
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi.Correct",
+    "blocked_by": "bench.repairs.tritonbench_g.flash_decode2_phi.Contract"
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi.FPEquiv",
+    "blocked_by": "bench.repairs.tritonbench_g.flash_decode2_phi.Contract"
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi.Proofs.Admission",
+    "blocked_by": "bench.repairs.tritonbench_g.flash_decode2_phi.Contract"
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi.Proofs.Host",
+    "blocked_by": "bench.repairs.tritonbench_g.flash_decode2_phi.Proofs.Geometry"
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi.Proofs.Coordinates",
+    "blocked_by": "bench.repairs.tritonbench_g.flash_decode2_phi.Proofs.Host"
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi.Proofs.Bounds",
+    "blocked_by": "bench.repairs.tritonbench_g.flash_decode2_phi.Proofs.Coordinates"
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi.Proofs.Native",
+    "blocked_by": "bench.repairs.tritonbench_g.flash_decode2_phi.Proofs.Execution"
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi.Proofs.NativeHost",
+    "blocked_by": "bench.repairs.tritonbench_g.flash_decode2_phi.Proofs.Native"
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi.Proofs.TensorBinding",
+    "blocked_by": "bench.repairs.tritonbench_g.flash_decode2_phi.Proofs.Admission"
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi.Proofs.NativeSafety",
+    "blocked_by": "bench.repairs.tritonbench_g.flash_decode2_phi.Proofs.TensorBinding"
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi.Proofs.Physical",
+    "blocked_by": "bench.repairs.tritonbench_g.flash_decode2_phi.Proofs.NativeHost"
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi.Proofs.Numerical",
+    "blocked_by": "bench.repairs.tritonbench_g.flash_decode2_phi.Proofs.Physical"
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi.Proofs.RealResult",
+    "blocked_by": "bench.repairs.tritonbench_g.flash_decode2_phi.Proofs.Coordinates"
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi.Proofs.Reference",
+    "blocked_by": "bench.repairs.tritonbench_g.flash_decode2_phi.Proofs.Execution"
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi.Proofs.WholeNative",
+    "blocked_by": "bench.repairs.tritonbench_g.flash_decode2_phi.Proofs.NativeSafety"
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi.Proofs.WholeReal",
+    "blocked_by": "bench.repairs.tritonbench_g.flash_decode2_phi.Proofs.NativeSafety"
+  }
+]

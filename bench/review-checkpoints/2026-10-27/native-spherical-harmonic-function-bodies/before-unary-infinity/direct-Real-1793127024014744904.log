@@ -1,0 +1,33 @@
+/tmp/sph88-staging/bench/examples/Welford/Proofs/Real.lean:206:29: warning: This simp argument is unused:
+  Except.bind
+
+Hint: Omit it from the simp argument list.
+  simp [twopassWelfordKernel, twopassMathKernel, ComputeKernel.eraseDType,
+  ̵  ̵ ̵ ̵ComputeStmt.toAlgorithm?,
+  ̲  ̲ ̲ ̲ComputeStmt.listToAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
+      ComputeDType.eraseDType, E̵x̵c̵e̵p̵t̵.̵b̵i̵n̵d̵,̵
+  ̵ ̵ ̵ ̵ ̵Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType,
+  ̵  ̵ ̵ ̵Op.eraseDType,
+  ̲  ̲ ̲ ̲VeriTile.Triton.eraseDType, NumericDType.eraseDType,
+  ̵  ̵ ̵ ̵MemAccess.eraseDType.eq_def,
+  ̲  ̲ ̲ ̲MaskOpt.eraseDType.eq_def]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/sph88-staging/bench/examples/Welford/Proofs/Real.lean:211:2: warning: 'all_goals try norm_num' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/sph88-staging/bench/examples/Welford/Proofs/Real.lean:221:29: warning: This simp argument is unused:
+  Except.bind
+
+Hint: Omit it from the simp argument list.
+  simp [onlineWelfordKernel, onlineMathKernel, ComputeKernel.eraseDType,
+  ̵  ̵ ̵ ̵ComputeStmt.toAlgorithm?,
+  ̲  ̲ ̲ ̲ComputeStmt.listToAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
+      ComputeDType.eraseDType, E̵x̵c̵e̵p̵t̵.̵b̵i̵n̵d̵,̵
+  ̵ ̵ ̵ ̵ ̵Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType,
+  ̵  ̵ ̵ ̵Op.eraseDType,
+  ̲  ̲ ̲ ̲VeriTile.Triton.eraseDType, NumericDType.eraseDType,
+  ̵  ̵ ̵ ̵MemAccess.eraseDType.eq_def,
+  ̲  ̲ ̲ ̲MaskOpt.eraseDType.eq_def]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

@@ -1,0 +1,10 @@
+VeriTile.Bench.Repairs.LogsumexpFwd.KernelBinding.real_cells: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LogsumexpFwd.KernelBinding.word_cells: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.LogsumexpFwd.KernelBinding.input_pointer: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.LogsumexpFwd.KernelBinding.input_aligned: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.LogsumexpFwd.KernelBinding.output_pointer: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

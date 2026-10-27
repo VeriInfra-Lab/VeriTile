@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.GegluTanhTriton.geglu_direct_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,9 @@
+VeriTile.Bench.Repairs.FlashDecode2Llama.NativeKernelResult.kernel_native: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2Llama.RawNative.target: definition does not reference [VeriTile.Bench.Repairs.FlashDecode2.Grid.source,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.FlashDecode2.values,
+ VeriTile.Bench.Repairs.FlashDecode2.Native.eval] — non-circular ✓
+Axiom audit: headlines=0
+headlines: []

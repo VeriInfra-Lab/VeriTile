@@ -1,0 +1,14 @@
+VeriTile.Bench.Repairs.KldivOps.Kernel.FPEquiv.forward: statement's project surface ⊆ allowlist ✓
+VeriTile.Bench.Repairs.KldivOps.Kernel.FPEquiv.backward: statement's project surface ⊆ allowlist ✓
+VeriTile.Bench.Repairs.KldivOps.Kernel.FPEquiv.forwardFormula: definition does not reference [VeriTile.Bench.Repairs.KldivOps.forward,
+ VeriTile.Bench.Repairs.KldivOps.Program.grid,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.Repairs.KldivOps.Kernel.FPEquiv.backwardFormula: definition does not reference [VeriTile.Bench.Repairs.KldivOps.backward,
+ VeriTile.Bench.Repairs.KldivOps.Backward.grid,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.Repairs.KldivOps.Kernel.FPEquiv.forward: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.KldivOps.Kernel.FPEquiv.backward: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

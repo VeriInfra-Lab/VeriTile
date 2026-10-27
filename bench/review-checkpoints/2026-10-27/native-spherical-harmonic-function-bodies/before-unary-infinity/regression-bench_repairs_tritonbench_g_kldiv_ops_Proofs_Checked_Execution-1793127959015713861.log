@@ -1,0 +1,10 @@
+VeriTile.Bench.Repairs.KldivOps.Contiguous.backward_prefix: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.KldivOps.Contiguous.source_pointer: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.KldivOps.Contiguous.matrix_pointer: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.KldivOps.Contiguous.allocated_pointer: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.KldivOps.Contiguous.checked_indices: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.KldivOps.Contiguous.pid_exact: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])

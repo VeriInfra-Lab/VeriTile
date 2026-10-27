@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.GegluTanhTriton.AccessSafety.source_safe: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

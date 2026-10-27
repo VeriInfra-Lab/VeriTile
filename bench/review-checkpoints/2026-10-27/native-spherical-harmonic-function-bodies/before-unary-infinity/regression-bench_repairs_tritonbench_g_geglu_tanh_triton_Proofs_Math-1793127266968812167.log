@@ -1,0 +1,24 @@
+/tmp/sph88-staging/bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Math.lean:26:8: warning: 'ring' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Math.lean:26:8: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Math.lean:37:20: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Math.lean:38:80: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Math.lean:39:35: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Math.lean:46:20: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Math.lean:47:84: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+VeriTile.Bench.Repairs.GegluTanhTriton.Math.backward_is_gradient: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

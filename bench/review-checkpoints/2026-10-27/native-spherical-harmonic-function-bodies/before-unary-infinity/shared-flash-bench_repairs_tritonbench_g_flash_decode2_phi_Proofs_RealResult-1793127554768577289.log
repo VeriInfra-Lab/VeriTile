@@ -1,0 +1,15 @@
+VeriTile.Bench.Repairs.FlashDecode2.ideal_output: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2.correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2.formula: definition does not reference [VeriTile.Bench.Repairs.FlashDecode2.Host.invoke,
+ VeriTile.Bench.Repairs.FlashDecode2.Grid.source,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.FlashDecode2.values] — non-circular ✓
+VeriTile.Bench.Repairs.FlashDecode2.FiniteInputs: definition does not reference [VeriTile.Bench.Repairs.FlashDecode2.Host.invoke,
+ VeriTile.Bench.Repairs.FlashDecode2.Grid.source,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.FlashDecode2.values,
+ VeriTile.Bench.Repairs.FlashDecode2.formula] — non-circular ✓

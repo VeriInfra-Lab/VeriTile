@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.LogsumexpFwd.RealModel.block_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LogsumexpFwd.RealModel.aggregate_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

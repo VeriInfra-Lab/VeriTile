@@ -1,0 +1,82 @@
+[
+  {
+    "python_function": "fifth_order_fwd_repaired",
+    "lean_definition": "source",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "runtime_registers",
+    "call_bindings": null,
+    "statements": 73,
+    "runtime_parameters": {},
+    "constexpr_parameters": [
+      "block_size",
+      "col_offset",
+      "coord_numel",
+      "output_numel",
+      "output_stride"
+    ]
+  },
+  {
+    "python_function": "forward_powers_kernel",
+    "lean_definition": "forwardPowersSource",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "runtime_registers",
+    "call_bindings": null,
+    "statements": 73,
+    "runtime_parameters": {},
+    "constexpr_parameters": [
+      "block_size",
+      "col_offset",
+      "coord_numel",
+      "output_numel",
+      "output_stride"
+    ]
+  },
+  {
+    "python_function": "fifth_order_bwd_repaired",
+    "lean_definition": "backwardSource",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "upstream_row_stride": "upstream_row_stride",
+      "upstream_col_stride": "upstream_col_stride"
+    },
+    "statements": 122,
+    "runtime_parameters": {
+      "upstream_row_stride": "integer",
+      "upstream_col_stride": "integer"
+    },
+    "constexpr_parameters": [
+      "block_size",
+      "col_offset",
+      "coord_numel",
+      "output_numel",
+      "output_stride"
+    ]
+  },
+  {
+    "python_function": "backward_powers_kernel",
+    "lean_definition": "backwardPowersSource",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "upstream_row_stride": "upstream_row_stride",
+      "upstream_col_stride": "upstream_col_stride"
+    },
+    "statements": 122,
+    "runtime_parameters": {
+      "upstream_row_stride": "integer",
+      "upstream_col_stride": "integer"
+    },
+    "constexpr_parameters": [
+      "block_size",
+      "col_offset",
+      "coord_numel",
+      "output_numel",
+      "output_stride"
+    ]
+  }
+]

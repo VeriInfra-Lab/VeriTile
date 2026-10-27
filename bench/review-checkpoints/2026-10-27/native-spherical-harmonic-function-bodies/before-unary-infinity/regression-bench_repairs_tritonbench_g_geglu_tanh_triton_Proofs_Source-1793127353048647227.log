@@ -1,0 +1,12 @@
+/tmp/sph88-staging/bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Source.lean:15:8: warning: Local variable 'a' resembles constructor 'VeriTile.Bench.Repairs.SwigluTriton.DirectPhysical.Role.a' - write '.a' (with a dot) or 'VeriTile.Bench.Repairs.SwigluTriton.DirectPhysical.Role.a' to use the constructor.
+
+Note: This linter can be disabled with `set_option linter.constructorNameAsVariable false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Source.lean:15:10: warning: Local variable 'b' resembles constructor 'VeriTile.Bench.Repairs.SwigluTriton.DirectPhysical.Role.b' - write '.b' (with a dot) or 'VeriTile.Bench.Repairs.SwigluTriton.DirectPhysical.Role.b' to use the constructor.
+
+Note: This linter can be disabled with `set_option linter.constructorNameAsVariable false`
+VeriTile.Bench.Repairs.GegluTanhTriton.Source.tile_refines: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.GegluTanhTriton.Source.certificates: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

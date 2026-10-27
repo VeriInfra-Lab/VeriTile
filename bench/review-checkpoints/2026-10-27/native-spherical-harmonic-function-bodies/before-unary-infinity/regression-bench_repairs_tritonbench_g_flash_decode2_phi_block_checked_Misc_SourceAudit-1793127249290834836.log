@@ -1,0 +1,55 @@
+VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.native: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.KernelModel.empty: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.Audit.native_empty: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.KernelSafety.offsets: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.KernelSafety.formed: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.KernelSafety.pointers: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.KernelSafety.length_add: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.arange_bounds: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.empty_domain_unchanged: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.check_arguments_iff: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.KernelTensor.mid_read: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.KernelTensor.log_read: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.KernelReal.target: definition does not reference [VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.KernelModel.run,
+ VeriTile.Bench.Repairs.FlashDecode2.Grid.source,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.FlashDecode2.values,
+ VeriTile.Bench.Repairs.FlashDecode2.Reference.recurrence] — non-circular ✓
+VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.KernelNative.target: definition does not reference [VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.KernelModel.run,
+ VeriTile.Bench.Repairs.FlashDecode2.Grid.source,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.FlashDecode2.values] — non-circular ✓
+VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.InputContract: definition does not reference [VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.KernelModel.run,
+ VeriTile.Bench.Repairs.FlashDecode2.Grid.source,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.FlashDecode2.Host.Preparation,
+ VeriTile.Bench.Repairs.FlashDecode2.Host.invoke] — non-circular ✓
+VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.KernelTensor.Arguments: definition does not reference [VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.KernelModel.run,
+ VeriTile.Bench.Repairs.FlashDecode2.Grid.source,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.FlashDecode2.Host.Preparation,
+ VeriTile.Bench.Repairs.FlashDecode2.Host.invoke] — non-circular ✓
+VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.KernelReadback.execute: definition does not reference [VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.KernelNative.target,
+ VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.KernelEndpoints.native] — non-circular ✓

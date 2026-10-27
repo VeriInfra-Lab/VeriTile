@@ -1,0 +1,24 @@
+/tmp/sph88-staging/bench/repairs/tritonbench_g/flash_decode2_phi/Proofs/Grid.lean:36:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.FlashDecode2.Grid.output_offset`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/flash_decode2_phi/Proofs/Grid.lean:59:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.FlashDecode2.Grid.writes_congr`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+VeriTile.Bench.Repairs.FlashDecode2.Grid.source_complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2.Grid.grid_readback: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2.Grid.grid_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2.Grid.grid_coverage: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

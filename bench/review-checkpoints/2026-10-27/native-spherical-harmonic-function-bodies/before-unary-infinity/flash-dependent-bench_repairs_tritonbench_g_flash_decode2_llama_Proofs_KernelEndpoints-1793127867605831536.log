@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelEndpoints.real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelEndpoints.native: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

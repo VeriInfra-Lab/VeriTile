@@ -1,0 +1,28 @@
+/tmp/sph88-staging/bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Real.lean:37:71: warning: This simp argument is unused:
+  gate
+
+Hint: Omit it from the simp argument list.
+  simp only [Tile.scalar, ̲algebra, ̲formula, ̲forward, ̲backward, ̲gate,̵g̵a̵t̵e̵Factor,
+      VeriTile.Bench.TritonBenchG.GegluTanhTriton.Math.forward,
+      VeriTile.Bench.TritonBenchG.GegluTanhTriton.Math.backward,
+      VeriTile.Bench.TritonBenchG.GegluTanhTriton.Math.gate,
+      VeriTile.Bench.TritonBenchG.GegluTanhTriton.Math.gateFactor,
+      VeriTile.Bench.TritonBenchG.GegluTanhTriton.Math.scale, ̲id_eq, ̲argument]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Real.lean:37:76: warning: This simp argument is unused:
+  gateFactor
+
+Hint: Omit it from the simp argument list.
+  simp only [Tile.scalar, ̲algebra, ̲formula, ̲forward, ̲backward, ̲gate,g̵a̵t̵e̵F̵a̵c̵t̵o̵r̵,̵
+      VeriTile.Bench.TritonBenchG.GegluTanhTriton.Math.forward,
+      VeriTile.Bench.TritonBenchG.GegluTanhTriton.Math.backward,
+      VeriTile.Bench.TritonBenchG.GegluTanhTriton.Math.gate,
+      VeriTile.Bench.TritonBenchG.GegluTanhTriton.Math.gateFactor,
+      VeriTile.Bench.TritonBenchG.GegluTanhTriton.Math.scale, ̲id_eq, ̲argument]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.GegluTanhTriton.RealExecution.formula: definition does not reference [VeriTile.Bench.Repairs.GegluTanhTriton.Tile.scalar] — non-circular ✓
+VeriTile.Bench.Repairs.GegluTanhTriton.RealExecution.scalar_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

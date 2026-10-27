@@ -1,0 +1,10 @@
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/LibraryWitness.lean:179:87: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/LibraryWitness.lean:180:82: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+VeriTile.Bench.Repairs.KldivOps.Host.Witness.checked: definition does not reference [VeriTile.Bench.Repairs.KldivOps.Host.forward,
+ VeriTile.Bench.Repairs.KldivOps.Host.backward,
+ VeriTile.Bench.Repairs.KldivOps.Program.grid,
+ VeriTile.Bench.Repairs.KldivOps.Program.gridModel] — non-circular ✓

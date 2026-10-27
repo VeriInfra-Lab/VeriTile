@@ -1,0 +1,123 @@
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/Checked/Direct.lean:57:31: warning: This simp argument is unused:
+  mode
+
+Hint: Omit it from the simp argument list.
+  simp only [forwardExpected,m̵o̵d̵e̵,̵ ̲if_true, ̲point, ̲width, ̲physicalState, ̲Cell.read_same,
+        target_ne_prediction, ̲String.reduceEq, ̲if_true, ̲if_false]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/Checked/Direct.lean:57:50: warning: This simp argument is unused:
+  width
+
+Hint: Omit it from the simp argument list.
+  simp only [forwardExpected, ̲mode, ̲if_true, ̲point,w̵i̵d̵t̵h̵,̵ ̲physicalState, ̲Cell.read_same,
+        target_ne_prediction, ̲String.reduceEq, ̲if_true, ̲if_false]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/Checked/Direct.lean:58:27: warning: This simp argument is unused:
+  String.reduceEq
+
+Hint: Omit it from the simp argument list.
+  simp only [forwardExpected, ̲mode, ̲if_true, ̲point, ̲width, ̲physicalState, ̲Cell.read_same,
+        target_ne_prediction,S̵t̵r̵ ̲in̵g̵.̵r̵e̵d̵u̵c̵e̵E̵q̵,̵i̵f_true, ̲if_false]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/Checked/Direct.lean:69:49: warning: This simp argument is unused:
+  width
+
+Hint: Omit it from the simp argument list.
+  simp only [forwardExpected, ̲mode, ̲if_false, ̲row,w̵i̵d̵t̵h̵,̵ ̲Nat.mul_one, ̲Nat.add_zero, ̲parameters,
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲Host.params]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/Checked/Direct.lean:69:55: warning: This simp argument is unused:
+  Nat.mul_one
+
+Hint: Omit it from the simp argument list.
+  simp only [̵f̵o̵r̵w̵a̵r̵d̵E̵x̵p̵e̵c̵t̵e̵d̵,̵m̵o̵d̵e̵,̵i̵f̵_̵f̵a̵l̵s̵e̵,̵r̵o̵w̵,̵w̵i̵d̵t̵h̵,̵N̵a̵t̵.̵m̵u̵l̵_̵o̵n̵e̵,̵N̵a̵t̵.̵a̵d̵d̵_̵z̵e̵r̵o̵,̵p̵a̵r̵a̵m̵e̵t̵e̵r̵s̵,̵H̵o̵s̵t̵.̵p̵a̵r̵a̵m̵s̵]̵[̲f̲o̲r̲w̲a̲r̲d̲E̲x̲p̲e̲c̲t̲e̲d̲,̲ ̲m̲o̲d̲e̲,̲ ̲i̲f̲_̲f̲a̲l̲s̲e̲,̲ ̲r̲o̲w̲,̲ ̲w̲i̲d̲t̲h̲,̲ ̲N̲a̲t̲.̲a̲d̲d̲_̲z̲e̲r̲o̲,̲ ̲p̲a̲r̲a̲m̲e̲t̲e̲r̲s̲,̲ ̲H̲o̲s̲t̲.̲p̲a̲r̲a̲m̲s̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/Checked/Direct.lean:69:67: warning: This simp argument is unused:
+  Nat.add_zero
+
+Hint: Omit it from the simp argument list.
+  simp only [̵f̵o̵r̵w̵a̵r̵d̵E̵x̵p̵e̵c̵t̵e̵d̵,̵m̵o̵d̵e̵,̵i̵f̵_̵f̵a̵l̵s̵e̵,̵r̵o̵w̵,̵w̵i̵d̵t̵h̵,̵N̵a̵t̵.̵m̵u̵l̵_̵o̵n̵e̵,̵N̵a̵t̵.̵a̵d̵d̵_̵z̵e̵r̵o̵,̵p̵a̵r̵a̵m̵e̵t̵e̵r̵s̵,̵H̵o̵s̵t̵.̵p̵a̵r̵a̵m̵s̵]̵[̲f̲o̲r̲w̲a̲r̲d̲E̲x̲p̲e̲c̲t̲e̲d̲,̲ ̲m̲o̲d̲e̲,̲ ̲i̲f̲_̲f̲a̲l̲s̲e̲,̲ ̲r̲o̲w̲,̲ ̲w̲i̲d̲t̲h̲,̲ ̲N̲a̲t̲.̲m̲u̲l̲_̲o̲n̲e̲,̲ ̲p̲a̲r̲a̲m̲e̲t̲e̲r̲s̲,̲ ̲H̲o̲s̲t̲.̲p̲a̲r̲a̲m̲s̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/Checked/Direct.lean:69:80: warning: This simp argument is unused:
+  parameters
+
+Hint: Omit it from the simp argument list.
+  simp only [forwardExpected, ̲mode, ̲if_false, ̲row, ̲width, ̲Nat.mul_one, ̲Nat.add_zero,p̵a̵r̵a̵m̵e̵t̵e̵r̵s̵,̵ ̲Host.params]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/Checked/Direct.lean:69:91: warning: This simp argument is unused:
+  Host.params
+
+Hint: Omit it from the simp argument list.
+  simp only [̵f̵o̵r̵w̵a̵r̵d̵E̵x̵p̵e̵c̵t̵e̵d̵,̵m̵o̵d̵e̵,̵i̵f̵_̵f̵a̵l̵s̵e̵,̵r̵o̵w̵,̵w̵i̵d̵t̵h̵,̵N̵a̵t̵.̵m̵u̵l̵_̵o̵n̵e̵,̵N̵a̵t̵.̵a̵d̵d̵_̵z̵e̵r̵o̵,̵p̵a̵r̵a̵m̵e̵t̵e̵r̵s̵,̵H̵o̵s̵t̵.̵p̵a̵r̵a̵m̵s̵]̵[̲f̲o̲r̲w̲a̲r̲d̲E̲x̲p̲e̲c̲t̲e̲d̲,̲ ̲m̲o̲d̲e̲,̲ ̲i̲f̲_̲f̲a̲l̲s̲e̲,̲ ̲r̲o̲w̲,̲ ̲w̲i̲d̲t̲h̲,̲ ̲N̲a̲t̲.̲m̲u̲l̲_̲o̲n̲e̲,̲ ̲N̲a̲t̲.̲a̲d̲d̲_̲z̲e̲r̲o̲,̲ ̲p̲a̲r̲a̲m̲e̲t̲e̲r̲s̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/Checked/Direct.lean:73:46: warning: This simp argument is unused:
+  target_ne_prediction
+
+Hint: Omit it from the simp argument list.
+  simp only [̵p̵h̵y̵s̵i̵c̵a̵l̵S̵t̵a̵t̵e̵,̵C̵e̵l̵l̵.̵r̵e̵a̵d̵_̵s̵a̵m̵e̵,̵t̵a̵r̵g̵e̵t̵_̵n̵e̵_̵p̵r̵e̵d̵i̵c̵t̵i̵o̵n̵,̵S̵t̵r̵i̵n̵g̵.̵r̵e̵d̵u̵c̵e̵E̵q̵,̵i̵f̵_̵t̵r̵u̵e̵,̵i̵f̵_̵f̵a̵l̵s̵e̵]̵[̲p̲h̲y̲s̲i̲c̲a̲l̲S̲t̲a̲t̲e̲,̲ ̲C̲e̲l̲l̲.̲r̲e̲a̲d̲_̲s̲a̲m̲e̲,̲ ̲S̲t̲r̲i̲n̲g̲.̲r̲e̲d̲u̲c̲e̲E̲q̲,̲ ̲i̲f̲_̲t̲r̲u̲e̲,̲ ̲i̲f̲_̲f̲a̲l̲s̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/Checked/Direct.lean:73:67: warning: This simp argument is unused:
+  String.reduceEq
+
+Hint: Omit it from the simp argument list.
+  simp only [̵p̵h̵y̵s̵i̵c̵a̵l̵S̵t̵a̵t̵e̵,̵C̵e̵l̵l̵.̵r̵e̵a̵d̵_̵s̵a̵m̵e̵,̵t̵a̵r̵g̵e̵t̵_̵n̵e̵_̵p̵r̵e̵d̵i̵c̵t̵i̵o̵n̵,̵S̵t̵r̵i̵n̵g̵.̵r̵e̵d̵u̵c̵e̵E̵q̵,̵i̵f̵_̵t̵r̵u̵e̵,̵i̵f̵_̵f̵a̵l̵s̵e̵]̵[̲p̲h̲y̲s̲i̲c̲a̲l̲S̲t̲a̲t̲e̲,̲ ̲C̲e̲l̲l̲.̲r̲e̲a̲d̲_̲s̲a̲m̲e̲,̲ ̲t̲a̲r̲g̲e̲t̲_̲n̲e̲_̲p̲r̲e̲d̲i̲c̲t̲i̲o̲n̲,̲ ̲i̲f̲_̲t̲r̲u̲e̲,̲ ̲i̲f̲_̲f̲a̲l̲s̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/Checked/Direct.lean:73:91: warning: This simp argument is unused:
+  if_false
+
+Hint: Omit it from the simp argument list.
+  simp only [physicalState, ̲Cell.read_same, ̲target_ne_prediction, ̲String.reduceEq, ̲if_true,̵i̵f̵_̵f̵a̵l̵s̵e̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/Checked/Direct.lean:76:67: warning: This simp argument is unused:
+  String.reduceEq
+
+Hint: Omit it from the simp argument list.
+  simp only [̵p̵h̵y̵s̵i̵c̵a̵l̵S̵t̵a̵t̵e̵,̵C̵e̵l̵l̵.̵r̵e̵a̵d̵_̵s̵a̵m̵e̵,̵t̵a̵r̵g̵e̵t̵_̵n̵e̵_̵p̵r̵e̵d̵i̵c̵t̵i̵o̵n̵,̵S̵t̵r̵i̵n̵g̵.̵r̵e̵d̵u̵c̵e̵E̵q̵,̵i̵f̵_̵t̵r̵u̵e̵,̵i̵f̵_̵f̵a̵l̵s̵e̵]̵[̲p̲h̲y̲s̲i̲c̲a̲l̲S̲t̲a̲t̲e̲,̲ ̲C̲e̲l̲l̲.̲r̲e̲a̲d̲_̲s̲a̲m̲e̲,̲ ̲t̲a̲r̲g̲e̲t̲_̲n̲e̲_̲p̲r̲e̲d̲i̲c̲t̲i̲o̲n̲,̲ ̲i̲f̲_̲t̲r̲u̲e̲,̲ ̲i̲f̲_̲f̲a̲l̲s̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/Checked/Direct.lean:131:36: warning: This simp argument is unused:
+  Function.comp_apply
+
+Hint: Omit it from the simp argument list.
+  simp only [̵r̵o̵w̵J̵o̵b̵s̵,̵L̵i̵s̵t̵.̵m̵a̵p̵_̵m̵a̵p̵,̵F̵u̵n̵c̵t̵i̵o̵n̵.̵c̵o̵m̵p̵_̵a̵p̵p̵l̵y̵,̵N̵a̵t̵.̵s̵u̵c̵c̵_̵m̵u̵l̵,̵L̵i̵s̵t̵.̵r̵a̵n̵g̵e̵_̵a̵d̵d̵]̵[̲r̲o̲w̲J̲o̲b̲s̲,̲ ̲L̲i̲s̲t̲.̲m̲a̲p̲_̲m̲a̲p̲,̲ ̲N̲a̲t̲.̲s̲u̲c̲c̲_̲m̲u̲l̲,̲ ̲L̲i̲s̲t̲.̲r̲a̲n̲g̲e̲_̲a̲d̲d̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/Checked/Direct.lean:209:74: warning: This simp argument is unused:
+  String.reduceEq
+
+Hint: Omit it from the simp argument list.
+  simp only [̵d̵e̵r̵i̵v̵a̵t̵i̵v̵e̵,̵p̵h̵y̵s̵i̵c̵a̵l̵S̵t̵a̵t̵e̵,̵C̵e̵l̵l̵.̵r̵e̵a̵d̵_̵s̵a̵m̵e̵,̵t̵a̵r̵g̵e̵t̵_̵n̵e̵_̵p̵r̵e̵d̵i̵c̵t̵i̵o̵n̵,̵S̵t̵r̵i̵n̵g̵.̵r̵e̵d̵u̵c̵e̵E̵q̵,̵i̵f̵_̵t̵r̵u̵e̵,̵i̵f̵_̵f̵a̵l̵s̵e̵]̵[̲d̲e̲r̲i̲v̲a̲t̲i̲v̲e̲,̲ ̲p̲h̲y̲s̲i̲c̲a̲l̲S̲t̲a̲t̲e̲,̲ ̲C̲e̲l̲l̲.̲r̲e̲a̲d̲_̲s̲a̲m̲e̲,̲ ̲t̲a̲r̲g̲e̲t̲_̲n̲e̲_̲p̲r̲e̲d̲i̲c̲t̲i̲o̲n̲,̲ ̲i̲f̲_̲t̲r̲u̲e̲,̲ ̲i̲f̲_̲f̲a̲l̲s̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.KldivOps.Contiguous.forward_row_executes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.KldivOps.Contiguous.forward_row_value: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.KldivOps.Contiguous.forward_physical_rows: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.KldivOps.Contiguous.forward_complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.KldivOps.Contiguous.backward_row_executes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.KldivOps.Contiguous.backward_row_value: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.KldivOps.Contiguous.backward_complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

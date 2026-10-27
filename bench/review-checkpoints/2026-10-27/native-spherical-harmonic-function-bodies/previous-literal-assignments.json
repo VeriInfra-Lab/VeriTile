@@ -1,0 +1,88 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/flash_decode2_llama/flash_decode2_llama_repaired.py",
+    "function": "_fwd_kernel_flash_decode_stage2",
+    "lines": [
+      13
+    ]
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/flash_decode2_llama/candidate_kernels.py",
+    "function": "_fwd_kernel_flash_decode_stage2_shared_base",
+    "lines": [
+      16
+    ]
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/flash_decode2_phi_block_checked/flash_decode2_phi_block_checked.py",
+    "function": "_fwd_kernel_flash_decode_stage2",
+    "lines": [
+      13
+    ]
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/flash_decode2_phi_block_checked/candidate_kernels.py",
+    "function": "_fwd_kernel_flash_decode_stage2_shared_base",
+    "lines": [
+      16
+    ]
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/geglu_tanh_triton/geglu_tanh_triton_repaired.py",
+    "function": "_geglu_tanh_forward_kernel_repaired",
+    "lines": [
+      21
+    ]
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/geglu_tanh_triton/candidate_kernels.py",
+    "function": "forward_index_commuted_kernel",
+    "lines": [
+      22
+    ]
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/geglu_tanh_triton/geglu_tanh_triton_repaired.py",
+    "function": "_geglu_tanh_backward_kernel_repaired",
+    "lines": [
+      44
+    ]
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/geglu_tanh_triton/candidate_kernels.py",
+    "function": "backward_index_commuted_kernel",
+    "lines": [
+      45
+    ]
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/kldiv_ops/kldiv_ops_repaired.py",
+    "function": "_kldiv_kernel_forward",
+    "lines": [
+      36
+    ]
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/kldiv_ops/candidate_kernels.py",
+    "function": "_kldiv_kernel_forward_index_commuted",
+    "lines": [
+      37
+    ]
+  },
+  {
+    "python": "bench/examples/FusedLayerNorm/native_kernels.py",
+    "function": "fusedLayerNormKernel",
+    "lines": [
+      34,
+      35
+    ]
+  },
+  {
+    "python": "bench/examples/Welford/native_kernels.py",
+    "function": "onlineWelfordKernel",
+    "lines": [
+      32,
+      33
+    ]
+  }
+]

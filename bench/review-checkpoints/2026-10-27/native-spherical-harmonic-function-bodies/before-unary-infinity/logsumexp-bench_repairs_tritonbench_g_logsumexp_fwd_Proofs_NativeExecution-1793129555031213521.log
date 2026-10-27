@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.LogsumexpFwd.RawNative.logsumexp_native_raw: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LogsumexpFwd.blockValue: definition does not reference [VeriTile.Bench.Repairs.LogsumexpFwd.rowBlock,
+ VeriTile.Bench.Repairs.LogsumexpFwd.Source.rowValue,
+ VeriTile.Bench.Repairs.LogsumexpFwd.RawKernel.run] — non-circular ✓

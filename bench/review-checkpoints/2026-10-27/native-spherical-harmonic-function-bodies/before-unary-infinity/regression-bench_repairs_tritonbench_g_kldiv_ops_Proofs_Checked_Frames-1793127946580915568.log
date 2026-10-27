@@ -1,0 +1,19 @@
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/Checked/Frames.lean:34:7: warning: Local variable 'unit' resembles constructor 'PUnit.unit' - write '.unit' (with a dot) or 'PUnit.unit' to use the constructor.
+
+Note: This linter can be disabled with `set_option linter.constructorNameAsVariable false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/Checked/Frames.lean:71:19: warning: This simp argument is unused:
+  Result.bind
+
+Hint: Omit it from the simp argument list.
+  simp only ̵[̵R̵e̵s̵u̵l̵t̵.̵b̵i̵n̵d̵]̵
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/Checked/Frames.lean:90:7: warning: Local variable 'unit' resembles constructor 'PUnit.unit' - write '.unit' (with a dot) or 'PUnit.unit' to use the constructor.
+
+Note: This linter can be disabled with `set_option linter.constructorNameAsVariable false`
+VeriTile.Bench.Repairs.KldivOps.Contiguous.runForward_kept: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.KldivOps.Contiguous.runBackward_kept: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

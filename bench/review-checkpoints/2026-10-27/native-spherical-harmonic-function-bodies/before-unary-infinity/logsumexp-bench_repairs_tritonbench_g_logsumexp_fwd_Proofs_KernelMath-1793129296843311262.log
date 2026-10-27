@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.LogsumexpFwd.KernelMath.block: definition does not reference [VeriTile.Bench.Repairs.LogsumexpFwd.rowBlock,
+ VeriTile.Bench.Repairs.LogsumexpFwd.Source.rowValue,
+ VeriTile.Bench.Repairs.LogsumexpFwd.blockValue] — non-circular ✓
+VeriTile.Bench.Repairs.LogsumexpFwd.KernelMath.block_formula: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

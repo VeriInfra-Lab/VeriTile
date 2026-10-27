@@ -1,0 +1,2 @@
+VeriTile.Bench.Repairs.KldivOps.LocalNumerics.UnaryBound: definition does not reference [VeriTile.Bench.Repairs.KldivOps.Tile.scalar] — non-circular ✓
+VeriTile.Bench.Repairs.KldivOps.LocalNumerics.BinaryBound: definition does not reference [VeriTile.Bench.Repairs.KldivOps.Tile.scalar] — non-circular ✓

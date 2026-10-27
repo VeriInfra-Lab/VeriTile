@@ -1,0 +1,6 @@
+FP assumptions used by geglu_index_commuted_equiv:
+  none
+VeriTile.Bench.Repairs.GegluTanhTriton.geglu_index_commuted_equiv: statement's project surface ⊆ allowlist ✓
+VeriTile.Bench.Repairs.GegluTanhTriton.geglu_index_commuted_equiv: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

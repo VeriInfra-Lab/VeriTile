@@ -1,0 +1,7 @@
+VeriTile.Bench.Repairs.LogsumexpFwd.source_value: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LogsumexpFwd.block_local: axiom footprint ⊆ standard base ✓  ([Quot.sound, propext])
+VeriTile.Bench.Repairs.LogsumexpFwd.block_exec: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

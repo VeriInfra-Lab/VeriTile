@@ -1,0 +1,17 @@
+/tmp/sph88-staging/bench/repairs/tritonbench_g/flash_decode2_phi_block_checked/Contract.lean:35:47: warning: This simp argument is unused:
+  Except.error.injEq
+
+Hint: Omit it from the simp argument list.
+  simp only [̵h̵m̵,̵n̵o̵t̵_̵f̵a̵l̵s̵e̵_̵e̵q̵_̵t̵r̵u̵e̵,̵↓̵r̵e̵d̵u̵c̵e̵I̵t̵e̵,̵E̵x̵c̵e̵p̵t̵.̵e̵r̵r̵o̵r̵.̵i̵n̵j̵E̵q̵,̵r̵e̵d̵u̵c̵e̵C̵t̵o̵r̵E̵q̵,̵f̵a̵l̵s̵e̵_̵i̵f̵f̵,̵n̵o̵t̵_̵a̵n̵d̵]̵[̲h̲m̲,̲ ̲n̲o̲t̲_̲f̲a̲l̲s̲e̲_̲e̲q̲_̲t̲r̲u̲e̲,̲ ̲↓̲r̲e̲d̲u̲c̲e̲I̲t̲e̲,̲ ̲r̲e̲d̲u̲c̲e̲C̲t̲o̲r̲E̲q̲,̲ ̲f̲a̲l̲s̲e̲_̲i̲f̲f̲,̲ ̲n̲o̲t̲_̲a̲n̲d̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.exact_domain: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.check_input_iff: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.empty_domain_unchanged: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.check_arguments_iff: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.arange_bounds: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])

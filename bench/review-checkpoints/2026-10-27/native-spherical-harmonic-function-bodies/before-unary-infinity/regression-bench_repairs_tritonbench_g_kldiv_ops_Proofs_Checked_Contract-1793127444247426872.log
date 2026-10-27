@@ -1,0 +1,10 @@
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/Checked/Contract.lean:22:78: warning: This simp argument is unused:
+  and_assoc
+
+Hint: Omit it from the simp argument list.
+  simp [̵A̵d̵m̵i̵t̵t̵e̵d̵F̵o̵r̵w̵a̵r̵d̵,̵K̵l̵d̵i̵v̵T̵r̵i̵t̵o̵n̵.̵C̵o̵n̵t̵i̵g̵u̵o̵u̵s̵.̵A̵d̵m̵i̵t̵t̵e̵d̵F̵o̵r̵w̵a̵r̵d̵,̵f̵o̵r̵w̵a̵r̵d̵_̵i̵f̵f̵,̵ ̵a̵n̵d̵_̵a̵s̵s̵o̵c̵]̵[̲A̲d̲m̲i̲t̲t̲e̲d̲F̲o̲r̲w̲a̲r̲d̲,̲ ̲K̲l̲d̲i̲v̲T̲r̲i̲t̲o̲n̲.̲C̲o̲n̲t̲i̲g̲u̲o̲u̲s̲.̲A̲d̲m̲i̲t̲t̲e̲d̲F̲o̲r̲w̲a̲r̲d̲,̲ ̲f̲o̲r̲w̲a̲r̲d̲_̲i̲f̲f̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.KldivOps.Contiguous.python_forward_checks_iff: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])

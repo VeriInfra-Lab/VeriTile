@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.GegluTanhTriton.geglu_direct_fp32: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.GegluTanhTriton.geglu_direct_output_bytes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

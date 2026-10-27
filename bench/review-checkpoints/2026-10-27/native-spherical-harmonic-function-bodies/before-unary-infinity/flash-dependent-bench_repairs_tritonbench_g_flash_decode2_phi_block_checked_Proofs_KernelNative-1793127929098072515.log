@@ -1,0 +1,13 @@
+/tmp/sph88-staging/bench/repairs/tritonbench_g/flash_decode2_phi_block_checked/Proofs/KernelNative.lean:79:9: error: unsolved goals
+case zero
+c : Call
+heap : KernelTensor.Heap
+other : State Term
+row : ℕ
+⊢ False
+/tmp/sph88-staging/bench/repairs/tritonbench_g/flash_decode2_phi_block_checked/Proofs/KernelNative.lean:100:0: error: VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.KernelNative.recurrence: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/sph88-staging/bench/repairs/tritonbench_g/flash_decode2_phi_block_checked/Proofs/KernelNative.lean:101:0: error: VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.KernelNative.value: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.KernelNative.target: definition does not reference [VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.KernelModel.run,
+ VeriTile.Bench.Repairs.FlashDecode2.Grid.source,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.FlashDecode2.values] — non-circular ✓

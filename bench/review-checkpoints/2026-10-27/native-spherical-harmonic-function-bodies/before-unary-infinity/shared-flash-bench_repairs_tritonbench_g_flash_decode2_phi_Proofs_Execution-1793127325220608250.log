@@ -1,0 +1,15 @@
+/tmp/sph88-staging/bench/repairs/tritonbench_g/flash_decode2_phi/Proofs/Execution.lean:89:81: error: unsolved goals
+case sum.h
+α : Type
+inst✝ : Inhabited α
+A : FP.Structural.Algebra α
+s : State α
+masked : Bool
+H S D Q BD : ℕ
+k : TileIndex []
+⊢ A.literal (some ComputeDType.fp32) FloatDType.real 0 = A.literal none FloatDType.real 0
+/tmp/sph88-staging/bench/repairs/tritonbench_g/flash_decode2_phi/Proofs/Execution.lean:275:0: error: VeriTile.Bench.Repairs.FlashDecode2.complete: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.Repairs.FlashDecode2.scatter_readback: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2.scatter_frame: axiom footprint ⊆ standard base ✓  ([propext])

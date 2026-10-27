@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.KldivOps.Kernel.loss: definition does not reference [VeriTile.Bench.Repairs.KldivOps.Tile.scalar] — non-circular ✓
+VeriTile.Bench.Repairs.KldivOps.Kernel.forwardTarget: definition does not reference [VeriTile.Bench.Repairs.KldivOps.Program.grid,
+ VeriTile.Bench.Repairs.KldivOps.Tile.scalar,
+ VeriTile.Bench.Repairs.KldivOps.Tile.chunkSum] — non-circular ✓
+VeriTile.Bench.Repairs.KldivOps.Kernel.backwardTarget: definition does not reference [VeriTile.Bench.Repairs.KldivOps.Backward.grid,
+ VeriTile.Bench.Repairs.KldivOps.Backward.scalar] — non-circular ✓

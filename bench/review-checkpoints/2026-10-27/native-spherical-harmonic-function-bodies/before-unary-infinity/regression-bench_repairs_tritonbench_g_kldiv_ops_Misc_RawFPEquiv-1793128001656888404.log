@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.KldivOps.Kernel.RawFPEquiv.forward: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.KldivOps.Kernel.RawFPEquiv.backward: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,9 @@
+/tmp/sph88-staging/bench/repairs/tritonbench_g/logsumexp_fwd/Proofs/Source.lean:48:2: warning: 'all_goals rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/logsumexp_fwd/Proofs/Source.lean:48:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+VeriTile.Bench.Repairs.LogsumexpFwd.Source.row_exec: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

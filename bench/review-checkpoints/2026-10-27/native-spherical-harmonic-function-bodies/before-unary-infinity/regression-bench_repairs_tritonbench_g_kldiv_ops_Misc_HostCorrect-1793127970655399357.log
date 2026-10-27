@@ -1,0 +1,9 @@
+VeriTile.Bench.Repairs.KldivOps.Contiguous.Correct.BackwardTarget: definition does not reference [VeriTile.Bench.Repairs.KldivOps.Contiguous.expectedBackward,
+ VeriTile.Bench.Repairs.KldivOps.Contiguous.derivative,
+ VeriTile.Bench.Repairs.KldivOps.Backward.grid] — non-circular ✓
+VeriTile.Bench.Repairs.KldivOps.Contiguous.Correct.forward: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.KldivOps.Contiguous.Correct.backward: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

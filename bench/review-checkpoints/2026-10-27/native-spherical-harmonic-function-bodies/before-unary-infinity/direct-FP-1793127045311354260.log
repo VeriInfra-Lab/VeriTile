@@ -1,0 +1,66 @@
+/tmp/sph88-staging/bench/examples/Welford/Proofs/FP.lean:52:87: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/sph88-staging/bench/examples/Welford/Proofs/FP.lean:145:4: warning: This simp argument is unused:
+  realRef
+
+Hint: Omit it from the simp argument list.
+  simp [sourceEngine, Algebra.withDefaultPrecision, resolvePrecision, ComputeDType.eraseDType, body,
+  ̲  ̲ ̲ ̲onlineWelfordKernel, ComputeKernel.surfaceBody, run, step, evalExpr, evalComputeOp,
+  ̲  ̲ ̲ ̲evalOp_unfold, numeric, FP.Structural.bop,
+  ̵  ̵ ̵ ̵r̵e̵a̵l̵R̵e̵f̵,̵ ̵State.setReg, hmem, hm, hv, hpid, hxi, Region.cast,
+      Invariant, recurrence, hi, update, hpids]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/sph88-staging/bench/examples/Welford/Proofs/FP.lean:161:127: warning: This simp argument is unused:
+  ComputeDType.eraseDType
+
+Hint: Omit it from the simp argument list.
+  simp [sourceEngine,
+  ̲  ̲ ̲ ̲Algebra.withDefaultPrecision, resolvePrecision, C̵o̵m̵p̵u̵t̵e̵D̵T̵y̵p̵e̵.̵e̵r̵a̵s̵e̵D̵T̵y̵p̵e̵,̵ ̵Invariant, recurrence, s, State.setReg]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/sph88-staging/bench/examples/Welford/Proofs/FP.lean:204:208: warning: This simp argument is unused:
+  realRef
+
+Hint: Omit it from the simp argument list.
+  simp [sourceEngine, Algebra.withDefaultPrecision, resolvePrecision, ComputeDType.eraseDType,
+  ̲  ̲ ̲ ̲ ̲ ̲outputCode, onlineWelfordKernel, ComputeKernel.surfaceBody, run, step, evalExpr,
+  ̲  ̲ ̲ ̲ ̲ ̲evalComputeOp, evalOp_unfold, r̵e̵a̵l̵R̵e̵f̵,̵ ̵hm, hv, numeric,
+  ̵  ̵ ̵ ̵ ̵ ̵FP.Structural.bop, store, TileShape.allIndices,
+  ̲  ̲ ̲ ̲ ̲ ̲Region.cast, meanValue, varianceValue,
+  ̵  ̵ ̵ ̵ ̵ ̵t, counted, State.write, ofFloat, toFloat]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/sph88-staging/bench/examples/Welford/Proofs/FP.lean:294:19: warning: This simp argument is unused:
+  sourceEngine
+
+Hint: Omit it from the simp argument list.
+  simp [s̵o̵u̵r̵c̵e̵E̵n̵g̵i̵n̵e̵,̵ ̵Algebra.withDefaultPrecision, resolvePrecision, ComputeDType.eraseDType,
+  ̲  ̲ ̲ ̲IO₁ₓ₂PrivateScratch, onlineIO]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/sph88-staging/bench/examples/Welford/Proofs/FP.lean:294:33: warning: This simp argument is unused:
+  Algebra.withDefaultPrecision
+
+Hint: Omit it from the simp argument list.
+  simp [sourceEngine, A̵l̵g̵e̵b̵r̵a̵.̵w̵i̵t̵h̵D̵e̵f̵a̵u̵l̵t̵P̵r̵e̵c̵i̵s̵i̵o̵n̵,̵ ̵resolvePrecision, ComputeDType.eraseDType, IO₁ₓ₂PrivateScratch,
+  ̲  ̲ ̲ ̲onlineIO]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/sph88-staging/bench/examples/Welford/Proofs/FP.lean:294:63: warning: This simp argument is unused:
+  resolvePrecision
+
+Hint: Omit it from the simp argument list.
+  simp [sourceEngine, Algebra.withDefaultPrecision, r̵e̵s̵o̵l̵v̵e̵P̵r̵e̵c̵i̵s̵i̵o̵n̵,̵ ̵ComputeDType.eraseDType,
+  ̲  ̲ ̲ ̲IO₁ₓ₂PrivateScratch, onlineIO]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/sph88-staging/bench/examples/Welford/Proofs/FP.lean:294:81: warning: This simp argument is unused:
+  ComputeDType.eraseDType
+
+Hint: Omit it from the simp argument list.
+  simp [sourceEngine, Algebra.withDefaultPrecision, resolvePrecision,
+  ̲  ̲ ̲ ̲C̵o̵m̵p̵u̵t̵e̵D̵T̵y̵p̵e̵.̵e̵r̵a̵s̵e̵D̵T̵y̵p̵e̵,̵ ̵IO₁ₓ₂PrivateScratch, onlineIO]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

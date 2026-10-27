@@ -1,0 +1,18 @@
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/GridPair.lean:64:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.KldivOps.Interface.forward_equivalence`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/GridPair.lean:98:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.KldivOps.Interface.backward_equivalence`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+VeriTile.Bench.Repairs.KldivOps.Interface.forward_equivalence: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.KldivOps.Interface.backward_equivalence: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,44 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/flash_decode2_llama/flash_decode2_llama_repaired.py",
+    "function": "_fwd_kernel_flash_decode_stage2",
+    "lines": [
+      14
+    ]
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/flash_decode2_llama/candidate_kernels.py",
+    "function": "_fwd_kernel_flash_decode_stage2_shared_base",
+    "lines": [
+      17
+    ]
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/flash_decode2_phi_block_checked/flash_decode2_phi_block_checked.py",
+    "function": "_fwd_kernel_flash_decode_stage2",
+    "lines": [
+      14
+    ]
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/flash_decode2_phi_block_checked/candidate_kernels.py",
+    "function": "_fwd_kernel_flash_decode_stage2_shared_base",
+    "lines": [
+      17
+    ]
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/logsumexp_fwd/logsumexp_fwd_repaired.py",
+    "function": "logsumexp_fwd_kernel",
+    "lines": [
+      40
+    ]
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/logsumexp_fwd/logsumexp_fwd_optimized.py",
+    "function": "logsumexp_fwd_kernel_optimized",
+    "lines": [
+      43
+    ]
+  }
+]

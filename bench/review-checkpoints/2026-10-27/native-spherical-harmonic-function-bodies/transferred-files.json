@@ -1,0 +1,53 @@
+{
+  "parent": "d3e3a84ab2768b3a05fe599b106e034ea4d2138e",
+  "shared_core_changed": [
+    "VeriTile/Triton/DSL/TypedStores.lean"
+  ],
+  "files": {
+    "VeriTile/Triton/DSL/TypedStores.lean": "4401a31ed5c8ca6b0d66a164dfc6907ee821da731a93f11ddecd1c05508d80c2",
+    "bench/examples/FusedLayerNorm/Proofs/Real.lean": "19c5f8eb02cac5030996ccb150ed9ecb4e0423ca4c1b8aa7b2186a37069453d4",
+    "bench/examples/Welford/Proofs/FP.lean": "dfb5bb7be1fbd4cf3daa8943350152ee9642f61ffaa1b529966c600f7fb707be",
+    "bench/examples/Welford/Proofs/Real.lean": "76f52021cb463656c5f5783a4738a644dea326ba2e1ef2dab58294ab5b44dbab",
+    "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Kernels.lean": "03df4d7121d3f8accb15a74d458bce98f0d22ae5e751d72d2a5088ca77245d4c",
+    "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Proofs/Execution.lean": "73881d301aef1ff097a90fb9b1ea284215439b735b277f2dd2f287c7dee5e543",
+    "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Proofs/Grid.lean": "d741af19538391df9d745719ffb04179cfd98d8bf8dc3f9084ece7a53550cf13",
+    "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Proofs/KernelSafety.lean": "71bfbca65422b9853dcc809309a36e01b56aad6ed48f3d5e0208008d5243dd23",
+    "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Proofs/SourceBridge.lean": "97cdb0bd283bb5c909be04afe9abc028b56cda64d0e19f3ae890f5d6a5640d30",
+    "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/README.md": "c97c74b9094e0931dc059a17cd211aa77c6fea2431f1b8fc44469db0c6d4ba3d",
+    "bench/repairs/tritonbench_g/flash_decode2_phi/Proofs/Execution.lean": "d1bfdb743b3c8d5dcb5fc6ac0c58459cf925b8754d2a207447692eee366a048d",
+    "bench/repairs/tritonbench_g/flash_decode2_phi_block_checked/Proofs/KernelNative.lean": "412b0481b0a047321fe3170919458355c34298a6dca2471f3244cccbe1e2eee8",
+    "bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Scalar.lean": "0be01823bf0ba5cb50baf916d67a30823d976dd49bf0c200bb63040d2b57970d",
+    "bench/tests/test_jit_correspondence.py": "ce2f64e70582b1b890562250542e07fcc03dcd48d893d884d41394c147f5b67c",
+    "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Proofs/SourceExecution.lean": "4ac5c61771ba3fb488011b504cef7050790dce174195ce287ae3da9fd40dddc7",
+    "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/candidate_kernels.py": "26a96e7589c31f286501ad7442c0c3b88f1a0f723bfebe30fcd3f0b7b4727124",
+    "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/jit-correspondence.json": "bf0835ec73efd36416bc42f1b81624fb05c4a55249e7fc92166e28f76e744fd3",
+    "bench/tests/ScalarAssignmentBody.lean": "ceca702086167cd3157ec5c1707b2d03aa564266c03d831ba107e166f925d45b",
+    "lakefile.toml": "710372652658db1806fc7902b9959ded32761263ede53151c948606325cd3b3e",
+    "bench/tests/TypedStores.lean": "1e01ed6d8f0e03848d505f5a5ca836b8b1418a874f9af96927b6d60ac40bc747"
+  },
+  "code_commit": "00403655a67e14766d5a875f6dd350704fcc2bcb",
+  "original_python_wrappers_and_public_statements_unchanged": true,
+  "registration_fix": {
+    "initial_source_commit": "2043cf5d3567315f8cf56182dc6010afe35833a8",
+    "final_source_commit": "81ab3835a267e18efa860a0c474ba58241202d2e",
+    "only_changed_file": "lakefile.toml",
+    "reason": "Register the existing verified ScalarAssignmentBody module for cumulative Lake builds. Both first cumulative invocations stopped at target resolution before elaboration.",
+    "all_lean_python_and_manifest_bytes_unchanged": true,
+    "retained_inspection_commit": "2043cf5d3567315f8cf56182dc6010afe35833a8"
+  },
+  "unary_infinity_fix": {
+    "previous_code_commit": "81ab3835a267e18efa860a0c474ba58241202d2e",
+    "files": {
+      "VeriTile/Triton/DSL/TypedStores.lean": {
+        "before": "52061bddac864f481692aa30d291103007429648bc37c42e361dfc681cdbd0c6",
+        "after": "4401a31ed5c8ca6b0d66a164dfc6907ee821da731a93f11ddecd1c05508d80c2"
+      },
+      "bench/tests/TypedStores.lean": {
+        "before": "37138715220d3544f313dc8295af7d7014cdb8f5f77a64cfe3aa4c4426c847ea",
+        "after": "1e01ed6d8f0e03848d505f5a5ca836b8b1418a874f9af96927b6d60ac40bc747"
+      }
+    },
+    "reason": "The dedicated -float(...) syntax was missing from the infinity exemption. Preserve its infinity primitive, including -float(-inf) positive bit pattern. Update three earlier test expectations for assigned finite scalar precision and typed store operands. The earlier cumulative build exposed these cases; retain its failure logs.",
+    "final_source_commit": "00403655a67e14766d5a875f6dd350704fcc2bcb"
+  }
+}

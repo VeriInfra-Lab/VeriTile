@@ -1,0 +1,30 @@
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/Broadcast.lean:38:43: warning: This simp argument is unused:
+  Option.bind_some
+
+Hint: Omit it from the simp argument list.
+  simp only [̵b̵r̵o̵a̵d̵c̵a̵s̵t̵R̵e̵v̵e̵r̵s̵e̵,̵h̵r̵,̵O̵p̵t̵i̵o̵n̵.̵b̵i̵n̵d̵_̵s̵o̵m̵e̵,̵i̵f̵_̵n̵e̵g̵ ̵e̵q̵,̵i̵f̵_̵p̵o̵s̵ ̵o̵n̵e̵,̵O̵p̵t̵i̵o̵n̵.̵s̵o̵m̵e̵.̵i̵n̵j̵E̵q̵]̵[̲b̲r̲o̲a̲d̲c̲a̲s̲t̲R̲e̲v̲e̲r̲s̲e̲,̲ ̲h̲r̲,̲ ̲i̲f̲_̲n̲e̲g̲ ̲e̲q̲,̲ ̲i̲f̲_̲p̲o̲s̲ ̲o̲n̲e̲,̲ ̲O̲p̲t̲i̲o̲n̲.̲s̲o̲m̲e̲.̲i̲n̲j̲E̲q̲]̲ at h
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/Broadcast.lean:38:81: warning: This simp argument is unused:
+  Option.some.injEq
+
+Hint: Omit it from the simp argument list.
+  simp only [̵b̵r̵o̵a̵d̵c̵a̵s̵t̵R̵e̵v̵e̵r̵s̵e̵,̵h̵r̵,̵O̵p̵t̵i̵o̵n̵.̵b̵i̵n̵d̵_̵s̵o̵m̵e̵,̵i̵f̵_̵n̵e̵g̵ ̵e̵q̵,̵i̵f̵_̵p̵o̵s̵ ̵o̵n̵e̵,̵O̵p̵t̵i̵o̵n̵.̵s̵o̵m̵e̵.̵i̵n̵j̵E̵q̵]̵[̲b̲r̲o̲a̲d̲c̲a̲s̲t̲R̲e̲v̲e̲r̲s̲e̲,̲ ̲h̲r̲,̲ ̲O̲p̲t̲i̲o̲n̲.̲b̲i̲n̲d̲_̲s̲o̲m̲e̲,̲ ̲i̲f̲_̲n̲e̲g̲ ̲e̲q̲,̲ ̲i̲f̲_̲p̲o̲s̲ ̲o̲n̲e̲]̲ at h
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/Broadcast.lean:43:45: warning: This simp argument is unused:
+  Option.bind_some
+
+Hint: Omit it from the simp argument list.
+  simp only [̵b̵r̵o̵a̵d̵c̵a̵s̵t̵R̵e̵v̵e̵r̵s̵e̵,̵h̵r̵,̵O̵p̵t̵i̵o̵n̵.̵b̵i̵n̵d̵_̵s̵o̵m̵e̵,̵i̵f̵_̵n̵e̵g̵ ̵e̵q̵,̵i̵f̵_̵n̵e̵g̵ ̵o̵n̵e̵,̵i̵f̵_̵p̵o̵s̵ ̵o̵t̵h̵e̵r̵,̵O̵p̵t̵i̵o̵n̵.̵s̵o̵m̵e̵.̵i̵n̵j̵E̵q̵]̵[̲b̲r̲o̲a̲d̲c̲a̲s̲t̲R̲e̲v̲e̲r̲s̲e̲,̲ ̲h̲r̲,̲ ̲i̲f̲_̲n̲e̲g̲ ̲e̲q̲,̲ ̲i̲f̲_̲n̲e̲g̲ ̲o̲n̲e̲,̲ ̲i̲f̲_̲p̲o̲s̲ ̲o̲t̲h̲e̲r̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲O̲p̲t̲i̲o̲n̲.̲s̲o̲m̲e̲.̲i̲n̲j̲E̲q̲]̲ at h
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/Broadcast.lean:43:96: warning: This simp argument is unused:
+  Option.some.injEq
+
+Hint: Omit it from the simp argument list.
+  simp only [̵b̵r̵o̵a̵d̵c̵a̵s̵t̵R̵e̵v̵e̵r̵s̵e̵,̵h̵r̵,̵O̵p̵t̵i̵o̵n̵.̵b̵i̵n̵d̵_̵s̵o̵m̵e̵,̵i̵f̵_̵n̵e̵g̵ ̵e̵q̵,̵i̵f̵_̵n̵e̵g̵ ̵o̵n̵e̵,̵i̵f̵_̵p̵o̵s̵ ̵o̵t̵h̵e̵r̵,̵O̵p̵t̵i̵o̵n̵.̵s̵o̵m̵e̵.̵i̵n̵j̵E̵q̵]̵[̲b̲r̲o̲a̲d̲c̲a̲s̲t̲R̲e̲v̲e̲r̲s̲e̲,̲ ̲h̲r̲,̲ ̲O̲p̲t̲i̲o̲n̲.̲b̲i̲n̲d̲_̲s̲o̲m̲e̲,̲ ̲i̲f̲_̲n̲e̲g̲ ̲e̲q̲,̲ ̲i̲f̲_̲n̲e̲g̲ ̲o̲n̲e̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲i̲f̲_̲p̲o̲s̲ ̲o̲t̲h̲e̲r̲]̲ at h
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

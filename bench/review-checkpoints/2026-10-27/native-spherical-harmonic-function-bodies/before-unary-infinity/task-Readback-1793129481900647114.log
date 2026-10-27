@@ -1,0 +1,9 @@
+/tmp/sph88-staging/bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Proofs/Readback.lean:25:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Readback.output_injective`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Readback.backward_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

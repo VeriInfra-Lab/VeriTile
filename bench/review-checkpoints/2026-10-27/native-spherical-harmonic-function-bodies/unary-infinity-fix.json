@@ -1,0 +1,15 @@
+{
+  "previous_code_commit": "81ab3835a267e18efa860a0c474ba58241202d2e",
+  "files": {
+    "VeriTile/Triton/DSL/TypedStores.lean": {
+      "before": "52061bddac864f481692aa30d291103007429648bc37c42e361dfc681cdbd0c6",
+      "after": "4401a31ed5c8ca6b0d66a164dfc6907ee821da731a93f11ddecd1c05508d80c2"
+    },
+    "bench/tests/TypedStores.lean": {
+      "before": "37138715220d3544f313dc8295af7d7014cdb8f5f77a64cfe3aa4c4426c847ea",
+      "after": "1e01ed6d8f0e03848d505f5a5ca836b8b1418a874f9af96927b6d60ac40bc747"
+    }
+  },
+  "reason": "The dedicated -float(...) syntax was missing from the infinity exemption. Preserve its infinity primitive, including -float(-inf) positive bit pattern. Update three earlier test expectations for assigned finite scalar precision and typed store operands. The earlier cumulative build exposed these cases; retain its failure logs.",
+  "final_source_commit": "00403655a67e14766d5a875f6dd350704fcc2bcb"
+}

@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.LogsumexpFwd.block_traceSafe: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

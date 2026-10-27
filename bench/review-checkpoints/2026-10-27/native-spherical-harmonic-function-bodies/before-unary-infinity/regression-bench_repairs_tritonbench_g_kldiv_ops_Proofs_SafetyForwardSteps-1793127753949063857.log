@@ -1,0 +1,21 @@
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/SafetyForwardSteps.lean:48:2: warning: 'all_goals norm_num only' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/SafetyForwardSteps.lean:67:2: warning: 'all_goals norm_num only' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/SafetyForwardSteps.lean:95:2: warning: 'all_goals rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/SafetyForwardSteps.lean:95:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/SafetyForwardSteps.lean:114:2: warning: 'all_goals rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/SafetyForwardSteps.lean:114:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/SafetyForwardSteps.lean:132:2: warning: 'all_goals norm_num only' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`

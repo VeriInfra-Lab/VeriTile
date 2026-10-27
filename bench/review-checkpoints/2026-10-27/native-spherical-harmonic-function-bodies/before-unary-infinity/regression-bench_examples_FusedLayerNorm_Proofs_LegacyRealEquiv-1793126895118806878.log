@@ -1,0 +1,7 @@
+VeriTile.Bench.Examples.LayerNorm.layernorm_kernels_refinement_view: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Examples.LayerNorm.layernorm_equiv: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Examples.LayerNorm.layernorm_equiv: statement's project surface ⊆ allowlist ✓

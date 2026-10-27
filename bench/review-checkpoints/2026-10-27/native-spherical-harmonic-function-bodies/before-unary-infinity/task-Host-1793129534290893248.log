@@ -1,0 +1,21 @@
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Host.destination: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Host.parameters_fit: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Host.parameters_launch: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Host.saved_identity: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Host.saved_version: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Host.saved_contents: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Host.returned_metadata: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Host.backward_arity: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Host.backward_identity: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Host.supplied_identity: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Host.zeroGradient_read: axiom footprint ⊆ standard base ✓  ([Quot.sound,
+ propext,
+ Classical.choice])

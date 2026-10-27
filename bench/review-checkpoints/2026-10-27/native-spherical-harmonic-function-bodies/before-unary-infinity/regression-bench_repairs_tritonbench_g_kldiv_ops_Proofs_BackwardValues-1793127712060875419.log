@@ -1,0 +1,10 @@
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/BackwardValues.lean:113:10: warning: This simp argument is unused:
+  mode
+
+Hint: Omit it from the simp argument list.
+  simp [m̵o̵d̵e̵,̵f.gradientShape]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.KldivOps.Host.backwardKernelValue: definition does not reference [VeriTile.Bench.Repairs.KldivOps.Backward.grid,
+ VeriTile.Bench.Repairs.KldivOps.Backward.gridModel,
+ VeriTile.Bench.Repairs.KldivOps.Backward.loopModel] — non-circular ✓

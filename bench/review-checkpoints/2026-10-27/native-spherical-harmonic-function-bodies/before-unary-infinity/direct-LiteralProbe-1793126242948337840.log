@@ -1,0 +1,6 @@
+/tmp/sph88-staging/LiteralProbe.lean:15:58: error: Type mismatch
+  rfl
+has type
+  ?m.3 = ?m.3
+but is expected to have type
+  copied Y = explicitTensor Y

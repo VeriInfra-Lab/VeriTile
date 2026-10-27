@@ -1,0 +1,8 @@
+VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.KernelIdealReadback.real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.KernelIdealReadback.exterior: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.KernelIdealReadback.output: definition does not reference [VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.KernelReal.target,
+ VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.KernelEndpoints.real] — non-circular ✓

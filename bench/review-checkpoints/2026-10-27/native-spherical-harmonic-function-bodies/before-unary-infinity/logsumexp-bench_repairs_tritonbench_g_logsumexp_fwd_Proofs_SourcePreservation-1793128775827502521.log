@@ -1,0 +1,26 @@
+/tmp/sph88-staging/bench/repairs/tritonbench_g/logsumexp_fwd/Proofs/SourcePreservation.lean:14:0: error: Not a definitional equality: the left-hand side
+  List.take 10 (rowBlock x z D B scaled).surfaceBody
+is not definitionally equal to the right-hand side
+  List.take 10 (LegacyPastedSurface.rowBlock x z D B scaled).surfaceBody
+/tmp/sph88-staging/bench/repairs/tritonbench_g/logsumexp_fwd/Proofs/SourcePreservation.lean:16:75: error: Type mismatch
+  rfl
+has type
+  ?m.9 = ?m.9
+but is expected to have type
+  List.take 10 (rowBlock x z D B scaled).surfaceBody =
+    List.take 10 (LegacyPastedSurface.rowBlock x z D B scaled).surfaceBody
+/tmp/sph88-staging/bench/repairs/tritonbench_g/logsumexp_fwd/Proofs/SourcePreservation.lean:18:0: error: Not a definitional equality: the left-hand side
+  List.take 9 (rowBlockCandidate x z D B scaled).surfaceBody
+is not definitionally equal to the right-hand side
+  List.take 9 (LegacyPastedSurface.rowBlockCandidate x z D B scaled).surfaceBody
+/tmp/sph88-staging/bench/repairs/tritonbench_g/logsumexp_fwd/Proofs/SourcePreservation.lean:20:83: error: Type mismatch
+  rfl
+has type
+  ?m.9 = ?m.9
+but is expected to have type
+  List.take 9 (rowBlockCandidate x z D B scaled).surfaceBody =
+    List.take 9 (LegacyPastedSurface.rowBlockCandidate x z D B scaled).surfaceBody
+/tmp/sph88-staging/bench/repairs/tritonbench_g/logsumexp_fwd/Proofs/SourcePreservation.lean:56:0: error: VeriTile.Bench.Repairs.LogsumexpFwd.SourcePreservation.source_prefix: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/sph88-staging/bench/repairs/tritonbench_g/logsumexp_fwd/Proofs/SourcePreservation.lean:57:0: error: VeriTile.Bench.Repairs.LogsumexpFwd.SourcePreservation.candidate_prefix: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/sph88-staging/bench/repairs/tritonbench_g/logsumexp_fwd/Proofs/SourcePreservation.lean:58:0: error: VeriTile.Bench.Repairs.LogsumexpFwd.SourcePreservation.original: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/sph88-staging/bench/repairs/tritonbench_g/logsumexp_fwd/Proofs/SourcePreservation.lean:59:0: error: VeriTile.Bench.Repairs.LogsumexpFwd.SourcePreservation.candidate: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

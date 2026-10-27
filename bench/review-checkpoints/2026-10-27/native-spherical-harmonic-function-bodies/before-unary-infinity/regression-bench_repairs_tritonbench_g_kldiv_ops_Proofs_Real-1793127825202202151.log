@@ -1,0 +1,10 @@
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/Real.lean:78:22: warning: This simp argument is unused:
+  algebra
+
+Hint: Omit it from the simp argument list.
+  simp [̵h̵,̵T̵i̵l̵e̵.̵z̵e̵r̵o̵,̵a̵l̵g̵e̵b̵r̵a̵]̵[̲h̲,̲ ̲T̲i̲l̲e̲.̲z̲e̲r̲o̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.KldivOps.RealExecution.forward: definition does not reference [VeriTile.Bench.Repairs.KldivOps.Tile.scalar,
+ VeriTile.Bench.Repairs.KldivOps.Tile.chunkSum,
+ VeriTile.Bench.Repairs.KldivOps.RealExecution.algebra] — non-circular ✓

@@ -1,0 +1,10 @@
+VeriTile.Bench.Repairs.GegluTanhTriton.RealExecution.formula: definition does not reference [VeriTile.Bench.Repairs.GegluTanhTriton.source,
+ VeriTile.Bench.Repairs.GegluTanhTriton.indexCommutedSource,
+ VeriTile.Bench.Repairs.GegluTanhTriton.selectedSource,
+ VeriTile.Bench.Repairs.GegluTanhTriton.Tile.scalar] — non-circular ✓
+VeriTile.Bench.Repairs.GegluTanhTriton.RawCorrect.geglu_kernel_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.GegluTanhTriton.Math.backward_is_gradient: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,10 @@
+/tmp/sph88-staging/bench/repairs/tritonbench_g/flash_decode2_phi/Proofs/Execution.lean:99:2: warning: 'all_goals try norm_num' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+VeriTile.Bench.Repairs.FlashDecode2.complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2.scatter_readback: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2.scatter_frame: axiom footprint ⊆ standard base ✓  ([propext])

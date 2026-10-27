@@ -1,0 +1,7 @@
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/HostBackwardFinish.lean:96:15: warning: This simp argument is unused:
+  Bool.true_eq
+
+Hint: Omit it from the simp argument list.
+  simp only [̵B̵o̵o̵l̵.̵t̵r̵u̵e̵_̵e̵q̵,̵i̵t̵e̵_̵t̵r̵u̵e̵,̵p̵u̵r̵e̵,̵R̵e̵s̵u̵l̵t̵.̵o̵k̵.̵i̵n̵j̵E̵q̵]̵[̲i̲t̲e̲_̲t̲r̲u̲e̲,̲ ̲p̲u̲r̲e̲,̲ ̲R̲e̲s̲u̲l̲t̲.̲o̲k̲.̲i̲n̲j̲E̲q̲]̲ at h
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

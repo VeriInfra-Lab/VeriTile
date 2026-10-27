@@ -1,0 +1,17 @@
+[
+  {
+    "module": "bench.repairs.tritonbench_g.fifth_order_sph_harmonics.Contract",
+    "log": "/tmp/sph88-task-Contract-1793125653329462226.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.fifth_order_sph_harmonics.Proofs.Reference",
+    "log": "/tmp/sph88-task-Reference-1793125656135632517.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.fifth_order_sph_harmonics.Proofs.Execution",
+    "log": "/tmp/sph88-task-Execution-1793125739679628115.log",
+    "exit_code": 1
+  }
+]

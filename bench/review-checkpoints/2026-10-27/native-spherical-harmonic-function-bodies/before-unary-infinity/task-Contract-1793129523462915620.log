@@ -1,0 +1,21 @@
+/tmp/sph88-staging/bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Proofs/Contract.lean:14:27: warning: 'omega' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Proofs/Contract.lean:19:27: warning: 'omega' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Proofs/Contract.lean:14:27: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Proofs/Contract.lean:19:27: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.forwardCheck_iff: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.backwardCheck_iff: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.rejected_forward_iff: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.FifthOrderSphHarmonics.rejected_backward_iff: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

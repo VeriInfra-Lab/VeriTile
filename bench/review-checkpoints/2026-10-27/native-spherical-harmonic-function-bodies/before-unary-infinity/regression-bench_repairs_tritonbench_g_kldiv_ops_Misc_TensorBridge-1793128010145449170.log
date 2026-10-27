@@ -1,0 +1,19 @@
+VeriTile.Bench.Repairs.KldivOps.Kernel.TensorBridge.Correct.forward: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.KldivOps.Kernel.TensorBridge.Correct.backward: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.KldivOps.Kernel.TensorBridge.FPEquiv.forwardTarget: definition does not reference [VeriTile.Bench.Repairs.KldivOps.forward,
+ VeriTile.Bench.Repairs.KldivOps.Kernel.executeForward,
+ VeriTile.Bench.Repairs.KldivOps.Contiguous.forwardKernel,
+ VeriTile.Bench.Repairs.KldivOps.Contiguous.forwardExpected] — non-circular ✓
+VeriTile.Bench.Repairs.KldivOps.Kernel.TensorBridge.FPEquiv.backwardTarget: definition does not reference [VeriTile.Bench.Repairs.KldivOps.backward,
+ VeriTile.Bench.Repairs.KldivOps.Kernel.executeBackward,
+ VeriTile.Bench.Repairs.KldivOps.Contiguous.backwardKernel] — non-circular ✓
+VeriTile.Bench.Repairs.KldivOps.Kernel.TensorBridge.FPEquiv.forward: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.KldivOps.Kernel.TensorBridge.FPEquiv.backward: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

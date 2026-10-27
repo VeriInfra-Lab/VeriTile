@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.GegluTanhTriton.DirectHost.valid: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.GegluTanhTriton.DirectHost.indices: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.GegluTanhTriton.DirectHost.pointer: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])

@@ -1,0 +1,7 @@
+/tmp/sph88-staging/bench/repairs/tritonbench_g/kldiv_ops/Proofs/LogicalReader.lean:84:39: warning: This simp argument is unused:
+  if_pos rfl
+
+Hint: Omit it from the simp argument list.
+  simp only [̵l̵o̵g̵i̵c̵a̵l̵F̵o̵r̵w̵a̵r̵d̵F̵o̵r̵m̵u̵l̵a̵,̵i̵f̵_̵p̵o̵s̵ ̵r̵f̵l̵,̵I̵n̵t̵e̵r̵f̵a̵c̵e̵.̵c̵o̵l̵u̵m̵n̵A̵t̵,̵d̵i̵f̵_̵p̵o̵s̵[̲l̲o̲g̲i̲c̲a̲l̲F̲o̲r̲w̲a̲r̲d̲F̲o̲r̲m̲u̲l̲a̲,̲ ̲I̲n̲t̲e̲r̲f̲a̲c̲e̲.̲c̲o̲l̲u̲m̲n̲A̲t̲,̲ ̲d̲i̲f̲_̲p̲o̲s̲ hc]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

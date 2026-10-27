@@ -1,0 +1,5 @@
+FP assumptions used by geglu_index_commuted_equiv:
+  none
+VeriTile.Bench.Repairs.GegluTanhTriton.RawNative.geglu_index_commuted_equiv: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

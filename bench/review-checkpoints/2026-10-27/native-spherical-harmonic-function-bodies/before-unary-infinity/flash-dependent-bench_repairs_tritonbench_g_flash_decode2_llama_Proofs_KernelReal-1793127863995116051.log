@@ -1,0 +1,11 @@
+/tmp/sph88-staging/bench/repairs/tritonbench_g/flash_decode2_llama/Proofs/KernelReal.lean:55:2: warning: 'change some (Reference.target x v (count s c.val.blockSeq) k) = _' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelReal.value: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FlashDecode2Llama.KernelReal.target: definition does not reference [VeriTile.Bench.Repairs.FlashDecode2Llama.KernelModel.run,
+ VeriTile.Bench.Repairs.FlashDecode2.Grid.source,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.FlashDecode2.values,
+ VeriTile.Bench.Repairs.FlashDecode2.Reference.recurrence] — non-circular ✓

@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/tmp/veritile-pr18-review/bench/repairs/tritonbench_g/fifth_order_sph_harmonics/test_revision.py", line 9, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'

@@ -1,0 +1,6 @@
+/tmp/sph88-staging/ForwardProbe.lean:10:2: error: Type mismatch
+  TritonBenchG.FifthOrderSphHarmonics.TypedFP.execution M (forwardParameters p) s
+has type
+  { t // FP.Structural.exec M (TritonBenchG.FifthOrderSphHarmonics.TypedFP.kernel (forwardParameters p)) s = some t }
+but is expected to have type
+  { t // FP.Structural.exec M (forwardKernel p) s = some t }

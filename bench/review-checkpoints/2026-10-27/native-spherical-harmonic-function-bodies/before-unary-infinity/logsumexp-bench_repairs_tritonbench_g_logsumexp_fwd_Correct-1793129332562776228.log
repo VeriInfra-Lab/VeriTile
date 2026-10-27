@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.LogsumexpFwd.Correct.logsumexp_kernel_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

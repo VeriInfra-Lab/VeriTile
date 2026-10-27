@@ -1,0 +1,8 @@
+VeriTile.Bench.Repairs.GegluTanhTriton.Reference.native: definition does not reference [VeriTile.Bench.Repairs.GegluTanhTriton.source,
+ VeriTile.Bench.Repairs.GegluTanhTriton.indexCommutedSource,
+ VeriTile.Bench.Repairs.GegluTanhTriton.selectedSource,
+ VeriTile.Bench.Repairs.GegluTanhTriton.Tile.scalar] — non-circular ✓
+VeriTile.Bench.Repairs.GegluTanhTriton.geglu_kernel_fp32: statement's project surface ⊆ allowlist ✓
+VeriTile.Bench.Repairs.GegluTanhTriton.geglu_kernel_fp32: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

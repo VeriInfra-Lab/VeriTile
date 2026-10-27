@@ -1,0 +1,97 @@
+[
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.Proofs.RawInterface",
+    "log": "/tmp/sph88-flash-dependent-bench_repairs_tritonbench_g_flash_decode2_phi_block_checked_Proofs_RawInterface-1793128115628116307.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.IO",
+    "log": "/tmp/sph88-flash-dependent-bench_repairs_tritonbench_g_flash_decode2_phi_block_checked_IO-1793128119061299541.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.Proofs.PublicIO",
+    "log": "/tmp/sph88-flash-dependent-bench_repairs_tritonbench_g_flash_decode2_phi_block_checked_Proofs_PublicIO-1793128122299598958.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.Proofs.RealIO",
+    "log": "/tmp/sph88-flash-dependent-bench_repairs_tritonbench_g_flash_decode2_phi_block_checked_Proofs_RealIO-1793128125928508436.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.Proofs.LogicalIO",
+    "log": "/tmp/sph88-flash-dependent-bench_repairs_tritonbench_g_flash_decode2_phi_block_checked_Proofs_LogicalIO-1793128129878896297.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.Correct",
+    "log": "/tmp/sph88-flash-dependent-bench_repairs_tritonbench_g_flash_decode2_phi_block_checked_Correct-1793128133340291361.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.PairIO",
+    "log": "/tmp/sph88-flash-dependent-bench_repairs_tritonbench_g_flash_decode2_phi_block_checked_PairIO-1793128137526603380.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.Proofs.NativeIO",
+    "log": "/tmp/sph88-flash-dependent-bench_repairs_tritonbench_g_flash_decode2_phi_block_checked_Proofs_NativeIO-1793128140022448456.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.Proofs.SourcePair",
+    "log": "/tmp/sph88-flash-dependent-bench_repairs_tritonbench_g_flash_decode2_phi_block_checked_Proofs_SourcePair-1793128143081849755.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.Proofs.IOPair",
+    "log": "/tmp/sph88-flash-dependent-bench_repairs_tritonbench_g_flash_decode2_phi_block_checked_Proofs_IOPair-1793128152905770414.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.FPEquiv",
+    "log": "/tmp/sph88-flash-dependent-bench_repairs_tritonbench_g_flash_decode2_phi_block_checked_FPEquiv-1793128155489311069.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.Misc.NativeCorrect",
+    "log": "/tmp/sph88-flash-dependent-bench_repairs_tritonbench_g_flash_decode2_phi_block_checked_Misc_NativeCorrect-1793128158509989475.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.Proofs.KernelEndpoints",
+    "log": "/tmp/sph88-flash-dependent-bench_repairs_tritonbench_g_flash_decode2_phi_block_checked_Proofs_KernelEndpoints-1793128162076773247.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.Proofs.KernelReadback",
+    "log": "/tmp/sph88-flash-dependent-bench_repairs_tritonbench_g_flash_decode2_phi_block_checked_Proofs_KernelReadback-1793128165683962559.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.Proofs.KernelIdealReadback",
+    "log": "/tmp/sph88-flash-dependent-bench_repairs_tritonbench_g_flash_decode2_phi_block_checked_Proofs_KernelIdealReadback-1793128169833107303.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.Misc.TensorBridge",
+    "log": "/tmp/sph88-flash-dependent-bench_repairs_tritonbench_g_flash_decode2_phi_block_checked_Misc_TensorBridge-1793128173214531583.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.Misc.RawResults",
+    "log": "/tmp/sph88-flash-dependent-bench_repairs_tritonbench_g_flash_decode2_phi_block_checked_Misc_RawResults-1793128176782623700.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.Misc.SourceAudit",
+    "log": "/tmp/sph88-flash-dependent-bench_repairs_tritonbench_g_flash_decode2_phi_block_checked_Misc_SourceAudit-1793128180242359403.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.Misc.Audit",
+    "log": "/tmp/sph88-flash-dependent-bench_repairs_tritonbench_g_flash_decode2_phi_block_checked_Misc_Audit-1793128184608833308.log",
+    "exit_code": 0
+  }
+]

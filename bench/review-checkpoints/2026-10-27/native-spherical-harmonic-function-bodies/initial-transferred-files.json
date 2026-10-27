@@ -1,0 +1,26 @@
+{
+  "parent": "d3e3a84ab2768b3a05fe599b106e034ea4d2138e",
+  "shared_core_changed": [
+    "VeriTile/Triton/DSL/TypedStores.lean"
+  ],
+  "files": {
+    "VeriTile/Triton/DSL/TypedStores.lean": "19763e3903886adb4ee8e337cc0136553f165d2848d98af6f78eac7d749fa98b",
+    "bench/examples/FusedLayerNorm/Proofs/Real.lean": "19c5f8eb02cac5030996ccb150ed9ecb4e0423ca4c1b8aa7b2186a37069453d4",
+    "bench/examples/Welford/Proofs/FP.lean": "dfb5bb7be1fbd4cf3daa8943350152ee9642f61ffaa1b529966c600f7fb707be",
+    "bench/examples/Welford/Proofs/Real.lean": "76f52021cb463656c5f5783a4738a644dea326ba2e1ef2dab58294ab5b44dbab",
+    "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Kernels.lean": "03df4d7121d3f8accb15a74d458bce98f0d22ae5e751d72d2a5088ca77245d4c",
+    "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Proofs/Execution.lean": "73881d301aef1ff097a90fb9b1ea284215439b735b277f2dd2f287c7dee5e543",
+    "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Proofs/Grid.lean": "d741af19538391df9d745719ffb04179cfd98d8bf8dc3f9084ece7a53550cf13",
+    "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Proofs/KernelSafety.lean": "71bfbca65422b9853dcc809309a36e01b56aad6ed48f3d5e0208008d5243dd23",
+    "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Proofs/SourceBridge.lean": "97cdb0bd283bb5c909be04afe9abc028b56cda64d0e19f3ae890f5d6a5640d30",
+    "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Proofs/SourceExecution.lean": "4ac5c61771ba3fb488011b504cef7050790dce174195ce287ae3da9fd40dddc7",
+    "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/README.md": "c537afa128f5bf7f5ae72d44077caa298c0b0c3f0f2726f6ef43337b6acf12dc",
+    "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/candidate_kernels.py": "26a96e7589c31f286501ad7442c0c3b88f1a0f723bfebe30fcd3f0b7b4727124",
+    "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/jit-correspondence.json": "bf0835ec73efd36416bc42f1b81624fb05c4a55249e7fc92166e28f76e744fd3",
+    "bench/repairs/tritonbench_g/flash_decode2_phi/Proofs/Execution.lean": "d1bfdb743b3c8d5dcb5fc6ac0c58459cf925b8754d2a207447692eee366a048d",
+    "bench/repairs/tritonbench_g/flash_decode2_phi_block_checked/Proofs/KernelNative.lean": "412b0481b0a047321fe3170919458355c34298a6dca2471f3244cccbe1e2eee8",
+    "bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Scalar.lean": "0be01823bf0ba5cb50baf916d67a30823d976dd49bf0c200bb63040d2b57970d",
+    "bench/tests/ScalarAssignmentBody.lean": "0be50d10574a5ee9e217b411a1fec4928ef0dc8e801aa8349cce0e77cceca8df",
+    "bench/tests/test_jit_correspondence.py": "ce2f64e70582b1b890562250542e07fcc03dcd48d893d884d41394c147f5b67c"
+  }
+}

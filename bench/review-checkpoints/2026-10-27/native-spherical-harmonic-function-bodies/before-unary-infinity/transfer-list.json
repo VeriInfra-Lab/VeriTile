@@ -1,0 +1,20 @@
+[
+  "VeriTile/Triton/DSL/TypedStores.lean",
+  "bench/examples/FusedLayerNorm/Proofs/Real.lean",
+  "bench/examples/Welford/Proofs/FP.lean",
+  "bench/examples/Welford/Proofs/Real.lean",
+  "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Kernels.lean",
+  "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Proofs/Execution.lean",
+  "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Proofs/Grid.lean",
+  "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Proofs/KernelSafety.lean",
+  "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Proofs/SourceBridge.lean",
+  "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Proofs/SourceExecution.lean",
+  "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/README.md",
+  "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/candidate_kernels.py",
+  "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/jit-correspondence.json",
+  "bench/repairs/tritonbench_g/flash_decode2_phi/Proofs/Execution.lean",
+  "bench/repairs/tritonbench_g/flash_decode2_phi_block_checked/Proofs/KernelNative.lean",
+  "bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Scalar.lean",
+  "bench/tests/ScalarAssignmentBody.lean",
+  "bench/tests/test_jit_correspondence.py"
+]

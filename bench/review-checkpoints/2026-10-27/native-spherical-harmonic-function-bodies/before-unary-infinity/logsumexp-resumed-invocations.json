@@ -1,0 +1,137 @@
+[
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.Source",
+    "log": "/tmp/sph88-logsumexp-bench_repairs_tritonbench_g_logsumexp_fwd_Proofs_Source-1793129275925236612.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.Engine",
+    "log": "/tmp/sph88-logsumexp-bench_repairs_tritonbench_g_logsumexp_fwd_Proofs_Engine-1793129287826616782.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.Real",
+    "log": "/tmp/sph88-logsumexp-bench_repairs_tritonbench_g_logsumexp_fwd_Proofs_Real-1793129292984451370.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.KernelMath",
+    "log": "/tmp/sph88-logsumexp-bench_repairs_tritonbench_g_logsumexp_fwd_Proofs_KernelMath-1793129296843311262.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.RawKernel",
+    "log": "/tmp/sph88-logsumexp-bench_repairs_tritonbench_g_logsumexp_fwd_Proofs_RawKernel-1793129300265535975.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.IO",
+    "log": "/tmp/sph88-logsumexp-bench_repairs_tritonbench_g_logsumexp_fwd_IO-1793129303332633755.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.AccessSafety",
+    "log": "/tmp/sph88-logsumexp-bench_repairs_tritonbench_g_logsumexp_fwd_Proofs_AccessSafety-1793129305998183620.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.Interface",
+    "log": "/tmp/sph88-logsumexp-bench_repairs_tritonbench_g_logsumexp_fwd_Proofs_Interface-1793129320765730517.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.RealIO",
+    "log": "/tmp/sph88-logsumexp-bench_repairs_tritonbench_g_logsumexp_fwd_Proofs_RealIO-1793129325645809377.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.LogicalReader",
+    "log": "/tmp/sph88-logsumexp-bench_repairs_tritonbench_g_logsumexp_fwd_Proofs_LogicalReader-1793129329811279414.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Correct",
+    "log": "/tmp/sph88-logsumexp-bench_repairs_tritonbench_g_logsumexp_fwd_Correct-1793129332562776228.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.PairIO",
+    "log": "/tmp/sph88-logsumexp-bench_repairs_tritonbench_g_logsumexp_fwd_PairIO-1793129335550954645.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.PairSource",
+    "log": "/tmp/sph88-logsumexp-bench_repairs_tritonbench_g_logsumexp_fwd_Proofs_PairSource-1793129338001396277.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.PairSafety",
+    "log": "/tmp/sph88-logsumexp-bench_repairs_tritonbench_g_logsumexp_fwd_Proofs_PairSafety-1793129515098091802.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.PairIO",
+    "log": "/tmp/sph88-logsumexp-bench_repairs_tritonbench_g_logsumexp_fwd_Proofs_PairIO-1793129530343200997.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.FPEquiv",
+    "log": "/tmp/sph88-logsumexp-bench_repairs_tritonbench_g_logsumexp_fwd_FPEquiv-1793129534659435591.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.Native",
+    "log": "/tmp/sph88-logsumexp-bench_repairs_tritonbench_g_logsumexp_fwd_Proofs_Native-1793129538810317810.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Misc.NativeCorrect",
+    "log": "/tmp/sph88-logsumexp-bench_repairs_tritonbench_g_logsumexp_fwd_Misc_NativeCorrect-1793129542084786532.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.Grid",
+    "log": "/tmp/sph88-logsumexp-bench_repairs_tritonbench_g_logsumexp_fwd_Proofs_Grid-1793129544992138344.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.KernelResult",
+    "log": "/tmp/sph88-logsumexp-bench_repairs_tritonbench_g_logsumexp_fwd_Proofs_KernelResult-1793129548229051481.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.RealExecution",
+    "log": "/tmp/sph88-logsumexp-bench_repairs_tritonbench_g_logsumexp_fwd_Proofs_RealExecution-1793129552056823474.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.NativeExecution",
+    "log": "/tmp/sph88-logsumexp-bench_repairs_tritonbench_g_logsumexp_fwd_Proofs_NativeExecution-1793129555031213521.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Misc.TensorBridge",
+    "log": "/tmp/sph88-logsumexp-bench_repairs_tritonbench_g_logsumexp_fwd_Misc_TensorBridge-1793129557879966792.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.Host",
+    "log": "/tmp/sph88-logsumexp-bench_repairs_tritonbench_g_logsumexp_fwd_Proofs_Host-1793129562372995302.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.WholeReal",
+    "log": "/tmp/sph88-logsumexp-bench_repairs_tritonbench_g_logsumexp_fwd_Proofs_WholeReal-1793129565762716440.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.WrapperCorrect",
+    "log": "/tmp/sph88-logsumexp-bench_repairs_tritonbench_g_logsumexp_fwd_Proofs_WrapperCorrect-1793129569293261240.log",
+    "exit_code": 0
+  },
+  {
+    "module": "bench.repairs.tritonbench_g.logsumexp_fwd.Proofs.WrapperFPEquiv",
+    "log": "/tmp/sph88-logsumexp-bench_repairs_tritonbench_g_logsumexp_fwd_Proofs_WrapperFPEquiv-1793129572233634835.log",
+    "exit_code": 0
+  }
+]

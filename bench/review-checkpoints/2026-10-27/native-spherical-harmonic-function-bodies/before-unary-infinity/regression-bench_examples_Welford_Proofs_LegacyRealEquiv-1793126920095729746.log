@@ -1,0 +1,7 @@
+VeriTile.Bench.Examples.Welford.welford_kernels_refinement_view: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Examples.Welford.welford_equiv: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Examples.Welford.welford_equiv: statement's project surface ⊆ allowlist ✓

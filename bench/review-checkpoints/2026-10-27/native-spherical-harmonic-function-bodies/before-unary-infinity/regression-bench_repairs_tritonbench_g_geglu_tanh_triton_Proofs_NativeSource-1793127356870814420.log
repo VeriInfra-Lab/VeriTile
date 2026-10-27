@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.GegluTanhTriton.Native.tile_native_refines: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.GegluTanhTriton.Native.certificates: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

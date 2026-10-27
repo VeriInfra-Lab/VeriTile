@@ -1,0 +1,16 @@
+[ComputeStmt.ifThen (Op.constBool «true»)
+    [ComputeStmt.assign TileDType.real [] "a"
+        (ComputeExpr.compute
+          (ComputeOp.full []
+            (ComputeOp.alg ComputeDType.fp32
+              (Op.const
+                {
+                  cauchy :=
+                    Quot.mk (fun f g => (f - g).LimZero)
+                      ⟨fun x => { num := Int.ofNat 0, den_nz := ⋯, reduced := ⋯ }, ⋯⟩ })))),
+      ComputeStmt.assign TileDType.real [] "b"
+        (ComputeExpr.compute (ComputeOp.full [] (ComputeOp.alg ComputeDType.fp32 Op.negInf)))],
+  ComputeStmt.store TileDType.real [] (MemAccess.region { name := "Y" } (Op.constNat 0))
+    (ComputeExpr.compute (ComputeOp.alg ComputeDType.fp32 (Op.ref TileDType.real [] "a"))) MaskOpt.none,
+  ComputeStmt.store TileDType.real [] (MemAccess.region { name := "Y" } (Op.constNat 1))
+    (ComputeExpr.compute (ComputeOp.alg ComputeDType.fp32 (Op.ref TileDType.real [] "b"))) MaskOpt.none]

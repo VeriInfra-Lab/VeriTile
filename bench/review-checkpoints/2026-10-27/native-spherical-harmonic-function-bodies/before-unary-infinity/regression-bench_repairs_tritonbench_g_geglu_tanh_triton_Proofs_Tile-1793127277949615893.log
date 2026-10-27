@@ -1,0 +1,102 @@
+/tmp/sph88-staging/bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Tile.lean:36:6: warning: This simp argument is unused:
+  evalOffsets
+
+Hint: Omit it from the simp argument list.
+  simp (maxSteps := 900000) [source, forwardKernel, backwardKernel,
+  ̵  ̵ ̵ ̵ ̵ ̵ComputeKernel.surfaceBody,
+        run, step, FP.Structural.evalExpr, evalComputeOp, evalOp_unfold,
+  ̵  ̵ ̵ ̵ ̵ ̵evalO̵f̵f̵s̵e̵t̵s̵,̵ ̵e̵v̵a̵l̵Deltas, store,
+  ̲  ̲ ̲ ̲ ̲ ̲Option.bind, ComputeDType.eraseDType,
+  ̵  ̵ ̵ ̵ ̵ ̵numeric, numericLt, bop, natLt,  ̵rowState, ofFloat,
+  ̲  ̲ ̲ ̲ ̲ ̲toFloat, TileShape.axisDim,
+  ̵  ̵ ̵ ̵ ̵ ̵Region.cast, State.setReg, index_toNat, index_lt]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Tile.lean:36:19: warning: This simp argument is unused:
+  evalDeltas
+
+Hint: Omit it from the simp argument list.
+  simp (maxSteps := 900000) [source, forwardKernel, backwardKernel, ComputeKernel.surfaceBody,
+        run, step, FP.Structural.evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, e̵v̵a̵l̵D̵e̵l̵t̵a̵s̵,̵ ̵store,
+  ̲  ̲ ̲ ̲ ̲ ̲Option.bind, ComputeDType.eraseDType, numeric, numericLt, bop, natLt,  ̵rowState, ofFloat,
+  ̲  ̲ ̲ ̲ ̲ ̲toFloat, TileShape.axisDim, Region.cast, State.setReg, index_toNat, index_lt]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Tile.lean:37:31: warning: This simp argument is unused:
+  natLt
+
+Hint: Omit it from the simp argument list.
+  simp (maxSteps := 900000) [source, forwardKernel, backwardKernel,
+  ̵  ̵ ̵ ̵ ̵ ̵ComputeKernel.surfaceBody,
+        run, step, FP.Structural.evalExpr, evalComputeOp, evalOp_unfold,
+  ̵  ̵ ̵ ̵ ̵ ̵evalOffsets, evalDeltas,
+  ̲  ̲ ̲ ̲ ̲ ̲store, Option.bind, ComputeDType.eraseDType,
+  ̵  ̵ ̵ ̵ ̵ ̵numeric, numericLt, bop, n̵a̵t̵L̵t̵,̵ ̵ ̵rowState, ofFloat,
+  ̲  ̲ ̲ ̲ ̲ ̲toFloat, TileShape.axisDim,
+  ̵  ̵ ̵ ̵ ̵ ̵Region.cast, State.setReg, index_toNat, index_lt]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Tile.lean:37:39: warning: This simp argument is unused:
+  rowState
+
+Hint: Omit it from the simp argument list.
+  simp (maxSteps := 900000) [source, forwardKernel, backwardKernel,
+  ̵  ̵ ̵ ̵ ̵ ̵ComputeKernel.surfaceBody,
+        run, step, FP.Structural.evalExpr, evalComputeOp, evalOp_unfold,
+  ̵  ̵ ̵ ̵ ̵ ̵evalOffsets, evalDeltas,
+  ̲  ̲ ̲ ̲ ̲ ̲store, Option.bind, ComputeDType.eraseDType,
+  ̵  ̵ ̵ ̵ ̵ ̵numeric, numericLt, bop, natLt,  ̵r̵ow̵S̵t̵a̵t̵e̵,̵ ̵o̵fFloat, toFloat,
+  ̲  ̲ ̲ ̲ ̲ ̲TileShape.axisDim,
+  ̵  ̵ ̵ ̵ ̵ ̵Region.cast, State.setReg, index_toNat, index_lt]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Tile.lean:37:67: warning: This simp argument is unused:
+  TileShape.axisDim
+
+Hint: Omit it from the simp argument list.
+  simp (maxSteps := 900000) [source, forwardKernel, backwardKernel, ComputeKernel.surfaceBody,
+        run, step, FP.Structural.evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, evalDeltas,
+  ̲  ̲ ̲ ̲ ̲ ̲store, Option.bind, ComputeDType.eraseDType, numeric, numericLt, bop, natLt,  ̵rowState,
+  ̲  ̲ ̲ ̲ ̲ ̲ofFloat, toFloat, T̵i̵l̵e̵S̵h̵a̵p̵e̵.̵a̵x̵i̵s̵D̵i̵m̵,̵Region.cast, State.setReg, index_toNat, index_lt]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Tile.lean:68:54: warning: This simp argument is unused:
+  store
+
+Hint: Omit it from the simp argument list.
+  simp only [sourceRun, execution, st̵o̵r̵e̵,̵ ̵s̵catter_mem]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Tile.lean:92:19: warning: This simp argument is unused:
+  raw
+
+Hint: Omit it from the simp argument list.
+  simp [writeCell, r̵a̵w̵,̵ ̵active]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Tile.lean:111:40: warning: This simp argument is unused:
+  if_false
+
+Hint: Omit it from the simp argument list.
+  simp only [memory, if_f̵a̵l̵s̵e̵,̵ ̵i̵f̵_̵true]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/geglu_tanh_triton/Proofs/Tile.lean:125:53: warning: This simp argument is unused:
+  if_false
+
+Hint: Omit it from the simp argument list.
+  simp only [memory, if_f̵a̵l̵s̵e̵,̵ ̵i̵f̵_̵true]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.GegluTanhTriton.Tile.sourceRun: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.GegluTanhTriton.Tile.execution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.GegluTanhTriton.Tile.readback: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.GegluTanhTriton.Tile.frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

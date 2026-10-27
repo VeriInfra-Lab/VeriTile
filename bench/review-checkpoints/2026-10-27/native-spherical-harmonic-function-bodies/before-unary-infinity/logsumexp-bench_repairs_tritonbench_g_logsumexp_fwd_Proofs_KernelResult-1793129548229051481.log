@@ -1,0 +1,23 @@
+/tmp/sph88-staging/bench/repairs/tritonbench_g/logsumexp_fwd/Proofs/KernelResult.lean:41:17: warning: This simp argument is unused:
+  Prod.fst
+
+Hint: Omit it from the simp argument list.
+  simp only [̵P̵r̵o̵d̵.̵f̵s̵t̵,̵P̵r̵o̵d̵.̵s̵n̵d̵]̵[̲P̲r̲o̲d̲.̲s̲n̲d̲]̲ at index
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/sph88-staging/bench/repairs/tritonbench_g/logsumexp_fwd/Proofs/KernelResult.lean:41:26: warning: This simp argument is unused:
+  Prod.snd
+
+Hint: Omit it from the simp argument list.
+  simp only [Prod.fst,̵P̵r̵o̵d̵.̵s̵n̵d̵] at index
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.LogsumexpFwd.KernelResult.ordered: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LogsumexpFwd.KernelResult.real_grid: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LogsumexpFwd.blockValue: definition does not reference [VeriTile.Bench.Repairs.LogsumexpFwd.rowBlock,
+ VeriTile.Bench.Repairs.LogsumexpFwd.Source.rowValue,
+ VeriTile.Bench.Repairs.LogsumexpFwd.Grid.run] — non-circular ✓

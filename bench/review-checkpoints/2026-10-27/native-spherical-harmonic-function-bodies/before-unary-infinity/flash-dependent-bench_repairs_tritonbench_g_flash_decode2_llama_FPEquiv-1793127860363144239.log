@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.FlashDecode2Llama.FPEquiv.kernel_equivalent: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
