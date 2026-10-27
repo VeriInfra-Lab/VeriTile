@@ -1,0 +1,1 @@
+{'status': 'PASS', 'metadata_axis_cases': 11, 'kernel_and_all_configs_unchanged': True, 'only_extra_source_node': 'live y/z validation', 'old_source_sha256': '3a1047aeee04977920ad53b6a1b076c42a938359574f874b025233aedeed1928', 'source_sha256': '0342f9f81c4bf02b24166d996bd49392a928422e0c7dc9d4a0d96bf49a7f2ed8', 'GPU_execution': False}

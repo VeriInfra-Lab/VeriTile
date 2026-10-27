@@ -1,0 +1,56 @@
+[
+  {
+    "python_function": "bmm_kernel",
+    "lean_definition": "kernel",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "M": "p.M",
+      "N": "p.N",
+      "K": "p.K"
+    },
+    "statements": 20,
+    "runtime_parameters": {
+      "M": "i32",
+      "N": "i32",
+      "K": "i32"
+    },
+    "constexpr_parameters": [
+      "DIVISIBLE_K",
+      "DIVISIBLE_M",
+      "DIVISIBLE_N",
+      "GROUP_M",
+      "TILE_K",
+      "TILE_M",
+      "TILE_N"
+    ]
+  },
+  {
+    "python_function": "bmm_quotient_remainder",
+    "lean_definition": "quotientRemainder",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "M": "p.M",
+      "N": "p.N",
+      "K": "p.K"
+    },
+    "statements": 20,
+    "runtime_parameters": {
+      "M": "i32",
+      "N": "i32",
+      "K": "i32"
+    },
+    "constexpr_parameters": [
+      "DIVISIBLE_K",
+      "DIVISIBLE_M",
+      "DIVISIBLE_N",
+      "GROUP_M",
+      "TILE_K",
+      "TILE_M",
+      "TILE_N"
+    ]
+  }
+]

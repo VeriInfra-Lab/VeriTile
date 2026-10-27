@@ -1,0 +1,60 @@
+{
+  "code_commit": "2370db823036615f38aa38efdf4c810077beaa3d",
+  "raw_bodies": [
+    {
+      "name": "raw-body-check",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/bmm_optimized_grid_axes_checked/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "2370db823036615f38aa38efdf4c810077beaa3d",
+      "log": "/tmp/bmm87-raw-body-check.log",
+      "status": "PASS"
+    }
+  ],
+  "candidate_rewrites": [
+    {
+      "status": "PASS",
+      "scope": "Only existing integer remainder strength reduction; complete signature/decorators/configurations and floating suffix preserved."
+    }
+  ],
+  "metadata_axes": {
+    "name": "metadata-axes",
+    "command": [
+      "python3",
+      "bench/repairs/tritonbench_g/bmm_optimized_grid_axes_checked/check_axes.py"
+    ],
+    "exit_code": 0,
+    "code_commit": "2370db823036615f38aa38efdf4c810077beaa3d",
+    "log": "/tmp/bmm87-metadata-axes.log",
+    "status": "PASS"
+  },
+  "cpu": {
+    "name": "cpu-final",
+    "command": [
+      "python3",
+      "bench/repairs/tritonbench_g/bmm_optimized_grid_axes_checked/check_contract.py"
+    ],
+    "exit_code": 1,
+    "code_commit": "2370db823036615f38aa38efdf4c810077beaa3d",
+    "log": "/tmp/bmm87-cpu-final.log",
+    "status": "UNAVAILABLE"
+  },
+  "original_python_wrappers_and_public_statements": {
+    "status": "PASS",
+    "sha256": {
+      "bench/repairs/tritonbench_g/bmm_optimized_grid_axes_checked/IO.lean": "bbc7173589fc5ffa1026c3461e687a2b14c7d5eced6a0e7517689870d97bcffc",
+      "bench/repairs/tritonbench_g/bmm_optimized_grid_axes_checked/Contract.lean": "4834a37c5552786ccee884ccbebad167e43214801137021d6888048f23f4f322",
+      "bench/repairs/tritonbench_g/bmm_optimized_grid_axes_checked/Correct.lean": "5f20c04e318a7586f525753660f96ace52855119559e44b58ce1e9affb88c4ff",
+      "bench/repairs/tritonbench_g/bmm_optimized_grid_axes_checked/check_cuda_lowering.py": "0d05713176e5679edb60da385029fc6216cf4f6ccddb7a2b3194761f1b289aa1",
+      "bench/repairs/tritonbench_g/bmm_optimized_grid_axes_checked/check_axes.py": "d2785757e30b210372e2e1a0e3c36b458a2145207af98da4eb4180c0d74656b1",
+      "bench/repairs/tritonbench_g/bmm_optimized_grid_axes_checked/check_contract.py": "36831754bf4aa3fa4723f6d5399ae32be21f2f130e127aaa58c97e978d97a102",
+      "bench/repairs/tritonbench_g/bmm_optimized_grid_axes_checked/bmm_optimized_grid_axes_checked.py": "0342f9f81c4bf02b24166d996bd49392a928422e0c7dc9d4a0d96bf49a7f2ed8",
+      "bench/repairs/tritonbench_g/bmm_optimized_grid_axes_checked/FPEquiv.lean": "71df02222774c53bac049b6647842564b6a89a6495f067c803eb3fffff27d7a1"
+    }
+  },
+  "scope": "Two complete raw bodies, all eight constexpr mask branches, original tuple assignment and underscore loop iterator. Actual full source execution, safety, failure equality, output/frame and full-grid FP pair reverified. No new numerical law, domain narrowing or GPU experiment."
+}

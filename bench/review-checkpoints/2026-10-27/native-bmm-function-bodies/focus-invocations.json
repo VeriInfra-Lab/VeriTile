@@ -1,0 +1,158 @@
+[
+  {
+    "name": "build",
+    "command": [
+      "lake",
+      "build",
+      "bench.repairs.tritonbench_g.bmm_optimized_grid_axes_checked.Contract",
+      "bench.repairs.tritonbench_g.bmm_optimized_grid_axes_checked.Correct",
+      "bench.repairs.tritonbench_g.bmm_optimized_grid_axes_checked.FPEquiv",
+      "bench.repairs.tritonbench_g.bmm_optimized_grid_axes_checked.IO",
+      "bench.repairs.tritonbench_g.bmm_optimized_grid_axes_checked.Kernels",
+      "bench.repairs.tritonbench_g.bmm_optimized_grid_axes_checked.Misc.Audit",
+      "bench.repairs.tritonbench_g.bmm_optimized_grid_axes_checked.Misc.NativeCorrect",
+      "bench.repairs.tritonbench_g.bmm_optimized_grid_axes_checked.Misc.RawCompatibility",
+      "bench.repairs.tritonbench_g.bmm_optimized_grid_axes_checked.Misc.TensorBridge",
+      "bench.repairs.tritonbench_g.bmm_optimized_grid_axes_checked.Proofs.Body",
+      "bench.repairs.tritonbench_g.bmm_optimized_grid_axes_checked.Proofs.Complete",
+      "bench.repairs.tritonbench_g.bmm_optimized_grid_axes_checked.Proofs.Execution",
+      "bench.repairs.tritonbench_g.bmm_optimized_grid_axes_checked.Proofs.GraphExecution",
+      "bench.repairs.tritonbench_g.bmm_optimized_grid_axes_checked.Proofs.GraphRun",
+      "bench.repairs.tritonbench_g.bmm_optimized_grid_axes_checked.Proofs.GraphSafety",
+      "bench.repairs.tritonbench_g.bmm_optimized_grid_axes_checked.Proofs.GraphTransport",
+      "bench.repairs.tritonbench_g.bmm_optimized_grid_axes_checked.Proofs.GraphValues",
+      "bench.repairs.tritonbench_g.bmm_optimized_grid_axes_checked.Proofs.GraphWholeSafety",
+      "bench.repairs.tritonbench_g.bmm_optimized_grid_axes_checked.Proofs.Grid",
+      "bench.repairs.tritonbench_g.bmm_optimized_grid_axes_checked.Proofs.IOComplete",
+      "bench.repairs.tritonbench_g.bmm_optimized_grid_axes_checked.Proofs.Invariant",
+      "bench.repairs.tritonbench_g.bmm_optimized_grid_axes_checked.Proofs.LegacyIO",
+      "bench.repairs.tritonbench_g.bmm_optimized_grid_axes_checked.Proofs.LegacySurface",
+      "bench.repairs.tritonbench_g.bmm_optimized_grid_axes_checked.Proofs.LogicalReader",
+      "bench.repairs.tritonbench_g.bmm_optimized_grid_axes_checked.Proofs.Numerical",
+      "bench.repairs.tritonbench_g.bmm_optimized_grid_axes_checked.Proofs.Operands",
+      "bench.repairs.tritonbench_g.bmm_optimized_grid_axes_checked.Proofs.PairConnection",
+      "bench.repairs.tritonbench_g.bmm_optimized_grid_axes_checked.Proofs.PairIO",
+      "bench.repairs.tritonbench_g.bmm_optimized_grid_axes_checked.Proofs.Prologue",
+      "bench.repairs.tritonbench_g.bmm_optimized_grid_axes_checked.Proofs.PublicResults",
+      "bench.repairs.tritonbench_g.bmm_optimized_grid_axes_checked.Proofs.ReadGrid",
+      "bench.repairs.tritonbench_g.bmm_optimized_grid_axes_checked.Proofs.Reference",
+      "bench.repairs.tritonbench_g.bmm_optimized_grid_axes_checked.Proofs.SourceDecomposition",
+      "bench.repairs.tritonbench_g.bmm_optimized_grid_axes_checked.Proofs.SourceGraph",
+      "bench.repairs.tritonbench_g.bmm_optimized_grid_axes_checked.Proofs.SourcePreservation",
+      "bench.repairs.tritonbench_g.bmm_optimized_grid_axes_checked.Proofs.Tensor",
+      "bench.repairs.tritonbench_g.bmm_optimized_grid_axes_checked.Proofs.Writes"
+    ],
+    "log": "/tmp/bmm87-focus-build.log",
+    "exit_code": 0
+  },
+  {
+    "name": "focus-joint",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/bmm87-focus-joint.lean"
+    ],
+    "log": "/tmp/bmm87-focus-joint.log",
+    "exit_code": 0
+  },
+  {
+    "name": "standalone-ConstexprMaskBody",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "bench/tests/ConstexprMaskBody.lean"
+    ],
+    "log": "/tmp/bmm87-standalone-ConstexprMaskBody.log",
+    "exit_code": 0
+  },
+  {
+    "name": "standalone-SourceIntrinsicBody",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "bench/tests/SourceIntrinsicBody.lean"
+    ],
+    "log": "/tmp/bmm87-standalone-SourceIntrinsicBody.log",
+    "exit_code": 0
+  },
+  {
+    "name": "standalone-PythonConstantsBody",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "bench/tests/PythonConstantsBody.lean"
+    ],
+    "log": "/tmp/bmm87-standalone-PythonConstantsBody.log",
+    "exit_code": 0
+  },
+  {
+    "name": "standalone-OptionalPointerBody",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "bench/tests/OptionalPointerBody.lean"
+    ],
+    "log": "/tmp/bmm87-standalone-OptionalPointerBody.log",
+    "exit_code": 0
+  },
+  {
+    "name": "standalone-CallSignature",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "bench/tests/CallSignature.lean"
+    ],
+    "log": "/tmp/bmm87-standalone-CallSignature.log",
+    "exit_code": 0
+  },
+  {
+    "name": "standalone-SourceDTypeBody",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "bench/tests/SourceDTypeBody.lean"
+    ],
+    "log": "/tmp/bmm87-standalone-SourceDTypeBody.log",
+    "exit_code": 0
+  },
+  {
+    "name": "standalone-LoopBody",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "bench/tests/LoopBody.lean"
+    ],
+    "log": "/tmp/bmm87-standalone-LoopBody.log",
+    "exit_code": 0
+  },
+  {
+    "name": "standalone-ValueDTypeBody",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "bench/tests/ValueDTypeBody.lean"
+    ],
+    "log": "/tmp/bmm87-standalone-ValueDTypeBody.log",
+    "exit_code": 0
+  },
+  {
+    "name": "audit",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/tmp/bmm87-audit.lean"
+    ],
+    "log": "/tmp/bmm87-audit.log",
+    "exit_code": 0
+  }
+]

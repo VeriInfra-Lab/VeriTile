@@ -1,0 +1,187 @@
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.Bridge.active_exact: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.Bridge.commit_frame: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.Bridge.gridExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.Bridge.lane_enumeration: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.Bridge.o_offset: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.Bridge.orderedExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.Bridge.programExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.Bridge.related_commit: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.Bridge.source_loads: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.Bridge.source_value: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.Bridge.writes_equal: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.Equivalence.quotient_remainder_equiv: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.Execution.bodyExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.Execution.bodyInvariant: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.Execution.correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.Execution.epilogueExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.Execution.localStep_dot: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.Execution.loopExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.Execution.loopRegister: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.Execution.preludeExecution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.Execution.preludeInvariant: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.Execution.run_append: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.Interface.complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.Interface.lift_observe: axiom footprint ⊆ standard base ✓  ([Quot.sound])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.Interface.logical_iff: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.Interface.logical_implements: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.Interface.native_complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.Interface.real_complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.Interface.transport: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.LegacyIO.complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.LegacyIO.from_io: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.LegacySource.source_decomposition: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.PairConnection.source_pair: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.PairIO.equivalent: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.RawCompatibility.kernel_native: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.RawCompatibility.kernel_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.ReadGrid.ordered_execution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.Source.source_decomposition: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.SourceGraph.accumulating_step: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.SourceGraph.accumulation_observe: axiom footprint ⊆ standard base ✓  ([Quot.sound,
+ propext])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.SourceGraph.body_equal: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.SourceGraph.body_safe: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.SourceGraph.epilogue_equal: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.SourceGraph.epilogue_safe: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.SourceGraph.exec_equal: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.SourceGraph.loop_equal: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.SourceGraph.prelude_equal: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.SourceGraph.prelude_safe: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.SourceGraph.range_equal: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.SourceGraph.selected_safe: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.SourceGraph.source_safe: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.SourcePreservation.original: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.TensorAPI.bytes_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.TensorAPI.bytes_output: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.TensorAPI.chain_equiv: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.TensorAPI.chain_host: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.TensorAPI.initial_related: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.TensorAPI.native_target: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.TensorAPI.product_host: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.TensorAPI.publish_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.TensorAPI.read_returned: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.TensorAPI.real_target: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.TensorBridge.checked_native: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.TensorBridge.checked_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.axes_exact: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.checkInputs_iff: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.empty_domain_unchanged: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.kernel_native: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.kernel_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.launch_axes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.old_y_witness_rejected: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.old_z_witness_rejected: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+FP assumptions used by quotient_remainder_equiv:
+  none

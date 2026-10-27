@@ -1,0 +1,9 @@
+VeriTile.Tests.ConstexprMaskBody.aliases_are_unmasked: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.ConstexprMaskBody.both_cases: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.ConstexprMaskBody.loop_aliases: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

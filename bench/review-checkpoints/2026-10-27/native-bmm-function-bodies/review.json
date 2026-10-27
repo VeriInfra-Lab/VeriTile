@@ -1,0 +1,548 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "2370db823036615f38aa38efdf4c810077beaa3d",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "bmm_optimized"
+  ],
+  "regression_only_pending_body_tasks": [
+    "kv_cache_filling"
+  ],
+  "semantic_review": {
+    "adam_update_triton": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "add_example": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "add_value": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "apply_penalty": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "attention_fwd_triton1": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "batched_vecmat_mult": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "bgmv_expand_slice": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "bmm_optimized": "Both full original/existing remainder-strength-reduction bodies retain all eight nested constexpr mask cases, None bindings, original tuple assignment, underscore loop iterator, positional masks, dot allow_tf32=False and every floating operation. Candidate Python preserves full signatures, all twelve configuration/stage occurrences and all three heuristic helpers; only the previously selected pid % group_size to pid - (pid // group_size) * group_size expression changes. Original Python/wrappers and public Correct/FPEquiv/Contract/IO remain byte-identical. Proofs use the actual underscore iterator and tuple always-taken block, and actual Triton floor/mod operators. The proof-only archived view restores exactly those syntax details and is definitionally equal to the current complete source; no whole-state identity with the old _i register is asserted. Actual success, safety, failure equality, all eight cases, zero K, empty outputs, complete CTA permutations, logical output and exterior frames are reverified. No new FP law, whole-kernel premise or domain narrowing.",
+    "cache_transform_triton": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "chunk_cumsum_kernel": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "chunk_cumsum_vector": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "chunk_delta_fwd": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "chunked_cumsum_fwd": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "cosine_compute": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "dequantize_matmul": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "dequantize_rowwise": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "destindex_copy": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "destindex_copy_kv1": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "destindex_copy_kv2": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "dropout_triton": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "embedding_triton_kernel": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "f8_conversion_utils": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "fast_rope_embedding": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "flash_decode2_llama": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "flash_decode2_phi": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "fused_activation": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "fused_recurrent_hgrn": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "fused_rotary_embedding": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "geglu_tanh_triton": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "index_select_bwd": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "index_select_cat": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "int8_matmul_kernel": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "isfinite_kernel": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "kcache_copy_triton": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "kldiv_compute": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "kldiv_ops": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "kldiv_triton": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "kv_cache_copy": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "kv_cache_filling": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim. Python-body migration remains pending; its correspondence status is retained.",
+    "l2_norm_bwd": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "l2_norm_triton1": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "l2_norm_triton2": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "log_softmax": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "logsumexp_fwd": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "masked_add_cuda": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "masked_select": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "matmul_kernel": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "matrix_reduction": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "matrix_transpose": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "max_reduction": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "mean_reduction": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "mul_exponent_compensator": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "nested_loops_processing": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "quant_transpose_kernel": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "quantize_copy_kv": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "quantize_global": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "quantize_kv_copy": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "quantize_kv_transform": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "relu_strided_buffer": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "relu_triton_kernel": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "reversed_cumsum": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "reversed_cumsum_scalar": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "rms_norm_triton": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "rmsnorm_fused": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "rmsnorm_fused_llama": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "rmsnorm_implementation": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "rmsnorm_triton": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "rope_backward_transform": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "rope_embedding": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "rope_transform": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "rotary_emb": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "rotary_emb_nopad": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "rowwise_quantization_triton": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "seeded_dropout": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "sin_computation": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "sin_kernel": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "softmax_optimize": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "softmax_triton1": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "softmax_triton2": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "softmax_triton3": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "square_matrix": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "swiglu_backward": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "swiglu_fwd": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "swiglu_triton": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "token_attn_mistral": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "token_attn_reduceV": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "token_softmax_bloom": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "token_softmax_llama": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "triton_argmax": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "triton_mul2": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "triton_softmax": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "var_len_copy": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "vector_addition": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim.",
+    "vector_addition_custom": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim."
+  },
+  "compiler_change": {
+    "files": [
+      "VeriTile/Triton/DSL/CallSignature.lean",
+      "VeriTile/Triton/DSL/ConstexprMask.lean"
+    ],
+    "behavior": "The generic constexpr-mask frontend elaborates every immutable Boolean constexpr case and keeps its actual caller selector. None aliases are compile-time values and remove only absent load/store masks, never inventing a tensor or address. Incompatible runtime branch facts, selector rebinding, arithmetic on None, and possibly undefined/None loop variables fail closed; zero-trip loops do not establish post-loop facts. All 255 previously checked distinct Python functions have no None-assignment trigger. Existing source dtype, optional-pointer, imported-intrinsic, literal rounding, runtime argument and loop suites replay. All 3471 cumulative roots and joint imports pass warm and independently from empty project objects. Unchanged tasks receive regression evidence only, not a new migration claim."
+  },
+  "verification": {
+    "baseline": {
+      "status": "PASS",
+      "explicit_modules": 37,
+      "jobs": 3384
+    },
+    "focused": {
+      "status": "PASS",
+      "explicit_modules": 37,
+      "jobs": 3396,
+      "additional_scope": "Eight standalone frontend suites, 72 actual-source/public/IO audits and three new frontend footprints."
+    },
+    "warm_and_joint": {
+      "status": "PASS",
+      "explicit_modules": 3471,
+      "jobs": 13063
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 3471,
+      "jobs": 13063,
+      "project_build_initially_present": false,
+      "project_objects_imported_from_other_checkouts": false,
+      "only_fixed_external_dependencies_imported": true,
+      "setup": {
+        "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/final-clean-setup.json",
+        "sha256": "5409a4b4a92687de6ef0cb58d3dc5d529e2a4e67fd703fb6cf9d9c9ba7fbb3c4"
+      }
+    },
+    "trust": "PASS: 72 actual-source/public/IO footprints and three new frontend footprints use only standard base. Public quotient_remainder_equiv prints no FP assumptions.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 136
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 381,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by old numerical receipt; no false repin."
+    },
+    "source": "PASS: two complete raw original/existing candidate bodies and exact caller bindings; original Python/wrappers/public statements unchanged, actual-source deep proofs updated and replayed.",
+    "official_comparator": "UNAVAILABLE: 40 actual final-source attempts with verified pinned binaries. Host Landlock ABI v4 is below required v5; no systemd user isolation or bypass.",
+    "cpu": "UNAVAILABLE: actual check_contract.py CPU invocation requires missing Torch.",
+    "gpu_or_numerical_experiment": "Not run.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending; the known unchanged numerical receipt failure remains explicit."
+  },
+  "source_pairs": {
+    "total": 283,
+    "pasted_body": 283,
+    "legacy_ast": 0
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/source-closure.json",
+    "sha256": "6cffd92f6369971f5926201ffdcd19b4d48a018e1e22c61f01ca5c31af046dd1"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "no_selected_jit_resolved": 2,
+      "selected_body_copy_checked": 93,
+      "uncovered_jit_functions": 88
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 328,
+    "uncovered_selected_jit_functions": 185,
+    "primary_files_with_int64_screen_warning": 25,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 65,
+        "antiquotes": 73,
+        "dsl_loop": 1,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "example_regression_scope": "All 19 selected examples and all previous recorded task roots replay warm/joint and independently from empty project objects. Unselected historical model gaps are not relabeled as passing.",
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/VeriTile__Triton__DSL__CallSignature-comparator.log",
+      "sha256": "7d8651b4abf327a9d8410a96bbd7dc06519244c4713647d69927ce653658ee71"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/VeriTile__Triton__DSL__ConstexprMask-comparator.log",
+      "sha256": "7d8651b4abf327a9d8410a96bbd7dc06519244c4713647d69927ce653658ee71"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/all-python.log",
+      "sha256": "71ad5be57c76abb3a605cdd9fb07d5c6c89a5884a751941a1d78dd59f73132eb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/audit-targets.json",
+      "sha256": "ffe686df666b24eff3442a9a566cb3b4f91cf98d97b68e53fc8f031d97eb931e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/audit.lean",
+      "sha256": "4fb351dc1ffdb74a282abd0b68255adedc17d8e0e51a1a4736d19204bd185cce"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/audit.log",
+      "sha256": "c49643eee5a639aceb671d5059c466c4a4a49023259be716a79cff9d8d01971f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/baseline-build.log.gz",
+      "sha256": "72a3c24205ae4427cda656982ac408980e6baabf6e368ba9202586a6e48e5660"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/baseline.json",
+      "sha256": "fbc67c91cedf0037bed5c655e7ca2246ee9bb1ca04f865e3c0daf08d29b96c08"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/bench__repairs__tritonbench_g__bmm_optimized_grid_axes_checked__Contract-comparator.log",
+      "sha256": "7d8651b4abf327a9d8410a96bbd7dc06519244c4713647d69927ce653658ee71"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/bench__repairs__tritonbench_g__bmm_optimized_grid_axes_checked__Correct-comparator.log",
+      "sha256": "7d8651b4abf327a9d8410a96bbd7dc06519244c4713647d69927ce653658ee71"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/bench__repairs__tritonbench_g__bmm_optimized_grid_axes_checked__FPEquiv-comparator.log",
+      "sha256": "7d8651b4abf327a9d8410a96bbd7dc06519244c4713647d69927ce653658ee71"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/bench__repairs__tritonbench_g__bmm_optimized_grid_axes_checked__IO-comparator.log",
+      "sha256": "7d8651b4abf327a9d8410a96bbd7dc06519244c4713647d69927ce653658ee71"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/bench__repairs__tritonbench_g__bmm_optimized_grid_axes_checked__Kernels-comparator.log",
+      "sha256": "7d8651b4abf327a9d8410a96bbd7dc06519244c4713647d69927ce653658ee71"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/bench__repairs__tritonbench_g__bmm_optimized_grid_axes_checked__Misc__Audit-comparator.log",
+      "sha256": "7d8651b4abf327a9d8410a96bbd7dc06519244c4713647d69927ce653658ee71"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/bench__repairs__tritonbench_g__bmm_optimized_grid_axes_checked__Misc__NativeCorrect-comparator.log",
+      "sha256": "7d8651b4abf327a9d8410a96bbd7dc06519244c4713647d69927ce653658ee71"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/bench__repairs__tritonbench_g__bmm_optimized_grid_axes_checked__Misc__RawCompatibility-comparator.log",
+      "sha256": "7d8651b4abf327a9d8410a96bbd7dc06519244c4713647d69927ce653658ee71"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/bench__repairs__tritonbench_g__bmm_optimized_grid_axes_checked__Misc__TensorBridge-comparator.log",
+      "sha256": "6d17c9fc4249d796ca05a63d5b6641c75a2d0f0e922811d4ef33036bd6cbd9d5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/bench__repairs__tritonbench_g__bmm_optimized_grid_axes_checked__Proofs__Body-comparator.log",
+      "sha256": "6d17c9fc4249d796ca05a63d5b6641c75a2d0f0e922811d4ef33036bd6cbd9d5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/bench__repairs__tritonbench_g__bmm_optimized_grid_axes_checked__Proofs__Complete-comparator.log",
+      "sha256": "6d17c9fc4249d796ca05a63d5b6641c75a2d0f0e922811d4ef33036bd6cbd9d5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/bench__repairs__tritonbench_g__bmm_optimized_grid_axes_checked__Proofs__Execution-comparator.log",
+      "sha256": "6d17c9fc4249d796ca05a63d5b6641c75a2d0f0e922811d4ef33036bd6cbd9d5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/bench__repairs__tritonbench_g__bmm_optimized_grid_axes_checked__Proofs__GraphExecution-comparator.log",
+      "sha256": "6d17c9fc4249d796ca05a63d5b6641c75a2d0f0e922811d4ef33036bd6cbd9d5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/bench__repairs__tritonbench_g__bmm_optimized_grid_axes_checked__Proofs__GraphRun-comparator.log",
+      "sha256": "6d17c9fc4249d796ca05a63d5b6641c75a2d0f0e922811d4ef33036bd6cbd9d5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/bench__repairs__tritonbench_g__bmm_optimized_grid_axes_checked__Proofs__GraphSafety-comparator.log",
+      "sha256": "6d17c9fc4249d796ca05a63d5b6641c75a2d0f0e922811d4ef33036bd6cbd9d5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/bench__repairs__tritonbench_g__bmm_optimized_grid_axes_checked__Proofs__GraphTransport-comparator.log",
+      "sha256": "6d17c9fc4249d796ca05a63d5b6641c75a2d0f0e922811d4ef33036bd6cbd9d5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/bench__repairs__tritonbench_g__bmm_optimized_grid_axes_checked__Proofs__GraphValues-comparator.log",
+      "sha256": "6d17c9fc4249d796ca05a63d5b6641c75a2d0f0e922811d4ef33036bd6cbd9d5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/bench__repairs__tritonbench_g__bmm_optimized_grid_axes_checked__Proofs__GraphWholeSafety-comparator.log",
+      "sha256": "d0f0124972ff3fa0e35782300896b30499f36457af28f1401c54f6a369960f44"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/bench__repairs__tritonbench_g__bmm_optimized_grid_axes_checked__Proofs__Grid-comparator.log",
+      "sha256": "d0f0124972ff3fa0e35782300896b30499f36457af28f1401c54f6a369960f44"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/bench__repairs__tritonbench_g__bmm_optimized_grid_axes_checked__Proofs__IOComplete-comparator.log",
+      "sha256": "d0f0124972ff3fa0e35782300896b30499f36457af28f1401c54f6a369960f44"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/bench__repairs__tritonbench_g__bmm_optimized_grid_axes_checked__Proofs__Invariant-comparator.log",
+      "sha256": "d0f0124972ff3fa0e35782300896b30499f36457af28f1401c54f6a369960f44"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/bench__repairs__tritonbench_g__bmm_optimized_grid_axes_checked__Proofs__LegacyIO-comparator.log",
+      "sha256": "d0f0124972ff3fa0e35782300896b30499f36457af28f1401c54f6a369960f44"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/bench__repairs__tritonbench_g__bmm_optimized_grid_axes_checked__Proofs__LegacySurface-comparator.log",
+      "sha256": "d0f0124972ff3fa0e35782300896b30499f36457af28f1401c54f6a369960f44"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/bench__repairs__tritonbench_g__bmm_optimized_grid_axes_checked__Proofs__LogicalReader-comparator.log",
+      "sha256": "d0f0124972ff3fa0e35782300896b30499f36457af28f1401c54f6a369960f44"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/bench__repairs__tritonbench_g__bmm_optimized_grid_axes_checked__Proofs__Numerical-comparator.log",
+      "sha256": "c909a4f4053221d08685e7d4da2674a2bce98558a8facd1dba339d7913a967d4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/bench__repairs__tritonbench_g__bmm_optimized_grid_axes_checked__Proofs__Operands-comparator.log",
+      "sha256": "c909a4f4053221d08685e7d4da2674a2bce98558a8facd1dba339d7913a967d4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/bench__repairs__tritonbench_g__bmm_optimized_grid_axes_checked__Proofs__PairConnection-comparator.log",
+      "sha256": "c909a4f4053221d08685e7d4da2674a2bce98558a8facd1dba339d7913a967d4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/bench__repairs__tritonbench_g__bmm_optimized_grid_axes_checked__Proofs__PairIO-comparator.log",
+      "sha256": "c909a4f4053221d08685e7d4da2674a2bce98558a8facd1dba339d7913a967d4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/bench__repairs__tritonbench_g__bmm_optimized_grid_axes_checked__Proofs__Prologue-comparator.log",
+      "sha256": "c909a4f4053221d08685e7d4da2674a2bce98558a8facd1dba339d7913a967d4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/bench__repairs__tritonbench_g__bmm_optimized_grid_axes_checked__Proofs__PublicResults-comparator.log",
+      "sha256": "c909a4f4053221d08685e7d4da2674a2bce98558a8facd1dba339d7913a967d4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/bench__repairs__tritonbench_g__bmm_optimized_grid_axes_checked__Proofs__ReadGrid-comparator.log",
+      "sha256": "c909a4f4053221d08685e7d4da2674a2bce98558a8facd1dba339d7913a967d4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/bench__repairs__tritonbench_g__bmm_optimized_grid_axes_checked__Proofs__Reference-comparator.log",
+      "sha256": "c909a4f4053221d08685e7d4da2674a2bce98558a8facd1dba339d7913a967d4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/bench__repairs__tritonbench_g__bmm_optimized_grid_axes_checked__Proofs__SourceDecomposition-comparator.log",
+      "sha256": "c909a4f4053221d08685e7d4da2674a2bce98558a8facd1dba339d7913a967d4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/bench__repairs__tritonbench_g__bmm_optimized_grid_axes_checked__Proofs__SourceGraph-comparator.log",
+      "sha256": "42747a8b400a7646fa84a2467252165f1ab0a176a6cccfa58a168ed9ec6e6121"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/bench__repairs__tritonbench_g__bmm_optimized_grid_axes_checked__Proofs__SourcePreservation-comparator.log",
+      "sha256": "42747a8b400a7646fa84a2467252165f1ab0a176a6cccfa58a168ed9ec6e6121"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/bench__repairs__tritonbench_g__bmm_optimized_grid_axes_checked__Proofs__Tensor-comparator.log",
+      "sha256": "42747a8b400a7646fa84a2467252165f1ab0a176a6cccfa58a168ed9ec6e6121"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/bench__repairs__tritonbench_g__bmm_optimized_grid_axes_checked__Proofs__Writes-comparator.log",
+      "sha256": "42747a8b400a7646fa84a2467252165f1ab0a176a6cccfa58a168ed9ec6e6121"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/bench__tests__ConstexprMaskBody-comparator.log",
+      "sha256": "42747a8b400a7646fa84a2467252165f1ab0a176a6cccfa58a168ed9ec6e6121"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/comparator-invocations.json",
+      "sha256": "d2b4b24dfe8a9a92b66d3e26ecc9ed5b9fcb08a5ad5da8ed614a9ad17aaea575"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/comparator-tools.json",
+      "sha256": "28998e17d51b0fb5930f7489e64512a57f8a8146d1470063a624a75bbabdb0d3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/corpus-guard.log",
+      "sha256": "ca54942af16e0a409a1c17414c336681157d2ddf4fe6e18fd629d0c929a2e592"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/cpu-final.log",
+      "sha256": "3082dbffbd8264b8bfa78797d536d7d1b42a0a22eb2670455a31f8e4bb010d70"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/final-clean-build.log.gz",
+      "sha256": "063c2bee93029711f89b423b3e721006e53cee172f60709238dfa648c12b8501"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/final-clean-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/final-clean-setup.json",
+      "sha256": "5409a4b4a92687de6ef0cb58d3dc5d529e2a4e67fd703fb6cf9d9c9ba7fbb3c4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/focus-build.log.gz",
+      "sha256": "2d398ce69b1adac431bd0dd2364164ecfac9d301ac7d446da7f8cf236068bab1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/focus-invocations.json",
+      "sha256": "b3ffbb2ed235ac447953219548eaa7819262fa58876e69bd56886d4d952b4ce0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/focus-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/focus-modules.txt",
+      "sha256": "2b2cf705749be3f9db6f8ce3622a8a208ba30023506798adf6d55784e2a487eb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/inspections.json",
+      "sha256": "b61cbdd00a01cda238f8cc930d1e800cacc98dfd7569ba6ad12c0ad1dc4f3ff7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/integration-final.log.gz",
+      "sha256": "4efd1de7051de489ed878634a9094257874b59e4516cb7d3fd66270a589bf6f1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/joint-all.lean",
+      "sha256": "5dae5faed1200f684c31b40ad272e6fd700013b220112f25803f4d7433a0db91"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/joint-final.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/metadata-axes.log",
+      "sha256": "3213f600119aad877f6d820d380f8e3b55cc396a89be013fdb6744e6e7b6c7de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/modules.json",
+      "sha256": "2f4db46c28d16a60e8d65dd263a8be3285a591b7e9396c93970c4dd12b53e609"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/pairs.json",
+      "sha256": "c9e83773fde5dd1ac29deecf289f2f284cec7262cc565b06de397905e51e6889"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/previous-none-assignments.json",
+      "sha256": "11e9425810e730f530fd2a7f40883c964530dd240e8fcd8dcf3ec9b34d811657"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/previous-reviews.json.gz",
+      "sha256": "604af2666a9adc0eb3986e1cfb2b1614b36386cf628832916b5e1ddac8348b01"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/python-invocations.json",
+      "sha256": "c461e66e91e03321836da59cbbb4f7311acd30ff301be15dee6ee5ea52b2cd23"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/python-tests.log",
+      "sha256": "78f745ae8b3f5ea6bf60705fb4aa5083a22a9a48e5ddf658f523742188bafbb8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/raw-body-check.log",
+      "sha256": "0a3dd9d423482cb2d1f65819c07189c4938b2d75eac7a0db52014544966f778b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/source-closure.json",
+      "sha256": "6cffd92f6369971f5926201ffdcd19b4d48a018e1e22c61f01ca5c31af046dd1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/standalone-CallSignature.log",
+      "sha256": "87c100a89deee556ffbd89a64bbef1320c6355ba6e1401e0cf16ce12d27279ab"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/standalone-ConstexprMaskBody.log",
+      "sha256": "4feeb2f6a5959d42fe58afffee9333f23fd2a0269fd00755899ffd6f4d1ddc71"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/standalone-LoopBody.log",
+      "sha256": "1c5af0cee0da77bf411c10843337f3d0d604ec0b0b6fcd289ecef2f4aaf06f68"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/standalone-OptionalPointerBody.log",
+      "sha256": "35d13f6f2e45fbd34d4e01f54cb08bc603e40516cf97c75dc08a03f474e94d65"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/standalone-PythonConstantsBody.log",
+      "sha256": "e4158bbaf95330d01db7865fff07e33793ac7c52ce0a4d78cbe14747685d46ab"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/standalone-SourceDTypeBody.log",
+      "sha256": "1d08f1f64e2b1700e67d45e8992ecb3a872206d0be32439e18b3a637fda8906b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/standalone-SourceIntrinsicBody.log",
+      "sha256": "d124a87dd48c25ea6599a5d19427f2c5cd33668aed12f1a0e2aecbc40bc3da45"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/standalone-ValueDTypeBody.log",
+      "sha256": "b896fc294fc17b5dd353fff7413b4fbc1650a59ab3c325cafc1e767875240929"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/transferred-files.json",
+      "sha256": "7922bd7b1a894d9b0bdae9a9e3133e9ee06de9e45b48d70c1daa38bd1b6c7659"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-bmm-function-bodies/warm-final-invocation.json",
+      "sha256": "cb51c85102f5a0b5cf035e290193fb1bf8ba53e93cb0b9957581ad02e08dcc5d"
+    }
+  ]
+}

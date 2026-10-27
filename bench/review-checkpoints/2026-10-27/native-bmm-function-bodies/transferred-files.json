@@ -1,0 +1,27 @@
+{
+  "parent": "20c3435e10b91ce598f07f4f7713812e23c3b492",
+  "shared_core_changed": [
+    "VeriTile/Triton/DSL/CallSignature.lean",
+    "VeriTile/Triton/DSL/ConstexprMask.lean"
+  ],
+  "files": {
+    "VeriTile/Triton/DSL/CallSignature.lean": "b142f40e2c82a3d3c3bd5cab067b550b58799a37856f0644f1bca2d95f4ee26b",
+    "bench/repairs/tritonbench_g/bmm_optimized_grid_axes_checked/Kernels.lean": "f2b5abbd4154b6fe69ffde13466aeed4153011f7b56a238d24e9b2e83d34d57a",
+    "bench/repairs/tritonbench_g/bmm_optimized_grid_axes_checked/Proofs/Complete.lean": "c5b8da8a918a13a956a5c53a90339c075f463e4c6a0bec17f70be49d31f7ab33",
+    "bench/repairs/tritonbench_g/bmm_optimized_grid_axes_checked/Proofs/GraphRun.lean": "670cd132d6b505895cd5ef850a399dfac13c61e48324750a0fcf9e0abb8f5099",
+    "bench/repairs/tritonbench_g/bmm_optimized_grid_axes_checked/Proofs/GraphWholeSafety.lean": "9f64ab8b34117938365543d52ec4105275e802096345643628606b904b943ae8",
+    "bench/repairs/tritonbench_g/bmm_optimized_grid_axes_checked/Proofs/Invariant.lean": "256d833dc710f9c4fa99cd0a31b064e1ea932fb7b2fb35e5cace85cb0519fd0f",
+    "bench/repairs/tritonbench_g/bmm_optimized_grid_axes_checked/Proofs/PairConnection.lean": "5847af4126541802a95e63de6633fafd791841d97a859f178dbecda35d0178eb",
+    "bench/repairs/tritonbench_g/bmm_optimized_grid_axes_checked/Proofs/Prologue.lean": "04c8afd1362b95954d58006f99edc76d342e381913787d28c6fbc580103e9ddf",
+    "bench/repairs/tritonbench_g/bmm_optimized_grid_axes_checked/Proofs/SourceDecomposition.lean": "12c9496495536aa26bf2e7de32907cfcbb46253d05857d1dfa6ff1d83a2eb59d",
+    "bench/repairs/tritonbench_g/bmm_optimized_grid_axes_checked/Proofs/SourcePreservation.lean": "3caa2fa753298dc2192fa1b31eccc1628acdfe6f3cd935cf0f7aa4a38563928a",
+    "bench/repairs/tritonbench_g/bmm_optimized_grid_axes_checked/README.md": "c1b0c8471de6f0e82a9a63308a7e7c0900cd725941f5b1b63ed274129da9b4fd",
+    "bench/tests/test_jit_correspondence.py": "9e2998999ff0eaaa8c21d147ff12f7b23d9f0ac4fa4602b9649417e06df9b439",
+    "VeriTile/Triton/DSL/ConstexprMask.lean": "476b19ecd7cdba3c578468542bba0e95cd695879986afa07c739c09a436c58c6",
+    "bench/repairs/tritonbench_g/bmm_optimized_grid_axes_checked/candidate_kernels.py": "a2e0085f57cefa6e53b79b80a0b7c33be7fe7001b3fefc30c8ed07fbcb4b869b",
+    "bench/repairs/tritonbench_g/bmm_optimized_grid_axes_checked/jit-correspondence.json": "e29d8b0766e20a31257865dc20b34c506ac008a4624edc59c7b0e668d841df28",
+    "bench/tests/ConstexprMaskBody.lean": "41cc1f33ca954aa213c3caae820779dca8c5a1287e95f96426348d70b55208ac"
+  },
+  "code_commit": "2370db823036615f38aa38efdf4c810077beaa3d",
+  "original_python_wrappers_and_public_statements_unchanged": true
+}
