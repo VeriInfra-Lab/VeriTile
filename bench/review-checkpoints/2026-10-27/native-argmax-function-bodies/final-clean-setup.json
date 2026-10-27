@@ -1,0 +1,20 @@
+{
+  "code_commit": "8ced879783377834b3d62154f16279e16e787fc9",
+  "checkout": "/tmp/veritile-body77",
+  "project_build_initially_present": false,
+  "veritile_cache_initially_present": false,
+  "project_objects_imported_from_other_checkouts": false,
+  "fixed_external_packages_reused": "/home/argustest/lizn/VeriTile/.lake/packages",
+  "previous_failed_project_cache_removed": {
+    "removed": "/tmp/veritile-body77/.lake/build",
+    "reason": "Discard only this owned failed 81 project build after source7b regression logs/setup were archived; fresh final-source rebuild imports no project objects. Sources/evidence/pinned external dependencies retained.",
+    "failed_source_commit": "7b052dceb19b44665bb2ffb612bcaeb4c15addab",
+    "failed_build_exit_code": 1
+  },
+  "changed_source_sha256": {
+    "VeriTile/Triton/DSL/Constexpr.lean": "167269e39e3f81eb1f568a4cbb7cffb1777b5c5cc004b55ef40ba57dcb90cf75",
+    "bench/tests/ConstexprPower.lean": "0333dc3b96b6636576f9aca5e8ca645c8781611567c1134850eaf97e43cc55a4"
+  },
+  "build_exit_code": 0,
+  "joint_exit_code": 0
+}

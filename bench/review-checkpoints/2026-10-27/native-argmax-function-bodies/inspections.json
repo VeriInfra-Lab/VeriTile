@@ -1,0 +1,50 @@
+{
+  "code_commit": "8ced879783377834b3d62154f16279e16e787fc9",
+  "raw_bodies_and_wrapper": [
+    {
+      "name": "raw-body-check",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/triton_argmax_nan_first/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "8ced879783377834b3d62154f16279e16e787fc9",
+      "log": "/tmp/argmax81-raw-body-check.log",
+      "status": "PASS"
+    },
+    {
+      "name": "wrapper-source-check",
+      "command": [
+        "python3",
+        "bench/repairs/tritonbench_g/triton_argmax_nan_first/check_pair_source.py"
+      ],
+      "exit_code": 0,
+      "code_commit": "8ced879783377834b3d62154f16279e16e787fc9",
+      "log": "/tmp/argmax81-wrapper-source-check.log",
+      "status": "PASS"
+    }
+  ],
+  "cpu": {
+    "name": "cpu-final",
+    "command": [
+      "python3",
+      "bench/repairs/tritonbench_g/triton_argmax_nan_first/check_candidate.py"
+    ],
+    "exit_code": 1,
+    "code_commit": "8ced879783377834b3d62154f16279e16e787fc9",
+    "log": "/tmp/argmax81-cpu-final.log",
+    "status": "UNAVAILABLE"
+  },
+  "unchanged_selected_source_and_wrapper": {
+    "candidate_path": "bench/repairs/tritonbench_g/triton_argmax_nan_first/triton_argmax_shifted.py",
+    "candidate_sha256": "6e93465b9044ee2abb7dbd0dafc6ad9bddb45c00a794be84fe7313b25b5c6aa1",
+    "candidate_and_wrapper_unchanged": true,
+    "path": "bench/repairs/tritonbench_g/triton_argmax_nan_first/triton_argmax_nan_first.py",
+    "source_sha256": "01b513c0ea05c2102896e478721447ce171c8fcd0c71759f3565f9b5310eaaa9",
+    "status": "PASS",
+    "whole_selected_python_and_wrapper_unchanged": true
+  },
+  "scope": "Five unchanged original/existing guarded-shift candidate raw bodies; all 15 source dtype cases, full runtime loops, integer casts, dtype queries, NaN selection, clamps, rereads and stores. Both Python modules and wrappers unchanged. Native IO retains its original 13-format scope; structural pair covers all 15 source types. No GPU or new numerical experiment."
+}

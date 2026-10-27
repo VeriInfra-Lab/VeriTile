@@ -1,0 +1,6 @@
+{
+  "removed": "/tmp/veritile-body77/.lake/build",
+  "reason": "Discard only this owned failed 81 project build after source7b regression logs/setup were archived; fresh final-source rebuild imports no project objects. Sources/evidence/pinned external dependencies retained.",
+  "failed_source_commit": "7b052dceb19b44665bb2ffb612bcaeb4c15addab",
+  "failed_build_exit_code": 1
+}

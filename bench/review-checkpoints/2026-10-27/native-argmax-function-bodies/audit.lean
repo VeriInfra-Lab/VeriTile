@@ -1,0 +1,31 @@
+import bench.repairs.tritonbench_g.triton_argmax_nan_first.Correct
+import bench.repairs.tritonbench_g.triton_argmax_nan_first.FPEquiv
+set_option maxHeartbeats 32000000
+set_option maxRecDepth 32000
+#axiomsClean VeriTile.Bench.Repairs.TritonArgmaxNanFirst.JITPair.First.kernel_run
+#axiomsClean VeriTile.Bench.Repairs.TritonArgmaxNanFirst.JITPair.First.kernel_safe
+#axiomsClean VeriTile.Bench.Repairs.TritonArgmaxNanFirst.JITPair.Dimension.kernel_run
+#axiomsClean VeriTile.Bench.Repairs.TritonArgmaxNanFirst.JITPair.Dimension.kernel_safe
+#axiomsClean VeriTile.Bench.Repairs.TritonArgmaxNanFirst.JITStage1.floating_run
+#axiomsClean VeriTile.Bench.Repairs.TritonArgmaxNanFirst.JITStage1.floating_second
+#axiomsClean VeriTile.Bench.Repairs.TritonArgmaxNanFirst.JITInteger.source_run
+#axiomsClean VeriTile.Bench.Repairs.TritonArgmaxNanFirst.JITInteger.second_run
+#axiomsClean VeriTile.Bench.Repairs.TritonArgmaxNanFirst.JITRealGlobal.stage1_run
+#axiomsClean VeriTile.Bench.Repairs.TritonArgmaxNanFirst.JITRealGlobal.stage2_run
+#axiomsClean VeriTile.Bench.Repairs.TritonArgmaxNanFirst.JITDimension.source_run
+#axiomsClean VeriTile.Bench.Repairs.TritonArgmaxNanFirst.JITRealDimension.source_run
+#axiomsClean VeriTile.Bench.Repairs.TritonArgmaxNanFirst.JITSafety.native_first
+#axiomsClean VeriTile.Bench.Repairs.TritonArgmaxNanFirst.JITSafety.integer_first
+#axiomsClean VeriTile.Bench.Repairs.TritonArgmaxNanFirst.JITSafety.native_second
+#axiomsClean VeriTile.Bench.Repairs.TritonArgmaxNanFirst.JITSafety.integer_second
+#axiomsClean VeriTile.Bench.Repairs.TritonArgmaxNanFirst.JITNativeDimensionSafety.source_safe
+#axiomsClean VeriTile.Bench.Repairs.TritonArgmaxNanFirst.JITRealDimensionSafety.source_safe
+#axiomsClean VeriTile.Bench.Repairs.TritonArgmaxNanFirst.Correct.global
+#axiomsClean VeriTile.Bench.Repairs.TritonArgmaxNanFirst.Correct.dimension
+#axiomsClean VeriTile.Bench.Repairs.TritonArgmaxNanFirst.FPEquiv.global_equiv
+#axiomsClean VeriTile.Bench.Repairs.TritonArgmaxNanFirst.FPEquiv.dimension_equiv
+#axiomsClean VeriTile.Bench.Repairs.TritonArgmaxNanFirst.Typed.prefix_run
+#axiomsClean VeriTile.Bench.Repairs.TritonArgmaxNanFirst.Typed.source_run
+#axiomsClean VeriTile.Bench.Repairs.TritonArgmaxNanFirst.TypedReal.source_run
+#print_fp_assumptions VeriTile.Bench.Repairs.TritonArgmaxNanFirst.FPEquiv.global_equiv
+#print_fp_assumptions VeriTile.Bench.Repairs.TritonArgmaxNanFirst.FPEquiv.dimension_equiv

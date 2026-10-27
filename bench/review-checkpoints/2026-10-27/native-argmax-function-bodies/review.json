@@ -1,0 +1,676 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "8ced879783377834b3d62154f16279e16e787fc9",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "triton_argmax"
+  ],
+  "regression_only_pending_body_tasks": [
+    "kv_cache_filling"
+  ],
+  "semantic_review": {
+    "adam_update_triton": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "add_example": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "add_value": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "apply_penalty": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "attention_fwd_triton1": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "batched_vecmat_mult": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "bgmv_expand_slice": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "cache_transform_triton": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "chunk_cumsum_kernel": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "chunk_cumsum_vector": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "chunked_cumsum_fwd": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "cosine_compute": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "dequantize_matmul": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "dequantize_rowwise": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "destindex_copy": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "destindex_copy_kv1": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "destindex_copy_kv2": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "dropout_triton": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "embedding_triton_kernel": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "f8_conversion_utils": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "fast_rope_embedding": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "flash_decode2_llama": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "flash_decode2_phi": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "fused_activation": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "fused_recurrent_hgrn": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "fused_rotary_embedding": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "index_select_bwd": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "index_select_cat": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "int8_matmul_kernel": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "isfinite_kernel": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "kcache_copy_triton": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "kldiv_compute": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "kldiv_ops": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "kldiv_triton": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "kv_cache_copy": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "kv_cache_filling": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks. Python-body migration remains pending; its existing correspondence status is retained.",
+    "l2_norm_bwd": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "l2_norm_triton1": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "l2_norm_triton2": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "log_softmax": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "logsumexp_fwd": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "masked_add_cuda": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "masked_select": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "matmul_kernel": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "matrix_reduction": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "matrix_transpose": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "max_reduction": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "mean_reduction": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "mul_exponent_compensator": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "nested_loops_processing": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "quant_transpose_kernel": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "quantize_copy_kv": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "quantize_global": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "quantize_kv_copy": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "quantize_kv_transform": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "relu_strided_buffer": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "relu_triton_kernel": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "reversed_cumsum": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "reversed_cumsum_scalar": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "rms_norm_triton": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "rmsnorm_fused": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "rmsnorm_fused_llama": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "rmsnorm_implementation": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "rmsnorm_triton": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "rope_backward_transform": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "rope_embedding": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "rope_transform": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "rotary_emb": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "rotary_emb_nopad": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "rowwise_quantization_triton": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "seeded_dropout": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "sin_computation": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "sin_kernel": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "softmax_triton1": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "softmax_triton2": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "square_matrix": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "swiglu_backward": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "swiglu_fwd": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "swiglu_triton": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "token_attn_mistral": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "token_attn_reduceV": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "token_softmax_bloom": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "token_softmax_llama": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "triton_argmax": "All five complete original/existing candidate bodies are pasted verbatim: first stage, second stage and dimension kernel, plus both existing guarded-shift candidates. Original Python modules, wrappers, public Correct/FPEquiv/Contract/IO/PairIO and historical projected source modules are byte-identical. Explicit integer casts, runtime loops, unparenthesized constexpr conditional, dtype queries, tuple full, NaN selection, clamps, reductions, rereads, masks and stores remain. Caller pointer types, runtime parameters and constexpr bindings are outside the bodies. All 15 SourceDTypes elaborate and have actual complete original/candidate structural execution/failure and safety connections. Native global IO retains its original 13 requested-format scope; FP8 structural coverage is not relabeled as native IO coverage. The candidate retains the old non-specialized fallback for other block widths. Ordinary typed stores omit the fabricated FP32-to-FP32 cast previously inserted by the legacy SourceDType pass. The actual FP32 execution is re-proved under the existing concrete rounding backend; no arbitrary FP cast identity is assumed. Other floating conversions, signed/unsigned integer clamps/truncation and Bool byte ABI remain. Explicit read ports account for actual input reads. Outdated Nat-register observations are corrected to actual signed Int registers, including prefix invariants, selected indices, remainder/cast normalization, memory and access safety. The complete two-stage global Real/native result, full dimension loops/grids, tie/NaN behavior, coverage, initialized gather tail, aliases and exterior frame retain their public scope. No new axiom, whole-kernel premise, numerical experiment or domain narrowing. The pre-edit task baseline failed in old Nat-index proofs. Initial full builds of source7b exposed a real constexpr power regression outside argmax; both failures are retained. The parser fix and nested-grouping test preserve the exact binary64 power range and rejection guards, and all final focused/whole/empty-project checks pass.",
+    "triton_mul2": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "triton_softmax": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "var_len_copy": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "vector_addition": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "vector_addition_custom": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks."
+  },
+  "compiler_change": {
+    "files": [
+      "VeriTile/Triton/DSL/CallSignature.lean",
+      "VeriTile/Triton/DSL/PythonBody.lean",
+      "VeriTile/Triton/DSL/SourceDType.lean",
+      "VeriTile/Triton/DSL/Constexpr.lean"
+    ],
+    "behavior": "Shared call-signature frontend now accepts explicit caller-supplied SourceDType pointer binding, preserving source dtype queries and constexpr branches without the old fabricated store cast pass. Existing call sites retain their profiles. Typed constexpr RHS grouping preserves logical Python statement boundaries, with transparent parenthesis removal for existing exact static binary powers. All 3249 recorded public/deep roots and joint imports replay warm and independently from empty project objects on the final corrected commit. No new body migration, domain narrowing or numerical law is counted for unchanged tasks.",
+    "regressions": "Caller dtype binding and all-source branches, exact FP32/no-fabricated-cast versus FP16/integer/Bool stores, missing/conflicting bindings, metadata in pruned branches, runtime/mutable constexpr rejection; exact powers with and without grouping, rounded bases, overflow, underflow and nonconstant exponent rejection."
+  },
+  "verification": {
+    "baseline": "FAIL before migration at historical Nat-index Tile proofs; preserved without relabeling.",
+    "initial_full_builds": "FAIL on initial source7b at constexpr power recognition in mul_exponent_compensator and ConstexprPower; original warm/cold logs and setup retained, subsequent fix separately committed.",
+    "focused": {
+      "status": "PASS",
+      "explicit_modules": 117,
+      "argmax_modules": 87,
+      "jobs": 3681,
+      "additional_scope": "All mul_exponent_compensator roots and ConstexprPower; six standalone frontend guards and separate 25-theorem audit."
+    },
+    "warm_and_joint": {
+      "status": "PASS",
+      "explicit_modules": 3249,
+      "jobs": 12621
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 3249,
+      "jobs": 12621,
+      "project_build_initially_present": false,
+      "project_objects_imported_from_other_checkouts": false,
+      "only_fixed_external_dependencies_imported": true,
+      "setup": {
+        "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/final-clean-setup.json",
+        "sha256": "9740ff993080a730225f5e2a5752c8403fc9a18e835ed30ff0aa6159880f580f"
+      }
+    },
+    "trust": "PASS: 25 actual-source/public/typed-bridge footprints use only standard base. Both public global_equiv and dimension_equiv report no FP assumptions.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 117
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 362,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by old numerical receipt; no false repin."
+    },
+    "source": "PASS: five complete raw bodies, exact existing guarded candidate delta, external call/dtype bindings and byte-identical Python/wrappers.",
+    "official_comparator": "UNAVAILABLE: 26 actual final-source attempts with verified pinned binaries. Host Landlock ABI v4 is below required v5; no systemd user isolation or bypass.",
+    "cpu": "UNAVAILABLE: actual check_candidate.py CPU interpreter invocation requires missing Torch.",
+    "gpu_or_numerical_experiment": "Not run.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending; the known unchanged numerical receipt failure remains explicit."
+  },
+  "source_pairs": {
+    "total": 270,
+    "pasted_body": 270,
+    "legacy_ast": 0
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/source-closure.json",
+    "sha256": "1a7d57fb0c0b05e0ebaca86a4827d981f4aaab119b1d269b53cdedbaddd1efa3"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "no_selected_jit_resolved": 2,
+      "selected_body_copy_checked": 88,
+      "uncovered_jit_functions": 93
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 328,
+    "uncovered_selected_jit_functions": 193,
+    "primary_files_with_int64_screen_warning": 26,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 70,
+        "antiquotes": 78,
+        "dsl_loop": 1,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "example_regression_scope": "All 19 selected examples and all previous recorded task roots replay warm/joint and independently from empty project objects. Unselected historical model gaps are not relabeled as passing.",
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/VeriTile__Triton__DSL__CallSignature-comparator.log",
+      "sha256": "593387bc2eaa95b26b3859c2bc8c69f4aa78f899907ee03457b75ceb7dbe02af"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/VeriTile__Triton__DSL__Constexpr-comparator.log",
+      "sha256": "593387bc2eaa95b26b3859c2bc8c69f4aa78f899907ee03457b75ceb7dbe02af"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/VeriTile__Triton__DSL__PythonBody-comparator.log",
+      "sha256": "408b8ef818b80bde0493656d21f961ece8820a443e329b482ee9fc40508d629e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/VeriTile__Triton__DSL__SourceDType-comparator.log",
+      "sha256": "408b8ef818b80bde0493656d21f961ece8820a443e329b482ee9fc40508d629e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/all-python.log",
+      "sha256": "9179a65ce5778be1f599ae240fafeac2eafb1087fe389f3fc3f6f693e52bc8c6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/audit-targets.json",
+      "sha256": "8ab0e157da37f470a06be8a2311d838d55fb3839b11ef89bda4e1ed5c27d30b2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/audit.lean",
+      "sha256": "e1553a2db4a9507fcdb93c458b3b399d1befe5e9ad3fba9bb3e7a6f9a623d943"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/audit.log",
+      "sha256": "dd74b16d1447dd7d950893bd3b6ec80c5f8d2551e334eedce244603eeb4a7aae"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/baseline-build.log.gz",
+      "sha256": "ed028523ef0e03e9d0d9bc783947c5f78b81486756657a75bf1b06f61fd9c8be"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/baseline.json",
+      "sha256": "bca7adaedb03230275efafc2abc42391cb61e50b5b2ebdb659be3d53b0be73c6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/before-parentheses-fix/VeriTile__Triton__DSL__CallSignature-comparator.log",
+      "sha256": "1c58b5aea28c3fcaa0b70f8af974eab3528228e7a3d55ef0b6b41ce2218f65ca"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/before-parentheses-fix/VeriTile__Triton__DSL__PythonBody-comparator.log",
+      "sha256": "1c58b5aea28c3fcaa0b70f8af974eab3528228e7a3d55ef0b6b41ce2218f65ca"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/before-parentheses-fix/VeriTile__Triton__DSL__SourceDType-comparator.log",
+      "sha256": "1c58b5aea28c3fcaa0b70f8af974eab3528228e7a3d55ef0b6b41ce2218f65ca"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/before-parentheses-fix/all-python.log",
+      "sha256": "7af151355093adb663ac276a30d77d48becef5415cadc8103144c5062242d522"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/before-parentheses-fix/audit.log",
+      "sha256": "dd74b16d1447dd7d950893bd3b6ec80c5f8d2551e334eedce244603eeb4a7aae"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/before-parentheses-fix/bench__repairs__tritonbench_g__triton_argmax_nan_first__CandidateKernels-comparator.log",
+      "sha256": "1c58b5aea28c3fcaa0b70f8af974eab3528228e7a3d55ef0b6b41ce2218f65ca"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/before-parentheses-fix/bench__repairs__tritonbench_g__triton_argmax_nan_first__Correct-comparator.log",
+      "sha256": "e0817edb33bb1a234fd22c6e21221ae96ff30f37427f032761ce0f4c8b6ad149"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/before-parentheses-fix/bench__repairs__tritonbench_g__triton_argmax_nan_first__FPEquiv-comparator.log",
+      "sha256": "e0817edb33bb1a234fd22c6e21221ae96ff30f37427f032761ce0f4c8b6ad149"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/before-parentheses-fix/bench__repairs__tritonbench_g__triton_argmax_nan_first__Kernels-comparator.log",
+      "sha256": "e0817edb33bb1a234fd22c6e21221ae96ff30f37427f032761ce0f4c8b6ad149"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/before-parentheses-fix/bench__repairs__tritonbench_g__triton_argmax_nan_first__Proofs__AccessSafety-comparator.log",
+      "sha256": "e0817edb33bb1a234fd22c6e21221ae96ff30f37427f032761ce0f4c8b6ad149"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/before-parentheses-fix/bench__repairs__tritonbench_g__triton_argmax_nan_first__Proofs__JITPair-comparator.log",
+      "sha256": "e0817edb33bb1a234fd22c6e21221ae96ff30f37427f032761ce0f4c8b6ad149"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/before-parentheses-fix/bench__repairs__tritonbench_g__triton_argmax_nan_first__Proofs__JITStage1-comparator.log",
+      "sha256": "e0817edb33bb1a234fd22c6e21221ae96ff30f37427f032761ce0f4c8b6ad149"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/before-parentheses-fix/bench__repairs__tritonbench_g__triton_argmax_nan_first__Proofs__NativeDimensionSafety-comparator.log",
+      "sha256": "e0817edb33bb1a234fd22c6e21221ae96ff30f37427f032761ce0f4c8b6ad149"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/before-parentheses-fix/bench__repairs__tritonbench_g__triton_argmax_nan_first__Proofs__NativeSafety-comparator.log",
+      "sha256": "e0817edb33bb1a234fd22c6e21221ae96ff30f37427f032761ce0f4c8b6ad149"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/before-parentheses-fix/bench__repairs__tritonbench_g__triton_argmax_nan_first__Proofs__RealDimensionSafety-comparator.log",
+      "sha256": "126863b5d3edbaaa1b76f35bfcb9eb2ffe9657352d3f3a50909f46830b652100"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/before-parentheses-fix/bench__repairs__tritonbench_g__triton_argmax_nan_first__Proofs__TypedGlobal-comparator.log",
+      "sha256": "126863b5d3edbaaa1b76f35bfcb9eb2ffe9657352d3f3a50909f46830b652100"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/before-parentheses-fix/bench__repairs__tritonbench_g__triton_argmax_nan_first__Proofs__TypedInteger-comparator.log",
+      "sha256": "126863b5d3edbaaa1b76f35bfcb9eb2ffe9657352d3f3a50909f46830b652100"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/before-parentheses-fix/bench__repairs__tritonbench_g__triton_argmax_nan_first__Proofs__TypedIntegerMacro-comparator.log",
+      "sha256": "126863b5d3edbaaa1b76f35bfcb9eb2ffe9657352d3f3a50909f46830b652100"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/before-parentheses-fix/bench__repairs__tritonbench_g__triton_argmax_nan_first__Proofs__TypedLoop-comparator.log",
+      "sha256": "126863b5d3edbaaa1b76f35bfcb9eb2ffe9657352d3f3a50909f46830b652100"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/before-parentheses-fix/bench__repairs__tritonbench_g__triton_argmax_nan_first__Proofs__TypedNative-comparator.log",
+      "sha256": "126863b5d3edbaaa1b76f35bfcb9eb2ffe9657352d3f3a50909f46830b652100"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/before-parentheses-fix/bench__repairs__tritonbench_g__triton_argmax_nan_first__Proofs__TypedReal-comparator.log",
+      "sha256": "126863b5d3edbaaa1b76f35bfcb9eb2ffe9657352d3f3a50909f46830b652100"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/before-parentheses-fix/bench__repairs__tritonbench_g__triton_argmax_nan_first__Proofs__TypedRealGlobal-comparator.log",
+      "sha256": "ec461f0be2e4ac6d0e387df5001839fff3694645fda8a1edb2750c348f2b3f45"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/before-parentheses-fix/bench__repairs__tritonbench_g__triton_argmax_nan_first__Proofs__TypedScratch-comparator.log",
+      "sha256": "ec461f0be2e4ac6d0e387df5001839fff3694645fda8a1edb2750c348f2b3f45"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/before-parentheses-fix/bench__repairs__tritonbench_g__triton_argmax_nan_first__Proofs__TypedStep-comparator.log",
+      "sha256": "ec461f0be2e4ac6d0e387df5001839fff3694645fda8a1edb2750c348f2b3f45"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/before-parentheses-fix/bench__repairs__tritonbench_g__triton_argmax_nan_first__Proofs__TypedWhole-comparator.log",
+      "sha256": "ec461f0be2e4ac6d0e387df5001839fff3694645fda8a1edb2750c348f2b3f45"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/before-parentheses-fix/bench__tests__SourceDTypeBody-comparator.log",
+      "sha256": "ec461f0be2e4ac6d0e387df5001839fff3694645fda8a1edb2750c348f2b3f45"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/before-parentheses-fix/code.txt",
+      "sha256": "d0466dbac0ac2154838912103ce605005d8e7baa6262924501dd95bd0591b521"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/before-parentheses-fix/comparator-invocations.json",
+      "sha256": "afcabbb402fe5cb512e731311252713aa72cc0430f3f81c279fe4994e9424f22"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/before-parentheses-fix/cpu-final.log",
+      "sha256": "ea1ae9e4e45111e133a2eb60e3b0f9075f8ca148cee34edc26b477818211358a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/before-parentheses-fix/final-clean-build.log.gz",
+      "sha256": "c8e4ddb98e2bf7d5cb47b214d415446e6c22b83916aa273ea01a0ebfde9101ba"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/before-parentheses-fix/final-clean-setup.json",
+      "sha256": "efada275cadb2edacae28a76ccaf2cbec683dbd799ca63c857469c5ece53a274"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/before-parentheses-fix/focus-final-modules.txt",
+      "sha256": "b3e174a4503278d585796f3dd65418e0c05ef4b32092a2a9c56f04f398f173a3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/before-parentheses-fix/focus-final.log.gz",
+      "sha256": "3ff7c9e6a40537166811e77e793e89cfe14b42e3f167c9d58bd135e92bc853f6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/before-parentheses-fix/focus-invocations.json",
+      "sha256": "bc37f26c83871f2be5c78a3329e2323f651f5b39212662d00c97717537f8588d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/before-parentheses-fix/focus-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/before-parentheses-fix/inspections.json",
+      "sha256": "6b915757c96aaf09f621a4dd4fd9fba349912f33888419ce238e0866bb1d7847"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/before-parentheses-fix/integration-final.log.gz",
+      "sha256": "b458a0b671f9390b39e8617e8562f98353bac4640db8388110acec521f3b945b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/before-parentheses-fix/python-invocations.json",
+      "sha256": "c13e291e30f30978ad6996d09cdb5b4c76ae42a5aaf938b0e55aba4019d1e696"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/before-parentheses-fix/python-tests.log",
+      "sha256": "9c22d0ecd50f858d91eca095034d9b69d608b081774cddcbd1dbcf1984ff0b5e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/before-parentheses-fix/raw-body-check.log",
+      "sha256": "eac169dfd601df9e65463a96bbc221a1d9c9f95b28ac5c29d161dddef2cd511d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/before-parentheses-fix/standalone-CallSignature.log",
+      "sha256": "87c100a89deee556ffbd89a64bbef1320c6355ba6e1401e0cf16ce12d27279ab"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/before-parentheses-fix/standalone-ConstexprBody.log",
+      "sha256": "73fec58e5ca5a1bfcc47303778d5329a8dc34246a9a235530e638187cb9e8614"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/before-parentheses-fix/standalone-PythonBody.log",
+      "sha256": "fea245e02ca27e6bae6523d9e8a1f67fa130679cf670d7be4974b62fabad4f86"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/before-parentheses-fix/standalone-SourceDType.log",
+      "sha256": "5dbef1342a8302b0e3e557238c9adc690fec07daf653b2b068c27c22fab08b19"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/before-parentheses-fix/standalone-SourceDTypeBody.log",
+      "sha256": "1d08f1f64e2b1700e67d45e8992ecb3a872206d0be32439e18b3a637fda8906b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/before-parentheses-fix/transferred-files.json",
+      "sha256": "aa578fbcf5242897198403b393ab3679e2ed6cdc250ffe99e8ed47bd25a66480"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/before-parentheses-fix/warm-final-invocation.json",
+      "sha256": "29e6b610564017deebd0b4acba3ec8bcdd9bc964f5593975e78828f26c0d633b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/before-parentheses-fix/wrapper-source-check.log",
+      "sha256": "4a03503be69bc858c9b2504206719c7ac1f5ca4973e0a7f76333c86e7bf50f54"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/bench__repairs__tritonbench_g__triton_argmax_nan_first__CandidateKernels-comparator.log",
+      "sha256": "408b8ef818b80bde0493656d21f961ece8820a443e329b482ee9fc40508d629e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/bench__repairs__tritonbench_g__triton_argmax_nan_first__Correct-comparator.log",
+      "sha256": "408b8ef818b80bde0493656d21f961ece8820a443e329b482ee9fc40508d629e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/bench__repairs__tritonbench_g__triton_argmax_nan_first__FPEquiv-comparator.log",
+      "sha256": "408b8ef818b80bde0493656d21f961ece8820a443e329b482ee9fc40508d629e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/bench__repairs__tritonbench_g__triton_argmax_nan_first__Kernels-comparator.log",
+      "sha256": "408b8ef818b80bde0493656d21f961ece8820a443e329b482ee9fc40508d629e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/bench__repairs__tritonbench_g__triton_argmax_nan_first__Proofs__AccessSafety-comparator.log",
+      "sha256": "408b8ef818b80bde0493656d21f961ece8820a443e329b482ee9fc40508d629e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/bench__repairs__tritonbench_g__triton_argmax_nan_first__Proofs__JITPair-comparator.log",
+      "sha256": "408b8ef818b80bde0493656d21f961ece8820a443e329b482ee9fc40508d629e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/bench__repairs__tritonbench_g__triton_argmax_nan_first__Proofs__JITStage1-comparator.log",
+      "sha256": "408b8ef818b80bde0493656d21f961ece8820a443e329b482ee9fc40508d629e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/bench__repairs__tritonbench_g__triton_argmax_nan_first__Proofs__NativeDimensionSafety-comparator.log",
+      "sha256": "df7bc388b766e461b169096a20c17185f01c93fb7b9a526c547bb7a5aa1e9d02"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/bench__repairs__tritonbench_g__triton_argmax_nan_first__Proofs__NativeSafety-comparator.log",
+      "sha256": "df7bc388b766e461b169096a20c17185f01c93fb7b9a526c547bb7a5aa1e9d02"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/bench__repairs__tritonbench_g__triton_argmax_nan_first__Proofs__RealDimensionSafety-comparator.log",
+      "sha256": "df7bc388b766e461b169096a20c17185f01c93fb7b9a526c547bb7a5aa1e9d02"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/bench__repairs__tritonbench_g__triton_argmax_nan_first__Proofs__TypedGlobal-comparator.log",
+      "sha256": "df7bc388b766e461b169096a20c17185f01c93fb7b9a526c547bb7a5aa1e9d02"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/bench__repairs__tritonbench_g__triton_argmax_nan_first__Proofs__TypedInteger-comparator.log",
+      "sha256": "df7bc388b766e461b169096a20c17185f01c93fb7b9a526c547bb7a5aa1e9d02"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/bench__repairs__tritonbench_g__triton_argmax_nan_first__Proofs__TypedIntegerMacro-comparator.log",
+      "sha256": "df7bc388b766e461b169096a20c17185f01c93fb7b9a526c547bb7a5aa1e9d02"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/bench__repairs__tritonbench_g__triton_argmax_nan_first__Proofs__TypedLoop-comparator.log",
+      "sha256": "df7bc388b766e461b169096a20c17185f01c93fb7b9a526c547bb7a5aa1e9d02"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/bench__repairs__tritonbench_g__triton_argmax_nan_first__Proofs__TypedNative-comparator.log",
+      "sha256": "df7bc388b766e461b169096a20c17185f01c93fb7b9a526c547bb7a5aa1e9d02"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/bench__repairs__tritonbench_g__triton_argmax_nan_first__Proofs__TypedReal-comparator.log",
+      "sha256": "3e0b5c05859d906b0fdc69872af17d610bb946e2a9e8c422c724b2f3ae2d26d3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/bench__repairs__tritonbench_g__triton_argmax_nan_first__Proofs__TypedRealGlobal-comparator.log",
+      "sha256": "3e0b5c05859d906b0fdc69872af17d610bb946e2a9e8c422c724b2f3ae2d26d3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/bench__repairs__tritonbench_g__triton_argmax_nan_first__Proofs__TypedScratch-comparator.log",
+      "sha256": "3e0b5c05859d906b0fdc69872af17d610bb946e2a9e8c422c724b2f3ae2d26d3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/bench__repairs__tritonbench_g__triton_argmax_nan_first__Proofs__TypedStep-comparator.log",
+      "sha256": "3e0b5c05859d906b0fdc69872af17d610bb946e2a9e8c422c724b2f3ae2d26d3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/bench__repairs__tritonbench_g__triton_argmax_nan_first__Proofs__TypedWhole-comparator.log",
+      "sha256": "3e0b5c05859d906b0fdc69872af17d610bb946e2a9e8c422c724b2f3ae2d26d3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/bench__tests__ConstexprPower-comparator.log",
+      "sha256": "3e0b5c05859d906b0fdc69872af17d610bb946e2a9e8c422c724b2f3ae2d26d3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/bench__tests__SourceDTypeBody-comparator.log",
+      "sha256": "3e0b5c05859d906b0fdc69872af17d610bb946e2a9e8c422c724b2f3ae2d26d3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/comparator-invocations.json",
+      "sha256": "1d7b1d285e53fea851fa04022a9157422f50453a0702089b362e59ac7969fbdc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/comparator-tools.json",
+      "sha256": "28998e17d51b0fb5930f7489e64512a57f8a8146d1470063a624a75bbabdb0d3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/corpus-guard.log",
+      "sha256": "7ab5fbaed2ebff7d59447c5e0040828892eed409e92641600a72a6afe07a339c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/cpu-final.log",
+      "sha256": "ea1ae9e4e45111e133a2eb60e3b0f9075f8ca148cee34edc26b477818211358a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/failed-cache-cleanup.json",
+      "sha256": "256ec5d1c30825bdf532a993ddf5a70ec7644361a40fa2fd745e29489255b0b4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/final-clean-build.log.gz",
+      "sha256": "7d789b8afbf7e5049421cfcc9f378748df540768af90c3faaa1ea205188a6a04"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/final-clean-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/final-clean-setup.json",
+      "sha256": "9740ff993080a730225f5e2a5752c8403fc9a18e835ed30ff0aa6159880f580f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/focus-final-modules.txt",
+      "sha256": "9d9e1b0e7326fa38b963103699d9ad786aee7841ffd92c1390d9a0cf680d6b83"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/focus-final.log.gz",
+      "sha256": "15e682910a4d131ad58393f95564e1f238c85df120790785d50aef082287ba12"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/focus-invocations.json",
+      "sha256": "d1436aeb7648f32cdcd83e32bd699dcf1257dd62fbd3113e906342787fe92cca"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/focus-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/inspections.json",
+      "sha256": "bd55aa1fcb3ac2779a4169a3230c5a10389321f413b228876aea30ab243de4fc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/integration-final.log.gz",
+      "sha256": "98a1679542c21b730609070b02017e3858e0f6079fa20197f7024647e9022609"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/joint-all.lean",
+      "sha256": "3d46bb7aebf15ffde13ad7a8878584ec1bcbfb6d38f3231689945e386bf4ad2a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/joint-final.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/modules.json",
+      "sha256": "2333a4ccd9fff4da34a8ef8e4a9f8343c703173c7fb9e5eea270dcc42d6139ed"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/pairs.json",
+      "sha256": "759a9482a7595ad44828751bbe363015cac6baf1990c3280d60e9f386ec27141"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/previous-cache-cleanup.json",
+      "sha256": "2c1c92d61615887acd4afa32a5cacc032856619ac2c8b0c946e4a7fbbe7eb759"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/previous-reviews.json.gz",
+      "sha256": "f1c78c98b41880bcb0b02b2e8550c80ed2b5b9c99507ea49e5af7d66f97e6d67"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/python-invocations.json",
+      "sha256": "5108e85890cc06634bec1bedb0656d87ccf0fabe23c229c4c4d796c5007270af"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/python-tests.log",
+      "sha256": "838d3950a758e2e6215e1f1435c3a75641d230f9fe0dd3150e46f4ab60a5ff4a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/raw-body-check.log",
+      "sha256": "eac169dfd601df9e65463a96bbc221a1d9c9f95b28ac5c29d161dddef2cd511d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/source-closure.json",
+      "sha256": "1a7d57fb0c0b05e0ebaca86a4827d981f4aaab119b1d269b53cdedbaddd1efa3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/standalone-CallSignature.log",
+      "sha256": "87c100a89deee556ffbd89a64bbef1320c6355ba6e1401e0cf16ce12d27279ab"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/standalone-ConstexprBody.log",
+      "sha256": "73fec58e5ca5a1bfcc47303778d5329a8dc34246a9a235530e638187cb9e8614"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/standalone-ConstexprPower.log",
+      "sha256": "36f53f516621467358e9a83586689c00191e72f7c54b0b83232bd33681a1471a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/standalone-PythonBody.log",
+      "sha256": "fea245e02ca27e6bae6523d9e8a1f67fa130679cf670d7be4974b62fabad4f86"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/standalone-SourceDType.log",
+      "sha256": "5dbef1342a8302b0e3e557238c9adc690fec07daf653b2b068c27c22fab08b19"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/standalone-SourceDTypeBody.log",
+      "sha256": "1d08f1f64e2b1700e67d45e8992ecb3a872206d0be32439e18b3a637fda8906b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/transferred-files.json",
+      "sha256": "dfa670cd50d2c6e2d352f2627cbc060fdf64b4c67263f144f5e269b998696e24"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/warm-final-invocation.json",
+      "sha256": "d39d1e0c2241f6d97459581bde0e14c6461fe96873c03fee1b33e561db6c41a1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-argmax-function-bodies/wrapper-source-check.log",
+      "sha256": "4a03503be69bc858c9b2504206719c7ac1f5ca4973e0a7f76333c86e7bf50f54"
+    }
+  ]
+}

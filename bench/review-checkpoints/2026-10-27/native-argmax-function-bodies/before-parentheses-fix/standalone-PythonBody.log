@@ -1,0 +1,57 @@
+bench/tests/PythonBody.lean:75:40: warning: This simp argument is unused:
+  ComputeKernel.surfaceBody
+
+Hint: Omit it from the simp argument list.
+  simp [scalarCast, FP.Structural.exec, C̵o̵m̵p̵u̵t̵e̵K̵e̵r̵n̵e̵l̵.̵s̵u̵r̵f̵a̵c̵e̵B̵o̵d̵y̵,̵FP.Structural.run, FP.Structural.step,
+  ̲  ̲ ̲ ̲FP.Structural.evalExpr, FP.Structural.evalOp_unfold, FP.Structural.State.setReg]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Tests.PythonBody.terminal_return_preserves_whole_program: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.PythonBody.return_only_is_empty: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.PythonBody.original_comments_indentation_and_integer_calls: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.PythonBody.scalar_cast_is_retained: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.PythonBody.signed_call_executes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.PythonBody.ReservedAndControlFlow.keyword_names: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.PythonBody.ReservedAndControlFlow.augmented_precision: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.PythonBody.ReservedAndControlFlow.branch_precision: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+bench/tests/PythonBody.lean:302:36: warning: This simp argument is unused:
+  ComputeKernel.surfaceBody
+
+Hint: Omit it from the simp argument list.
+  simp [pasted, FP.Structural.exec, C̵o̵m̵p̵u̵t̵e̵K̵e̵r̵n̵e̵l̵.̵s̵u̵r̵f̵a̵c̵e̵B̵o̵d̵y̵,̵ ̵FP.Structural.run, FP.Structural.step, FP.Structural.evalExpr,
+  ̲  ̲ ̲ ̲FP.Structural.evalOp_unfold, FP.Structural.State.setReg, FP.Structural.numeric,
+  ̲  ̲ ̲ ̲FP.Structural.bop, ComputeDType.eraseDType]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+bench/tests/PythonBody.lean:305:4: warning: This simp argument is unused:
+  ComputeDType.eraseDType
+
+Hint: Omit it from the simp argument list.
+  simp [pasted, FP.Structural.exec, ComputeKernel.surfaceBody, FP.Structural.run,
+      FP.Structural.step, FP.Structural.evalExpr, FP.Structural.evalOp_unfold,
+      FP.Structural.State.setReg, FP.Structural.numeric, FP.Structural.bop,̵
+  ̵ ̵ ̵ ̵ ̵C̵o̵m̵p̵u̵t̵e̵D̵T̵y̵p̵e̵.̵e̵r̵a̵s̵e̵D̵T̵y̵p̵e̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Tests.PythonBody.ParenthesizedAssignment.same_complete_program: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.PythonBody.ParenthesizedAssignment.independent_tuple_executes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,7 @@
+{
+  "removed": "/tmp/veritile-body77/.lake/build",
+  "reason": "Completed independently rebuilt 80 project artifacts, after immutable evidence and receipt were published. Only this owned regenerable cache is removed; sources, evidence and pinned external dependencies remain.",
+  "verified_receipt": "c37b8d50ee87ae783c96a4c95a1640388cb6ae55",
+  "previous_build_exit_code": 0,
+  "previous_joint_exit_code": 0
+}

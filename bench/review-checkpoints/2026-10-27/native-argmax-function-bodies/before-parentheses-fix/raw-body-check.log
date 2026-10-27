@@ -1,0 +1,103 @@
+[
+  {
+    "python_function": "argmax_kernel_1_repaired",
+    "lean_definition": "stage1",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "runtime_registers",
+    "call_bindings": null,
+    "statements": 20,
+    "runtime_parameters": {
+      "M": "i64",
+      "program_base": "i64"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE",
+      "INT64_INDEX"
+    ],
+    "source_dtype": {
+      "pointer": "mid_value",
+      "value": "MID_DTYPE"
+    }
+  },
+  {
+    "python_function": "argmax_kernel_2_repaired",
+    "lean_definition": "stage2",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "runtime_registers",
+    "call_bindings": null,
+    "statements": 9,
+    "runtime_parameters": {
+      "mid_size": "i64"
+    },
+    "constexpr_parameters": [
+      "BLOCK_MID"
+    ],
+    "source_dtype": {
+      "pointer": "mid_value",
+      "value": "MID_DTYPE"
+    }
+  },
+  {
+    "python_function": "argmax_kernel_repaired",
+    "lean_definition": "dimension",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "runtime_registers",
+    "call_bindings": null,
+    "statements": 12,
+    "runtime_parameters": {
+      "M": "i64",
+      "N": "i64",
+      "K": "i64",
+      "program_base": "i64"
+    },
+    "constexpr_parameters": [
+      "BLOCK_M",
+      "BLOCK_N",
+      "INT64_INDEX"
+    ]
+  },
+  {
+    "python_function": "argmax_kernel_1_shifted",
+    "lean_definition": "stage1",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "runtime_registers",
+    "call_bindings": null,
+    "statements": 20,
+    "runtime_parameters": {
+      "M": "i64",
+      "program_base": "i64"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE",
+      "INT64_INDEX"
+    ],
+    "source_dtype": {
+      "pointer": "mid_value",
+      "value": "MID_DTYPE"
+    }
+  },
+  {
+    "python_function": "argmax_kernel_shifted",
+    "lean_definition": "dimension",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "runtime_registers",
+    "call_bindings": null,
+    "statements": 12,
+    "runtime_parameters": {
+      "M": "i64",
+      "N": "i64",
+      "K": "i64",
+      "program_base": "i64"
+    },
+    "constexpr_parameters": [
+      "BLOCK_M",
+      "BLOCK_N",
+      "INT64_INDEX"
+    ]
+  }
+]

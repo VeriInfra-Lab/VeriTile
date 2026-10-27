@@ -1,0 +1,2 @@
+PASS: exact complete-module AST restoration; global1024 and dimension128 guarded shifts with generic fallbacks; all requested casts/formats, NaN flags, reductions, stages, casts, masks, host flow preserved
+PASS: 5 complete Python JIT / Lean quotation pairs
