@@ -35,7 +35,7 @@ theorem site_run {α : Type} [Inhabited α] (A : Algebra α) (s : State α)
       ComputeKernel.surfaceBody, List.getElem?_cons_succ, List.getElem?_cons_zero, Option.getD_some]
   all_goals by_cases h : block = 1024
   all_goals simp [h, step, run, evalExpr, evalComputeOp, evalOp_unfold,
-    Op.intShiftLeft, IntegerExpr.sameShape, numeric, bop, Broadcast.leftIndex,
+    Op.intShiftLeft, IntegerExpr.sameShape, numeric, numericEq, bop, Broadcast.leftIndex,
     Broadcast.rightIndex, Int.natCast_pow, Nat.shiftLeft_eq]
 
 theorem kernel_run {α : Type} [Inhabited α] (A : Algebra α) (s : State α)
@@ -59,7 +59,7 @@ theorem site_safe {α : Type} [Inhabited α] (A : Algebra α) (bounds : RegionNa
   all_goals by_cases h : block = 1024
   all_goals simp [h, Safety.stepSafe_unfold, Safety.safeExpr_unfold, Safety.safeOp_unfold,
     Safety.traceSafeList_cons, Safety.traceSafeList_nil, evalOp_unfold, Op.intShiftLeft,
-    IntegerExpr.sameShape]
+    IntegerExpr.sameShape, numericEq, bop, Broadcast.leftIndex, Broadcast.rightIndex]
 
 theorem kernel_safe {α : Type} [Inhabited α] (A : Algebra α) (bounds : RegionName → Nat)
     (X V : RegionName) (I : Region .int) (dtype : SourceDType) (block : Nat) (wide : Bool) (s : State α) :
@@ -108,7 +108,7 @@ theorem site_run {α : Type} [Inhabited α] (A : Algebra α) (s : State α)
       ComputeKernel.surfaceBody, List.getElem?_cons_succ, List.getElem?_cons_zero, Option.getD_some]
   all_goals by_cases h : block = 128
   all_goals simp [h, step, run, evalExpr, evalComputeOp, evalOp_unfold,
-    Op.intShiftLeft, IntegerExpr.sameShape, numeric, bop, Broadcast.leftIndex,
+    Op.intShiftLeft, IntegerExpr.sameShape, numeric, numericEq, bop, Broadcast.leftIndex,
     Broadcast.rightIndex, Int.natCast_pow, Nat.shiftLeft_eq]
 
 theorem kernel_run {α : Type} [Inhabited α] (A : Algebra α) (s : State α)
@@ -131,7 +131,7 @@ theorem site_safe {α : Type} [Inhabited α] (A : Algebra α) (bounds : RegionNa
   all_goals by_cases h : block = 128
   all_goals simp [h, Safety.stepSafe_unfold, Safety.safeExpr_unfold, Safety.safeOp_unfold,
     Safety.traceSafeList_cons, Safety.traceSafeList_nil, evalOp_unfold, Op.intShiftLeft,
-    IntegerExpr.sameShape]
+    IntegerExpr.sameShape, numericEq, bop, Broadcast.leftIndex, Broadcast.rightIndex]
 
 theorem kernel_safe {α : Type} [Inhabited α] (A : Algebra α) (bounds : RegionName → Nat)
     (X : RegionName) (I : Region .int) (block columns : Nat) (wide : Bool) (s : State α) :

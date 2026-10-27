@@ -94,6 +94,14 @@ private structure Line where
 
 private def emit (lines : Array Line) (indent : Nat) (text : String) : Array Line :=
   let text := text.trimAscii.toString
+  -- Keep a typed constexpr RHS within its original logical Python line.
+  -- In particular, `x: tl.constexpr = a if c else b` needs no extra
+  -- parentheses in the copied body, and a following `if` starts a statement.
+  let pieces := text.splitOn "="
+  let lhs := pieces.head!.trimAscii.toString
+  let text := if !pieces.tail.isEmpty && lhs.endsWith "tl.constexpr" then
+      lhs ++ " = (" ++ (String.intercalate "=" pieces.tail).trimAscii.toString ++ ")"
+    else text
   if text.isEmpty then lines else lines.push ⟨indent,text⟩
 
 private partial def logicalLines (input : List Char) (lines : Array Line := #[])

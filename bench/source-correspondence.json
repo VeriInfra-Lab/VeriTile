@@ -6,9 +6,8 @@
     "tasks": 183,
     "examples": 19,
     "task_status": {
-      "legacy_ast_only": 1,
       "no_selected_jit_resolved": 2,
-      "selected_body_copy_checked": 87,
+      "selected_body_copy_checked": 88,
       "uncovered_jit_functions": 93
     },
     "example_status": {
@@ -21,8 +20,8 @@
     "primary_files_with_int64_screen_warning": 26,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 71,
-        "antiquotes": 79,
+        "in_body_type_directives": 70,
+        "antiquotes": 78,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 8
       },
@@ -17320,12 +17319,12 @@
       "source_provenance": "selected_revision",
       "lean_screen": {
         "quotations": 3,
-        "in_body_type_directives": 9,
-        "antiquotes": 11,
-        "dsl_assignment": 5,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 22,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 19
+        "load_dtype_extension": 2
       },
       "python_jits": [
         {
@@ -17435,18 +17434,22 @@
           "python_function": "argmax_kernel_1_repaired",
           "lean_definition": "stage1",
           "status": "PASS",
-          "mode": "legacy_ast",
+          "mode": "pasted_body",
           "argument_mode": "runtime_registers",
           "call_bindings": null,
           "statements": 20,
           "runtime_parameters": {
-            "M": "tl.int64",
-            "program_base": "tl.int64"
+            "M": "i64",
+            "program_base": "i64"
           },
           "constexpr_parameters": [
             "BLOCK_SIZE",
             "INT64_INDEX"
           ],
+          "source_dtype": {
+            "pointer": "mid_value",
+            "value": "MID_DTYPE"
+          },
           "python": "bench/repairs/tritonbench_g/triton_argmax_nan_first/triton_argmax_nan_first.py",
           "lean": "bench/repairs/tritonbench_g/triton_argmax_nan_first/Kernels.lean"
         },
@@ -17454,16 +17457,20 @@
           "python_function": "argmax_kernel_2_repaired",
           "lean_definition": "stage2",
           "status": "PASS",
-          "mode": "legacy_ast",
+          "mode": "pasted_body",
           "argument_mode": "runtime_registers",
           "call_bindings": null,
           "statements": 9,
           "runtime_parameters": {
-            "mid_size": "tl.int64"
+            "mid_size": "i64"
           },
           "constexpr_parameters": [
             "BLOCK_MID"
           ],
+          "source_dtype": {
+            "pointer": "mid_value",
+            "value": "MID_DTYPE"
+          },
           "python": "bench/repairs/tritonbench_g/triton_argmax_nan_first/triton_argmax_nan_first.py",
           "lean": "bench/repairs/tritonbench_g/triton_argmax_nan_first/Kernels.lean"
         },
@@ -17471,15 +17478,15 @@
           "python_function": "argmax_kernel_repaired",
           "lean_definition": "dimension",
           "status": "PASS",
-          "mode": "legacy_ast",
+          "mode": "pasted_body",
           "argument_mode": "runtime_registers",
           "call_bindings": null,
           "statements": 12,
           "runtime_parameters": {
-            "M": "tl.int64",
-            "N": "tl.int64",
-            "K": "tl.int64",
-            "program_base": "tl.int64"
+            "M": "i64",
+            "N": "i64",
+            "K": "i64",
+            "program_base": "i64"
           },
           "constexpr_parameters": [
             "BLOCK_M",
@@ -17493,18 +17500,22 @@
           "python_function": "argmax_kernel_1_shifted",
           "lean_definition": "stage1",
           "status": "PASS",
-          "mode": "legacy_ast",
+          "mode": "pasted_body",
           "argument_mode": "runtime_registers",
           "call_bindings": null,
           "statements": 20,
           "runtime_parameters": {
-            "M": "tl.int64",
-            "program_base": "tl.int64"
+            "M": "i64",
+            "program_base": "i64"
           },
           "constexpr_parameters": [
             "BLOCK_SIZE",
             "INT64_INDEX"
           ],
+          "source_dtype": {
+            "pointer": "mid_value",
+            "value": "MID_DTYPE"
+          },
           "python": "bench/repairs/tritonbench_g/triton_argmax_nan_first/triton_argmax_shifted.py",
           "lean": "bench/repairs/tritonbench_g/triton_argmax_nan_first/CandidateKernels.lean"
         },
@@ -17512,15 +17523,15 @@
           "python_function": "argmax_kernel_shifted",
           "lean_definition": "dimension",
           "status": "PASS",
-          "mode": "legacy_ast",
+          "mode": "pasted_body",
           "argument_mode": "runtime_registers",
           "call_bindings": null,
           "statements": 12,
           "runtime_parameters": {
-            "M": "tl.int64",
-            "N": "tl.int64",
-            "K": "tl.int64",
-            "program_base": "tl.int64"
+            "M": "i64",
+            "N": "i64",
+            "K": "i64",
+            "program_base": "i64"
           },
           "constexpr_parameters": [
             "BLOCK_M",
@@ -17534,11 +17545,11 @@
       "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "legacy_ast_only",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/triton_argmax_nan_first/CandidateKernels.lean": "186ba1d99d0a61d6f2109d6f805d91514b96b8a743f16018210ee1daebe5abc8",
-        "bench/repairs/tritonbench_g/triton_argmax_nan_first/Kernels.lean": "e95584ddb63f948d60b5515e9d24986e8f151e8b064598b78f19a9ed861d7544",
-        "bench/repairs/tritonbench_g/triton_argmax_nan_first/jit-correspondence.json": "b5acd20f92361e2e2ea875705ee53b1b628e43590b2f2bd8bb26d0e32aec6105",
+        "bench/repairs/tritonbench_g/triton_argmax_nan_first/CandidateKernels.lean": "cca2cdd550e3f1a9fab3115ba5edefb351a3ada72de447932df5fa69a21b0c2d",
+        "bench/repairs/tritonbench_g/triton_argmax_nan_first/Kernels.lean": "abbb880abe0bd134526fdfbecb79ef236bcab42000ec390a6ddbc7098d0ee90f",
+        "bench/repairs/tritonbench_g/triton_argmax_nan_first/jit-correspondence.json": "5e4868437c54792459a1f67759e79588139e2d2037d71e0b095fda84a0b121e3",
         "bench/repairs/tritonbench_g/triton_argmax_nan_first/triton_argmax_nan_first.py": "01b513c0ea05c2102896e478721447ce171c8fcd0c71759f3565f9b5310eaaa9",
         "bench/repairs/tritonbench_g/triton_argmax_nan_first/triton_argmax_shifted.py": "6e93465b9044ee2abb7dbd0dafc6ad9bddb45c00a794be84fe7313b25b5c6aa1"
       }

@@ -2,6 +2,7 @@ import VeriTile.Triton.DSL.TypedStores
 import VeriTile.Triton.DSL.PythonBody
 import VeriTile.Triton.DSL.RankOneBlockPtr
 import VeriTile.Triton.DSL.SourceFunction
+import VeriTile.Triton.DSL.SourceDType
 import VeriTile.Triton.DSL.Constexpr
 import Lean
 
@@ -20,6 +21,10 @@ inductive ScalarType where
 
 structure CallSignature where
   pointers : List (String × PointerType) := []
+  /-- Pointer names whose full source dtype is supplied by the invocation.
+  The source_dtype entrypoint checks every constructor, including integer and
+  floating storage; it does not restrict the caller to one dtype. -/
+  sourceDTypePointers : List String := []
   scalars : List (String × ScalarType) := []
   constexpr : List String := []
   /-- Keep the typed FP32 memory channel used by a caller's existing IO.
@@ -52,6 +57,8 @@ namespace DSL.CallSignature
 open Lean Elab Term Meta
 
 syntax "with_triton_signature " term " in " "triton" tritonPythonBody : term
+syntax "with_triton_signature " term " source_dtype " ident " := " term " in "
+  "triton" tritonPythonBody : term
 declare_syntax_cat tritonCallBinding
 syntax ident " := " term : tritonCallBinding
 syntax "with_triton_call " term " call_args " "[" tritonCallBinding,* "]" " in "
@@ -479,6 +486,9 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
     (callValues : Option (Array (TSyntax `tritonCallBinding)))
     (pointerOffsets : Option (Array (TSyntax `tritonCallBinding)) := none) : TermElabM Expr := do
       let profile ← elabTermEnsuringType profile (mkConst ``Triton.CallSignature)
+      let dtypePointers ← listValues (← mkAppM ``Triton.CallSignature.sourceDTypePointers #[profile])
+      unless dtypePointers.isEmpty do
+        throwError "source dtype pointer requires its source_dtype invocation binding"
       let pointers ← bindings dtypeValue (← mkAppM ``Triton.CallSignature.pointers #[profile])
       let storage ← whnf (← mkAppM ``Triton.CallSignature.typedFP32Storage #[profile])
       let typedFP32 := storage.isConstOf ``Bool.true
@@ -794,7 +804,42 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
         if e.isAppOfArity ``Random.sourceIntCallValue 2 ||
             e.isAppOfArity ``Random.sourceNatCallValue 2 then some e.appArg! else none
 
+/-- The call provides the dtype; the copied function retains dtype queries.
+Each finite dtype case goes through the same ordinary checked call elaborator. -/
+private def elaborateSourceDType (profile : TSyntax `term) (pointer : Ident)
+    (kind : TSyntax `term) (stmts : Array (TSyntax `tritonStmt)) : TermElabM Expr := do
+  let signature ← elabTermEnsuringType profile (mkConst ``Triton.CallSignature)
+  let declared ← (← listValues (← mkAppM ``Triton.CallSignature.sourceDTypePointers #[signature])).mapM stringValue
+  let name := pointer.getId.eraseMacroScopes.toString
+  unless declared == [name] do
+    throwError "source_dtype requires exactly the declared source dtype pointer"
+  let pointers ← bindings dtypeValue (← mkAppM ``Triton.CallSignature.pointers #[signature])
+  unless pointers.all (fun p => p.1 != name) do
+    throwError "source dtype pointer cannot also have a fixed pointer dtype"
+  for stmt in stmts do rejectBodyMetadata stmt.raw
+  let actual ← elabTermEnsuringType kind (mkConst ``Triton.SourceDType)
+  let cases : List (Triton.SourceDType × Name) :=
+    [(.fp16,``PointerType.fp16),(.bf16,``PointerType.bf16),(.fp32,``PointerType.fp32),
+     (.fp64,``PointerType.fp64),(.f8e4,``PointerType.f8e4),(.f8e5,``PointerType.f8e5),
+     (.i8,``PointerType.i8),(.i16,``PointerType.i16),(.i32,``PointerType.i32),(.i64,``PointerType.i64),
+     (.u8,``PointerType.u8),(.u16,``PointerType.u16),(.u32,``PointerType.u32),(.u64,``PointerType.u64),
+     (.boolean,``PointerType.boolean)]
+  let mut branches : Array Expr := #[]
+  for (sourceType,storageType) in cases do
+    let label := Syntax.mkStrLit name
+    let storage := mkIdent storageType
+    let specialized ← `(({ $profile:term with sourceDTypePointers := [], pointers := [($label:str,$storage:ident)] ++ ($profile:term).pointers } : Triton.CallSignature))
+    let body ← liftMacroM <| SourceDType.specializeBody pointer.getId sourceType stmts
+    branches := branches.push (← elaborateCall specialized body none)
+  let motive := mkLambda `sourceDType BinderInfo.default (mkConst ``Triton.SourceDType)
+    (mkConst ``Triton.ComputeKernel)
+  mkAppOptM ``Triton.SourceDType.casesOn (#[some motive,some actual] ++ branches.map some)
+
 elab_rules : term
+  | `(with_triton_signature $profile:term source_dtype $pointer:ident := $kind:term in triton $body:tritonPythonBody) => do
+      let environment ← getEnv
+      let stmts ← liftMacroM <| PythonBody.statements environment body
+      elaborateSourceDType profile pointer kind stmts
   | `(with_triton_signature $profile:term in triton $body:tritonPythonBody) => do
       let environment ← getEnv
       let stmts ← liftMacroM <| PythonBody.statements environment body

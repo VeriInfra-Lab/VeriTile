@@ -209,12 +209,22 @@ def call_signature(text: str, name: str) -> dict:
             raise ValueError(f"missing call signature field: {field}")
         source = re.sub(r"\.(fp16|bf16|fp32|fp64|f8e4|f8e5|i8|i16|i32|i64|u8|u16|u32|u64|boolean|integer|inputFloat|outputFloat)\b", r'"\1"', value[1])
         fields[field] = json.loads(json.dumps(ast.literal_eval(source)))
+    dtype_pointers = re.search(r"\bsourceDTypePointers\s*:=\s*(\[[^\]]*\])", match[1])
+    if re.search(r"\bsourceDTypePointers\s*:=", match[1]) and not dtype_pointers:
+        raise ValueError("source dtype pointers must be a literal list")
+    if dtype_pointers:
+        values = ast.literal_eval(dtype_pointers[1])
+        if (not isinstance(values, list) or not all(isinstance(n, str) and re.fullmatch(r"[A-Za-z_]\w*", n) for n in values)
+                or len(values) != len(set(values))):
+            raise ValueError("source dtype pointers must be distinct parameter names")
+        fields["sourceDTypePointers"] = values
+    pointer_names = {n for n, _ in fields["pointers"]} | set(fields.get("sourceDTypePointers", []))
     for field in ("readPorts", "writePorts"):
         value = re.search(r"\b" + field + r"\s*:=\s*(\[[^\]]*\])", match[1])
         if value:
             fields[field] = ast.literal_eval(value[1])
             if (not isinstance(fields[field], list) or len(set(fields[field])) != len(fields[field])
-                or not set(fields[field]) <= {n for n, _ in fields["pointers"]}):
+                or not set(fields[field]) <= pointer_names):
                 raise ValueError("invalid call memory ports")
     storage = re.search(r"\btypedFP32Storage\s*:=\s*(?:Bool\.)?(true|false)\b", match[1])
     if re.search(r"\btypedFP32Storage\s*:=", match[1]) and not storage:
@@ -268,7 +278,7 @@ def call_signature(text: str, name: str) -> dict:
                 or len({p[0] for p in bindings}) != len(bindings)):
             raise ValueError("invalid finite source import binding")
         fields["finiteImports"] = [list(p) for p in bindings]
-    names = [n for n, _ in fields["pointers"] + fields["scalars"]] + fields["constexpr"]
+    names = [n for n, _ in fields["pointers"] + fields["scalars"]] + fields["constexpr"] + fields.get("sourceDTypePointers", [])
     if len(names) != len(set(names)):
         raise ValueError("duplicate call signature parameter")
     return fields
@@ -276,7 +286,8 @@ def call_signature(text: str, name: str) -> dict:
 def check(python_text: str, lean_text: str, python_function: str, lean_definition: str,
           signature_definition: str | None = None, expected_signature: dict | None = None,
           expected_call_bindings: dict | None = None,
-          expected_pointer_offsets: dict | None = None) -> dict:
+          expected_pointer_offsets: dict | None = None,
+          expected_source_dtype: dict | None = None) -> dict:
     functions = [n for n in ast.parse(python_text).body
                  if isinstance(n, ast.FunctionDef) and n.name == python_function]
     if len(functions) != 1:
@@ -324,6 +335,9 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
     profile = None
     call_bindings = None
     pointer_offsets = None
+    source_dtype = None
+    if expected_source_dtype is not None and signature_definition is None:
+        raise ValueError("source dtype binding requires a checked call signature")
     if expected_pointer_offsets is not None and signature_definition is None:
         raise ValueError("pointer offsets require a checked call signature")
     helper = re.search(r"\btriton_function\s+(\w+)\s*\(([^)]*)\)\s+in\s+triton\s*$", signature)
@@ -352,7 +366,13 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
             pass  # The strict AST parser below rejects malformed Python.
         if re.search(r"\btl\.(region|param)\b|\$", "".join(masked)):
             raise ValueError("pasted body must not contain metadata directives or Lean antiquotes")
-        if not re.search(r"\bwith_triton_signature\s+" + re.escape(signature_definition) + r"\s+in\b", signature):
+        dtype_call = re.search(r"\bwith_triton_signature\s+" + re.escape(signature_definition)
+                               + r"\s+source_dtype\s+(\w+)\s*:=\s*([\w.]+)\s+in\b", signature)
+        if dtype_call:
+            source_dtype = {"pointer": dtype_call[1], "value": dtype_call[2]}
+            if source_dtype != expected_source_dtype:
+                raise ValueError("source dtype binding differs from the reviewed invocation")
+        elif not re.search(r"\bwith_triton_signature\s+" + re.escape(signature_definition) + r"\s+in\b", signature):
             call = re.search(r"\bwith_triton_call\s+" + re.escape(signature_definition)
                              + r"\s+call_args\s*\[([^\]]*)\](?:\s+pointer_offsets\s*\[([^\]]*)\])?\s+in\b", signature)
             if not call:
@@ -376,7 +396,11 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
                     pointer_offsets[match[1]] = match[2]
         if pointer_offsets != expected_pointer_offsets:
             raise ValueError("pointer offsets differ from the reviewed invocation")
+        if source_dtype != expected_source_dtype:
+            raise ValueError("source dtype binding differs from the reviewed invocation")
         profile = call_signature(lean_text, signature_definition)
+        if profile.get("sourceDTypePointers", []) != ([source_dtype["pointer"]] if source_dtype else []):
+            raise ValueError("source dtype pointer declaration and invocation differ")
         if expected_signature is not None and profile != expected_signature:
             raise ValueError("call signature differs from the reviewed launch types")
         imported = {(a.asname or a.name, node.module + "." + a.name)
@@ -386,14 +410,15 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
         for alias, target in profile.get("finiteImports", []):
             if (alias, target) not in imported:
                 raise ValueError("finite source import differs from the original Python binding")
-        names = {n for n, _ in profile["pointers"] + profile["scalars"]} | set(profile["constexpr"])
+        names = ({n for n, _ in profile["pointers"] + profile["scalars"]} | set(profile["constexpr"])
+                 | set(profile.get("sourceDTypePointers", [])))
         if names != {a.arg for a in function.args.args} or set(profile["constexpr"]) != constants:
             raise ValueError("Python parameters and call signature differ")
         # `integer` is intentionally unbounded; it cannot certify an explicit
         # int32/int64 ABI annotation. Pointer annotations are not scalar args.
         scalar_types = {"fp32": "tl.float32", "fp64": "tl.float64", "i32": "tl.int32", "i64": "tl.int64", "u32": "tl.uint32", "u64": "tl.uint64"}
         supplied = {n: scalar_types.get(t) for n, t in profile["scalars"]}
-        pointer_names = {n for n, _ in profile["pointers"]}
+        pointer_names = {n for n, _ in profile["pointers"]} | set(profile.get("sourceDTypePointers", []))
         if pointer_offsets is not None and not set(pointer_offsets) <= pointer_names:
             raise ValueError("offset binding is not a pointer parameter")
         if call_bindings is not None:
@@ -455,6 +480,8 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
         result["source_functions"] = profile["functions"]
     if pointer_offsets is not None:
         result["pointer_offsets"] = pointer_offsets
+    if source_dtype is not None:
+        result["source_dtype"] = source_dtype
     if jit_options is not None:
         result["jit_options"] = jit_options
     return result
@@ -505,7 +532,8 @@ def check_manifest(root: Path, manifest: Path) -> list[dict]:
         result = check((root / record["python"]).read_text(), (root / record["lean"]).read_text(),
                        record["python_function"], record["lean_definition"],
                        record.get("signature_definition"), record.get("expected_signature"),
-                       record.get("expected_call_bindings"), record.get("expected_pointer_offsets"))
+                       record.get("expected_call_bindings"), record.get("expected_pointer_offsets"),
+                       record.get("expected_source_dtype"))
         if "profile_variant" in record:
             result["profile_variant"] = record["profile_variant"]
         results.append(result)

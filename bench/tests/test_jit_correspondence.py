@@ -14,40 +14,75 @@ class JITCorrespondenceTests(unittest.TestCase):
     def setUp(self):
         self.python = (DIRECTORY / "triton_argmax_nan_first.py").read_text()
         self.lean = (DIRECTORY / "Kernels.lean").read_text()
+        self.record = json.loads((DIRECTORY / "jit-correspondence.json").read_text())[0]
+
+    def compare(self, lean, python=None, dtype=None):
+        r = self.record
+        return check(self.python if python is None else python, lean,
+                     r["python_function"], r["lean_definition"],
+                     r["signature_definition"], r["expected_signature"],
+                     expected_source_dtype=r["expected_source_dtype"] if dtype is None else dtype)
 
     def test_all_original_and_candidate_bodies(self):
-        self.assertEqual(len(check_manifest(ROOT, DIRECTORY / "jit-correspondence.json")), 5)
+        pairs = check_manifest(ROOT, DIRECTORY / "jit-correspondence.json")
+        self.assertEqual(len(pairs), 5)
+        self.assertTrue(all(p["mode"] == "pasted_body" for p in pairs))
+        self.assertEqual([p["statements"] for p in pairs], [20, 9, 12, 20, 12])
 
     def test_cast_nan_clamp_store_and_parameter_changes_are_rejected(self):
         mutations = [
-            ("(pid).to(tl.int64)", "pid"),
+            ("pid.to(tl.int64)", "pid"),
             ("tl.maximum(stored_value,", "tl.minimum(stored_value,"),
-            ("tl.where((max_val == max_val), max_val, 0.0)", "max_val"),
+            ("tl.where(max_val == max_val, max_val, 0.0)", "max_val"),
             ("tl.store(mid_value_ptr, stored_value)", "tl.store(mid_value_ptr, max_val)"),
-            ("tl.param M : tl.int64", "tl.param M : tl.float32"),
-            ("(offset < M)", "(offset <= M)"),
+            ('("M",.i64)', '("M",.fp32)'),
+            ("mask = offset < M", "mask = offset <= M"),
+            ("8 if is_bool else", "16 if is_bool else"),
+            ("width - 1 if signed else width", "width"),
         ]
         for before, after in mutations:
             with self.subTest(before=before):
                 self.assertIn(before, self.lean)
                 with self.assertRaises(ValueError):
-                    check(self.python, self.lean.replace(before, after, 1),
-                          "argmax_kernel_1_repaired", "stage1")
+                    self.compare(self.lean.replace(before, after, 1))
 
     def test_jit_decorator_is_required(self):
         with self.assertRaisesRegex(ValueError, "expected one explicitly selected"):
-            check(self.python.replace("@triton.jit", "", 1), self.lean,
-                  "argmax_kernel_1_repaired", "stage1")
+            self.compare(self.lean, self.python.replace("@triton.jit", "", 1))
 
     def test_runtime_parameter_cannot_be_replaced_by_antiquote(self):
-        with self.assertRaisesRegex(ValueError, "not a constexpr"):
-            check(self.python, self.lean.replace("(offset < M)", "(offset < $(M))", 1),
-                  "argmax_kernel_1_repaired", "stage1")
+        with self.assertRaisesRegex(ValueError, "metadata directives or Lean antiquotes"):
+            self.compare(self.lean.replace("offset < M", "offset < $(M)", 1))
 
     def test_unsupported_splice_cannot_hide_arithmetic(self):
-        with self.assertRaisesRegex(ValueError, "unsupported antiquotation"):
-            check(self.python, self.lean.replace("$(BLOCK_SIZE)", "$(BLOCK_SIZE + 1)", 1),
-                  "argmax_kernel_1_repaired", "stage1")
+        with self.assertRaisesRegex(ValueError, "metadata directives or Lean antiquotes"):
+            self.compare(self.lean.replace("* BLOCK_SIZE +", "* $(BLOCK_SIZE + 1) +", 1))
+
+    def test_source_dtype_binding_and_pointer_declaration_are_checked(self):
+        for before, after in [
+            ("source_dtype mid_value := MID_DTYPE", "source_dtype inp := MID_DTYPE"),
+            ("source_dtype mid_value := MID_DTYPE", "source_dtype mid_value := SourceDType.fp32"),
+            ('sourceDTypePointers := ["mid_value"]', 'sourceDTypePointers := ["inp"]'),
+            ('sourceDTypePointers := ["mid_value"]', 'sourceDTypePointers := ["mid_value","mid_value"]'),
+            ('sourceDTypePointers := ["mid_value"]', 'sourceDTypePointers := []'),
+        ]:
+            with self.subTest(before=before, after=after), self.assertRaises(ValueError):
+                self.compare(self.lean.replace(before, after, 1))
+        with self.assertRaises(ValueError):
+            self.compare(self.lean, dtype={"pointer": "mid_value", "value": "OtherType"})
+
+    def test_typed_constexpr_and_integer_runtime_annotations_stay_original(self):
+        with self.assertRaisesRegex(ValueError, "annotation"):
+            self.compare(self.lean, self.python.replace("M: tl.int64", "M: tl.int32", 1))
+        self.assertIn("width: tl.constexpr = 8 if is_bool else", self.lean)
+        self.assertNotIn("tl.region", quotation(self.lean, "stage1")[1])
+
+    def test_bool_and_integer_scratch_branches_cannot_be_dropped(self):
+        for before, after in [("mid_value.dtype.element_ty.is_int()", "mid_value.dtype.element_ty.is_int1()"),
+                              ("is_bool or mid_value.dtype.element_ty.is_int_signed()", "False"),
+                              ("(1 << exponent) - gap", "(1 << exponent)")]:
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                self.compare(self.lean.replace(before, after, 1))
 
 
 class PastedBodyTests(unittest.TestCase):

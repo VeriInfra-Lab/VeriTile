@@ -33,7 +33,8 @@ theorem native_first (kind : TypedScratch.Kind) (round : TypedScratch.Rounding)
       natLt, TileShape.discreteMaximum, TileShape.discreteIntArgMax,
       TypedReduction.self_equal, TypedReduction.presence, TypedReduction.selected,
       flag, clean, Typed.globalLoaded, Typed.firstIndex, TypedScratch.Rounding.cast,
-      Option.bind, store, TileShape.allIndices, Region.cast, TypedScratch.channel]
+      Option.bind, store, TileShape.allIndices, Region.cast, TypedScratch.channel,-Nat.cast_add,-Nat.cast_mul,← Int.natCast_add,← Int.natCast_mul]
+  all_goals simp only [← apply_ite (fun n : Nat => (n : Int)), ← Int.natCast_add, Int.toNat_natCast]
   all_goals
     refine ⟨?_, ?_, value, index⟩
     · intro i active
@@ -66,7 +67,8 @@ theorem integer_first (kind : Formats.IntegerKind) (primitives : ScalarBinding.I
       natLt, TileShape.discreteMaximum, TileShape.discreteIntArgMax,
       TypedReduction.self_equal, TypedReduction.presence, TypedReduction.selected,
       flag, clean, Typed.globalLoaded, Typed.firstIndex, collectValues?,
-      Option.bind, store, TileShape.allIndices, Region.cast]
+      Option.bind, store, TileShape.allIndices, Region.cast,-Nat.cast_add,-Nat.cast_mul,← Int.natCast_add,← Int.natCast_mul]
+  all_goals simp only [← apply_ite (fun n : Nat => (n : Int)), ← Int.natCast_add, Int.toNat_natCast]
   all_goals
     refine ⟨?_, ?_, value, index⟩
     · intro i active
@@ -121,7 +123,7 @@ theorem integer_second (rest : Algebra Word) (s : State Word) (V I O : Region .i
     TileShape.axisDim, TileShape.insertAxisIndex, TileShape.eraseAxis,
     ofFloat, toFloat, bop, numeric, numericLt, numericEq, natLt,
     TileShape.discreteIntArgMax, TypedInteger.selected,
-    Option.bind, store, TileShape.allIndices, Region.cast]
+    Option.bind, store, TileShape.allIndices, Region.cast,-Nat.cast_add,-Nat.cast_mul,← Int.natCast_add,← Int.natCast_mul]
   exact ⟨fun _ hi => values _ hi, selected, output⟩
 
 #axiomsClean native_first

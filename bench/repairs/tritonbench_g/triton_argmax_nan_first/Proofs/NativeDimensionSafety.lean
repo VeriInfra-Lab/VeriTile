@@ -25,7 +25,7 @@ theorem body_safe (rest : Algebra Word) (s : State Word) (X : RegionName) (O : R
     Typed.backend, State.setReg, hk, hm, hv, hi, VeriTile.Bench.TritonBenchG.TritonArgmax.DimBackend.indexed, VeriTile.Bench.TritonBenchG.TritonArgmax.DimBackend.normalize, TypedReduction.self_equal, TypedReduction.presence, TypedReduction.selected, flag, clean,
     TileShape.axisDim, positive, Nat.ne_of_gt positive, TileShape.insertAxisIndex,
     TileShape.eraseAxis, ofFloat, toFloat, bop, numeric, numericLt, numericEq,
-    natLt, TileShape.discreteMaximum, TileShape.discreteIntArgMax, Option.bind]
+    natLt, TileShape.discreteMaximum, TileShape.discreteIntArgMax, Option.bind,-Nat.cast_add,-Nat.cast_mul,← Int.natCast_add,← Int.natCast_mul]
   constructor
   · intro i j hm hn
     exact inputBounds _ _ hm hn
@@ -42,8 +42,8 @@ theorem prefix_safe (rest : Algebra Word) (s : State Word) (X : RegionName) (O :
       Safety.safeCompute_unfold, Safety.safeOp_unfold, Safety.safeAddress_unfold,
       Safety.safeMask_unfold, Safety.addressSafe_unfold, Safety.maskActive_unfold,
       run, step, evalExpr, evalComputeOp, evalOp_unfold,
-      Typed.backend, State.setReg, ofFloat, toFloat, bop, numeric,
-      integralFloorDiv, integralMod, ComputeDType.eraseDType, Option.bind]
+      Typed.backend, State.setReg, ofFloat, toFloat, bop, numeric, numericLt, IntegerExpr.sameShape,
+      integralFloorDiv, integralMod, ComputeDType.eraseDType, Option.bind,-Nat.cast_add,-Nat.cast_mul,← Int.natCast_add,← Int.natCast_mul]
 
 theorem tail_safe (rest : Algebra Word) (s : State Word) (X : RegionName) (O : Region .int)
     (M N K BM BN base row inner : Nat) (index64 : Bool)
@@ -58,8 +58,8 @@ theorem tail_safe (rest : Algebra Word) (s : State Word) (X : RegionName) (O : R
     Safety.safeCompute_unfold, Safety.safeOp_unfold, Safety.safeAddress_unfold,
     Safety.safeMask_unfold, Safety.addressSafe_unfold, Safety.maskActive_unfold,
     run, step, evalExpr, evalComputeOp, evalOp_unfold,
-    Typed.backend, State.setReg, hk, hm, hv, hi, ofFloat, toFloat, bop, numeric,
-    natLt, ComputeDType.eraseDType, Option.bind, store, Region.cast]
+    Typed.backend, State.setReg, hk, hm, hv, hi, ofFloat, toFloat, bop, numeric, numericLt, IntegerExpr.sameShape,
+    natLt, ComputeDType.eraseDType, Option.bind, store, Region.cast,-Nat.cast_add,-Nat.cast_mul,← Int.natCast_add,← Int.natCast_mul]
   intro i hm
   exact outputBounds i hm
 

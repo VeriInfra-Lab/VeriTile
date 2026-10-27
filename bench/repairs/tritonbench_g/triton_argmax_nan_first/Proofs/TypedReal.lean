@@ -35,8 +35,8 @@ def backend (rest : Algebra Value) : Algebra Value :=
     indexedMax := fun _ dtype => indexed dtype }
 
 def Ready (BM row inner : Nat) (current : Fin BM → Value × Nat) (s : State Value) : Prop :=
-  s.regs .nat [] "pid_k"=some (fun _ => inner) ∧
-  s.regs .nat [BM] "m_offset"=some (fun i => row+i.1.val) ∧
+  s.regs .int [] "pid_k"=some (fun _ => (inner : Int)) ∧
+  s.regs .int [BM] "m_offset"=some (fun i => ((row+i.1.val : Nat) : Int)) ∧
   s.regs .real [BM] "max_values"=some (fun i => (current i.1).1) ∧
   s.regs .int [BM] "argmax_values"=some (fun i => Int.ofNat (current i.1).2)
 
@@ -62,7 +62,7 @@ theorem body_run (rest : Algebra Value) (s : State Value) (X : RegionName) (O : 
     evalExpr,evalComputeOp,evalOp_unfold,ComputeDType.eraseDType,backend,State.setReg,hk,hm,hv,hi,indexed,
     TileShape.axisDim,positive,Nat.ne_of_gt positive,TileShape.insertAxisIndex,TileShape.eraseAxis,
     ofFloat,toFloat,bop,numeric,numericLt,numericEq,natLt,TileShape.discreteMaximum,
-    TileShape.discreteIntArgMax,orderedEq,loaded,next,Ready,Option.bind]
+    TileShape.discreteIntArgMax,orderedEq,loaded,next,Ready,Option.bind,-Nat.cast_add,-Nat.cast_mul,← Int.natCast_add,← Int.natCast_mul]
   constructor <;> funext i
   all_goals dsimp only [loaded]
   all_goals simp only [apply_ite Prod.fst,apply_ite Prod.snd,apply_ite (fun n : Nat => (n : Int)),Nat.cast_add]
@@ -74,10 +74,16 @@ theorem prefix_run (rest : Algebra Value) (s : State Value) (X : RegionName) (O 
     ∃ t, run (backend rest) ((TypedSource.dimension X O M N K BM BN base index64).surfaceBody.take 7) s=some t ∧
       t.mem=s.mem ∧ Ready BM (((s.pids 0+base)/K)*BM) ((s.pids 0+base)%K)
         (fun _ => (⊥,0)) t := by
+  have nonnegative : ¬ ((s.pids 0 + base : Nat) : Int) < 0 := by omega
+  have remainder := Nat.mod_add_div (s.pids 0 + base) K
   cases index64 <;>
     simp [TypedSource.dimension,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
-      backend,State.setReg,Ready,ofFloat,toFloat,bop,numeric,integralFloorDiv,integralMod,ComputeDType.eraseDType,Option.bind]
-  all_goals exact ⟨rfl,rfl⟩
+      backend,State.setReg,Ready,ofFloat,toFloat,bop,numeric,numericLt,integralFloorDiv,integralMod,ComputeDType.eraseDType,Option.bind, IntegerExpr.sameShape, -Nat.cast_add, -Nat.cast_mul, ← Int.natCast_add, ← Int.natCast_mul, -Int.natCast_mod, ← Int.natCast_ediv, ← Int.natCast_emod]
+  all_goals constructor <;> funext i <;> simp [bop, Broadcast.leftIndex, Broadcast.rightIndex, -Nat.cast_add, -Nat.cast_mul, ← Int.natCast_add, ← Int.natCast_mul, -Int.natCast_mod, ← Int.natCast_ediv, ← Int.natCast_emod, Int.emod_def, nonnegative]
+  all_goals
+    have equation := congrArg (fun n : Nat => (n : Int)) remainder
+    simp only [Nat.cast_add] at equation
+    exact sub_eq_iff_eq_add.mpr equation.symm
 
 def vectorLoop (initial : State Value) (X : RegionName) (M N K BM BN row inner : Nat)
     (positive : 0<BN) (cur : Nat) (current : Fin BM → Value × Nat) : Fin BM → Value × Nat :=
@@ -133,8 +139,8 @@ theorem tail_run (rest : Algebra Value) (s : State Value) (X : RegionName) (O : 
       t.mem=(written s O M K BM row inner current).mem := by
   obtain ⟨hk,hm,hv,hi⟩ := ready
   simp [TypedSource.dimension,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
-    backend,State.setReg,hk,hm,hv,hi,ofFloat,toFloat,bop,numeric,natLt,ComputeDType.eraseDType,
-    Option.bind,store,Region.cast,written]
+    backend,State.setReg,hk,hm,hv,hi,ofFloat,toFloat,bop,numeric,numericLt,natLt,ComputeDType.eraseDType,
+    Option.bind,store,Region.cast,written,-Nat.cast_add,-Nat.cast_mul,← Int.natCast_add,← Int.natCast_mul]
   all_goals simp only [Typed.fold_memory]
   all_goals rfl
 

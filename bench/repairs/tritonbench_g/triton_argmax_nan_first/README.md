@@ -15,13 +15,20 @@ reductions, rereads, masks, stores and statement order. `IO.lean` binds runtime
 `M`, `N`, `K`, `mid_size` and `program_base` at each invocation. Block sizes,
 index-width flags and pointer element types are compile-time parameters.
 
-The shared frontend `VeriTile/Triton/DSL/SourceDType.lean` specializes pointer
-properties and constexpr expressions and inserts the destination conversion
-implicit in Python `tl.store`. It does not replace the runtime NaN/clamp sequence
-with a conversion macro. Signed, unsigned and boolean scratch keep their
-respective channels. The selected boolean byte ABI truncates to i8 before the
-nonzero test. Unsupported store control flow and ambiguous pointer alias
-rebinding are rejected.
+`with_triton_signature` supplies pointer/scalar types outside `triton { ... }`.
+The `source_dtype mid_value := MID_DTYPE` binding supplies the scratch type from
+the invocation; the original dtype queries stay in the copied function. All
+15 source dtype constructors are elaborated, including FP8, signed/unsigned
+integers and Bool. `SourceDType.lean` specializes only source dtype queries and
+constexpr expressions. The ordinary checked store pass then inserts only the
+destination conversion required by the actual value and pointer types.
+
+FP32-to-FP32 stores receive no fabricated cast. FP16/BF16/FP64/FP8 conversion,
+integer NaN0/clamp/truncate, and the selected Bool byte ABI (truncate to i8,
+then test nonzero) retain their existing semantics. The Python function body
+requires no Lean declarations, antiquotes, added parentheses or reshaped tuples.
+Conflicting/missing dtype bindings, metadata in a body, dynamic constexpr
+assignments and unsupported pointer flow are rejected.
 
 Run from the repository root:
 
@@ -30,12 +37,13 @@ python3 bench/repairs/tritonbench_g/triton_argmax_nan_first/check_pair_source.py
 python3 -m unittest bench.tests.test_jit_correspondence
 ```
 
-The first command checks the complete Python candidate delta and all five
-Python/Lean AST pairs listed in `jit-correspondence.json`. Only quotation
-punctuation, declared constexpr antiquotes, and `tl.full` shape/keyword spelling
-are normalized. Removing casts, NaN selection, clamps, changing masks/stores,
-or turning runtime parameters into constexpr splices fails the check. This is
-a source correspondence guard, not a proof of the Python/Triton compiler.
+The first command checks the complete existing Python candidate delta and all
+five Python/Lean pairs listed in `jit-correspondence.json`. Every copied body
+is parsed directly as Python and compared by its complete AST; the external
+call signature and dtype binding are checked separately. No body spelling
+normalization is allowed in these mappings. Removing casts, NaN selection,
+clamps, branches or changing masks/stores fails. This source guard does not
+claim to verify the Python/Triton compiler.
 
 ## Public proofs
 
@@ -54,6 +62,9 @@ The full IO judgments include successful execution, memory safety, independent
 output formulas and preservation of other memory. The pair proofs compare the
 actual original and candidate programs; they do not assume their outputs or
 successful execution as premises. Axiom checks cover all four public results.
+The complete source/candidate structural execution and safety pair is checked
+for every source dtype, including FP8. The native global IO theorem keeps its
+existing 13-format scope described above; these are distinct claims.
 The experimental FP rule set is empty: the candidate changes integer indexing,
 with no floating numerical rewrite.
 
@@ -96,8 +107,10 @@ existing byte transport; they are not a new compiler/host refinement result.
 
 ## Verification and wider audit
 
-The current reproducible checks, exact source pins, proof logs and limitations
-are recorded in `bench/review-checkpoints/2026-10-24/jit-correspondence/`.
+The earlier source correspondence evidence is recorded in
+`bench/review-checkpoints/2026-10-24/jit-correspondence/`. The complete raw-body
+migration additionally replays all task proofs and the affected frontend
+regressions; current evidence is linked from the task progress record.
 Required Lean sources are in Git; no `.veritile-cache` file supplies a proof
 module. The official comparator is unavailable in this environment, so its
 independent trust check is recorded as unavailable, not passed.

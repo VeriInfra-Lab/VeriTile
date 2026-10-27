@@ -45,7 +45,7 @@ theorem first_prefix (rest : Algebra Word) (s : State Word) (X V : RegionName) (
     ∃ t, run (Typed.backend rest) (firstPrefix X V I size block base index64) s=some t ∧
       t.mem=s.mem ∧
       t.regs .real [] "max_val"=some (fun _ => (s.mem X (Typed.firstIndex s X size block base positive)).read .real) ∧
-      t.regs .nat [] "max_index"=some (fun _ => Typed.firstIndex s X size block base positive) := by
+      t.regs .int [] "max_index"=some (fun _ => (Typed.firstIndex s X size block base positive : Int)) := by
   cases index64 <;>
     simp [firstPrefix,TypedSource.stage1FP32,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
       ComputeDType.eraseDType,Typed.backend,State.setReg,
@@ -54,7 +54,8 @@ theorem first_prefix (rest : Algebra Word) (s : State Word) (X V : RegionName) (
       TileShape.axisDim,positive,Nat.ne_of_gt positive,TileShape.insertAxisIndex,TileShape.eraseAxis,
       ofFloat,toFloat,bop,numeric,numericLt,numericEq,natLt,TileShape.discreteMaximum,
       TileShape.discreteIntArgMax,TypedReduction.self_equal,TypedReduction.presence,
-      TypedReduction.selected,flag,clean,Typed.globalLoaded,Typed.firstIndex,Option.bind]
+      TypedReduction.selected,flag,clean,Typed.globalLoaded,Typed.firstIndex,Option.bind,-Nat.cast_add,-Nat.cast_mul,← Int.natCast_add,← Int.natCast_mul]
+  all_goals simp only [← apply_ite (fun n : Nat => (n : Int)), ← Int.natCast_add, Int.toNat_natCast]
   all_goals exact ⟨rfl,rfl⟩
 
 #axiomsClean stage2_run
