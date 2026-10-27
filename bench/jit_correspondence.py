@@ -287,6 +287,18 @@ def call_signature(text: str, name: str) -> dict:
                 or len({p[0] for p in bindings}) != len(bindings)):
             raise ValueError("invalid finite source import binding")
         fields["finiteImports"] = [list(p) for p in bindings]
+    imports = re.search(r"\bunaryImports\s*:=\s*(\[[^\]]*\])", match[1])
+    if re.search(r"\bunaryImports\s*:=", match[1]) and not imports:
+        raise ValueError("unary imports must be a literal list of source bindings")
+    if imports:
+        bindings = ast.literal_eval(imports[1])
+        targets = {"triton.language.extra.libdevice.tanh", "triton.language.extra.cuda.libdevice.tanh"}
+        if (not isinstance(bindings, list) or any(not isinstance(p, tuple) or len(p) != 2
+                or not isinstance(p[0], str) or not re.fullmatch(r"[A-Za-z_]\w*", p[0])
+                or p[0] in {"tl", "triton"} or p[1] not in targets for p in bindings)
+                or len({p[0] for p in bindings}) != len(bindings)):
+            raise ValueError("invalid unary source import binding")
+        fields["unaryImports"] = [list(p) for p in bindings]
     names = [n for n, _ in fields["pointers"] + fields["scalars"]] + fields["constexpr"] + fields.get("sourceDTypePointers", [])
     if len(names) != len(set(names)):
         raise ValueError("duplicate call signature parameter")
@@ -436,6 +448,30 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
         for alias, target in profile.get("finiteImports", []):
             if (alias, target) not in imported:
                 raise ValueError("finite source import differs from the original Python binding")
+        unary_imports = dict(profile.get("unaryImports", []))
+        if unary_imports:
+            bound = {}
+            for node in ast.parse(python_text).body:
+                if isinstance(node, ast.ImportFrom) and node.module is not None:
+                    if any(a.name == "*" for a in node.names):
+                        raise ValueError("wildcard import makes unary source binding ambiguous")
+                    for alias in node.names:
+                        name = alias.asname or alias.name
+                        if name in unary_imports:
+                            bound[name] = node.module + "." + alias.name
+                else:
+                    if isinstance(node, ast.Import) and any((a.asname or a.name.split(".")[0]) in unary_imports for a in node.names):
+                        raise ValueError("unary source import name is rebound")
+                    for child in ast.walk(node):
+                        if isinstance(child, ast.Name) and isinstance(child.ctx, (ast.Store, ast.Del)) and child.id in unary_imports:
+                            raise ValueError("unary source import name is rebound")
+                    if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)) and node.name in unary_imports:
+                        raise ValueError("unary source import name is rebound")
+            if bound != unary_imports:
+                raise ValueError("unary source import differs from the original Python binding")
+        if any(isinstance(n, ast.Call) and isinstance(n.func, ast.Name) and n.func.id == "tanh"
+               for n in ast.walk(function)) and "tanh" not in unary_imports:
+            raise ValueError("bare tanh requires its original source import binding")
         names = ({n for n, _ in profile["pointers"] + profile["scalars"]} | set(profile["constexpr"])
                  | set(profile.get("sourceDTypePointers", [])))
         if names != {a.arg for a in function.args.args} or set(profile["constexpr"]) != constants:

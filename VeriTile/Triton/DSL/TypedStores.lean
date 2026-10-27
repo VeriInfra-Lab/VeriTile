@@ -187,6 +187,8 @@ private partial def valueType (pointers : Types) (values : Values)
   | `(tritonExpr| tl.sigmoid($a:tritonExpr)) | `(tritonExpr| tl.rsqrt($a:tritonExpr))
   | `(tritonExpr| tl.math.rsqrt($a:tritonExpr))
   | `(tritonExpr| libdevice.exp($a:tritonExpr))
+  | `(tritonExpr| libdevice.tanh($a:tritonExpr))
+  | `(tritonExpr| tl.extra.cuda.libdevice.tanh($a:tritonExpr))
   | `(tritonExpr| tl.log($a:tritonExpr)) | `(tritonExpr| tl.sqrt($a:tritonExpr)) =>
       if valueType pointers values a == some (.typed .fp32) then some (.typed .fp32) else none
   | `(tritonExpr| tl.extra.cuda.libdevice.pow($a:tritonExpr, $_:num)) =>

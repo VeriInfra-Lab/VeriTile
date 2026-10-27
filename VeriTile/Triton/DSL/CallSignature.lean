@@ -1,3 +1,5 @@
+import VeriTile.Triton.DSL.PythonConstants
+import VeriTile.Triton.DSL.SourceIntrinsic
 import VeriTile.Triton.DSL.OptionalPointer
 import VeriTile.Triton.DSL.TypedStores
 import VeriTile.Triton.DSL.PythonBody
@@ -55,6 +57,8 @@ structure CallSignature where
   Only the explicit finitef/isfinited targets accepted by FiniteHelperSource
   are supported. These bindings are metadata outside the pasted bodies. -/
   finiteImports : List (String × String) := []
+  /-- Checked source import bindings for modeled unary intrinsics. -/
+  unaryImports : List (String × String) := []
 
 namespace DSL.CallSignature
 open Lean Elab Term Meta
@@ -572,7 +576,9 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
           helperNames.all (fun helper => !names.contains helper) do
         throwError "source helper names must be distinct from call parameters"
       let finiteImports ← bindings stringValue (← mkAppM ``Triton.CallSignature.finiteImports #[profile])
-      let importedNames := finiteImports.map Prod.fst
+      let unaryImports ← bindings stringValue (← mkAppM ``Triton.CallSignature.unaryImports #[profile])
+      liftMacroM <| SourceIntrinsic.validate unaryImports
+      let importedNames := finiteImports.map Prod.fst ++ unaryImports.map Prod.fst
       unless importedNames.eraseDups.length == importedNames.length &&
           importedNames.all (fun name => !names.contains name && !helperNames.contains name) do
         throwError "source import aliases must be distinct from parameters and helpers"
@@ -585,13 +591,13 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
         liftMacroM <| SourceFunction.check environment functionName parameters source (helperNames ++ importedNames)
       for stmt in stmts do
         rejectArgumentMutation ((helperNames ++ importedNames).map Name.mkSimple) stmt.raw
-          (if finiteImports.isEmpty then "source helper names cannot be rebound"
+          (if importedNames.isEmpty then "source helper names cannot be rebound"
            else "source helper and import names cannot be rebound")
       -- Helpers which reference these explicit extern imports are validated
       -- by the existing exact dtype-dispatch checker. Ordinary pure helpers
       -- keep their existing capture-free expression expansion.
-      let finiteFunctions := checkedFunctions.filter (fun fn => referencesSourceImports importedNames fn.result.raw)
-      let ordinaryFunctions := checkedFunctions.filter (fun fn => !referencesSourceImports importedNames fn.result.raw)
+      let finiteFunctions := checkedFunctions.filter (fun fn => referencesSourceImports (finiteImports.map Prod.fst) fn.result.raw)
+      let ordinaryFunctions := checkedFunctions.filter (fun fn => !referencesSourceImports (finiteImports.map Prod.fst) fn.result.raw)
       let finiteDeclarations ← liftMacroM do
         let mut declarations : Array (TSyntax `tritonStmt) := #[]
         for (name,target) in finiteImports do
@@ -610,6 +616,10 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
         pure declarations
       let stmts ← liftMacroM <| stmts.mapM fun stmt => do
         return (⟨← SourceFunction.expand ordinaryFunctions stmt.raw⟩ : TSyntax `tritonStmt)
+      let stmts ← liftMacroM <| stmts.mapM fun stmt => do
+        return (⟨← SourceIntrinsic.lower unaryImports stmt.raw⟩ : TSyntax `tritonStmt)
+      let stmts ← liftMacroM <| stmts.mapM fun stmt => do
+        return (⟨← PythonConstants.lower stmt.raw⟩ : TSyntax `tritonStmt)
       let stmts ← liftMacroM <| OptionalPointer.specialize presence stmts
       let stmts ← liftMacroM <| stmts.mapM fun stmt => do
         return (⟨← PythonBody.markWeakLiterals stmt.raw⟩ : TSyntax `tritonStmt)

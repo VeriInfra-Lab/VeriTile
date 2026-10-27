@@ -7,8 +7,8 @@
     "examples": 19,
     "task_status": {
       "no_selected_jit_resolved": 2,
-      "selected_body_copy_checked": 91,
-      "uncovered_jit_functions": 90
+      "selected_body_copy_checked": 92,
+      "uncovered_jit_functions": 89
     },
     "example_status": {
       "authored_counterpart_body_copy_checked": 2,
@@ -16,12 +16,12 @@
       "spec_derived_body_copy_checked": 15
     },
     "selected_jit_functions": 328,
-    "uncovered_selected_jit_functions": 188,
+    "uncovered_selected_jit_functions": 186,
     "primary_files_with_int64_screen_warning": 25,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 67,
-        "antiquotes": 75,
+        "in_body_type_directives": 66,
+        "antiquotes": 74,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 8
       },
@@ -6573,9 +6573,9 @@
       "source_provenance": "selected_revision",
       "lean_screen": {
         "quotations": 4,
-        "in_body_type_directives": 4,
-        "antiquotes": 12,
-        "dsl_assignment": 9,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 29,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -6612,23 +6612,81 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_geglu_tanh_forward_kernel_repaired",
+          "lean_definition": "forwardKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "runtime_registers",
+          "call_bindings": null,
+          "statements": 12,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "n_elements"
+          ],
           "python": "bench/repairs/tritonbench_g/geglu_tanh_triton/geglu_tanh_triton_repaired.py",
-          "function": "_geglu_tanh_forward_kernel_repaired"
+          "lean": "bench/repairs/tritonbench_g/geglu_tanh_triton/Kernels.lean"
         },
         {
+          "python_function": "forward_index_commuted_kernel",
+          "lean_definition": "forwardIndexCommuted",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "runtime_registers",
+          "call_bindings": null,
+          "statements": 12,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "n_elements"
+          ],
+          "python": "bench/repairs/tritonbench_g/geglu_tanh_triton/candidate_kernels.py",
+          "lean": "bench/repairs/tritonbench_g/geglu_tanh_triton/Kernels.lean"
+        },
+        {
+          "python_function": "_geglu_tanh_backward_kernel_repaired",
+          "lean_definition": "backwardKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "runtime_registers",
+          "call_bindings": null,
+          "statements": 18,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "n_elements"
+          ],
           "python": "bench/repairs/tritonbench_g/geglu_tanh_triton/geglu_tanh_triton_repaired.py",
-          "function": "_geglu_tanh_backward_kernel_repaired"
+          "lean": "bench/repairs/tritonbench_g/geglu_tanh_triton/Kernels.lean"
+        },
+        {
+          "python_function": "backward_index_commuted_kernel",
+          "lean_definition": "backwardIndexCommuted",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "runtime_registers",
+          "call_bindings": null,
+          "statements": 18,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "BLOCK_SIZE",
+            "n_elements"
+          ],
+          "python": "bench/repairs/tritonbench_g/geglu_tanh_triton/candidate_kernels.py",
+          "lean": "bench/repairs/tritonbench_g/geglu_tanh_triton/Kernels.lean"
         }
       ],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/geglu_tanh_triton/Kernels.lean": "d1d4a6f97134708442e5c2fb9763bfd83b4f564872be79b254f5d341228d80cf",
-        "bench/repairs/tritonbench_g/geglu_tanh_triton/geglu_tanh_triton_repaired.py": "ca09a0f427e60c3a0f83931a847ee6451ab0406c346cd937bc7e9b0e7fcf46c3"
+        "bench/repairs/tritonbench_g/geglu_tanh_triton/Kernels.lean": "61ce51f8a71b2128e642d9574d13e9b01a76fb027c5d839b1c709e9b39416b1f",
+        "bench/repairs/tritonbench_g/geglu_tanh_triton/candidate_kernels.py": "095439288de9ebd2653ec9f3516ef95de1bffbc473f47b705df4de0f706ccef7",
+        "bench/repairs/tritonbench_g/geglu_tanh_triton/geglu_tanh_triton_repaired.py": "ca09a0f427e60c3a0f83931a847ee6451ab0406c346cd937bc7e9b0e7fcf46c3",
+        "bench/repairs/tritonbench_g/geglu_tanh_triton/jit-correspondence.json": "83ab04084ed1a3c8a6463de2e73b5d01ee56a137fe0a2a9aef86f8b220456799"
       }
     },
     {

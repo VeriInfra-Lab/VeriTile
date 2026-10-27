@@ -1556,3 +1556,67 @@ class SoftmaxTriton3BodyTests(unittest.TestCase):
                                'softmax_output = numerator * denominator')]:
             with self.subTest(before=before), self.assertRaises(ValueError):
                 self.compare(self.lean.replace(before, after), self.records[1])
+
+class GegluFunctionBodyTests(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/geglu_tanh_triton"
+
+    def compare(self, record, lean=None, python=None):
+        kwargs = {k: v for k, v in record.items() if k not in ("python", "lean")}
+        return check((ROOT / record["python"]).read_text() if python is None else python,
+                     (ROOT / record["lean"]).read_text() if lean is None else lean, **kwargs)
+
+    def test_four_complete_bodies_preserve_comments_and_statement_order(self):
+        records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+        result = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        self.assertEqual([p['statements'] for p in result], [12,12,18,18])
+        self.assertTrue(all(p['mode'] == 'pasted_body' for p in result))
+        for record in records:
+            python = (ROOT / record['python']).read_text()
+            function = next(f for f in ast.parse(python).body if isinstance(f, ast.FunctionDef)
+                            and f.name == record['python_function'])
+            raw = '\n'.join(python.splitlines()[function.body[0].lineno-1:function.end_lineno])
+            self.assertEqual(textwrap.dedent(raw).strip(), textwrap.dedent(
+                quotation((ROOT / record['lean']).read_text(),record['lean_definition'])[1]).strip())
+
+    def test_original_import_is_checked(self):
+        record=json.loads((self.directory/'jit-correspondence.json').read_text())[0]
+        source=(ROOT/record['python']).read_text()
+        for before,after in [('from triton.language.extra.libdevice import tanh',
+                              'from triton.language import tanh'),
+                             ('from triton.language.extra.libdevice import tanh',''),
+                             ('from triton.language.extra.libdevice import tanh',
+                              'from triton.language.extra.libdevice import tanh\ntanh = lambda x: x'),
+                             ('from triton.language.extra.libdevice import tanh',
+                              'from triton.language.extra.libdevice import tanh\nimport math as tanh'),
+                             ('from triton.language.extra.libdevice import tanh',
+                              'from triton.language.extra.libdevice import tanh\ndel tanh')]:
+            with self.subTest(after=after), self.assertRaises(ValueError):
+                self.compare(record,python=source.replace(before,after))
+
+    def test_missing_import_metadata_cannot_select_a_different_intrinsic(self):
+        record=json.loads((self.directory/'jit-correspondence.json').read_text())[0]
+        lean=(ROOT/record['lean']).read_text()
+        changed=json.loads(json.dumps(record));changed['expected_signature'].pop('unaryImports')
+        lean=lean.replace('  unaryImports := [("tanh", "triton.language.extra.libdevice.tanh")]\n','')
+        with self.assertRaises(ValueError):self.compare(changed,lean=lean)
+
+    def test_casts_intrinsic_and_runtime_order_cannot_drift(self):
+        for record in json.loads((self.directory/'jit-correspondence.json').read_text()):
+            lean=(ROOT/record['lean']).read_text()
+            for before,after in [('tl.program_id(0).to(tl.int64)','tl.program_id(0)'),
+                                 ('tl.arange(0, BLOCK_SIZE).to(tl.int64)','tl.arange(0, BLOCK_SIZE)'),
+                                 ('tanh_result = tanh(tanh_arg)','tanh_result = tl.tanh(tanh_arg)'),
+                                 ('a_cubed = a_row * a_row * a_row','a_cubed = a_row * (a_row * a_row)'),
+                                 ('mask=mask, other=0).to(tl.float32)','mask=mask, other=0)'),
+                                 ('3 * 0.044715 * a_row * a_row','0.134145 * a_row * a_row')]:
+                if before not in quotation(lean,record['lean_definition'])[1]:continue
+                with self.subTest(name=record['lean_definition'],change=before), self.assertRaises(ValueError):
+                    self.compare(record,lean=lean.replace(before,after))
+
+    def test_duplicate_or_wrong_unary_import_metadata_is_rejected(self):
+        record=json.loads((self.directory/'jit-correspondence.json').read_text())[0]
+        lean=(ROOT/record['lean']).read_text()
+        for value in ['[("tanh", "triton.language.tanh")]',
+                      '[("tanh", "triton.language.extra.libdevice.tanh"), ("tanh", "triton.language.extra.libdevice.tanh")]']:
+            with self.subTest(value=value),self.assertRaises(ValueError):
+                self.compare(record,lean=lean.replace('[("tanh", "triton.language.extra.libdevice.tanh")]',value))
