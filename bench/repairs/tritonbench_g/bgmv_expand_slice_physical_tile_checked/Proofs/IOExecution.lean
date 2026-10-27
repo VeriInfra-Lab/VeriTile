@@ -34,7 +34,8 @@ def preguard (M : Algebra A) (reduction : Reduction A) (h : Call)
     run (machine M reduction) (prelude h) (entry h batch row s)=some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp [prelude,code,Surface.source,
+  simp [prelude,code,Surface.source,SourceView.code,SourceView.rawCode,SourceView.active,SourceView.rawActive,SourceView.selected,SourceView.guard,
+      VeriTile.Bench.Repairs.BgmvExpandSlicePhysicalTileChecked.Kernels.source,
     ComputeKernel.surfaceBody,run,step,FP.Structural.evalExpr,evalComputeOp,
     evalOp_unfold,Option.bind,entry,data,State.setReg,Cell.read_same,Region.cast]
   rfl
@@ -46,11 +47,12 @@ def preloop (M : Algebra A) (reduction : Reduction A) (h : Call)
     {t : State A // run (machine M reduction) (setup h)
       (preguard M reduction h batch row s).val=some t} := by
   rcases h with ⟨batches,adapters,N,K,columns,slice,BK,positive,covered,inside,ev,evExact,adds,ity,wty,oty⟩
-  cases ev
+  cases ev <;> cases adds
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp only [setup,active,code,Surface.source,
+    simp only [setup,active,code,Surface.source,SourceView.code,SourceView.rawCode,SourceView.active,SourceView.rawActive,SourceView.selected,SourceView.guard,
+      VeriTile.Bench.Repairs.BgmvExpandSlicePhysicalTileChecked.Kernels.source,
       ComputeKernel.surfaceBody,Source.conditional?,Source.intRange?,
       Option.map_some,Option.getD_some,beq_self_eq_true]
     dsimp [preguard]
@@ -76,7 +78,8 @@ def iteration (M : Algebra A) (reduction : Reduction A) (h : Call)
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp only [body,active,code,Surface.source,
+    simp only [body,active,code,Surface.source,SourceView.code,SourceView.rawCode,SourceView.active,SourceView.rawActive,SourceView.selected,SourceView.guard,
+      VeriTile.Bench.Repairs.BgmvExpandSlicePhysicalTileChecked.Kernels.source,
       ComputeKernel.surfaceBody,Source.conditional?,Source.intRange?,
       Option.map_some,Option.getD_some,beq_self_eq_true]
     dsimp [firstEntry,preloop]
@@ -92,7 +95,7 @@ theorem iteration_memory (M : Algebra A) (reduction : Reduction A) (h : Call)
     (positiveN : 0<h.N) :
     (iteration M reduction h batch row slot s metadata).val.mem=
       ((entry h batch row s).write "Y" (batch*h.columns+row+h.slice)
-        (.mk .real (result M reduction h batch slot row (data s) ⟨0,by decide⟩))).mem := by
+        (.mk .real (SourceValues.result M reduction h batch slot row (data s) ⟨0,by decide⟩))).mem := by
   have metaRead : (s.mem "Indices" batch).read .int=(slot:Int) := metadata
   have length := signed_length h positiveN
   rcases h with ⟨batches,adapters,N,K,columns,slice,BK,positive,covered,inside,ev,evExact,adds,ity,wty,oty⟩
@@ -100,6 +103,9 @@ theorem iteration_memory (M : Algebra A) (reduction : Reduction A) (h : Call)
   have nonzero : N≠0 := by change 0<N at positiveN;omega
   have length_cast : ((↑(N+N):Int)-1)/(N:Int)=1 := by simpa only [Int.natCast_add] using length
   have positive_sum : ¬((N:Int)+N<1) := by change 0<N at positiveN;omega
+  have positive_source : ¬((N:Int)+(N-1)<0) := by change 0<N at positiveN;omega
+  have source_length : ((N:Int)+(N-1))/N=1 := by
+    convert length using 1 <;> congr 1 <;> omega
   have ptrCast : (N:Int)*K*slot+row*K=((N*K*slot+row*K:Nat):Int) := by push_cast; rfl
   have ptrToNat : ((N:Int)*K*slot+row*K).toNat=N*K*slot+row*K := by rw [ptrCast,Int.toNat_natCast]
   cases ev <;> cases adds
@@ -108,15 +114,15 @@ theorem iteration_memory (M : Algebra A) (reduction : Reduction A) (h : Call)
       machine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,numeric,
       integralFloorDiv,integralMod,numericLt,numericLe,numericEq,natLt,bop,
       State.setReg,Cell.read_same,ofFloat,toFloat,TileShape.axisDim,Region.cast,entry,data,metaRead,
-      Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_ediv,length,length_cast,nonzero,positive_sum,←Int.natCast_add,←Int.natCast_mul,-Nat.cast_add,-Nat.cast_mul,
-      result,sums,Direct.FPValues.products,loaded,weight,old,State.masked_scatter_eq_filter,Signed.Readback.active_lanes,Signed.Readback.active_lanes_zero,
+      Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_ediv,length,length_cast,nonzero,positive_sum,positive_source,source_length,←Int.natCast_add,←Int.natCast_mul,-Nat.cast_add,-Nat.cast_mul,
+      SourceValues.result,sums,Direct.FPValues.products,loaded,weight,old,State.masked_scatter_eq_filter,Signed.Readback.active_lanes,Signed.Readback.active_lanes_zero,
       ptrToNat,Int.toNat_natCast]
     try simp only [State.masked_scatter_eq_filter,Signed.Readback.active_lanes_zero,List.foldl_cons,List.foldl_nil]
-    simp (config := {maxSteps := 100000}) [State.write,Direct.FPValues.products,loaded,weight,bop,Broadcast.leftIndex,Broadcast.rightIndex,ptrToNat,Nat.mul_comm,length_cast,nonzero,positive_sum,←Int.natCast_add,←Int.natCast_mul,-Nat.cast_add,-Nat.cast_mul]
+    simp (config := {maxSteps := 100000}) [State.write,Direct.FPValues.products,loaded,weight,bop,Broadcast.leftIndex,Broadcast.rightIndex,ptrToNat,Nat.mul_comm,length_cast,nonzero,positive_sum,positive_source,source_length,←Int.natCast_add,←Int.natCast_mul,-Nat.cast_add,-Nat.cast_mul]
     rw [Signed.Readback.active_lanes_zero]
     simp only [List.foldl_cons,List.foldl_nil,State.write]
     unfold Direct.FPValues.products FP.Structural.bop
-    simp [loaded,weight,Broadcast.leftIndex,Broadcast.rightIndex,Nat.mul_comm,length_cast,nonzero,positive_sum,←Int.natCast_add,←Int.natCast_mul,-Nat.cast_add,-Nat.cast_mul]
+    simp [loaded,weight,Broadcast.leftIndex,Broadcast.rightIndex,Nat.mul_comm,length_cast,nonzero,positive_sum,positive_source,source_length,←Int.natCast_add,←Int.natCast_mul,-Nat.cast_add,-Nat.cast_mul]
     try rfl
 
 /-- The single source iteration retains the original signed-length law. -/
@@ -127,12 +133,16 @@ theorem preloop_length (M : Algebra A) (reduction : Reduction A) (h : Call)
       some (fun _ => 1) := by
   have length := signed_length h positiveN
   rcases h with ⟨batches,adapters,N,K,columns,slice,BK,positive,covered,inside,ev,evExact,adds,ity,wty,oty⟩
+  change ((N:Int)+N-1)/N=1 at length
   have positive_sum : ¬((N:Int)+N<1) := by change 0<N at positiveN;omega
-  cases ev
+  have positive_source : ¬((N:Int)+(N-1)<0) := by change 0<N at positiveN;omega
+  have source_length : ((N:Int)+(N-1))/N=1 := by
+    convert length using 1 <;> congr 1 <;> omega
+  cases ev <;> cases adds
   all_goals
     simp [preloop,integralFloorDiv]
     funext i
-    simpa only [if_neg positive_sum] using length
+    simpa only [if_neg positive_sum,if_neg positive_source] using source_length
 
 theorem condition_eval (M : Algebra A) (R : Reduction A) (h : Call)
     (batch row : Nat) (s : State A) :
@@ -148,11 +158,13 @@ theorem source_executes (M : Algebra A) (R : Reduction A) (h : Call)
     (valid : (data s).indices p.batch=-1 ∨ 0≤(data s).indices p.batch) :
     ∃ final,(invocation M R h p.batch p.row).run s=some final ∧
       final.mem=(if (data s).indices p.batch=-1 then s.mem else
-        (s.write "Y" (FPGrid.address h p)
-          (.mk .real (FPGrid.value M R h p (data s)))).mem) := by
+        (s.write "Y" (SourceGrid.address h p)
+          (.mk .real (SourceGrid.value M R h p (data s)))).mem) := by
   by_cases sentinel : (data s).indices p.batch=-1
   · refine ⟨(preguard M R h p.batch p.row s).val,?_,?_⟩
-    · change run (machine M R) (code h) (entry h p.batch p.row s)=_
+    · change run (machine M R) (SourceView.rawCode h) (entry h p.batch p.row s)=_
+      rw [SourceView.source_run]
+      change run _ (code h) _ = _
       rw [complete_code,run_append]
       simp only [(preguard M R h p.batch p.row s).property,Option.bind_some]
       apply Signed.Control.single
@@ -166,7 +178,9 @@ theorem source_executes (M : Algebra A) (R : Reduction A) (h : Call)
     have positiveN : 0<h.N := by have := p.rowInside;omega
     let slot := ((data s).indices p.batch).toNat
     refine ⟨(iteration M R h p.batch p.row slot s metadata).val,?_,?_⟩
-    · change run (machine M R) (code h) (entry h p.batch p.row s)=_
+    · change run (machine M R) (SourceView.rawCode h) (entry h p.batch p.row s)=_
+      rw [SourceView.source_run]
+      change run _ (code h) _ = _
       rw [complete_code,run_append]
       simp only [(preguard M R h p.batch p.row s).property,Option.bind_some]
       apply Signed.Control.single

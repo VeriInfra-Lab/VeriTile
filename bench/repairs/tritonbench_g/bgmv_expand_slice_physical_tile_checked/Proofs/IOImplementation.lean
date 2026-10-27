@@ -17,13 +17,13 @@ theorem source_implements (M : Algebra A) (R : Reduction A) (project : A → A) 
   refine ⟨schedule_safe M R project h xs valid bounds hb _ s metadata,?_⟩
   have gridResult : ∃ final,runSchedule ((Geometry.programs h).map (invocation M R h)) s=some final ∧
       (∀ p : Geometry.Program h,(PublicExecution.data s).indices p.batch≠-1 →
-        final.mem "Y" (FPGrid.address h p)=.mk .real (FPGrid.value M R h p (PublicExecution.data s))) ∧
+        final.mem "Y" (SourceGrid.address h p)=.mk .real (SourceGrid.value M R h p (PublicExecution.data s))) ∧
       (∀ name offset,PublicExecution.Outside h s (Geometry.programs h) name offset →
         final.mem name offset=s.mem name offset) := by
     by_cases positive : 0<h.N
     · obtain ⟨final,ran,values,frame⟩ := PublicExecution.grid_execution M R h (Geometry.programs h) s
         (fun b hb => by rw [metadata positive ⟨b,hb⟩];exact valid ⟨b,hb⟩)
-        (by simpa [FPGrid.address,Geometry.outputOffset,
+        (by simpa [SourceGrid.address,Geometry.outputOffset,
           VeriTile.Bench.Repairs.BgmvExpandSlice.Direct.Geometry.outputOffset]
           using Geometry.programs_unique h)
       exact ⟨final,ran,fun p => values p (Geometry.programs_complete h p),frame⟩

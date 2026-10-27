@@ -8,17 +8,17 @@ def startTOp (c : Config) : Op .int [] :=
   .mul .int .nil (.ref .int [] "i_t") (.constInt c.BT)
 def startSOp : Op .int [] := .mul .int .nil (.ref .int [] "i_s") (.constInt (Int.ofNat BS))
 def activeTOp (h : Call) (c : Config) : Op .bool [c.BT] :=
-  .lt .int .scalarR (.castNatToInt (.ref .nat [c.BT] "lane_t"))
+  .lt .int .scalarR (.ref .int [c.BT] "lane_t")
     (.sub .int .nil (.castNatToInt (.constNat h.T)) (.ref .int [] "start_t"))
 def activeSOp (h : Call) : Op .bool [BS] :=
-  .lt .int .scalarR (.castNatToInt (.ref .nat [BS] "lane_s"))
+  .lt .int .scalarR (.ref .int [BS] "lane_s")
     (.sub .int .nil (.castNatToInt (.constNat h.S)) (.ref .int [] "start_s"))
 def timeOp (c : Config) : Op .int [c.BT] :=
   .add .int .scalarL (.ref .int [] "start_t")
-    (.castNatToInt (.where (.ref .bool [c.BT] "active_t") (.ref .nat [c.BT] "lane_t") (.broadcast (.constNat 0) [c.BT])))
+    (.where (.ref .bool [c.BT] "active_t") (.ref .int [c.BT] "lane_t") (.broadcast (.constInt 0) [c.BT]))
 def featureOp : Op .int [BS] :=
   .add .int .scalarL (.ref .int [] "start_s")
-    (.castNatToInt (.where (.ref .bool [BS] "active_s") (.ref .nat [BS] "lane_s") (.broadcast (.constNat 0) [BS])))
+    (.where (.ref .bool [BS] "active_s") (.ref .int [BS] "lane_s") (.broadcast (.constInt 0) [BS]))
 def maskOp (c : Config) : Op .bool [c.BT,BS] :=
   .boolAnd (.consR (.consL .nil))
     (.expandDim ⟨1,by simp⟩ (.ref .bool [c.BT] "active_t"))

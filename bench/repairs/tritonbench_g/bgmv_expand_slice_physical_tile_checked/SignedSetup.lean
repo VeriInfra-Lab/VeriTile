@@ -1,3 +1,4 @@
+import bench.repairs.tritonbench_g.bgmv_expand_slice_physical_tile_checked.Proofs.SourceValues
 import bench.repairs.tritonbench_g.bgmv_expand_slice_physical_tile_checked.SignedProgram
 import bench.repairs.tritonbench_g.bgmv_expand_slice_physical_tile_checked.Proofs.Direct.FPValues
 
@@ -15,7 +16,8 @@ def preguard (M : Algebra α) (reduction : Reduction α) (h : Call)
     run (machine M reduction) (prelude h) (entry h batch row data)=some s} := by
   refine ⟨?_,?_⟩
   swap
-  simp [prelude,code,Surface.source,
+  simp [prelude,code,Surface.source,SourceView.code,SourceView.rawCode,SourceView.active,SourceView.rawActive,SourceView.selected,SourceView.guard,
+      VeriTile.Bench.Repairs.BgmvExpandSlicePhysicalTileChecked.Kernels.source,
     ComputeKernel.surfaceBody,run,step,FP.Structural.evalExpr,evalComputeOp,
     evalOp_unfold,Option.bind,entry,Data.cells,State.setReg,Cell.read,Region.cast]
   rfl
@@ -27,11 +29,12 @@ def preloop (M : Algebra α) (reduction : Reduction α) (h : Call)
     {s : State α // run (machine M reduction) (setup h)
       (preguard M reduction h batch row data).val=some s} := by
   rcases h with ⟨batches,adapters,N,K,columns,slice,BK,positive,covered,inside,ev,evExact,adds,ity,wty,oty⟩
-  cases ev
+  cases ev <;> cases adds
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp only [setup,active,code,Surface.source,
+    simp only [setup,active,code,Surface.source,SourceView.code,SourceView.rawCode,SourceView.active,SourceView.rawActive,SourceView.selected,SourceView.guard,
+      VeriTile.Bench.Repairs.BgmvExpandSlicePhysicalTileChecked.Kernels.source,
       ComputeKernel.surfaceBody,Source.conditional?,Source.intRange?,
       Option.map_some,Option.getD_some,beq_self_eq_true]
     dsimp [preguard]

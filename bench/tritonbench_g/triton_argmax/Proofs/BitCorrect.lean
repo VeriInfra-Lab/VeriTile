@@ -66,7 +66,9 @@ theorem stage1_run (storage : Storage) (rest : Algebra (Bits storage))
       State.setReg, TileShape.axisDim, hB, TileShape.insertAxisIndex,
       TileShape.eraseAxis, stage1Selected, stage1Input, stage1Memory, channel,
       ofFloat, toFloat, Region.cast, ComputeDType.eraseDType, bop, numeric,
-      numericLt, natLt, Nat.ne_of_gt hB, TileShape.allIndices]
+      numericLt, natLt, Nat.ne_of_gt hB, TileShape.allIndices,
+      -Nat.cast_mul, -Nat.cast_add, ← Int.natCast_mul, ← Int.natCast_add,
+      Int.toNat_natCast, Int.ofNat_lt]
   all_goals rfl
 
 /-- Independent machine argmax: largest comparison key, with the smallest lane

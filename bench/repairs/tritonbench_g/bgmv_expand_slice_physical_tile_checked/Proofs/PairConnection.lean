@@ -155,11 +155,27 @@ theorem step_add (M : Algebra A) (comm : AdditionCommutes M)
       rw [Safety.safeOp_unfold]
     exact (Iff.of_eq (sa a b)).trans (and_comm.trans (Iff.of_eq (sa b a)).symm)
 
+/-- The pasted ADD_INPUTS branch assigns an FP32 sum directly. -/
+theorem step_add_plain (M : Algebra A) (comm : AdditionCommutes M)
+    (out : RegName) (a b : Op .real [n]) :
+    StepEq M
+      (.assign .real [n] out (.compute (.alg .fp32 (.add .real (.consSame .nil) a b))))
+      (.assign .real [n] out (.compute (.alg .fp32 (.add .real (.consSame .nil) b a)))) := by
+  constructor
+  · intro s
+    simp only [step,FP.Structural.evalExpr,evalComputeOp]
+    erw [eval_add M comm a b s]
+    rfl
+  · intro bounds s
+    simp only [Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold]
+    rw [Safety.safeOp_unfold,Safety.safeOp_unfold]
+    exact and_comm
+
 /-- Full quoted-source connection. No index, mask, loop or memory expression
 is abstracted into a numerical premise. -/
 theorem source_pair (M : Algebra A) (comm : AdditionCommutes M) (h : Call) :
     CodeEq M (Kernels.source h).surfaceBody (Kernels.outputFirst h).surfaceBody := by
-  unfold Kernels.source Surface.source Kernels.outputFirst ComputeKernel.surfaceBody
+  unfold Kernels.source Kernels.outputFirst ComputeKernel.surfaceBody
   repeat' first
     | exact code_refl M _
     | exact step_refl M _
@@ -167,6 +183,7 @@ theorem source_pair (M : Algebra A) (comm : AdditionCommutes M) (h : Call) :
     | apply step_if
     | apply step_if_else
     | apply step_range
+    | exact step_add_plain M comm _ _ _
     | exact step_add M comm _ _ _
 
 #axiomsClean source_pair

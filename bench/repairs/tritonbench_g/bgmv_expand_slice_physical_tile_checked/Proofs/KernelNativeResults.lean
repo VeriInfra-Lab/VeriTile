@@ -13,8 +13,8 @@ theorem fp_equiv (h : Call) (data : Data Native.Expr) (plans : Native.Plans)
     (actual selected : Native.Instructions) (numeric : Native.LocalConformance actual selected) :
     ∃ final, Signed.Grid.run Native.algebra (Native.reduction plans) h (Geometry.programs h) data = some final ∧
       (∀ p : Geometry.Program h, data.indices p.batch ≠ -1 →
-        (final.output (FPGrid.address h p)).eval actual =
-          (FPGrid.value Native.algebra (Native.reduction plans) h p data).eval selected) ∧
+        (final.output (SourceGrid.address h p)).eval actual =
+          (SourceGrid.value Native.algebra (Native.reduction plans) h p data).eval selected) ∧
       (∀ r off, KernelRaw.Outside h data r off → final.cells r off = data.cells r off) := by
   obtain ⟨final,run,values,frame⟩ := KernelRaw.complete Native.algebra (Native.reduction plans) h data valid
   refine ⟨final,run,?_,frame⟩
@@ -22,6 +22,6 @@ theorem fp_equiv (h : Call) (data : Data Native.Expr) (plans : Native.Plans)
   rw [values p active,Native.instructions_eq actual selected numeric]
 
 #axiomsClean fp_equiv
-#specNonCircular FPGrid.value avoiding [Signed.Grid.run,FP.Structural.exec,FPGrid.fold,Surface.source]
+#specNonCircular SourceGrid.value avoiding [Signed.Grid.run,FP.Structural.exec,SourceGrid.fold,Surface.source]
 end
 end VeriTile.Bench.Repairs.BgmvExpandSlicePhysicalTileChecked.KernelNativeResults

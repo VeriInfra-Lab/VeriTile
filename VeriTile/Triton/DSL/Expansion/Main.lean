@@ -2274,11 +2274,25 @@ name, including when the conversion is nested inside an arithmetic expression.
 The caller still checks the expanded result type before overriding a pin. -/
 private partial def containsExplicitConversion (env : Env) (raw : Syntax) : Bool :=
   let e : TSyntax `tritonExpr := ⟨raw⟩
-  (methodCast? e).isSome || (methodCastRegisterDType? env e).isSome ||
+  (methodCast? e).isSome || (methodBitcast? e).isSome || (methodCastRegisterDType? env e).isSome ||
     (match e with
       | `(tritonExpr| tl.toReal($_:tritonExpr)) => Bool.true
+      | `(tritonExpr| tl.bitcast($_:tritonExpr, $_:tritonDType)) => Bool.true
       | `(tritonExpr| tl.cast($_:tritonExpr, $_:tritonDType)) => Bool.true
       | _ => Bool.false) || raw.getArgs.any (containsExplicitConversion env)
+
+/-- A previously typed floating register remains floating when combined with
+an integer. Whole-body index pins cannot override ordinary type promotion. -/
+private partial def hasKnownFloatingRegister (env : Env) (raw : Syntax) : Bool :=
+  let here := if raw.isIdent then
+    let name := raw.getId.eraseMacroScopes.toString
+    env.any fun entry =>
+      let floating := match entry.2.1 with
+        | .real | .fp32 | .fp16 | .bf16 | .f8e4 | .f8e5 | .floatVar _ => Bool.true
+        | _ => Bool.false
+      floating && (entry.1 == name || entry.1 == raw.getId.toString)
+    else Bool.false
+  here || raw.getArgs.any (hasKnownFloatingRegister env)
 
 /-- Carry known floating and int32 storage into nested load expressions, and
 preserve integer storage underneath unsigned casts. This is
@@ -2847,6 +2861,10 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
   -- widening. The destination of .to(int64) cannot retag the source load as
   -- an Int cell, even when later address uses pin its destination register.
   let naturalLoadWidening? (dest : Ident) (e : TSyntax `tritonExpr) : MacroM (Option EOut) := do
+    let e ← match e with
+      | `(tritonExpr| tl.cast($operand:tritonExpr, $dtype:tritonDType)) =>
+          `(tritonExpr| ($operand:tritonExpr).to($dtype:tritonDType))
+      | _ => pure e
     let load? ← match e with
       | `(tritonExpr| (tl.load($p:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*)).to(tl.int64))
       | `(tritonExpr| tl.load($p:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*).to(tl.int64)) =>
@@ -2865,6 +2883,10 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
   -- Preserve signed source storage and apply explicit i32 narrowing before
   -- assignment inference. Same-width i32 casts retain their existing AST.
   let signedLoadCast? (dest : Ident) (e : TSyntax `tritonExpr) : MacroM (Option EOut) := do
+    let e ← match e with
+      | `(tritonExpr| tl.cast($operand:tritonExpr, $dtype:tritonDType)) =>
+          `(tritonExpr| ($operand:tritonExpr).to($dtype:tritonDType))
+      | _ => pure e
     match e with
     | `(tritonExpr| (tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*)).to(tl.int32))
     | `(tritonExpr| (tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*)).to(tl.int64))
@@ -2994,9 +3016,11 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
     if let some loaded ← signedLoadCast? dest e then return loaded
     -- A machine cast establishes the signed result before address-use
     -- inference. Keep its negative values until the final address projection.
+    let signedTarget (dt : TSyntax `tritonDType) :=
+      signedMachineCast dt || (match dt with | `(tritonDType| tl.int64) => Bool.true | _ => Bool.false)
     let signedCast := match e with
-      | `(tritonExpr| tl.cast($_:tritonExpr, $dt:tritonDType)) => signedMachineCast dt
-      | _ => (methodCast? e).any (fun pair => signedMachineCast pair.2)
+      | `(tritonExpr| tl.cast($_:tritonExpr, $dt:tritonDType)) => signedTarget dt
+      | _ => (methodCast? e).any (fun pair => signedTarget pair.2)
     if signedCast then
       let inferred ← expandExpr env e
       if inferred.dtype == .int32 || inferred.dtype == .int then return inferred
@@ -3010,7 +3034,7 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
       match inferred.dtype with
       -- A nested explicit signed cast/shift carries a known native width too.
       -- A later bitcast/address pin must not erase it before signed bitwise ops.
-      | .int8 | .int32 | .real | .fp32 | .fp16 | .bf16 | .f8e4 | .f8e5 | .floatVar _ => return inferred
+      | .int8 | .int32 | .nat | .real | .fp32 | .fp16 | .bf16 | .f8e4 | .f8e5 | .floatVar _ => return inferred
       | _ => pure ()
     if intPinned.contains dest.getId.toString then
       -- Signed offset propagation can also reach a named pointer binding.
@@ -3024,6 +3048,10 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
       try
         let inferred ← expandExpr env e
         if inferred.dtype == .int8 || inferred.dtype == .int32 then return inferred
+        if hasKnownFloatingRegister env e.raw then
+          match inferred.dtype with
+          | .real | .fp32 | .fp16 | .bf16 | .f8e4 | .f8e5 | .floatVar _ => return inferred
+          | _ => pure ()
       catch _ => pure ()
       return ← expandIntExpectedExpr env e
     -- Propagate a signed register learned from a typed load, even when a
@@ -3137,7 +3165,9 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
           computeTerm := lhsComputeTerm?, computeDType? := lhsComputeDType? }
       let rhs0 ←
         if lhsDType == .nat then
-          expandNatExpectedExpr env rhs
+          let inferred ← expandExpr env rhs
+          if inferred.forgetStorageWidth.dtype == .int then pure inferred
+          else expandNatExpectedExpr env rhs
         else
           expandExpr env rhs
       let rhs' ←

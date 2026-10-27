@@ -80,7 +80,7 @@ def inputs (r : Request) (heap : ByteMemory) : FPValues.Data Expr where
 /-- Independent typed product/tree/cast/add expression on entry words. -/
 def referenceTerm (plans : Plans) (r : Request) (heap : ByteMemory) (h : Admitted r heap)
     (p : Geometry.Program (call r heap h)) : Expr :=
-  FPGrid.value algebra (reduction plans) (call r heap h) p (inputs r heap)
+  SourceGrid.value algebra (reduction plans) (call r heap h) p (inputs r heap)
 
 def reference (ops : Instructions) (plans : Plans) (r : Request) (heap : ByteMemory)
     (h : Admitted r heap) (p : Geometry.Program (call r heap h)) : Word :=
@@ -93,7 +93,7 @@ def execute (plans : Plans) (r : Request) (heap : ByteMemory) (h : Admitted r he
 theorem source_execution (plans : Plans) (r : Request) (heap : ByteMemory) (h : Admitted r heap) :
     ∃ final,execute plans r heap h=some final ∧
       (∀ p : Geometry.Program (call r heap h),indices r heap p.batch≠-1 →
-        final.output (FPGrid.address (call r heap h) p)=referenceTerm plans r heap h p) := by
+        final.output (SourceGrid.address (call r heap h) p)=referenceTerm plans r heap h p) := by
   have proof := Signed.Grid.complete r.x r.w r.y r.i r.scalars (indices r heap) h
     algebra (reduction plans) (inputs r heap) (fun _ _ => rfl)
   exact ⟨_,proof.1,proof.2⟩
@@ -102,7 +102,7 @@ theorem source_native (plans : Plans) (r : Request) (heap : ByteMemory) (h : Adm
     (actual selected : Instructions) (numeric : LocalConformance actual selected) :
     ∃ final,execute plans r heap h=some final ∧
       (∀ p : Geometry.Program (call r heap h),indices r heap p.batch≠-1 →
-        (final.output (FPGrid.address (call r heap h) p)).eval actual=
+        (final.output (SourceGrid.address (call r heap h) p)).eval actual=
           reference selected plans r heap h p) := by
   obtain ⟨final,run,values⟩:=source_execution plans r heap h
   refine ⟨final,run,?_⟩
@@ -112,7 +112,7 @@ theorem source_native (plans : Plans) (r : Request) (heap : ByteMemory) (h : Adm
 
 #axiomsClean source_execution
 #axiomsClean source_native
-#specNonCircular reference avoiding [execute,Signed.Grid.run,FPGrid.run,FPGrid.fold,FP.Structural.exec,Kernels.source]
+#specNonCircular reference avoiding [execute,Signed.Grid.run,FPGrid.run,SourceGrid.fold,FP.Structural.exec,Kernels.source]
 #specNonCircular LocalConformance avoiding [reference,execute,Expr.eval]
 end
 end VeriTile.Bench.Repairs.BgmvExpandSlicePhysicalTileChecked.Native

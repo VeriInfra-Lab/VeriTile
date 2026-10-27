@@ -35,9 +35,11 @@ theorem source_safe (M : Algebra A) (R : Reduction A) (h : Call)
     (weights : (data s).indices p.batch≠-1 →
       ∀ j : Fin h.BK,j.val<h.K →
         ((data s).indices p.batch).toNat*(h.N*h.K)+p.row*h.K+j.val<bounds "W")
-    (output : (data s).indices p.batch≠-1 → FPGrid.address h p<bounds "Y") :
+    (output : (data s).indices p.batch≠-1 → SourceGrid.address h p<bounds "Y") :
     (invocation M R h p.batch p.row).Safe bounds s := by
-  change Safety.traceSafeList (machine M R) bounds (code h) (entry h p.batch p.row s)
+  change Safety.traceSafeList (machine M R) bounds (SourceView.rawCode h) (entry h p.batch p.row s)
+  rw [SourceView.source_safe]
+  change Safety.traceSafeList _ _ (code h) _
   rw [complete_code,Safety.traceSafeList_append]
   refine ⟨prelude_safe M R h p.batch p.row s bounds indices,?_⟩
   intro t ran

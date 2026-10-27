@@ -1186,3 +1186,48 @@ class FlashDecodeFunctionBodyTests(unittest.TestCase):
             with self.subTest(value=value), self.assertRaises(ValueError):
                 self.compare(record, lean.replace("stride_mid_ob := H * S * D",
                                                  "stride_mid_ob := " + value))
+
+
+class BgmvExpandFunctionBodyTests(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked"
+
+    def compare(self, record, lean):
+        return check((ROOT / record["python"]).read_text(), lean,
+                     record["python_function"], record["lean_definition"],
+                     record["signature_definition"], record["expected_signature"],
+                     record["expected_call_bindings"])
+
+    def test_complete_body_for_both_index_widths_and_candidates(self):
+        results = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual([(x["mode"], x["statements"]) for x in results],
+                         [("pasted_body", 13)] * 4)
+        for record in json.loads((self.directory / "jit-correspondence.json").read_text()):
+            source = (ROOT / record["python"]).read_text()
+            fn = next(n for n in ast.parse(source).body if isinstance(n, ast.FunctionDef)
+                      and n.name == record["python_function"])
+            body = "\n".join(source.splitlines()[fn.body[0].lineno-1:fn.end_lineno])
+            lean = (ROOT / record["lean"]).read_text()
+            self.assertEqual(textwrap.dedent(body).strip(),
+                             textwrap.dedent(quotation(lean, record["lean_definition"])[1]).strip())
+
+    def test_cast_early_return_mask_reduction_and_stride_changes_are_rejected(self):
+        mutations = [
+            ("tl.program_id(axis=0).to(tl.int64)", "tl.program_id(axis=0)"),
+            ("tl.load(lora_indices + cur_batch).to(tl.int64)", "tl.load(lora_indices + cur_batch)"),
+            ("tl.arange(0, BLOCK_N).to(tl.int64)", "tl.arange(0, BLOCK_N)"),
+            ("if lora_index == -1:", "if lora_index == 0:"),
+            ("tl.cast(N, tl.int64)", "N"),
+            ("tiled_a.to(lora_ptr.dtype.element_ty)", "tiled_a"),
+            ("current_n < split_n_length", "current_n <= split_n_length"),
+            ("tl.sum(tiled_a * tiled_b, 1)", "tl.sum(tiled_a * tiled_b, 0)"),
+            ("l0_stride := h.N * h.K", "l0_stride := h.N"),
+            ("cn_stride := 1", "cn_stride := h.columns"),
+            ('("out_ptr",.fp32)', '("out_ptr",.fp16)'),
+        ]
+        for record in json.loads((self.directory / "jit-correspondence.json").read_text()):
+            lean = (ROOT / record["lean"]).read_text()
+            for before, after in mutations:
+                with self.subTest(definition=record["lean_definition"], mutation=before):
+                    self.assertIn(before, lean)
+                    with self.assertRaises(ValueError):
+                        self.compare(record, lean.replace(before, after))

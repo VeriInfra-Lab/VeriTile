@@ -36,7 +36,7 @@ theorem tensor_formula (r : Request) (heap : ByteMemory) (h : Admitted r heap)
       simpa only [Bounds.weightOffset,Nat.zero_mul,Nat.add_zero] using bound.2.1
     rw [raw_pointer r.weights c.dense.2.1.1 _ bound']
     rfl
-  have old : (Real.initial r heap read).output (FPGrid.address (call r heap h) p)=
+  have old : (Real.initial r heap read).output (SourceGrid.address (call r heap h) p)=
       logical read r.output.tensor (outputIndex r heap h p) :=
     (logical_direct r.output read c.dense.2.2.1.1 _ (output_inside r heap h p)).symm
   unfold Real.formula tensorTarget Target.output Target.dot

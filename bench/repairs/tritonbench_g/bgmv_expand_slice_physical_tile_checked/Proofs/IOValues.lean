@@ -12,7 +12,7 @@ theorem value_binding (M : Algebra A) (R : Reduction A) (project : A → A)
     (h : Call) (xs : Inputs A h) (s : State A)
     (hin : (sourceIO M R project h).InputBinding xs s)
     (batch : Fin h.batches) (row : Fin h.N) (active : index xs batch≠-1) :
-    FPGrid.value M R h ⟨batch.val,row.val,batch.isLt,row.isLt⟩ (PublicExecution.data s)=
+    SourceGrid.value M R h ⟨batch.val,row.val,batch.isLt,row.isLt⟩ (PublicExecution.data s)=
       localValue M R h (input xs batch) (weight xs batch row) (previous xs batch row) := by
   have positive : 0<h.N := by have := row.isLt;omega
   have hi := index_binding M R project h xs s hin positive batch
@@ -44,7 +44,7 @@ theorem value_binding (M : Algebra A) (R : Reduction A) (project : A → A)
         simp only [zero,Nat.zero_mul,Nat.add_zero,hi]
         exact weight_binding M R project h xs s hin batch row active k.val access.2
       · rfl
-  unfold FPGrid.value Direct.FPValues.result Direct.FPValues.sums localValue
+  unfold SourceGrid.value SourceValues.result Direct.FPValues.sums localValue
   rw [productsEq]
   cases adds : h.add
   · rfl

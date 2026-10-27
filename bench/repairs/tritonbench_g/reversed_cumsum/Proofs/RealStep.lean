@@ -11,8 +11,8 @@ set_option linter.unusedSimpArgs false
 def indexed (h : Call) (c : Config) (q f : Nat) (u : BlockState) : BlockState :=
   let u1 := u.setReg "start_t" .int [] (Tile.scalar (q*c.BT:Int))
   let u2 := u1.setReg "start_s" .int [] (Tile.scalar (f*BS:Int))
-  let u3 := u2.setReg "lane_t" .nat [c.BT] (lanes c.BT)
-  let u4 := u3.setReg "lane_s" .nat [BS] (lanes BS)
+  let u3 := u2.setReg "lane_t" .int [c.BT] (signedLanes c.BT)
+  let u4 := u3.setReg "lane_s" .int [BS] (signedLanes BS)
   let u5 := u4.setReg "active_t" .bool [c.BT] (maskT h c q)
   let u6 := u5.setReg "active_s" .bool [BS] (maskS h f)
   let u7 := u6.setReg "times" .int [c.BT] (times h c q)
@@ -83,8 +83,8 @@ theorem executes (h : Call) (c : Config) (row q : Nat) (f : Geometry.FeatureBloc
   simp only [chunkCode,loopBody,List.tail_cons]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (startT_eval c q u hit))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (startS_eval f.val _ (by simp [his])))]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some (show evalOp (.arange c.BT) _=some (lanes c.BT) from by rw [evalOp]; rfl))]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some (show evalOp (.arange BS) _=some (lanes BS) from by rw [evalOp]; rfl))]
+  rw [stepStmts.cons_some (stepStmt_assign_eq_some (show evalOp (.castNatToInt (.arange c.BT)) _=some (signedLanes c.BT) from by simp only [evalOp, Option.bind_some]; rfl))]
+  rw [stepStmts.cons_some (stepStmt_assign_eq_some (show evalOp (.castNatToInt (.arange BS)) _=some (signedLanes BS) from by simp only [evalOp, Option.bind_some]; rfl))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (activeT_eval h c q _ start (by simp) (by simp)))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (activeS_eval h f.val _ (by simp) (by simp)))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (time_eval h c q _ (by simp) (by simp) (by simp)))]

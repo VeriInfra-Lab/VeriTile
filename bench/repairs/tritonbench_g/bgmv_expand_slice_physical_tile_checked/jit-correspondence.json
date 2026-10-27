@@ -1,0 +1,398 @@
+[
+  {
+    "lean": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Kernels.lean",
+    "lean_definition": "source",
+    "python": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/bgmv_expand_slice_physical_tile_checked.py",
+    "python_function": "_bgmv_expand_slice_kernel",
+    "signature_definition": "callSignature64",
+    "expected_signature": {
+      "pointers": [
+        [
+          "input_ptr",
+          "fp32"
+        ],
+        [
+          "lora_ptr",
+          "fp16"
+        ],
+        [
+          "out_ptr",
+          "fp32"
+        ],
+        [
+          "lora_indices",
+          "i64"
+        ]
+      ],
+      "scalars": [
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "K",
+          "integer"
+        ],
+        [
+          "xm_stride",
+          "integer"
+        ],
+        [
+          "xk_stride",
+          "integer"
+        ],
+        [
+          "l0_stride",
+          "integer"
+        ],
+        [
+          "lora_k_stride",
+          "integer"
+        ],
+        [
+          "lora_n_stride",
+          "integer"
+        ],
+        [
+          "cm_stride",
+          "integer"
+        ],
+        [
+          "cn_stride",
+          "integer"
+        ],
+        [
+          "slice_offset",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_N",
+        "BLOCK_K",
+        "SPLIT_N",
+        "EVEN_K",
+        "ADD_INPUTS",
+        "CAST_TYPE"
+      ],
+      "readPorts": [
+        "input_ptr",
+        "lora_ptr",
+        "out_ptr",
+        "lora_indices"
+      ],
+      "writePorts": [
+        "out_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "N": "h.N",
+      "K": "h.K",
+      "xm_stride": "h.K",
+      "xk_stride": "1",
+      "l0_stride": "h.N * h.K",
+      "lora_k_stride": "h.K",
+      "lora_n_stride": "1",
+      "cm_stride": "h.columns",
+      "cn_stride": "1",
+      "slice_offset": "h.slice"
+    },
+    "profile_variant": "indices_int64"
+  },
+  {
+    "lean": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Kernels.lean",
+    "lean_definition": "outputFirst",
+    "python": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/candidate_kernels.py",
+    "python_function": "_bgmv_expand_slice_kernel_output_first",
+    "signature_definition": "callSignature64",
+    "expected_signature": {
+      "pointers": [
+        [
+          "input_ptr",
+          "fp32"
+        ],
+        [
+          "lora_ptr",
+          "fp16"
+        ],
+        [
+          "out_ptr",
+          "fp32"
+        ],
+        [
+          "lora_indices",
+          "i64"
+        ]
+      ],
+      "scalars": [
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "K",
+          "integer"
+        ],
+        [
+          "xm_stride",
+          "integer"
+        ],
+        [
+          "xk_stride",
+          "integer"
+        ],
+        [
+          "l0_stride",
+          "integer"
+        ],
+        [
+          "lora_k_stride",
+          "integer"
+        ],
+        [
+          "lora_n_stride",
+          "integer"
+        ],
+        [
+          "cm_stride",
+          "integer"
+        ],
+        [
+          "cn_stride",
+          "integer"
+        ],
+        [
+          "slice_offset",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_N",
+        "BLOCK_K",
+        "SPLIT_N",
+        "EVEN_K",
+        "ADD_INPUTS",
+        "CAST_TYPE"
+      ],
+      "readPorts": [
+        "input_ptr",
+        "lora_ptr",
+        "out_ptr",
+        "lora_indices"
+      ],
+      "writePorts": [
+        "out_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "N": "h.N",
+      "K": "h.K",
+      "xm_stride": "h.K",
+      "xk_stride": "1",
+      "l0_stride": "h.N * h.K",
+      "lora_k_stride": "h.K",
+      "lora_n_stride": "1",
+      "cm_stride": "h.columns",
+      "cn_stride": "1",
+      "slice_offset": "h.slice"
+    },
+    "profile_variant": "indices_int64"
+  },
+  {
+    "lean": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Kernels.lean",
+    "lean_definition": "source32",
+    "python": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/bgmv_expand_slice_physical_tile_checked.py",
+    "python_function": "_bgmv_expand_slice_kernel",
+    "signature_definition": "callSignature32",
+    "expected_signature": {
+      "pointers": [
+        [
+          "input_ptr",
+          "fp32"
+        ],
+        [
+          "lora_ptr",
+          "fp16"
+        ],
+        [
+          "out_ptr",
+          "fp32"
+        ],
+        [
+          "lora_indices",
+          "i32"
+        ]
+      ],
+      "scalars": [
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "K",
+          "integer"
+        ],
+        [
+          "xm_stride",
+          "integer"
+        ],
+        [
+          "xk_stride",
+          "integer"
+        ],
+        [
+          "l0_stride",
+          "integer"
+        ],
+        [
+          "lora_k_stride",
+          "integer"
+        ],
+        [
+          "lora_n_stride",
+          "integer"
+        ],
+        [
+          "cm_stride",
+          "integer"
+        ],
+        [
+          "cn_stride",
+          "integer"
+        ],
+        [
+          "slice_offset",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_N",
+        "BLOCK_K",
+        "SPLIT_N",
+        "EVEN_K",
+        "ADD_INPUTS",
+        "CAST_TYPE"
+      ],
+      "readPorts": [
+        "input_ptr",
+        "lora_ptr",
+        "out_ptr",
+        "lora_indices"
+      ],
+      "writePorts": [
+        "out_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "N": "h.N",
+      "K": "h.K",
+      "xm_stride": "h.K",
+      "xk_stride": "1",
+      "l0_stride": "h.N * h.K",
+      "lora_k_stride": "h.K",
+      "lora_n_stride": "1",
+      "cm_stride": "h.columns",
+      "cn_stride": "1",
+      "slice_offset": "h.slice"
+    },
+    "profile_variant": "indices_int32"
+  },
+  {
+    "lean": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/Kernels.lean",
+    "lean_definition": "outputFirst32",
+    "python": "bench/repairs/tritonbench_g/bgmv_expand_slice_physical_tile_checked/candidate_kernels.py",
+    "python_function": "_bgmv_expand_slice_kernel_output_first",
+    "signature_definition": "callSignature32",
+    "expected_signature": {
+      "pointers": [
+        [
+          "input_ptr",
+          "fp32"
+        ],
+        [
+          "lora_ptr",
+          "fp16"
+        ],
+        [
+          "out_ptr",
+          "fp32"
+        ],
+        [
+          "lora_indices",
+          "i32"
+        ]
+      ],
+      "scalars": [
+        [
+          "N",
+          "integer"
+        ],
+        [
+          "K",
+          "integer"
+        ],
+        [
+          "xm_stride",
+          "integer"
+        ],
+        [
+          "xk_stride",
+          "integer"
+        ],
+        [
+          "l0_stride",
+          "integer"
+        ],
+        [
+          "lora_k_stride",
+          "integer"
+        ],
+        [
+          "lora_n_stride",
+          "integer"
+        ],
+        [
+          "cm_stride",
+          "integer"
+        ],
+        [
+          "cn_stride",
+          "integer"
+        ],
+        [
+          "slice_offset",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_N",
+        "BLOCK_K",
+        "SPLIT_N",
+        "EVEN_K",
+        "ADD_INPUTS",
+        "CAST_TYPE"
+      ],
+      "readPorts": [
+        "input_ptr",
+        "lora_ptr",
+        "out_ptr",
+        "lora_indices"
+      ],
+      "writePorts": [
+        "out_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "N": "h.N",
+      "K": "h.K",
+      "xm_stride": "h.K",
+      "xk_stride": "1",
+      "l0_stride": "h.N * h.K",
+      "lora_k_stride": "h.K",
+      "lora_n_stride": "1",
+      "cm_stride": "h.columns",
+      "cn_stride": "1",
+      "slice_offset": "h.slice"
+    },
+    "profile_variant": "indices_int32"
+  }
+]
