@@ -1,0 +1,30 @@
+{
+  "parent": "6638a759dbd3c3700d2d67344b466c2e33b2a89f",
+  "shared_core_changed": [
+    "VeriTile/Triton/DSL/CallSignature.lean",
+    "VeriTile/Triton/DSL/Expansion/Common.lean",
+    "VeriTile/Triton/DSL/PythonBody.lean"
+  ],
+  "original_python_wrapper_public_correct_fp_equiv_io_contract_unchanged": true,
+  "shared_historical_whole001_files_unchanged": true,
+  "files": {
+    "VeriTile/Triton/DSL/CallSignature.lean": "3b6c129824b4a428b93c3012965cc2b40a6d00945d4bcb7d61206581e9dcb3e0",
+    "VeriTile/Triton/DSL/Expansion/Common.lean": "8e8da08a11a3c338fef06e270acf34faa2d358d2c35b3f5cfba256a603a5f15f",
+    "VeriTile/Triton/DSL/PythonBody.lean": "e9717c1b73328c025c39f2a039ba1d9618a5b72b1ee7749f0c7cdb7e93c6bcba",
+    "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/Kernels.lean": "d7c637638cab5081823bde96dfd3d38f1b07b3aa65528602c1ebfe35c0cd5ae8",
+    "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/Misc/Audit.lean": "5a6407017bb305732979ccd1888ca5ad059af94dd43f02862aaeada2c7dc167b",
+    "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/Proofs/IOPhaseSafety.lean": "23700fdd1d848f1be0e49af9f81b912d8a656b21fdd975ce24786d242c0aafb3",
+    "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/Proofs/IOProgramSafety.lean": "c3fdbfe128bfea9391537868a4f3f75d4e7485a78ec8aaad6b3e7843df25a2a3",
+    "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/Proofs/Loop.lean": "f318063b4157391dff3516a5483c315a8225c71e65a9b0cb31a2105af0de0936",
+    "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/Proofs/Pair.lean": "c7242c4ec49079bc89aaf734f56e088e839e5079a1002a388e73251c33f186cc",
+    "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/Proofs/Program.lean": "fdbf54b6a9be5aa60f6da633c48ad26d96b85ba14fe4b46731e598a4f75f575a",
+    "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/Proofs/Step.lean": "5753843a9efc8d97241a7b60a05ed4225fb650eba7387f61980e063cef09f12c",
+    "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/Proofs/StepFacts.lean": "6965f95bd5b20a579096d5f03c06740cbb7a3d02e095493c6b537accb7c96147",
+    "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/README.md": "731d2dc302e7b78f49e52a7c5c99855ddd5708747af1d70fcd92d29cd10cf7a8",
+    "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/check_pair_source.py": "3571022fe81eb94432e5980ba91174dd2d98d1f5f0d69964a74d953db4ec80cc",
+    "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/jit-correspondence.json": "027298470e54fe234c3eb450a7018be6ad7f9dda27514468872cb205eb9ebe35",
+    "bench/tests/BlockPointerDType.lean": "ca8613146258f3e486d579fd22d754c42ded01be0f19bd512100dc8d7f717a0a",
+    "bench/tests/test_jit_correspondence.py": "d11fd38a0aab2951cf316a08e4f132e366a15bd77f766b59104104811a708ef8"
+  },
+  "code_commit": "9e3dc2604b6cf3c729956888895c7a6973439597"
+}

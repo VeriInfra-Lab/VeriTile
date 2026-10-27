@@ -1,0 +1,68 @@
+[
+  {
+    "python_function": "attention_fwd_kernel",
+    "lean_definition": "source",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "typed_per_call_specialization",
+    "call_bindings": {
+      "s_qh": "s_qh",
+      "s_qt": "s_qt",
+      "s_qd": "s_qd",
+      "s_hh": "s_hh",
+      "s_ht": "s_ht",
+      "T": "T",
+      "scale": "scale"
+    },
+    "statements": 3,
+    "runtime_parameters": {
+      "s_qh": "integer",
+      "s_qt": "integer",
+      "s_qd": "integer",
+      "s_hh": "integer",
+      "s_ht": "integer",
+      "T": "integer",
+      "scale": "fp32"
+    },
+    "constexpr_parameters": [
+      "BD",
+      "BT",
+      "IFCOND",
+      "NT",
+      "STORE"
+    ]
+  },
+  {
+    "python_function": "attention_fwd_shifted_kernel",
+    "lean_definition": "shiftedSource",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "typed_per_call_specialization",
+    "call_bindings": {
+      "s_qh": "s_qh",
+      "s_qt": "s_qt",
+      "s_qd": "s_qd",
+      "s_hh": "s_hh",
+      "s_ht": "s_ht",
+      "T": "T",
+      "scale": "scale"
+    },
+    "statements": 4,
+    "runtime_parameters": {
+      "s_qh": "integer",
+      "s_qt": "integer",
+      "s_qd": "integer",
+      "s_hh": "integer",
+      "s_ht": "integer",
+      "T": "integer",
+      "scale": "fp32"
+    },
+    "constexpr_parameters": [
+      "BD",
+      "BT",
+      "IFCOND",
+      "NT",
+      "STORE"
+    ]
+  }
+]

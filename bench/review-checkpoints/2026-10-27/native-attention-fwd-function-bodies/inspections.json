@@ -1,0 +1,58 @@
+{
+  "code_commit": "9e3dc2604b6cf3c729956888895c7a6973439597",
+  "raw_bodies_and_wrapper": [
+    {
+      "name": "raw-body-check",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "9e3dc2604b6cf3c729956888895c7a6973439597",
+      "log": "/tmp/attention78-raw-body-check.log",
+      "status": "PASS"
+    },
+    {
+      "name": "wrapper-source-check",
+      "command": [
+        "python3",
+        "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/check_pair_source.py"
+      ],
+      "exit_code": 0,
+      "code_commit": "9e3dc2604b6cf3c729956888895c7a6973439597",
+      "log": "/tmp/attention78-wrapper-source-check.log",
+      "status": "PASS"
+    }
+  ],
+  "cpu": {
+    "name": "cpu-final",
+    "command": [
+      "python3",
+      "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/check_candidate.py"
+    ],
+    "exit_code": 1,
+    "code_commit": "9e3dc2604b6cf3c729956888895c7a6973439597",
+    "log": "/tmp/attention78-cpu-final.log",
+    "status": "UNAVAILABLE"
+  },
+  "unchanged_selected_source_and_wrapper": {
+    "path": "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/attention_fwd_triton1_tile_checked.py",
+    "source_sha256": "9e86c1181e244ac76107f52c5c0d14e976390746685ebbbe4b9144615b2e0b6d",
+    "status": "PASS",
+    "ast_sha256": {
+      "attention_fwd_kernel": "555ef20305cb2ceef1e8f77c1bdd3523546587dafcf12dbe9981617d4ec9c5fd",
+      "attention_fwd_shifted_kernel": "ada92ce0fec6ca83ad23bf74b3c9ec4b80be07ea6c3b25bdbab16a0f3268ad14",
+      "_forward_with_state": "37461ff18691bd0f8ea7e4c37fde219ecbcbf8ee7c0c8b8df69c6ea2cb9d6800",
+      "_forward_shifted_with_state": "df7b1303e23147046cc7843b5bfb9db3d06bfeb0f9f4827b9e376d200b2c994d"
+    },
+    "top_level_statements": {
+      "attention_fwd_kernel": 3,
+      "attention_fwd_shifted_kernel": 4,
+      "_forward_with_state": 16,
+      "_forward_shifted_with_state": 16
+    }
+  },
+  "scope": "Both complete raw original/existing candidate bodies, external call profiles, exact four-offset rewrite and unchanged checked wrappers. No GPU or new numerical experiment."
+}

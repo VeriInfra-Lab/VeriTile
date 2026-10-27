@@ -1,0 +1,6 @@
+{
+  "session": 19884,
+  "exit_code": 130,
+  "reason": "Stopped after over 300 seconds to replace global reverse integer-cast simp rewriting with a local displacement normalization lemma. Preliminary build is not a pass.",
+  "timestamp": 1793101620.8224604
+}

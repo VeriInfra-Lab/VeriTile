@@ -1,0 +1,3 @@
+PASS: complete original/candidate raw bodies and external call profiles
+PASS: exactly four BT=32 temporal shifts; complete kernel and checked launch preserved
+PASS: retained original differs from shared source only by accepted static-tile guard

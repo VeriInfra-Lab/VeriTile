@@ -1,0 +1,406 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "9e3dc2604b6cf3c729956888895c7a6973439597",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "attention_fwd_triton1"
+  ],
+  "regression_only_pending_body_tasks": [
+    "kv_cache_filling",
+    "triton_argmax"
+  ],
+  "semantic_review": {
+    "adam_update_triton": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "add_example": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "add_value": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "apply_penalty": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "attention_fwd_triton1": "Both complete selected original/existing shifted-offset Python bodies are present verbatim in Kernels.lean, including comments, INT64 PID cast, positional block pointers, NT*BD shape, source dtype attributes, all explicit FP32 casts, boundary checks, zero padding, TF32-disabled dots, STORE/IFCOND branches, separate additions and candidate BT==32 static assertion. FP32 pointer/scalar types and runtime stride/size plus constexpr bindings stay outside. Original Python, both checked wrappers, public Correct/FPEquiv/IO/Contract and all historical Whole001 files are byte-identical. The proof-only full statement decomposition is definitionally equal to the actual raw source; signed head-register states, complete signed base displacement and specialized constant range connect to execution. The candidate retains its assertion marker, with full-state/failure and safety no-op proofs under the actual BT=32 binding. Four temporal shifts retain exact full-program execution/failure/safety equivalence, all heads/chunks, both flags, output/history and exterior frame. The independent chunk-causal Real sum, explicit symbolic dot/add/cast graph, optional ordered native interpretation, host/Tensor, empty schedule and partial-tail results retain their existing scope. The obsolete source_unchanged alias-only lemma was removed; Program.quoted and actual execution/safety proofs provide the current connection. No opaque FP identity, new axiom, whole-kernel/model premise, domain narrowing, Python replacement or new numerical experiment is introduced.",
+    "batched_vecmat_mult": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "bgmv_expand_slice": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "cache_transform_triton": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "chunk_cumsum_kernel": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "chunk_cumsum_vector": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "chunked_cumsum_fwd": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "cosine_compute": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "dequantize_matmul": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "dequantize_rowwise": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "destindex_copy": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "destindex_copy_kv1": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "destindex_copy_kv2": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "dropout_triton": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "embedding_triton_kernel": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "f8_conversion_utils": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "fast_rope_embedding": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "flash_decode2_llama": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "flash_decode2_phi": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "fused_activation": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "fused_recurrent_hgrn": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "fused_rotary_embedding": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "index_select_bwd": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "index_select_cat": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "int8_matmul_kernel": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "kcache_copy_triton": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "kldiv_compute": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "kldiv_triton": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "kv_cache_copy": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "kv_cache_filling": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks. Python-body migration remains pending; its existing correspondence status is retained.",
+    "l2_norm_bwd": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "l2_norm_triton1": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "l2_norm_triton2": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "log_softmax": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "logsumexp_fwd": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "masked_add_cuda": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "masked_select": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "matmul_kernel": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "matrix_reduction": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "matrix_transpose": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "max_reduction": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "mean_reduction": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "mul_exponent_compensator": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "nested_loops_processing": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "quant_transpose_kernel": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "quantize_copy_kv": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "quantize_global": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "quantize_kv_copy": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "quantize_kv_transform": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "relu_strided_buffer": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "relu_triton_kernel": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "reversed_cumsum": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "reversed_cumsum_scalar": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "rms_norm_triton": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "rmsnorm_fused": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "rmsnorm_fused_llama": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "rmsnorm_implementation": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "rmsnorm_triton": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "rope_backward_transform": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "rope_embedding": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "rope_transform": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "rotary_emb": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "rotary_emb_nopad": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "rowwise_quantization_triton": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "seeded_dropout": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "sin_computation": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "sin_kernel": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "softmax_triton1": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "softmax_triton2": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "square_matrix": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "swiglu_backward": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "swiglu_fwd": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "swiglu_triton": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "token_attn_mistral": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "token_attn_reduceV": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "token_softmax_bloom": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "token_softmax_llama": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "triton_argmax": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks. Python-body migration remains pending; its existing correspondence status is retained.",
+    "triton_mul2": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "triton_softmax": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "var_len_copy": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "vector_addition": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks.",
+    "vector_addition_custom": "Shared frontend regression: positional block-pointer arguments retain their expressions, immutable Nat shape products/parentheses compile directly, and singleton boundary tuples preserve their axes after rank-one lowering. Existing source, arithmetic precision, mathematical/FP domains and public scope are unchanged. All 3050 recorded public/deep roots and joint imports replay warm and independently from empty project objects. No new numerical rule or body migration is counted for unchanged tasks."
+  },
+  "compiler_change": {
+    "files": [
+      "VeriTile/Triton/DSL/CallSignature.lean",
+      "VeriTile/Triton/DSL/Expansion/Common.lean",
+      "VeriTile/Triton/DSL/PythonBody.lean"
+    ],
+    "behavior": "Normalize exact six positional block-pointer arguments to the named syntax before dtype/pointer analysis; retain source text and all expressions. Static Nat dimensions accept parentheses and products. After rank-one pointer lowering, remaining singleton boundary tuples become the same static axis list used by the existing load/store compiler. No floating rewrite.",
+    "official_primary_references": [
+      "https://raw.githubusercontent.com/triton-lang/triton/v3.7.1/python/triton/language/core.py"
+    ],
+    "regressions": "Complete positional source AST with dimension product, distinct load/store axes, zero padding and explicit output cast; independent empty-row execution preserves observable FP32 load/cast. Existing rank-one, Python-body, call-signature and pointer-dtype guards included."
+  },
+  "verification": {
+    "focused": {
+      "status": "PASS",
+      "explicit_modules": 46,
+      "jobs": 3431
+    },
+    "warm_and_joint": {
+      "status": "PASS",
+      "explicit_modules": 3050,
+      "jobs": 12400
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 3050,
+      "jobs": 12400,
+      "project_build_initially_present": false,
+      "project_objects_imported_from_other_checkouts": false,
+      "only_fixed_external_dependencies_imported": true,
+      "setup": {
+        "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/final-clean-setup.json",
+        "sha256": "395421a8e6719c5feea971de3be7c5b157ddcb1a18609748395796c7ea2cf306"
+      }
+    },
+    "trust": "PASS: 20 standalone actual-source/public theorem/compiler regression footprints use only standard base. Public grid_equiv prints no FP assumptions.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 109
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 354,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by old numerical receipt; no false repin."
+    },
+    "source": "PASS: both complete original/existing candidate raw bodies, external call profiles, exact four-shift delta and unchanged checked wrappers.",
+    "official_comparator": "UNAVAILABLE: 15 actual frozen-source attempts with verified pinned binary hashes. Host Landlock ABI v4 is below required v5 and no systemd user isolation; no bypass.",
+    "cpu": "UNAVAILABLE: actual existing check_candidate.py invocation requires missing Torch; historical binder/offline observations are not relabeled as fresh passes.",
+    "gpu_or_numerical_experiment": "Not run.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending; the known unchanged numerical receipt failure remains explicit."
+  },
+  "source_pairs": {
+    "total": 261,
+    "pasted_body": 256,
+    "legacy_ast": 5
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/source-closure.json",
+    "sha256": "33c8671a2dafeff09cb737964cc116ee754445e41df1f2d5f5be6b969abded19"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "legacy_ast_only": 1,
+      "no_selected_jit_resolved": 2,
+      "selected_body_copy_checked": 85,
+      "uncovered_jit_functions": 95
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 328,
+    "uncovered_selected_jit_functions": 198,
+    "primary_files_with_int64_screen_warning": 26,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 73,
+        "antiquotes": 81,
+        "dsl_loop": 1,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "example_regression_scope": "All 19 selected examples and previous selected public/deep task roots replay warm/joint and independently from empty project objects. Existing unselected historical model gaps are not relabeled as passing by this explicitly scoped replay.",
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/VeriTile__Triton__DSL__CallSignature-comparator.log",
+      "sha256": "f1e74e8536076bb2e3997134d21b969dedd35ccdf35ff0ca1f0a43de0fc68f15"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/VeriTile__Triton__DSL__Expansion__Common-comparator.log",
+      "sha256": "f3e65a5315683fc89f2907861743c129b598b77883cd999255998a98079311a8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/VeriTile__Triton__DSL__PythonBody-comparator.log",
+      "sha256": "f3e65a5315683fc89f2907861743c129b598b77883cd999255998a98079311a8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/all-python.log",
+      "sha256": "4424e78c635c1f47c253bb92fedcabe063c830a0f7e9ad321835ca730b12a3b1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/audit.lean",
+      "sha256": "875f2d4237ac3fbb7faed2666d855d72e259e32adda29533773e73b7e7d699c6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/audit.log",
+      "sha256": "97d34ba5b5caba2983b5c18cdf08c6cdb7ff91c4f9e66b6ba28ef00b2602489f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/baseline.json",
+      "sha256": "f9339bf9a6420ff2ff872fe58fad5ec24cc66a30b33a251bdd17b61f933e9612"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/bench__repairs__tritonbench_g__attention_fwd_triton1_tile_checked__Correct-comparator.log",
+      "sha256": "f3e65a5315683fc89f2907861743c129b598b77883cd999255998a98079311a8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/bench__repairs__tritonbench_g__attention_fwd_triton1_tile_checked__FPEquiv-comparator.log",
+      "sha256": "f3e65a5315683fc89f2907861743c129b598b77883cd999255998a98079311a8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/bench__repairs__tritonbench_g__attention_fwd_triton1_tile_checked__Kernels-comparator.log",
+      "sha256": "f3e65a5315683fc89f2907861743c129b598b77883cd999255998a98079311a8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/bench__repairs__tritonbench_g__attention_fwd_triton1_tile_checked__Misc__Audit-comparator.log",
+      "sha256": "f3e65a5315683fc89f2907861743c129b598b77883cd999255998a98079311a8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/bench__repairs__tritonbench_g__attention_fwd_triton1_tile_checked__Proofs__IOPhaseSafety-comparator.log",
+      "sha256": "f3e65a5315683fc89f2907861743c129b598b77883cd999255998a98079311a8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/bench__repairs__tritonbench_g__attention_fwd_triton1_tile_checked__Proofs__IOProgramSafety-comparator.log",
+      "sha256": "f3e65a5315683fc89f2907861743c129b598b77883cd999255998a98079311a8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/bench__repairs__tritonbench_g__attention_fwd_triton1_tile_checked__Proofs__Loop-comparator.log",
+      "sha256": "beae46ecfe5a60dba3b41f71ec5fab36f74d391e27684cfeb3938ff85e1d8cda"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/bench__repairs__tritonbench_g__attention_fwd_triton1_tile_checked__Proofs__Pair-comparator.log",
+      "sha256": "beae46ecfe5a60dba3b41f71ec5fab36f74d391e27684cfeb3938ff85e1d8cda"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/bench__repairs__tritonbench_g__attention_fwd_triton1_tile_checked__Proofs__Program-comparator.log",
+      "sha256": "beae46ecfe5a60dba3b41f71ec5fab36f74d391e27684cfeb3938ff85e1d8cda"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/bench__repairs__tritonbench_g__attention_fwd_triton1_tile_checked__Proofs__Step-comparator.log",
+      "sha256": "beae46ecfe5a60dba3b41f71ec5fab36f74d391e27684cfeb3938ff85e1d8cda"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/bench__repairs__tritonbench_g__attention_fwd_triton1_tile_checked__Proofs__StepFacts-comparator.log",
+      "sha256": "beae46ecfe5a60dba3b41f71ec5fab36f74d391e27684cfeb3938ff85e1d8cda"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/bench__tests__BlockPointerDType-comparator.log",
+      "sha256": "beae46ecfe5a60dba3b41f71ec5fab36f74d391e27684cfeb3938ff85e1d8cda"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/comparator-invocations.json",
+      "sha256": "b6d4926eff044cd9d24c98cdbf34e4340ec65a1a4719fc22917fbb17497fe58c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/comparator-tools.json",
+      "sha256": "28998e17d51b0fb5930f7489e64512a57f8a8146d1470063a624a75bbabdb0d3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/corpus-guard.log",
+      "sha256": "3df6324ed9becc1f08c2e14d6652e94c259f7d44e5eb6a9e7f4f29169c69cf49"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/cpu-final.log",
+      "sha256": "124be54c556f3a5ec82d83093d997136bfa358125e17f4458ada925904b379f5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/final-clean-build.log.gz",
+      "sha256": "851390dcfcaea57062fe9a3c3f0334846a1562f4273dbe9b4d5eb1b108b5d1fe"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/final-clean-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/final-clean-setup.json",
+      "sha256": "395421a8e6719c5feea971de3be7c5b157ddcb1a18609748395796c7ea2cf306"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/focus-final-modules.txt",
+      "sha256": "df5f194243854d81a07333efdf96bb326aea712e43545eecb2f762015a01c86a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/focus-final.log.gz",
+      "sha256": "d44afafbb56cdfddf1e497559d97bf9d9b61a94b134759fe7940d56e2cb479e6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/focus-invocations.json",
+      "sha256": "68ef24ff77df10a1861e8ad5c463761132f5940cfb1a651b05457d030cfdc5ec"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/focus-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/inspections.json",
+      "sha256": "06afb589f88afabb58dd123eb03912e6f1ea50a1db31b1bc6ae32dd24b26b85a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/integration-final.log.gz",
+      "sha256": "2060366d6b1a7d5e45e4d09d7699e1a81321bf369502a1b06ce9ed48a472e5e2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/joint-all.lean",
+      "sha256": "94bdaea7cc26f1d26134b9609205539ac016c722d5ea55b0dedcf9cd46759255"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/joint-final.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/modules.json",
+      "sha256": "9b356a8e0ee4397490409b7a2f8b3698e43d0c3da9ce981b7e9135c34752adb7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/pairs.json",
+      "sha256": "10127dafd1a65e42b27f8be6026e89af2aa961fcf3667976bb4bb3eab8c028ca"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/previous-reviews.json.gz",
+      "sha256": "5d3e751314c35fde87cd1d5c8b40f773f35afa7ed1d8499c3e640f77373041c2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/proof2-interruption.json",
+      "sha256": "92c69f2a1768f20bc7f4caf5512c18dbd6f5be0644e0e9266adeeccd798884f0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/python-invocations.json",
+      "sha256": "c2fabdb98ff993bc4ad5f191742deda9c7d7772c4f046e080689ddd8fff979ee"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/python-tests.log",
+      "sha256": "f11353770c2d551f90b31738c90262a1f859f63d0329a29d90c5231bba24781b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/raw-body-check.log",
+      "sha256": "bbb6045bd6734317b1fcb1ded8b6d32a171f008ab4e435ccdd6b7862e668887f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/source-closure.json",
+      "sha256": "33c8671a2dafeff09cb737964cc116ee754445e41df1f2d5f5be6b969abded19"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/space-recovery.json",
+      "sha256": "117cf1dc6d9006c9c2e212d44dbb9a47dda6c5d6e744e16e4bd5965d18fe8688"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/transferred-files.json",
+      "sha256": "2bf37927a3a0bcfe2a708f3ebf9974b7f20bb6f2280a1cc0a62461b2b46b22d4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/warm-final-invocation.json",
+      "sha256": "5bbda02e5065cf9f6a763bd11fe80b345b3ee2c9694108841ed42427a157cc43"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-attention-fwd-function-bodies/wrapper-source-check.log",
+      "sha256": "580824985a1d55a66e34c51db8849ccb529ad780c661bac36176acd4e6611b9b"
+    }
+  ]
+}

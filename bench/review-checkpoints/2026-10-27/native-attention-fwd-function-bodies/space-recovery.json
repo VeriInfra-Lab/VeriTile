@@ -1,0 +1,41 @@
+{
+  "timestamp": 1793102262.4640615,
+  "owned_completed_batches": [
+    {
+      "path": "/tmp/veritile-scan51-clean/.lake/build",
+      "source_head": "1e04e018025e9e28c36643fa6be4076cb2a291bc",
+      "completed_build_log": "/tmp/scan51-clean-build.log",
+      "source_status_unchanged": true,
+      "source_and_existing_evidence_retained": true,
+      "free_before": 12179738624,
+      "free_after": 19465863168
+    },
+    {
+      "path": "/tmp/veritile-nested46-clean/.lake/build",
+      "source_head": "36dc4dc5cfe1d77f66536662e8235ec1c3d47de7",
+      "completed_build_log": "/tmp/nested46-clean-build.log",
+      "source_status_unchanged": true,
+      "source_and_existing_evidence_retained": true,
+      "free_before": 19457540096,
+      "free_after": 26235195392
+    },
+    {
+      "path": "/tmp/veritile-rms49-clean/.lake/build",
+      "source_head": "8a3d868f25a399413776c7d7a62e69238cefa236",
+      "completed_build_log": "/tmp/rms49-clean-build.log",
+      "source_status_unchanged": true,
+      "source_and_existing_evidence_retained": true,
+      "free_before": 26244530176,
+      "free_after": 33302020096
+    },
+    {
+      "path": "/tmp/veritile-rope37-clean/.lake/build",
+      "source_head": "ce0b0bdbf4b3588764cd2108fdf97d0f6d6b2f44",
+      "completed_build_log": "/tmp/rope37-clean-build.log",
+      "source_status_unchanged": true,
+      "source_and_existing_evidence_retained": true,
+      "free_before": 33296760832,
+      "free_after": 39189803008
+    }
+  ]
+}

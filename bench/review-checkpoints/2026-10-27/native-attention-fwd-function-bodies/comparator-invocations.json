@@ -1,0 +1,242 @@
+[
+  {
+    "name": "VeriTile__Triton__DSL__CallSignature-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "VeriTile/Triton/DSL/CallSignature.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "9e3dc2604b6cf3c729956888895c7a6973439597",
+    "log": "/tmp/attention78-VeriTile__Triton__DSL__CallSignature-comparator.log",
+    "file": "VeriTile/Triton/DSL/CallSignature.lean",
+    "sha256": "3b6c129824b4a428b93c3012965cc2b40a6d00945d4bcb7d61206581e9dcb3e0",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "VeriTile__Triton__DSL__Expansion__Common-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "VeriTile/Triton/DSL/Expansion/Common.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "9e3dc2604b6cf3c729956888895c7a6973439597",
+    "log": "/tmp/attention78-VeriTile__Triton__DSL__Expansion__Common-comparator.log",
+    "file": "VeriTile/Triton/DSL/Expansion/Common.lean",
+    "sha256": "8e8da08a11a3c338fef06e270acf34faa2d358d2c35b3f5cfba256a603a5f15f",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "VeriTile__Triton__DSL__PythonBody-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "VeriTile/Triton/DSL/PythonBody.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "9e3dc2604b6cf3c729956888895c7a6973439597",
+    "log": "/tmp/attention78-VeriTile__Triton__DSL__PythonBody-comparator.log",
+    "file": "VeriTile/Triton/DSL/PythonBody.lean",
+    "sha256": "e9717c1b73328c025c39f2a039ba1d9618a5b72b1ee7749f0c7cdb7e93c6bcba",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__attention_fwd_triton1_tile_checked__Correct-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/Correct.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "9e3dc2604b6cf3c729956888895c7a6973439597",
+    "log": "/tmp/attention78-bench__repairs__tritonbench_g__attention_fwd_triton1_tile_checked__Correct-comparator.log",
+    "file": "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/Correct.lean",
+    "sha256": "b000841fe4c56b9363535bf18217f1da735ae8da8683dea8d4e52db5933800d3",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__attention_fwd_triton1_tile_checked__FPEquiv-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/FPEquiv.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "9e3dc2604b6cf3c729956888895c7a6973439597",
+    "log": "/tmp/attention78-bench__repairs__tritonbench_g__attention_fwd_triton1_tile_checked__FPEquiv-comparator.log",
+    "file": "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/FPEquiv.lean",
+    "sha256": "94cfcd8de8fba199035824ed187e466e8bc7f541f538acc0fadb86dfe71f38e5",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__attention_fwd_triton1_tile_checked__Kernels-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/Kernels.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "9e3dc2604b6cf3c729956888895c7a6973439597",
+    "log": "/tmp/attention78-bench__repairs__tritonbench_g__attention_fwd_triton1_tile_checked__Kernels-comparator.log",
+    "file": "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/Kernels.lean",
+    "sha256": "d7c637638cab5081823bde96dfd3d38f1b07b3aa65528602c1ebfe35c0cd5ae8",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__attention_fwd_triton1_tile_checked__Misc__Audit-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/Misc/Audit.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "9e3dc2604b6cf3c729956888895c7a6973439597",
+    "log": "/tmp/attention78-bench__repairs__tritonbench_g__attention_fwd_triton1_tile_checked__Misc__Audit-comparator.log",
+    "file": "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/Misc/Audit.lean",
+    "sha256": "5a6407017bb305732979ccd1888ca5ad059af94dd43f02862aaeada2c7dc167b",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__attention_fwd_triton1_tile_checked__Proofs__IOPhaseSafety-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/Proofs/IOPhaseSafety.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "9e3dc2604b6cf3c729956888895c7a6973439597",
+    "log": "/tmp/attention78-bench__repairs__tritonbench_g__attention_fwd_triton1_tile_checked__Proofs__IOPhaseSafety-comparator.log",
+    "file": "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/Proofs/IOPhaseSafety.lean",
+    "sha256": "23700fdd1d848f1be0e49af9f81b912d8a656b21fdd975ce24786d242c0aafb3",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__attention_fwd_triton1_tile_checked__Proofs__IOProgramSafety-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/Proofs/IOProgramSafety.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "9e3dc2604b6cf3c729956888895c7a6973439597",
+    "log": "/tmp/attention78-bench__repairs__tritonbench_g__attention_fwd_triton1_tile_checked__Proofs__IOProgramSafety-comparator.log",
+    "file": "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/Proofs/IOProgramSafety.lean",
+    "sha256": "c3fdbfe128bfea9391537868a4f3f75d4e7485a78ec8aaad6b3e7843df25a2a3",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__attention_fwd_triton1_tile_checked__Proofs__Loop-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/Proofs/Loop.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "9e3dc2604b6cf3c729956888895c7a6973439597",
+    "log": "/tmp/attention78-bench__repairs__tritonbench_g__attention_fwd_triton1_tile_checked__Proofs__Loop-comparator.log",
+    "file": "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/Proofs/Loop.lean",
+    "sha256": "f318063b4157391dff3516a5483c315a8225c71e65a9b0cb31a2105af0de0936",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__attention_fwd_triton1_tile_checked__Proofs__Pair-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/Proofs/Pair.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "9e3dc2604b6cf3c729956888895c7a6973439597",
+    "log": "/tmp/attention78-bench__repairs__tritonbench_g__attention_fwd_triton1_tile_checked__Proofs__Pair-comparator.log",
+    "file": "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/Proofs/Pair.lean",
+    "sha256": "c7242c4ec49079bc89aaf734f56e088e839e5079a1002a388e73251c33f186cc",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__attention_fwd_triton1_tile_checked__Proofs__Program-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/Proofs/Program.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "9e3dc2604b6cf3c729956888895c7a6973439597",
+    "log": "/tmp/attention78-bench__repairs__tritonbench_g__attention_fwd_triton1_tile_checked__Proofs__Program-comparator.log",
+    "file": "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/Proofs/Program.lean",
+    "sha256": "fdbf54b6a9be5aa60f6da633c48ad26d96b85ba14fe4b46731e598a4f75f575a",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__attention_fwd_triton1_tile_checked__Proofs__Step-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/Proofs/Step.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "9e3dc2604b6cf3c729956888895c7a6973439597",
+    "log": "/tmp/attention78-bench__repairs__tritonbench_g__attention_fwd_triton1_tile_checked__Proofs__Step-comparator.log",
+    "file": "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/Proofs/Step.lean",
+    "sha256": "5753843a9efc8d97241a7b60a05ed4225fb650eba7387f61980e063cef09f12c",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__attention_fwd_triton1_tile_checked__Proofs__StepFacts-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/Proofs/StepFacts.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "9e3dc2604b6cf3c729956888895c7a6973439597",
+    "log": "/tmp/attention78-bench__repairs__tritonbench_g__attention_fwd_triton1_tile_checked__Proofs__StepFacts-comparator.log",
+    "file": "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/Proofs/StepFacts.lean",
+    "sha256": "6965f95bd5b20a579096d5f03c06740cbb7a3d02e095493c6b537accb7c96147",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__tests__BlockPointerDType-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/tests/BlockPointerDType.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "9e3dc2604b6cf3c729956888895c7a6973439597",
+    "log": "/tmp/attention78-bench__tests__BlockPointerDType-comparator.log",
+    "file": "bench/tests/BlockPointerDType.lean",
+    "sha256": "ca8613146258f3e486d579fd22d754c42ded01be0f19bd512100dc8d7f717a0a",
+    "status": "UNAVAILABLE"
+  }
+]
