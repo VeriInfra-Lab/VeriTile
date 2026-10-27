@@ -1,0 +1,32 @@
+{
+  "parent": "aefda0d5b5c1188e81b0146d3dd3d807d9d89e5f",
+  "shared_core_changed": [
+    "VeriTile/Triton/DSL/PythonBody.lean"
+  ],
+  "files": {
+    "VeriTile/Triton/DSL/PythonBody.lean": "fb8d57f08676c88ad78f366394d27eb5cafc7bdacff2cd8a802caedfca5fedc5",
+    "bench/check_body_corpus.py": "227cb5fbaaefcbd5268d29a03f19f737d7cf4760cee9bf89a5bc8930cba6ba84",
+    "bench/jit_correspondence.py": "dd36b188656773754198b56c150d3f72b3943551de223e2fb16392ee59e0cca6",
+    "bench/repairs/tritonbench_g/fast_ce_loss/Kernels.lean": "14c6a0fe92c6eb426dc9d9585fcf31238f8203f472e4236f89ff0637df79b80e",
+    "bench/repairs/tritonbench_g/fast_ce_loss/Proofs/IOValues.lean": "c93f6ba51a7b80409c1a6fd9bb64ca0954a2317867418171184709fa50b90eec",
+    "bench/repairs/tritonbench_g/fast_ce_loss/Proofs/KernelChunked.lean": "4c1cf997a48ae50a023456529ded7c60c36ef600c2c463940c5f31167e9a53f1",
+    "bench/repairs/tritonbench_g/fast_ce_loss/Proofs/KernelForward.lean": "223fb5e4f4167f5200ea807469d288efb505ef28b3977f25cf39d597ab0cd170",
+    "bench/repairs/tritonbench_g/fast_ce_loss/Proofs/KernelInterface.lean": "5e16742cb394686b170f22738aaa0bbe53d10180e948840d0ad8b07a8b8efba1",
+    "bench/repairs/tritonbench_g/fast_ce_loss/Proofs/KernelOutputs.lean": "923ccf593a7d4345e7c8067902f82b9b428e24b996881df0674617ce87c99b3e",
+    "bench/repairs/tritonbench_g/fast_ce_loss/Proofs/KernelProfile.lean": "18a70714032c46267590dc881d03d51d0f5e0f58e704528ca1680df097059032",
+    "bench/repairs/tritonbench_g/fast_ce_loss/Proofs/KernelSource.lean": "22d4a1a4e8bde5109caf0eea96240acce545bf086e11c1d7473cea71370a70be",
+    "bench/repairs/tritonbench_g/fast_ce_loss/Proofs/KernelTensor.lean": "9c519d3c1c12f34f0fec6eb0aa2ccf850dec8e65bd59c86ae53a9889afb96d45",
+    "bench/repairs/tritonbench_g/fast_ce_loss/Proofs/PublicChunkedIO.lean": "00fc10a9d71be49c2ea1c1d1249fa6ad6a613e46b3efec9506f9cd0db1021c6f",
+    "bench/repairs/tritonbench_g/fast_ce_loss/Proofs/PublicForwardIO.lean": "7a80aa09bd50c21c223e57b5834fd712b0dea75a18a3c039752da057fb6d9e88",
+    "bench/repairs/tritonbench_g/fast_ce_loss/Proofs/SourceCells.lean": "7f62787496f898a80d02b0cce2562b12e363f2dcd5ba831cc81f77d5a7fa5df7",
+    "bench/repairs/tritonbench_g/fast_ce_loss/README.md": "951259a5c9b42356cad37844b95dc82e57e97fd15d7cdb33bbd28d72008aa079",
+    "lakefile.toml": "86053bf1cf5cc882bdc4fe7b245c53fb48950624440e17fbc31c698572a16398",
+    "bench/repairs/tritonbench_g/fast_ce_loss/candidate_kernels.py": "be074c3d8b70894582634f88d7c8d55a4d14b4464b19154a5d8d6e5324886f1c",
+    "bench/repairs/tritonbench_g/fast_ce_loss/jit-correspondence.json": "9e21985a8bdc09a41dc58e26e85fd4f8fe2bb4ec9d1bb8d51e9c6899a3a1bc5b",
+    "bench/tests/InlineSuiteBody.lean": "1dca6479df4843f8a6751bbcdececcd19ce0f50728fe0639115d0e21141c025a",
+    "bench/tests/test_delegated_body_sources.py": "14e496a402f2f63e54cd58e2cf7529fa508a6f513e84d42b8363a1fb7d19da9c",
+    "bench/tests/test_fast_ce_body.py": "0fb0733b509a1401f898636f52eed2439053a9c18f2b0348c48251972ceab4cd"
+  },
+  "code_commit": "c6a4e5d1142ca81a71f43c4a41b9f2f82c7183f0",
+  "original_python_wrappers_and_public_statements_unchanged": true
+}

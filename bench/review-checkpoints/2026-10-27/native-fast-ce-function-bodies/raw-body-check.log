@@ -1,0 +1,140 @@
+[
+  {
+    "python_function": "_cross_entropy_forward",
+    "lean_definition": "forward",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "logits_row_stride": "logits_row_stride"
+    },
+    "statements": 17,
+    "runtime_parameters": {
+      "logits_row_stride": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE",
+      "DO_LOGIT_SCALING",
+      "DO_SOFTCAPPING",
+      "LOGIT_SCALE",
+      "SOFTCAP",
+      "VOCAB_SIZE"
+    ]
+  },
+  {
+    "python_function": "_cross_entropy_forward_index_commuted",
+    "lean_definition": "forwardIndexCommuted",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "logits_row_stride": "logits_row_stride"
+    },
+    "statements": 17,
+    "runtime_parameters": {
+      "logits_row_stride": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE",
+      "DO_LOGIT_SCALING",
+      "DO_SOFTCAPPING",
+      "LOGIT_SCALE",
+      "SOFTCAP",
+      "VOCAB_SIZE"
+    ]
+  },
+  {
+    "python_function": "_chunked_cross_entropy_forward",
+    "lean_definition": "chunked",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "logits_row_stride": "logits_row_stride"
+    },
+    "statements": 17,
+    "runtime_parameters": {
+      "logits_row_stride": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE",
+      "DO_LOGIT_SCALING",
+      "DO_SOFTCAPPING",
+      "LOGIT_SCALE",
+      "N_CHUNKS",
+      "SOFTCAP",
+      "VOCAB_SIZE"
+    ]
+  },
+  {
+    "python_function": "_chunked_cross_entropy_forward_index_commuted",
+    "lean_definition": "chunkedIndexCommuted",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "logits_row_stride": "logits_row_stride"
+    },
+    "statements": 17,
+    "runtime_parameters": {
+      "logits_row_stride": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE",
+      "DO_LOGIT_SCALING",
+      "DO_SOFTCAPPING",
+      "LOGIT_SCALE",
+      "N_CHUNKS",
+      "SOFTCAP",
+      "VOCAB_SIZE"
+    ]
+  },
+  {
+    "python_function": "_cross_entropy_backward",
+    "lean_definition": "backward",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "logits_row_stride": "logits_row_stride",
+      "dloss_row_stride": "dloss_row_stride"
+    },
+    "statements": 17,
+    "runtime_parameters": {
+      "logits_row_stride": "integer",
+      "dloss_row_stride": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE",
+      "DO_LOGIT_SCALING",
+      "DO_SOFTCAPPING",
+      "LOGIT_SCALE",
+      "SOFTCAP",
+      "VOCAB_SIZE"
+    ]
+  },
+  {
+    "python_function": "_cross_entropy_backward_index_commuted",
+    "lean_definition": "backwardIndexCommuted",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "logits_row_stride": "logits_row_stride",
+      "dloss_row_stride": "dloss_row_stride"
+    },
+    "statements": 17,
+    "runtime_parameters": {
+      "logits_row_stride": "integer",
+      "dloss_row_stride": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE",
+      "DO_LOGIT_SCALING",
+      "DO_SOFTCAPPING",
+      "LOGIT_SCALE",
+      "SOFTCAP",
+      "VOCAB_SIZE"
+    ]
+  }
+]

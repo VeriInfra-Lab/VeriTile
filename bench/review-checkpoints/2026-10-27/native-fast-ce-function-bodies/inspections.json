@@ -1,0 +1,50 @@
+{
+  "code_commit": "c6a4e5d1142ca81a71f43c4a41b9f2f82c7183f0",
+  "raw_bodies": [
+    {
+      "name": "raw-body-check",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/fast_ce_loss/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "c6a4e5d1142ca81a71f43c4a41b9f2f82c7183f0",
+      "log": "/tmp/fastce90-raw-body-check.log",
+      "status": "PASS"
+    }
+  ],
+  "candidate_rewrites": [
+    {
+      "status": "PASS",
+      "scope": "All three complete original signatures, heuristics/jit decorators and function ASTs checked by FastCeBodyTests; only the existing integer row/stride product is commuted."
+    }
+  ],
+  "cpu": {
+    "name": "cpu-final",
+    "command": [
+      "python3",
+      "bench/repairs/tritonbench_g/fast_ce_loss/check_contract.py"
+    ],
+    "exit_code": 1,
+    "code_commit": "c6a4e5d1142ca81a71f43c4a41b9f2f82c7183f0",
+    "log": "/tmp/fastce90-cpu-final.log",
+    "status": "UNAVAILABLE"
+  },
+  "original_python_wrappers_and_public_statements": {
+    "status": "PASS",
+    "sha256": {
+      "bench/repairs/tritonbench_g/fast_ce_loss/IO.lean": "1df1b057b4cef589c72463ac94d09b6ba11663041d0f4ed72a5cbf3c07b402aa",
+      "bench/repairs/tritonbench_g/fast_ce_loss/Contract.lean": "408758f96b5f16bfa043b88526c7e39019e8418a1bda43aea3d36ffc3ca668d5",
+      "bench/repairs/tritonbench_g/fast_ce_loss/fast_ce_loss_repaired.py": "c848b2bb538b8b0800a069e564b2a796dcdf23f0b2688e0fc8b6f73a5ecf07ff",
+      "bench/repairs/tritonbench_g/fast_ce_loss/Correct.lean": "c0deaf585054df5380e18cf839b901fbd3513064aec9c0396f8f9818cd3c1e4f",
+      "bench/repairs/tritonbench_g/fast_ce_loss/check_contract.py": "c05bc83975d0679427e897ace66ffd8a83b5c4760c8c5c4ff6357c154621312a",
+      "bench/repairs/tritonbench_g/fast_ce_loss/fast_ce_loss_body.py": "bd8421753644480fb676f8b76e351be1db156b791376f8b0d5a925febeefc382",
+      "bench/repairs/tritonbench_g/fast_ce_loss/FPEquiv.lean": "aa5cee3383779ac54a4cc2823168a810bc1a62373d05f1d1bf3bb3b93d3d4fa3",
+      "bench/repairs/tritonbench_g/fast_ce_loss/fast_ce_loss_conditional.py": "032f2018d4b664214dd1e147bcfd8b5956a0bb75a9018f1a9b25fba8484d6f90",
+      "bench/repairs/tritonbench_g/fast_ce_loss/Proofs/Contract.lean": "15f8dc78e19f4881964174b2da3778de4f8e65e9e603568891abb7a2d0b263ea"
+    }
+  },
+  "scope": "Six complete raw forward/chunked/backward source and candidate bodies. Explicit casts, inline constexpr branches, imported libdevice alias and terminal stores retained. Wrapper delegation statically resolved; actual source execution, memory, safety and all public/native/Tensor consumers replayed. No new numerical law, domain narrowing or GPU experiment."
+}

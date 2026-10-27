@@ -1,0 +1,715 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "c6a4e5d1142ca81a71f43c4a41b9f2f82c7183f0",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "fast_ce_loss"
+  ],
+  "regression_only_pending_body_tasks": [
+    "kv_cache_filling"
+  ],
+  "semantic_review": {
+    "adam_update_triton": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "add_example": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "add_value": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "apply_penalty": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "attention_fwd_triton1": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "batched_vecmat_mult": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "bgmv_expand_slice": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "bmm_optimized": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "cache_transform_triton": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "chunk_cumsum_kernel": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "chunk_cumsum_vector": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "chunk_delta_fwd": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "chunked_cumsum_fwd": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "cosine_compute": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "dequantize_matmul": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "dequantize_rowwise": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "destindex_copy": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "destindex_copy_kv1": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "destindex_copy_kv2": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "diag_ssm_triton": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "dropout_triton": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "embedding_triton_kernel": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "f8_conversion_utils": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "fast_ce_loss": "Six complete raw original/existing candidate bodies preserve every forward/chunked/backward statement, all explicit casts, inline constexpr branches, source libdevice alias, signatures and decorators. The existing candidates only commute the integer row/stride product. Original Python, wrapper, public Correct/FPEquiv/IO/Contract and independent real formulas remain unchanged. The old Lean source added explicit terminal casts absent from Python and specialized away constexpr branches. Internal forward/chunked execution and generic algebra output expressions now follow the actual uncast stores; the computed backward store retains its implicit pointer conversion. Original native observed-value conclusions are re-proved using the existing compiler lowering of same-FP32 cast nodes, never an arbitrary algebra cast identity. All real/native/IO/Tensor/host consumers replay against actual source. No domain narrowing, whole-kernel premise, new numerical law or GPU experiment.",
+    "fast_rope_embedding": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "fifth_order_sph_harmonics": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "flash_decode2_llama": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "flash_decode2_phi": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "fused_activation": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "fused_recurrent_hgrn": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "fused_rotary_embedding": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "geglu_tanh_triton": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "index_select_bwd": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "index_select_cat": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "int8_matmul_kernel": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "isfinite_kernel": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "kcache_copy_triton": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "kldiv_compute": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "kldiv_ops": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "kldiv_triton": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "kv_cache_copy": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "kv_cache_filling": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims. Python-body migration remains pending; its correspondence status is retained.",
+    "l2_norm_bwd": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "l2_norm_triton1": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "l2_norm_triton2": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "log_softmax": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "logsumexp_fwd": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "masked_add_cuda": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "masked_select": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "matmul_kernel": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "matrix_reduction": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "matrix_transpose": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "max_reduction": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "mean_reduction": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "mul_exponent_compensator": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "nested_loops_processing": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "quant_transpose_kernel": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "quantize_copy_kv": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "quantize_global": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "quantize_kv_copy": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "quantize_kv_transform": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "relu_strided_buffer": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "relu_triton_kernel": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "reversed_cumsum": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "reversed_cumsum_scalar": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "rms_norm_triton": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "rmsnorm_fused": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "rmsnorm_fused_llama": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "rmsnorm_implementation": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "rmsnorm_triton": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "rope_backward_transform": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "rope_embedding": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "rope_transform": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "rotary_emb": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "rotary_emb_nopad": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "rowwise_quantization_triton": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "seeded_dropout": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "sin_computation": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "sin_kernel": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "softmax_optimize": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "softmax_triton1": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "softmax_triton2": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "softmax_triton3": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "square_matrix": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "swiglu_backward": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "swiglu_fwd": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "swiglu_triton": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "token_attn_mistral": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "token_attn_reduceV": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "token_softmax_bloom": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "token_softmax_llama": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "triton_argmax": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "triton_mul2": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "triton_softmax": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "var_len_copy": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "vector_addition": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims.",
+    "vector_addition_custom": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims."
+  },
+  "compiler_change": {
+    "files": [
+      "VeriTile/Triton/DSL/PythonBody.lean"
+    ],
+    "behavior": "The shared Python-body renderer accepts one-statement inline suites without changing statement scope. Header colons are recognized outside strings and delimiters; unsupported semicolon suites remain rejected. All 101 registered frontend roots and all 3734 cumulative roots replay, including independent builds from empty project objects. The source checker resolves direct libdevice aliases and literal local importlib delegation without executing Python, rejects ambiguous or rebound bindings, and requires every loaded JIT. Previously completed tasks receive regression evidence only, not new migration claims."
+  },
+  "verification": {
+    "baseline": {
+      "status": "PASS",
+      "explicit_modules": 82,
+      "jobs": 3540
+    },
+    "frontend_preflight": {
+      "status": "PASS",
+      "explicit_modules": 101,
+      "jobs": 3753,
+      "scope": "All registered FPFrontendRegressions roots, including inline/indented statement-scope AST identity plus string/slice-colon and semicolon-suite checks."
+    },
+    "focused": {
+      "status": "PASS",
+      "explicit_modules": 82,
+      "jobs": 3552,
+      "additional_scope": "Joint import, standalone frontend AST footprint, 45 actual-source/public/IO audits and three empty FP assumption reports."
+    },
+    "warm_and_joint": {
+      "status": "PASS",
+      "explicit_modules": 3734,
+      "jobs": 13375
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 3734,
+      "jobs": 13375,
+      "project_build_initially_present": false,
+      "project_objects_imported_from_other_checkouts": false,
+      "only_fixed_external_dependencies_imported": true,
+      "setup": {
+        "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/final-clean-setup.json",
+        "sha256": "a2d6d5c9fcff3757b2a7f0ec64a99c1ae1e209caf4955aa77865f564d77f304b"
+      }
+    },
+    "trust": "PASS: 45 actual-source/public/IO footprints and one new frontend AST footprint use only standard base. All three public FP entries print no FP assumptions.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 154
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 399,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by old numerical receipt; no false repin."
+    },
+    "source": "PASS: six complete raw original/existing candidate bodies and exact caller bindings; original Python/wrappers/public statements unchanged, actual-source deep proofs updated and replayed.",
+    "official_comparator": "UNAVAILABLE: 84 actual final-source attempts with verified pinned binaries. Host Landlock ABI v4 is below required v5; no systemd user isolation or bypass.",
+    "cpu": "UNAVAILABLE: actual check_contract.py CPU invocation requires missing Torch.",
+    "gpu_or_numerical_experiment": "Not run.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending; the known unchanged numerical receipt failure remains explicit."
+  },
+  "source_pairs": {
+    "total": 301,
+    "pasted_body": 301,
+    "legacy_ast": 0
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/source-closure.json",
+    "sha256": "7834488e83fffdd76616a4952e3cddf52c3b5e7f3f8ada8d8016c97e2c69a8e0"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "selected_body_copy_checked": 96,
+      "uncovered_jit_functions": 87
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 333,
+    "uncovered_selected_jit_functions": 181,
+    "primary_files_with_int64_screen_warning": 23,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 62,
+        "antiquotes": 70,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "example_regression_scope": "All 19 selected examples and all previous recorded task roots replay warm/joint and independently from empty project objects. Unselected historical model gaps are not relabeled as passing.",
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/VeriTile__Triton__DSL__PythonBody-comparator.log",
+      "sha256": "2948803b1441d7c1feedf5a64a15b61bd151d942779a1656f9bd47ada2265bdd"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/all-python.log",
+      "sha256": "ce53e0e7d26e0a06e508c24f89aa3db313f3670414f83ce8fd58c6844faff497"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/audit-targets.json",
+      "sha256": "da93bc6ce053ef82e047d23075e173482b4aea17756ec5718aa07a039ab433f6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/audit.lean",
+      "sha256": "cced086b6a450358858f5ddb1a36318e7749889c88a963b67f0a496d2a1a02ca"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/audit.log",
+      "sha256": "6232396ca2c5dff0237f0c6244b9403296456afbc08a285e5189eaf28cf4c3d5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/baseline-build.log.gz",
+      "sha256": "c7895b51bbfbe186e64fb10721a05750a67e9654419b861054fc3891e32ea551"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/baseline.json",
+      "sha256": "8ac7c528cd2b70c7844659310d32704f011bf39f1620cb58491c486560518037"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Contract-comparator.log",
+      "sha256": "6b6e11bde935d56869f3eb874f531fcd08670f467d48969da9ae78370f29e633"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Correct-comparator.log",
+      "sha256": "6b6e11bde935d56869f3eb874f531fcd08670f467d48969da9ae78370f29e633"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__FPEquiv-comparator.log",
+      "sha256": "6b6e11bde935d56869f3eb874f531fcd08670f467d48969da9ae78370f29e633"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__IO-comparator.log",
+      "sha256": "6b6e11bde935d56869f3eb874f531fcd08670f467d48969da9ae78370f29e633"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Kernels-comparator.log",
+      "sha256": "6b6e11bde935d56869f3eb874f531fcd08670f467d48969da9ae78370f29e633"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Misc__Audit-comparator.log",
+      "sha256": "6b6e11bde935d56869f3eb874f531fcd08670f467d48969da9ae78370f29e633"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Misc__KernelAudit-comparator.log",
+      "sha256": "6b6e11bde935d56869f3eb874f531fcd08670f467d48969da9ae78370f29e633"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Misc__NativeCorrect-comparator.log",
+      "sha256": "6b6e11bde935d56869f3eb874f531fcd08670f467d48969da9ae78370f29e633"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Misc__TensorBridge-comparator.log",
+      "sha256": "6b6e11bde935d56869f3eb874f531fcd08670f467d48969da9ae78370f29e633"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__API-comparator.log",
+      "sha256": "6b6e11bde935d56869f3eb874f531fcd08670f467d48969da9ae78370f29e633"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__Allocations-comparator.log",
+      "sha256": "30414a8b65a3bc35c49206b7f82db2f75b1563cacb16de14fa23d08deb5b42d7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__BackwardGrid-comparator.log",
+      "sha256": "30414a8b65a3bc35c49206b7f82db2f75b1563cacb16de14fa23d08deb5b42d7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__Contract-comparator.log",
+      "sha256": "30414a8b65a3bc35c49206b7f82db2f75b1563cacb16de14fa23d08deb5b42d7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__FPPlans-comparator.log",
+      "sha256": "30414a8b65a3bc35c49206b7f82db2f75b1563cacb16de14fa23d08deb5b42d7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__ForwardComplete-comparator.log",
+      "sha256": "30414a8b65a3bc35c49206b7f82db2f75b1563cacb16de14fa23d08deb5b42d7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__ForwardGrid-comparator.log",
+      "sha256": "30414a8b65a3bc35c49206b7f82db2f75b1563cacb16de14fa23d08deb5b42d7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__Geometry-comparator.log",
+      "sha256": "30414a8b65a3bc35c49206b7f82db2f75b1563cacb16de14fa23d08deb5b42d7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__GraphInputs-comparator.log",
+      "sha256": "30414a8b65a3bc35c49206b7f82db2f75b1563cacb16de14fa23d08deb5b42d7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__HostBackwardValues-comparator.log",
+      "sha256": "30414a8b65a3bc35c49206b7f82db2f75b1563cacb16de14fa23d08deb5b42d7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__HostContract-comparator.log",
+      "sha256": "30414a8b65a3bc35c49206b7f82db2f75b1563cacb16de14fa23d08deb5b42d7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__HostCorrect-comparator.log",
+      "sha256": "30414a8b65a3bc35c49206b7f82db2f75b1563cacb16de14fa23d08deb5b42d7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__HostExecution-comparator.log",
+      "sha256": "9d3afbffb8080f328bdbeb5591a23fd97a9040fe988dd236def841a5b08db120"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__HostFPEquiv-comparator.log",
+      "sha256": "9d3afbffb8080f328bdbeb5591a23fd97a9040fe988dd236def841a5b08db120"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__HostForwardExecution-comparator.log",
+      "sha256": "9d3afbffb8080f328bdbeb5591a23fd97a9040fe988dd236def841a5b08db120"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__HostGrid-comparator.log",
+      "sha256": "9d3afbffb8080f328bdbeb5591a23fd97a9040fe988dd236def841a5b08db120"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__HostReal-comparator.log",
+      "sha256": "9d3afbffb8080f328bdbeb5591a23fd97a9040fe988dd236def841a5b08db120"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__HostSource-comparator.log",
+      "sha256": "9d3afbffb8080f328bdbeb5591a23fd97a9040fe988dd236def841a5b08db120"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__HostStages-comparator.log",
+      "sha256": "9d3afbffb8080f328bdbeb5591a23fd97a9040fe988dd236def841a5b08db120"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__HostTypes-comparator.log",
+      "sha256": "9d3afbffb8080f328bdbeb5591a23fd97a9040fe988dd236def841a5b08db120"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__HostValues-comparator.log",
+      "sha256": "9d3afbffb8080f328bdbeb5591a23fd97a9040fe988dd236def841a5b08db120"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__HostWhole-comparator.log",
+      "sha256": "9d3afbffb8080f328bdbeb5591a23fd97a9040fe988dd236def841a5b08db120"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__IOBinding-comparator.log",
+      "sha256": "9d3afbffb8080f328bdbeb5591a23fd97a9040fe988dd236def841a5b08db120"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__IOLayout-comparator.log",
+      "sha256": "ffda13abc392739c75d18fa1e3e19e7be23737b500cb127845f3c536f9880532"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__IOValues-comparator.log",
+      "sha256": "ffda13abc392739c75d18fa1e3e19e7be23737b500cb127845f3c536f9880532"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__Input-comparator.log",
+      "sha256": "ffda13abc392739c75d18fa1e3e19e7be23737b500cb127845f3c536f9880532"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__KernelABI-comparator.log",
+      "sha256": "ffda13abc392739c75d18fa1e3e19e7be23737b500cb127845f3c536f9880532"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__KernelAccess-comparator.log",
+      "sha256": "ffda13abc392739c75d18fa1e3e19e7be23737b500cb127845f3c536f9880532"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__KernelBackward-comparator.log",
+      "sha256": "ffda13abc392739c75d18fa1e3e19e7be23737b500cb127845f3c536f9880532"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__KernelBoundary-comparator.log",
+      "sha256": "ffda13abc392739c75d18fa1e3e19e7be23737b500cb127845f3c536f9880532"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__KernelChunked-comparator.log",
+      "sha256": "ffda13abc392739c75d18fa1e3e19e7be23737b500cb127845f3c536f9880532"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__KernelCompiler-comparator.log",
+      "sha256": "e41bce82e9be258b6c014d70db5ca54eb5760863548b60f6115759c1088a5a7c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__KernelContract-comparator.log",
+      "sha256": "e41bce82e9be258b6c014d70db5ca54eb5760863548b60f6115759c1088a5a7c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__KernelFMA-comparator.log",
+      "sha256": "e41bce82e9be258b6c014d70db5ca54eb5760863548b60f6115759c1088a5a7c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__KernelForward-comparator.log",
+      "sha256": "e41bce82e9be258b6c014d70db5ca54eb5760863548b60f6115759c1088a5a7c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__KernelInterface-comparator.log",
+      "sha256": "e41bce82e9be258b6c014d70db5ca54eb5760863548b60f6115759c1088a5a7c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__KernelLaunch-comparator.log",
+      "sha256": "e41bce82e9be258b6c014d70db5ca54eb5760863548b60f6115759c1088a5a7c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__KernelMath-comparator.log",
+      "sha256": "e41bce82e9be258b6c014d70db5ca54eb5760863548b60f6115759c1088a5a7c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__KernelModel-comparator.log",
+      "sha256": "e41bce82e9be258b6c014d70db5ca54eb5760863548b60f6115759c1088a5a7c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__KernelOutputs-comparator.log",
+      "sha256": "45d771309ee71586b9f875ccf178807ebc81ac9aa5b91dde6f4be7a658bc71d9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__KernelProfile-comparator.log",
+      "sha256": "45d771309ee71586b9f875ccf178807ebc81ac9aa5b91dde6f4be7a658bc71d9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__KernelPublic-comparator.log",
+      "sha256": "45d771309ee71586b9f875ccf178807ebc81ac9aa5b91dde6f4be7a658bc71d9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__KernelReal-comparator.log",
+      "sha256": "45d771309ee71586b9f875ccf178807ebc81ac9aa5b91dde6f4be7a658bc71d9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__KernelSource-comparator.log",
+      "sha256": "45d771309ee71586b9f875ccf178807ebc81ac9aa5b91dde6f4be7a658bc71d9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__KernelTensor-comparator.log",
+      "sha256": "45d771309ee71586b9f875ccf178807ebc81ac9aa5b91dde6f4be7a658bc71d9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__Library-comparator.log",
+      "sha256": "45d771309ee71586b9f875ccf178807ebc81ac9aa5b91dde6f4be7a658bc71d9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__LogicalIO-comparator.log",
+      "sha256": "45d771309ee71586b9f875ccf178807ebc81ac9aa5b91dde6f4be7a658bc71d9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__LogicalModel-comparator.log",
+      "sha256": "45d771309ee71586b9f875ccf178807ebc81ac9aa5b91dde6f4be7a658bc71d9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__Math-comparator.log",
+      "sha256": "45d771309ee71586b9f875ccf178807ebc81ac9aa5b91dde6f4be7a658bc71d9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__Origins-comparator.log",
+      "sha256": "6b543152333e4c44a76b1cc80a04e8e156294afad1326fe4b60ab1aec39b95f7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__Physical-comparator.log",
+      "sha256": "6b543152333e4c44a76b1cc80a04e8e156294afad1326fe4b60ab1aec39b95f7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__PublicBackwardIO-comparator.log",
+      "sha256": "6b543152333e4c44a76b1cc80a04e8e156294afad1326fe4b60ab1aec39b95f7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__PublicChunkedIO-comparator.log",
+      "sha256": "6b543152333e4c44a76b1cc80a04e8e156294afad1326fe4b60ab1aec39b95f7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__PublicForwardIO-comparator.log",
+      "sha256": "6b543152333e4c44a76b1cc80a04e8e156294afad1326fe4b60ab1aec39b95f7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__PublicNativeIO-comparator.log",
+      "sha256": "6b543152333e4c44a76b1cc80a04e8e156294afad1326fe4b60ab1aec39b95f7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__PublicRealBackward-comparator.log",
+      "sha256": "6b543152333e4c44a76b1cc80a04e8e156294afad1326fe4b60ab1aec39b95f7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__PublicRealChunked-comparator.log",
+      "sha256": "6b543152333e4c44a76b1cc80a04e8e156294afad1326fe4b60ab1aec39b95f7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__PublicRealForward-comparator.log",
+      "sha256": "08c158a489d37efd3e406bc99975435d796416843d4f9f30a45abb10d44da4be"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__RealAPI-comparator.log",
+      "sha256": "08c158a489d37efd3e406bc99975435d796416843d4f9f30a45abb10d44da4be"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__RealForward-comparator.log",
+      "sha256": "08c158a489d37efd3e406bc99975435d796416843d4f9f30a45abb10d44da4be"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__RealIOValues-comparator.log",
+      "sha256": "08c158a489d37efd3e406bc99975435d796416843d4f9f30a45abb10d44da4be"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__RealLocal-comparator.log",
+      "sha256": "08c158a489d37efd3e406bc99975435d796416843d4f9f30a45abb10d44da4be"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__RealReduction-comparator.log",
+      "sha256": "08c158a489d37efd3e406bc99975435d796416843d4f9f30a45abb10d44da4be"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__ResidentAdapter-comparator.log",
+      "sha256": "08c158a489d37efd3e406bc99975435d796416843d4f9f30a45abb10d44da4be"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__ResidentLanguage-comparator.log",
+      "sha256": "08c158a489d37efd3e406bc99975435d796416843d4f9f30a45abb10d44da4be"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__ResidentWhole-comparator.log",
+      "sha256": "08c158a489d37efd3e406bc99975435d796416843d4f9f30a45abb10d44da4be"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__Source-comparator.log",
+      "sha256": "08c158a489d37efd3e406bc99975435d796416843d4f9f30a45abb10d44da4be"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__SourceAST-comparator.log",
+      "sha256": "08c158a489d37efd3e406bc99975435d796416843d4f9f30a45abb10d44da4be"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__SourceAccessBackward-comparator.log",
+      "sha256": "08c158a489d37efd3e406bc99975435d796416843d4f9f30a45abb10d44da4be"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__SourceAccessChunked-comparator.log",
+      "sha256": "e84f877eba5f420bd3818ec87e6b9e418ac205d4f03dd0552bc5466909450840"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__SourceAccessForward-comparator.log",
+      "sha256": "e84f877eba5f420bd3818ec87e6b9e418ac205d4f03dd0552bc5466909450840"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__SourceCells-comparator.log",
+      "sha256": "e84f877eba5f420bd3818ec87e6b9e418ac205d4f03dd0552bc5466909450840"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__SourceEquivalence-comparator.log",
+      "sha256": "e84f877eba5f420bd3818ec87e6b9e418ac205d4f03dd0552bc5466909450840"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/bench__tests__InlineSuiteBody-comparator.log",
+      "sha256": "e84f877eba5f420bd3818ec87e6b9e418ac205d4f03dd0552bc5466909450840"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/build-invocations.json",
+      "sha256": "dfd881fb5de5593e0dcd65182147939a4880681c9c74d090a9ef836a4124d0fd"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/canonical-task-files.json",
+      "sha256": "c6e1cb735e18913b23348b92937595f6ff303aa9638dcaa547665e669d2d8692"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/comparator-invocations.json",
+      "sha256": "e770e2ad4c167818b0d4bdf38f13cd4957bb611dde2fdac2581d94a8ab443899"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/comparator-tools.json",
+      "sha256": "28998e17d51b0fb5930f7489e64512a57f8a8146d1470063a624a75bbabdb0d3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/corpus-guard.log",
+      "sha256": "28855c1844e3fe42be45358f4729b045269bd91e96fd9558b268a39869680eb6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/cpu-final.log",
+      "sha256": "69e7d61853e7d89c19ba50283c20b0e9b0b79bb58de1b7947500f1e4bc267d80"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/final-clean-build.log.gz",
+      "sha256": "dd98e3d6ee75c80a05f0e5d767968f884c9b09589911ab0b89a82ff20dde988e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/final-clean-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/final-clean-setup.json",
+      "sha256": "a2d6d5c9fcff3757b2a7f0ec64a99c1ae1e209caf4955aa77865f564d77f304b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/focus-build.log.gz",
+      "sha256": "e2dcea755a05b40e0dc33549765582f5032cad5c125288c144b6a3b67277c5c5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/focus-invocations.json",
+      "sha256": "540565d6cbf19b69056bf3b7959f88afc674c65f997e0952464f0f99e55e3c16"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/focus-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/focus-modules.txt",
+      "sha256": "ce8f2a365e297dd48f46418e6667b805e7cf1f00a636caac8a07cace90772808"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/frontend-build.log.gz",
+      "sha256": "a0016e7575a5111ac76833509f19be570afdd58f389f7ed37d3ba9499574f988"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/frontend-modules.txt",
+      "sha256": "ffcadce8dc1c2b9c9a28845dbdaec63bcc76b48b96ac163cd4372756151ab52e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/inspections.json",
+      "sha256": "1bd3f9f6a4891b79f601fd0dcada097ba13cd05d916db717eb4403897d6466c1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/integration-final.log.gz",
+      "sha256": "969ebd23ebd9aba6e75f54f013e12f454337dc76e2a697524adeef84288a7136"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/joint-all.lean",
+      "sha256": "e142fe1a2b32c1faddcd54715db8a1a300cb72679ed41ca87d887e0437064841"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/joint-final.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/modules.json",
+      "sha256": "02ec59fd409627a97edff13d6fa80ee81af3273410235d58c228928031ebf361"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/pairs.json",
+      "sha256": "38fd03a6705a32191333e04a1a44508eb05ab08251d1b1c03df68389de6c3f35"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/previous-reviews.json.gz",
+      "sha256": "a7c49f32d3ea564210bddd5e300c0f6512b3a2f1f5f1953886cbf3ee82deb319"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/python-invocations.json",
+      "sha256": "1f8de93395505527951137ccfe0e72d780133cc1f626e9db63ea3e00d2af731f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/python-tests.log",
+      "sha256": "a92239c7c564ca6233ee0c9e84afd450a3d766e0c1fe111dcfca9f6889667c5e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/raw-body-check.log",
+      "sha256": "caf239abe4e7e6b77c42a5f3d2c517125ad3ac04f7e3a47881bbda4105f00262"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/source-closure.json",
+      "sha256": "7834488e83fffdd76616a4952e3cddf52c3b5e7f3f8ada8d8016c97e2c69a8e0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/standalone-InlineSuiteBody.log",
+      "sha256": "1f4dc733b12cc89b45483af2b463211bc97df2bfeac03bec375c6c32d301cf14"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/transferred-files.json",
+      "sha256": "8257688799d091966b865f2b483c2b467476da3c54dd79be651bde600ee9512b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/warm-final-invocation.json",
+      "sha256": "ab476c918204af992680c661e88802a0ec3d304ef43746bb1c0c671615c0becd"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-fast-ce-function-bodies/workflow-counts.json",
+      "sha256": "b360f7f5ec0e83e93a2e391b36a3b153a0949eb4790a19964386aa7a0b0e755e"
+    }
+  ]
+}
