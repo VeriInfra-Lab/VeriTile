@@ -13,7 +13,6 @@ open VeriTile.Triton FP.Structural
 #axiomsClean PhysicalCorrect.kernel_real
 #axiomsClean PhysicalFPEquiv.kernel_native
 #axiomsClean NumericalCompatibility.numerical_iff
-#axiomsClean source_unchanged
 #axiomsClean Program.quoted
 #axiomsClean SharedStep.body_run
 #axiomsClean SharedLoop.kernel_run

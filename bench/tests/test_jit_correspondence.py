@@ -1231,3 +1231,52 @@ class BgmvExpandFunctionBodyTests(unittest.TestCase):
                     self.assertIn(before, lean)
                     with self.assertRaises(ValueError):
                         self.compare(record, lean.replace(before, after))
+
+
+class AttentionFwdFunctionBodyTests(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked"
+
+    def compare(self, record, lean):
+        return check((ROOT / record["python"]).read_text(), lean,
+                     record["python_function"], record["lean_definition"],
+                     record["signature_definition"], record["expected_signature"],
+                     record["expected_call_bindings"])
+
+    def test_complete_original_and_shift_candidate(self):
+        pairs = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual([(p["mode"], p["statements"]) for p in pairs],
+                         [("pasted_body", 3), ("pasted_body", 4)])
+        for record in json.loads((self.directory / "jit-correspondence.json").read_text()):
+            source = (ROOT / record["python"]).read_text()
+            fn = next(n for n in ast.parse(source).body if isinstance(n, ast.FunctionDef)
+                      and n.name == record["python_function"])
+            body = "\n".join(source.splitlines()[fn.body[0].lineno-1:fn.end_lineno])
+            lean = (ROOT / record["lean"]).read_text()
+            self.assertEqual(textwrap.dedent(body).strip(),
+                             textwrap.dedent(quotation(lean, record["lean_definition"])[1]).strip())
+
+    def test_cast_block_geometry_boundary_and_candidate_delta_are_preserved(self):
+        mutations = [
+            ("tl.program_id(0).to(tl.int64)", "tl.program_id(0)"),
+            ("b_h.to(p_h.dtype.element_ty)", "b_h"),
+            ("(b_q * scale).to(b_q.dtype)", "(b_q * scale)"),
+            ("b_s.to(b_q.dtype)", "b_s"),
+            ("(NT * BD, BD)", "(T, BD)"),
+            ("boundary_check=(0,)", "boundary_check=(1,)"),
+            ('padding_option="zero"', 'padding_option=""'),
+            ("allow_tf32=False", "allow_tf32=True"),
+            ("if i == 0:", "if i == 1:"),
+            ("b_h += tl.dot(b_k, b_v", "b_h = tl.dot(b_k, b_v"),
+            ("s_hh := s_hh", "s_hh := s_qh"),
+            ('("scale",.fp32)', '("scale",.fp64)'),
+        ]
+        for record in json.loads((self.directory / "jit-correspondence.json").read_text()):
+            lean = (ROOT / record["lean"]).read_text()
+            cases = mutations + ([("tl.static_assert(BT == 32)", "tl.static_assert(BT == 16)"),
+                                  ("i << 5", "i << 4")]
+                                 if record["lean_definition"] == "shiftedSource" else [])
+            for before, after in cases:
+                with self.subTest(definition=record["lean_definition"], mutation=before):
+                    self.assertIn(before, lean)
+                    with self.assertRaises(ValueError):
+                        self.compare(record, lean.replace(before, after))

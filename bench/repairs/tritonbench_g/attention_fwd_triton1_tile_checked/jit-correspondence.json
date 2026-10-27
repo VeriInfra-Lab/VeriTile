@@ -1,0 +1,170 @@
+[
+  {
+    "lean": "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/Kernels.lean",
+    "lean_definition": "source",
+    "python": "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/attention_fwd_triton1_tile_checked.py",
+    "python_function": "attention_fwd_kernel",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "q",
+          "fp32"
+        ],
+        [
+          "k",
+          "fp32"
+        ],
+        [
+          "v",
+          "fp32"
+        ],
+        [
+          "h",
+          "fp32"
+        ],
+        [
+          "o",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "s_qh",
+          "integer"
+        ],
+        [
+          "s_qt",
+          "integer"
+        ],
+        [
+          "s_qd",
+          "integer"
+        ],
+        [
+          "s_hh",
+          "integer"
+        ],
+        [
+          "s_ht",
+          "integer"
+        ],
+        [
+          "T",
+          "integer"
+        ],
+        [
+          "scale",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BT",
+        "BD",
+        "NT",
+        "STORE",
+        "IFCOND"
+      ],
+      "readPorts": [
+        "q",
+        "k",
+        "v",
+        "h",
+        "o"
+      ]
+    },
+    "expected_call_bindings": {
+      "s_qh": "s_qh",
+      "s_qt": "s_qt",
+      "s_qd": "s_qd",
+      "s_hh": "s_hh",
+      "s_ht": "s_ht",
+      "T": "T",
+      "scale": "scale"
+    }
+  },
+  {
+    "lean": "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/Kernels.lean",
+    "lean_definition": "shiftedSource",
+    "python": "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/attention_fwd_triton1_tile_checked.py",
+    "python_function": "attention_fwd_shifted_kernel",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "q",
+          "fp32"
+        ],
+        [
+          "k",
+          "fp32"
+        ],
+        [
+          "v",
+          "fp32"
+        ],
+        [
+          "h",
+          "fp32"
+        ],
+        [
+          "o",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "s_qh",
+          "integer"
+        ],
+        [
+          "s_qt",
+          "integer"
+        ],
+        [
+          "s_qd",
+          "integer"
+        ],
+        [
+          "s_hh",
+          "integer"
+        ],
+        [
+          "s_ht",
+          "integer"
+        ],
+        [
+          "T",
+          "integer"
+        ],
+        [
+          "scale",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "BT",
+        "BD",
+        "NT",
+        "STORE",
+        "IFCOND"
+      ],
+      "readPorts": [
+        "q",
+        "k",
+        "v",
+        "h",
+        "o"
+      ]
+    },
+    "expected_call_bindings": {
+      "s_qh": "s_qh",
+      "s_qt": "s_qt",
+      "s_qd": "s_qd",
+      "s_hh": "s_hh",
+      "s_ht": "s_ht",
+      "T": "T",
+      "scale": "scale"
+    }
+  }
+]

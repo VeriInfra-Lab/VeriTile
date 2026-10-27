@@ -8,8 +8,8 @@
     "task_status": {
       "legacy_ast_only": 1,
       "no_selected_jit_resolved": 2,
-      "selected_body_copy_checked": 84,
-      "uncovered_jit_functions": 96
+      "selected_body_copy_checked": 85,
+      "uncovered_jit_functions": 95
     },
     "example_status": {
       "authored_counterpart_body_copy_checked": 2,
@@ -17,12 +17,12 @@
       "spec_derived_body_copy_checked": 15
     },
     "selected_jit_functions": 328,
-    "uncovered_selected_jit_functions": 200,
+    "uncovered_selected_jit_functions": 198,
     "primary_files_with_int64_screen_warning": 26,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 74,
-        "antiquotes": 82,
+        "in_body_type_directives": 73,
+        "antiquotes": 81,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 8
       },
@@ -508,13 +508,13 @@
       "lean": "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/Kernels.lean",
       "source_provenance": "selected_revision",
       "lean_screen": {
-        "quotations": 1,
-        "in_body_type_directives": 1,
-        "antiquotes": 45,
-        "dsl_assignment": 3,
+        "quotations": 2,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 21,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 1
+        "load_dtype_extension": 2
       },
       "python_jits": [
         {
@@ -540,23 +540,86 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "attention_fwd_kernel",
+          "lean_definition": "source",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "typed_per_call_specialization",
+          "call_bindings": {
+            "s_qh": "s_qh",
+            "s_qt": "s_qt",
+            "s_qd": "s_qd",
+            "s_hh": "s_hh",
+            "s_ht": "s_ht",
+            "T": "T",
+            "scale": "scale"
+          },
+          "statements": 3,
+          "runtime_parameters": {
+            "s_qh": "integer",
+            "s_qt": "integer",
+            "s_qd": "integer",
+            "s_hh": "integer",
+            "s_ht": "integer",
+            "T": "integer",
+            "scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "BD",
+            "BT",
+            "IFCOND",
+            "NT",
+            "STORE"
+          ],
           "python": "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/attention_fwd_triton1_tile_checked.py",
-          "function": "attention_fwd_kernel"
+          "lean": "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/Kernels.lean"
         },
         {
+          "python_function": "attention_fwd_shifted_kernel",
+          "lean_definition": "shiftedSource",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "typed_per_call_specialization",
+          "call_bindings": {
+            "s_qh": "s_qh",
+            "s_qt": "s_qt",
+            "s_qd": "s_qd",
+            "s_hh": "s_hh",
+            "s_ht": "s_ht",
+            "T": "T",
+            "scale": "scale"
+          },
+          "statements": 4,
+          "runtime_parameters": {
+            "s_qh": "integer",
+            "s_qt": "integer",
+            "s_qd": "integer",
+            "s_hh": "integer",
+            "s_ht": "integer",
+            "T": "integer",
+            "scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "BD",
+            "BT",
+            "IFCOND",
+            "NT",
+            "STORE"
+          ],
           "python": "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/attention_fwd_triton1_tile_checked.py",
-          "function": "attention_fwd_shifted_kernel"
+          "lean": "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/Kernels.lean"
         }
       ],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/Kernels.lean": "04560ecf43d18afbdef08993a8c013a8f6b7da0b8dcab4227e6ae514dac64197",
-        "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/attention_fwd_triton1_tile_checked.py": "9e86c1181e244ac76107f52c5c0d14e976390746685ebbbe4b9144615b2e0b6d"
+        "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/Kernels.lean": "d7c637638cab5081823bde96dfd3d38f1b07b3aa65528602c1ebfe35c0cd5ae8",
+        "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/attention_fwd_triton1_tile_checked.py": "9e86c1181e244ac76107f52c5c0d14e976390746685ebbbe4b9144615b2e0b6d",
+        "bench/repairs/tritonbench_g/attention_fwd_triton1_tile_checked/jit-correspondence.json": "027298470e54fe234c3eb450a7018be6ad7f9dda27514468872cb205eb9ebe35"
       }
     },
     {

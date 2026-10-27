@@ -78,11 +78,15 @@ theorem saved_input (c : Shape) (head chunk : Nat) (storeFlag : Bool)
   | «true» => exact scatter_other _ _ _ _ _ _ region off different
 
 theorem pointer_run [Inhabited α] (c : Shape) (head chunk : Nat) (s : State (Term α))
-    (hh : s.regs .nat [] "i_bh"=some (fun _ => head))
+    (hh : s.regs .int [] "i_bh"=some (fun _ => (head : Int)))
     (hi : s.regs .nat [] "i"=some (fun _ => chunk)) :
     run algebra (Program.pointers c) s=some (pointers c head chunk s) := by
-  simp [Program.pointers,Program.pointer,Program.times,run,step,evalExpr,evalOp_unfold,
-    evalOffsets,numeric,bop,State.setReg,hh,hi,pointers,mainPtr,keyPtr,historyPtr]
+  have displacement (n : Nat) : ((head : Int) * (n : Int)).toNat = head * n := by
+    rw [← Int.natCast_mul]
+    rfl
+  simp [Program.pointers,Program.pointer,Program.times,Program.headTimes,run,step,evalExpr,evalOp_unfold,
+    evalOffsets,numeric,bop,State.setReg,hh,hi,pointers,mainPtr,keyPtr,historyPtr,
+    displacement]
 
 theorem store_step [Inhabited α] (m n : Nat) (pointer value : String) (ptr : BlockPtr)
     (axes : List Nat) (values : Matrix α m n) (s : State (Term α))
@@ -215,7 +219,7 @@ def finished [Inhabited α] (c : Shape) (scale : ℝ) (head chunk : Nat)
 
 theorem body_run [Inhabited α] (c : Shape) (scale : ℝ) (head chunk : Nat) (storeFlag ifcond : Bool)
     (carry : Matrix α c.D c.D) (s : State (Term α))
-    (hh : s.regs .nat [] "i_bh"=some (fun _ => head))
+    (hh : s.regs .int [] "i_bh"=some (fun _ => (head : Int)))
     (hi : s.regs .nat [] "i"=some (fun _ => chunk))
     (hc : s.regs .real [c.D,c.D] "b_h"=some carry) :
     run algebra (Program.body c scale storeFlag ifcond) s=
