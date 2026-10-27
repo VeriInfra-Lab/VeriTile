@@ -30,6 +30,9 @@ def scalar_binding_term(text: str) -> str:
     if not isinstance(text, str):
         raise ValueError("unsupported per-call scalar binding")
     text = text.strip()
+    typed = re.fullmatch(r"\((.+)\s*:\s*(Nat|Int)\s*\)", text, re.S)
+    if typed:
+        return "(" + scalar_binding_term(typed[1]) + " : " + typed[2] + ")"
     if re.fullmatch(r"[\w.]+", text):
         return text
     try:

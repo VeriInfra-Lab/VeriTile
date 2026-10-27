@@ -2281,9 +2281,10 @@ private partial def containsExplicitConversion (env : Env) (raw : Syntax) : Bool
       | `(tritonExpr| tl.cast($_:tritonExpr, $_:tritonDType)) => Bool.true
       | _ => Bool.false) || raw.getArgs.any (containsExplicitConversion env)
 
-/-- A previously typed floating register remains floating when combined with
-an integer. Whole-body index pins cannot override ordinary type promotion. -/
-private partial def hasKnownFloatingRegister (env : Env) (raw : Syntax) : Bool :=
+/-- A typed floating register or explicit floating literal remains floating
+when combined with an integer. Whole-body index pins cannot override source
+type evidence, including an earlier `0.0` branch assignment. -/
+private partial def hasKnownFloatingValue (env : Env) (raw : Syntax) : Bool :=
   let here := if raw.isIdent then
     let name := raw.getId.eraseMacroScopes.toString
     env.any fun entry =>
@@ -2292,7 +2293,10 @@ private partial def hasKnownFloatingRegister (env : Env) (raw : Syntax) : Bool :
         | _ => Bool.false
       floating && (entry.1 == name || entry.1 == raw.getId.toString)
     else Bool.false
-  here || raw.getArgs.any (hasKnownFloatingRegister env)
+  let explicitLiteral := match (⟨raw⟩ : TSyntax `tritonExpr) with
+    | `(tritonExpr| $_:scientific) => Bool.true
+    | _ => Bool.false
+  here || explicitLiteral || raw.getArgs.any (hasKnownFloatingValue env)
 
 /-- Carry known floating and int32 storage into nested load expressions, and
 preserve integer storage underneath unsigned casts. This is
@@ -3048,7 +3052,7 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
       try
         let inferred ← expandExpr env e
         if inferred.dtype == .int8 || inferred.dtype == .int32 then return inferred
-        if hasKnownFloatingRegister env e.raw then
+        if hasKnownFloatingValue env e.raw then
           match inferred.dtype with
           | .real | .fp32 | .fp16 | .bf16 | .f8e4 | .f8e5 | .floatVar _ => return inferred
           | _ => pure ()

@@ -15,7 +15,7 @@ theorem logits_logical (M : Algebra A) (p : Parameters) (s : State A)
     logits M p s = Ordered.logits M p v (s.pids 1) x := by
   funext i
   by_cases active : s.pids 1 * p.block + i.1.val < p.cols
-  · simp [logits, rawLogits, Ordered.logits, active, input _ active, RuntimeArgs.fp, abi.logitScale]
+  · simp [logits, rawLogits, loadedLogits, Ordered.logits, active, input _ active, RuntimeArgs.fp, abi.logitScale]
   · simp [logits, Ordered.logits, active]
 
 theorem lse_logical (M : Algebra A) (p : Parameters) (s : State A)

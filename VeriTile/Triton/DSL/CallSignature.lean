@@ -1,3 +1,4 @@
+import VeriTile.Triton.DSL.NestedLoadAssignments
 import VeriTile.Triton.DSL.ConstexprMask
 import VeriTile.Triton.DSL.PythonConstants
 import VeriTile.Triton.DSL.SourceIntrinsic
@@ -236,12 +237,12 @@ private partial def rejectArgumentMutation (names : List Name) (raw : Syntax)
     reject ⟨raw[1]⟩
   for arg in raw.getArgs do rejectArgumentMutation names arg message
 
-/-- Specialize call inputs in statement order. A direct integer-parameter
+/-- Specialize call inputs in statement order. A direct integer or offset-pointer
 assignment reads its entry value on the RHS and binds the original source LHS.
 All later uses read that local register, including after a zero-trip loop.
 Conditional/loop overwrites before definite assignment, tuple/augmented writes
 and FP parameter rebinding remain rejected by the existing mutation checker. -/
-private def bindCallStatements (integers : List Name)
+private def bindCallStatements (rebindable : List Name)
     (values : List (Name × TSyntax `tritonExpr))
     (stmts : Array (TSyntax `tritonStmt)) : TermElabM (Array (TSyntax `tritonStmt)) := do
   let mut current := values
@@ -249,7 +250,7 @@ private def bindCallStatements (integers : List Name)
   for st in stmts do
     if let `(tritonStmt| $id:ident = $rhs:tritonExpr) := st then
       let name := id.getId.eraseMacroScopes
-      if integers.contains name && current.any (fun value => value.1 == name) then
+      if rebindable.contains name && current.any (fun value => value.1 == name) then
         let rhs : TSyntax `tritonExpr := ⟨← liftMacroM <| bindSourceValues current rhs.raw⟩
         result := result.push (← liftMacroM `(tritonStmt| $id:ident = $rhs:tritonExpr))
         current := current.filter (fun value => value.1 != name)
@@ -689,9 +690,6 @@ private def elaborateCallCore (profile : TSyntax `term) (stmts : Array (TSyntax 
               liftMacroM `(tritonExpr| ($id:ident + $(($value:term : Int))))
             else throwErrorAt value "pointer offset must have a Nat or Int element-offset carrier"
           pointerValues := pointerValues ++ [(name,expression)]
-        for stmt in stmts do
-          rejectArgumentMutation (pointerValues.map Prod.fst) stmt.raw
-            "pointer-offset specialization does not yet support reassigned pointer arguments"
         values := values ++ pointerValues
       -- Static numeric constants remain weak Python values. Reject later
       -- mutation before lowering the supported exact powers to fixed literals.
@@ -750,7 +748,11 @@ private def elaborateCallCore (profile : TSyntax `term) (stmts : Array (TSyntax 
         match kind with
         | .integer | .i32 | .i64 | .u32 | .u64 => some (Name.mkSimple name)
         | _ => none
-      let stmts ← bindCallStatements integerArguments values stmts
+      -- A straight-line pointer assignment consumes its caller offset on the
+      -- RHS exactly once. Later reads use the resulting local pointer register.
+      -- Conditional, tuple and augmented first assignments still fail closed.
+      let rebindable := integerArguments ++ pointers.map (fun p => Name.mkSimple p.1)
+      let stmts ← bindCallStatements rebindable values stmts
       let stmts ← RankOneBlockPtr.lower stmts
       let stmts ← liftMacroM <| stmts.mapM fun st => do
         return (⟨← normalizeBoundaryTuples st.raw⟩ : TSyntax `tritonStmt)
@@ -821,6 +823,10 @@ private def elaborateCallCore (profile : TSyntax `term) (stmts : Array (TSyntax 
             | .fp32 => some (Name.mkSimple name, TypedStores.ValueInfo.typed .fp32)
             | .fp64 => some (Name.mkSimple name, TypedStores.ValueInfo.typed .fp64)
             | _ => none
+        let floatingPointers := pointers.filterMap fun (name,kind) =>
+          if [.fp16,.bf16,.fp32,.fp64,.f8e4,.f8e5,.inputFloat,.outputFloat].contains kind
+            then some (Name.mkSimple name) else none
+        let stmts ← NestedLoadAssignments.lower floatingPointers stmts
         let body ← TypedStores.lower (pointers.map (fun (name, kind) => (Name.mkSimple name, kind))) scalarTypes stmts.toList
         let emitted := finiteDeclarations ++ declarations ++ body.toArray
         let compiled ← `(triton { $emitted* })

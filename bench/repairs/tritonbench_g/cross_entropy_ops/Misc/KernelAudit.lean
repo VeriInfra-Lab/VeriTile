@@ -3,10 +3,11 @@ import bench.repairs.tritonbench_g.cross_entropy_ops.Kernels
 namespace VeriTile.Bench.Repairs.CrossEntropyOps.KernelAudit
 open VeriTile.Triton
 
-/-- One-to-one top-level source statements, including both post-scale masks,
-the separate z-loss store and the unused source smoothing-positive binding. -/
-theorem forward_statements (p : Parameters) : (forwardSyntax p).surfaceBody.length=14 := by rfl
-theorem backward_statements (p : Parameters) : (backwardSyntax p).surfaceBody.length=16 := by rfl
+/-- The 14/16 original top-level statements are retained. Lowering adds one
+internal load temporary to each body, yielding 15/17 compute statements; the
+raw Python/Lean statement correspondence is checked separately. -/
+theorem forward_statements (p : Parameters) : (forwardSyntax p).surfaceBody.length=15 := by rfl
+theorem backward_statements (p : Parameters) : (backwardSyntax p).surfaceBody.length=17 := by rfl
 
 /-- Selected checked source is a guard wrapper over these exact resident JITs. -/
 def checkedSHA256 : String := "5f106a09beaeb4807b9a8f6409e0f015478be518e8a31d9ca889a32f9cd7e768"
