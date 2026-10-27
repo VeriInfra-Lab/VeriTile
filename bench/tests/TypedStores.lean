@@ -307,7 +307,7 @@ def scalarLoop (X Y : RegionName) (K : Nat) : ComputeKernel :=
 
 def scalarLoopReference (X Y : RegionName) (K : Nat) : ComputeKernel := triton {
   tl.region X = tl.float32, Y = tl.float32
-  total = 0.0
+  total = tl.full([],0.0,dtype=tl.float32)
   maximum = -float("inf")
   for i in tl.static_range($(K)) {
     x = tl.load(X + i)
@@ -335,7 +335,7 @@ def literalAssignment (X Y : RegionName) : ComputeKernel :=
 def literalAssignmentReference (X Y : RegionName) : ComputeKernel := triton {
   tl.ports inputs=[X], outputs=[Y]
   tl.region X = tl.float16, Y = tl.float32
-  zero = 0.0
+  zero = tl.full([],0.0,dtype=tl.float32)
   x = tl.load(X)
   assigned = zero + x
   tl.store(Y, assigned)
@@ -356,7 +356,7 @@ def literalTuple (Y : RegionName) : ComputeKernel :=
 
 theorem literal_tuple_no_invented_store_cast (Y : RegionName) :
     (literalTuple Y).surfaceBody.drop 1 =
-      [.store .real [] (.region Y (.constNat 0)) (.alg (.ref .real [] "a")) .none,
+      [.store .real [] (.region Y (.constNat 0)) (.compute (.alg .fp32 (.ref .real [] "a"))) .none,
        .store .real [] (.region Y (.constNat 1))
          (.alg (.ref .real [] "b")) .none] := rfl
 

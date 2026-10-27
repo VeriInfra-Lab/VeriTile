@@ -298,7 +298,8 @@ private partial def materializeLiteral (e : TSyntax `tritonExpr) :
     | `(tritonExpr| ($inner:tritonExpr))
     | `(tritonExpr| -$inner:tritonExpr) => infinity inner
     | `(tritonExpr| -inf) => Bool.true
-    | `(tritonExpr| float($arg:term)) =>
+    | `(tritonExpr| float($arg:term))
+    | `(tritonExpr| -float($arg:term)) =>
         match arg with
         | `(term| $s:str) => ["inf","-inf"].contains s.getString
         | _ => Bool.false
