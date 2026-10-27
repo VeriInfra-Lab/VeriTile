@@ -22,7 +22,7 @@ structure Stable (N B : Nat) (initial current : BlockState) : Prop where
   mem : current.mem = initial.mem
   undef : current.undef = initial.undef
   pidReg : current.regs .int [] "pid_m" = some (Tile.scalar (initial.pid : Int))
-  colsReg : current.regs .int [] "cols" = some (Tile.scalar (N : Int))
+  colsReg : current.regs .int [] "N" = some (Tile.scalar (N : Int))
   previousReg : current.regs .int [] "prev_multiple" = some (Tile.scalar (Config.previous N B : Int))
 
 structure Invariant (X : RegionName) (N B : Nat) (initial : BlockState)

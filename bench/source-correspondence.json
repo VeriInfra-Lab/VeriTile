@@ -7,8 +7,8 @@
     "examples": 19,
     "task_status": {
       "no_selected_jit_resolved": 2,
-      "selected_body_copy_checked": 88,
-      "uncovered_jit_functions": 93
+      "selected_body_copy_checked": 89,
+      "uncovered_jit_functions": 92
     },
     "example_status": {
       "authored_counterpart_body_copy_checked": 2,
@@ -16,12 +16,12 @@
       "spec_derived_body_copy_checked": 15
     },
     "selected_jit_functions": 328,
-    "uncovered_selected_jit_functions": 193,
+    "uncovered_selected_jit_functions": 191,
     "primary_files_with_int64_screen_warning": 26,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 70,
-        "antiquotes": 78,
+        "in_body_type_directives": 69,
+        "antiquotes": 77,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 8
       },
@@ -15758,10 +15758,10 @@
       "lean": "bench/repairs/tritonbench_g/softmax_optimize/Kernels.lean",
       "source_provenance": "selected_revision",
       "lean_screen": {
-        "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 46,
-        "dsl_assignment": 2,
+        "quotations": 3,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 11,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 4
@@ -15801,22 +15801,76 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "prev_multiple_of",
+          "lean_definition": "previousMultiple",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "inferred_helper_values",
+          "call_bindings": null,
+          "statements": 1,
+          "runtime_parameters": {},
+          "constexpr_parameters": [],
+          "body_kind": "helper",
+          "helper_parameters": [
+            "a",
+            "b"
+          ],
           "python": "bench/repairs/tritonbench_g/softmax_optimize/softmax_optimize_repaired.py",
-          "function": "prev_multiple_of"
+          "lean": "bench/repairs/tritonbench_g/softmax_optimize/Kernels.lean"
         },
         {
+          "python_function": "softmax_kernel_online_v2_repaired",
+          "lean_definition": "body",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "runtime_registers",
+          "call_bindings": null,
+          "statements": 12,
+          "runtime_parameters": {
+            "M": "i64",
+            "N": "i64"
+          },
+          "constexpr_parameters": [
+            "TILE_N"
+          ],
+          "source_functions": [
+            "previousMultiple"
+          ],
           "python": "bench/repairs/tritonbench_g/softmax_optimize/softmax_optimize_repaired.py",
-          "function": "softmax_kernel_online_v2_repaired"
+          "lean": "bench/repairs/tritonbench_g/softmax_optimize/Kernels.lean"
+        },
+        {
+          "python_function": "softmax_kernel_online_v2_index_commuted",
+          "lean_definition": "candidateBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "runtime_registers",
+          "call_bindings": null,
+          "statements": 12,
+          "runtime_parameters": {
+            "M": "i64",
+            "N": "i64"
+          },
+          "constexpr_parameters": [
+            "TILE_N"
+          ],
+          "source_functions": [
+            "previousMultiple"
+          ],
+          "python": "bench/repairs/tritonbench_g/softmax_optimize/softmax_optimize_index_commuted.py",
+          "lean": "bench/repairs/tritonbench_g/softmax_optimize/Kernels.lean"
         }
       ],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/softmax_optimize/Kernels.lean": "7f912c9b4e32c614f121ab9fd61fbaeec54737b506acb6ef80fdc18994a6b9e0",
+        "bench/repairs/tritonbench_g/softmax_optimize/Kernels.lean": "e2ebc4e5b4695f11a4f8c9cae95c98c17e82a56b89092629b17e8f50f03c138d",
+        "bench/repairs/tritonbench_g/softmax_optimize/jit-correspondence.json": "0f7086535e556da35166f633cc3d26f6c2ff354338069a5877db4ac08ad9de1d",
+        "bench/repairs/tritonbench_g/softmax_optimize/softmax_optimize_index_commuted.py": "ef4ae9b47d1a31db2bc42e7427ab957d33be1c14988e3f8478f7dd36b0c29edd",
         "bench/repairs/tritonbench_g/softmax_optimize/softmax_optimize_repaired.py": "b019cf887fd78db7708f38955364d6409f4a126ca2db0aba2b0ec154d304251c"
       }
     },

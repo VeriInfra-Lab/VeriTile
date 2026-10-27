@@ -35,7 +35,7 @@ def fullStatement (X : RegionName) (N B : Nat) : Stmt :=
     (Source.inputFull X N B)
 
 def tailStatement (X : RegionName) (N B : Nat) : Stmt :=
-  .forRangeInt "start_n" (.ref .int [] "prev_multiple") (.ref .int [] "cols") (.constNat B)
+  .forRangeInt "start_n" (.ref .int [] "prev_multiple") (.ref .int [] "N") (.constNat B)
     (Source.inputTail X N B)
 
 theorem full_run (X : RegionName) (N B : Nat) (hN : 0 < N) (hB : 0 < B)

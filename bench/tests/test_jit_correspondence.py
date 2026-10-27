@@ -1411,3 +1411,48 @@ class KldivOpsFunctionBodyTests(unittest.TestCase):
                     self.assertIn(before, lean)
                     with self.assertRaises(ValueError):
                         self.compare(record, lean.replace(before, after))
+
+
+class SoftmaxOptimizeFunctionBodyTests(unittest.TestCase):
+    directory = ROOT / "bench/repairs/tritonbench_g/softmax_optimize"
+
+    def compare(self, record, lean):
+        kwargs = {k: v for k, v in record.items() if k not in ("python", "lean")}
+        return check((ROOT / record["python"]).read_text(), lean, **kwargs)
+
+    def test_helper_and_both_complete_four_loop_bodies_are_verbatim(self):
+        pairs = check_manifest(ROOT, self.directory / "jit-correspondence.json")
+        self.assertEqual([(p["mode"], p["statements"]) for p in pairs],
+                         [("pasted_body", 1), ("pasted_body", 12), ("pasted_body", 12)])
+        for record in json.loads((self.directory / "jit-correspondence.json").read_text()):
+            source = (ROOT / record["python"]).read_text()
+            fn = next(n for n in ast.parse(source).body if isinstance(n, ast.FunctionDef)
+                      and n.name == record["python_function"])
+            raw = "\n".join(source.splitlines()[fn.body[0].lineno-1:fn.end_lineno])
+            lean = (ROOT / record["lean"]).read_text()
+            self.assertEqual(textwrap.dedent(raw).strip(),
+                             textwrap.dedent(quotation(lean, record["lean_definition"])[1]).strip())
+
+    def test_dtype_cast_guards_loop_bounds_and_masks_cannot_drift(self):
+        records = json.loads((self.directory / "jit-correspondence.json").read_text())
+        helper = records[0]
+        lean = (ROOT / helper["lean"]).read_text()
+        with self.assertRaises(ValueError):
+            self.compare(helper, lean.replace("tl.cdiv(a, b) * b - b", "tl.cdiv(a, b) * b"))
+        mutations = [("tl.program_id(0).to(tl.int64)", "tl.program_id(0)"),
+                     ("tl.arange(0, TILE_N).to(tl.int64)", "tl.arange(0, TILE_N)"),
+                     (".to(output_ptr.dtype.element_ty)", ""),
+                     ("dtype=output_ptr.dtype.element_ty", "dtype=tl.float32"),
+                     ('new_m == -float("inf")', 'new_m == float("inf")'),
+                     ('inp == -float("inf")', 'inp == float("inf")'),
+                     ("range(0, prev_multiple, TILE_N)", "range(0, N, TILE_N)"),
+                     ("range(prev_multiple, N, TILE_N)", "range(prev_multiple, N + 1, TILE_N)"),
+                     ("n_offsets < N", "n_offsets <= N"),
+                     ("tl.store(output_ptrs, out, mask=mask)", "tl.store(output_ptrs, out)"),
+                     ('("N",.i64)', '("N",.i32)')]
+        for record in records[1:]:
+            for before, after in mutations:
+                with self.subTest(definition=record["lean_definition"], mutation=before):
+                    self.assertIn(before, lean)
+                    with self.assertRaises(ValueError):
+                        self.compare(record, lean.replace(before, after))

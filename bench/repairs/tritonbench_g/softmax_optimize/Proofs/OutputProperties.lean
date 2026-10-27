@@ -25,7 +25,7 @@ theorem scatter_regs {B : Nat} (s : BlockState) (Y : RegionName)
     (scatter s Y offsets values mask).regs = s.regs :=
   congrArg Prod.fst (scatter_metadata s Y offsets values mask)
 
-def kept (name : RegName) : Prop := name ∈ ["pid_m", "cols", "prev_multiple", "m", "z"]
+def kept (name : RegName) : Prop := name ∈ ["pid_m", "N", "prev_multiple", "m", "z"]
 
 theorem full_keeps (s : BlockState) (Y X : RegionName) (N B start row : Nat)
     (shift denominator : WithBot ℝ) (dtype : TileDType) (shape : TileShape) (name : RegName)

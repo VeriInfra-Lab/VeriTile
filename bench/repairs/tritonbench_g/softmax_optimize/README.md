@@ -4,10 +4,26 @@ The selected source is `softmax_optimize_repaired.py` (SHA256
 `b019cf887fd78db7708f38955364d6409f4a126ca2db0aba2b0ec154d304251c`).
 This revision leaves that Python source, its guards, four loops, FP32 computation,
 fusion-enabled launch, four warps and three stages unchanged. `Kernels.lean`
-contains complete ordinary Triton DSL quotations for the original and its
-existing integer-row-product-commuted candidate. `Proofs/SourceCandidate.lean`
-keeps the former AST connection as a proof helper and proves complete candidate
-function equality by `rfl`; all four loops are visible in each source quotation.
+contains the exact Python function bodies for the original, existing candidate,
+and `prev_multiple_of` helper. All four loops remain visible in each body.
+`with_triton_signature` supplies the FP32 pointer and signed runtime-parameter
+profile outside `triton { ... }`; the invocation binds `N` outside that body.
+`M` remains a declared but unused source parameter. No extra `cols` assignment,
+Lean metadata, antiquotes, removed casts or rewritten helper appears in the body.
+
+`jit-correspondence.json` compares all three complete bodies as Python ASTs and
+checks their external profiles. The existing Python modules and wrappers are
+unchanged. The candidate still swaps only the four signed row products.
+`Proofs/SourceCandidate.lean` proves equality to the complete proof-only
+integer-commuted view; `KernelRewrite` connects actual full execution, including
+failures. The independent mathematical softmax and existing native statements
+use those same quotations.
+
+Proofs use the source register `N` and the actual caller-binding order.
+The helper's original `tl.cdiv(N, TILE_N)` is retained: its evaluated signed
+integer expression is connected to the previous-multiple formula under the
+existing positive tile-width condition. This does not add an input restriction
+or a floating arithmetic identity.
 
 The domain remains rank-two, contiguous, strided FP32 CUDA Tensors with no
 unresolved negative bit, numel below 2^31 and aligned nonempty data pointers.
@@ -84,17 +100,14 @@ python bench/repairs/tritonbench_g/softmax_optimize/check_contract.py
 python bench/repairs/tritonbench_g/softmax_optimize/check_index_candidate.py
 ```
 
-The contract checker passes 18 admissions, 14 rejections and three original
-counterexamples, with 14 launches. The candidate checker verifies exactly the
-four integer AST changes and passes 16 complete-storage bit comparisons across
-finite/exceptional words, 4096/tail transitions and offset input/output views.
-It checks input preservation and untouched exterior sentinel cells. These are
-CPU source checks; no CUDA numerical execution is claimed.
-
-Lean modules are checked with the workspace build driver and standard-base
-axiom audits. Mathematical references are audited for noncircularity. Logs and
-source/object hash records live in `.veritile-cache/kernel-evidence/softmax_optimize/`
-and `.veritile-cache/kernel-build/`.
+The historical CPU checks reported 18 admissions, 14 rejections and three
+counterexamples, plus 16 candidate complete-storage comparisons. These are
+historical observations, not fresh verification results for this migration.
+Fresh source checks, actual Lean replay, trust audits and any unavailable
+optional checks are recorded in the current `bench/review-checkpoints/` receipt.
+The body drift tests reject missing casts/guards, changed loop bounds, changed
+pointer dtype profiles, changed masks/stores and a modified helper formula.
+No CUDA or new numerical experiment is implied by these source/proof checks.
 
 Original Python SHA256:
 `230ad985c624f38c13f81b6d82f7cba854ad6ddc418c983caf55e4fee84c4d38`.

@@ -1,14 +1,14 @@
 import bench.repairs.tritonbench_g.softmax_optimize.Kernels
 import VeriTile.Meta.StatementAudit
 
-/-! Proof-only connection to the exact former AST construction. The actual
-candidate is a complete ordinary quotation in Kernels.lean. -/
+/-! Proof-only decomposition of the current candidate by the existing integer
+rewrite. Both complete source bodies remain in Kernels.lean. -/
 namespace VeriTile.Bench.Repairs.SoftmaxOptimize
 open VeriTile.Triton
 
 def commutedOffset (B : Nat) : ComputeStmt :=
   .assign .int [B] "offset" (.alg (.add .int .scalarL
-    (.mul .int .nil (.ref .int [] "cols") (.ref .int [] "pid_m"))
+    (.mul .int .nil (.ref .int [] "N") (.ref .int [] "pid_m"))
     (.ref .int [B] "n_offsets")))
 
 def commuteLoop (B : Nat) : ComputeStmt → ComputeStmt

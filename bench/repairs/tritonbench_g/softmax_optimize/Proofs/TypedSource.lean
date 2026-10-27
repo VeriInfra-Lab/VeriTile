@@ -47,12 +47,12 @@ theorem source_body (Y X : RegionName) (M N B : Nat) :
       (body Y X N B).take 5 ++
       [.forRangeInt "start_n" (.constInt 0) (.ref .int [] "prev_multiple") (.constNat B)
         (fullInput X N B),
-       .forRangeInt "start_n" (.ref .int [] "prev_multiple") (.ref .int [] "cols") (.constNat B)
+       .forRangeInt "start_n" (.ref .int [] "prev_multiple") (.ref .int [] "N") (.constNat B)
         (tailInput X N B)] ++
       ((body Y X N B).drop 7).take 4 ++
       [.forRangeInt "start_n" (.constInt 0) (.ref .int [] "prev_multiple") (.constNat B)
         (fullOutput Y X N B),
-       .forRangeInt "start_n" (.ref .int [] "prev_multiple") (.ref .int [] "cols") (.constNat B)
+       .forRangeInt "start_n" (.ref .int [] "prev_multiple") (.ref .int [] "N") (.constNat B)
         (tailOutput Y X N B)] := by rfl
 
 #guard_msgs (drop info) in
