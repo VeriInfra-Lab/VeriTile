@@ -1,0 +1,7 @@
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.materialized_physical: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.coordinate_matrix: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.coordinate_vector: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.matrix_offset: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.vector_offset: axiom footprint ⊆ standard base ✓  ([propext])

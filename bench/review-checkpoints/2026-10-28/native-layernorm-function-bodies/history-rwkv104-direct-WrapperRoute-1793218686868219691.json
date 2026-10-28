@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.WrapperRoute",
+  "start": 1793218686.868236,
+  "end": 1793218720.9113011,
+  "log": "/tmp/rwkv104-direct-WrapperRoute-1793218686868219691.log",
+  "stop_file": "/tmp/rwkv104-direct-WrapperRoute-1793218686868219691.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

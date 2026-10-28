@@ -1,0 +1,19 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/WrapperOrder.lean:79:26: warning: This simp argument is unused:
+  call
+
+Hint: Omit it from the simp argument list.
+  simp [resolveTrace, ̲note,c̵a̵l̵l̵,̵ ̲Pure.pure, ̲Action.pure, ̲List.append_assoc]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.LayerNormFwd.Wrapper.resolve_original: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LayerNormFwd.Wrapper.materialize_trace: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LayerNormFwd.Wrapper.resolve_inputs_trace: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LayerNormFwd.Wrapper.prepare_after_allocations: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayerNormFwd.Wrapper.prepare_success: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayerNormFwd.Wrapper.width_failure_keeps_allocations: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])

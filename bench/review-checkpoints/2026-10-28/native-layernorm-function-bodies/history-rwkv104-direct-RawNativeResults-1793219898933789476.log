@@ -1,0 +1,24 @@
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.raw_quoted_fp: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.fp_equiv: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.fp_rstd: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.fp_mean: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.native_zero_mean: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.native_zero_variance: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.native_zero_rstd: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.fp_zero_statistics: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

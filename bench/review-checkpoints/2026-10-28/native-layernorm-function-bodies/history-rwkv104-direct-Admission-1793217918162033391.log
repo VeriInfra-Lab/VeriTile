@@ -1,0 +1,15 @@
+VeriTile.Bench.Repairs.LayerNormFwd.Admission.inputCheck_iff: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwd.Admission.optionalCheck_iff: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwd.Admission.epsilonCheck_iff: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayerNormFwd.Admission.probabilityCheck_iff: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayerNormFwd.Admission.checkInputs_iff: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])

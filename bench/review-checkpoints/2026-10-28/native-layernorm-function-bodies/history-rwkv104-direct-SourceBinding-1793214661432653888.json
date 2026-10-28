@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.SourceBinding",
+  "start": 1793214661.4326694,
+  "end": 1793214663.9342272,
+  "log": "/tmp/rwkv104-direct-SourceBinding-1793214661432653888.log",
+  "stop_file": "/tmp/rwkv104-direct-SourceBinding-1793214661432653888.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

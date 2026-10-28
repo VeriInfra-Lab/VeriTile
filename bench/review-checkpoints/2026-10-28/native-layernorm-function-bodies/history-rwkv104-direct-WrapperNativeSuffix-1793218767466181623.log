@@ -1,0 +1,8 @@
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.memory_bind: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.split_memory: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.finish_memory: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.route_final_memory: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.action_success_history: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

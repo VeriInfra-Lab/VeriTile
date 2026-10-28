@@ -1,0 +1,12 @@
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.prepare_caller_storage: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.prefix_caller_storage: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.prepared_full_caller_outside: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.prefix_ready_full_caller: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])

@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Misc.TensorBridge",
+  "start": 1793220373.9814897,
+  "end": 1793220378.597054,
+  "log": "/tmp/rwkv104-direct-TensorBridge-1793220373981475262.log",
+  "stop_file": "/tmp/rwkv104-direct-TensorBridge-1793220373981475262.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

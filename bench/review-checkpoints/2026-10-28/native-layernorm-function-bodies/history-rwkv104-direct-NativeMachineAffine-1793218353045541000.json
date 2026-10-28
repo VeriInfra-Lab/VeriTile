@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.NativeMachineAffine",
+  "start": 1793218353.0455582,
+  "end": 1793218356.411467,
+  "log": "/tmp/rwkv104-direct-NativeMachineAffine-1793218353045541000.log",
+  "stop_file": "/tmp/rwkv104-direct-NativeMachineAffine-1793218353045541000.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

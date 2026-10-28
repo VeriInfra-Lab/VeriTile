@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.WrapperStorage",
+  "start": 1793217943.503514,
+  "end": 1793217946.6186144,
+  "log": "/tmp/rwkv104-direct-WrapperStorage-1793217943503500103.log",
+  "stop_file": "/tmp/rwkv104-direct-WrapperStorage-1793217943503500103.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

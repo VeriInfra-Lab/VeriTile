@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.WrapperSelectedRequest",
+  "start": 1793218815.355656,
+  "end": 1793218818.6714823,
+  "log": "/tmp/rwkv104-direct-WrapperSelectedRequest-1793218815355640507.log",
+  "stop_file": "/tmp/rwkv104-direct-WrapperSelectedRequest-1793218815355640507.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

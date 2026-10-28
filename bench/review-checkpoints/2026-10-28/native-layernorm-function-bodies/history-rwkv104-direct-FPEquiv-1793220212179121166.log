@@ -1,0 +1,5 @@
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.index_commuted_equiv: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+FP assumptions used by index_commuted_equiv:
+  none

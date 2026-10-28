@@ -1,0 +1,9 @@
+VeriTile.Bench.Repairs.LayerNormFwd.NativeSchedule.stream_snapshot_reads: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwd.NativeSchedule.combined_snapshot_reads: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwd.NativeSchedule.oracle_reads: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

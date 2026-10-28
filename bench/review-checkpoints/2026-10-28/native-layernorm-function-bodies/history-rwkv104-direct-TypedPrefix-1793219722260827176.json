@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.layer_norm_fwd.Proofs.TypedPrefix",
+  "start": 1793219722.2608407,
+  "end": 1793219725.9260015,
+  "log": "/tmp/rwkv104-direct-TypedPrefix-1793219722260827176.log",
+  "stop_file": "/tmp/rwkv104-direct-TypedPrefix-1793219722260827176.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

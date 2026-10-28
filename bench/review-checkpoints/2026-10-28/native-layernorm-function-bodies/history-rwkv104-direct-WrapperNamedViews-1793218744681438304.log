@@ -1,0 +1,9 @@
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.outputViews_values: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.namedOptional_member: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.regionTensor_member: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.inputViews_present: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.pairwise_symmetric_distinct: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.outputViews_separate: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

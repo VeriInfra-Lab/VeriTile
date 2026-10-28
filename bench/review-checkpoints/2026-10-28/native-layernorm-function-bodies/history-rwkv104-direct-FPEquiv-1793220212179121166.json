@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.FPEquiv",
+  "start": 1793220212.1791358,
+  "end": 1793220221.0464869,
+  "log": "/tmp/rwkv104-direct-FPEquiv-1793220212179121166.log",
+  "stop_file": "/tmp/rwkv104-direct-FPEquiv-1793220212179121166.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

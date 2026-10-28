@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.WrapperOutputAllocations",
+  "start": 1793218592.96509,
+  "end": 1793218596.2306476,
+  "log": "/tmp/rwkv104-direct-WrapperOutputAllocations-1793218592965072395.log",
+  "stop_file": "/tmp/rwkv104-direct-WrapperOutputAllocations-1793218592965072395.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

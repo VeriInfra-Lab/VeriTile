@@ -1,0 +1,6 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/TypedStreams.lean:96:14: warning: aesop: failed to prove the goal after exhaustive search.
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/TypedStreams.lean:80:0: error: (deterministic) timeout at `whnf`, maximum number of heartbeats (5000000) has been reached
+
+Note: Use `set_option maxHeartbeats <num>` to set the limit.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.

@@ -1,0 +1,16 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/NativeRow.lean:207:119: warning: This simp argument is unused:
+  hx
+
+Hint: Omit it from the simp argument list.
+  simp [Expr.real, ̲stream, ̲load, ̲Formula.stream, ̲Formula.dropout, ̲Formula.keep,
+  ̲ ̲ ̲ ̲ ̲Formula.paddedInputs, ̲Inputs.decode, ̲hx̵,̵h̵r, ̲hs, ̲hd]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/NativeRow.lean:207:122: warning: This simp argument is unused:
+  hr
+
+Hint: Omit it from the simp argument list.
+  simp [Expr.real, ̲stream, ̲load, ̲Formula.stream, ̲Formula.dropout, ̲Formula.keep,
+  ̲ ̲ ̲ ̲ ̲Formula.paddedInputs, ̲Inputs.decode, ̲hx, ̲hr̵,̵h̵s, ̲hd]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

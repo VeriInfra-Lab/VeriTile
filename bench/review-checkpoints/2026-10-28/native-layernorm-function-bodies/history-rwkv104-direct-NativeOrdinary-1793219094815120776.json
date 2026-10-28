@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.NativeOrdinary",
+  "start": 1793219094.8151367,
+  "end": 1793219097.8167214,
+  "log": "/tmp/rwkv104-direct-NativeOrdinary-1793219094815120776.log",
+  "stop_file": "/tmp/rwkv104-direct-NativeOrdinary-1793219094815120776.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

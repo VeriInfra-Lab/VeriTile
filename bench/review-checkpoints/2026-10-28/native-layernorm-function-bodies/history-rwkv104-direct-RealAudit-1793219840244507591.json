@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.layer_norm_fwd.Proofs.RealAudit",
+  "start": 1793219840.2445235,
+  "end": 1793219858.715152,
+  "log": "/tmp/rwkv104-direct-RealAudit-1793219840244507591.log",
+  "stop_file": "/tmp/rwkv104-direct-RealAudit-1793219840244507591.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

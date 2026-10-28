@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.WrapperValidation",
+  "start": 1793217949.8103163,
+  "end": 1793217953.3119686,
+  "log": "/tmp/rwkv104-direct-WrapperValidation-1793217949810300852.log",
+  "stop_file": "/tmp/rwkv104-direct-WrapperValidation-1793217949810300852.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

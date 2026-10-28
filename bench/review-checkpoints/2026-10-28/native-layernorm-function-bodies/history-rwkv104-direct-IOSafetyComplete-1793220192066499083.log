@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.IOSafety.complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

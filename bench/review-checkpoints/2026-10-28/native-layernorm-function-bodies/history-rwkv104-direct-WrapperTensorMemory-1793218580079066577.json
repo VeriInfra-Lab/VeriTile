@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.WrapperTensorMemory",
+  "start": 1793218580.0790825,
+  "end": 1793218583.2446141,
+  "log": "/tmp/rwkv104-direct-WrapperTensorMemory-1793218580079066577.log",
+  "stop_file": "/tmp/rwkv104-direct-WrapperTensorMemory-1793218580079066577.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

@@ -1,0 +1,35 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/StorageHistory.lean:101:50: warning: This simp argument is unused:
+  hf
+
+Hint: Omit it from the simp argument list.
+  simp only [h̵f̵,̵Bool.false_eq_true, ̲ite_false, ̲ite_true]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/StorageHistory.lean:104:46: warning: This simp argument is unused:
+  hf
+
+Hint: Omit it from the simp argument list.
+  simp only [h̵f̵,̵Bool.false_eq_true, ̲ite_false, ̲ite_true]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.LayerNormFwd.StorageMachine.history_input_read: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwd.StorageMachine.history_snapshot: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwd.StorageMachine.history_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwd.StorageMachine.dispatch_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwd.StorageMachine.dispatch_input_read: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwd.StorageMachine.history_observe: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwd.StorageMachine.dispatch_return: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

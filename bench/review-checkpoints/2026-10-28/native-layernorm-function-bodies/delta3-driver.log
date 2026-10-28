@@ -1,0 +1,3 @@
+bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Misc.RawRealResults 0 /tmp/rwkv104-direct-RawRealResults-1793220369226928775.log
+bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Misc.TensorBridge 0 /tmp/rwkv104-direct-TensorBridge-1793220373981475262.log
+BATCH COMPLETE layernorm105-delta3 failed/skipped 0

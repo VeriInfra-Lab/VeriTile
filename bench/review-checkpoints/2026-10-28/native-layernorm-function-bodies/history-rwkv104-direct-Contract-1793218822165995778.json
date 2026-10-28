@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.Contract",
+  "start": 1793218822.16601,
+  "end": 1793218824.730997,
+  "log": "/tmp/rwkv104-direct-Contract-1793218822165995778.log",
+  "stop_file": "/tmp/rwkv104-direct-Contract-1793218822165995778.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

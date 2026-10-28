@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.IOSafety.normalization_safe: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.IOSafety.affine_safe: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

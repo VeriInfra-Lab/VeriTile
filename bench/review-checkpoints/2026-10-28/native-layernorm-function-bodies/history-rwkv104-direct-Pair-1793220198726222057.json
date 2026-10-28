@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.Pair",
+  "start": 1793220198.7262375,
+  "end": 1793220202.0918067,
+  "log": "/tmp/rwkv104-direct-Pair-1793220198726222057.log",
+  "stop_file": "/tmp/rwkv104-direct-Pair-1793220198726222057.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

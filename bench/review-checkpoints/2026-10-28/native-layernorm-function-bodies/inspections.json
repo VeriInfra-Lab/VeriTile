@@ -1,0 +1,70 @@
+{
+  "status": "PASS_WITH_RECORDED_LIMITS",
+  "code_commit": "1952c0a31a71117ceadf5f0bbd30a610e2693928",
+  "start": 1793220868.1760054,
+  "end": 1793221039.5364747,
+  "python": {
+    "targeted": {
+      "status": "PASS",
+      "tests": 281
+    },
+    "full": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 526,
+      "errors": 1
+    }
+  },
+  "raw_bodies": [
+    {
+      "name": "raw-body-check",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "1952c0a31a71117ceadf5f0bbd30a610e2693928",
+      "log": "/tmp/layernorm105-raw-body-check.log",
+      "status": "PASS"
+    }
+  ],
+  "cpu": {
+    "status": "PASS",
+    "scope": "Complete Python module AST differs only by commuting the initial X row/stride integer product. All wrappers, branches, source casts, streams and host guards remain unchanged."
+  },
+  "torch": {
+    "name": "torch-dependencies",
+    "command": [
+      "python3",
+      "-c",
+      "import torch; import triton"
+    ],
+    "exit_code": 1,
+    "code_commit": "1952c0a31a71117ceadf5f0bbd30a610e2693928",
+    "log": "/tmp/layernorm105-torch-dependencies.log",
+    "status": "UNAVAILABLE",
+    "reason": "The retained check_candidate.py requires absent Torch/Triton. No GPU or numerical experiment was run."
+  },
+  "original_python_and_contracts": {
+    "status": "PASS",
+    "sha256": {
+      "bench/repairs/tritonbench_g/layer_norm_fwd/Contract.lean": "89c7264500db56480fc0176570950e782d88983bc2cb52f33aeb5eb8b3e0bd3e",
+      "bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/Contract.lean": "2c1caaa835a2b14b7f389d63484fd53a103d210874c620c9d14ed39705a53b21",
+      "bench/repairs/tritonbench_g/layer_norm_fwd/check_contract.py": "55dabd9ca7e33507a32c30c8fdbffe4b8e44de155076429ebc310bda83fe28cc",
+      "bench/repairs/tritonbench_g/layer_norm_fwd/layer_norm_fwd_repaired.py": "e23770ea53c68c79871d768e055478d8f762291d2c7e727eea50544198526eda",
+      "bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Contract.lean": "366419d2e172fd27020d20d45346437c45dd0ee89557877e48b9b69ad67d0da0",
+      "bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/check_candidate.py": "379aa1b92c37da5210c4bda2cca705bbb2c730c19d058279de24e038d497a8f1",
+      "bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/layer_norm_fwd_nonzero_tile.py": "0b53dbb1504fd27fad7a00e9ed2be38b63468eb6d7b88b744507c51fded7fcc1",
+      "bench/tritonbench_g/layer_norm_fwd/layer_norm_fwd.py": "27dfccf23671d5b9c6f4b749cef39ddf69079793c486a833cbae9c57fe3a4de4",
+      "bench/tritonbench_g/layer_norm_fwd/scripts/native_lowering.py": "bd6e468d536e8d01d8081ffa9329f2622da449de3a9a75da3d74cc715ca8a4ed"
+    }
+  },
+  "comparator": {
+    "attempts": 294,
+    "statuses": [
+      "UNAVAILABLE"
+    ]
+  },
+  "scope": "Exact frozen source. Full actual typed IO/safety/frame and independent Real mathematics are verified separately by Lean; body tests are source correspondence checks, not hardware/numerical evidence."
+}

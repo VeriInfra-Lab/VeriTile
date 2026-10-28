@@ -1,0 +1,9 @@
+{
+  "module": "bench.tests.CheckedArangeCallBody",
+  "start": 1793219894.1888418,
+  "end": 1793219895.689993,
+  "log": "/tmp/rwkv104-direct-CheckedArangeCallBody-1793219894188826851.log",
+  "stop_file": "/tmp/rwkv104-direct-CheckedArangeCallBody-1793219894188826851.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

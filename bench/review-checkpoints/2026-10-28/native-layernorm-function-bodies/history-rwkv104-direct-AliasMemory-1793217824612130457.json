@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.AliasMemory",
+  "start": 1793217824.612146,
+  "end": 1793217827.8276024,
+  "log": "/tmp/rwkv104-direct-AliasMemory-1793217824612130457.log",
+  "stop_file": "/tmp/rwkv104-direct-AliasMemory-1793217824612130457.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

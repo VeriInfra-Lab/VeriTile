@@ -1,0 +1,5 @@
+VeriTile.Bench.Repairs.LayerNormFwd.Wrapper.OutputsAllocated.transfer: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwd.Wrapper.allocateOutputs_allocated: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])

@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.LayerNormFwd.Compiler.Artifact.observe_store: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

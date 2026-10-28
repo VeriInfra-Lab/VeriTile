@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.WrapperFreshAllocation",
+  "start": 1793218589.710653,
+  "end": 1793218592.9260352,
+  "log": "/tmp/rwkv104-direct-WrapperFreshAllocation-1793218589710634468.log",
+  "stop_file": "/tmp/rwkv104-direct-WrapperFreshAllocation-1793218589710634468.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

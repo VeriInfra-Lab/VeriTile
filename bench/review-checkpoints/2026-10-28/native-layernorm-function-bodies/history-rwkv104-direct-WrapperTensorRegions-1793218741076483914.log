@@ -1,0 +1,11 @@
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.regionTensor_role: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.preparedAllocation_role: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.allocation_live_tensor: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.prepared_output_names: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.prepared_read_write_separated: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.prepared_role_bounds: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.prepared_row_bounds: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])

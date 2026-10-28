@@ -1,0 +1,14 @@
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.configOfArguments_match: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.optional_materialized_present: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.optional_allocated_present: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.tensor_stride_range: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.optional_stride_range: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.launch_argument_metadata: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])

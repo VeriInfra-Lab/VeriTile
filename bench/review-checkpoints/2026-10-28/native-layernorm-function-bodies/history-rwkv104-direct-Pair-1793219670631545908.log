@@ -1,0 +1,16 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/Pair.lean:37:80: error: Tactic `rfl` failed: The left-hand side
+  Spec.ProgramSyntax.signature (original f r stride M N eps p)
+is not definitionally equal to the right-hand side
+  Spec.ProgramSyntax.signature (indexCommuted f r stride M N eps p)
+
+f : Flags
+r : Regions
+stride : Strides
+M N : ℕ
+eps p : ℝ
+⊢ Spec.ProgramSyntax.signature (original f r stride M N eps p) =
+    Spec.ProgramSyntax.signature (indexCommuted f r stride M N eps p)
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.Pair.execution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/Pair.lean:42:0: error: VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.Pair.equivalent: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

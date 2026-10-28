@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.WrapperTensorRegions",
+  "start": 1793218741.0764987,
+  "end": 1793218744.6418262,
+  "log": "/tmp/rwkv104-direct-WrapperTensorRegions-1793218741076483914.log",
+  "stop_file": "/tmp/rwkv104-direct-WrapperTensorRegions-1793218741076483914.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.layer_norm_fwd.Proofs.SafetyAffine",
+  "start": 1793217802.205119,
+  "end": 1793217804.8200593,
+  "log": "/tmp/rwkv104-direct-SafetyAffine-1793217802205104853.log",
+  "stop_file": "/tmp/rwkv104-direct-SafetyAffine-1793217802205104853.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

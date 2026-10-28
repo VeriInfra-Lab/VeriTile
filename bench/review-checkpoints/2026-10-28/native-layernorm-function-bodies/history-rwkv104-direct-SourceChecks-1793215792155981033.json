@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.layer_norm_fwd.Proofs.SourceChecks",
+  "start": 1793215792.155995,
+  "end": 1793215794.6574008,
+  "log": "/tmp/rwkv104-direct-SourceChecks-1793215792155981033.log",
+  "stop_file": "/tmp/rwkv104-direct-SourceChecks-1793215792155981033.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

@@ -1,0 +1,4 @@
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.readSecondMatrix_extends: axiom footprint ⊆ standard base ✓  ([Quot.sound])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.preparedObserve_extends: axiom footprint ⊆ standard base ✓  ([Quot.sound])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.optional_present_host: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.PreparedPresent.host_transfer: axiom footprint ⊆ standard base ✓  ([propext])

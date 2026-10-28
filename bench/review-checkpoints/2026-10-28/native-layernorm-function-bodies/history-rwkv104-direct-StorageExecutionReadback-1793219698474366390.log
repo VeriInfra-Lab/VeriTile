@@ -1,0 +1,57 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/StorageExecutionReadback.lean:52:22: warning: This simp argument is unused:
+  region
+
+Hint: Omit it from the simp argument list.
+  simp_all [r̵e̵g̵i̵on̵,̵o̵ffset, ̲NativeAccess.laneActive, ̲Nat.add_mul]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/StorageExecutionReadback.lean:52:29: warning: This simp argument is unused:
+  offset
+
+Hint: Omit it from the simp argument list.
+  simp_all [region,o̵f̵f̵s̵e̵t̵,̵ ̲NativeAccess.laneActive, ̲Nat.add_mul]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/StorageExecutionReadback.lean:52:36: warning: This simp argument is unused:
+  NativeAccess.laneActive
+
+Hint: Omit it from the simp argument list.
+  simp_all [̵r̵e̵g̵i̵o̵n̵,̵o̵f̵f̵s̵e̵t̵,̵N̵a̵t̵i̵v̵e̵A̵c̵c̵e̵s̵s̵.̵l̵a̵n̵e̵A̵c̵t̵i̵v̵e̵,̵N̵a̵t̵.̵a̵d̵d̵_̵m̵u̵l̵]̵[̲r̲e̲g̲i̲o̲n̲,̲ ̲o̲f̲f̲s̲e̲t̲,̲ ̲N̲a̲t̲.̲a̲d̲d̲_̲m̲u̲l̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/StorageExecutionReadback.lean:53:21: warning: 'congr 1' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/StorageExecutionReadback.lean:53:42: warning: 'omega' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/StorageExecutionReadback.lean:53:42: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/StorageExecutionReadback.lean:53:29: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.StorageMachine.store_written_at: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.StorageMachine.key_injective: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.StorageMachine.write_read_same: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.StorageMachine.trace_preserves_value: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.StorageMachine.trace_readback: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.StorageMachine.event_key_value: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.StorageMachine.program_contains: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.StorageMachine.execute_readback: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

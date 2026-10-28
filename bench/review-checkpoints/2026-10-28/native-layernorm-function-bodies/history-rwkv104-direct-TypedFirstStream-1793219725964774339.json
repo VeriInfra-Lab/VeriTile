@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.layer_norm_fwd.Proofs.TypedFirstStream",
+  "start": 1793219725.964788,
+  "end": 1793219729.7304404,
+  "log": "/tmp/rwkv104-direct-TypedFirstStream-1793219725964774339.log",
+  "stop_file": "/tmp/rwkv104-direct-TypedFirstStream-1793219725964774339.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

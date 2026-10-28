@@ -1,0 +1,23 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/AliasGrid.lean:42:30: warning: This simp argument is unused:
+  Bool.not_eq_true
+
+Hint: Omit it from the simp argument list.
+  simp only [rowKeys, ̲List.mem_append, ̲mem_optional, ̲mem_rowCells, ̲List.mem_cons, ̲List.not_mem_nil,
+      or_false, ̲Bool.and_eq_true,B̵o̵o̵l̵.̵n̵o̵t̵_̵e̵q̵_̵t̵r̵u̵e̵,̵ ̲Prod.mk.injEq]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/AliasGrid.lean:42:47: warning: This simp argument is unused:
+  Prod.mk.injEq
+
+Hint: Omit it from the simp argument list.
+  simp only [rowKeys, ̲List.mem_append, ̲mem_optional, ̲mem_rowCells, ̲List.mem_cons, ̲List.not_mem_nil,
+      or_false, ̲Bool.and_eq_true, ̲Bool.not_eq_true,̵P̵r̵o̵d̵.̵m̵k̵.̵i̵n̵j̵E̵q̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/AliasGrid.lean:48:46: warning: This simp argument is unused:
+  or_assoc
+
+Hint: Omit it from the simp argument list.
+  simp only [and_assoc, ̲and_left_comm, ̲and_comm, ̲or_a̵s̵s̵o̵c̵,̵o̵r̵_̵left_comm, ̲or_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

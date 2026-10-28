@@ -1,0 +1,6 @@
+{
+  "failed_at": "evidence path assertion before metadata updates",
+  "original_partial_receipt_preserved": "/tmp/layernorm105-incomplete-receipt-1793224839319133696",
+  "correction": "Proofs/RealModel.lean -> Proofs/RealPrimitives.lean",
+  "frozen_source_changed": false
+}

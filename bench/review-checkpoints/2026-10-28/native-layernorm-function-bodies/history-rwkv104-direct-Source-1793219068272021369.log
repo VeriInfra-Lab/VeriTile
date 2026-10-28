@@ -1,0 +1,8 @@
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.source_exact: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.source_row: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.zero_columns_writes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

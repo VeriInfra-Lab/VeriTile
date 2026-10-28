@@ -1,0 +1,34 @@
+VeriTile.Bench.TritonBenchG.LayerNormFwd.TypedExecution.legal_block: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.LayerNormFwd.TypedExecution.seed_valid: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.LayerNormFwd.TypedExecution.seed_valid_any: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.LayerNormFwd.TypedExecution.compare_available: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.LayerNormFwd.TypedExecution.masked_scatter_regs: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.TritonBenchG.LayerNormFwd.TypedExecution.guarded_scatter_regs: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.TritonBenchG.LayerNormFwd.TypedExecution.scatter_regs: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.TritonBenchG.LayerNormFwd.TypedExecution.prefix_success: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.LayerNormFwd.TypedExecution.firstStream_success: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.LayerNormFwd.TypedExecution.secondStream_success: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.LayerNormFwd.TypedExecution.normalization_success: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.LayerNormFwd.TypedExecution.affine_success: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.LayerNormFwd.TypedExecution.source_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.LayerNormFwd.TypedExecution.nonempty_pair: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,29 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/ActualPhysical.lean:24:13: error: Invalid simp theorem: Expected a proposition, but found
+  (x_0 : Type) → (a : Layout) → Physical x_0 a → Key → Cell x_0
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/ActualPhysical.lean:24:2: error: `simp` made no progress
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/ActualPhysical.lean:52:15: error: Invalid simp theorem: Expected a proposition, but found
+  (x_0 : Type) → (a : Layout) → Physical x_0 a → Key → Cell x_0
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/ActualPhysical.lean:52:4: error: `simp` made no progress
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/ActualPhysical.lean:70:17: error: Invalid simp theorem: Expected a proposition, but found
+  (x_0 : Type) → (a : Layout) → Physical x_0 a → Key → Cell x_0
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/ActualPhysical.lean:68:4: error: unsolved goals
+case neg
+α : Type
+a : Layout
+initial : Physical α a
+s final : State α
+writes : Key → Prop
+hf : FreshWrites a writes
+hframe : ∀ (k : Key), ¬writes k → final.mem k.1 k.2 = (pull a initial s).mem k.1 k.2
+r : RegionName
+o : ℕ
+hl : ¬a.live (r, o)
+hw : ¬writes (r, o)
+⊢ TypedPhysical.read a (realise a initial final writes) (r, o) = TypedPhysical.read a initial (r, o)
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/ActualPhysical.lean:70:22: warning: This simp argument is unused:
+  hl
+
+Hint: Omit it from the simp argument list.
+  simp [̵p̵u̵l̵l̵,̵r̵e̵a̵d̵,̵h̵l̵]̵[̲p̲u̲l̲l̲,̲ ̲r̲e̲a̲d̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

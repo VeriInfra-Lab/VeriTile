@@ -1,0 +1,9 @@
+VeriTile.Bench.Repairs.LayerNormFwd.Wrapper.finish_split_run: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.LayerNormFwd.Wrapper.finish_no_second_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayerNormFwd.Wrapper.finish_no_mask_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayerNormFwd.Wrapper.finish_split_failure: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayerNormFwd.Wrapper.finish_split_cells: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

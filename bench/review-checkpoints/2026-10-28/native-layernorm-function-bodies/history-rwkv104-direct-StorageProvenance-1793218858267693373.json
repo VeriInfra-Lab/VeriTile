@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.StorageProvenance",
+  "start": 1793218858.2677112,
+  "end": 1793218861.6333258,
+  "log": "/tmp/rwkv104-direct-StorageProvenance-1793218858267693373.log",
+  "stop_file": "/tmp/rwkv104-direct-StorageProvenance-1793218858267693373.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

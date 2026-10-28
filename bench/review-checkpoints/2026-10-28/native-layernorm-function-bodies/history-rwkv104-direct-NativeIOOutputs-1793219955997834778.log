@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.NativeInterface.output_binding: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.NativeInterface.frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

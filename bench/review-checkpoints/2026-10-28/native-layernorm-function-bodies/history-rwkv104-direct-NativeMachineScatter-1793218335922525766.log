@@ -1,0 +1,12 @@
+VeriTile.Bench.Repairs.LayerNormFwd.NativeMachineMemory.sequence_commutes: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayerNormFwd.NativeMachineMemory.scatter_commutes: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayerNormFwd.NativeMachineMemory.scalar_store_commutes: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayerNormFwd.NativeMachineMemory.zero_columns_rstd_store: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])

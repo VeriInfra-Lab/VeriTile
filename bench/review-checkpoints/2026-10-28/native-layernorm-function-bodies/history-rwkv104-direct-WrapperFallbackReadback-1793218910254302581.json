@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.WrapperFallbackReadback",
+  "start": 1793218910.2543185,
+  "end": 1793218913.519798,
+  "log": "/tmp/rwkv104-direct-WrapperFallbackReadback-1793218910254302581.log",
+  "stop_file": "/tmp/rwkv104-direct-WrapperFallbackReadback-1793218910254302581.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

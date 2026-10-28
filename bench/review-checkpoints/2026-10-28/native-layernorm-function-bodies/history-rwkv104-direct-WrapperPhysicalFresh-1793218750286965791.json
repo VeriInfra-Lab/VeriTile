@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.WrapperPhysicalFresh",
+  "start": 1793218750.2869837,
+  "end": 1793218754.2027962,
+  "log": "/tmp/rwkv104-direct-WrapperPhysicalFresh-1793218750286965791.log",
+  "stop_file": "/tmp/rwkv104-direct-WrapperPhysicalFresh-1793218750286965791.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

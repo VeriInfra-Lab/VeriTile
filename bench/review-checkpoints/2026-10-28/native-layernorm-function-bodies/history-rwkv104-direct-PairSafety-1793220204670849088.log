@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.Pair.trace_safe: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

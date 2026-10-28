@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.PairIO",
+  "start": 1793220202.130665,
+  "end": 1793220204.6320176,
+  "log": "/tmp/rwkv104-direct-PairIO-1793220202130648072.log",
+  "stop_file": "/tmp/rwkv104-direct-PairIO-1793220202130648072.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

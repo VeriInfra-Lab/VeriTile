@@ -1,0 +1,44 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/WrapperReturnViews.lean:25:5: warning: unused variable `hs`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/WrapperReturnViews.lean:38:31: warning: This simp argument is unused:
+  hmask
+
+Hint: Omit it from the simp argument list.
+  simp [̵h̵r̵,̵r̵e̵t̵u̵r̵n̵e̵d̵W̵i̵t̵h̵M̵a̵s̵k̵s̵,̵h̵m̵a̵s̵k̵]̵[̲h̲r̲,̲ ̲r̲e̲t̲u̲r̲n̲e̲d̲W̲i̲t̲h̲M̲a̲s̲k̲s̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/WrapperReturnViews.lean:45:33: warning: This simp argument is unused:
+  hx
+
+Hint: Omit it from the simp argument list.
+  simp [hr, ̲returnedWithMasks, ̲hx̵,̵h̵mask]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/WrapperReturnViews.lean:59:40: warning: This simp argument is unused:
+  hmask
+
+Hint: Omit it from the simp argument list.
+  simp only [̵h̵r̵,̵r̵e̵t̵u̵r̵n̵e̵d̵W̵i̵t̵h̵M̵a̵s̵k̵s̵,̵h̵m̵a̵s̵k̵,̵h̵x̵,̵O̵p̵t̵i̵o̵n̵.̵i̵s̵S̵o̵m̵e̵_̵s̵o̵m̵e̵,̵B̵o̵o̵l̵.̵t̵r̵u̵e̵_̵e̵q̵,̵i̵t̵e̵_̵t̵r̵u̵e̵,̵O̵p̵t̵i̵o̵n̵.̵m̵a̵p̵_̵s̵o̵m̵e̵]̵[̲h̲r̲,̲ ̲r̲e̲t̲u̲r̲n̲e̲d̲W̲i̲t̲h̲M̲a̲s̲k̲s̲,̲ ̲h̲x̲,̲ ̲O̲p̲t̲i̲o̲n̲.̲i̲s̲S̲o̲m̲e̲_̲s̲o̲m̲e̲,̲ ̲B̲o̲o̲l̲.̲t̲r̲u̲e̲_̲e̲q̲,̲ ̲i̲t̲e̲_̲t̲r̲u̲e̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲O̲p̲t̲i̲o̲n̲.̲m̲a̲p̲_̲s̲o̲m̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/WrapperReturnViews.lean:59:46: warning: This simp argument is unused:
+  hx
+
+Hint: Omit it from the simp argument list.
+  simp only [hr, ̲returnedWithMasks, ̲hmask,h̵x̵,̵ ̲Option.isSome_some, ̲Bool.true_eq, ̲ite_true,
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲Option.map_some]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/WrapperReturnViews.lean:59:68: warning: This simp argument is unused:
+  Bool.true_eq
+
+Hint: Omit it from the simp argument list.
+  simp only [̵h̵r̵,̵r̵e̵t̵u̵r̵n̵e̵d̵W̵i̵t̵h̵M̵a̵s̵k̵s̵,̵h̵m̵a̵s̵k̵,̵h̵x̵,̵O̵p̵t̵i̵o̵n̵.̵i̵s̵S̵o̵m̵e̵_̵s̵o̵m̵e̵,̵B̵o̵o̵l̵.̵t̵r̵u̵e̵_̵e̵q̵,̵i̵t̵e̵_̵t̵r̵u̵e̵,̵O̵p̵t̵i̵o̵n̵.̵m̵a̵p̵_̵s̵o̵m̵e̵]̵[̲h̲r̲,̲ ̲r̲e̲t̲u̲r̲n̲e̲d̲W̲i̲t̲h̲M̲a̲s̲k̲s̲,̲ ̲h̲m̲a̲s̲k̲,̲ ̲h̲x̲,̲ ̲O̲p̲t̲i̲o̲n̲.̲i̲s̲S̲o̲m̲e̲_̲s̲o̲m̲e̲,̲ ̲i̲t̲e̲_̲t̲r̲u̲e̲,̲ ̲O̲p̲t̲i̲o̲n̲.̲m̲a̲p̲_̲s̲o̲m̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.finish_mask_readback: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.prepared_mask_shape: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice])

@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.layer_norm_fwd.Proofs.SafetyPrefix",
+  "start": 1793217778.7992337,
+  "end": 1793217794.1682992,
+  "log": "/tmp/rwkv104-direct-SafetyPrefix-1793217778799218976.log",
+  "stop_file": "/tmp/rwkv104-direct-SafetyPrefix-1793217778799218976.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

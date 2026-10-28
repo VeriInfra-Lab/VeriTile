@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.LayerNormFwd.Equivalence.layer_norm_fwd_repaired_requested_storage_returns: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])

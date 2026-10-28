@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.TypedInputPreserves",
+  "start": 1793216741.0872838,
+  "end": 1793216891.5898619,
+  "log": "/tmp/rwkv104-direct-TypedInputPreserves-1793216741087258566.log",
+  "stop_file": "/tmp/rwkv104-direct-TypedInputPreserves-1793216741087258566.stop",
+  "status": "COMPLETED",
+  "exit_code": 1
+}

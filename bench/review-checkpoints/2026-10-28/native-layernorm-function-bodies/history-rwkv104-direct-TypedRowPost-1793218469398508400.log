@@ -1,0 +1,14 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/TypedRowPost.lean:22:26: warning: This simp argument is unused:
+  hf
+
+Hint: Omit it from the simp argument list.
+  simp [affineValue, ̲raw, ̲hf̵,̵h̵ weight hw]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/TypedRowPost.lean:23:26: warning: This simp argument is unused:
+  hf
+
+Hint: Omit it from the simp argument list.
+  simp [affineValue, ̲raw, ̲hf̵,̵h̵ weight hw, ̲h biasRegion (hb hf)]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

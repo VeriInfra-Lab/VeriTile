@@ -1,0 +1,10 @@
+VeriTile.Bench.Repairs.LayerNormFwd.Checked.materialize_same: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LayerNormFwd.Checked.resolveInputs_same: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwd.Checked.prepare_same: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwd.Checked.surround_same: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwd.Checked.admitted: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])

@@ -1,0 +1,11 @@
+VeriTile.Bench.Repairs.LayerNormFwd.NativeGeometry.rowSeparated_of_step: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwd.NativeGeometry.rowSeparated_singleton: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayerNormFwd.NativeGeometry.of_legacy: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwd.NativeGeometry.written_row_unique: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,9 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/NativePrimitives.lean:65:18: warning: unused variable `root`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.host_word: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.Compiler.lower_bound: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

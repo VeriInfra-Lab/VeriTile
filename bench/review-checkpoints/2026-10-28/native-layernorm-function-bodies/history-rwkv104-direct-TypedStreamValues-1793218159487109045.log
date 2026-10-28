@@ -1,0 +1,6 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/TypedStreamValues.lean:33:2: warning: 'all_goals
+  try
+    dsimp only [_root_.VeriTile.Bench.Repairs.LayerNormFwd.TypedSource.streamValues, lit, op, scalarLoad, keepValue,
+      randomValue, cast]' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`

@@ -1,0 +1,13 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/NativeScheduleGrid.lean:108:20: warning: This simp argument is unused:
+  hnone
+
+Hint: Omit it from the simp argument list.
+  simp [executeGrid,̵h̵n̵o̵n̵e̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.LayerNormFwd.NativeSchedule.execute_grid_post: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwd.NativeSchedule.empty_grid_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

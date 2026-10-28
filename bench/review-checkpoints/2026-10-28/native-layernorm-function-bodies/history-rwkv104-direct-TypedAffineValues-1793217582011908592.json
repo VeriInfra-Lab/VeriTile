@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.TypedAffineValues",
+  "start": 1793217582.0119264,
+  "end": 1793217652.399384,
+  "log": "/tmp/rwkv104-direct-TypedAffineValues-1793217582011908592.log",
+  "stop_file": "/tmp/rwkv104-direct-TypedAffineValues-1793217582011908592.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

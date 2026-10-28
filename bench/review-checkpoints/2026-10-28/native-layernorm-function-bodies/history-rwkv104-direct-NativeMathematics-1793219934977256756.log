@@ -1,0 +1,209 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/NativeMathematics.lean:66:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ∑ j, if ↑j < N then ?f ↑j else 0
+in the target expression
+  (∑ j, if ↑j < N then Formula.centered f (inputs a) M N p row ↑j ^ 2 else 0) / ↑N =
+    Formula.variance f (inputs a) M N p row
+
+f : Flags
+a : NativeInterface.Inputs ℝ
+M N : ℕ
+p : ℝ
+row block : ℕ
+coverage : N ≤ block
+square :
+  (fun j =>
+      TypedSource.op algebra Binary.mul (if ↑j.1 < N then Formula.centered f (inputs a) M N p row ↑j.1 else 0)
+        (if ↑j.1 < N then Formula.centered f (inputs a) M N p row ↑j.1 else 0)) =
+    fun j => if ↑j.1 < N then Formula.centered f (inputs a) M N p row ↑j.1 ^ 2 else 0
+⊢ (∑ j, if ↑j < N then Formula.centered f (inputs a) M N p row ↑j ^ 2 else 0) / ↑N =
+    Formula.variance f (inputs a) M N p row
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/NativeMathematics.lean:85:2: error: Tactic `rfl` failed: The left-hand side
+  TypedSource.defaultOp algebra Binary.mul
+    (if f.rms = «true» then Formula.combined f (inputs a) M p row ↑j.1
+    else
+      TypedSource.defaultOp algebra Binary.sub (Formula.combined f (inputs a) M p row ↑j.1)
+        (TypedSource.meanValue algebra N fun j => if ↑j.1 < N then Formula.combined f (inputs a) M p row ↑j.1 else 0))
+    (TypedSource.rstdValue algebra f.rms N eps fun j =>
+      if ↑j.1 < N then Formula.combined f (inputs a) M p row ↑j.1 else 0)
+is not definitionally equal to the right-hand side
+  Formula.normalized f (inputs a) M N eps p row ↑j.1
+
+f : Flags
+a : NativeInterface.Inputs ℝ
+M N : ℕ
+eps p : ℝ
+row block : ℕ
+coverage : N ≤ block
+j : TileIndex [block]
+active : ↑j.1 < N
+⊢ TypedSource.defaultOp algebra Binary.mul
+      (if f.rms = «true» then Formula.combined f (inputs a) M p row ↑j.1
+      else
+        TypedSource.defaultOp algebra Binary.sub (Formula.combined f (inputs a) M p row ↑j.1)
+          (TypedSource.meanValue algebra N fun j => if ↑j.1 < N then Formula.combined f (inputs a) M p row ↑j.1 else 0))
+      (TypedSource.rstdValue algebra f.rms N eps fun j =>
+        if ↑j.1 < N then Formula.combined f (inputs a) M p row ↑j.1 else 0) =
+    Formula.normalized f (inputs a) M N eps p row ↑j.1
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/NativeMathematics.lean:113:2: error: unsolved goals
+case h.h.h.«0»
+f : Flags
+r : Regions
+stride : Strides
+M N : ℕ
+eps p : ℝ
+width : N ≤ tile N
+a : NativeInterface.Arrays r M N ℝ
+j : TileIndex (NativeInterface.outputPorts r M N)[(fun i => i) ⟨0, ⋯⟩].shape
+active : ↑j.1 % N < N
+⊢ TypedSource.cast algebra
+      (if f.bias = «true» then
+        TypedSource.defaultOp algebra Binary.add
+          (TypedSource.defaultOp algebra Binary.mul
+            (Formula.normalized f
+              { x := (NativeInterface.logicalInputs a).x, x1 := (NativeInterface.logicalInputs a).x1,
+                residual := (NativeInterface.logicalInputs a).residual,
+                weight := (NativeInterface.logicalInputs a).weight, bias := (NativeInterface.logicalInputs a).bias,
+                weight1 := (NativeInterface.logicalInputs a).weight1, bias1 := (NativeInterface.logicalInputs a).bias1,
+                rowscale := (NativeInterface.logicalInputs a).rowscale,
+                seeds := (NativeInterface.logicalInputs a).seeds }
+              M N eps p (↑j.1 / N) (↑j.1 % N))
+            (TypedSource.cast algebra ((NativeInterface.logicalInputs a).weight (↑j.1 % N))))
+          (TypedSource.cast algebra ((NativeInterface.logicalInputs a).bias (↑j.1 % N)))
+      else
+        TypedSource.defaultOp algebra Binary.mul
+          (Formula.normalized f
+            { x := (NativeInterface.logicalInputs a).x, x1 := (NativeInterface.logicalInputs a).x1,
+              residual := (NativeInterface.logicalInputs a).residual,
+              weight := (NativeInterface.logicalInputs a).weight, bias := (NativeInterface.logicalInputs a).bias,
+              weight1 := (NativeInterface.logicalInputs a).weight1, bias1 := (NativeInterface.logicalInputs a).bias1,
+              rowscale := (NativeInterface.logicalInputs a).rowscale, seeds := (NativeInterface.logicalInputs a).seeds }
+            M N eps p (↑j.1 / N) (↑j.1 % N))
+          (TypedSource.cast algebra ((NativeInterface.logicalInputs a).weight (↑j.1 % N)))) =
+    if f.bias = «true» then
+      Formula.normalized f
+            { x := (NativeInterface.logicalInputs a).x, x1 := (NativeInterface.logicalInputs a).x1,
+              residual := (NativeInterface.logicalInputs a).residual,
+              weight := (NativeInterface.logicalInputs a).weight, bias := (NativeInterface.logicalInputs a).bias,
+              weight1 := (NativeInterface.logicalInputs a).weight1, bias1 := (NativeInterface.logicalInputs a).bias1,
+              rowscale := (NativeInterface.logicalInputs a).rowscale, seeds := (NativeInterface.logicalInputs a).seeds }
+            M N eps p (↑j.1 / N) (↑j.1 % N) *
+          (NativeInterface.logicalInputs a).weight (↑j.1 % N) +
+        (NativeInterface.logicalInputs a).bias (↑j.1 % N)
+    else
+      Formula.normalized f
+          { x := (NativeInterface.logicalInputs a).x, x1 := (NativeInterface.logicalInputs a).x1,
+            residual := (NativeInterface.logicalInputs a).residual, weight := (NativeInterface.logicalInputs a).weight,
+            bias := (NativeInterface.logicalInputs a).bias, weight1 := (NativeInterface.logicalInputs a).weight1,
+            bias1 := (NativeInterface.logicalInputs a).bias1, rowscale := (NativeInterface.logicalInputs a).rowscale,
+            seeds := (NativeInterface.logicalInputs a).seeds }
+          M N eps p (↑j.1 / N) (↑j.1 % N) *
+        (NativeInterface.logicalInputs a).weight (↑j.1 % N)
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/NativeMathematics.lean:120:2: error: unsolved goals
+case h.h.h.«1»
+f : Flags
+r : Regions
+stride : Strides
+M N : ℕ
+eps p : ℝ
+width : N ≤ tile N
+a : NativeInterface.Arrays r M N ℝ
+j :
+  TileIndex
+    (NativeInterface.outputPorts r M
+          N)[(fun i => i) ⟨[{ dtype := TileDType.bool, shape := [M * N], buf := r.dropoutMask }].length, ⋯⟩].shape
+active : ↑j.1 % N < N
+⊢ TypedSource.cast algebra
+      (if f.b1 = «true» then
+        TypedSource.defaultOp algebra Binary.add
+          (TypedSource.defaultOp algebra Binary.mul
+            (Formula.normalized f
+              { x := (NativeInterface.logicalInputs a).x, x1 := (NativeInterface.logicalInputs a).x1,
+                residual := (NativeInterface.logicalInputs a).residual,
+                weight := (NativeInterface.logicalInputs a).weight, bias := (NativeInterface.logicalInputs a).bias,
+                weight1 := (NativeInterface.logicalInputs a).weight1, bias1 := (NativeInterface.logicalInputs a).bias1,
+                rowscale := (NativeInterface.logicalInputs a).rowscale,
+                seeds := (NativeInterface.logicalInputs a).seeds }
+              M N eps p (↑j.1 / N) (↑j.1 % N))
+            (TypedSource.cast algebra ((NativeInterface.logicalInputs a).weight1 (↑j.1 % N))))
+          (TypedSource.cast algebra ((NativeInterface.logicalInputs a).bias1 (↑j.1 % N)))
+      else
+        TypedSource.defaultOp algebra Binary.mul
+          (Formula.normalized f
+            { x := (NativeInterface.logicalInputs a).x, x1 := (NativeInterface.logicalInputs a).x1,
+              residual := (NativeInterface.logicalInputs a).residual,
+              weight := (NativeInterface.logicalInputs a).weight, bias := (NativeInterface.logicalInputs a).bias,
+              weight1 := (NativeInterface.logicalInputs a).weight1, bias1 := (NativeInterface.logicalInputs a).bias1,
+              rowscale := (NativeInterface.logicalInputs a).rowscale, seeds := (NativeInterface.logicalInputs a).seeds }
+            M N eps p (↑j.1 / N) (↑j.1 % N))
+          (TypedSource.cast algebra ((NativeInterface.logicalInputs a).weight1 (↑j.1 % N)))) =
+    if f.b1 = «true» then
+      Formula.normalized f
+            { x := (NativeInterface.logicalInputs a).x, x1 := (NativeInterface.logicalInputs a).x1,
+              residual := (NativeInterface.logicalInputs a).residual,
+              weight := (NativeInterface.logicalInputs a).weight, bias := (NativeInterface.logicalInputs a).bias,
+              weight1 := (NativeInterface.logicalInputs a).weight1, bias1 := (NativeInterface.logicalInputs a).bias1,
+              rowscale := (NativeInterface.logicalInputs a).rowscale, seeds := (NativeInterface.logicalInputs a).seeds }
+            M N eps p (↑j.1 / N) (↑j.1 % N) *
+          (NativeInterface.logicalInputs a).weight1 (↑j.1 % N) +
+        (NativeInterface.logicalInputs a).bias1 (↑j.1 % N)
+    else
+      Formula.normalized f
+          { x := (NativeInterface.logicalInputs a).x, x1 := (NativeInterface.logicalInputs a).x1,
+            residual := (NativeInterface.logicalInputs a).residual, weight := (NativeInterface.logicalInputs a).weight,
+            bias := (NativeInterface.logicalInputs a).bias, weight1 := (NativeInterface.logicalInputs a).weight1,
+            bias1 := (NativeInterface.logicalInputs a).bias1, rowscale := (NativeInterface.logicalInputs a).rowscale,
+            seeds := (NativeInterface.logicalInputs a).seeds }
+          M N eps p (↑j.1 / N) (↑j.1 % N) *
+        (NativeInterface.logicalInputs a).weight1 (↑j.1 % N)
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/NativeMathematics.lean:129:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  TypedSource.meanValue algebra N (NativeInterface.combined algebra comparisons f ?m.920 M N p ?m.921 (tile N))
+in the target expression
+  TypedSource.meanValue algebra N
+      (NativeInterface.combined algebra comparisons f (NativeInterface.logicalInputs a) M N p (↑j.1) (tile N)) =
+    Formula.mean f (RealInterface.logicalInputs M N ((ActualLogical.inputArrays r M N) a)) M N p ↑j.1
+
+case h.h.h.«2»
+f : Flags
+r : Regions
+stride : Strides
+M N : ℕ
+eps p : ℝ
+width : N ≤ tile N
+a : NativeInterface.Arrays r M N ℝ
+j :
+  TileIndex
+    (NativeInterface.outputPorts r M
+          N)[(fun i => i)
+          ⟨[{ dtype := TileDType.bool, shape := [M * N], buf := r.dropoutMask },
+                { dtype := TileDType.bool, shape := [M * N], buf := r.dropoutMask }].length,
+            ⋯⟩].shape
+⊢ TypedSource.meanValue algebra N
+      (NativeInterface.combined algebra comparisons f (NativeInterface.logicalInputs a) M N p (↑j.1) (tile N)) =
+    Formula.mean f (RealInterface.logicalInputs M N ((ActualLogical.inputArrays r M N) a)) M N p ↑j.1
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/NativeMathematics.lean:132:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  TypedSource.rstdValue algebra f.rms N eps
+    (NativeInterface.combined algebra comparisons f ?m.924 M N p ?m.925 (tile N))
+in the target expression
+  TypedSource.rstdValue algebra f.rms N eps
+      (NativeInterface.combined algebra comparisons f (NativeInterface.logicalInputs a) M N p (↑j.1) (tile N)) =
+    Formula.rstd f (RealInterface.logicalInputs M N ((ActualLogical.inputArrays r M N) a)) M N eps p ↑j.1
+
+case h.h.h.«3»
+f : Flags
+r : Regions
+stride : Strides
+M N : ℕ
+eps p : ℝ
+width : N ≤ tile N
+a : NativeInterface.Arrays r M N ℝ
+j :
+  TileIndex
+    (NativeInterface.outputPorts r M
+          N)[(fun i => i)
+          ⟨[{ dtype := TileDType.real, shape := [M * N], buf := r.residualOut },
+                { dtype := TileDType.bool, shape := [M * N], buf := r.dropoutMask },
+                { dtype := TileDType.bool, shape := [M * N], buf := r.dropoutMask }].length,
+            ⋯⟩].shape
+⊢ TypedSource.rstdValue algebra f.rms N eps
+      (NativeInterface.combined algebra comparisons f (NativeInterface.logicalInputs a) M N p (↑j.1) (tile N)) =
+    Formula.rstd f (RealInterface.logicalInputs M N ((ActualLogical.inputArrays r M N) a)) M N eps p ↑j.1

@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.NativeMachineStream",
+  "start": 1793218342.4816947,
+  "end": 1793218346.3478436,
+  "log": "/tmp/rwkv104-direct-NativeMachineStream-1793218342481678672.log",
+  "stop_file": "/tmp/rwkv104-direct-NativeMachineStream-1793218342481678672.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.RealRevision.Frames",
+  "start": 1793218928.97874,
+  "end": 1793218933.8949304,
+  "log": "/tmp/rwkv104-direct-Frames-1793218928978724640.log",
+  "stop_file": "/tmp/rwkv104-direct-Frames-1793218928978724640.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

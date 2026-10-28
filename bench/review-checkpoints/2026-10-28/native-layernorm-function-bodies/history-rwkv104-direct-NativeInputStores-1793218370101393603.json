@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.NativeInputStores",
+  "start": 1793218370.1014082,
+  "end": 1793218373.4171784,
+  "log": "/tmp/rwkv104-direct-NativeInputStores-1793218370101393603.log",
+  "stop_file": "/tmp/rwkv104-direct-NativeInputStores-1793218370101393603.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

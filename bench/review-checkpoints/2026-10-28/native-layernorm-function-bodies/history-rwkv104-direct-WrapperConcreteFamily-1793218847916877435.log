@@ -1,0 +1,9 @@
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.preparedFamily_configured: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.prefix_family_configured: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.preparedFamily_selection_failure: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

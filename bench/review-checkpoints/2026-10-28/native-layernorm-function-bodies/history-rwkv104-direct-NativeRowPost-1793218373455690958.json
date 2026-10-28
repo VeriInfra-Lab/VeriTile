@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.NativeRowPost",
+  "start": 1793218373.4557061,
+  "end": 1793218377.0208375,
+  "log": "/tmp/rwkv104-direct-NativeRowPost-1793218373455690958.log",
+  "stop_file": "/tmp/rwkv104-direct-NativeRowPost-1793218373455690958.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

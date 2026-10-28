@@ -1,0 +1,12 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/RealRevision/RealPreparation.lean:96:2: warning: 'all_goals try contradiction' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+VeriTile.Bench.Repairs.LayerNormFwd.RealRevision.shadow_prefix: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwd.RealRevision.role_read: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayerNormFwd.RealRevision.input_original: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])

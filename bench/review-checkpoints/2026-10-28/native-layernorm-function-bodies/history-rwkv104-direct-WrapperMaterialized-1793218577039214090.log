@@ -1,0 +1,5 @@
+VeriTile.Bench.Repairs.LayerNormFwd.Wrapper.Materialized.transfer: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.Repairs.LayerNormFwd.Wrapper.OptionMaterialized.transfer: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LayerNormFwd.Wrapper.call_success: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LayerNormFwd.Wrapper.resolve_materialized: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LayerNormFwd.Wrapper.resolveOption_materialized: axiom footprint ⊆ standard base ✓  ([propext])

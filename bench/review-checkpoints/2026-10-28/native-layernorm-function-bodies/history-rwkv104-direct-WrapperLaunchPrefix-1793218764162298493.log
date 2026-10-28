@@ -1,0 +1,11 @@
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.SuccessRoute.launchPrefix: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.prefix_launch_state: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.prefix_layout: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.prefix_admission: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])

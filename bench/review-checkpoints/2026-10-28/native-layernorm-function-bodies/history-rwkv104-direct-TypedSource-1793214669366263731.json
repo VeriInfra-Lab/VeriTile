@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.TypedSource",
+  "start": 1793214669.3662794,
+  "end": 1793214774.2136405,
+  "log": "/tmp/rwkv104-direct-TypedSource-1793214669366263731.log",
+  "stop_file": "/tmp/rwkv104-direct-TypedSource-1793214669366263731.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

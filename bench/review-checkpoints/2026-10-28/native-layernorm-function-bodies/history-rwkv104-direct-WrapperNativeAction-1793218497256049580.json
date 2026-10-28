@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.WrapperNativeAction",
+  "start": 1793218497.2560637,
+  "end": 1793218500.6718154,
+  "log": "/tmp/rwkv104-direct-WrapperNativeAction-1793218497256049580.log",
+  "stop_file": "/tmp/rwkv104-direct-WrapperNativeAction-1793218497256049580.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

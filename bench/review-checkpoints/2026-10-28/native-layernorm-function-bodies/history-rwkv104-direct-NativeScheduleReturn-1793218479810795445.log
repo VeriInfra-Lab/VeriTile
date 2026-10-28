@@ -1,0 +1,67 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/NativeScheduleReturn.lean:64:30: warning: This simp argument is unused:
+  hf
+
+Hint: Omit it from the simp argument list.
+  simp ̵[̵h̵f̵]̵
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/NativeScheduleReturn.lean:67:39: warning: This simp argument is unused:
+  hf
+
+Hint: Omit it from the simp argument list.
+  simp [hf̵,̵h̵x]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/NativeScheduleReturn.lean:69:64: warning: This simp argument is unused:
+  hd
+
+Hint: Omit it from the simp argument list.
+  simp [hd̵,̵h̵m]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/NativeScheduleReturn.lean:69:67: warning: This simp argument is unused:
+  hm
+
+Hint: Omit it from the simp argument list.
+  simp [hd,̵h̵m̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/NativeScheduleReturn.lean:70:84: warning: This simp argument is unused:
+  hd
+
+Hint: Omit it from the simp argument list.
+  simp [̵h̵d̵,̵h̵m̵,̵h̵x̵]̵[̲h̲m̲,̲ ̲h̲x̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/NativeScheduleReturn.lean:70:87: warning: This simp argument is unused:
+  hm
+
+Hint: Omit it from the simp argument list.
+  simp [̵h̵d̵,̵h̵m̵,̵h̵x̵]̵[̲h̲d̲,̲ ̲h̲x̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/NativeScheduleReturn.lean:70:90: warning: This simp argument is unused:
+  hx
+
+Hint: Omit it from the simp argument list.
+  simp [̵h̵d̵,̵h̵m̵,̵h̵x̵]̵[̲h̲d̲,̲ ̲h̲m̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/NativeScheduleReturn.lean:64:34: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/NativeScheduleReturn.lean:67:46: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/NativeScheduleReturn.lean:69:71: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/NativeScheduleReturn.lean:70:94: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+VeriTile.Bench.Repairs.LayerNormFwd.NativeSchedule.grid_input_preserved: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwd.NativeSchedule.observe_eq_oracle: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

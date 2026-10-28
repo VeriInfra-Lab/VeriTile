@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.layer_norm_fwd.Proofs.AffineSpecification",
+  "start": 1793215855.9793377,
+  "end": 1793215858.4879975,
+  "log": "/tmp/rwkv104-direct-AffineSpecification-1793215855979321662.log",
+  "stop_file": "/tmp/rwkv104-direct-AffineSpecification-1793215855979321662.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

@@ -1,0 +1,7 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/NativeIO.lean:102:19: warning: unused variable `stride`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.NativeInterface.target: definition does not reference [VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Triton.FP.Structural.run,
+ VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.quoted,
+ VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.TypedSource.oracle] — non-circular ✓

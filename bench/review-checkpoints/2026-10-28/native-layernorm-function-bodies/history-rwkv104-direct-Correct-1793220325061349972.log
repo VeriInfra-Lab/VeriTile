@@ -1,0 +1,5 @@
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.formula: definition does not reference [VeriTile.Triton.exec,
+ VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.quoted] — non-circular ✓

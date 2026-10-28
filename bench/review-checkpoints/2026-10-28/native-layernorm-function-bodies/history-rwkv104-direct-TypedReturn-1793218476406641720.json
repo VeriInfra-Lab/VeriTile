@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.TypedReturn",
+  "start": 1793218476.4066598,
+  "end": 1793218479.7722952,
+  "log": "/tmp/rwkv104-direct-TypedReturn-1793218476406641720.log",
+  "stop_file": "/tmp/rwkv104-direct-TypedReturn-1793218476406641720.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.LayerNormFwd.Wrapper.surrounding_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwd.Wrapper.finish_return_identity: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LayerNormFwd.Wrapper.finish_fallback_identity: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LayerNormFwd.Wrapper.admission_failure: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LayerNormFwd.Wrapper.empty_grid_preserved: axiom footprint ⊆ standard base ✓  ([propext])

@@ -1,0 +1,2 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/RealModel.lean:12:33: error: unexpected token 'axis'; expected '_' or identifier
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/RealModel.lean:36:24: error: unexpected token 'axis'; expected '↦', '=>'

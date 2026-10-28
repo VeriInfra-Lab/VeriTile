@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.RealPrimitives",
+  "start": 1793219931.772943,
+  "end": 1793219934.9381187,
+  "log": "/tmp/rwkv104-direct-RealPrimitives-1793219931772927875.log",
+  "stop_file": "/tmp/rwkv104-direct-RealPrimitives-1793219931772927875.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

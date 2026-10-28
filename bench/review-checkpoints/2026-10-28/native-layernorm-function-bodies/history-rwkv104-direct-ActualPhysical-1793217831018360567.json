@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.ActualPhysical",
+  "start": 1793217831.018376,
+  "end": 1793217833.9840612,
+  "log": "/tmp/rwkv104-direct-ActualPhysical-1793217831018360567.log",
+  "stop_file": "/tmp/rwkv104-direct-ActualPhysical-1793217831018360567.stop",
+  "status": "COMPLETED",
+  "exit_code": 1
+}

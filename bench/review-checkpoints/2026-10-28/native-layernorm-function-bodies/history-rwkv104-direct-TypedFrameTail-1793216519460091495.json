@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.TypedFrameTail",
+  "start": 1793216519.4601145,
+  "end": 1793216740.956082,
+  "log": "/tmp/rwkv104-direct-TypedFrameTail-1793216519460091495.log",
+  "stop_file": "/tmp/rwkv104-direct-TypedFrameTail-1793216519460091495.stop",
+  "status": "COMPLETED",
+  "exit_code": 1
+}

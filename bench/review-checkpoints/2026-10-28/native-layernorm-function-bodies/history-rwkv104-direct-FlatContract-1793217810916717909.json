@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.layer_norm_fwd.Proofs.FlatContract",
+  "start": 1793217810.9167335,
+  "end": 1793217813.4182694,
+  "log": "/tmp/rwkv104-direct-FlatContract-1793217810916717909.log",
+  "stop_file": "/tmp/rwkv104-direct-FlatContract-1793217810916717909.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

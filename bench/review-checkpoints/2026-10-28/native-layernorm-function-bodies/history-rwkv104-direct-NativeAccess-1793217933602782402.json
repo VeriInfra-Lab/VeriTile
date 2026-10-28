@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.NativeAccess",
+  "start": 1793217933.6027977,
+  "end": 1793217936.66797,
+  "log": "/tmp/rwkv104-direct-NativeAccess-1793217933602782402.log",
+  "stop_file": "/tmp/rwkv104-direct-NativeAccess-1793217933602782402.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

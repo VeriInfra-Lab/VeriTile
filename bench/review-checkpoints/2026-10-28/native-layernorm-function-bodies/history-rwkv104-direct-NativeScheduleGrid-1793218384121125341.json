@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.NativeScheduleGrid",
+  "start": 1793218384.1211405,
+  "end": 1793218387.436599,
+  "log": "/tmp/rwkv104-direct-NativeScheduleGrid-1793218384121125341.log",
+  "stop_file": "/tmp/rwkv104-direct-NativeScheduleGrid-1793218384121125341.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

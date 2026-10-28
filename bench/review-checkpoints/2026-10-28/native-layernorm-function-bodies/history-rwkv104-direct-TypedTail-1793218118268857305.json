@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.TypedTail",
+  "start": 1793218118.2688704,
+  "end": 1793218154.2451582,
+  "log": "/tmp/rwkv104-direct-TypedTail-1793218118268857305.log",
+  "stop_file": "/tmp/rwkv104-direct-TypedTail-1793218118268857305.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

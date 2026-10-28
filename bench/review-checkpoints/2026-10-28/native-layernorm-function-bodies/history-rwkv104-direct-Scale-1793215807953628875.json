@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.layer_norm_fwd.Proofs.Scale",
+  "start": 1793215807.9536438,
+  "end": 1793215811.1190586,
+  "log": "/tmp/rwkv104-direct-Scale-1793215807953628875.log",
+  "stop_file": "/tmp/rwkv104-direct-Scale-1793215807953628875.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

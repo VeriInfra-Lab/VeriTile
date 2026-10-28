@@ -1,0 +1,10 @@
+VeriTile.Bench.Repairs.LayerNormFwd.Wrapper.stride_zero_success: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwd.Wrapper.optional_stride_success: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwd.Wrapper.arguments_bound: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwd.Wrapper.persists_arguments: axiom footprint ⊆ standard base ✓  ([propext])

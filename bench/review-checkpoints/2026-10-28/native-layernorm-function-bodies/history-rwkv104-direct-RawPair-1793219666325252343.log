@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.RawPair.prefix_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.RawPair.whole_state: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

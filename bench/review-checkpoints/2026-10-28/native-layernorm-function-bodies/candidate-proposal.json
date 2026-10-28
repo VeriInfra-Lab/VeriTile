@@ -1,0 +1,16 @@
+{
+  "status": "PYTHON_CANDIDATE_DRAFT_ONLY",
+  "source": "bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/layer_norm_fwd_nonzero_tile.py",
+  "source_sha256": "0b53dbb1504fd27fad7a00e9ed2be38b63468eb6d7b88b744507c51fded7fcc1",
+  "candidate": "bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/layer_norm_fwd_index_commuted.py",
+  "candidate_sha256": "6f757c5de0110cc8e5c580b9c3f3281000398695d4dd81d135299289cc32fe24",
+  "provenance": "New Python materialization of the existing Lean integer X-row-stride commutation; not a historical original source. Complete module AST verified to differ only by swapping the two multiplication operands in the first X += statement.",
+  "body_migration": "NOT_STARTED",
+  "proof_revalidation": "NOT_STARTED",
+  "baseline_receipt": "/tmp/layernorm105-baseline.json",
+  "raw_body_probe": "/tmp/layernorm105-staging/LayerNorm105Probe.lean",
+  "raw_body_probe_status": "FAILED_FRONTEND_ARANGE_PROVENANCE",
+  "ABI_status": "i32 scalars reflect the retained scalarBits selection; runtime/native binder connection not yet reverified",
+  "raw_body_probe_log": "/tmp/rwkv104-direct-LayerNorm105Probe-1793213058143377228.log",
+  "frontend_gap": "CallSignature Nat constexpr substitution retains only (BLOCK_N : Nat), erasing the externally supplied checked Random.i32ArangeSize provenance; RandomProfile rejects tl.rand offsets. Fully rooted adapter in the outer let still fails. Preserve the actual checked adapter by following immutable local let values and reifying its exact constant/proof arguments; do not infer i32 for arbitrary symbolic Nat, put an adapter statement in the body, or narrow to fixed blocks. Source remains 24 exact statements. No compiler mutation made yet."
+}

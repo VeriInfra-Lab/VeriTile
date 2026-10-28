@@ -1,0 +1,32 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/NativeAgreement.lean:37:0: error: Not a definitional equality: the left-hand side
+  TypedSource.combinedValues A cmp f s r stride M N p row block
+is not definitionally equal to the right-hand side
+  combined A cmp f (snapshot r stride s) M N p row block
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/NativeAgreement.lean:40:64: error: Type mismatch
+  rfl
+has type
+  ?m.9 = ?m.9
+but is expected to have type
+  TypedSource.combinedValues A cmp f s r stride M N p row block = combined A cmp f (snapshot r stride s) M N p row block
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/NativeAgreement.lean:46:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.NativeInterface.Agree.loaded_x`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/NativeAgreement.lean:60:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.NativeInterface.Agree.loaded_x1`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/NativeAgreement.lean:74:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.NativeInterface.Agree.loaded_residual`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/NativeAgreement.lean:92:0: error: VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.NativeInterface.combined_snapshot: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.NativeInterface.Agree.combined: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

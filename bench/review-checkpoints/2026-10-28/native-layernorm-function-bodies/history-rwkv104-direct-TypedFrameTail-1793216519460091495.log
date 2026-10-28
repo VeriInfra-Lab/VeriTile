@@ -1,0 +1,19 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/TypedFrameTail.lean:92:4: warning: 'all_goals try simp only [State.setReg_mem]' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/TypedFrameTail.lean:124:16: error: `simp` made no progress
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/TypedFrameTail.lean:124:16: error: `simp` made no progress
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/TypedFrameTail.lean:124:16: error: `simp` made no progress
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/TypedFrameTail.lean:124:16: error: `simp` made no progress
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/TypedFrameTail.lean:124:16: error: `simp` made no progress
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/TypedFrameTail.lean:124:16: error: `simp` made no progress
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/TypedFrameTail.lean:124:16: error: `simp` made no progress
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/TypedFrameTail.lean:124:16: error: `simp` made no progress
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/TypedFrameTail.lean:138:16: error: `simp` made no progress
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/TypedFrameTail.lean:138:16: error: `simp` made no progress
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/TypedFrameTail.lean:138:16: error: `simp` made no progress
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/TypedFrameTail.lean:138:16: error: `simp` made no progress
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/TypedFrameTail.lean:138:16: error: `simp` made no progress
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/TypedFrameTail.lean:138:16: error: `simp` made no progress
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/TypedFrameTail.lean:138:16: error: `simp` made no progress
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/TypedFrameTail.lean:138:16: error: `simp` made no progress

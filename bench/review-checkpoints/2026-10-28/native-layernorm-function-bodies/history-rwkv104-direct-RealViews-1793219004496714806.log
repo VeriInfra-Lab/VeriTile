@@ -1,0 +1,12 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/RealRevision/RealViews.lean:102:13: warning: unused variable `i`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/RealRevision/RealViews.lean:102:29: warning: unused variable `j`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/RealRevision/RealViews.lean:107:13: warning: unused variable `i`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.Repairs.LayerNormFwd.RealRevision.finish_observation: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

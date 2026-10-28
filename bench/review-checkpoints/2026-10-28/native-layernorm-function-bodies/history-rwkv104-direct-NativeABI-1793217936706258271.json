@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.NativeABI",
+  "start": 1793217936.7062726,
+  "end": 1793217940.2112424,
+  "log": "/tmp/rwkv104-direct-NativeABI-1793217936706258271.log",
+  "stop_file": "/tmp/rwkv104-direct-NativeABI-1793217936706258271.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

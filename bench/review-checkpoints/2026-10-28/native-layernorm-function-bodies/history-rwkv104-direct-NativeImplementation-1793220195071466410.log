@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.NativeInterface.implements: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

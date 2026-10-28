@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.TypedGrid",
+  "start": 1793217764.5954437,
+  "end": 1793217767.8109794,
+  "log": "/tmp/rwkv104-direct-TypedGrid-1793217764595428398.log",
+  "stop_file": "/tmp/rwkv104-direct-TypedGrid-1793217764595428398.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

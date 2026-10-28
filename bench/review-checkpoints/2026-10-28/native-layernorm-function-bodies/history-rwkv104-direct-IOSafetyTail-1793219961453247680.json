@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.IOSafetyTail",
+  "start": 1793219961.4532633,
+  "end": 1793220192.027155,
+  "log": "/tmp/rwkv104-direct-IOSafetyTail-1793219961453247680.log",
+  "stop_file": "/tmp/rwkv104-direct-IOSafetyTail-1793219961453247680.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

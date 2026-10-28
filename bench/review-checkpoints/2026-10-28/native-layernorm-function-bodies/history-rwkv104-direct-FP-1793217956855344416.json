@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.FP",
+  "start": 1793217956.855361,
+  "end": 1793217959.8570948,
+  "log": "/tmp/rwkv104-direct-FP-1793217956855344416.log",
+  "stop_file": "/tmp/rwkv104-direct-FP-1793217956855344416.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

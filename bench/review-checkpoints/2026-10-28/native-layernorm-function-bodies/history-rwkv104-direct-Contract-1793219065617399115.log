@@ -1,0 +1,7 @@
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.inputCheck_iff: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.tile_arange: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.tile_unchanged: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.width_zero: axiom footprint ⊆ standard base ✓  ([propext])

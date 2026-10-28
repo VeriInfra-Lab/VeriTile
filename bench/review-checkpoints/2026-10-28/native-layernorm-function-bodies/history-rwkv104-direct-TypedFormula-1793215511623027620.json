@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.TypedFormula",
+  "start": 1793215511.623043,
+  "end": 1793215514.7382624,
+  "log": "/tmp/rwkv104-direct-TypedFormula-1793215511623027620.log",
+  "stop_file": "/tmp/rwkv104-direct-TypedFormula-1793215511623027620.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.layer_norm_fwd.Proofs.Real",
+  "start": 1793215869.8886516,
+  "end": 1793215874.7049508,
+  "log": "/tmp/rwkv104-direct-Real-1793215869888637234.log",
+  "stop_file": "/tmp/rwkv104-direct-Real-1793215869888637234.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

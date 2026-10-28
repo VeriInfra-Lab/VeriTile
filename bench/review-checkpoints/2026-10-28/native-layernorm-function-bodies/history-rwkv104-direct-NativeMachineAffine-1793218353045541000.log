@@ -1,0 +1,12 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/NativeMachineAffine.lean:35:48: warning: Local variable 'weight' resembles constructor 'VeriTile.Bench.Repairs.LayerNormFwd.Address.Role.weight' - write '.weight' (with a dot) or 'VeriTile.Bench.Repairs.LayerNormFwd.Address.Role.weight' to use the constructor.
+
+Note: This linter can be disabled with `set_option linter.constructorNameAsVariable false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/NativeMachineAffine.lean:35:55: warning: Local variable 'bias' resembles constructor 'VeriTile.Bench.Repairs.LayerNormFwd.Address.Role.bias' - write '.bias' (with a dot) or 'VeriTile.Bench.Repairs.LayerNormFwd.Address.Role.bias' to use the constructor.
+
+Note: This linter can be disabled with `set_option linter.constructorNameAsVariable false`
+VeriTile.Bench.Repairs.LayerNormFwd.NativeMachine.affine_operands: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwd.NativeMachine.affine_correspondence: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

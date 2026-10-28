@@ -1,0 +1,114 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/TypedFrame.lean:91:28: error: Type mismatch
+  vector_frame r.dropoutMask region (row * N) N offset ?m.458 ?m.459 ?m.460 (hm hd hmask)
+has type
+  (List.foldl (fun t j => if ↑j.1 < N then t.write r.dropoutMask (row * N + ↑j.1) (?m.459 j) else t) ?m.460
+          (TileShape.allIndices [?m.458])).mem
+      region offset =
+    State.mem ?m.460 region offset
+but is expected to have type
+  (List.foldl
+          (fun t i =>
+            if ↑i.1 = 0 then
+              t.write { name := r.dropoutMask.name } (row + ↑i.1)
+                (Cell.mk TileDType.bool
+                  (cmp.lt none FloatDType.real ((engine A).literal (some ComputeDType.fp32) FloatDType.real p)
+                    ((engine A).fp32Bits
+                      {
+                        bits :=
+                          (Random.rand
+                              (max (Cell.read TileDType.int (s.mem { name := r.seeds.name } row) % 4294967296) 0)
+                              (↑↑i.1) Random.IntegerType.i32.offsetWidth 7).bits })))
+            else t)
+          ((s.setReg "keep_mask" TileDType.bool [block]
+                (bop (fun a b => cmp.lt none FloatDType.real b a) Broadcast.scalarR
+                  (fun i =>
+                    (engine A).fp32Bits
+                      {
+                        bits :=
+                          (Random.rand
+                              (max (Cell.read TileDType.int (s.mem { name := r.seeds.name } row) % 4294967296) 0)
+                              (↑↑i.1) Random.IntegerType.i32.offsetWidth 7).bits })
+                  fun x => (engine A).literal (some ComputeDType.fp32) FloatDType.real p)).setReg
+            "x" TileDType.real [block] fun i =>
+            if
+                cmp.lt none FloatDType.real ((engine A).literal (some ComputeDType.fp32) FloatDType.real p)
+                    ((engine A).fp32Bits
+                      {
+                        bits :=
+                          (Random.rand
+                              (max (Cell.read TileDType.int (s.mem { name := r.seeds.name } row) % 4294967296) 0)
+                              (↑↑i.1) Random.IntegerType.i32.offsetWidth 7).bits }) =
+                  «true» then
+              (engine A).binary (some ComputeDType.fp32) FloatDType.real Binary.div (x i)
+                ((engine A).binary (some ComputeDType.fp32) FloatDType.real Binary.sub
+                  ((engine A).literal (some ComputeDType.fp32) FloatDType.real 1.0)
+                  ((engine A).literal (some ComputeDType.fp32) FloatDType.real p))
+            else (engine A).literal (some ComputeDType.fp32) FloatDType.real 0.0)
+          (TileShape.allIndices [block])).mem
+      region offset =
+    s.mem region offset
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/TypedFrame.lean:91:28: error: Type mismatch
+  vector_frame r.dropoutMask region (row * N) N offset ?m.458 ?m.459 ?m.460 (hm hd hmask)
+has type
+  (List.foldl (fun t j => if ↑j.1 < N then t.write r.dropoutMask (row * N + ↑j.1) (?m.459 j) else t) ?m.460
+          (TileShape.allIndices [?m.458])).mem
+      region offset =
+    State.mem ?m.460 region offset
+but is expected to have type
+  (List.foldl
+          (fun t i =>
+            if ↑i.1 = 0 then
+              t.write { name := r.dropoutMask.name } (row + ↑i.1)
+                (Cell.mk TileDType.bool
+                  (cmp.lt none FloatDType.real ((engine A).literal (some ComputeDType.fp32) FloatDType.real p)
+                    ((engine A).fp32Bits
+                      {
+                        bits :=
+                          (Random.rand
+                              (max (Cell.read TileDType.int (s.mem { name := r.seeds.name } row) % 4294967296) 0)
+                              (↑↑i.1) Random.IntegerType.i32.offsetWidth 7).bits })))
+            else t)
+          ((((s.setReg "rowscale" TileDType.real [] fun i =>
+                        ofFloat FloatDType.real
+                          ((engine A).cast (some ComputeDType.fp32) FloatDType.real FloatDType.real
+                            (toFloat FloatDType.real
+                              (Cell.read TileDType.real (s.mem { name := r.rowscale.name } row))))).setReg
+                    "x" TileDType.real [block]
+                    (bop ((engine A).binary (some ComputeDType.fp32) FloatDType.real Binary.mul) Broadcast.scalarR x
+                      fun i =>
+                      ofFloat FloatDType.real
+                        ((engine A).cast (some ComputeDType.fp32) FloatDType.real FloatDType.real
+                          (toFloat FloatDType.real
+                            (Cell.read TileDType.real (s.mem { name := r.rowscale.name } row)))))).setReg
+                "keep_mask" TileDType.bool [block]
+                (bop (fun a b => cmp.lt none FloatDType.real b a) Broadcast.scalarR
+                  (fun i =>
+                    (engine A).fp32Bits
+                      {
+                        bits :=
+                          (Random.rand
+                              (max (Cell.read TileDType.int (s.mem { name := r.seeds.name } row) % 4294967296) 0)
+                              (↑↑i.1) Random.IntegerType.i32.offsetWidth 7).bits })
+                  fun x => (engine A).literal (some ComputeDType.fp32) FloatDType.real p)).setReg
+            "x" TileDType.real [block] fun i =>
+            if
+                cmp.lt none FloatDType.real ((engine A).literal (some ComputeDType.fp32) FloatDType.real p)
+                    ((engine A).fp32Bits
+                      {
+                        bits :=
+                          (Random.rand
+                              (max (Cell.read TileDType.int (s.mem { name := r.seeds.name } row) % 4294967296) 0)
+                              (↑↑i.1) Random.IntegerType.i32.offsetWidth 7).bits }) =
+                  «true» then
+              (engine A).binary (some ComputeDType.fp32) FloatDType.real Binary.div
+                ((engine A).binary (some ComputeDType.fp32) FloatDType.real Binary.mul (x i)
+                  (ofFloat FloatDType.real
+                    ((engine A).cast (some ComputeDType.fp32) FloatDType.real FloatDType.real
+                      (toFloat FloatDType.real (Cell.read TileDType.real (s.mem { name := r.rowscale.name } row))))))
+                ((engine A).binary (some ComputeDType.fp32) FloatDType.real Binary.sub
+                  ((engine A).literal (some ComputeDType.fp32) FloatDType.real 1.0)
+                  ((engine A).literal (some ComputeDType.fp32) FloatDType.real p))
+            else (engine A).literal (some ComputeDType.fp32) FloatDType.real 0.0)
+          (TileShape.allIndices [block])).mem
+      region offset =
+    s.mem region offset

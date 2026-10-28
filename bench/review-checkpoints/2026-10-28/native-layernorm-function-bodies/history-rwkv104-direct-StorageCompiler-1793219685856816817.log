@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.StorageCompiler.Artifact.erased: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.StorageCompiler.Artifact.observe_store: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

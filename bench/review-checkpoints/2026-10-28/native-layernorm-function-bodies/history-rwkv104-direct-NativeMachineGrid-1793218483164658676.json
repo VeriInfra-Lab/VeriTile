@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.NativeMachineGrid",
+  "start": 1793218483.1646748,
+  "end": 1793218486.6676471,
+  "log": "/tmp/rwkv104-direct-NativeMachineGrid-1793218483164658676.log",
+  "stop_file": "/tmp/rwkv104-direct-NativeMachineGrid-1793218483164658676.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.TypedStoredScalars",
+  "start": 1793218434.3483841,
+  "end": 1793218469.3602061,
+  "log": "/tmp/rwkv104-direct-TypedStoredScalars-1793218434348368439.log",
+  "stop_file": "/tmp/rwkv104-direct-TypedStoredScalars-1793218434348368439.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

@@ -1,0 +1,21 @@
+Auto packing the repository in background for optimum performance.
+See "git help gc" for manual housekeeping.
+[codex/body-copy-cache-and-constexpr 1952c0a31] Preserve complete LayerNorm bodies and reconnect actual source proofs
+ 51 files changed, 3210 insertions(+), 1183 deletions(-)
+ create mode 100644 bench/repairs/tritonbench_g/layer_norm_fwd/SourceParameters.lean
+ rewrite bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Kernels.lean (87%)
+ create mode 100644 bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/ActualPhysical.lean
+ create mode 100644 bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/ActualRealImplementation.lean
+ rewrite bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/IOSafetyStreams.lean (64%)
+ create mode 100644 bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/NativeMathematics.lean
+ create mode 100644 bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/RawPair.lean
+ create mode 100644 bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/RawPairSafety.lean
+ create mode 100644 bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/RawSource.lean
+ create mode 100644 bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/RealPrimitives.lean
+ rewrite bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/TypedFrameTail.lean (60%)
+ rewrite bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/README.md (99%)
+ create mode 100644 bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/RealModel.lean
+ create mode 100644 bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/jit-correspondence.json
+ create mode 100644 bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/layer_norm_fwd_index_commuted.py
+ create mode 100644 bench/tests/CheckedArangeCallBody.lean
+ create mode 100644 bench/tests/test_layernorm_fwd_body.py

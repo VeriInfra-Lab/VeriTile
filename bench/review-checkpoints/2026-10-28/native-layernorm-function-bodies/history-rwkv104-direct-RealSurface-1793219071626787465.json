@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.layer_norm_fwd.Proofs.RealSurface",
+  "start": 1793219071.6268034,
+  "end": 1793219074.1597726,
+  "log": "/tmp/rwkv104-direct-RealSurface-1793219071626787465.log",
+  "stop_file": "/tmp/rwkv104-direct-RealSurface-1793219071626787465.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

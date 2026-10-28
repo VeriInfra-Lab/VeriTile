@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.layer_norm_fwd.Proofs.NormalizationAudit",
+  "start": 1793219806.1728556,
+  "end": 1793219814.890152,
+  "log": "/tmp/rwkv104-direct-NormalizationAudit-1793219806172839736.log",
+  "stop_file": "/tmp/rwkv104-direct-NormalizationAudit-1793219806172839736.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

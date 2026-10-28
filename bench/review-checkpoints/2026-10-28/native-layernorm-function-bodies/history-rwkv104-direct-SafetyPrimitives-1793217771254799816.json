@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.layer_norm_fwd.Proofs.SafetyPrimitives",
+  "start": 1793217771.2548149,
+  "end": 1793217776.221279,
+  "log": "/tmp/rwkv104-direct-SafetyPrimitives-1793217771254799816.log",
+  "stop_file": "/tmp/rwkv104-direct-SafetyPrimitives-1793217771254799816.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

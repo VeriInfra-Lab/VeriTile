@@ -1,0 +1,34 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/StorageNumerics.lean:37:29: warning: This simp argument is unused:
+  h
+
+Hint: Omit it from the simp argument list.
+  simp [h̵,̵castCell]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/StorageNumerics.lean:37:31: warning: This simp argument is unused:
+  castCell
+
+Hint: Omit it from the simp argument list.
+  simp [h,̵c̵a̵s̵t̵C̵e̵l̵l̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/StorageNumerics.lean:38:38: warning: This simp argument is unused:
+  h
+
+Hint: Omit it from the simp argument list.
+  simp [h̵,̵castCell]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/StorageNumerics.lean:38:40: warning: This simp argument is unused:
+  castCell
+
+Hint: Omit it from the simp argument list.
+  simp [h,̵c̵a̵s̵t̵C̵e̵l̵l̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.StorageCompiler.Artifact.observe_cast_graph: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.StorageCompiler.Artifact.observe_eq: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

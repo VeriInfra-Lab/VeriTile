@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.RealInterface.input_agreement: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.RealInterface.row_bounds: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

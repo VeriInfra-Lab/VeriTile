@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.RealModel",
+  "start": 1793217314.8178527,
+  "end": 1793217317.319396,
+  "log": "/tmp/rwkv104-direct-RealModel-1793217314817837758.log",
+  "stop_file": "/tmp/rwkv104-direct-RealModel-1793217314817837758.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

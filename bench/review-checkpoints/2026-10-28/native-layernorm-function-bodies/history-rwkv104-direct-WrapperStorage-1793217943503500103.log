@@ -1,0 +1,7 @@
+VeriTile.Bench.Repairs.LayerNormFwd.Wrapper.TensorStore.Extends.trans: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.Repairs.LayerNormFwd.Wrapper.persists_bind: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.Repairs.LayerNormFwd.Wrapper.persists_materialize: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LayerNormFwd.Wrapper.persists_resolveInputs: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LayerNormFwd.Wrapper.persists_splitMasks: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LayerNormFwd.Wrapper.persists_finish: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LayerNormFwd.Wrapper.finish_existing_cells: axiom footprint ⊆ standard base ✓  ([propext])

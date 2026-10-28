@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.TypedPhysical",
+  "start": 1793217827.8653617,
+  "end": 1793217830.9803371,
+  "log": "/tmp/rwkv104-direct-TypedPhysical-1793217827865346610.log",
+  "stop_file": "/tmp/rwkv104-direct-TypedPhysical-1793217827865346610.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

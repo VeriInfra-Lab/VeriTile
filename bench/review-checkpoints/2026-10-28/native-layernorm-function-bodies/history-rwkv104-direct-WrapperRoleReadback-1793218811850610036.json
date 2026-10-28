@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.WrapperRoleReadback",
+  "start": 1793218811.8506258,
+  "end": 1793218815.3167856,
+  "log": "/tmp/rwkv104-direct-WrapperRoleReadback-1793218811850610036.log",
+  "stop_file": "/tmp/rwkv104-direct-WrapperRoleReadback-1793218811850610036.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

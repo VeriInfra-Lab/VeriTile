@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.CheckedHost",
+  "start": 1793217923.8376334,
+  "end": 1793217926.6532228,
+  "log": "/tmp/rwkv104-direct-CheckedHost-1793217923837617997.log",
+  "stop_file": "/tmp/rwkv104-direct-CheckedHost-1793217923837617997.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

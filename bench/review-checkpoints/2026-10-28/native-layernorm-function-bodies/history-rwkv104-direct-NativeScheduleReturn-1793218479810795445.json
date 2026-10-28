@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.NativeScheduleReturn",
+  "start": 1793218479.8108091,
+  "end": 1793218483.1263697,
+  "log": "/tmp/rwkv104-direct-NativeScheduleReturn-1793218479810795445.log",
+  "stop_file": "/tmp/rwkv104-direct-NativeScheduleReturn-1793218479810795445.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

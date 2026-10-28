@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.TypedStreamValues",
+  "start": 1793215911.203288,
+  "end": 1793215983.9905987,
+  "log": "/tmp/rwkv104-direct-TypedStreamValues-1793215911203272751.log",
+  "stop_file": "/tmp/rwkv104-direct-TypedStreamValues-1793215911203272751.stop",
+  "status": "COMPLETED",
+  "exit_code": 1
+}

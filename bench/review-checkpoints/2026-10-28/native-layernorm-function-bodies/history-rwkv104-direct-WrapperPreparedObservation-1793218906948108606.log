@@ -1,0 +1,12 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/WrapperPreparedObservation.lean:75:5: warning: unused variable `he`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.prepared_present: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.PreparedPresent.transfer: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.PreparedPresent.fallback: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.readMatrix_extends: axiom footprint ⊆ standard base ✓  ([Quot.sound])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.readVector_extends: axiom footprint ⊆ standard base ✓  ([Quot.sound])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.optional_read_extends: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.finish_observe: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

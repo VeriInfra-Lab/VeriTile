@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.LayerNormFwd.RealRevision.ActiveGrid.grid_return: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

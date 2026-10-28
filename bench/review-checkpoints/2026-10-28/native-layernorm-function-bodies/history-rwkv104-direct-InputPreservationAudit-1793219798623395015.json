@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.layer_norm_fwd.Proofs.InputPreservationAudit",
+  "start": 1793219798.6234102,
+  "end": 1793219806.133566,
+  "log": "/tmp/rwkv104-direct-InputPreservationAudit-1793219798623395015.log",
+  "stop_file": "/tmp/rwkv104-direct-InputPreservationAudit-1793219798623395015.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

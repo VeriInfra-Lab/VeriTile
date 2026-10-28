@@ -1,0 +1,18 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/WrapperStreams.lean:141:15: warning: This simp argument is unused:
+  Bool.true_eq
+
+Hint: Omit it from the simp argument list.
+  simp only [̵B̵o̵o̵l̵.̵t̵r̵u̵e̵_̵e̵q̵,̵i̵t̵e̵_̵t̵r̵u̵e̵,̵B̵o̵o̵l̵.̵f̵a̵l̵s̵e̵_̵e̵q̵_̵t̵r̵u̵e̵,̵i̵t̵e̵_̵f̵a̵l̵s̵e̵,̵B̵i̵n̵d̵.̵b̵i̵n̵d̵]̵[̲i̲t̲e̲_̲t̲r̲u̲e̲,̲ ̲B̲o̲o̲l̲.̲f̲a̲l̲s̲e̲_̲e̲q̲_̲t̲r̲u̲e̲,̲ ̲i̲t̲e̲_̲f̲a̲l̲s̲e̲,̲ ̲B̲i̲n̲d̲.̲b̲i̲n̲d̲]̲ at h
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperStream.materialize_ready: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperStream.optional_ready: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperStream.inputs_ready: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperStream.optional_seed_ready: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperStream.outputs_seed_ready: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperStream.prepare_ready: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])

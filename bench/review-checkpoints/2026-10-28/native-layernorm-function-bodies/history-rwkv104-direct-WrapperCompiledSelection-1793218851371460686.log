@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.CompiledSelection.selected: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.CompiledSelection.failure: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

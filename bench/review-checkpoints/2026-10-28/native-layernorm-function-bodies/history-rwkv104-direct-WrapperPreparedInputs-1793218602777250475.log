@@ -1,0 +1,4 @@
+VeriTile.Bench.Repairs.LayerNormFwd.Wrapper.RequestPresent.transfer: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.Repairs.LayerNormFwd.Wrapper.InputsMaterialized.transfer: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LayerNormFwd.Wrapper.prepare_materialized: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice])

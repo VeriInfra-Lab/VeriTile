@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.layer_norm_fwd.Proofs.RandomExecution",
+  "start": 1793215811.1568887,
+  "end": 1793215814.3722484,
+  "log": "/tmp/rwkv104-direct-RandomExecution-1793215811156874113.log",
+  "stop_file": "/tmp/rwkv104-direct-RandomExecution-1793215811156874113.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

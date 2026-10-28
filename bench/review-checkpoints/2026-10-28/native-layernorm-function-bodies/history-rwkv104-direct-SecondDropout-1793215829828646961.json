@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.layer_norm_fwd.Proofs.SecondDropout",
+  "start": 1793215829.828664,
+  "end": 1793215832.944042,
+  "log": "/tmp/rwkv104-direct-SecondDropout-1793215829828646961.log",
+  "stop_file": "/tmp/rwkv104-direct-SecondDropout-1793215829828646961.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

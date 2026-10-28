@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.NativeParameters",
+  "start": 1793217966.3008869,
+  "end": 1793217969.2166789,
+  "log": "/tmp/rwkv104-direct-NativeParameters-1793217966300872877.log",
+  "stop_file": "/tmp/rwkv104-direct-NativeParameters-1793217966300872877.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

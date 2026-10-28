@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.NativeMachineNormalization",
+  "start": 1793218349.7906811,
+  "end": 1793218353.0063107,
+  "log": "/tmp/rwkv104-direct-NativeMachineNormalization-1793218349790667458.log",
+  "stop_file": "/tmp/rwkv104-direct-NativeMachineNormalization-1793218349790667458.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

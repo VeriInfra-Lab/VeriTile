@@ -1,0 +1,20 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/TypedInputPost.lean:43:95: error: Type mismatch
+  rfl
+has type
+  ?m.155 = ?m.155
+but is expected to have type
+  List.take 14 (actual f r stride M N eps p block hb).surfaceBody =
+    stagePrefix f r stride M N eps p block hb ++ firstStream f r stride M N eps p block hb ++
+        secondInput f r stride M N eps p block hb ++
+      residual f r stride M N eps p block hb
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/TypedInputPost.lean:60:4: error: 'change' tactic failed, pattern
+  s₄.mem r.residualOut ?m.339 =
+    Cell.mk TileDType.real
+      (cast A
+        ((fun k =>
+            if f.residual = «true» then op A Binary.add (v₃ k) (raw A s₃ r.residual (s.pids 0 * stride.residual) N ↑k.1)
+            else v₃ k)
+          j))
+is not definitionally equal to target
+  s₄.mem r.residualOut (s.pids 0 * stride.residualOut + ↑j.1) =
+    Cell.mk TileDType.real (residualCombined A f r stride s₃ N (s.pids 0) v₃ j)

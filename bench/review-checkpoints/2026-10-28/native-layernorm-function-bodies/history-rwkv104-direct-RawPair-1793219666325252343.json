@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.RawPair",
+  "start": 1793219666.325266,
+  "end": 1793219670.591244,
+  "log": "/tmp/rwkv104-direct-RawPair-1793219666325252343.log",
+  "stop_file": "/tmp/rwkv104-direct-RawPair-1793219666325252343.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

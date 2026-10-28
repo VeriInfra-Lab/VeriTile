@@ -1,0 +1,12 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/NativeIOInputs.lean:58:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.NativeInterface.row_bounds`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.NativeInterface.input_agreement: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.NativeInterface.row_bounds: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

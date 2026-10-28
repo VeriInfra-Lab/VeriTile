@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.layer_norm_fwd.Proofs.SafetyStreams",
+  "start": 1793217776.2598379,
+  "end": 1793217778.7612128,
+  "log": "/tmp/rwkv104-direct-SafetyStreams-1793217776259821773.log",
+  "stop_file": "/tmp/rwkv104-direct-SafetyStreams-1793217776259821773.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

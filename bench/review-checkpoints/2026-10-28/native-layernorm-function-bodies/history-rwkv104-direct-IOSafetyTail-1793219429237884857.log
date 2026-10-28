@@ -1,0 +1,11 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/IOSafetyTail.lean:36:56: error: unexpected token '|'; expected ')', ',' or ':'
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/IOSafetyTail.lean:36:40: error: invalid binder name `access.mean`, it must be atomic
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/IOSafetyTail.lean:36:40: error: invalid binder name `access.mean`, it must be atomic
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/IOSafetyTail.lean:36:40: error: invalid binder name `access.mean`, it must be atomic
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/IOSafetyTail.lean:36:40: error: invalid binder name `access.mean`, it must be atomic
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/IOSafetyTail.lean:36:40: error: invalid binder name `access.mean`, it must be atomic
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/IOSafetyTail.lean:36:40: error: invalid binder name `access.mean`, it must be atomic
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/IOSafetyTail.lean:88:0: error: VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.IOSafety.normalization_safe: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.IOSafety.affine_safe: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

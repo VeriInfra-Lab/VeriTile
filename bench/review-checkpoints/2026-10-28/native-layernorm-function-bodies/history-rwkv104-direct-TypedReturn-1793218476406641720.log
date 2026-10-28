@@ -1,0 +1,61 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/TypedReturn.lean:88:30: warning: This simp argument is unused:
+  hf
+
+Hint: Omit it from the simp argument list.
+  simp ̵[̵h̵f̵]̵
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/TypedReturn.lean:91:39: warning: This simp argument is unused:
+  hf
+
+Hint: Omit it from the simp argument list.
+  simp [hf̵,̵h̵x]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/TypedReturn.lean:93:64: warning: This simp argument is unused:
+  hd
+
+Hint: Omit it from the simp argument list.
+  simp [hd̵,̵h̵m]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/TypedReturn.lean:93:67: warning: This simp argument is unused:
+  hm
+
+Hint: Omit it from the simp argument list.
+  simp [hd,̵h̵m̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/TypedReturn.lean:94:84: warning: This simp argument is unused:
+  hd
+
+Hint: Omit it from the simp argument list.
+  simp [̵h̵d̵,̵h̵m̵,̵h̵x̵]̵[̲h̲m̲,̲ ̲h̲x̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/TypedReturn.lean:94:87: warning: This simp argument is unused:
+  hm
+
+Hint: Omit it from the simp argument list.
+  simp [̵h̵d̵,̵h̵m̵,̵h̵x̵]̵[̲h̲d̲,̲ ̲h̲x̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/TypedReturn.lean:94:90: warning: This simp argument is unused:
+  hx
+
+Hint: Omit it from the simp argument list.
+  simp [̵h̵d̵,̵h̵m̵,̵h̵x̵]̵[̲h̲d̲,̲ ̲h̲m̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/TypedReturn.lean:88:34: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/TypedReturn.lean:91:46: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/TypedReturn.lean:93:71: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/TypedReturn.lean:94:94: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`

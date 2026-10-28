@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.RealIOInputs",
+  "start": 1793219097.8559153,
+  "end": 1793219101.8222535,
+  "log": "/tmp/rwkv104-direct-RealIOInputs-1793219097855899992.log",
+  "stop_file": "/tmp/rwkv104-direct-RealIOInputs-1793219097855899992.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

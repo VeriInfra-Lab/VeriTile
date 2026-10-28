@@ -1,0 +1,60 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/NativeScheduleFrame.lean:18:68: warning: This simp argument is unused:
+  ite_false
+
+Hint: Omit it from the simp argument list.
+  simp only [̵s̵t̵o̵r̵e̵M̵a̵s̵k̵,̵h̵d̵,̵h̵m̵,̵B̵o̵o̵l̵.̵f̵a̵l̵s̵e̵_̵a̵n̵d̵,̵B̵o̵o̵l̵.̵t̵r̵u̵e̵_̵a̵n̵d̵,̵i̵t̵e̵_̵f̵a̵l̵s̵e̵,̵i̵t̵e̵_̵t̵r̵u̵e̵]̵[̲s̲t̲o̲r̲e̲M̲a̲s̲k̲,̲ ̲h̲d̲,̲ ̲h̲m̲,̲ ̲B̲o̲o̲l̲.̲f̲a̲l̲s̲e̲_̲a̲n̲d̲,̲ ̲B̲o̲o̲l̲.̲t̲r̲u̲e̲_̲a̲n̲d̲,̲ ̲i̲t̲e̲_̲t̲r̲u̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/NativeScheduleFrame.lean:43:27: warning: This simp argument is unused:
+  ho
+
+Hint: Omit it from the simp argument list.
+  simp only [ho̵,̵h̵x, ̲Bool.false_eq_true, ̲ite_false, ̲ite_true]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/NativeScheduleFrame.lean:43:30: warning: This simp argument is unused:
+  hx
+
+Hint: Omit it from the simp argument list.
+  simp only [ho,h̵x̵,̵ ̲Bool.false_eq_true, ̲ite_false, ̲ite_true]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/NativeScheduleFrame.lean:60:19: warning: This simp argument is unused:
+  hf
+
+Hint: Omit it from the simp argument list.
+  simp only [h̵f̵,̵Bool.false_eq_true, ̲ite_false]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/NativeScheduleFrame.lean:74:19: warning: This simp argument is unused:
+  hf
+
+Hint: Omit it from the simp argument list.
+  simp only [h̵f̵,̵Bool.false_eq_true, ̲ite_false]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/NativeScheduleFrame.lean:76:19: warning: This simp argument is unused:
+  hf
+
+Hint: Omit it from the simp argument list.
+  simp only [h̵f̵,̵ite_true]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.LayerNormFwd.NativeSchedule.storeMask_reads: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwd.NativeSchedule.inputStage_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwd.NativeSchedule.normalizationStage_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwd.NativeSchedule.affineStage_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwd.NativeSchedule.execute_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwd.NativeSchedule.execute_inputs: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

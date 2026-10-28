@@ -1,0 +1,120 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/CompilerProfile.lean:125:12: warning: This simp argument is unused:
+  hf
+
+Hint: Omit it from the simp argument list.
+  simp ̵[̵h̵f̵]̵
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/CompilerProfile.lean:126:17: warning: This simp argument is unused:
+  hf
+
+Hint: Omit it from the simp argument list.
+  simp only [h̵f̵,̵ite_true]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/CompilerProfile.lean:132:17: warning: This simp argument is unused:
+  hf
+
+Hint: Omit it from the simp argument list.
+  simp only [h̵f̵,̵Bool.false_eq_true, ̲ite_false]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/CompilerProfile.lean:137:12: warning: This simp argument is unused:
+  hf
+
+Hint: Omit it from the simp argument list.
+  simp ̵[̵h̵f̵]̵
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/CompilerProfile.lean:142:12: warning: This simp argument is unused:
+  hf
+
+Hint: Omit it from the simp argument list.
+  simp ̵[̵h̵f̵]̵
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/CompilerProfile.lean:143:17: warning: This simp argument is unused:
+  hf
+
+Hint: Omit it from the simp argument list.
+  simp only [h̵f̵,̵ite_true]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/CompilerProfile.lean:148:25: warning: This simp argument is unused:
+  hd
+
+Hint: Omit it from the simp argument list.
+  simp only [hd̵,̵h̵m, ̲Bool.and_true, ̲Bool.and_false, ̲Bool.false_and, ̲Bool.true_and,
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲Bool.false_eq_true, ̲ite_false, ̲ite_true]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/CompilerProfile.lean:148:28: warning: This simp argument is unused:
+  hm
+
+Hint: Omit it from the simp argument list.
+  simp only [hd,h̵m̵,̵ ̲Bool.and_true, ̲Bool.and_false, ̲Bool.false_and, ̲Bool.true_and,
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲Bool.false_eq_true, ̲ite_false, ̲ite_true]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/CompilerProfile.lean:148:60: warning: This simp argument is unused:
+  Bool.false_and
+
+Hint: Omit it from the simp argument list.
+  simp only [̵h̵d̵,̵h̵m̵,̵B̵o̵o̵l̵.̵a̵n̵d̵_̵t̵r̵u̵e̵,̵B̵o̵o̵l̵.̵a̵n̵d̵_̵f̵a̵l̵s̵e̵,̵B̵o̵o̵l̵.̵f̵a̵l̵s̵e̵_̵a̵n̵d̵,̵B̵o̵o̵l̵.̵t̵r̵u̵e̵_̵a̵n̵d̵,̵B̵o̵o̵l̵.̵f̵a̵l̵s̵e̵_̵e̵q̵_̵t̵r̵u̵e̵,̵i̵t̵e̵_̵f̵a̵l̵s̵e̵,̵i̵t̵e̵_̵t̵r̵u̵e̵]̵[̲h̲d̲,̲ ̲h̲m̲,̲ ̲B̲o̲o̲l̲.̲a̲n̲d̲_̲t̲r̲u̲e̲,̲ ̲B̲o̲o̲l̲.̲a̲n̲d̲_̲f̲a̲l̲s̲e̲,̲ ̲B̲o̲o̲l̲.̲t̲r̲u̲e̲_̲a̲n̲d̲,̲ ̲B̲o̲o̲l̲.̲f̲a̲l̲s̲e̲_̲e̲q̲_̲t̲r̲u̲e̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲i̲t̲e̲_̲f̲a̲l̲s̲e̲,̲ ̲i̲t̲e̲_̲t̲r̲u̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/CompilerProfile.lean:148:75: warning: This simp argument is unused:
+  Bool.true_and
+
+Hint: Omit it from the simp argument list.
+  simp only [̵h̵d̵,̵h̵m̵,̵B̵o̵o̵l̵.̵a̵n̵d̵_̵t̵r̵u̵e̵,̵B̵o̵o̵l̵.̵a̵n̵d̵_̵f̵a̵l̵s̵e̵,̵B̵o̵o̵l̵.̵f̵a̵l̵s̵e̵_̵a̵n̵d̵,̵B̵o̵o̵l̵.̵t̵r̵u̵e̵_̵a̵n̵d̵,̵B̵o̵o̵l̵.̵f̵a̵l̵s̵e̵_̵e̵q̵_̵t̵r̵u̵e̵,̵i̵t̵e̵_̵f̵a̵l̵s̵e̵,̵i̵t̵e̵_̵t̵r̵u̵e̵]̵[̲h̲d̲,̲ ̲h̲m̲,̲ ̲B̲o̲o̲l̲.̲a̲n̲d̲_̲t̲r̲u̲e̲,̲ ̲B̲o̲o̲l̲.̲a̲n̲d̲_̲f̲a̲l̲s̲e̲,̲ ̲B̲o̲o̲l̲.̲f̲a̲l̲s̲e̲_̲a̲n̲d̲,̲ ̲B̲o̲o̲l̲.̲f̲a̲l̲s̲e̲_̲e̲q̲_̲t̲r̲u̲e̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲i̲t̲e̲_̲f̲a̲l̲s̲e̲,̲ ̲i̲t̲e̲_̲t̲r̲u̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/CompilerProfile.lean:154:25: warning: This simp argument is unused:
+  hd
+
+Hint: Omit it from the simp argument list.
+  simp only [hd̵,̵h̵m, ̲hx, ̲Bool.and_true, ̲Bool.and_false, ̲Bool.false_and, ̲Bool.true_and,
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲Bool.false_eq_true, ̲ite_false, ̲ite_true]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/CompilerProfile.lean:154:28: warning: This simp argument is unused:
+  hm
+
+Hint: Omit it from the simp argument list.
+  simp only [hd, ̲hm̵,̵h̵x, ̲Bool.and_true, ̲Bool.and_false, ̲Bool.false_and, ̲Bool.true_and,
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲Bool.false_eq_true, ̲ite_false, ̲ite_true]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/CompilerProfile.lean:154:31: warning: This simp argument is unused:
+  hx
+
+Hint: Omit it from the simp argument list.
+  simp only [hd, ̲hm,h̵x̵,̵ ̲Bool.and_true, ̲Bool.and_false, ̲Bool.false_and, ̲Bool.true_and,
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲Bool.false_eq_true, ̲ite_false, ̲ite_true]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/CompilerProfile.lean:154:63: warning: This simp argument is unused:
+  Bool.false_and
+
+Hint: Omit it from the simp argument list.
+  simp only [̵h̵d̵,̵h̵m̵,̵h̵x̵,̵B̵o̵o̵l̵.̵a̵n̵d̵_̵t̵r̵u̵e̵,̵B̵o̵o̵l̵.̵a̵n̵d̵_̵f̵a̵l̵s̵e̵,̵B̵o̵o̵l̵.̵f̵a̵l̵s̵e̵_̵a̵n̵d̵,̵B̵o̵o̵l̵.̵t̵r̵u̵e̵_̵a̵n̵d̵,̵B̵o̵o̵l̵.̵f̵a̵l̵s̵e̵_̵e̵q̵_̵t̵r̵u̵e̵,̵i̵t̵e̵_̵f̵a̵l̵s̵e̵,̵i̵t̵e̵_̵t̵r̵u̵e̵]̵[̲h̲d̲,̲ ̲h̲m̲,̲ ̲h̲x̲,̲ ̲B̲o̲o̲l̲.̲a̲n̲d̲_̲t̲r̲u̲e̲,̲ ̲B̲o̲o̲l̲.̲a̲n̲d̲_̲f̲a̲l̲s̲e̲,̲ ̲B̲o̲o̲l̲.̲t̲r̲u̲e̲_̲a̲n̲d̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲B̲o̲o̲l̲.̲f̲a̲l̲s̲e̲_̲e̲q̲_̲t̲r̲u̲e̲,̲ ̲i̲t̲e̲_̲f̲a̲l̲s̲e̲,̲ ̲i̲t̲e̲_̲t̲r̲u̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/CompilerProfile.lean:154:78: warning: This simp argument is unused:
+  Bool.true_and
+
+Hint: Omit it from the simp argument list.
+  simp only [̵h̵d̵,̵h̵m̵,̵h̵x̵,̵B̵o̵o̵l̵.̵a̵n̵d̵_̵t̵r̵u̵e̵,̵B̵o̵o̵l̵.̵a̵n̵d̵_̵f̵a̵l̵s̵e̵,̵B̵o̵o̵l̵.̵f̵a̵l̵s̵e̵_̵a̵n̵d̵,̵B̵o̵o̵l̵.̵t̵r̵u̵e̵_̵a̵n̵d̵,̵B̵o̵o̵l̵.̵f̵a̵l̵s̵e̵_̵e̵q̵_̵t̵r̵u̵e̵,̵i̵t̵e̵_̵f̵a̵l̵s̵e̵,̵i̵t̵e̵_̵t̵r̵u̵e̵]̵[̲h̲d̲,̲ ̲h̲m̲,̲ ̲h̲x̲,̲ ̲B̲o̲o̲l̲.̲a̲n̲d̲_̲t̲r̲u̲e̲,̲ ̲B̲o̲o̲l̲.̲a̲n̲d̲_̲f̲a̲l̲s̲e̲,̲ ̲B̲o̲o̲l̲.̲f̲a̲l̲s̲e̲_̲a̲n̲d̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲B̲o̲o̲l̲.̲f̲a̲l̲s̲e̲_̲e̲q̲_̲t̲r̲u̲e̲,̲ ̲i̲t̲e̲_̲f̲a̲l̲s̲e̲,̲ ̲i̲t̲e̲_̲t̲r̲u̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.LayerNormFwd.Compiler.Artifact.expression: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwd.Compiler.Artifact.observe_eq: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

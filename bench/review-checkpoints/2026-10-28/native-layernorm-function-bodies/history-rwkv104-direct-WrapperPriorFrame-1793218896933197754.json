@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.WrapperPriorFrame",
+  "start": 1793218896.9332135,
+  "end": 1793218900.3990302,
+  "log": "/tmp/rwkv104-direct-WrapperPriorFrame-1793218896933197754.log",
+  "stop_file": "/tmp/rwkv104-direct-WrapperPriorFrame-1793218896933197754.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

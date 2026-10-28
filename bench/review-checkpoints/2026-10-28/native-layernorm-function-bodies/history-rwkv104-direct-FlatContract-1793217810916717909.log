@@ -1,0 +1,7 @@
+/tmp/rwkv104-staging/bench/tritonbench_g/layer_norm_fwd/Proofs/FlatContract.lean:63:15: warning: This simp argument is unused:
+  if_pos rfl
+
+Hint: Omit it from the simp argument list.
+  simp only [i̵f̵_̵p̵o̵s̵ ̵r̵f̵l̵,̵ ̵FlatAlloc.flattenState, FlatAlloc.readFlat]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.WrapperNamedViews",
+  "start": 1793218744.681455,
+  "end": 1793218750.2473311,
+  "log": "/tmp/rwkv104-direct-WrapperNamedViews-1793218744681438304.log",
+  "stop_file": "/tmp/rwkv104-direct-WrapperNamedViews-1793218744681438304.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

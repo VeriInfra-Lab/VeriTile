@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.CompilerProfile",
+  "start": 1793219678.3480742,
+  "end": 1793219682.063652,
+  "log": "/tmp/rwkv104-direct-CompilerProfile-1793219678348058392.log",
+  "stop_file": "/tmp/rwkv104-direct-CompilerProfile-1793219678348058392.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

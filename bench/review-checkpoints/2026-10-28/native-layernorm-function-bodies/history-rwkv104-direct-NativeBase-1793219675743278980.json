@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.NativeBase",
+  "start": 1793219675.743297,
+  "end": 1793219678.308243,
+  "log": "/tmp/rwkv104-direct-NativeBase-1793219675743278980.log",
+  "stop_file": "/tmp/rwkv104-direct-NativeBase-1793219675743278980.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.layer_norm_fwd.Proofs.Residual",
+  "start": 1793215836.199967,
+  "end": 1793215839.1655571,
+  "log": "/tmp/rwkv104-direct-Residual-1793215836199951193.log",
+  "stop_file": "/tmp/rwkv104-direct-Residual-1793215836199951193.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

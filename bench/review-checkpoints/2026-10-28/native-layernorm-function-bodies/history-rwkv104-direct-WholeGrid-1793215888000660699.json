@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.layer_norm_fwd.Proofs.WholeGrid",
+  "start": 1793215888.000675,
+  "end": 1793215895.0351238,
+  "log": "/tmp/rwkv104-direct-WholeGrid-1793215888000660699.log",
+  "stop_file": "/tmp/rwkv104-direct-WholeGrid-1793215888000660699.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

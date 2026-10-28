@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.RealRevision.ActiveGrid",
+  "start": 1793219013.7064848,
+  "end": 1793219021.9234338,
+  "log": "/tmp/rwkv104-direct-ActiveGrid-1793219013706470339.log",
+  "stop_file": "/tmp/rwkv104-direct-ActiveGrid-1793219013706470339.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

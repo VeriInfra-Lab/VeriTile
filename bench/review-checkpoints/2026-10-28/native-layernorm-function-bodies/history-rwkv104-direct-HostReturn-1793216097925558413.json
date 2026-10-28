@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.layer_norm_fwd.Proofs.HostReturn",
+  "start": 1793216097.9255733,
+  "end": 1793216104.2419052,
+  "log": "/tmp/rwkv104-direct-HostReturn-1793216097925558413.log",
+  "stop_file": "/tmp/rwkv104-direct-HostReturn-1793216097925558413.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

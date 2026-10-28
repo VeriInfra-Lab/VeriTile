@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.LayerNormFwd.Wrapper.inDevice_success: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LayerNormFwd.Wrapper.surround_success_route: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice])

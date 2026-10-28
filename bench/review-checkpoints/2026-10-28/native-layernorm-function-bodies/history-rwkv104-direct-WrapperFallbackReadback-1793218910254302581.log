@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.dispatch_fallback_readback: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])

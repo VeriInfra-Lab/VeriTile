@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.layer_norm_fwd.Proofs.FlattenSyntax",
+  "start": 1793217807.512476,
+  "end": 1793217810.8783438,
+  "log": "/tmp/rwkv104-direct-FlattenSyntax-1793217807512459417.log",
+  "stop_file": "/tmp/rwkv104-direct-FlattenSyntax-1793217807512459417.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

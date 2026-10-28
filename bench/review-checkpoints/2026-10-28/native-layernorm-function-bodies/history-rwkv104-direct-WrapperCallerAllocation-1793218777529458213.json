@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.WrapperCallerAllocation",
+  "start": 1793218777.5294738,
+  "end": 1793218780.9952958,
+  "log": "/tmp/rwkv104-direct-WrapperCallerAllocation-1793218777529458213.log",
+  "stop_file": "/tmp/rwkv104-direct-WrapperCallerAllocation-1793218777529458213.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

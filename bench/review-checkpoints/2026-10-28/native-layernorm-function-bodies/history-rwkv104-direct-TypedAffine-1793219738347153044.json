@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.layer_norm_fwd.Proofs.TypedAffine",
+  "start": 1793219738.347184,
+  "end": 1793219743.6633499,
+  "log": "/tmp/rwkv104-direct-TypedAffine-1793219738347153044.log",
+  "stop_file": "/tmp/rwkv104-direct-TypedAffine-1793219738347153044.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

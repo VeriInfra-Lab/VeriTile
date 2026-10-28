@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.layer_norm_fwd.Proofs.NormPrefix",
+  "start": 1793215867.2358162,
+  "end": 1793215869.850909,
+  "log": "/tmp/rwkv104-direct-NormPrefix-1793215867235800577.log",
+  "stop_file": "/tmp/rwkv104-direct-NormPrefix-1793215867235800577.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

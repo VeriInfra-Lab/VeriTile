@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.TypedInputStores",
+  "start": 1793218387.475598,
+  "end": 1793218394.6420197,
+  "log": "/tmp/rwkv104-direct-TypedInputStores-1793218387475584146.log",
+  "stop_file": "/tmp/rwkv104-direct-TypedInputStores-1793218387475584146.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

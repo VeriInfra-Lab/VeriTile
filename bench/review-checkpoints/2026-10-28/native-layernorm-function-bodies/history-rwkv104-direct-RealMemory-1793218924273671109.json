@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.RealRevision.RealMemory",
+  "start": 1793218924.2736864,
+  "end": 1793218928.9396641,
+  "log": "/tmp/rwkv104-direct-RealMemory-1793218924273671109.log",
+  "stop_file": "/tmp/rwkv104-direct-RealMemory-1793218924273671109.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

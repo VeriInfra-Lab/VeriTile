@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.LayerNormFwd.Compiler.FP32Primitives.cast_identity: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwd.Compiler.FP32Primitives.host_word: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

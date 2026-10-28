@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.CompilerStores",
+  "start": 1793219682.102641,
+  "end": 1793219685.8181071,
+  "log": "/tmp/rwkv104-direct-CompilerStores-1793219682102627407.log",
+  "stop_file": "/tmp/rwkv104-direct-CompilerStores-1793219682102627407.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

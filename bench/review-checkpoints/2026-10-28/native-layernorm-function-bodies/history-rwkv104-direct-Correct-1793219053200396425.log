@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.LayerNormFwd.Correctness.same_call_real_return: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])

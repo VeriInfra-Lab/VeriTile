@@ -1,0 +1,24 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Misc/RawRealResults.lean:35:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  fun a =>
+    (ActualLogical.outputArrays r M N).symm (RealInterface.formula f M N eps p ((ActualLogical.inputArrays r M N) a))
+in the target expression
+  (NativeInterface.io ActualMathematics.algebra f r stride M N eps p).Implements fun a =>
+    (ActualLogical.outputArrays r M N).symm (RealInterface.formula f M N eps p ((ActualLogical.inputArrays r M N) a))
+
+f : Flags
+r : Regions
+stride : Strides
+M N : ℕ
+eps p : ℝ
+width : widthCheck N = «true»
+sep : Domain.ReadWriteSeparated f r
+geometry : NativeGeometry.Geometry f r stride M N
+⊢ (NativeInterface.io ActualMathematics.algebra f r stride M N eps p).Implements fun a =>
+    (ActualLogical.outputArrays r M N).symm (RealInterface.formula f M N eps p ((ActualLogical.inputArrays r M N) a))
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.legacy_raw_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Misc/RawRealResults.lean:47:0: error: VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.raw_correct: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.real_zero_stats: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

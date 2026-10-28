@@ -1,0 +1,5 @@
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.materialized_of_some: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.optional_materialized_isSome: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.tensor_of_isSome: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.prepared_no_second_rowscale: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice])

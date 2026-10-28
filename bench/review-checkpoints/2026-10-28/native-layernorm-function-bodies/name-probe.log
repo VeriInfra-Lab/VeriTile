@@ -1,0 +1,32 @@
+@VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.TypedSource.cast : {α : Type} →
+  VeriTile.Triton.FP.Structural.Algebra α → α → α
+@VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.TypedSource.meanValue : {block : ℕ} →
+  {α : Type} →
+    VeriTile.Triton.FP.Structural.Algebra α →
+      ℕ → VeriTile.Triton.FP.Structural.Values α VeriTile.Triton.TileDType.real [block] → α
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.ActualMathematics.cast (x : ℝ) :
+  VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.TypedSource.cast
+      VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.ActualMathematics.algebra x =
+    x
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.ActualMathematics.default_mul (x y : ℝ) :
+  VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.TypedSource.defaultOp
+      VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.ActualMathematics.algebra VeriTile.Triton.FP.Structural.Binary.mul
+      x y =
+    x * y
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.ActualMathematics.algebra : VeriTile.Triton.FP.Structural.Algebra ℝ
+@VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.TypedSource.cast : {α : Type} →
+  VeriTile.Triton.FP.Structural.Algebra α → α → α
+@VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.TypedSource.meanValue : {block : ℕ} →
+  {α : Type} →
+    VeriTile.Triton.FP.Structural.Algebra α →
+      ℕ → VeriTile.Triton.FP.Structural.Values α VeriTile.Triton.TileDType.real [block] → α
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.ActualMathematics.cast (x : ℝ) :
+  VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.TypedSource.cast
+      VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.ActualMathematics.algebra x =
+    x
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.ActualMathematics.default_mul (x y : ℝ) :
+  VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.TypedSource.defaultOp
+      VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.ActualMathematics.algebra VeriTile.Triton.FP.Structural.Binary.mul
+      x y =
+    x * y
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.ActualMathematics.algebra : VeriTile.Triton.FP.Structural.Algebra ℝ

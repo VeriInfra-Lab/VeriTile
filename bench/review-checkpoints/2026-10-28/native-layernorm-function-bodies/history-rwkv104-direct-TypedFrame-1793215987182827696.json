@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.TypedFrame",
+  "start": 1793215987.1828403,
+  "end": 1793216097.8820484,
+  "log": "/tmp/rwkv104-direct-TypedFrame-1793215987182827696.log",
+  "stop_file": "/tmp/rwkv104-direct-TypedFrame-1793215987182827696.stop",
+  "status": "COMPLETED",
+  "exit_code": 1
+}

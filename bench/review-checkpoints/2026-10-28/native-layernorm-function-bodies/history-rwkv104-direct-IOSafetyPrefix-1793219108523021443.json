@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.IOSafetyPrefix",
+  "start": 1793219108.5230374,
+  "end": 1793219285.850039,
+  "log": "/tmp/rwkv104-direct-IOSafetyPrefix-1793219108523021443.log",
+  "stop_file": "/tmp/rwkv104-direct-IOSafetyPrefix-1793219108523021443.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

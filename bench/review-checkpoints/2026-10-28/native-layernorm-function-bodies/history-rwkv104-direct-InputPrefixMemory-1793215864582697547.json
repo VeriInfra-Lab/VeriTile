@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.layer_norm_fwd.Proofs.InputPrefixMemory",
+  "start": 1793215864.5827165,
+  "end": 1793215867.1978424,
+  "log": "/tmp/rwkv104-direct-InputPrefixMemory-1793215864582697547.log",
+  "stop_file": "/tmp/rwkv104-direct-InputPrefixMemory-1793215864582697547.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

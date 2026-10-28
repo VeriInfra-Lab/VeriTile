@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.IOSafetyStreams",
+  "start": 1793219285.889185,
+  "end": 1793219429.1982524,
+  "log": "/tmp/rwkv104-direct-IOSafetyStreams-1793219285889155670.log",
+  "stop_file": "/tmp/rwkv104-direct-IOSafetyStreams-1793219285889155670.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

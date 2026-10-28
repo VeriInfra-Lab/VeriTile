@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.LayerNormFwd.Wrapper.prepare_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwd.Wrapper.width_bound: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])

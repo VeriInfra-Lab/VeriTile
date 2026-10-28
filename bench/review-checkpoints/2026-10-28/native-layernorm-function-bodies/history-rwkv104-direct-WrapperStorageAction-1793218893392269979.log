@@ -1,0 +1,23 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/WrapperStorageAction.lean:58:23: warning: This simp argument is unused:
+  hs
+
+Hint: Omit it from the simp argument list.
+  simp ̵[̵h̵s̵]̵
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/WrapperStorageAction.lean:60:17: warning: This simp argument is unused:
+  hs
+
+Hint: Omit it from the simp argument list.
+  simp only ̵[̵h̵s̵]̵
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperStorage.kernel_configured: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperStorage.kernel_success: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperStorage.action_success_history: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

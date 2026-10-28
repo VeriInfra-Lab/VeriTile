@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.layer_norm_fwd.Proofs.PhaseAudit",
+  "start": 1793219814.9291103,
+  "end": 1793219829.8484285,
+  "log": "/tmp/rwkv104-direct-PhaseAudit-1793219814929094319.log",
+  "stop_file": "/tmp/rwkv104-direct-PhaseAudit-1793219814929094319.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

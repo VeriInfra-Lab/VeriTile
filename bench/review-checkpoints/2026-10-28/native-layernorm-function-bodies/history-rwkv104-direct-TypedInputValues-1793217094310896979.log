@@ -1,0 +1,9 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/TypedInputValues.lean:109:93: error: Type mismatch
+  rfl
+has type
+  ?m.365 = ?m.365
+but is expected to have type
+  List.take 14 (actual f r stride M N eps p block hb).surfaceBody =
+    stagePrefix f r stride M N eps p block hb ++ firstStream f r stride M N eps p block hb ++
+        secondInput f r stride M N eps p block hb ++
+      residual f r stride M N eps p block hb

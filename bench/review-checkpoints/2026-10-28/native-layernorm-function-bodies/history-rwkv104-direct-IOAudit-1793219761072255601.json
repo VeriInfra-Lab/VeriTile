@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.layer_norm_fwd.Proofs.IOAudit",
+  "start": 1793219761.0722706,
+  "end": 1793219798.584268,
+  "log": "/tmp/rwkv104-direct-IOAudit-1793219761072255601.log",
+  "stop_file": "/tmp/rwkv104-direct-IOAudit-1793219761072255601.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

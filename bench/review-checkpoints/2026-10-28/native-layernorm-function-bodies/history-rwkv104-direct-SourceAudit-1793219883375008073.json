@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.layer_norm_fwd.Proofs.SourceAudit",
+  "start": 1793219883.3750262,
+  "end": 1793219887.1407766,
+  "log": "/tmp/rwkv104-direct-SourceAudit-1793219883375008073.log",
+  "stop_file": "/tmp/rwkv104-direct-SourceAudit-1793219883375008073.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

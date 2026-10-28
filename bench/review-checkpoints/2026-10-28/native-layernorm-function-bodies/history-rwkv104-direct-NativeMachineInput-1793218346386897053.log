@@ -1,0 +1,17 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/NativeMachineInput.lean:106:29: warning: This simp argument is unused:
+  hd
+
+Hint: Omit it from the simp argument list.
+  simp [̵h̵x̵,̵h̵r̵,̵h̵s̵,̵h̵d̵,̵h̵f̵v̵,̵h̵f̵r̵,̵h̵s̵v̵,̵h̵f̵i̵r̵s̵t̵.̵s̵c̵a̵l̵e̵,̵h̵r̵e̵s̵]̵[̲h̲x̲,̲ ̲h̲r̲,̲ ̲h̲s̲,̲ ̲h̲f̲v̲,̲ ̲h̲f̲r̲,̲ ̲h̲s̲v̲,̲ ̲h̲f̲i̲r̲s̲t̲.̲s̲c̲a̲l̲e̲,̲ ̲h̲r̲e̲s̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/NativeMachineInput.lean:116:15: warning: This simp argument is unused:
+  ho
+
+Hint: Omit it from the simp argument list.
+  simp only [h̵o̵,̵ite_true]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.LayerNormFwd.NativeMachine.input_correspondence: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

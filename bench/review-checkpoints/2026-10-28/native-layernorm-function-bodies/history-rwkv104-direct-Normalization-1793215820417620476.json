@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.layer_norm_fwd.Proofs.Normalization",
+  "start": 1793215820.4176369,
+  "end": 1793215823.6331913,
+  "log": "/tmp/rwkv104-direct-Normalization-1793215820417620476.log",
+  "stop_file": "/tmp/rwkv104-direct-Normalization-1793215820417620476.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

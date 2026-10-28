@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.NativeAgreement",
+  "start": 1793219946.238117,
+  "end": 1793219949.1539955,
+  "log": "/tmp/rwkv104-direct-NativeAgreement-1793219946238100961.log",
+  "stop_file": "/tmp/rwkv104-direct-NativeAgreement-1793219946238100961.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

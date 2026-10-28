@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.StorageCompiler",
+  "start": 1793219685.856831,
+  "end": 1793219689.8230853,
+  "log": "/tmp/rwkv104-direct-StorageCompiler-1793219685856816817.log",
+  "stop_file": "/tmp/rwkv104-direct-StorageCompiler-1793219685856816817.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

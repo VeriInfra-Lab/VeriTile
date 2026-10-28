@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.LayerNormFwd.NativeSchedule.execute_row_post: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

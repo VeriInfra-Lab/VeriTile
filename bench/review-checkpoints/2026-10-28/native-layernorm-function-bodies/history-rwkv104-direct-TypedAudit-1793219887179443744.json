@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.layer_norm_fwd.Proofs.TypedAudit",
+  "start": 1793219887.1794586,
+  "end": 1793219891.7450874,
+  "log": "/tmp/rwkv104-direct-TypedAudit-1793219887179443744.log",
+  "stop_file": "/tmp/rwkv104-direct-TypedAudit-1793219887179443744.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

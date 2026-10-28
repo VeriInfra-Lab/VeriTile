@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.NativeIO",
+  "start": 1793219077.8021019,
+  "end": 1793219083.9184875,
+  "log": "/tmp/rwkv104-direct-NativeIO-1793219077802086482.log",
+  "stop_file": "/tmp/rwkv104-direct-NativeIO-1793219077802086482.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

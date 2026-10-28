@@ -11290,7 +11290,7 @@
       "readers": [
         {
           "path": "bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Correct.lean",
-          "sha256": "e9dd9e558a8771e032e0d63b2686e2b7dfac3d422a72a209a8d7e2a005cc7ae4",
+          "sha256": "f7f5c8b84f99108646287f7045ff6947811230a0ad4452a91106165df69569a4",
           "surface": "Correct",
           "declarations": [
             {
@@ -11426,9 +11426,8 @@
         }
       ],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/layer_norm_fwd.json",
-        "sha256": "0d51fad29d446896178d66c90805d99ff3d0261c9112bbca8224d7e9713e47f4",
-        "task": "layer_norm_fwd"
+        "path": "bench/review-checkpoints/2026-10-28/native-layernorm-function-bodies/review.json",
+        "sha256": "a3e7a3410949eef9ead818971686d77340bd4bcb7109f670b7760171f5b6eb6c"
       },
       "change": null,
       "new_misc_entries": [],
@@ -11463,7 +11462,8 @@
         "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/layer_norm_fwd.json",
         "sha256": "0d51fad29d446896178d66c90805d99ff3d0261c9112bbca8224d7e9713e47f4",
         "task": "layer_norm_fwd"
-      }
+      },
+      "current_body_source_review": "Four complete 24-statement original/candidate mappings retain the raw body, row int64 cast, seed uint32 cast, explicit rowscale FP32 cast, both Philox streams, all flags and seven output channels. Only the initial X integer row/stride product is commuted in the candidate, checked against the entire Python module. N=1 caller specialization and runtime count conversion are modeled explicitly without arbitrary FP conversion identities. Actual typed source execution, safety, full grid/frame and eight returned views connect to an independent exact-Real formula via logical IO bijections; the actual FP32 source pair uses no numerical rule. Original Python and contracts are byte-identical; retained historical byte/compiler/storage helpers are separate optional artifact views, not certification of the pasted body or all output dtypes."
     },
     {
       "task": "layer_norm_liger",

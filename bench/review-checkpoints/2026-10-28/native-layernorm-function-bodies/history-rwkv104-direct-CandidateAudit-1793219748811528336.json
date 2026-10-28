@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.layer_norm_fwd.Proofs.CandidateAudit",
+  "start": 1793219748.8115432,
+  "end": 1793219756.128506,
+  "log": "/tmp/rwkv104-direct-CandidateAudit-1793219748811528336.log",
+  "stop_file": "/tmp/rwkv104-direct-CandidateAudit-1793219748811528336.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

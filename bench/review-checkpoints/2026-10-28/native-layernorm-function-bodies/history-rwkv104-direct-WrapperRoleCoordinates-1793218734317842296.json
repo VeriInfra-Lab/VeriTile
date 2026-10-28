@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.WrapperRoleCoordinates",
+  "start": 1793218734.317856,
+  "end": 1793218737.5335124,
+  "log": "/tmp/rwkv104-direct-WrapperRoleCoordinates-1793218734317842296.log",
+  "stop_file": "/tmp/rwkv104-direct-WrapperRoleCoordinates-1793218734317842296.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

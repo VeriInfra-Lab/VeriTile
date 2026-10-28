@@ -1,0 +1,8 @@
+Closure 143 affected 34 compile 7 new copied 4
+bench.tritonbench_g.layer_norm_fwd.Kernels
+bench.repairs.tritonbench_g.layer_norm_fwd.Kernels
+bench.tritonbench_g.layer_norm_fwd.Proofs.Source
+bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.SourceBinding
+bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.RawSource
+bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.WholeReduction
+bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.TypedSource

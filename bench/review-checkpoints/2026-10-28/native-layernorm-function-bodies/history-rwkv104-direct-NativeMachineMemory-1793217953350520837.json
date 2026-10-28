@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.NativeMachineMemory",
+  "start": 1793217953.3505344,
+  "end": 1793217956.8165994,
+  "log": "/tmp/rwkv104-direct-NativeMachineMemory-1793217953350520837.log",
+  "stop_file": "/tmp/rwkv104-direct-NativeMachineMemory-1793217953350520837.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

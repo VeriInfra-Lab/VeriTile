@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.layer_norm_fwd.Proofs.InputPrefix",
+  "start": 1793215861.8295853,
+  "end": 1793215864.5446978,
+  "log": "/tmp/rwkv104-direct-InputPrefix-1793215861829570033.log",
+  "stop_file": "/tmp/rwkv104-direct-InputPrefix-1793215861829570033.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

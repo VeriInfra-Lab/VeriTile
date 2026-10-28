@@ -1,0 +1,30 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/NativeInputStores.lean:42:27: warning: This simp argument is unused:
+  ho
+
+Hint: Omit it from the simp argument list.
+  simp only [ho̵,̵h̵x, ̲Bool.false_eq_true, ̲ite_false, ̲ite_true]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/NativeInputStores.lean:42:30: warning: This simp argument is unused:
+  hx
+
+Hint: Omit it from the simp argument list.
+  simp only [ho,h̵x̵,̵ ̲Bool.false_eq_true, ̲ite_false, ̲ite_true]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/NativeInputStores.lean:58:27: warning: This simp argument is unused:
+  ho
+
+Hint: Omit it from the simp argument list.
+  simp only [h̵o̵,̵Bool.false_eq_true, ̲ite_false, ̲ite_true]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.LayerNormFwd.NativeSchedule.input_residual_store: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwd.NativeSchedule.input_mask_store: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwd.NativeSchedule.input_mask1_store: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

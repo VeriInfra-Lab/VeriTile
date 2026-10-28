@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.layer_norm_fwd.Proofs.SecondStreamAudit",
+  "start": 1793219864.0601168,
+  "end": 1793219875.92874,
+  "log": "/tmp/rwkv104-direct-SecondStreamAudit-1793219864060102084.log",
+  "stop_file": "/tmp/rwkv104-direct-SecondStreamAudit-1793219864060102084.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

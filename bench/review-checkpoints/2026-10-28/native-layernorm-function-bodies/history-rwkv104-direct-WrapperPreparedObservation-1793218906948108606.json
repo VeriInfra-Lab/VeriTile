@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.WrapperPreparedObservation",
+  "start": 1793218906.9481244,
+  "end": 1793218910.2138488,
+  "log": "/tmp/rwkv104-direct-WrapperPreparedObservation-1793218906948108606.log",
+  "stop_file": "/tmp/rwkv104-direct-WrapperPreparedObservation-1793218906948108606.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

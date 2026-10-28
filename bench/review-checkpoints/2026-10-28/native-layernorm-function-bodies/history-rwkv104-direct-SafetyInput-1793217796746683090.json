@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.layer_norm_fwd.Proofs.SafetyInput",
+  "start": 1793217796.746699,
+  "end": 1793217799.462088,
+  "log": "/tmp/rwkv104-direct-SafetyInput-1793217796746683090.log",
+  "stop_file": "/tmp/rwkv104-direct-SafetyInput-1793217796746683090.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

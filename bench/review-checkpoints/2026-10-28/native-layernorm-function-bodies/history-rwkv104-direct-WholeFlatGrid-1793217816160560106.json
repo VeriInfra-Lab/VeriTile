@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.layer_norm_fwd.Proofs.WholeFlatGrid",
+  "start": 1793217816.1605732,
+  "end": 1793217822.0270083,
+  "log": "/tmp/rwkv104-direct-WholeFlatGrid-1793217816160560106.log",
+  "stop_file": "/tmp/rwkv104-direct-WholeFlatGrid-1793217816160560106.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

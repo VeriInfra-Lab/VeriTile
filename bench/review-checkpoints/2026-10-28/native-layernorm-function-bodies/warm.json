@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "code_commit": "1952c0a31a71117ceadf5f0bbd30a610e2693928",
+  "checkout": "/tmp/veritile-hgrn54-clean",
+  "explicit_modules": 5139,
+  "start": 1793220691.2752767,
+  "scope": "All cumulative task/example/frontend roots, now including all 293 LayerNorm family roots, plus their full local import closure and joint import.",
+  "build_status": "COMPLETED",
+  "build_exit_code": 0,
+  "build_end": 1793222068.191422,
+  "joint_status": "COMPLETED",
+  "joint_exit_code": 0,
+  "joint_end": 1793222075.6215124,
+  "end": 1793222075.7763011
+}

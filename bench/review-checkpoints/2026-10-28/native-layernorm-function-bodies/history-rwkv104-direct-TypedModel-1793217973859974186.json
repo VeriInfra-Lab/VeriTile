@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.layer_norm_fwd.Proofs.TypedModel",
+  "start": 1793217973.8599901,
+  "end": 1793217976.4248648,
+  "log": "/tmp/rwkv104-direct-TypedModel-1793217973859974186.log",
+  "stop_file": "/tmp/rwkv104-direct-TypedModel-1793217973859974186.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.NativeMachineInput",
+  "start": 1793218346.3869126,
+  "end": 1793218349.7527757,
+  "log": "/tmp/rwkv104-direct-NativeMachineInput-1793218346386897053.log",
+  "stop_file": "/tmp/rwkv104-direct-NativeMachineInput-1793218346386897053.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

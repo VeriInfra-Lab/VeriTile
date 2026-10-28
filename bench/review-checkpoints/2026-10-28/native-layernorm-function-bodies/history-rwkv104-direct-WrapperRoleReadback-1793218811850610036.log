@@ -1,0 +1,14 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/WrapperRoleReadback.lean:80:2: warning: 'all_goals try contradiction' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.prepared_role_readback: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.prepared_role_readback_suffix: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.role_materialized: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwd.WrapperNative.prepared_input_original: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])

@@ -1,0 +1,22 @@
+bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.NativeIO 0 /tmp/rwkv104-direct-NativeIO-1793219925767487003.log
+bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.RealPrimitives 0 /tmp/rwkv104-direct-RealPrimitives-1793219931772927875.log
+bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.NativeMathematics 1 /tmp/rwkv104-direct-NativeMathematics-1793219934977256756.log
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/NativeMathematics.lean:66:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/NativeMathematics.lean:85:2: error: Tactic `rfl` failed: The left-hand side
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/NativeMathematics.lean:113:2: error: unsolved goals
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/NativeMathematics.lean:120:2: error: unsolved goals
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/NativeMathematics.lean:129:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/NativeMathematics.lean:132:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.NativeOrdinary 0 /tmp/rwkv104-direct-NativeOrdinary-1793219943232582674.log
+bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.NativeAgreement 0 /tmp/rwkv104-direct-NativeAgreement-1793219946238100961.log
+bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.NativeIOInputs 0 /tmp/rwkv104-direct-NativeIOInputs-1793219949192628600.log
+bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.NativeIOOutputs 0 /tmp/rwkv104-direct-NativeIOOutputs-1793219955997834778.log
+bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.IOSafetyTail 0 /tmp/rwkv104-direct-IOSafetyTail-1793219961453247680.log
+bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.IOSafetyComplete 0 /tmp/rwkv104-direct-IOSafetyComplete-1793220192066499083.log
+bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.NativeImplementation 0 /tmp/rwkv104-direct-NativeImplementation-1793220195071466410.log
+bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.Pair 0 /tmp/rwkv104-direct-Pair-1793220198726222057.log
+bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.PairIO 0 /tmp/rwkv104-direct-PairIO-1793220202130648072.log
+bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.PairSafety 0 /tmp/rwkv104-direct-PairSafety-1793220204670849088.log
+bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.GridPair 0 /tmp/rwkv104-direct-GridPair-1793220207524996450.log
+bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.FPEquiv 0 /tmp/rwkv104-direct-FPEquiv-1793220212179121166.log
+BATCH COMPLETE layernorm105-delta1 failed/skipped 5

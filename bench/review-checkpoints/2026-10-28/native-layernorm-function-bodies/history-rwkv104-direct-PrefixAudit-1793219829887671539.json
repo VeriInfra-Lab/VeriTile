@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.layer_norm_fwd.Proofs.PrefixAudit",
+  "start": 1793219829.8876877,
+  "end": 1793219840.2054915,
+  "log": "/tmp/rwkv104-direct-PrefixAudit-1793219829887671539.log",
+  "stop_file": "/tmp/rwkv104-direct-PrefixAudit-1793219829887671539.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

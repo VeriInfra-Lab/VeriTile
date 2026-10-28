@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Misc.RawRealResults",
+  "start": 1793220369.226944,
+  "end": 1793220373.9429834,
+  "log": "/tmp/rwkv104-direct-RawRealResults-1793220369226928775.log",
+  "stop_file": "/tmp/rwkv104-direct-RawRealResults-1793220369226928775.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

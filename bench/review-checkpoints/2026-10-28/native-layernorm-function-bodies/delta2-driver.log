@@ -1,0 +1,7 @@
+bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.NativeMathematics 0 /tmp/rwkv104-direct-NativeMathematics-1793220312548486719.log
+bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.ActualRealImplementation 0 /tmp/rwkv104-direct-ActualRealImplementation-1793220320905974820.log
+bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Correct 0 /tmp/rwkv104-direct-Correct-1793220325061349972.log
+bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Misc.RawRealResults 1 /tmp/rwkv104-direct-RawRealResults-1793220331467329194.log
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Misc/RawRealResults.lean:35:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Misc/RawRealResults.lean:47:0: error: VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.raw_correct: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+BATCH COMPLETE layernorm105-delta2 failed/skipped 2

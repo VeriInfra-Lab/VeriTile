@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.NativeMachineScatter",
+  "start": 1793218335.9225397,
+  "end": 1793218339.1380394,
+  "log": "/tmp/rwkv104-direct-NativeMachineScatter-1793218335922525766.log",
+  "stop_file": "/tmp/rwkv104-direct-NativeMachineScatter-1793218335922525766.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

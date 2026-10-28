@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.StorageExecution",
+  "start": 1793218864.9767294,
+  "end": 1793218869.792938,
+  "log": "/tmp/rwkv104-direct-StorageExecution-1793218864976710794.log",
+  "stop_file": "/tmp/rwkv104-direct-StorageExecution-1793218864976710794.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

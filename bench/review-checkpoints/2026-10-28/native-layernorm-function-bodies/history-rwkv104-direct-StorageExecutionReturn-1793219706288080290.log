@@ -1,0 +1,19 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd_nonzero_tile/Proofs/StorageExecutionReturn.lean:33:46: warning: This simp argument is unused:
+  destinationCol
+
+Hint: Omit it from the simp argument list.
+  s̵i̵m̵p̵ ̵[̵S̵t̵o̵r̵a̵g̵e̵C̵o̵m̵p̵i̵l̵e̵r̵.̵s̵o̵u̵r̵c̵e̵S̵t̵o̵r̵e̵,̵C̵o̵m̵p̵i̵l̵e̵r̵.̵s̵o̵u̵r̵c̵e̵S̵t̵o̵r̵e̵,̵s̵t̵o̵r̵e̵C̵o̵o̵r̵d̵i̵n̵a̵t̵e̵,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵T̵y̵p̵e̵d̵S̵o̵u̵r̵c̵e̵.̵o̵b̵s̵e̵r̵v̵e̵,̵k̵e̵y̵,̵d̵e̵s̵t̵i̵n̵a̵t̵i̵o̵n̵R̵o̵l̵e̵,̵d̵e̵s̵t̵i̵n̵a̵t̵i̵o̵n̵C̵o̵l̵,̵r̵e̵g̵i̵o̵n̵,̵o̵f̵f̵s̵e̵t̵,̵h̵r̵,̵T̵y̵p̵e̵d̵P̵h̵y̵s̵i̵c̵a̵l̵.̵p̵u̵l̵l̵]̵s̲i̲m̲p̲ ̲[̲S̲t̲o̲r̲a̲g̲e̲C̲o̲m̲p̲i̲l̲e̲r̲.̲s̲o̲u̲r̲c̲e̲S̲t̲o̲r̲e̲,̲ ̲C̲o̲m̲p̲i̲l̲e̲r̲.̲s̲o̲u̲r̲c̲e̲S̲t̲o̲r̲e̲,̲
+  ̲ ̲ ̲ ̲ ̲s̲t̲o̲r̲e̲C̲o̲o̲r̲d̲i̲n̲a̲t̲e̲,̲ ̲T̲y̲p̲e̲d̲S̲o̲u̲r̲c̲e̲.̲o̲b̲s̲e̲r̲v̲e̲,̲ ̲k̲e̲y̲,̲ ̲d̲e̲s̲t̲i̲n̲a̲t̲i̲o̲n̲R̲o̲l̲e̲,̲ ̲r̲e̲g̲i̲o̲n̲,̲ ̲o̲f̲f̲s̲e̲t̲,̲ ̲h̲r̲,̲
+  ̲ ̲ ̲ ̲ ̲T̲y̲p̲e̲d̲P̲h̲y̲s̲i̲c̲a̲l̲.̲p̲u̲l̲l̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.StorageMachine.physical_store_coordinate: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.StorageMachine.execute_store_coordinate: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.StorageMachine.execute_observe: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

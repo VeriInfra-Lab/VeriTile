@@ -1,0 +1,4 @@
+Closure 146 affected 37 compile 3 new copied 0
+bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.TypedValues
+bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.TypedStreams
+bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.TypedTail

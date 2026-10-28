@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.WrapperStorageTypes",
+  "start": 1793218818.710625,
+  "end": 1793218822.1266408,
+  "log": "/tmp/rwkv104-direct-WrapperStorageTypes-1793218818710609711.log",
+  "stop_file": "/tmp/rwkv104-direct-WrapperStorageTypes-1793218818710609711.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.StorageExecutionFrame",
+  "start": 1793219694.668633,
+  "end": 1793219698.4342828,
+  "log": "/tmp/rwkv104-direct-StorageExecutionFrame-1793219694668615424.log",
+  "stop_file": "/tmp/rwkv104-direct-StorageExecutionFrame-1793219694668615424.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

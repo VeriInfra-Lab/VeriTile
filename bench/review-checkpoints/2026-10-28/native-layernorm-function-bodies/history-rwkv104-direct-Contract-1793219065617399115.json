@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Contract",
+  "start": 1793219065.6174147,
+  "end": 1793219068.2326539,
+  "log": "/tmp/rwkv104-direct-Contract-1793219065617399115.log",
+  "stop_file": "/tmp/rwkv104-direct-Contract-1793219065617399115.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

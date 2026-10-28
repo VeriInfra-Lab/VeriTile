@@ -1,0 +1,14 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/RealRevision/RealReturn.lean:321:44: warning: This simp argument is unused:
+  hf
+
+Hint: Omit it from the simp argument list.
+  simp only [h̵f̵,̵Bool.false_eq_true, ̲ite_false, ̲ite_true]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layer_norm_fwd/Proofs/RealRevision/RealReturn.lean:324:40: warning: This simp argument is unused:
+  hf
+
+Hint: Omit it from the simp argument list.
+  simp only [h̵f̵,̵Bool.false_eq_true, ̲ite_false, ̲ite_true]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.PairSafety",
+  "start": 1793220204.6708646,
+  "end": 1793220207.4863946,
+  "log": "/tmp/rwkv104-direct-PairSafety-1793220204670849088.log",
+  "stop_file": "/tmp/rwkv104-direct-PairSafety-1793220204670849088.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

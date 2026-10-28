@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.WrapperDispatchFamily",
+  "start": 1793218770.770261,
+  "end": 1793218774.1861277,
+  "log": "/tmp/rwkv104-direct-WrapperDispatchFamily-1793218770770243978.log",
+  "stop_file": "/tmp/rwkv104-direct-WrapperDispatchFamily-1793218770770243978.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

@@ -1,0 +1,12 @@
+VeriTile.Bench.Repairs.LayerNormFwd.NativeMachineMemory.loaded_eq_tagged: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayerNormFwd.NativeMachineMemory.raw_correspondence: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayerNormFwd.NativeMachineMemory.scalar_correspondence: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayerNormFwd.NativeMachineMemory.zero_columns_seed_load: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])

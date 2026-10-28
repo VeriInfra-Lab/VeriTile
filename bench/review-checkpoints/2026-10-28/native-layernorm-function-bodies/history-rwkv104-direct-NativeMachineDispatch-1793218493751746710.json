@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.NativeMachineDispatch",
+  "start": 1793218493.7517622,
+  "end": 1793218497.2178123,
+  "log": "/tmp/rwkv104-direct-NativeMachineDispatch-1793218493751746710.log",
+  "stop_file": "/tmp/rwkv104-direct-NativeMachineDispatch-1793218493751746710.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

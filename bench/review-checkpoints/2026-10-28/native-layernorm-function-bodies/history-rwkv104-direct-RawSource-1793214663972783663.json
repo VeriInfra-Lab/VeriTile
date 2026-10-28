@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd_nonzero_tile.Proofs.RawSource",
+  "start": 1793214663.972803,
+  "end": 1793214666.288335,
+  "log": "/tmp/rwkv104-direct-RawSource-1793214663972783663.log",
+  "stop_file": "/tmp/rwkv104-direct-RawSource-1793214663972783663.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

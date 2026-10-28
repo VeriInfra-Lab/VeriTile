@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.StorageAddress",
+  "start": 1793217940.249968,
+  "end": 1793217943.4653244,
+  "log": "/tmp/rwkv104-direct-StorageAddress-1793217940249954645.log",
+  "stop_file": "/tmp/rwkv104-direct-StorageAddress-1793217940249954645.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}
