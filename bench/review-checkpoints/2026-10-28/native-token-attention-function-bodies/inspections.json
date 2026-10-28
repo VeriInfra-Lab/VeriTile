@@ -1,0 +1,48 @@
+{
+  "code_commit": "43ceb521735e203aff369e03edb1577d4f9e7ecc",
+  "raw_bodies": [
+    {
+      "name": "raw-body-check",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "43ceb521735e203aff369e03edb1577d4f9e7ecc",
+      "log": "/tmp/token97-raw-body-check.log",
+      "status": "PASS"
+    }
+  ],
+  "candidate_rewrites": [
+    {
+      "status": "PASS",
+      "scope": "The complete original and pre-existing block-origin reuse candidate retain their original signatures, decorators and bodies. The seven TokenAttentionBodyTests reject invented casts, changed loop/reduction/mask/scale and any additional candidate rewrite."
+    }
+  ],
+  "cpu": {
+    "name": "cpu-check",
+    "command": [
+      "python3",
+      "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/check_candidate.py"
+    ],
+    "exit_code": 1,
+    "code_commit": "43ceb521735e203aff369e03edb1577d4f9e7ecc",
+    "log": "/tmp/token97-cpu-check.log",
+    "status": "UNAVAILABLE",
+    "reason": "The unchanged CPU guard/launch capture checker requires Torch, which is not installed."
+  },
+  "original_python_and_public_specifications": {
+    "status": "PASS",
+    "sha256": {
+      "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/token_attn_llama2_reuse.py": "b8087fcc42499b181e5533712ba0c06a89e73fcb6fae5859aa0a1c15ab03bcc7",
+      "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/Contract.lean": "479aaf8c67b7cca898a0364453a628160512c68778787f6916a205b4803b1b6d",
+      "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/Correct.lean": "fb909bfce13708142680727bdfad940dd9a4e6041131303192fbc36f08cddef6",
+      "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/token_attn_llama2_grid_axes_checked.py": "7be76eb881e9836a77a382f2f5c86cfb2de2be3fcc798e54bd27683ed8c01bb6",
+      "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/check_candidate.py": "f3f6014480a60976b2e8c16a3c9c4eac31f494c98fac2371ff9d2309a1562c5b",
+      "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/FPEquiv.lean": "492d6ef334cf065f806711d67f5e8c6046b6724622d7d7275b447f62eee63169"
+    }
+  },
+  "scope": "Two complete original Python bodies retain the integer select, signed 0/1 loop, all loads, masks, reduction, scale and stores. The actual typed FP32 product replaces the historical invented input casts. A local primitive binding preserves the full ordered FP32 reduction input; profiled scale and implicit destination conversion remain explicit. Full source execution, memory/frame, safety, public Real/FP and native/Tensor consumers replay on unchanged domains. No arbitrary cast identity, AST identity, whole-kernel premise, GPU or numerical experiment."
+}

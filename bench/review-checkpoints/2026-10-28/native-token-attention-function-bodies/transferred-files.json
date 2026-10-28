@@ -1,0 +1,39 @@
+{
+  "parent": "03884fd440d1beb3e046c1aa99c3d6f1360566a8",
+  "shared_core_changed": [
+    "VeriTile/Triton/DSL/Expansion/Main.lean",
+    "VeriTile/Triton/DSL/Expansion/Memory.lean"
+  ],
+  "files": {
+    "VeriTile/Triton/DSL/Expansion/Main.lean": "f4494d2a4d4c0c5821f9e23aea9c4cc1699171568d67633f03f01a8cb8d27143",
+    "VeriTile/Triton/DSL/Expansion/Memory.lean": "f91af55661f6d7e1728d49d36a61a7dcd61553a165dfe89ef0fbbb531c67a93e",
+    "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/IO.lean": "02a99be10c32a249af7b7a8d8e9499cbfd23cc7c648b6a244ea73cd4bea18508",
+    "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/Kernels.lean": "466f33c840395a5940d09206d8c785e97eff200fb6a292b43b239488f48d34a4",
+    "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/Proofs/FormulaBinding.lean": "550fc98a40544e03b822d5cc73ae6a2c86d7a3fcdc1be0ac194ff64baed2c785",
+    "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/Proofs/GridBase.lean": "db7f8e42008598ac48bc08b4820af750a98a542bb8f06c00d5314f2963cc95f8",
+    "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/Proofs/GridRun.lean": "0858e77536540e5b71ef90f387b0389dc4f5258eaa96bb7a8c4e66a1bbef71b5",
+    "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/Proofs/IOSafety.lean": "7497957fd502d7e4839b3229797bedd0e57234c3c5b92e3f97ab14d92176dc19",
+    "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/Proofs/Native.lean": "2434e9cf25223c02d4919ed8c4b534976c2a19aa2733fdec21dba2ac79d390a6",
+    "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/Proofs/NativeReference.lean": "1780f4abd9f1e2c26b4d366658297130433f2696daaefaede4d411b4c682087b",
+    "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/Proofs/RawNative.lean": "1a6ba62848a6fa77ec35555cbb4d8923c9215d394e5514d995961f0b082b78d3",
+    "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/Proofs/ReuseEquivalence.lean": "ac40f45abe5f86e0a3d2910ea2cdd42975d8b4369d5648eddae800b60251abc3",
+    "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/Proofs/SourceFormula.lean": "78d76f24c1e1a9911a92ce0858ba3e7fb56e5c34325e425d1cffe19fcf441a0b",
+    "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/Proofs/SourceSafety.lean": "2138a417a662ada168396ed29e494771537cda606c0d02841e07b72ac4cc8af0",
+    "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/README.md": "cc631624a1438f9b4e69ec144c5dc6d5c43660335aa6fc555d38ff640f99f187",
+    "lakefile.toml": "e902c7a39571c7da873c262200d64270131b8e7f55ed1d670880dc7769ed62f2",
+    "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/Proofs/SourceBackend.lean": "84566d6c4f776ac88dbfe1bf0653ebb9966be0845c6fb4bab6f32e6108fb9f39",
+    "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/Proofs/SourceContract.lean": "f47143153b72ea667d6cfbd9f7bde6ac7579647790b83905385724145b14fec8",
+    "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/Proofs/SourceExecution.lean": "8226ab8f79193fed4a6e199e707f9e38d31b8a2d35acba2691d031f67a6291d5",
+    "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/Proofs/SourcePreservation.lean": "1ce6822dda28ff9e3c6b48f097dda1defa1d94724e0212ed879bc72b505767cd",
+    "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/Proofs/SourceProgram.lean": "e58f16b80387193b05105a5d3afe1b520e8e63e9001de93fcdced08f051d2fc9",
+    "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/Proofs/SourceReference.lean": "d65552bdf0f0677a932966d1aeaec22c83e2ace637f8e7a8439e28d46e7ddb90",
+    "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/jit-correspondence.json": "ab8e2da52e83931c2d1250e49db1c695e5199b0f41c72c3b32f62c87d05898d8",
+    "bench/tests/PythonIntegerWhere.lean": "43eb2544373a103c447bdcae1c7679db366929fb0d06ad67334f85d833cb54b7",
+    "bench/tests/TypedFP32CallArithmetic.lean": "7708a00780580eb575b73c1d40ccb4c07ed9aaa22e387b12b2ffba4a132a499d",
+    "bench/tests/test_token_attn_llama2_body.py": "c079abb63381b8fe7f20461c33a1ac85b9cd434c29ef135a13c512bbd3b23986"
+  },
+  "formatting_correction": "Removed trailing spaces on two empty lines; token sequence and pasted Python AST unchanged. Focused final checks rerun before freeze.",
+  "code_commit": "43ceb521735e203aff369e03edb1577d4f9e7ecc",
+  "original_python_and_public_specifications_unchanged": true,
+  "actual_source_connection": "Typed input products, signed integer select/loop, ordered FP32 reduction binding and implicit destination conversion are reverified against complete grid IO on unchanged domains."
+}

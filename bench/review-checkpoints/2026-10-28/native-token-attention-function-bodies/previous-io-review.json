@@ -1,0 +1,176 @@
+{
+  "task": "token_attn_llama2",
+  "status": "fixed",
+  "selected_public_entries": [
+    "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/Contract.lean",
+    "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/Correct.lean",
+    "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/FPEquiv.lean"
+  ],
+  "assessment": {
+    "previous_assessment": {
+      "organization": "Existing memory/event interfaces and every associated logical view now share task-level IO.lean; original namespaces retained.",
+      "preservation": {
+        "task": "token_attn_llama2",
+        "moved_bodies": [
+          {
+            "from": "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/LogicalIO.lean",
+            "to": "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/IO.lean",
+            "namespace": [
+              "VeriTile.Bench.Repairs.TokenAttnLlama2GridAxesChecked.Logical"
+            ],
+            "declarations": [
+              "Inputs",
+              "inputs",
+              "outputs",
+              "Inputs.keyAt",
+              "domain",
+              "io"
+            ],
+            "body_sha256": "4fe50de5562052f2aecffb59c05422593f8ed544ac9a9fa9f1253d8912fc0c31",
+            "byte_preserved": true
+          }
+        ],
+        "imports_only": [
+          "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/Proofs/LogicalIO.lean"
+        ],
+        "unchanged_public_entries": [
+          "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/Contract.lean",
+          "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/Correct.lean",
+          "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/FPEquiv.lean"
+        ],
+        "original_io_body_byte_preserved": true
+      },
+      "different_stage_or_encoding_exceptions": [],
+      "previous_assessment": {
+        "manifest": "bench/review-checkpoints/2026-10-22/logical-readers/io-audit.json",
+        "task": "token_attn_llama2"
+      }
+    },
+    "reference_separation": {
+      "organization": "ref09: declarations retain their original bodies and public scope; interface adapters, required formulas, and optional native content follow their actual consumers.",
+      "review_evidence": {
+        "path": "bench/review-checkpoints/2026-10-23/reference-separation/tasks/token_attn_llama2.json",
+        "sha256": "1c645cc3ac1abda6651b65f3f805515f2ab1ac4c860e973899237ce950fcca1b",
+        "task": "token_attn_llama2"
+      }
+    }
+  },
+  "distinct_views": "AddressedProgramIO permits per-region/address native leaf encoding, while symbolic ProgramIO permits arbitrary symbolic payloads for the actual pair. symbolicIO already reuses the canonical io.toMemoryIO; only binding/encoding/schedule plumbing is adapted. Correct.kernelIO is a thin Real instantiation. Signed metadata and all source grid axes/strides remain intact.",
+  "readers": [
+    {
+      "path": "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/Correct.lean",
+      "sha256": "fb909bfce13708142680727bdfad940dd9a4e6041131303192fbc36f08cddef6"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/FPEquiv.lean",
+      "sha256": "492d6ef334cf065f806711d67f5e8c6046b6724622d7d7275b447f62eee63169"
+    }
+  ],
+  "io_sources": [
+    {
+      "path": "VeriTile/Triton/Float/LogicalProgramIO.lean",
+      "sha256": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358"
+    },
+    {
+      "path": "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean",
+      "sha256": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+    },
+    {
+      "path": "VeriTile/Triton/Memory/LogicalIO.lean",
+      "sha256": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/IO.lean",
+      "sha256": "a0592b095e083694a18f5e987c5d12b4c22e2b48e6000e5052a04e837d48a816"
+    }
+  ],
+  "changed_paths": [
+    "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/IO.lean"
+  ],
+  "review_evidence": {
+    "path": "bench/review-checkpoints/2026-10-23/reference-separation/tasks/token_attn_llama2.json",
+    "sha256": "1c645cc3ac1abda6651b65f3f805515f2ab1ac4c860e973899237ce950fcca1b",
+    "task": "token_attn_llama2"
+  },
+  "preservation_and_build_passed": true,
+  "validation_limits": {},
+  "remaining_issues": [],
+  "main_formula_review": {
+    "audit": "bench/review-checkpoints/2026-10-22/main-formulas/audit.json",
+    "review_evidence": {
+      "path": ".veritile-cache/headline-formulas-20261022/queue14/result.json",
+      "sha256": "d87fccc8f67894b307693700c0369851fce2f71272f56fe7f734ff4adcf8e8af",
+      "task_index": 8,
+      "task": "token_attn_llama2"
+    },
+    "io_data_unchanged": true
+  },
+  "previous_io_sources": [
+    {
+      "path": "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/IO.lean",
+      "sha256": "a3e0efd2caf4d7ee83c82c7a1b001378e77f4aa14b445e4d7eb6f675aee9e4f1"
+    }
+  ],
+  "previous_review_evidence": {
+    "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/token_attn_llama2.json",
+    "sha256": "1eca36c1fb68422c10b7948dc0a24e0b3b5634fd053e1445846640200e9ba739",
+    "task": "token_attn_llama2"
+  },
+  "unchanged_prior_io_source_origins": {
+    "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/IO.lean": [
+      {
+        "path": "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/IO.lean",
+        "sha256": "a3e0efd2caf4d7ee83c82c7a1b001378e77f4aa14b445e4d7eb6f675aee9e4f1"
+      }
+    ]
+  },
+  "logical_reader_review": {
+    "path": "bench/review-checkpoints/2026-10-22/logical-readers/tasks/token_attn_llama2.json",
+    "sha256": "948138b48cff2db0af5ae77d7e5fda6340bb67310c00ab63434db721ed1e4544",
+    "task": "token_attn_llama2"
+  },
+  "previous_assessment": {
+    "findings": [],
+    "canonical": {
+      "IO.lean": [
+        "Interface.io",
+        "Interface.symbolicIO",
+        "Interface.read",
+        "Interface.write",
+        "Interface.outputMask",
+        "Interface.reuse"
+      ]
+    },
+    "distinct_views": "AddressedProgramIO permits per-region/address native leaf encoding, while symbolic ProgramIO permits arbitrary symbolic payloads for the actual pair. symbolicIO already reuses the canonical io.toMemoryIO; only binding/encoding/schedule plumbing is adapted. Correct.kernelIO is a thin Real instantiation. Signed metadata and all source grid axes/strides remain intact.",
+    "action": "No change: there is one canonical memory layout, with appropriate distinct addressed/symbolic views and a schedule-only candidate variant.",
+    "read": [
+      "IO.lean",
+      "Proofs/NativeKernel.lean"
+    ]
+  },
+  "previous_changed_paths": [],
+  "previous_canonical_io_declarations": [
+    {
+      "path": "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/IO.lean",
+      "sha256": "a3e0efd2caf4d7ee83c82c7a1b001378e77f4aa14b445e4d7eb6f675aee9e4f1",
+      "definitions": [
+        "Interface.io",
+        "Interface.symbolicIO",
+        "Interface.read",
+        "Interface.write",
+        "Interface.outputMask",
+        "Interface.reuse"
+      ]
+    }
+  ],
+  "io_unification_review": {
+    "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/token_attn_llama2.json",
+    "sha256": "1eca36c1fb68422c10b7948dc0a24e0b3b5634fd053e1445846640200e9ba739",
+    "task": "token_attn_llama2"
+  },
+  "reference_separation_review": {
+    "path": "bench/review-checkpoints/2026-10-23/reference-separation/tasks/token_attn_llama2.json",
+    "sha256": "1c645cc3ac1abda6651b65f3f805515f2ab1ac4c860e973899237ce950fcca1b",
+    "task": "token_attn_llama2"
+  }
+}

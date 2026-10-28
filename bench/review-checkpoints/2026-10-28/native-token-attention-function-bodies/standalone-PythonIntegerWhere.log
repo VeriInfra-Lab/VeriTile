@@ -1,0 +1,9 @@
+VeriTile.Tests.PythonIntegerWhere.selected_integer: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.PythonIntegerWhere.zero_iterations: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.PythonIntegerWhere.one_iteration: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

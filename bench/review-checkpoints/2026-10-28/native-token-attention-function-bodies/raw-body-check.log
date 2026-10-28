@@ -1,0 +1,86 @@
+[
+  {
+    "python_function": "_fwd_kernel_token_att1",
+    "lean_definition": "source",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "typed_per_call_specialization",
+    "call_bindings": {
+      "sm_scale": "p.scale",
+      "max_input_len": "p.maxLength",
+      "stride_b_loc_b": "p.locationBatchStride",
+      "stride_b_loc_s": "p.locationSequenceStride",
+      "stride_qbs": "p.queryBatchStride",
+      "stride_qh": "p.queryHeadStride",
+      "stride_qd": "p.queryDimStride",
+      "stride_kbs": "p.keyBatchStride",
+      "stride_kh": "p.keyHeadStride",
+      "stride_kd": "p.keyDimStride",
+      "att_stride_h": "p.outputHeadStride",
+      "att_stride_bs": "p.outputSequenceStride",
+      "kv_group_num": "p.groups"
+    },
+    "statements": 15,
+    "runtime_parameters": {
+      "sm_scale": "fp32",
+      "max_input_len": "integer",
+      "stride_b_loc_b": "integer",
+      "stride_b_loc_s": "integer",
+      "stride_qbs": "integer",
+      "stride_qh": "integer",
+      "stride_qd": "integer",
+      "stride_kbs": "integer",
+      "stride_kh": "integer",
+      "stride_kd": "integer",
+      "att_stride_h": "integer",
+      "att_stride_bs": "integer",
+      "kv_group_num": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_DMODEL",
+      "BLOCK_N"
+    ]
+  },
+  {
+    "python_function": "_fwd_kernel_token_att1_reuse",
+    "lean_definition": "reuseSource",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "typed_per_call_specialization",
+    "call_bindings": {
+      "sm_scale": "p.scale",
+      "max_input_len": "p.maxLength",
+      "stride_b_loc_b": "p.locationBatchStride",
+      "stride_b_loc_s": "p.locationSequenceStride",
+      "stride_qbs": "p.queryBatchStride",
+      "stride_qh": "p.queryHeadStride",
+      "stride_qd": "p.queryDimStride",
+      "stride_kbs": "p.keyBatchStride",
+      "stride_kh": "p.keyHeadStride",
+      "stride_kd": "p.keyDimStride",
+      "att_stride_h": "p.outputHeadStride",
+      "att_stride_bs": "p.outputSequenceStride",
+      "kv_group_num": "p.groups"
+    },
+    "statements": 15,
+    "runtime_parameters": {
+      "sm_scale": "fp32",
+      "max_input_len": "integer",
+      "stride_b_loc_b": "integer",
+      "stride_b_loc_s": "integer",
+      "stride_qbs": "integer",
+      "stride_qh": "integer",
+      "stride_qd": "integer",
+      "stride_kbs": "integer",
+      "stride_kh": "integer",
+      "stride_kd": "integer",
+      "att_stride_h": "integer",
+      "att_stride_bs": "integer",
+      "kv_group_num": "integer"
+    },
+    "constexpr_parameters": [
+      "BLOCK_DMODEL",
+      "BLOCK_N"
+    ]
+  }
+]

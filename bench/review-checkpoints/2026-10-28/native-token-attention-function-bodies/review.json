@@ -1,0 +1,587 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "43ceb521735e203aff369e03edb1577d4f9e7ecc",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "token_attn_llama2"
+  ],
+  "regression_only_pending_body_tasks": [
+    "kv_cache_filling"
+  ],
+  "semantic_review": {
+    "adam_update_triton": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "add_example": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "add_value": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "apply_penalty": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "attention_fwd_triton1": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "batched_vecmat_mult": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "bgmv_expand_slice": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "bmm_optimized": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "cache_transform_triton": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "chunk_cumsum_kernel": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "chunk_cumsum_vector": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "chunk_delta_fwd": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "chunked_cumsum_fwd": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "cosine_compute": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "cross_entropy1": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "cross_entropy2": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "cross_entropy_ops": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "decay_cumsum": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "dequantize_matmul": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "dequantize_rowwise": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "destindex_copy": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "destindex_copy_kv1": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "destindex_copy_kv2": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "diag_ssm_triton": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "dropout_triton": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "embedding_triton_kernel": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "f8_conversion_utils": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "fast_ce_loss": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "fast_rope_embedding": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "fifth_order_sph_harmonics": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "flash_decode2_llama": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "flash_decode2_phi": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "fused_activation": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "fused_recurrent_hgrn": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "fused_rotary_embedding": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "geglu_tanh_triton": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "index_select_bwd": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "index_select_cat": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "int8_matmul_kernel": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "isfinite_kernel": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "kcache_copy_triton": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "kldiv_compute": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "kldiv_ops": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "kldiv_triton": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "kv_cache_copy": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "kv_cache_filling": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims. Python-body migration remains pending; its correspondence status is retained.",
+    "l2_norm_bwd": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "l2_norm_triton1": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "l2_norm_triton2": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "log_softmax": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "logsumexp_fwd": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "masked_add_cuda": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "masked_select": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "matmul_kernel": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "matmul_tma": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "matrix_reduction": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "matrix_transpose": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "max_reduction": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "mean_reduction": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "mul_exponent_compensator": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "nested_loops_processing": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "pow_scalar_tensor": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "quant_transpose_kernel": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "quantize_copy_kv": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "quantize_global": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "quantize_kv_copy": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "quantize_kv_transform": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "relu_strided_buffer": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "relu_triton_kernel": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "reversed_cumsum": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "reversed_cumsum_scalar": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "rms_norm_triton": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "rmsnorm_fused": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "rmsnorm_fused_llama": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "rmsnorm_implementation": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "rmsnorm_triton": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "rope_backward_transform": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "rope_embedding": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "rope_transform": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "rotary_emb": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "rotary_emb_nopad": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "rowwise_quantization_triton": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "seeded_dropout": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "sin_computation": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "sin_kernel": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "softmax_optimize": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "softmax_triton1": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "softmax_triton2": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "softmax_triton3": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "square_matrix": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "swiglu_backward": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "swiglu_fwd": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "swiglu_triton": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "token_attn_llama2": "The complete original and pre-existing block-origin reuse candidate retain every original statement, including terminal return, integer select, signed 0/1 loop, loads, masks, reduction, scale and stores. Original Python, Correct, FPEquiv, Contract and Admission are unchanged. Actual input products have no invented explicit casts. SourceBackend binds the typed FP32 sum to the existing selected ordered reduction primitive with the complete layout, axis, keep-dim and input order. Profiled FP32 scale, its representation conversion and the implicit destination conversion remain explicit in the source-derived value graph; no arbitrary cast identity is assumed. Actual complete source execution, frame, safety, public Real and complete FP equivalence and native/Tensor consumers replay. Historical AST difference is proved; old input-cast formulas are not treated as the actual source. Full public domains, strides, aliases, FP32 payload words and empty grids remain supported. No whole-kernel premise, GPU or new numerical experiment.",
+    "token_attn_mistral": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "token_attn_reduceV": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "token_softmax_bloom": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "token_softmax_llama": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "triton_argmax": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "triton_mul2": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "triton_softmax": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "var_len_copy": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "vector_addition": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "vector_addition_custom": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims."
+  },
+  "compiler_change": {
+    "files": [
+      "VeriTile/Triton/DSL/Expansion/Main.lean",
+      "VeriTile/Triton/DSL/Expansion/Memory.lean"
+    ],
+    "behavior": "Two shared frontend fixes preserve actual Triton semantics: pairs of Python integer literals in tl.where retain signed32 values and feed signed loops, while out-of-range pairs are rejected; typed pointer stores apply their destination conversion without changing the child compute context. Caller dtype/value declarations stay outside the unchanged pasted body. All 111 frontend roots, all 4255 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims."
+  },
+  "verification": {
+    "baseline": {
+      "status": "PASS",
+      "explicit_modules": 38,
+      "jobs": 3492
+    },
+    "frontend_preflight": {
+      "status": "PASS",
+      "explicit_modules": 111,
+      "jobs": 3765,
+      "scope": "All registered frontend roots, including signed integer select execution, out-of-range rejection, typed store execution/frame and complete ordinary/augmented call AST equality."
+    },
+    "focused": {
+      "status": "PASS",
+      "explicit_modules": 44,
+      "jobs": 3512,
+      "additional_scope": "Joint import, standalone frontend AST footprint, 138 task theorem audits and the empty public FP assumption report."
+    },
+    "warm_and_joint": {
+      "status": "PASS",
+      "explicit_modules": 4255,
+      "jobs": 13942
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 4255,
+      "jobs": 13942,
+      "project_build_initially_present": false,
+      "project_objects_imported_from_other_checkouts": false,
+      "only_fixed_external_dependencies_imported": true,
+      "setup": {
+        "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/final-clean-setup.json",
+        "sha256": "27712b7df6ac81a6cd609dd8de50211615e782b50c76abe474ed520bf62b52d7"
+      }
+    },
+    "trust": "PASS: 138 task theorem footprints and five new frontend proof footprints use only standard base. The public complete source pair prints no FP assumptions.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 203
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 448,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by old numerical receipt; no false repin."
+    },
+    "source": "PASS: two complete raw original/pre-existing block-origin reuse candidate mappings and exact caller bindings; all original Python and public specifications unchanged; actual signed loop, ordered reduction and implicit typed store graph reverified.",
+    "official_comparator": "UNAVAILABLE: 48 actual final-source attempts with verified pinned binaries. Host Landlock ABI v4 is below required v5; no systemd user isolation or bypass.",
+    "cpu": "UNAVAILABLE: the unchanged check_candidate.py CPU guard/launch checker requires missing Torch. No GPU or new numerical experiment was requested or run.",
+    "gpu_or_numerical_experiment": "Not run.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending; the known unchanged numerical receipt failure remains explicit."
+  },
+  "source_pairs": {
+    "total": 326,
+    "pasted_body": 326,
+    "legacy_ast": 0
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/source-closure.json",
+    "sha256": "0c8f52005d8ebf8692a8d5709754c72ae6ceaf2ef7618476e5cbdc4da44c6461"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "selected_body_copy_checked": 103,
+      "uncovered_jit_functions": 80
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 333,
+    "uncovered_selected_jit_functions": 168,
+    "primary_files_with_int64_screen_warning": 22,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 57,
+        "antiquotes": 63,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "example_regression_scope": "All 19 selected examples and all previous recorded task roots replay warm/joint and independently from empty project objects. Unselected historical model gaps are not relabeled as passing.",
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/VeriTile__Triton__DSL__Expansion__Main-comparator.log",
+      "sha256": "69829701eb11dff3642764f94d1f57ee95fd069d5ecf79af6696d5961a2e87a2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/VeriTile__Triton__DSL__Expansion__Memory-comparator.log",
+      "sha256": "69829701eb11dff3642764f94d1f57ee95fd069d5ecf79af6696d5961a2e87a2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/all-python.log",
+      "sha256": "e332e3eb6ec9104b83df8407e1ddd10478873617d86508dac1fb98c2febd7202"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/audit-targets.json",
+      "sha256": "c5f3dc4d7f11a2a030de66a537b73a398c192ebe40cd04d64c575bf2cc3c2b1d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/audit.lean",
+      "sha256": "26c3e1f8e91920eefb90a9ea72c0b19baccd08246a2e0f3ff490dd68d71f12a9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/audit.log.gz",
+      "sha256": "b160926e122be607816068a1c45f3c5788f6ba37de09a39a49b41b9b9bd785c0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/baseline-build.log.gz",
+      "sha256": "be8283169dc929454f34a6fd19c2d9cd2f55e9f2d796fb3aa8307a1fa331bc46"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/baseline.json",
+      "sha256": "9feda741958a44316571d338ff90ac93edf36b92d70b9a83371aca4725029672"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/bench__repairs__tritonbench_g__token_attn_llama2_grid_axes_checked__Admission-comparator.log",
+      "sha256": "69829701eb11dff3642764f94d1f57ee95fd069d5ecf79af6696d5961a2e87a2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/bench__repairs__tritonbench_g__token_attn_llama2_grid_axes_checked__Contract-comparator.log",
+      "sha256": "69829701eb11dff3642764f94d1f57ee95fd069d5ecf79af6696d5961a2e87a2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/bench__repairs__tritonbench_g__token_attn_llama2_grid_axes_checked__Correct-comparator.log",
+      "sha256": "69829701eb11dff3642764f94d1f57ee95fd069d5ecf79af6696d5961a2e87a2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/bench__repairs__tritonbench_g__token_attn_llama2_grid_axes_checked__FPEquiv-comparator.log",
+      "sha256": "69829701eb11dff3642764f94d1f57ee95fd069d5ecf79af6696d5961a2e87a2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/bench__repairs__tritonbench_g__token_attn_llama2_grid_axes_checked__IO-comparator.log",
+      "sha256": "69829701eb11dff3642764f94d1f57ee95fd069d5ecf79af6696d5961a2e87a2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/bench__repairs__tritonbench_g__token_attn_llama2_grid_axes_checked__Kernels-comparator.log",
+      "sha256": "69829701eb11dff3642764f94d1f57ee95fd069d5ecf79af6696d5961a2e87a2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/bench__repairs__tritonbench_g__token_attn_llama2_grid_axes_checked__Misc__NativeCorrect-comparator.log",
+      "sha256": "69829701eb11dff3642764f94d1f57ee95fd069d5ecf79af6696d5961a2e87a2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/bench__repairs__tritonbench_g__token_attn_llama2_grid_axes_checked__Misc__NativeIOResults-comparator.log",
+      "sha256": "c487e4fe3fc4489db4731429999a396a933d0cc28fd072df675e7ac24af8d8e4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/bench__repairs__tritonbench_g__token_attn_llama2_grid_axes_checked__Misc__NativeReference-comparator.log",
+      "sha256": "c487e4fe3fc4489db4731429999a396a933d0cc28fd072df675e7ac24af8d8e4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/bench__repairs__tritonbench_g__token_attn_llama2_grid_axes_checked__Misc__PhysicalIOBinding-comparator.log",
+      "sha256": "c487e4fe3fc4489db4731429999a396a933d0cc28fd072df675e7ac24af8d8e4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/bench__repairs__tritonbench_g__token_attn_llama2_grid_axes_checked__Misc__TensorBridge-comparator.log",
+      "sha256": "c487e4fe3fc4489db4731429999a396a933d0cc28fd072df675e7ac24af8d8e4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/bench__repairs__tritonbench_g__token_attn_llama2_grid_axes_checked__Proofs__Addresses-comparator.log",
+      "sha256": "c487e4fe3fc4489db4731429999a396a933d0cc28fd072df675e7ac24af8d8e4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/bench__repairs__tritonbench_g__token_attn_llama2_grid_axes_checked__Proofs__Complete-comparator.log",
+      "sha256": "c487e4fe3fc4489db4731429999a396a933d0cc28fd072df675e7ac24af8d8e4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/bench__repairs__tritonbench_g__token_attn_llama2_grid_axes_checked__Proofs__Domain-comparator.log",
+      "sha256": "c487e4fe3fc4489db4731429999a396a933d0cc28fd072df675e7ac24af8d8e4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/bench__repairs__tritonbench_g__token_attn_llama2_grid_axes_checked__Proofs__FormulaBinding-comparator.log",
+      "sha256": "c487e4fe3fc4489db4731429999a396a933d0cc28fd072df675e7ac24af8d8e4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/bench__repairs__tritonbench_g__token_attn_llama2_grid_axes_checked__Proofs__Frame-comparator.log",
+      "sha256": "c487e4fe3fc4489db4731429999a396a933d0cc28fd072df675e7ac24af8d8e4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/bench__repairs__tritonbench_g__token_attn_llama2_grid_axes_checked__Proofs__Geometry-comparator.log",
+      "sha256": "06b020646bb7703d890eefc980c05912369d871d885720c9559f4617f4d02d27"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/bench__repairs__tritonbench_g__token_attn_llama2_grid_axes_checked__Proofs__GridBase-comparator.log",
+      "sha256": "06b020646bb7703d890eefc980c05912369d871d885720c9559f4617f4d02d27"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/bench__repairs__tritonbench_g__token_attn_llama2_grid_axes_checked__Proofs__GridIO-comparator.log",
+      "sha256": "06b020646bb7703d890eefc980c05912369d871d885720c9559f4617f4d02d27"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/bench__repairs__tritonbench_g__token_attn_llama2_grid_axes_checked__Proofs__GridRun-comparator.log",
+      "sha256": "06b020646bb7703d890eefc980c05912369d871d885720c9559f4617f4d02d27"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/bench__repairs__tritonbench_g__token_attn_llama2_grid_axes_checked__Proofs__IOBinding-comparator.log",
+      "sha256": "06b020646bb7703d890eefc980c05912369d871d885720c9559f4617f4d02d27"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/bench__repairs__tritonbench_g__token_attn_llama2_grid_axes_checked__Proofs__IOImplements-comparator.log",
+      "sha256": "06b020646bb7703d890eefc980c05912369d871d885720c9559f4617f4d02d27"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/bench__repairs__tritonbench_g__token_attn_llama2_grid_axes_checked__Proofs__IOSafety-comparator.log",
+      "sha256": "06b020646bb7703d890eefc980c05912369d871d885720c9559f4617f4d02d27"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/bench__repairs__tritonbench_g__token_attn_llama2_grid_axes_checked__Proofs__Integers-comparator.log",
+      "sha256": "06b020646bb7703d890eefc980c05912369d871d885720c9559f4617f4d02d27"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/bench__repairs__tritonbench_g__token_attn_llama2_grid_axes_checked__Proofs__LegacyBinding-comparator.log",
+      "sha256": "06b020646bb7703d890eefc980c05912369d871d885720c9559f4617f4d02d27"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/bench__repairs__tritonbench_g__token_attn_llama2_grid_axes_checked__Proofs__Logical-comparator.log",
+      "sha256": "06b020646bb7703d890eefc980c05912369d871d885720c9559f4617f4d02d27"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/bench__repairs__tritonbench_g__token_attn_llama2_grid_axes_checked__Proofs__LogicalIO-comparator.log",
+      "sha256": "5041589cad594d2370e31fda8cb49652abef6443ede86422a4e38587e29021fb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/bench__repairs__tritonbench_g__token_attn_llama2_grid_axes_checked__Proofs__Model-comparator.log",
+      "sha256": "5041589cad594d2370e31fda8cb49652abef6443ede86422a4e38587e29021fb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/bench__repairs__tritonbench_g__token_attn_llama2_grid_axes_checked__Proofs__Native-comparator.log",
+      "sha256": "5041589cad594d2370e31fda8cb49652abef6443ede86422a4e38587e29021fb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/bench__repairs__tritonbench_g__token_attn_llama2_grid_axes_checked__Proofs__NativeKernel-comparator.log",
+      "sha256": "5041589cad594d2370e31fda8cb49652abef6443ede86422a4e38587e29021fb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/bench__repairs__tritonbench_g__token_attn_llama2_grid_axes_checked__Proofs__NativeReference-comparator.log",
+      "sha256": "5041589cad594d2370e31fda8cb49652abef6443ede86422a4e38587e29021fb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/bench__repairs__tritonbench_g__token_attn_llama2_grid_axes_checked__Proofs__RawCorrect-comparator.log",
+      "sha256": "5041589cad594d2370e31fda8cb49652abef6443ede86422a4e38587e29021fb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/bench__repairs__tritonbench_g__token_attn_llama2_grid_axes_checked__Proofs__RawNative-comparator.log",
+      "sha256": "5041589cad594d2370e31fda8cb49652abef6443ede86422a4e38587e29021fb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/bench__repairs__tritonbench_g__token_attn_llama2_grid_axes_checked__Proofs__Real-comparator.log",
+      "sha256": "5041589cad594d2370e31fda8cb49652abef6443ede86422a4e38587e29021fb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/bench__repairs__tritonbench_g__token_attn_llama2_grid_axes_checked__Proofs__ReuseEquivalence-comparator.log",
+      "sha256": "5041589cad594d2370e31fda8cb49652abef6443ede86422a4e38587e29021fb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/bench__repairs__tritonbench_g__token_attn_llama2_grid_axes_checked__Proofs__SourceBackend-comparator.log",
+      "sha256": "5041589cad594d2370e31fda8cb49652abef6443ede86422a4e38587e29021fb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/bench__repairs__tritonbench_g__token_attn_llama2_grid_axes_checked__Proofs__SourceContract-comparator.log",
+      "sha256": "56a46136f130eeb000077eae9028e07d7a96da3021f7da426f42e620de6c1ee8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/bench__repairs__tritonbench_g__token_attn_llama2_grid_axes_checked__Proofs__SourceExecution-comparator.log",
+      "sha256": "56a46136f130eeb000077eae9028e07d7a96da3021f7da426f42e620de6c1ee8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/bench__repairs__tritonbench_g__token_attn_llama2_grid_axes_checked__Proofs__SourceFormula-comparator.log",
+      "sha256": "56a46136f130eeb000077eae9028e07d7a96da3021f7da426f42e620de6c1ee8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/bench__repairs__tritonbench_g__token_attn_llama2_grid_axes_checked__Proofs__SourcePreservation-comparator.log",
+      "sha256": "56a46136f130eeb000077eae9028e07d7a96da3021f7da426f42e620de6c1ee8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/bench__repairs__tritonbench_g__token_attn_llama2_grid_axes_checked__Proofs__SourceProgram-comparator.log",
+      "sha256": "56a46136f130eeb000077eae9028e07d7a96da3021f7da426f42e620de6c1ee8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/bench__repairs__tritonbench_g__token_attn_llama2_grid_axes_checked__Proofs__SourceReference-comparator.log",
+      "sha256": "56a46136f130eeb000077eae9028e07d7a96da3021f7da426f42e620de6c1ee8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/bench__repairs__tritonbench_g__token_attn_llama2_grid_axes_checked__Proofs__SourceSafety-comparator.log",
+      "sha256": "56a46136f130eeb000077eae9028e07d7a96da3021f7da426f42e620de6c1ee8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/bench__repairs__tritonbench_g__token_attn_llama2_grid_axes_checked__Proofs__Tensor-comparator.log",
+      "sha256": "56a46136f130eeb000077eae9028e07d7a96da3021f7da426f42e620de6c1ee8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/bench__tests__PythonIntegerWhere-comparator.log",
+      "sha256": "56a46136f130eeb000077eae9028e07d7a96da3021f7da426f42e620de6c1ee8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/bench__tests__TypedFP32CallArithmetic-comparator.log",
+      "sha256": "b76cb61d8a5bfd786874bdc46286cc86fc927ff99ae2a2958ddfb92a90903942"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/build-invocations.json",
+      "sha256": "1f1bb7abbd8ad07a01953b99e8889c1a2086ac1c8a0150ea272e72564eea15b5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/canonical-task-files.json",
+      "sha256": "c6d6a23bedc7a32c49298b5e173844344b871373f5c607a0e7d678aee7ae70ea"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/comparator-invocations.json",
+      "sha256": "942f96eee9216ce87dbc5963a7dd9d261466af55f35689714ce8ce62b4335b29"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/comparator-tools.json",
+      "sha256": "28998e17d51b0fb5930f7489e64512a57f8a8146d1470063a624a75bbabdb0d3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/corpus-guard.log",
+      "sha256": "a9ba118807f97a6209a44e6e9c4ac328f996d5b118883b086d8322a5045c5d07"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/cpu-check.log",
+      "sha256": "072881fe18dde7476f35835c87409d96f5d014de9a9a3084688932e0e6b9febb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/final-clean-build.log.gz",
+      "sha256": "152a1b70c34e6855ab51fff65214eef5236d504032c751ca9de0fa49de7192ed"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/final-clean-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/final-clean-setup.json",
+      "sha256": "27712b7df6ac81a6cd609dd8de50211615e782b50c76abe474ed520bf62b52d7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/focus-build.log.gz",
+      "sha256": "b9b538d4274d9591c151198f4295bc4719d8eab7002f810acb820f2812453bce"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/focus-invocations.json",
+      "sha256": "fcc3bc7632e9b205ebe2207d2cf05c32706ec1a021180ed79c4fa754fa03138f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/focus-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/focus-modules.txt",
+      "sha256": "84d838c07226641d31fce33508c8569b28b1d2e03a157d3e76e4d9f3c1911108"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/frontend-build.log.gz",
+      "sha256": "1012b659b93ce14c53535b22d336c7c3db82f79aa072dfdde9456fe7faeb364a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/frontend-modules.txt",
+      "sha256": "505158ea45861e242b17828b4e973d84e540a559b293b811fff15d9f44877422"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/inspections.json",
+      "sha256": "0086649e7b20c87d08cb742ee72b2efbf3e41558d6287627b300dedae4411c20"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/integration-final.log.gz",
+      "sha256": "d8e82de47cbed5803f3c8fc54d1da9deb2663bd5913cdbba217fed1c45e19e93"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/joint-all.lean",
+      "sha256": "d3cd3512e0de101e67985204ab777e60455ec50a4d59e56b972cb639990c87a4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/joint-final.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/modules.json",
+      "sha256": "da466946112378af19ba1cfdf6d078bf0328882c22890caf67c94e8a9c9fd455"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/pairs.json",
+      "sha256": "c24535c02d8e1064453a70f0728644e7dbc0da6a47f626ef185fcb3e3c22adc1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/previous-io-review.json",
+      "sha256": "1e0f5d6ec8ef9fda1cee8b7a80571d57c0f58541b37917d703eae3bfbb4328ed"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/previous-reviews.json.gz",
+      "sha256": "91f18b628627d3d1187c319b841a81bdb6efbc1f47ec4f5b706287a2585b0b82"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/python-invocations.json",
+      "sha256": "c670556d87f9fb6496d110067b9ea1e54ecf627a7fd57f4500abf72773535ab9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/python-tests.log",
+      "sha256": "f1100f820d3c7747f0a0917620de76e1443795216d6cbec146fe24ec39f15fb5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/raw-body-check.log",
+      "sha256": "92a75a50c3323b7d396a87cfb12673c7ef0c44f2dcabe3218e5e870bd6f1bd7c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/source-closure.json",
+      "sha256": "0c8f52005d8ebf8692a8d5709754c72ae6ceaf2ef7618476e5cbdc4da44c6461"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/standalone-PythonIntegerWhere.log",
+      "sha256": "1a912e64905544ea9213057ebc9841a3539d3d55742d2fd347dc8616e02c2b1a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/standalone-TypedFP32CallArithmetic.log",
+      "sha256": "9598b34c5612fc785d11cad1d5251c60a61b7b42d3e9a03579b7c2f501ab8fd2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/transferred-files.json",
+      "sha256": "cde5ece51d1c90c5db407444e5a9c606f081672e1580c91ba43bd4f6af30eac3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/warm-final-invocation.json",
+      "sha256": "5a31dcbe578e5aa7de2fcf5552a2b27bcb2bfb060848a8713b85d3ec76cd9038"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-token-attention-function-bodies/workflow-counts.json",
+      "sha256": "232481b11aebf1f2636f837112beef9e7b0f98200b1d1df242d03b1f5fe00596"
+    }
+  ]
+}
