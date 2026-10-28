@@ -1,0 +1,4 @@
+{
+  "status": "PASS",
+  "scope": "Complete retained Python module AST differs only by moving p_u/mask_bk/b_u after i_h. The entire wrapper, host checks and raw launch arguments are unchanged. The 14 mutation/body tests additionally check all ten raw source profiles."
+}

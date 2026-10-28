@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "source_sha256": {
+    "bench/tritonbench_g/rms_norm_triton/Proofs/Real.lean": "bb6bbdb072de25aa73e80f13e4122adb043561badd2f1d29b6f6161a9bf06c5e"
+  },
+  "explicit_modules": 4846,
+  "start": 1793215902.1348302,
+  "build_status": "COMPLETED",
+  "build_exit_code": 0,
+  "joint_status": "COMPLETED",
+  "joint_exit_code": 0,
+  "end": 1793215933.1495585
+}

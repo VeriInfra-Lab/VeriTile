@@ -1,0 +1,18 @@
+{
+  "tasks": 183,
+  "readers": 367,
+  "counts": {
+    "fixed": 179,
+    "unchanged": 4
+  },
+  "errors": [
+    "fused_rwkv6_kernel: bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/Correct.lean: source changed; renewed review required",
+    "fused_rwkv6_kernel: bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/Correct.lean: headline inventory differs",
+    "fused_rwkv6_kernel: bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/FPEquiv.lean: source changed; renewed review required",
+    "fused_rwkv6_kernel: bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/FPEquiv.lean: headline inventory differs",
+    "rms_norm_triton: bench/repairs/tritonbench_g/rms_norm_triton/Correct.lean: source changed; renewed review required",
+    "rms_norm_triton: bench/repairs/tritonbench_g/rms_norm_triton/Correct.lean: headline inventory differs"
+  ],
+  "status": "failed",
+  "scope": "Pinned per-task formula/domain/scope review and targeted proof evidence; no automatic semantic inference, full-source replay or GPU run"
+}

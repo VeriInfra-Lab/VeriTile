@@ -1,0 +1,33 @@
+{
+  "status": "PASS",
+  "code_commit": "13ef9a4208615cf5634b3bdf712c728fa7d130f4",
+  "checkout": "/tmp/veritile-body77",
+  "explicit_modules": 4846,
+  "scope": "All cumulative task/example/frontend roots and full local import closure, including affected historical RMS modules.",
+  "project_build_initially_present": false,
+  "veritile_cache_initially_present": false,
+  "project_objects_imported_from_other_checkouts": false,
+  "fixed_external_packages_reused": "/home/argustest/lizn/VeriTile/.lake/packages",
+  "previous_cache_cleanup": {
+    "removed": "/tmp/veritile-body77/.lake/build",
+    "previous_source": "3dcacd9bf87ff10fa29447cf92dc330965fe8cb1",
+    "previous_failed_run": "/tmp/rwkv104-revised-clean.json",
+    "reason": "Remove only this owned stopped revised-104 project cache; retain source and failure logs. Rebuild the corrected cumulative source from empty project objects."
+  },
+  "changed_source_sha256": {
+    "VeriTile/Triton/Memory/KernelMemoryTransport.lean": "8bc32e5075492a0c4249ad067617c6975586e2e8728d8e8c7b7cdb2672af70e8",
+    "bench/repairs/tritonbench_g/softmax_triton2/Proofs/Real.lean": "4ea0bbc9cc4435cb1f4c984e15521fa9ef9b80f4001035de67c159cedc7cee1c",
+    "bench/repairs/tritonbench_g/triton_softmax/Proofs/FlatMemory.lean": "ec72161ba3989690101cd2ee0902af5747469ec78901c0099965c0d360e43fc0",
+    "bench/repairs/tritonbench_g/triton_softmax/Proofs/RealIOImplements.lean": "da0d3504174839d1bf9c3680ff4bf19636543cc1aa249b3e25847176283fc1b7",
+    "bench/repairs/tritonbench_g/triton_softmax/Proofs/RowIO.lean": "fe3e4af45d270b6e970b3dce03b5b7bbc7e7d04a70f770fe56e385f8bb0a78a4",
+    "bench/tritonbench_g/rms_norm_triton/Proofs/Real.lean": "bb6bbdb072de25aa73e80f13e4122adb043561badd2f1d29b6f6161a9bf06c5e"
+  },
+  "start": 1793216019.5104861,
+  "build_status": "COMPLETED",
+  "build_exit_code": 0,
+  "build_end": 1793218685.3744755,
+  "joint_status": "COMPLETED",
+  "joint_exit_code": 0,
+  "joint_end": 1793218692.5705764,
+  "end": 1793218692.5708327
+}

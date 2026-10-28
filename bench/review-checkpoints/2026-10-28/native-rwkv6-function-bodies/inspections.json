@@ -1,0 +1,60 @@
+{
+  "code_commit": "13ef9a4208615cf5634b3bdf712c728fa7d130f4",
+  "raw_bodies": [
+    {
+      "name": "raw-body-check",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "13ef9a4208615cf5634b3bdf712c728fa7d130f4",
+      "log": "/tmp/rwkv104-ready-raw-body-check.log",
+      "status": "PASS"
+    }
+  ],
+  "candidate_rewrites": [
+    {
+      "status": "PASS",
+      "scope": "Complete retained Python module AST differs only by moving p_u/mask_bk/b_u after i_h. The entire wrapper, host checks and raw launch arguments are unchanged. The 14 mutation/body tests additionally check all ten raw source profiles."
+    }
+  ],
+  "cpu": {
+    "status": "PASS",
+    "scope": "Complete retained Python module AST differs only by moving p_u/mask_bk/b_u after i_h. The entire wrapper, host checks and raw launch arguments are unchanged. The 14 mutation/body tests additionally check all ten raw source profiles."
+  },
+  "torch": {
+    "name": "torch-check",
+    "command": [
+      "python3",
+      "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/check_scalar_abi.py",
+      "--output",
+      "/tmp/rwkv104-ready-scalar-abi-check"
+    ],
+    "exit_code": 1,
+    "code_commit": "13ef9a4208615cf5634b3bdf712c728fa7d130f4",
+    "log": "/tmp/rwkv104-ready-torch-check.log",
+    "status": "UNAVAILABLE",
+    "reason": "The retained wrapper/binder/compiler checker requires Torch and Triton. The current environment does not supply its dependency; no GPU or numerical experiment was run."
+  },
+  "original_python_and_input_contracts": {
+    "status": "PASS",
+    "sha256": {
+      "bench/repairs/tritonbench_g/fused_rwkv6_kernel/check_contract.py": "585653cfe789a2aae2f686182ed9bf472705ca44252936ce0ac921742f00390e",
+      "bench/repairs/tritonbench_g/fused_rwkv6_kernel/check_cuda_lowering.py": "b4b9a9d6a15820f83031c4d911f8ddb120de09abbec83cbc6e1a378fda314073",
+      "bench/repairs/tritonbench_g/fused_rwkv6_kernel/check_precision.py": "4851a7848a86116f7467eddda430d6cfc945bd401a7bd515197a6e85b067b01c",
+      "bench/repairs/tritonbench_g/fused_rwkv6_kernel/check_scale_binding.py": "405464bed90f66bfe9f9885940505b0fbfe9cbaa8d1c9306312d9de3fcf01d6c",
+      "bench/repairs/tritonbench_g/fused_rwkv6_kernel/fused_rwkv6_kernel_repaired.py": "dfd768e5f6f3c8b439ef7e76b26a1330e2e81c9071c2d4c091fb8b4122221669",
+      "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/Contract.lean": "8605bbbfaa05f9d169f45a47bbfe8d6a600424136d611fd0b370e74ac3d319f7",
+      "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/check_scalar_abi.py": "b2a48c95fd324d7f428cdb2a2ea506862936805a5e4d2893d6e7258b1d6b1fc6",
+      "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/check_scalar_specialization.py": "740fd478a7f22c44d3e6ccf4deb2fb60be0bdcea6ac0228c826f6a9248a9d15c",
+      "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/fused_rwkv6_kernel_scalar_abi_checked.py": "ed5895a40c59dc093429689d1431364f41736a4889ea159da4a4dda3f7d54047",
+      "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/fused_rwkv6_kernel_u_early.py": "b3bf3cd49a686c738eb3f21b64619e820dd84dc78cf958b907fe8028969f6255",
+      "bench/tritonbench_g/fused_rwkv6_kernel/fused_rwkv6_kernel.py": "e7858658e4cd24ccc529b2a8678ce8bf605d1eb58af2785ead319a3a5d2d9086"
+    }
+  },
+  "rwkv_io_declarations": "PASS: every existing IO declaration is byte-identical, preceded only by the candidate-source import and followed by Runtime scalar dispatch and record-update views. There is still one full memory layout. Public FP now selects actual raw ABI bodies; Real retains the previous entry and adds all scalar source profiles.",
+  "scope": "Ten complete original/candidate raw mappings preserve all 16 statements and all scalar ABIs, native integer1constexpr, optional None branches, casts and signed reverse pointers. Actual source/IO execution, safety, successful outputs and exterior frames are reconnected. The independent formula now preserves the actual nested FP32 query load. No arbitrary cast identity, whole-kernel premise, input-domain narrowing, GPU or new numerical experiment."
+}

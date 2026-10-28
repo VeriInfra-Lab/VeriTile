@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/tmp/veritile-pr18-review/bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/check_scalar_abi.py", line 15, in <module>
+    import torch,triton
+ModuleNotFoundError: No module named 'torch'

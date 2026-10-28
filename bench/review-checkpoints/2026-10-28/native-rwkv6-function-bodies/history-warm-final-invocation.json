@@ -1,0 +1,10 @@
+{
+  "code_commit": "00432120eacfb7efd2823ac0cd59911e92192f59",
+  "explicit_modules": 4811,
+  "start": 1793209044.3703482,
+  "build_status": "STOPPED_AFTER_REGRESSION_FAILURE",
+  "build_exit_code": null,
+  "build_end": 1793210681.4017673,
+  "stop_reason": "Initial source 00432120 has18 known failed proof modules. Retain logs and completed objects for isolated development; a new complete warm build and clean build are required on the final fixed source.",
+  "stopped_owned_process_group": 939773
+}

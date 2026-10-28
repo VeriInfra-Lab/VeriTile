@@ -1,0 +1,195 @@
+[
+  {
+    "task": "fused_rwkv6_kernel",
+    "status": "fixed",
+    "selected_public_entries": [
+      "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/Contract.lean",
+      "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/Correct.lean",
+      "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/FPEquiv.lean"
+    ],
+    "readers": [
+      {
+        "path": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/Correct.lean",
+        "sha256": "218b5146b75ae3f9d84ee83a0bf65c4923c7dbcbf7d6ea2aa38f69520fe1eb3c",
+        "surface": "Correct",
+        "declarations": [
+          {
+            "kind": "def",
+            "name": "kernelIO",
+            "line": 8,
+            "full_name": "VeriTile.Bench.Repairs.FusedRwkv6KernelScalarABIChecked.Correct.kernelIO",
+            "role": "named_io_formula_or_program_view",
+            "reason": "One recurrent source grid exposing key-shard partials and optional terminal state; no host reduction headline; actual U-load scheduling pair."
+          },
+          {
+            "kind": "def",
+            "name": "partialValue",
+            "line": 14,
+            "full_name": "VeriTile.Bench.Repairs.FusedRwkv6KernelScalarABIChecked.Correct.partialValue",
+            "role": "independent_mathematical_definition_or_thin_view",
+            "reason": "Pure mathematics or a thin existing IO/program interpretation reviewed with the adjacent main formula; canonical equality is checked inside the main proof or its required Proofs module. See main_formula_review."
+          },
+          {
+            "kind": "def",
+            "name": "formula",
+            "line": 21,
+            "full_name": "VeriTile.Bench.Repairs.FusedRwkv6KernelScalarABIChecked.Correct.formula",
+            "role": "independent_mathematical_definition_or_thin_view",
+            "reason": "Pure mathematics or a thin existing IO/program interpretation reviewed with the adjacent main formula; canonical equality is checked inside the main proof or its required Proofs module. See main_formula_review."
+          },
+          {
+            "kind": "specification",
+            "name": "rwkv_real",
+            "line": 30,
+            "full_name": "VeriTile.Bench.Repairs.FusedRwkv6KernelScalarABIChecked.Correct.rwkv_real",
+            "role": "independent_real",
+            "reason": "One recurrent source grid exposing key-shard partials and optional terminal state; no host reduction headline; actual U-load scheduling pair."
+          }
+        ],
+        "reexport_only": false
+      },
+      {
+        "path": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/FPEquiv.lean",
+        "sha256": "dd41e3c775d025982704483dcfc49154304bf4af78e65e045861509f9fbb177f",
+        "surface": "FPEquiv",
+        "declarations": [
+          {
+            "kind": "specification",
+            "name": "u_early_equiv",
+            "line": 10,
+            "full_name": "VeriTile.Bench.Repairs.FusedRwkv6KernelScalarABIChecked.FPEquiv.u_early_equiv",
+            "role": "actual_program_pair",
+            "reason": "One recurrent source grid exposing key-shard partials and optional terminal state; no host reduction headline; actual U-load scheduling pair."
+          }
+        ],
+        "reexport_only": false
+      }
+    ],
+    "review_evidence": {
+      "path": "bench/review-checkpoints/2026-10-23/reference-separation/tasks/fused_rwkv6_kernel.json",
+      "sha256": "5d706dfd037d72b1ce13c74856892d122e03364db5e79941bb1c23bb627c1eb8",
+      "task": "fused_rwkv6_kernel"
+    },
+    "change": null,
+    "new_misc_entries": [],
+    "required_multistage_scope_preserved": true,
+    "remaining_issues": [],
+    "base_role_review": {
+      "path": "bench/review-checkpoints/2026-10-22/headline-separation/audit.json",
+      "sha256": "97fb717f03d049d9dc9a90abde1ff512dba4e0f22e896a7ce3662542bb95bc10",
+      "task": "fused_rwkv6_kernel"
+    },
+    "io_review_status": "fixed",
+    "main_formula_review": {
+      "audit": "bench/review-checkpoints/2026-10-22/main-formulas/audit.json",
+      "review_evidence": {
+        "path": ".veritile-cache/headline-formulas-20261022/queue06/result.json",
+        "sha256": "593f8fc6cd2b53314e09093b7e0142fa2fd7142b50350e0bc2d72a3dcfad4a19",
+        "task_index": 7,
+        "task": "fused_rwkv6_kernel"
+      }
+    },
+    "previous_review_evidence": {
+      "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/fused_rwkv6_kernel.json",
+      "sha256": "4661038fbb65c379a59d0e97da66ea1f88d354d12396aa22ee0d936d471a8cda",
+      "task": "fused_rwkv6_kernel"
+    },
+    "logical_reader_review": {
+      "path": "bench/review-checkpoints/2026-10-22/logical-readers/tasks/fused_rwkv6_kernel.json",
+      "sha256": "659fae89544dd424d9a95de190e648fdd8eeb9073254811ac8be79e228b3d0d3",
+      "task": "fused_rwkv6_kernel"
+    },
+    "io_unification_review": {
+      "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/fused_rwkv6_kernel.json",
+      "sha256": "4661038fbb65c379a59d0e97da66ea1f88d354d12396aa22ee0d936d471a8cda",
+      "task": "fused_rwkv6_kernel"
+    },
+    "reference_separation_review": {
+      "path": "bench/review-checkpoints/2026-10-23/reference-separation/tasks/fused_rwkv6_kernel.json",
+      "sha256": "5d706dfd037d72b1ce13c74856892d122e03364db5e79941bb1c23bb627c1eb8",
+      "task": "fused_rwkv6_kernel"
+    }
+  },
+  {
+    "task": "rms_norm_triton",
+    "status": "fixed",
+    "selected_public_entries": [
+      "bench/repairs/tritonbench_g/rms_norm_triton/Contract.lean",
+      "bench/repairs/tritonbench_g/rms_norm_triton/Correct.lean",
+      "bench/repairs/tritonbench_g/rms_norm_triton/FPEquiv.lean"
+    ],
+    "readers": [
+      {
+        "path": "bench/repairs/tritonbench_g/rms_norm_triton/Correct.lean",
+        "sha256": "8065e623589c627683b923296cbeff947a159700c29e4a6de6bfefcb0dd89f27",
+        "surface": "Correct",
+        "declarations": [
+          {
+            "kind": "specification",
+            "name": "kernel_correct",
+            "line": 13,
+            "full_name": "VeriTile.Bench.Repairs.RmsNormTriton.Correct.kernel_correct",
+            "role": "independent_real",
+            "reason": "独立 RMS formula/expected 与原始 kernel 的完整 row grid。"
+          }
+        ],
+        "reexport_only": false
+      },
+      {
+        "path": "bench/repairs/tritonbench_g/rms_norm_triton/FPEquiv.lean",
+        "sha256": "53a696d891527d9cdc96a449f1d7f3354b63d93c824efe8c240ad668b821d39e",
+        "surface": "FPEquiv",
+        "declarations": [
+          {
+            "kind": "specification",
+            "name": "index_commuted_equiv",
+            "line": 12,
+            "full_name": "VeriTile.Bench.Repairs.RmsNormTriton.FPEquiv.index_commuted_equiv",
+            "role": "actual_program_pair",
+            "reason": "原始源码与 index-commuted 候选的实际程序对。"
+          }
+        ],
+        "reexport_only": false
+      }
+    ],
+    "review_evidence": {
+      "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/rms_norm_triton.json",
+      "sha256": "fe77afab7d0fc1b44eb3bdee5f25db34133ba24a3fb3c2fb14483859028db743",
+      "task": "rms_norm_triton"
+    },
+    "change": null,
+    "new_misc_entries": [],
+    "required_multistage_scope_preserved": true,
+    "remaining_issues": [],
+    "base_role_review": {
+      "path": "bench/review-checkpoints/2026-10-22/headline-separation/audit.json",
+      "sha256": "97fb717f03d049d9dc9a90abde1ff512dba4e0f22e896a7ce3662542bb95bc10",
+      "task": "rms_norm_triton"
+    },
+    "io_review_status": "fixed",
+    "main_formula_review": {
+      "audit": "bench/review-checkpoints/2026-10-22/main-formulas/audit.json",
+      "review_evidence": {
+        "path": ".veritile-cache/headline-formulas-20261022/queue12/result.json",
+        "sha256": "c937c6187ba90c6901b06a8819404c7f5dda17e36be0cf64b1f29a753fe66f36",
+        "task_index": 3,
+        "task": "rms_norm_triton"
+      }
+    },
+    "previous_review_evidence": {
+      "path": "bench/review-checkpoints/2026-10-22/logical-readers/tasks/rms_norm_triton.json",
+      "sha256": "d61f491449388339c7d52d52bc39a20f1b5effd0c14e2c23c283204d4efede45",
+      "task": "rms_norm_triton"
+    },
+    "logical_reader_review": {
+      "path": "bench/review-checkpoints/2026-10-22/logical-readers/tasks/rms_norm_triton.json",
+      "sha256": "d61f491449388339c7d52d52bc39a20f1b5effd0c14e2c23c283204d4efede45",
+      "task": "rms_norm_triton"
+    },
+    "io_unification_review": {
+      "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/rms_norm_triton.json",
+      "sha256": "fe77afab7d0fc1b44eb3bdee5f25db34133ba24a3fb3c2fb14483859028db743",
+      "task": "rms_norm_triton"
+    }
+  }
+]

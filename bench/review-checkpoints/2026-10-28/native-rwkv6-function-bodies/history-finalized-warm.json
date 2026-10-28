@@ -1,0 +1,13 @@
+{
+  "status": "FAILED",
+  "code_commit": "39cf6239c63e05746eec4331070836b72b20e12b",
+  "explicit_modules": 4846,
+  "start": 1793214039.5867903,
+  "build_status": "COMPLETED",
+  "build_exit_code": 0,
+  "build_end": 1793215810.448223,
+  "joint_status": "COMPLETED",
+  "joint_exit_code": 1,
+  "joint_end": 1793215816.078319,
+  "end": 1793215816.078551
+}

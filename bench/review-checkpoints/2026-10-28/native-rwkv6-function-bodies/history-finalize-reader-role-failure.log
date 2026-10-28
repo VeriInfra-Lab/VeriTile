@@ -1,0 +1,15 @@
+{
+  "tasks": 183,
+  "readers": 367,
+  "headlines": 449,
+  "errors": [
+    "fused_rwkv6_kernel: bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/Correct.lean: source changed; role review required",
+    "fused_rwkv6_kernel: bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/Correct.lean: declaration inventory changed",
+    "fused_rwkv6_kernel: bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/FPEquiv.lean: source changed; role review required",
+    "fused_rwkv6_kernel: bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/FPEquiv.lean: declaration inventory changed",
+    "rms_norm_triton: bench/repairs/tritonbench_g/rms_norm_triton/Correct.lean: source changed; role review required",
+    "rms_norm_triton: bench/repairs/tritonbench_g/rms_norm_triton/Correct.lean: declaration inventory changed"
+  ],
+  "status": "failed",
+  "scope": "Pinned semantic role review plus current repository import guard; no Lean replay or GPU run"
+}

@@ -1,0 +1,86 @@
+{
+  "status": "REVIEWED",
+  "scope": "Renew the three public reader fingerprints after reading the current exact source, successful cumulative warm/clean builds and private-inclusive axiom audit. RWKV adds the full scalar-ABI Real theorem; its existing Real result and actual full-grid FP pair retain their scope. RMS uses the actual runtime conversion Real bridge with the same independent formula, complete schedule, separation conditions and full IO judgment. No Lean source or input domain changes in this metadata repair.",
+  "changes": [
+    {
+      "task": "fused_rwkv6_kernel",
+      "previous": {
+        "path": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/Correct.lean",
+        "sha256": "218b5146b75ae3f9d84ee83a0bf65c4923c7dbcbf7d6ea2aa38f69520fe1eb3c",
+        "specifications": [
+          {
+            "kind": "specification",
+            "name": "rwkv_real",
+            "line": 30
+          }
+        ]
+      },
+      "current": {
+        "path": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/Correct.lean",
+        "sha256": "d0f0666ebc19151f3e469e2157af559de54923c6338964a5ea9edc8be2f6c521",
+        "specifications": [
+          {
+            "kind": "specification",
+            "name": "rwkv_real",
+            "line": 30
+          },
+          {
+            "kind": "specification",
+            "name": "rwkv_real_abi",
+            "line": 37
+          }
+        ]
+      }
+    },
+    {
+      "task": "fused_rwkv6_kernel",
+      "previous": {
+        "path": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/FPEquiv.lean",
+        "sha256": "dd41e3c775d025982704483dcfc49154304bf4af78e65e045861509f9fbb177f",
+        "specifications": [
+          {
+            "kind": "specification",
+            "name": "u_early_equiv",
+            "line": 10
+          }
+        ]
+      },
+      "current": {
+        "path": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/FPEquiv.lean",
+        "sha256": "0d2a35bf928190774d63518030faf58d93f7b73b7cdf8594af9c67339bf89af3",
+        "specifications": [
+          {
+            "kind": "specification",
+            "name": "u_early_equiv",
+            "line": 14
+          }
+        ]
+      }
+    },
+    {
+      "task": "rms_norm_triton",
+      "previous": {
+        "path": "bench/repairs/tritonbench_g/rms_norm_triton/Correct.lean",
+        "sha256": "8065e623589c627683b923296cbeff947a159700c29e4a6de6bfefcb0dd89f27",
+        "specifications": [
+          {
+            "kind": "specification",
+            "name": "kernel_correct",
+            "line": 13
+          }
+        ]
+      },
+      "current": {
+        "path": "bench/repairs/tritonbench_g/rms_norm_triton/Correct.lean",
+        "sha256": "de8cd5540d6d15e8014cdfe2ee68a8cd063a3fd78b560d9194d360ce0edae04e",
+        "specifications": [
+          {
+            "kind": "specification",
+            "name": "kernel_correct",
+            "line": 14
+          }
+        ]
+      }
+    }
+  ]
+}

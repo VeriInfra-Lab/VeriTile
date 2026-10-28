@@ -1,0 +1,312 @@
+[
+  {
+    "python_function": "fused_recurrent_rwkv6_fwd_kernel",
+    "lean_definition": "kernel",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "mixed_integer_calls_and_runtime_registers",
+    "call_bindings": {
+      "s_k_h": "s_k_h",
+      "s_v_h": "s_v_h"
+    },
+    "statements": 16,
+    "runtime_parameters": {
+      "s_k_h": "i32",
+      "s_v_h": "i32",
+      "scale": "fp32"
+    },
+    "constexpr_parameters": [
+      "B",
+      "BK",
+      "BV",
+      "H",
+      "K",
+      "REVERSE",
+      "STORE_FINAL_STATE",
+      "T",
+      "USE_INITIAL_STATE",
+      "V"
+    ],
+    "profile_variant": "raw_scale_fp32"
+  },
+  {
+    "python_function": "fused_recurrent_rwkv6_fwd_kernel",
+    "lean_definition": "earlyUKernel",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "mixed_integer_calls_and_runtime_registers",
+    "call_bindings": {
+      "s_k_h": "s_k_h",
+      "s_v_h": "s_v_h"
+    },
+    "statements": 16,
+    "runtime_parameters": {
+      "s_k_h": "i32",
+      "s_v_h": "i32",
+      "scale": "fp32"
+    },
+    "constexpr_parameters": [
+      "B",
+      "BK",
+      "BV",
+      "H",
+      "K",
+      "REVERSE",
+      "STORE_FINAL_STATE",
+      "T",
+      "USE_INITIAL_STATE",
+      "V"
+    ],
+    "profile_variant": "raw_scale_fp32"
+  },
+  {
+    "python_function": "fused_recurrent_rwkv6_fwd_kernel",
+    "lean_definition": "kernelI32",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "s_k_h": "s_k_h",
+      "s_v_h": "s_v_h",
+      "scale": "scale"
+    },
+    "statements": 16,
+    "runtime_parameters": {
+      "s_k_h": "i32",
+      "s_v_h": "i32",
+      "scale": "i32"
+    },
+    "constexpr_parameters": [
+      "B",
+      "BK",
+      "BV",
+      "H",
+      "K",
+      "REVERSE",
+      "STORE_FINAL_STATE",
+      "T",
+      "USE_INITIAL_STATE",
+      "V"
+    ],
+    "profile_variant": "raw_scale_i32"
+  },
+  {
+    "python_function": "fused_recurrent_rwkv6_fwd_kernel",
+    "lean_definition": "earlyUKernelI32",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "s_k_h": "s_k_h",
+      "s_v_h": "s_v_h",
+      "scale": "scale"
+    },
+    "statements": 16,
+    "runtime_parameters": {
+      "s_k_h": "i32",
+      "s_v_h": "i32",
+      "scale": "i32"
+    },
+    "constexpr_parameters": [
+      "B",
+      "BK",
+      "BV",
+      "H",
+      "K",
+      "REVERSE",
+      "STORE_FINAL_STATE",
+      "T",
+      "USE_INITIAL_STATE",
+      "V"
+    ],
+    "profile_variant": "raw_scale_i32"
+  },
+  {
+    "python_function": "fused_recurrent_rwkv6_fwd_kernel",
+    "lean_definition": "kernelI64",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "s_k_h": "s_k_h",
+      "s_v_h": "s_v_h",
+      "scale": "scale"
+    },
+    "statements": 16,
+    "runtime_parameters": {
+      "s_k_h": "i32",
+      "s_v_h": "i32",
+      "scale": "i64"
+    },
+    "constexpr_parameters": [
+      "B",
+      "BK",
+      "BV",
+      "H",
+      "K",
+      "REVERSE",
+      "STORE_FINAL_STATE",
+      "T",
+      "USE_INITIAL_STATE",
+      "V"
+    ],
+    "profile_variant": "raw_scale_i64"
+  },
+  {
+    "python_function": "fused_recurrent_rwkv6_fwd_kernel",
+    "lean_definition": "earlyUKernelI64",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "s_k_h": "s_k_h",
+      "s_v_h": "s_v_h",
+      "scale": "scale"
+    },
+    "statements": 16,
+    "runtime_parameters": {
+      "s_k_h": "i32",
+      "s_v_h": "i32",
+      "scale": "i64"
+    },
+    "constexpr_parameters": [
+      "B",
+      "BK",
+      "BV",
+      "H",
+      "K",
+      "REVERSE",
+      "STORE_FINAL_STATE",
+      "T",
+      "USE_INITIAL_STATE",
+      "V"
+    ],
+    "profile_variant": "raw_scale_i64"
+  },
+  {
+    "python_function": "fused_recurrent_rwkv6_fwd_kernel",
+    "lean_definition": "kernelU64",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "s_k_h": "s_k_h",
+      "s_v_h": "s_v_h",
+      "scale": "scale"
+    },
+    "statements": 16,
+    "runtime_parameters": {
+      "s_k_h": "i32",
+      "s_v_h": "i32",
+      "scale": "u64"
+    },
+    "constexpr_parameters": [
+      "B",
+      "BK",
+      "BV",
+      "H",
+      "K",
+      "REVERSE",
+      "STORE_FINAL_STATE",
+      "T",
+      "USE_INITIAL_STATE",
+      "V"
+    ],
+    "profile_variant": "raw_scale_u64"
+  },
+  {
+    "python_function": "fused_recurrent_rwkv6_fwd_kernel",
+    "lean_definition": "earlyUKernelU64",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "s_k_h": "s_k_h",
+      "s_v_h": "s_v_h",
+      "scale": "scale"
+    },
+    "statements": 16,
+    "runtime_parameters": {
+      "s_k_h": "i32",
+      "s_v_h": "i32",
+      "scale": "u64"
+    },
+    "constexpr_parameters": [
+      "B",
+      "BK",
+      "BV",
+      "H",
+      "K",
+      "REVERSE",
+      "STORE_FINAL_STATE",
+      "T",
+      "USE_INITIAL_STATE",
+      "V"
+    ],
+    "profile_variant": "raw_scale_u64"
+  },
+  {
+    "python_function": "fused_recurrent_rwkv6_fwd_kernel",
+    "lean_definition": "kernelOne",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "s_k_h": "s_k_h",
+      "s_v_h": "s_v_h"
+    },
+    "statements": 16,
+    "runtime_parameters": {
+      "s_k_h": "i32",
+      "s_v_h": "i32"
+    },
+    "constexpr_parameters": [
+      "B",
+      "BK",
+      "BV",
+      "H",
+      "K",
+      "REVERSE",
+      "STORE_FINAL_STATE",
+      "T",
+      "USE_INITIAL_STATE",
+      "V"
+    ],
+    "native_integer_one_specializations": [
+      "scale"
+    ],
+    "profile_variant": "raw_integer_one_constexpr"
+  },
+  {
+    "python_function": "fused_recurrent_rwkv6_fwd_kernel",
+    "lean_definition": "earlyUKernelOne",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "integer_per_call_specialization",
+    "call_bindings": {
+      "s_k_h": "s_k_h",
+      "s_v_h": "s_v_h"
+    },
+    "statements": 16,
+    "runtime_parameters": {
+      "s_k_h": "i32",
+      "s_v_h": "i32"
+    },
+    "constexpr_parameters": [
+      "B",
+      "BK",
+      "BV",
+      "H",
+      "K",
+      "REVERSE",
+      "STORE_FINAL_STATE",
+      "T",
+      "USE_INITIAL_STATE",
+      "V"
+    ],
+    "native_integer_one_specializations": [
+      "scale"
+    ],
+    "profile_variant": "raw_integer_one_constexpr"
+  }
+]

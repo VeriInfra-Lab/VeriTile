@@ -1,0 +1,9 @@
+{
+  "status": "STOPPED_AFTER_REGRESSION_FAILURE",
+  "code_commit": "3dcacd9bf87ff10fa29447cf92dc330965fe8cb1",
+  "explicit_modules": 4845,
+  "start": 1793213669.5209222,
+  "build_status": "STOPPED_AFTER_REGRESSION_FAILURE",
+  "end": 1793213857.5820842,
+  "stop_evidence": "/tmp/rwkv104-revised-warm-stopped.json"
+}

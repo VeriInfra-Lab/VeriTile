@@ -1,0 +1,6 @@
+{
+  "driver": 1405606,
+  "group": 1405605,
+  "reason": "Cumulative build exposed softmax_triton2 Real obsolete flatten theorem and triton_softmax RowIO signed-pointer flatten mismatch. Preserve logs and repair before new snapshot.",
+  "time": 1793213850.4285455
+}

@@ -1,0 +1,10 @@
+{
+  "status": "COMPLETED",
+  "start": 1793213967.648109,
+  "modules": [
+    "bench.repairs.tritonbench_g.softmax_triton2.Correct",
+    "bench.repairs.tritonbench_g.triton_softmax.Correct"
+  ],
+  "exit_code": 0,
+  "end": 1793213992.3046365
+}

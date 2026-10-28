@@ -1,0 +1,8 @@
+{
+  "tasks": 183,
+  "readers": 367,
+  "headlines": 450,
+  "errors": [],
+  "status": "passed",
+  "scope": "Pinned semantic role review plus current repository import guard; no Lean replay or GPU run"
+}

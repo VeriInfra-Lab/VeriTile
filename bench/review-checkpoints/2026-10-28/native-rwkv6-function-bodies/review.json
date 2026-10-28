@@ -1,0 +1,1143 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "13ef9a4208615cf5634b3bdf712c728fa7d130f4",
+  "merge_policy": "Keep draft; do not merge before explicit human review.",
+  "new_task_migrations": [
+    "fused_rwkv6_kernel"
+  ],
+  "regression_only_pending_body_tasks": [],
+  "semantic_review": {
+    "adam_update_triton": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "add_example": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "add_value": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "apply_penalty": "The former unrestricted raw FlattenOk claim was replaced by complete actual flat-memory equivalence to an internal mathematical address view, preserving failure, values and every memory cell. The full IO judgment and existing public domain are transported, with source access safety reverified.",
+    "attention_fwd_triton1": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "batched_vecmat_mult": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "bgmv_expand_slice": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "bmm_optimized": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "cache_transform_triton": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "chunk_cumsum_kernel": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "chunk_cumsum_vector": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "chunk_delta_fwd": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "chunked_cumsum_fwd": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "cosine_compute": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "cross_entropy1": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "cross_entropy2": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "cross_entropy_ops": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "decay_cumsum": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "dequantize_matmul": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "dequantize_rowwise": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "destindex_copy": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "destindex_copy_kv1": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "destindex_copy_kv2": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "diag_ssm_triton": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "dropout_triton": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "embedding_triton_kernel": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "f8_conversion_utils": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "fast_ce_loss": "Reference gather and IO routing now retain the signed target displacement before whole-pointer projection. Existing valid-label hypotheses recover the independent mathematical target; chunked/forward/backward source access proofs are reverified without new input conditions.",
+    "fast_rope_embedding": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "fifth_order_sph_harmonics": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "flash_decode2_llama": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "flash_decode2_phi": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "fused_activation": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "fused_recurrent_hgrn": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "fused_rotary_embedding": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "fused_rwkv6_kernel": "Ten complete raw original/candidate mappings preserve all 16 source statements across FP32/i32/i64/u64 scale and native integer-one constexpr specialization, optional initial/final state, T=0, reverse iteration, masks, casts and the nested FP32 query load. The candidate only hoists p_u/mask_bk/b_u after i_h in the complete Python module. Original Python, input contracts and existing RWKV IO declarations remain byte-identical; caller dispatch and complete Runtime IO views are appended. Real mathematics, full source execution/safety, outputs/frame and actual FP pair are reverified; no numerical rule, arbitrary cast identity or whole-kernel premise is added.",
+    "geglu_tanh_triton": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "index_select_bwd": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "index_select_cat": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "int8_matmul_kernel": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "isfinite_kernel": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "kcache_copy_triton": "Selected block routing and the public IO address now use the actual whole-pointer projection for signed block-table entries. Access safety uses those same addresses; existing valid-host hypotheses recover the independent tensor formula. No metadata-domain narrowing is added.",
+    "kldiv_compute": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "kldiv_ops": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence. Existing nonnegative offset bounds discharge the new signed negative-part terms in source execution and access safety; no independent formula or public domain is changed.",
+    "kldiv_triton": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence. Existing nonnegative offset bounds discharge the new signed negative-part terms in source execution and access safety; no independent formula or public domain is changed.",
+    "ksoftmax_triton": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "kv_cache_copy": "Selected block routing and the public IO address now use the actual whole-pointer projection for signed block-table entries. Access safety uses those same addresses; existing valid-host hypotheses recover the independent tensor formula. No metadata-domain narrowing is added.",
+    "kv_cache_filling": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "l2_norm_bwd": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "l2_norm_triton1": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "l2_norm_triton2": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "log_softmax": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "logsumexp_fwd": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "lora_expand_gemv": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "masked_add_cuda": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "masked_select": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "matmul_kernel": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "matmul_tma": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "matrix_reduction": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "matrix_transpose": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "max_reduction": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "mean_reduction": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "mul_exponent_compensator": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "nested_loops_processing": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "pow_scalar_tensor": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "quant_transpose_kernel": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "quantize_copy_kv": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "quantize_global": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "quantize_kv_copy": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "quantize_kv_transform": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "relu_strided_buffer": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "relu_triton_kernel": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "reversed_cumsum": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "reversed_cumsum_scalar": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "rms_norm_triton": "The source runtime N now reaches opaque fromNat rather than an FP literal. The selected ordered reference and native observation retain that conversion and the actual integer-one specialization. Legacy source equality is replaced by a Real-only semantic bridge; the public independent Real formula and input domain are unchanged. A separate checked singleton reference covers N=B=1. No arbitrary conversion identity is assumed. The legacy per-lane readback helper was renamed to avoid a collision with the current public theorem; both statements and proof meanings are preserved.",
+    "rmsnorm_fused": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "rmsnorm_fused_llama": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "rmsnorm_implementation": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "rmsnorm_triton": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "rope_backward_transform": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "rope_embedding": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "rope_transform": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "rotary_emb": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "rotary_emb_nopad": "The typed block-table lookup, public IO offset and source safety bounds now follow actual signed pointer evaluation. Existing nonnegative metadata recovers the original geometry and logical value. Full arbitrary-primitive source memory equivalences are retained and rebuilt.",
+    "rotary_transform": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "rotary_transform_ops": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "rowwise_quantization_triton": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "seeded_dropout": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "sin_computation": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "sin_kernel": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "softmax_optimize": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "softmax_reducev": "FP and Real key/value offsets, IO reads and the input binding retain the actual signed page-table address. Existing valid host Nat-page metadata recovers the independent logical formula. Complete IO, safety, source FP pair and native results are rebuilt.",
+    "softmax_triton1": "Actual signed-pointer execution is connected to an internal natural-address view by complete regional and flat memory equivalence, including failure. Original and reciprocal complete IO results retain successful execution, bounds, masked outputs and exterior frame with the same public domain.",
+    "softmax_triton2": "The source is literally identical to softmax_triton1, so its complete IO result now reuses the repaired actual-source theorem rather than the removed invalid raw FlattenOk claim. The full logical-row formula and covering condition are preserved.",
+    "softmax_triton3": "All original mask branches retain their actual signed-pointer source. Complete regional/flat-memory equivalence to the existing natural-address proof view reconnects full IO without a false raw FlattenOk theorem.",
+    "square_matrix": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "swiglu_backward": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "swiglu_fwd": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "swiglu_triton": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "token_attn_llama2": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "token_attn_mistral": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "token_attn_reduceV": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "token_softmax_bloom": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "token_softmax_llama": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "triton_argmax": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "triton_mul2": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "triton_softmax": "A complete flat and regional memory equivalence connects the pasted source to the independently checked natural-address view; generic tile IO transport preserves successful execution, every active value and the entire exterior frame. Strides, offsets, positive tile, coverage and output-injectivity conditions are unchanged.",
+    "var_len_copy": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "vector_addition": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence.",
+    "vector_addition_custom": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence."
+  },
+  "compiler_change": {
+    "files": [
+      "VeriTile/Triton/DSL/Expansion/Common.lean",
+      "VeriTile/Triton/DSL/Expansion/Main.lean",
+      "VeriTile/Triton/DSL/NestedLoadAssignments.lean",
+      "VeriTile/Triton/DSL/PythonBody.lean",
+      "VeriTile/Triton/DSL/TypedStores.lean",
+      "VeriTile/Triton/Memory/KernelMemoryTransport.lean"
+    ],
+    "behavior": "The shared frontend retains signed whole-pointer movement, eager nested FP loads and actual runtime integer conversion. Every cumulative task/example/frontend root and full local import closure is rebuilt warm and independently from empty project objects; both joint imports pass. Existing source, successful execution, actual access bounds, outputs and complete memory frame are reconnected under existing public conditions. This is a model-level proof replay, not new hardware conformance or numerical evidence."
+  },
+  "verification": {
+    "focused_regressions": {
+      "status": "PASS",
+      "first_pass_roots": 877,
+      "dependent_softmax_roots": 2,
+      "scope": "Affected task Real/FP/IO/safety/native proofs and helpers; final cumulative replay supersedes earlier stopped builds."
+    },
+    "warm_and_joint": {
+      "status": "PASS",
+      "explicit_modules": 4846,
+      "jobs": 14544
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 4846,
+      "jobs": 14544,
+      "project_build_initially_present": false,
+      "project_objects_imported_from_other_checkouts": false,
+      "only_fixed_external_dependencies_imported": true,
+      "setup": {
+        "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/clean.json",
+        "sha256": "752bc07cff97410b22414ed071fc8139e1cb95545126fac029855b04cbc16504"
+      }
+    },
+    "axiom_audit": {
+      "status": "PASS",
+      "defining_modules": 1010,
+      "elaborated_theorems": 18817,
+      "private_helpers_included": true,
+      "allowed": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "method": "Discover theorem roots by defining imported module and validate the accumulated dependency union after each root in one immutable checked Lean environment."
+    },
+    "fp_assumptions": "RWKV public u_early_equiv prints none; all imported public audit commands replay during cumulative builds.",
+    "python": {
+      "targeted": {
+        "status": "PASS",
+        "tests": 271
+      },
+      "full": {
+        "status": "KNOWN_PREEXISTING_FAILURE",
+        "tests": 516,
+        "errors": 1,
+        "reason": "Old numerical receipt rejects unchanged Structural.lean hash; no false numerical repin."
+      }
+    },
+    "source": "Ten strict raw body mappings and whole Python candidate AST check pass; original Python and input contracts retained. Full source/IO and independent mathematics reconnected.",
+    "official_comparator": {
+      "status": "UNAVAILABLE",
+      "actual_final_source_attempts": 164,
+      "reason": "Pinned official binaries require Landlock ABI v5; host supplies v4 and no systemd user isolation. No isolation bypass."
+    },
+    "cpu": "PASS: complete module AST permits only the three documented hoists; raw-body tests cover source/ABI drift.",
+    "torch": "UNAVAILABLE: retained checker requires missing Torch/Triton.",
+    "gpu_or_numerical_experiment": "Not run.",
+    "earlier_failures": "Initial and revised builds exposed signed-pointer/old-reference proof regressions and were stopped. A later full module build passed but its joint import exposed a legacy RMS helper name collision; that helper was renamed without changing its statement or proof. None of these incomplete runs is counted as passing. Their logs and the final repairs are retained.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending; the known unchanged numerical receipt failure remains explicit."
+  },
+  "source_pairs": {
+    "total": 375,
+    "pasted_body": 375,
+    "legacy_ast": 0
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/source-closure.json",
+    "sha256": "4283385931a435052b73c3a70c2f7c89d9ee1d993889806a1827333f40224532"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "selected_body_copy_checked": 110,
+      "uncovered_jit_functions": 73
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 333,
+    "uncovered_selected_jit_functions": 157,
+    "primary_files_with_int64_screen_warning": 22,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 52,
+        "antiquotes": 58,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/VeriTile__Triton__DSL__Expansion__Common-comparator.log",
+      "sha256": "cc2ffc1db30eed81d9edeadb83b0bfa607b08385578ff262f4126d4f2a0c9261"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/VeriTile__Triton__DSL__Expansion__Main-comparator.log",
+      "sha256": "cc2ffc1db30eed81d9edeadb83b0bfa607b08385578ff262f4126d4f2a0c9261"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/VeriTile__Triton__DSL__NestedLoadAssignments-comparator.log",
+      "sha256": "543feb1058c7512c19636c31ab8647de59d5015b97245331873635e2456d4dc9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/VeriTile__Triton__DSL__PythonBody-comparator.log",
+      "sha256": "543feb1058c7512c19636c31ab8647de59d5015b97245331873635e2456d4dc9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/VeriTile__Triton__DSL__TypedStores-comparator.log",
+      "sha256": "543feb1058c7512c19636c31ab8647de59d5015b97245331873635e2456d4dc9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/VeriTile__Triton__Memory__KernelMemoryTransport-comparator.log",
+      "sha256": "543feb1058c7512c19636c31ab8647de59d5015b97245331873635e2456d4dc9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/all-modules.txt",
+      "sha256": "ad61f5706ed5cf3b52116ce8f9911b7c2643e05503ece1582983aae73b7083c0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/all-python.log",
+      "sha256": "d3fef3b8fb5a923372469d1c417681632934cd3562b14af656b383c300244c21"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/audit-modules.json",
+      "sha256": "d13fdfcb2b1dae6c882fcf64146629b615d0a6e4c42c32b0d343706b46797757"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/audit-targets.json",
+      "sha256": "44a2b5655f090af41c48f11c104c813e82a8b0992c4a37e27a2ba371a9921677"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/audit.json",
+      "sha256": "c813e3cf55c92d7e2dc406c9d19f489cf4255f6417af6bcc8f5ec06cd35da524"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/audit.lean",
+      "sha256": "bca3bb8d2f6c25193caf2a95ba510a606f33cdda2b8c88e7bb4798025458e0d5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/audit.log.gz",
+      "sha256": "c725b451771c6e4c9424ba486c15ce806ac595f28be26e37c813a0c853c7c7e4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__apply_penalty__Proofs__AccessSafety-comparator.log",
+      "sha256": "543feb1058c7512c19636c31ab8647de59d5015b97245331873635e2456d4dc9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__apply_penalty__Proofs__FlatProjection-comparator.log",
+      "sha256": "543feb1058c7512c19636c31ab8647de59d5015b97245331873635e2456d4dc9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__apply_penalty__Proofs__Projection-comparator.log",
+      "sha256": "543feb1058c7512c19636c31ab8647de59d5015b97245331873635e2456d4dc9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__apply_penalty__Proofs__RealIO-comparator.log",
+      "sha256": "543feb1058c7512c19636c31ab8647de59d5015b97245331873635e2456d4dc9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__apply_penalty__Proofs__Rewrite-comparator.log",
+      "sha256": "543feb1058c7512c19636c31ab8647de59d5015b97245331873635e2456d4dc9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__KernelBackward-comparator.log",
+      "sha256": "543feb1058c7512c19636c31ab8647de59d5015b97245331873635e2456d4dc9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__KernelNative-comparator.log",
+      "sha256": "543feb1058c7512c19636c31ab8647de59d5015b97245331873635e2456d4dc9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__cross_entropy1__Proofs__KernelTailSafety-comparator.log",
+      "sha256": "543feb1058c7512c19636c31ab8647de59d5015b97245331873635e2456d4dc9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__KernelBackward-comparator.log",
+      "sha256": "543feb1058c7512c19636c31ab8647de59d5015b97245331873635e2456d4dc9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__KernelNative-comparator.log",
+      "sha256": "543feb1058c7512c19636c31ab8647de59d5015b97245331873635e2456d4dc9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__KernelTailSafety-comparator.log",
+      "sha256": "543feb1058c7512c19636c31ab8647de59d5015b97245331873635e2456d4dc9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__AccessSafety-comparator.log",
+      "sha256": "543feb1058c7512c19636c31ab8647de59d5015b97245331873635e2456d4dc9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__KernelBackward-comparator.log",
+      "sha256": "543feb1058c7512c19636c31ab8647de59d5015b97245331873635e2456d4dc9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__KernelNative-comparator.log",
+      "sha256": "543feb1058c7512c19636c31ab8647de59d5015b97245331873635e2456d4dc9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__IO-comparator.log",
+      "sha256": "543feb1058c7512c19636c31ab8647de59d5015b97245331873635e2456d4dc9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__IOBinding-comparator.log",
+      "sha256": "543feb1058c7512c19636c31ab8647de59d5015b97245331873635e2456d4dc9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__KernelForward-comparator.log",
+      "sha256": "543feb1058c7512c19636c31ab8647de59d5015b97245331873635e2456d4dc9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__KernelMath-comparator.log",
+      "sha256": "543feb1058c7512c19636c31ab8647de59d5015b97245331873635e2456d4dc9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__KernelModel-comparator.log",
+      "sha256": "7adfb2b6b48ced1025e81aff33419aaaa6d7b45db4300ae2c1c3a55fb88e005b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__LogicalModel-comparator.log",
+      "sha256": "7adfb2b6b48ced1025e81aff33419aaaa6d7b45db4300ae2c1c3a55fb88e005b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__SourceAccessChunked-comparator.log",
+      "sha256": "7adfb2b6b48ced1025e81aff33419aaaa6d7b45db4300ae2c1c3a55fb88e005b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fast_ce_loss__Proofs__SourceAccessForward-comparator.log",
+      "sha256": "7adfb2b6b48ced1025e81aff33419aaaa6d7b45db4300ae2c1c3a55fb88e005b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel__Correct-comparator.log",
+      "sha256": "7adfb2b6b48ced1025e81aff33419aaaa6d7b45db4300ae2c1c3a55fb88e005b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel__FPEquiv-comparator.log",
+      "sha256": "7adfb2b6b48ced1025e81aff33419aaaa6d7b45db4300ae2c1c3a55fb88e005b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel__Kernels-comparator.log",
+      "sha256": "7adfb2b6b48ced1025e81aff33419aaaa6d7b45db4300ae2c1c3a55fb88e005b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel__Proofs__Binding-comparator.log",
+      "sha256": "7adfb2b6b48ced1025e81aff33419aaaa6d7b45db4300ae2c1c3a55fb88e005b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel__Proofs__Checked-comparator.log",
+      "sha256": "7adfb2b6b48ced1025e81aff33419aaaa6d7b45db4300ae2c1c3a55fb88e005b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel__Proofs__CheckedIndices-comparator.log",
+      "sha256": "7adfb2b6b48ced1025e81aff33419aaaa6d7b45db4300ae2c1c3a55fb88e005b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel__Proofs__Domain-comparator.log",
+      "sha256": "7adfb2b6b48ced1025e81aff33419aaaa6d7b45db4300ae2c1c3a55fb88e005b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel__Proofs__Execution-comparator.log",
+      "sha256": "7adfb2b6b48ced1025e81aff33419aaaa6d7b45db4300ae2c1c3a55fb88e005b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel__Proofs__HistoricalCorrect-comparator.log",
+      "sha256": "7adfb2b6b48ced1025e81aff33419aaaa6d7b45db4300ae2c1c3a55fb88e005b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel__Proofs__HistoricalFPEquiv-comparator.log",
+      "sha256": "7adfb2b6b48ced1025e81aff33419aaaa6d7b45db4300ae2c1c3a55fb88e005b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel__Proofs__Host-comparator.log",
+      "sha256": "7adfb2b6b48ced1025e81aff33419aaaa6d7b45db4300ae2c1c3a55fb88e005b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel__Proofs__Index-comparator.log",
+      "sha256": "7adfb2b6b48ced1025e81aff33419aaaa6d7b45db4300ae2c1c3a55fb88e005b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel__Proofs__Native-comparator.log",
+      "sha256": "7adfb2b6b48ced1025e81aff33419aaaa6d7b45db4300ae2c1c3a55fb88e005b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel__Proofs__Reader-comparator.log",
+      "sha256": "7adfb2b6b48ced1025e81aff33419aaaa6d7b45db4300ae2c1c3a55fb88e005b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel__Proofs__Real-comparator.log",
+      "sha256": "7adfb2b6b48ced1025e81aff33419aaaa6d7b45db4300ae2c1c3a55fb88e005b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel__Proofs__RealReference-comparator.log",
+      "sha256": "7adfb2b6b48ced1025e81aff33419aaaa6d7b45db4300ae2c1c3a55fb88e005b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel__Proofs__Reference-comparator.log",
+      "sha256": "7adfb2b6b48ced1025e81aff33419aaaa6d7b45db4300ae2c1c3a55fb88e005b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel__Proofs__Reuse-comparator.log",
+      "sha256": "7adfb2b6b48ced1025e81aff33419aaaa6d7b45db4300ae2c1c3a55fb88e005b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel__Proofs__Source-comparator.log",
+      "sha256": "30730ae36427b3e24c24bf3444c6a8810d3d5a26610b1ba089966a4c666f8e26"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel__Proofs__Storage-comparator.log",
+      "sha256": "30730ae36427b3e24c24bf3444c6a8810d3d5a26610b1ba089966a4c666f8e26"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel__Proofs__Trace-comparator.log",
+      "sha256": "30730ae36427b3e24c24bf3444c6a8810d3d5a26610b1ba089966a4c666f8e26"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel__SourceParameters-comparator.log",
+      "sha256": "30730ae36427b3e24c24bf3444c6a8810d3d5a26610b1ba089966a4c666f8e26"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel_scalar_abi_checked__CandidateKernels-comparator.log",
+      "sha256": "30730ae36427b3e24c24bf3444c6a8810d3d5a26610b1ba089966a4c666f8e26"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel_scalar_abi_checked__Contract-comparator.log",
+      "sha256": "30730ae36427b3e24c24bf3444c6a8810d3d5a26610b1ba089966a4c666f8e26"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel_scalar_abi_checked__Correct-comparator.log",
+      "sha256": "30730ae36427b3e24c24bf3444c6a8810d3d5a26610b1ba089966a4c666f8e26"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel_scalar_abi_checked__FPEquiv-comparator.log",
+      "sha256": "30730ae36427b3e24c24bf3444c6a8810d3d5a26610b1ba089966a4c666f8e26"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel_scalar_abi_checked__IO-comparator.log",
+      "sha256": "30730ae36427b3e24c24bf3444c6a8810d3d5a26610b1ba089966a4c666f8e26"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel_scalar_abi_checked__Kernels-comparator.log",
+      "sha256": "30730ae36427b3e24c24bf3444c6a8810d3d5a26610b1ba089966a4c666f8e26"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel_scalar_abi_checked__Misc__NativeCorrect-comparator.log",
+      "sha256": "30730ae36427b3e24c24bf3444c6a8810d3d5a26610b1ba089966a4c666f8e26"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel_scalar_abi_checked__Misc__NativeIOResults-comparator.log",
+      "sha256": "30730ae36427b3e24c24bf3444c6a8810d3d5a26610b1ba089966a4c666f8e26"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel_scalar_abi_checked__Misc__NativeReference-comparator.log",
+      "sha256": "30730ae36427b3e24c24bf3444c6a8810d3d5a26610b1ba089966a4c666f8e26"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel_scalar_abi_checked__Misc__PhysicalIOBinding-comparator.log",
+      "sha256": "30730ae36427b3e24c24bf3444c6a8810d3d5a26610b1ba089966a4c666f8e26"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel_scalar_abi_checked__Misc__RawCorrect-comparator.log",
+      "sha256": "30730ae36427b3e24c24bf3444c6a8810d3d5a26610b1ba089966a4c666f8e26"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel_scalar_abi_checked__Misc__RawNative-comparator.log",
+      "sha256": "30730ae36427b3e24c24bf3444c6a8810d3d5a26610b1ba089966a4c666f8e26"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel_scalar_abi_checked__Misc__TensorBridge-comparator.log",
+      "sha256": "30730ae36427b3e24c24bf3444c6a8810d3d5a26610b1ba089966a4c666f8e26"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel_scalar_abi_checked__Proofs__Backends-comparator.log",
+      "sha256": "30730ae36427b3e24c24bf3444c6a8810d3d5a26610b1ba089966a4c666f8e26"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel_scalar_abi_checked__Proofs__Body-comparator.log",
+      "sha256": "30730ae36427b3e24c24bf3444c6a8810d3d5a26610b1ba089966a4c666f8e26"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel_scalar_abi_checked__Proofs__BodyExec-comparator.log",
+      "sha256": "30730ae36427b3e24c24bf3444c6a8810d3d5a26610b1ba089966a4c666f8e26"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel_scalar_abi_checked__Proofs__Bytes-comparator.log",
+      "sha256": "30730ae36427b3e24c24bf3444c6a8810d3d5a26610b1ba089966a4c666f8e26"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel_scalar_abi_checked__Proofs__Context-comparator.log",
+      "sha256": "30730ae36427b3e24c24bf3444c6a8810d3d5a26610b1ba089966a4c666f8e26"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel_scalar_abi_checked__Proofs__Execution-comparator.log",
+      "sha256": "e0a1589ff62ea408524d71abd746648e8548845bb9fbc71664d004b605898d54"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel_scalar_abi_checked__Proofs__Grid-comparator.log",
+      "sha256": "e0a1589ff62ea408524d71abd746648e8548845bb9fbc71664d004b605898d54"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel_scalar_abi_checked__Proofs__IOExecution-comparator.log",
+      "sha256": "e0a1589ff62ea408524d71abd746648e8548845bb9fbc71664d004b605898d54"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel_scalar_abi_checked__Proofs__IOImplements-comparator.log",
+      "sha256": "e0a1589ff62ea408524d71abd746648e8548845bb9fbc71664d004b605898d54"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel_scalar_abi_checked__Proofs__IOResults-comparator.log",
+      "sha256": "e0a1589ff62ea408524d71abd746648e8548845bb9fbc71664d004b605898d54"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel_scalar_abi_checked__Proofs__IOSafety-comparator.log",
+      "sha256": "e0a1589ff62ea408524d71abd746648e8548845bb9fbc71664d004b605898d54"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel_scalar_abi_checked__Proofs__IOValues-comparator.log",
+      "sha256": "e0a1589ff62ea408524d71abd746648e8548845bb9fbc71664d004b605898d54"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel_scalar_abi_checked__Proofs__LogicalCoordinates-comparator.log",
+      "sha256": "e0a1589ff62ea408524d71abd746648e8548845bb9fbc71664d004b605898d54"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel_scalar_abi_checked__Proofs__LogicalInputBinding-comparator.log",
+      "sha256": "e0a1589ff62ea408524d71abd746648e8548845bb9fbc71664d004b605898d54"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel_scalar_abi_checked__Proofs__Loop-comparator.log",
+      "sha256": "e0a1589ff62ea408524d71abd746648e8548845bb9fbc71664d004b605898d54"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel_scalar_abi_checked__Proofs__ModelBridge-comparator.log",
+      "sha256": "e0a1589ff62ea408524d71abd746648e8548845bb9fbc71664d004b605898d54"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel_scalar_abi_checked__Proofs__NativeScalar-comparator.log",
+      "sha256": "e0a1589ff62ea408524d71abd746648e8548845bb9fbc71664d004b605898d54"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel_scalar_abi_checked__Proofs__Observations-comparator.log",
+      "sha256": "e0a1589ff62ea408524d71abd746648e8548845bb9fbc71664d004b605898d54"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel_scalar_abi_checked__Proofs__OptionalState-comparator.log",
+      "sha256": "e0a1589ff62ea408524d71abd746648e8548845bb9fbc71664d004b605898d54"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel_scalar_abi_checked__Proofs__Output-comparator.log",
+      "sha256": "e0a1589ff62ea408524d71abd746648e8548845bb9fbc71664d004b605898d54"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel_scalar_abi_checked__Proofs__Pair-comparator.log",
+      "sha256": "e0a1589ff62ea408524d71abd746648e8548845bb9fbc71664d004b605898d54"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel_scalar_abi_checked__Proofs__PairPrefix-comparator.log",
+      "sha256": "e0a1589ff62ea408524d71abd746648e8548845bb9fbc71664d004b605898d54"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel_scalar_abi_checked__Proofs__RuntimeReal-comparator.log",
+      "sha256": "e0a1589ff62ea408524d71abd746648e8548845bb9fbc71664d004b605898d54"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel_scalar_abi_checked__Proofs__RuntimeScalar-comparator.log",
+      "sha256": "e0a1589ff62ea408524d71abd746648e8548845bb9fbc71664d004b605898d54"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel_scalar_abi_checked__Proofs__SafetyLoop-comparator.log",
+      "sha256": "e0a1589ff62ea408524d71abd746648e8548845bb9fbc71664d004b605898d54"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel_scalar_abi_checked__Proofs__ScalarPair-comparator.log",
+      "sha256": "e0a1589ff62ea408524d71abd746648e8548845bb9fbc71664d004b605898d54"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel_scalar_abi_checked__Proofs__ScalarSafety-comparator.log",
+      "sha256": "e0a1589ff62ea408524d71abd746648e8548845bb9fbc71664d004b605898d54"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel_scalar_abi_checked__Proofs__ScalarSource-comparator.log",
+      "sha256": "e0a1589ff62ea408524d71abd746648e8548845bb9fbc71664d004b605898d54"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel_scalar_abi_checked__Proofs__ScalarTransport-comparator.log",
+      "sha256": "8c4e699083ef44ff429026c27753711ab5b0dffd1a8c819c631756da78563e14"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel_scalar_abi_checked__Proofs__ScatterBridge-comparator.log",
+      "sha256": "8c4e699083ef44ff429026c27753711ab5b0dffd1a8c819c631756da78563e14"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel_scalar_abi_checked__Proofs__SourceCells-comparator.log",
+      "sha256": "8c4e699083ef44ff429026c27753711ab5b0dffd1a8c819c631756da78563e14"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel_scalar_abi_checked__Proofs__SourceSafety-comparator.log",
+      "sha256": "8c4e699083ef44ff429026c27753711ab5b0dffd1a8c819c631756da78563e14"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__fused_rwkv6_kernel_scalar_abi_checked__Proofs__Specialization-comparator.log",
+      "sha256": "8c4e699083ef44ff429026c27753711ab5b0dffd1a8c819c631756da78563e14"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__kcache_copy_triton__IO-comparator.log",
+      "sha256": "8c4e699083ef44ff429026c27753711ab5b0dffd1a8c819c631756da78563e14"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__kcache_copy_triton__Proofs__KernelFP-comparator.log",
+      "sha256": "8c4e699083ef44ff429026c27753711ab5b0dffd1a8c819c631756da78563e14"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__kcache_copy_triton__Proofs__KernelReal-comparator.log",
+      "sha256": "8c4e699083ef44ff429026c27753711ab5b0dffd1a8c819c631756da78563e14"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__kcache_copy_triton__Proofs__KernelRealIO-comparator.log",
+      "sha256": "8c4e699083ef44ff429026c27753711ab5b0dffd1a8c819c631756da78563e14"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__kcache_copy_triton__Proofs__SourceSafety-comparator.log",
+      "sha256": "8c4e699083ef44ff429026c27753711ab5b0dffd1a8c819c631756da78563e14"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__kldiv_ops__Proofs__Backward-comparator.log",
+      "sha256": "8c4e699083ef44ff429026c27753711ab5b0dffd1a8c819c631756da78563e14"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__kldiv_ops__Proofs__Chunk-comparator.log",
+      "sha256": "8c4e699083ef44ff429026c27753711ab5b0dffd1a8c819c631756da78563e14"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__kldiv_ops__Proofs__SafetyBackward-comparator.log",
+      "sha256": "8c4e699083ef44ff429026c27753711ab5b0dffd1a8c819c631756da78563e14"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__kldiv_ops__Proofs__SafetyBackwardSteps-comparator.log",
+      "sha256": "8c4e699083ef44ff429026c27753711ab5b0dffd1a8c819c631756da78563e14"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__kldiv_ops__Proofs__SafetyForward-comparator.log",
+      "sha256": "8c4e699083ef44ff429026c27753711ab5b0dffd1a8c819c631756da78563e14"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__kldiv_ops__Proofs__SafetyForwardSteps-comparator.log",
+      "sha256": "8c4e699083ef44ff429026c27753711ab5b0dffd1a8c819c631756da78563e14"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__kldiv_ops__Proofs__Tile-comparator.log",
+      "sha256": "8c4e699083ef44ff429026c27753711ab5b0dffd1a8c819c631756da78563e14"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__Backward-comparator.log",
+      "sha256": "8c4e699083ef44ff429026c27753711ab5b0dffd1a8c819c631756da78563e14"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__KernelSafety-comparator.log",
+      "sha256": "8c4e699083ef44ff429026c27753711ab5b0dffd1a8c819c631756da78563e14"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__Statement-comparator.log",
+      "sha256": "8c4e699083ef44ff429026c27753711ab5b0dffd1a8c819c631756da78563e14"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__kv_cache_copy__IO-comparator.log",
+      "sha256": "8c4e699083ef44ff429026c27753711ab5b0dffd1a8c819c631756da78563e14"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__kv_cache_copy__Proofs__KernelFP-comparator.log",
+      "sha256": "8c4e699083ef44ff429026c27753711ab5b0dffd1a8c819c631756da78563e14"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__kv_cache_copy__Proofs__KernelReal-comparator.log",
+      "sha256": "8c4e699083ef44ff429026c27753711ab5b0dffd1a8c819c631756da78563e14"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__kv_cache_copy__Proofs__KernelRealIO-comparator.log",
+      "sha256": "39737c1367cc58a9e71864720d589b11f17112c3885c97fd82a945a50cb645e0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__kv_cache_copy__Proofs__KernelSafety-comparator.log",
+      "sha256": "39737c1367cc58a9e71864720d589b11f17112c3885c97fd82a945a50cb645e0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__rms_norm_triton__Correct-comparator.log",
+      "sha256": "39737c1367cc58a9e71864720d589b11f17112c3885c97fd82a945a50cb645e0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__rms_norm_triton__Misc__NativeCorrect-comparator.log",
+      "sha256": "39737c1367cc58a9e71864720d589b11f17112c3885c97fd82a945a50cb645e0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__rms_norm_triton__Proofs__ActualRow-comparator.log",
+      "sha256": "39737c1367cc58a9e71864720d589b11f17112c3885c97fd82a945a50cb645e0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__rms_norm_triton__Proofs__KernelObserved-comparator.log",
+      "sha256": "39737c1367cc58a9e71864720d589b11f17112c3885c97fd82a945a50cb645e0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__rms_norm_triton__Proofs__KernelReal-comparator.log",
+      "sha256": "39737c1367cc58a9e71864720d589b11f17112c3885c97fd82a945a50cb645e0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__rms_norm_triton__Proofs__Pair-comparator.log",
+      "sha256": "39737c1367cc58a9e71864720d589b11f17112c3885c97fd82a945a50cb645e0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__rms_norm_triton__Proofs__PublicIO-comparator.log",
+      "sha256": "39737c1367cc58a9e71864720d589b11f17112c3885c97fd82a945a50cb645e0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__rms_norm_triton__Proofs__RuntimeObserved-comparator.log",
+      "sha256": "39737c1367cc58a9e71864720d589b11f17112c3885c97fd82a945a50cb645e0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__rms_norm_triton__Proofs__RuntimeReal-comparator.log",
+      "sha256": "39737c1367cc58a9e71864720d589b11f17112c3885c97fd82a945a50cb645e0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__rms_norm_triton__Proofs__SourcePreservation-comparator.log",
+      "sha256": "39737c1367cc58a9e71864720d589b11f17112c3885c97fd82a945a50cb645e0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__rotary_emb_nopad__IO-comparator.log",
+      "sha256": "39737c1367cc58a9e71864720d589b11f17112c3885c97fd82a945a50cb645e0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__rotary_emb_nopad__Proofs__SourceSafety-comparator.log",
+      "sha256": "39737c1367cc58a9e71864720d589b11f17112c3885c97fd82a945a50cb645e0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__rotary_emb_nopad__Proofs__TypedBinding-comparator.log",
+      "sha256": "39737c1367cc58a9e71864720d589b11f17112c3885c97fd82a945a50cb645e0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__rotary_emb_nopad__Proofs__TypedCachedMemory-comparator.log",
+      "sha256": "39737c1367cc58a9e71864720d589b11f17112c3885c97fd82a945a50cb645e0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__rotary_emb_nopad__Proofs__TypedDefinitions-comparator.log",
+      "sha256": "39737c1367cc58a9e71864720d589b11f17112c3885c97fd82a945a50cb645e0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__rotary_emb_nopad__Proofs__TypedGeometry-comparator.log",
+      "sha256": "39737c1367cc58a9e71864720d589b11f17112c3885c97fd82a945a50cb645e0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__IO-comparator.log",
+      "sha256": "39737c1367cc58a9e71864720d589b11f17112c3885c97fd82a945a50cb645e0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__FPReference-comparator.log",
+      "sha256": "39737c1367cc58a9e71864720d589b11f17112c3885c97fd82a945a50cb645e0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__IOBindings-comparator.log",
+      "sha256": "39737c1367cc58a9e71864720d589b11f17112c3885c97fd82a945a50cb645e0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__IOCoverage-comparator.log",
+      "sha256": "bed22a89ba8a9eef84c3942fd19641c48ade305342e1bd38802dc3fc2cf56046"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__RealPublic-comparator.log",
+      "sha256": "bed22a89ba8a9eef84c3942fd19641c48ade305342e1bd38802dc3fc2cf56046"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__softmax_reducev_neginf_checked__Proofs__RealSource-comparator.log",
+      "sha256": "bed22a89ba8a9eef84c3942fd19641c48ade305342e1bd38802dc3fc2cf56046"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__softmax_triton1__Proofs__FlatNaturalAddressView-comparator.log",
+      "sha256": "bed22a89ba8a9eef84c3942fd19641c48ade305342e1bd38802dc3fc2cf56046"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__softmax_triton1__Proofs__NaturalAddressView-comparator.log",
+      "sha256": "bed22a89ba8a9eef84c3942fd19641c48ade305342e1bd38802dc3fc2cf56046"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__softmax_triton1__Proofs__Real-comparator.log",
+      "sha256": "bed22a89ba8a9eef84c3942fd19641c48ade305342e1bd38802dc3fc2cf56046"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__softmax_triton1__Proofs__RealIO-comparator.log",
+      "sha256": "bed22a89ba8a9eef84c3942fd19641c48ade305342e1bd38802dc3fc2cf56046"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__softmax_triton2__Proofs__Real-comparator.log",
+      "sha256": "bed22a89ba8a9eef84c3942fd19641c48ade305342e1bd38802dc3fc2cf56046"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__softmax_triton3__Proofs__FlatNaturalAddressView-comparator.log",
+      "sha256": "bed22a89ba8a9eef84c3942fd19641c48ade305342e1bd38802dc3fc2cf56046"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__softmax_triton3__Proofs__NaturalAddressView-comparator.log",
+      "sha256": "bed22a89ba8a9eef84c3942fd19641c48ade305342e1bd38802dc3fc2cf56046"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__softmax_triton3__Proofs__RealExecution-comparator.log",
+      "sha256": "bed22a89ba8a9eef84c3942fd19641c48ade305342e1bd38802dc3fc2cf56046"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__softmax_triton3__Proofs__RealIO-comparator.log",
+      "sha256": "bed22a89ba8a9eef84c3942fd19641c48ade305342e1bd38802dc3fc2cf56046"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__triton_softmax__Proofs__FlatMemory-comparator.log",
+      "sha256": "bed22a89ba8a9eef84c3942fd19641c48ade305342e1bd38802dc3fc2cf56046"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__triton_softmax__Proofs__RealIOImplements-comparator.log",
+      "sha256": "bed22a89ba8a9eef84c3942fd19641c48ade305342e1bd38802dc3fc2cf56046"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__repairs__tritonbench_g__triton_softmax__Proofs__RowIO-comparator.log",
+      "sha256": "bed22a89ba8a9eef84c3942fd19641c48ade305342e1bd38802dc3fc2cf56046"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__tests__AliasedNestedLoadBody-comparator.log",
+      "sha256": "bed22a89ba8a9eef84c3942fd19641c48ade305342e1bd38802dc3fc2cf56046"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__tests__PythonAugmentedConditionalBody-comparator.log",
+      "sha256": "bed22a89ba8a9eef84c3942fd19641c48ade305342e1bd38802dc3fc2cf56046"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__tests__PythonSignedConditionalBody-comparator.log",
+      "sha256": "bed22a89ba8a9eef84c3942fd19641c48ade305342e1bd38802dc3fc2cf56046"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__tests__RuntimeIntegerScalarBody-comparator.log",
+      "sha256": "bed22a89ba8a9eef84c3942fd19641c48ade305342e1bd38802dc3fc2cf56046"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__tests__SignedPointerMovementBody-comparator.log",
+      "sha256": "bed22a89ba8a9eef84c3942fd19641c48ade305342e1bd38802dc3fc2cf56046"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__tritonbench_g__fused_rwkv6_kernel__FPCorrect-comparator.log",
+      "sha256": "bed22a89ba8a9eef84c3942fd19641c48ade305342e1bd38802dc3fc2cf56046"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__tritonbench_g__fused_rwkv6_kernel__FusedRwkv6Kernel-comparator.log",
+      "sha256": "bed22a89ba8a9eef84c3942fd19641c48ade305342e1bd38802dc3fc2cf56046"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__tritonbench_g__fused_rwkv6_kernel__Proofs__FPExpPrimitive-comparator.log",
+      "sha256": "bed22a89ba8a9eef84c3942fd19641c48ade305342e1bd38802dc3fc2cf56046"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__tritonbench_g__fused_rwkv6_kernel__Proofs__FPShape-comparator.log",
+      "sha256": "4f956f93c294292248dfc840548b0d214565309a9543dc910530fc9c05d51468"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__tritonbench_g__fused_rwkv6_kernel__Proofs__FPSoftware-comparator.log",
+      "sha256": "4f956f93c294292248dfc840548b0d214565309a9543dc910530fc9c05d51468"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__tritonbench_g__fused_rwkv6_kernel__Proofs__FPStages-comparator.log",
+      "sha256": "4f956f93c294292248dfc840548b0d214565309a9543dc910530fc9c05d51468"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__tritonbench_g__rms_norm_triton__Proofs__Observed-comparator.log",
+      "sha256": "4f956f93c294292248dfc840548b0d214565309a9543dc910530fc9c05d51468"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__tritonbench_g__rms_norm_triton__Proofs__ObservedMath-comparator.log",
+      "sha256": "4f956f93c294292248dfc840548b0d214565309a9543dc910530fc9c05d51468"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/bench__tritonbench_g__rms_norm_triton__Proofs__Real-comparator.log",
+      "sha256": "4f956f93c294292248dfc840548b0d214565309a9543dc910530fc9c05d51468"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/candidate-source-check.json",
+      "sha256": "0d27c4692c7cb0f10987eb153ab2ab2be3902f8811eb38964a4da38d95fd3aab"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/clean-build.log.gz",
+      "sha256": "87dee49b6a85e76798c8833351b19bcdcadf7721a2c7e4136b1d54affc456d1c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/clean-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/clean.json",
+      "sha256": "752bc07cff97410b22414ed071fc8139e1cb95545126fac029855b04cbc16504"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/code.txt",
+      "sha256": "f32f24a8072926119a46d08cb9682989c32af931fec1fec629e32e9448e85d9a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/commit.log",
+      "sha256": "f74c27c0b96b7648a46480e7b94cdfd40950f669a6881254c34271f37cf40fa6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/comparator-invocations.json",
+      "sha256": "17380e99e8f794dab0ea25713b6b794b4385c3a7ae6b493ddd11dec7faeaa495"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/comparator-tools.json",
+      "sha256": "28998e17d51b0fb5930f7489e64512a57f8a8146d1470063a624a75bbabdb0d3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/corpus-guard.log",
+      "sha256": "175339b63c22a4cd7b8760151f770cc3c33d06b45aa9f4c242868976e750b819"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/freeze.json",
+      "sha256": "d0b32f4092d7ac6985232d6d9d15ffbae271892aeaa97c488781da53051c8d2d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/history-baseline.json",
+      "sha256": "9c52130fe24d2156d2fb077ea9ae809636a833007d7c62a6053fa38d5b9330fe"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/history-final-clean-build.log.gz",
+      "sha256": "b0c793a9dcb18ce7d4706fdc681cd8ffecda57dae5604c9248af64384255d8db"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/history-final-clean-setup.json",
+      "sha256": "c8680ea5a8799c864ebbca456d42b01eebd8306dfcd4b2b07fd444d5860740eb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/history-finalize-reader-pin-failure.log",
+      "sha256": "3a9d81088bc058ec5e8d85220d363125f84ed39141e1768d382431f3a8377521"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/history-finalize-reader-role-failure.log",
+      "sha256": "773dfb829f5e41916ffb91e71c2bc1782c932aff53ab6f41b08db1a92b201c30"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/history-finalized-warm-build.log.gz",
+      "sha256": "81b84ed74a8ff3d13dac22200cd023e39c65d7587a978c6b33521fc63b0a9004"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/history-finalized-warm-joint.log",
+      "sha256": "f0960bfe75bd6917fd933c6b8d4e3bb34de1a1a0e03c4bf028bf48c16de9b765"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/history-finalized-warm.json",
+      "sha256": "6868b2c4afa48a2078ddd10ab79614ecdde917e25c0b8392890f0ef0b61f05c9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/history-regression-b10.json",
+      "sha256": "e3c26f45c9ff38645a5f298f7af1943e588ee2461489bdc0eb08e02e21e5ba57"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/history-regression-b10.log.gz",
+      "sha256": "77a6c8338b18df0246e651d6a6b000506074d0e8561729e6facbc5fd76c128d4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/history-regression-c1.json",
+      "sha256": "6b4d75c609d966d9721e04360a3a236a4c81739695429255c2af31cc1c5190d6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/history-regression-c1.log.gz",
+      "sha256": "ebc1c4c6de447b58a16eb8f41d8beca1461aafe74c6708d1822482327ca0aace"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/history-regression-c2.json",
+      "sha256": "2372635accab90d5ed10b7ec860b1b9cb4af327c78e174a13b463863b310767b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/history-regression-c2.log.gz",
+      "sha256": "c761175862f7db3988dfddad9ac123b5dff20219fd0f0e15443c54f2ad1c5389"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/history-regression-d1-build.log.gz",
+      "sha256": "cc96736c7de4dfd60f680982b03cd3c83f160a38f5944b8b707e390eab8a6345"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/history-regression-d1-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/history-regression-d1.json",
+      "sha256": "9028508d61f307f6254dccde6dad773956254cb4e2b67e2704ad784fa3ef894a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/history-revised-clean-build.log.gz",
+      "sha256": "03609d4e97078c9a8277dbd98d890dc39b9a28090fb5b77122983a5e53d50867"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/history-revised-clean-stopped.json",
+      "sha256": "37d589bd0f71927d6e4f9f8526cf8aa0ae5e19aabaf0b2dc79846acc3700f86c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/history-revised-clean.json",
+      "sha256": "1f89e04f4f478c71f4340e60b594b1d19e0f25c930d43217db4d3ee3f670dd1d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/history-revised-warm-build.log.gz",
+      "sha256": "9a42200c22691e46ec99d92abf333dbdf063253cfea74239ed6185bca4e2e685"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/history-revised-warm-stopped.json",
+      "sha256": "d9c1bc51ba024236cd63df7c4fd19d61ad7c727816bdc1d883ee8c2bc417e927"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/history-revised-warm.json",
+      "sha256": "79e1747db21b7cd8adb137c481b5bc9b5cba348865a159c78f2d84ab8920da81"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/history-warm-final-build.log.gz",
+      "sha256": "77e17e174e87baf690d8d958711062e59030e44f8e1d0572597f9aae07231f8a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/history-warm-final-invocation.json",
+      "sha256": "6ae4475de9ea735aadae4d2fb802c16ae5cb42f77fcdd98edfd6b31baa875de4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/inspections.json",
+      "sha256": "9a64dbf2f16ece10fbf17831af38922f24832f4b78389b265090af4a0a70bbba"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/io-guard.log",
+      "sha256": "0f30b59dbce8b6a941f456fa71d69795b1865a876e70f3aaa8ba54be4f0dbe9c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/joint-all.lean",
+      "sha256": "901f6885b2652c73bb9cbb36271c883c20256eb27c8dc0eb2dcf6b1cfbd3a945"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/modules.json",
+      "sha256": "c845de59d510968fd853165f02c23362d2baa1d877030955cc5d829591d423ae"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/pairs.json",
+      "sha256": "9b37289879fa99dbe162cf985c7ffda1389b21880c27255a3b48f2c53a49766e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/previous-reader-roles.json",
+      "sha256": "fa69d81b4beae849a4e6bd0133dd8f30829dcd94446609a4c5b8b4aae3415fd4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/previous-reviews.json.gz",
+      "sha256": "d425d895837b7e83a74bf04fe18236917b95dac50bc2aa0c28fba3f4d7640fcb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/python-invocations.json",
+      "sha256": "0ef6d5095c156212303126708f528bbfee15c061b4de02b699dc1e5ef05604c6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/python-tests.log",
+      "sha256": "cca1c2fdc7a62ffdf37603fe76f8f93e031164c7e69afb12d280bf3030817459"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/raw-body-check.log",
+      "sha256": "4ee3f5ddb7708473d2ab548a6ad8c04b4357675256581f1bab0deb6f13738a40"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/reader-guard.log",
+      "sha256": "d9b26faff45f491e7f11725a6806321e60d1bca058fc70ca625f9baef33f4182"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/reader-renewal.json",
+      "sha256": "556d771817bb58ade53998ebc2fb11a86d1e8987728a7ad671f7e5a2a2e13ebc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/source-closure.json",
+      "sha256": "4283385931a435052b73c3a70c2f7c89d9ee1d993889806a1827333f40224532"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/torch-check.log",
+      "sha256": "cff15e19b0d877100bf9adaa7f1a8a80bf8b297167ae81f803c82cfb892e0c3f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/warm-build.log.gz",
+      "sha256": "2a61a84e9c6947a14ee93712c5255e4622ff80f4f495016a1a8415b4a52469fe"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/warm-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rwkv6-function-bodies/warm.json",
+      "sha256": "672a9c35dfdb065ef8b012f11ee44dd27b0d7eea7896511ead73d648bda96ecb"
+    }
+  ]
+}
