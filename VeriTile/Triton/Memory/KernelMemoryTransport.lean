@@ -1,5 +1,6 @@
 import VeriTile.Triton.Memory.KernelSpec.Masked
 import VeriTile.Triton.Memory.KernelSpec.Scatter
+import VeriTile.Triton.Memory.KernelSpec.Tile
 import VeriTile.Meta.StatementAudit
 
 namespace VeriTile.Triton
@@ -73,5 +74,21 @@ theorem MetaScatterMasked2DKernelIO₁.Implements.congr_memory (io : MetaScatter
   simp only [BlockState.readMem, hm]
 
 #axiomsClean MetaScatterMasked2DKernelIO₁.Implements.congr_memory
+
+/-- Transfer the unchanged complete IO contract along actual flat execution. -/
+theorem MaskedTileKernelIO₁.Implements.congr_memory (io : MaskedTileKernelIO₁)
+    (kernel : ComputeKernel) (projection : kernel.toAlgorithm? = .ok kernel.toAlgKernel)
+    (same : ∀ (A : FlatAlloc) (s : BlockState),
+      (exec (A.flattenKernel io.kernel.toAlgKernel) (A.flattenState s)).map BlockState.mem =
+      (exec (A.flattenKernel kernel.toAlgKernel) (A.flattenState s)).map BlockState.mem)
+    (f : Nat → (TileIndex io.shape → ℝ) → TileIndex io.shape → ℝ) :
+    io.Implements f ↔ ({ io with kernel := kernel, projection := projection } : MaskedTileKernelIO₁).Implements f := by
+  unfold Implements
+  repeat' (apply forall_congr'; intro)
+  apply exists_memory_congr (same _ _)
+  intro s t hm
+  simp only [BlockState.readMem, hm]
+
+#axiomsClean MaskedTileKernelIO₁.Implements.congr_memory
 
 end VeriTile.Triton
