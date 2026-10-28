@@ -41,6 +41,11 @@ def gradientOp (BK : Nat) : Op .real [BK] :=
 def storeCode (BK : Nat) (pointer value : RegName) : ComputeStmt :=
   .store .real [BK] (.ptr (pointerOp BK pointer))
     (.compute (.alg .fp32 (.castFloat .real .real (refOp BK value)))) (.mask (maskOp BK))
+/-- An already-FP32 value stored without a source cast stays unchanged. -/
+def directStoreCode (BK : Nat) (pointer value : RegName) : ComputeStmt :=
+  .store .real [BK] (.ptr (pointerOp BK pointer))
+    (.compute (.alg .fp32 (refOp BK value))) (.mask (maskOp BK))
+
 def advanceCode (BK width : Nat) (name : RegName) : ComputeStmt :=
   .assign .ptr [BK] name (.alg (.ptrAdd .scalarR (pointerOp BK name) (.constNat width)))
 def retreatCode (BK width : Nat) (name : RegName) : ComputeStmt :=
@@ -68,10 +73,10 @@ def prepareBody (h : Call) (scale : ℝ) : List ComputeStmt :=
 def backwardArithmetic (h : Call) : List ComputeStmt :=
   [dataLoadCode h.BK "_dq1" "p_dq_inner",dataLoadCode h.BK "_dq2" "p_dq_inter",
    assign32 h.BK "_dq2" (gatedOp h.BK "_dq2" "_g"),
-   assign32 h.BK "_dq" (addOp h.BK "_dq1" "_dq2"),storeCode h.BK "p_dq_inter" "_dq",
+   assign32 h.BK "_dq" (addOp h.BK "_dq1" "_dq2"),directStoreCode h.BK "p_dq_inter" "_dq",
    dataLoadCode h.BK "_dk1" "p_dk_inner",dataLoadCode h.BK "_dk2" "p_dk_inter",
    assign32 h.BK "_dk2" (differenceGatedOp h.BK "_dk2" "last_g" "_g"),
-   assign32 h.BK "_dk" (addOp h.BK "_dk1" "_dk2"),storeCode h.BK "p_dk_inter" "_dk",
+   assign32 h.BK "_dk" (addOp h.BK "_dk1" "_dk2"),directStoreCode h.BK "p_dk_inter" "_dk",
    dataLoadCode h.BK "_q" "p_q",dataLoadCode h.BK "_k" "p_k",
    assign32 h.BK "_dg" (gradientOp h.BK),
    assign32 h.BK "cum_grad_dg" (addOp h.BK "cum_grad_dg" "_dg"),
@@ -220,10 +225,34 @@ theorem store_eval (M : Algebra α) (BK : Nat) (r : RegionName) (off : Fin BK �
     FloatDType.toTileDType,hv,store,hp,hm]
   rfl
 
+def directScatter (M : Algebra α) (BK : Nat) (r : RegionName) (off : Fin BK → Nat)
+    (value : Values α .real [BK]) (u : State α) : State α :=
+  (TileShape.allIndices [BK]).foldl (fun v i => v.write r (off i.1) (Cell.mk .real (value i))) u
+
+@[simp] theorem directScatter_regs (M : Algebra α) (BK : Nat) (r : RegionName) (off : Fin BK → Nat)
+    (value : Values α .real [BK]) (u : State α) : (directScatter M BK r off value u).regs=u.regs := by
+  apply State.scatter_regs
+
+@[simp] theorem directScatter_other (M : Algebra α) (BK : Nat) (r : RegionName) (off : Fin BK → Nat)
+    (value : Values α .real [BK]) (u : State α) (r' : RegionName) (o : Nat) (different : r'≠r) :
+    (directScatter M BK r off value u).mem r' o=u.mem r' o :=
+  State.scatter_frame _ _ _ _ _ _ (Or.inl different) _
+
+theorem direct_store_eval (M : Algebra α) (BK : Nat) (r : RegionName) (off : Fin BK → Nat)
+    (pointer value : RegName) (v : Values α .real [BK]) (u : State α)
+    (hp : u.regs .ptr [BK] pointer=some (ptr BK r off))
+    (hm : u.regs .bool [BK] "mask"=some (fun _ => Bool.true))
+    (hv : u.regs .real [BK] value=some v) :
+    step (engine M) (directStoreCode BK pointer value) u=some (directScatter M BK r off v u) := by
+  simp only [directStoreCode,step,evalExpr,evalComputeOp,refOp,pointerOp,maskOp,FP.Structural.evalOp,
+    FloatDType.toTileDType,ComputeDType.eraseDType,hv,store,hp,hm]
+  rfl
+
 #axiomsClean forward_body
 #axiomsClean prepare_body
 #axiomsClean backward_body
 #axiomsClean gate_load
 #axiomsClean store_eval
+#axiomsClean direct_store_eval
 end
 end VeriTile.Bench.Repairs.DecayCumsum.FPOps

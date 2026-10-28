@@ -6,21 +6,25 @@ open VeriTile Triton FP.ProfiledRewrite
 open scoped VeriTile.Spec
 noncomputable section
 
-/-- All three complete source templates reuse the original proved candidate.
-The equality preserves every state and failure, so each selected main/tail
-invocation keeps its existing IO, program IDs and runtime-scale binding. -/
+set_option maxHeartbeats 8000000
+set_option maxRecDepth 16000
+
+@[spec_rule] theorem signed_lt {α : Type} [Inhabited α] (M : FP.Structural.Algebra α)
+    (s : FP.Structural.State α) (before : List ComputeStmt) (bc : Broadcast sa sb sh)
+    (a a' : Op .int sa) (b b' : Op .int sb)
+    (ha : OpEquivalent M s before a a') (hb : OpEquivalent M s before b b') :
+    OpEquivalent M s before (.lt .int bc a b) (.lt .int bc a' b') := by
+  intro t ht
+  simp only [FP.Structural.evalOp]
+  rw [ha t ht,hb t ht]
+
+/-- The six complete pasted bodies differ only in the signed integer mask
+product. The rewrite preserves every state, failure and floating operation. -/
 theorem equivalent (kind : Kind) (h : Call) (p : Phase) (scale : ℝ) :
     original kind h p scale ≡[assumptions] indexCommuted kind h p scale := by
-  cases kind
-  · exact VeriTile.Bench.TritonBenchG.DecayCumsum.MaskEquivalence.forward_equiv
-      .fp32 "g" "go" h.headStride h.width 1 h.B h.H h.T p.span h.BK h.width scale
-  · exact VeriTile.Bench.TritonBenchG.DecayCumsum.MaskEquivalence.prepare_equiv
-      .fp32 .fp32 "q" "k" "g" "qg" "kg"
-      h.headStride h.width 1 h.B h.H h.T p.span h.BK h.width scale
-  · exact VeriTile.Bench.TritonBenchG.DecayCumsum.MaskEquivalence.backward_equiv
-      .fp32 .fp32 "dqi" "dqo" "dki" "dko" "q" "k" "g" "dg"
-      h.headStride h.width 1 h.B h.H h.T p.span h.BK h.width scale
+  cases kind <;> equiv_decompose <;> fp_prove
 
+#print_fp_assumptions equivalent
 #axiomsClean equivalent
 end
 end VeriTile.Bench.Repairs.DecayCumsum.SourcePair

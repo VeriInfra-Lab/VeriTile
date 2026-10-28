@@ -302,10 +302,68 @@ def call_signature(text: str, name: str) -> dict:
                 or len({p[0] for p in bindings}) != len(bindings)):
             raise ValueError("invalid unary source import binding")
         fields["unaryImports"] = [list(p) for p in bindings]
+    globals_match = re.search(r"\bsourceConstants\s*:=\s*(\[[^\]]*\])", match[1])
+    if re.search(r"\bsourceConstants\s*:=", match[1]) and not globals_match:
+        raise ValueError("source constants must be a literal list of bindings")
+    if globals_match:
+        entries = ast.literal_eval(globals_match[1])
+        if (not isinstance(entries, list) or any(not isinstance(entry, tuple) or len(entry) != 2
+                or not isinstance(entry[0], str) or not re.fullmatch(r"[A-Za-z_]\w*", entry[0])
+                or not isinstance(entry[1], str) for entry in entries)
+                or len({entry[0] for entry in entries}) != len(entries)):
+            raise ValueError("invalid source constant bindings")
+        fields["sourceConstants"] = [list(entry) for entry in entries]
     names = [n for n, _ in fields["pointers"] + fields["scalars"]] + fields["constexpr"] + fields.get("sourceDTypePointers", [])
+    external = [n for n, _ in fields.get("sourceConstants", [])]
+    reserved = names + fields.get("functions", []) + [n for key in ("finiteImports", "unaryImports") for n, _ in fields.get(key, [])] + ["tl", "triton", "libdevice", "float", "True", "False", "None"]
+    if any(n in reserved for n in external):
+        raise ValueError("source constants shadow parameters, helpers or imports")
     if len(names) != len(set(names)):
         raise ValueError("duplicate call signature parameter")
     return fields
+
+
+def check_source_constants(python_text: str, function: ast.FunctionDef, expected: dict[str, str]) -> None:
+    """Bind unique literal module constexpr declarations, without executing Python.
+
+    Preserve literal spelling as well as Python's value. Any reassignment,
+    shadowing, imported alias, deletion or computed initializer fails closed.
+    """
+    module = ast.parse(python_text)
+    initializers = {}
+    for node in module.body:
+        if (isinstance(node, ast.Assign) and len(node.targets) == 1
+                and isinstance(node.targets[0], ast.Name) and isinstance(node.value, ast.Call)
+                and ast.unparse(node.value.func) == "tl.constexpr"):
+            initializers.setdefault(node.targets[0].id, []).append(node)
+    loaded = {n.id for statement in function.body for n in ast.walk(statement)
+              if isinstance(n, ast.Name) and isinstance(n.ctx, ast.Load)}
+    if loaded & set(initializers) != set(expected):
+        raise ValueError("source constant bindings differ from referenced Python globals")
+    def numeric(node):
+        return ((isinstance(node, ast.Constant) and type(node.value) in (int, float))
+                or (isinstance(node, ast.UnaryOp) and isinstance(node.op, ast.USub) and numeric(node.operand)))
+    for name, literal in expected.items():
+        assignments = initializers.get(name, [])
+        if len(assignments) != 1:
+            raise ValueError("source constant requires one module declaration")
+        declaration = assignments[0];call = declaration.value
+        if len(call.args) != 1 or call.keywords or not numeric(call.args[0]):
+            raise ValueError("source constant requires a numeric literal")
+        actual = ast.get_source_segment(python_text, call.args[0])
+        if actual != literal:
+            raise ValueError("source constant literal differs from Python")
+        for node in ast.walk(module):
+            if (isinstance(node, ast.Name) and node.id == name
+                    and isinstance(node.ctx, (ast.Store, ast.Del)) and node is not declaration.targets[0]):
+                raise ValueError("source constant name is rebound")
+            if isinstance(node, ast.arg) and node.arg == name:
+                raise ValueError("source constant name is shadowed")
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)) and node.name == name:
+                raise ValueError("source constant name is rebound")
+            if isinstance(node, ast.alias) and (node.asname or node.name.split(".")[0]) == name:
+                raise ValueError("source constant name is rebound")
+
 
 def check_unary_imports(python_text: str, expected: dict[str, str]) -> None:
     """Resolve imports and a direct imported-module attribute alias, without execution.
@@ -522,6 +580,7 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
         for alias, target in profile.get("finiteImports", []):
             if (alias, target) not in imported:
                 raise ValueError("finite source import differs from the original Python binding")
+        check_source_constants(python_text, function, dict(profile.get("sourceConstants", [])))
         unary_imports = dict(profile.get("unaryImports", []))
         if unary_imports:
             check_unary_imports(python_text, unary_imports)

@@ -92,32 +92,37 @@ theorem initial_holds (M : Algebra α) (h : Call) (p : Phase) (positive : 0<p.sp
   have mask : (fun i : TileIndex [h.BK] => decide (prog.feature*h.BK+i.1.val<h.width))=(fun _ => Bool.true) := by
     funext i
     exact decide_eq_true (column_inside h p prog i.1)
-  have last : (fun j : Fin h.BK => prog.row*h.headStride+(prog.chunk*p.span+p.span-1)*h.width+prog.feature*h.BK+j.val)=off h p prog (p.span-1) := by
+  have last : (fun j : Fin h.BK => ((prog.row : Int)*h.headStride+((prog.chunk : Int)*p.span+p.span-1)*h.width+(prog.feature : Int)*h.BK+j.val).toNat)=off h p prog (p.span-1) := by
     funext j
-    have timeEq : prog.chunk*p.span+p.span-1=prog.chunk*p.span+(p.span-1) := by omega
-    simp [off,timeEq,Nat.add_mul]
-    omega
+    have sub : ((p.span-1 : Nat) : Int)=(p.span : Int)-1 := by omega
+    have inside : (prog.row : Int)*h.headStride+((prog.chunk : Int)*p.span+p.span-1)*h.width+(prog.feature : Int)*h.BK+j.val = (off h p prog (p.span-1) j : Int) := by
+      simp only [off,Int.natCast_add,Int.natCast_mul,sub]
+      ring
+    rw [inside,Int.toNat_natCast]
   refine ⟨Nat.zero_le _,?_,?_,?_,?_,?_,?_,?_,by intros; rfl,?_,?_,fun _ _ _ => rfl⟩
   all_goals first | (intro t ht; omega) | (simp [FPPrefix.initial,mask,last,lastValue] <;> rfl)
 
 theorem bind_holds (M : Algebra α) (h : Call) (p : Phase) (prog : Program h p) (scale : ℝ)
     (initial : State α) (n : Nat) (u : State α) (inv : Holds M h p prog scale initial n u) :
-    Holds M h p prog scale initial n (u.setReg "i" .nat [] (fun _ => n)) := by
+    Holds M h p prog scale initial n (u.setReg "i" .int [] (fun _ => (n : Int))) := by
   refine ⟨inv.bound,?_,?_,?_,?_,?_,?_,?_,inv.reads,inv.qo,inv.ko,inv.frame⟩
   all_goals simp [inv.qPtr,inv.kPtr,inv.gPtr,inv.qoPtr,inv.koPtr,inv.mask,inv.last]
 
 theorem loop_executes (M : Algebra α) (h : Call) (p : Phase) (prog : Program h p) (scale : ℝ)
     (initial : State α) (n : Nat) (u : State α) (inv : Holds M h p prog scale initial n u) :
-    ∃ v, FP.Structural.range (engine M) "i" n p.span 1 (prepareBody h scale) u=some v ∧ Holds M h p prog scale initial p.span v := by
+    ∃ v, FP.Structural.rangeInt (engine M) "i" (n : Int) (p.span : Int) 1 (prepareBody h scale) u=some v ∧ Holds M h p prog scale initial p.span v := by
   by_cases hn : n<p.span
-  · obtain ⟨v,he,hv⟩ := iteration M h p prog scale initial n (u.setReg "i" .nat [] (fun _ => n)) hn (bind_holds M h p prog scale initial n u inv)
+  · obtain ⟨v,he,hv⟩ := iteration M h p prog scale initial n (u.setReg "i" .int [] (fun _ => (n : Int))) hn (bind_holds M h p prog scale initial n u inv)
     obtain ⟨w,hw,hf⟩ := loop_executes M h p prog scale initial (n+1) v hv
     refine ⟨w,?_,hf⟩
-    rw [FP.Structural.range]
-    simpa [hn,he] using hw
+    have hi : (n : Int)<(p.span : Int) := by exact_mod_cast hn
+    rw [FP.Structural.rangeInt]
+    simpa [hi,he] using hw
   · have bound := inv.bound
     have eq : n=p.span := by omega
-    refine ⟨u,FP.Structural.range_done _ _ _ _ _ _ _ (by omega),by simpa [eq] using inv⟩
+    refine ⟨u,?_,by simpa [eq] using inv⟩
+    rw [FP.Structural.rangeInt]
+    simp [eq]
 termination_by p.span-n
 
 theorem source_correct (M : Algebra α) (h : Call) (p : Phase) (positive : 0<p.span) (prog : Program h p)

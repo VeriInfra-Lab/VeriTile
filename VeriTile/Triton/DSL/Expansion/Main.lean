@@ -4120,6 +4120,44 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
         ← `(ComputeStmt.forRangeInt $revNameLit $lower $stop'.term $step'.term
               [$computeIdxAssign, $computeBody,*]),
         env, bodyHasCompute)
+  | `(tritonStmt| for $i:ident in range($start:tritonExpr, $stop:tritonExpr, -$step:tritonExpr) { $stmts:tritonStmt* }) => do
+      let nameLit ← identAsStr i
+      let name := i.getId.toString
+      let rec mentionsName (raw : Syntax) (candidate : String) : Bool :=
+        (raw.isIdent && raw.getId.eraseMacroScopes.toString == candidate) ||
+          raw.getArgs.any (fun child => mentionsName child candidate)
+      let mut revName := "__rev_" ++ name
+      while env.any (fun entry => entry.1 == revName) ||
+          stmts.any (fun stmt => mentionsName stmt.raw revName) do
+        revName := revName ++ "_"
+      let revNameLit : TSyntax `term := Syntax.mkStrLit revName
+      let start' ← expandIntExpectedExpr env start
+      let stop' ← expandIntExpectedExpr env stop
+      let step' ← expandNatExpectedExpr env step
+      ensureShape SInfo.scalar start'.shape "reverse range start"
+      ensureShape SInfo.scalar stop'.shape "reverse range stop"
+      ensureShape SInfo.scalar step'.shape "reverse range step"
+      let bodyEnv :=
+        (name, DInfo.int, SInfo.scalar, none) ::
+        (revName, DInfo.int, SInfo.scalar, none) :: env
+      let (algBody, computeBody, _, bodyHasCompute) ←
+        expandStmts bodyEnv pinned intPinned regionDTypes ptrElems fpSource
+        (fpLoopProvenance fpSource.regions fpPtrElems i stmts.toList) facts stmts.toList
+      -- A casted or runtime signed stop need not be syntactically negative.
+      -- Mirror both endpoints: j = -i runs from -start to -stop.
+      -- The interpreter captures all bounds once, including for an empty loop.
+      let zero ← `(Op.constInt 0)
+      let lower ← `(Op.sub NumericDType.int Broadcast.nil $zero $start'.term)
+      let upper ← `(Op.sub NumericDType.int Broadcast.nil $zero $stop'.term)
+      let revRef ← `(Op.ref TileDType.int [] $revNameLit)
+      let idxTerm ← `(Op.sub NumericDType.int Broadcast.nil $zero $revRef)
+      let idxAssign ← `(Stmt.assign TileDType.int [] $nameLit $idxTerm)
+      let computeIdxAssign ←
+        `(ComputeStmt.assign TileDType.int [] $nameLit (ComputeExpr.alg $idxTerm))
+      pure (← `(Stmt.forRangeInt $revNameLit $lower $upper $step'.term [$idxAssign, $algBody,*]),
+        ← `(ComputeStmt.forRangeInt $revNameLit $lower $upper $step'.term
+              [$computeIdxAssign, $computeBody,*]),
+        env, bodyHasCompute)
   | `(tritonStmt| for $i:ident in range($start:tritonExpr, $stop:tritonExpr, $step:tritonExpr) { $stmts:tritonStmt* }) => do
       if signedBounds start stop then
         return ← expandSignedRange i start stop step stmts

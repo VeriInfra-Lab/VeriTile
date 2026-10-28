@@ -86,7 +86,7 @@ theorem native_tensor {Store Byte : Type} (api : Memory.API Native.Word Store By
   intro r member t j
   simp only [VeriTile.Torch.FP32.logicalValue,(b.checked r).noNeg,Bool.false_eq_true,if_false]
   rw [native_output api b p prog out v initial r member t j,values r member t j]
-  rfl
+  exact Native.outputCell_value _ _ _ _ _
 
 #axiomsClean real_tensor
 #axiomsClean native_tensor

@@ -6,8 +6,8 @@
     "tasks": 183,
     "examples": 19,
     "task_status": {
-      "selected_body_copy_checked": 99,
-      "uncovered_jit_functions": 84
+      "selected_body_copy_checked": 100,
+      "uncovered_jit_functions": 83
     },
     "example_status": {
       "authored_counterpart_body_copy_checked": 2,
@@ -15,12 +15,12 @@
       "spec_derived_body_copy_checked": 15
     },
     "selected_jit_functions": 333,
-    "uncovered_selected_jit_functions": 175,
-    "primary_files_with_int64_screen_warning": 23,
+    "uncovered_selected_jit_functions": 172,
+    "primary_files_with_int64_screen_warning": 22,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 59,
-        "antiquotes": 67,
+        "in_body_type_directives": 58,
+        "antiquotes": 66,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 8
       },
@@ -4487,9 +4487,9 @@
       "source_provenance": "selected_revision",
       "lean_screen": {
         "quotations": 6,
-        "in_body_type_directives": 6,
-        "antiquotes": 270,
-        "dsl_assignment": 19,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 77,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 6
@@ -4569,27 +4569,215 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "fwd_decay_cumsum",
+          "lean_definition": "quotedForward",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "typed_per_call_specialization",
+          "call_bindings": {
+            "s_qk_h": "s_qk_h",
+            "s_qk_t": "s_qk_t",
+            "s_qk_d": "s_qk_d",
+            "B": "B",
+            "H": "H",
+            "T": "T",
+            "scale": "scale"
+          },
+          "statements": 8,
+          "runtime_parameters": {
+            "s_qk_h": "integer",
+            "s_qk_t": "integer",
+            "s_qk_d": "integer",
+            "B": "integer",
+            "H": "integer",
+            "T": "integer",
+            "scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "BK",
+            "BT",
+            "DK"
+          ],
           "python": "bench/repairs/tritonbench_g/decay_cumsum/decay_cumsum_repaired.py",
-          "function": "fwd_decay_cumsum"
+          "lean": "bench/repairs/tritonbench_g/decay_cumsum/Kernels.lean"
         },
         {
-          "python": "bench/repairs/tritonbench_g/decay_cumsum/decay_cumsum_repaired.py",
-          "function": "prepare_qg_kg"
+          "python_function": "fwd_decay_cumsum_index_commuted",
+          "lean_definition": "quotedForwardIndexCommuted",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "typed_per_call_specialization",
+          "call_bindings": {
+            "s_qk_h": "s_qk_h",
+            "s_qk_t": "s_qk_t",
+            "s_qk_d": "s_qk_d",
+            "B": "B",
+            "H": "H",
+            "T": "T",
+            "scale": "scale"
+          },
+          "statements": 8,
+          "runtime_parameters": {
+            "s_qk_h": "integer",
+            "s_qk_t": "integer",
+            "s_qk_d": "integer",
+            "B": "integer",
+            "H": "integer",
+            "T": "integer",
+            "scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "BK",
+            "BT",
+            "DK"
+          ],
+          "python": "bench/repairs/tritonbench_g/decay_cumsum/candidate_kernels.py",
+          "lean": "bench/repairs/tritonbench_g/decay_cumsum/Kernels.lean"
         },
         {
+          "python_function": "prepare_qg_kg",
+          "lean_definition": "quotedPrepare",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "typed_per_call_specialization",
+          "call_bindings": {
+            "s_qk_h": "s_qk_h",
+            "s_qk_t": "s_qk_t",
+            "s_qk_d": "s_qk_d",
+            "B": "B",
+            "H": "H",
+            "T": "T",
+            "scale": "scale"
+          },
+          "statements": 11,
+          "runtime_parameters": {
+            "s_qk_h": "integer",
+            "s_qk_t": "integer",
+            "s_qk_d": "integer",
+            "B": "integer",
+            "H": "integer",
+            "T": "integer",
+            "scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "BK",
+            "BT",
+            "DK"
+          ],
           "python": "bench/repairs/tritonbench_g/decay_cumsum/decay_cumsum_repaired.py",
-          "function": "bwd_decay_global_cumsum"
+          "lean": "bench/repairs/tritonbench_g/decay_cumsum/Kernels.lean"
+        },
+        {
+          "python_function": "prepare_qg_kg_index_commuted",
+          "lean_definition": "quotedPrepareIndexCommuted",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "typed_per_call_specialization",
+          "call_bindings": {
+            "s_qk_h": "s_qk_h",
+            "s_qk_t": "s_qk_t",
+            "s_qk_d": "s_qk_d",
+            "B": "B",
+            "H": "H",
+            "T": "T",
+            "scale": "scale"
+          },
+          "statements": 11,
+          "runtime_parameters": {
+            "s_qk_h": "integer",
+            "s_qk_t": "integer",
+            "s_qk_d": "integer",
+            "B": "integer",
+            "H": "integer",
+            "T": "integer",
+            "scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "BK",
+            "BT",
+            "DK"
+          ],
+          "python": "bench/repairs/tritonbench_g/decay_cumsum/candidate_kernels.py",
+          "lean": "bench/repairs/tritonbench_g/decay_cumsum/Kernels.lean"
+        },
+        {
+          "python_function": "bwd_decay_global_cumsum",
+          "lean_definition": "quotedBackward",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "typed_per_call_specialization",
+          "call_bindings": {
+            "s_qk_h": "s_qk_h",
+            "s_qk_t": "s_qk_t",
+            "s_qk_d": "s_qk_d",
+            "B": "B",
+            "H": "H",
+            "T": "T",
+            "scale": "scale"
+          },
+          "statements": 15,
+          "runtime_parameters": {
+            "s_qk_h": "integer",
+            "s_qk_t": "integer",
+            "s_qk_d": "integer",
+            "B": "integer",
+            "H": "integer",
+            "T": "integer",
+            "scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "BK",
+            "BT",
+            "DK"
+          ],
+          "python": "bench/repairs/tritonbench_g/decay_cumsum/decay_cumsum_repaired.py",
+          "lean": "bench/repairs/tritonbench_g/decay_cumsum/Kernels.lean"
+        },
+        {
+          "python_function": "bwd_decay_global_cumsum_index_commuted",
+          "lean_definition": "quotedBackwardIndexCommuted",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "typed_per_call_specialization",
+          "call_bindings": {
+            "s_qk_h": "s_qk_h",
+            "s_qk_t": "s_qk_t",
+            "s_qk_d": "s_qk_d",
+            "B": "B",
+            "H": "H",
+            "T": "T",
+            "scale": "scale"
+          },
+          "statements": 15,
+          "runtime_parameters": {
+            "s_qk_h": "integer",
+            "s_qk_t": "integer",
+            "s_qk_d": "integer",
+            "B": "integer",
+            "H": "integer",
+            "T": "integer",
+            "scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "BK",
+            "BT",
+            "DK"
+          ],
+          "python": "bench/repairs/tritonbench_g/decay_cumsum/candidate_kernels.py",
+          "lean": "bench/repairs/tritonbench_g/decay_cumsum/Kernels.lean"
         }
       ],
-      "int64_screen": "cast_not_visible_in_primary_quotation",
+      "uncovered_selected_jits": [],
+      "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/decay_cumsum/Kernels.lean": "6738c4c464dd24c428f9b941ed12604afc637062349b27b609a6f2dca7645f2d",
-        "bench/repairs/tritonbench_g/decay_cumsum/decay_cumsum_repaired.py": "8280a38504ba5e0d5fb398180cc30cb90230739a6ca545e2c455e1d6cc309974"
+        "bench/repairs/tritonbench_g/decay_cumsum/Kernels.lean": "75b83abf032a2e5a03bd9066aaebeba2f5a0957dd8e86c0508bf0527baa962df",
+        "bench/repairs/tritonbench_g/decay_cumsum/candidate_kernels.py": "874852c1247af7f1ab9b2034bdb0e076eea6f234abee468378a7dbd6cc3cb7ba",
+        "bench/repairs/tritonbench_g/decay_cumsum/decay_cumsum_repaired.py": "8280a38504ba5e0d5fb398180cc30cb90230739a6ca545e2c455e1d6cc309974",
+        "bench/repairs/tritonbench_g/decay_cumsum/jit-correspondence.json": "ef23b9dde3d4cc2d251a25acfa623a8a2d5576481ce9e4bce7aee75412887cfc"
       }
     },
     {
@@ -9172,7 +9360,7 @@
         "quotations": 4,
         "in_body_type_directives": 0,
         "antiquotes": 0,
-        "dsl_assignment": 56,
+        "dsl_assignment": 55,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -9330,9 +9518,9 @@
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
       "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/kldiv_triton/Kernels.lean": "51ed979371a1e844e1b7418413e3b6abf7153bb2e437f7e7b11d6fabcc403adf",
+        "bench/repairs/tritonbench_g/kldiv_triton/Kernels.lean": "8f9823e0c761bb3b31bc33e7778f1e8d11ee0f5f6693ec1ab6b5676c3b10e033",
         "bench/repairs/tritonbench_g/kldiv_triton/index_commuted.py": "81b14d2eff168880716fbe59349bb1bba3493905bdba151fc93596c9f1402f89",
-        "bench/repairs/tritonbench_g/kldiv_triton/jit-correspondence.json": "84f8dd1d2d0549cf832cb9f6c4a68290d84e25305118eab294af2a241c4f862a",
+        "bench/repairs/tritonbench_g/kldiv_triton/jit-correspondence.json": "1b1f639ae4766b1cacb0b2b4fa832169e27e074eb80cff498828fbe5526c24e4",
         "bench/repairs/tritonbench_g/kldiv_triton/kldiv_triton_repaired.py": "ea1be2fd98aadf2f294964417898b348da5cd9d99d18632a96d7fe966625340d"
       }
     },

@@ -59,6 +59,10 @@ theorem backward_value (rest : Algebra ℝ) (span : Nat) (read : RegionName → 
     change backward span read n+gradient span read (span-1-n)=backward span read (n+1)
     simp only [backward,Finset.sum_range_succ]
 
+theorem backward_stored (rest : Algebra ℝ) (r : RegionName) (x : ℝ) :
+    FPReference.backwardStored (algebra rest) r x = .mk .real x := by
+  simp [FPReference.backwardStored,FPReference.stored,algebra]
+
 theorem evaluate_value (rest : Algebra ℝ) (kind : Kind) (span : Nat) (scale : ℝ)
     (read : RegionName → Nat → ℝ) (r : RegionName) (t : Nat) :
     FPLogical.evaluate (algebra rest) kind span scale read r t=.mk .real (evaluate kind span scale read r t) := by
@@ -68,14 +72,14 @@ theorem evaluate_value (rest : Algebra ℝ) (kind : Kind) (span : Nat) (scale : 
   · simp only [FPLogical.evaluate,evaluate]
     split <;> simp [FPReference.prepareQ,FPReference.prepareK,FPReference.stored,FPReference.mul,
       FPReference.sub,FPReference.exp2,FPReference.gate,algebra,prepareQ,prepareK]
-  · simp only [FPLogical.evaluate,evaluate]
+  · simp only [FPLogical.evaluate,evaluate,backward_stored]
     split
     · simp [FPReference.backwardQ,FPReference.stored,FPReference.add,FPReference.mul,FPReference.exp2,
         FPReference.gate,algebra,backwardQ]
     · split
       · simp [FPReference.backwardK,FPReference.stored,FPReference.add,FPReference.mul,FPReference.sub,
           FPReference.exp2,FPReference.gate,algebra,backwardK]
-      · rw [backward_value rest span read]; rfl
+      · rw [backward_value rest span read]
 
 def Outputs (kind : Kind) (h : Call) (p : Phase) (prog : Program h p) (scale : ℝ)
     (u v : State ℝ) : Prop := ∀ r∈FPTile.outputs kind, ∀ (t : Fin p.span) (j : Fin h.BK),

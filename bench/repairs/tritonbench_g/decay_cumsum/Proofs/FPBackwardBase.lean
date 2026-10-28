@@ -47,7 +47,7 @@ structure Holds (M : Algebra α) (h : Call) (p : Phase) (prog : Program h p)
   reads : ∀ r∈inputRegions, ∀ t, t<p.span-n → ∀ j : Fin h.BK,
     u.mem r (off h p prog t j)=initial.mem r (off h p prog t j)
   output : ∀ r∈outputRegions, ∀ t, p.span-n≤t → t<p.span → ∀ j : Fin h.BK,
-    u.mem r (off h p prog t j)=FPReference.stored M (output M h p prog initial r t (j,PUnit.unit))
+    u.mem r (off h p prog t j)=FPReference.backwardStored M r (output M h p prog initial r t (j,PUnit.unit))
   frame : FPMemory.Frame h p prog outputRegions initial u
 
 theorem initial_holds (M : Algebra α) (h : Call) (p : Phase) (positive : 0<p.span)
@@ -55,11 +55,13 @@ theorem initial_holds (M : Algebra α) (h : Call) (p : Phase) (positive : 0<p.sp
   have mask : (fun i : TileIndex [h.BK] => decide (prog.feature*h.BK+i.1.val<h.width))=(fun _ => Bool.true) := by
     funext i
     exact decide_eq_true (column_inside h p prog i.1)
-  have last : (fun j : Fin h.BK => prog.row*h.headStride+prog.feature*h.BK+j.val+(prog.chunk*p.span+p.span-1)*h.width)=off h p prog (p.span-1) := by
+  have last : (fun j : Fin h.BK => ((prog.row : Int)*h.headStride+(prog.feature : Int)*h.BK+j.val+((prog.chunk : Int)*p.span+p.span-1)*h.width).toNat)=off h p prog (p.span-1) := by
     funext j
-    have timeEq : prog.chunk*p.span+p.span-1=prog.chunk*p.span+(p.span-1) := by omega
-    simp [off,timeEq,Nat.add_mul]
-    omega
+    have sub : ((p.span-1 : Nat) : Int)=(p.span : Int)-1 := by omega
+    have inside : (prog.row : Int)*h.headStride+(prog.feature : Int)*h.BK+j.val+((prog.chunk : Int)*p.span+p.span-1)*h.width = (off h p prog (p.span-1) j : Int) := by
+      simp only [off,Int.natCast_add,Int.natCast_mul,sub]
+      ring
+    rw [inside,Int.toNat_natCast]
   refine ⟨Nat.zero_le _,?_,?_,?_,by simp,by intros; rfl,?_,fun _ _ _ => rfl⟩
   · intro name r member _
     simp only [pointerNames,List.mem_cons,List.not_mem_nil,or_false,Prod.mk.injEq] at member

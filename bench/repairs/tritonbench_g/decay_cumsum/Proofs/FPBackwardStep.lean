@@ -37,12 +37,12 @@ def result (M : Algebra α) (h : Call) (off : Fin h.BK → Nat) (g last acc : Va
   let v := v.setReg "_dq2" .real [h.BK] (direct M h off u "dqo")
   let v := v.setReg "_dq2" .real [h.BK] (qterm M h off g u)
   let v := v.setReg "_dq" .real [h.BK] (qvalue M h off g u)
-  let v := scatter M h.BK "dqo" off (qvalue M h off g u) v
+  let v := directScatter M h.BK "dqo" off (qvalue M h off g u) v
   let v := v.setReg "_dk1" .real [h.BK] (direct M h off u "dki")
   let v := v.setReg "_dk2" .real [h.BK] (direct M h off u "dko")
   let v := v.setReg "_dk2" .real [h.BK] (kterm M h off g last u)
   let v := v.setReg "_dk" .real [h.BK] (kvalue M h off g last u)
-  let v := scatter M h.BK "dko" off (kvalue M h off g last u) v
+  let v := directScatter M h.BK "dko" off (kvalue M h off g last u) v
   let v := v.setReg "_q" .real [h.BK] (direct M h off u "q")
   let v := v.setReg "_k" .real [h.BK] (direct M h off u "k")
   let v := v.setReg "_dg" .real [h.BK] (delta M h off g last u)
@@ -79,7 +79,7 @@ theorem executes (M : Algebra α) (h : Call) (off : Fin h.BK → Nat)
   simp only [bind,Option.bind_some]
   rw [assign_compute _ _ _ _ _ _ _ (gated M h.BK "_dq2" "_g" (direct M h off u "dqo") g _ (by simp [direct,raw]; rfl) (by simp [hgate]))]
   rw [assign_compute _ _ _ _ _ _ _ (add_eval M h.BK "_dq1" "_dq2" (direct M h off u "dqi") (qterm M h off g u) _ (by simp [direct,raw]; rfl) (by simp [qterm]; rfl))]
-  rw [run,store_eval M h.BK "dqo" off "p_dq_inter" "_dq" (qvalue M h off g u) _ (by simp [hdqo]) (by simp [hm]) (by simp [qvalue]; rfl)]
+  rw [run,direct_store_eval M h.BK "dqo" off "p_dq_inter" "_dq" (qvalue M h off g u) _ (by simp [hdqo]) (by simp [hm]) (by simp [qvalue]; rfl)]
   simp only [bind,Option.bind_some]
   rw [run,data_load M h.BK "dki" off "_dk1" "p_dk_inner" _ (by simp [hdki]) (by simp [hm])]
   simp only [bind,Option.bind_some]
@@ -87,7 +87,7 @@ theorem executes (M : Algebra α) (h : Call) (off : Fin h.BK → Nat)
   simp only [bind,Option.bind_some]
   rw [assign_compute _ _ _ _ _ _ _ (difference_gated M h.BK "_dk2" "last_g" "_g" (direct M h off u "dko") last g _ (by simp [direct,raw]; rfl) (by simp [hlast]) (by simp [hgate]))]
   rw [assign_compute _ _ _ _ _ _ _ (add_eval M h.BK "_dk1" "_dk2" (direct M h off u "dki") (kterm M h off g last u) _ (by simp [direct,raw]; rfl) (by simp [kterm]; rfl))]
-  rw [run,store_eval M h.BK "dko" off "p_dk_inter" "_dk" (kvalue M h off g last u) _ (by simp [hdko]) (by simp [hm]) (by simp [kvalue]; rfl)]
+  rw [run,direct_store_eval M h.BK "dko" off "p_dk_inter" "_dk" (kvalue M h off g last u) _ (by simp [hdko]) (by simp [hm]) (by simp [kvalue]; rfl)]
   simp only [bind,Option.bind_some]
   rw [run,data_load M h.BK "q" off "_q" "p_q" _ (by simp [hq]) (by simp [hm])]
   simp only [bind,Option.bind_some]

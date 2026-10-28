@@ -74,8 +74,8 @@ theorem iteration (M : Algebra α) (h : Call) (p : Phase) (prog : Program h p)
     dsimp [v]
     rw [FPStoreFrame.backward_memory,qe,ke,ce]
     apply FPStoreFrame.scatter_mem_congr
-    apply FPStoreFrame.scatter_mem_congr
-    apply FPStoreFrame.scatter_mem_congr
+    apply FPStoreFrame.directScatter_mem_congr
+    apply FPStoreFrame.directScatter_mem_congr
     exact cmem
   have execution : run (engine M) (backwardBody h p) u=some v := by
     change run (engine M) (FPBackwardControl.firstCode h p++backwardArithmetic h) u=some v

@@ -13,6 +13,7 @@ def forwardSignature : CallSignature where
   pointers := [("y_ptr",.fp32),("gt_ptr",.fp32),("loss_ptr",.fp32)]
   scalars := [("y_stride",.i64),("gt_stride",.i64),("loss_stride",.i64),("n_cols",.i64)]
   constexpr := ["BLOCK_SIZE","log_target","reduction"]
+  sourceConstants := [("_REDUCTION_MODE_NONE", "0")]
   readPorts := ["y_ptr","gt_ptr"]
   writePorts := ["loss_ptr"]
 
@@ -25,7 +26,6 @@ def backwardSignature : CallSignature where
 
 def forwardTemplate (y_ptr gt_ptr loss_ptr : RegionName) (sy st so N B : Nat)
     (logTarget : Bool) (reduction : Nat) : ComputeKernel :=
-  let _REDUCTION_MODE_NONE : Nat := 0
   let BLOCK_SIZE : Nat := B
   let log_target : Bool := logTarget
   let y_stride_value : Nat := sy
@@ -87,7 +87,6 @@ def backwardTemplate (input_ptr target_ptr : RegionName) (so st N B : Nat)
 
 def forwardCandidateTemplate (y_ptr gt_ptr loss_ptr : RegionName) (sy st so N B : Nat)
     (logTarget : Bool) (reduction : Nat) : ComputeKernel :=
-  let _REDUCTION_MODE_NONE : Nat := 0
   let BLOCK_SIZE : Nat := B
   let log_target : Bool := logTarget
   let y_stride_value : Nat := sy

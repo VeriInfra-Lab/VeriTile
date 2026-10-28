@@ -37,7 +37,7 @@ theorem source_correct (M : Algebra α) (h : Call) (p : Phase) (positive : 0<p.s
     (hf : u.pids 0=prog.feature) (hc : u.pids 1=prog.chunk) (hr : u.pids 2=prog.row) :
     ∃ v, FP.Structural.exec (engine M) (Kernels.source .backward h p scale) u=some v ∧
       (∀ r∈outputRegions, ∀ (t : Fin p.span) (j : Fin h.BK),
-        v.mem r (off h p prog t.val j)=FPReference.stored M (output M h p prog u r t.val (j,PUnit.unit))) ∧
+        v.mem r (off h p prog t.val j)=FPReference.backwardStored M r (output M h p prog u r t.val (j,PUnit.unit))) ∧
       FPMemory.Frame h p prog outputRegions u v := by
   obtain ⟨v,he,inv⟩ := loop_executes M h p positive prog u 0 (FPPrefix.initial M .backward h p prog u)
     (initial_holds M h p positive prog u)

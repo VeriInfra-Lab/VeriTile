@@ -24,7 +24,7 @@ def expected (M : Algebra α) (kind : Kind) (h : Call) (p : Phase) (prog : Progr
   | .forward => FPReference.forward M (fun n => raw h.BK "g" (off h p prog n) u (j,PUnit.unit)) t
   | .prepare => FPReference.stored M (if r="qg" then FPPrepare.qValue M h p prog scale u t (j,PUnit.unit)
       else FPPrepare.kValue M h p prog u t (j,PUnit.unit))
-  | .backward => FPReference.stored M (FPBackwardBase.output M h p prog u r t (j,PUnit.unit))
+  | .backward => FPReference.backwardStored M r (FPBackwardBase.output M h p prog u r t (j,PUnit.unit))
 
 theorem complete (M : Algebra α) (kind : Kind) (h : Call) (p : Phase) (positive : 0<p.span)
     (prog : Program h p) (scale : ℝ) (u : State α)

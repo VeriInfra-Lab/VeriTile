@@ -27,11 +27,11 @@ not read T, but its launch ABI still records the real supplied argument. -/
 def sourceTemplate (h : Call) (kind : Kind) (phase : Phase) : ComputeKernel :=
   let runtimeT := (configuration h kind phase).T
   match kind with
-  | .forward => Original.forward .fp32 Bool.false "g" "go"
+  | .forward => Kernels.quotedForward "g" "go"
       h.headStride h.width 1 h.B h.H runtimeT phase.span h.BK h.width scaleSlot
-  | .prepare => Original.prepare .fp32 .fp32 Bool.false "q" "k" "g" "qg" "kg"
+  | .prepare => Kernels.quotedPrepare "q" "k" "g" "qg" "kg"
       h.headStride h.width 1 h.B h.H runtimeT phase.span h.BK h.width scaleSlot
-  | .backward => Original.backward .fp32 .fp32 Bool.false
+  | .backward => Kernels.quotedBackward
       "dqi" "dqo" "dki" "dko" "q" "k" "g" "dg"
       h.headStride h.width 1 h.B h.H runtimeT phase.span h.BK h.width scaleSlot
 

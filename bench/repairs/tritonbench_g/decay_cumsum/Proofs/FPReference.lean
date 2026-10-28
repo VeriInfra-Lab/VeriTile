@@ -17,6 +17,10 @@ def exp2 (M : Algebra α) : α → α := M.unary (some .fp32) .exp2
 def gate (M : Algebra α) : α → α := M.cast (some .fp32) .real .real
 def stored (M : Algebra α) (value : α) : Cell α := .mk .real (M.cast (some .fp32) .real .real value)
 
+/-- dq/dk are written directly; only the dg source has an explicit destination cast. -/
+def backwardStored (M : Algebra α) (r : RegionName) (value : α) : Cell α :=
+  if r = "dg" then stored M value else .mk .real value
+
 def forwardCarry (M : Algebra α) (g : Nat → α) : Nat → α
   | 0 => zero M
   | n+1 => add M (forwardCarry M g n)

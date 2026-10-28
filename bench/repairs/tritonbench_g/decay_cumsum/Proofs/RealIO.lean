@@ -41,23 +41,23 @@ theorem buffers (kind : Kind) (h : Call) (p : Phase) (scale : ℝ) : (io kind h 
 
 theorem input_member (kind : Kind) (h : Call) (p : Phase) (scale : ℝ) (i : Fin (io kind h p scale).nIn) :
     (io kind h p scale).inp i ∈ Roles.buffers kind := by
-  cases kind <;> fin_cases i <;> simp [io,prepareIO,backwardIO,PrepareCorrect.originalIO,BackwardCorrect.originalIO,Roles.buffers]
+  cases kind <;> fin_cases i <;> simp [io,prepareIO,backwardIO,legacyPrepareIO,legacyBackwardIO,PrepareCorrect.originalIO,BackwardCorrect.originalIO,Roles.buffers]
 
 theorem output_member (kind : Kind) (h : Call) (p : Phase) (scale : ℝ) (i : Fin (io kind h p scale).nOut) :
     (io kind h p scale).out i ∈ Roles.outputs kind := by
-  cases kind <;> fin_cases i <;> simp [io,prepareIO,backwardIO,PrepareCorrect.originalIO,BackwardCorrect.originalIO,Roles.outputs]
+  cases kind <;> fin_cases i <;> simp [io,prepareIO,backwardIO,legacyPrepareIO,legacyBackwardIO,PrepareCorrect.originalIO,BackwardCorrect.originalIO,Roles.outputs]
 
 theorem output_covers (kind : Kind) (h : Call) (p : Phase) (scale : ℝ) (r : RegionName)
     (hr : r∈Roles.outputs kind) : ∃ i : Fin (io kind h p scale).nOut, (io kind h p scale).out i=r := by
   cases kind <;> simp only [Roles.outputs,List.mem_cons,List.not_mem_nil,or_false] at hr
-  · subst r; exact ⟨⟨0,by simp [io,prepareIO,backwardIO,PrepareCorrect.originalIO,BackwardCorrect.originalIO]⟩,rfl⟩
+  · subst r; exact ⟨⟨0,by simp [io,prepareIO,backwardIO,legacyPrepareIO,legacyBackwardIO,PrepareCorrect.originalIO,BackwardCorrect.originalIO]⟩,rfl⟩
   · rcases hr with rfl|rfl
-    · exact ⟨⟨0,by simp [io,prepareIO,backwardIO,PrepareCorrect.originalIO,BackwardCorrect.originalIO]⟩,rfl⟩
-    · exact ⟨⟨1,by simp [io,prepareIO,backwardIO,PrepareCorrect.originalIO,BackwardCorrect.originalIO]⟩,rfl⟩
+    · exact ⟨⟨0,by simp [io,prepareIO,backwardIO,legacyPrepareIO,legacyBackwardIO,PrepareCorrect.originalIO,BackwardCorrect.originalIO]⟩,rfl⟩
+    · exact ⟨⟨1,by simp [io,prepareIO,backwardIO,legacyPrepareIO,legacyBackwardIO,PrepareCorrect.originalIO,BackwardCorrect.originalIO]⟩,rfl⟩
   · rcases hr with rfl|rfl|rfl
-    · exact ⟨⟨0,by simp [io,prepareIO,backwardIO,PrepareCorrect.originalIO,BackwardCorrect.originalIO]⟩,rfl⟩
-    · exact ⟨⟨1,by simp [io,prepareIO,backwardIO,PrepareCorrect.originalIO,BackwardCorrect.originalIO]⟩,rfl⟩
-    · exact ⟨⟨2,by simp [io,prepareIO,backwardIO,PrepareCorrect.originalIO,BackwardCorrect.originalIO]⟩,rfl⟩
+    · exact ⟨⟨0,by simp [io,prepareIO,backwardIO,legacyPrepareIO,legacyBackwardIO,PrepareCorrect.originalIO,BackwardCorrect.originalIO]⟩,rfl⟩
+    · exact ⟨⟨1,by simp [io,prepareIO,backwardIO,legacyPrepareIO,legacyBackwardIO,PrepareCorrect.originalIO,BackwardCorrect.originalIO]⟩,rfl⟩
+    · exact ⟨⟨2,by simp [io,prepareIO,backwardIO,legacyPrepareIO,legacyBackwardIO,PrepareCorrect.originalIO,BackwardCorrect.originalIO]⟩,rfl⟩
 
 theorem read_offset (kind : Kind) (h : Call) (p : Phase) (scale : ℝ) (prog : Program h p)
     (i : Fin (io kind h p scale).nIn) (t : Fin (io kind h p scale).T) (j : Fin (io kind h p scale).B) :
