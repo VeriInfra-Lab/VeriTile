@@ -6,8 +6,8 @@
     "tasks": 183,
     "examples": 19,
     "task_status": {
-      "selected_body_copy_checked": 106,
-      "uncovered_jit_functions": 77
+      "selected_body_copy_checked": 107,
+      "uncovered_jit_functions": 76
     },
     "example_status": {
       "authored_counterpart_body_copy_checked": 2,
@@ -15,12 +15,12 @@
       "spec_derived_body_copy_checked": 15
     },
     "selected_jit_functions": 333,
-    "uncovered_selected_jit_functions": 163,
+    "uncovered_selected_jit_functions": 161,
     "primary_files_with_int64_screen_warning": 22,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 55,
-        "antiquotes": 61,
+        "in_body_type_directives": 54,
+        "antiquotes": 60,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 8
       },
@@ -18798,13 +18798,13 @@
       "lean": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Kernels.lean",
       "source_provenance": "selected_revision",
       "lean_screen": {
-        "quotations": 1,
-        "in_body_type_directives": 1,
-        "antiquotes": 19,
-        "dsl_assignment": 2,
+        "quotations": 2,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 33,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 1
+        "load_dtype_extension": 2
       },
       "python_jits": [
         {
@@ -18820,22 +18820,99 @@
           "explicit_int64_casts": []
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_fwd_kernel",
+          "lean_definition": "sourceBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "max_input_len": "max_input_len",
+            "stride_logic_h": "stride_logic_h",
+            "stride_logic_bs": "stride_logic_bs",
+            "stride_vbs": "stride_vbs",
+            "stride_vh": "stride_vh",
+            "stride_vd": "stride_vd",
+            "stride_obs": "stride_obs",
+            "stride_oh": "stride_oh",
+            "stride_od": "stride_od",
+            "stride_b_loc_b": "stride_b_loc_b",
+            "stride_b_loc_s": "stride_b_loc_s",
+            "other_kv_index": "other_kv_index"
+          },
+          "statements": 18,
+          "runtime_parameters": {
+            "max_input_len": "integer",
+            "stride_logic_h": "integer",
+            "stride_logic_bs": "integer",
+            "stride_vbs": "integer",
+            "stride_vh": "integer",
+            "stride_vd": "integer",
+            "stride_obs": "integer",
+            "stride_oh": "integer",
+            "stride_od": "integer",
+            "stride_b_loc_b": "integer",
+            "stride_b_loc_s": "integer",
+            "other_kv_index": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_DMODEL",
+            "BLOCK_N"
+          ],
           "python": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/softmax_reducev_neginf_checked.py",
-          "function": "_fwd_kernel"
+          "lean": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Kernels.lean"
         },
         {
+          "python_function": "_fwd_kernel_early_address",
+          "lean_definition": "earlyAddressBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "max_input_len": "max_input_len",
+            "stride_logic_h": "stride_logic_h",
+            "stride_logic_bs": "stride_logic_bs",
+            "stride_vbs": "stride_vbs",
+            "stride_vh": "stride_vh",
+            "stride_vd": "stride_vd",
+            "stride_obs": "stride_obs",
+            "stride_oh": "stride_oh",
+            "stride_od": "stride_od",
+            "stride_b_loc_b": "stride_b_loc_b",
+            "stride_b_loc_s": "stride_b_loc_s",
+            "other_kv_index": "other_kv_index"
+          },
+          "statements": 18,
+          "runtime_parameters": {
+            "max_input_len": "integer",
+            "stride_logic_h": "integer",
+            "stride_logic_bs": "integer",
+            "stride_vbs": "integer",
+            "stride_vh": "integer",
+            "stride_vd": "integer",
+            "stride_obs": "integer",
+            "stride_oh": "integer",
+            "stride_od": "integer",
+            "stride_b_loc_b": "integer",
+            "stride_b_loc_s": "integer",
+            "other_kv_index": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_DMODEL",
+            "BLOCK_N"
+          ],
           "python": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/softmax_reducev_neginf_checked.py",
-          "function": "_fwd_kernel_early_address"
+          "lean": "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Kernels.lean"
         }
       ],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Kernels.lean": "96430e45dbf6ae09633c39389bc3857e5b577476b0dd1257ffeb7caa4bd94f50",
+        "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/Kernels.lean": "af745e86f7257b763cd7453fb3cd555122f05f256c3debf5290da1f519813b92",
+        "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/jit-correspondence.json": "4fc13e86d28582c6b97a15abb997d77b257c0f871a0054580ba0c1fa49180aba",
         "bench/repairs/tritonbench_g/softmax_reducev_neginf_checked/softmax_reducev_neginf_checked.py": "791635f0fd19c4eef49556ed127718b61fabbd71e1289127248ccf39135d5bee"
       }
     },

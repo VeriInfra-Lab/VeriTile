@@ -31,7 +31,7 @@ def tail (p : Parameters) := (EarlyAddress.source p).surfaceBody.drop 13
 theorem prepare_eq (M : Algebra α) (p : Parameters) (s t : State α)
     (a : Accumulator α p.dimensions) (h : Ready p s t a) :
     run M ((tail p).take 3) t = run M ((suffix p).take 3) t := by
-  simp [tail,EarlyAddress.source,EarlyAddress.typed,suffix,source,typed,
+  simp [tail,EarlyAddress.source,FPValue.earlyAddressBody,suffix,source,sourceBody,
     ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType,numeric,FP.Structural.bop,natLt,numericLt,
     Region.cast,ofFloat,toFloat,h.batch,h.head,h.dimensions,h.output,h.normalizer]
@@ -64,7 +64,7 @@ theorem execution_eq (M : Algebra α) (p : Parameters) (s : State α) (hN : 0 < 
 theorem tail_safety_iff (M : Algebra α) (p : Parameters) (s t : State α)
     (a : Accumulator α p.dimensions) (h : Ready p s t a) (bounds : RegionName → Nat) :
     Safety.traceSafeList M bounds (tail p) t ↔ Safety.traceSafeList M bounds (suffix p) t := by
-  simp [tail,EarlyAddress.source,EarlyAddress.typed,suffix,source,typed,ComputeKernel.surfaceBody,
+  simp [tail,EarlyAddress.source,FPValue.earlyAddressBody,suffix,source,sourceBody,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,

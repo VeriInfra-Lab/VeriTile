@@ -20,7 +20,7 @@ theorem suffix_run {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters)
     (s t : State α) (a : Accumulator α p.dimensions) (h : Ready p s t a) :
     ∃ final, run M (suffix p) t = some final ∧
       final.mem = (written p s (outputValues M p a)).mem := by
-  simp [suffix,source,typed,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+  simp [suffix,source,sourceBody,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
     evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,bop,natLt,numericLt,
     Region.cast,ofFloat,toFloat,store,State.setReg,
     h.batch,h.head,h.dimensions,h.output,h.normalizer,written,outputOffset,outputValues]

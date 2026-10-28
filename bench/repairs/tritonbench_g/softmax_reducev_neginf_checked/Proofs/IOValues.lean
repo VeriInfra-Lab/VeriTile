@@ -21,7 +21,7 @@ theorem logits_logical (xs : Inputs A c counts) (s : State B)
     (fun i : TileIndex [64] =>
       (M ⟨b.val,h.val⟩).cast (some .fp32) .fp32 .real
         (if n+i.1.val < counts b then encode (logitAt xs b h (n+i.1.val))
-         else (M ⟨b.val,h.val⟩).cast (some .fp32) .real .fp32 (M ⟨b.val,h.val⟩).negInf)) := by
+         else (M ⟨b.val,h.val⟩).cast none .real .fp32 (M ⟨b.val,h.val⟩).negInf)) := by
   have len := source_length M encode c observe counts work xs s bound hm b h
   funext i
   simp only [logits,active,len]
@@ -39,8 +39,8 @@ theorem values_logical (xs : Inputs A c counts) (s : State B)
     (fun i : TileIndex [64,c.dimensions] =>
       (M ⟨b.val,h.val⟩).cast (some .fp32) .fp32 .real
         (if n+i.1.val < counts b then encode (valueAt xs b h (n+i.1.val) i.2.1)
-         else (M ⟨b.val,h.val⟩).cast (some .fp32) .real .fp32
-           ((M ⟨b.val,h.val⟩).literal (some .fp32) .real 0.0))) := by
+         else (M ⟨b.val,h.val⟩).cast none .real .fp32
+           ((M ⟨b.val,h.val⟩).literal none .real 0.0))) := by
   have len := source_length M encode c observe counts work xs s bound hm b h
   funext i
   simp only [values,active,len]

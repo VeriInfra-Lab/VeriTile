@@ -114,7 +114,7 @@ theorem local_refinement (profiles : Host.Job → NativeGraph.Profile)
 
 #axiomsClean tensor_fp32
 #axiomsClean local_refinement
-#specNonCircular nativeTarget avoiding [invokeNative,Host.wrapper,FPValue.source,FPValue.typed,FP.Structural.exec]
+#specNonCircular nativeTarget avoiding [invokeNative,Host.wrapper,FPValue.source,FPValue.sourceBody,FP.Structural.exec]
 end
 end VeriTile.Bench.Repairs.SoftmaxReduceVNegInfChecked.TensorBridge
 

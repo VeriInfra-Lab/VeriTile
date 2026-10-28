@@ -209,6 +209,13 @@ private partial def valueType (pointers : Types) (values : Values)
       | some (.typed dtype) =>
           if [.fp16,.fp32,.fp64].contains dtype then some (.typed dtype) else none
       | _ => none
+  | `(tritonExpr| tl.max($a:tritonExpr, $_axis:num)) =>
+      -- Positional axes use the same value-only reduction promotion as
+      -- keyword axes (Triton 3.7.1 standard.max).
+      match valueType pointers values a with
+      | some (.typed .fp16) | some (.typed .bf16) | some (.typed .fp32) => some (.typed .fp32)
+      | some (.typed .fp64) => some (.typed .fp64)
+      | _ => none
   | `(tritonExpr| tl.max($a:tritonExpr $[, $_:tritonReduceKwarg]*)) =>
       match valueType pointers values a with
       | some (.typed .fp16) | some (.typed .bf16) | some (.typed .fp32) => some (.typed .fp32)

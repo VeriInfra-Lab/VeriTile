@@ -5,6 +5,7 @@ import VeriTile.Triton.DSL.PythonConstants
 import VeriTile.Triton.DSL.SourceIntrinsic
 import VeriTile.Triton.DSL.OptionalPointer
 import VeriTile.Triton.DSL.TypedStores
+import VeriTile.Triton.DSL.TypedStorageReduction
 import VeriTile.Triton.DSL.PythonBody
 import VeriTile.Triton.DSL.RankOneBlockPtr
 import VeriTile.Triton.DSL.SourceFunctionStatements
@@ -565,6 +566,7 @@ private partial def referencesSourceImports (names : List String) (raw : Syntax)
   (raw.isIdent && names.contains raw.getId.eraseMacroScopes.toString) ||
     raw.getArgs.any (referencesSourceImports names)
 
+set_option maxRecDepth 4000 in
 /-- A verification call specializes immutable runtime size values supplied by
 the caller. Their source ABI remains in `scalars`, never in `constexpr`.
 Nat/Int carriers use the existing mathematical index projection;
@@ -924,6 +926,10 @@ private def elaborateCallCore (profile : TSyntax `term) (stmts : Array (TSyntax 
             then some (Name.mkSimple name) else none
         let stmts ← NestedLoadAssignments.lower floatingPointers stmts
         let body ← TypedStores.lower (pointers.map (fun (name, kind) => (Name.mkSimple name, kind))) scalarTypes stmts.toList
+        let storagePointers := pointers.filterMap fun (name,kind) =>
+          if kind == .fp32 && (typedFP32 || typedFP32Names.contains name)
+          then some (Name.mkSimple name) else none
+        let body ← TypedStorageReduction.lower storagePointers body
         let emitted := finiteDeclarations ++ declarations ++ body.toArray
         let compiled ← `(triton { $emitted* })
         if usesTypedFP32 then

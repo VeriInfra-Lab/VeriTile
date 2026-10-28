@@ -42,12 +42,12 @@ def logits {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : Sta
     Values α .real [p.tokens] := fun i =>
   M.cast (some .fp32) .fp32 .real (if active p s start i.1 then
     (s.mem p.logics (logicOffset p s start i.1)).read .fp32
-    else M.cast (some .fp32) .real .fp32 M.negInf)
+    else M.cast none .real .fp32 M.negInf)
 def values {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : State α) (start : Nat) :
     Values α .real [p.tokens,p.dimensions] := fun i =>
   M.cast (some .fp32) .fp32 .real (if active p s start i.1 then
     (s.mem p.values (valueOffset p s start i)).read .fp32
-    else M.cast (some .fp32) .real .fp32 (M.literal (some .fp32) .real 0.0))
+    else M.cast none .real .fp32 (M.literal none .real 0.0))
 
 structure Accumulator (α : Type) (D : Nat) where
   maximum : α
@@ -55,7 +55,7 @@ structure Accumulator (α : Type) (D : Nat) where
   output : TileIndex [D] → α
 
 def initialAccumulator {α : Type} (M : Algebra α) (p : Parameters) : Accumulator α p.dimensions :=
-  ⟨M.negInf,M.literal none .real 0.0,fun _ => M.literal (some .fp32) .real 0⟩
+  ⟨M.negInf,M.literal (some .fp32) .real 0.0,fun _ => M.literal (some .fp32) .real 0⟩
 
 /-- Independent operator-by-operator online recurrence. In particular no
 exp/log identity, associativity, or cancellation at infinities is used. -/
