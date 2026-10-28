@@ -6,8 +6,8 @@
     "tasks": 183,
     "examples": 19,
     "task_status": {
-      "selected_body_copy_checked": 105,
-      "uncovered_jit_functions": 78
+      "selected_body_copy_checked": 106,
+      "uncovered_jit_functions": 77
     },
     "example_status": {
       "authored_counterpart_body_copy_checked": 2,
@@ -15,12 +15,12 @@
       "spec_derived_body_copy_checked": 15
     },
     "selected_jit_functions": 333,
-    "uncovered_selected_jit_functions": 165,
+    "uncovered_selected_jit_functions": 163,
     "primary_files_with_int64_screen_warning": 22,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 56,
-        "antiquotes": 62,
+        "in_body_type_directives": 55,
+        "antiquotes": 61,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 8
       },
@@ -9754,10 +9754,10 @@
       "lean": "bench/repairs/tritonbench_g/kv_cache_filling/Kernels.lean",
       "source_provenance": "selected_revision",
       "lean_screen": {
-        "quotations": 6,
-        "in_body_type_directives": 6,
-        "antiquotes": 152,
-        "dsl_assignment": 57,
+        "quotations": 7,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 117,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -9789,22 +9789,188 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_quant_row",
+          "lean_definition": "quantRow",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "inferred_helper_values",
+          "call_bindings": null,
+          "statements": 5,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "LEVELS"
+          ],
+          "body_kind": "helper",
+          "helper_parameters": [
+            "x",
+            "lo",
+            "hi",
+            "LEVELS"
+          ],
           "python": "bench/repairs/tritonbench_g/kv_cache_filling/kv_cache_filling_repaired.py",
-          "function": "_quant_row"
+          "lean": "bench/repairs/tritonbench_g/kv_cache_filling/Kernels.lean"
         },
         {
+          "python_function": "_fill_rows",
+          "lean_definition": "originalKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "runtime_registers",
+          "call_bindings": null,
+          "statements": 8,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "BK",
+            "BV",
+            "CK",
+            "CV",
+            "DK",
+            "DV",
+            "POLICY"
+          ],
+          "source_functions": [
+            "quantRow"
+          ],
+          "profile_variant": "0",
           "python": "bench/repairs/tritonbench_g/kv_cache_filling/kv_cache_filling_repaired.py",
-          "function": "_fill_rows"
+          "lean": "bench/repairs/tritonbench_g/kv_cache_filling/Kernels.lean"
+        },
+        {
+          "python_function": "_fill_rows_commuted",
+          "lean_definition": "commutedKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "runtime_registers",
+          "call_bindings": null,
+          "statements": 8,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "BK",
+            "BV",
+            "CK",
+            "CV",
+            "DK",
+            "DV",
+            "POLICY"
+          ],
+          "source_functions": [
+            "quantRow"
+          ],
+          "profile_variant": "0",
+          "python": "bench/repairs/tritonbench_g/kv_cache_filling/candidate_kernels.py",
+          "lean": "bench/repairs/tritonbench_g/kv_cache_filling/Kernels.lean"
+        },
+        {
+          "python_function": "_fill_rows",
+          "lean_definition": "original8Kernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "runtime_registers",
+          "call_bindings": null,
+          "statements": 8,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "BK",
+            "BV",
+            "CK",
+            "CV",
+            "DK",
+            "DV",
+            "POLICY"
+          ],
+          "source_functions": [
+            "quantRow"
+          ],
+          "profile_variant": "8",
+          "python": "bench/repairs/tritonbench_g/kv_cache_filling/kv_cache_filling_repaired.py",
+          "lean": "bench/repairs/tritonbench_g/kv_cache_filling/Kernels.lean"
+        },
+        {
+          "python_function": "_fill_rows_commuted",
+          "lean_definition": "commuted8Kernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "runtime_registers",
+          "call_bindings": null,
+          "statements": 8,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "BK",
+            "BV",
+            "CK",
+            "CV",
+            "DK",
+            "DV",
+            "POLICY"
+          ],
+          "source_functions": [
+            "quantRow"
+          ],
+          "profile_variant": "8",
+          "python": "bench/repairs/tritonbench_g/kv_cache_filling/candidate_kernels.py",
+          "lean": "bench/repairs/tritonbench_g/kv_cache_filling/Kernels.lean"
+        },
+        {
+          "python_function": "_fill_rows",
+          "lean_definition": "original4Kernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "runtime_registers",
+          "call_bindings": null,
+          "statements": 8,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "BK",
+            "BV",
+            "CK",
+            "CV",
+            "DK",
+            "DV",
+            "POLICY"
+          ],
+          "source_functions": [
+            "quantRow"
+          ],
+          "profile_variant": "4",
+          "python": "bench/repairs/tritonbench_g/kv_cache_filling/kv_cache_filling_repaired.py",
+          "lean": "bench/repairs/tritonbench_g/kv_cache_filling/Kernels.lean"
+        },
+        {
+          "python_function": "_fill_rows_commuted",
+          "lean_definition": "commuted4Kernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "runtime_registers",
+          "call_bindings": null,
+          "statements": 8,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "BK",
+            "BV",
+            "CK",
+            "CV",
+            "DK",
+            "DV",
+            "POLICY"
+          ],
+          "source_functions": [
+            "quantRow"
+          ],
+          "profile_variant": "4",
+          "python": "bench/repairs/tritonbench_g/kv_cache_filling/candidate_kernels.py",
+          "lean": "bench/repairs/tritonbench_g/kv_cache_filling/Kernels.lean"
         }
       ],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/kv_cache_filling/Kernels.lean": "df790afec0a210789e0fcda1ebd283a63e3deae81f8d72dae32561f559eb8e2a",
+        "bench/repairs/tritonbench_g/kv_cache_filling/Kernels.lean": "245f094665eaf596fac4f27ae055cc0730f01dc285a96f745db61d0c653748aa",
+        "bench/repairs/tritonbench_g/kv_cache_filling/candidate_kernels.py": "b8367680ecd6fc43aca580c895e2bec61b81bf33082104a9fa884752422fb6a8",
+        "bench/repairs/tritonbench_g/kv_cache_filling/jit-correspondence.json": "e0fb84312425be9a77c8c2ed4c2bc21110556f6b0353e0818988c54a41d9c314",
         "bench/repairs/tritonbench_g/kv_cache_filling/kv_cache_filling_repaired.py": "c2652aa0fca4bb8343693e3ae35b749ba36eb28c1e18ad4a04d52ba213508506"
       }
     },

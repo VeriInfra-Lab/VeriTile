@@ -266,6 +266,6 @@ theorem whole_shared_native (a : NativeProfile.Arithmetic) (reductions : QuantNa
 
 #axiomsClean whole_shared_native
 #specNonCircular nativeTarget avoiding [FP.Structural.exec,Shared.original,Shared.candidate,
-  SourceBacking.memory,WholeBacking.memory,SharedExecution.programs]
+  SourceBacking.memory,WholeBacking.memory,Shared.kernel,SharedExecution.executed]
 end
 end VeriTile.Bench.Repairs.KvCacheFilling.TensorBridge.Native

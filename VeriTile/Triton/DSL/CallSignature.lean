@@ -7,7 +7,8 @@ import VeriTile.Triton.DSL.OptionalPointer
 import VeriTile.Triton.DSL.TypedStores
 import VeriTile.Triton.DSL.PythonBody
 import VeriTile.Triton.DSL.RankOneBlockPtr
-import VeriTile.Triton.DSL.SourceFunction
+import VeriTile.Triton.DSL.SourceFunctionStatements
+import VeriTile.Triton.DSL.NarrowUnsigned
 import VeriTile.Triton.DSL.SourceDType
 import VeriTile.Triton.DSL.Constexpr
 import Lean
@@ -674,7 +675,8 @@ private def elaborateCallCore (profile : TSyntax `term) (stmts : Array (TSyntax 
         let parameters ← (← listValues
           (← mkAppM ``Triton.SourceFunction.parameters #[function])).mapM stringValue
         let source ← stringValue (← mkAppM ``Triton.SourceFunction.body #[function])
-        liftMacroM <| SourceFunction.check environment functionName parameters source (helperNames ++ importedNames)
+        let constants ← (← listValues (← mkAppM ``Triton.SourceFunction.constexpr #[function])).mapM stringValue
+        liftMacroM <| SourceFunction.check environment functionName parameters source (helperNames ++ importedNames) constants
       for stmt in stmts do
         rejectArgumentMutation ((helperNames ++ importedNames).map Name.mkSimple) stmt.raw
           (if importedNames.isEmpty then "source helper names cannot be rebound"
@@ -682,8 +684,14 @@ private def elaborateCallCore (profile : TSyntax `term) (stmts : Array (TSyntax 
       -- Helpers which reference these explicit extern imports are validated
       -- by the existing exact dtype-dispatch checker. Ordinary pure helpers
       -- keep their existing capture-free expression expansion.
-      let finiteFunctions := checkedFunctions.filter (fun fn => referencesSourceImports (finiteImports.map Prod.fst) fn.result.raw)
-      let ordinaryFunctions := checkedFunctions.filter (fun fn => !referencesSourceImports (finiteImports.map Prod.fst) fn.result.raw)
+      let usesFiniteImport := fun (fn : SourceFunction.Checked) =>
+        fn.results.any (fun value => referencesSourceImports (finiteImports.map Prod.fst) value.raw) ||
+        fn.assignments.any (fun statement => referencesSourceImports (finiteImports.map Prod.fst) statement.raw)
+      for fn in checkedFunctions do
+        if usesFiniteImport fn && (!fn.assignments.isEmpty || fn.results.size != 1 || !fn.constexpr.isEmpty) then
+          throwError "finite extern helper requires a single non-constexpr return expression"
+      let finiteFunctions := checkedFunctions.filter usesFiniteImport
+      let ordinaryFunctions := checkedFunctions.filter (fun fn => !usesFiniteImport fn)
       let finiteDeclarations ← liftMacroM do
         let mut declarations : Array (TSyntax `tritonStmt) := #[]
         for (name,target) in finiteImports do
@@ -700,8 +708,8 @@ private def elaborateCallCore (profile : TSyntax `term) (stmts : Array (TSyntax 
         -- Validate imports and helper expressions even if a helper is unused.
         let _ ← FiniteHelperSource.prepare declarations.toList names
         pure declarations
-      let stmts ← liftMacroM <| stmts.mapM fun stmt => do
-        return (⟨← SourceFunction.expand ordinaryFunctions stmt.raw⟩ : TSyntax `tritonStmt)
+      let stmts ← liftMacroM <| SourceFunction.expandStatements ordinaryFunctions stmts names
+      let stmts ← liftMacroM <| NarrowUnsigned.lower stmts
       let stmts ← liftMacroM <| stmts.mapM fun stmt => do
         return (⟨← SourceIntrinsic.lower unaryImports stmt.raw⟩ : TSyntax `tritonStmt)
       let stmts ← liftMacroM <| stmts.mapM fun stmt => do
