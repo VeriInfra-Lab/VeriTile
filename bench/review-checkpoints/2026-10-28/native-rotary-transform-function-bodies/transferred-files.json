@@ -1,0 +1,40 @@
+{
+  "parent": "c9d09f6689c8591d7cb6d157c4a9e66eff7c85d3",
+  "shared_core_changed": [
+    "VeriTile/Triton/DSL/CallSignature.lean",
+    "VeriTile/Triton/DSL/ConstexprMask.lean",
+    "VeriTile/Triton/DSL/Expansion/Main.lean"
+  ],
+  "files": {
+    "VeriTile/Triton/DSL/CallSignature.lean": "71c917d53120fc5f2bc6413ae59cabc37d97cb82698726f12539357b2e2f4493",
+    "VeriTile/Triton/DSL/ConstexprMask.lean": "fe6b88dbb25c25516d5292d97e20cd5e5186acb47f0d988f7bf17b2d1d32ee92",
+    "VeriTile/Triton/DSL/Expansion/Main.lean": "aa4af4002526f24b89933d6b3201f81869158c50e0f822f3e2c6bc0c55488fae",
+    "bench/jit_correspondence.py": "0745a6f0a68ba2220fed441f27cc29607dbe403559a4a6d0b23a0d020754a33b",
+    "bench/repairs/tritonbench_g/rotary_transform_tile_checked/Kernels.lean": "f60c7a5b77363ee1d100b28cda24525674b9f0457dc523621eadbc6cf4827dd2",
+    "bench/repairs/tritonbench_g/rotary_transform_tile_checked/Proofs/CompleteSafety.lean": "ea486e08c25c6439cf3eb7ecbe2ea45b088695855c8326067c49d97e63481d39",
+    "bench/repairs/tritonbench_g/rotary_transform_tile_checked/Proofs/IndexCSE.lean": "d891e55d8b57be0d0c03fb23cdc4736ae7264aa3eddf5071cd09de20a79fd19c",
+    "bench/repairs/tritonbench_g/rotary_transform_tile_checked/Proofs/SourceSafety.lean": "e2ad933ab315891141b71105f8e5169918329584af01a0463ece5018c19fa489",
+    "bench/repairs/tritonbench_g/rotary_transform_tile_checked/Proofs/SourceTiles.lean": "612a4edfc04438b14fbd88a672d5957591c595a1a9862c482ea1912ef3336d11",
+    "bench/repairs/tritonbench_g/rotary_transform_tile_checked/Proofs/StoreSafety.lean": "b1738c2e137213eab79ffa1f3ee2366c9e54a210d0fa57e8f3006f6dc536fdfd",
+    "bench/repairs/tritonbench_g/rotary_transform_tile_checked/Proofs/TypedControl.lean": "ba1f0d9c5492795d85aa0f8edec42d08698cfe8adcd7f2bf518f47da98cb92dc",
+    "bench/repairs/tritonbench_g/rotary_transform_tile_checked/Proofs/TypedExecution.lean": "0ece6d9520afe3d681748e7faa957ca2ea32a51ff5298a8941074739e108da82",
+    "bench/repairs/tritonbench_g/rotary_transform_tile_checked/Proofs/TypedLoads.lean": "7b218ac6bf8a32099fde2433d467981a3196364675bcc112bc5247979f5e8928",
+    "bench/repairs/tritonbench_g/rotary_transform_tile_checked/Proofs/TypedSetup.lean": "3f80fa45403c770f8da1947cb142247e5420dc34c5bd3c4cba8323c96d2abe8f",
+    "bench/repairs/tritonbench_g/rotary_transform_tile_checked/Proofs/TypedStores.lean": "94e537afa71efb4698ce3ebdd2af3c832a935444d15dee47f065b2bf1ae36714",
+    "bench/repairs/tritonbench_g/rotary_transform_tile_checked/README.md": "f961919c919c381114eb3a8193731cafb833e000cbfa7b7dc6c3d445c15a35e7",
+    "bench/tests/CallSignature.lean": "f713a665021b4d38e4cdec2635349fdfdf5d64c5dcf086797f49b409d530eaf1",
+    "bench/tests/PointerOffsetRebindingBody.lean": "8bfdd3162c045144ec528bd97085083a3273a61fffdcb73f8437113f1ced4ff0",
+    "lakefile.toml": "ec5dd8a2de8436b130c482430556f514960be76bc15f660b7f62c6ca42e2b6ac",
+    "bench/repairs/tritonbench_g/rotary_transform_tile_checked/Proofs/SourceBlockSafety.lean": "be6524a38c29ca7734a36019011d25d18462ef0cf7f5e405a7d040047eaf23bf",
+    "bench/repairs/tritonbench_g/rotary_transform_tile_checked/Proofs/SourceBlocks.lean": "cbb494686d3b30c0aa77aebaf069f3c58a374d291519ad1a1e9c18437ab90a31",
+    "bench/repairs/tritonbench_g/rotary_transform_tile_checked/candidate_kernels.py": "a8a89b6bdb8c96632ca5ce001e8d2c76dd79d29d1a217b01a402469b1b5d78d6",
+    "bench/repairs/tritonbench_g/rotary_transform_tile_checked/jit-correspondence.json": "65ee88f0a45125640661c0197b391f0cd6fe299da11d79c3b6d059920fb26ef7",
+    "bench/tests/ConditionalCallRebindingBody.lean": "a2cafe1438648c83b2fe3dab6f53b2906b058d4f2f314514fd1440a3ac6fa6c3",
+    "bench/tests/NestedSignedLoadBody.lean": "0588af32289c5271394860e4512ea0816dc87fe8317de5f93637f839e753d4a7",
+    "bench/tests/SpecializedArgumentBody.lean": "15a0077123f7694ede810c372a2705abe5484242dce30d94c57e9b7ac1fd5a7d",
+    "bench/tests/test_rotary_transform_body.py": "1727df00b5ab5e0e7eb8c60c5f7155537efe75362368512c3097264d0680d67c"
+  },
+  "code_commit": "e5902a008c1c14f5519be19757bdf28deb39eec0",
+  "original_python_and_public_specifications_unchanged": true,
+  "actual_source_connection": "Both complete raw programs retain every source branch, mask, cast, early return and store. Actual immutable-branch execution and safety bridges reconnect the full grid, independent Real target and FP pair without changing the public domain."
+}

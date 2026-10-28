@@ -1,0 +1,605 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "e5902a008c1c14f5519be19757bdf28deb39eec0",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "rotary_transform"
+  ],
+  "regression_only_pending_body_tasks": [
+    "kv_cache_filling"
+  ],
+  "semantic_review": {
+    "adam_update_triton": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "add_example": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "add_value": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "apply_penalty": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "attention_fwd_triton1": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "batched_vecmat_mult": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "bgmv_expand_slice": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "bmm_optimized": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "cache_transform_triton": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "chunk_cumsum_kernel": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "chunk_cumsum_vector": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "chunk_delta_fwd": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "chunked_cumsum_fwd": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "cosine_compute": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "cross_entropy1": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "cross_entropy2": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "cross_entropy_ops": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "decay_cumsum": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "dequantize_matmul": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "dequantize_rowwise": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "destindex_copy": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "destindex_copy_kv1": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "destindex_copy_kv2": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "diag_ssm_triton": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "dropout_triton": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "embedding_triton_kernel": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "f8_conversion_utils": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "fast_ce_loss": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "fast_rope_embedding": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "fifth_order_sph_harmonics": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "flash_decode2_llama": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "flash_decode2_phi": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "fused_activation": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "fused_recurrent_hgrn": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "fused_rotary_embedding": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "geglu_tanh_triton": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "index_select_bwd": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "index_select_cat": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "int8_matmul_kernel": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "isfinite_kernel": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "kcache_copy_triton": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "kldiv_compute": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "kldiv_ops": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "kldiv_triton": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "kv_cache_copy": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "kv_cache_filling": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims. Python-body migration remains pending; its correspondence status is retained.",
+    "l2_norm_bwd": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "l2_norm_triton1": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "l2_norm_triton2": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "log_softmax": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "logsumexp_fwd": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "masked_add_cuda": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "masked_select": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "matmul_kernel": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "matmul_tma": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "matrix_reduction": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "matrix_transpose": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "max_reduction": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "mean_reduction": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "mul_exponent_compensator": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "nested_loops_processing": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "pow_scalar_tensor": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "quant_transpose_kernel": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "quantize_copy_kv": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "quantize_global": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "quantize_kv_copy": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "quantize_kv_transform": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "relu_strided_buffer": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "relu_triton_kernel": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "reversed_cumsum": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "reversed_cumsum_scalar": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "rms_norm_triton": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "rmsnorm_fused": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "rmsnorm_fused_llama": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "rmsnorm_implementation": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "rmsnorm_triton": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "rope_backward_transform": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "rope_embedding": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "rope_transform": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "rotary_emb": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "rotary_emb_nopad": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "rotary_transform": "The complete original body and the already selected rk-reuse candidate retain all11 top-level Python statements, early return, both layouts, packed/fixed metadata, scalar/tensor offsets, conjugation, explicit FP32 casts, masks and stores. Twelve distinct caller profiles cover two scalar-offset cumulative widths and four tensor-offset width pairs per program. Original Python, Correct, FPEquiv, Contract and IO are unchanged. The candidate Python is a transcription of the pre-existing Lean optimization; only rk_repeat uses rk instead of a repeated arange. Unused nheads and CACHE_KEY_SEQLEN are supplied as zero only because the original body never references them, not as a claim about host calls. Actual raw programs connect through proved complete execution and trace-safety of their immutable caller branch to the existing independent Real formula, full grid, complete FP pair and native/Tensor applications. The raw AST removes the historical injected seqlen assignment; no historical AST identity is claimed. Full public domains, metadata widths, suffix/frame, aliases and empty grids remain. No whole-kernel premise or new numerical assumption.",
+    "rowwise_quantization_triton": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "seeded_dropout": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "sin_computation": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "sin_kernel": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "softmax_optimize": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "softmax_triton1": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "softmax_triton2": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "softmax_triton3": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "square_matrix": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "swiglu_backward": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "swiglu_fwd": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "swiglu_triton": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "token_attn_llama2": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "token_attn_mistral": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "token_attn_reduceV": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "token_softmax_bloom": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "token_softmax_llama": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "triton_argmax": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "triton_mul2": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "triton_softmax": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "var_len_copy": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "vector_addition": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "vector_addition_custom": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims."
+  },
+  "compiler_change": {
+    "files": [
+      "VeriTile/Triton/DSL/CallSignature.lean",
+      "VeriTile/Triton/DSL/ConstexprMask.lean",
+      "VeriTile/Triton/DSL/Expansion/Main.lean"
+    ],
+    "behavior": "Shared frontend changes preserve complete Python bodies: conditional first rebinding keeps the caller value on untouched branches and uses the assigned value on overwritten branches; explicit caller Boolean specialization supports scalar/pointer parameters before type analysis while retaining both pasted branches; body metadata is rejected even in discarded branches; nested signed integer loads keep their signed channel before pointer projection. No source initializer or cast is invented. All114 frontend roots and all4300 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims."
+  },
+  "verification": {
+    "baseline": {
+      "status": "PASS",
+      "explicit_modules": 40,
+      "jobs": 3572
+    },
+    "frontend_preflight": {
+      "status": "PASS",
+      "explicit_modules": 114,
+      "jobs": 3768,
+      "scope": "All registered frontend roots, including conditional argument rebinding, scalar/pointer call specialization, nested signed loads, early return and rejection of hidden body metadata."
+    },
+    "focused": {
+      "status": "PASS",
+      "explicit_modules": 42,
+      "jobs": 3574,
+      "additional_scope": "Joint import, standalone frontend AST footprint, 169 task theorem audits and the empty public FP assumption report."
+    },
+    "warm_and_joint": {
+      "status": "PASS",
+      "explicit_modules": 4300,
+      "jobs": 14010
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 4300,
+      "jobs": 14010,
+      "project_build_initially_present": false,
+      "project_objects_imported_from_other_checkouts": false,
+      "only_fixed_external_dependencies_imported": true,
+      "setup": {
+        "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/final-clean-setup.json",
+        "sha256": "24076258f5667acc3daa982e3646c9c787e1a41464c663a05e45cfe79c4f9180"
+      }
+    },
+    "trust": "PASS: 169 task theorem footprints and 39 replayed frontend proof footprints (including seven new proofs) use only standard base. The public complete source pair prints no FP assumptions.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 212
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 457,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by old numerical receipt; no false repin."
+    },
+    "source": "PASS: twelve complete raw original/existing rk-reuse candidate mappings and caller profile bindings; original Python and public specifications unchanged; actual branches, casts, masks, stores and complete source execution/safety reverified.",
+    "official_comparator": "UNAVAILABLE: 50 actual final-source attempts with verified pinned binaries. Host Landlock ABI v4 is below required v5; no systemd user isolation or bypass.",
+    "cpu": "UNAVAILABLE: the unchanged check_candidate.py CPU guard/launch checker requires missing Torch. No GPU or new numerical experiment was requested or run.",
+    "gpu_or_numerical_experiment": "Not run.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending; the known unchanged numerical receipt failure remains explicit."
+  },
+  "source_pairs": {
+    "total": 338,
+    "pasted_body": 338,
+    "legacy_ast": 0
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/source-closure.json",
+    "sha256": "08e045bd322bd397649074474804838b5cdbc91ebe3f55e72f0540744a4237de"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "selected_body_copy_checked": 104,
+      "uncovered_jit_functions": 79
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 333,
+    "uncovered_selected_jit_functions": 167,
+    "primary_files_with_int64_screen_warning": 22,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 56,
+        "antiquotes": 62,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "example_regression_scope": "All 19 selected examples and all previous recorded task roots replay warm/joint and independently from empty project objects. Unselected historical model gaps are not relabeled as passing.",
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/VeriTile__Triton__DSL__CallSignature-comparator.log",
+      "sha256": "fc40c62de4968f556757a86441520bc8b0ef45abcb97599cac4fb441b0915144"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/VeriTile__Triton__DSL__ConstexprMask-comparator.log",
+      "sha256": "d2b1837c69ab36709503993975d06bf9e2783aef9ae1a589da62d3c1266107a9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/VeriTile__Triton__DSL__Expansion__Main-comparator.log",
+      "sha256": "d2b1837c69ab36709503993975d06bf9e2783aef9ae1a589da62d3c1266107a9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/all-python.log",
+      "sha256": "c8b8050e779bd865b1da5ab3ce4bf83084a94f37654204cf8ce24c2d5aa14715"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/audit-targets.json",
+      "sha256": "2a426e371aeea86596c2cba3294fb3ca02a9299ea3ced87e3b6cf3ca84624c7f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/audit.lean",
+      "sha256": "fb9f84b904b0c5a59e468bf80a0fd6adbca56a4d9180aee96abc9b874b5c3d01"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/audit.log.gz",
+      "sha256": "df2bde2aee3a40c9f948c237631974a202bab09d372d330ef32293802b684982"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/baseline-build.log.gz",
+      "sha256": "d90512b9da01ae34c9ece5111f1f41278f5396e67cf2820cf8def57a29af843b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/baseline.json",
+      "sha256": "5cedd96456cf2a7ac1ffaa103c46fe646493b806ccb3f3422e6477a64c710e1f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/bench__repairs__tritonbench_g__rotary_transform_tile_checked__Contract-comparator.log",
+      "sha256": "d2b1837c69ab36709503993975d06bf9e2783aef9ae1a589da62d3c1266107a9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/bench__repairs__tritonbench_g__rotary_transform_tile_checked__Correct-comparator.log",
+      "sha256": "d2b1837c69ab36709503993975d06bf9e2783aef9ae1a589da62d3c1266107a9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/bench__repairs__tritonbench_g__rotary_transform_tile_checked__FPEquiv-comparator.log",
+      "sha256": "d2b1837c69ab36709503993975d06bf9e2783aef9ae1a589da62d3c1266107a9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/bench__repairs__tritonbench_g__rotary_transform_tile_checked__IO-comparator.log",
+      "sha256": "d2b1837c69ab36709503993975d06bf9e2783aef9ae1a589da62d3c1266107a9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/bench__repairs__tritonbench_g__rotary_transform_tile_checked__KernelSource-comparator.log",
+      "sha256": "d2b1837c69ab36709503993975d06bf9e2783aef9ae1a589da62d3c1266107a9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/bench__repairs__tritonbench_g__rotary_transform_tile_checked__Kernels-comparator.log",
+      "sha256": "d2b1837c69ab36709503993975d06bf9e2783aef9ae1a589da62d3c1266107a9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/bench__repairs__tritonbench_g__rotary_transform_tile_checked__Misc__NativeCorrect-comparator.log",
+      "sha256": "d71ebd298da61b8672766ae32d70fbb9a54e3e6c9615863f02384c1941f31f1c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/bench__repairs__tritonbench_g__rotary_transform_tile_checked__Misc__TensorBridge-comparator.log",
+      "sha256": "d71ebd298da61b8672766ae32d70fbb9a54e3e6c9615863f02384c1941f31f1c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/bench__repairs__tritonbench_g__rotary_transform_tile_checked__PairIO-comparator.log",
+      "sha256": "d71ebd298da61b8672766ae32d70fbb9a54e3e6c9615863f02384c1941f31f1c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/bench__repairs__tritonbench_g__rotary_transform_tile_checked__Proofs__CompleteSafety-comparator.log",
+      "sha256": "d71ebd298da61b8672766ae32d70fbb9a54e3e6c9615863f02384c1941f31f1c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/bench__repairs__tritonbench_g__rotary_transform_tile_checked__Proofs__IOResults-comparator.log",
+      "sha256": "d71ebd298da61b8672766ae32d70fbb9a54e3e6c9615863f02384c1941f31f1c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/bench__repairs__tritonbench_g__rotary_transform_tile_checked__Proofs__IndexCSE-comparator.log",
+      "sha256": "d71ebd298da61b8672766ae32d70fbb9a54e3e6c9615863f02384c1941f31f1c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/bench__repairs__tritonbench_g__rotary_transform_tile_checked__Proofs__KernelAlgebra-comparator.log",
+      "sha256": "d71ebd298da61b8672766ae32d70fbb9a54e3e6c9615863f02384c1941f31f1c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/bench__repairs__tritonbench_g__rotary_transform_tile_checked__Proofs__KernelEndpoints-comparator.log",
+      "sha256": "0f2056fea3dba29272ffe33e3644ee2a662f4100e73a1ec5d9a7abe1b741cc2a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/bench__repairs__tritonbench_g__rotary_transform_tile_checked__Proofs__KernelEntry-comparator.log",
+      "sha256": "0f2056fea3dba29272ffe33e3644ee2a662f4100e73a1ec5d9a7abe1b741cc2a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/bench__repairs__tritonbench_g__rotary_transform_tile_checked__Proofs__KernelIndex-comparator.log",
+      "sha256": "0f2056fea3dba29272ffe33e3644ee2a662f4100e73a1ec5d9a7abe1b741cc2a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/bench__repairs__tritonbench_g__rotary_transform_tile_checked__Proofs__KernelOutput-comparator.log",
+      "sha256": "0f2056fea3dba29272ffe33e3644ee2a662f4100e73a1ec5d9a7abe1b741cc2a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/bench__repairs__tritonbench_g__rotary_transform_tile_checked__Proofs__KernelPublic-comparator.log",
+      "sha256": "0f2056fea3dba29272ffe33e3644ee2a662f4100e73a1ec5d9a7abe1b741cc2a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/bench__repairs__tritonbench_g__rotary_transform_tile_checked__Proofs__KernelValues-comparator.log",
+      "sha256": "0f2056fea3dba29272ffe33e3644ee2a662f4100e73a1ec5d9a7abe1b741cc2a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/bench__repairs__tritonbench_g__rotary_transform_tile_checked__Proofs__LogicalResult-comparator.log",
+      "sha256": "85d59342c55484d554fe4da9b9f99f798632a820287cc1dab7a1d29744a4029c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/bench__repairs__tritonbench_g__rotary_transform_tile_checked__Proofs__ProgramCorrespondence-comparator.log",
+      "sha256": "85d59342c55484d554fe4da9b9f99f798632a820287cc1dab7a1d29744a4029c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/bench__repairs__tritonbench_g__rotary_transform_tile_checked__Proofs__ProgramGeometry-comparator.log",
+      "sha256": "85d59342c55484d554fe4da9b9f99f798632a820287cc1dab7a1d29744a4029c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/bench__repairs__tritonbench_g__rotary_transform_tile_checked__Proofs__ProgramModel-comparator.log",
+      "sha256": "85d59342c55484d554fe4da9b9f99f798632a820287cc1dab7a1d29744a4029c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/bench__repairs__tritonbench_g__rotary_transform_tile_checked__Proofs__ProgramOrder-comparator.log",
+      "sha256": "85d59342c55484d554fe4da9b9f99f798632a820287cc1dab7a1d29744a4029c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/bench__repairs__tritonbench_g__rotary_transform_tile_checked__Proofs__ProgramPair-comparator.log",
+      "sha256": "85d59342c55484d554fe4da9b9f99f798632a820287cc1dab7a1d29744a4029c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/bench__repairs__tritonbench_g__rotary_transform_tile_checked__Proofs__ProgramResult-comparator.log",
+      "sha256": "85d59342c55484d554fe4da9b9f99f798632a820287cc1dab7a1d29744a4029c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/bench__repairs__tritonbench_g__rotary_transform_tile_checked__Proofs__ProgramScatter-comparator.log",
+      "sha256": "85d59342c55484d554fe4da9b9f99f798632a820287cc1dab7a1d29744a4029c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/bench__repairs__tritonbench_g__rotary_transform_tile_checked__Proofs__PublicIO-comparator.log",
+      "sha256": "85d59342c55484d554fe4da9b9f99f798632a820287cc1dab7a1d29744a4029c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/bench__repairs__tritonbench_g__rotary_transform_tile_checked__Proofs__ScheduleSafety-comparator.log",
+      "sha256": "85d59342c55484d554fe4da9b9f99f798632a820287cc1dab7a1d29744a4029c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/bench__repairs__tritonbench_g__rotary_transform_tile_checked__Proofs__SourceBlockSafety-comparator.log",
+      "sha256": "d09772fe0c377a1ac836df3bef46117c12e5fa16d7b6240e9668edef8448433c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/bench__repairs__tritonbench_g__rotary_transform_tile_checked__Proofs__SourceBlocks-comparator.log",
+      "sha256": "d09772fe0c377a1ac836df3bef46117c12e5fa16d7b6240e9668edef8448433c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/bench__repairs__tritonbench_g__rotary_transform_tile_checked__Proofs__SourceExports-comparator.log",
+      "sha256": "d09772fe0c377a1ac836df3bef46117c12e5fa16d7b6240e9668edef8448433c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/bench__repairs__tritonbench_g__rotary_transform_tile_checked__Proofs__SourceSafety-comparator.log",
+      "sha256": "d09772fe0c377a1ac836df3bef46117c12e5fa16d7b6240e9668edef8448433c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/bench__repairs__tritonbench_g__rotary_transform_tile_checked__Proofs__SourceTiles-comparator.log",
+      "sha256": "d09772fe0c377a1ac836df3bef46117c12e5fa16d7b6240e9668edef8448433c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/bench__repairs__tritonbench_g__rotary_transform_tile_checked__Proofs__StoreSafety-comparator.log",
+      "sha256": "d09772fe0c377a1ac836df3bef46117c12e5fa16d7b6240e9668edef8448433c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/bench__repairs__tritonbench_g__rotary_transform_tile_checked__Proofs__TypedControl-comparator.log",
+      "sha256": "d09772fe0c377a1ac836df3bef46117c12e5fa16d7b6240e9668edef8448433c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/bench__repairs__tritonbench_g__rotary_transform_tile_checked__Proofs__TypedExecution-comparator.log",
+      "sha256": "d09772fe0c377a1ac836df3bef46117c12e5fa16d7b6240e9668edef8448433c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/bench__repairs__tritonbench_g__rotary_transform_tile_checked__Proofs__TypedGrid-comparator.log",
+      "sha256": "5c3eec377af32d4825803955f2db381c3edf11d17cc7f609cd75c8a5e6d8385a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/bench__repairs__tritonbench_g__rotary_transform_tile_checked__Proofs__TypedLoads-comparator.log",
+      "sha256": "5c3eec377af32d4825803955f2db381c3edf11d17cc7f609cd75c8a5e6d8385a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/bench__repairs__tritonbench_g__rotary_transform_tile_checked__Proofs__TypedResult-comparator.log",
+      "sha256": "5c3eec377af32d4825803955f2db381c3edf11d17cc7f609cd75c8a5e6d8385a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/bench__repairs__tritonbench_g__rotary_transform_tile_checked__Proofs__TypedSetup-comparator.log",
+      "sha256": "5c3eec377af32d4825803955f2db381c3edf11d17cc7f609cd75c8a5e6d8385a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/bench__repairs__tritonbench_g__rotary_transform_tile_checked__Proofs__TypedStores-comparator.log",
+      "sha256": "5c3eec377af32d4825803955f2db381c3edf11d17cc7f609cd75c8a5e6d8385a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/bench__tests__CallSignature-comparator.log",
+      "sha256": "5c3eec377af32d4825803955f2db381c3edf11d17cc7f609cd75c8a5e6d8385a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/bench__tests__ConditionalCallRebindingBody-comparator.log",
+      "sha256": "5c3eec377af32d4825803955f2db381c3edf11d17cc7f609cd75c8a5e6d8385a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/bench__tests__NestedSignedLoadBody-comparator.log",
+      "sha256": "5c3eec377af32d4825803955f2db381c3edf11d17cc7f609cd75c8a5e6d8385a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/bench__tests__PointerOffsetRebindingBody-comparator.log",
+      "sha256": "59c9d916ed6a479c602ad1493c305739798e2b7753f1553fe1f570df9f4c5105"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/bench__tests__SpecializedArgumentBody-comparator.log",
+      "sha256": "59c9d916ed6a479c602ad1493c305739798e2b7753f1553fe1f570df9f4c5105"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/build-invocations.json",
+      "sha256": "a911be58fe45c52175fe53963325fda8df97befc785da904b05a011cdaa0692e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/canonical-task-files.json",
+      "sha256": "1270b83c0792c969c71cea07cc30c6320096555e59c8af9c816c3b6fc5a2d1f9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/comparator-invocations.json",
+      "sha256": "368288ee2600c1f7b2d7f115a85057fd071a8421861c54ccf92a85033a88f639"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/comparator-tools.json",
+      "sha256": "28998e17d51b0fb5930f7489e64512a57f8a8146d1470063a624a75bbabdb0d3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/corpus-guard.log",
+      "sha256": "0902bc2082ad495a3bcd0a95b8ef4362fd70ef71875ad8a99863d28bb183515f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/cpu-check.log",
+      "sha256": "1db53d652137221ca317235914bdf42d9be84d9453ebb8faea0056fe4648f1f6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/final-clean-build.log.gz",
+      "sha256": "ec3ed886d8e6554b98dac66370a091f57ecfa9c78ef25042d9893bb115f09047"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/final-clean-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/final-clean-setup.json",
+      "sha256": "24076258f5667acc3daa982e3646c9c787e1a41464c663a05e45cfe79c4f9180"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/focus-build.log.gz",
+      "sha256": "e429a856a5d86164a08bdf704648d9216dd503b64a79f4db120129f327a15bb4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/focus-invocations.json",
+      "sha256": "060fad2012bf0f594ac930246bba30441769d80bff861b6d3cbd69c9e48522ff"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/focus-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/focus-modules.txt",
+      "sha256": "7f9231998a3f3cfd5559ed67b970c9a227558e80e2eaf238f54252317283a429"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/frontend-build.log.gz",
+      "sha256": "a96f097fc3bc0af1974c568934293e4d9ce0e3d60c705aa0299f1fa80d0c713c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/frontend-modules.txt",
+      "sha256": "6287d31a517ba5c3727fba7696ec1384b02f7d7c065b3e2bdaa3bccc105fc780"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/inspections.json",
+      "sha256": "da08d97403f7d2225f8887cb44cbb8f52dc684bde462a8b754ead8da9222d2c6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/integration-final.log.gz",
+      "sha256": "c7b0d922b977068ed0453509eb956f44239c3594b3553ef95f254f69f81d80a7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/joint-all.lean",
+      "sha256": "a54e06172d74c239dff3419d953f8bbecdacc7aff1619be3fa1a08318f5e15f0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/joint-final.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/modules.json",
+      "sha256": "bb2b27723a9a46a55a318e6125a4e69cd7220d422bbc322150b6a589739e4df2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/pairs.json",
+      "sha256": "fa5da146f87b4db7d1d7bd878b3229348c552ca13f5bd55cfe2b5fba6044c136"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/previous-reviews.json.gz",
+      "sha256": "147b1aab70348bb59d06bfced023b449fe70fcb271431d01292d30f7a880b208"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/python-invocations.json",
+      "sha256": "24bcfec66e012c4fac3d75a65372c60cbf1e3caa3b2a1d0c27604ef277476953"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/python-tests.log",
+      "sha256": "d08ec55d04e2cec0c4249660d2ecbc0838fbb3fb5f4abfb895d0484360aa2e66"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/raw-body-check.log",
+      "sha256": "b0944ca8c9c57514e4c7500bfb9565841e6936295f8b3e9fe2c267ed2e16ff3a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/source-closure.json",
+      "sha256": "08e045bd322bd397649074474804838b5cdbc91ebe3f55e72f0540744a4237de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/standalone-CallSignature.log",
+      "sha256": "8f746de4cea33dc878dc829a280b78be2f1665e2c0dcc0e4645f9242b02d5473"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/standalone-ConditionalCallRebindingBody.log",
+      "sha256": "48c974f09dc87879562ec91bb37545e5eae45d179c98e00794827f50f8af32a8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/standalone-NestedSignedLoadBody.log",
+      "sha256": "ccfb36fee33458208d687282880b386e3c198f25e1b550732e09dff8cc05ab63"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/standalone-PointerOffsetRebindingBody.log",
+      "sha256": "8dd862c8246202c52962a95752a32dc113ee12b5665f74d66de3418dc3c3a876"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/standalone-SpecializedArgumentBody.log",
+      "sha256": "657ad7686f287ad659cfc4b4f09ddb83a259badba0c0c037bf92c81f117b9e42"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/transferred-files.json",
+      "sha256": "7333669ea0601ffc50727d768dda95fe4ec055c803b2c4ee3f6254a72a30ac21"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/warm-final-invocation.json",
+      "sha256": "2415a7773c2f415f5fdbfaec5c8cf33bd5f0e3a8caf097b5f8f29335e9fc7e49"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-function-bodies/workflow-counts.json",
+      "sha256": "5540280644bef0477cc4e86a6f7fa173891e9e7e9fc2e76a5c4baa92c34b4598"
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "code_commit": "e5902a008c1c14f5519be19757bdf28deb39eec0",
+  "raw_bodies": [
+    {
+      "name": "raw-body-check",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/rotary_transform_tile_checked/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "e5902a008c1c14f5519be19757bdf28deb39eec0",
+      "log": "/tmp/rotary98-raw-body-check.log",
+      "status": "PASS"
+    }
+  ],
+  "candidate_rewrites": [
+    {
+      "status": "PASS",
+      "scope": "The complete original body and a Python transcription of the already selected rk-reuse candidate retain the original signature and decorator. Nine RotaryTransformBodyTests check all twelve caller profiles and reject removed casts, invented initialization, changed early return/dtype/specialization and any additional candidate rewrite."
+    }
+  ],
+  "cpu": {
+    "name": "cpu-check",
+    "command": [
+      "python3",
+      "bench/repairs/tritonbench_g/rotary_transform_tile_checked/check_candidate.py"
+    ],
+    "exit_code": 1,
+    "code_commit": "e5902a008c1c14f5519be19757bdf28deb39eec0",
+    "log": "/tmp/rotary98-cpu-check.log",
+    "status": "UNAVAILABLE",
+    "reason": "The unchanged CPU guard/launch capture checker requires Torch, which is not installed."
+  },
+  "original_python_and_public_specifications": {
+    "status": "PASS",
+    "sha256": {
+      "bench/repairs/tritonbench_g/rotary_transform_tile_checked/Contract.lean": "21546b0983d870099a073e26558213d54c617dc1b840c7295dc7b3abccb7ec13",
+      "bench/repairs/tritonbench_g/rotary_transform_tile_checked/rotary_transform_tile_checked.py": "5df01dc0401afff355e13be26ea31b0ef6ec1f060974a6a700aea3714e95e9bf",
+      "bench/repairs/tritonbench_g/rotary_transform_tile_checked/Correct.lean": "f2edca07c7502d026f13d79f30519083ffca1f1736a1f6c305513636aa921ca5",
+      "bench/repairs/tritonbench_g/rotary_transform_tile_checked/check_candidate.py": "65c165a25fffaf628c03417d604abd5cd068d3a87704359efccb538354152b63",
+      "bench/repairs/tritonbench_g/rotary_transform_tile_checked/FPEquiv.lean": "0c852494e4a723972abcba050e01ba39aba57d8b176cbca0b028b290da4841a8"
+    }
+  },
+  "scope": "Twelve complete raw mappings cover scalar offsets and tensor offsets for both signed cumulative/offset widths. Full source branches, explicit FP32 casts, masks, early return and stores are preserved. Conditional runtime-argument rebinding and signed nested pointer loads are handled by the shared frontend. Actual complete execution, access safety, independent Real formula, FP pair and optional native/Tensor applications are reverified on unchanged domains. No arbitrary cast identity, historical AST identity, whole-kernel premise, GPU or numerical experiment."
+}

@@ -1,0 +1,42 @@
+[
+  {
+    "name": "python-tests",
+    "command": [
+      "python3",
+      "-m",
+      "unittest",
+      "bench.tests.test_jit_correspondence",
+      "bench.tests.test_body_corpus",
+      "bench.tests.test_diag_ssm_body",
+      "bench.tests.test_fast_ce_body",
+      "bench.tests.test_delegated_body_sources",
+      "bench.tests.test_cross_entropy_ops_body",
+      "bench.tests.test_cross_entropy1_body",
+      "bench.tests.test_cross_entropy2_body",
+      "bench.tests.test_decay_cumsum_body",
+      "bench.tests.test_pow_scalar_tensor_body",
+      "bench.tests.test_matmul_tma_body",
+      "bench.tests.test_token_attn_llama2_body",
+      "bench.tests.test_rotary_transform_body"
+    ],
+    "exit_code": 0,
+    "code_commit": "e5902a008c1c14f5519be19757bdf28deb39eec0",
+    "log": "/tmp/rotary98-python-tests.log"
+  },
+  {
+    "name": "all-python",
+    "command": [
+      "python3",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "bench/tests",
+      "-p",
+      "test_*.py"
+    ],
+    "exit_code": 1,
+    "code_commit": "e5902a008c1c14f5519be19757bdf28deb39eec0",
+    "log": "/tmp/rotary98-all-python.log"
+  }
+]

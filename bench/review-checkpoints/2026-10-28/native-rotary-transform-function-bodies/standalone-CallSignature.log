@@ -1,0 +1,183 @@
+bench/tests/CallSignature.lean:58:48: warning: This simp argument is unused:
+  eraseDType_float
+
+Hint: Omit it from the simp argument list.
+  simp [storeGain, ̲ComputeKernel.withScalarArguments, ̲ScalarArgument.fp32, ̲ScalarArgument.statement,
+      ComputeKernel.surfaceBody, ̲ComputeKernel.eraseDType, ̲ComputeKernel.toAlgKernel,
+      ComputeKernel.toAlgorithm?, ̲ComputeStmt.listToAlgorithm?, ̲ComputeStmt.toAlgorithm?,
+      ComputeExpr.toAlgorithm?, ̲ComputeOp.toAlgorithm?, ̲ComputeKernel.fromKernelBody,
+      Kernel.eraseDType, ̲Stmt.eraseDTypeList, ̲Stmt.eraseDType, ̲Op.eraseDType.eq_def,
+      MemAccess.eraseDType.eq_def, ̲MaskOpt.eraseDType.eq_def, ̲ComputeDType.eraseDType,
+      VeriTile.Triton.eraseDType, ̲Except.bind, ̲bind, ̲er̵x̲e̲c̲,̲ ̲s̲t̲e̲p̲S̲t̲m̲t̲s̲,̲ ̲s̲t̲e̲p̲S̲t̲m̲t̲,̲ ̲e̲v̲as̵e̵D̵T̵y̵l̲O̲p.̲eq̲_d̲e̲fl̵o̵a̵t̵,
+      e̵x̵e̵c̵,̵s̵t̵e̵p̵S̵t̵m̵t̵s̵,̵s̵t̵e̵p̵S̵t̵m̵t̵,̵e̵v̵a̵l̵O̵p̵.̵e̵q̵_̵d̵e̵f̵,̵Tile.bop, ̲Tile.cop]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+bench/tests/CallSignature.lean:59:42: warning: This simp argument is unused:
+  Tile.bop
+
+Hint: Omit it from the simp argument list.
+  simp [storeGain, ̲ComputeKernel.withScalarArguments, ̲ScalarArgument.fp32, ̲ScalarArgument.statement,
+      ComputeKernel.surfaceBody, ̲ComputeKernel.eraseDType, ̲ComputeKernel.toAlgKernel,
+      ComputeKernel.toAlgorithm?, ̲ComputeStmt.listToAlgorithm?, ̲ComputeStmt.toAlgorithm?,
+      ComputeExpr.toAlgorithm?, ̲ComputeOp.toAlgorithm?, ̲ComputeKernel.fromKernelBody,
+      Kernel.eraseDType, ̲Stmt.eraseDTypeList, ̲Stmt.eraseDType, ̲Op.eraseDType.eq_def,
+      MemAccess.eraseDType.eq_def, ̲MaskOpt.eraseDType.eq_def, ̲ComputeDType.eraseDType,
+      VeriTile.Triton.eraseDType, ̲Except.bind, ̲bind, ̲eraseDType_float,
+  ̵  ̵ ̵ ̵exec, ̲stepStmts, ̲stepStmt,
+  ̲ ̲ ̲ ̲ ̲evalOp.eq_def, ̲Tile.b̵o̵p̵,̵T̵i̵l̵e̵.̵cop]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+bench/tests/CallSignature.lean:59:51: warning: This simp argument is unused:
+  Tile.cop
+
+Hint: Omit it from the simp argument list.
+  simp [storeGain, ̲ComputeKernel.withScalarArguments, ̲ScalarArgument.fp32, ̲ScalarArgument.statement,
+      ComputeKernel.surfaceBody, ̲ComputeKernel.eraseDType, ̲ComputeKernel.toAlgKernel,
+      ComputeKernel.toAlgorithm?, ̲ComputeStmt.listToAlgorithm?, ̲ComputeStmt.toAlgorithm?,
+      ComputeExpr.toAlgorithm?, ̲ComputeOp.toAlgorithm?, ̲ComputeKernel.fromKernelBody,
+      Kernel.eraseDType, ̲Stmt.eraseDTypeList, ̲Stmt.eraseDType, ̲Op.eraseDType.eq_def,
+      MemAccess.eraseDType.eq_def, ̲MaskOpt.eraseDType.eq_def, ̲ComputeDType.eraseDType,
+      VeriTile.Triton.eraseDType, ̲Except.bind, ̲bind, ̲eraseDType_float,
+  ̵  ̵ ̵ ̵exec, ̲stepStmts, ̲stepStmt,
+  ̲ ̲ ̲ ̲ ̲evalOp.eq_def, ̲Tile.bop,̵T̵i̵l̵e̵.̵c̵o̵p̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Tests.CallSignature.implicit_store_and_runtime_input: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.CallSignature.actual_argument: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+bench/tests/CallSignature.lean:125:21: warning: unused variable `N`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Tests.CallSignature.static_quotient: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.CallSignature.runtime_quotient: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.CallSignature.mutable_quotient: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.CallSignature.constexpr_width_quotient: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.CallSignature.zero_divisor_not_folded: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.CallSignature.tiled_static_range: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.CallSignature.signed_source_literals: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.CallSignature.conditional_argument_binding: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+bench/tests/CallSignature.lean:318:26: warning: This simp argument is unused:
+  FP.Structural.bop
+
+Hint: Omit it from the simp argument list.
+  simp [̵i̵n̵t̵e̵g̵e̵r̵_̵a̵s̵s̵i̵g̵n̵m̵e̵n̵t̵_̵l̵o̵o̵p̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵e̵x̵e̵c̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵r̵u̵n̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵s̵t̵e̵p̵,̵
+  ̵ ̵ ̵ ̵ ̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵l̵o̵o̵p̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵e̵v̵a̵l̵E̵x̵p̵r̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵e̵v̵a̵l̵O̵p̵_̵u̵n̵f̵o̵l̵d̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵S̵t̵a̵t̵e̵.̵s̵e̵t̵R̵e̵g̵,̵
+  ̵ ̵ ̵ ̵ ̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵n̵u̵m̵e̵r̵i̵c̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵b̵o̵p̵]̵[̲i̲n̲t̲e̲g̲e̲r̲_̲a̲s̲s̲i̲g̲n̲m̲e̲n̲t̲_̲l̲o̲o̲p̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲e̲x̲e̲c̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲r̲u̲n̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲s̲t̲e̲p̲,̲
+  ̲ ̲ ̲ ̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲l̲o̲o̲p̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲e̲v̲a̲l̲E̲x̲p̲r̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲e̲v̲a̲l̲O̲p̲_̲u̲n̲f̲o̲l̲d̲,̲
+  ̲ ̲ ̲ ̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲S̲t̲a̲t̲e̲.̲s̲e̲t̲R̲e̲g̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲n̲u̲m̲e̲r̲i̲c̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Tests.CallSignature.integer_assignment_zero_trip: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.CallSignature.integer_assignment_one_trip: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.CallSignature.integer_assignment_order: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.CallSignature.integer_assignment_loop: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+bench/tests/CallSignature.lean:428:24: warning: This simp argument is unused:
+  Broadcast.leftIndex
+
+Hint: Omit it from the simp argument list.
+  simp [FP.Structural.State.setReg, FP.Structural.numeric, F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵b̵o̵p̵,̵B̵r̵o̵a̵d̵c̵a̵s̵t̵.̵l̵e̵f̵t̵I̵n̵d̵e̵x̵,̵B̵r̵o̵a̵d̵c̵a̵s̵t̵.̵r̵i̵g̵h̵t̵I̵n̵d̵e̵x̵]̵F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲b̲o̲p̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲B̲r̲o̲a̲d̲c̲a̲s̲t̲.̲r̲i̲g̲h̲t̲I̲n̲d̲e̲x̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+bench/tests/CallSignature.lean:428:44: warning: This simp argument is unused:
+  Broadcast.rightIndex
+
+Hint: Omit it from the simp argument list.
+  simp [FP.Structural.State.setReg, FP.Structural.numeric, F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵b̵o̵p̵,̵B̵r̵o̵a̵d̵c̵a̵s̵t̵.̵l̵e̵f̵t̵I̵n̵d̵e̵x̵,̵B̵r̵o̵a̵d̵c̵a̵s̵t̵.̵r̵i̵g̵h̵t̵I̵n̵d̵e̵x̵]̵F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲b̲o̲p̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲B̲r̲o̲a̲d̲c̲a̲s̲t̲.̲l̲e̲f̲t̲I̲n̲d̲e̲x̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Tests.CallSignature.IntegerCastLiterals.execution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.CallSignature.PositionalMaximumStore.complete_program: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+bench/tests/CallSignature.lean:484:9: warning: unused variable `dtype`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Tests.CallSignature.MixedFP32Storage.complete_channels: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.CallSignature.ScanStorage.complete_program: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.CallSignature.LiveDotStorage.complete_program: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.CallSignature.StringChoice.complete_program: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+bench/tests/CallSignature.lean:655:6: warning: unused variable `B`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Tests.CallSignature.UninferredNumericalCaller.complete_program: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.CallSignature.IndexedMaximumStorage.complete_program: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.CallSignature.NaturalIntegerMemory.complete_program: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.PythonReservedNames.complete_program: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.CallSignature.InlineAddU32.reordered_abi: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.CallSignature.InlineAddU32.complete_program: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+bench/tests/CallSignature.lean:951:60: warning: This simp argument is unused:
+  FP.Structural.stepAlg
+
+Hint: Omit it from the simp argument list.
+  simp [̵s̵o̵u̵r̵c̵e̵,̵C̵o̵m̵p̵u̵t̵e̵K̵e̵r̵n̵e̵l̵.̵s̵u̵r̵f̵a̵c̵e̵B̵o̵d̵y̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵s̵t̵e̵p̵,̵F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵s̵t̵e̵p̵A̵l̵g̵,̵e̵v̵a̵l̵O̵p̵_̵u̵n̵f̵o̵l̵d̵]̵[̲s̲o̲u̲r̲c̲e̲,̲ ̲C̲o̲m̲p̲u̲t̲e̲K̲e̲r̲n̲e̲l̲.̲s̲u̲r̲f̲a̲c̲e̲B̲o̲d̲y̲,̲ ̲F̲P̲.̲S̲t̲r̲u̲c̲t̲u̲r̲a̲l̲.̲s̲t̲e̲p̲,̲ ̲e̲v̲a̲l̲O̲p̲_̲u̲n̲f̲o̲l̲d̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Tests.StaticAssertionSource.assertion_step_noop: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.FloatingPointerFamilies.complete_kernel: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.NaturalSignedAddress.complete_kernel: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.NaturalSignedOffsetRebind.complete_kernel: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.ImportedFiniteFunction.single_complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.ImportedFiniteFunction.double_complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

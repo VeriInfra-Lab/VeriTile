@@ -1,0 +1,21 @@
+bench/tests/PointerOffsetRebindingBody.lean:6:47: warning: unused variable `B`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+bench/tests/PointerOffsetRebindingBody.lean:17:50: warning: unused variable `B`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+bench/tests/PointerOffsetRebindingBody.lean:35:41: warning: unused variable `B`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+bench/tests/PointerOffsetRebindingBody.lean:43:47: warning: unused variable `n`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+bench/tests/PointerOffsetRebindingBody.lean:43:49: warning: unused variable `B`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Tests.PointerOffsetRebindingBody.conditional_complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.PointerOffsetRebindingBody.complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

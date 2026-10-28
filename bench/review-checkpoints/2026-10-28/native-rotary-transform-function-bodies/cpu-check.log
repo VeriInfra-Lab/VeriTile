@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/tmp/veritile-pr18-review/bench/repairs/tritonbench_g/rotary_transform_tile_checked/check_candidate.py", line 16, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'
