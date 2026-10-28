@@ -1,0 +1,148 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/ksoftmax_triton_grid_y_checked/ksoftmax_triton_grid_y_checked.py",
+    "lean": "bench/repairs/tritonbench_g/ksoftmax_triton/Kernels.lean",
+    "python_function": "_softmax",
+    "lean_definition": "forward",
+    "signature_definition": "forwardSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "Y",
+          "fp32"
+        ],
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "M",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_ym",
+          "i64"
+        ],
+        [
+          "stride_yn",
+          "i64"
+        ],
+        [
+          "stride_xm",
+          "i64"
+        ],
+        [
+          "stride_xn",
+          "i64"
+        ],
+        [
+          "stride_m",
+          "i64"
+        ],
+        [
+          "K",
+          "i64"
+        ]
+      ],
+      "constexpr": [
+        "LOG",
+        "MASK_TYPE",
+        "CAUSAL",
+        "DEPTH",
+        "IS_FP16"
+      ],
+      "readPorts": [
+        "X",
+        "M"
+      ],
+      "writePorts": [
+        "Y"
+      ]
+    },
+    "expected_call_bindings": {
+      "stride_ym": "stride_ym",
+      "stride_yn": "stride_yn",
+      "stride_xm": "stride_xm",
+      "stride_xn": "stride_xn",
+      "stride_m": "stride_m",
+      "K": "K"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/ksoftmax_triton_grid_y_checked/ksoftmax_triton_grid_y_checked.py",
+    "lean": "bench/repairs/tritonbench_g/ksoftmax_triton/Kernels.lean",
+    "python_function": "_softmax_backward",
+    "lean_definition": "backward",
+    "signature_definition": "backwardSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "GradIn",
+          "fp32"
+        ],
+        [
+          "GradOut",
+          "fp32"
+        ],
+        [
+          "Out",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_bm",
+          "i64"
+        ],
+        [
+          "stride_bn",
+          "i64"
+        ],
+        [
+          "stride_gm",
+          "i64"
+        ],
+        [
+          "stride_gn",
+          "i64"
+        ],
+        [
+          "stride_om",
+          "i64"
+        ],
+        [
+          "stride_on",
+          "i64"
+        ],
+        [
+          "K",
+          "i64"
+        ]
+      ],
+      "constexpr": [
+        "LOG",
+        "CAUSAL",
+        "DEPTH",
+        "IS_FP16"
+      ],
+      "readPorts": [
+        "GradOut",
+        "Out"
+      ],
+      "writePorts": [
+        "GradIn"
+      ]
+    },
+    "expected_call_bindings": {
+      "stride_bm": "stride_bm",
+      "stride_bn": "stride_bn",
+      "stride_gm": "stride_gm",
+      "stride_gn": "stride_gn",
+      "stride_om": "stride_om",
+      "stride_on": "stride_on",
+      "K": "K"
+    }
+  }
+]

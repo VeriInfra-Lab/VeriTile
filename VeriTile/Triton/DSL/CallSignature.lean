@@ -3,6 +3,7 @@ import VeriTile.Triton.DSL.NestedLoadAssignments
 import VeriTile.Triton.DSL.ConstexprMask
 import VeriTile.Triton.DSL.PythonConstants
 import VeriTile.Triton.DSL.SourceIntrinsic
+import VeriTile.Triton.DSL.OptionalString
 import VeriTile.Triton.DSL.OptionalPointer
 import VeriTile.Triton.DSL.TypedStores
 import VeriTile.Triton.DSL.TypedStorageReduction
@@ -720,9 +721,6 @@ private def elaborateCallCore (profile : TSyntax `term) (stmts : Array (TSyntax 
         return (⟨← bindSourceValues checkedConstants stmt.raw⟩ : TSyntax `tritonStmt)
       let stmts ← liftMacroM <| stmts.mapM fun stmt => do
         return (⟨← PythonConstants.lower stmt.raw⟩ : TSyntax `tritonStmt)
-      let stmts ← liftMacroM <| OptionalPointer.specialize presence stmts
-      let stmts ← liftMacroM <| stmts.mapM fun stmt => do
-        return (⟨← PythonBody.markWeakLiterals stmt.raw⟩ : TSyntax `tritonStmt)
       let mut values : List (Name × TSyntax `tritonExpr) := []
       let mut fp32Values := Bool.false
       if let some args := callValues then
@@ -789,6 +787,15 @@ private def elaborateCallCore (profile : TSyntax `term) (stmts : Array (TSyntax 
             else throwErrorAt value "pointer offset must have a Nat or Int element-offset carrier"
           pointerValues := pointerValues ++ [(name,expression)]
         values := values ++ pointerValues
+      -- Validate call bindings before elaborating constexpr values, so an
+      -- incomplete call reports its missing argument rather than a later
+      -- undefined constexpr. Resolve string None tests before pointer tests.
+      let (stmts, optionalStrings) ← OptionalString.specialize constants stmts
+      for stmt in stmts do
+        rejectArgumentMutation optionalStrings stmt.raw "optional string constexpr mutation is unsupported"
+      let stmts ← liftMacroM <| OptionalPointer.specialize presence stmts
+      let stmts ← liftMacroM <| stmts.mapM fun stmt => do
+        return (⟨← PythonBody.markWeakLiterals stmt.raw⟩ : TSyntax `tritonStmt)
       -- Static numeric constants remain weak Python values. Reject later
       -- mutation before lowering the supported exact powers to fixed literals.
       let mut localConstants : List Name := []
@@ -818,7 +825,7 @@ private def elaborateCallCore (profile : TSyntax `term) (stmts : Array (TSyntax 
       -- Mutable constexpr names remain local statements, never substituted.
       for constant in constants do
         let name := Name.mkSimple constant
-        if assigned.contains name then continue
+        if assigned.contains name || optionalStrings.contains name then continue
         let id : TSyntax `term := ⟨mkIdent name⟩
         let value ← elabTerm id none
         let dtype ← inferType value

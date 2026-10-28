@@ -6,8 +6,8 @@
     "tasks": 183,
     "examples": 19,
     "task_status": {
-      "selected_body_copy_checked": 107,
-      "uncovered_jit_functions": 76
+      "selected_body_copy_checked": 108,
+      "uncovered_jit_functions": 75
     },
     "example_status": {
       "authored_counterpart_body_copy_checked": 2,
@@ -15,7 +15,7 @@
       "spec_derived_body_copy_checked": 15
     },
     "selected_jit_functions": 333,
-    "uncovered_selected_jit_functions": 161,
+    "uncovered_selected_jit_functions": 159,
     "primary_files_with_int64_screen_warning": 22,
     "primary_lean_file_features": {
       "tasks": {
@@ -9579,22 +9579,83 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_softmax",
+          "lean_definition": "forward",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "stride_ym": "stride_ym",
+            "stride_yn": "stride_yn",
+            "stride_xm": "stride_xm",
+            "stride_xn": "stride_xn",
+            "stride_m": "stride_m",
+            "K": "K"
+          },
+          "statements": 17,
+          "runtime_parameters": {
+            "stride_ym": "i64",
+            "stride_yn": "i64",
+            "stride_xm": "i64",
+            "stride_xn": "i64",
+            "stride_m": "i64",
+            "K": "i64"
+          },
+          "constexpr_parameters": [
+            "CAUSAL",
+            "DEPTH",
+            "IS_FP16",
+            "LOG",
+            "MASK_TYPE"
+          ],
           "python": "bench/repairs/tritonbench_g/ksoftmax_triton_grid_y_checked/ksoftmax_triton_grid_y_checked.py",
-          "function": "_softmax"
+          "lean": "bench/repairs/tritonbench_g/ksoftmax_triton/Kernels.lean"
         },
         {
+          "python_function": "_softmax_backward",
+          "lean_definition": "backward",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "stride_bm": "stride_bm",
+            "stride_bn": "stride_bn",
+            "stride_gm": "stride_gm",
+            "stride_gn": "stride_gn",
+            "stride_om": "stride_om",
+            "stride_on": "stride_on",
+            "K": "K"
+          },
+          "statements": 15,
+          "runtime_parameters": {
+            "stride_bm": "i64",
+            "stride_bn": "i64",
+            "stride_gm": "i64",
+            "stride_gn": "i64",
+            "stride_om": "i64",
+            "stride_on": "i64",
+            "K": "i64"
+          },
+          "constexpr_parameters": [
+            "CAUSAL",
+            "DEPTH",
+            "IS_FP16",
+            "LOG"
+          ],
           "python": "bench/repairs/tritonbench_g/ksoftmax_triton_grid_y_checked/ksoftmax_triton_grid_y_checked.py",
-          "function": "_softmax_backward"
+          "lean": "bench/repairs/tritonbench_g/ksoftmax_triton/Kernels.lean"
         }
       ],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
+        "bench/repairs/tritonbench_g/ksoftmax_triton/Kernels.lean": "c06324b94e67943cfcea61eee1553ac5b1c34a8dd07475c073d7ed3875f7940c",
         "bench/repairs/tritonbench_g/ksoftmax_triton_grid_y_checked/Kernels.lean": "42fd3fd3d008f6f216c3bc269283dee2f885c2527d17d20ae91e6cd8119f7849",
+        "bench/repairs/tritonbench_g/ksoftmax_triton_grid_y_checked/jit-correspondence.json": "3594700988440991f6f89278ed8608b3fa38010a0701cbdc1cea86689ec5535e",
         "bench/repairs/tritonbench_g/ksoftmax_triton_grid_y_checked/ksoftmax_triton_grid_y_checked.py": "de570d469f4976f6370b796860afbad79f67fc10a37abf55c1f2b514415ebf37"
       }
     },

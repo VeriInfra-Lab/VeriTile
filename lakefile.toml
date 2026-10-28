@@ -77,6 +77,7 @@ globs = [
   "bench.tests.NativeMatrixLoop",
   "bench.tests.NativeMaxLoop",
   "bench.tests.PositionalReductionLoop",
+  "bench.tests.OptionalStringBody",
   "bench.tests.LoopBody",
   "bench.tests.ScalarAssignmentBody", "bench.tests.LoopTupleLoadBody", "bench.tests.InlineSuiteBody", "bench.tests.NestedLoadAssignmentsBody", "bench.tests.PointerOffsetRebindingBody", "bench.tests.IntegerCallFloatBranchBody", "bench.tests.PythonConditionalAssignmentBody", "bench.tests.SourceConstantBody", "bench.tests.SignedReverseBody",
   "bench.tests.BinaryImportBody",
