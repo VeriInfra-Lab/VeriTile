@@ -1,0 +1,30 @@
+{
+  "parent": "2f1e5bd9515ce240988057b81e7e708fcc79b7d8",
+  "shared_core_changed": [],
+  "files": {
+    "bench/repairs/tritonbench_g/rotary_transform_ops/KernelSource.lean": "088f48bcdc28c599edfd10f2830a3f91feb87ce393222019c11dd91ee909e0a0",
+    "bench/repairs/tritonbench_g/rotary_transform_ops/Kernels.lean": "966077b2d775f21e8f8a30621e49b9b6af24d0f8567fc6fc965403c868278b74",
+    "bench/repairs/tritonbench_g/rotary_transform_ops/Proofs/Geometry.lean": "dae4d3a75046e403173f32abb2d72f7eba74d31a44eae022801130c7d9d9c7f2",
+    "bench/repairs/tritonbench_g/rotary_transform_ops/Proofs/SourceSafety.lean": "f745148a6d7cd844ce645dd1805af68f8d8ca19b0b574bbd10dc039ce69190f3",
+    "bench/repairs/tritonbench_g/rotary_transform_ops/Proofs/TypedControl.lean": "b7314414b5860cf89261f7bc8977db704c69c3c7d2c20b472c28c91a07d79519",
+    "bench/repairs/tritonbench_g/rotary_transform_ops/Proofs/TypedExecution.lean": "7ee8a18dd2f8cc4728884d3c9606319abe0db485642fb13896b2f9bb2bf9f744",
+    "bench/repairs/tritonbench_g/rotary_transform_ops/Proofs/TypedLoads.lean": "e42efd6adaee3b9d84926c4f1fbd55c62f3e31bafa76f97c471f5d2ad611d40a",
+    "bench/repairs/tritonbench_g/rotary_transform_ops/Proofs/TypedSetup.lean": "af044d598e980c08615ad1fe22cc9e89fc9d9596a18070ab2cf02f1e9ac63f87",
+    "bench/repairs/tritonbench_g/rotary_transform_ops/Proofs/TypedStores.lean": "c21168709ff12b7a3eb59cacf4bb6562ad5775408d168207eb0255af774781c8",
+    "bench/repairs/tritonbench_g/rotary_transform_ops/Proofs/XorPair.lean": "ce2a8302ec5569463bea07d265c41c127bac09dcf414873d1af84343f48a787a",
+    "bench/repairs/tritonbench_g/rotary_transform_ops/Proofs/XorSafety.lean": "23e7a0e8a59ec7df7c6df1a71edeb27063b9af93806a4b7ada6300a94afbb902",
+    "bench/repairs/tritonbench_g/rotary_transform_ops/README.md": "c7ac73e524dcd0c14aa79b1239813fe2dcc6a06a5114cb462b3b0d25923dce72",
+    "bench/repairs/tritonbench_g/rotary_transform_ops/XorSource.lean": "088f48bcdc28c599edfd10f2830a3f91feb87ce393222019c11dd91ee909e0a0",
+    "bench/repairs/tritonbench_g/rotary_transform_ops/Model.lean": "f3eb064afeaa395ee5691cb94158df9611ef12769d06c19523de5dcd75cf7fef",
+    "bench/repairs/tritonbench_g/rotary_transform_ops/Proofs/SourceAccessSafety.lean": "d5caf80ecb5a5c91b631d0946136bc842d9aef14bd0c0c370fd09afc1037bc15",
+    "bench/repairs/tritonbench_g/rotary_transform_ops/Proofs/SourceBlockSafety.lean": "5250df5252eb107395878b67ffaadaba3790f0e2dae0bdaa2ecf6dfc5749f25d",
+    "bench/repairs/tritonbench_g/rotary_transform_ops/Proofs/SourceBlocks.lean": "e7e258cb5cd11782374a568fce75b1b82a81f4464de70752fe87081dcc5f6c59",
+    "bench/repairs/tritonbench_g/rotary_transform_ops/Proofs/SourceCompleteSafety.lean": "b1f1c69f472971bf7a723ce558e7b8084371062a169414be529c19b95703b3e6",
+    "bench/repairs/tritonbench_g/rotary_transform_ops/Proofs/SourceStoreSafety.lean": "0afe1483ccd2bab14b35c4a031262b5898971ce61e704daecaae9319a13f969f",
+    "bench/repairs/tritonbench_g/rotary_transform_ops/jit-correspondence.json": "6fcc2c6795dfe77507d8849838f620edcc5ffe50e35b867be76212e6b4cabf46",
+    "bench/tests/test_rotary_transform_ops_body.py": "02144b3ceb0c355c93fa8b9698a742ae7de5c55036757827bb0a1c6cea676919"
+  },
+  "code_commit": "5fb561221e39f711efcc8ebb65b544a870eca161",
+  "original_python_and_public_specifications_unchanged": true,
+  "actual_source_connection": "Both original and pre-existing xor candidate retain every source branch, mask, cast, early return and store. The independent mathematical model is byte-identical to the former Kernels module. Full actual execution and safety bridges reconnect the complete grid, Real target and FP pair on the unchanged width-256 domain. No shared compiler file changes."
+}

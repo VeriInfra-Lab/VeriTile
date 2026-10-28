@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "/tmp/veritile-pr18-review/bench/repairs/tritonbench_g/rotary_transform_ops/check_contract.py", line 6, in <module>
+    checks=importlib.util.module_from_spec(spec);spec.loader.exec_module(checks)
+                                                 ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 1026, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/tmp/veritile-pr18-review/bench/repairs/tritonbench_g/rotary_transform/check_contract.py", line 8, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'

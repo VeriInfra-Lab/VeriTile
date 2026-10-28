@@ -1,0 +1,16 @@
+{
+  "task": 64,
+  "focus": 64,
+  "frontend": 114,
+  "cumulative": 4364,
+  "transfer": 21,
+  "audit": 301,
+  "comparator": 64,
+  "targeted_python": 220,
+  "full_python": 465,
+  "new_raw_pairs": 12,
+  "selected_tasks": 105,
+  "total_raw_pairs": 350,
+  "pending_tasks": 78,
+  "independent_clean_roots": 64
+}

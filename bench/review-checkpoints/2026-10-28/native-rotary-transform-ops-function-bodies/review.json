@@ -1,0 +1,532 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "5fb561221e39f711efcc8ebb65b544a870eca161",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "rotary_transform_ops"
+  ],
+  "regression_only_pending_body_tasks": [],
+  "semantic_review": {
+    "rotary_transform_ops": "Both original Python kernels are unchanged and copied completely into Kernels.lean, with all 11 top-level statements, early return, both layouts, packed/fixed metadata, scalar/tensor offsets, conjugation, explicit FP32 casts, masks and stores. Twelve caller profiles retain signed metadata widths and scalar/pointer choices. The existing xor candidate changes only rk_swap. Model.lean preserves the former independent mathematical definitions byte-for-byte. Actual complete execution and trace-safety bridges connect the raw source to the independent Real formula, complete grid, FP source pair and native/Tensor applications. Original width-256 domain, raw FP32 words, suffix/frame, aliasing and empty grids remain. Correct, FPEquiv, Contract, IO and original Python are unchanged. No historical AST identity, whole-kernel premise or new numerical assumption."
+  },
+  "compiler_change": {
+    "files": [],
+    "behavior": "No shared compiler change. All 114 frontend and 4364 cumulative task/example roots replay warm with joint imports. The independent empty-project replay covers all 64 RotaryTransformOps roots and their complete local import closure; previous unchanged tasks are not claimed rebuilt cold in this receipt."
+  },
+  "verification": {
+    "baseline": {
+      "status": "PASS",
+      "explicit_modules": 58,
+      "jobs": 3569
+    },
+    "frontend_preflight": {
+      "status": "PASS",
+      "explicit_modules": 114,
+      "jobs": 3768,
+      "scope": "All registered frontend roots, using the unchanged shared compiler."
+    },
+    "focused": {
+      "status": "PASS",
+      "explicit_modules": 64,
+      "jobs": 3575,
+      "additional_scope": "Joint import, 301 task theorem audits and the empty public FP assumption report."
+    },
+    "warm_and_joint": {
+      "status": "PASS",
+      "explicit_modules": 4364,
+      "jobs": 14074
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "scope": "All 64 RotaryTransformOps roots and their complete local import closure. Other cumulative roots have warm replay only in this receipt.",
+      "explicit_modules": 64,
+      "jobs": 3575,
+      "project_build_initially_present": false,
+      "project_objects_imported_from_other_checkouts": false,
+      "only_fixed_external_dependencies_imported": true,
+      "setup": {
+        "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/final-clean-setup.json",
+        "sha256": "d9f66a04a4e8977e3ba3e99a682c6855d2b6e3e054cff046b3a01b4c8b64d131"
+      }
+    },
+    "trust": "PASS: all 301 task theorem footprints use only standard base. The public complete source pair prints no FP assumptions.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 220
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 465,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by old numerical receipt; no false repin."
+    },
+    "source": "PASS: twelve complete raw original/existing xor candidate mappings and caller profile bindings; original Python and public specifications unchanged; actual branches, casts, masks, stores and complete source execution/safety reverified.",
+    "official_comparator": "UNAVAILABLE: 64 actual final-source attempts with verified pinned binaries. Host Landlock ABI v4 is below required v5; no systemd user isolation or bypass.",
+    "cpu": "UNAVAILABLE: the unchanged check_candidate.py CPU guard/launch checker requires missing Torch. No GPU or new numerical experiment was requested or run.",
+    "gpu_or_numerical_experiment": "Not run.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending; the known unchanged numerical receipt failure remains explicit."
+  },
+  "source_pairs": {
+    "total": 350,
+    "pasted_body": 350,
+    "legacy_ast": 0
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/source-closure.json",
+    "sha256": "89e29e3121abd5a8b2bf93fffe9e2fcf12b06d5bfdecb9fd799f4b98ef723ec6"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "selected_body_copy_checked": 105,
+      "uncovered_jit_functions": 78
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 333,
+    "uncovered_selected_jit_functions": 165,
+    "primary_files_with_int64_screen_warning": 22,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 56,
+        "antiquotes": 62,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "example_regression_scope": "All 19 selected examples and all previous recorded task roots replay warm/joint. This receipt independently rebuilds only the 64 task roots and their full import closure because the compiler is unchanged. Prior independent cumulative replay remains in the preceding receipt. Unselected historical model gaps are not relabeled as passing.",
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/all-python.log",
+      "sha256": "d9d55b3bcfc7699c23d9ea1150562b67edb49015ca71612c23e3d0d6f731a7d0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/audit-targets.json",
+      "sha256": "8138ded355e197847463b91367b058a167e1d818012aebcff3157bbd01f22489"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/audit.lean",
+      "sha256": "67ef33ab5174340a9a59964e4b5dfb5598d91a2feb139c6946ace34c76566e04"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/audit.log.gz",
+      "sha256": "5ceca799413b90e4060de7f444427c57222d3fd48b54f8c0a43ed0b823ceed7a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/baseline-build.log.gz",
+      "sha256": "9119493df1774a2888419654e48092ef67b6ec2ba1e2b60fd0497b6f8200ed98"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/baseline.json",
+      "sha256": "de603bfee4d9cb8bdc780206795f74dd6c3b575e4dd9b5bbae42fe964a357954"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Contract-comparator.log",
+      "sha256": "061e96e17b95fe93d5cf542446268d3d96d474c072e168e8fe773c7209812507"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Correct-comparator.log",
+      "sha256": "061e96e17b95fe93d5cf542446268d3d96d474c072e168e8fe773c7209812507"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__FPEquiv-comparator.log",
+      "sha256": "061e96e17b95fe93d5cf542446268d3d96d474c072e168e8fe773c7209812507"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__IO-comparator.log",
+      "sha256": "061e96e17b95fe93d5cf542446268d3d96d474c072e168e8fe773c7209812507"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__KernelSource-comparator.log",
+      "sha256": "061e96e17b95fe93d5cf542446268d3d96d474c072e168e8fe773c7209812507"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Kernels-comparator.log",
+      "sha256": "c81a02773120381113551e503048b7d05990a33430ca7c84c272b2b48781e554"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Misc__KernelAudit-comparator.log",
+      "sha256": "c81a02773120381113551e503048b7d05990a33430ca7c84c272b2b48781e554"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Misc__NativeCorrect-comparator.log",
+      "sha256": "c81a02773120381113551e503048b7d05990a33430ca7c84c272b2b48781e554"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Misc__TensorBridge-comparator.log",
+      "sha256": "c81a02773120381113551e503048b7d05990a33430ca7c84c272b2b48781e554"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Model-comparator.log",
+      "sha256": "c81a02773120381113551e503048b7d05990a33430ca7c84c272b2b48781e554"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__Binding-comparator.log",
+      "sha256": "c81a02773120381113551e503048b7d05990a33430ca7c84c272b2b48781e554"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__Bounds-comparator.log",
+      "sha256": "c81a02773120381113551e503048b7d05990a33430ca7c84c272b2b48781e554"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__Geometry-comparator.log",
+      "sha256": "c81a02773120381113551e503048b7d05990a33430ca7c84c272b2b48781e554"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__Grid-comparator.log",
+      "sha256": "c81a02773120381113551e503048b7d05990a33430ca7c84c272b2b48781e554"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__Guards-comparator.log",
+      "sha256": "c81a02773120381113551e503048b7d05990a33430ca7c84c272b2b48781e554"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__HistoricalCorrect-comparator.log",
+      "sha256": "c81a02773120381113551e503048b7d05990a33430ca7c84c272b2b48781e554"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__HistoricalFPEquiv-comparator.log",
+      "sha256": "c81a02773120381113551e503048b7d05990a33430ca7c84c272b2b48781e554"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__HistoricalPublicCorrect-comparator.log",
+      "sha256": "c81a02773120381113551e503048b7d05990a33430ca7c84c272b2b48781e554"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__HistoricalPublicFPEquiv-comparator.log",
+      "sha256": "c81a02773120381113551e503048b7d05990a33430ca7c84c272b2b48781e554"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__Host-comparator.log",
+      "sha256": "c81a02773120381113551e503048b7d05990a33430ca7c84c272b2b48781e554"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__IOComplete-comparator.log",
+      "sha256": "c81a02773120381113551e503048b7d05990a33430ca7c84c272b2b48781e554"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__IOFacts-comparator.log",
+      "sha256": "c81a02773120381113551e503048b7d05990a33430ca7c84c272b2b48781e554"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__IOFormula-comparator.log",
+      "sha256": "c81a02773120381113551e503048b7d05990a33430ca7c84c272b2b48781e554"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__IOGeometry-comparator.log",
+      "sha256": "c81a02773120381113551e503048b7d05990a33430ca7c84c272b2b48781e554"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__IOResult-comparator.log",
+      "sha256": "c81a02773120381113551e503048b7d05990a33430ca7c84c272b2b48781e554"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__IOSafety-comparator.log",
+      "sha256": "c81a02773120381113551e503048b7d05990a33430ca7c84c272b2b48781e554"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__KernelAlgebra-comparator.log",
+      "sha256": "c81a02773120381113551e503048b7d05990a33430ca7c84c272b2b48781e554"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__KernelCompatibility-comparator.log",
+      "sha256": "f89a079d05123531a69cc9cbfe0d5fcc3045f4eedb18620b18ab19228862e278"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__KernelEndpoints-comparator.log",
+      "sha256": "f89a079d05123531a69cc9cbfe0d5fcc3045f4eedb18620b18ab19228862e278"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__KernelIndex-comparator.log",
+      "sha256": "f89a079d05123531a69cc9cbfe0d5fcc3045f4eedb18620b18ab19228862e278"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__KernelTensor-comparator.log",
+      "sha256": "f89a079d05123531a69cc9cbfe0d5fcc3045f4eedb18620b18ab19228862e278"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__LogicalResult-comparator.log",
+      "sha256": "f89a079d05123531a69cc9cbfe0d5fcc3045f4eedb18620b18ab19228862e278"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__Memory-comparator.log",
+      "sha256": "f89a079d05123531a69cc9cbfe0d5fcc3045f4eedb18620b18ab19228862e278"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__Metadata-comparator.log",
+      "sha256": "f89a079d05123531a69cc9cbfe0d5fcc3045f4eedb18620b18ab19228862e278"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__Native-comparator.log",
+      "sha256": "f89a079d05123531a69cc9cbfe0d5fcc3045f4eedb18620b18ab19228862e278"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__Physical-comparator.log",
+      "sha256": "f89a079d05123531a69cc9cbfe0d5fcc3045f4eedb18620b18ab19228862e278"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__ProgramCorrespondence-comparator.log",
+      "sha256": "f89a079d05123531a69cc9cbfe0d5fcc3045f4eedb18620b18ab19228862e278"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__ProgramGeometry-comparator.log",
+      "sha256": "f89a079d05123531a69cc9cbfe0d5fcc3045f4eedb18620b18ab19228862e278"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__ProgramModel-comparator.log",
+      "sha256": "f89a079d05123531a69cc9cbfe0d5fcc3045f4eedb18620b18ab19228862e278"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__ProgramOrder-comparator.log",
+      "sha256": "f89a079d05123531a69cc9cbfe0d5fcc3045f4eedb18620b18ab19228862e278"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__ProgramResult-comparator.log",
+      "sha256": "f89a079d05123531a69cc9cbfe0d5fcc3045f4eedb18620b18ab19228862e278"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__ProgramScatter-comparator.log",
+      "sha256": "f89a079d05123531a69cc9cbfe0d5fcc3045f4eedb18620b18ab19228862e278"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__RealWrapper-comparator.log",
+      "sha256": "f89a079d05123531a69cc9cbfe0d5fcc3045f4eedb18620b18ab19228862e278"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__Scheduling-comparator.log",
+      "sha256": "f89a079d05123531a69cc9cbfe0d5fcc3045f4eedb18620b18ab19228862e278"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__Source-comparator.log",
+      "sha256": "f89a079d05123531a69cc9cbfe0d5fcc3045f4eedb18620b18ab19228862e278"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__SourceAccessSafety-comparator.log",
+      "sha256": "f89a079d05123531a69cc9cbfe0d5fcc3045f4eedb18620b18ab19228862e278"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__SourceBlockSafety-comparator.log",
+      "sha256": "f89a079d05123531a69cc9cbfe0d5fcc3045f4eedb18620b18ab19228862e278"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__SourceBlocks-comparator.log",
+      "sha256": "f89a079d05123531a69cc9cbfe0d5fcc3045f4eedb18620b18ab19228862e278"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__SourceCompleteSafety-comparator.log",
+      "sha256": "f89a079d05123531a69cc9cbfe0d5fcc3045f4eedb18620b18ab19228862e278"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__SourceSafety-comparator.log",
+      "sha256": "f89a079d05123531a69cc9cbfe0d5fcc3045f4eedb18620b18ab19228862e278"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__SourceStoreSafety-comparator.log",
+      "sha256": "f89a079d05123531a69cc9cbfe0d5fcc3045f4eedb18620b18ab19228862e278"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__TypedControl-comparator.log",
+      "sha256": "0a6dd4968801d000846d073d6cb16435e41f9a48878d551a20a8e7a9f42799e0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__TypedExecution-comparator.log",
+      "sha256": "0a6dd4968801d000846d073d6cb16435e41f9a48878d551a20a8e7a9f42799e0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__TypedGrid-comparator.log",
+      "sha256": "0a6dd4968801d000846d073d6cb16435e41f9a48878d551a20a8e7a9f42799e0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__TypedLoads-comparator.log",
+      "sha256": "0a6dd4968801d000846d073d6cb16435e41f9a48878d551a20a8e7a9f42799e0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__TypedResult-comparator.log",
+      "sha256": "0a6dd4968801d000846d073d6cb16435e41f9a48878d551a20a8e7a9f42799e0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__TypedSetup-comparator.log",
+      "sha256": "0a6dd4968801d000846d073d6cb16435e41f9a48878d551a20a8e7a9f42799e0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__TypedStores-comparator.log",
+      "sha256": "0a6dd4968801d000846d073d6cb16435e41f9a48878d551a20a8e7a9f42799e0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__Vector-comparator.log",
+      "sha256": "0a6dd4968801d000846d073d6cb16435e41f9a48878d551a20a8e7a9f42799e0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__XorIO-comparator.log",
+      "sha256": "0a6dd4968801d000846d073d6cb16435e41f9a48878d551a20a8e7a9f42799e0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__XorPair-comparator.log",
+      "sha256": "0a6dd4968801d000846d073d6cb16435e41f9a48878d551a20a8e7a9f42799e0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Proofs__XorSafety-comparator.log",
+      "sha256": "0a6dd4968801d000846d073d6cb16435e41f9a48878d551a20a8e7a9f42799e0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__Spec-comparator.log",
+      "sha256": "0a6dd4968801d000846d073d6cb16435e41f9a48878d551a20a8e7a9f42799e0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/bench__repairs__tritonbench_g__rotary_transform_ops__XorSource-comparator.log",
+      "sha256": "0a6dd4968801d000846d073d6cb16435e41f9a48878d551a20a8e7a9f42799e0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/build-invocations.json",
+      "sha256": "95176e04a4b6a31214052d4e746082989c856170c101be0637aa4cd9289abd5b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/canonical-task-files.json",
+      "sha256": "451b0d39294362b1659a312b778c034c06ae189e262b1823efd3de499ff6abf2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/comparator-invocations.json",
+      "sha256": "211ffd64fbc90bbe2a7032e65295ebcccbd4dfb6f8b6974e57926d9fce1b17ce"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/comparator-tools.json",
+      "sha256": "28998e17d51b0fb5930f7489e64512a57f8a8146d1470063a624a75bbabdb0d3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/corpus-guard.log",
+      "sha256": "3cdd30ea8abee4a4bdf66f57b6b9eb8385b55f44febc0322f70b1c73151f5bc6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/cpu-check.log",
+      "sha256": "7872149797b40ac213c30e189a931143149933190b7cb502d1d344d638a9cd1b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/final-clean-build.log.gz",
+      "sha256": "e58a49fb3bc4f302941d32271990de5e88e2ca8d28504d0eec55c60e1a8ee8a9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/final-clean-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/final-clean-setup.json",
+      "sha256": "d9f66a04a4e8977e3ba3e99a682c6855d2b6e3e054cff046b3a01b4c8b64d131"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/focus-build.log.gz",
+      "sha256": "1d9812caa552534f0eaed9d3ad79e11d0ac3d68382da9cc3f2306327966771fb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/focus-invocations.json",
+      "sha256": "978f5e5742d6d9307c0a3e593915beaaf7f1472946b6ae45e419804f6b5fa8ae"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/focus-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/focus-modules.txt",
+      "sha256": "0037d97e75b321e762fe7ebc02f5dabb536dc8a78c5902982d1ceb11b31245b1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/frontend-build.log.gz",
+      "sha256": "c71fde2c243389a02a84ea4adaad0f6574863c9cae87e5a2169c47d98ec4db6e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/frontend-modules.txt",
+      "sha256": "6287d31a517ba5c3727fba7696ec1384b02f7d7c065b3e2bdaa3bccc105fc780"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/inspections.json",
+      "sha256": "4d99c60413621af53e7d200c502e0c7ca1f3f644ac27ad863e25280965a3254f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/integration-final.log.gz",
+      "sha256": "e2a97e897ada2dc4c310f36c11b35ff60be510584b7bf73658163a50298da5da"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/joint-all.lean",
+      "sha256": "5524a5aa0a04705adabf651f16241c671bc296cd801223564b299255cf601077"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/joint-final.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/modules.json",
+      "sha256": "a6942c55ab6b78e0d9d521588d86781139c25e54fa5a08baaf856dfba9831747"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/pairs.json",
+      "sha256": "4ed0817e44e4d4c21c2c5e6c8ad1a85d6aa01be4a64c5bfc4f4c0b0305cce158"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/previous-reviews.json.gz",
+      "sha256": "2db59be936a784afe07d2c24c7d6abffa3ae94f4c75812935da31ce248addf95"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/python-invocations.json",
+      "sha256": "60ffc5e08e78f91f10d3d386374bb0255a354f335f2f2bd44611c6c7edf5705d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/python-tests.log",
+      "sha256": "2ceb966c255cad89ad57b366b80ad6788a5520a44bca9599768d09048d38ef22"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/raw-body-check.log",
+      "sha256": "c628982e3d5798df71357da22f1d89ca9d0663f11e9340e63fce60baf34fc6f2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/source-closure.json",
+      "sha256": "89e29e3121abd5a8b2bf93fffe9e2fcf12b06d5bfdecb9fd799f4b98ef723ec6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/transferred-files.json",
+      "sha256": "bc7b6cbb05abe898da4105db470379d58dfabf1c80780898742c1fd69b27d25f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/warm-final-invocation.json",
+      "sha256": "428b35f3c697980b7a4f7e442e4318fcaa0fa5703aaa4ebd07456aadda7a37b2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-rotary-transform-ops-function-bodies/workflow-counts.json",
+      "sha256": "4a16ab8e876d8c6d83f0f9bbf79c227511778515de8b01c86c5c2ba85144cbc5"
+    }
+  ]
+}
