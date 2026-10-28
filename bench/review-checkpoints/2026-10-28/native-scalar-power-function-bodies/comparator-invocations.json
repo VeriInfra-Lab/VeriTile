@@ -1,0 +1,482 @@
+[
+  {
+    "name": "VeriTile__Triton__DSL__CallSignature-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "VeriTile/Triton/DSL/CallSignature.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3c0605eeabe3a9907004dd3885dcca275899699e",
+    "log": "/tmp/pow95-VeriTile__Triton__DSL__CallSignature-comparator.log",
+    "file": "VeriTile/Triton/DSL/CallSignature.lean",
+    "sha256": "41f9933a70bcf89d088c07cb43db53da87990b5a2f32eef24b5d57c4c680ebff",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "VeriTile__Triton__DSL__SourceIntrinsic-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "VeriTile/Triton/DSL/SourceIntrinsic.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3c0605eeabe3a9907004dd3885dcca275899699e",
+    "log": "/tmp/pow95-VeriTile__Triton__DSL__SourceIntrinsic-comparator.log",
+    "file": "VeriTile/Triton/DSL/SourceIntrinsic.lean",
+    "sha256": "702ff51e9343b71d35fdbdafee7a8c099b7fbfcc2902496176ab77bc4d89f320",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__pow_scalar_tensor__Contract-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/pow_scalar_tensor/Contract.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3c0605eeabe3a9907004dd3885dcca275899699e",
+    "log": "/tmp/pow95-bench__repairs__tritonbench_g__pow_scalar_tensor__Contract-comparator.log",
+    "file": "bench/repairs/tritonbench_g/pow_scalar_tensor/Contract.lean",
+    "sha256": "61bb6fe847fc531452972e0c1abadf816b0895c7efb2979252ca9134358c8b56",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__pow_scalar_tensor__Correct-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/pow_scalar_tensor/Correct.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3c0605eeabe3a9907004dd3885dcca275899699e",
+    "log": "/tmp/pow95-bench__repairs__tritonbench_g__pow_scalar_tensor__Correct-comparator.log",
+    "file": "bench/repairs/tritonbench_g/pow_scalar_tensor/Correct.lean",
+    "sha256": "226392d002f2f9ed529eb9ed83b8b11fcdda4ceceba8449463e3c147d409e825",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__pow_scalar_tensor__FPEquiv-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/pow_scalar_tensor/FPEquiv.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3c0605eeabe3a9907004dd3885dcca275899699e",
+    "log": "/tmp/pow95-bench__repairs__tritonbench_g__pow_scalar_tensor__FPEquiv-comparator.log",
+    "file": "bench/repairs/tritonbench_g/pow_scalar_tensor/FPEquiv.lean",
+    "sha256": "687363f72dc497fb98d551ad5497599b6c1491aaa8dce32eaebc79bfab8c8119",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__pow_scalar_tensor__IO-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/pow_scalar_tensor/IO.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3c0605eeabe3a9907004dd3885dcca275899699e",
+    "log": "/tmp/pow95-bench__repairs__tritonbench_g__pow_scalar_tensor__IO-comparator.log",
+    "file": "bench/repairs/tritonbench_g/pow_scalar_tensor/IO.lean",
+    "sha256": "8f697879fd319ed2813cea97c165bfafda8db45273e268f4c797da9a961066a8",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__pow_scalar_tensor__Kernels-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/pow_scalar_tensor/Kernels.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3c0605eeabe3a9907004dd3885dcca275899699e",
+    "log": "/tmp/pow95-bench__repairs__tritonbench_g__pow_scalar_tensor__Kernels-comparator.log",
+    "file": "bench/repairs/tritonbench_g/pow_scalar_tensor/Kernels.lean",
+    "sha256": "c087872ea6066741abaf2861a5e6ff968d6039f9e1a4c23445d1c278e21f2da0",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__pow_scalar_tensor__Misc__NativeObservation-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/pow_scalar_tensor/Misc/NativeObservation.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3c0605eeabe3a9907004dd3885dcca275899699e",
+    "log": "/tmp/pow95-bench__repairs__tritonbench_g__pow_scalar_tensor__Misc__NativeObservation-comparator.log",
+    "file": "bench/repairs/tritonbench_g/pow_scalar_tensor/Misc/NativeObservation.lean",
+    "sha256": "9a5c35eb1b19136bc615be3a328e3d57e5b7ab0ad14027ebb17f5738cb0c3d32",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__pow_scalar_tensor__Misc__TensorBridge-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/pow_scalar_tensor/Misc/TensorBridge.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3c0605eeabe3a9907004dd3885dcca275899699e",
+    "log": "/tmp/pow95-bench__repairs__tritonbench_g__pow_scalar_tensor__Misc__TensorBridge-comparator.log",
+    "file": "bench/repairs/tritonbench_g/pow_scalar_tensor/Misc/TensorBridge.lean",
+    "sha256": "3b000fada2f1d34d0357454ec3a1a444b6870a21e31baa049aeb8e945502e6ef",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__Contract-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/Contract.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3c0605eeabe3a9907004dd3885dcca275899699e",
+    "log": "/tmp/pow95-bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__Contract-comparator.log",
+    "file": "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/Contract.lean",
+    "sha256": "216d49c1755b944a5e7f74fa9b3762a6d29fd83229f3b49900e8a0079d2c9d1d",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__HistoricalBody-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/HistoricalBody.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3c0605eeabe3a9907004dd3885dcca275899699e",
+    "log": "/tmp/pow95-bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__HistoricalBody-comparator.log",
+    "file": "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/HistoricalBody.lean",
+    "sha256": "ebd730868d9109ada2654020101dee1602e36848b32ca9585c1c92408043985f",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__HostFP32-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/HostFP32.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3c0605eeabe3a9907004dd3885dcca275899699e",
+    "log": "/tmp/pow95-bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__HostFP32-comparator.log",
+    "file": "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/HostFP32.lean",
+    "sha256": "c3945e36c80ba279924bb178c3d8d23ae2ff7068a710f077d9269c2bccf41f5f",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__HostReal-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/HostReal.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3c0605eeabe3a9907004dd3885dcca275899699e",
+    "log": "/tmp/pow95-bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__HostReal-comparator.log",
+    "file": "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/HostReal.lean",
+    "sha256": "39f350c9b55808da1e590229354a8df9a0387372ff9d7f1f073609b81e821cdc",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__IOInterface-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/IOInterface.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3c0605eeabe3a9907004dd3885dcca275899699e",
+    "log": "/tmp/pow95-bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__IOInterface-comparator.log",
+    "file": "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/IOInterface.lean",
+    "sha256": "1c2f15fc9a719f21c6574117ef00595b5095d713d0b21913bd739cc497d38ff2",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__IOResults-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/IOResults.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3c0605eeabe3a9907004dd3885dcca275899699e",
+    "log": "/tmp/pow95-bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__IOResults-comparator.log",
+    "file": "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/IOResults.lean",
+    "sha256": "738fe81407296aa641d4cd90659ac574424b9b2bf132df76ac1f8434243ce5f3",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__Kernel-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/Kernel.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3c0605eeabe3a9907004dd3885dcca275899699e",
+    "log": "/tmp/pow95-bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__Kernel-comparator.log",
+    "file": "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/Kernel.lean",
+    "sha256": "9bd4a5fe44c67109377a72e9e610fd2dbbbf6cbd9abda027bbf168b6a6d30017",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__KernelAccess-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/KernelAccess.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3c0605eeabe3a9907004dd3885dcca275899699e",
+    "log": "/tmp/pow95-bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__KernelAccess-comparator.log",
+    "file": "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/KernelAccess.lean",
+    "sha256": "a362ce1a3bad4d02132e9d973cb3f615e0f7e530fa2b886654f19238f0f07f79",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__KernelInterface-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/KernelInterface.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3c0605eeabe3a9907004dd3885dcca275899699e",
+    "log": "/tmp/pow95-bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__KernelInterface-comparator.log",
+    "file": "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/KernelInterface.lean",
+    "sha256": "2dc7affe03a03147e83a6e2eff2e24e374f1fbfdd5d768204a5c2f7d3a881c40",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__KernelSafety-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/KernelSafety.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3c0605eeabe3a9907004dd3885dcca275899699e",
+    "log": "/tmp/pow95-bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__KernelSafety-comparator.log",
+    "file": "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/KernelSafety.lean",
+    "sha256": "c4df60795f1f478c68000410e97dcce60b4fcce18ad2566d6089243a819877bd",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__LogicalReader-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/LogicalReader.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3c0605eeabe3a9907004dd3885dcca275899699e",
+    "log": "/tmp/pow95-bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__LogicalReader-comparator.log",
+    "file": "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/LogicalReader.lean",
+    "sha256": "57a2cabfa93975a5e35fb0498575e54a9b4d6208c87a584df637a33e95e00227",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__Physical-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/Physical.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3c0605eeabe3a9907004dd3885dcca275899699e",
+    "log": "/tmp/pow95-bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__Physical-comparator.log",
+    "file": "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/Physical.lean",
+    "sha256": "af3b90a4c5cc6694c19abb8c1e70f933fbd5bacf89a5019c10d6f4f754ea3651",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__RawCorrect-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/RawCorrect.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3c0605eeabe3a9907004dd3885dcca275899699e",
+    "log": "/tmp/pow95-bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__RawCorrect-comparator.log",
+    "file": "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/RawCorrect.lean",
+    "sha256": "6e828d6b8024e49234a188d193add7a139204ad9639d84911c6faa3c0defcc6b",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__RawNative-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/RawNative.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3c0605eeabe3a9907004dd3885dcca275899699e",
+    "log": "/tmp/pow95-bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__RawNative-comparator.log",
+    "file": "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/RawNative.lean",
+    "sha256": "930ed733d4650835e9b60d67f9df6f719babc5134202d8a6d4e65bb41c666b1a",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__ReaderBefore-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/ReaderBefore.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3c0605eeabe3a9907004dd3885dcca275899699e",
+    "log": "/tmp/pow95-bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__ReaderBefore-comparator.log",
+    "file": "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/ReaderBefore.lean",
+    "sha256": "4241fd346a01f19c06bf8175743d8d588977d064c465070e3504e3e9eed1ae23",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__SafetySteps-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/SafetySteps.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3c0605eeabe3a9907004dd3885dcca275899699e",
+    "log": "/tmp/pow95-bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__SafetySteps-comparator.log",
+    "file": "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/SafetySteps.lean",
+    "sha256": "4a470db4c163d46dcfb389b585203a63d71bb3dce3f6ba81f5cff454aa1844c1",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__Source-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/Source.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3c0605eeabe3a9907004dd3885dcca275899699e",
+    "log": "/tmp/pow95-bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__Source-comparator.log",
+    "file": "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/Source.lean",
+    "sha256": "0355054317872d03d94656bc0bb4c7fae3d3b84f33bf207e2e2b60b38b6d7b4a",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__SourcePreservation-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/SourcePreservation.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3c0605eeabe3a9907004dd3885dcca275899699e",
+    "log": "/tmp/pow95-bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__SourcePreservation-comparator.log",
+    "file": "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/SourcePreservation.lean",
+    "sha256": "75b6f6d944d182778c7dfe061d17ef58ecd6389a2a01e7150d79609eebc329b8",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__SourceResults-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/SourceResults.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3c0605eeabe3a9907004dd3885dcca275899699e",
+    "log": "/tmp/pow95-bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__SourceResults-comparator.log",
+    "file": "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/SourceResults.lean",
+    "sha256": "b882da79feea0885d6dabfd647f885bd2afb975576f564b275dc660fcddb5140",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__TileSafety-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/TileSafety.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3c0605eeabe3a9907004dd3885dcca275899699e",
+    "log": "/tmp/pow95-bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__TileSafety-comparator.log",
+    "file": "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/TileSafety.lean",
+    "sha256": "67ccc0660b3d680a03d0870dfb35d4867dadfeba376981abfd153406c31e9cfe",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__tests__BinaryImportBody-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/tests/BinaryImportBody.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "3c0605eeabe3a9907004dd3885dcca275899699e",
+    "log": "/tmp/pow95-bench__tests__BinaryImportBody-comparator.log",
+    "file": "bench/tests/BinaryImportBody.lean",
+    "sha256": "7e23f75d43f414af518890a753352b531f35ae0a86b9d097df73ad5e41cd2ed6",
+    "status": "UNAVAILABLE"
+  }
+]

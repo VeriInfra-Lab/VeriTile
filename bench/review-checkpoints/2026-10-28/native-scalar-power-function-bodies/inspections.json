@@ -1,0 +1,48 @@
+{
+  "code_commit": "3c0605eeabe3a9907004dd3885dcca275899699e",
+  "raw_bodies": [
+    {
+      "name": "raw-body-check",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/pow_scalar_tensor/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "3c0605eeabe3a9907004dd3885dcca275899699e",
+      "log": "/tmp/pow95-raw-body-check.log",
+      "status": "PASS"
+    }
+  ],
+  "candidate_rewrites": [
+    {
+      "status": "PASS",
+      "scope": "The complete original/candidate writer signatures, jit decorators and ASTs are checked by PowScalarTensorBodyTests; only both existing tile-offset integer products are commuted. The unchanged helper has its own mapping."
+    }
+  ],
+  "cpu": {
+    "name": "cpu-final",
+    "command": [
+      "python3",
+      "bench/repairs/tritonbench_g/pow_scalar_tensor/check_contract.py"
+    ],
+    "exit_code": 1,
+    "code_commit": "3c0605eeabe3a9907004dd3885dcca275899699e",
+    "log": "/tmp/pow95-cpu-final.log",
+    "status": "UNAVAILABLE"
+  },
+  "original_python_wrappers_and_public_statements": {
+    "status": "PASS",
+    "sha256": {
+      "bench/repairs/tritonbench_g/pow_scalar_tensor/Contract.lean": "61bb6fe847fc531452972e0c1abadf816b0895c7efb2979252ca9134358c8b56",
+      "bench/repairs/tritonbench_g/pow_scalar_tensor/Correct.lean": "226392d002f2f9ed529eb9ed83b8b11fcdda4ceceba8449463e3c147d409e825",
+      "bench/repairs/tritonbench_g/pow_scalar_tensor/FPEquiv.lean": "687363f72dc497fb98d551ad5497599b6c1491aaa8dce32eaebc79bfab8c8119",
+      "bench/repairs/tritonbench_g/pow_scalar_tensor/IO.lean": "8f697879fd319ed2813cea97c165bfafda8db45273e268f4c797da9a961066a8",
+      "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/Contract.lean": "216d49c1755b944a5e7f74fa9b3762a6d29fd83229f3b49900e8a0079d2c9d1d",
+      "bench/repairs/tritonbench_g/pow_scalar_tensor/check_contract.py": "35c5d31986812d166f6130240edea458ce744a0cd51056b3738b581ee452f754",
+      "bench/repairs/tritonbench_g/pow_scalar_tensor/pow_scalar_tensor_repaired.py": "62f28a99074ccd1c44aa7cd7d4a2cbe9c764c1b513c7216754f8e9ff6c09c826"
+    }
+  },
+  "scope": "The unchanged original power helper and two complete original/existing index-commuted writer bodies retain both branches, block pointers, masks, explicit input/scalar/output casts, signed strides and runtime val0. CUDA binary import metadata selects the original primary binding; fallback choices are recorded without intrinsic identity claims. The actual extra same-format input cast is retained through an explicit proof adapter and separately verified Real/word interpretations. Complete execution, frames, safety and full public Real/FP results replay on unchanged domains. No arbitrary cast identity, old AST identity or new numerical law is assumed. No GPU experiment."
+}

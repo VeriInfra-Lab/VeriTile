@@ -1,0 +1,112 @@
+[
+  {
+    "python_function": "pow_func_scalar_tensor",
+    "lean_definition": "powerFunction",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "inferred_helper_values",
+    "call_bindings": null,
+    "statements": 1,
+    "runtime_parameters": {},
+    "constexpr_parameters": [],
+    "body_kind": "helper",
+    "helper_parameters": [
+      "x",
+      "exponent"
+    ]
+  },
+  {
+    "python_function": "pow_func_scalar_tensor_kernel_rank_1",
+    "lean_definition": "originalBody",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "typed_per_call_specialization",
+    "call_bindings": {
+      "val0": "c.base",
+      "in0_stride0": "c.input.stride",
+      "out0_stride0": "c.output.stride",
+      "s0": "c.n",
+      "num_tasks": "c.n",
+      "tiles_per_cta": "c.tiles"
+    },
+    "statements": 3,
+    "runtime_parameters": {
+      "val0": "fp32",
+      "in0_stride0": "integer",
+      "out0_stride0": "integer",
+      "s0": "integer",
+      "num_tasks": "integer",
+      "tiles_per_cta": "integer"
+    },
+    "constexpr_parameters": [
+      "in0_stride_order0",
+      "one_tile_per_cta",
+      "out0_stride_order0",
+      "tile_size0"
+    ],
+    "source_functions": [
+      "powerFunction"
+    ],
+    "pointer_offsets": {
+      "in0_ptr": "c.input.base",
+      "out0_ptr": "c.output.base"
+    },
+    "jit_options": {
+      "do_not_specialize": "['val0']"
+    },
+    "source_binary_import_choices": {
+      "_pow": [
+        "triton.language.extra.cuda.libdevice.pow",
+        "triton.language.math.pow",
+        "triton.language.libdevice.pow"
+      ]
+    }
+  },
+  {
+    "python_function": "pow_func_scalar_tensor_kernel_rank_1_index_commuted",
+    "lean_definition": "commutedBody",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "typed_per_call_specialization",
+    "call_bindings": {
+      "val0": "c.base",
+      "in0_stride0": "c.input.stride",
+      "out0_stride0": "c.output.stride",
+      "s0": "c.n",
+      "num_tasks": "c.n",
+      "tiles_per_cta": "c.tiles"
+    },
+    "statements": 3,
+    "runtime_parameters": {
+      "val0": "fp32",
+      "in0_stride0": "integer",
+      "out0_stride0": "integer",
+      "s0": "integer",
+      "num_tasks": "integer",
+      "tiles_per_cta": "integer"
+    },
+    "constexpr_parameters": [
+      "in0_stride_order0",
+      "one_tile_per_cta",
+      "out0_stride_order0",
+      "tile_size0"
+    ],
+    "source_functions": [
+      "powerFunction"
+    ],
+    "pointer_offsets": {
+      "in0_ptr": "c.input.base",
+      "out0_ptr": "c.output.base"
+    },
+    "jit_options": {
+      "do_not_specialize": "['val0']"
+    },
+    "source_binary_import_choices": {
+      "_pow": [
+        "triton.language.extra.cuda.libdevice.pow",
+        "triton.language.math.pow",
+        "triton.language.libdevice.pow"
+      ]
+    }
+  }
+]

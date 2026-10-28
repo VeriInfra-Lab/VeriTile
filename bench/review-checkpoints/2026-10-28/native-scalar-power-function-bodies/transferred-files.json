@@ -1,0 +1,33 @@
+{
+  "parent": "0d87a6ca1d1f90dea5292f739c6f632d68752ed2",
+  "shared_core_changed": [
+    "VeriTile/Triton/DSL/CallSignature.lean",
+    "VeriTile/Triton/DSL/SourceIntrinsic.lean"
+  ],
+  "files": {
+    "VeriTile/Triton/DSL/CallSignature.lean": "41f9933a70bcf89d088c07cb43db53da87990b5a2f32eef24b5d57c4c680ebff",
+    "VeriTile/Triton/DSL/SourceIntrinsic.lean": "702ff51e9343b71d35fdbdafee7a8c099b7fbfcc2902496176ab77bc4d89f320",
+    "bench/jit_correspondence.py": "2af209a043cea83e40917600634158f7bcd5efc12c4c569ed1ad6d27471d7097",
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Kernels.lean": "c087872ea6066741abaf2861a5e6ff968d6039f9e1a4c23445d1c278e21f2da0",
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Misc/TensorBridge.lean": "3b000fada2f1d34d0357454ec3a1a444b6870a21e31baa049aeb8e945502e6ef",
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/IOResults.lean": "738fe81407296aa641d4cd90659ac574424b9b2bf132df76ac1f8434243ce5f3",
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/Kernel.lean": "9bd4a5fe44c67109377a72e9e610fd2dbbbf6cbd9abda027bbf168b6a6d30017",
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/KernelSafety.lean": "c4df60795f1f478c68000410e97dcce60b4fcce18ad2566d6089243a819877bd",
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/RawCorrect.lean": "6e828d6b8024e49234a188d193add7a139204ad9639d84911c6faa3c0defcc6b",
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/RawNative.lean": "930ed733d4650835e9b60d67f9df6f719babc5134202d8a6d4e65bb41c666b1a",
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/SafetySteps.lean": "4a470db4c163d46dcfb389b585203a63d71bb3dce3f6ba81f5cff454aa1844c1",
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/Source.lean": "0355054317872d03d94656bc0bb4c7fae3d3b84f33bf207e2e2b60b38b6d7b4a",
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/TileSafety.lean": "67ccc0660b3d680a03d0870dfb35d4867dadfeba376981abfd153406c31e9cfe",
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/README.md": "90525e5a0a0db9dc96ebe2950924663165733e71854225bf761ba8a3527c4259",
+    "lakefile.toml": "9d72b75768d626b557cec4d745a87769e0df9dbc3126be353b2df5ae53fbc527",
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/HistoricalBody.lean": "ebd730868d9109ada2654020101dee1602e36848b32ca9585c1c92408043985f",
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/SourcePreservation.lean": "75b6f6d944d182778c7dfe061d17ef58ecd6389a2a01e7150d79609eebc329b8",
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/Proofs/SourceResults.lean": "b882da79feea0885d6dabfd647f885bd2afb975576f564b275dc660fcddb5140",
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/candidate_kernels.py": "a90744c713d35a7a238b2263b8bf4589c38ea996a1000a80268ab49d0ba5b048",
+    "bench/repairs/tritonbench_g/pow_scalar_tensor/jit-correspondence.json": "8a72e6abf63eb5e8b4221b037f937ca477398cb0329ca1c9cbaba063744cbe8c",
+    "bench/tests/BinaryImportBody.lean": "7e23f75d43f414af518890a753352b531f35ae0a86b9d097df73ad5e41cd2ed6",
+    "bench/tests/test_pow_scalar_tensor_body.py": "581dc67bb58456ded86855bca8e2de2f1ba3892506315cd5d852ad889977d4d9"
+  },
+  "code_commit": "3c0605eeabe3a9907004dd3885dcca275899699e",
+  "original_python_wrappers_and_public_statements_unchanged": true
+}

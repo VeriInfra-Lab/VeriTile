@@ -1,0 +1,505 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "3c0605eeabe3a9907004dd3885dcca275899699e",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "pow_scalar_tensor"
+  ],
+  "regression_only_pending_body_tasks": [
+    "kv_cache_filling"
+  ],
+  "semantic_review": {
+    "adam_update_triton": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "add_example": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "add_value": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "apply_penalty": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "attention_fwd_triton1": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "batched_vecmat_mult": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "bgmv_expand_slice": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "bmm_optimized": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "cache_transform_triton": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "chunk_cumsum_kernel": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "chunk_cumsum_vector": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "chunk_delta_fwd": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "chunked_cumsum_fwd": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "cosine_compute": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "cross_entropy1": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "cross_entropy2": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "cross_entropy_ops": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "decay_cumsum": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "dequantize_matmul": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "dequantize_rowwise": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "destindex_copy": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "destindex_copy_kv1": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "destindex_copy_kv2": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "diag_ssm_triton": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "dropout_triton": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "embedding_triton_kernel": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "f8_conversion_utils": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "fast_ce_loss": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "fast_rope_embedding": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "fifth_order_sph_harmonics": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "flash_decode2_llama": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "flash_decode2_phi": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "fused_activation": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "fused_recurrent_hgrn": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "fused_rotary_embedding": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "geglu_tanh_triton": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "index_select_bwd": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "index_select_cat": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "int8_matmul_kernel": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "isfinite_kernel": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "kcache_copy_triton": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "kldiv_compute": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "kldiv_ops": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "kldiv_triton": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "kv_cache_copy": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "kv_cache_filling": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims. Python-body migration remains pending; its correspondence status is retained.",
+    "l2_norm_bwd": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "l2_norm_triton1": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "l2_norm_triton2": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "log_softmax": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "logsumexp_fwd": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "masked_add_cuda": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "masked_select": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "matmul_kernel": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "matrix_reduction": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "matrix_transpose": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "max_reduction": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "mean_reduction": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "mul_exponent_compensator": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "nested_loops_processing": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "pow_scalar_tensor": "The unchanged one-statement original helper and complete three-statement original/existing candidate writers retain both constexpr branches, signed block pointers, boundary checks, all input/scalar/output casts, loop order, runtime val0 and do_not_specialize decorator. The existing candidate commutes only both tile-offset integer products. Caller metadata selects the original primary CUDA libdevice import; fallback import paths are recorded without a claim that they are the same intrinsic. Original Python, public specifications and independent mathematics remain unchanged. The formerly omitted FP32-to-FP32 input cast is retained through a proof-only algebra adapter; separate Real and existing FP32 word interpretations discharge their concrete observations. Full source execution, all memory/undef observations, frames, access safety, public Real correctness and whole-source FP equivalence replay without added domain restrictions or arbitrary cast identities. Historical AST inequality is checked explicitly. Native/Tensor and preserved host consumers replay. No new numerical law or GPU experiment.",
+    "quant_transpose_kernel": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "quantize_copy_kv": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "quantize_global": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "quantize_kv_copy": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "quantize_kv_transform": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "relu_strided_buffer": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "relu_triton_kernel": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "reversed_cumsum": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "reversed_cumsum_scalar": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "rms_norm_triton": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "rmsnorm_fused": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "rmsnorm_fused_llama": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "rmsnorm_implementation": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "rmsnorm_triton": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "rope_backward_transform": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "rope_embedding": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "rope_transform": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "rotary_emb": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "rotary_emb_nopad": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "rowwise_quantization_triton": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "seeded_dropout": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "sin_computation": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "sin_kernel": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "softmax_optimize": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "softmax_triton1": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "softmax_triton2": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "softmax_triton3": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "square_matrix": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "swiglu_backward": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "swiglu_fwd": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "swiglu_triton": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "token_attn_mistral": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "token_attn_reduceV": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "token_softmax_bloom": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "token_softmax_llama": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "triton_argmax": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "triton_mul2": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "triton_softmax": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "var_len_copy": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "vector_addition": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "vector_addition_custom": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims."
+  },
+  "compiler_change": {
+    "files": [
+      "VeriTile/Triton/DSL/CallSignature.lean",
+      "VeriTile/Triton/DSL/SourceIntrinsic.lean"
+    ],
+    "behavior": "The frontend accepts an exact externally supplied binary CUDA-libdevice pow import, validates alias scope/arity and expands the unchanged original source helper. The Python checker requires the original primary import, validates a pure ImportError import ladder and records all fallback choices without asserting intrinsic identities. Pasted bodies remain unchanged. All 108 frontend roots and all 4190 cumulative roots plus joint imports replay warm and independently from empty project objects with only pinned external packages. Existing tasks receive regression evidence, not new migration claims."
+  },
+  "verification": {
+    "baseline": {
+      "status": "PASS",
+      "explicit_modules": 24,
+      "jobs": 3567
+    },
+    "frontend_preflight": {
+      "status": "PASS",
+      "explicit_modules": 108,
+      "jobs": 3762,
+      "scope": "All registered frontend roots, including exact binary import/helper AST equality, target rejection, rebinding and arity checks."
+    },
+    "focused": {
+      "status": "PASS",
+      "explicit_modules": 27,
+      "jobs": 3571,
+      "additional_scope": "Joint import, standalone frontend AST footprint, 55 task theorem audits and the empty public FP assumption report."
+    },
+    "warm_and_joint": {
+      "status": "PASS",
+      "explicit_modules": 4190,
+      "jobs": 13855
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 4190,
+      "jobs": 13855,
+      "project_build_initially_present": false,
+      "project_objects_imported_from_other_checkouts": false,
+      "only_fixed_external_dependencies_imported": true,
+      "setup": {
+        "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/final-clean-setup.json",
+        "sha256": "6cc59a22fcf2f5a656cbafd9a7b04fe1b290c24bed1b20332b99b163be84d140"
+      }
+    },
+    "trust": "PASS: 55 task theorem footprints and one new frontend AST footprint use only standard base. The public complete source pair prints no FP assumptions.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 189
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 434,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by old numerical receipt; no false repin."
+    },
+    "source": "PASS: three complete raw original-helper/original-writer/existing-candidate mappings and exact caller bindings; original Python/wrappers/public statements unchanged, actual-source deep proofs updated and replayed.",
+    "official_comparator": "UNAVAILABLE: 30 actual final-source attempts with verified pinned binaries. Host Landlock ABI v4 is below required v5; no systemd user isolation or bypass.",
+    "cpu": "UNAVAILABLE: actual check_contract.py CPU invocation requires missing Torch.",
+    "gpu_or_numerical_experiment": "Not run.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending; the known unchanged numerical receipt failure remains explicit."
+  },
+  "source_pairs": {
+    "total": 322,
+    "pasted_body": 322,
+    "legacy_ast": 0
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/source-closure.json",
+    "sha256": "6e99d6de89b66ff27114278fe5f98930af42ebc3d7635cba200c4852442303f3"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "selected_body_copy_checked": 101,
+      "uncovered_jit_functions": 82
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 333,
+    "uncovered_selected_jit_functions": 170,
+    "primary_files_with_int64_screen_warning": 22,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 58,
+        "antiquotes": 65,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "example_regression_scope": "All 19 selected examples and all previous recorded task roots replay warm/joint and independently from empty project objects. Unselected historical model gaps are not relabeled as passing.",
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/VeriTile__Triton__DSL__CallSignature-comparator.log",
+      "sha256": "0f35e0317b460468e6c56fd7cff0c3e27ba262456bbd36309fb43c61c214468e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/VeriTile__Triton__DSL__SourceIntrinsic-comparator.log",
+      "sha256": "0f35e0317b460468e6c56fd7cff0c3e27ba262456bbd36309fb43c61c214468e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/all-python.log",
+      "sha256": "55201f7e1853826abe092e8d208f8618d37ca5bbfc319d5375d106cc49571e04"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/audit-targets.json",
+      "sha256": "c51e881276014fa014814114837aeece5621aa70c5431b2bcaed63d55174babb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/audit.lean",
+      "sha256": "085d3ea5136180e701e49d23d35e75024de8c7ca9985655570ad6033465227c6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/audit.log",
+      "sha256": "0c6096d9e15fd76dca7d77e3b383f047b42ccb228ea38d703c122fa8089a3114"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/baseline-build.log.gz",
+      "sha256": "05fcbfa7b5fdd1c760fc7f73e65fc37f2e3575ec89cc92025f3edbab3b7c0a7f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/baseline.json",
+      "sha256": "0ee6689ad08347a8469d696a139b1a420d835e06d68436918eeb6cd7d6c311d2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/bench__repairs__tritonbench_g__pow_scalar_tensor__Contract-comparator.log",
+      "sha256": "0f35e0317b460468e6c56fd7cff0c3e27ba262456bbd36309fb43c61c214468e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/bench__repairs__tritonbench_g__pow_scalar_tensor__Correct-comparator.log",
+      "sha256": "0f35e0317b460468e6c56fd7cff0c3e27ba262456bbd36309fb43c61c214468e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/bench__repairs__tritonbench_g__pow_scalar_tensor__FPEquiv-comparator.log",
+      "sha256": "0f35e0317b460468e6c56fd7cff0c3e27ba262456bbd36309fb43c61c214468e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/bench__repairs__tritonbench_g__pow_scalar_tensor__IO-comparator.log",
+      "sha256": "0f35e0317b460468e6c56fd7cff0c3e27ba262456bbd36309fb43c61c214468e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/bench__repairs__tritonbench_g__pow_scalar_tensor__Kernels-comparator.log",
+      "sha256": "0f35e0317b460468e6c56fd7cff0c3e27ba262456bbd36309fb43c61c214468e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/bench__repairs__tritonbench_g__pow_scalar_tensor__Misc__NativeObservation-comparator.log",
+      "sha256": "0f35e0317b460468e6c56fd7cff0c3e27ba262456bbd36309fb43c61c214468e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/bench__repairs__tritonbench_g__pow_scalar_tensor__Misc__TensorBridge-comparator.log",
+      "sha256": "0f35e0317b460468e6c56fd7cff0c3e27ba262456bbd36309fb43c61c214468e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__Contract-comparator.log",
+      "sha256": "7a24a21f7b668f24df3310acada8552d3c0e3558e90cc972e02183044ebf9cc8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__HistoricalBody-comparator.log",
+      "sha256": "7a24a21f7b668f24df3310acada8552d3c0e3558e90cc972e02183044ebf9cc8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__HostFP32-comparator.log",
+      "sha256": "7a24a21f7b668f24df3310acada8552d3c0e3558e90cc972e02183044ebf9cc8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__HostReal-comparator.log",
+      "sha256": "7a24a21f7b668f24df3310acada8552d3c0e3558e90cc972e02183044ebf9cc8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__IOInterface-comparator.log",
+      "sha256": "7a24a21f7b668f24df3310acada8552d3c0e3558e90cc972e02183044ebf9cc8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__IOResults-comparator.log",
+      "sha256": "7a24a21f7b668f24df3310acada8552d3c0e3558e90cc972e02183044ebf9cc8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__Kernel-comparator.log",
+      "sha256": "7a24a21f7b668f24df3310acada8552d3c0e3558e90cc972e02183044ebf9cc8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__KernelAccess-comparator.log",
+      "sha256": "7a24a21f7b668f24df3310acada8552d3c0e3558e90cc972e02183044ebf9cc8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__KernelInterface-comparator.log",
+      "sha256": "7a24a21f7b668f24df3310acada8552d3c0e3558e90cc972e02183044ebf9cc8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__KernelSafety-comparator.log",
+      "sha256": "7a24a21f7b668f24df3310acada8552d3c0e3558e90cc972e02183044ebf9cc8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__LogicalReader-comparator.log",
+      "sha256": "7a24a21f7b668f24df3310acada8552d3c0e3558e90cc972e02183044ebf9cc8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__Physical-comparator.log",
+      "sha256": "7a24a21f7b668f24df3310acada8552d3c0e3558e90cc972e02183044ebf9cc8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__RawCorrect-comparator.log",
+      "sha256": "7afae56c60f4c9651ac619a74802f59003e9a945e55647f31eda2155c5623979"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__RawNative-comparator.log",
+      "sha256": "7afae56c60f4c9651ac619a74802f59003e9a945e55647f31eda2155c5623979"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__ReaderBefore-comparator.log",
+      "sha256": "7afae56c60f4c9651ac619a74802f59003e9a945e55647f31eda2155c5623979"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__SafetySteps-comparator.log",
+      "sha256": "7afae56c60f4c9651ac619a74802f59003e9a945e55647f31eda2155c5623979"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__Source-comparator.log",
+      "sha256": "7afae56c60f4c9651ac619a74802f59003e9a945e55647f31eda2155c5623979"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__SourcePreservation-comparator.log",
+      "sha256": "7afae56c60f4c9651ac619a74802f59003e9a945e55647f31eda2155c5623979"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__SourceResults-comparator.log",
+      "sha256": "7afae56c60f4c9651ac619a74802f59003e9a945e55647f31eda2155c5623979"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/bench__repairs__tritonbench_g__pow_scalar_tensor__Proofs__TileSafety-comparator.log",
+      "sha256": "7afae56c60f4c9651ac619a74802f59003e9a945e55647f31eda2155c5623979"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/bench__tests__BinaryImportBody-comparator.log",
+      "sha256": "7afae56c60f4c9651ac619a74802f59003e9a945e55647f31eda2155c5623979"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/build-invocations.json",
+      "sha256": "6f4e100649902af0e5dda33b8836e2a4f1bffc98db8f2e8f878f039dc1484a8d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/canonical-task-files.json",
+      "sha256": "a4f1989eeb93a233fe7acc1288959c63fd46f42c54f84104148c299bc468e05b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/comparator-invocations.json",
+      "sha256": "1e538f8283c640a1cdaf119700f8293e55221e02b890c8bfb14dfc1f0cfa516e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/comparator-tools.json",
+      "sha256": "28998e17d51b0fb5930f7489e64512a57f8a8146d1470063a624a75bbabdb0d3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/corpus-guard.log",
+      "sha256": "e7eb1ef1eb79ca1d9d0a3454d1436597f8832eb0134d9f8cf689f70fec7bc9b5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/cpu-final.log",
+      "sha256": "5557977c0623bec6046bf41b021e98c852bd92d51abafc0e2df0a2745d6569e0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/final-clean-build.log.gz",
+      "sha256": "ab746161c84c9eb1cdae708b716a38e371370474e04c32558e651e738121fb0d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/final-clean-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/final-clean-setup.json",
+      "sha256": "6cc59a22fcf2f5a656cbafd9a7b04fe1b290c24bed1b20332b99b163be84d140"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/focus-build.log.gz",
+      "sha256": "f00bd0efe8db8fcef3778c84c7225ec33a38abd38b9bc4afb2b9d52f3a557d40"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/focus-invocations.json",
+      "sha256": "95f3b4f6535d837b1083d59e888045d3854bf0bd2de0bbff2ebe6c8cced80836"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/focus-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/focus-modules.txt",
+      "sha256": "04785d700b565c4fed2dda59e4c5e1df845c2a4842380e36977e223c425c0be4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/frontend-build.log.gz",
+      "sha256": "c6f3c4fb4437bc0008fbc6c0737b72e4e2c271200eafc1b7897a38ceaf196d1f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/frontend-modules.txt",
+      "sha256": "a56c8f05d72c8c5a293dd799c917fa97a30e18f5d4bd1a14bc34f57081c118ee"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/inspections.json",
+      "sha256": "69451be7a6a1caf0af270e28185985d2905207f311cf35afbbc7fca6b3fa1b25"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/integration-final.log.gz",
+      "sha256": "2c669d74d0798dc41e4c44ba282bedd6f0aac594d72d1f9f472e13be9aa962d0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/joint-all.lean",
+      "sha256": "98c27cd319a94a028d38d4d1069c01b6e3fa4f73ac39d97639f6563b7d94117d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/joint-final.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/modules.json",
+      "sha256": "58c7c2e0ef096f01afe1c3551349bcf54dc2092ddd8ab95ed24ec5bef1d20338"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/pairs.json",
+      "sha256": "bae0ea85f92af30c6967ee33ebfb0c4ea934771d5f23372c4f524c20a2b676fe"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/previous-reviews.json.gz",
+      "sha256": "bf03c54321a49e6488139bc21644d47aec0c29cc7aedc7eff241e4070903db49"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/python-invocations.json",
+      "sha256": "c94b67ee9f2cf5a98aab45e240bc8de509164ed854d21ec84d515579f99ec968"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/python-tests.log",
+      "sha256": "e48562e5d1fc6bae0b1625e84d3aecbdee321f767fa720bec779142628bb368e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/raw-body-check.log",
+      "sha256": "ab31006e7dadf8fcb759e3eeff04c00fe165f75bf753ffb999d525f479946485"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/source-closure.json",
+      "sha256": "6e99d6de89b66ff27114278fe5f98930af42ebc3d7635cba200c4852442303f3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/standalone-BinaryImportBody.log",
+      "sha256": "78ef3747d3bf376295b9fbda232551ddc6cfc91c4795d8477adb135b0d9e817a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/transferred-files.json",
+      "sha256": "705e217bc9b39833d83cac48478ddcf34277e18aee3f8a20fbad7d369a202705"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/warm-final-invocation.json",
+      "sha256": "182248dd92f07ac83c645fb851033123019cf6c5f05f8dbaf1af858376509a38"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-scalar-power-function-bodies/workflow-counts.json",
+      "sha256": "ff77c3ca7427e8c191a2d0d9ee2962201de743904293ce0fcfc7333d0929d579"
+    }
+  ]
+}
