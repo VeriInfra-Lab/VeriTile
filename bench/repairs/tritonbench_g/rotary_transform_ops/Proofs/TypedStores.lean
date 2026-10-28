@@ -21,7 +21,8 @@ def finish {α : Type} [Inhabited α] (M : Algebra α) (s : Shape)
     refine ⟨?_, ?_⟩
     swap
     simp (config := { maxSteps := 50000 }) [payload,loadsCount,branchBody,continuation,ifBody,
-      loads,indices,setup,kernel,KernelSource.source,KernelSource.source64_64, hv,ht,hi,hc,
+      loads,indices,setup,kernel,KernelSource.source,KernelSource.source64_64,sourceBody,SourceBlocks.body,SourceBlocks.select,SourceBlocks.setupCount,
+      KernelSource.source64_64_tensor,KernelSource.source64_32_scalar, hv,ht,hi,hc,
       FP.Structural.exec, ComputeKernel.surfaceBody, FP.Structural.run, FP.Structural.step,
       evalExpr, evalComputeOp, evalOp_unfold, Option.bind,
       numeric, natLt, numericLt, numericLe, numericEq, bop, Region.cast,

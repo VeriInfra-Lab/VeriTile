@@ -47,13 +47,14 @@ theorem execution_result {α : Type} [Inhabited α] (M : Algebra α) (s : Shape)
       some (resultState M s initial) := by
   rw [kernel_carrier s cumulative64 offsets64]
   change run M (kernel s Bool.true Bool.true).surfaceBody initial = _
-  conv_lhs => rw [← List.take_append_drop 6 (kernel s Bool.true Bool.true).surfaceBody]
+  rw [run_source_body]
+  conv_lhs => rw [← List.take_append_drop (SourceBlocks.setupCount s.varlen) (sourceBody s)]
   rw [run_append]
   calc
     _ = (some (setup M s Bool.true Bool.true initial).val).bind
-          (run M ((kernel s Bool.true Bool.true).surfaceBody.drop 6)) :=
+          (run M ((sourceBody s).drop (SourceBlocks.setupCount s.varlen))) :=
       congrArg (fun value : Option (State α) =>
-        value.bind (run M ((kernel s Bool.true Bool.true).surfaceBody.drop 6)))
+        value.bind (run M ((sourceBody s).drop (SourceBlocks.setupCount s.varlen))))
         (setup M s Bool.true Bool.true initial).property
     _ = some (resultState M s initial) := by
       simp only [Option.bind_some,source_tail,run_if,guard_eval,Option.bind_some]

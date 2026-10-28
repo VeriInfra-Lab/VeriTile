@@ -30,8 +30,14 @@ def interleavedBody (s : Shape) : List ComputeStmt :=
 
 theorem continuation_tail {α : Type} [Inhabited α] (M : Algebra α) (s : Shape)
     (u : State α) : run M ((continuation s).drop 4) u = run M (payload s) u := by
-  change run M [.ifThenElse (.boolNot (.constBool s.interleaved))
-    (splitBody s) (interleavedBody s)] u = _
+  have code : (continuation s).drop 4 =
+      [.ifThenElse (.boolNot (.constBool s.interleaved)) (splitBody s) (interleavedBody s)] := by
+    cases hv : s.varlen <;> cases ht : s.offsetTensor <;>
+      simp [continuation,sourceBody,SourceBlocks.body,SourceBlocks.select,SourceBlocks.setupCount,
+        splitBody,interleavedBody,branchBody,ifBody,kernel,KernelSource.source,KernelSource.source64_64,
+        KernelSource.source64_64_tensor,KernelSource.source64_32_scalar,ComputeKernel.surfaceBody,
+        List.take,List.drop,List.flatMap,hv,ht]
+  rw [code]
   rw [run_if_not]
   cases hi : s.interleaved <;>
     simp only [hi, Bool.false_eq_true, if_false, if_true]
@@ -41,28 +47,34 @@ def guardOf : List ComputeStmt → Op .bool []
   | [.ifThen cond _] => cond
   | _ => .constBool Bool.false
 def guard (s : Shape) : Op .bool [] :=
-  guardOf ((kernel s Bool.true Bool.true).surfaceBody.drop 6)
+  guardOf ((sourceBody s).drop (SourceBlocks.setupCount s.varlen))
 
 theorem source_tail (s : Shape) :
-    (kernel s Bool.true Bool.true).surfaceBody.drop 6 =
-      [.ifThen (guard s) (continuation s)] := by rfl
+    (sourceBody s).drop (SourceBlocks.setupCount s.varlen) =
+      [.ifThen (guard s) (continuation s)] := by
+  cases hv : s.varlen <;> cases ht : s.offsetTensor <;>
+    simp [guard,guardOf,continuation,sourceBody,SourceBlocks.body,SourceBlocks.select,
+      SourceBlocks.setupCount,ifBody,kernel,KernelSource.source,KernelSource.source64_64,
+      KernelSource.source64_64_tensor,KernelSource.source64_32_scalar,ComputeKernel.surfaceBody,
+        List.take,List.drop,List.flatMap,hv,ht]
 
 theorem guard_eval {α : Type} [Inhabited α] (M : Algebra α) (s : Shape)
     (initial : State α) :
     evalOp M none (guard s) (setup M s Bool.true Bool.true initial).val =
       some (fun _ => decide (((initial.pids 0*s.blockM : Nat) : Int) <
         ProgramModel.sequenceLength s initial)) := by
-  by_cases hv : s.varlen = Bool.true
+  by_cases hv : s.varlen = Bool.true <;> by_cases ht : s.offsetTensor = Bool.true
   all_goals
-    simp [guard,guardOf,kernel,KernelSource.source,KernelSource.source64_64,
-      ComputeKernel.surfaceBody,setup,hv,evalOp_unfold,numeric,numericLe,bop,
+    simp [guard,guardOf,kernel,KernelSource.source,KernelSource.source64_64,sourceBody,SourceBlocks.body,SourceBlocks.select,SourceBlocks.setupCount,
+      KernelSource.source64_64_tensor,KernelSource.source64_32_scalar,
+      ComputeKernel.surfaceBody,setup,hv,ht,evalOp_unfold,numeric,numericLe,bop,
       ProgramModel.sequenceLength,Int.natCast_mul]
     funext i
     simp only [← decide_not,not_le,lt_sub_iff_add_lt]
 
 theorem setup_mem {α : Type} [Inhabited α] (M : Algebra α) (s : Shape)
     (initial : State α) : (setup M s Bool.true Bool.true initial).val.mem=initial.mem := by
-  by_cases hv : s.varlen = Bool.true <;> simp [setup,hv]
+  by_cases hv : s.varlen = Bool.true <;> by_cases ht : s.offsetTensor = Bool.true <;> simp [setup,hv,ht]
 
 #axiomsClean kernel_carrier
 #axiomsClean continuation_tail
