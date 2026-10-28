@@ -6,8 +6,8 @@
     "tasks": 183,
     "examples": 19,
     "task_status": {
-      "selected_body_copy_checked": 100,
-      "uncovered_jit_functions": 83
+      "selected_body_copy_checked": 101,
+      "uncovered_jit_functions": 82
     },
     "example_status": {
       "authored_counterpart_body_copy_checked": 2,
@@ -15,12 +15,12 @@
       "spec_derived_body_copy_checked": 15
     },
     "selected_jit_functions": 333,
-    "uncovered_selected_jit_functions": 172,
+    "uncovered_selected_jit_functions": 170,
     "primary_files_with_int64_screen_warning": 22,
     "primary_lean_file_features": {
       "tasks": {
         "in_body_type_directives": 58,
-        "antiquotes": 66,
+        "antiquotes": 65,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 8
       },
@@ -13426,13 +13426,13 @@
       "lean": "bench/repairs/tritonbench_g/pow_scalar_tensor/Kernels.lean",
       "source_provenance": "selected_revision",
       "lean_screen": {
-        "quotations": 4,
+        "quotations": 3,
         "in_body_type_directives": 0,
-        "antiquotes": 60,
-        "dsl_assignment": 18,
+        "antiquotes": 0,
+        "dsl_assignment": 47,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 4
+        "load_dtype_extension": 0
       },
       "python_jits": [
         {
@@ -13448,22 +13448,132 @@
           "explicit_int64_casts": []
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "pow_func_scalar_tensor",
+          "lean_definition": "powerFunction",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "inferred_helper_values",
+          "call_bindings": null,
+          "statements": 1,
+          "runtime_parameters": {},
+          "constexpr_parameters": [],
+          "body_kind": "helper",
+          "helper_parameters": [
+            "x",
+            "exponent"
+          ],
           "python": "bench/repairs/tritonbench_g/pow_scalar_tensor/pow_scalar_tensor_repaired.py",
-          "function": "pow_func_scalar_tensor"
+          "lean": "bench/repairs/tritonbench_g/pow_scalar_tensor/Kernels.lean"
         },
         {
+          "python_function": "pow_func_scalar_tensor_kernel_rank_1",
+          "lean_definition": "originalBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "typed_per_call_specialization",
+          "call_bindings": {
+            "val0": "c.base",
+            "in0_stride0": "c.input.stride",
+            "out0_stride0": "c.output.stride",
+            "s0": "c.n",
+            "num_tasks": "c.n",
+            "tiles_per_cta": "c.tiles"
+          },
+          "statements": 3,
+          "runtime_parameters": {
+            "val0": "fp32",
+            "in0_stride0": "integer",
+            "out0_stride0": "integer",
+            "s0": "integer",
+            "num_tasks": "integer",
+            "tiles_per_cta": "integer"
+          },
+          "constexpr_parameters": [
+            "in0_stride_order0",
+            "one_tile_per_cta",
+            "out0_stride_order0",
+            "tile_size0"
+          ],
+          "source_functions": [
+            "powerFunction"
+          ],
+          "pointer_offsets": {
+            "in0_ptr": "c.input.base",
+            "out0_ptr": "c.output.base"
+          },
+          "jit_options": {
+            "do_not_specialize": "['val0']"
+          },
+          "source_binary_import_choices": {
+            "_pow": [
+              "triton.language.extra.cuda.libdevice.pow",
+              "triton.language.math.pow",
+              "triton.language.libdevice.pow"
+            ]
+          },
           "python": "bench/repairs/tritonbench_g/pow_scalar_tensor/pow_scalar_tensor_repaired.py",
-          "function": "pow_func_scalar_tensor_kernel_rank_1"
+          "lean": "bench/repairs/tritonbench_g/pow_scalar_tensor/Kernels.lean"
+        },
+        {
+          "python_function": "pow_func_scalar_tensor_kernel_rank_1_index_commuted",
+          "lean_definition": "commutedBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "typed_per_call_specialization",
+          "call_bindings": {
+            "val0": "c.base",
+            "in0_stride0": "c.input.stride",
+            "out0_stride0": "c.output.stride",
+            "s0": "c.n",
+            "num_tasks": "c.n",
+            "tiles_per_cta": "c.tiles"
+          },
+          "statements": 3,
+          "runtime_parameters": {
+            "val0": "fp32",
+            "in0_stride0": "integer",
+            "out0_stride0": "integer",
+            "s0": "integer",
+            "num_tasks": "integer",
+            "tiles_per_cta": "integer"
+          },
+          "constexpr_parameters": [
+            "in0_stride_order0",
+            "one_tile_per_cta",
+            "out0_stride_order0",
+            "tile_size0"
+          ],
+          "source_functions": [
+            "powerFunction"
+          ],
+          "pointer_offsets": {
+            "in0_ptr": "c.input.base",
+            "out0_ptr": "c.output.base"
+          },
+          "jit_options": {
+            "do_not_specialize": "['val0']"
+          },
+          "source_binary_import_choices": {
+            "_pow": [
+              "triton.language.extra.cuda.libdevice.pow",
+              "triton.language.math.pow",
+              "triton.language.libdevice.pow"
+            ]
+          },
+          "python": "bench/repairs/tritonbench_g/pow_scalar_tensor/candidate_kernels.py",
+          "lean": "bench/repairs/tritonbench_g/pow_scalar_tensor/Kernels.lean"
         }
       ],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/pow_scalar_tensor/Kernels.lean": "85e1679ceb328737a3f60a96cc478c2cb2757804407d89617642c59655361c78",
+        "bench/repairs/tritonbench_g/pow_scalar_tensor/Kernels.lean": "c087872ea6066741abaf2861a5e6ff968d6039f9e1a4c23445d1c278e21f2da0",
+        "bench/repairs/tritonbench_g/pow_scalar_tensor/candidate_kernels.py": "a90744c713d35a7a238b2263b8bf4589c38ea996a1000a80268ab49d0ba5b048",
+        "bench/repairs/tritonbench_g/pow_scalar_tensor/jit-correspondence.json": "8a72e6abf63eb5e8b4221b037f937ca477398cb0329ca1c9cbaba063744cbe8c",
         "bench/repairs/tritonbench_g/pow_scalar_tensor/pow_scalar_tensor_repaired.py": "62f28a99074ccd1c44aa7cd7d4a2cbe9c764c1b513c7216754f8e9ff6c09c826"
       }
     },

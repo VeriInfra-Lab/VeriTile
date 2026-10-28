@@ -1,4 +1,5 @@
 import VeriTile.Triton.DSL.Expansion.Common
+import VeriTile.Triton.DSL.SourceFunction
 
 /-! Import bindings live outside the pasted body. The checked binding selects
 an intrinsic; a source alias is never interpreted by its spelling alone. -/
@@ -39,6 +40,30 @@ partial def lower (imports : List (String × String)) (raw : Syntax) : MacroM Sy
   rejectUse (imports.map Prod.fst) raw
   match raw with
   | .node info kind args => return .node info kind (← args.mapM (lower imports))
+  | other => return other
+
+/-- A binary source import names the caller's selected CUDA intrinsic exactly.
+Other Python fallback bindings require their own modeled target. -/
+def validateBinary (imports : List (String × String)) : MacroM Unit := do
+  for (name, target) in imports do
+    let .str .anonymous _ := name.toName
+      | Macro.throwError "source intrinsic aliases require simple names"
+    unless target == "triton.language.extra.cuda.libdevice.pow" do
+      Macro.throwError "unsupported binary source intrinsic import target"
+    if name == "tl" || name == "triton" then
+      Macro.throwError "source intrinsic alias captures the language namespace"
+
+partial def lowerBinary (imports : List (String × String)) (raw : Syntax) : MacroM Syntax := do
+  let expression : TSyntax `tritonExpr := ⟨raw⟩
+  if let `(tritonExpr| $helper:ident($left:tritonExpr, $right:tritonExpr $[, $rest:tritonExpr]*)) := expression then
+    if imports.any (fun entry => entry.1 == key helper) then
+      unless rest.isEmpty do Macro.throwErrorAt raw "binary source intrinsic requires two arguments"
+      let left : TSyntax `tritonExpr := ⟨← lowerBinary imports left.raw⟩
+      let right : TSyntax `tritonExpr := ⟨← lowerBinary imports right.raw⟩
+      return (← `(tritonExpr| tl.extra.cuda.libdevice.pow($left:tritonExpr, $right:tritonExpr))).raw
+  rejectUse (imports.map Prod.fst) raw
+  match raw with
+  | .node info kind args => return .node info kind (← args.mapM (lowerBinary imports))
   | other => return other
 
 end VeriTile.Triton.DSL.SourceIntrinsic

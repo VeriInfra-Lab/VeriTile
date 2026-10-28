@@ -62,6 +62,8 @@ structure CallSignature where
   finiteImports : List (String × String) := []
   /-- Checked source import bindings for modeled unary intrinsics. -/
   unaryImports : List (String × String) := []
+  /-- Exact binary intrinsic selected by the caller's source import binding. -/
+  binaryImports : List (String × String) := []
   /-- Original immutable module-level `tl.constexpr` numeric literals.
   Names and literal text are checked against Python by source correspondence.
   They are source metadata, not function parameters or body instructions. -/
@@ -628,8 +630,10 @@ private def elaborateCallCore (profile : TSyntax `term) (stmts : Array (TSyntax 
         throwError "source helper names must be distinct from call parameters"
       let finiteImports ← bindings stringValue (← mkAppM ``Triton.CallSignature.finiteImports #[profile])
       let unaryImports ← bindings stringValue (← mkAppM ``Triton.CallSignature.unaryImports #[profile])
+      let binaryImports ← bindings stringValue (← mkAppM ``Triton.CallSignature.binaryImports #[profile])
+      liftMacroM <| SourceIntrinsic.validateBinary binaryImports
       liftMacroM <| SourceIntrinsic.validate unaryImports
-      let importedNames := finiteImports.map Prod.fst ++ unaryImports.map Prod.fst
+      let importedNames := finiteImports.map Prod.fst ++ unaryImports.map Prod.fst ++ binaryImports.map Prod.fst
       unless importedNames.eraseDups.length == importedNames.length &&
           importedNames.all (fun name => !names.contains name && !helperNames.contains name) do
         throwError "source import aliases must be distinct from parameters and helpers"
@@ -678,6 +682,8 @@ private def elaborateCallCore (profile : TSyntax `term) (stmts : Array (TSyntax 
         return (⟨← SourceFunction.expand ordinaryFunctions stmt.raw⟩ : TSyntax `tritonStmt)
       let stmts ← liftMacroM <| stmts.mapM fun stmt => do
         return (⟨← SourceIntrinsic.lower unaryImports stmt.raw⟩ : TSyntax `tritonStmt)
+      let stmts ← liftMacroM <| stmts.mapM fun stmt => do
+        return (⟨← SourceIntrinsic.lowerBinary binaryImports stmt.raw⟩ : TSyntax `tritonStmt)
       let stmts ← liftMacroM <| stmts.mapM fun stmt => do
         return (⟨← bindSourceValues checkedConstants stmt.raw⟩ : TSyntax `tritonStmt)
       let stmts ← liftMacroM <| stmts.mapM fun stmt => do
