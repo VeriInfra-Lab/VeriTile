@@ -1,0 +1,1714 @@
+[
+  {
+    "name": "VeriTile__Triton__DSL__PythonBody-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "VeriTile/Triton/DSL/PythonBody.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-VeriTile__Triton__DSL__PythonBody-comparator.log",
+    "file": "VeriTile/Triton/DSL/PythonBody.lean",
+    "sha256": "aa4642ed543ccda314ac33162afb13c6f54c5316661cf91ea2025e967d56fb79",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "VeriTile__Triton__DSL__Syntax-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "VeriTile/Triton/DSL/Syntax.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-VeriTile__Triton__DSL__Syntax-comparator.log",
+    "file": "VeriTile/Triton/DSL/Syntax.lean",
+    "sha256": "0f0985e8994a6412132b705714a7d5e5035a44628affd16814341ce4e739d6d0",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Contract-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Contract.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Contract-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Contract.lean",
+    "sha256": "f3929196bcf86631c9c810df868c9dddc61816a822ef814037ab35cf7c86c188",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Correct-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Correct.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Correct-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Correct.lean",
+    "sha256": "b493febea9dfd03038323f2f22b3c11b04be7904b6ed3dab651831b401de7345",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__FPEquiv-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/FPEquiv.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__FPEquiv-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/FPEquiv.lean",
+    "sha256": "955da14f08e64fde97c55fb8ed461dd26f001575c5e42e62feec7812d6fca6fc",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__IO-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/IO.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__IO-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/IO.lean",
+    "sha256": "aac8bd29c219c4228a202e4dd589e24ef0347f8d4108eaa217c92044303e864c",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Kernels-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Kernels.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Kernels-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Kernels.lean",
+    "sha256": "69addde43203938d960fd0534d5ba3f659423bfa835756b3a32e9678f823857b",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Misc__HostCorrect-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Misc/HostCorrect.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Misc__HostCorrect-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Misc/HostCorrect.lean",
+    "sha256": "e16932f0e050f37fc7dc8f2d76ec8e40cd42fd9827146b662ecb2d17c522c39f",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Misc__HostFPEquiv-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Misc/HostFPEquiv.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Misc__HostFPEquiv-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Misc/HostFPEquiv.lean",
+    "sha256": "2d006a03c7e4014e8a5d1c6aabd2181425ed37317218dc2c4a6edcf557ec7cb1",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Misc__NativeCorrect-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Misc/NativeCorrect.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Misc__NativeCorrect-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Misc/NativeCorrect.lean",
+    "sha256": "24a5a3c7421e5c5e8bd08c5461521e6f08b5b80343fc708fb5b1e3af1830ca96",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Misc__TensorBridge-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Misc/TensorBridge.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Misc__TensorBridge-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Misc/TensorBridge.lean",
+    "sha256": "e922059150a661a7b5b17496d30d5d8eeee1614a9630536e100b3771b15d4005",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__PairIO-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/PairIO.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__PairIO-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/PairIO.lean",
+    "sha256": "99be087ddbb3ed7f593fbc8906893a927142bd3871d8f9a33974a777c20c2c13",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__AggregateTrace-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/AggregateTrace.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__AggregateTrace-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/AggregateTrace.lean",
+    "sha256": "8418a234269707abbf68fbc4278d2fc12b31a454ac3dba17312269bc4451abc2",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__AggregationValues-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/AggregationValues.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__AggregationValues-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/AggregationValues.lean",
+    "sha256": "f55ea129af5340d478bc811eb3270fa9ded5672a24240db4b911aeb07c8b9041",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__AlignedProfile-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/AlignedProfile.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__AlignedProfile-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/AlignedProfile.lean",
+    "sha256": "61882a842bb7f5d57dd4a7b1a89c2592d57050805ed9cd2264b7224dd6550e10",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__AllFrames-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/AllFrames.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__AllFrames-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/AllFrames.lean",
+    "sha256": "2ca071f360a3e5cd7a6e54f3dfcc64da4abe3a93920761feb06efc8cb9187805",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__Arrays-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/Arrays.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__Arrays-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/Arrays.lean",
+    "sha256": "8106b3bbad2c19af74e3949189e5ae87f5118394dd0c34f5d2bdacd64b834d54",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__BackwardDispatch-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/BackwardDispatch.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__BackwardDispatch-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/BackwardDispatch.lean",
+    "sha256": "0a442d17bd91d0a56b67b16f2742ea2295d7a1835084821ca8bb5294bff71b62",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__BackwardGrid-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/BackwardGrid.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__BackwardGrid-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/BackwardGrid.lean",
+    "sha256": "e9aff3d8af372d66b151e14bc0f33539db836aed4ea6b425cf0d6464c40003d3",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__BackwardKernel-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/BackwardKernel.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__BackwardKernel-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/BackwardKernel.lean",
+    "sha256": "b4bb60217216fc807cadd4dcfaecf49ce191dd2229889dedabf1e09f11ac89ef",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__BackwardReads-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/BackwardReads.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__BackwardReads-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/BackwardReads.lean",
+    "sha256": "f1b91df70a991ed3766887ebb05c48c6b4caa311ee866107018079762189ff96",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__BackwardReal-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/BackwardReal.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__BackwardReal-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/BackwardReal.lean",
+    "sha256": "afff32d0429335336b2b36d9740fb801d6da5851b3f0d5ce93ecb43172cf3f99",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__BackwardScalar-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/BackwardScalar.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__BackwardScalar-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/BackwardScalar.lean",
+    "sha256": "2a75bbb4979d827bcb78f256828c0fb2d9a5805057442f230b3a9919797049b3",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__CheckedInvocation-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/CheckedInvocation.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__CheckedInvocation-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/CheckedInvocation.lean",
+    "sha256": "2a29716130972e0108131a89ea622357761d0782d9bcf4d9597d42bfe3122aae",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__Compiler-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/Compiler.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__Compiler-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/Compiler.lean",
+    "sha256": "c05e8145ad35574c1bcf7e1975ee005e3c26f8e679e9a4e8f97613b0bebde515",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__CompilerRewrite-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/CompilerRewrite.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__CompilerRewrite-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/CompilerRewrite.lean",
+    "sha256": "103ee4699fa6bfb63feca3207cc130d6ae27fe29f395e1fdb6a32f351f6bfe11",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__CompilerSites-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/CompilerSites.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__CompilerSites-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/CompilerSites.lean",
+    "sha256": "d2cde7c887ddb69a98e3d08645687c9d0a21f0cb234a6636884abda131b743c3",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__Contract-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/Contract.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__Contract-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/Contract.lean",
+    "sha256": "b7fa4a57b8f3369a413ae9c3372ae88654a270ac41a737eb6d34f7f35f0d9abb",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__Floating-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/Floating.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__Floating-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/Floating.lean",
+    "sha256": "6d213d63368d11e61d816eeb091c383e7ed7ae84317a931725180c0ee580e3eb",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__ForwardKernel-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/ForwardKernel.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__ForwardKernel-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/ForwardKernel.lean",
+    "sha256": "0fad66edc7e60f646ad8b267c6d2d37c9d318f9452c9e334456d42742d6989f1",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__ForwardScalar-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/ForwardScalar.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__ForwardScalar-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/ForwardScalar.lean",
+    "sha256": "f441c57eaa4ed1749ebf4cf01454cab88b0ffeb8867deed8cc33b20c81c70c00",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__ForwardValues-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/ForwardValues.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__ForwardValues-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/ForwardValues.lean",
+    "sha256": "b75e70d41d26a27da9d4fd50d03622ebf61ca817d4f010532b9ce2fb4225df03",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__FusedReduction-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/FusedReduction.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__FusedReduction-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/FusedReduction.lean",
+    "sha256": "164b63ac5123c1f30bbe67549b02a93f0ba42a9bbcfd0833711f252f8b75d67b",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__Grid-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/Grid.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__Grid-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/Grid.lean",
+    "sha256": "3deb68e18ca1aab40d24dc2d8a1424c4380249c068837f91569f7a7ae0b1a47f",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__Host-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/Host.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__Host-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/Host.lean",
+    "sha256": "1b3d3f2585664deec89d87d1d3a4947a8c4c8c6011edb00f8997f80446d77a38",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__HostContract-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/HostContract.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__HostContract-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/HostContract.lean",
+    "sha256": "92dc09b971e21cc466f9657528dc014bbc58d3c1a7943aa839869cbca96464ef",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__IOBinding-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/IOBinding.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__IOBinding-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/IOBinding.lean",
+    "sha256": "547ea050594cd2aebcfa09cbf4ae85264929154fb02ed2d2a7410bc2006a024a",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__Invocation-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/Invocation.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__Invocation-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/Invocation.lean",
+    "sha256": "6499f8987a063b80710096b04f1617cb3900007d36a73fa8f1f15b300d030456",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__InvocationBackward-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/InvocationBackward.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__InvocationBackward-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/InvocationBackward.lean",
+    "sha256": "f72c9beb63d5e69eebe283cf1003a16ecde987827f7e445ba2b6a943bba0ef04",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__InvocationCoexist-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/InvocationCoexist.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__InvocationCoexist-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/InvocationCoexist.lean",
+    "sha256": "fb5d83d7f24ed05310b03562b0fe264b39c5386117465ef50c82c3f7462c89e5",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__InvocationFrames-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/InvocationFrames.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__InvocationFrames-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/InvocationFrames.lean",
+    "sha256": "ad0b32b3d3598ee67cdd231903270b173a45c52c241147e767de2a4643de2834",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__InvocationReadback-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/InvocationReadback.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__InvocationReadback-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/InvocationReadback.lean",
+    "sha256": "d1d9cf44ceff52a936976c053044506eb30756d5cf049c0bc51ed9ea59e525da",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__InvocationTrace-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/InvocationTrace.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__InvocationTrace-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/InvocationTrace.lean",
+    "sha256": "ae5b703f1b947bc7680fa7c235355ef6ad34b91a3ea88c4a096c3028634c5345",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__InvocationWitness-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/InvocationWitness.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__InvocationWitness-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/InvocationWitness.lean",
+    "sha256": "52bc1c8d1f01f0f986c634870415c386e46eb863342af034f6dda448125da16b",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__KernelAccess-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/KernelAccess.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__KernelAccess-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/KernelAccess.lean",
+    "sha256": "1f8bba7bea7f310fd838033204ab65d8a703fcd68bd6e0da13526abfb3f295f0",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__KernelBackward-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/KernelBackward.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__KernelBackward-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/KernelBackward.lean",
+    "sha256": "069c7a6b18b46d829abedda886a70eed5d9dbcde8e70268c28874d411f8a3bd6",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__KernelContract-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/KernelContract.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__KernelContract-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/KernelContract.lean",
+    "sha256": "a289b2f98c614c5898269c94318ec5c0b5c089a1481265869f89d2ba6f3df371",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__KernelCorrect-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/KernelCorrect.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__KernelCorrect-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/KernelCorrect.lean",
+    "sha256": "ffd065ca2ac1c40b42bbff8be3c18df1c07ffa6247b0b2f121d8c7e8bfac2268",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__KernelFrames-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/KernelFrames.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__KernelFrames-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/KernelFrames.lean",
+    "sha256": "8fd0e5377fe3c9e04392a9a401f9812140c2c4e849792c7e07cad0f44fb3889d",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__KernelMath-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/KernelMath.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__KernelMath-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/KernelMath.lean",
+    "sha256": "1d3025533579e5fcf8100860ff7bd5676abe68c5d8fb8957eda2d3c1cdec3b84",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__KernelNative-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/KernelNative.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__KernelNative-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/KernelNative.lean",
+    "sha256": "7a3b6615cd3a918446a42b79ce9344257a0b6b760c2f6bfeabb36885dcbbf22b",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__KernelProfile-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/KernelProfile.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__KernelProfile-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/KernelProfile.lean",
+    "sha256": "37460342b116ca28b19a6836d05cd5dbe45988b454221fded49c8fbed79017e9",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__KernelReal-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/KernelReal.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__KernelReal-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/KernelReal.lean",
+    "sha256": "cb38af6820cb67bc718fccc319298c049e6570a56bfebf7fa79c91f37288c3e5",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__KernelSafety-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/KernelSafety.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__KernelSafety-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/KernelSafety.lean",
+    "sha256": "1306f9f7f309c81979cfdeccaedd7258c6725e1ff671b25c361a057d35ba5761",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__KernelTailSafety-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/KernelTailSafety.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__KernelTailSafety-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/KernelTailSafety.lean",
+    "sha256": "53d06a1ee17cdaa3e5a8bdddf7884d418d46d6973b5ae49a911010c6762ca23a",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__KernelTensor-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/KernelTensor.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__KernelTensor-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/KernelTensor.lean",
+    "sha256": "2aa7d7f4489735e09052425ea12aef0f651645c1f145dce2f679bf8814ec7053",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__LargeProfile-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/LargeProfile.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__LargeProfile-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/LargeProfile.lean",
+    "sha256": "1882ec27838bf12d9e6a1e21edbe4befdaa195a25ea3e5af630e6814f6add30a",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__LaunchContracts-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/LaunchContracts.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__LaunchContracts-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/LaunchContracts.lean",
+    "sha256": "013b5e930782f34f87b78c7b410391b54bd79402e177b80abe20470f8f9055ab",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__Library-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/Library.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__Library-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/Library.lean",
+    "sha256": "8f6f913c447f71322b34f39d4a7dafe65fc3479eb6adb0c7a0549ed8ab6c35fa",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__LocalFrames-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/LocalFrames.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__LocalFrames-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/LocalFrames.lean",
+    "sha256": "8d99616193c357afc43fe26a29c5f871005c9cc2fa9e1aefb10e0f0d9719fc58",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__LogicalInputs-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/LogicalInputs.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__LogicalInputs-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/LogicalInputs.lean",
+    "sha256": "fd4add545ddf25448afbce6a2098ee72d587f9eea0cf00d948319f32f47c4c32",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__LogicalReader-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/LogicalReader.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__LogicalReader-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/LogicalReader.lean",
+    "sha256": "17c0ebb6287abf4bb7556e4309919a0ed09c3c0f317ebb9466a45cf5db74926b",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__Lowering-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/Lowering.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__Lowering-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/Lowering.lean",
+    "sha256": "7dc23c328bee9af88fcac27b5f48fcc00430f70b766806a7660ee538a2589886",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__Math-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/Math.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__Math-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/Math.lean",
+    "sha256": "71f353dcd530677aa31f53773e7e975291291a477ef2069fd9092db345b2379f",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__Native-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/Native.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__Native-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/Native.lean",
+    "sha256": "84e7b9ce72cfc5906a887d4878b68764ae9af5f662bfd7492c5bb7863278f711",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__NativeGraph-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/NativeGraph.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__NativeGraph-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/NativeGraph.lean",
+    "sha256": "93ccf748be899d1eec45dce20c133b46e0ba7ca5798685aeec8fd86b9789f66a",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__NativeReadback-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/NativeReadback.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__NativeReadback-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/NativeReadback.lean",
+    "sha256": "26e1ec7a9518d96f0b2eb2b366b03d6624488e7b2624381132a80a533a8264c9",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__NativeReturns-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/NativeReturns.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__NativeReturns-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/NativeReturns.lean",
+    "sha256": "2edf8603014b3847b23806e5b9af690193bc29e364ea5bbad07237416b469243",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__OrderedReference-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/OrderedReference.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__OrderedReference-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/OrderedReference.lean",
+    "sha256": "2bbce46690001ca8630096bc1c4dc93062fb6227f9cd7d855d448b027da7f6de",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__PairEquivalence-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/PairEquivalence.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__PairEquivalence-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/PairEquivalence.lean",
+    "sha256": "93b9f8f419340dfa8c543359b6df0de225678cd76e109e4e7289a42e0ace0318",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__ProfileDispatch-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/ProfileDispatch.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__ProfileDispatch-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/ProfileDispatch.lean",
+    "sha256": "edae93bebf2e3bf2e7581c5e305eb177a346eb861a016e8b70c5bedb2d5951cb",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__ProfileInstances-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/ProfileInstances.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__ProfileInstances-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/ProfileInstances.lean",
+    "sha256": "b0477cb01bcde47c05c7e3d6b756baf53fcb7e894c975a23ebb55554511a317f",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__ProfileWitness-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/ProfileWitness.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__ProfileWitness-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/ProfileWitness.lean",
+    "sha256": "34698e54814f17e1ac29a2cf95e927aa3974c7fca78a7511f0997045121d3a71",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__Profiled-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/Profiled.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__Profiled-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/Profiled.lean",
+    "sha256": "74939ee573d974ff8397ffa83703760e76ebf5a6b2b7c7626f23bafcc89663ce",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__ProfiledComplete-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/ProfiledComplete.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__ProfiledComplete-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/ProfiledComplete.lean",
+    "sha256": "a725502f6a221b3a426863712c902478acbc25042cb8c9869172e22906a6faf2",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__ProfiledGraph-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/ProfiledGraph.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__ProfiledGraph-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/ProfiledGraph.lean",
+    "sha256": "14d5ef666bcf207e5927b4a525fa63d3e322f360efee4e9bc377a9648a081c93",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__ProfiledReadback-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/ProfiledReadback.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__ProfiledReadback-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/ProfiledReadback.lean",
+    "sha256": "a70329ba1f04f679c2d0075d4b72fb28faace14b684525c16f426c8030732a29",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__ProfiledReturns-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/ProfiledReturns.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__ProfiledReturns-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/ProfiledReturns.lean",
+    "sha256": "44251c5e5ed8976d585a90c7c1633f0be101d022a27c509e2a7681df7339a68c",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__PublicBackward-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/PublicBackward.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__PublicBackward-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/PublicBackward.lean",
+    "sha256": "f043fe123073c01ace6c72ff3b1fc23a2b36d8103b320fa2ea35fbc8cc29fad5",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__PublicIO-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/PublicIO.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__PublicIO-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/PublicIO.lean",
+    "sha256": "807fc493724a720ac61eb485fe0ea5a7c740e8e5b8fcb96431d6406532eea6e8",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__RawCorrect-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/RawCorrect.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__RawCorrect-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/RawCorrect.lean",
+    "sha256": "3afbfbe8dca5fff24c61c4092c0d01bb32ee1d8e1e030c7156e32dde1a5ac93a",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__RawNative-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/RawNative.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__RawNative-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/RawNative.lean",
+    "sha256": "43fb09ca22ab3bc1d62081205d4c04392b4edf6358d0941b8ab9f3343970b83a",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__Real-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/Real.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__Real-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/Real.lean",
+    "sha256": "5afdf689c0a25e25bddc326dabaa342ae8e8d66f89dd640d9c3e835881641ea1",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__RealHost-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/RealHost.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__RealHost-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/RealHost.lean",
+    "sha256": "6e898ce7dc1e3bb6f01c761df9ca49b5dca2cc34c1bc1fd065b73e117c52bf86",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__RealIO-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/RealIO.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__RealIO-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/RealIO.lean",
+    "sha256": "a420e21613a0375f10a32daccd5ef8d2120515d09ed9103e1baaabbce7f0348d",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__Reduction-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/Reduction.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__Reduction-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/Reduction.lean",
+    "sha256": "bc41d1d9d0b315f8bbe5c5de0ec7895c9bc276730b21a8adc0a11119b638320e",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__ReturnBacking-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/ReturnBacking.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__ReturnBacking-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/ReturnBacking.lean",
+    "sha256": "4dcafa86a0cd1a5808e8462f722315719a52de641c50254fcccc4f775fb6e3eb",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__RoleBindings-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/RoleBindings.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__RoleBindings-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/RoleBindings.lean",
+    "sha256": "2d760bf085c5d3a29f70d75fd4a56ee59c0ef85198ad7033d8cbd4d6e053ace1",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__ScalarPrograms-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/ScalarPrograms.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__ScalarPrograms-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/ScalarPrograms.lean",
+    "sha256": "f067b7fb7542463b5d4aedd60091ced34b9d1b41e68939bf389b10b423c61404",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__Scheduled-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/Scheduled.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__Scheduled-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/Scheduled.lean",
+    "sha256": "d2fa567af97d5542458f4def050348cfa9f2ef1861afb818a18601fb357b072f",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__ScheduledFinal-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/ScheduledFinal.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__ScheduledFinal-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/ScheduledFinal.lean",
+    "sha256": "fceef8c532f02ee7d6d070cd6e88e0329024a0d575a57f01203df96cff592f9f",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__ScheduledGraph-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/ScheduledGraph.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__ScheduledGraph-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/ScheduledGraph.lean",
+    "sha256": "c42d02efa8b3aff176727e232daf75581115868b54ef8e31a74ab58d3297849e",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__ScheduledReadback-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/ScheduledReadback.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__ScheduledReadback-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/ScheduledReadback.lean",
+    "sha256": "5859bd4baaa19a9370f3559c04b878846570284eb124d7787a351341a965221a",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__ScheduledReturns-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/ScheduledReturns.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__ScheduledReturns-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/ScheduledReturns.lean",
+    "sha256": "129e8e8d2daf09abe41410f37528e76f2352da8f051a41130a53cb57066d5323",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__SourcePair-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/SourcePair.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__SourcePair-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/SourcePair.lean",
+    "sha256": "a0bb4c97220db6002116c051cf13d2e5fb5e266d645c9b820226a1f7b431ee7a",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__SourcePreservation-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/SourcePreservation.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__SourcePreservation-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/SourcePreservation.lean",
+    "sha256": "dd57a8b2cdad4c3ed9611b17aeec1f46a2c4db1b70620cead9366936b0eef605",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__SourceResults-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/SourceResults.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__SourceResults-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/SourceResults.lean",
+    "sha256": "fa71be3c406a3fb5cae20dfa7f0b09f35fc376c41feabc67590bc5cda3ad0d16",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__Specialization-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/Specialization.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__Specialization-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/Specialization.lean",
+    "sha256": "f1aeafdda4fa398448ad86a84bb2f393666dd86cba33441097c72495cd34b421",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__TorchButterfly-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/TorchButterfly.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__TorchButterfly-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/TorchButterfly.lean",
+    "sha256": "85eae32fe933dd50049c5236195fbd54b158aa4b618175f4034ae1a7fa203009",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__TorchPartition-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/TorchPartition.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__TorchPartition-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/TorchPartition.lean",
+    "sha256": "ac2597d90e1eb7edd2673df617df96acada8c92a72e066b7e7b3b85dfa78b42d",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__TorchSplit-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/TorchSplit.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__TorchSplit-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/TorchSplit.lean",
+    "sha256": "4b75c20eebc7d25f3dad01795763e3459ed6f54107e014c58601c5ba2f02846b",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__TorchThread-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/TorchThread.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__TorchThread-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/TorchThread.lean",
+    "sha256": "cf115c5e9f4cb920da2a443252a8b482fa8f85b6b1a47b859c9a3d16a014f17a",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__Trace-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/Trace.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__Trace-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/Trace.lean",
+    "sha256": "1b8c9cc880030ab5ad45968f5f1f5cacb0ee36429eb1ed292696ba96b293ac99",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__WholeGraph-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/WholeGraph.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__WholeGraph-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/WholeGraph.lean",
+    "sha256": "54870286af87dd0da6579a424f56056c1c749ad664e5b0e2dba123e10d04fe90",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__WholeGrids-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/WholeGrids.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__WholeGrids-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/WholeGrids.lean",
+    "sha256": "60847756f77f1f8f8882d8582db68bcf33b517ca6769df8c04c34e6c53ef65d9",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__cross_entropy2__Proofs__WholeReal-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/WholeReal.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__repairs__tritonbench_g__cross_entropy2__Proofs__WholeReal-comparator.log",
+    "file": "bench/repairs/tritonbench_g/cross_entropy2/Proofs/WholeReal.lean",
+    "sha256": "4a4ec3fa24835a6b2fc8f4d610a4107519cf6e3f7e5e70c7e3bb515ce8a36769",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__tests__PythonConditionalAssignmentBody-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/tests/PythonConditionalAssignmentBody.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-bench__tests__PythonConditionalAssignmentBody-comparator.log",
+    "file": "bench/tests/PythonConditionalAssignmentBody.lean",
+    "sha256": "bc136566ed66777477691a9db0cccbded943f800b398cc06d17d00097c1897ca",
+    "status": "UNAVAILABLE"
+  }
+]

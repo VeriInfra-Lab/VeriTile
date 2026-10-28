@@ -1,0 +1,26 @@
+{
+  "parent": "1d64fa41deea7b028a584972d36d73bd3ff36cd7",
+  "shared_core_changed": [
+    "VeriTile/Triton/DSL/Syntax.lean",
+    "VeriTile/Triton/DSL/PythonBody.lean"
+  ],
+  "files": {
+    "VeriTile/Triton/DSL/PythonBody.lean": "aa4642ed543ccda314ac33162afb13c6f54c5316661cf91ea2025e967d56fb79",
+    "VeriTile/Triton/DSL/Syntax.lean": "0f0985e8994a6412132b705714a7d5e5035a44628affd16814341ce4e739d6d0",
+    "bench/repairs/tritonbench_g/cross_entropy2/Kernels.lean": "69addde43203938d960fd0534d5ba3f659423bfa835756b3a32e9678f823857b",
+    "bench/repairs/tritonbench_g/cross_entropy2/Proofs/KernelBackward.lean": "069c7a6b18b46d829abedda886a70eed5d9dbcde8e70268c28874d411f8a3bd6",
+    "bench/repairs/tritonbench_g/cross_entropy2/Proofs/KernelNative.lean": "7a3b6615cd3a918446a42b79ce9344257a0b6b760c2f6bfeabb36885dcbbf22b",
+    "bench/repairs/tritonbench_g/cross_entropy2/Proofs/KernelReal.lean": "cb38af6820cb67bc718fccc319298c049e6570a56bfebf7fa79c91f37288c3e5",
+    "bench/repairs/tritonbench_g/cross_entropy2/Proofs/LogicalInputs.lean": "fd4add545ddf25448afbce6a2098ee72d587f9eea0cf00d948319f32f47c4c32",
+    "bench/repairs/tritonbench_g/cross_entropy2/Proofs/OrderedReference.lean": "2bbce46690001ca8630096bc1c4dc93062fb6227f9cd7d855d448b027da7f6de",
+    "bench/repairs/tritonbench_g/cross_entropy2/Proofs/SourcePreservation.lean": "dd57a8b2cdad4c3ed9611b17aeec1f46a2c4db1b70620cead9366936b0eef605",
+    "bench/repairs/tritonbench_g/cross_entropy2/README.md": "f9dd4f8d55f3467aba6fddcff09559527317ba3860767facff3b48205c6554fb",
+    "lakefile.toml": "64c3b981ef2d1459b171940db89d2e53a712662e5468f1fcc06e4337d2a388ab",
+    "bench/repairs/tritonbench_g/cross_entropy2/candidate_kernels.py": "af23b96771201dca421d7dd7241ddf58bd13792aa075e0f1386885a3cba745e2",
+    "bench/repairs/tritonbench_g/cross_entropy2/jit-correspondence.json": "27bd97129797bccb733a1725f1bc1fcd0632853c1871f926b09ea089bba38c75",
+    "bench/tests/PythonConditionalAssignmentBody.lean": "bc136566ed66777477691a9db0cccbded943f800b398cc06d17d00097c1897ca",
+    "bench/tests/test_cross_entropy2_body.py": "838d632149313103507c2957256708c7c9c9324f17256f550b856be4f8b765d1"
+  },
+  "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+  "original_python_wrappers_and_public_statements_unchanged": true
+}

@@ -1,0 +1,811 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "cross_entropy2"
+  ],
+  "regression_only_pending_body_tasks": [
+    "kv_cache_filling"
+  ],
+  "semantic_review": {
+    "adam_update_triton": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "add_example": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "add_value": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "apply_penalty": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "attention_fwd_triton1": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "batched_vecmat_mult": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "bgmv_expand_slice": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "bmm_optimized": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "cache_transform_triton": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "chunk_cumsum_kernel": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "chunk_cumsum_vector": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "chunk_delta_fwd": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "chunked_cumsum_fwd": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "cosine_compute": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "cross_entropy1": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "cross_entropy2": "Four complete raw original/existing candidate forward/backward bodies retain all 15/17 source statements, casts, masks, ownership checks, split handling, signatures and decorators. Candidates only commute the existing integer column/block product. Signed int32 labels and explicit int64 conversion remain. Original Python, public entries and independent mathematics are unchanged. Nested loads now retain compute-load markers and the actual loss store retains its destination conversion. All three outputs remain in scope, including zero split z-loss and loss contribution for nonowning targets. The ordered floating reference is corrected accordingly; no equality with the old omitted-marker graph or arbitrary cast identity is assumed. Historical AST differences and current statement counts are checked. Actual execution, exact memory frames, safety, independent Real correctness, full original/candidate FP pairs and all native/Tensor/host consumers replay. No added domain restriction, whole-kernel premise, numerical law or GPU experiment.",
+    "cross_entropy_ops": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "dequantize_matmul": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "dequantize_rowwise": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "destindex_copy": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "destindex_copy_kv1": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "destindex_copy_kv2": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "diag_ssm_triton": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "dropout_triton": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "embedding_triton_kernel": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "f8_conversion_utils": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "fast_ce_loss": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "fast_rope_embedding": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "fifth_order_sph_harmonics": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "flash_decode2_llama": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "flash_decode2_phi": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "fused_activation": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "fused_recurrent_hgrn": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "fused_rotary_embedding": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "geglu_tanh_triton": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "index_select_bwd": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "index_select_cat": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "int8_matmul_kernel": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "isfinite_kernel": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "kcache_copy_triton": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "kldiv_compute": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "kldiv_ops": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "kldiv_triton": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "kv_cache_copy": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "kv_cache_filling": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims. Python-body migration remains pending; its correspondence status is retained.",
+    "l2_norm_bwd": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "l2_norm_triton1": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "l2_norm_triton2": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "log_softmax": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "logsumexp_fwd": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "masked_add_cuda": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "masked_select": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "matmul_kernel": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "matrix_reduction": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "matrix_transpose": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "max_reduction": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "mean_reduction": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "mul_exponent_compensator": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "nested_loops_processing": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "quant_transpose_kernel": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "quantize_copy_kv": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "quantize_global": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "quantize_kv_copy": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "quantize_kv_transform": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "relu_strided_buffer": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "relu_triton_kernel": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "reversed_cumsum": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "reversed_cumsum_scalar": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "rms_norm_triton": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "rmsnorm_fused": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "rmsnorm_fused_llama": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "rmsnorm_implementation": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "rmsnorm_triton": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "rope_backward_transform": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "rope_embedding": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "rope_transform": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "rotary_emb": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "rotary_emb_nopad": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "rowwise_quantization_triton": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "seeded_dropout": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "sin_computation": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "sin_kernel": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "softmax_optimize": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "softmax_triton1": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "softmax_triton2": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "softmax_triton3": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "square_matrix": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "swiglu_backward": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "swiglu_fwd": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "swiglu_triton": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "token_attn_mistral": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "token_attn_reduceV": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "token_softmax_bloom": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "token_softmax_llama": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "triton_argmax": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "triton_mul2": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "triton_softmax": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "var_len_copy": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "vector_addition": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims.",
+    "vector_addition_custom": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims."
+  },
+  "compiler_change": {
+    "files": [
+      "VeriTile/Triton/DSL/Syntax.lean",
+      "VeriTile/Triton/DSL/PythonBody.lean"
+    ],
+    "behavior": "The shared parser preserves Python repeated and association and parenthesizes top-level conditional assignment expressions internally so that a following if remains a separate statement. Pasted Python remains unchanged. Strings, nested groups and comparison equality are checked. All 105 frontend roots and all 4075 cumulative roots replay warm/joint and independently from empty project objects using only pinned external packages. Previously migrated tasks receive regression evidence, not new migration claims."
+  },
+  "verification": {
+    "baseline": {
+      "status": "PASS",
+      "explicit_modules": 104,
+      "jobs": 2136
+    },
+    "frontend_preflight": {
+      "status": "PASS",
+      "explicit_modules": 105,
+      "jobs": 3758,
+      "scope": "All registered FPFrontendRegressions roots, including Python and-chain, conditional assignment and following-if AST checks."
+    },
+    "focused": {
+      "status": "PASS",
+      "explicit_modules": 104,
+      "jobs": 2149,
+      "additional_scope": "Joint import, standalone frontend AST footprint, 41 actual-source/public/IO audits and two empty FP assumption reports."
+    },
+    "warm_and_joint": {
+      "status": "PASS",
+      "explicit_modules": 4075,
+      "jobs": 13704
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 4075,
+      "jobs": 13704,
+      "project_build_initially_present": false,
+      "project_objects_imported_from_other_checkouts": false,
+      "only_fixed_external_dependencies_imported": true,
+      "setup": {
+        "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/final-clean-setup.json",
+        "sha256": "db55414508df0e9997daa2006310c9ed09a6fa0415be80ef612a49bc2ff326fa"
+      }
+    },
+    "trust": "PASS: 41 actual-source/public/IO footprints and two new frontend AST footprints use only standard base. Both public FP entries print no FP assumptions.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 169
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 414,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by old numerical receipt; no false repin."
+    },
+    "source": "PASS: four complete raw original/existing candidate bodies and exact caller bindings; original Python/wrappers/public statements unchanged, actual-source deep proofs updated and replayed.",
+    "official_comparator": "UNAVAILABLE: 107 actual final-source attempts with verified pinned binaries. Host Landlock ABI v4 is below required v5; no systemd user isolation or bypass.",
+    "cpu": "UNAVAILABLE: actual check_contract.py CPU invocation requires missing Torch.",
+    "gpu_or_numerical_experiment": "Not run.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending; the known unchanged numerical receipt failure remains explicit."
+  },
+  "source_pairs": {
+    "total": 313,
+    "pasted_body": 313,
+    "legacy_ast": 0
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/source-closure.json",
+    "sha256": "33ea11c4f222f9a4f1532e20214d678263fc4c33f736bc47201681398d00e08d"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "selected_body_copy_checked": 99,
+      "uncovered_jit_functions": 84
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 333,
+    "uncovered_selected_jit_functions": 175,
+    "primary_files_with_int64_screen_warning": 23,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 59,
+        "antiquotes": 67,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "example_regression_scope": "All 19 selected examples and all previous recorded task roots replay warm/joint and independently from empty project objects. Unselected historical model gaps are not relabeled as passing.",
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/VeriTile__Triton__DSL__PythonBody-comparator.log",
+      "sha256": "e072d320857ef23f9623faff2daf4a376da66804becac8b113806b6985bd27e4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/VeriTile__Triton__DSL__Syntax-comparator.log",
+      "sha256": "e072d320857ef23f9623faff2daf4a376da66804becac8b113806b6985bd27e4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/all-python.log",
+      "sha256": "86be3316804908c6069de49c8dd49fb4edf51ccd58e0744c4b5052b9c85c204f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/audit-targets.json",
+      "sha256": "ce00cb9588443c94a12d01dd7a239202751cd487cfa0e9dd082f4ab876bc584a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/audit.lean",
+      "sha256": "dcd583e20d987e579d644a1b07747d9d02a764330b9db69e30ac1eb642b3e86c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/audit.log",
+      "sha256": "b54bddc1587da7a9c7539fbdc3dd9db62c73c76af873f1fea110269274098e41"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/baseline-build.log.gz",
+      "sha256": "9d211a43de025032d74fce404df285cd23c416e46a818ef9cbccf0fa16fa8cfd"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/baseline.json",
+      "sha256": "ba64d7c0e811434aa5c4f37e91d31633f0063a9ee94a6e6e99ee28938da0905f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Contract-comparator.log",
+      "sha256": "e072d320857ef23f9623faff2daf4a376da66804becac8b113806b6985bd27e4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Correct-comparator.log",
+      "sha256": "e072d320857ef23f9623faff2daf4a376da66804becac8b113806b6985bd27e4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__FPEquiv-comparator.log",
+      "sha256": "e072d320857ef23f9623faff2daf4a376da66804becac8b113806b6985bd27e4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__IO-comparator.log",
+      "sha256": "e072d320857ef23f9623faff2daf4a376da66804becac8b113806b6985bd27e4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Kernels-comparator.log",
+      "sha256": "e072d320857ef23f9623faff2daf4a376da66804becac8b113806b6985bd27e4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Misc__HostCorrect-comparator.log",
+      "sha256": "e072d320857ef23f9623faff2daf4a376da66804becac8b113806b6985bd27e4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Misc__HostFPEquiv-comparator.log",
+      "sha256": "e072d320857ef23f9623faff2daf4a376da66804becac8b113806b6985bd27e4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Misc__NativeCorrect-comparator.log",
+      "sha256": "e072d320857ef23f9623faff2daf4a376da66804becac8b113806b6985bd27e4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Misc__TensorBridge-comparator.log",
+      "sha256": "e072d320857ef23f9623faff2daf4a376da66804becac8b113806b6985bd27e4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__PairIO-comparator.log",
+      "sha256": "e072d320857ef23f9623faff2daf4a376da66804becac8b113806b6985bd27e4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__AggregateTrace-comparator.log",
+      "sha256": "3509e363cbada386d84fcb51b1d59a012f9e726d467e48609ec443be36a639e6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__AggregationValues-comparator.log",
+      "sha256": "3509e363cbada386d84fcb51b1d59a012f9e726d467e48609ec443be36a639e6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__AlignedProfile-comparator.log",
+      "sha256": "3509e363cbada386d84fcb51b1d59a012f9e726d467e48609ec443be36a639e6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__AllFrames-comparator.log",
+      "sha256": "3509e363cbada386d84fcb51b1d59a012f9e726d467e48609ec443be36a639e6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__Arrays-comparator.log",
+      "sha256": "3509e363cbada386d84fcb51b1d59a012f9e726d467e48609ec443be36a639e6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__BackwardDispatch-comparator.log",
+      "sha256": "3509e363cbada386d84fcb51b1d59a012f9e726d467e48609ec443be36a639e6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__BackwardGrid-comparator.log",
+      "sha256": "3509e363cbada386d84fcb51b1d59a012f9e726d467e48609ec443be36a639e6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__BackwardKernel-comparator.log",
+      "sha256": "3509e363cbada386d84fcb51b1d59a012f9e726d467e48609ec443be36a639e6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__BackwardReads-comparator.log",
+      "sha256": "3509e363cbada386d84fcb51b1d59a012f9e726d467e48609ec443be36a639e6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__BackwardReal-comparator.log",
+      "sha256": "3509e363cbada386d84fcb51b1d59a012f9e726d467e48609ec443be36a639e6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__BackwardScalar-comparator.log",
+      "sha256": "3509e363cbada386d84fcb51b1d59a012f9e726d467e48609ec443be36a639e6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__CheckedInvocation-comparator.log",
+      "sha256": "3509e363cbada386d84fcb51b1d59a012f9e726d467e48609ec443be36a639e6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__Compiler-comparator.log",
+      "sha256": "3509e363cbada386d84fcb51b1d59a012f9e726d467e48609ec443be36a639e6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__CompilerRewrite-comparator.log",
+      "sha256": "3d13a6a3cf078bdfdc4c81e217dabf3f4c2e442ae55c87e5e3e9be2d7ccc7ada"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__CompilerSites-comparator.log",
+      "sha256": "3d13a6a3cf078bdfdc4c81e217dabf3f4c2e442ae55c87e5e3e9be2d7ccc7ada"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__Contract-comparator.log",
+      "sha256": "3d13a6a3cf078bdfdc4c81e217dabf3f4c2e442ae55c87e5e3e9be2d7ccc7ada"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__Floating-comparator.log",
+      "sha256": "3d13a6a3cf078bdfdc4c81e217dabf3f4c2e442ae55c87e5e3e9be2d7ccc7ada"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__ForwardKernel-comparator.log",
+      "sha256": "3d13a6a3cf078bdfdc4c81e217dabf3f4c2e442ae55c87e5e3e9be2d7ccc7ada"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__ForwardScalar-comparator.log",
+      "sha256": "3d13a6a3cf078bdfdc4c81e217dabf3f4c2e442ae55c87e5e3e9be2d7ccc7ada"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__ForwardValues-comparator.log",
+      "sha256": "3d13a6a3cf078bdfdc4c81e217dabf3f4c2e442ae55c87e5e3e9be2d7ccc7ada"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__FusedReduction-comparator.log",
+      "sha256": "3d13a6a3cf078bdfdc4c81e217dabf3f4c2e442ae55c87e5e3e9be2d7ccc7ada"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__Grid-comparator.log",
+      "sha256": "3d13a6a3cf078bdfdc4c81e217dabf3f4c2e442ae55c87e5e3e9be2d7ccc7ada"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__Host-comparator.log",
+      "sha256": "3d13a6a3cf078bdfdc4c81e217dabf3f4c2e442ae55c87e5e3e9be2d7ccc7ada"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__HostContract-comparator.log",
+      "sha256": "3d13a6a3cf078bdfdc4c81e217dabf3f4c2e442ae55c87e5e3e9be2d7ccc7ada"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__IOBinding-comparator.log",
+      "sha256": "3d13a6a3cf078bdfdc4c81e217dabf3f4c2e442ae55c87e5e3e9be2d7ccc7ada"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__Invocation-comparator.log",
+      "sha256": "3d13a6a3cf078bdfdc4c81e217dabf3f4c2e442ae55c87e5e3e9be2d7ccc7ada"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__InvocationBackward-comparator.log",
+      "sha256": "305870a8bd8aa796dd0c714a1ba9ccf4aef669de31809b21bfcf1416144a5522"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__InvocationCoexist-comparator.log",
+      "sha256": "305870a8bd8aa796dd0c714a1ba9ccf4aef669de31809b21bfcf1416144a5522"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__InvocationFrames-comparator.log",
+      "sha256": "305870a8bd8aa796dd0c714a1ba9ccf4aef669de31809b21bfcf1416144a5522"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__InvocationReadback-comparator.log",
+      "sha256": "305870a8bd8aa796dd0c714a1ba9ccf4aef669de31809b21bfcf1416144a5522"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__InvocationTrace-comparator.log",
+      "sha256": "305870a8bd8aa796dd0c714a1ba9ccf4aef669de31809b21bfcf1416144a5522"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__InvocationWitness-comparator.log",
+      "sha256": "305870a8bd8aa796dd0c714a1ba9ccf4aef669de31809b21bfcf1416144a5522"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__KernelAccess-comparator.log",
+      "sha256": "305870a8bd8aa796dd0c714a1ba9ccf4aef669de31809b21bfcf1416144a5522"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__KernelBackward-comparator.log",
+      "sha256": "305870a8bd8aa796dd0c714a1ba9ccf4aef669de31809b21bfcf1416144a5522"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__KernelContract-comparator.log",
+      "sha256": "305870a8bd8aa796dd0c714a1ba9ccf4aef669de31809b21bfcf1416144a5522"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__KernelCorrect-comparator.log",
+      "sha256": "305870a8bd8aa796dd0c714a1ba9ccf4aef669de31809b21bfcf1416144a5522"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__KernelFrames-comparator.log",
+      "sha256": "305870a8bd8aa796dd0c714a1ba9ccf4aef669de31809b21bfcf1416144a5522"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__KernelMath-comparator.log",
+      "sha256": "305870a8bd8aa796dd0c714a1ba9ccf4aef669de31809b21bfcf1416144a5522"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__KernelNative-comparator.log",
+      "sha256": "305870a8bd8aa796dd0c714a1ba9ccf4aef669de31809b21bfcf1416144a5522"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__KernelProfile-comparator.log",
+      "sha256": "154a41867822bd380c805ed3c6e7bf38332992273d9887a835ac6fbb6687c23c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__KernelReal-comparator.log",
+      "sha256": "154a41867822bd380c805ed3c6e7bf38332992273d9887a835ac6fbb6687c23c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__KernelSafety-comparator.log",
+      "sha256": "154a41867822bd380c805ed3c6e7bf38332992273d9887a835ac6fbb6687c23c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__KernelTailSafety-comparator.log",
+      "sha256": "154a41867822bd380c805ed3c6e7bf38332992273d9887a835ac6fbb6687c23c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__KernelTensor-comparator.log",
+      "sha256": "154a41867822bd380c805ed3c6e7bf38332992273d9887a835ac6fbb6687c23c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__LargeProfile-comparator.log",
+      "sha256": "154a41867822bd380c805ed3c6e7bf38332992273d9887a835ac6fbb6687c23c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__LaunchContracts-comparator.log",
+      "sha256": "154a41867822bd380c805ed3c6e7bf38332992273d9887a835ac6fbb6687c23c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__Library-comparator.log",
+      "sha256": "154a41867822bd380c805ed3c6e7bf38332992273d9887a835ac6fbb6687c23c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__LocalFrames-comparator.log",
+      "sha256": "154a41867822bd380c805ed3c6e7bf38332992273d9887a835ac6fbb6687c23c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__LogicalInputs-comparator.log",
+      "sha256": "154a41867822bd380c805ed3c6e7bf38332992273d9887a835ac6fbb6687c23c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__LogicalReader-comparator.log",
+      "sha256": "154a41867822bd380c805ed3c6e7bf38332992273d9887a835ac6fbb6687c23c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__Lowering-comparator.log",
+      "sha256": "154a41867822bd380c805ed3c6e7bf38332992273d9887a835ac6fbb6687c23c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__Math-comparator.log",
+      "sha256": "154a41867822bd380c805ed3c6e7bf38332992273d9887a835ac6fbb6687c23c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__Native-comparator.log",
+      "sha256": "154a41867822bd380c805ed3c6e7bf38332992273d9887a835ac6fbb6687c23c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__NativeGraph-comparator.log",
+      "sha256": "06169ffd72a1fdbfc66b57ee91812e3311c745f70de099b30a726e86574b91f9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__NativeReadback-comparator.log",
+      "sha256": "06169ffd72a1fdbfc66b57ee91812e3311c745f70de099b30a726e86574b91f9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__NativeReturns-comparator.log",
+      "sha256": "06169ffd72a1fdbfc66b57ee91812e3311c745f70de099b30a726e86574b91f9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__OrderedReference-comparator.log",
+      "sha256": "06169ffd72a1fdbfc66b57ee91812e3311c745f70de099b30a726e86574b91f9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__PairEquivalence-comparator.log",
+      "sha256": "06169ffd72a1fdbfc66b57ee91812e3311c745f70de099b30a726e86574b91f9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__ProfileDispatch-comparator.log",
+      "sha256": "06169ffd72a1fdbfc66b57ee91812e3311c745f70de099b30a726e86574b91f9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__ProfileInstances-comparator.log",
+      "sha256": "06169ffd72a1fdbfc66b57ee91812e3311c745f70de099b30a726e86574b91f9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__ProfileWitness-comparator.log",
+      "sha256": "06169ffd72a1fdbfc66b57ee91812e3311c745f70de099b30a726e86574b91f9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__Profiled-comparator.log",
+      "sha256": "06169ffd72a1fdbfc66b57ee91812e3311c745f70de099b30a726e86574b91f9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__ProfiledComplete-comparator.log",
+      "sha256": "06169ffd72a1fdbfc66b57ee91812e3311c745f70de099b30a726e86574b91f9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__ProfiledGraph-comparator.log",
+      "sha256": "06169ffd72a1fdbfc66b57ee91812e3311c745f70de099b30a726e86574b91f9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__ProfiledReadback-comparator.log",
+      "sha256": "06169ffd72a1fdbfc66b57ee91812e3311c745f70de099b30a726e86574b91f9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__ProfiledReturns-comparator.log",
+      "sha256": "06169ffd72a1fdbfc66b57ee91812e3311c745f70de099b30a726e86574b91f9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__PublicBackward-comparator.log",
+      "sha256": "42fd2da1c6dcd2b9053fdc314ec1484e72ce33814922a9109bb032036fbe3b15"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__PublicIO-comparator.log",
+      "sha256": "42fd2da1c6dcd2b9053fdc314ec1484e72ce33814922a9109bb032036fbe3b15"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__RawCorrect-comparator.log",
+      "sha256": "42fd2da1c6dcd2b9053fdc314ec1484e72ce33814922a9109bb032036fbe3b15"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__RawNative-comparator.log",
+      "sha256": "42fd2da1c6dcd2b9053fdc314ec1484e72ce33814922a9109bb032036fbe3b15"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__Real-comparator.log",
+      "sha256": "42fd2da1c6dcd2b9053fdc314ec1484e72ce33814922a9109bb032036fbe3b15"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__RealHost-comparator.log",
+      "sha256": "42fd2da1c6dcd2b9053fdc314ec1484e72ce33814922a9109bb032036fbe3b15"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__RealIO-comparator.log",
+      "sha256": "42fd2da1c6dcd2b9053fdc314ec1484e72ce33814922a9109bb032036fbe3b15"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__Reduction-comparator.log",
+      "sha256": "42fd2da1c6dcd2b9053fdc314ec1484e72ce33814922a9109bb032036fbe3b15"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__ReturnBacking-comparator.log",
+      "sha256": "42fd2da1c6dcd2b9053fdc314ec1484e72ce33814922a9109bb032036fbe3b15"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__RoleBindings-comparator.log",
+      "sha256": "42fd2da1c6dcd2b9053fdc314ec1484e72ce33814922a9109bb032036fbe3b15"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__ScalarPrograms-comparator.log",
+      "sha256": "42fd2da1c6dcd2b9053fdc314ec1484e72ce33814922a9109bb032036fbe3b15"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__Scheduled-comparator.log",
+      "sha256": "42fd2da1c6dcd2b9053fdc314ec1484e72ce33814922a9109bb032036fbe3b15"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__ScheduledFinal-comparator.log",
+      "sha256": "42fd2da1c6dcd2b9053fdc314ec1484e72ce33814922a9109bb032036fbe3b15"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__ScheduledGraph-comparator.log",
+      "sha256": "42fd2da1c6dcd2b9053fdc314ec1484e72ce33814922a9109bb032036fbe3b15"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__ScheduledReadback-comparator.log",
+      "sha256": "5f7324c55e22a08af27502c8da397954d0c1e73eda27460af7f035b143387d44"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__ScheduledReturns-comparator.log",
+      "sha256": "5f7324c55e22a08af27502c8da397954d0c1e73eda27460af7f035b143387d44"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__SourcePair-comparator.log",
+      "sha256": "5f7324c55e22a08af27502c8da397954d0c1e73eda27460af7f035b143387d44"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__SourcePreservation-comparator.log",
+      "sha256": "5f7324c55e22a08af27502c8da397954d0c1e73eda27460af7f035b143387d44"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__SourceResults-comparator.log",
+      "sha256": "5f7324c55e22a08af27502c8da397954d0c1e73eda27460af7f035b143387d44"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__Specialization-comparator.log",
+      "sha256": "5f7324c55e22a08af27502c8da397954d0c1e73eda27460af7f035b143387d44"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__TorchButterfly-comparator.log",
+      "sha256": "5f7324c55e22a08af27502c8da397954d0c1e73eda27460af7f035b143387d44"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__TorchPartition-comparator.log",
+      "sha256": "5f7324c55e22a08af27502c8da397954d0c1e73eda27460af7f035b143387d44"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__TorchSplit-comparator.log",
+      "sha256": "5f7324c55e22a08af27502c8da397954d0c1e73eda27460af7f035b143387d44"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__TorchThread-comparator.log",
+      "sha256": "5f7324c55e22a08af27502c8da397954d0c1e73eda27460af7f035b143387d44"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__Trace-comparator.log",
+      "sha256": "5f7324c55e22a08af27502c8da397954d0c1e73eda27460af7f035b143387d44"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__WholeGraph-comparator.log",
+      "sha256": "5f7324c55e22a08af27502c8da397954d0c1e73eda27460af7f035b143387d44"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__WholeGrids-comparator.log",
+      "sha256": "5f7324c55e22a08af27502c8da397954d0c1e73eda27460af7f035b143387d44"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__repairs__tritonbench_g__cross_entropy2__Proofs__WholeReal-comparator.log",
+      "sha256": "5f7324c55e22a08af27502c8da397954d0c1e73eda27460af7f035b143387d44"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/bench__tests__PythonConditionalAssignmentBody-comparator.log",
+      "sha256": "5f7324c55e22a08af27502c8da397954d0c1e73eda27460af7f035b143387d44"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/build-invocations.json",
+      "sha256": "564f1d73347fea25df342d7586343a58f9bbd9b990c0e14e5c03266e31a7dc28"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/canonical-task-files.json",
+      "sha256": "c546279d8b7c09149b2abbe849ed49162fe3ebd8c8981e9567f7b32f3bdb41fb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/comparator-invocations.json",
+      "sha256": "c0bb3582488cb91816a4f1e6ab73b07bd2f45ebf39a441df0d3f1c471430d574"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/comparator-tools.json",
+      "sha256": "28998e17d51b0fb5930f7489e64512a57f8a8146d1470063a624a75bbabdb0d3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/corpus-guard.log",
+      "sha256": "558df6bcf5c7dece2fe4794ad45a13e518fb56842ee5c679936009c60b30494c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/cpu-final.log",
+      "sha256": "76d3854dd58af5ac71e996bc82fcff0c725d755ef60ef486ed06888900106620"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/final-clean-build.log.gz",
+      "sha256": "bf9ad7f9d05d0e5b13b4bd26c3e5a588ae346a437815bfebee01ed0a05d4027b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/final-clean-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/final-clean-setup.json",
+      "sha256": "db55414508df0e9997daa2006310c9ed09a6fa0415be80ef612a49bc2ff326fa"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/focus-build.log.gz",
+      "sha256": "5c4dcb34a851b7ae2862aa5afee521c2ce29c1d747617fc76cb8b7f294604a69"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/focus-invocations.json",
+      "sha256": "5814d5ad80b1bc34af28879694c714fc5f43468fcd3dc9aad974c57cb064d700"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/focus-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/focus-modules.txt",
+      "sha256": "eb86dd8cbf5bb42d41fc5fe5be6a606a845e75af2464c2e0e98a8ca664fd884b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/frontend-build.log.gz",
+      "sha256": "e29329155a8f608e81d368521d1989bea113e5276009f1a4cd1faaa4d0e39003"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/frontend-modules.txt",
+      "sha256": "1ab47d538d74315b20f8868aa33584b5f3f3209c22c61cd30651001b1ae0efad"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/inspections.json",
+      "sha256": "2b74ad5ea29bdeffc58db99196aa450b8d4dda0d7c2f6f5bdfbf268375765918"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/integration-final.log.gz",
+      "sha256": "7c1003f995cc43b8edf955b58f252ede51b8679c6990faf554bf1b15c533422f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/joint-all.lean",
+      "sha256": "35acc262d5363871aa84318b9578c710b198eb09512dcb6d506fb38df57147b5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/joint-final.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/modules.json",
+      "sha256": "3364bd57642e92fcd48cd77a8a0260112314e3839a6e0335480745378aaa09de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/pairs.json",
+      "sha256": "77d45dfc9560022e4eb65be67e1293b73b023f94e6b78564df90a71e607614a6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/previous-reviews.json.gz",
+      "sha256": "593f355845da992cf1658f45190713d43e2b7e78c6ab41fd3373ff95165d00c6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/python-invocations.json",
+      "sha256": "1d04024aef52757d1e687be71193fc71e0c17730a516b035f520d38d755ed117"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/python-tests.log",
+      "sha256": "deb4bc268ad0967ed7a923210042795463edbf77cce267040c4f54e93ee31fce"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/raw-body-check.log",
+      "sha256": "c1248b70613c01331bf37f6a97df500a55a9b45699d65510610c6cdafe6d8992"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/source-closure.json",
+      "sha256": "33ea11c4f222f9a4f1532e20214d678263fc4c33f736bc47201681398d00e08d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/standalone-PythonConditionalAssignmentBody.log",
+      "sha256": "2d9fb9897f912259d49683b7ac88d4dd0cca5d527f9ba96f6a7a85ac43d14dc7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/transferred-files.json",
+      "sha256": "c4b49e731ef13b7f8f3d3ed25871e8796209297b7c13a80d025d4733321bdb5b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/warm-final-invocation.json",
+      "sha256": "d30f38d0c9562503a584dd811e845490d2c96575284b1fd9b767ab02196273d0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-cross-entropy2-function-bodies/workflow-counts.json",
+      "sha256": "dc11f4df4ec0d0eb7663bc930bb907f79915e1879b05703dd90023a71d76fa4f"
+    }
+  ]
+}

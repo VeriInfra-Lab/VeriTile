@@ -1,0 +1,6 @@
+VeriTile.Tests.PythonConditionalAssignmentBody.whole_body: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.PythonConditionalAssignmentBody.statements: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

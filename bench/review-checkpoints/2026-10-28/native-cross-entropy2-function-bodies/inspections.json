@@ -1,0 +1,52 @@
+{
+  "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+  "raw_bodies": [
+    {
+      "name": "raw-body-check",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/cross_entropy2/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+      "log": "/tmp/crossce93-raw-body-check.log",
+      "status": "PASS"
+    }
+  ],
+  "candidate_rewrites": [
+    {
+      "status": "PASS",
+      "scope": "All two complete original signatures, heuristics/jit decorators and function ASTs checked by CrossEntropy2FunctionBodyTests; only the existing integer column/block product is commuted."
+    }
+  ],
+  "cpu": {
+    "name": "cpu-final",
+    "command": [
+      "python3",
+      "bench/repairs/tritonbench_g/cross_entropy2/check_contract.py"
+    ],
+    "exit_code": 1,
+    "code_commit": "d04092a356715dd8a556654350b1a6d84b916831",
+    "log": "/tmp/crossce93-cpu-final.log",
+    "status": "UNAVAILABLE"
+  },
+  "original_python_wrappers_and_public_statements": {
+    "status": "PASS",
+    "sha256": {
+      "bench/repairs/tritonbench_g/cross_entropy2/Contract.lean": "f3929196bcf86631c9c810df868c9dddc61816a822ef814037ab35cf7c86c188",
+      "bench/repairs/tritonbench_g/cross_entropy2/Correct.lean": "b493febea9dfd03038323f2f22b3c11b04be7904b6ed3dab651831b401de7345",
+      "bench/repairs/tritonbench_g/cross_entropy2/FPEquiv.lean": "955da14f08e64fde97c55fb8ed461dd26f001575c5e42e62feec7812d6fca6fc",
+      "bench/repairs/tritonbench_g/cross_entropy2/IO.lean": "aac8bd29c219c4228a202e4dd589e24ef0347f8d4108eaa217c92044303e864c",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/Contract.lean": "b7fa4a57b8f3369a413ae9c3372ae88654a270ac41a737eb6d34f7f35f0d9abb",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/check_kernel.py": "1ff3f5d1265d51c289075b0ef2aced824db57fbe09157374172ae689253deca3",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/probe.py": "e7a92202eb66f5444a9cfddc783ed21be3af2748b1bf93a06fcd10671d0e2195",
+      "bench/repairs/tritonbench_g/cross_entropy2/Proofs/source_binding.py": "d213e2a09578136d9932e6b23eb87288744163e719326ce7b5ea06f81628ae38",
+      "bench/repairs/tritonbench_g/cross_entropy2/check_contract.py": "2893eeb7805bf3997174c6a462c9b672bc54fa9b7b522d552658863fa8857847",
+      "bench/repairs/tritonbench_g/cross_entropy2/cross_entropy2_conditional.py": "741315fb177ec4cf0c7325c8244c87a8cbc95921511d81e41468d304ce5e8b6a",
+      "bench/repairs/tritonbench_g/cross_entropy2/cross_entropy2_repaired.py": "628b6d679381ed6d1353fc070a313cc7587ca52676a84eacf16637323c575ba9"
+    }
+  },
+  "scope": "Four complete raw forward/backward originals and existing column-index candidates. All 15/17 Python statements, explicit casts, masks, ownership and split branches, signatures and decorators retained; signed int32 label loads and explicit int64 casts are preserved. The parser handles repeated Python and and assignment ternaries before a following if. Ordered execution retains nested load markers and loss-store conversion. Actual execution, safety, independent Real and complete source/candidate FP proofs replayed. No old AST/graph equality, arbitrary cast identity, domain narrowing or new numerical law is assumed. No GPU experiment."
+}
