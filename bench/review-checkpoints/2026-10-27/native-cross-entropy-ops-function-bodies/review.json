@@ -1,0 +1,838 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "d4886de574b199fdd2016d92a8f49597600fbb8f",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "cross_entropy_ops"
+  ],
+  "regression_only_pending_body_tasks": [
+    "kv_cache_filling"
+  ],
+  "semantic_review": {
+    "adam_update_triton": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "add_example": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "add_value": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "apply_penalty": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "attention_fwd_triton1": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "batched_vecmat_mult": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "bgmv_expand_slice": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "bmm_optimized": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "cache_transform_triton": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "chunk_cumsum_kernel": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "chunk_cumsum_vector": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "chunk_delta_fwd": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "chunked_cumsum_fwd": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "cosine_compute": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "cross_entropy_ops": "Four complete raw original/existing candidate forward/backward bodies retain all 14/16 source statements, explicit casts, masks, conditional stores, unused assignment, signatures and decorators. Candidates only commute the existing integer column/block product. Original JITs, wrappers, public entries and independent Real formulas retain their input scope. Nested arithmetic loads now retain compute-load markers and the modeled loss store retains its destination conversion. Signed total_classes binds externally as Int and keeps its integer-to-floating use. The ordered generic floating graph is corrected accordingly; no equality with the old omitted-marker graph, arbitrary cast identity or invariant compiler schedule across different graphs is asserted. Old historical AST equality assertions are replaced with checked non-equality and actual lowered statement inventories. Actual execution, exact memory, access safety, independent Real correctness, whole original/candidate FP equivalence and all public/native/Tensor/host consumers replay. No new domain restriction, whole-kernel premise, numerical law or GPU experiment.",
+    "dequantize_matmul": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "dequantize_rowwise": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "destindex_copy": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "destindex_copy_kv1": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "destindex_copy_kv2": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "diag_ssm_triton": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "dropout_triton": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "embedding_triton_kernel": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "f8_conversion_utils": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "fast_ce_loss": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "fast_rope_embedding": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "fifth_order_sph_harmonics": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "flash_decode2_llama": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "flash_decode2_phi": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "fused_activation": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "fused_recurrent_hgrn": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "fused_rotary_embedding": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "geglu_tanh_triton": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "index_select_bwd": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "index_select_cat": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "int8_matmul_kernel": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "isfinite_kernel": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "kcache_copy_triton": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "kldiv_compute": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "kldiv_ops": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "kldiv_triton": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "kv_cache_copy": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "kv_cache_filling": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims. Python-body migration remains pending; its correspondence status is retained.",
+    "l2_norm_bwd": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "l2_norm_triton1": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "l2_norm_triton2": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "log_softmax": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "logsumexp_fwd": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "masked_add_cuda": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "masked_select": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "matmul_kernel": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "matrix_reduction": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "matrix_transpose": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "max_reduction": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "mean_reduction": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "mul_exponent_compensator": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "nested_loops_processing": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "quant_transpose_kernel": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "quantize_copy_kv": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "quantize_global": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "quantize_kv_copy": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "quantize_kv_transform": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "relu_strided_buffer": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "relu_triton_kernel": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "reversed_cumsum": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "reversed_cumsum_scalar": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "rms_norm_triton": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "rmsnorm_fused": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "rmsnorm_fused_llama": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "rmsnorm_implementation": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "rmsnorm_triton": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "rope_backward_transform": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "rope_embedding": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "rope_transform": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "rotary_emb": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "rotary_emb_nopad": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "rowwise_quantization_triton": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "seeded_dropout": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "sin_computation": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "sin_kernel": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "softmax_optimize": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "softmax_triton1": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "softmax_triton2": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "softmax_triton3": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "square_matrix": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "swiglu_backward": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "swiglu_fwd": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "swiglu_triton": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "token_attn_mistral": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "token_attn_reduceV": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "token_softmax_bloom": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "token_softmax_llama": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "triton_argmax": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "triton_mul2": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "triton_softmax": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "var_len_copy": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "vector_addition": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims.",
+    "vector_addition_custom": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims."
+  },
+  "compiler_change": {
+    "files": [
+      "VeriTile/Triton/DSL/CallSignature.lean",
+      "VeriTile/Triton/DSL/Expansion/Main.lean",
+      "VeriTile/Triton/DSL/NestedLoadAssignments.lean"
+    ],
+    "behavior": "The source frontend supports direct first pointer rebinding with caller offsets and preserves nested eager floating loads as complete compute loads using collision-free, branch-local temporaries. Explicit casts and source order are retained. Whole-body signed pins no longer override explicit floating literals. Conditional/tuple/augmented first pointer writes and unsupported nested loads remain rejected. All 104 registered frontend roots and all 3841 cumulative roots replay from empty project objects. The source checker retains reviewed Nat/Int call annotations and continues to reject executable binding expressions. Previously completed tasks receive regression evidence, not new migration claims."
+  },
+  "verification": {
+    "baseline": {
+      "status": "PASS",
+      "explicit_modules": 104,
+      "jobs": 2157
+    },
+    "frontend_preflight": {
+      "status": "PASS",
+      "explicit_modules": 104,
+      "jobs": 3757,
+      "scope": "All registered FPFrontendRegressions roots, including pointer rebinding/offsets, branch-local nested compute-load and signed integer/floating branch AST checks."
+    },
+    "focused": {
+      "status": "PASS",
+      "explicit_modules": 104,
+      "jobs": 2170,
+      "additional_scope": "Joint import, standalone frontend AST footprint, 74 actual-source/public/IO audits and two empty FP assumption reports."
+    },
+    "warm_and_joint": {
+      "status": "PASS",
+      "explicit_modules": 3841,
+      "jobs": 13561
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 3841,
+      "jobs": 13561,
+      "project_build_initially_present": false,
+      "project_objects_imported_from_other_checkouts": false,
+      "only_fixed_external_dependencies_imported": true,
+      "setup": {
+        "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/final-clean-setup.json",
+        "sha256": "c26f41498fa3246e6fda2869c53fc62e40ec414feef2dfad6dbd1dd77ef43f9c"
+      }
+    },
+    "trust": "PASS: 74 actual-source/public/IO footprints and six new frontend AST footprints use only standard base. Both public FP entries print no FP assumptions.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 159
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 404,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by old numerical receipt; no false repin."
+    },
+    "source": "PASS: four complete raw original/existing candidate bodies and exact caller bindings; original Python/wrappers/public statements unchanged, actual-source deep proofs updated and replayed.",
+    "official_comparator": "UNAVAILABLE: 112 actual final-source attempts with verified pinned binaries. Host Landlock ABI v4 is below required v5; no systemd user isolation or bypass.",
+    "cpu": "UNAVAILABLE: actual check_contract.py CPU invocation requires missing Torch.",
+    "gpu_or_numerical_experiment": "Not run.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending; the known unchanged numerical receipt failure remains explicit."
+  },
+  "source_pairs": {
+    "total": 305,
+    "pasted_body": 305,
+    "legacy_ast": 0
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/source-closure.json",
+    "sha256": "98fecb88bdb26f5db3603a882256e7c3b6b4cd389b3affe5f8a7679dd46a7340"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "selected_body_copy_checked": 97,
+      "uncovered_jit_functions": 86
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 333,
+    "uncovered_selected_jit_functions": 179,
+    "primary_files_with_int64_screen_warning": 23,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 61,
+        "antiquotes": 69,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "example_regression_scope": "All 19 selected examples and all previous recorded task roots replay warm/joint and independently from empty project objects. Unselected historical model gaps are not relabeled as passing.",
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/VeriTile__Triton__DSL__CallSignature-comparator.log",
+      "sha256": "6bf8b7fb406236c4d74a43c2bb8b37819de04e01f16c9e6561d0770275911d50"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/VeriTile__Triton__DSL__Expansion__Main-comparator.log",
+      "sha256": "6bf8b7fb406236c4d74a43c2bb8b37819de04e01f16c9e6561d0770275911d50"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/VeriTile__Triton__DSL__NestedLoadAssignments-comparator.log",
+      "sha256": "6bf8b7fb406236c4d74a43c2bb8b37819de04e01f16c9e6561d0770275911d50"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/all-python.log",
+      "sha256": "aeeac19b6ae7c3e399e876740551fede3243888adeeed2389e559e0f3a6b66d6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/audit-targets.json",
+      "sha256": "11904865021df43c03048f70e7144a855335835a7269708ed62006c15c0966f4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/audit.lean",
+      "sha256": "e406ab92c7257b5a635d8cad6164ba767ec84dd3d125f1558c11030888e969c1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/audit.log",
+      "sha256": "e54b55872b65c7a9f698ebc3f961fb7792db5009cd3c1296cd55eaf75640e8ec"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/baseline-build.log.gz",
+      "sha256": "5137b2c8f2042d8f6d2202268d91eac6b79ec212bfad64b8553607a53d22d02d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/baseline.json",
+      "sha256": "d24b1722194d3ac59ebbe4d48f27f739de1e03481725ba3b9831004a93505d13"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Contract-comparator.log",
+      "sha256": "6bf8b7fb406236c4d74a43c2bb8b37819de04e01f16c9e6561d0770275911d50"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Correct-comparator.log",
+      "sha256": "6bf8b7fb406236c4d74a43c2bb8b37819de04e01f16c9e6561d0770275911d50"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__FPEquiv-comparator.log",
+      "sha256": "6bf8b7fb406236c4d74a43c2bb8b37819de04e01f16c9e6561d0770275911d50"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__IO-comparator.log",
+      "sha256": "6bf8b7fb406236c4d74a43c2bb8b37819de04e01f16c9e6561d0770275911d50"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Kernels-comparator.log",
+      "sha256": "6bf8b7fb406236c4d74a43c2bb8b37819de04e01f16c9e6561d0770275911d50"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Misc__KernelAudit-comparator.log",
+      "sha256": "6bf8b7fb406236c4d74a43c2bb8b37819de04e01f16c9e6561d0770275911d50"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Misc__Legacy__HostCorrect-comparator.log",
+      "sha256": "6bf8b7fb406236c4d74a43c2bb8b37819de04e01f16c9e6561d0770275911d50"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Misc__Legacy__HostFPEquiv-comparator.log",
+      "sha256": "070325e92a956616ecfb6e54691b1876dc1ecbccb60d4b2bb0fd22650ef18d5b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Misc__NativeCorrect-comparator.log",
+      "sha256": "070325e92a956616ecfb6e54691b1876dc1ecbccb60d4b2bb0fd22650ef18d5b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Misc__RawNative-comparator.log",
+      "sha256": "070325e92a956616ecfb6e54691b1876dc1ecbccb60d4b2bb0fd22650ef18d5b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Misc__TensorBridge-comparator.log",
+      "sha256": "070325e92a956616ecfb6e54691b1876dc1ecbccb60d4b2bb0fd22650ef18d5b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__NativeIO-comparator.log",
+      "sha256": "070325e92a956616ecfb6e54691b1876dc1ecbccb60d4b2bb0fd22650ef18d5b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__PairIO-comparator.log",
+      "sha256": "070325e92a956616ecfb6e54691b1876dc1ecbccb60d4b2bb0fd22650ef18d5b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__AccessSafety-comparator.log",
+      "sha256": "070325e92a956616ecfb6e54691b1876dc1ecbccb60d4b2bb0fd22650ef18d5b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__AggregateTrace-comparator.log",
+      "sha256": "070325e92a956616ecfb6e54691b1876dc1ecbccb60d4b2bb0fd22650ef18d5b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__Aggregation-comparator.log",
+      "sha256": "070325e92a956616ecfb6e54691b1876dc1ecbccb60d4b2bb0fd22650ef18d5b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__AggregationValues-comparator.log",
+      "sha256": "070325e92a956616ecfb6e54691b1876dc1ecbccb60d4b2bb0fd22650ef18d5b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__BackwardKernel-comparator.log",
+      "sha256": "070325e92a956616ecfb6e54691b1876dc1ecbccb60d4b2bb0fd22650ef18d5b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__BackwardPreparation-comparator.log",
+      "sha256": "070325e92a956616ecfb6e54691b1876dc1ecbccb60d4b2bb0fd22650ef18d5b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__BackwardReads-comparator.log",
+      "sha256": "070325e92a956616ecfb6e54691b1876dc1ecbccb60d4b2bb0fd22650ef18d5b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__CheckedReal-comparator.log",
+      "sha256": "070325e92a956616ecfb6e54691b1876dc1ecbccb60d4b2bb0fd22650ef18d5b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__CheckedResident-comparator.log",
+      "sha256": "b0b86d71424c1391d9a4c899b08b58047c3732f83a127a12eb3855c5c3d831aa"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__ConfiguredPlan-comparator.log",
+      "sha256": "b0b86d71424c1391d9a4c899b08b58047c3732f83a127a12eb3855c5c3d831aa"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__Contract-comparator.log",
+      "sha256": "b0b86d71424c1391d9a4c899b08b58047c3732f83a127a12eb3855c5c3d831aa"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__Correction-comparator.log",
+      "sha256": "b0b86d71424c1391d9a4c899b08b58047c3732f83a127a12eb3855c5c3d831aa"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__Entries-comparator.log",
+      "sha256": "b0b86d71424c1391d9a4c899b08b58047c3732f83a127a12eb3855c5c3d831aa"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__Execution-comparator.log",
+      "sha256": "b0b86d71424c1391d9a4c899b08b58047c3732f83a127a12eb3855c5c3d831aa"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__ForwardArrays-comparator.log",
+      "sha256": "b0b86d71424c1391d9a4c899b08b58047c3732f83a127a12eb3855c5c3d831aa"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__ForwardGraph-comparator.log",
+      "sha256": "b0b86d71424c1391d9a4c899b08b58047c3732f83a127a12eb3855c5c3d831aa"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__ForwardPreservation-comparator.log",
+      "sha256": "b0b86d71424c1391d9a4c899b08b58047c3732f83a127a12eb3855c5c3d831aa"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__ForwardViews-comparator.log",
+      "sha256": "b0b86d71424c1391d9a4c899b08b58047c3732f83a127a12eb3855c5c3d831aa"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__GradientGraph-comparator.log",
+      "sha256": "b0b86d71424c1391d9a4c899b08b58047c3732f83a127a12eb3855c5c3d831aa"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__Grid-comparator.log",
+      "sha256": "b0b86d71424c1391d9a4c899b08b58047c3732f83a127a12eb3855c5c3d831aa"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__Host-comparator.log",
+      "sha256": "b0b86d71424c1391d9a4c899b08b58047c3732f83a127a12eb3855c5c3d831aa"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__IntegerBinding-comparator.log",
+      "sha256": "b5b79548163e8a8c8f3a0db61c3f18e88955a89495c585972ce5d5c021e66b51"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__Interface-comparator.log",
+      "sha256": "b5b79548163e8a8c8f3a0db61c3f18e88955a89495c585972ce5d5c021e66b51"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__InvocationGraphs-comparator.log",
+      "sha256": "b5b79548163e8a8c8f3a0db61c3f18e88955a89495c585972ce5d5c021e66b51"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__KernelActual-comparator.log",
+      "sha256": "b5b79548163e8a8c8f3a0db61c3f18e88955a89495c585972ce5d5c021e66b51"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__KernelBackward-comparator.log",
+      "sha256": "b5b79548163e8a8c8f3a0db61c3f18e88955a89495c585972ce5d5c021e66b51"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__KernelBinding-comparator.log",
+      "sha256": "b5b79548163e8a8c8f3a0db61c3f18e88955a89495c585972ce5d5c021e66b51"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__KernelContract-comparator.log",
+      "sha256": "b5b79548163e8a8c8f3a0db61c3f18e88955a89495c585972ce5d5c021e66b51"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__KernelCorrect-comparator.log",
+      "sha256": "b5b79548163e8a8c8f3a0db61c3f18e88955a89495c585972ce5d5c021e66b51"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__KernelInterface-comparator.log",
+      "sha256": "b5b79548163e8a8c8f3a0db61c3f18e88955a89495c585972ce5d5c021e66b51"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__KernelNative-comparator.log",
+      "sha256": "b5b79548163e8a8c8f3a0db61c3f18e88955a89495c585972ce5d5c021e66b51"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__KernelNativeActual-comparator.log",
+      "sha256": "b5b79548163e8a8c8f3a0db61c3f18e88955a89495c585972ce5d5c021e66b51"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__KernelProfile-comparator.log",
+      "sha256": "b5b79548163e8a8c8f3a0db61c3f18e88955a89495c585972ce5d5c021e66b51"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__KernelReal-comparator.log",
+      "sha256": "b5b79548163e8a8c8f3a0db61c3f18e88955a89495c585972ce5d5c021e66b51"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__KernelTensor-comparator.log",
+      "sha256": "b5b79548163e8a8c8f3a0db61c3f18e88955a89495c585972ce5d5c021e66b51"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__LogicalExecution-comparator.log",
+      "sha256": "75b4b13fd7a83f1be6801feba15fc16a3dafe664960966405a089cb462feb591"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__LogicalReader-comparator.log",
+      "sha256": "75b4b13fd7a83f1be6801feba15fc16a3dafe664960966405a089cb462feb591"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__MarkerFrames-comparator.log",
+      "sha256": "75b4b13fd7a83f1be6801feba15fc16a3dafe664960966405a089cb462feb591"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__MarkerPrimitives-comparator.log",
+      "sha256": "75b4b13fd7a83f1be6801feba15fc16a3dafe664960966405a089cb462feb591"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__Math-comparator.log",
+      "sha256": "75b4b13fd7a83f1be6801feba15fc16a3dafe664960966405a089cb462feb591"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__NativeCalls-comparator.log",
+      "sha256": "75b4b13fd7a83f1be6801feba15fc16a3dafe664960966405a089cb462feb591"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__NativeCausality-comparator.log",
+      "sha256": "75b4b13fd7a83f1be6801feba15fc16a3dafe664960966405a089cb462feb591"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__NativeCompatibility-comparator.log",
+      "sha256": "75b4b13fd7a83f1be6801feba15fc16a3dafe664960966405a089cb462feb591"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__NativeIO-comparator.log",
+      "sha256": "75b4b13fd7a83f1be6801feba15fc16a3dafe664960966405a089cb462feb591"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__NativeImages-comparator.log",
+      "sha256": "75b4b13fd7a83f1be6801feba15fc16a3dafe664960966405a089cb462feb591"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__NativeLedger-comparator.log",
+      "sha256": "75b4b13fd7a83f1be6801feba15fc16a3dafe664960966405a089cb462feb591"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__NativePeers-comparator.log",
+      "sha256": "75b4b13fd7a83f1be6801feba15fc16a3dafe664960966405a089cb462feb591"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__NativeProtocol-comparator.log",
+      "sha256": "75b4b13fd7a83f1be6801feba15fc16a3dafe664960966405a089cb462feb591"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__NativeRequests-comparator.log",
+      "sha256": "75b4b13fd7a83f1be6801feba15fc16a3dafe664960966405a089cb462feb591"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__NativeReturn-comparator.log",
+      "sha256": "48f438c9131262aa5ae21b34515fa9ddac254ee1ebf11375471e1506d84a2b99"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__NativeSlots-comparator.log",
+      "sha256": "48f438c9131262aa5ae21b34515fa9ddac254ee1ebf11375471e1506d84a2b99"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__NativeWhole-comparator.log",
+      "sha256": "48f438c9131262aa5ae21b34515fa9ddac254ee1ebf11375471e1506d84a2b99"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__NumericOrigins-comparator.log",
+      "sha256": "48f438c9131262aa5ae21b34515fa9ddac254ee1ebf11375471e1506d84a2b99"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__NumericRepresentation-comparator.log",
+      "sha256": "48f438c9131262aa5ae21b34515fa9ddac254ee1ebf11375471e1506d84a2b99"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__OrderedFormula-comparator.log",
+      "sha256": "48f438c9131262aa5ae21b34515fa9ddac254ee1ebf11375471e1506d84a2b99"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__OutcomeFrames-comparator.log",
+      "sha256": "48f438c9131262aa5ae21b34515fa9ddac254ee1ebf11375471e1506d84a2b99"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__PairEquivalence-comparator.log",
+      "sha256": "48f438c9131262aa5ae21b34515fa9ddac254ee1ebf11375471e1506d84a2b99"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__PeerRuns-comparator.log",
+      "sha256": "48f438c9131262aa5ae21b34515fa9ddac254ee1ebf11375471e1506d84a2b99"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__PhysicalBindings-comparator.log",
+      "sha256": "48f438c9131262aa5ae21b34515fa9ddac254ee1ebf11375471e1506d84a2b99"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__PhysicalRoles-comparator.log",
+      "sha256": "48f438c9131262aa5ae21b34515fa9ddac254ee1ebf11375471e1506d84a2b99"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__Preparation-comparator.log",
+      "sha256": "48f438c9131262aa5ae21b34515fa9ddac254ee1ebf11375471e1506d84a2b99"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__ReaderTargets-comparator.log",
+      "sha256": "48f438c9131262aa5ae21b34515fa9ddac254ee1ebf11375471e1506d84a2b99"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__Real-comparator.log",
+      "sha256": "ee04de052c111ffaff0f0e23b86b5dc0e61c101e77831777407960437781d832"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__RealGrid-comparator.log",
+      "sha256": "ee04de052c111ffaff0f0e23b86b5dc0e61c101e77831777407960437781d832"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__RealIO-comparator.log",
+      "sha256": "ee04de052c111ffaff0f0e23b86b5dc0e61c101e77831777407960437781d832"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__RealLocal-comparator.log",
+      "sha256": "ee04de052c111ffaff0f0e23b86b5dc0e61c101e77831777407960437781d832"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__RealRanks-comparator.log",
+      "sha256": "ee04de052c111ffaff0f0e23b86b5dc0e61c101e77831777407960437781d832"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__ResidentAdapter-comparator.log",
+      "sha256": "ee04de052c111ffaff0f0e23b86b5dc0e61c101e77831777407960437781d832"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__ResidentComplete-comparator.log",
+      "sha256": "ee04de052c111ffaff0f0e23b86b5dc0e61c101e77831777407960437781d832"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__ResidentContract-comparator.log",
+      "sha256": "ee04de052c111ffaff0f0e23b86b5dc0e61c101e77831777407960437781d832"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__ResidentFrames-comparator.log",
+      "sha256": "ee04de052c111ffaff0f0e23b86b5dc0e61c101e77831777407960437781d832"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__ResidentLanguage-comparator.log",
+      "sha256": "ee04de052c111ffaff0f0e23b86b5dc0e61c101e77831777407960437781d832"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__ResidentPeers-comparator.log",
+      "sha256": "ee04de052c111ffaff0f0e23b86b5dc0e61c101e77831777407960437781d832"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__ResidentPublic-comparator.log",
+      "sha256": "20500443cb006c11e0fefdf26fb2e2c59fd2b32fcb3d16504cb73b5009964d02"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__ResidentValues-comparator.log",
+      "sha256": "20500443cb006c11e0fefdf26fb2e2c59fd2b32fcb3d16504cb73b5009964d02"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__ReturnedBackward-comparator.log",
+      "sha256": "20500443cb006c11e0fefdf26fb2e2c59fd2b32fcb3d16504cb73b5009964d02"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__ReturnedSplit-comparator.log",
+      "sha256": "20500443cb006c11e0fefdf26fb2e2c59fd2b32fcb3d16504cb73b5009964d02"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__ReturnedUnsplit-comparator.log",
+      "sha256": "20500443cb006c11e0fefdf26fb2e2c59fd2b32fcb3d16504cb73b5009964d02"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__SavedOrigins-comparator.log",
+      "sha256": "20500443cb006c11e0fefdf26fb2e2c59fd2b32fcb3d16504cb73b5009964d02"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__SavedUnsplit-comparator.log",
+      "sha256": "20500443cb006c11e0fefdf26fb2e2c59fd2b32fcb3d16504cb73b5009964d02"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__SignedValues-comparator.log",
+      "sha256": "20500443cb006c11e0fefdf26fb2e2c59fd2b32fcb3d16504cb73b5009964d02"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__Source-comparator.log",
+      "sha256": "20500443cb006c11e0fefdf26fb2e2c59fd2b32fcb3d16504cb73b5009964d02"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__SourceAST-comparator.log",
+      "sha256": "20500443cb006c11e0fefdf26fb2e2c59fd2b32fcb3d16504cb73b5009964d02"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__SourceFrames-comparator.log",
+      "sha256": "20500443cb006c11e0fefdf26fb2e2c59fd2b32fcb3d16504cb73b5009964d02"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__SourcePair-comparator.log",
+      "sha256": "20500443cb006c11e0fefdf26fb2e2c59fd2b32fcb3d16504cb73b5009964d02"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__SourcePreservation-comparator.log",
+      "sha256": "20500443cb006c11e0fefdf26fb2e2c59fd2b32fcb3d16504cb73b5009964d02"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__StorageOrigins-comparator.log",
+      "sha256": "20500443cb006c11e0fefdf26fb2e2c59fd2b32fcb3d16504cb73b5009964d02"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__Trace-comparator.log",
+      "sha256": "24da538e5db9babf43c948b4ddb4765c63bc0ccffc89fb9fcbab95934a61ea5d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__WholeGraph-comparator.log",
+      "sha256": "24da538e5db9babf43c948b4ddb4765c63bc0ccffc89fb9fcbab95934a61ea5d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__WholeSplit-comparator.log",
+      "sha256": "24da538e5db9babf43c948b4ddb4765c63bc0ccffc89fb9fcbab95934a61ea5d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__repairs__tritonbench_g__cross_entropy_ops__Proofs__WholeUnsplit-comparator.log",
+      "sha256": "24da538e5db9babf43c948b4ddb4765c63bc0ccffc89fb9fcbab95934a61ea5d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__tests__IntegerCallFloatBranchBody-comparator.log",
+      "sha256": "24da538e5db9babf43c948b4ddb4765c63bc0ccffc89fb9fcbab95934a61ea5d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__tests__LoopTupleLoadBody-comparator.log",
+      "sha256": "24da538e5db9babf43c948b4ddb4765c63bc0ccffc89fb9fcbab95934a61ea5d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__tests__NestedLoadAssignmentsBody-comparator.log",
+      "sha256": "24da538e5db9babf43c948b4ddb4765c63bc0ccffc89fb9fcbab95934a61ea5d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__tests__PointerOffsetRebindingBody-comparator.log",
+      "sha256": "24da538e5db9babf43c948b4ddb4765c63bc0ccffc89fb9fcbab95934a61ea5d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/bench__tests__PointerOffsets-comparator.log",
+      "sha256": "24da538e5db9babf43c948b4ddb4765c63bc0ccffc89fb9fcbab95934a61ea5d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/build-invocations.json",
+      "sha256": "284960a9e483d5aebac84749a0f2b1fdb23672c1c69f19b05c29ae15e7941724"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/canonical-task-files.json",
+      "sha256": "da5bdb1dbc55418abd83b4de3152e0e44c24d4e2e8a6f5dba73d6cc9264c1cf6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/comparator-invocations.json",
+      "sha256": "393f7c79f10ca9de92f9437cee682aa69e19bb11c1761370b4fa71d5aeeed1c4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/comparator-tools.json",
+      "sha256": "28998e17d51b0fb5930f7489e64512a57f8a8146d1470063a624a75bbabdb0d3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/corpus-guard.log",
+      "sha256": "8e3be7cfd7b1980240db53c90f090d52c8ee2e6150001d8e19949825c76a1db6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/cpu-final.log",
+      "sha256": "e3c7e01773db694ba5c6abd9ef46b94858cca1005e82988735dc337cab8e81b7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/final-clean-build.log.gz",
+      "sha256": "310cbdf219869c36e6d592b92bf34efa03c4a8e6545d065d605b76b617bd7722"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/final-clean-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/final-clean-setup.json",
+      "sha256": "c26f41498fa3246e6fda2869c53fc62e40ec414feef2dfad6dbd1dd77ef43f9c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/focus-build.log.gz",
+      "sha256": "e17689fe5c81201cfcd89254e30decc34f50aed0d66871017e2ddecae9bb8958"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/focus-invocations.json",
+      "sha256": "32eb03b815c5589bff13f661451737337899665c4d234bffce893467a874a3fb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/focus-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/focus-modules.txt",
+      "sha256": "2bb072c9e1ac4f91df2fd7d26e91a504b097ba744ed38b2ea37e7e53c3991c90"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/frontend-build.log.gz",
+      "sha256": "76cb57fb846f6947d8ab3bf8efd5328098a43eda7317548de3b8960037a6f629"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/frontend-modules.txt",
+      "sha256": "16a8ac226371b747f91c1c94e52647bd6127589f25864609a05220acb70f3e3d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/inspections.json",
+      "sha256": "468f1a4838dc9f2bd4cf8e7d054981a2c69f0f8a78e161013819bf61036ca0a7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/integration-final.log.gz",
+      "sha256": "2d644e26f04be5664c8d7fed7a9af448c334931de3da8c9e2fed1daddab0aca7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/joint-all.lean",
+      "sha256": "7aa538bb18061333b69981d0dafb7f802ab05cc3613a5b6c85bb49cb60f96366"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/joint-final.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/modules.json",
+      "sha256": "5911d0473785e0aca7d9ca043c41161834170542e487ce62e725bbc0b1c8e751"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/pairs.json",
+      "sha256": "bafe3bfcede32b23309c6088124c3eec482fe86ed854dc504beac685e1675f3a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/previous-reviews.json.gz",
+      "sha256": "daa931605c494f7b13ae562a080cec7dfd65f86fd718b891988b936640f8a779"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/python-invocations.json",
+      "sha256": "34c70889159cb6cb599c01d39564a910141519584b8cc5834cff9e17abf9a55b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/python-tests.log",
+      "sha256": "54e938057d519517b454686669d3b0c36b87dd6eb3947f224f51fe9289b99b58"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/raw-body-check.log",
+      "sha256": "6e0203446a34551af9521c5ece1321a54455c5090e2ba0826868b7a2347aee4c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/source-closure.json",
+      "sha256": "98fecb88bdb26f5db3603a882256e7c3b6b4cd389b3affe5f8a7679dd46a7340"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/standalone-IntegerCallFloatBranchBody.log",
+      "sha256": "f6245811d7b2c271cdb785ea12b2c188f6d5dc6291b38e7bda636300fb7d6f09"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/standalone-NestedLoadAssignmentsBody.log",
+      "sha256": "788ef4223e8d9d5f253328f331c858d2e90636bcd65cb99c0ce1350d33944ec7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/standalone-PointerOffsetRebindingBody.log",
+      "sha256": "39c1f2e2818037f987e5e1f51dc5868c7aa27cefe20ed144f80c26b505cb8e8d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/transferred-files.json",
+      "sha256": "789639c006a23f6fd76be0a4b53297025a97266ae828074ffa61ff084d1e1527"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/warm-final-invocation.json",
+      "sha256": "e833731e5833460cb1b471633befd269fd7c59c5894191bf5312592518768dd7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-27/native-cross-entropy-ops-function-bodies/workflow-counts.json",
+      "sha256": "7e2307bf3cbab6bbc38d8f9b98c1d521238a4d833aecba1896bdbf81ed656195"
+    }
+  ]
+}

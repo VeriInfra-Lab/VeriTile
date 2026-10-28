@@ -1,0 +1,43 @@
+{
+  "code_commit": "d4886de574b199fdd2016d92a8f49597600fbb8f",
+  "checkout": "/tmp/veritile-body77",
+  "explicit_modules": 3841,
+  "scope": "All cumulative task/example/frontend roots and their full import closure.",
+  "project_build_initially_present": false,
+  "veritile_cache_initially_present": false,
+  "project_objects_imported_from_other_checkouts": false,
+  "fixed_external_packages_reused": "/home/argustest/lizn/VeriTile/.lake/packages",
+  "previous_cache_cleanup": {
+    "removed": "/tmp/veritile-body77/.lake/build",
+    "reason": "Remove only this owned, completed FastCE project cache after its published receipt; source and evidence are retained. Rebuild all 3841 cumulative roots and their dependency closure from empty project objects. Shared frontend changes require the cumulative independent replay.",
+    "previous_receipt": "6d9a17927db2a078ae5b133cd851a848aa9ed7e3"
+  },
+  "changed_source_sha256": {
+    "VeriTile/Triton/DSL/CallSignature.lean": "3fd4dfb3d0a189443303fa8e1e0ba7f1e1413697a51496620890d4d9bb6672aa",
+    "VeriTile/Triton/DSL/Expansion/Main.lean": "62f3cd84891a0205262bfafb559fca1896c56f436d5ee09416420161a242af5b",
+    "VeriTile/Triton/DSL/NestedLoadAssignments.lean": "a5b8b6b9d0b9aafb5a394de463119948e095c72491f21c7aac4f1d44dd309e5a",
+    "bench/jit_correspondence.py": "89599386e345294b171b59cff9ea62e6145c7b140e1ec11eeea5a0e373dee324",
+    "bench/repairs/tritonbench_g/cross_entropy_ops/Kernels.lean": "eeb8e0ed6cd260f2050ad1fa88024e68c5f89b25ef04a038afb78d1b3e41c8ad",
+    "bench/repairs/tritonbench_g/cross_entropy_ops/Misc/KernelAudit.lean": "fb365447a266a2424f0785018f2216fcb59e902bc712b1f434a001ab4970c421",
+    "bench/repairs/tritonbench_g/cross_entropy_ops/Proofs/KernelBackward.lean": "59e752c8d6ddc663e908b3050c84bd4b7bdc03099b01eaeec5757fddad5f41cf",
+    "bench/repairs/tritonbench_g/cross_entropy_ops/Proofs/KernelNative.lean": "7e16c51bd3c4417997fb9cbab4e4620b995da46b32df287e0b76532a6abbb13c",
+    "bench/repairs/tritonbench_g/cross_entropy_ops/Proofs/KernelReal.lean": "11b8cb2d1c990cbcfe80ba2bec5e597f80e09389ea49cf04c54099596fcc0d7e",
+    "bench/repairs/tritonbench_g/cross_entropy_ops/Proofs/LogicalExecution.lean": "3641da19a4804f48523b4c18f7fdd30aa3ab7cf14cac8250f060b25e37b1d408",
+    "bench/repairs/tritonbench_g/cross_entropy_ops/Proofs/OrderedFormula.lean": "cc4edcd43a4faccdb96e60af57b6d4438398da3c67b59ad19f9fc389e3477140",
+    "bench/repairs/tritonbench_g/cross_entropy_ops/Proofs/SourcePreservation.lean": "113698eef49095adbf09eb4fe5428fb46e7c7f43e83e287508bc0dfd642a2336",
+    "bench/repairs/tritonbench_g/cross_entropy_ops/Proofs/check_kernel_source.py": "fcabff89ef6cb747456dff5beed3184fb3fdc2686c10529af8cafb21d6be727c",
+    "bench/repairs/tritonbench_g/cross_entropy_ops/README.md": "d35af7512d43a154ce7c1099a90c86127d764cac49fb03a66d324651b1d2aff1",
+    "bench/repairs/tritonbench_g/cross_entropy_ops/candidate_kernels.py": "ffdf4f54246d4ab3d428e820877978ba6b25b8907491f395695c946cebdfbc15",
+    "bench/repairs/tritonbench_g/cross_entropy_ops/jit-correspondence.json": "99abd2da11503d4da123c51e6b037efecbb9bcb523928d2817bf7549dd305feb",
+    "bench/source-correspondence.json": "0dc40d4e657ddbee3d5c990ddb0d2df7123bd1c095a0287e34ebb82a09bfdd46",
+    "bench/tests/IntegerCallFloatBranchBody.lean": "99415ec75d48465ae4f78cc43c6152311fc2c9cd4523f4a7ab35915a5fd420f0",
+    "bench/tests/LoopTupleLoadBody.lean": "21b70186808fa13b79722fc0e7a9dbdc6067c4f2d8b521c99080a0d33fe90f6d",
+    "bench/tests/NestedLoadAssignmentsBody.lean": "00ce8e620b383ec16f370ded7d933d9c3d5f7bd837e92cb4613afe89a736a457",
+    "bench/tests/PointerOffsetRebindingBody.lean": "89e52a35343f80c2f43c980b038d6ecf8f69c324a7f20674239deb685ec83b9a",
+    "bench/tests/PointerOffsets.lean": "c0877ad9a58bdad0e959eb41cdde59e029090843ddf229f9d123774e3127f08d",
+    "bench/tests/test_cross_entropy_ops_body.py": "4fc880e3c60fb4462c776499117aeeef9d9f7efdf31e8943645014b8a9f80877",
+    "lakefile.toml": "2c078b2e2c372269f1bdccfb2e23a0dfafe83240e61bee43cefada623021f42e"
+  },
+  "build_exit_code": 0,
+  "joint_exit_code": 0
+}

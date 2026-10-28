@@ -1,0 +1,160 @@
+[
+  {
+    "python_function": "cross_entropy_fwd_kernel",
+    "lean_definition": "forwardSyntax",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "mixed_integer_calls_and_runtime_registers",
+    "call_bindings": {
+      "ignored_index": "p.ignored",
+      "total_classes": "(p.totalClasses : Int)",
+      "class_start_idx": "p.classStart",
+      "n_cols": "p.cols",
+      "n_rows": "p.rows",
+      "logits_row_stride": "p.logitsStride"
+    },
+    "statements": 14,
+    "runtime_parameters": {
+      "smoothing": "fp32",
+      "logit_scale": "fp32",
+      "lse_square_scale": "fp32",
+      "ignored_index": "integer",
+      "total_classes": "i64",
+      "class_start_idx": "i64",
+      "n_cols": "i64",
+      "n_rows": "i64",
+      "logits_row_stride": "i64"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE",
+      "HAS_SMOOTHING",
+      "SPLIT"
+    ],
+    "pointer_offsets": {
+      "loss_ptr": "p.lossBase",
+      "lse_ptr": "p.lseBase",
+      "z_loss_ptr": "p.zlossBase",
+      "logits_ptr": "p.logitsBase",
+      "labels_ptr": "p.labelsBase"
+    }
+  },
+  {
+    "python_function": "cross_entropy_fwd_kernel_index_commuted",
+    "lean_definition": "forwardIndexCommutedSyntax",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "mixed_integer_calls_and_runtime_registers",
+    "call_bindings": {
+      "ignored_index": "p.ignored",
+      "total_classes": "(p.totalClasses : Int)",
+      "class_start_idx": "p.classStart",
+      "n_cols": "p.cols",
+      "n_rows": "p.rows",
+      "logits_row_stride": "p.logitsStride"
+    },
+    "statements": 14,
+    "runtime_parameters": {
+      "smoothing": "fp32",
+      "logit_scale": "fp32",
+      "lse_square_scale": "fp32",
+      "ignored_index": "integer",
+      "total_classes": "i64",
+      "class_start_idx": "i64",
+      "n_cols": "i64",
+      "n_rows": "i64",
+      "logits_row_stride": "i64"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE",
+      "HAS_SMOOTHING",
+      "SPLIT"
+    ],
+    "pointer_offsets": {
+      "loss_ptr": "p.lossBase",
+      "lse_ptr": "p.lseBase",
+      "z_loss_ptr": "p.zlossBase",
+      "logits_ptr": "p.logitsBase",
+      "labels_ptr": "p.labelsBase"
+    }
+  },
+  {
+    "python_function": "cross_entropy_bwd_kernel",
+    "lean_definition": "backwardSyntax",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "mixed_integer_calls_and_runtime_registers",
+    "call_bindings": {
+      "ignored_index": "p.ignored",
+      "total_classes": "(p.totalClasses : Int)",
+      "class_start_idx": "p.classStart",
+      "n_cols": "p.cols",
+      "logits_row_stride": "p.logitsStride",
+      "dlogits_row_stride": "p.gradientStride",
+      "dloss_row_stride": "p.upstreamStride"
+    },
+    "statements": 16,
+    "runtime_parameters": {
+      "smoothing": "fp32",
+      "logit_scale": "fp32",
+      "lse_square_scale": "fp32",
+      "ignored_index": "integer",
+      "total_classes": "i64",
+      "class_start_idx": "i64",
+      "n_cols": "i64",
+      "logits_row_stride": "i64",
+      "dlogits_row_stride": "i64",
+      "dloss_row_stride": "i64"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE",
+      "HAS_SMOOTHING"
+    ],
+    "pointer_offsets": {
+      "dlogits_ptr": "p.gradientBase",
+      "dloss_ptr": "p.upstreamBase",
+      "logits_ptr": "p.logitsBase",
+      "lse_ptr": "p.lseBase",
+      "labels_ptr": "p.labelsBase"
+    }
+  },
+  {
+    "python_function": "cross_entropy_bwd_kernel_index_commuted",
+    "lean_definition": "backwardIndexCommutedSyntax",
+    "status": "PASS",
+    "mode": "pasted_body",
+    "argument_mode": "mixed_integer_calls_and_runtime_registers",
+    "call_bindings": {
+      "ignored_index": "p.ignored",
+      "total_classes": "(p.totalClasses : Int)",
+      "class_start_idx": "p.classStart",
+      "n_cols": "p.cols",
+      "logits_row_stride": "p.logitsStride",
+      "dlogits_row_stride": "p.gradientStride",
+      "dloss_row_stride": "p.upstreamStride"
+    },
+    "statements": 16,
+    "runtime_parameters": {
+      "smoothing": "fp32",
+      "logit_scale": "fp32",
+      "lse_square_scale": "fp32",
+      "ignored_index": "integer",
+      "total_classes": "i64",
+      "class_start_idx": "i64",
+      "n_cols": "i64",
+      "logits_row_stride": "i64",
+      "dlogits_row_stride": "i64",
+      "dloss_row_stride": "i64"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE",
+      "HAS_SMOOTHING"
+    ],
+    "pointer_offsets": {
+      "dlogits_ptr": "p.gradientBase",
+      "dloss_ptr": "p.upstreamBase",
+      "logits_ptr": "p.logitsBase",
+      "lse_ptr": "p.lseBase",
+      "labels_ptr": "p.labelsBase"
+    }
+  }
+]

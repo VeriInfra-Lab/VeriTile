@@ -1,0 +1,49 @@
+{
+  "code_commit": "d4886de574b199fdd2016d92a8f49597600fbb8f",
+  "raw_bodies": [
+    {
+      "name": "raw-body-check",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/cross_entropy_ops/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "d4886de574b199fdd2016d92a8f49597600fbb8f",
+      "log": "/tmp/crossce91-raw-body-check.log",
+      "status": "PASS"
+    }
+  ],
+  "candidate_rewrites": [
+    {
+      "status": "PASS",
+      "scope": "All two complete original signatures, heuristics/jit decorators and function ASTs checked by CrossEntropyOpsFunctionBodyTests; only the existing integer column/block product is commuted."
+    }
+  ],
+  "cpu": {
+    "name": "cpu-final",
+    "command": [
+      "python3",
+      "bench/repairs/tritonbench_g/cross_entropy_ops/check_contract.py"
+    ],
+    "exit_code": 1,
+    "code_commit": "d4886de574b199fdd2016d92a8f49597600fbb8f",
+    "log": "/tmp/crossce91-cpu-final.log",
+    "status": "UNAVAILABLE"
+  },
+  "original_python_wrappers_and_public_statements": {
+    "status": "PASS",
+    "sha256": {
+      "bench/repairs/tritonbench_g/cross_entropy_ops/IO.lean": "60e0896d6e040c320abcec0179660fd242a2fa2fdc6200a289d8e43d224cca5c",
+      "bench/repairs/tritonbench_g/cross_entropy_ops/Contract.lean": "d5067702db63b244b40f7938d7a38fec45d189f89fc5435b7ff0d86fc5685182",
+      "bench/repairs/tritonbench_g/cross_entropy_ops/cross_entropy_ops_conditional.py": "b690a712bd968686ee78818e81dbbb21a8d15331e132eb1c994d1ed3eb2b4ba5",
+      "bench/repairs/tritonbench_g/cross_entropy_ops/Correct.lean": "679144ddac3f926365135526b09cba498f2f98425d5f0f5b55fc7b23a4abcdbc",
+      "bench/repairs/tritonbench_g/cross_entropy_ops/cross_entropy_ops_repaired.py": "5f106a09beaeb4807b9a8f6409e0f015478be518e8a31d9ca889a32f9cd7e768",
+      "bench/repairs/tritonbench_g/cross_entropy_ops/check_contract.py": "4a5acc8cf41e092e6ebfbbcdae27dfe4f942b70ff3321202e75dd7cf21c460da",
+      "bench/repairs/tritonbench_g/cross_entropy_ops/FPEquiv.lean": "0fa2e78f939501fe0a5360074a870bc10c4c8af6cacff47ac585729d99808e77",
+      "bench/repairs/tritonbench_g/cross_entropy_ops/Proofs/Contract.lean": "a1337f14ca803e6809e04b63c98519b32c3baf9f3c88b3b6b1b85d2ea51d9220"
+    }
+  },
+  "scope": "Four complete raw forward/backward source and candidate bodies. Explicit casts, branches, masks, pointer rebinding and unused source assignments retained. Nested arithmetic loads retain compute precision; signed class-count conversion and floating branch literals preserve source types. Wrapper delegation statically resolved; actual execution, memory, safety, independent Real and full-program FP pair proofs replayed. The ordered floating graph corrects the old omitted load markers and loss-store conversion; no equality with the old graph or arbitrary cast identity is assumed. No new numerical law, domain narrowing or GPU experiment."
+}

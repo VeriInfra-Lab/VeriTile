@@ -1,0 +1,35 @@
+[
+  {
+    "name": "python-tests",
+    "command": [
+      "python3",
+      "-m",
+      "unittest",
+      "bench.tests.test_jit_correspondence",
+      "bench.tests.test_body_corpus",
+      "bench.tests.test_diag_ssm_body",
+      "bench.tests.test_fast_ce_body",
+      "bench.tests.test_delegated_body_sources",
+      "bench.tests.test_cross_entropy_ops_body"
+    ],
+    "exit_code": 0,
+    "code_commit": "d4886de574b199fdd2016d92a8f49597600fbb8f",
+    "log": "/tmp/crossce91-python-tests.log"
+  },
+  {
+    "name": "all-python",
+    "command": [
+      "python3",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "bench/tests",
+      "-p",
+      "test_*.py"
+    ],
+    "exit_code": 1,
+    "code_commit": "d4886de574b199fdd2016d92a8f49597600fbb8f",
+    "log": "/tmp/crossce91-all-python.log"
+  }
+]

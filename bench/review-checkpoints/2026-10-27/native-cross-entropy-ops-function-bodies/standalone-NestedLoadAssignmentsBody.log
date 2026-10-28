@@ -1,0 +1,24 @@
+bench/tests/NestedLoadAssignmentsBody.lean:45:34: warning: unused variable `FLAG`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+bench/tests/NestedLoadAssignmentsBody.lean:52:43: warning: unused variable `FLAG`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+bench/tests/NestedLoadAssignmentsBody.lean:71:39: warning: unused variable `FLAG`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+bench/tests/NestedLoadAssignmentsBody.lean:78:48: warning: unused variable `FLAG`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Tests.NestedLoadAssignmentsBody.unrelated_integer_cast: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.NestedLoadAssignmentsBody.complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.NestedLoadAssignmentsBody.first_load: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Tests.NestedLoadAssignmentsBody.fresh_names: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
