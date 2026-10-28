@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.softmax_flaggems.Proofs.Native",
+  "start": 1793226087.7225177,
+  "end": 1793226091.0382142,
+  "log": "/tmp/rwkv104-direct-Native-1793226087722504485.log",
+  "stop_file": "/tmp/rwkv104-direct-Native-1793226087722504485.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

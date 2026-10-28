@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.KernelMath",
+  "start": 1793223406.7794552,
+  "end": 1793223410.5454028,
+  "log": "/tmp/rwkv104-direct-KernelMath-1793223406779440454.log",
+  "stop_file": "/tmp/rwkv104-direct-KernelMath-1793223406779440454.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

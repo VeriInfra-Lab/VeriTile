@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.Grid",
+  "start": 1793226131.642405,
+  "end": 1793226134.8580174,
+  "log": "/tmp/rwkv104-direct-Grid-1793226131642389678.log",
+  "stop_file": "/tmp/rwkv104-direct-Grid-1793226131642389678.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

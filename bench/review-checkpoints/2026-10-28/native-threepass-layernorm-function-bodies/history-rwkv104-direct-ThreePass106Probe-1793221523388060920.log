@@ -1,0 +1,2 @@
+/tmp/rwkv104-staging/ThreePass106Probe.lean:20:21: error: loop-carried value requires a stable, known source dtype
+/tmp/rwkv104-staging/ThreePass106Probe.lean:20:21: error: loop-carried value requires a stable, known source dtype

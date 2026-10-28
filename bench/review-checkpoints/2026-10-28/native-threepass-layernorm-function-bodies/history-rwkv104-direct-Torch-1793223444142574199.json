@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.Torch",
+  "start": 1793223444.142589,
+  "end": 1793223448.0588777,
+  "log": "/tmp/rwkv104-direct-Torch-1793223444142574199.log",
+  "stop_file": "/tmp/rwkv104-direct-Torch-1793223444142574199.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

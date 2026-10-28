@@ -1,0 +1,15 @@
+test_actual_inner_strides (threepass106_test.ThreePassLayerNormBodyTests.test_actual_inner_strides) ... ok
+test_complete_bodies (threepass106_test.ThreePassLayerNormBodyTests.test_complete_bodies) ... ok
+test_explicit_output_cast (threepass106_test.ThreePassLayerNormBodyTests.test_explicit_output_cast) ... ok
+test_full_candidate_only_reschedules_weight_load_and_renames_entries (threepass106_test.ThreePassLayerNormBodyTests.test_full_candidate_only_reschedules_weight_load_and_renames_entries) ... ok
+test_masked_variance_zero (threepass106_test.ThreePassLayerNormBodyTests.test_masked_variance_zero) ... ok
+test_program_id_casts (threepass106_test.ThreePassLayerNormBodyTests.test_program_id_casts) ... ok
+test_runtime_epsilon_is_not_a_literal (threepass106_test.ThreePassLayerNormBodyTests.test_runtime_epsilon_is_not_a_literal) ... ok
+test_scalar_casts (threepass106_test.ThreePassLayerNormBodyTests.test_scalar_casts) ... ok
+test_signed_lanes_and_loop_bounds (threepass106_test.ThreePassLayerNormBodyTests.test_signed_lanes_and_loop_bounds) ... ok
+test_weight_load_order (threepass106_test.ThreePassLayerNormBodyTests.test_weight_load_order) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.238s
+
+OK

@@ -1,0 +1,98 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceAccumulate.lean:49:75: error: unsolved goals
+case x.h
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+p : Parameters
+s : State α
+i : TileIndex []
+⊢ Int.toNat (↑(s.pids 0) * ↑p.xSeqStride + ↑(s.pids 1) * ↑p.xHeadStride) =
+    s.pids 0 * p.xSeqStride + s.pids 1 * p.xHeadStride
+
+case y.h
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+p : Parameters
+s : State α
+i : TileIndex []
+⊢ Int.toNat (↑(s.pids 0) * ↑p.ySeqStride + ↑(s.pids 1) * ↑p.yHeadStride) =
+    s.pids 0 * p.ySeqStride + s.pids 1 * p.yHeadStride
+
+case w.h
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+p : Parameters
+s : State α
+i : TileIndex []
+⊢ Int.toNat (↑(s.pids 1) * ↑p.weightHeadStride) = s.pids 1 * p.weightHeadStride
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceAccumulate.lean:60:50: error: unsolved goals
+case accumulator
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+p : Parameters
+s t : State α
+off : ℕ
+a : TileIndex [p.block] → α
+h : MeanReady M p s t a
+⊢ (bop (M.binary (some ComputeDType.fp32) FloatDType.real Binary.add) Broadcast.nil.consSame a fun i =>
+      M.cast (some ComputeDType.fp32) FloatDType.fp32 FloatDType.real
+        (if ↑off + ↑↑i.1 < ↑p.columns then
+          Cell.read TileDType.fp32
+            (s.mem p.x
+              (xBase p s + Int.toNat ((↑off + ↑↑i.1) * ↑p.xDimStride) - Int.toNat (-((↑off + ↑↑i.1) * ↑p.xDimStride))))
+        else
+          M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.fp32
+            (M.literal (some ComputeDType.fp32) FloatDType.real 0.0))) =
+    meanStep M p s off a
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceAccumulate.lean:86:48: error: unsolved goals
+case accumulator
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+p : Parameters
+s t : State α
+off : ℕ
+a : TileIndex [p.block] → α
+h : VarReady M p s t a
+⊢ bop (M.binary (some ComputeDType.fp32) FloatDType.real Binary.add) Broadcast.nil.consSame a
+      (bop (M.binary (some ComputeDType.fp32) FloatDType.real Binary.mul) Broadcast.nil.consSame
+        (fun i =>
+          if ↑off + ↑↑i.1 < ↑p.columns then
+            M.binary (some ComputeDType.fp32) FloatDType.real Binary.sub
+              (M.cast (some ComputeDType.fp32) FloatDType.fp32 FloatDType.real
+                (if ↑off + ↑↑i.1 < ↑p.columns then
+                  Cell.read TileDType.fp32
+                    (s.mem p.x
+                      (xBase p s + Int.toNat ((↑off + ↑↑i.1) * ↑p.xDimStride) -
+                        Int.toNat (-((↑off + ↑↑i.1) * ↑p.xDimStride))))
+                else
+                  M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.fp32
+                    (M.literal (some ComputeDType.fp32) FloatDType.real 0.0)))
+              (meanValue M p s)
+          else M.literal (some ComputeDType.fp32) FloatDType.real 0.0)
+        fun i =>
+        if ↑off + ↑↑i.1 < ↑p.columns then
+          M.binary (some ComputeDType.fp32) FloatDType.real Binary.sub
+            (M.cast (some ComputeDType.fp32) FloatDType.fp32 FloatDType.real
+              (if ↑off + ↑↑i.1 < ↑p.columns then
+                Cell.read TileDType.fp32
+                  (s.mem p.x
+                    (xBase p s + Int.toNat ((↑off + ↑↑i.1) * ↑p.xDimStride) -
+                      Int.toNat (-((↑off + ↑↑i.1) * ↑p.xDimStride))))
+              else
+                M.cast (some ComputeDType.fp32) FloatDType.real FloatDType.fp32
+                  (M.literal (some ComputeDType.fp32) FloatDType.real 0.0)))
+            (meanValue M p s)
+        else M.literal (some ComputeDType.fp32) FloatDType.real 0.0) =
+    varStep M p s off a
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceAccumulate.lean:121:0: error: VeriTile.Bench.Repairs.LayernormFwdTriton.Source.prelude_run: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceAccumulate.lean:122:0: error: VeriTile.Bench.Repairs.LayernormFwdTriton.Source.mean_body_run: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceAccumulate.lean:123:0: error: VeriTile.Bench.Repairs.LayernormFwdTriton.Source.mean_range_run: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceAccumulate.lean:124:0: error: VeriTile.Bench.Repairs.LayernormFwdTriton.Source.var_body_run: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceAccumulate.lean:125:0: error: VeriTile.Bench.Repairs.LayernormFwdTriton.Source.var_range_run: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.Repairs.LayernormFwdTriton.Source.mean_post_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

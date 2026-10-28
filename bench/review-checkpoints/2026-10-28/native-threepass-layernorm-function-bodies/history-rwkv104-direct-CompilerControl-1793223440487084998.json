@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.CompilerControl",
+  "start": 1793223440.4871,
+  "end": 1793223444.102541,
+  "log": "/tmp/rwkv104-direct-CompilerControl-1793223440487084998.log",
+  "stop_file": "/tmp/rwkv104-direct-CompilerControl-1793223440487084998.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

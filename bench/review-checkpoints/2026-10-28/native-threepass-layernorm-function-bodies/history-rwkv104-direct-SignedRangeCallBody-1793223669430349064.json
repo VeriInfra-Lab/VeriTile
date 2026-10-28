@@ -1,0 +1,9 @@
+{
+  "module": "bench.tests.SignedRangeCallBody",
+  "start": 1793223669.4303663,
+  "end": 1793223671.4630446,
+  "log": "/tmp/rwkv104-direct-SignedRangeCallBody-1793223669430349064.log",
+  "stop_file": "/tmp/rwkv104-direct-SignedRangeCallBody-1793223669430349064.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

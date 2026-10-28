@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.LayernormFwdTriton.Correctness.layernorm_fwd_triton_kernel_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

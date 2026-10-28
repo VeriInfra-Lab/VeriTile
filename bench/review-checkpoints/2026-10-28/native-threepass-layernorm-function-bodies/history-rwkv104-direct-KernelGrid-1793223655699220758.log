@@ -1,0 +1,9 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/KernelGrid.lean:31:8: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+VeriTile.Bench.Repairs.LayernormFwdTriton.KernelGrid.row_complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayernormFwdTriton.KernelGrid.complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

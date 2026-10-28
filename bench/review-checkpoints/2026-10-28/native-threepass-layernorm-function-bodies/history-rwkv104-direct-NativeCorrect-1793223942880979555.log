@@ -1,0 +1,8 @@
+VeriTile.Bench.Repairs.LayernormFwdTriton.Equivalence.formula: definition does not reference [VeriTile.Bench.Repairs.LayernormFwdTriton.Source.kernel,
+ VeriTile.Bench.Repairs.LayernormFwdTriton.Source.launch,
+ VeriTile.Bench.Repairs.LayernormFwdTriton.Source.yValue,
+ VeriTile.Bench.Repairs.LayernormFwdTriton.Source.referenceMem] — non-circular ✓
+VeriTile.Bench.Repairs.LayernormFwdTriton.Equivalence.layernorm_fwd_triton_kernel_native: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayernormFwdTriton.Equivalence.layernorm_fwd_triton_kernel_native: statement's project surface ⊆ allowlist ✓

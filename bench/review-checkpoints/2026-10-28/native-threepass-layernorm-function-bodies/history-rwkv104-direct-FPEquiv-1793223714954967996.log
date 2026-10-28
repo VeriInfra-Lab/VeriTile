@@ -1,0 +1,9 @@
+VeriTile.Bench.Repairs.LayernormFwdTriton.FPEquiv.source_equivalence: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+FP assumptions used by source_equivalence:
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/FPEquiv.lean:25:0: error: (deterministic) timeout at `whnf`, maximum number of heartbeats (4000000) has been reached
+
+Note: Use `set_option maxHeartbeats <num>` to set the limit.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.

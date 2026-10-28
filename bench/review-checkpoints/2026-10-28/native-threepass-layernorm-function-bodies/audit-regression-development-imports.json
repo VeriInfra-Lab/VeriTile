@@ -1,0 +1,9 @@
+{
+  "from_completed_source": "1952c0a31a71117ceadf5f0bbd30a610e2693928",
+  "copied_unchanged_modules": [
+    "VeriTile.Triton.Float.CountConversionExact",
+    "VeriTile.Triton.Float.Counterexamples",
+    "VeriTile.Triton.Float.CountConversion"
+  ],
+  "scope": "Development diagnostics only; final dependency-complete source replay and independent empty-project validation remain required."
+}

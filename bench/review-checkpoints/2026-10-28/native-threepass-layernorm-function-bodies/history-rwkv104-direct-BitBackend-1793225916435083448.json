@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.isfinite_kernel.Proofs.BitBackend",
+  "start": 1793225916.4351,
+  "end": 1793225919.4682522,
+  "log": "/tmp/rwkv104-direct-BitBackend-1793225916435083448.log",
+  "stop_file": "/tmp/rwkv104-direct-BitBackend-1793225916435083448.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

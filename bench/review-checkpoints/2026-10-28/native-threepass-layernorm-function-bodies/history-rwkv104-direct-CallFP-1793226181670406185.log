@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.LayernormFwdTriton.Wrapper.call_fp_snapshots: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayernormFwdTriton.Wrapper.call_fp_readback: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,37 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceComplete.lean:42:34: warning: This simp argument is unused:
+  List.foldlM_cons
+
+Hint: Omit it from the simp argument list.
+  simp only [run_append, ha, run, List.foldlM_c̵o̵ns̵,̵ ̵L̵is̵t̵.̵f̵o̵ld̵l̵M̵_̵n̵i̵l̵, bind, pure, Option.bind,
+  ̵  ̵ ̵ ̵step, evalOp_unfold,
+  ̲  ̲ ̲ ̲hr.zeroValue, hr.nValue, ht.zeroValue, ht.nValue, hv.zeroValue, hv.nValue, hb, hc, hd, he, hf]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceComplete.lean:42:52: warning: This simp argument is unused:
+  List.foldlM_nil
+
+Hint: Omit it from the simp argument list.
+  simp only [run_append, ha, run, List.foldlM_cons, L̵i̵s̵t̵.̵f̵o̵l̵d̵l̵M̵_̵n̵i̵l̵,̵ ̵bind, pure, Option.bind,
+  ̵  ̵ ̵ ̵step, evalOp_unfold,
+  ̲  ̲ ̲ ̲hr.zeroValue, hr.nValue, ht.zeroValue, ht.nValue, hv.zeroValue, hv.nValue, hb, hc, hd, he, hf]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceComplete.lean:42:75: warning: This simp argument is unused:
+  pure
+
+Hint: Omit it from the simp argument list.
+  simp only [run_append, ha, run, List.foldlM_cons, List.foldlM_nil, bind, p̵u̵r̵e̵,̵ ̵Option.bind,
+  ̵  ̵ ̵ ̵step,
+  ̲  ̲ ̲ ̲evalOp_unfold, hr.zeroValue, hr.nValue, ht.zeroValue, ht.nValue, hv.zeroValue, hv.nValue, hb,
+  ̲  ̲ ̲ ̲hc, hd, he, hf]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.LayernormFwdTriton.Source.output_range_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayernormFwdTriton.Source.source_split: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayernormFwdTriton.Source.complete_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

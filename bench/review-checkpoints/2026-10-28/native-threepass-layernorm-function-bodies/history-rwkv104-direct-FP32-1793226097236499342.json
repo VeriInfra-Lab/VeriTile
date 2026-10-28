@@ -1,0 +1,9 @@
+{
+  "module": "VeriTile.Torch.FP32",
+  "start": 1793226097.2365134,
+  "end": 1793226098.6519604,
+  "log": "/tmp/rwkv104-direct-FP32-1793226097236499342.log",
+  "stop_file": "/tmp/rwkv104-direct-FP32-1793226097236499342.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.parallel_attention.Proofs.FPSources",
+  "start": 1793222570.3512273,
+  "end": 1793222575.0398674,
+  "log": "/tmp/rwkv104-direct-FPSources-1793222570351203700.log",
+  "stop_file": "/tmp/rwkv104-direct-FPSources-1793222570351203700.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

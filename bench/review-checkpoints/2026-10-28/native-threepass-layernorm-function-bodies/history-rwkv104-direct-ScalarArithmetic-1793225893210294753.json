@@ -1,0 +1,9 @@
+{
+  "module": "VeriTile.Triton.Float.ScalarArithmetic",
+  "start": 1793225893.210309,
+  "end": 1793225906.8292015,
+  "log": "/tmp/rwkv104-direct-ScalarArithmetic-1793225893210294753.log",
+  "stop_file": "/tmp/rwkv104-direct-ScalarArithmetic-1793225893210294753.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.layernorm_fwd_triton.Proofs.FPAccumulate",
+  "start": 1793223356.5133896,
+  "end": 1793223364.881115,
+  "log": "/tmp/rwkv104-direct-FPAccumulate-1793223356513374296.log",
+  "stop_file": "/tmp/rwkv104-direct-FPAccumulate-1793223356513374296.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

@@ -1,0 +1,21 @@
+bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.SourceComplete 0 /tmp/rwkv104-direct-SourceComplete-1793223639120427172.log
+bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.SourceSafetySteps 0 /tmp/rwkv104-direct-SourceSafetySteps-1793223642474875225.log
+bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.SourceSafety 1 /tmp/rwkv104-direct-SourceSafety-1793223649138458130.log
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceSafety.lean:18:90: error: Application type mismatch: The argument
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceSafety.lean:55:73: error: Application type mismatch: The argument
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceSafety.lean:56:48: error: Application type mismatch: The argument
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceSafety.lean:59:71: error: Application type mismatch: The argument
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceSafety.lean:60:47: error: Application type mismatch: The argument
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceSafety.lean:63:77: error: Application type mismatch: The argument
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceSafety.lean:64:50: error: Application type mismatch: The argument
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceSafety.lean:72:46: error: Type mismatch: After simplification, term
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceSafety.lean:79:46: error: Type mismatch: After simplification, term
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceSafety.lean:85:44: error: Type mismatch: After simplification, term
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceSafety.lean:89:0: error: VeriTile.Bench.Repairs.LayernormFwdTriton.KernelSafety.trace_safe: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.SourceContract 0 /tmp/rwkv104-direct-SourceContract-1793223652545052360.log
+bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.KernelGrid 0 /tmp/rwkv104-direct-KernelGrid-1793223655699220758.log
+bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.KernelBoundary 0 /tmp/rwkv104-direct-KernelBoundary-1793223659242416214.log
+bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.KernelNativeResult 0 /tmp/rwkv104-direct-KernelNativeResult-1793223662285712931.log
+bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.KernelRealResult 0 /tmp/rwkv104-direct-KernelRealResult-1793223665857957962.log
+bench.tests.SignedRangeCallBody 0 /tmp/rwkv104-direct-SignedRangeCallBody-1793223669430349064.log
+BATCH COMPLETE threepass106-family2 failed/skipped 11

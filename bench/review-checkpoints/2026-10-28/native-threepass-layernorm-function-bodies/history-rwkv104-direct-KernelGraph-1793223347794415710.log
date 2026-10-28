@@ -1,0 +1,41 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/KernelGraph.lean:53:44: warning: This simp argument is unused:
+  dif_neg
+
+Hint: Omit it from the simp argument list.
+  simp only [show (̵1̵2̵8̵:̵N̵a̵t̵)̵≠̵0̵(̲1̲2̲8̲ ̲:̲ ̲N̲a̲t̲)̲ ̲≠̲ ̲0̲ by d̵e̵c̵i̵d̵e̵,̵h̵,̵d̵i̵f̵_̵n̵e̵g̵,̵d̵i̵f̵_̵p̵o̵s̵,̵↓̵r̵e̵d̵u̵c̵e̵D̵I̵t̵e̵]̵d̲e̲c̲i̲d̲e̲,̲ ̲h̲,̲ ̲d̲i̲f̲_̲p̲o̲s̲,̲ ̲↓̲r̲e̲d̲u̲c̲e̲D̲I̲t̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/KernelGraph.lean:53:52: warning: This simp argument is unused:
+  dif_pos
+
+Hint: Omit it from the simp argument list.
+  simp only [show (̵1̵2̵8̵:̵N̵a̵t̵)̵≠̵0̵(̲1̲2̲8̲ ̲:̲ ̲N̲a̲t̲)̲ ̲≠̲ ̲0̲ by d̵e̵c̵i̵d̵e̵,̵h̵,̵d̵i̵f̵_̵n̵e̵g̵,̵d̵i̵f̵_̵p̵o̵s̵,̵↓̵r̵e̵d̵u̵c̵e̵D̵I̵t̵e̵]̵d̲e̲c̲i̲d̲e̲,̲ ̲h̲,̲ ̲d̲i̲f̲_̲n̲e̲g̲,̲ ̲↓̲r̲e̲d̲u̲c̲e̲D̲I̲t̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/KernelGraph.lean:55:44: warning: This simp argument is unused:
+  dif_neg
+
+Hint: Omit it from the simp argument list.
+  simp only [show (̵1̵2̵8̵:̵N̵a̵t̵)̵≠̵0̵(̲1̲2̲8̲ ̲:̲ ̲N̲a̲t̲)̲ ̲≠̲ ̲0̲ by d̵e̵c̵i̵d̵e̵,̵h̵,̵d̵i̵f̵_̵n̵e̵g̵,̵↓̵r̵e̵d̵u̵c̵e̵D̵I̵t̵e̵]̵d̲e̲c̲i̲d̲e̲,̲ ̲h̲,̲ ̲↓̲r̲e̲d̲u̲c̲e̲D̲I̲t̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/KernelGraph.lean:130:4: warning: This simp argument is unused:
+  if_pos hj
+
+Hint: Omit it from the simp argument list.
+  simp only [̵S̵o̵u̵r̵c̵e̵.̵y̵V̵a̵l̵u̵e̵,̵S̵o̵u̵r̵c̵e̵.̵r̵s̵t̵d̵V̵a̵l̵u̵e̵,̵h̵m̵,̵h̵v̵,̵S̵o̵u̵r̵c̵e̵.̵x̵V̵a̵l̵u̵e̵,̵S̵o̵u̵r̵c̵e̵.̵w̵V̵a̵l̵u̵e̵,̵[̲S̲o̲u̲r̲c̲e̲.̲y̲V̲a̲l̲u̲e̲,̲ ̲S̲o̲u̲r̲c̲e̲.̲r̲s̲t̲d̲V̲a̲l̲u̲e̲,̲ ̲h̲m̲,̲ ̲h̲v̲,̲ ̲S̲o̲u̲r̲c̲e̲.̲x̲V̲a̲l̲u̲e̲,̲ ̲S̲o̲u̲r̲c̲e̲.̲w̲V̲a̲l̲u̲e̲,̲ ̲h̲x̲ ̲j̲ ̲h̲j̲,̲
+  ̲ ̲ ̲ ̲ ̲h̲w̲ ̲j̲ ̲h̲j̲,̲ ̲o̲u̲t̲p̲u̲t̲,̲ ̲i̲n̲v̲e̲r̲s̲e̲,̲ ̲l̲o̲a̲d̲X̲,̲ if_pos h̵j̵,̵h̵x̵ ̵j̵ ̵h̵j̵,̵h̵w̵ ̵j̵ ̵h̵j̵,̵o̵u̵t̵p̵u̵t̵,̵i̵n̵v̵e̵r̵s̵e̵,̵l̵o̵a̵d̵X̵,̵i̵f̵_̵p̵o̵s̵ ̵h̵j̵,̵a̵d̵d̵,̵s̵u̵b̵,̵m̵u̵l̵]̵h̲j̲,̲ ̲a̲d̲d̲,̲ ̲s̲u̲b̲,̲ ̲m̲u̲l̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/KernelGraph.lean:134:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.LayernormFwdTriton.Graph.output_congr`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+VeriTile.Bench.Repairs.LayernormFwdTriton.Graph.output: definition does not reference [VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.LayernormFwdTriton.Source.yValue,
+ VeriTile.Bench.Repairs.LayernormFwdTriton.Source.referenceMem] — non-circular ✓
+VeriTile.Bench.Repairs.LayernormFwdTriton.Graph.source_output: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

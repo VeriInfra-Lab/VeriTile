@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.SuccessfulCall",
+  "start": 1793226172.639515,
+  "end": 1793226176.6731217,
+  "log": "/tmp/rwkv104-direct-SuccessfulCall-1793226172639498922.log",
+  "stop_file": "/tmp/rwkv104-direct-SuccessfulCall-1793226172639498922.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

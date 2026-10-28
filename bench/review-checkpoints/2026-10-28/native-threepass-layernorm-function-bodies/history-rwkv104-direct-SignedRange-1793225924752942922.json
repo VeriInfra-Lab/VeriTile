@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.SignedRange",
+  "start": 1793225924.7529564,
+  "end": 1793225927.4683142,
+  "log": "/tmp/rwkv104-direct-SignedRange-1793225924752942922.log",
+  "stop_file": "/tmp/rwkv104-direct-SignedRange-1793225924752942922.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

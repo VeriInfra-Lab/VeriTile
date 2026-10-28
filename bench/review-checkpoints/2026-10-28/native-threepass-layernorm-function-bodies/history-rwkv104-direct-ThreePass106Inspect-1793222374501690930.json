@@ -1,0 +1,9 @@
+{
+  "module": "ThreePass106Inspect",
+  "start": 1793222374.5017054,
+  "end": 1793222375.9671526,
+  "log": "/tmp/rwkv104-direct-ThreePass106Inspect-1793222374501690930.log",
+  "stop_file": "/tmp/rwkv104-direct-ThreePass106Inspect-1793222374501690930.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

@@ -1,0 +1,50 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceAccumulate.lean:55:66: warning: Possibly looping simp theorem: `← Int.natCast_mul`
+
+Note: Possibly caused by: `Nat.cast_mul`
+
+Hint: You can disable a simp theorem from the default simp set by passing `- theoremName` to `simp`.
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceAccumulate.lean:55:85: warning: Possibly looping simp theorem: `← Int.natCast_add`
+
+Note: Possibly caused by: `Nat.cast_add`
+
+Hint: You can disable a simp theorem from the default simp set by passing `- theoremName` to `simp`.
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceAccumulate.lean:55:12: error: Tactic `simp` failed with a nested error:
+maximum recursion depth has been reached
+use `set_option maxRecDepth <num>` to increase limit
+use `set_option diagnostics true` to get diagnostic information
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceAccumulate.lean:70:47: warning: Possibly looping simp theorem: `← Int.natCast_mul`
+
+Note: Possibly caused by: `Nat.cast_mul`
+
+Hint: You can disable a simp theorem from the default simp set by passing `- theoremName` to `simp`.
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceAccumulate.lean:70:66: warning: Possibly looping simp theorem: `← Int.natCast_add`
+
+Note: Possibly caused by: `Nat.cast_add`
+
+Hint: You can disable a simp theorem from the default simp set by passing `- theoremName` to `simp`.
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceAccumulate.lean:69:12: error: Tactic `simp` failed with a nested error:
+maximum recursion depth has been reached
+use `set_option maxRecDepth <num>` to increase limit
+use `set_option diagnostics true` to get diagnostic information
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceAccumulate.lean:99:47: warning: Possibly looping simp theorem: `← Int.natCast_mul`
+
+Note: Possibly caused by: `Nat.cast_mul`
+
+Hint: You can disable a simp theorem from the default simp set by passing `- theoremName` to `simp`.
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceAccumulate.lean:99:66: warning: Possibly looping simp theorem: `← Int.natCast_add`
+
+Note: Possibly caused by: `Nat.cast_add`
+
+Hint: You can disable a simp theorem from the default simp set by passing `- theoremName` to `simp`.
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceAccumulate.lean:98:12: error: Tactic `simp` failed with a nested error:
+maximum recursion depth has been reached
+use `set_option maxRecDepth <num>` to increase limit
+use `set_option diagnostics true` to get diagnostic information
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceAccumulate.lean:127:0: error: VeriTile.Bench.Repairs.LayernormFwdTriton.Source.prelude_run: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceAccumulate.lean:128:0: error: VeriTile.Bench.Repairs.LayernormFwdTriton.Source.mean_body_run: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceAccumulate.lean:129:0: error: VeriTile.Bench.Repairs.LayernormFwdTriton.Source.mean_range_run: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceAccumulate.lean:130:0: error: VeriTile.Bench.Repairs.LayernormFwdTriton.Source.var_body_run: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceAccumulate.lean:131:0: error: VeriTile.Bench.Repairs.LayernormFwdTriton.Source.var_range_run: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.Repairs.LayernormFwdTriton.Source.mean_post_run: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

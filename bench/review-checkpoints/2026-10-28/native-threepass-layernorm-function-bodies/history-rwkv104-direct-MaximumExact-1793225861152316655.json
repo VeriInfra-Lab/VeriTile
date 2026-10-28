@@ -1,0 +1,9 @@
+{
+  "module": "VeriTile.Triton.Float.MaximumExact",
+  "start": 1793225861.1523297,
+  "end": 1793225864.6183107,
+  "log": "/tmp/rwkv104-direct-MaximumExact-1793225861152316655.log",
+  "stop_file": "/tmp/rwkv104-direct-MaximumExact-1793225861152316655.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

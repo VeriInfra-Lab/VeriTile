@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.Memory",
+  "start": 1793226125.4803002,
+  "end": 1793226128.6959715,
+  "log": "/tmp/rwkv104-direct-Memory-1793226125480285704.log",
+  "stop_file": "/tmp/rwkv104-direct-Memory-1793226125480285704.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

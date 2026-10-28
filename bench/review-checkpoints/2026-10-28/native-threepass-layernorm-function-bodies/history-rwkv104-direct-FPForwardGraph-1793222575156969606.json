@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.parallel_attention.Proofs.FPForwardGraph",
+  "start": 1793222575.1569924,
+  "end": 1793222581.4323184,
+  "log": "/tmp/rwkv104-direct-FPForwardGraph-1793222575156969606.log",
+  "stop_file": "/tmp/rwkv104-direct-FPForwardGraph-1793222575156969606.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

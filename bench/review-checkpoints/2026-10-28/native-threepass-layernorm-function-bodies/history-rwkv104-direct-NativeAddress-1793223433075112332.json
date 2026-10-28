@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.NativeAddress",
+  "start": 1793223433.0751276,
+  "end": 1793223436.441358,
+  "log": "/tmp/rwkv104-direct-NativeAddress-1793223433075112332.log",
+  "stop_file": "/tmp/rwkv104-direct-NativeAddress-1793223433075112332.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

@@ -1,0 +1,9 @@
+{
+  "module": "VeriTile.Triton",
+  "start": 1793222550.847384,
+  "end": 1793222553.349002,
+  "log": "/tmp/rwkv104-direct-Triton-1793222550847368381.log",
+  "stop_file": "/tmp/rwkv104-direct-Triton-1793222550847368381.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

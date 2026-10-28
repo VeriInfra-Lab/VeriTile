@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.matrix_vector_multip.Proofs.TypedContract",
+  "start": 1793226301.083528,
+  "end": 1793226329.7074978,
+  "log": "/tmp/rwkv104-direct-TypedContract-1793226301083514104.log",
+  "stop_file": "/tmp/rwkv104-direct-TypedContract-1793226301083514104.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

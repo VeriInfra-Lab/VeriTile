@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.matrix_vector_multip.Proofs.TypedIO",
+  "start": 1793226329.7463112,
+  "end": 1793226332.4117732,
+  "log": "/tmp/rwkv104-direct-TypedIO-1793226329746297515.log",
+  "stop_file": "/tmp/rwkv104-direct-TypedIO-1793226329746297515.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

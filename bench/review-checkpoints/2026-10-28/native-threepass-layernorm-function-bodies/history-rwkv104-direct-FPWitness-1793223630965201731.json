@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.layernorm_fwd_triton.Proofs.FPWitness",
+  "start": 1793223630.965218,
+  "end": 1793223634.431233,
+  "log": "/tmp/rwkv104-direct-FPWitness-1793223630965201731.log",
+  "stop_file": "/tmp/rwkv104-direct-FPWitness-1793223630965201731.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

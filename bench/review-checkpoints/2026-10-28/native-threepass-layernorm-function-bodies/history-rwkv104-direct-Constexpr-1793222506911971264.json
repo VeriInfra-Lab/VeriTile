@@ -1,0 +1,9 @@
+{
+  "module": "VeriTile.Triton.DSL.Constexpr",
+  "start": 1793222506.9119897,
+  "end": 1793222508.4287562,
+  "log": "/tmp/rwkv104-direct-Constexpr-1793222506911971264.log",
+  "stop_file": "/tmp/rwkv104-direct-Constexpr-1793222506911971264.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

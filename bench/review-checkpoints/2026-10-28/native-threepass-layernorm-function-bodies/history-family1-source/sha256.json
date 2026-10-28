@@ -1,0 +1,22 @@
+{
+  "VeriTile/Triton/DSL/CallSignature.lean": "95d002e0a4f7a9f9c61346dd657cf9b9c7f6f744bc17e5bf92eb64480f4e2fc8",
+  "VeriTile/Triton/DSL/Expansion/Main.lean": "d181c8e2684630ad6b1b656d97a9b6bcb54e8bf61bcabf42fd42e56045814cb5",
+  "VeriTile/Triton/DSL/TypedStores.lean": "5dd0594f5962bf476b4da04eac722eb118e51c07fffe2ec031d6d48a57eb6863",
+  "bench/repairs/tritonbench_g/layernorm_fwd_triton/IO.lean": "60b572850b255e3aef823899e0d3eb17153a52cb726c731e89a6c032613d6260",
+  "bench/repairs/tritonbench_g/layernorm_fwd_triton/Kernels.lean": "3f58028182ea7bd7479a5713619b8bdc1e1309e7ab54091e9e132b4ff4342083",
+  "bench/repairs/tritonbench_g/layernorm_fwd_triton/LegacyKernels.lean": "633b76bd04146c06c0dacb731eb41ac93e30852eba55961eda77cac9c1fd17d8",
+  "bench/repairs/tritonbench_g/layernorm_fwd_triton/Misc/NativeCorrect.lean": "1b3eb058f62fa0b44997e133484ed676a8d62dfd957d89d6fda99799395ff19f",
+  "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/KernelGraph.lean": "dc2a787dd2588fccedfaac3d6ec2027602c0e6f778d28aff53bdf5193bd14f68",
+  "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/KernelGrid.lean": "a9076f2dd6378a4ea3986f185e469c96138cc9aae23837d475b41db45e0a34e0",
+  "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/KernelMath.lean": "c0668620c52e1be0736ea99e6587a8ca7dae9c89dc8863fd28646bfe78eaf388",
+  "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/PairExecution.lean": "888ec6691b19c72b0d3bc8f30b451bf4b6de57d600550abc15b71202a5151d72",
+  "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/PairSource.lean": "834b3d2e9fde0a5edf697ad7902ffd56dff94acc647d6691af5416ec5228e98b",
+  "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SignedRange.lean": "d86deeefb7c0f22916f5a3e718b6ccd2bb2a192a841856f9ad6f6a5d468a5cf8",
+  "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceAccumulate.lean": "825703e5efe7b2bd107b7681135e7b879683f5e031dc361966feb4a11e64cb0b",
+  "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceComplete.lean": "636cd93a1022a4339d4626007c5a54dbc81d5f3d1e7e5d02171dcf78175866e6",
+  "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceModel.lean": "78ca8e7e157b59bba0d9c7dbe6edd7bf463d98dc1fed72998d40b3e466d48faf",
+  "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceOutput.lean": "4e2e99dd1973154f0b7748a0164d2b0167489fd6471340177fce3718c42f9f33",
+  "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceSafety.lean": "f2fe420cf65d4a3f8aafd81e83ab02a7cb1667e3e373cd249ab7595d94cc53bb",
+  "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceSafetySteps.lean": "02795286d1e3c3370869301e87a0821287a6bf7da9a67b26c662abccdd8e07fa",
+  "bench/tests/SignedRangeCallBody.lean": "bf71f7528beaffc52c42952d9f065d6ab66ee8a2c6df2692144b071132815b42"
+}

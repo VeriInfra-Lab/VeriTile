@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.LayernormFwdTriton.KernelSafety.trace_safe: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

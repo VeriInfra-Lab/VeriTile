@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.Runtime",
+  "start": 1793226161.823537,
+  "end": 1793226165.4891014,
+  "log": "/tmp/rwkv104-direct-Runtime-1793226161823524154.log",
+  "stop_file": "/tmp/rwkv104-direct-Runtime-1793226161823524154.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

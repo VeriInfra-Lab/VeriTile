@@ -1,0 +1,9 @@
+{
+  "module": "VeriTile.Triton.Float.GuardedStrict",
+  "start": 1793225873.4204597,
+  "end": 1793225875.9534962,
+  "log": "/tmp/rwkv104-direct-GuardedStrict-1793225873420446798.log",
+  "stop_file": "/tmp/rwkv104-direct-GuardedStrict-1793225873420446798.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

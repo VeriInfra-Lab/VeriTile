@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.SourceModel",
+  "start": 1793225922.0493028,
+  "end": 1793225924.7145972,
+  "log": "/tmp/rwkv104-direct-SourceModel-1793225922049286771.log",
+  "stop_file": "/tmp/rwkv104-direct-SourceModel-1793225922049286771.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

@@ -1,0 +1,5 @@
+{
+  "run": "/tmp/rwkv104-direct-FPEquiv-1793225067219857401.json",
+  "reason": "Lean captures command output until completion; replace temporary stdout traces with explicit flushed phase events for the diagnostic only.",
+  "time": 1793225252.413495
+}

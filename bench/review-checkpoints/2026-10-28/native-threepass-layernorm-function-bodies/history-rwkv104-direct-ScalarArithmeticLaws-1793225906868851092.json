@@ -1,0 +1,9 @@
+{
+  "module": "VeriTile.Triton.Float.ScalarArithmeticLaws",
+  "start": 1793225906.8688672,
+  "end": 1793225909.6845026,
+  "log": "/tmp/rwkv104-direct-ScalarArithmeticLaws-1793225906868851092.log",
+  "stop_file": "/tmp/rwkv104-direct-ScalarArithmeticLaws-1793225906868851092.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

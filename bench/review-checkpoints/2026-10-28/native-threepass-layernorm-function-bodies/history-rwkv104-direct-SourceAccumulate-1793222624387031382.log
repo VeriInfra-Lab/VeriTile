@@ -1,0 +1,47 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceAccumulate.lean:54:12: error: Tactic `apply` failed: could not unify the conclusion of `@funext`
+  ?f = ?g
+with the goal
+  Random.i32ArangeSize p.block ⋯ = p.block ∧ (fun i => ↑↑i.1) = fun i => ↑↑i.1
+
+Note: The full type of `@funext` is
+  ∀ {α : Sort ?u.5864.3227932} {β : α → Sort ?u.5864.3227931} {f g : (x : α) → β x}, (∀ (x : α), f x = g x) → f = g
+
+case lanes
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+p : Parameters
+s : State α
+⊢ Random.i32ArangeSize p.block ⋯ = p.block ∧ (fun i => ↑↑i.1) = fun i => ↑↑i.1
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceAccumulate.lean:54:12: error: Tactic `apply` failed: could not unify the conclusion of `@funext`
+  ?f = ?g
+with the goal
+  Random.i32ArangeSize p.block ⋯ = p.block ∧
+    (fun x => M.literal (some ComputeDType.fp32) FloatDType.real 0) = initial M p
+
+Note: The full type of `@funext` is
+  ∀ {α : Sort ?u.5864.3227950} {β : α → Sort ?u.5864.3227949} {f g : (x : α) → β x}, (∀ (x : α), f x = g x) → f = g
+
+case accumulator
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+p : Parameters
+s : State α
+⊢ Random.i32ArangeSize p.block ⋯ = p.block ∧
+    (fun x => M.literal (some ComputeDType.fp32) FloatDType.real 0) = initial M p
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceAccumulate.lean:48:8: error: (kernel) declaration has metavariables 'VeriTile.Bench.Repairs.LayernormFwdTriton.Source.prelude_run'
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceAccumulate.lean:64:36: error(lean.unknownIdentifier): Unknown identifier `intLt`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceAccumulate.lean:65:18: error: `simp` made no progress
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceAccumulate.lean:57:8: error: (kernel) declaration has metavariables 'VeriTile.Bench.Repairs.LayernormFwdTriton.Source.mean_body_run'
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceAccumulate.lean:90:36: error(lean.unknownIdentifier): Unknown identifier `intLt`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceAccumulate.lean:91:18: error: `simp` made no progress
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceAccumulate.lean:83:8: error: (kernel) declaration has metavariables 'VeriTile.Bench.Repairs.LayernormFwdTriton.Source.var_body_run'
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceAccumulate.lean:117:18: error: `simp` made no progress
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceAccumulate.lean:109:8: error: (kernel) declaration has metavariables 'VeriTile.Bench.Repairs.LayernormFwdTriton.Source.mean_post_run'
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceAccumulate.lean:121:0: error: VeriTile.Bench.Repairs.LayernormFwdTriton.Source.prelude_run: DISALLOWED axioms [VeriTile.Bench.Repairs.LayernormFwdTriton.Source.prelude_run] (sorryAx ⇒ fake proof)
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceAccumulate.lean:122:0: error: VeriTile.Bench.Repairs.LayernormFwdTriton.Source.mean_body_run: DISALLOWED axioms [VeriTile.Bench.Repairs.LayernormFwdTriton.Source.mean_body_run] (sorryAx ⇒ fake proof)
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceAccumulate.lean:123:0: error: VeriTile.Bench.Repairs.LayernormFwdTriton.Source.mean_range_run: DISALLOWED axioms [VeriTile.Bench.Repairs.LayernormFwdTriton.Source.mean_body_run] (sorryAx ⇒ fake proof)
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceAccumulate.lean:124:0: error: VeriTile.Bench.Repairs.LayernormFwdTriton.Source.var_body_run: DISALLOWED axioms [VeriTile.Bench.Repairs.LayernormFwdTriton.Source.var_body_run] (sorryAx ⇒ fake proof)
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceAccumulate.lean:125:0: error: VeriTile.Bench.Repairs.LayernormFwdTriton.Source.var_range_run: DISALLOWED axioms [VeriTile.Bench.Repairs.LayernormFwdTriton.Source.var_body_run] (sorryAx ⇒ fake proof)
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceAccumulate.lean:126:0: error: VeriTile.Bench.Repairs.LayernormFwdTriton.Source.mean_post_run: DISALLOWED axioms [VeriTile.Bench.Repairs.LayernormFwdTriton.Source.mean_post_run] (sorryAx ⇒ fake proof)

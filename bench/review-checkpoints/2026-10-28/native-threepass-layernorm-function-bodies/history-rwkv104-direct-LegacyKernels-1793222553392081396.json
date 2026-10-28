@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layernorm_fwd_triton.LegacyKernels",
+  "start": 1793222553.3920965,
+  "end": 1793222556.207742,
+  "log": "/tmp/rwkv104-direct-LegacyKernels-1793222553392081396.log",
+  "stop_file": "/tmp/rwkv104-direct-LegacyKernels-1793222553392081396.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

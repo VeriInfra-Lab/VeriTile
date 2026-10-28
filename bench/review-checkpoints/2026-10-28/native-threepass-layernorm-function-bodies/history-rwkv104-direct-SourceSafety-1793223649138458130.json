@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.SourceSafety",
+  "start": 1793223649.1384778,
+  "end": 1793223652.5043197,
+  "log": "/tmp/rwkv104-direct-SourceSafety-1793223649138458130.log",
+  "stop_file": "/tmp/rwkv104-direct-SourceSafety-1793223649138458130.stop",
+  "status": "COMPLETED",
+  "exit_code": 1
+}

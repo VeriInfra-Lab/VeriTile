@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.token_attn_reduceV.Proofs.FPContract",
+  "start": 1793226260.950812,
+  "end": 1793226265.3669896,
+  "log": "/tmp/rwkv104-direct-FPContract-1793226260950793558.log",
+  "stop_file": "/tmp/rwkv104-direct-FPContract-1793226260950793558.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

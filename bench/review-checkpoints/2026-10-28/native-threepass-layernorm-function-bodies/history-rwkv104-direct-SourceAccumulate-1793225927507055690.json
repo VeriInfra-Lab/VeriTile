@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.SourceAccumulate",
+  "start": 1793225927.5070689,
+  "end": 1793225984.340213,
+  "log": "/tmp/rwkv104-direct-SourceAccumulate-1793225927507055690.log",
+  "stop_file": "/tmp/rwkv104-direct-SourceAccumulate-1793225927507055690.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

@@ -1,0 +1,28 @@
+/tmp/rwkv104-staging/ThreePass106Triage.lean:18:6: warning: unused variable `BLOCK_SIZE`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/rwkv104-staging/ThreePass106Triage.lean:28:6: warning: unused variable `BLOCK_SIZE`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/rwkv104-staging/ThreePass106Triage.lean:47:6: warning: unused variable `BLOCK_SIZE`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/rwkv104-staging/ThreePass106Triage.lean:67:6: warning: unused variable `BLOCK_SIZE`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/rwkv104-staging/ThreePass106Triage.lean:88:6: warning: unused variable `BLOCK_SIZE`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/rwkv104-staging/ThreePass106Triage.lean:110:6: warning: unused variable `BLOCK_SIZE`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/rwkv104-staging/ThreePass106Triage.lean:135:6: warning: unused variable `BLOCK_SIZE`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/rwkv104-staging/ThreePass106Triage.lean:162:6: warning: unused variable `BLOCK_SIZE`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/rwkv104-staging/ThreePass106Triage.lean:260:2: error: int expression: dtype mismatch
+/tmp/rwkv104-staging/ThreePass106Triage.lean:299:2: error: int expression: dtype mismatch
+/tmp/rwkv104-staging/ThreePass106Triage.lean:339:2: error: int expression: dtype mismatch
+/tmp/rwkv104-staging/ThreePass106Triage.lean:380:2: error: int expression: dtype mismatch

@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.KernelBoundary",
+  "start": 1793223659.2424314,
+  "end": 1793223662.2440627,
+  "log": "/tmp/rwkv104-direct-KernelBoundary-1793223659242416214.log",
+  "stop_file": "/tmp/rwkv104-direct-KernelBoundary-1793223659242416214.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

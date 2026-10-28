@@ -1,0 +1,9 @@
+{
+  "module": "VeriTile.Triton.Float.ExponentialExact",
+  "start": 1793225866.862329,
+  "end": 1793225870.5782177,
+  "log": "/tmp/rwkv104-direct-ExponentialExact-1793225866862312700.log",
+  "stop_file": "/tmp/rwkv104-direct-ExponentialExact-1793225866862312700.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

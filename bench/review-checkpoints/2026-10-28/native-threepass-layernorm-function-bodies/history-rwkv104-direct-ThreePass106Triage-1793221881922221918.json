@@ -1,0 +1,9 @@
+{
+  "module": "ThreePass106Triage",
+  "start": 1793221881.9222357,
+  "end": 1793221884.1374676,
+  "log": "/tmp/rwkv104-direct-ThreePass106Triage-1793221881922221918.log",
+  "stop_file": "/tmp/rwkv104-direct-ThreePass106Triage-1793221881922221918.stop",
+  "status": "COMPLETED",
+  "exit_code": 1
+}

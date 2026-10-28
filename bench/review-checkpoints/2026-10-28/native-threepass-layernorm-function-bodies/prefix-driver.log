@@ -1,0 +1,10 @@
+bench.tests.SignedRangeCallBody 1 /tmp/rwkv104-direct-SignedRangeCallBody-1793222414649807347.log
+/tmp/rwkv104-staging/bench/tests/SignedRangeCallBody.lean:29:12: error(lean.invalidDottedIdent): Invalid dotted identifier notation: The expected type of `.forRangeInt`
+/tmp/rwkv104-staging/bench/tests/SignedRangeCallBody.lean:29:4: error: Invalid pattern(s): `_body` is an explicit pattern variable, but it only occurs in positions that are inaccessible to pattern matching:
+/tmp/rwkv104-staging/bench/tests/SignedRangeCallBody.lean:114:0: error: VeriTile.Tests.SignedRangeCallBody.signed_loop: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+bench.repairs.tritonbench_g.layernorm_fwd_triton.LegacyKernels 0 /tmp/rwkv104-direct-LegacyKernels-1793222416404456672.log
+bench.repairs.tritonbench_g.layernorm_fwd_triton.Kernels 1 /tmp/rwkv104-direct-Kernels-1793222419260287888.log
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Kernels.lean:131:32: error: failed to synthesize
+bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.SignedRange 1 /tmp/rwkv104-direct-SignedRange-1793222422515883149.log
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SignedRange.lean:1:0: error: object file '/tmp/rwkv104-staging/bench/tritonbench_g/parallel_attention/Proofs/FPRange.olean' of module bench.tritonbench_g.parallel_attention.Proofs.FPRange does not exist
+BATCH COMPLETE threepass106-prefix failed/skipped 5

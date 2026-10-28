@@ -1,0 +1,9 @@
+{
+  "module": "VeriTile.Triton.Float.ScalarBackend",
+  "start": 1793225858.7987127,
+  "end": 1793225861.1140413,
+  "log": "/tmp/rwkv104-direct-ScalarBackend-1793225858798696815.log",
+  "stop_file": "/tmp/rwkv104-direct-ScalarBackend-1793225858798696815.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

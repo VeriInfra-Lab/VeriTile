@@ -1,0 +1,9 @@
+{
+  "module": "VeriTile.Meta.StatementAudit",
+  "start": 1793225063.6042614,
+  "end": 1793225067.2195284,
+  "log": "/tmp/rwkv104-direct-StatementAudit-1793225063604246764.log",
+  "stop_file": "/tmp/rwkv104-direct-StatementAudit-1793225063604246764.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

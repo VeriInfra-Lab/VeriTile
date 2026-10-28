@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.KernelGrid",
+  "start": 1793223655.699235,
+  "end": 1793223659.2009304,
+  "log": "/tmp/rwkv104-direct-KernelGrid-1793223655699220758.log",
+  "stop_file": "/tmp/rwkv104-direct-KernelGrid-1793223655699220758.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

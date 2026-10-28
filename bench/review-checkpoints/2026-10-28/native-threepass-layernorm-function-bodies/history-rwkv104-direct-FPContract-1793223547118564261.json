@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.layer_norm_liger.Proofs.FPContract",
+  "start": 1793223547.1185813,
+  "end": 1793223550.1201532,
+  "log": "/tmp/rwkv104-direct-FPContract-1793223547118564261.log",
+  "stop_file": "/tmp/rwkv104-direct-FPContract-1793223547118564261.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

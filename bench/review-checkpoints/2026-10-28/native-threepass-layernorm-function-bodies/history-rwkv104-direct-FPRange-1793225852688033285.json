@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.parallel_attention.Proofs.FPRange",
+  "start": 1793225852.6880486,
+  "end": 1793225855.4036176,
+  "log": "/tmp/rwkv104-direct-FPRange-1793225852688033285.log",
+  "stop_file": "/tmp/rwkv104-direct-FPRange-1793225852688033285.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

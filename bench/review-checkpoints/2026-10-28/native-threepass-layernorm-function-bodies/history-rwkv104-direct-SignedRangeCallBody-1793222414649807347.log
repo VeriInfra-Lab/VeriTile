@@ -1,0 +1,12 @@
+/tmp/rwkv104-staging/bench/tests/SignedRangeCallBody.lean:17:6: warning: unused variable `BLOCK`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/rwkv104-staging/bench/tests/SignedRangeCallBody.lean:29:12: error(lean.invalidDottedIdent): Invalid dotted identifier notation: The expected type of `.forRangeInt`
+  ?m.14
+is not of the form `C ...` or `... → C ...` where C is a constant
+/tmp/rwkv104-staging/bench/tests/SignedRangeCallBody.lean:29:4: error: Invalid pattern(s): `_body` is an explicit pattern variable, but it only occurs in positions that are inaccessible to pattern matching:
+  some ?m.15
+/tmp/rwkv104-staging/bench/tests/SignedRangeCallBody.lean:114:0: error: VeriTile.Tests.SignedRangeCallBody.signed_loop: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Tests.SignedRangeCallBody.kept_step_assignment: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

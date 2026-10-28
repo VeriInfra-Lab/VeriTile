@@ -1,0 +1,12 @@
+bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.SourceSafety 0 /tmp/rwkv104-direct-SourceSafety-1793223684367825973.log
+bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.PublicIO 0 /tmp/rwkv104-direct-PublicIO-1793223687722400069.log
+bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.LogicalIO 0 /tmp/rwkv104-direct-LogicalIO-1793223691077047488.log
+bench.repairs.tritonbench_g.layernorm_fwd_triton.Correct 0 /tmp/rwkv104-direct-Correct-1793223694032349166.log
+bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.PairSource 0 /tmp/rwkv104-direct-PairSource-1793223697037327292.log
+bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.PairExecution 0 /tmp/rwkv104-direct-PairExecution-1793223704742996767.log
+bench.repairs.tritonbench_g.layernorm_fwd_triton.PairIO 0 /tmp/rwkv104-direct-PairIO-1793223711049914260.log
+bench.repairs.tritonbench_g.layernorm_fwd_triton.FPEquiv 1 /tmp/rwkv104-direct-FPEquiv-1793223714954967996.log
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/FPEquiv.lean:25:0: error: (deterministic) timeout at `whnf`, maximum number of heartbeats (4000000) has been reached
+bench.repairs.tritonbench_g.layernorm_fwd_triton.Misc.NativeCorrect 0 /tmp/rwkv104-direct-NativeCorrect-1793223942880979555.log
+bench.repairs.tritonbench_g.layernorm_fwd_triton.Misc.TensorBridge 0 /tmp/rwkv104-direct-TensorBridge-1793223946135633489.log
+BATCH COMPLETE threepass106-family3 failed/skipped 2

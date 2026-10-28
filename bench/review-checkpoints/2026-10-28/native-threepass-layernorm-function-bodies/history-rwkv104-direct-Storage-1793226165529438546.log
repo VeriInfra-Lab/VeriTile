@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.LayernormFwdTritonRevision005.Storage.coordinate_bytes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayernormFwdTritonRevision005.Storage.frame_x_storage: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.LayernormFwdTritonRevision005.Storage.frame_w_storage: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

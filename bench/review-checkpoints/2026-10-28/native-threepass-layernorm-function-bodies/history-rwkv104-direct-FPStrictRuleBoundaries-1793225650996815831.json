@@ -1,0 +1,9 @@
+{
+  "module": "bench.tests.FPStrictRuleBoundaries",
+  "start": 1793225650.9968274,
+  "end": 1793225658.563435,
+  "log": "/tmp/rwkv104-direct-FPStrictRuleBoundaries-1793225650996815831.log",
+  "stop_file": "/tmp/rwkv104-direct-FPStrictRuleBoundaries-1793225650996815831.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

@@ -1,0 +1,9 @@
+{
+  "module": "bench.tests.FPStrictMeta",
+  "start": 1793225612.2197254,
+  "end": 1793225613.7842724,
+  "log": "/tmp/rwkv104-direct-FPStrictMeta-1793225612219708510.log",
+  "stop_file": "/tmp/rwkv104-direct-FPStrictMeta-1793225612219708510.stop",
+  "status": "COMPLETED",
+  "exit_code": 1
+}

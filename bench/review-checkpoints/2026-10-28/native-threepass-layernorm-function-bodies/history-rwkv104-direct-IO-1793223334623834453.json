@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layernorm_fwd_triton.IO",
+  "start": 1793223334.6238499,
+  "end": 1793223337.7389174,
+  "log": "/tmp/rwkv104-direct-IO-1793223334623834453.log",
+  "stop_file": "/tmp/rwkv104-direct-IO-1793223334623834453.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

@@ -1,0 +1,5 @@
+VeriTile.Bench.Repairs.LayernormFwdTriton.FPEquiv.source_equivalence: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+FP assumptions used by source_equivalence:
+  none

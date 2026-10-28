@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.HostPrepared",
+  "start": 1793223455.4047291,
+  "end": 1793223458.9700544,
+  "log": "/tmp/rwkv104-direct-HostPrepared-1793223455404714478.log",
+  "stop_file": "/tmp/rwkv104-direct-HostPrepared-1793223455404714478.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

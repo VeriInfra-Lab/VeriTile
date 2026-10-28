@@ -1,0 +1,9 @@
+{
+  "module": "VeriTile.Triton.Float.ScalarOpsLaws",
+  "start": 1793225864.6570632,
+  "end": 1793225866.8220918,
+  "log": "/tmp/rwkv104-direct-ScalarOpsLaws-1793225864657050196.log",
+  "stop_file": "/tmp/rwkv104-direct-ScalarOpsLaws-1793225864657050196.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

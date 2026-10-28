@@ -1,0 +1,4 @@
+bench.tests.FPStrictMeta 0 /tmp/rwkv104-direct-FPStrictMeta-1793225649431767516.log
+bench.tests.FPStrictRuleBoundaries 0 /tmp/rwkv104-direct-FPStrictRuleBoundaries-1793225650996815831.log
+bench.repairs.tritonbench_g.layernorm_fwd_triton.FPEquiv 0 /tmp/rwkv104-direct-FPEquiv-1793225658563803740.log
+bench.repairs.tritonbench_g.layernorm_fwd_triton.Misc.PublicAudit 0 /tmp/rwkv104-direct-PublicAudit-1793225664280672666.log

@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.CallReal",
+  "start": 1793223483.0997787,
+  "end": 1793223487.0159185,
+  "log": "/tmp/rwkv104-direct-CallReal-1793223483099763114.log",
+  "stop_file": "/tmp/rwkv104-direct-CallReal-1793223483099763114.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

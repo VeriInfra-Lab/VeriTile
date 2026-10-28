@@ -1,0 +1,9 @@
+{
+  "module": "VeriTile.Triton.DSL.CallSignature",
+  "start": 1793221782.3438044,
+  "end": 1793221821.0203583,
+  "log": "/tmp/rwkv104-direct-CallSignature-1793221782343790060.log",
+  "stop_file": "/tmp/rwkv104-direct-CallSignature-1793221782343790060.stop",
+  "status": "COMPLETED",
+  "exit_code": 1
+}

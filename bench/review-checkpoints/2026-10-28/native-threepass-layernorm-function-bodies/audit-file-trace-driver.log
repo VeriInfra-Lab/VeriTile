@@ -1,0 +1,8 @@
+VeriTile.Meta.StatementAudit 1 /tmp/rwkv104-direct-StatementAudit-1793225257893286298.log
+/tmp/rwkv104-staging/VeriTile/Meta/StatementAudit.lean:502:2: error: Type mismatch
+/tmp/rwkv104-staging/VeriTile/Meta/StatementAudit.lean:525:4: error: Type mismatch
+/tmp/rwkv104-staging/VeriTile/Meta/StatementAudit.lean:529:4: error: Type mismatch
+/tmp/rwkv104-staging/VeriTile/Meta/StatementAudit.lean:533:4: error: Type mismatch
+/tmp/rwkv104-staging/VeriTile/Meta/StatementAudit.lean:657:10: error: Type mismatch
+/tmp/rwkv104-staging/VeriTile/Meta/StatementAudit.lean:670:6: error: Type mismatch
+/tmp/rwkv104-staging/VeriTile/Meta/StatementAudit.lean:674:8: error: Type mismatch

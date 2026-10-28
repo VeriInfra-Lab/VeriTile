@@ -1,0 +1,9 @@
+{
+  "module": "VeriTile.Triton.DSL.TypedStores",
+  "start": 1793221641.8454456,
+  "end": 1793221650.0127518,
+  "log": "/tmp/rwkv104-direct-TypedStores-1793221641845431216.log",
+  "stop_file": "/tmp/rwkv104-direct-TypedStores-1793221641845431216.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layernorm_fwd_triton.Misc.PublicAudit",
+  "start": 1793225664.280684,
+  "end": 1793225671.047514,
+  "log": "/tmp/rwkv104-direct-PublicAudit-1793225664280672666.log",
+  "stop_file": "/tmp/rwkv104-direct-PublicAudit-1793225664280672666.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

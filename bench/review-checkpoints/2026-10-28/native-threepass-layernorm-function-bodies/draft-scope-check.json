@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "public_declarations_unchanged": [
+    "bench/repairs/tritonbench_g/layernorm_fwd_triton/Correct.lean",
+    "bench/repairs/tritonbench_g/layernorm_fwd_triton/FPEquiv.lean"
+  ],
+  "python_and_contracts_unchanged": [
+    "bench/tritonbench_g/layernorm_fwd_triton/layernorm_fwd_triton.py",
+    "bench/repairs/tritonbench_g/layernorm_fwd_triton/Contract.lean",
+    "bench/repairs/tritonbench_g/layernorm_fwd_triton/layernorm_fwd_triton_repaired.py",
+    "bench/repairs/tritonbench_g/layernorm_fwd_triton/check_lowering.py",
+    "bench/repairs/tritonbench_g/layernorm_fwd_triton/check_source.py",
+    "bench/repairs/tritonbench_g/layernorm_fwd_triton/layernorm_fwd_triton_scheduled.py",
+    "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/Contract.lean"
+  ],
+  "scope": "Draft comparison against frozen105 source; independent frozen receipt rechecks against Git."
+}

@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.parallel_attention.Kernels",
+  "start": 1793222560.294501,
+  "end": 1793222570.2177656,
+  "log": "/tmp/rwkv104-direct-Kernels-1793222560294485129.log",
+  "stop_file": "/tmp/rwkv104-direct-Kernels-1793222560294485129.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

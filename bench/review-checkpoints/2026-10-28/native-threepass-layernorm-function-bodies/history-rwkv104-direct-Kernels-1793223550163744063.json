@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.matrix_vector_multip.Kernels",
+  "start": 1793223550.163763,
+  "end": 1793223552.9291472,
+  "log": "/tmp/rwkv104-direct-Kernels-1793223550163744063.log",
+  "stop_file": "/tmp/rwkv104-direct-Kernels-1793223550163744063.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

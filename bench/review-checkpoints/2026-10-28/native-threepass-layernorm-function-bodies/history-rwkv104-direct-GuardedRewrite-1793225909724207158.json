@@ -1,0 +1,9 @@
+{
+  "module": "VeriTile.Triton.Float.GuardedRewrite",
+  "start": 1793225909.7242231,
+  "end": 1793225912.5398812,
+  "log": "/tmp/rwkv104-direct-GuardedRewrite-1793225909724207158.log",
+  "stop_file": "/tmp/rwkv104-direct-GuardedRewrite-1793225909724207158.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

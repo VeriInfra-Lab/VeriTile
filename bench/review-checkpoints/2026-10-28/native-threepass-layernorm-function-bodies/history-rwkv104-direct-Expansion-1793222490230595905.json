@@ -1,0 +1,9 @@
+{
+  "module": "VeriTile.Triton.DSL.Expansion",
+  "start": 1793222490.230612,
+  "end": 1793222491.5458899,
+  "log": "/tmp/rwkv104-direct-Expansion-1793222490230595905.log",
+  "stop_file": "/tmp/rwkv104-direct-Expansion-1793222490230595905.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.layer_norm_liger.Proofs.FPTypedSource",
+  "start": 1793223500.1237686,
+  "end": 1793223502.7389822,
+  "log": "/tmp/rwkv104-direct-FPTypedSource-1793223500123754125.log",
+  "stop_file": "/tmp/rwkv104-direct-FPTypedSource-1793223500123754125.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

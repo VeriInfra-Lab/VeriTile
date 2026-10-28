@@ -1,0 +1,63 @@
+/tmp/rwkv104-staging/VeriTile/Meta/StatementAudit.lean:502:2: error: Type mismatch
+  liftIO
+    (IO.FS.withFile { toString := "/tmp/threepass106-audit-events.log" } IO.FS.Mode.append fun h => do
+      h.putStrLn (toString "FPDIAG enter " ++ toString head ++ toString " / args " ++ toString proof.getAppArgs.size)
+      h.flush)
+has type
+  CommandElabM Unit
+but is expected to have type
+  StateRefT' IO.RealWorld FPAssumptionState MetaM PUnit
+/tmp/rwkv104-staging/VeriTile/Meta/StatementAudit.lean:525:4: error: Type mismatch
+  liftIO
+    (IO.FS.withFile { toString := "/tmp/threepass106-audit-events.log" } IO.FS.Mode.append fun h => do
+      h.putStrLn (toString "FPDIAG reachability " ++ toString head)
+      h.flush)
+has type
+  CommandElabM Unit
+but is expected to have type
+  StateRefT' IO.RealWorld FPAssumptionState MetaM PUnit
+/tmp/rwkv104-staging/VeriTile/Meta/StatementAudit.lean:529:4: error: Type mismatch
+  liftIO
+    (IO.FS.withFile { toString := "/tmp/threepass106-audit-events.log" } IO.FS.Mode.append fun h => do
+      h.putStrLn (toString "FPDIAG isProof " ++ toString head)
+      h.flush)
+has type
+  CommandElabM Unit
+but is expected to have type
+  StateRefT' IO.RealWorld FPAssumptionState MetaM PUnit
+/tmp/rwkv104-staging/VeriTile/Meta/StatementAudit.lean:533:4: error: Type mismatch
+  liftIO
+    (IO.FS.withFile { toString := "/tmp/threepass106-audit-events.log" } IO.FS.Mode.append fun h => do
+      h.putStrLn (toString "FPDIAG dispatch " ++ toString head)
+      h.flush)
+has type
+  CommandElabM Unit
+but is expected to have type
+  StateRefT' IO.RealWorld FPAssumptionState MetaM PUnit
+/tmp/rwkv104-staging/VeriTile/Meta/StatementAudit.lean:657:10: error: Type mismatch
+  liftIO
+    (IO.FS.withFile { toString := "/tmp/threepass106-audit-events.log" } IO.FS.Mode.append fun h => do
+      h.putStrLn (toString "FPDIAG unfold " ++ toString name)
+      h.flush)
+has type
+  CommandElabM Unit
+but is expected to have type
+  StateRefT' IO.RealWorld FPAssumptionState MetaM PUnit
+/tmp/rwkv104-staging/VeriTile/Meta/StatementAudit.lean:670:6: error: Type mismatch
+  liftIO
+    (IO.FS.withFile { toString := "/tmp/threepass106-audit-events.log" } IO.FS.Mode.append fun h => do
+      h.putStrLn (toString "FPDIAG arg reachability of " ++ toString head)
+      h.flush)
+has type
+  CommandElabM Unit
+but is expected to have type
+  StateRefT' IO.RealWorld FPAssumptionState MetaM PUnit
+/tmp/rwkv104-staging/VeriTile/Meta/StatementAudit.lean:674:8: error: Type mismatch
+  liftIO
+    (IO.FS.withFile { toString := "/tmp/threepass106-audit-events.log" } IO.FS.Mode.append fun h => do
+      h.putStrLn (toString "FPDIAG arg isProof of " ++ toString head)
+      h.flush)
+has type
+  CommandElabM Unit
+but is expected to have type
+  StateRefT' IO.RealWorld FPAssumptionState MetaM PUnit

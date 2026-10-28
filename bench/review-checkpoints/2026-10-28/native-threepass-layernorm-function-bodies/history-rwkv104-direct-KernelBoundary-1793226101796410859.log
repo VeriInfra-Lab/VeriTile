@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.LayernormFwdTriton.KernelBoundary.original_values: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayernormFwdTriton.KernelBoundary.complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

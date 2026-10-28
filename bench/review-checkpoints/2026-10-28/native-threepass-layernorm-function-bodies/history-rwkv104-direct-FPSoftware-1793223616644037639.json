@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.token_attn_reduceV.Proofs.FPSoftware",
+  "start": 1793223616.6440525,
+  "end": 1793223620.1102335,
+  "log": "/tmp/rwkv104-direct-FPSoftware-1793223616644037639.log",
+  "stop_file": "/tmp/rwkv104-direct-FPSoftware-1793223616644037639.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

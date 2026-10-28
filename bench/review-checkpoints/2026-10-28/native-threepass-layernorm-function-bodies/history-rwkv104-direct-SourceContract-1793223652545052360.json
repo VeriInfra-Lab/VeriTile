@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.SourceContract",
+  "start": 1793223652.5450685,
+  "end": 1793223655.6603966,
+  "log": "/tmp/rwkv104-direct-SourceContract-1793223652545052360.log",
+  "stop_file": "/tmp/rwkv104-direct-SourceContract-1793223652545052360.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

@@ -1,0 +1,9 @@
+{
+  "module": "VeriTile.Triton.Float.GuardedIO",
+  "start": 1793225875.9925485,
+  "end": 1793225878.6078944,
+  "log": "/tmp/rwkv104-direct-GuardedIO-1793225875992534242.log",
+  "stop_file": "/tmp/rwkv104-direct-GuardedIO-1793225875992534242.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

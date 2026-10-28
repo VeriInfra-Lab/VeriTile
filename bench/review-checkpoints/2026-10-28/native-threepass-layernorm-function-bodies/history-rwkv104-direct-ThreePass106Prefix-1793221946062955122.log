@@ -1,0 +1,110 @@
+/tmp/rwkv104-staging/ThreePass106Prefix.lean:18:6: warning: unused variable `BLOCK_SIZE`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/rwkv104-staging/ThreePass106Prefix.lean:28:6: warning: unused variable `BLOCK_SIZE`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/rwkv104-staging/ThreePass106Prefix.lean:47:6: warning: unused variable `BLOCK_SIZE`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/rwkv104-staging/ThreePass106Prefix.lean:67:6: warning: unused variable `BLOCK_SIZE`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/rwkv104-staging/ThreePass106Prefix.lean:88:6: warning: unused variable `BLOCK_SIZE`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/rwkv104-staging/ThreePass106Prefix.lean:110:6: warning: unused variable `BLOCK_SIZE`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/rwkv104-staging/ThreePass106Prefix.lean:135:6: warning: unused variable `BLOCK_SIZE`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/tmp/rwkv104-staging/ThreePass106Prefix.lean:162:6: warning: unused variable `BLOCK_SIZE`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+def ThreePass106Probe.prefix20 : RegionName →
+  RegionName →
+    RegionName → ℕ → ℕ → ℕ → ℕ → ℕ → ℕ → ℕ → ℕ → ℕ → (block : ℕ) → Random.ArangeSizeDomain block → ComputeKernel :=
+fun X W Y stride_x_N stride_x_hn stride_x_hd stride_y_N stride_y_hn stride_y_hd stride_w_hn stride_w_hd N block
+    hBlock =>
+  have BLOCK_SIZE := Random.i32ArangeSize block hBlock;
+  have dtype := FloatDType.fp32;
+  ComputeKernel.mk [X, W] [Y]
+    [ComputeStmt.assign TileDType.int [] "Seq" (ComputeExpr.alg (Op.programId 0).castNatToInt),
+      ComputeStmt.assign TileDType.int [] "H" (ComputeExpr.alg (Op.programId 1).castNatToInt),
+      ComputeStmt.assign TileDType.int [] "stride_x_N" (ComputeExpr.alg (Op.constNat stride_x_N).castNatToInt),
+      ComputeStmt.assign TileDType.int [] "stride_x_hn" (ComputeExpr.alg (Op.constNat stride_x_hn).castNatToInt),
+      ComputeStmt.assign TileDType.int [] "stride_x_hd" (ComputeExpr.alg (Op.constNat stride_x_hd).castNatToInt),
+      ComputeStmt.assign TileDType.int [] "stride_y_N" (ComputeExpr.alg (Op.constNat stride_y_N).castNatToInt),
+      ComputeStmt.assign TileDType.int [] "stride_y_hn" (ComputeExpr.alg (Op.constNat stride_y_hn).castNatToInt),
+      ComputeStmt.assign TileDType.int [] "stride_y_hd" (ComputeExpr.alg (Op.constNat stride_y_hd).castNatToInt),
+      ComputeStmt.assign TileDType.int [] "stride_w_hn" (ComputeExpr.alg (Op.constNat stride_w_hn).castNatToInt),
+      ComputeStmt.assign TileDType.int [] "stride_w_hd" (ComputeExpr.alg (Op.constNat stride_w_hd).castNatToInt),
+      ComputeStmt.assign TileDType.int [] "N" (ComputeExpr.alg (Op.constNat N).castNatToInt),
+      ComputeStmt.assign TileDType.int [] "zero" (ComputeExpr.alg (Op.full [] (Op.constInt 0))),
+      ComputeStmt.assign TileDType.int [] "step"
+        (ComputeExpr.alg (Op.full [] (Op.constInt ↑(Random.i32ArangeSize block hBlock)))),
+      ComputeStmt.assign TileDType.int [Random.i32ArangeSize block hBlock] "lanes"
+        (ComputeExpr.alg (Op.arange (Random.i32ArangeSize block hBlock)).castNatToInt),
+      ComputeStmt.assign TileDType.ptr [] "X"
+        (ComputeExpr.alg
+          (Op.ptrAdd Broadcast.nil (Op.ptrBase X)
+            (Op.add NumericDType.int Broadcast.nil
+                (Op.mul NumericDType.int Broadcast.nil (Op.ref TileDType.int [] "Seq")
+                  (Op.ref TileDType.int [] "stride_x_N"))
+                (Op.mul NumericDType.int Broadcast.nil (Op.ref TileDType.int [] "H")
+                  (Op.ref TileDType.int [] "stride_x_hn"))).castIntToNat)),
+      ComputeStmt.assign TileDType.ptr [] "Y"
+        (ComputeExpr.alg
+          (Op.ptrAdd Broadcast.nil (Op.ptrBase Y)
+            (Op.add NumericDType.int Broadcast.nil
+                (Op.mul NumericDType.int Broadcast.nil (Op.ref TileDType.int [] "Seq")
+                  (Op.ref TileDType.int [] "stride_y_N"))
+                (Op.mul NumericDType.int Broadcast.nil (Op.ref TileDType.int [] "H")
+                  (Op.ref TileDType.int [] "stride_y_hn"))).castIntToNat)),
+      ComputeStmt.assign TileDType.ptr [] "W"
+        (ComputeExpr.alg
+          (Op.ptrAdd Broadcast.nil (Op.ptrBase W)
+            (Op.mul NumericDType.int Broadcast.nil (Op.ref TileDType.int [] "H")
+                (Op.ref TileDType.int [] "stride_w_hn")).castIntToNat)),
+      ComputeStmt.assign TileDType.real [Random.i32ArangeSize block hBlock] "_mean"
+        (ComputeExpr.compute
+          (ComputeOp.full [Random.i32ArangeSize block hBlock] (ComputeOp.alg ComputeDType.fp32 (Op.const 0)))),
+      ComputeStmt.forRangeInt "off" (Op.ref TileDType.int [] "zero") (Op.ref TileDType.int [] "N")
+        (Op.constNat (Random.i32ArangeSize block hBlock))
+        [ComputeStmt.assign TileDType.int [Random.i32ArangeSize block hBlock] "cols"
+            (ComputeExpr.alg
+              (Op.add NumericDType.int Broadcast.scalarL (Op.ref TileDType.int [] "off")
+                (Op.ref TileDType.int [Random.i32ArangeSize block hBlock] "lanes"))),
+          ComputeStmt.assign TileDType.real [Random.i32ArangeSize block hBlock] "a"
+            (ComputeExpr.compute
+              (ComputeOp.alg ComputeDType.fp32
+                (Op.castFloat dtype FloatDType.real
+                  (Op.load dtype.toTileDType
+                    (MemAccess.ptr
+                      (Op.ptrSub Broadcast.nil.consSame
+                        (Op.ptrAdd Broadcast.scalarL (Op.ref TileDType.ptr [] "X")
+                          (Op.mul NumericDType.int Broadcast.scalarR
+                              (Op.ref TileDType.int [Random.i32ArangeSize block hBlock] "cols")
+                              (Op.ref TileDType.int [] "stride_x_hd")).castIntToNat)
+                        (Op.sub NumericDType.int Broadcast.scalarL (Op.constInt 0)
+                            (Op.mul NumericDType.int Broadcast.scalarR
+                              (Op.ref TileDType.int [Random.i32ArangeSize block hBlock] "cols")
+                              (Op.ref TileDType.int [] "stride_x_hd"))).castIntToNat))
+                    (MaskOpt.maskOther
+                      (Op.lt ComparableDType.int Broadcast.scalarR
+                        (Op.ref TileDType.int [Random.i32ArangeSize block hBlock] "cols") (Op.ref TileDType.int [] "N"))
+                      ((Op.castFloat FloatDType.real dtype (Op.const 0.0)).broadcast
+                        [Random.i32ArangeSize block hBlock])))))),
+          ComputeStmt.assign TileDType.real [Random.i32ArangeSize block hBlock] "_mean"
+            (ComputeExpr.compute
+              (ComputeOp.alg ComputeDType.fp32
+                (Op.add NumericDType.real Broadcast.nil.consSame
+                  (Op.ref TileDType.real [Random.i32ArangeSize block hBlock] "_mean")
+                  (Op.ref TileDType.real [Random.i32ArangeSize block hBlock] "a"))))],
+      ComputeStmt.assign TileDType.real [] "mean"
+        (ComputeExpr.compute
+          (ComputeOp.alg ComputeDType.fp32
+            (Op.div NumericDType.real Broadcast.nil
+              (Op.reduceSum ⟨0, ⋯⟩ «false» (Op.ref TileDType.real [Random.i32ArangeSize block hBlock] "_mean"))
+              (Op.ref TileDType.int [] "N").intToReal)))]

@@ -1,0 +1,12 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SignedRange.lean:29:22: error(lean.unknownIdentifier): Unknown constant `Int.natCast_lt`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SignedRange.lean:29:6: error: Type mismatch: After simplification, term
+  hf
+ has type
+  rangeInt M idx (↑cur + ↑stride) (↑stop) stride body next = some final
+but is expected to have type
+  (if ↑cur < ↑stop then do
+      let t ← some next
+      rangeInt M idx (↑cur + ↑stride) (↑stop) stride body t
+    else some s) =
+    some final
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SignedRange.lean:37:0: error: VeriTile.Bench.Repairs.LayernormFwdTriton.SignedRange.values: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

@@ -1,0 +1,9 @@
+{
+  "module": "VeriTile.Triton.Float.Reciprocal",
+  "start": 1793225878.646243,
+  "end": 1793225885.9132848,
+  "log": "/tmp/rwkv104-direct-Reciprocal-1793225878646228362.log",
+  "stop_file": "/tmp/rwkv104-direct-Reciprocal-1793225878646228362.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

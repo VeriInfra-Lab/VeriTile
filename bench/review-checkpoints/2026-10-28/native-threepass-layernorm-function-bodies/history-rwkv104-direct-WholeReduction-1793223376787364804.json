@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layer_norm_fwd.Proofs.WholeReduction",
+  "start": 1793223376.787379,
+  "end": 1793223380.0032449,
+  "log": "/tmp/rwkv104-direct-WholeReduction-1793223376787364804.log",
+  "stop_file": "/tmp/rwkv104-direct-WholeReduction-1793223376787364804.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

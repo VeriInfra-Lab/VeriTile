@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.Binding",
+  "start": 1793226188.9796968,
+  "end": 1793226192.195313,
+  "log": "/tmp/rwkv104-direct-Binding-1793226188979682683.log",
+  "stop_file": "/tmp/rwkv104-direct-Binding-1793226188979682683.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

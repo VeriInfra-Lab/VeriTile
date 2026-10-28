@@ -1,0 +1,3 @@
+VeriTile.Bench.Repairs.LayernormFwdTriton.SignedRange.values: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

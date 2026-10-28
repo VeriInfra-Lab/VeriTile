@@ -1,0 +1,2 @@
+bench.tests.FPStrictMeta 1 /tmp/rwkv104-direct-FPStrictMeta-1793225612219708510.log
+/tmp/rwkv104-staging/bench/tests/FPStrictMeta.lean:216:0: error: ❌️ Docstring on `#guard_msgs` does not match generated message:

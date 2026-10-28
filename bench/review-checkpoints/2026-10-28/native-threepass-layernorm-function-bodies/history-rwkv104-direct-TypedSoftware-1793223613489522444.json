@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.matrix_vector_multip.Proofs.TypedSoftware",
+  "start": 1793223613.4895368,
+  "end": 1793223616.604903,
+  "log": "/tmp/rwkv104-direct-TypedSoftware-1793223613489522444.log",
+  "stop_file": "/tmp/rwkv104-direct-TypedSoftware-1793223613489522444.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

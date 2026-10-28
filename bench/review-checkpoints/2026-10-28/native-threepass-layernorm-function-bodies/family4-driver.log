@@ -1,0 +1,3 @@
+bench.repairs.tritonbench_g.layernorm_fwd_triton.FPEquiv 1 /tmp/rwkv104-direct-FPEquiv-1793223976955801925.log
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/FPEquiv.lean:26:0: error: (deterministic) timeout at `whnf`, maximum number of heartbeats (12000000) has been reached
+BATCH COMPLETE threepass106-family4 failed/skipped 2

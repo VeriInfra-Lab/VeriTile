@@ -1,0 +1,22 @@
+VeriTile.Triton.DSL.Expansion 0 /tmp/rwkv104-direct-Expansion-1793222490230595905.log
+VeriTile.Triton.DSL 0 /tmp/rwkv104-direct-DSL-1793222491585017676.log
+VeriTile.Triton.DSL.SourceDType 0 /tmp/rwkv104-direct-SourceDType-1793222492943603214.log
+VeriTile.Triton.DSL.PointerType 0 /tmp/rwkv104-direct-PointerType-1793222495098826965.log
+VeriTile.Triton.DSL.TypedStores 0 /tmp/rwkv104-direct-TypedStores-1793222496502989224.log
+VeriTile.Triton.DSL.TypedStorageReduction 0 /tmp/rwkv104-direct-TypedStorageReduction-1793222504860271748.log
+VeriTile.Triton.DSL.Constexpr 0 /tmp/rwkv104-direct-Constexpr-1793222506911971264.log
+VeriTile.Triton.DSL.CallSignature 0 /tmp/rwkv104-direct-CallSignature-1793222508469796040.log
+bench.tests.SignedRangeCallBody 0 /tmp/rwkv104-direct-SignedRangeCallBody-1793222548837573358.log
+VeriTile.Triton 0 /tmp/rwkv104-direct-Triton-1793222550847368381.log
+bench.repairs.tritonbench_g.layernorm_fwd_triton.LegacyKernels 0 /tmp/rwkv104-direct-LegacyKernels-1793222553392081396.log
+bench.repairs.tritonbench_g.layernorm_fwd_triton.Kernels 0 /tmp/rwkv104-direct-Kernels-1793222556248459195.log
+bench.tritonbench_g.parallel_attention.Kernels 0 /tmp/rwkv104-direct-Kernels-1793222560294485129.log
+bench.tritonbench_g.parallel_attention.Proofs.FPSources 0 /tmp/rwkv104-direct-FPSources-1793222570351203700.log
+bench.tritonbench_g.parallel_attention.Proofs.FPForwardGraph 0 /tmp/rwkv104-direct-FPForwardGraph-1793222575156969606.log
+bench.tritonbench_g.parallel_attention.Proofs.FPRange 0 /tmp/rwkv104-direct-FPRange-1793222581523843909.log
+bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.SourceModel 0 /tmp/rwkv104-direct-SourceModel-1793222588724751802.log
+bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.SignedRange 1 /tmp/rwkv104-direct-SignedRange-1793222595030971091.log
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SignedRange.lean:29:22: error(lean.unknownIdentifier): Unknown constant `Int.natCast_lt`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SignedRange.lean:29:6: error: Type mismatch: After simplification, term
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SignedRange.lean:37:0: error: VeriTile.Bench.Repairs.LayernormFwdTriton.SignedRange.values: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+BATCH COMPLETE threepass106-accumulate failed/skipped 2

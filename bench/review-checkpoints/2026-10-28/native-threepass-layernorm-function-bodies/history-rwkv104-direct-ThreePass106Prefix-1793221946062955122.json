@@ -1,0 +1,9 @@
+{
+  "module": "ThreePass106Prefix",
+  "start": 1793221946.0629702,
+  "end": 1793221948.095436,
+  "log": "/tmp/rwkv104-direct-ThreePass106Prefix-1793221946062955122.log",
+  "stop_file": "/tmp/rwkv104-direct-ThreePass106Prefix-1793221946062955122.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

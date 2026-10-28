@@ -1,0 +1,6 @@
+{
+  "run": "/tmp/rwkv104-direct-FPEquiv-1793225281205700740.json",
+  "events": "/tmp/threepass106-audit-events.log",
+  "finding": "Conservative reachability treats every free value with an abstract Type as a potentially opaque proof, preventing pruning throughout pure execution and equality-recursion proofs. Preserve unknown Prop/Sort cases, but distinguish values whose carrier is provably Type (Sort successor).",
+  "time": 1793225460.7219222
+}

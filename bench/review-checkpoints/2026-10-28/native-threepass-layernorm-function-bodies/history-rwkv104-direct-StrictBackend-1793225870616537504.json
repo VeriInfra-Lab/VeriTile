@@ -1,0 +1,9 @@
+{
+  "module": "VeriTile.Triton.Float.StrictBackend",
+  "start": 1793225870.6165512,
+  "end": 1793225873.3822517,
+  "log": "/tmp/rwkv104-direct-StrictBackend-1793225870616537504.log",
+  "stop_file": "/tmp/rwkv104-direct-StrictBackend-1793225870616537504.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

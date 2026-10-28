@@ -1,0 +1,19 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/KernelMath.lean:45:69: warning: This simp argument is unused:
+  Graph.zero
+
+Hint: Omit it from the simp argument list.
+  simp [̵G̵r̵a̵p̵h̵.̵c̵e̵n̵t̵e̵r̵e̵d̵,̵G̵r̵a̵p̵h̵.̵l̵o̵a̵d̵X̵,̵G̵r̵a̵p̵h̵.̵s̵u̵b̵,̵G̵r̵a̵p̵h̵.̵m̵u̵l̵,̵G̵r̵a̵p̵h̵.̵a̵d̵d̵,̵G̵r̵a̵p̵h̵.̵z̵e̵r̵o̵,̵i̵d̵e̵a̵l̵,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵R̵e̵a̵l̵P̵r̵o̵o̵f̵.̵a̵d̵d̵S̵t̵e̵p̵,̵h̵,̵p̵o̵w̵_̵t̵w̵o̵]̵[̲G̲r̲a̲p̲h̲.̲c̲e̲n̲t̲e̲r̲e̲d̲,̲ ̲G̲r̲a̲p̲h̲.̲l̲o̲a̲d̲X̲,̲ ̲G̲r̲a̲p̲h̲.̲s̲u̲b̲,̲ ̲G̲r̲a̲p̲h̲.̲m̲u̲l̲,̲ ̲G̲r̲a̲p̲h̲.̲a̲d̲d̲,̲ ̲i̲d̲e̲a̲l̲,̲ ̲R̲e̲a̲l̲P̲r̲o̲o̲f̲.̲a̲d̲d̲S̲t̲e̲p̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲h̲,̲ ̲p̲o̲w̲_̲t̲w̲o̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.LayernormFwdTriton.Mathematics.mean_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayernormFwdTriton.Mathematics.variance_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayernormFwdTriton.Mathematics.output_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayernormFwdTriton.Mathematics.original_stride_collision: axiom footprint ⊆ standard base ✓  ([])

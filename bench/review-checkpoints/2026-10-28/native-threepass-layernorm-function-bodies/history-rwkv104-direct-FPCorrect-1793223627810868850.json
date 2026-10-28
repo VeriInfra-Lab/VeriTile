@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.layernorm_fwd_triton.FPCorrect",
+  "start": 1793223627.810885,
+  "end": 1793223630.9262786,
+  "log": "/tmp/rwkv104-direct-FPCorrect-1793223627810868850.log",
+  "stop_file": "/tmp/rwkv104-direct-FPCorrect-1793223627810868850.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

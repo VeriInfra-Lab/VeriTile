@@ -1,0 +1,9 @@
+{
+  "module": "ThreePass106Probe",
+  "start": 1793221865.3916247,
+  "end": 1793221866.89275,
+  "log": "/tmp/rwkv104-direct-ThreePass106Probe-1793221865391612349.log",
+  "stop_file": "/tmp/rwkv104-direct-ThreePass106Probe-1793221865391612349.stop",
+  "status": "COMPLETED",
+  "exit_code": 1
+}

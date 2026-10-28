@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.HostLayout",
+  "start": 1793223451.8554533,
+  "end": 1793223455.357261,
+  "log": "/tmp/rwkv104-direct-HostLayout-1793223451855436173.log",
+  "stop_file": "/tmp/rwkv104-direct-HostLayout-1793223451855436173.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

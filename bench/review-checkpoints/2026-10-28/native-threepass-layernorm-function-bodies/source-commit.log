@@ -1,0 +1,10 @@
+Auto packing the repository in background for optimum performance.
+See "git help gc" for manual housekeeping.
+[codex/body-copy-cache-and-constexpr 4319f7a5e] Preserve signed three-pass LayerNorm bodies and reprove complete IO
+ 28 files changed, 1122 insertions(+), 352 deletions(-)
+ rewrite bench/repairs/tritonbench_g/layernorm_fwd_triton/Kernels.lean (74%)
+ create mode 100644 bench/repairs/tritonbench_g/layernorm_fwd_triton/LegacyKernels.lean
+ create mode 100644 bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SignedRange.lean
+ create mode 100644 bench/repairs/tritonbench_g/layernorm_fwd_triton/jit-correspondence.json
+ create mode 100644 bench/tests/SignedRangeCallBody.lean
+ create mode 100644 bench/tests/test_threepass_layernorm_body.py

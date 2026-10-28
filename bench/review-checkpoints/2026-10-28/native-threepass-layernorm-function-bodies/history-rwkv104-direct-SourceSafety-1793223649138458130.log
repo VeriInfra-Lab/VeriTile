@@ -1,0 +1,75 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceSafety.lean:18:90: error: Application type mismatch: The argument
+  off
+has type
+  ℤ
+but is expected to have type
+  ℕ
+in the application
+  update off
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceSafety.lean:55:73: error: Application type mismatch: The argument
+  off
+has type
+  ℤ
+but is expected to have type
+  ℕ
+in the application
+  mean_body_safe M p bounds s t off
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceSafety.lean:56:48: error: Application type mismatch: The argument
+  off
+has type
+  ℤ
+but is expected to have type
+  ℕ
+in the application
+  mean_body_run M p s t off
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceSafety.lean:59:71: error: Application type mismatch: The argument
+  off
+has type
+  ℤ
+but is expected to have type
+  ℕ
+in the application
+  var_body_safe M p bounds s t off
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceSafety.lean:60:47: error: Application type mismatch: The argument
+  off
+has type
+  ℤ
+but is expected to have type
+  ℕ
+in the application
+  var_body_run M p s t off
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceSafety.lean:63:77: error: Application type mismatch: The argument
+  off
+has type
+  ℤ
+but is expected to have type
+  ℕ
+in the application
+  output_body_safe M p bounds s t off
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceSafety.lean:64:50: error: Application type mismatch: The argument
+  off
+has type
+  ℤ
+but is expected to have type
+  ℕ
+in the application
+  output_body_run M p s t off
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceSafety.lean:72:46: error: Type mismatch: After simplification, term
+  meanSafe
+ has type
+  Safety.rangeIntSafe M bounds "off" 0 (↑p.columns) p.block (loopBody p 18) a
+but is expected to have type
+  True ∧ True ∧ True ∧ Safety.rangeIntSafe M bounds "off" 0 (↑p.columns) p.block (loopBody p 18) a
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceSafety.lean:79:46: error: Type mismatch: After simplification, term
+  varSafe
+ has type
+  Safety.rangeIntSafe M bounds "off" 0 (↑p.columns) p.block (loopBody p 21) c
+but is expected to have type
+  True ∧ True ∧ True ∧ Safety.rangeIntSafe M bounds "off" 0 (↑p.columns) p.block (loopBody p 21) c
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceSafety.lean:85:44: error: Type mismatch: After simplification, term
+  outputSafe
+ has type
+  Safety.rangeIntSafe M bounds "off" 0 (↑p.columns) p.block (loopBody p 24) e
+but is expected to have type
+  True ∧ True ∧ True ∧ Safety.rangeIntSafe M bounds "off" 0 (↑p.columns) p.block (loopBody p 24) e
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceSafety.lean:89:0: error: VeriTile.Bench.Repairs.LayernormFwdTriton.KernelSafety.trace_safe: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.PublicIO",
+  "start": 1793223687.722417,
+  "end": 1793223691.0382946,
+  "log": "/tmp/rwkv104-direct-PublicIO-1793223687722400069.log",
+  "stop_file": "/tmp/rwkv104-direct-PublicIO-1793223687722400069.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

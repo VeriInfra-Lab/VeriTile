@@ -1,0 +1,9 @@
+VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages.products_software: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages.update_software: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages.output_software: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

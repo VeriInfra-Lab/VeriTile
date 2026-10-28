@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.PairSource",
+  "start": 1793226063.849961,
+  "end": 1793226071.6672618,
+  "log": "/tmp/rwkv104-direct-PairSource-1793226063849948500.log",
+  "stop_file": "/tmp/rwkv104-direct-PairSource-1793226063849948500.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

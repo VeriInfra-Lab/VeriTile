@@ -1,0 +1,38 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/LogicalIO.lean:24:8: warning: This simp argument is unused:
+  io
+
+Hint: Omit it from the simp argument list.
+  simp [io̵,̵i̵nputs, ̲outputs, ̲LogicalProgramIO.lift, ̲KernelPublicIO.target, ̲KernelPublicIO.rowOf,
+      KernelPublicIO.xRow, ̲KernelPublicIO.wRow, ̲Contract.Math.output, ̲Contract.Math.mean,
+      Contract.Math.variance, ̲Contract.Math.inverse]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/LogicalIO.lean:24:11: warning: This simp argument is unused:
+  inputs
+
+Hint: Omit it from the simp argument list.
+  simp [io,i̵n̵p̵u̵t̵s̵,̵ ̲outputs, ̲LogicalProgramIO.lift, ̲KernelPublicIO.target, ̲KernelPublicIO.rowOf,
+      KernelPublicIO.xRow, ̲KernelPublicIO.wRow, ̲Contract.Math.output, ̲Contract.Math.mean,
+      Contract.Math.variance, ̲Contract.Math.inverse]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/LogicalIO.lean:24:18: warning: This simp argument is unused:
+  outputs
+
+Hint: Omit it from the simp argument list.
+  simp [io, ̲inputs,o̵u̵t̵p̵u̵t̵s̵,̵ ̲LogicalProgramIO.lift, ̲KernelPublicIO.target, ̲KernelPublicIO.rowOf,
+      KernelPublicIO.xRow, ̲KernelPublicIO.wRow, ̲Contract.Math.output, ̲Contract.Math.mean,
+      Contract.Math.variance, ̲Contract.Math.inverse]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/LogicalIO.lean:24:26: warning: This simp argument is unused:
+  LogicalProgramIO.lift
+
+Hint: Omit it from the simp argument list.
+  simp [̵i̵o̵,̵i̵n̵p̵u̵t̵s̵,̵o̵u̵t̵p̵u̵t̵s̵,̵L̵o̵g̵i̵c̵a̵l̵P̵r̵o̵g̵r̵a̵m̵I̵O̵.̵l̵i̵f̵t̵,̵K̵e̵r̵n̵e̵l̵P̵u̵b̵l̵i̵c̵I̵O̵.̵t̵a̵r̵g̵e̵t̵,̵K̵e̵r̵n̵e̵l̵P̵u̵b̵l̵i̵c̵I̵O̵.̵r̵o̵w̵O̵f̵,̵
+  ̵ ̵ ̵ ̵ ̵K̵e̵r̵n̵e̵l̵P̵u̵b̵l̵i̵c̵I̵O̵.̵x̵R̵o̵w̵,̵K̵e̵r̵n̵e̵l̵P̵u̵b̵l̵i̵c̵I̵O̵.̵w̵R̵o̵w̵,̵C̵o̵n̵t̵r̵a̵c̵t̵.̵M̵a̵t̵h̵.̵o̵u̵t̵p̵u̵t̵,̵C̵o̵n̵t̵r̵a̵c̵t̵.̵M̵a̵t̵h̵.̵m̵e̵a̵n̵,̵
+  ̵ ̵ ̵ ̵ ̵C̵o̵n̵t̵r̵a̵c̵t̵.̵M̵a̵t̵h̵.̵v̵a̵r̵i̵a̵n̵c̵e̵,̵C̵o̵n̵t̵r̵a̵c̵t̵.̵M̵a̵t̵h̵.̵i̵n̵v̵e̵r̵s̵e̵]̵[̲i̲o̲,̲ ̲i̲n̲p̲u̲t̲s̲,̲ ̲o̲u̲t̲p̲u̲t̲s̲,̲ ̲K̲e̲r̲n̲e̲l̲P̲u̲b̲l̲i̲c̲I̲O̲.̲t̲a̲r̲g̲e̲t̲,̲ ̲K̲e̲r̲n̲e̲l̲P̲u̲b̲l̲i̲c̲I̲O̲.̲r̲o̲w̲O̲f̲,̲ ̲K̲e̲r̲n̲e̲l̲P̲u̲b̲l̲i̲c̲I̲O̲.̲x̲R̲o̲w̲,̲
+  ̲ ̲ ̲ ̲ ̲K̲e̲r̲n̲e̲l̲P̲u̲b̲l̲i̲c̲I̲O̲.̲w̲R̲o̲w̲,̲ ̲C̲o̲n̲t̲r̲a̲c̲t̲.̲M̲a̲t̲h̲.̲o̲u̲t̲p̲u̲t̲,̲ ̲C̲o̲n̲t̲r̲a̲c̲t̲.̲M̲a̲t̲h̲.̲m̲e̲a̲n̲,̲ ̲C̲o̲n̲t̲r̲a̲c̲t̲.̲M̲a̲t̲h̲.̲v̲a̲r̲i̲a̲n̲c̲e̲,̲
+  ̲ ̲ ̲ ̲ ̲C̲o̲n̲t̲r̲a̲c̲t̲.̲M̲a̲t̲h̲.̲i̲n̲v̲e̲r̲s̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

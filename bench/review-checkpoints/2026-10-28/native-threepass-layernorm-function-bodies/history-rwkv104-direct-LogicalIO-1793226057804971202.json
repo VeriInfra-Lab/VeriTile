@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.LogicalIO",
+  "start": 1793226057.8049872,
+  "end": 1793226060.7710495,
+  "log": "/tmp/rwkv104-direct-LogicalIO-1793226057804971202.log",
+  "stop_file": "/tmp/rwkv104-direct-LogicalIO-1793226057804971202.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

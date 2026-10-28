@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.layer_norm_liger.Proofs.FPComplete",
+  "start": 1793226268.0611842,
+  "end": 1793226273.3778946,
+  "log": "/tmp/rwkv104-direct-FPComplete-1793226268061152006.log",
+  "stop_file": "/tmp/rwkv104-direct-FPComplete-1793226268061152006.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

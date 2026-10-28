@@ -1,0 +1,44 @@
+{
+  "time": 1793222414.5774746,
+  "roots": [
+    "bench.tests.SignedRangeCallBody",
+    "bench.repairs.tritonbench_g.layernorm_fwd_triton.LegacyKernels",
+    "bench.repairs.tritonbench_g.layernorm_fwd_triton.Kernels",
+    "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.SourceModel",
+    "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.SignedRange",
+    "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.SourceAccumulate"
+  ],
+  "modules": [
+    "bench.tests.SignedRangeCallBody",
+    "bench.repairs.tritonbench_g.layernorm_fwd_triton.LegacyKernels",
+    "bench.repairs.tritonbench_g.layernorm_fwd_triton.Kernels",
+    "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.SourceModel",
+    "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.SignedRange",
+    "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.SourceAccumulate"
+  ],
+  "compile": [
+    "bench.tests.SignedRangeCallBody",
+    "bench.repairs.tritonbench_g.layernorm_fwd_triton.LegacyKernels",
+    "bench.repairs.tritonbench_g.layernorm_fwd_triton.Kernels",
+    "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.SourceModel",
+    "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.SignedRange",
+    "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.SourceAccumulate"
+  ],
+  "changed": [
+    "bench.tests.SignedRangeCallBody",
+    "bench.repairs.tritonbench_g.layernorm_fwd_triton.LegacyKernels",
+    "bench.repairs.tritonbench_g.layernorm_fwd_triton.Kernels",
+    "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.SourceModel",
+    "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.SignedRange",
+    "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.SourceAccumulate"
+  ],
+  "scope": "Initial production raw-source/type regression and accumulation proof probe. This is development only, not complete task acceptance.",
+  "sha256": {
+    "bench/tests/SignedRangeCallBody.lean": "4afc9716e5fb20158e38435d602d75342d6a0e916e5c34bae89f2def45706099",
+    "bench/repairs/tritonbench_g/layernorm_fwd_triton/LegacyKernels.lean": "633b76bd04146c06c0dacb731eb41ac93e30852eba55961eda77cac9c1fd17d8",
+    "bench/repairs/tritonbench_g/layernorm_fwd_triton/Kernels.lean": "6ca1c98136f7ef3e3a51144a4434294e5f1eda02a2cac6f69434dc5db2a864a1",
+    "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceModel.lean": "9e9e9e748eb1c10496a6269529f62b8285d98c03c5601974b4702a4bdb443210",
+    "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SignedRange.lean": "bf17d2e10a26e8a0d21ea08c69af264be3915a7d51dbc105c8a551c00dd85cc4",
+    "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceAccumulate.lean": "3316d6d4e2bef123cd639a1ebaf2c6f51411f75f55a4199b8c7afe5998b55a6a"
+  }
+}

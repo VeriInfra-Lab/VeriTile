@@ -1,0 +1,9 @@
+VeriTile.Bench.Repairs.SoftmaxFlaggems.Native.Plan.lane_coverage: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.SoftmaxFlaggems.Native.left_fused: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.SoftmaxFlaggems.Native.right_fused: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.SoftmaxFlaggems.Native.eval: definition does not reference [VeriTile.Triton.FP.Structural.exec] — non-circular ✓

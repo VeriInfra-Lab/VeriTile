@@ -1,0 +1,9 @@
+{
+  "module": "VeriTile.Triton.Float.ProgramEquivalenceSyntax",
+  "start": 1793225847.478401,
+  "end": 1793225849.6433954,
+  "log": "/tmp/rwkv104-direct-ProgramEquivalenceSyntax-1793225847478383155.log",
+  "stop_file": "/tmp/rwkv104-direct-ProgramEquivalenceSyntax-1793225847478383155.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

@@ -12180,7 +12180,7 @@
         },
         {
           "path": "bench/repairs/tritonbench_g/layernorm_fwd_triton/FPEquiv.lean",
-          "sha256": "94fce7b4e4bfb5a2e3bae21f39854bc31433a200f7c2e9d402e708980cbe8086",
+          "sha256": "2371ad3de8d85b42fad61d6639b57077e3c45739ba090d35753226a928381176",
           "surface": "FPEquiv",
           "declarations": [
             {
@@ -12212,9 +12212,8 @@
         }
       ],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/layernorm_fwd_triton.json",
-        "sha256": "5c55373e89c22d5f9c6cecb091f8798e2b2252a2219ad9b0dc0baa37536c45b9",
-        "task": "layernorm_fwd_triton"
+        "path": "bench/review-checkpoints/2026-10-28/native-threepass-layernorm-function-bodies/review.json",
+        "sha256": "150ce201a096d97b6f7116acd3e2dfbde50168da8d13e84935fc539064cde09b"
       },
       "change": null,
       "new_misc_entries": [],
@@ -12249,7 +12248,8 @@
         "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/layernorm_fwd_triton.json",
         "sha256": "5c55373e89c22d5f9c6cecb091f8798e2b2252a2219ad9b0dc0baa37536c45b9",
         "task": "layernorm_fwd_triton"
-      }
+      },
+      "current_body_source_review": "Two complete 25-statement Python bodies retain all metadata int64 casts, zero/step constructors, three signed loops, all load casts, masked centered variance, runtime epsilon and the explicit final output cast. The candidate only schedules the independent W load after x_hat, checked against the full Python module AST including the documented entry renames. Actual signed source execution reaches complete access safety, every grid output and the exterior frame, with independent Real mathematics and full original/candidate FP equivalence. The column divisor is the actual fromInt conversion. Original Python, Contract and public Real/FP statement parameters and premises remain unchanged. Optional native and Tensor results are reconnected to the actual source at their existing model boundary."
     },
     {
       "task": "lightning_attention",

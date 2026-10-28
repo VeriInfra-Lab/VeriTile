@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.KernelGraph",
+  "start": 1793223347.7944314,
+  "end": 1793223350.9099689,
+  "log": "/tmp/rwkv104-direct-KernelGraph-1793223347794415710.log",
+  "stop_file": "/tmp/rwkv104-direct-KernelGraph-1793223347794415710.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.layernorm_fwd_triton.Proofs.FPSoftware",
+  "start": 1793226342.2665186,
+  "end": 1793226346.5324895,
+  "log": "/tmp/rwkv104-direct-FPSoftware-1793226342266505578.log",
+  "stop_file": "/tmp/rwkv104-direct-FPSoftware-1793226342266505578.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

@@ -1,0 +1,11 @@
+VeriTile.Bench.Repairs.LayernormFwdTriton.Execution.grid_trace: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayernormFwdTriton.Execution.grid_readback: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayernormFwdTriton.Execution.grid_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayernormFwdTriton.Execution.empty_grid: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

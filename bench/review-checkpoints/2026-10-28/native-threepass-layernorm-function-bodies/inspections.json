@@ -1,0 +1,69 @@
+{
+  "status": "PASS_WITH_RECORDED_LIMITS",
+  "code_commit": "4319f7a5ed7ae961f685db216fc28af21cf4324a",
+  "start": 1793226380.0840716,
+  "end": 1793226462.1554046,
+  "python": {
+    "targeted": {
+      "status": "PASS",
+      "tests": 291
+    },
+    "full": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 536,
+      "errors": 1
+    }
+  },
+  "raw_bodies": [
+    {
+      "name": "raw-body-check",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/layernorm_fwd_triton/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "4319f7a5ed7ae961f685db216fc28af21cf4324a",
+      "log": "/tmp/threepass106-raw-body-check.log",
+      "status": "PASS"
+    }
+  ],
+  "cpu": {
+    "status": "PASS",
+    "scope": "Complete Python module AST differs only by moving the independent output W load after x_hat and renaming the JIT/host entry and call site. All loops, casts, masks, wrappers and host guards remain unchanged.",
+    "public_statements": "The original public Real and FP reader declarations, including every parameter and premise, are text-identical to the previous receipt; only the FP audit command is added."
+  },
+  "torch": {
+    "name": "torch-dependencies",
+    "command": [
+      "python3",
+      "-c",
+      "import torch; import triton"
+    ],
+    "exit_code": 1,
+    "code_commit": "4319f7a5ed7ae961f685db216fc28af21cf4324a",
+    "log": "/tmp/threepass106-torch-dependencies.log",
+    "status": "UNAVAILABLE",
+    "reason": "The retained Torch source checker requires absent Torch/Triton. No GPU or numerical experiment was run."
+  },
+  "original_python_and_contracts": {
+    "status": "PASS",
+    "sha256": {
+      "bench/repairs/tritonbench_g/layernorm_fwd_triton/Contract.lean": "93acd8c533549aadddc4ffcd7b3002476616bdc56924eccb72f73ada69c8d8f8",
+      "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/Contract.lean": "8994617bce890eb42f15e81dbc79ccd37bda1871f4386fb2a5594b78ed34740a",
+      "bench/repairs/tritonbench_g/layernorm_fwd_triton/check_lowering.py": "f96c2f1190e7e6731ff6280440787d435b25303a81a86b2531ce63f682a5e8eb",
+      "bench/repairs/tritonbench_g/layernorm_fwd_triton/check_source.py": "5639ff050a2c256295f20e4e2c549d56b06b000255ee5ec12a917372bd09557a",
+      "bench/repairs/tritonbench_g/layernorm_fwd_triton/layernorm_fwd_triton_repaired.py": "a22618b08165692510fbf836cd2f7ad87943610902d3ee85016824e34e82aae9",
+      "bench/repairs/tritonbench_g/layernorm_fwd_triton/layernorm_fwd_triton_scheduled.py": "c63ae9678e16f68584814ef1521f00ea679c67f84008cb9c4eb9c81d8a70b274",
+      "bench/tritonbench_g/layernorm_fwd_triton/layernorm_fwd_triton.py": "9ad4b038ee7d5fff373705d8ef8c0a4a9a3100a064db07703f89d61b32de6c88"
+    }
+  },
+  "comparator": {
+    "attempts": 73,
+    "statuses": [
+      "UNAVAILABLE"
+    ]
+  },
+  "scope": "Exact frozen source. Full actual typed IO/safety/frame and independent Real mathematics are verified separately by Lean; body tests are source correspondence checks, not hardware/numerical evidence."
+}

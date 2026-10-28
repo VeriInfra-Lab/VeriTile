@@ -1,0 +1,12 @@
+/tmp/rwkv104-staging/VeriTile/Triton/DSL/Expansion/Main.lean:3121:36: error: Application type mismatch: The argument
+  toMessageData "signed assignment " ++ toMessageData dest ++ toMessageData ": " ++ toMessageData ?m.7536
+has type
+  MessageData
+but is expected to have type
+  String
+in the application
+  Macro.throwError
+    (toMessageData "signed assignment " ++ toMessageData dest ++ toMessageData ": " ++ toMessageData ?m.7536)
+/tmp/rwkv104-staging/VeriTile/Triton/DSL/Expansion/Main.lean:3121:70: error(lean.invalidField): Invalid field `toMessageData`: The environment does not contain `Lean.Macro.Exception.toMessageData`, so it is not possible to project the field `toMessageData` from an expression
+  err
+of type `Macro.Exception`

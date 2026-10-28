@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.Address",
+  "start": 1793223330.71795,
+  "end": 1793223334.584355,
+  "log": "/tmp/rwkv104-direct-Address-1793223330717934252.log",
+  "stop_file": "/tmp/rwkv104-direct-Address-1793223330717934252.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

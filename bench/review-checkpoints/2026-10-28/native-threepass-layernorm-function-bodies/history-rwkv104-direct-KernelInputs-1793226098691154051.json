@@ -1,0 +1,9 @@
+{
+  "module": "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.KernelInputs",
+  "start": 1793226098.6911838,
+  "end": 1793226101.7563643,
+  "log": "/tmp/rwkv104-direct-KernelInputs-1793226098691154051.log",
+  "stop_file": "/tmp/rwkv104-direct-KernelInputs-1793226098691154051.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

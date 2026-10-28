@@ -1,0 +1,10 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/PublicIO.lean:36:14: warning: This simp argument is unused:
+  invocation
+
+Hint: Omit it from the simp argument list.
+  simp [̵i̵n̵v̵o̵c̵a̵t̵i̵o̵n̵,̵I̵n̵v̵o̵c̵a̵t̵i̵o̵n̵.̵i̵n̵i̵t̵i̵a̵l̵,̵b̵i̵n̵d̵R̵e̵g̵i̵s̵t̵e̵r̵s̵]̵[̲I̲n̲v̲o̲c̲a̲t̲i̲o̲n̲.̲i̲n̲i̲t̲i̲a̲l̲,̲ ̲b̲i̲n̲d̲R̲e̲g̲i̲s̲t̲e̲r̲s̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.LayernormFwdTriton.KernelPublicIO.implements: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

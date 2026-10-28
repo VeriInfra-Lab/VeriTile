@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.isfinite_kernel.Proofs.MemoryProjection",
+  "start": 1793225919.5084715,
+  "end": 1793225922.0100584,
+  "log": "/tmp/rwkv104-direct-MemoryProjection-1793225919508456803.log",
+  "stop_file": "/tmp/rwkv104-direct-MemoryProjection-1793225919508456803.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

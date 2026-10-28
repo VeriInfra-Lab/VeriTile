@@ -1,0 +1,12 @@
+VeriTile.Bench.TritonBenchG.LayernormFwdTriton.FPStages.literal_three: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.LayernormFwdTriton.FPStages.witness_mean_rounding: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.LayernormFwdTriton.FPStages.witness_not_exact: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.LayernormFwdTriton.FPStages.full_stream_nonempty_rounding: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

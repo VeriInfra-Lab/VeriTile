@@ -1,0 +1,9 @@
+{
+  "module": "VeriTile.Triton.DSL.TypedStorageReduction",
+  "start": 1793222504.8602865,
+  "end": 1793222506.8650076,
+  "log": "/tmp/rwkv104-direct-TypedStorageReduction-1793222504860271748.log",
+  "stop_file": "/tmp/rwkv104-direct-TypedStorageReduction-1793222504860271748.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

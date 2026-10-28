@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.layer_norm_fwd.Kernels",
+  "start": 1793223315.1351116,
+  "end": 1793223317.050751,
+  "log": "/tmp/rwkv104-direct-Kernels-1793223315135095920.log",
+  "stop_file": "/tmp/rwkv104-direct-Kernels-1793223315135095920.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

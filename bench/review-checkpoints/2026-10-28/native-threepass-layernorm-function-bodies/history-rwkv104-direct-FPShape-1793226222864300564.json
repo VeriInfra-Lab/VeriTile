@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.layernorm_fwd_triton.Proofs.FPShape",
+  "start": 1793226222.8643157,
+  "end": 1793226229.3745403,
+  "log": "/tmp/rwkv104-direct-FPShape-1793226222864300564.log",
+  "stop_file": "/tmp/rwkv104-direct-FPShape-1793226222864300564.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

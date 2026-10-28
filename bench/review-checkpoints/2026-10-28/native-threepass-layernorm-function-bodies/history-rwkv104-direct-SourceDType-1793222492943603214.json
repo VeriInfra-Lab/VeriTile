@@ -1,0 +1,9 @@
+{
+  "module": "VeriTile.Triton.DSL.SourceDType",
+  "start": 1793222492.943619,
+  "end": 1793222495.0585132,
+  "log": "/tmp/rwkv104-direct-SourceDType-1793222492943603214.log",
+  "stop_file": "/tmp/rwkv104-direct-SourceDType-1793222492943603214.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

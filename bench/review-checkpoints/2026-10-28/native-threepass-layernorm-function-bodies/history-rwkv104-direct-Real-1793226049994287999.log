@@ -1,0 +1,26 @@
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/Real.lean:62:45: warning: This simp argument is unused:
+  if_false
+
+Hint: Omit it from the simp argument list.
+  simp only [show (̵1̵2̵8̵:̵N̵a̵t̵)̵≠̵0̵(̲1̲2̲8̲ ̲:̲ ̲N̲a̲t̲)̲ ̲≠̲ ̲0̲ by d̵e̵c̵i̵d̵e̵,̵h̵c̵,̵i̵f̵_̵f̵a̵l̵s̵e̵,̵i̵f̵_̵t̵r̵u̵e̵]̵d̲e̲c̲i̲d̲e̲,̲ ̲h̲c̲,̲ ̲i̲f̲_̲t̲r̲u̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/rwkv104-staging/bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/Real.lean:62:54: warning: This simp argument is unused:
+  if_true
+
+Hint: Omit it from the simp argument list.
+  simp only [show (̵1̵2̵8̵:̵N̵a̵t̵)̵≠̵0̵(̲1̲2̲8̲ ̲:̲ ̲N̲a̲t̲)̲ ̲≠̲ ̲0̲ by d̵e̵c̵i̵d̵e̵,̵h̵c̵,̵i̵f̵_̵f̵a̵l̵s̵e̵,̵i̵f̵_̵t̵r̵u̵e̵]̵d̲e̲c̲i̲d̲e̲,̲ ̲h̲c̲,̲ ̲i̲f̲_̲f̲a̲l̲s̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+VeriTile.Bench.Repairs.LayernormFwdTriton.RealProof.accumulation_total: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayernormFwdTriton.RealProof.mean_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayernormFwdTriton.RealProof.variance_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.LayernormFwdTriton.RealProof.reference_real: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

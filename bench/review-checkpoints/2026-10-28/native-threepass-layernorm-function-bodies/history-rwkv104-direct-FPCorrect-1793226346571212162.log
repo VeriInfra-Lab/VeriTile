@@ -1,0 +1,6 @@
+VeriTile.Bench.TritonBenchG.LayernormFwdTriton.FPCorrect.fp32_full_stream_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.LayernormFwdTriton.FPCorrect.fp32_scalarops_full_stream_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

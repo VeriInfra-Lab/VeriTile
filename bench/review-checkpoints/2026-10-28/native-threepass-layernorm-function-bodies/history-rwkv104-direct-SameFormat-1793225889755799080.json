@@ -1,0 +1,9 @@
+{
+  "module": "VeriTile.Triton.Float.CastExact.SameFormat",
+  "start": 1793225889.7558131,
+  "end": 1793225893.1717236,
+  "log": "/tmp/rwkv104-direct-SameFormat-1793225889755799080.log",
+  "stop_file": "/tmp/rwkv104-direct-SameFormat-1793225889755799080.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

@@ -1,0 +1,7 @@
+VeriTile.Bench.TritonBenchG.MatrixVectorMultip.Typed.offset_injective: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.MatrixVectorMultip.Typed.reference_readback: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.MatrixVectorMultip.Typed.reference_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

@@ -1,0 +1,9 @@
+{
+  "module": "VeriTile.Triton.Float.ProfiledRewrite",
+  "start": 1793225912.578579,
+  "end": 1793225916.3945508,
+  "log": "/tmp/rwkv104-direct-ProfiledRewrite-1793225912578565488.log",
+  "stop_file": "/tmp/rwkv104-direct-ProfiledRewrite-1793225912578565488.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

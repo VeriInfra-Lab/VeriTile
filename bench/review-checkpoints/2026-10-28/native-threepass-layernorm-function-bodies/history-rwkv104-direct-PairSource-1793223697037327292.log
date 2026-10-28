@@ -1,0 +1,5 @@
+VeriTile.Bench.Repairs.LayernormFwdTriton.PairSource.setReg_comm: axiom footprint ⊆ standard base ✓  ([Quot.sound,
+ propext])
+VeriTile.Bench.Repairs.LayernormFwdTriton.PairSource.output_body_eq: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

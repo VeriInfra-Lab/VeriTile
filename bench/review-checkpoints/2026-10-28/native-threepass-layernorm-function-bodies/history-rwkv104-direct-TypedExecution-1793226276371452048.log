@@ -1,0 +1,3 @@
+VeriTile.Bench.TritonBenchG.MatrixVectorMultip.Typed.execution: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

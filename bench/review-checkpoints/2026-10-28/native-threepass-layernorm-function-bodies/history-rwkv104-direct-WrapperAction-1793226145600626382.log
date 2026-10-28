@@ -1,0 +1,4 @@
+VeriTile.Bench.Repairs.LayerNormFwd.Wrapper.stop_on_error: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LayerNormFwd.Wrapper.bind_failure: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LayerNormFwd.Wrapper.enter_failure: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LayerNormFwd.Wrapper.exit_after_body_failure: axiom footprint ⊆ standard base ✓  ([propext])

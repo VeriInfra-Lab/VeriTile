@@ -1,0 +1,8 @@
+FP assumptions used by opaque_projection:
+  unresolved FP proof: packed.1 (atomic assumptions unavailable)
+/tmp/rwkv104-staging/bench/tests/FPStrictMeta.lean:216:0: error: ❌️ Docstring on `#guard_msgs` does not match generated message:
+
+  info: FP assumptions used by opaque_projection:
+  ---
+- info:   unresolved FP proof: packed.proof (atomic assumptions unavailable)
++ info:   unresolved FP proof: packed.1 (atomic assumptions unavailable)

@@ -1,0 +1,9 @@
+{
+  "module": "bench.tritonbench_g.isfinite_kernel.Proofs.BitClassification",
+  "start": 1793225855.4441185,
+  "end": 1793225858.7599144,
+  "log": "/tmp/rwkv104-direct-BitClassification-1793225855444102498.log",
+  "stop_file": "/tmp/rwkv104-direct-BitClassification-1793225855444102498.stop",
+  "status": "COMPLETED",
+  "exit_code": 0
+}

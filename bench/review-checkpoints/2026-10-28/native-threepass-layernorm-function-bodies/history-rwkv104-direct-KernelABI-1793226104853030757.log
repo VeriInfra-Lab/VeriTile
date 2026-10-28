@@ -1,0 +1,6 @@
+VeriTile.Bench.Repairs.LayernormFwdTriton.KernelABI.index_mod: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LayernormFwdTriton.KernelABI.pointer_mod: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LayernormFwdTriton.KernelABI.increment: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.LayernormFwdTriton.KernelABI.active_pointers: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
