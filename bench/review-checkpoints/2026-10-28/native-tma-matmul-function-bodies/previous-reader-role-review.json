@@ -1,0 +1,106 @@
+{
+  "task": "matmul_tma",
+  "status": "fixed",
+  "selected_public_entries": [
+    "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Contract.lean",
+    "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Correct.lean",
+    "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/FPEquiv.lean"
+  ],
+  "readers": [
+    {
+      "path": "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Correct.lean",
+      "sha256": "533409b81fd66c85a5721605c6ec325dbbbde4bb39acff10dfba7e7d7232fd60",
+      "surface": "Correct",
+      "declarations": [
+        {
+          "kind": "def",
+          "name": "matmulIO",
+          "line": 10,
+          "full_name": "VeriTile.Bench.TritonBenchG.MatmulTma.StaticCheckedV2.matmulIO",
+          "role": "named_io_formula_or_program_view",
+          "reason": "One complete block-pointer source implements independent finite matrix product for transpose and storage-mode branches."
+        },
+        {
+          "kind": "specification",
+          "name": "kernel_math",
+          "line": 12,
+          "full_name": "VeriTile.Bench.TritonBenchG.MatmulTma.StaticCheckedV2.kernel_math",
+          "role": "independent_real",
+          "reason": "One complete block-pointer source implements independent finite matrix product for transpose and storage-mode branches."
+        }
+      ],
+      "reexport_only": false
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/FPEquiv.lean",
+      "sha256": "d18c46873b24bfea2ab9bcb833e42208b538f04095efde28ae8840888d719bdc",
+      "surface": "FPEquiv",
+      "declarations": [
+        {
+          "kind": "def",
+          "name": "original",
+          "line": 10,
+          "full_name": "VeriTile.Bench.TritonBenchG.MatmulTma.StaticCheckedV2.FPEquiv.original",
+          "role": "named_io_formula_or_program_view",
+          "reason": "Actual complete original/candidate source pair removing a same-format cast; not a native/host correctness application."
+        },
+        {
+          "kind": "def",
+          "name": "candidate",
+          "line": 12,
+          "full_name": "VeriTile.Bench.TritonBenchG.MatmulTma.StaticCheckedV2.FPEquiv.candidate",
+          "role": "named_io_formula_or_program_view",
+          "reason": "Actual complete original/candidate source pair removing a same-format cast; not a native/host correctness application."
+        },
+        {
+          "kind": "specification",
+          "name": "kernel_equivalent",
+          "line": 19,
+          "full_name": "VeriTile.Bench.TritonBenchG.MatmulTma.StaticCheckedV2.FPEquiv.kernel_equivalent",
+          "role": "actual_program_pair",
+          "reason": "Actual complete original/candidate source pair removing a same-format cast; not a native/host correctness application."
+        }
+      ],
+      "reexport_only": false
+    }
+  ],
+  "review_evidence": {
+    "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/matmul_tma.json",
+    "sha256": "8b3b235ce36b6de172e635a805f8082b43deb93c2deba433febfcce32957d884",
+    "task": "matmul_tma"
+  },
+  "change": null,
+  "new_misc_entries": [],
+  "required_multistage_scope_preserved": true,
+  "remaining_issues": [],
+  "base_role_review": {
+    "path": "bench/review-checkpoints/2026-10-22/headline-separation/audit.json",
+    "sha256": "97fb717f03d049d9dc9a90abde1ff512dba4e0f22e896a7ce3662542bb95bc10",
+    "task": "matmul_tma"
+  },
+  "io_review_status": "fixed",
+  "main_formula_review": {
+    "audit": "bench/review-checkpoints/2026-10-22/main-formulas/audit.json",
+    "review_evidence": {
+      "path": ".veritile-cache/headline-formulas-20261022/queue10/result.json",
+      "sha256": "3f00836bb1feb1dcc1ce6a390d99babb1d281bc7f97e57c4171efea2483ce93a",
+      "task_index": 1,
+      "task": "matmul_tma"
+    }
+  },
+  "previous_review_evidence": {
+    "path": "bench/review-checkpoints/2026-10-22/logical-readers/tasks/matmul_tma.json",
+    "sha256": "e4414cc2ccb7bacc7fc75132900c661bb4fc0f673ae4ba556bd49c838cfa73f3",
+    "task": "matmul_tma"
+  },
+  "logical_reader_review": {
+    "path": "bench/review-checkpoints/2026-10-22/logical-readers/tasks/matmul_tma.json",
+    "sha256": "e4414cc2ccb7bacc7fc75132900c661bb4fc0f673ae4ba556bd49c838cfa73f3",
+    "task": "matmul_tma"
+  },
+  "io_unification_review": {
+    "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/matmul_tma.json",
+    "sha256": "8b3b235ce36b6de172e635a805f8082b43deb93c2deba433febfcce32957d884",
+    "task": "matmul_tma"
+  }
+}

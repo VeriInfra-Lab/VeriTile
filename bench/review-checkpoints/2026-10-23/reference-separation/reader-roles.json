@@ -13802,7 +13802,7 @@
         },
         {
           "path": "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/FPEquiv.lean",
-          "sha256": "d18c46873b24bfea2ab9bcb833e42208b538f04095efde28ae8840888d719bdc",
+          "sha256": "339456edf034b7c68eb915cb2d8ef3536dbb1e96c37cb63700dc1a886408ef75",
           "surface": "FPEquiv",
           "declarations": [
             {
@@ -13811,7 +13811,7 @@
               "line": 10,
               "full_name": "VeriTile.Bench.TritonBenchG.MatmulTma.StaticCheckedV2.FPEquiv.original",
               "role": "named_io_formula_or_program_view",
-              "reason": "Actual complete original/candidate source pair removing a same-format cast; not a native/host correctness application."
+              "reason": "Complete actual original versus the historical redundant output-conversion candidate, with complete safety, execution, result and frame equality. The original has no explicit FP32 cast; the candidate orientation is corrected."
             },
             {
               "kind": "def",
@@ -13819,24 +13819,23 @@
               "line": 12,
               "full_name": "VeriTile.Bench.TritonBenchG.MatmulTma.StaticCheckedV2.FPEquiv.candidate",
               "role": "named_io_formula_or_program_view",
-              "reason": "Actual complete original/candidate source pair removing a same-format cast; not a native/host correctness application."
+              "reason": "Complete actual original versus the historical redundant output-conversion candidate, with complete safety, execution, result and frame equality. The original has no explicit FP32 cast; the candidate orientation is corrected."
             },
             {
               "kind": "specification",
               "name": "kernel_equivalent",
-              "line": 19,
+              "line": 21,
               "full_name": "VeriTile.Bench.TritonBenchG.MatmulTma.StaticCheckedV2.FPEquiv.kernel_equivalent",
               "role": "actual_program_pair",
-              "reason": "Actual complete original/candidate source pair removing a same-format cast; not a native/host correctness application."
+              "reason": "Complete actual original versus the historical redundant output-conversion candidate, with complete safety, execution, result and frame equality. The original has no explicit FP32 cast; the candidate orientation is corrected."
             }
           ],
           "reexport_only": false
         }
       ],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/matmul_tma.json",
-        "sha256": "8b3b235ce36b6de172e635a805f8082b43deb93c2deba433febfcce32957d884",
-        "task": "matmul_tma"
+        "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/review.json",
+        "sha256": "351487f99ebd5594cf9a07df626106e45f1ecfe8352798614c3f1a9ba3cb61b8"
       },
       "change": null,
       "new_misc_entries": [],

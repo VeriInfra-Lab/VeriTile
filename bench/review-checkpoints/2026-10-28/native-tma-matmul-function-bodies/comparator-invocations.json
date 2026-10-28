@@ -1,0 +1,322 @@
+[
+  {
+    "name": "VeriTile__Triton__DSL__Expansion__Main-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "VeriTile/Triton/DSL/Expansion/Main.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "be136d5626a93eea3890dee5c7fef9ad7a6403bf",
+    "log": "/tmp/tma96-VeriTile__Triton__DSL__Expansion__Main-comparator.log",
+    "file": "VeriTile/Triton/DSL/Expansion/Main.lean",
+    "sha256": "81a7945fc7e74c5ce0de00a6c24001c6d9f90152f502cfeb1828d180f97a00fe",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__Contract-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Contract.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "be136d5626a93eea3890dee5c7fef9ad7a6403bf",
+    "log": "/tmp/tma96-bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__Contract-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Contract.lean",
+    "sha256": "47a79586be970d75b64a94b3861a4e95c7d4e9b94b8ea452fa3d8b9bafc90eeb",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__Correct-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Correct.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "be136d5626a93eea3890dee5c7fef9ad7a6403bf",
+    "log": "/tmp/tma96-bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__Correct-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Correct.lean",
+    "sha256": "533409b81fd66c85a5721605c6ec325dbbbde4bb39acff10dfba7e7d7232fd60",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__FPEquiv-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/FPEquiv.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "be136d5626a93eea3890dee5c7fef9ad7a6403bf",
+    "log": "/tmp/tma96-bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__FPEquiv-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/FPEquiv.lean",
+    "sha256": "339456edf034b7c68eb915cb2d8ef3536dbb1e96c37cb63700dc1a886408ef75",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__IO-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/IO.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "be136d5626a93eea3890dee5c7fef9ad7a6403bf",
+    "log": "/tmp/tma96-bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__IO-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/IO.lean",
+    "sha256": "cdda0d2c05fbdc156e4607e0d9ec3b0c40d2356f971a34515a5ec5cae3b64fbb",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__Kernels-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Kernels.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "be136d5626a93eea3890dee5c7fef9ad7a6403bf",
+    "log": "/tmp/tma96-bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__Kernels-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Kernels.lean",
+    "sha256": "f8ad152c5bf18c596c77d7145bbba4e72f3f2f07759cbbef2a3fe8964868766b",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__Misc__NativeCorrect-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Misc/NativeCorrect.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "be136d5626a93eea3890dee5c7fef9ad7a6403bf",
+    "log": "/tmp/tma96-bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__Misc__NativeCorrect-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Misc/NativeCorrect.lean",
+    "sha256": "ffc3531e8e3481d839060bed132128b76991cf6e366c6e40d58a6493417055f7",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__Misc__TensorBridge-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Misc/TensorBridge.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "be136d5626a93eea3890dee5c7fef9ad7a6403bf",
+    "log": "/tmp/tma96-bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__Misc__TensorBridge-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Misc/TensorBridge.lean",
+    "sha256": "9f4f269eca4521e3645fb2d98ea8dd1ecb05ea15dcfa9e4dab70363a5ba2aaa8",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__Proofs__IOPair-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Proofs/IOPair.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "be136d5626a93eea3890dee5c7fef9ad7a6403bf",
+    "log": "/tmp/tma96-bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__Proofs__IOPair-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Proofs/IOPair.lean",
+    "sha256": "1fd3db10ace018574a5d254e3e478c7a3a8672a9278dd5083745f6c46065d818",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__Proofs__LogicalIO-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Proofs/LogicalIO.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "be136d5626a93eea3890dee5c7fef9ad7a6403bf",
+    "log": "/tmp/tma96-bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__Proofs__LogicalIO-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Proofs/LogicalIO.lean",
+    "sha256": "a80bf319592b581402b5878b686b73ffac1e3722828667e1855f99ab85d66726",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__Proofs__NativeExecution-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Proofs/NativeExecution.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "be136d5626a93eea3890dee5c7fef9ad7a6403bf",
+    "log": "/tmp/tma96-bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__Proofs__NativeExecution-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Proofs/NativeExecution.lean",
+    "sha256": "701916ace9f43b1928fb5cbc1b906e020e445e0f86d36ad7211fed14ebc4bbe7",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__Proofs__PublicIO-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Proofs/PublicIO.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "be136d5626a93eea3890dee5c7fef9ad7a6403bf",
+    "log": "/tmp/tma96-bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__Proofs__PublicIO-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Proofs/PublicIO.lean",
+    "sha256": "891534f85c8466b5e27f4346f7d7632f828ae0063b5a399b9a848e8daa12112b",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__Proofs__RealExecution-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Proofs/RealExecution.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "be136d5626a93eea3890dee5c7fef9ad7a6403bf",
+    "log": "/tmp/tma96-bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__Proofs__RealExecution-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Proofs/RealExecution.lean",
+    "sha256": "0fe3fcc10f5e5b15b437cb9a8f7cac1e1b39f2516127bc69c4554e40baa5ecad",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__Proofs__SourceExecution-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Proofs/SourceExecution.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "be136d5626a93eea3890dee5c7fef9ad7a6403bf",
+    "log": "/tmp/tma96-bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__Proofs__SourceExecution-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Proofs/SourceExecution.lean",
+    "sha256": "9919cff8573d14927d02ceba5877647dc374fda268c5c4dbd0baca59255117f1",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__Proofs__SourceModels-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Proofs/SourceModels.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "be136d5626a93eea3890dee5c7fef9ad7a6403bf",
+    "log": "/tmp/tma96-bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__Proofs__SourceModels-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Proofs/SourceModels.lean",
+    "sha256": "34355ce9d3d405c64b15a2287f9c972c8c118b78e94177c24e64c320eeb53236",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__Proofs__SourceNative-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Proofs/SourceNative.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "be136d5626a93eea3890dee5c7fef9ad7a6403bf",
+    "log": "/tmp/tma96-bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__Proofs__SourceNative-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Proofs/SourceNative.lean",
+    "sha256": "9a02f5ba9f0336caf066711ee8e686d325ac6c7f5606dbd867dc37273d423bcb",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__Proofs__SourcePair-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Proofs/SourcePair.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "be136d5626a93eea3890dee5c7fef9ad7a6403bf",
+    "log": "/tmp/tma96-bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__Proofs__SourcePair-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Proofs/SourcePair.lean",
+    "sha256": "c1baf90e61fc1a8ee556d588aed2e28f86e6744a36d3d4e14cbcbfe5f1e89343",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__Proofs__SourcePreservation-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Proofs/SourcePreservation.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "be136d5626a93eea3890dee5c7fef9ad7a6403bf",
+    "log": "/tmp/tma96-bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__Proofs__SourcePreservation-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Proofs/SourcePreservation.lean",
+    "sha256": "07b0aa4bf31e2eef2b596b5e89fe792f8cb5980f5fe4afa628865e2e0abfd214",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__Proofs__SourceSafety-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Proofs/SourceSafety.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "be136d5626a93eea3890dee5c7fef9ad7a6403bf",
+    "log": "/tmp/tma96-bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__Proofs__SourceSafety-comparator.log",
+    "file": "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Proofs/SourceSafety.lean",
+    "sha256": "23369fc75c38a9a3792b2f10a3fba6d000832a864945201867a0daf382eb1a0b",
+    "status": "UNAVAILABLE"
+  },
+  {
+    "name": "bench__tests__ConstexprTypedContinuation-comparator",
+    "command": [
+      "python3",
+      "scripts/check_comparator.py",
+      "--file",
+      "bench/tests/ConstexprTypedContinuation.lean",
+      "--trust"
+    ],
+    "exit_code": 1,
+    "code_commit": "be136d5626a93eea3890dee5c7fef9ad7a6403bf",
+    "log": "/tmp/tma96-bench__tests__ConstexprTypedContinuation-comparator.log",
+    "file": "bench/tests/ConstexprTypedContinuation.lean",
+    "sha256": "2621eea4308cd8e5cac192bad5d841c86a24dcb7eaac614a4a9b5ea39af78be4",
+    "status": "UNAVAILABLE"
+  }
+]

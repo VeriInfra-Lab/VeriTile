@@ -1,0 +1,20 @@
+[
+  "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Contract.lean",
+  "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Correct.lean",
+  "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/FPEquiv.lean",
+  "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/IO.lean",
+  "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Kernels.lean",
+  "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Misc/NativeCorrect.lean",
+  "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Misc/TensorBridge.lean",
+  "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Proofs/IOPair.lean",
+  "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Proofs/LogicalIO.lean",
+  "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Proofs/NativeExecution.lean",
+  "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Proofs/PublicIO.lean",
+  "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Proofs/RealExecution.lean",
+  "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Proofs/SourceExecution.lean",
+  "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Proofs/SourceModels.lean",
+  "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Proofs/SourceNative.lean",
+  "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Proofs/SourcePair.lean",
+  "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Proofs/SourcePreservation.lean",
+  "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Proofs/SourceSafety.lean"
+]

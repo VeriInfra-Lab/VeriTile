@@ -1,0 +1,473 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "be136d5626a93eea3890dee5c7fef9ad7a6403bf",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "matmul_tma"
+  ],
+  "regression_only_pending_body_tasks": [
+    "kv_cache_filling"
+  ],
+  "semantic_review": {
+    "adam_update_triton": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "add_example": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "add_value": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "apply_penalty": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "attention_fwd_triton1": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "batched_vecmat_mult": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "bgmv_expand_slice": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "bmm_optimized": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "cache_transform_triton": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "chunk_cumsum_kernel": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "chunk_cumsum_vector": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "chunk_delta_fwd": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "chunked_cumsum_fwd": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "cosine_compute": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "cross_entropy1": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "cross_entropy2": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "cross_entropy_ops": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "decay_cumsum": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "dequantize_matmul": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "dequantize_rowwise": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "destindex_copy": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "destindex_copy_kv1": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "destindex_copy_kv2": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "diag_ssm_triton": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "dropout_triton": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "embedding_triton_kernel": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "f8_conversion_utils": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "fast_ce_loss": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "fast_rope_embedding": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "fifth_order_sph_harmonics": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "flash_decode2_llama": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "flash_decode2_phi": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "fused_activation": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "fused_recurrent_hgrn": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "fused_rotary_embedding": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "geglu_tanh_triton": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "index_select_bwd": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "index_select_cat": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "int8_matmul_kernel": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "isfinite_kernel": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "kcache_copy_triton": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "kldiv_compute": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "kldiv_ops": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "kldiv_triton": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "kv_cache_copy": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "kv_cache_filling": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims. Python-body migration remains pending; its correspondence status is retained.",
+    "l2_norm_bwd": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "l2_norm_triton1": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "l2_norm_triton2": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "log_softmax": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "logsumexp_fwd": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "masked_add_cuda": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "masked_select": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "matmul_kernel": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "matmul_tma": "The complete eight-statement original and corrected historical conversion candidate preserve all three block pointers, layouts, two loads, default dot context, conditional FP16 conversion and store. Original Python and independent Real specification are unchanged. The original never had an explicit FP32 output cast: the comparison is now explicitly actual original versus the historical redundant output-pointer cast in the FP32 candidate branch. No unrelated numerical optimization is introduced. The selected native model explicitly defines FP16 storage identity on encoded words while retaining the old FP32 identity and FP16 encoding primitive; no arbitrary cast identity or new input hypothesis is assumed. Actual execution, safety, public Real and FP results and optional native/Tensor consumers replay. Concrete real/native full-state execution equalities connect the actual source to the historical physical refinement, while complete AST inequality is proved. Public raw dimensions, transpose flags, output flags, all input words and optional checked-wrapper scope are preserved. No GPU or new numerical experiment.",
+    "matrix_reduction": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "matrix_transpose": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "max_reduction": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "mean_reduction": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "mul_exponent_compensator": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "nested_loops_processing": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "pow_scalar_tensor": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "quant_transpose_kernel": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "quantize_copy_kv": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "quantize_global": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "quantize_kv_copy": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "quantize_kv_transform": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "relu_strided_buffer": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "relu_triton_kernel": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "reversed_cumsum": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "reversed_cumsum_scalar": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "rms_norm_triton": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "rmsnorm_fused": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "rmsnorm_fused_llama": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "rmsnorm_implementation": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "rmsnorm_triton": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "rope_backward_transform": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "rope_embedding": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "rope_transform": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "rotary_emb": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "rotary_emb_nopad": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "rowwise_quantization_triton": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "seeded_dropout": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "sin_computation": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "sin_kernel": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "softmax_optimize": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "softmax_triton1": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "softmax_triton2": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "softmax_triton3": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "square_matrix": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "swiglu_backward": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "swiglu_fwd": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "swiglu_triton": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "token_attn_mistral": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "token_attn_reduceV": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "token_softmax_bloom": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "token_softmax_llama": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "triton_argmax": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "triton_mul2": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "triton_softmax": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "var_len_copy": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "vector_addition": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims.",
+    "vector_addition_custom": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims."
+  },
+  "compiler_change": {
+    "files": [
+      "VeriTile/Triton/DSL/Expansion/Main.lean"
+    ],
+    "behavior": "The frontend recognizes caller-substituted typed Bool terms as constexpr conditions. A type-changing branch expands the continuation under each actual register type, preserving the original branch and all source actions. Arbitrary-backend tests cover the false path, explicit true-path conversion, both-arm success and complete raw call expansion. All 109 frontend roots, all 4209 cumulative roots and joint imports replay warm and independently from empty project objects using pinned external packages only. Existing tasks receive regression evidence, not additional migration claims."
+  },
+  "verification": {
+    "baseline": {
+      "status": "PASS",
+      "explicit_modules": 14,
+      "jobs": 3473
+    },
+    "frontend_preflight": {
+      "status": "PASS",
+      "explicit_modules": 109,
+      "jobs": 3763,
+      "scope": "All registered frontend roots, including typed-Bool constexpr continuation execution under arbitrary algebras and complete call AST equality."
+    },
+    "focused": {
+      "status": "PASS",
+      "explicit_modules": 18,
+      "jobs": 3491,
+      "additional_scope": "Joint import, standalone frontend AST footprint, 27 task theorem audits and the empty public FP assumption report."
+    },
+    "warm_and_joint": {
+      "status": "PASS",
+      "explicit_modules": 4209,
+      "jobs": 13889
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 4209,
+      "jobs": 13889,
+      "project_build_initially_present": false,
+      "project_objects_imported_from_other_checkouts": false,
+      "only_fixed_external_dependencies_imported": true,
+      "setup": {
+        "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/final-clean-setup.json",
+        "sha256": "47b912cbb180c9f5adc771ec30e68764d08301818203e0606e916cfae5f7f155"
+      }
+    },
+    "trust": "PASS: 27 task theorem footprints and four new frontend proof footprints use only standard base. The public complete source pair prints no FP assumptions.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 196
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 441,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by old numerical receipt; no false repin."
+    },
+    "source": "PASS: two complete raw original/corrected historical-candidate mappings and exact caller bindings; original Python/wrappers/Real specification unchanged; candidate orientation and explicit native storage binding corrected, complete deep proofs replayed.",
+    "official_comparator": "UNAVAILABLE: 20 actual final-source attempts with verified pinned binaries. Host Landlock ABI v4 is below required v5; no systemd user isolation or bypass.",
+    "cpu": "NOT_RUN: this task has no CPU contract checker; no GPU or new numerical experiment was requested or run.",
+    "gpu_or_numerical_experiment": "Not run.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending; the known unchanged numerical receipt failure remains explicit."
+  },
+  "source_pairs": {
+    "total": 324,
+    "pasted_body": 324,
+    "legacy_ast": 0
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/source-closure.json",
+    "sha256": "7950114b8a04c218b4ac625c92d726ed21c348be4efcb8d40c2b315757d6679b"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "selected_body_copy_checked": 102,
+      "uncovered_jit_functions": 81
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 333,
+    "uncovered_selected_jit_functions": 169,
+    "primary_files_with_int64_screen_warning": 22,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 58,
+        "antiquotes": 64,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "example_regression_scope": "All 19 selected examples and all previous recorded task roots replay warm/joint and independently from empty project objects. Unselected historical model gaps are not relabeled as passing.",
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/VeriTile__Triton__DSL__Expansion__Main-comparator.log",
+      "sha256": "eac23e9f06f20f049b984a2b3ee496adb04cf65cd46381b438abd01e3b99941a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/all-python.log",
+      "sha256": "ea419b63cf6db24b06f86036c4b2b0715b293f5e2fc7ee7bd4f680d6c88f9c53"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/audit-targets.json",
+      "sha256": "1f4704eb15e1d090c504ca5ccc0017461783a4d1bebe1eb8f8df555197c7eeaa"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/audit.lean",
+      "sha256": "3e6a0e2206106e67ae0a68d6973d9583ec6c75dd790153b7da5425ff83538cfb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/audit.log",
+      "sha256": "1119a8c42baa07d3a91d62e1fdfbb6a183883760aa90856eb5877c99772abde8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/baseline-build.log.gz",
+      "sha256": "6804628b5d3c22e805ce4879b87e7b23b20a73356fa71c5368079943f3e6b6ca"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/baseline.json",
+      "sha256": "a9f51c02cf4796ef21f8d15d5fe947d1a5b275b663e14cb54a40f45a7ab0d879"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__Contract-comparator.log",
+      "sha256": "eac23e9f06f20f049b984a2b3ee496adb04cf65cd46381b438abd01e3b99941a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__Correct-comparator.log",
+      "sha256": "eac23e9f06f20f049b984a2b3ee496adb04cf65cd46381b438abd01e3b99941a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__FPEquiv-comparator.log",
+      "sha256": "eac23e9f06f20f049b984a2b3ee496adb04cf65cd46381b438abd01e3b99941a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__IO-comparator.log",
+      "sha256": "eac23e9f06f20f049b984a2b3ee496adb04cf65cd46381b438abd01e3b99941a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__Kernels-comparator.log",
+      "sha256": "eac23e9f06f20f049b984a2b3ee496adb04cf65cd46381b438abd01e3b99941a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__Misc__NativeCorrect-comparator.log",
+      "sha256": "eac23e9f06f20f049b984a2b3ee496adb04cf65cd46381b438abd01e3b99941a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__Misc__TensorBridge-comparator.log",
+      "sha256": "5f2a351c99678a53d13df012bcdf3d0324f59565b7acfab201ac1bd0a332be5d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__Proofs__IOPair-comparator.log",
+      "sha256": "5f2a351c99678a53d13df012bcdf3d0324f59565b7acfab201ac1bd0a332be5d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__Proofs__LogicalIO-comparator.log",
+      "sha256": "5f2a351c99678a53d13df012bcdf3d0324f59565b7acfab201ac1bd0a332be5d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__Proofs__NativeExecution-comparator.log",
+      "sha256": "5f2a351c99678a53d13df012bcdf3d0324f59565b7acfab201ac1bd0a332be5d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__Proofs__PublicIO-comparator.log",
+      "sha256": "5f2a351c99678a53d13df012bcdf3d0324f59565b7acfab201ac1bd0a332be5d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__Proofs__RealExecution-comparator.log",
+      "sha256": "5f2a351c99678a53d13df012bcdf3d0324f59565b7acfab201ac1bd0a332be5d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__Proofs__SourceExecution-comparator.log",
+      "sha256": "5f2a351c99678a53d13df012bcdf3d0324f59565b7acfab201ac1bd0a332be5d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__Proofs__SourceModels-comparator.log",
+      "sha256": "5f2a351c99678a53d13df012bcdf3d0324f59565b7acfab201ac1bd0a332be5d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__Proofs__SourceNative-comparator.log",
+      "sha256": "5f2a351c99678a53d13df012bcdf3d0324f59565b7acfab201ac1bd0a332be5d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__Proofs__SourcePair-comparator.log",
+      "sha256": "5f2a351c99678a53d13df012bcdf3d0324f59565b7acfab201ac1bd0a332be5d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__Proofs__SourcePreservation-comparator.log",
+      "sha256": "5f2a351c99678a53d13df012bcdf3d0324f59565b7acfab201ac1bd0a332be5d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/bench__repairs__tritonbench_g__matmul_tma_static_checked_v2__KernelOnly__Proofs__SourceSafety-comparator.log",
+      "sha256": "5f2a351c99678a53d13df012bcdf3d0324f59565b7acfab201ac1bd0a332be5d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/bench__tests__ConstexprTypedContinuation-comparator.log",
+      "sha256": "5f2a351c99678a53d13df012bcdf3d0324f59565b7acfab201ac1bd0a332be5d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/build-invocations.json",
+      "sha256": "7641f1b3eb7a1bab5d66ea5751ac122e761701e3bd9734f231a0cba72bcc355a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/canonical-task-files.json",
+      "sha256": "228449c5024b39fb8ae63f7680220137f3baf2cbda3e2076728de7a7ce66e269"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/comparator-invocations.json",
+      "sha256": "1b5ae7fafc6dde72d78ee8c9842774e5f6d91bfc38a3cec46ac29261384fea52"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/comparator-tools.json",
+      "sha256": "28998e17d51b0fb5930f7489e64512a57f8a8146d1470063a624a75bbabdb0d3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/corpus-guard.log",
+      "sha256": "8df4ab08c7412dbc8b704cb8c84ba0a00ca24daac81226551354459227508119"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/cpu-scope.log",
+      "sha256": "59264554c5d296ef53627e3c5eb0bc93c11f978e3c17b72a5d97935b0d6ef41f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/final-clean-build.log.gz",
+      "sha256": "1101749e11ee4baa0221dbd2c129f2a3faa71229e845471f78bf316f2f80c79f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/final-clean-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/final-clean-setup.json",
+      "sha256": "47b912cbb180c9f5adc771ec30e68764d08301818203e0606e916cfae5f7f155"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/focus-build.log.gz",
+      "sha256": "971da44505950df1d1dee6c93f80cbbb194b7f5e6099437ea960765b08b187f8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/focus-invocations.json",
+      "sha256": "06549c1dd89c2d8ece660881a4e901a5d2e1ee4448ecc346592ef0e56f6e28f1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/focus-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/focus-modules.txt",
+      "sha256": "a831f3a2f94baf56cf52019d6ae17ee9e6d7bc9b6b153ada316a59488a15b16b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/frontend-build.log.gz",
+      "sha256": "fb584b6959c16d3a92f2fff0e25fa20eead0c1be4ea329e48b02e9aa6119ab93"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/frontend-modules.txt",
+      "sha256": "536fd7c8d1325db35023ffc8a52b771de2c7e8829e25744f2ff1ad826c91c5ce"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/inspections.json",
+      "sha256": "9bcb41ecd0ae13613997eadc982d724a4a6f357b21b2c36134437aebeeec989d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/integration-final.log.gz",
+      "sha256": "0e95b71fc35c3ad9a00e0015f949cf71412fde87ad81808f91c5bb283c6a06b3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/joint-all.lean",
+      "sha256": "67538e17d650a811f1f80c5e84312c6380efb3b90dcaca0a17a1efcc2b8b018b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/joint-final.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/modules.json",
+      "sha256": "cae6f5e79d80c810291cac1bce7a99007bd71032935b42bb1baf0b07a8607c79"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/pairs.json",
+      "sha256": "dad4e9dc081cac8cbff44ef07b9f16d2be27252b24c7c0dc652fe2cec8a05fe4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/previous-io-review.json",
+      "sha256": "fe6d74632c1ff5e19a0785570359d84d5a331a75f1e137b26cdad2b9d673a442"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/previous-reader-role-review.json",
+      "sha256": "468c01251a521d2527e2f5f39968f55e9e17ac2ae6666b7455d7f74597844e96"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/previous-reviews.json.gz",
+      "sha256": "eab3639aca805bfa44b764822f457be5ba6042a6ebb29644cddd7339375636d3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/python-invocations.json",
+      "sha256": "ccad59ebcfc5ee9b27755c159633bb3ca8eb20cb9f75f259151d99c8bc1d791b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/python-tests.log",
+      "sha256": "a6fb3ada40f2b35cd3d67eaad2d72b8c5ec1ed682aa62e11d90306d965fa417e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/raw-body-check.log",
+      "sha256": "425c4dcd2d0788f25a0fbe95758b86514c8e90f12c8da5c8d754e70c33e5fc1f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/source-closure.json",
+      "sha256": "7950114b8a04c218b4ac625c92d726ed21c348be4efcb8d40c2b315757d6679b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/standalone-ConstexprTypedContinuation.log",
+      "sha256": "91e54c79c83581380d225e710949b2bb5c1dfaa4b5a026955a67a7e3b073f18c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/transferred-files.json",
+      "sha256": "bc95c6c41aedaf62eb22dd62c526e05fb61f8340527274cb8d76c5438837583c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/warm-final-invocation.json",
+      "sha256": "68b341bd2ff916f3ac17f3bf793bb87080f9a658289bf16a2a1dc082f283cd72"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-tma-matmul-function-bodies/workflow-counts.json",
+      "sha256": "3f9b61aef29475d874a90a50e8133083b4d4637965560a8f9911fd6de6315df4"
+    }
+  ]
+}

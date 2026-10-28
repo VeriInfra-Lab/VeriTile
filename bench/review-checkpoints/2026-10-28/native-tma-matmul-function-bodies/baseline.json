@@ -1,0 +1,24 @@
+{
+  "code_commit": "f395dc811e3e07dd45aac38b9386523e04a56460",
+  "explicit_modules": 14,
+  "sha256": {
+    "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Contract.lean": "47a79586be970d75b64a94b3861a4e95c7d4e9b94b8ea452fa3d8b9bafc90eeb",
+    "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Correct.lean": "533409b81fd66c85a5721605c6ec325dbbbde4bb39acff10dfba7e7d7232fd60",
+    "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/FPEquiv.lean": "d18c46873b24bfea2ab9bcb833e42208b538f04095efde28ae8840888d719bdc",
+    "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/IO.lean": "46512e1d8d290bf7697bac60bd93904b5cc3d7e4bf4f31071bd98dcad3b624a2",
+    "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Kernels.lean": "4cef5bbae45e1e87f3f930ea9a850cfb14290dec4f054ad4ff4f6a6059eb4818",
+    "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Misc/NativeCorrect.lean": "5f9bfb693d5e01731aba0820998247ab775871a47ef60ce518bf97d72f478412",
+    "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Misc/TensorBridge.lean": "5740a0917c53f882f64b360e6f7130c8f1066120cdabdea3dc6b602398781278",
+    "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Proofs/IOPair.lean": "a39826918950f5c7a861f1e8dd3af15714ffb35ed99b159e17dc7b160ffe71bf",
+    "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Proofs/LogicalIO.lean": "62964d36d39f51458eb80b722108f07695cfb101fc092cbbe19e66ce5fae6f18",
+    "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Proofs/NativeExecution.lean": "0a54a763ef635bafc87c87ee94b1c68e5c4f2e023b39c170f21bfc980ddea186",
+    "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Proofs/PublicIO.lean": "f224020151b41afbb25bfafe98b389c02a908285b600c43b925add40c7930549",
+    "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Proofs/RealExecution.lean": "24e60dd1f1e9ae9c5f76900ffaa4394ba9dea77bd90714cb253d4cba11444e21",
+    "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Proofs/SourcePair.lean": "089a84c7b3eb5b12ab164dae36a626dbd12de9f44ef626201690c83b235cdb59",
+    "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Proofs/SourceSafety.lean": "23369fc75c38a9a3792b2f10a3fba6d000832a864945201867a0daf382eb1a0b",
+    "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/README.md": "fef33a0ca4b485395d5d06d520d7b80eb87e72643ff71352eca942cdbfd8028b",
+    "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/kernel-numerical-obligations.json": "6264ce26fcd81094104b057aff6faca366038ba65c56152fa3468e05cdaec5b7",
+    "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/matmul_tma_static_checked_v2.py": "71d5329036259331442629daac29492bb71c0d26b2acd64d5e5ef9f7142f5b5b"
+  },
+  "exit_code": 0
+}

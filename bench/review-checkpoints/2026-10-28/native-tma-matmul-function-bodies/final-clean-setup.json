@@ -1,0 +1,42 @@
+{
+  "code_commit": "be136d5626a93eea3890dee5c7fef9ad7a6403bf",
+  "checkout": "/tmp/veritile-body77",
+  "explicit_modules": 4209,
+  "scope": "All cumulative task/example/frontend roots and their full import closure.",
+  "project_build_initially_present": false,
+  "veritile_cache_initially_present": false,
+  "project_objects_imported_from_other_checkouts": false,
+  "fixed_external_packages_reused": "/home/argustest/lizn/VeriTile/.lake/packages",
+  "previous_cache_cleanup": {
+    "removed": "/tmp/veritile-body77/.lake/build",
+    "reason": "Remove only this owned, completed ScalarPower project cache after its published receipt; source and evidence are retained. Rebuild all 4209 cumulative roots and their dependency closure from empty project objects. Shared frontend changes require the cumulative independent replay.",
+    "previous_receipt": "7ce36073b1e74bbb8b4f8ebac44d43affc69f22a"
+  },
+  "changed_source_sha256": {
+    "VeriTile/Triton/DSL/Expansion/Main.lean": "81a7945fc7e74c5ce0de00a6c24001c6d9f90152f502cfeb1828d180f97a00fe",
+    "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/FPEquiv.lean": "339456edf034b7c68eb915cb2d8ef3536dbb1e96c37cb63700dc1a886408ef75",
+    "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/IO.lean": "cdda0d2c05fbdc156e4607e0d9ec3b0c40d2356f971a34515a5ec5cae3b64fbb",
+    "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Kernels.lean": "f8ad152c5bf18c596c77d7145bbba4e72f3f2f07759cbbef2a3fe8964868766b",
+    "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Misc/NativeCorrect.lean": "ffc3531e8e3481d839060bed132128b76991cf6e366c6e40d58a6493417055f7",
+    "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Misc/TensorBridge.lean": "9f4f269eca4521e3645fb2d98ea8dd1ecb05ea15dcfa9e4dab70363a5ba2aaa8",
+    "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Proofs/IOPair.lean": "1fd3db10ace018574a5d254e3e478c7a3a8672a9278dd5083745f6c46065d818",
+    "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Proofs/LogicalIO.lean": "a80bf319592b581402b5878b686b73ffac1e3722828667e1855f99ab85d66726",
+    "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Proofs/NativeExecution.lean": "701916ace9f43b1928fb5cbc1b906e020e445e0f86d36ad7211fed14ebc4bbe7",
+    "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Proofs/PublicIO.lean": "891534f85c8466b5e27f4346f7d7632f828ae0063b5a399b9a848e8daa12112b",
+    "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Proofs/RealExecution.lean": "0fe3fcc10f5e5b15b437cb9a8f7cac1e1b39f2516127bc69c4554e40baa5ecad",
+    "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Proofs/SourceExecution.lean": "9919cff8573d14927d02ceba5877647dc374fda268c5c4dbd0baca59255117f1",
+    "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Proofs/SourceModels.lean": "34355ce9d3d405c64b15a2287f9c972c8c118b78e94177c24e64c320eeb53236",
+    "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Proofs/SourceNative.lean": "9a02f5ba9f0336caf066711ee8e686d325ac6c7f5606dbd867dc37273d423bcb",
+    "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Proofs/SourcePair.lean": "c1baf90e61fc1a8ee556d588aed2e28f86e6744a36d3d4e14cbcbfe5f1e89343",
+    "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Proofs/SourcePreservation.lean": "07b0aa4bf31e2eef2b596b5e89fe792f8cb5980f5fe4afa628865e2e0abfd214",
+    "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/jit-correspondence.json": "eba0c88e9e576746be77eda4daa5607392323421534b9adb0c2de56cea3864ba",
+    "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/README.md": "e6b8a0a9223167b0e7abbe7faa4ed5fc40cbf0225a8c6628f88076d4f715d760",
+    "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/candidate_kernels.py": "1838d67cab05206a1d08825e863bfcec7f9e9e96fdaf6c0ec5b30312d1fefbdf",
+    "bench/source-correspondence.json": "cefdb74350de530f830493fc9d8d54a321fe04bfd465f1f35fefd1855e30e5e9",
+    "bench/tests/ConstexprTypedContinuation.lean": "2621eea4308cd8e5cac192bad5d841c86a24dcb7eaac614a4a9b5ea39af78be4",
+    "bench/tests/test_matmul_tma_body.py": "d7c8e2cbf4237194a4a68fc41f8fef7520c58c7ff4c8060c7df91b3e2c4732eb",
+    "lakefile.toml": "ec36fde7fce8f7763bf71c1ed8659ba3801ea04629068bee657b1805f212874b"
+  },
+  "build_exit_code": 0,
+  "joint_exit_code": 0
+}

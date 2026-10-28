@@ -1,0 +1,38 @@
+{
+  "code_commit": "be136d5626a93eea3890dee5c7fef9ad7a6403bf",
+  "raw_bodies": [
+    {
+      "name": "raw-body-check",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "be136d5626a93eea3890dee5c7fef9ad7a6403bf",
+      "log": "/tmp/tma96-raw-body-check.log",
+      "status": "PASS"
+    }
+  ],
+  "candidate_rewrites": [
+    {
+      "status": "PASS",
+      "scope": "The complete original/candidate signatures, decorators and ASTs are checked by MatmulTMABodyTests. Only the existing redundant output-pointer cast is added in the FP32 candidate branch; the original is unchanged."
+    }
+  ],
+  "cpu": {
+    "status": "NOT_RUN",
+    "reason": "This task has no CPU contract checker. No GPU or new numerical experiment was requested or run.",
+    "log": "/tmp/tma96-cpu-scope.log"
+  },
+  "original_python_and_real_specification": {
+    "status": "PASS",
+    "sha256": {
+      "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Contract.lean": "47a79586be970d75b64a94b3861a4e95c7d4e9b94b8ea452fa3d8b9bafc90eeb",
+      "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/KernelOnly/Correct.lean": "533409b81fd66c85a5721605c6ec325dbbbde4bb39acff10dfba7e7d7232fd60",
+      "bench/repairs/tritonbench_g/matmul_tma_static_checked_v2/matmul_tma_static_checked_v2.py": "71d5329036259331442629daac29492bb71c0d26b2acd64d5e5ef9f7142f5b5b"
+    }
+  },
+  "scope": "Two complete eight-statement bodies preserve all block pointers, loads, the default dot context, conditional output conversion and store. The original has no FP32 cast; the historical conversion comparison is explicitly oriented from actual original to the output-pointer-cast candidate. Actual-source execution, safety, Real mathematics, native model and Tensor refinements replay on unchanged domains. The selected native model defines FP16 identity on encoded storage; no arbitrary cast identity or whole-kernel hypothesis is assumed. Complete semantic bridges justify the historical physical refinement; the ASTs are proved different. No GPU or numerical experiment."
+}
