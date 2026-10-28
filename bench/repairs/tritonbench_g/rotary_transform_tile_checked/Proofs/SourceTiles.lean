@@ -61,7 +61,7 @@ theorem quotation_shapes_bounded (s : Shape) (cu64 offset64 : Bool) (tiles : Sta
   cases hi : s.interleaved <;>
     simp only [hi,Bool.false_eq_true,if_false,if_true] at matrix
   all_goals cases hv : s.varlen <;> cases ho : s.offsetTensor <;> cases hc : s.conjugate <;>
-    simp [KernelSource.source64_64,ComputeKernel.surfaceBody,statementListShapes,statementShapes,
+    simp [KernelSource.source64_64,KernelSource.source64_64_tensor,KernelSource.source64_32_scalar,ComputeKernel.surfaceBody,statementListShapes,statementShapes,
       algorithmListShapes,algorithmShapes,staticBool,hi,hv,ho,hc,List.mem_append,
       vectors.1,vectors.2.1,vectors.2.2,matrix]
 

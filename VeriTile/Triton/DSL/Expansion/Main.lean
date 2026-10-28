@@ -2349,8 +2349,7 @@ partial def annotateFloatingLoadStorage (regions : Inference.RegionDTypes)
       | some .f8e4 => `(tritonDType| tl.float8e4nv)
       | some .f8e5 => `(tritonDType| tl.float8e5)
       | some .int32 => `(tritonDType| tl.int32)
-      | some .int =>
-          if unsignedCast then `(tritonDType| tl.int64) else return none
+      | some .int => `(tritonDType| tl.int64)
       | some .int8 =>
           if unsignedCast then `(tritonDType| tl.int8) else return none
       | some .nat =>
@@ -3095,7 +3094,7 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
       -- Python integer-literal select used as a dynamic loop bound.
       try
         let inferred ← expandExpr env e
-        if inferred.dtype == .int8 || inferred.dtype == .int32 then return inferred
+        if inferred.dtype == .int || inferred.dtype == .int8 || inferred.dtype == .int32 then return inferred
       catch _ => pure ()
       return ← expandNatExpectedExpr env e
     expandExpr env e
@@ -3155,7 +3154,14 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
             entry.1 == rawName || entry.1 == userName || entry.1 == erasedName)
         | do
             let nameLit ← identAsStr dest
-            let rhs' ← expandNatExpectedExpr env rhs
+            -- The first rebinding of an external pointer uses the same signed
+            -- element-offset projection as a later local pointer rebinding.
+            -- A typed signed input must not be retagged as Nat by address use.
+            let rhs0 := (← expandExpr env rhs).forgetStorageWidth
+            let rhs' ← match rhs0.dtype with
+              | .nat => pure rhs0
+              | .int => pointerOffsetIntAsNat rhs0
+              | _ => expandNatExpectedExpr env rhs
             ensureAlgorithmOnly "pointer rebind assignment" rhs'
             let region : TSyntax `term := ⟨old.raw⟩
             let lhsTerm ← `(Op.ptrBase $region)

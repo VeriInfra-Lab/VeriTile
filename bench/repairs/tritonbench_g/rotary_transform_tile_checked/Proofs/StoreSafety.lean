@@ -23,7 +23,9 @@ theorem stores_safe (M : Algebra α) (s : Shape) (bounds : RegionName → Nat)
     by_cases hi : s.interleaved = Bool.true <;> by_cases hc : s.conjugate = Bool.true
   all_goals
     simp (config := { maxSteps := 150000 }) [payload,loadsCount,branchBody,continuation,ifBody,
-      loads,indices,setup,kernel,KernelSource.source,KernelSource.source64_64,hv,ht,hi,hc,
+      loads,indices,setup,sourceBody,SourceBlocks.body,SourceBlocks.select,SourceBlocks.setupCount,
+      kernel,KernelSource.source,KernelSource.source64_64,
+      KernelSource.source64_64_tensor,KernelSource.source64_32_scalar,hv,ht,hi,hc,
       ComputeKernel.surfaceBody,Safety.traceSafeList,Safety.stepSafe,
       Safety.safeExpr,Safety.safeCompute,Safety.safeOp,Safety.safeOp_unfold,
       Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,

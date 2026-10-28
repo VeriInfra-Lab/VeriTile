@@ -33,6 +33,10 @@ structure CallSignature where
   sourceDTypePointers : List String := []
   /-- Pointer parameters whose None/non-None specialization is supplied by the caller. -/
   optionalPointers : List String := []
+  /-- Immutable Boolean constexpr inputs whose caller supplies a closed value.
+  Specialize these before type analysis, so a Python argument may be a scalar
+  in one call and a pointer in another without modifying either source branch. -/
+  specializeBooleans : List String := []
   scalars : List (String × ScalarType) := []
   constexpr : List String := []
   /-- Keep the typed FP32 memory channel used by a caller's existing IO.
@@ -247,14 +251,15 @@ private partial def rejectArgumentMutation (names : List Name) (raw : Syntax)
 /-- Specialize call inputs in statement order. A direct integer or offset-pointer
 assignment reads its entry value on the RHS and binds the original source LHS.
 All later uses read that local register, including after a zero-trip loop.
-Conditional/loop overwrites before definite assignment, tuple/augmented writes
-and FP parameter rebinding remain rejected by the existing mutation checker. -/
-private def bindCallStatements (rebindable : List Name)
+A conditional first assignment specializes each arm with its continuation.
+Loop, tuple, augmented and FP parameter writes remain rejected. -/
+private partial def bindCallStatements (rebindable : List Name)
     (values : List (Name × TSyntax `tritonExpr))
     (stmts : Array (TSyntax `tritonStmt)) : TermElabM (Array (TSyntax `tritonStmt)) := do
   let mut current := values
   let mut result := #[]
-  for st in stmts do
+  for i in [:stmts.size] do
+    let st := stmts[i]!
     if let `(tritonStmt| $id:ident = $rhs:tritonExpr) := st then
       let name := id.getId.eraseMacroScopes
       if rebindable.contains name && current.any (fun value => value.1 == name) then
@@ -262,6 +267,23 @@ private def bindCallStatements (rebindable : List Name)
         result := result.push (← liftMacroM `(tritonStmt| $id:ident = $rhs:tritonExpr))
         current := current.filter (fun value => value.1 != name)
         continue
+    let branches : Option (TSyntax `tritonExpr × Array (TSyntax `tritonStmt) × Array (TSyntax `tritonStmt)) :=
+      match st with
+      | `(tritonStmt| if $cond:tritonExpr { $yes:tritonStmt* } else { $no:tritonStmt* }) => some (cond,yes,no)
+      | `(tritonStmt| if $cond:tritonExpr { $yes:tritonStmt* }) => some (cond,yes,#[])
+      | _ => none
+    if let some (cond,yes,no) := branches then
+      -- Only take this path when a still-specialized caller value is assigned.
+      -- Each recursive branch retains its own binding environment, including
+      -- the unchanged entry value on a path which does not assign it.
+      let rec writes (raw : Syntax) : Bool :=
+        (assignmentTargets raw).any (fun n => current.any (fun p => p.1 == n)) || raw.getArgs.any writes
+      if yes.any (fun st => writes st.raw) || no.any (fun st => writes st.raw) then
+        let cond : TSyntax `tritonExpr := ⟨← liftMacroM <| bindSourceValues current cond.raw⟩
+        let rest := stmts.extract (i+1) stmts.size
+        let yes ← bindCallStatements rebindable current (yes ++ rest)
+        let no ← bindCallStatements rebindable current (no ++ rest)
+        return result.push (← liftMacroM `(tritonStmt| if $cond { $yes* } else { $no* }))
     rejectArgumentMutation (current.map Prod.fst) st.raw
     result := result.push (⟨← liftMacroM <| bindSourceValues current st.raw⟩ : TSyntax `tritonStmt)
   return result
@@ -923,6 +945,27 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
     (callValues : Option (Array (TSyntax `tritonCallBinding)))
     (pointerOffsets : Option (Array (TSyntax `tritonCallBinding)) := none)
     (pointerPresence : Option (Array (TSyntax `tritonCallBinding)) := none) : TermElabM Expr := do
+  let signature ← elabTermEnsuringType profile (mkConst ``Triton.CallSignature)
+  let selected ← (← listValues (← mkAppM ``Triton.CallSignature.specializeBooleans #[signature])).mapM stringValue
+  if !selected.isEmpty then
+    for stmt in stmts do rejectBodyMetadata stmt.raw
+    let constants ← (← listValues (← mkAppM ``Triton.CallSignature.constexpr #[signature])).mapM stringValue
+    unless selected.eraseDups.length == selected.length && selected.all constants.contains do
+      throwError "Boolean specialization names must be distinct constexpr parameters"
+    let mut choices : ConstexprMask.Choices := []
+    for name in selected do
+      let id := Name.mkSimple name
+      let value ← elabTermEnsuringType (mkIdent id) (mkConst ``Bool)
+      let reduced ← whnf value
+      unless reduced.isConstOf ``Bool.true || reduced.isConstOf ``Bool.false do
+        throwError "explicit Boolean specialization requires a closed caller value"
+      for stmt in stmts do
+        rejectArgumentMutation [id] stmt.raw "specialized Boolean constexpr cannot be rebound"
+      choices := choices ++ [(id,reduced.isConstOf ``Bool.true)]
+    let body ← liftMacroM <| stmts.mapM fun st => do
+      return (⟨← Inference.normalizeControlFlow st.raw⟩ : TSyntax `tritonStmt)
+    let body ← liftMacroM <| ConstexprMask.lower choices body
+    return ← elaborateCallCore profile body callValues pointerOffsets pointerPresence
   unless stmts.any (fun st => ConstexprMask.needed st.raw) do
     return ← elaborateCallCore profile stmts callValues pointerOffsets pointerPresence
   for stmt in stmts do rejectBodyMetadata stmt.raw

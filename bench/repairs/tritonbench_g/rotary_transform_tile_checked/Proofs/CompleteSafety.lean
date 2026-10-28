@@ -64,7 +64,11 @@ theorem continuation_tail_code (s : Shape) :
     (continuation s).drop 4 =
       [.ifThenElse (.boolNot (.constBool s.interleaved))
         (splitBody s) (interleavedBody s)] := by
-  rfl
+  cases hv : s.varlen <;> cases ht : s.offsetTensor <;>
+    simp [continuation,sourceBody,SourceBlocks.body,SourceBlocks.select,SourceBlocks.setupCount,
+      splitBody,interleavedBody,branchBody,ifBody,kernel,KernelSource.source,KernelSource.source64_64,
+      KernelSource.source64_64_tensor,KernelSource.source64_32_scalar,ComputeKernel.surfaceBody,
+      List.take,List.drop,List.flatMap,hv,ht]
 
 theorem continuation_tail_safe (M : Algebra α) (s : Shape) (bounds : RegionName → Nat)
     (u : State α) (hp : Safety.traceSafeList M bounds (payload s) u) :
@@ -100,11 +104,15 @@ theorem continuation_safe (M : Algebra α) (s : Shape) (bounds : RegionName → 
 
 theorem guard_safe (M : Algebra α) (s : Shape) (bounds : RegionName → Nat) (u : State α) :
     Safety.safeOp M none bounds u (guard s) := by
-  change Safety.safeOp M none bounds u
-    (.boolNot (.ge .int .nil
-      (.castNatToInt (.mul .nat .nil (.ref .nat [] "pid_m") (.constNat s.blockM)))
-      (.ref .int [] "seqlen")))
-  simp only [Safety.safeOp_unfold,true_and]
+  unfold TypedExecution.guard
+  cases hv : s.varlen <;> cases ht : s.offsetTensor
+  all_goals
+    simp only [guardOf,sourceBody,SourceBlocks.body,SourceBlocks.select,
+      SourceBlocks.setupCount,kernel,KernelSource.source,KernelSource.source64_64,
+      KernelSource.source64_64_tensor,KernelSource.source64_32_scalar,ComputeKernel.surfaceBody,
+      List.take,List.drop,List.flatMap_cons,List.flatMap_nil,List.append_nil,
+      List.cons_append,List.nil_append,hv,ht,Bool.false_eq_true,if_false,if_true]
+    simp [Safety.safeOp,Safety.safeOp_unfold]
 
 theorem source_safe (M : Algebra α) (s : Shape) (bounds : RegionName → Nat)
     (initial : State α) (bound : AccessBounds s initial bounds)
@@ -112,7 +120,7 @@ theorem source_safe (M : Algebra α) (s : Shape) (bounds : RegionName → Nat)
     (offset : s.offsetTensor = Bool.true → initial.pids 1<bounds "offsets")
     (cumulative64 offsets64 : Bool) :
     TraceSafe M bounds (kernel s cumulative64 offsets64) initial := by
-  have tail : Safety.traceSafeList M bounds ((kernel s Bool.true Bool.true).surfaceBody.drop 6)
+  have tail : Safety.traceSafeList M bounds ((sourceBody s).drop (SourceBlocks.setupCount s.varlen))
       (setup M s Bool.true Bool.true initial).val :=
     Eq.mpr (congrArg (fun code => Safety.traceSafeList M bounds code (setup M s Bool.true Bool.true initial).val)
       (source_tail s))
@@ -120,9 +128,11 @@ theorem source_safe (M : Algebra α) (s : Shape) (bounds : RegionName → Nat)
         (continuation_safe M s bounds initial bound offset))
   have joined := append_safe (setup_safe M s bounds initial cu)
     (setup M s Bool.true Bool.true initial).property tail
-  have canonical : TraceSafe M bounds (kernel s Bool.true Bool.true) initial :=
+  have selected : Safety.traceSafeList M bounds (sourceBody s) initial :=
     Eq.mp (congrArg (fun code => Safety.traceSafeList M bounds code initial)
-      (List.take_append_drop 6 (kernel s Bool.true Bool.true).surfaceBody)) joined
+      (List.take_append_drop (SourceBlocks.setupCount s.varlen) (sourceBody s))) joined
+  have canonical : TraceSafe M bounds (kernel s Bool.true Bool.true) initial :=
+    (source_body_safe_iff M s bounds initial).mpr selected
   exact Eq.mpr (congrArg (fun selected => TraceSafe M bounds selected initial)
     (kernel_carrier s cumulative64 offsets64)) canonical
 
