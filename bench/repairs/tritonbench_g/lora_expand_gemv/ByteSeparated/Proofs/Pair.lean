@@ -1,3 +1,4 @@
+import bench.repairs.tritonbench_g.lora_expand_gemv.ByteSeparated.Proofs.SourceConnection
 import bench.repairs.tritonbench_g.lora_expand_gemv.ByteSeparated.PairIO
 import bench.repairs.tritonbench_g.lora_expand_gemv.ByteSeparated.CandidateKernels
 import bench.repairs.tritonbench_g.lora_expand_gemv.ByteSeparated.Proofs.IOCorrect
@@ -11,9 +12,18 @@ set_option maxHeartbeats 8000000
 set_option maxRecDepth 40000
 set_option linter.unusedSimpArgs false
 
-/-- The readable selected source preserves the complete old macro expansion. -/
-theorem original_source (p : Branches.Parameters) :
-    fullSource p=Branches.source .singleHalf .single p := rfl
+/-- The actual pasted source retains the complete historical execution under
+its existing graph interpretation, including all branches and final registers. -/
+theorem original_source (rest : Algebra Word) (plans : ∀ n,ReductionPlan n)
+    (p : Branches.Parameters) (s : State Word) :
+    exec (Branches.engine rest .ieeeValue plans) (fullSource p) s=
+      exec (Branches.engine rest .ieeeValue plans) (Branches.source .singleHalf .single p) s :=
+  SourceConnection.run_eq rest .ieeeValue plans p s
+
+/-- Both admitted signed index-storage profiles retain the complete candidate
+body. Native width/range obligations are still carried by the caller. -/
+theorem candidate_index_profiles (p : Branches.Parameters) :
+    unitSplitSourceInt32 p=unitSplitSource p := rfl
 
 def active (k : ComputeKernel) : List ComputeStmt :=
   match (k.surfaceBody[3]? : Option ComputeStmt) with
@@ -193,14 +203,15 @@ theorem execute_same (rest : Algebra Word) (plans : ∀ n,ReductionPlan n)
     simp only [executeUnitSplit,execute]
     change (exec (Branches.engine rest .ieeeValue plans) (unitSplitSource g.parameters)
       (program g (q/g.N) (q%g.N) mem)).bind _ =
-        (exec (Branches.engine rest .ieeeValue plans) (fullSource g.parameters)
+        (exec (Branches.engine rest .ieeeValue plans) (Branches.source .singleHalf .single g.parameters)
           (program g (q/g.N) (q%g.N) mem)).bind _
-    rw [kernel_run _ g positive]
+    rw [←SourceConnection.run_eq, kernel_run _ g positive]
     apply congrArg (fun f => (exec (Branches.engine rest .ieeeValue plans)
       (unitSplitSource g.parameters) (program g (q/g.N) (q%g.N) mem)).bind f)
     funext next
     exact ih (fun p hp => bounded p (by simp [hp])) next.mem
 
+#axiomsClean candidate_index_profiles
 #axiomsClean original_source
 #axiomsClean kernel_run
 #axiomsClean kernel_safe

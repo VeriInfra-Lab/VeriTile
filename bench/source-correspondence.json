@@ -6,8 +6,8 @@
     "tasks": 183,
     "examples": 19,
     "task_status": {
-      "selected_body_copy_checked": 108,
-      "uncovered_jit_functions": 75
+      "selected_body_copy_checked": 109,
+      "uncovered_jit_functions": 74
     },
     "example_status": {
       "authored_counterpart_body_copy_checked": 2,
@@ -15,12 +15,12 @@
       "spec_derived_body_copy_checked": 15
     },
     "selected_jit_functions": 333,
-    "uncovered_selected_jit_functions": 159,
+    "uncovered_selected_jit_functions": 158,
     "primary_files_with_int64_screen_warning": 22,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 54,
-        "antiquotes": 60,
+        "in_body_type_directives": 53,
+        "antiquotes": 59,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 8
       },
@@ -11268,10 +11268,10 @@
       "lean": "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Kernels.lean",
       "source_provenance": "selected_revision",
       "lean_screen": {
-        "quotations": 1,
-        "in_body_type_directives": 1,
-        "antiquotes": 22,
-        "dsl_assignment": 12,
+        "quotations": 2,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 71,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -11284,19 +11284,182 @@
           "explicit_int64_casts": []
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_bgmv_expand_kernel",
+          "lean_definition": "fullSource",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "N": "N",
+            "K": "K",
+            "xm_stride": "xm_stride",
+            "xk_stride": "xk_stride",
+            "l0_stride": "l0_stride",
+            "lora_k_stride": "lora_k_stride",
+            "lora_n_stride": "lora_n_stride",
+            "cm_stride": "cm_stride",
+            "cn_stride": "cn_stride"
+          },
+          "statements": 13,
+          "runtime_parameters": {
+            "N": "i32",
+            "K": "i32",
+            "xm_stride": "i32",
+            "xk_stride": "i32",
+            "l0_stride": "i32",
+            "lora_k_stride": "i32",
+            "lora_n_stride": "i32",
+            "cm_stride": "i32",
+            "cn_stride": "i32"
+          },
+          "constexpr_parameters": [
+            "ADD_INPUTS",
+            "BLOCK_K",
+            "BLOCK_N",
+            "CAST_TYPE",
+            "EVEN_K",
+            "SPLIT_N"
+          ],
+          "profile_variant": "signed_int64_indices",
           "python": "bench/repairs/tritonbench_g/lora_expand_gemv/lora_expand_gemv_byte_separated.py",
-          "function": "_bgmv_expand_kernel"
+          "lean": "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Kernels.lean"
+        },
+        {
+          "python_function": "_bgmv_expand_unit_split_kernel",
+          "lean_definition": "unitSplitSource",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "N": "N",
+            "K": "K",
+            "xm_stride": "xm_stride",
+            "xk_stride": "xk_stride",
+            "l0_stride": "l0_stride",
+            "lora_k_stride": "lora_k_stride",
+            "lora_n_stride": "lora_n_stride",
+            "cm_stride": "cm_stride",
+            "cn_stride": "cn_stride"
+          },
+          "statements": 13,
+          "runtime_parameters": {
+            "N": "i32",
+            "K": "i32",
+            "xm_stride": "i32",
+            "xk_stride": "i32",
+            "l0_stride": "i32",
+            "lora_k_stride": "i32",
+            "lora_n_stride": "i32",
+            "cm_stride": "i32",
+            "cn_stride": "i32"
+          },
+          "constexpr_parameters": [
+            "ADD_INPUTS",
+            "BLOCK_K",
+            "BLOCK_N",
+            "CAST_TYPE",
+            "EVEN_K",
+            "SPLIT_N"
+          ],
+          "profile_variant": "signed_int64_indices",
+          "python": "bench/repairs/tritonbench_g/lora_expand_gemv/lora_expand_gemv_unit_split.py",
+          "lean": "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/CandidateKernels.lean"
+        },
+        {
+          "python_function": "_bgmv_expand_kernel",
+          "lean_definition": "fullSourceInt32",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "N": "N",
+            "K": "K",
+            "xm_stride": "xm_stride",
+            "xk_stride": "xk_stride",
+            "l0_stride": "l0_stride",
+            "lora_k_stride": "lora_k_stride",
+            "lora_n_stride": "lora_n_stride",
+            "cm_stride": "cm_stride",
+            "cn_stride": "cn_stride"
+          },
+          "statements": 13,
+          "runtime_parameters": {
+            "N": "i32",
+            "K": "i32",
+            "xm_stride": "i32",
+            "xk_stride": "i32",
+            "l0_stride": "i32",
+            "lora_k_stride": "i32",
+            "lora_n_stride": "i32",
+            "cm_stride": "i32",
+            "cn_stride": "i32"
+          },
+          "constexpr_parameters": [
+            "ADD_INPUTS",
+            "BLOCK_K",
+            "BLOCK_N",
+            "CAST_TYPE",
+            "EVEN_K",
+            "SPLIT_N"
+          ],
+          "profile_variant": "signed_int32_indices",
+          "python": "bench/repairs/tritonbench_g/lora_expand_gemv/lora_expand_gemv_byte_separated.py",
+          "lean": "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Kernels.lean"
+        },
+        {
+          "python_function": "_bgmv_expand_unit_split_kernel",
+          "lean_definition": "unitSplitSourceInt32",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "N": "N",
+            "K": "K",
+            "xm_stride": "xm_stride",
+            "xk_stride": "xk_stride",
+            "l0_stride": "l0_stride",
+            "lora_k_stride": "lora_k_stride",
+            "lora_n_stride": "lora_n_stride",
+            "cm_stride": "cm_stride",
+            "cn_stride": "cn_stride"
+          },
+          "statements": 13,
+          "runtime_parameters": {
+            "N": "i32",
+            "K": "i32",
+            "xm_stride": "i32",
+            "xk_stride": "i32",
+            "l0_stride": "i32",
+            "lora_k_stride": "i32",
+            "lora_n_stride": "i32",
+            "cm_stride": "i32",
+            "cn_stride": "i32"
+          },
+          "constexpr_parameters": [
+            "ADD_INPUTS",
+            "BLOCK_K",
+            "BLOCK_N",
+            "CAST_TYPE",
+            "EVEN_K",
+            "SPLIT_N"
+          ],
+          "profile_variant": "signed_int32_indices",
+          "python": "bench/repairs/tritonbench_g/lora_expand_gemv/lora_expand_gemv_unit_split.py",
+          "lean": "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/CandidateKernels.lean"
         }
       ],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Kernels.lean": "5a870605b5c6cbfc3eb12d39c6337c0e1545fcfcc700f75299a9a847a958abf0",
-        "bench/repairs/tritonbench_g/lora_expand_gemv/lora_expand_gemv_byte_separated.py": "85f452b177066c749577b51a730ac49b81acd153ed4f5fc6d141762b4075ae03"
+        "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/CandidateKernels.lean": "eedfe198b48ac99279572f71d8951ac791f717976457be43f21e3869503c916b",
+        "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Kernels.lean": "58588c55bfcf74613216068526daa53b99b48881838c88010ceeccfd5f7e8a98",
+        "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/jit-correspondence.json": "dc076656117af6eb77e72ab8451d9c16886cf59df9ebac16e0f7fc6a6d6e96c2",
+        "bench/repairs/tritonbench_g/lora_expand_gemv/lora_expand_gemv_byte_separated.py": "85f452b177066c749577b51a730ac49b81acd153ed4f5fc6d141762b4075ae03",
+        "bench/repairs/tritonbench_g/lora_expand_gemv/lora_expand_gemv_unit_split.py": "c2303e4867a0321a9cf3169d0792802221295691953901a30f1ac3ef6e874cf2"
       }
     },
     {

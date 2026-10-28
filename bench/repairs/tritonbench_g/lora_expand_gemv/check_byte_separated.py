@@ -45,7 +45,14 @@ assert pins['frozen_canonical_sha256'] == sha(OLD)
 assert pins['kernel_ast_sha256'] == hashlib.sha256(ast.dump(adapter.function(SOURCE, '_bgmv_expand_kernel')).encode()).hexdigest()
 quotation = (HERE / 'ByteSeparated/Kernels.lean').read_text()
 assert json.dumps(ast.dump(new_ast)) in quotation
-assert sha(SOURCE) in quotation and 'abbrev source := Branches.source' in quotation
+assert sha(SOURCE) in quotation
+# Certify all actual original/candidate bodies and their two signed index ABIs.
+# An old alias spelling cannot certify a copied Python function body.
+sys.path.insert(0, str(ROOT))
+from bench.jit_correspondence import check_manifest
+body_checks = check_manifest(ROOT, HERE / 'ByteSeparated/jit-correspondence.json')
+assert len(body_checks) == 4 and all(row['status'] == 'PASS' and
+    row['mode'] == 'pasted_body' for row in body_checks)
 assert not any(isinstance(n, ast.Call) and isinstance(n.func, ast.Attribute)
                and n.func.attr in {'clone', 'contiguous', 'copy_', 'empty', 'zeros', 'resolve_neg'}
                for n in ast.walk(new_wrapper))

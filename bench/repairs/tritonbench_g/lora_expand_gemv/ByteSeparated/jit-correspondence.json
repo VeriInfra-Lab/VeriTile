@@ -1,0 +1,378 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/lora_expand_gemv/lora_expand_gemv_byte_separated.py",
+    "lean": "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Kernels.lean",
+    "python_function": "_bgmv_expand_kernel",
+    "lean_definition": "fullSource",
+    "signature_definition": "signatureInt64",
+    "expected_signature": {
+      "pointers": [
+        [
+          "input_ptr",
+          "fp32"
+        ],
+        [
+          "lora_ptr",
+          "fp16"
+        ],
+        [
+          "out_ptr",
+          "fp32"
+        ],
+        [
+          "lora_indices",
+          "i64"
+        ]
+      ],
+      "scalars": [
+        [
+          "N",
+          "i32"
+        ],
+        [
+          "K",
+          "i32"
+        ],
+        [
+          "xm_stride",
+          "i32"
+        ],
+        [
+          "xk_stride",
+          "i32"
+        ],
+        [
+          "l0_stride",
+          "i32"
+        ],
+        [
+          "lora_k_stride",
+          "i32"
+        ],
+        [
+          "lora_n_stride",
+          "i32"
+        ],
+        [
+          "cm_stride",
+          "i32"
+        ],
+        [
+          "cn_stride",
+          "i32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_N",
+        "BLOCK_K",
+        "SPLIT_N",
+        "EVEN_K",
+        "ADD_INPUTS",
+        "CAST_TYPE"
+      ],
+      "readPorts": [
+        "input_ptr",
+        "lora_ptr",
+        "out_ptr",
+        "lora_indices"
+      ],
+      "writePorts": [
+        "out_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "N": "N",
+      "K": "K",
+      "xm_stride": "xm_stride",
+      "xk_stride": "xk_stride",
+      "l0_stride": "l0_stride",
+      "lora_k_stride": "lora_k_stride",
+      "lora_n_stride": "lora_n_stride",
+      "cm_stride": "cm_stride",
+      "cn_stride": "cn_stride"
+    },
+    "profile_variant": "signed_int64_indices"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/lora_expand_gemv/lora_expand_gemv_unit_split.py",
+    "lean": "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/CandidateKernels.lean",
+    "python_function": "_bgmv_expand_unit_split_kernel",
+    "lean_definition": "unitSplitSource",
+    "signature_definition": "unitSplitSignatureInt64",
+    "expected_signature": {
+      "pointers": [
+        [
+          "input_ptr",
+          "fp32"
+        ],
+        [
+          "lora_ptr",
+          "fp16"
+        ],
+        [
+          "out_ptr",
+          "fp32"
+        ],
+        [
+          "lora_indices",
+          "i64"
+        ]
+      ],
+      "scalars": [
+        [
+          "N",
+          "i32"
+        ],
+        [
+          "K",
+          "i32"
+        ],
+        [
+          "xm_stride",
+          "i32"
+        ],
+        [
+          "xk_stride",
+          "i32"
+        ],
+        [
+          "l0_stride",
+          "i32"
+        ],
+        [
+          "lora_k_stride",
+          "i32"
+        ],
+        [
+          "lora_n_stride",
+          "i32"
+        ],
+        [
+          "cm_stride",
+          "i32"
+        ],
+        [
+          "cn_stride",
+          "i32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_N",
+        "BLOCK_K",
+        "SPLIT_N",
+        "EVEN_K",
+        "ADD_INPUTS",
+        "CAST_TYPE"
+      ],
+      "readPorts": [
+        "input_ptr",
+        "lora_ptr",
+        "out_ptr",
+        "lora_indices"
+      ],
+      "writePorts": [
+        "out_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "N": "N",
+      "K": "K",
+      "xm_stride": "xm_stride",
+      "xk_stride": "xk_stride",
+      "l0_stride": "l0_stride",
+      "lora_k_stride": "lora_k_stride",
+      "lora_n_stride": "lora_n_stride",
+      "cm_stride": "cm_stride",
+      "cn_stride": "cn_stride"
+    },
+    "profile_variant": "signed_int64_indices"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/lora_expand_gemv/lora_expand_gemv_byte_separated.py",
+    "lean": "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/Kernels.lean",
+    "python_function": "_bgmv_expand_kernel",
+    "lean_definition": "fullSourceInt32",
+    "signature_definition": "signatureInt32",
+    "expected_signature": {
+      "pointers": [
+        [
+          "input_ptr",
+          "fp32"
+        ],
+        [
+          "lora_ptr",
+          "fp16"
+        ],
+        [
+          "out_ptr",
+          "fp32"
+        ],
+        [
+          "lora_indices",
+          "i32"
+        ]
+      ],
+      "scalars": [
+        [
+          "N",
+          "i32"
+        ],
+        [
+          "K",
+          "i32"
+        ],
+        [
+          "xm_stride",
+          "i32"
+        ],
+        [
+          "xk_stride",
+          "i32"
+        ],
+        [
+          "l0_stride",
+          "i32"
+        ],
+        [
+          "lora_k_stride",
+          "i32"
+        ],
+        [
+          "lora_n_stride",
+          "i32"
+        ],
+        [
+          "cm_stride",
+          "i32"
+        ],
+        [
+          "cn_stride",
+          "i32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_N",
+        "BLOCK_K",
+        "SPLIT_N",
+        "EVEN_K",
+        "ADD_INPUTS",
+        "CAST_TYPE"
+      ],
+      "readPorts": [
+        "input_ptr",
+        "lora_ptr",
+        "out_ptr",
+        "lora_indices"
+      ],
+      "writePorts": [
+        "out_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "N": "N",
+      "K": "K",
+      "xm_stride": "xm_stride",
+      "xk_stride": "xk_stride",
+      "l0_stride": "l0_stride",
+      "lora_k_stride": "lora_k_stride",
+      "lora_n_stride": "lora_n_stride",
+      "cm_stride": "cm_stride",
+      "cn_stride": "cn_stride"
+    },
+    "profile_variant": "signed_int32_indices"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/lora_expand_gemv/lora_expand_gemv_unit_split.py",
+    "lean": "bench/repairs/tritonbench_g/lora_expand_gemv/ByteSeparated/CandidateKernels.lean",
+    "python_function": "_bgmv_expand_unit_split_kernel",
+    "lean_definition": "unitSplitSourceInt32",
+    "signature_definition": "unitSplitSignatureInt32",
+    "expected_signature": {
+      "pointers": [
+        [
+          "input_ptr",
+          "fp32"
+        ],
+        [
+          "lora_ptr",
+          "fp16"
+        ],
+        [
+          "out_ptr",
+          "fp32"
+        ],
+        [
+          "lora_indices",
+          "i32"
+        ]
+      ],
+      "scalars": [
+        [
+          "N",
+          "i32"
+        ],
+        [
+          "K",
+          "i32"
+        ],
+        [
+          "xm_stride",
+          "i32"
+        ],
+        [
+          "xk_stride",
+          "i32"
+        ],
+        [
+          "l0_stride",
+          "i32"
+        ],
+        [
+          "lora_k_stride",
+          "i32"
+        ],
+        [
+          "lora_n_stride",
+          "i32"
+        ],
+        [
+          "cm_stride",
+          "i32"
+        ],
+        [
+          "cn_stride",
+          "i32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_N",
+        "BLOCK_K",
+        "SPLIT_N",
+        "EVEN_K",
+        "ADD_INPUTS",
+        "CAST_TYPE"
+      ],
+      "readPorts": [
+        "input_ptr",
+        "lora_ptr",
+        "out_ptr",
+        "lora_indices"
+      ],
+      "writePorts": [
+        "out_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "N": "N",
+      "K": "K",
+      "xm_stride": "xm_stride",
+      "xk_stride": "xk_stride",
+      "l0_stride": "l0_stride",
+      "lora_k_stride": "lora_k_stride",
+      "lora_n_stride": "lora_n_stride",
+      "cm_stride": "cm_stride",
+      "cn_stride": "cn_stride"
+    },
+    "profile_variant": "signed_int32_indices"
+  }
+]
