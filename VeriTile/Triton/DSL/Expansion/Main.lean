@@ -898,6 +898,7 @@ partial def mergeBranchEnv (base thenEnv elseEnv : Env) : Env :=
 
 partial def staticBoolCond? (env : Env) (cond : TSyntax `tritonExpr) : Bool :=
   match cond with
+  | `(tritonExpr| $(($_:term : Bool))) => Bool.true
   | `(tritonExpr| $a:ident == $_:str) =>
       !env.any (fun entry => entry.1 == a.getId.toString)
   | `(tritonExpr| $a:ident != $_:str) =>
