@@ -7,7 +7,7 @@ noncomputable section
 
 /-- The explicit FP32 casts in the structural interpreter are move/barrier
 nodes. Input and output casts use the same typed cast primitive. -/
-def referenceOps : Ops Term := ⟨.zero,.store32,.store32,.add,.mul,.exp⟩
+def referenceOps : Ops Term := ⟨.zero,.store32,.store32,.add,.mul,.exp,.load32⟩
 theorem source_ops (p : ReductionPlan) : Source.ops (algebra p)=referenceOps := rfl
 
 /-- Triton's raw integer 1 is a constexpr specialization, unlike float 1.0.

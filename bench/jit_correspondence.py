@@ -531,6 +531,7 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
           expected_pointer_presence: dict | None = None,
           expected_specialized_booleans: dict | None = None,
           expected_constexpr_bindings: dict | None = None) -> dict:
+    native_ones: set[str] = set()
     functions = [n for n in ast.parse(python_text).body
                  if isinstance(n, ast.FunctionDef) and n.name == python_function]
     if len(functions) != 1:
@@ -701,7 +702,24 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
             raise ValueError("bare tanh requires its original source import binding")
         names = ({n for n, _ in profile["pointers"] + profile["scalars"]} | set(profile["constexpr"])
                  | set(profile.get("sourceDTypePointers", [])))
-        if names != {a.arg for a in function.args.args} or set(profile["constexpr"]) != constants:
+        # The native scalar specializer treats an unannotated raw integer 1
+        # as constexpr unless do_not_specialize excludes that parameter. The
+        # reviewed Nat-valued caller binding above must pin exactly that case;
+        # arbitrary runtime scalars cannot be relabeled as constexpr.
+        native_ones = set(profile["constexpr"]) - constants
+        disabled = []
+        if isinstance(decorators[0], ast.Call):
+            for kw in decorators[0].keywords:
+                if kw.arg == "do_not_specialize":
+                    disabled = ast.literal_eval(kw.value) or []
+        arguments_by_name = {a.arg: (i, a) for i, a in enumerate(function.args.args)}
+        for name in native_ones:
+            entry = arguments_by_name.get(name)
+            if (entry is None or annotation(entry[1]) is not None
+                    or (expected_constexpr_bindings or {}).get(name) != 1
+                    or name in disabled or entry[0] in disabled):
+                raise ValueError("Python parameters and call signature differ: runtime constexpr specialization requires enabled unannotated raw integer one")
+        if names != set(arguments_by_name) or set(profile["constexpr"]) != constants | native_ones:
             raise ValueError("Python parameters and call signature differ")
         # `integer` is intentionally unbounded; it cannot certify an explicit
         # int32/int64 ABI annotation. Pointer annotations are not scalar args.
@@ -761,6 +779,8 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
             "call_bindings": call_bindings,
             "statements": len(function.body),
             "runtime_parameters": dict(profile["scalars"]) if profile is not None else runtime, "constexpr_parameters": sorted(constants)}
+    if profile is not None and native_ones:
+        result["native_integer_one_specializations"] = sorted(native_ones)
     if helper:
         result["body_kind"] = "helper"
         result["helper_parameters"] = arguments

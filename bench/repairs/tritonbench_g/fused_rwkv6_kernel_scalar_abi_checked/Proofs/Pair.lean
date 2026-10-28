@@ -11,19 +11,19 @@ theorem kernel_run {α : Type} [Inhabited α] (M : Algebra α)
     (c : Shape) (s : State α) :
     run M (earlyUKernel c).surfaceBody s = run M (kernel c).surfaceBody s := by
   calc
-    _ = (run M ((earlyUKernel c).surfaceBody.take 16) s).bind
-        (run M ((earlyUKernel c).surfaceBody.drop 16)) := by
+    _ = (run M ((earlyUKernel c).surfaceBody.take 14) s).bind
+        (run M ((earlyUKernel c).surfaceBody.drop 14)) := by
       rw [←run_append,List.take_append_drop]
-    _ = (run M ((kernel c).surfaceBody.take 16) s).bind
-        (run M ((kernel c).surfaceBody.drop 16)) := by rw [prefix_run,suffix_eq]
+    _ = (run M ((kernel c).surfaceBody.take 14) s).bind
+        (run M ((kernel c).surfaceBody.drop 14)) := by rw [prefix_run,suffix_eq]
     _ = _ := by rw [←run_append,List.take_append_drop]
 
 theorem kernel_safe {α : Type} [Inhabited α] (M : Algebra α)
     (c : Shape) (bounds : RegionName → Nat) (s : State α) :
     Safety.traceSafeList M bounds (earlyUKernel c).surfaceBody s ↔
       Safety.traceSafeList M bounds (kernel c).surfaceBody s := by
-  conv_lhs => rw [←List.take_append_drop 16 (earlyUKernel c).surfaceBody]
-  conv_rhs => rw [←List.take_append_drop 16 (kernel c).surfaceBody]
+  conv_lhs => rw [←List.take_append_drop 14 (earlyUKernel c).surfaceBody]
+  conv_rhs => rw [←List.take_append_drop 14 (kernel c).surfaceBody]
   rw [Safety.traceSafeList_append,Safety.traceSafeList_append,prefix_safe,prefix_run,suffix_eq]
 
 theorem invocation_run {α : Type} [Inhabited α] (M : Algebra α)

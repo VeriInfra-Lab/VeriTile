@@ -1,3 +1,4 @@
+import VeriTile.Triton.DSL.NestedLoadAssignments
 import VeriTile.Triton.DSL.CallValue
 import VeriTile.Triton.DSL.PointerType
 import VeriTile.Triton.DSL.PythonConstants
@@ -491,6 +492,22 @@ private partial def lowerWithState (pointers : Types) (values : Values)
   match body with
   | [] => return ([],pointers,values)
   | stmt :: rest =>
+      -- Pointer aliases introduced by the source, including aliases used in
+      -- loops, are known at this point. Lift eager floating reads using those
+      -- actual storage facts, before the precision checker sees arithmetic.
+      -- The full suffix and current registers reserve temporary names.
+      if let `(tritonStmt| $_:ident = $_:tritonExpr) := stmt then
+        let floatingPointers := pointers.filterMap fun (name, kind) =>
+          if [.fp16,.bf16,.fp32,.fp64,.f8e4,.f8e5,.inputFloat,.outputFloat].contains kind
+          then some name else none
+        let rec namesIn (raw : Syntax) : List Name :=
+          if raw.isIdent then [raw.getId.eraseMacroScopes]
+          else raw.getArgs.toList.flatMap namesIn
+        let reserved := pointers.map Prod.fst ++ values.map Prod.fst ++
+          body.flatMap (fun s => namesIn s.raw)
+        let lifted ← NestedLoadAssignments.lower floatingPointers #[stmt] reserved
+        if lifted.size > 1 then
+          return ← lowerWithState pointers values (lifted.toList ++ rest) invariants
       let mut nextPointers := pointers
       let mut nextValues := values
       let mut stmt := stmt

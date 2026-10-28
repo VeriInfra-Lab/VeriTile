@@ -46,7 +46,7 @@ def finishExec (M : Algebra α) (c : Shape) (initial current : State α) (scale 
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp [parts,kernel,ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,
+    simp [parts,kernel,ComputeKernel.surfaceBody,Triton.Source.intRange?,
       Option.map,Option.getD,run,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,
       evalOffsets,boundaryZero,Option.bind,engine,Algebra.withDefaultPrecision,
       resolvePrecision,ComputeDType.eraseDType,numeric,integralMod,numericLt,natLt,
@@ -68,7 +68,8 @@ theorem finish_memory (M : Algebra α) (c : Shape) (initial current : State α) 
   · funext r b
     congr 2
     apply propext
-    omega
+    simp only [←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast]
+    simp [Nat.add_mul,Nat.mul_add,Nat.mul_assoc,Nat.add_assoc,Nat.add_comm,Nat.add_left_comm]
   · rfl
 
 /-- Formal dead-register noninterference: completely arbitrary values in the
@@ -90,8 +91,8 @@ theorem source_memory (M : Algebra α) (c : Shape) (s : State α) (scale : α)
   obtain ⟨mid,hm,hc⟩:=loopExec M c s start.val scale 0 (by omega) (entry_context M c s scale hs)
   let done:=finishExec M c s mid scale (hc.final M c s mid scale)
   refine ⟨done.val,?_,finish_memory M c s mid scale _⟩
-  have hl : FP.Structural.step (engine M) (.forRange "_i" 0 c.T 1 (parts c).body)
-      start.val=some mid := by simpa only [FP.Structural.step] using hm
+  have hl : FP.Structural.step (engine M) (.forRangeInt "_" (.constInt 0) (.constInt (c.T : Int)) (.constNat 1) (parts c).body)
+      start.val=some mid := by simpa only [FP.Structural.step,evalOp_unfold,evalOffsets,Option.bind_some] using hm
   change run (engine M) (kernel c).surfaceBody s=some done.val
   rw [source_body,List.append_assoc,run_append,start.property]
   simp only [Option.bind_some,List.singleton_append,run,hl,bind,done.property]

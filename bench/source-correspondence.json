@@ -6,8 +6,8 @@
     "tasks": 183,
     "examples": 19,
     "task_status": {
-      "selected_body_copy_checked": 109,
-      "uncovered_jit_functions": 74
+      "selected_body_copy_checked": 110,
+      "uncovered_jit_functions": 73
     },
     "example_status": {
       "authored_counterpart_body_copy_checked": 2,
@@ -15,12 +15,12 @@
       "spec_derived_body_copy_checked": 15
     },
     "selected_jit_functions": 333,
-    "uncovered_selected_jit_functions": 158,
+    "uncovered_selected_jit_functions": 157,
     "primary_files_with_int64_screen_warning": 22,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 53,
-        "antiquotes": 59,
+        "in_body_type_directives": 52,
+        "antiquotes": 58,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 8
       },
@@ -7807,13 +7807,13 @@
       "lean": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/Kernels.lean",
       "source_provenance": "selected_revision",
       "lean_screen": {
-        "quotations": 2,
-        "in_body_type_directives": 4,
-        "antiquotes": 124,
-        "dsl_assignment": 24,
+        "quotations": 5,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 144,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 2
+        "load_dtype_extension": 5
       },
       "python_jits": [
         {
@@ -7823,19 +7823,348 @@
           "explicit_int64_casts": []
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "fused_recurrent_rwkv6_fwd_kernel",
+          "lean_definition": "kernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "mixed_integer_calls_and_runtime_registers",
+          "call_bindings": {
+            "s_k_h": "s_k_h",
+            "s_v_h": "s_v_h"
+          },
+          "statements": 16,
+          "runtime_parameters": {
+            "s_k_h": "i32",
+            "s_v_h": "i32",
+            "scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "B",
+            "BK",
+            "BV",
+            "H",
+            "K",
+            "REVERSE",
+            "STORE_FINAL_STATE",
+            "T",
+            "USE_INITIAL_STATE",
+            "V"
+          ],
+          "profile_variant": "raw_scale_fp32",
           "python": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/fused_rwkv6_kernel_scalar_abi_checked.py",
-          "function": "fused_recurrent_rwkv6_fwd_kernel"
+          "lean": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/Kernels.lean"
+        },
+        {
+          "python_function": "fused_recurrent_rwkv6_fwd_kernel",
+          "lean_definition": "earlyUKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "mixed_integer_calls_and_runtime_registers",
+          "call_bindings": {
+            "s_k_h": "s_k_h",
+            "s_v_h": "s_v_h"
+          },
+          "statements": 16,
+          "runtime_parameters": {
+            "s_k_h": "i32",
+            "s_v_h": "i32",
+            "scale": "fp32"
+          },
+          "constexpr_parameters": [
+            "B",
+            "BK",
+            "BV",
+            "H",
+            "K",
+            "REVERSE",
+            "STORE_FINAL_STATE",
+            "T",
+            "USE_INITIAL_STATE",
+            "V"
+          ],
+          "profile_variant": "raw_scale_fp32",
+          "python": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/fused_rwkv6_kernel_u_early.py",
+          "lean": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/CandidateKernels.lean"
+        },
+        {
+          "python_function": "fused_recurrent_rwkv6_fwd_kernel",
+          "lean_definition": "kernelI32",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "s_k_h": "s_k_h",
+            "s_v_h": "s_v_h",
+            "scale": "scale"
+          },
+          "statements": 16,
+          "runtime_parameters": {
+            "s_k_h": "i32",
+            "s_v_h": "i32",
+            "scale": "i32"
+          },
+          "constexpr_parameters": [
+            "B",
+            "BK",
+            "BV",
+            "H",
+            "K",
+            "REVERSE",
+            "STORE_FINAL_STATE",
+            "T",
+            "USE_INITIAL_STATE",
+            "V"
+          ],
+          "profile_variant": "raw_scale_i32",
+          "python": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/fused_rwkv6_kernel_scalar_abi_checked.py",
+          "lean": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/Kernels.lean"
+        },
+        {
+          "python_function": "fused_recurrent_rwkv6_fwd_kernel",
+          "lean_definition": "earlyUKernelI32",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "s_k_h": "s_k_h",
+            "s_v_h": "s_v_h",
+            "scale": "scale"
+          },
+          "statements": 16,
+          "runtime_parameters": {
+            "s_k_h": "i32",
+            "s_v_h": "i32",
+            "scale": "i32"
+          },
+          "constexpr_parameters": [
+            "B",
+            "BK",
+            "BV",
+            "H",
+            "K",
+            "REVERSE",
+            "STORE_FINAL_STATE",
+            "T",
+            "USE_INITIAL_STATE",
+            "V"
+          ],
+          "profile_variant": "raw_scale_i32",
+          "python": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/fused_rwkv6_kernel_u_early.py",
+          "lean": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/CandidateKernels.lean"
+        },
+        {
+          "python_function": "fused_recurrent_rwkv6_fwd_kernel",
+          "lean_definition": "kernelI64",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "s_k_h": "s_k_h",
+            "s_v_h": "s_v_h",
+            "scale": "scale"
+          },
+          "statements": 16,
+          "runtime_parameters": {
+            "s_k_h": "i32",
+            "s_v_h": "i32",
+            "scale": "i64"
+          },
+          "constexpr_parameters": [
+            "B",
+            "BK",
+            "BV",
+            "H",
+            "K",
+            "REVERSE",
+            "STORE_FINAL_STATE",
+            "T",
+            "USE_INITIAL_STATE",
+            "V"
+          ],
+          "profile_variant": "raw_scale_i64",
+          "python": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/fused_rwkv6_kernel_scalar_abi_checked.py",
+          "lean": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/Kernels.lean"
+        },
+        {
+          "python_function": "fused_recurrent_rwkv6_fwd_kernel",
+          "lean_definition": "earlyUKernelI64",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "s_k_h": "s_k_h",
+            "s_v_h": "s_v_h",
+            "scale": "scale"
+          },
+          "statements": 16,
+          "runtime_parameters": {
+            "s_k_h": "i32",
+            "s_v_h": "i32",
+            "scale": "i64"
+          },
+          "constexpr_parameters": [
+            "B",
+            "BK",
+            "BV",
+            "H",
+            "K",
+            "REVERSE",
+            "STORE_FINAL_STATE",
+            "T",
+            "USE_INITIAL_STATE",
+            "V"
+          ],
+          "profile_variant": "raw_scale_i64",
+          "python": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/fused_rwkv6_kernel_u_early.py",
+          "lean": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/CandidateKernels.lean"
+        },
+        {
+          "python_function": "fused_recurrent_rwkv6_fwd_kernel",
+          "lean_definition": "kernelU64",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "s_k_h": "s_k_h",
+            "s_v_h": "s_v_h",
+            "scale": "scale"
+          },
+          "statements": 16,
+          "runtime_parameters": {
+            "s_k_h": "i32",
+            "s_v_h": "i32",
+            "scale": "u64"
+          },
+          "constexpr_parameters": [
+            "B",
+            "BK",
+            "BV",
+            "H",
+            "K",
+            "REVERSE",
+            "STORE_FINAL_STATE",
+            "T",
+            "USE_INITIAL_STATE",
+            "V"
+          ],
+          "profile_variant": "raw_scale_u64",
+          "python": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/fused_rwkv6_kernel_scalar_abi_checked.py",
+          "lean": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/Kernels.lean"
+        },
+        {
+          "python_function": "fused_recurrent_rwkv6_fwd_kernel",
+          "lean_definition": "earlyUKernelU64",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "s_k_h": "s_k_h",
+            "s_v_h": "s_v_h",
+            "scale": "scale"
+          },
+          "statements": 16,
+          "runtime_parameters": {
+            "s_k_h": "i32",
+            "s_v_h": "i32",
+            "scale": "u64"
+          },
+          "constexpr_parameters": [
+            "B",
+            "BK",
+            "BV",
+            "H",
+            "K",
+            "REVERSE",
+            "STORE_FINAL_STATE",
+            "T",
+            "USE_INITIAL_STATE",
+            "V"
+          ],
+          "profile_variant": "raw_scale_u64",
+          "python": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/fused_rwkv6_kernel_u_early.py",
+          "lean": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/CandidateKernels.lean"
+        },
+        {
+          "python_function": "fused_recurrent_rwkv6_fwd_kernel",
+          "lean_definition": "kernelOne",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "s_k_h": "s_k_h",
+            "s_v_h": "s_v_h"
+          },
+          "statements": 16,
+          "runtime_parameters": {
+            "s_k_h": "i32",
+            "s_v_h": "i32"
+          },
+          "constexpr_parameters": [
+            "B",
+            "BK",
+            "BV",
+            "H",
+            "K",
+            "REVERSE",
+            "STORE_FINAL_STATE",
+            "T",
+            "USE_INITIAL_STATE",
+            "V"
+          ],
+          "native_integer_one_specializations": [
+            "scale"
+          ],
+          "profile_variant": "raw_integer_one_constexpr",
+          "python": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/fused_rwkv6_kernel_scalar_abi_checked.py",
+          "lean": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/Kernels.lean"
+        },
+        {
+          "python_function": "fused_recurrent_rwkv6_fwd_kernel",
+          "lean_definition": "earlyUKernelOne",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "s_k_h": "s_k_h",
+            "s_v_h": "s_v_h"
+          },
+          "statements": 16,
+          "runtime_parameters": {
+            "s_k_h": "i32",
+            "s_v_h": "i32"
+          },
+          "constexpr_parameters": [
+            "B",
+            "BK",
+            "BV",
+            "H",
+            "K",
+            "REVERSE",
+            "STORE_FINAL_STATE",
+            "T",
+            "USE_INITIAL_STATE",
+            "V"
+          ],
+          "native_integer_one_specializations": [
+            "scale"
+          ],
+          "profile_variant": "raw_integer_one_constexpr",
+          "python": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/fused_rwkv6_kernel_u_early.py",
+          "lean": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/CandidateKernels.lean"
         }
       ],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/Kernels.lean": "1c009e34c35e5abd3e77472c59175435f296a5bb7360d8535b86f20c4703952c",
-        "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/fused_rwkv6_kernel_scalar_abi_checked.py": "ed5895a40c59dc093429689d1431364f41736a4889ea159da4a4dda3f7d54047"
+        "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/CandidateKernels.lean": "f17a6a10255e02056def02a61e7f560ccbb080da958e10b3dcb7cbca17033a62",
+        "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/Kernels.lean": "33a29a3741993346da0f271b5250686732c27f8a70048c4aacdf85f20f4316f7",
+        "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/fused_rwkv6_kernel_scalar_abi_checked.py": "ed5895a40c59dc093429689d1431364f41736a4889ea159da4a4dda3f7d54047",
+        "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/fused_rwkv6_kernel_u_early.py": "b3bf3cd49a686c738eb3f21b64619e820dd84dc78cf958b907fe8028969f6255",
+        "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/jit-correspondence.json": "cffb5f076ceacca22ae56c75143b0b1e5e58710919f6d9ada6d67b2aff3078a5"
       }
     },
     {

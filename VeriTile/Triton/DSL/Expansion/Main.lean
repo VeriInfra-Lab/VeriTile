@@ -223,6 +223,23 @@ private def pointerOffsetIntAsNat (out : EOut) : MacroM EOut := do
   | some natTerm => pure { out with term := natTerm, dtype := .nat }
   | none => pure { out with term := ← `(Op.castIntToNat $out.term), dtype := .nat }
 
+/-- Signed movement is relative to the existing pointer. Projecting the
+increment itself to Nat would discard a negative step. The pair of natural
+operations below projects the complete updated offset; known nonnegative
+increments keep the existing simple addition. -/
+private def addSignedPointer (pointer offset : EOut) : MacroM EOut := do
+  ensureAlgorithmOnly "signed pointer arithmetic" pointer
+  ensureAlgorithmOnly "signed pointer arithmetic" offset
+  let (bc, outShape) ← broadcastTerm pointer.shape offset.shape "signed pointer arithmetic"
+  if let some natural ← nonnegativeIntTermAsNat? offset.term then
+    return ⟨← `(Op.ptrAdd $bc $pointer.term $natural), .ptr, outShape, none, none⟩
+  let positive ← `(Op.castIntToNat $offset.term)
+  let (negBroadcast, _) ← broadcastTerm SInfo.scalar offset.shape "signed pointer negation"
+  let negative ← `(Op.castIntToNat (Op.sub NumericDType.int $negBroadcast (Op.constInt 0) $offset.term))
+  let moved ← `(Op.ptrAdd $bc $pointer.term $positive)
+  let (tailBroadcast, finalShape) ← broadcastTerm outShape offset.shape "signed pointer subtraction"
+  return ⟨← `(Op.ptrSub $tailBroadcast $moved $negative), .ptr, finalShape, none, none⟩
+
 private def unsignedCastWidth? : TSyntax `tritonDType → Option Nat
   | `(tritonDType| tl.uint8) => some 8
   | `(tritonDType| tl.uint16) => some 16
@@ -831,6 +848,25 @@ partial def expandIteFromCond (env : Env) (c' : EOut)
     (a b : TSyntax `tritonExpr) : MacroM EOut := do
   let a' ← expandExpr env a
   let b' ← expandExpr env b
+  -- A weak Python integer literal takes the other integer branch's carrier.
+  -- Keep floating literals, casts and runtime operands on their existing path;
+  -- only the source literal spelling permits this coercion.
+  let rec integerLiteral (dtype : DInfo) (e : TSyntax `tritonExpr) : MacroM (Option EOut) := do
+    match e with
+    | `(tritonExpr| tl.__python_literal($inner:tritonExpr)) => integerLiteral dtype inner
+    | `(tritonExpr| ($inner:tritonExpr)) => integerLiteral dtype inner
+    | `(tritonExpr| $n:num) =>
+        if dtype == .nat then return some ⟨← `(Op.constNat $n), .nat, .scalar, none, none⟩
+        if dtype == .int || dtype == .int8 || dtype == .int32 then
+          return some ⟨← `(Op.constInt $n), .int, .scalar, none, none⟩
+        return none
+    | `(tritonExpr| -$n:num) =>
+        if dtype == .int || dtype == .int8 || dtype == .int32 then
+          return some ⟨← `(Op.constInt (-($n : Int))), .int, .scalar, none, none⟩
+        return none
+    | _ => return none
+  let a' := (← integerLiteral b'.dtype a).getD a'
+  let b' := (← integerLiteral a'.dtype b).getD b'
   let (a', b') := if a'.dtype == b'.dtype then (a', b')
     else (a'.forgetStorageWidth, b'.forgetStorageWidth)
   ensureDType .bool c'.dtype "conditional expression condition"
@@ -2045,9 +2081,7 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
           | .ptr, .int =>
               ensureAlgorithmOnly "pointer arithmetic" a'
               ensureAlgorithmOnly "pointer arithmetic" b'
-              let (bc, outShape) ← broadcastTerm a'.shape b'.shape "pointer arithmetic"
-              let bNat ← pointerOffsetIntAsNat b'
-              pure ⟨← `(Op.ptrAdd $bc $a'.term $bNat.term), .ptr, outShape, none, none⟩
+              addSignedPointer a' b'
           | .nat, .ptr =>
               ensureAlgorithmOnly "pointer arithmetic" a'
               ensureAlgorithmOnly "pointer arithmetic" b'
@@ -2056,9 +2090,7 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
           | .int, .ptr =>
               ensureAlgorithmOnly "pointer arithmetic" a'
               ensureAlgorithmOnly "pointer arithmetic" b'
-              let (bc, outShape) ← broadcastTerm b'.shape a'.shape "pointer arithmetic"
-              let aNat ← pointerOffsetIntAsNat a'
-              pure ⟨← `(Op.ptrAdd $bc $b'.term $aNat.term), .ptr, outShape, none, none⟩
+              addSignedPointer b' a'
           | _, _ =>
               expandArith expandExpr env "arithmetic" (← `(Op.add)) a b
   | `(tritonExpr| $a:tritonExpr - float ($arg:term)) => do
@@ -2076,6 +2108,12 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
             let (bc, _) ← broadcastTerm SInfo.scalar sp.shape "pointer subtraction"
             pure ⟨← `(Op.ptrAdd $bc (Op.ptrBase $sp.region) $sp.offset), .ptr, sp.shape, none, none⟩
         | none =>
+            let b0 := (← expandExpr env b).forgetStorageWidth
+            if b0.dtype == .int then
+              let (bc, shape) ← broadcastTerm SInfo.scalar b0.shape "signed pointer subtraction"
+              let negative : EOut := ⟨← `(Op.sub NumericDType.int $bc (Op.constInt 0) $b0.term),
+                .int, shape, none, none⟩
+              return ← addSignedPointer a' negative
             let b' ← expandNatExpectedExpr env b
             ensureAlgorithmOnly "pointer subtraction" a'
             ensureAlgorithmOnly "pointer subtraction" b'
@@ -3075,7 +3113,7 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
       -- native width; retain it across ordinary assignments and copies.
       try
         let inferred ← expandExpr env e
-        if inferred.dtype == .int8 || inferred.dtype == .int32 then return inferred
+        if inferred.dtype == .ptr || inferred.dtype == .int8 || inferred.dtype == .int32 then return inferred
         if hasKnownFloatingValue env e.raw then
           match inferred.dtype with
           | .real | .fp32 | .fp16 | .bf16 | .f8e4 | .f8e5 | .floatVar _ => return inferred
@@ -3175,6 +3213,11 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
       let nameLit : TSyntax `term := Syntax.mkStrLit envName
       if lhsDType == .ptr then
         let rhs0 := (← expandExpr env rhs).forgetStorageWidth
+        if rhs0.dtype == .int then
+          let shape ← lhsShape.term
+          let lhs : EOut := ⟨← `(Op.ref TileDType.ptr $shape $nameLit), .ptr, lhsShape, none, none⟩
+          let moved ← addSignedPointer lhs rhs0
+          return ← emitAssign dest moved
         let rhs' ←
           match rhs0.dtype with
           | .nat => pure rhs0
@@ -3755,6 +3798,10 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
         match lhsDType with
         | .ptr =>
             let rhs0 := (← expandExpr env e).forgetStorageWidth
+            if rhs0.dtype == .int then
+              let shape ← lhsShape.term
+              let lhs : EOut := ⟨← `(Op.ref TileDType.ptr $shape $nameLit), .ptr, lhsShape, none, none⟩
+              return ← emitAssign i (← addSignedPointer lhs rhs0)
             let rhs ←
               match rhs0.dtype with
               | .nat => pure rhs0
@@ -3844,6 +3891,13 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
       let (lhsDType, lhsShape) ← lookupEnv env name
       if lhsDType == .ptr then
         let rhs0 := (← expandExpr env e).forgetStorageWidth
+        if rhs0.dtype == .int then
+          let shape ← lhsShape.term
+          let lhs : EOut := ⟨← `(Op.ref TileDType.ptr $shape $nameLit), .ptr, lhsShape, none, none⟩
+          let (bc, rhsShape) ← broadcastTerm SInfo.scalar rhs0.shape "signed pointer decrement"
+          let negative : EOut := ⟨← `(Op.sub NumericDType.int $bc (Op.constInt 0) $rhs0.term),
+            .int, rhsShape, none, none⟩
+          return ← emitAssign i (← addSignedPointer lhs negative)
         let rhs ←
           match rhs0.dtype with
           | .nat => pure rhs0

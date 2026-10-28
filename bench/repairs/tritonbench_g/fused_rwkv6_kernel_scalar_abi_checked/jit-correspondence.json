@@ -1,0 +1,868 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/fused_rwkv6_kernel_scalar_abi_checked.py",
+    "lean": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/Kernels.lean",
+    "python_function": "fused_recurrent_rwkv6_fwd_kernel",
+    "lean_definition": "kernel",
+    "signature_definition": "signatureFP32",
+    "expected_signature": {
+      "pointers": [
+        [
+          "q",
+          "fp32"
+        ],
+        [
+          "k",
+          "fp32"
+        ],
+        [
+          "v",
+          "fp32"
+        ],
+        [
+          "w",
+          "fp32"
+        ],
+        [
+          "u",
+          "fp32"
+        ],
+        [
+          "o",
+          "fp32"
+        ],
+        [
+          "h0",
+          "fp32"
+        ],
+        [
+          "ht",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "s_k_h",
+          "i32"
+        ],
+        [
+          "s_v_h",
+          "i32"
+        ],
+        [
+          "scale",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "B",
+        "H",
+        "T",
+        "K",
+        "V",
+        "BK",
+        "BV",
+        "USE_INITIAL_STATE",
+        "STORE_FINAL_STATE",
+        "REVERSE"
+      ],
+      "readPorts": [
+        "q",
+        "k",
+        "v",
+        "w",
+        "u",
+        "h0"
+      ],
+      "writePorts": [
+        "o",
+        "ht"
+      ]
+    },
+    "expected_call_bindings": {
+      "s_k_h": "s_k_h",
+      "s_v_h": "s_v_h"
+    },
+    "profile_variant": "raw_scale_fp32"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/fused_rwkv6_kernel_u_early.py",
+    "lean": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/CandidateKernels.lean",
+    "python_function": "fused_recurrent_rwkv6_fwd_kernel",
+    "lean_definition": "earlyUKernel",
+    "signature_definition": "earlyUSignatureFP32",
+    "expected_signature": {
+      "pointers": [
+        [
+          "q",
+          "fp32"
+        ],
+        [
+          "k",
+          "fp32"
+        ],
+        [
+          "v",
+          "fp32"
+        ],
+        [
+          "w",
+          "fp32"
+        ],
+        [
+          "u",
+          "fp32"
+        ],
+        [
+          "o",
+          "fp32"
+        ],
+        [
+          "h0",
+          "fp32"
+        ],
+        [
+          "ht",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "s_k_h",
+          "i32"
+        ],
+        [
+          "s_v_h",
+          "i32"
+        ],
+        [
+          "scale",
+          "fp32"
+        ]
+      ],
+      "constexpr": [
+        "B",
+        "H",
+        "T",
+        "K",
+        "V",
+        "BK",
+        "BV",
+        "USE_INITIAL_STATE",
+        "STORE_FINAL_STATE",
+        "REVERSE"
+      ],
+      "readPorts": [
+        "q",
+        "k",
+        "v",
+        "w",
+        "u",
+        "h0"
+      ],
+      "writePorts": [
+        "o",
+        "ht"
+      ]
+    },
+    "expected_call_bindings": {
+      "s_k_h": "s_k_h",
+      "s_v_h": "s_v_h"
+    },
+    "profile_variant": "raw_scale_fp32"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/fused_rwkv6_kernel_scalar_abi_checked.py",
+    "lean": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/Kernels.lean",
+    "python_function": "fused_recurrent_rwkv6_fwd_kernel",
+    "lean_definition": "kernelI32",
+    "signature_definition": "signatureI32",
+    "expected_signature": {
+      "pointers": [
+        [
+          "q",
+          "fp32"
+        ],
+        [
+          "k",
+          "fp32"
+        ],
+        [
+          "v",
+          "fp32"
+        ],
+        [
+          "w",
+          "fp32"
+        ],
+        [
+          "u",
+          "fp32"
+        ],
+        [
+          "o",
+          "fp32"
+        ],
+        [
+          "h0",
+          "fp32"
+        ],
+        [
+          "ht",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "s_k_h",
+          "i32"
+        ],
+        [
+          "s_v_h",
+          "i32"
+        ],
+        [
+          "scale",
+          "i32"
+        ]
+      ],
+      "constexpr": [
+        "B",
+        "H",
+        "T",
+        "K",
+        "V",
+        "BK",
+        "BV",
+        "USE_INITIAL_STATE",
+        "STORE_FINAL_STATE",
+        "REVERSE"
+      ],
+      "readPorts": [
+        "q",
+        "k",
+        "v",
+        "w",
+        "u",
+        "h0"
+      ],
+      "writePorts": [
+        "o",
+        "ht"
+      ]
+    },
+    "expected_call_bindings": {
+      "s_k_h": "s_k_h",
+      "s_v_h": "s_v_h",
+      "scale": "scale"
+    },
+    "profile_variant": "raw_scale_i32"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/fused_rwkv6_kernel_u_early.py",
+    "lean": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/CandidateKernels.lean",
+    "python_function": "fused_recurrent_rwkv6_fwd_kernel",
+    "lean_definition": "earlyUKernelI32",
+    "signature_definition": "earlyUSignatureI32",
+    "expected_signature": {
+      "pointers": [
+        [
+          "q",
+          "fp32"
+        ],
+        [
+          "k",
+          "fp32"
+        ],
+        [
+          "v",
+          "fp32"
+        ],
+        [
+          "w",
+          "fp32"
+        ],
+        [
+          "u",
+          "fp32"
+        ],
+        [
+          "o",
+          "fp32"
+        ],
+        [
+          "h0",
+          "fp32"
+        ],
+        [
+          "ht",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "s_k_h",
+          "i32"
+        ],
+        [
+          "s_v_h",
+          "i32"
+        ],
+        [
+          "scale",
+          "i32"
+        ]
+      ],
+      "constexpr": [
+        "B",
+        "H",
+        "T",
+        "K",
+        "V",
+        "BK",
+        "BV",
+        "USE_INITIAL_STATE",
+        "STORE_FINAL_STATE",
+        "REVERSE"
+      ],
+      "readPorts": [
+        "q",
+        "k",
+        "v",
+        "w",
+        "u",
+        "h0"
+      ],
+      "writePorts": [
+        "o",
+        "ht"
+      ]
+    },
+    "expected_call_bindings": {
+      "s_k_h": "s_k_h",
+      "s_v_h": "s_v_h",
+      "scale": "scale"
+    },
+    "profile_variant": "raw_scale_i32"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/fused_rwkv6_kernel_scalar_abi_checked.py",
+    "lean": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/Kernels.lean",
+    "python_function": "fused_recurrent_rwkv6_fwd_kernel",
+    "lean_definition": "kernelI64",
+    "signature_definition": "signatureI64",
+    "expected_signature": {
+      "pointers": [
+        [
+          "q",
+          "fp32"
+        ],
+        [
+          "k",
+          "fp32"
+        ],
+        [
+          "v",
+          "fp32"
+        ],
+        [
+          "w",
+          "fp32"
+        ],
+        [
+          "u",
+          "fp32"
+        ],
+        [
+          "o",
+          "fp32"
+        ],
+        [
+          "h0",
+          "fp32"
+        ],
+        [
+          "ht",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "s_k_h",
+          "i32"
+        ],
+        [
+          "s_v_h",
+          "i32"
+        ],
+        [
+          "scale",
+          "i64"
+        ]
+      ],
+      "constexpr": [
+        "B",
+        "H",
+        "T",
+        "K",
+        "V",
+        "BK",
+        "BV",
+        "USE_INITIAL_STATE",
+        "STORE_FINAL_STATE",
+        "REVERSE"
+      ],
+      "readPorts": [
+        "q",
+        "k",
+        "v",
+        "w",
+        "u",
+        "h0"
+      ],
+      "writePorts": [
+        "o",
+        "ht"
+      ]
+    },
+    "expected_call_bindings": {
+      "s_k_h": "s_k_h",
+      "s_v_h": "s_v_h",
+      "scale": "scale"
+    },
+    "profile_variant": "raw_scale_i64"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/fused_rwkv6_kernel_u_early.py",
+    "lean": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/CandidateKernels.lean",
+    "python_function": "fused_recurrent_rwkv6_fwd_kernel",
+    "lean_definition": "earlyUKernelI64",
+    "signature_definition": "earlyUSignatureI64",
+    "expected_signature": {
+      "pointers": [
+        [
+          "q",
+          "fp32"
+        ],
+        [
+          "k",
+          "fp32"
+        ],
+        [
+          "v",
+          "fp32"
+        ],
+        [
+          "w",
+          "fp32"
+        ],
+        [
+          "u",
+          "fp32"
+        ],
+        [
+          "o",
+          "fp32"
+        ],
+        [
+          "h0",
+          "fp32"
+        ],
+        [
+          "ht",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "s_k_h",
+          "i32"
+        ],
+        [
+          "s_v_h",
+          "i32"
+        ],
+        [
+          "scale",
+          "i64"
+        ]
+      ],
+      "constexpr": [
+        "B",
+        "H",
+        "T",
+        "K",
+        "V",
+        "BK",
+        "BV",
+        "USE_INITIAL_STATE",
+        "STORE_FINAL_STATE",
+        "REVERSE"
+      ],
+      "readPorts": [
+        "q",
+        "k",
+        "v",
+        "w",
+        "u",
+        "h0"
+      ],
+      "writePorts": [
+        "o",
+        "ht"
+      ]
+    },
+    "expected_call_bindings": {
+      "s_k_h": "s_k_h",
+      "s_v_h": "s_v_h",
+      "scale": "scale"
+    },
+    "profile_variant": "raw_scale_i64"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/fused_rwkv6_kernel_scalar_abi_checked.py",
+    "lean": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/Kernels.lean",
+    "python_function": "fused_recurrent_rwkv6_fwd_kernel",
+    "lean_definition": "kernelU64",
+    "signature_definition": "signatureU64",
+    "expected_signature": {
+      "pointers": [
+        [
+          "q",
+          "fp32"
+        ],
+        [
+          "k",
+          "fp32"
+        ],
+        [
+          "v",
+          "fp32"
+        ],
+        [
+          "w",
+          "fp32"
+        ],
+        [
+          "u",
+          "fp32"
+        ],
+        [
+          "o",
+          "fp32"
+        ],
+        [
+          "h0",
+          "fp32"
+        ],
+        [
+          "ht",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "s_k_h",
+          "i32"
+        ],
+        [
+          "s_v_h",
+          "i32"
+        ],
+        [
+          "scale",
+          "u64"
+        ]
+      ],
+      "constexpr": [
+        "B",
+        "H",
+        "T",
+        "K",
+        "V",
+        "BK",
+        "BV",
+        "USE_INITIAL_STATE",
+        "STORE_FINAL_STATE",
+        "REVERSE"
+      ],
+      "readPorts": [
+        "q",
+        "k",
+        "v",
+        "w",
+        "u",
+        "h0"
+      ],
+      "writePorts": [
+        "o",
+        "ht"
+      ]
+    },
+    "expected_call_bindings": {
+      "s_k_h": "s_k_h",
+      "s_v_h": "s_v_h",
+      "scale": "scale"
+    },
+    "profile_variant": "raw_scale_u64"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/fused_rwkv6_kernel_u_early.py",
+    "lean": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/CandidateKernels.lean",
+    "python_function": "fused_recurrent_rwkv6_fwd_kernel",
+    "lean_definition": "earlyUKernelU64",
+    "signature_definition": "earlyUSignatureU64",
+    "expected_signature": {
+      "pointers": [
+        [
+          "q",
+          "fp32"
+        ],
+        [
+          "k",
+          "fp32"
+        ],
+        [
+          "v",
+          "fp32"
+        ],
+        [
+          "w",
+          "fp32"
+        ],
+        [
+          "u",
+          "fp32"
+        ],
+        [
+          "o",
+          "fp32"
+        ],
+        [
+          "h0",
+          "fp32"
+        ],
+        [
+          "ht",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "s_k_h",
+          "i32"
+        ],
+        [
+          "s_v_h",
+          "i32"
+        ],
+        [
+          "scale",
+          "u64"
+        ]
+      ],
+      "constexpr": [
+        "B",
+        "H",
+        "T",
+        "K",
+        "V",
+        "BK",
+        "BV",
+        "USE_INITIAL_STATE",
+        "STORE_FINAL_STATE",
+        "REVERSE"
+      ],
+      "readPorts": [
+        "q",
+        "k",
+        "v",
+        "w",
+        "u",
+        "h0"
+      ],
+      "writePorts": [
+        "o",
+        "ht"
+      ]
+    },
+    "expected_call_bindings": {
+      "s_k_h": "s_k_h",
+      "s_v_h": "s_v_h",
+      "scale": "scale"
+    },
+    "profile_variant": "raw_scale_u64"
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/fused_rwkv6_kernel_scalar_abi_checked.py",
+    "lean": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/Kernels.lean",
+    "python_function": "fused_recurrent_rwkv6_fwd_kernel",
+    "lean_definition": "kernelOne",
+    "signature_definition": "signatureOne",
+    "expected_signature": {
+      "pointers": [
+        [
+          "q",
+          "fp32"
+        ],
+        [
+          "k",
+          "fp32"
+        ],
+        [
+          "v",
+          "fp32"
+        ],
+        [
+          "w",
+          "fp32"
+        ],
+        [
+          "u",
+          "fp32"
+        ],
+        [
+          "o",
+          "fp32"
+        ],
+        [
+          "h0",
+          "fp32"
+        ],
+        [
+          "ht",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "s_k_h",
+          "i32"
+        ],
+        [
+          "s_v_h",
+          "i32"
+        ]
+      ],
+      "constexpr": [
+        "B",
+        "H",
+        "T",
+        "K",
+        "V",
+        "BK",
+        "BV",
+        "USE_INITIAL_STATE",
+        "STORE_FINAL_STATE",
+        "REVERSE",
+        "scale"
+      ],
+      "readPorts": [
+        "q",
+        "k",
+        "v",
+        "w",
+        "u",
+        "h0"
+      ],
+      "writePorts": [
+        "o",
+        "ht"
+      ]
+    },
+    "expected_call_bindings": {
+      "s_k_h": "s_k_h",
+      "s_v_h": "s_v_h"
+    },
+    "profile_variant": "raw_integer_one_constexpr",
+    "expected_constexpr_bindings": {
+      "scale": 1
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/fused_rwkv6_kernel_u_early.py",
+    "lean": "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/CandidateKernels.lean",
+    "python_function": "fused_recurrent_rwkv6_fwd_kernel",
+    "lean_definition": "earlyUKernelOne",
+    "signature_definition": "earlyUSignatureOne",
+    "expected_signature": {
+      "pointers": [
+        [
+          "q",
+          "fp32"
+        ],
+        [
+          "k",
+          "fp32"
+        ],
+        [
+          "v",
+          "fp32"
+        ],
+        [
+          "w",
+          "fp32"
+        ],
+        [
+          "u",
+          "fp32"
+        ],
+        [
+          "o",
+          "fp32"
+        ],
+        [
+          "h0",
+          "fp32"
+        ],
+        [
+          "ht",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "s_k_h",
+          "i32"
+        ],
+        [
+          "s_v_h",
+          "i32"
+        ]
+      ],
+      "constexpr": [
+        "B",
+        "H",
+        "T",
+        "K",
+        "V",
+        "BK",
+        "BV",
+        "USE_INITIAL_STATE",
+        "STORE_FINAL_STATE",
+        "REVERSE",
+        "scale"
+      ],
+      "readPorts": [
+        "q",
+        "k",
+        "v",
+        "w",
+        "u",
+        "h0"
+      ],
+      "writePorts": [
+        "o",
+        "ht"
+      ]
+    },
+    "expected_call_bindings": {
+      "s_k_h": "s_k_h",
+      "s_v_h": "s_v_h"
+    },
+    "profile_variant": "raw_integer_one_constexpr",
+    "expected_constexpr_bindings": {
+      "scale": 1
+    }
+  }
+]

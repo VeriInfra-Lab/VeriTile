@@ -9,17 +9,18 @@ set_option maxRecDepth 32000
 set_option linter.unusedSimpArgs false
 
 theorem suffix_eq (c : Shape) :
-    (earlyUKernel c).surfaceBody.drop 16 = (kernel c).surfaceBody.drop 16 := by rfl
+    (earlyUKernel c).surfaceBody.drop 14 = (kernel c).surfaceBody.drop 14 := by rfl
 
 /-- All original registers and the complete memory agree before entering the
 unchanged recurrent loop, for arbitrary payloads and scalar primitives. -/
 theorem prefix_run {α : Type} [Inhabited α] (M : Algebra α)
     (c : Shape) (s : State α) :
-    run M ((earlyUKernel c).surfaceBody.take 16) s =
-      run M ((kernel c).surfaceBody.take 16) s := by
+    run M ((earlyUKernel c).surfaceBody.take 14) s =
+      run M ((kernel c).surfaceBody.take 14) s := by
   by_cases hi : c.initial = Bool.true
+  all_goals by_cases hr : c.reverse = Bool.true
   all_goals
-    simp [earlyUKernel,kernel,ComputeKernel.surfaceBody,hi,
+    simp [earlyUKernel,kernel,ComputeKernel.surfaceBody,hi,hr,
       run,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,
       evalOffsets,boundaryZero,Option.bind,ComputeDType.eraseDType,
       numeric,integralMod,numericLt,natLt,bop,ofFloat,toFloat,TileShape.axisDim,Region.cast]
@@ -36,11 +37,12 @@ theorem prefix_run {α : Type} [Inhabited α] (M : Algebra α)
 
 theorem prefix_safe {α : Type} [Inhabited α] (M : Algebra α)
     (c : Shape) (bounds : RegionName → Nat) (s : State α) :
-    Safety.traceSafeList M bounds ((earlyUKernel c).surfaceBody.take 16) s ↔
-      Safety.traceSafeList M bounds ((kernel c).surfaceBody.take 16) s := by
+    Safety.traceSafeList M bounds ((earlyUKernel c).surfaceBody.take 14) s ↔
+      Safety.traceSafeList M bounds ((kernel c).surfaceBody.take 14) s := by
   by_cases hi : c.initial = Bool.true
+  all_goals by_cases hr : c.reverse = Bool.true
   all_goals
-    simp [earlyUKernel,kernel,ComputeKernel.surfaceBody,hi,
+    simp [earlyUKernel,kernel,ComputeKernel.surfaceBody,hi,hr,
       Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
       Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
       Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,

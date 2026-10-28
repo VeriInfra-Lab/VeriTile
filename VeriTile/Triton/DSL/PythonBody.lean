@@ -114,14 +114,20 @@ private def emit (lines : Array Line) (indent : Nat) (text : String) : Array Lin
   let text := text.trimAscii.toString
   -- The parsed view puts a conditional assignment RHS inside parentheses.
   -- Python's logical line already supplies that expression boundary. Quoted
-  -- strings, nested calls, comparisons and augmented assignments are untouched.
+  -- strings, nested calls and comparisons are untouched. Augmented assignment
+  -- has the same RHS boundary; preserve its operator and target exactly.
   let pieces := text.splitOn "="
   let lhs := pieces.head!.trimAscii.toString
   let rhs := (String.intercalate "=" pieces.tail).trimAscii.toString
-  let ordinary := lhs.toList.head?.any (fun c => c.isAlpha || c == '_') &&
-    lhs.toList.all (fun c => c.isAlphanum || c == '_')
-  let wrap := lhs.endsWith "tl.constexpr" || (ordinary && topLevelConditional rhs.toList)
-  let text := if !pieces.tail.isEmpty && wrap then lhs ++ " = (" ++ rhs ++ ")" else text
+  let identifier := fun (name : String) =>
+    name.toList.head?.any (fun c => c.isAlpha || c == '_') &&
+    name.toList.all (fun c => c.isAlphanum || c == '_')
+  let augmented := lhs.toList.getLast?.any (fun c => ['+', '-', '*', '/'].contains c) &&
+    identifier (String.ofList (lhs.toList.dropLast)).trimAscii.toString
+  let wrap := lhs.endsWith "tl.constexpr" ||
+    ((identifier lhs || augmented) && topLevelConditional rhs.toList)
+  let separator := if augmented then "= (" else " = ("
+  let text := if !pieces.tail.isEmpty && wrap then lhs ++ separator ++ rhs ++ ")" else text
   if text.isEmpty then lines else lines.push ⟨indent,text⟩
 
 private partial def logicalLines (input : List Char) (lines : Array Line := #[])
