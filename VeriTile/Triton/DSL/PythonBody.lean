@@ -92,16 +92,36 @@ private structure Line where
   text : String
   deriving Inhabited
 
+/-- Detect only an unparenthesized conditional expression, outside strings
+and delimiter groups. This is a source-spelling boundary, not an evaluation. -/
+private partial def topLevelConditional (input : List Char) (depth : Nat := 0) : Bool :=
+  match input with
+  | [] => Bool.false
+  | c :: tail =>
+    if c == '\"' || c == '\'' then
+      match stringToken c tail with
+      | .ok (_, rest, _) => topLevelConditional rest depth
+      | .error _ => Bool.false
+    else if ['(', '[', '{'].contains c then topLevelConditional tail (depth + 1)
+    else if [')', ']', '}'].contains c then topLevelConditional tail (depth - 1)
+    else if c.isAlpha || c == '_' then
+      let restOfWord := tail.takeWhile (fun ch => ch.isAlphanum || ch == '_')
+      let word := String.ofList (c :: restOfWord)
+      (depth == 0 && word == "if") || topLevelConditional (tail.drop restOfWord.length) depth
+    else topLevelConditional tail depth
+
 private def emit (lines : Array Line) (indent : Nat) (text : String) : Array Line :=
   let text := text.trimAscii.toString
-  -- Keep a typed constexpr RHS within its original logical Python line.
-  -- In particular, `x: tl.constexpr = a if c else b` needs no extra
-  -- parentheses in the copied body, and a following `if` starts a statement.
+  -- The parsed view puts a conditional assignment RHS inside parentheses.
+  -- Python's logical line already supplies that expression boundary. Quoted
+  -- strings, nested calls, comparisons and augmented assignments are untouched.
   let pieces := text.splitOn "="
   let lhs := pieces.head!.trimAscii.toString
-  let text := if !pieces.tail.isEmpty && lhs.endsWith "tl.constexpr" then
-      lhs ++ " = (" ++ (String.intercalate "=" pieces.tail).trimAscii.toString ++ ")"
-    else text
+  let rhs := (String.intercalate "=" pieces.tail).trimAscii.toString
+  let ordinary := lhs.toList.head?.any (fun c => c.isAlpha || c == '_') &&
+    lhs.toList.all (fun c => c.isAlphanum || c == '_')
+  let wrap := lhs.endsWith "tl.constexpr" || (ordinary && topLevelConditional rhs.toList)
+  let text := if !pieces.tail.isEmpty && wrap then lhs ++ " = (" ++ rhs ++ ")" else text
   if text.isEmpty then lines else lines.push ⟨indent,text⟩
 
 private partial def logicalLines (input : List Char) (lines : Array Line := #[])
