@@ -1,0 +1,6 @@
+{
+  "parent_pid": 4024279,
+  "audit_pid": 4024835,
+  "reason": "Stop only the owned repeated per-theorem dependency traversal after all 116 task roots and joint import passed; rerun the same audit roots with shared traversal state in one immutable checked Lean environment. Interrupted audit is not PASS.",
+  "time": 1793192338.0372171
+}

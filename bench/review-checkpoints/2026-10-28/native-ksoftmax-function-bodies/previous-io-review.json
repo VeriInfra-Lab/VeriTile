@@ -1,0 +1,136 @@
+{
+  "task": "ksoftmax_triton",
+  "status": "no_issue_identified",
+  "selected_public_entries": [
+    "bench/repairs/tritonbench_g/ksoftmax_triton_grid_y_checked/Contract.lean",
+    "bench/repairs/tritonbench_g/ksoftmax_triton_grid_y_checked/Correct.lean",
+    "bench/repairs/tritonbench_g/ksoftmax_triton_grid_y_checked/FPEquiv.lean"
+  ],
+  "assessment": {
+    "organization": "The corresponding core memory interface and main-theorem logical view already reside in the same IO module; no separate logical adapter remains.",
+    "preservation": {
+      "before_snapshot_root": ".veritile-cache/io-unification-20261023/queue07/before",
+      "byte_check": {
+        "path": ".veritile-cache/io-unification-20261023/queue07/preservation-check.json",
+        "sha256": "ff9a03759bf3db7fa79553e98b102ed7cd8b3a71a548249d0bd2aa8efdcc87ff"
+      },
+      "all_unlisted_sources_unchanged": true,
+      "Kernels_Contract_Correct_FPEquiv_byte_unchanged": true,
+      "all_Proofs_nonimport_bodies_byte_unchanged": true,
+      "original_public_names_and_full_judgment_types_preserved": "Public theorem source is byte-identical; moved IO definition blocks remain contiguous and byte-identical with original namespaces. Existing complete iff/execution/safety/frame proofs retain their original bodies. Changed-task public Lean checks display those full judgments."
+    },
+    "different_stage_or_encoding_exceptions": [],
+    "previous_assessment": {
+      "manifest": "bench/review-checkpoints/2026-10-22/logical-readers/io-audit.json",
+      "task": "ksoftmax_triton"
+    }
+  },
+  "distinct_views": "Ordinary and addressed interfaces share memory and invocation data. Native encoding depends on region and address and is tied to the selected compiler object; its selectedRows schedule also preserves the empty-launch branch. The reverse candidate has the original complete program scope and an explicit reversed schedule.",
+  "readers": [
+    {
+      "path": "bench/repairs/tritonbench_g/ksoftmax_triton_grid_y_checked/Correct.lean",
+      "sha256": "c669b53842e21ae66f0b124e6d4c08b8df8ea7b19b1ea043971003e198d1c48d"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/ksoftmax_triton_grid_y_checked/FPEquiv.lean",
+      "sha256": "6867a42444cb49539dc5bc85c4c4d4a9e0eefbf1c5a39f9d2ccdb1558bb0cd65"
+    }
+  ],
+  "io_sources": [
+    {
+      "path": "VeriTile/Triton/Float/LogicalProgramIO.lean",
+      "sha256": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358"
+    },
+    {
+      "path": "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean",
+      "sha256": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+    },
+    {
+      "path": "VeriTile/Triton/Memory/LogicalIO.lean",
+      "sha256": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/ksoftmax_triton_grid_y_checked/IO.lean",
+      "sha256": "e4dff84be059cf5406a6562750d40fdcdf275237c7d12ec9ea72f145124250af"
+    }
+  ],
+  "changed_paths": [],
+  "review_evidence": {
+    "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/ksoftmax_triton.json",
+    "sha256": "37d4ba23378fa8a3d92f102e759e280fc5ccb9ac809311a6ffc11cc8900a04ff",
+    "task": "ksoftmax_triton"
+  },
+  "preservation_and_build_passed": true,
+  "validation_limits": {},
+  "remaining_issues": [],
+  "main_formula_review": {
+    "audit": "bench/review-checkpoints/2026-10-22/main-formulas/audit.json",
+    "review_evidence": {
+      "path": ".veritile-cache/headline-formulas-20261022/queue07/result.json",
+      "sha256": "6b8d6fd41acc6259b9455dbd0ff955b6e8cb708a24377cf64d205ddd17bbf4ab",
+      "task_index": 11,
+      "task": "ksoftmax_triton"
+    },
+    "io_data_unchanged": true
+  },
+  "previous_io_sources": [
+    {
+      "path": "bench/repairs/tritonbench_g/ksoftmax_triton_grid_y_checked/IO.lean",
+      "sha256": "f977be09ff946437343b5a46b9861623b44e6c65e695b484f3a733360f2b2092"
+    }
+  ],
+  "previous_review_evidence": {
+    "path": "bench/review-checkpoints/2026-10-22/logical-readers/tasks/ksoftmax_triton.json",
+    "sha256": "1f79ff58bd839a678c5ac3160f80c46bd33a52abe8f688eb4c52aff3c4d6fb93",
+    "task": "ksoftmax_triton"
+  },
+  "unchanged_prior_io_source_origins": {
+    "bench/repairs/tritonbench_g/ksoftmax_triton_grid_y_checked/IO.lean": [
+      {
+        "path": "bench/repairs/tritonbench_g/ksoftmax_triton_grid_y_checked/IO.lean",
+        "sha256": "f977be09ff946437343b5a46b9861623b44e6c65e695b484f3a733360f2b2092"
+      }
+    ]
+  },
+  "logical_reader_review": {
+    "path": "bench/review-checkpoints/2026-10-22/logical-readers/tasks/ksoftmax_triton.json",
+    "sha256": "1f79ff58bd839a678c5ac3160f80c46bd33a52abe8f688eb4c52aff3c4d6fb93",
+    "task": "ksoftmax_triton"
+  },
+  "previous_assessment": {
+    "canonical_io": [
+      "IO.lean: Interface.memory/invocation/programIO/addressedIO",
+      "IO.lean: Interface.nativeIO/nativeFormula/reversed/words"
+    ],
+    "before_finding": "The shared memory interface was canonical. Four reusable native/variant/input-conversion definitions were mixed with proofs in Proofs/NativeIO.lean.",
+    "change": "Moved the four pure definitions to IO.lean, leaving native implementation, reverse equivalence and old-interface connection proofs in Proofs.",
+    "distinct_views": "Ordinary and addressed interfaces share memory and invocation data. Native encoding depends on region and address and is tied to the selected compiler object; its selectedRows schedule also preserves the empty-launch branch. The reverse candidate has the original complete program scope and an explicit reversed schedule.",
+    "inspected_helpers": [
+      "IO.lean",
+      "Proofs/NativeIO.lean",
+      "Proofs/Interface.lean",
+      "Proofs/ScheduleEquivalence.lean"
+    ]
+  },
+  "previous_changed_paths": [
+    "bench/repairs/tritonbench_g/ksoftmax_triton_grid_y_checked/IO.lean",
+    "bench/repairs/tritonbench_g/ksoftmax_triton_grid_y_checked/Proofs/NativeIO.lean"
+  ],
+  "previous_canonical_io_declarations": [
+    {
+      "path": "bench/repairs/tritonbench_g/ksoftmax_triton_grid_y_checked/IO.lean",
+      "reported_definitions": "Interface.memory/invocation/programIO/addressedIO",
+      "sha256": "f977be09ff946437343b5a46b9861623b44e6c65e695b484f3a733360f2b2092"
+    },
+    {
+      "path": "bench/repairs/tritonbench_g/ksoftmax_triton_grid_y_checked/IO.lean",
+      "reported_definitions": "Interface.nativeIO/nativeFormula/reversed/words",
+      "sha256": "f977be09ff946437343b5a46b9861623b44e6c65e695b484f3a733360f2b2092"
+    }
+  ],
+  "io_unification_review": {
+    "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/ksoftmax_triton.json",
+    "sha256": "37d4ba23378fa8a3d92f102e759e280fc5ccb9ac809311a6ffc11cc8900a04ff",
+    "task": "ksoftmax_triton"
+  }
+}

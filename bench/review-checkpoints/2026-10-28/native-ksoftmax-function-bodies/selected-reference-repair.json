@@ -1,0 +1,11 @@
+{
+  "io": "bench/repairs/tritonbench_g/ksoftmax_triton_grid_y_checked/IO.lean",
+  "only_modified_definition": "orderedRow",
+  "removed_historical_final_store_casts": 2,
+  "memory_views_domains_and_schedule_bytes_unchanged": true,
+  "preservation_proofs": "bench/repairs/tritonbench_g/ksoftmax_triton_grid_y_checked/Proofs/PrecisionProfile.lean",
+  "previous_io_sha256": "e4dff84be059cf5406a6562750d40fdcdf275237c7d12ec9ea72f145124250af",
+  "corrected_io_sha256": "89d6ca88e436303e1813d388182dde5ee5e5752968f72775d5ec650137bf7242",
+  "preservation_proofs_sha256": "aa5b0838341a76f154c1038744ee92cfb1f17f10040dc23af66d4a754c1545a3",
+  "prototype_verification": "PASS: five selected ordered-formula preservation proofs; actual Interface, RealIO, NativeIO, ScheduleEquivalence and FPEquiv recompiled in staging. Formal Lake and independent cold replay remain pending."
+}

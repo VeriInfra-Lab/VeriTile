@@ -16912,22 +16912,12 @@
         "bench/repairs/tritonbench_g/ksoftmax_triton_grid_y_checked/FPEquiv.lean"
       ],
       "assessment": {
-        "organization": "The corresponding core memory interface and main-theorem logical view already reside in the same IO module; no separate logical adapter remains.",
-        "preservation": {
-          "before_snapshot_root": ".veritile-cache/io-unification-20261023/queue07/before",
-          "byte_check": {
-            "path": ".veritile-cache/io-unification-20261023/queue07/preservation-check.json",
-            "sha256": "ff9a03759bf3db7fa79553e98b102ed7cd8b3a71a548249d0bd2aa8efdcc87ff"
-          },
-          "all_unlisted_sources_unchanged": true,
-          "Kernels_Contract_Correct_FPEquiv_byte_unchanged": true,
-          "all_Proofs_nonimport_bodies_byte_unchanged": true,
-          "original_public_names_and_full_judgment_types_preserved": "Public theorem source is byte-identical; moved IO definition blocks remain contiguous and byte-identical with original namespaces. Existing complete iff/execution/safety/frame proofs retain their original bodies. Changed-task public Lean checks display those full judgments."
-        },
-        "different_stage_or_encoding_exceptions": [],
+        "organization": "Logical tensors, backing, masks, row schedule and complete public input domains remain in the existing IO.lean. Public reader bytes and all IO data, domains and schedule declarations remain unchanged. Only orderedRow loses its two historical extra final-store casts; five selected-model preservation proofs freeze the previous formulas and prove the complete Real/native targets unchanged.",
+        "source_update": "The shared forward/backward kernels now contain complete raw bodies. Full execution, safety, output and frame proofs reconnect the existing IO; nine preservation proofs retain prior NativeGraph and Real target values. The existing FP pair still reverses row scheduling.",
+        "verification": "All 116 related modules, full cumulative warm and independent empty-project replay plus joint imports pass. No additional input condition or whole-kernel premise.",
         "previous_assessment": {
-          "manifest": "bench/review-checkpoints/2026-10-22/logical-readers/io-audit.json",
-          "task": "ksoftmax_triton"
+          "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/previous-io-review.json",
+          "sha256": "a4af81db3d273b4c668d3745a029bc6f3dca0e7dbc4d12c6d5b35b3eb9e0f341"
         }
       },
       "distinct_views": "Ordinary and addressed interfaces share memory and invocation data. Native encoding depends on region and address and is tied to the selected compiler object; its selectedRows schedule also preserves the empty-launch branch. The reverse candidate has the original complete program scope and an explicit reversed schedule.",
@@ -16956,17 +16946,22 @@
         },
         {
           "path": "bench/repairs/tritonbench_g/ksoftmax_triton_grid_y_checked/IO.lean",
-          "sha256": "e4dff84be059cf5406a6562750d40fdcdf275237c7d12ec9ea72f145124250af"
+          "sha256": "89d6ca88e436303e1813d388182dde5ee5e5752968f72775d5ec650137bf7242"
         }
       ],
-      "changed_paths": [],
+      "changed_paths": [
+        "bench/repairs/tritonbench_g/ksoftmax_triton_grid_y_checked/IO.lean"
+      ],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/ksoftmax_triton.json",
-        "sha256": "37d4ba23378fa8a3d92f102e759e280fc5ccb9ac809311a6ffc11cc8900a04ff",
-        "task": "ksoftmax_triton"
+        "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/review.json",
+        "sha256": "73beaf64d57acf18225c2535b1d1fd429ede7bfc7c81027a8fc991a120fd92d6"
       },
       "preservation_and_build_passed": true,
-      "validation_limits": {},
+      "validation_limits": {
+        "official_comparator": "Unavailable due host isolation; actual attempts recorded.",
+        "numerical_receipt": "Known unchanged Structural receipt hash error; no false repin.",
+        "scope": "Full source replay on current public domains; no GPU or new numerical experiment."
+      },
       "remaining_issues": [],
       "main_formula_review": {
         "audit": "bench/review-checkpoints/2026-10-22/main-formulas/audit.json",
@@ -17037,6 +17032,10 @@
         "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/ksoftmax_triton.json",
         "sha256": "37d4ba23378fa8a3d92f102e759e280fc5ccb9ac809311a6ffc11cc8900a04ff",
         "task": "ksoftmax_triton"
+      },
+      "current_body_source_review": {
+        "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/review.json",
+        "sha256": "73beaf64d57acf18225c2535b1d1fd429ede7bfc7c81027a8fc991a120fd92d6"
       }
     },
     {

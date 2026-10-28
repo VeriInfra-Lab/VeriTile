@@ -1,0 +1,17 @@
+{
+  "task": 116,
+  "focus": 116,
+  "frontend": 119,
+  "all": 4585,
+  "targeted_python": 245,
+  "all_python": 490,
+  "new_body_tests": 8,
+  "standalone_frontend_theorem_audits": 1,
+  "expected_comparator_targets": 119,
+  "expected_task_coverage": 108,
+  "expected_examples": 19,
+  "expected_pasted_pairs": 361,
+  "expected_pending_tasks": 75,
+  "verification_state": "COMPLETE: frozen source passes focused/frontend, cumulative warm+joint and independent empty-project cumulative build+joint; recorded Python and trust checks complete, with comparator/Torch unavailable and the unchanged numerical-receipt failure explicitly retained.",
+  "independent_target_preservation_theorems": 9
+}

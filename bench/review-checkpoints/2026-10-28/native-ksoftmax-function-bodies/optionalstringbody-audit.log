@@ -1,0 +1,6 @@
+bench/tests/OptionalStringBody.lean:14:6: warning: unused variable `MODE`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+VeriTile.Tests.OptionalStringBody.complete_program: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

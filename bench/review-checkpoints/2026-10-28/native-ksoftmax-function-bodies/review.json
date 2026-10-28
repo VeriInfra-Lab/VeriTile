@@ -1,0 +1,911 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "18bf3d29e8d3a48dcbccbd9aeb74ec64779789cc",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "ksoftmax_triton"
+  ],
+  "regression_only_pending_body_tasks": [],
+  "semantic_review": {
+    "adam_update_triton": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "add_example": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "add_value": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "apply_penalty": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "attention_fwd_triton1": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "batched_vecmat_mult": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "bgmv_expand_slice": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "bmm_optimized": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "cache_transform_triton": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "chunk_cumsum_kernel": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "chunk_cumsum_vector": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "chunk_delta_fwd": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "chunked_cumsum_fwd": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "cosine_compute": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "cross_entropy1": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "cross_entropy2": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "cross_entropy_ops": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "decay_cumsum": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "dequantize_matmul": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "dequantize_rowwise": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "destindex_copy": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "destindex_copy_kv1": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "destindex_copy_kv2": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "diag_ssm_triton": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "dropout_triton": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "embedding_triton_kernel": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "f8_conversion_utils": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "fast_ce_loss": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "fast_rope_embedding": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "fifth_order_sph_harmonics": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "flash_decode2_llama": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "flash_decode2_phi": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "fused_activation": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "fused_recurrent_hgrn": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "fused_rotary_embedding": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "geglu_tanh_triton": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "index_select_bwd": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "index_select_cat": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "int8_matmul_kernel": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "isfinite_kernel": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "kcache_copy_triton": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "kldiv_compute": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "kldiv_ops": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "kldiv_triton": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "ksoftmax_triton": "Both complete selected forward/backward raw bodies preserve their docstrings, six explicit int64 casts, optional mask choices, FP16 backward branch, masks and implicit stores. Caller types, scalars and finite constexpr choices stay outside the body. Actual complete execution, access safety, outputs/frames, independent Real formulas and the existing reversed-row-schedule FP pair are reverified. Nine preservation proofs retain previous NativeGraph and Real mathematical targets for arbitrary inputs and plans after removing historical extra store casts. The retained original benchmark backward integer-address candidate now has direct whole-interpreter equality, avoiding the prior unsatisfied numerical-theory certificate. Original Python and public Correct/FPEquiv/Contract bytes are unchanged. No new input restriction, arbitrary cast identity, whole-kernel premise or numerical experiment.",
+    "kv_cache_copy": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "kv_cache_filling": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "l2_norm_bwd": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "l2_norm_triton1": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "l2_norm_triton2": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "log_softmax": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "logsumexp_fwd": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "masked_add_cuda": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "masked_select": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "matmul_kernel": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "matmul_tma": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "matrix_reduction": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "matrix_transpose": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "max_reduction": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "mean_reduction": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "mul_exponent_compensator": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "nested_loops_processing": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "pow_scalar_tensor": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "quant_transpose_kernel": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "quantize_copy_kv": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "quantize_global": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "quantize_kv_copy": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "quantize_kv_transform": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "relu_strided_buffer": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "relu_triton_kernel": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "reversed_cumsum": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "reversed_cumsum_scalar": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "rms_norm_triton": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "rmsnorm_fused": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "rmsnorm_fused_llama": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "rmsnorm_implementation": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "rmsnorm_triton": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "rope_backward_transform": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "rope_embedding": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "rope_transform": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "rotary_emb": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "rotary_emb_nopad": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "rotary_transform": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "rotary_transform_ops": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "rowwise_quantization_triton": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "seeded_dropout": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "sin_computation": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "sin_kernel": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "softmax_optimize": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "softmax_reducev": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "softmax_triton1": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "softmax_triton2": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "softmax_triton3": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "square_matrix": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "swiglu_backward": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "swiglu_fwd": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "swiglu_triton": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "token_attn_llama2": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "token_attn_mistral": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "token_attn_reduceV": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "token_softmax_bloom": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "token_softmax_llama": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "triton_argmax": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "triton_mul2": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "triton_softmax": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "var_len_copy": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "vector_addition": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims.",
+    "vector_addition_custom": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims."
+  },
+  "compiler_change": {
+    "files": [
+      "VeriTile/Triton/DSL/CallSignature.lean",
+      "VeriTile/Triton/DSL/OptionalString.lean"
+    ],
+    "behavior": "Optional string constexpr values are lowered only from finite actual caller choices; None and string branches remain faithful. Call bindings are validated before constexpr elaboration. All 119 frontend roots and all 4585 cumulative roots plus joint imports replay warm and independently from empty project objects with pinned external packages only. Existing tasks receive regression evidence, not new migration claims."
+  },
+  "verification": {
+    "baseline": {
+      "status": "FAILED_THEN_REPAIRED",
+      "explicit_modules": 113,
+      "reason": "Original baseline fails in BackwardTypedVariant.candidate_runs because a generic numerical-theory certificate is unresolved. The final retained module uses direct full-interpreter equality for the actual integer address commutation and is included in all subsequent builds and theorem audits."
+    },
+    "frontend_preflight": {
+      "status": "PASS",
+      "explicit_modules": 119,
+      "jobs": 3777,
+      "scope": "All registered frontend roots, including finite optional strings, rejection guards and unchanged missing-call-binding diagnostics."
+    },
+    "focused": {
+      "status": "PASS",
+      "explicit_modules": 116,
+      "jobs": 3637,
+      "additional_scope": "Joint import, one standalone frontend proof footprint, 3333 elaborated task theorem footprints (including private helpers) and the public FP assumption report."
+    },
+    "warm_and_joint": {
+      "status": "PASS",
+      "explicit_modules": 4585,
+      "jobs": 14248
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 4585,
+      "jobs": 14248,
+      "project_build_initially_present": false,
+      "project_objects_imported_from_other_checkouts": false,
+      "only_fixed_external_dependencies_imported": true,
+      "setup": {
+        "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/final-clean-setup.json",
+        "sha256": "e2830035703152e444cbce284f3d42aa61ed03373d3f7e8c77cd610fd76088f3"
+      }
+    },
+    "audit_traversal": "All elaborated theorem roots, including private helpers, are discovered by their defining imported module. A single immutable checked Lean environment shares the visited-declaration state; the accumulated axiom union is required to stay within the standard base after every root. The initial repeated traversal was stopped as incomplete, not counted as passing.",
+    "trust": "PASS: 3333 elaborated task theorem footprints and one standalone frontend proof footprint use only the standard base. The public reversed-row-schedule pair prints no FP assumptions.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 245
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 490,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by old numerical receipt; no false repin."
+    },
+    "source": "PASS: two complete selected forward/backward raw mappings with all statements and caller bindings; original Python and public specifications unchanged; actual source execution, safety and independent target preservation reverified.",
+    "official_comparator": "UNAVAILABLE: 119 actual final-source attempts with verified pinned binaries. Host Landlock ABI v4 is below required v5; no systemd user isolation or bypass.",
+    "cpu": "PASS: selected check_candidate.py executes actual wrapper/helper AST with metadata-only Tensor fixtures and launch capture (176 boundary cases, 8 prefix cases); no kernel arithmetic or GPU.",
+    "torch": "UNAVAILABLE: the unchanged shared check_contract.py requires missing Torch.",
+    "gpu_or_numerical_experiment": "Not run.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending; the known unchanged numerical receipt failure remains explicit."
+  },
+  "source_pairs": {
+    "total": 361,
+    "pasted_body": 361,
+    "legacy_ast": 0
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/source-closure.json",
+    "sha256": "ade1d8db04407da8d5ceee2e758c6cb7f06527ee55b48c5b5b2a1402d6b21480"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "selected_body_copy_checked": 108,
+      "uncovered_jit_functions": 75
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 333,
+    "uncovered_selected_jit_functions": 159,
+    "primary_files_with_int64_screen_warning": 22,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 54,
+        "antiquotes": 60,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "example_regression_scope": "All 19 selected examples and all previous recorded task roots replay warm/joint and independently from empty project objects. Unselected historical model gaps are not relabeled as passing.",
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/VeriTile__Triton__DSL__CallSignature-comparator.log",
+      "sha256": "87eb85c1c3ce19215f4f9aae5d2abaf3c01b7c301bf58516c3099412c2030bcc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/VeriTile__Triton__DSL__OptionalString-comparator.log",
+      "sha256": "87eb85c1c3ce19215f4f9aae5d2abaf3c01b7c301bf58516c3099412c2030bcc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/all-python.log",
+      "sha256": "ac7ecf7abe2e5fe9fb73be45eed38bf227f8a213967c28c32c031d4cc4d502be"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/audit-targets.json",
+      "sha256": "40fde53d4c8e70c3ea8aef0b0bb95c3a9253ffa01fae90c0f49ccbfb37a273d1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/audit.lean",
+      "sha256": "fdd1f4a9bc7e0ae923bdc81d4dab8c4b0368b96656b385764eb10a6414bbb23c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/audit.log.gz",
+      "sha256": "6d34fc9b9e36236988e750ceaced8b297d4685cbcf3e950d47f06436df9d185e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/baseline-build.log.gz",
+      "sha256": "da09edcec855b53379fadc4d96fca3600228d2a4c323b5bb80cbc7c963ca5fc6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/baseline.json",
+      "sha256": "3d7082539ad53b8e91c1c4df94f1a43899c4e2203c178df371b3d305354abc4a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton__Contract-comparator.log",
+      "sha256": "87eb85c1c3ce19215f4f9aae5d2abaf3c01b7c301bf58516c3099412c2030bcc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton__Correct-comparator.log",
+      "sha256": "87eb85c1c3ce19215f4f9aae5d2abaf3c01b7c301bf58516c3099412c2030bcc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton__FPEquiv-comparator.log",
+      "sha256": "7fe4cc5c5e6bfdcf74a6b83ae1fc6c7b5d813d2c2862ba19e97092b0fe414e8b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton__Kernels-comparator.log",
+      "sha256": "7fe4cc5c5e6bfdcf74a6b83ae1fc6c7b5d813d2c2862ba19e97092b0fe414e8b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton__Proofs__Binding-comparator.log",
+      "sha256": "7fe4cc5c5e6bfdcf74a6b83ae1fc6c7b5d813d2c2862ba19e97092b0fe414e8b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton__Proofs__Congruence-comparator.log",
+      "sha256": "7fe4cc5c5e6bfdcf74a6b83ae1fc6c7b5d813d2c2862ba19e97092b0fe414e8b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton__Proofs__Contract-comparator.log",
+      "sha256": "7fe4cc5c5e6bfdcf74a6b83ae1fc6c7b5d813d2c2862ba19e97092b0fe414e8b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton__Proofs__Counterexamples-comparator.log",
+      "sha256": "7fe4cc5c5e6bfdcf74a6b83ae1fc6c7b5d813d2c2862ba19e97092b0fe414e8b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton__Proofs__Extended-comparator.log",
+      "sha256": "7fe4cc5c5e6bfdcf74a6b83ae1fc6c7b5d813d2c2862ba19e97092b0fe414e8b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton__Proofs__FP-comparator.log",
+      "sha256": "634c0dd5b6d5bc8892b75aca6921685434316364ce19ee9bce3771eaf10c51db"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton__Proofs__Graph-comparator.log",
+      "sha256": "634c0dd5b6d5bc8892b75aca6921685434316364ce19ee9bce3771eaf10c51db"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton__Proofs__Grid-comparator.log",
+      "sha256": "634c0dd5b6d5bc8892b75aca6921685434316364ce19ee9bce3771eaf10c51db"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton__Proofs__GridValue-comparator.log",
+      "sha256": "634c0dd5b6d5bc8892b75aca6921685434316364ce19ee9bce3771eaf10c51db"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton__Proofs__Host-comparator.log",
+      "sha256": "634c0dd5b6d5bc8892b75aca6921685434316364ce19ee9bce3771eaf10c51db"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton__Proofs__HostCorrect-comparator.log",
+      "sha256": "634c0dd5b6d5bc8892b75aca6921685434316364ce19ee9bce3771eaf10c51db"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton__Proofs__HostFPEquiv-comparator.log",
+      "sha256": "634c0dd5b6d5bc8892b75aca6921685434316364ce19ee9bce3771eaf10c51db"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton__Proofs__KernelAccess-comparator.log",
+      "sha256": "634c0dd5b6d5bc8892b75aca6921685434316364ce19ee9bce3771eaf10c51db"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton__Proofs__KernelCompiler-comparator.log",
+      "sha256": "87a9d875817745bfb43594d05923930801b3c4df75c28cad353fb6f53a8f855c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton__Proofs__KernelCorrect-comparator.log",
+      "sha256": "87a9d875817745bfb43594d05923930801b3c4df75c28cad353fb6f53a8f855c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton__Proofs__KernelExecution-comparator.log",
+      "sha256": "87a9d875817745bfb43594d05923930801b3c4df75c28cad353fb6f53a8f855c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton__Proofs__KernelExtended-comparator.log",
+      "sha256": "87a9d875817745bfb43594d05923930801b3c4df75c28cad353fb6f53a8f855c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton__Proofs__KernelIdeal-comparator.log",
+      "sha256": "87a9d875817745bfb43594d05923930801b3c4df75c28cad353fb6f53a8f855c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton__Proofs__KernelInputs-comparator.log",
+      "sha256": "87a9d875817745bfb43594d05923930801b3c4df75c28cad353fb6f53a8f855c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton__Proofs__KernelLogBackward-comparator.log",
+      "sha256": "87a9d875817745bfb43594d05923930801b3c4df75c28cad353fb6f53a8f855c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton__Proofs__KernelNative-comparator.log",
+      "sha256": "87a9d875817745bfb43594d05923930801b3c4df75c28cad353fb6f53a8f855c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton__Proofs__KernelSchedule-comparator.log",
+      "sha256": "a7145e5dc949df4b0103d8da84e9e046c2edf31347b393e98cc7e496077d3e1d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton__Proofs__KernelTensor-comparator.log",
+      "sha256": "a7145e5dc949df4b0103d8da84e9e046c2edf31347b393e98cc7e496077d3e1d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton__Proofs__KernelWordCorrect-comparator.log",
+      "sha256": "a7145e5dc949df4b0103d8da84e9e046c2edf31347b393e98cc7e496077d3e1d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton__Proofs__Math-comparator.log",
+      "sha256": "a7145e5dc949df4b0103d8da84e9e046c2edf31347b393e98cc7e496077d3e1d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton__Proofs__Native-comparator.log",
+      "sha256": "a7145e5dc949df4b0103d8da84e9e046c2edf31347b393e98cc7e496077d3e1d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton__Proofs__Observed-comparator.log",
+      "sha256": "a7145e5dc949df4b0103d8da84e9e046c2edf31347b393e98cc7e496077d3e1d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton__Proofs__Pointers-comparator.log",
+      "sha256": "a7145e5dc949df4b0103d8da84e9e046c2edf31347b393e98cc7e496077d3e1d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton__Proofs__PrecisionProfile-comparator.log",
+      "sha256": "a7145e5dc949df4b0103d8da84e9e046c2edf31347b393e98cc7e496077d3e1d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton__Proofs__Real-comparator.log",
+      "sha256": "a7145e5dc949df4b0103d8da84e9e046c2edf31347b393e98cc7e496077d3e1d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton__Proofs__RowValue-comparator.log",
+      "sha256": "7ad33aa1f70ee58b6522db729d2c684ffbd8b30e716fa61c3c2c34d81bccece3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton__Proofs__Source-comparator.log",
+      "sha256": "7ad33aa1f70ee58b6522db729d2c684ffbd8b30e716fa61c3c2c34d81bccece3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton__Proofs__ValueMath-comparator.log",
+      "sha256": "7ad33aa1f70ee58b6522db729d2c684ffbd8b30e716fa61c3c2c34d81bccece3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton__Proofs__Words-comparator.log",
+      "sha256": "7ad33aa1f70ee58b6522db729d2c684ffbd8b30e716fa61c3c2c34d81bccece3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton__SourceParameters-comparator.log",
+      "sha256": "7ad33aa1f70ee58b6522db729d2c684ffbd8b30e716fa61c3c2c34d81bccece3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton_grid_y_checked__Contract-comparator.log",
+      "sha256": "7ad33aa1f70ee58b6522db729d2c684ffbd8b30e716fa61c3c2c34d81bccece3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton_grid_y_checked__Correct-comparator.log",
+      "sha256": "7ad33aa1f70ee58b6522db729d2c684ffbd8b30e716fa61c3c2c34d81bccece3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton_grid_y_checked__FPEquiv-comparator.log",
+      "sha256": "7ad33aa1f70ee58b6522db729d2c684ffbd8b30e716fa61c3c2c34d81bccece3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton_grid_y_checked__IO-comparator.log",
+      "sha256": "7ad33aa1f70ee58b6522db729d2c684ffbd8b30e716fa61c3c2c34d81bccece3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton_grid_y_checked__Kernels-comparator.log",
+      "sha256": "7ad33aa1f70ee58b6522db729d2c684ffbd8b30e716fa61c3c2c34d81bccece3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton_grid_y_checked__Misc__InterfaceChecks-comparator.log",
+      "sha256": "ab69546514ec6f4e70217208dd63ed53659566af7a8ee81b862b4c225ff34858"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton_grid_y_checked__Misc__Native-comparator.log",
+      "sha256": "ab69546514ec6f4e70217208dd63ed53659566af7a8ee81b862b4c225ff34858"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton_grid_y_checked__Misc__TensorBridge-comparator.log",
+      "sha256": "ab69546514ec6f4e70217208dd63ed53659566af7a8ee81b862b4c225ff34858"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton_grid_y_checked__Proofs__AccessSafety-comparator.log",
+      "sha256": "ab69546514ec6f4e70217208dd63ed53659566af7a8ee81b862b4c225ff34858"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton_grid_y_checked__Proofs__Interface-comparator.log",
+      "sha256": "ab69546514ec6f4e70217208dd63ed53659566af7a8ee81b862b4c225ff34858"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton_grid_y_checked__Proofs__LogicalReader-comparator.log",
+      "sha256": "ab69546514ec6f4e70217208dd63ed53659566af7a8ee81b862b4c225ff34858"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton_grid_y_checked__Proofs__LogicalWidth-comparator.log",
+      "sha256": "ab69546514ec6f4e70217208dd63ed53659566af7a8ee81b862b4c225ff34858"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton_grid_y_checked__Proofs__NativeIO-comparator.log",
+      "sha256": "ab69546514ec6f4e70217208dd63ed53659566af7a8ee81b862b4c225ff34858"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton_grid_y_checked__Proofs__PrecisionProfile-comparator.log",
+      "sha256": "ab69546514ec6f4e70217208dd63ed53659566af7a8ee81b862b4c225ff34858"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton_grid_y_checked__Proofs__RawKernel-comparator.log",
+      "sha256": "ea9d03b6a76dfef69f58dbc8474b2426b59944f8bf5f2bf98b49bf4d41da8edb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton_grid_y_checked__Proofs__RawNative-comparator.log",
+      "sha256": "ea9d03b6a76dfef69f58dbc8474b2426b59944f8bf5f2bf98b49bf4d41da8edb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton_grid_y_checked__Proofs__RawReal-comparator.log",
+      "sha256": "ea9d03b6a76dfef69f58dbc8474b2426b59944f8bf5f2bf98b49bf4d41da8edb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton_grid_y_checked__Proofs__RealIO-comparator.log",
+      "sha256": "ea9d03b6a76dfef69f58dbc8474b2426b59944f8bf5f2bf98b49bf4d41da8edb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__repairs__tritonbench_g__ksoftmax_triton_grid_y_checked__Proofs__ScheduleEquivalence-comparator.log",
+      "sha256": "ea9d03b6a76dfef69f58dbc8474b2426b59944f8bf5f2bf98b49bf4d41da8edb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tests__OptionalStringBody-comparator.log",
+      "sha256": "ea9d03b6a76dfef69f58dbc8474b2426b59944f8bf5f2bf98b49bf4d41da8edb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Correct-comparator.log",
+      "sha256": "ea9d03b6a76dfef69f58dbc8474b2426b59944f8bf5f2bf98b49bf4d41da8edb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__FPEquiv-comparator.log",
+      "sha256": "ea9d03b6a76dfef69f58dbc8474b2426b59944f8bf5f2bf98b49bf4d41da8edb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Kernels-comparator.log",
+      "sha256": "ea9d03b6a76dfef69f58dbc8474b2426b59944f8bf5f2bf98b49bf4d41da8edb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__BackwardBoolControl-comparator.log",
+      "sha256": "17c3dc5291dd534f2bdd39a17498a5b1999ce888241e756b73b69d22e7e5a0dc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__BackwardCandidate-comparator.log",
+      "sha256": "17c3dc5291dd534f2bdd39a17498a5b1999ce888241e756b73b69d22e7e5a0dc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__BackwardCandidatePrefix-comparator.log",
+      "sha256": "17c3dc5291dd534f2bdd39a17498a5b1999ce888241e756b73b69d22e7e5a0dc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__BackwardCandidateStructure-comparator.log",
+      "sha256": "17c3dc5291dd534f2bdd39a17498a5b1999ce888241e756b73b69d22e7e5a0dc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__BackwardDTypeProbe-comparator.log",
+      "sha256": "17c3dc5291dd534f2bdd39a17498a5b1999ce888241e756b73b69d22e7e5a0dc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__BackwardErasure-comparator.log",
+      "sha256": "17c3dc5291dd534f2bdd39a17498a5b1999ce888241e756b73b69d22e7e5a0dc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__BackwardErasureProbe-comparator.log",
+      "sha256": "17c3dc5291dd534f2bdd39a17498a5b1999ce888241e756b73b69d22e7e5a0dc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__BackwardExecution-comparator.log",
+      "sha256": "17c3dc5291dd534f2bdd39a17498a5b1999ce888241e756b73b69d22e7e5a0dc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__BackwardFP-comparator.log",
+      "sha256": "25f5f05a491a8d35c04a0a81d87da12485aae5d3edc78155ea3f36e55e405374"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__BackwardFullErasure-comparator.log",
+      "sha256": "25f5f05a491a8d35c04a0a81d87da12485aae5d3edc78155ea3f36e55e405374"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__BackwardFullFP-comparator.log",
+      "sha256": "25f5f05a491a8d35c04a0a81d87da12485aae5d3edc78155ea3f36e55e405374"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__BackwardFullTrace-comparator.log",
+      "sha256": "25f5f05a491a8d35c04a0a81d87da12485aae5d3edc78155ea3f36e55e405374"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__BackwardFullTypedIO-comparator.log",
+      "sha256": "25f5f05a491a8d35c04a0a81d87da12485aae5d3edc78155ea3f36e55e405374"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__BackwardIO-comparator.log",
+      "sha256": "25f5f05a491a8d35c04a0a81d87da12485aae5d3edc78155ea3f36e55e405374"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__BackwardMath-comparator.log",
+      "sha256": "25f5f05a491a8d35c04a0a81d87da12485aae5d3edc78155ea3f36e55e405374"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__BackwardMathSource-comparator.log",
+      "sha256": "25f5f05a491a8d35c04a0a81d87da12485aae5d3edc78155ea3f36e55e405374"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__BackwardOrdinaryProbe-comparator.log",
+      "sha256": "9324e513eeb17ff2a1b5bfc286bf1333fb663e741cd932c7eb75ecdc6551f92e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__BackwardOrdinaryValueProbe-comparator.log",
+      "sha256": "9324e513eeb17ff2a1b5bfc286bf1333fb663e741cd932c7eb75ecdc6551f92e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__BackwardProfiles-comparator.log",
+      "sha256": "9324e513eeb17ff2a1b5bfc286bf1333fb663e741cd932c7eb75ecdc6551f92e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__BackwardPublic-comparator.log",
+      "sha256": "9324e513eeb17ff2a1b5bfc286bf1333fb663e741cd932c7eb75ecdc6551f92e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__BackwardReal-comparator.log",
+      "sha256": "9324e513eeb17ff2a1b5bfc286bf1333fb663e741cd932c7eb75ecdc6551f92e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__BackwardRun-comparator.log",
+      "sha256": "9324e513eeb17ff2a1b5bfc286bf1333fb663e741cd932c7eb75ecdc6551f92e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__BackwardSource-comparator.log",
+      "sha256": "9324e513eeb17ff2a1b5bfc286bf1333fb663e741cd932c7eb75ecdc6551f92e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__BackwardStaticControl-comparator.log",
+      "sha256": "9324e513eeb17ff2a1b5bfc286bf1333fb663e741cd932c7eb75ecdc6551f92e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__BackwardSymbolicErasureProbe-comparator.log",
+      "sha256": "9324e513eeb17ff2a1b5bfc286bf1333fb663e741cd932c7eb75ecdc6551f92e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__BackwardTraceControl-comparator.log",
+      "sha256": "9324e513eeb17ff2a1b5bfc286bf1333fb663e741cd932c7eb75ecdc6551f92e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__BackwardTraceProbe-comparator.log",
+      "sha256": "c2c468de0c38b59fe1ac5f02c58c163ecaf05f3e19e41c97f349486ca178211b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__BackwardTypedExecution-comparator.log",
+      "sha256": "c2c468de0c38b59fe1ac5f02c58c163ecaf05f3e19e41c97f349486ca178211b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__BackwardTypedIO-comparator.log",
+      "sha256": "c2c468de0c38b59fe1ac5f02c58c163ecaf05f3e19e41c97f349486ca178211b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__BackwardTypedModel-comparator.log",
+      "sha256": "c2c468de0c38b59fe1ac5f02c58c163ecaf05f3e19e41c97f349486ca178211b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__BackwardTypedProbe-comparator.log",
+      "sha256": "c2c468de0c38b59fe1ac5f02c58c163ecaf05f3e19e41c97f349486ca178211b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__BackwardTypedValueProbe-comparator.log",
+      "sha256": "c2c468de0c38b59fe1ac5f02c58c163ecaf05f3e19e41c97f349486ca178211b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__BackwardTypedValues-comparator.log",
+      "sha256": "c2c468de0c38b59fe1ac5f02c58c163ecaf05f3e19e41c97f349486ca178211b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__BackwardTypedVariant-comparator.log",
+      "sha256": "c2c468de0c38b59fe1ac5f02c58c163ecaf05f3e19e41c97f349486ca178211b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__ForwardCandidateReal-comparator.log",
+      "sha256": "c2c468de0c38b59fe1ac5f02c58c163ecaf05f3e19e41c97f349486ca178211b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__ForwardConstructors-comparator.log",
+      "sha256": "c2c468de0c38b59fe1ac5f02c58c163ecaf05f3e19e41c97f349486ca178211b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__ForwardFP-comparator.log",
+      "sha256": "fac5164bb0a3460886daea369777c12c68f6809f4e439ed71b3aef721b54d16b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__ForwardMath-comparator.log",
+      "sha256": "fac5164bb0a3460886daea369777c12c68f6809f4e439ed71b3aef721b54d16b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__ForwardPublic-comparator.log",
+      "sha256": "fac5164bb0a3460886daea369777c12c68f6809f4e439ed71b3aef721b54d16b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__ForwardRealFrame-comparator.log",
+      "sha256": "fac5164bb0a3460886daea369777c12c68f6809f4e439ed71b3aef721b54d16b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__ForwardRealIO-comparator.log",
+      "sha256": "fac5164bb0a3460886daea369777c12c68f6809f4e439ed71b3aef721b54d16b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__ForwardRealReadback-comparator.log",
+      "sha256": "fac5164bb0a3460886daea369777c12c68f6809f4e439ed71b3aef721b54d16b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__ForwardRealRun-comparator.log",
+      "sha256": "fac5164bb0a3460886daea369777c12c68f6809f4e439ed71b3aef721b54d16b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__ForwardSource-comparator.log",
+      "sha256": "c0b7b8fc4921412e83834229e2a4050ea30ca9bc3ac8d351b6967ab6f5d936ee"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__ForwardSourceScore-comparator.log",
+      "sha256": "c0b7b8fc4921412e83834229e2a4050ea30ca9bc3ac8d351b6967ab6f5d936ee"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__ForwardTileBridge-comparator.log",
+      "sha256": "c0b7b8fc4921412e83834229e2a4050ea30ca9bc3ac8d351b6967ab6f5d936ee"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__ForwardTypedBKProbe-comparator.log",
+      "sha256": "c0b7b8fc4921412e83834229e2a4050ea30ca9bc3ac8d351b6967ab6f5d936ee"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__ForwardTypedBKValues-comparator.log",
+      "sha256": "c0b7b8fc4921412e83834229e2a4050ea30ca9bc3ac8d351b6967ab6f5d936ee"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__ForwardTypedCandidate-comparator.log",
+      "sha256": "c0b7b8fc4921412e83834229e2a4050ea30ca9bc3ac8d351b6967ab6f5d936ee"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__ForwardTypedModel-comparator.log",
+      "sha256": "c0b7b8fc4921412e83834229e2a4050ea30ca9bc3ac8d351b6967ab6f5d936ee"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__ForwardTypedProbe-comparator.log",
+      "sha256": "c0b7b8fc4921412e83834229e2a4050ea30ca9bc3ac8d351b6967ab6f5d936ee"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__ForwardTypedProfilesTotal-comparator.log",
+      "sha256": "c0b7b8fc4921412e83834229e2a4050ea30ca9bc3ac8d351b6967ab6f5d936ee"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__ForwardTypedTotal-comparator.log",
+      "sha256": "ec13286ac6fea034df6f5907cc30bb29c907bfbbd6f5419bd77bdf052a6dc49c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__ForwardTypedValues-comparator.log",
+      "sha256": "ec13286ac6fea034df6f5907cc30bb29c907bfbbd6f5419bd77bdf052a6dc49c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/bench__tritonbench_g__ksoftmax_triton__Proofs__ForwardVariantIO-comparator.log",
+      "sha256": "ec13286ac6fea034df6f5907cc30bb29c907bfbbd6f5419bd77bdf052a6dc49c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/build-invocations.json",
+      "sha256": "1cf8c80a95ffbc6d12aca251be984c69d2a92d4f1bdd1221fd3e21e88c574e6e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/canonical-task-files.json",
+      "sha256": "ade42b253de4182b209cc50dc625cc6d0aa443830cfb5b7f3a782209f0ee886f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/comparator-invocations.json",
+      "sha256": "6968ff11eb66396aecae7f1f071815599d3a9f1bf5bbda4e274d72756db29ce1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/comparator-tools.json",
+      "sha256": "28998e17d51b0fb5930f7489e64512a57f8a8146d1470063a624a75bbabdb0d3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/corpus-guard.log",
+      "sha256": "10cc705ef4cd132430f6f18ba51262563c930ea8041b64cb625bbd84ebd3cfdc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/cpu-check.log.gz",
+      "sha256": "2d9800c64136520b3f09dd0e7e21e668ce761fbaa2a07226c04902bfb1d255d4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/final-clean-build.log.gz",
+      "sha256": "dee0ce5f8698341012a9c70529528d1dd273604892953ba34e836db0a50849ca"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/final-clean-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/final-clean-setup.json",
+      "sha256": "e2830035703152e444cbce284f3d42aa61ed03373d3f7e8c77cd610fd76088f3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/focus-build.log.gz",
+      "sha256": "4d7b5c7575ccf5d428242eeb6eb374d93d3374e2b69851b64baf62b1d9359fa5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/focus-invocations.json",
+      "sha256": "b27270a002cdf9f5f0f0c19d199790a131ff5f7e47e9ce1a7e411825ad4bb1ae"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/focus-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/focus-modules.txt",
+      "sha256": "b495ac0867c934375af55a4b6eb4a7e53ed2cd675e59f8874beb70e11b9c6d2e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/frontend-build.log.gz",
+      "sha256": "c963d26a0639f246539c3c4cfc0e9000154c8095bc70bda9b0ccfe6138314d92"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/frontend-modules.txt",
+      "sha256": "16b8e63ef83acecb6286e66280b891a66d5e6a9ef49f11dea6a6f92db0999418"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/frontend-validation-order-failure.log.gz",
+      "sha256": "f9b371cd810117c58e97e0674ab7c22755df846cd0008b348def3bb3557980b6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/inspections.json",
+      "sha256": "ccf8cd5a24f039cd7941e5b28ea51d79d287ad290988d3d1683da89ed6bb5b1e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/integration-final.log.gz",
+      "sha256": "f29f1f4d39f986623153d7bb5ca0bc97ec7c0d6a1b0e71010bbf7d6520f3c198"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/interrupted-repeated-audit-invocations.json",
+      "sha256": "64af0f8cde9bb3bccea7f99875091eaded5ebde70aa139310af3fd65dafbfe07"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/io-guard.log",
+      "sha256": "0f30b59dbce8b6a941f456fa71d69795b1865a876e70f3aaa8ba54be4f0dbe9c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/joint-all.lean",
+      "sha256": "690071077bb856e35d3bd5cf0826bb7325f9dec93b8ea11a2432222f7c274aa8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/joint-final.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/modules.json",
+      "sha256": "4cbc6de19303f678d18bbfecbf19baf2f6ddde78314378a1c1aa0ddd7f5d1d58"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/old-future-store-failure.log.gz",
+      "sha256": "5b49f2f11cadc29a191b6ce5756a48bba9d6b45a07f673445598b5ac67d58e6a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/old-real-address-failure.log.gz",
+      "sha256": "8e4ff7d4109ba45497efa4b54ef666ad9a048b4c57d4b81b0f3585a41b9cc9b4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/old-row-store-failure.log.gz",
+      "sha256": "6cc4677564c0b819473b0e4a3d95ede88d67e7e571f30b1300e1f891aff273ad"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/old-selected-reference-failure.log.gz",
+      "sha256": "4a7e13cf792bf535baa1c239db94f8e828388caef7751edc1d567991a83fbfe8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/optionalstringbody-audit.log",
+      "sha256": "65f0291de2777f7f2c50a2649052e5239df6efa86b344a8362888f48e29981fa"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/pairs.json",
+      "sha256": "afca734e1cdba4c8211a548b9b2e8ce741656d54e718741047b9acc832af664c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/previous-io-review.json",
+      "sha256": "a4af81db3d273b4c668d3745a029bc6f3dca0e7dbc4d12c6d5b35b3eb9e0f341"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/previous-reviews.json.gz",
+      "sha256": "6274fdf85bb64c0dea45f8e1c654a534ba42d5d6f3c9480d3794b9b7819d176c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/python-invocations.json",
+      "sha256": "13eeb202f66460ac2bdc83c40a04418353a7c870c4492d25bc096dd23c2559e2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/python-tests.log",
+      "sha256": "f99cda571ee66ea449e3be83b979290b9656c7a147a2e01ddc3bab57764adadf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/raw-body-check.log",
+      "sha256": "6107b5cdcb44d434e02bbea93bbc0380cf7ace7c9952fd15e7788a27eb4bf7f8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/repeated-audit-stop.json",
+      "sha256": "e6a1a05b2bbc55bda9de721d42497c83fba0af4cbed7735222b30b9096d4f39d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/repeated-audit.lean",
+      "sha256": "171f31dc8bf1a5f1bfad514059af09a14062b8742c7b9dc2164dae9ef0da8375"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/selected-reference-repair.json",
+      "sha256": "3d81beb52e395c3dd5a94c25a9c91783fafc33f62bfb7928a1ed7e47735cbf1c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/source-closure.json",
+      "sha256": "ade1d8db04407da8d5ceee2e758c6cb7f06527ee55b48c5b5b2a1402d6b21480"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/torch-check.log",
+      "sha256": "5f728524191877e4dfa63822ecc20729a8bb7cfe0122e749f1c4d1a2f43d13c9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/transferred-files.json",
+      "sha256": "bc4546839064b284790397fcfe44f4460e8677c25b68d796fe4d4ceaf78671f4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/warm-final-invocation.json",
+      "sha256": "6d79e02e35e5cd2a71b77b13e12605433b2c417144233d70f4b40d42e2135748"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-ksoftmax-function-bodies/workflow-counts.json",
+      "sha256": "b9c6e00b21ec39b713eb07364f5b4316fd0c1acfbca4eab75f2c5a60061c115a"
+    }
+  ]
+}

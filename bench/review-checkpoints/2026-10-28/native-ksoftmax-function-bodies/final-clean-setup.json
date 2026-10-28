@@ -1,0 +1,40 @@
+{
+  "code_commit": "18bf3d29e8d3a48dcbccbd9aeb74ec64779789cc",
+  "checkout": "/tmp/veritile-body77",
+  "explicit_modules": 4585,
+  "scope": "All cumulative task/example/frontend roots and their full import closure.",
+  "project_build_initially_present": false,
+  "veritile_cache_initially_present": false,
+  "project_objects_imported_from_other_checkouts": false,
+  "fixed_external_packages_reused": "/home/argustest/lizn/VeriTile/.lake/packages",
+  "previous_cache_cleanup": {
+    "removed": "/tmp/veritile-body77/.lake/build",
+    "reason": "Remove only this owned, completed SoftmaxReduceV project cache after its published receipt; source and evidence are retained. Rebuild all 4585 cumulative roots and their dependency closure from empty project objects. Shared frontend changes require the cumulative independent replay.",
+    "previous_receipt": "8569fda23bee2837aef00143f2f006740a0a522d"
+  },
+  "changed_source_sha256": {
+    "VeriTile/Triton/DSL/CallSignature.lean": "6410a5e93e1ac79dee955cff4118fcf0731c02139706d5fa3e32323c5545c574",
+    "VeriTile/Triton/DSL/OptionalString.lean": "8c21dbf4980afd255e3cdc962c1532edf75d3b67c933ef2cd9c0854bca731f79",
+    "bench/repairs/tritonbench_g/ksoftmax_triton/Kernels.lean": "c06324b94e67943cfcea61eee1553ac5b1c34a8dd07475c073d7ed3875f7940c",
+    "bench/repairs/tritonbench_g/ksoftmax_triton/Proofs/FP.lean": "54029530391fa2f0826d23c8b8710f414911fbf304fffb050210dd5f5e7a68fd",
+    "bench/repairs/tritonbench_g/ksoftmax_triton/Proofs/KernelExecution.lean": "8a961b1a11e31a18fd954ebc88bef7a7ee0a1893b902ce70e749836647b78463",
+    "bench/repairs/tritonbench_g/ksoftmax_triton/Proofs/PrecisionProfile.lean": "0102c9bf51f99588798de3d173884473d30b75c591599116c24ef3220c3d5568",
+    "bench/repairs/tritonbench_g/ksoftmax_triton/Proofs/Real.lean": "b8034d2ded58258f0b5d2837ca78b4efa8fa440b95a4e86bc08d722c57dcef77",
+    "bench/repairs/tritonbench_g/ksoftmax_triton/Proofs/RowValue.lean": "443030fb61c402d5281caf9a7068bc53269e2e1cb95db1c00656b2776b9f98cc",
+    "bench/repairs/tritonbench_g/ksoftmax_triton/README.md": "6ccbb3ec1493dcf65c05d2511970fc53fafac2e4a9a541f384c0e4259da87686",
+    "bench/repairs/tritonbench_g/ksoftmax_triton/SourceParameters.lean": "f20244b2453431503a8c5028ffc806f7f79af6e6d664243898f0e3c451459af0",
+    "bench/repairs/tritonbench_g/ksoftmax_triton_grid_y_checked/IO.lean": "89d6ca88e436303e1813d388182dde5ee5e5752968f72775d5ec650137bf7242",
+    "bench/repairs/tritonbench_g/ksoftmax_triton_grid_y_checked/Proofs/PrecisionProfile.lean": "aa5b0838341a76f154c1038744ee92cfb1f17f10040dc23af66d4a754c1545a3",
+    "bench/repairs/tritonbench_g/ksoftmax_triton_grid_y_checked/README.md": "56bd130cc8102cad4515c4d0009780fe21ed83d0bc499adb74cc50fac9940935",
+    "bench/repairs/tritonbench_g/ksoftmax_triton_grid_y_checked/jit-correspondence.json": "3594700988440991f6f89278ed8608b3fa38010a0701cbdc1cea86689ec5535e",
+    "bench/source-correspondence.json": "573580d650d3e213abf359c79c1a4ba45b68f3135193cfce10733faafbd5066c",
+    "bench/tests/OptionalStringBody.lean": "33bd11b90561d603ee4de187e9dffcb94640b3b3e38c70dcea912cfe0af0c2ea",
+    "bench/tests/test_ksoftmax_body.py": "35fdb17bee2d7c59cf5ee8fccf2c3cf3515944e122b50fa1ea726e2f9363bcac",
+    "bench/tritonbench_g/ksoftmax_triton/Proofs/BackwardFP.lean": "72a4d7bec9a989fd1a8894916777f00ab320b0626f3cbe76740664e9c75ba412",
+    "bench/tritonbench_g/ksoftmax_triton/Proofs/BackwardTypedVariant.lean": "da6d8f868f87f2ddc8af0e2dc9d1f21166bb3cbda1a77c65d9e2a3cc033cb23f",
+    "bench/tritonbench_g/ksoftmax_triton/Proofs/ForwardMath.lean": "39f372850fadc949612994fe536c3e307da0391199ea40831ed0acbbb959f65c",
+    "lakefile.toml": "cd3df4533057a4189c6267aacb8e738ea969c514ac9902e429a98e7bcd3aa23e"
+  },
+  "build_exit_code": 0,
+  "joint_exit_code": 0
+}

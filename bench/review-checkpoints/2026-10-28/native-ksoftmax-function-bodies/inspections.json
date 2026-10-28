@@ -1,0 +1,71 @@
+{
+  "code_commit": "18bf3d29e8d3a48dcbccbd9aeb74ec64779789cc",
+  "raw_bodies": [
+    {
+      "name": "raw-body-check",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/ksoftmax_triton_grid_y_checked/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "18bf3d29e8d3a48dcbccbd9aeb74ec64779789cc",
+      "log": "/tmp/ksoftmax102-raw-body-check.log",
+      "status": "PASS"
+    }
+  ],
+  "candidate_rewrites": [
+    {
+      "status": "PASS",
+      "scope": "Eight Ksoftmax body tests check both complete raw bodies, all six explicit integer widenings, FP16 backward branch, optional mask presence, qk address, causal boundary, absence of an extra store cast and signed stride ABI. Existing FP comparison reverses independent row scheduling; it does not compare forward against backward."
+    }
+  ],
+  "cpu": {
+    "name": "cpu-check",
+    "command": [
+      "python3",
+      "bench/repairs/tritonbench_g/ksoftmax_triton_grid_y_checked/check_candidate.py"
+    ],
+    "exit_code": 0,
+    "code_commit": "18bf3d29e8d3a48dcbccbd9aeb74ec64779789cc",
+    "log": "/tmp/ksoftmax102-cpu-check.log",
+    "status": "PASS",
+    "scope": "Actual wrapper AST with metadata-only Tensor fixtures and launch capture; no numerical kernel execution."
+  },
+  "torch": {
+    "name": "torch-check",
+    "command": [
+      "python3",
+      "bench/repairs/tritonbench_g/ksoftmax_triton/check_contract.py"
+    ],
+    "exit_code": 1,
+    "code_commit": "18bf3d29e8d3a48dcbccbd9aeb74ec64779789cc",
+    "log": "/tmp/ksoftmax102-torch-check.log",
+    "status": "UNAVAILABLE",
+    "reason": "Unchanged shared contract checker requires Torch, which is not installed."
+  },
+  "original_python_and_public_specifications": {
+    "status": "PASS",
+    "sha256": {
+      "bench/repairs/tritonbench_g/ksoftmax_triton/Contract.lean": "875d4f8e4f4de75086f190be4c4fd88538fef52dda98d38df97f2a273767f59d",
+      "bench/repairs/tritonbench_g/ksoftmax_triton/Correct.lean": "d555e1dbeff26f2d5ff3f547056dba749768483f6553ab30fdb75ae8a580015f",
+      "bench/repairs/tritonbench_g/ksoftmax_triton/FPEquiv.lean": "5843c5160a3d6eab7e418e0da47effc343dd8cbf1e860a2b1963ed59719517b2",
+      "bench/repairs/tritonbench_g/ksoftmax_triton/Proofs/Contract.lean": "b627dee0dca980b444b7ff7e0fac35723e105ef2ad6a70fabba0d34aa08532f9",
+      "bench/repairs/tritonbench_g/ksoftmax_triton/check_contract.py": "d98f670bd37a73017f94520ae01f64185fa72ac8fdfdbd4251e643db38079a69",
+      "bench/repairs/tritonbench_g/ksoftmax_triton/check_kernel_boundaries.py": "50cf6c00f4c6200e5b75ab4a9eaa12a32ed1adfd6539cb29a8d3199120e732bf",
+      "bench/repairs/tritonbench_g/ksoftmax_triton/ksoftmax_triton_repaired.py": "03d1517e3ac3ef0fdab20673a410d248d11461c1ddbc12df9e262119a98bd1e4",
+      "bench/repairs/tritonbench_g/ksoftmax_triton_grid_y_checked/Contract.lean": "102dadb72c2f9aaddac13e985dda64132482cc719d78fdcc771071b9a783c664",
+      "bench/repairs/tritonbench_g/ksoftmax_triton_grid_y_checked/Correct.lean": "c669b53842e21ae66f0b124e6d4c08b8df8ea7b19b1ea043971003e198d1c48d",
+      "bench/repairs/tritonbench_g/ksoftmax_triton_grid_y_checked/FPEquiv.lean": "6867a42444cb49539dc5bc85c4c4d4a9e0eefbf1c5a39f9d2ccdb1558bb0cd65",
+      "bench/repairs/tritonbench_g/ksoftmax_triton_grid_y_checked/check_candidate.py": "74a4eb830a72b3f2bcf17fd155181699f4af7d508d05caf9f3fdad8024f8a8c3",
+      "bench/repairs/tritonbench_g/ksoftmax_triton_grid_y_checked/ksoftmax_triton_grid_y_checked.py": "de570d469f4976f6370b796860afbad79f67fc10a37abf55c1f2b514415ebf37",
+      "bench/tritonbench_g/ksoftmax_triton/Correct.lean": "887e2e29a5d01b3475a81a7ca8fc69ccdd0eafb8a9acd55ad924978218f1db4c",
+      "bench/tritonbench_g/ksoftmax_triton/FPEquiv.lean": "d045727eee53b120dcc643e15b5cd9d421544ce6130711b1ac6142b95bc7ee33",
+      "bench/tritonbench_g/ksoftmax_triton/ksoftmax_triton.py": "8f392086c34ec0cd665c31e614d1534fa2899fba0beecc6435cc06e2095d0e66",
+      "bench/tritonbench_g/ksoftmax_triton/scripts/backward_native_lowering.py": "4ce945000127fbb796e973d210469894cbce1de6753c34f7abdb86cdcabce378",
+      "bench/tritonbench_g/ksoftmax_triton/scripts/forward_source_check.py": "7f39a56a7bf92a767cd2933bdfa768a0e928c762432690e490a6ac5abae01877"
+    }
+  },
+  "scope": "Two complete selected forward/backward mappings preserve every raw statement and caller binding. Actual source execution, access safety, output/frame, independent Real formulas and the existing reversed-row schedule FP pair are reverified. Nine preservation proofs retain previous NativeGraph/Real targets for arbitrary inputs and plans. The retained benchmark integer-index candidate uses a direct complete run-equality proof. Original Python, public specifications and domains are unchanged. No arbitrary cast identity, whole-kernel premise, GPU or new numerical experiment."
+}
