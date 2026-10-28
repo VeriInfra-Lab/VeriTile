@@ -6,8 +6,8 @@
     "tasks": 183,
     "examples": 19,
     "task_status": {
-      "selected_body_copy_checked": 102,
-      "uncovered_jit_functions": 81
+      "selected_body_copy_checked": 103,
+      "uncovered_jit_functions": 80
     },
     "example_status": {
       "authored_counterpart_body_copy_checked": 2,
@@ -15,12 +15,12 @@
       "spec_derived_body_copy_checked": 15
     },
     "selected_jit_functions": 333,
-    "uncovered_selected_jit_functions": 169,
+    "uncovered_selected_jit_functions": 168,
     "primary_files_with_int64_screen_warning": 22,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 58,
-        "antiquotes": 64,
+        "in_body_type_directives": 57,
+        "antiquotes": 63,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 8
       },
@@ -18494,10 +18494,10 @@
       "lean": "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/Kernels.lean",
       "source_provenance": "selected_revision",
       "lean_screen": {
-        "quotations": 1,
-        "in_body_type_directives": 1,
-        "antiquotes": 22,
-        "dsl_assignment": 5,
+        "quotations": 2,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 49,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -18510,19 +18510,105 @@
           "explicit_int64_casts": []
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "_fwd_kernel_token_att1",
+          "lean_definition": "source",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "typed_per_call_specialization",
+          "call_bindings": {
+            "sm_scale": "p.scale",
+            "max_input_len": "p.maxLength",
+            "stride_b_loc_b": "p.locationBatchStride",
+            "stride_b_loc_s": "p.locationSequenceStride",
+            "stride_qbs": "p.queryBatchStride",
+            "stride_qh": "p.queryHeadStride",
+            "stride_qd": "p.queryDimStride",
+            "stride_kbs": "p.keyBatchStride",
+            "stride_kh": "p.keyHeadStride",
+            "stride_kd": "p.keyDimStride",
+            "att_stride_h": "p.outputHeadStride",
+            "att_stride_bs": "p.outputSequenceStride",
+            "kv_group_num": "p.groups"
+          },
+          "statements": 15,
+          "runtime_parameters": {
+            "sm_scale": "fp32",
+            "max_input_len": "integer",
+            "stride_b_loc_b": "integer",
+            "stride_b_loc_s": "integer",
+            "stride_qbs": "integer",
+            "stride_qh": "integer",
+            "stride_qd": "integer",
+            "stride_kbs": "integer",
+            "stride_kh": "integer",
+            "stride_kd": "integer",
+            "att_stride_h": "integer",
+            "att_stride_bs": "integer",
+            "kv_group_num": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_DMODEL",
+            "BLOCK_N"
+          ],
           "python": "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/token_attn_llama2_grid_axes_checked.py",
-          "function": "_fwd_kernel_token_att1"
+          "lean": "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/Kernels.lean"
+        },
+        {
+          "python_function": "_fwd_kernel_token_att1_reuse",
+          "lean_definition": "reuseSource",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "typed_per_call_specialization",
+          "call_bindings": {
+            "sm_scale": "p.scale",
+            "max_input_len": "p.maxLength",
+            "stride_b_loc_b": "p.locationBatchStride",
+            "stride_b_loc_s": "p.locationSequenceStride",
+            "stride_qbs": "p.queryBatchStride",
+            "stride_qh": "p.queryHeadStride",
+            "stride_qd": "p.queryDimStride",
+            "stride_kbs": "p.keyBatchStride",
+            "stride_kh": "p.keyHeadStride",
+            "stride_kd": "p.keyDimStride",
+            "att_stride_h": "p.outputHeadStride",
+            "att_stride_bs": "p.outputSequenceStride",
+            "kv_group_num": "p.groups"
+          },
+          "statements": 15,
+          "runtime_parameters": {
+            "sm_scale": "fp32",
+            "max_input_len": "integer",
+            "stride_b_loc_b": "integer",
+            "stride_b_loc_s": "integer",
+            "stride_qbs": "integer",
+            "stride_qh": "integer",
+            "stride_qd": "integer",
+            "stride_kbs": "integer",
+            "stride_kh": "integer",
+            "stride_kd": "integer",
+            "att_stride_h": "integer",
+            "att_stride_bs": "integer",
+            "kv_group_num": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_DMODEL",
+            "BLOCK_N"
+          ],
+          "python": "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/token_attn_llama2_reuse.py",
+          "lean": "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/Kernels.lean"
         }
       ],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/Kernels.lean": "13b86f69e72f91b5580c23b0d8a441b8916afd88a1cfb22c8dd60de5ee7409ba",
-        "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/token_attn_llama2_grid_axes_checked.py": "7be76eb881e9836a77a382f2f5c86cfb2de2be3fcc798e54bd27683ed8c01bb6"
+        "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/Kernels.lean": "466f33c840395a5940d09206d8c785e97eff200fb6a292b43b239488f48d34a4",
+        "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/jit-correspondence.json": "ab8e2da52e83931c2d1250e49db1c695e5199b0f41c72c3b32f62c87d05898d8",
+        "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/token_attn_llama2_grid_axes_checked.py": "7be76eb881e9836a77a382f2f5c86cfb2de2be3fcc798e54bd27683ed8c01bb6",
+        "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/token_attn_llama2_reuse.py": "b8087fcc42499b181e5533712ba0c06a89e73fcb6fae5859aa0a1c15ab03bcc7"
       }
     },
     {

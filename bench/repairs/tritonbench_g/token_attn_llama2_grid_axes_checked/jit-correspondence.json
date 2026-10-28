@@ -1,0 +1,230 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/token_attn_llama2_grid_axes_checked.py",
+    "lean": "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/Kernels.lean",
+    "python_function": "_fwd_kernel_token_att1",
+    "lean_definition": "source",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "Q",
+          "fp32"
+        ],
+        [
+          "K",
+          "fp32"
+        ],
+        [
+          "B_Loc",
+          "i32"
+        ],
+        [
+          "B_Start_Loc",
+          "i32"
+        ],
+        [
+          "B_Seqlen",
+          "i32"
+        ],
+        [
+          "Att_Out",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "sm_scale",
+          "fp32"
+        ],
+        [
+          "max_input_len",
+          "integer"
+        ],
+        [
+          "stride_b_loc_b",
+          "integer"
+        ],
+        [
+          "stride_b_loc_s",
+          "integer"
+        ],
+        [
+          "stride_qbs",
+          "integer"
+        ],
+        [
+          "stride_qh",
+          "integer"
+        ],
+        [
+          "stride_qd",
+          "integer"
+        ],
+        [
+          "stride_kbs",
+          "integer"
+        ],
+        [
+          "stride_kh",
+          "integer"
+        ],
+        [
+          "stride_kd",
+          "integer"
+        ],
+        [
+          "att_stride_h",
+          "integer"
+        ],
+        [
+          "att_stride_bs",
+          "integer"
+        ],
+        [
+          "kv_group_num",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_DMODEL",
+        "BLOCK_N"
+      ],
+      "naturalIntegerPointers": [
+        "B_Loc",
+        "B_Start_Loc",
+        "B_Seqlen"
+      ],
+      "typedFP32Storage": true
+    },
+    "expected_call_bindings": {
+      "sm_scale": "p.scale",
+      "max_input_len": "p.maxLength",
+      "stride_b_loc_b": "p.locationBatchStride",
+      "stride_b_loc_s": "p.locationSequenceStride",
+      "stride_qbs": "p.queryBatchStride",
+      "stride_qh": "p.queryHeadStride",
+      "stride_qd": "p.queryDimStride",
+      "stride_kbs": "p.keyBatchStride",
+      "stride_kh": "p.keyHeadStride",
+      "stride_kd": "p.keyDimStride",
+      "att_stride_h": "p.outputHeadStride",
+      "att_stride_bs": "p.outputSequenceStride",
+      "kv_group_num": "p.groups"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/token_attn_llama2_reuse.py",
+    "lean": "bench/repairs/tritonbench_g/token_attn_llama2_grid_axes_checked/Kernels.lean",
+    "python_function": "_fwd_kernel_token_att1_reuse",
+    "lean_definition": "reuseSource",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "Q",
+          "fp32"
+        ],
+        [
+          "K",
+          "fp32"
+        ],
+        [
+          "B_Loc",
+          "i32"
+        ],
+        [
+          "B_Start_Loc",
+          "i32"
+        ],
+        [
+          "B_Seqlen",
+          "i32"
+        ],
+        [
+          "Att_Out",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "sm_scale",
+          "fp32"
+        ],
+        [
+          "max_input_len",
+          "integer"
+        ],
+        [
+          "stride_b_loc_b",
+          "integer"
+        ],
+        [
+          "stride_b_loc_s",
+          "integer"
+        ],
+        [
+          "stride_qbs",
+          "integer"
+        ],
+        [
+          "stride_qh",
+          "integer"
+        ],
+        [
+          "stride_qd",
+          "integer"
+        ],
+        [
+          "stride_kbs",
+          "integer"
+        ],
+        [
+          "stride_kh",
+          "integer"
+        ],
+        [
+          "stride_kd",
+          "integer"
+        ],
+        [
+          "att_stride_h",
+          "integer"
+        ],
+        [
+          "att_stride_bs",
+          "integer"
+        ],
+        [
+          "kv_group_num",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_DMODEL",
+        "BLOCK_N"
+      ],
+      "naturalIntegerPointers": [
+        "B_Loc",
+        "B_Start_Loc",
+        "B_Seqlen"
+      ],
+      "typedFP32Storage": true
+    },
+    "expected_call_bindings": {
+      "sm_scale": "p.scale",
+      "max_input_len": "p.maxLength",
+      "stride_b_loc_b": "p.locationBatchStride",
+      "stride_b_loc_s": "p.locationSequenceStride",
+      "stride_qbs": "p.queryBatchStride",
+      "stride_qh": "p.queryHeadStride",
+      "stride_qd": "p.queryDimStride",
+      "stride_kbs": "p.keyBatchStride",
+      "stride_kh": "p.keyHeadStride",
+      "stride_kd": "p.keyDimStride",
+      "att_stride_h": "p.outputHeadStride",
+      "att_stride_bs": "p.outputSequenceStride",
+      "kv_group_num": "p.groups"
+    }
+  }
+]
