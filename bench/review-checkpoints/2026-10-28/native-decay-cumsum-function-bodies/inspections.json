@@ -1,0 +1,61 @@
+{
+  "code_commit": "f395dc811e3e07dd45aac38b9386523e04a56460",
+  "raw_bodies": [
+    {
+      "name": "raw-body-check",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/decay_cumsum/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "f395dc811e3e07dd45aac38b9386523e04a56460",
+      "log": "/tmp/decay94-raw-body-check.log",
+      "status": "PASS"
+    },
+    {
+      "name": "kldiv-raw-body-check",
+      "command": [
+        "python3",
+        "-m",
+        "bench.jit_correspondence",
+        "bench/repairs/tritonbench_g/kldiv_triton/jit-correspondence.json"
+      ],
+      "exit_code": 0,
+      "code_commit": "f395dc811e3e07dd45aac38b9386523e04a56460",
+      "log": "/tmp/decay94-kldiv-raw-body-check.log",
+      "status": "PASS"
+    }
+  ],
+  "candidate_rewrites": [
+    {
+      "status": "PASS",
+      "scope": "All three complete original signatures, jit decorators and function ASTs checked by DecayCumsumFunctionBodyTests; only the existing mask integer product is commuted."
+    }
+  ],
+  "cpu": {
+    "name": "cpu-final",
+    "command": [
+      "python3",
+      "bench/repairs/tritonbench_g/decay_cumsum/check_contract.py"
+    ],
+    "exit_code": 1,
+    "code_commit": "f395dc811e3e07dd45aac38b9386523e04a56460",
+    "log": "/tmp/decay94-cpu-final.log",
+    "status": "UNAVAILABLE"
+  },
+  "original_python_wrappers_and_public_statements": {
+    "status": "PASS",
+    "sha256": {
+      "bench/repairs/tritonbench_g/decay_cumsum/Contract.lean": "11402ce3191e68717b051ea66637ce1638dca67447d72fc4e8422f83b5052c6d",
+      "bench/repairs/tritonbench_g/decay_cumsum/Correct.lean": "b4ec3c63be42067d7a16acbc50a3fa982efcefb1634ded3cba423d3c95c65909",
+      "bench/repairs/tritonbench_g/decay_cumsum/FPEquiv.lean": "7e36ca4af8d35adb16e0e40e081778783a9e3964829db0f186d8380ff0ec3a1c",
+      "bench/repairs/tritonbench_g/decay_cumsum/IO.lean": "13483c2c25cfae5e18ec2db245a29598d5335de916c1a1b4c15fe9fd23dee36d",
+      "bench/repairs/tritonbench_g/decay_cumsum/Proofs/Contract.lean": "a7b708931ef49e2888c934e5a7149d865ae0fbe0bafc65d9b1b5b507f522cd31",
+      "bench/repairs/tritonbench_g/decay_cumsum/check_contract.py": "1e4b3db9a1518b66ebee486784db390b5b5c8468ca07b655a9198892bea63a73",
+      "bench/repairs/tritonbench_g/decay_cumsum/decay_cumsum_repaired.py": "8280a38504ba5e0d5fb398180cc30cb90230739a6ca545e2c455e1d6cc309974"
+    }
+  },
+  "scope": "Six complete raw forward/prepare/backward originals and existing mask-index candidates. All 8/11/15 source statements, int64 casts, signed loop bounds, masks, stores and immutable inv_ln2 module literal retained. BT-1 is subtracted before its signed cast, including zero-trip BT=0. Backward dq/dk stores retain their absence of a cast; only dg has an explicit store cast. Actual execution, safety, independent Real mathematics, complete source/candidate FP pairs, native word/byte/Tensor and all host consumers replay. Four checked Real execution bridges normalize only unused registers, preserving complete memory and failure. KLDiv retains raw source and adds checked module-constant metadata. No old AST/graph identity, arbitrary cast identity, domain narrowing or new numerical law is assumed. No GPU experiment."
+}

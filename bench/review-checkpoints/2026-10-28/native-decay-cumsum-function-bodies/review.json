@@ -1,0 +1,1034 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "f395dc811e3e07dd45aac38b9386523e04a56460",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "decay_cumsum"
+  ],
+  "regression_only_pending_body_tasks": [
+    "kv_cache_filling"
+  ],
+  "semantic_review": {
+    "adam_update_triton": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "add_example": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "add_value": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "apply_penalty": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "attention_fwd_triton1": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "batched_vecmat_mult": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "bgmv_expand_slice": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "bmm_optimized": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "cache_transform_triton": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "chunk_cumsum_kernel": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "chunk_cumsum_vector": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "chunk_delta_fwd": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "chunked_cumsum_fwd": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "cosine_compute": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "cross_entropy1": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "cross_entropy2": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "cross_entropy_ops": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "decay_cumsum": "Six complete raw forward/preparation/backward originals and existing mask-index candidates preserve all 8/11/15 Python statements, signatures, decorators, int64 casts, signed loops, masks and stores. The literal inv_ln2 module binding is checked externally. Original Python, public specifications and independent mathematics remain unchanged. Backward dq/dk stores retain their lack of a source cast; the ordered FP reference and native symbolic carrier retain that behavior, with raw byte observations proved independently. Four checked Real bridges connect complete actual source execution to the independent historical recurrence, normalizing only unused registers and preserving all memory and failure. Complete source/candidate FP equivalence, actual execution, frames, access safety, Real results, native compilation, Tensor and host consumers replay without added domain restrictions or numerical laws. No old AST/graph identity or arbitrary cast identity is claimed. No GPU experiment.",
+    "dequantize_matmul": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "dequantize_rowwise": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "destindex_copy": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "destindex_copy_kv1": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "destindex_copy_kv2": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "diag_ssm_triton": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "dropout_triton": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "embedding_triton_kernel": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "f8_conversion_utils": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "fast_ce_loss": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "fast_rope_embedding": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "fifth_order_sph_harmonics": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "flash_decode2_llama": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "flash_decode2_phi": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "fused_activation": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "fused_recurrent_hgrn": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "fused_rotary_embedding": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "geglu_tanh_triton": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "index_select_bwd": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "index_select_cat": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "int8_matmul_kernel": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "isfinite_kernel": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "kcache_copy_triton": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "kldiv_compute": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "kldiv_ops": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "kldiv_triton": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims. Its unchanged raw forward bodies now bind the exact immutable _REDUCTION_MODE_NONE module literal through checked sourceConstants metadata; the redundant unchecked Lean local binding is removed. All 69 task modules and four body mappings replay; this is an existing-task regression, not another migrated task.",
+    "kv_cache_copy": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "kv_cache_filling": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims. Python-body migration remains pending; its correspondence status is retained.",
+    "l2_norm_bwd": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "l2_norm_triton1": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "l2_norm_triton2": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "log_softmax": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "logsumexp_fwd": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "masked_add_cuda": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "masked_select": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "matmul_kernel": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "matrix_reduction": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "matrix_transpose": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "max_reduction": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "mean_reduction": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "mul_exponent_compensator": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "nested_loops_processing": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "quant_transpose_kernel": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "quantize_copy_kv": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "quantize_global": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "quantize_kv_copy": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "quantize_kv_transform": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "relu_strided_buffer": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "relu_triton_kernel": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "reversed_cumsum": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "reversed_cumsum_scalar": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "rms_norm_triton": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "rmsnorm_fused": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "rmsnorm_fused_llama": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "rmsnorm_implementation": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "rmsnorm_triton": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "rope_backward_transform": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "rope_embedding": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "rope_transform": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "rotary_emb": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "rotary_emb_nopad": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "rowwise_quantization_triton": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "seeded_dropout": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "sin_computation": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "sin_kernel": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "softmax_optimize": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "softmax_triton1": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "softmax_triton2": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "softmax_triton3": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "square_matrix": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "swiglu_backward": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "swiglu_fwd": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "swiglu_triton": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "token_attn_mistral": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "token_attn_reduceV": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "token_softmax_bloom": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "token_softmax_llama": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "triton_argmax": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "triton_mul2": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "triton_softmax": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "var_len_copy": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "vector_addition": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims.",
+    "vector_addition_custom": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims."
+  },
+  "compiler_change": {
+    "files": [
+      "VeriTile/Triton/DSL/CallSignature.lean",
+      "VeriTile/Triton/DSL/Expansion/Main.lean",
+      "VeriTile/Triton/DSL/SourceConstant.lean",
+      "VeriTile/Triton/DSL/TypedStores.lean"
+    ],
+    "behavior": "The frontend retains exact immutable numeric module literals as external checked metadata, infers FP32 exp2 results, and handles casted signed reverse bounds with fresh mirrored iterator names. Static constexpr integer subtraction precedes the explicit signed cast, including BT=0. Original pasted bodies stay unchanged. All 107 frontend roots, all 4162 cumulative roots and joint imports replay warm and independently from empty project objects using only pinned external packages. Existing tasks receive regression evidence, not new migration claims."
+  },
+  "verification": {
+    "baseline": {
+      "status": "PASS",
+      "explicit_modules": 81,
+      "jobs": 3639
+    },
+    "frontend_preflight": {
+      "status": "PASS",
+      "explicit_modules": 107,
+      "jobs": 3761,
+      "scope": "All registered frontend roots, including immutable module literals, signed empty reverse ranges and fresh mirrored iterator checks."
+    },
+    "focused": {
+      "status": "PASS",
+      "explicit_modules": 154,
+      "jobs": 3772,
+      "additional_scope": "Joint import, standalone frontend AST footprint, 125 actual-source/public/IO audits and two empty FP assumption reports."
+    },
+    "warm_and_joint": {
+      "status": "PASS",
+      "explicit_modules": 4162,
+      "jobs": 13803
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 4162,
+      "jobs": 13803,
+      "project_build_initially_present": false,
+      "project_objects_imported_from_other_checkouts": false,
+      "only_fixed_external_dependencies_imported": true,
+      "setup": {
+        "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/final-clean-setup.json",
+        "sha256": "a2bb338135a3e44dd54833bc5cec5e9a54cd1a171d78f7aa378c68122fa53bc5"
+      }
+    },
+    "trust": "PASS: 125 actual-source/public/IO footprints and five new frontend AST footprints use only standard base. The complete source pair and public FP entry print no FP assumptions.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 177
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 422,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by old numerical receipt; no false repin."
+    },
+    "source": "PASS: six complete raw original/existing candidate bodies plus four unchanged KLDiv body mappings and exact caller bindings; original Python/wrappers/public statements unchanged, actual-source deep proofs updated and replayed.",
+    "official_comparator": "UNAVAILABLE: 160 actual final-source attempts with verified pinned binaries. Host Landlock ABI v4 is below required v5; no systemd user isolation or bypass.",
+    "cpu": "UNAVAILABLE: actual check_contract.py CPU invocation requires missing Torch.",
+    "gpu_or_numerical_experiment": "Not run.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending; the known unchanged numerical receipt failure remains explicit."
+  },
+  "source_pairs": {
+    "total": 319,
+    "pasted_body": 319,
+    "legacy_ast": 0
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/source-closure.json",
+    "sha256": "946943323919b78f0d98d1a864a1343d46497eb6de6d160d37717766bf4bc69f"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "selected_body_copy_checked": 100,
+      "uncovered_jit_functions": 83
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 333,
+    "uncovered_selected_jit_functions": 172,
+    "primary_files_with_int64_screen_warning": 22,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 58,
+        "antiquotes": 66,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "example_regression_scope": "All 19 selected examples and all previous recorded task roots replay warm/joint and independently from empty project objects. Unselected historical model gaps are not relabeled as passing.",
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/VeriTile__Triton__DSL__CallSignature-comparator.log",
+      "sha256": "1940d5646546501506fd39bc2549f0ed553da05d3b8e429ce8ea233589a2d4be"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/VeriTile__Triton__DSL__Expansion__Main-comparator.log",
+      "sha256": "8c463d34512b19437a6e7e3f40b854c979dadb1e986595922d106f274b0e90fc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/VeriTile__Triton__DSL__SourceConstant-comparator.log",
+      "sha256": "8c463d34512b19437a6e7e3f40b854c979dadb1e986595922d106f274b0e90fc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/VeriTile__Triton__DSL__TypedStores-comparator.log",
+      "sha256": "8c463d34512b19437a6e7e3f40b854c979dadb1e986595922d106f274b0e90fc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/all-python.log",
+      "sha256": "68909995ef334f19a3548625f67c0e734e4b4968f10e385d45cadf895c65a41a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/audit-targets.json",
+      "sha256": "b1c3cd9d7ddb3c2850247fb0cb2cc7369d4f585fad736e331b91bf2c4c05419d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/audit.lean",
+      "sha256": "b14dfa519e2a63697adf1f7cd7ca2902b47f0e334212864c4a6bdba3888e448a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/audit.log",
+      "sha256": "f47e24f0e76f5444b02032d74729a2f4a65798ead9f7d32706f093c3d5b2173f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/baseline-build.log.gz",
+      "sha256": "4fd3d06b3f307e7056885fbd699bebab3f0537fd3c210b325f8358e1bc16f294"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/baseline.json",
+      "sha256": "da05dbc384d4a578dee6cafc83cb96e1848106a0b14a56f27dc150b38c38e355"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Contract-comparator.log",
+      "sha256": "8c463d34512b19437a6e7e3f40b854c979dadb1e986595922d106f274b0e90fc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Correct-comparator.log",
+      "sha256": "8c463d34512b19437a6e7e3f40b854c979dadb1e986595922d106f274b0e90fc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__FPEquiv-comparator.log",
+      "sha256": "8c463d34512b19437a6e7e3f40b854c979dadb1e986595922d106f274b0e90fc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__IO-comparator.log",
+      "sha256": "8c463d34512b19437a6e7e3f40b854c979dadb1e986595922d106f274b0e90fc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Kernels-comparator.log",
+      "sha256": "8c463d34512b19437a6e7e3f40b854c979dadb1e986595922d106f274b0e90fc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Misc__HostCorrect-comparator.log",
+      "sha256": "8c463d34512b19437a6e7e3f40b854c979dadb1e986595922d106f274b0e90fc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Misc__HostFPEquiv-comparator.log",
+      "sha256": "8c463d34512b19437a6e7e3f40b854c979dadb1e986595922d106f274b0e90fc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Misc__KernelNativeResults-comparator.log",
+      "sha256": "07bb0674ced283e38809f18fd5af2dd02fa7d526d0d46378aaeb71b084ebda88"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Misc__KernelRealResults-comparator.log",
+      "sha256": "07bb0674ced283e38809f18fd5af2dd02fa7d526d0d46378aaeb71b084ebda88"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Misc__NativeCorrect-comparator.log",
+      "sha256": "07bb0674ced283e38809f18fd5af2dd02fa7d526d0d46378aaeb71b084ebda88"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Misc__NativeFPEquiv-comparator.log",
+      "sha256": "07bb0674ced283e38809f18fd5af2dd02fa7d526d0d46378aaeb71b084ebda88"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Misc__TensorBridge-comparator.log",
+      "sha256": "07bb0674ced283e38809f18fd5af2dd02fa7d526d0d46378aaeb71b084ebda88"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__PairIO-comparator.log",
+      "sha256": "07bb0674ced283e38809f18fd5af2dd02fa7d526d0d46378aaeb71b084ebda88"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__Contract-comparator.log",
+      "sha256": "07bb0674ced283e38809f18fd5af2dd02fa7d526d0d46378aaeb71b084ebda88"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__Copyback-comparator.log",
+      "sha256": "07bb0674ced283e38809f18fd5af2dd02fa7d526d0d46378aaeb71b084ebda88"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__Coverage-comparator.log",
+      "sha256": "07bb0674ced283e38809f18fd5af2dd02fa7d526d0d46378aaeb71b084ebda88"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__FPBackward-comparator.log",
+      "sha256": "07bb0674ced283e38809f18fd5af2dd02fa7d526d0d46378aaeb71b084ebda88"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__FPBackwardBase-comparator.log",
+      "sha256": "b9e4b8ea7618d05ef3339988a07569225f0ab9fa9a43bbf377f3b0e32d76cabf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__FPBackwardControl-comparator.log",
+      "sha256": "b9e4b8ea7618d05ef3339988a07569225f0ab9fa9a43bbf377f3b0e32d76cabf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__FPBackwardIteration-comparator.log",
+      "sha256": "b9e4b8ea7618d05ef3339988a07569225f0ab9fa9a43bbf377f3b0e32d76cabf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__FPBackwardMemory-comparator.log",
+      "sha256": "b9e4b8ea7618d05ef3339988a07569225f0ab9fa9a43bbf377f3b0e32d76cabf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__FPBackwardStep-comparator.log",
+      "sha256": "b9e4b8ea7618d05ef3339988a07569225f0ab9fa9a43bbf377f3b0e32d76cabf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__FPForward-comparator.log",
+      "sha256": "b9e4b8ea7618d05ef3339988a07569225f0ab9fa9a43bbf377f3b0e32d76cabf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__FPLogical-comparator.log",
+      "sha256": "b9e4b8ea7618d05ef3339988a07569225f0ab9fa9a43bbf377f3b0e32d76cabf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__FPMemory-comparator.log",
+      "sha256": "b9e4b8ea7618d05ef3339988a07569225f0ab9fa9a43bbf377f3b0e32d76cabf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__FPOps-comparator.log",
+      "sha256": "b9e4b8ea7618d05ef3339988a07569225f0ab9fa9a43bbf377f3b0e32d76cabf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__FPPrefix-comparator.log",
+      "sha256": "b5cd0c997a2d12acbf00702dd1407c7aa89d1b2c981b4f06a6cc9d9c0234b6bd"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__FPPrepare-comparator.log",
+      "sha256": "b5cd0c997a2d12acbf00702dd1407c7aa89d1b2c981b4f06a6cc9d9c0234b6bd"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__FPProgram-comparator.log",
+      "sha256": "b5cd0c997a2d12acbf00702dd1407c7aa89d1b2c981b4f06a6cc9d9c0234b6bd"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__FPReference-comparator.log",
+      "sha256": "b5cd0c997a2d12acbf00702dd1407c7aa89d1b2c981b4f06a6cc9d9c0234b6bd"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__FPStep-comparator.log",
+      "sha256": "b5cd0c997a2d12acbf00702dd1407c7aa89d1b2c981b4f06a6cc9d9c0234b6bd"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__FPStorage-comparator.log",
+      "sha256": "b5cd0c997a2d12acbf00702dd1407c7aa89d1b2c981b4f06a6cc9d9c0234b6bd"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__FPStoreFrame-comparator.log",
+      "sha256": "b5cd0c997a2d12acbf00702dd1407c7aa89d1b2c981b4f06a6cc9d9c0234b6bd"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__FPTile-comparator.log",
+      "sha256": "b5cd0c997a2d12acbf00702dd1407c7aa89d1b2c981b4f06a6cc9d9c0234b6bd"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__FPTileStable-comparator.log",
+      "sha256": "b5cd0c997a2d12acbf00702dd1407c7aa89d1b2c981b4f06a6cc9d9c0234b6bd"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__Geometry-comparator.log",
+      "sha256": "866a8a0c8718a9bbe0e03bc8dad17f6e2b3d8879c20aea493f034eefae260fbb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__Grid-comparator.log",
+      "sha256": "866a8a0c8718a9bbe0e03bc8dad17f6e2b3d8879c20aea493f034eefae260fbb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__Host-comparator.log",
+      "sha256": "866a8a0c8718a9bbe0e03bc8dad17f6e2b3d8879c20aea493f034eefae260fbb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__HostOutcome-comparator.log",
+      "sha256": "866a8a0c8718a9bbe0e03bc8dad17f6e2b3d8879c20aea493f034eefae260fbb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__HostPreparation-comparator.log",
+      "sha256": "866a8a0c8718a9bbe0e03bc8dad17f6e2b3d8879c20aea493f034eefae260fbb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__IOCorrect-comparator.log",
+      "sha256": "866a8a0c8718a9bbe0e03bc8dad17f6e2b3d8879c20aea493f034eefae260fbb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__IOResults-comparator.log",
+      "sha256": "866a8a0c8718a9bbe0e03bc8dad17f6e2b3d8879c20aea493f034eefae260fbb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__IOSafety-comparator.log",
+      "sha256": "866a8a0c8718a9bbe0e03bc8dad17f6e2b3d8879c20aea493f034eefae260fbb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__IOSafetyBackward-comparator.log",
+      "sha256": "866a8a0c8718a9bbe0e03bc8dad17f6e2b3d8879c20aea493f034eefae260fbb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__IOSafetyBodies-comparator.log",
+      "sha256": "866a8a0c8718a9bbe0e03bc8dad17f6e2b3d8879c20aea493f034eefae260fbb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__IOSafetyLoops-comparator.log",
+      "sha256": "866a8a0c8718a9bbe0e03bc8dad17f6e2b3d8879c20aea493f034eefae260fbb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__IOSafetyPrefix-comparator.log",
+      "sha256": "1ff362507c9fa2fd2f06613f2db3a4ad6d19604880d7c232695b7393765cd516"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__KernelBound-comparator.log",
+      "sha256": "1ff362507c9fa2fd2f06613f2db3a4ad6d19604880d7c232695b7393765cd516"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__KernelCompiler-comparator.log",
+      "sha256": "1ff362507c9fa2fd2f06613f2db3a4ad6d19604880d7c232695b7393765cd516"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__KernelContract-comparator.log",
+      "sha256": "1ff362507c9fa2fd2f06613f2db3a4ad6d19604880d7c232695b7393765cd516"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__KernelExecution-comparator.log",
+      "sha256": "1ff362507c9fa2fd2f06613f2db3a4ad6d19604880d7c232695b7393765cd516"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__KernelIndex-comparator.log",
+      "sha256": "1ff362507c9fa2fd2f06613f2db3a4ad6d19604880d7c232695b7393765cd516"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__KernelNative-comparator.log",
+      "sha256": "1ff362507c9fa2fd2f06613f2db3a4ad6d19604880d7c232695b7393765cd516"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__KernelReal-comparator.log",
+      "sha256": "1ff362507c9fa2fd2f06613f2db3a4ad6d19604880d7c232695b7393765cd516"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__KernelTensor-comparator.log",
+      "sha256": "1ff362507c9fa2fd2f06613f2db3a4ad6d19604880d7c232695b7393765cd516"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__LegacySurface-comparator.log",
+      "sha256": "1ff362507c9fa2fd2f06613f2db3a4ad6d19604880d7c232695b7393765cd516"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__Logical-comparator.log",
+      "sha256": "1ff362507c9fa2fd2f06613f2db3a4ad6d19604880d7c232695b7393765cd516"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__LogicalMath-comparator.log",
+      "sha256": "1ff362507c9fa2fd2f06613f2db3a4ad6d19604880d7c232695b7393765cd516"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__LogicalReader-comparator.log",
+      "sha256": "24a517b5db46569c0f38d110d7128de20a94b6185c68fa9932b00dbeb6e69692"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__LogicalStorage-comparator.log",
+      "sha256": "24a517b5db46569c0f38d110d7128de20a94b6185c68fa9932b00dbeb6e69692"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__NativeABI-comparator.log",
+      "sha256": "24a517b5db46569c0f38d110d7128de20a94b6185c68fa9932b00dbeb6e69692"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__NativeCarrier-comparator.log",
+      "sha256": "24a517b5db46569c0f38d110d7128de20a94b6185c68fa9932b00dbeb6e69692"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__NativeCompilation-comparator.log",
+      "sha256": "24a517b5db46569c0f38d110d7128de20a94b6185c68fa9932b00dbeb6e69692"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__NativeGraph-comparator.log",
+      "sha256": "24a517b5db46569c0f38d110d7128de20a94b6185c68fa9932b00dbeb6e69692"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__NativeIndex-comparator.log",
+      "sha256": "24a517b5db46569c0f38d110d7128de20a94b6185c68fa9932b00dbeb6e69692"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__NativeLowering-comparator.log",
+      "sha256": "24a517b5db46569c0f38d110d7128de20a94b6185c68fa9932b00dbeb6e69692"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__NativePublic-comparator.log",
+      "sha256": "24a517b5db46569c0f38d110d7128de20a94b6185c68fa9932b00dbeb6e69692"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__PackedStorage-comparator.log",
+      "sha256": "24a517b5db46569c0f38d110d7128de20a94b6185c68fa9932b00dbeb6e69692"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__RealAlloc-comparator.log",
+      "sha256": "24a517b5db46569c0f38d110d7128de20a94b6185c68fa9932b00dbeb6e69692"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__RealBodyBridge-comparator.log",
+      "sha256": "24a517b5db46569c0f38d110d7128de20a94b6185c68fa9932b00dbeb6e69692"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__RealExecutionBridge-comparator.log",
+      "sha256": "24a517b5db46569c0f38d110d7128de20a94b6185c68fa9932b00dbeb6e69692"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__RealIO-comparator.log",
+      "sha256": "034e1b076effe8ae6e6c04e83bbf779d918c57146cc98ffc5097f9b6d119ddfc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__RealLogical-comparator.log",
+      "sha256": "034e1b076effe8ae6e6c04e83bbf779d918c57146cc98ffc5097f9b6d119ddfc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__RealPrefixBridge-comparator.log",
+      "sha256": "034e1b076effe8ae6e6c04e83bbf779d918c57146cc98ffc5097f9b6d119ddfc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__RealPublic-comparator.log",
+      "sha256": "034e1b076effe8ae6e6c04e83bbf779d918c57146cc98ffc5097f9b6d119ddfc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__RealSourceBridge-comparator.log",
+      "sha256": "034e1b076effe8ae6e6c04e83bbf779d918c57146cc98ffc5097f9b6d119ddfc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__RealStorage-comparator.log",
+      "sha256": "034e1b076effe8ae6e6c04e83bbf779d918c57146cc98ffc5097f9b6d119ddfc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__RealTiles-comparator.log",
+      "sha256": "034e1b076effe8ae6e6c04e83bbf779d918c57146cc98ffc5097f9b6d119ddfc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__Roles-comparator.log",
+      "sha256": "034e1b076effe8ae6e6c04e83bbf779d918c57146cc98ffc5097f9b6d119ddfc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__Run-comparator.log",
+      "sha256": "034e1b076effe8ae6e6c04e83bbf779d918c57146cc98ffc5097f9b6d119ddfc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__Source-comparator.log",
+      "sha256": "034e1b076effe8ae6e6c04e83bbf779d918c57146cc98ffc5097f9b6d119ddfc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__SourcePair-comparator.log",
+      "sha256": "034e1b076effe8ae6e6c04e83bbf779d918c57146cc98ffc5097f9b6d119ddfc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__SourcePreservation-comparator.log",
+      "sha256": "034e1b076effe8ae6e6c04e83bbf779d918c57146cc98ffc5097f9b6d119ddfc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__StructuralPublic-comparator.log",
+      "sha256": "dfe4da9a05d13992099fa3b5539b6d1220889af3430238f9b4e2e1a9b0d8d3d1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__decay_cumsum__Proofs__WholeHost-comparator.log",
+      "sha256": "dfe4da9a05d13992099fa3b5539b6d1220889af3430238f9b4e2e1a9b0d8d3d1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Contract-comparator.log",
+      "sha256": "dfe4da9a05d13992099fa3b5539b6d1220889af3430238f9b4e2e1a9b0d8d3d1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Correct-comparator.log",
+      "sha256": "dfe4da9a05d13992099fa3b5539b6d1220889af3430238f9b4e2e1a9b0d8d3d1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__FPEquiv-comparator.log",
+      "sha256": "dfe4da9a05d13992099fa3b5539b6d1220889af3430238f9b4e2e1a9b0d8d3d1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__IO-comparator.log",
+      "sha256": "dfe4da9a05d13992099fa3b5539b6d1220889af3430238f9b4e2e1a9b0d8d3d1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Kernels-comparator.log",
+      "sha256": "dfe4da9a05d13992099fa3b5539b6d1220889af3430238f9b4e2e1a9b0d8d3d1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Misc__ConditionalCorrect-comparator.log",
+      "sha256": "dfe4da9a05d13992099fa3b5539b6d1220889af3430238f9b4e2e1a9b0d8d3d1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Misc__ConditionalFPEquiv-comparator.log",
+      "sha256": "dfe4da9a05d13992099fa3b5539b6d1220889af3430238f9b4e2e1a9b0d8d3d1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Misc__HostCorrect-comparator.log",
+      "sha256": "dfe4da9a05d13992099fa3b5539b6d1220889af3430238f9b4e2e1a9b0d8d3d1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Misc__HostFPEquiv-comparator.log",
+      "sha256": "dfe4da9a05d13992099fa3b5539b6d1220889af3430238f9b4e2e1a9b0d8d3d1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Misc__NativeCorrect-comparator.log",
+      "sha256": "dfe4da9a05d13992099fa3b5539b6d1220889af3430238f9b4e2e1a9b0d8d3d1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Misc__RawCorrect-comparator.log",
+      "sha256": "8b58a4d0bca35cda651cfc4015cf463ee43e79e95046495c0fa6ff911bdfe660"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Misc__RawNative-comparator.log",
+      "sha256": "8b58a4d0bca35cda651cfc4015cf463ee43e79e95046495c0fa6ff911bdfe660"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Misc__TensorBridge-comparator.log",
+      "sha256": "8b58a4d0bca35cda651cfc4015cf463ee43e79e95046495c0fa6ff911bdfe660"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__BackFinish-comparator.log",
+      "sha256": "8b58a4d0bca35cda651cfc4015cf463ee43e79e95046495c0fa6ff911bdfe660"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__BackSafety-comparator.log",
+      "sha256": "8b58a4d0bca35cda651cfc4015cf463ee43e79e95046495c0fa6ff911bdfe660"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__BackValues-comparator.log",
+      "sha256": "8b58a4d0bca35cda651cfc4015cf463ee43e79e95046495c0fa6ff911bdfe660"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__Backward-comparator.log",
+      "sha256": "8b58a4d0bca35cda651cfc4015cf463ee43e79e95046495c0fa6ff911bdfe660"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__BackwardHost-comparator.log",
+      "sha256": "8b58a4d0bca35cda651cfc4015cf463ee43e79e95046495c0fa6ff911bdfe660"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__BackwardLoop-comparator.log",
+      "sha256": "8b58a4d0bca35cda651cfc4015cf463ee43e79e95046495c0fa6ff911bdfe660"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__BlockMemory-comparator.log",
+      "sha256": "8b58a4d0bca35cda651cfc4015cf463ee43e79e95046495c0fa6ff911bdfe660"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__Checked__Binding-comparator.log",
+      "sha256": "8b58a4d0bca35cda651cfc4015cf463ee43e79e95046495c0fa6ff911bdfe660"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__Checked__Contract-comparator.log",
+      "sha256": "8b58a4d0bca35cda651cfc4015cf463ee43e79e95046495c0fa6ff911bdfe660"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__Checked__Execution-comparator.log",
+      "sha256": "8b58a4d0bca35cda651cfc4015cf463ee43e79e95046495c0fa6ff911bdfe660"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__Checked__Frames-comparator.log",
+      "sha256": "1f80a0b0ecad940523368397e8211772138486912cd8a5441e21baf52ed48dd0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__Checked__Host-comparator.log",
+      "sha256": "1f80a0b0ecad940523368397e8211772138486912cd8a5441e21baf52ed48dd0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__ConditionalCorrect-comparator.log",
+      "sha256": "1f80a0b0ecad940523368397e8211772138486912cd8a5441e21baf52ed48dd0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__ConditionalFPEquiv-comparator.log",
+      "sha256": "1f80a0b0ecad940523368397e8211772138486912cd8a5441e21baf52ed48dd0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__Context-comparator.log",
+      "sha256": "1f80a0b0ecad940523368397e8211772138486912cd8a5441e21baf52ed48dd0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__Finish-comparator.log",
+      "sha256": "1f80a0b0ecad940523368397e8211772138486912cd8a5441e21baf52ed48dd0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__ForwardHost-comparator.log",
+      "sha256": "1f80a0b0ecad940523368397e8211772138486912cd8a5441e21baf52ed48dd0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__ForwardIO-comparator.log",
+      "sha256": "1f80a0b0ecad940523368397e8211772138486912cd8a5441e21baf52ed48dd0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__ForwardSafety-comparator.log",
+      "sha256": "1f80a0b0ecad940523368397e8211772138486912cd8a5441e21baf52ed48dd0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__Grid-comparator.log",
+      "sha256": "1f80a0b0ecad940523368397e8211772138486912cd8a5441e21baf52ed48dd0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__GridPair-comparator.log",
+      "sha256": "1f80a0b0ecad940523368397e8211772138486912cd8a5441e21baf52ed48dd0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__HostContract-comparator.log",
+      "sha256": "7826e0d0513a54074ad2eeefae08ff481ba807d33355fa966e1b6cf3384b43f2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__HostCorrect-comparator.log",
+      "sha256": "7826e0d0513a54074ad2eeefae08ff481ba807d33355fa966e1b6cf3384b43f2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__HostFPEquiv-comparator.log",
+      "sha256": "7826e0d0513a54074ad2eeefae08ff481ba807d33355fa966e1b6cf3384b43f2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__HostFrames-comparator.log",
+      "sha256": "7826e0d0513a54074ad2eeefae08ff481ba807d33355fa966e1b6cf3384b43f2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__HostValues-comparator.log",
+      "sha256": "7826e0d0513a54074ad2eeefae08ff481ba807d33355fa966e1b6cf3384b43f2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__Index-comparator.log",
+      "sha256": "7826e0d0513a54074ad2eeefae08ff481ba807d33355fa966e1b6cf3384b43f2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__KernelBinding-comparator.log",
+      "sha256": "7826e0d0513a54074ad2eeefae08ff481ba807d33355fa966e1b6cf3384b43f2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__KernelExecution-comparator.log",
+      "sha256": "7826e0d0513a54074ad2eeefae08ff481ba807d33355fa966e1b6cf3384b43f2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__KernelInputs-comparator.log",
+      "sha256": "7826e0d0513a54074ad2eeefae08ff481ba807d33355fa966e1b6cf3384b43f2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__KernelInterface-comparator.log",
+      "sha256": "7826e0d0513a54074ad2eeefae08ff481ba807d33355fa966e1b6cf3384b43f2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__KernelSafety-comparator.log",
+      "sha256": "7826e0d0513a54074ad2eeefae08ff481ba807d33355fa966e1b6cf3384b43f2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__Launch-comparator.log",
+      "sha256": "1c530cd8ee682053477df4d197c7d5ed8fcf62b67bdd5cf052a46beb0f7a76b5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__Layout-comparator.log",
+      "sha256": "1c530cd8ee682053477df4d197c7d5ed8fcf62b67bdd5cf052a46beb0f7a76b5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__LegacyPastedBody-comparator.log",
+      "sha256": "1c530cd8ee682053477df4d197c7d5ed8fcf62b67bdd5cf052a46beb0f7a76b5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__LogicalReader-comparator.log",
+      "sha256": "1c530cd8ee682053477df4d197c7d5ed8fcf62b67bdd5cf052a46beb0f7a76b5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__Loop-comparator.log",
+      "sha256": "1c530cd8ee682053477df4d197c7d5ed8fcf62b67bdd5cf052a46beb0f7a76b5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__Math-comparator.log",
+      "sha256": "1c530cd8ee682053477df4d197c7d5ed8fcf62b67bdd5cf052a46beb0f7a76b5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__Native-comparator.log",
+      "sha256": "1c530cd8ee682053477df4d197c7d5ed8fcf62b67bdd5cf052a46beb0f7a76b5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__NativeBridge-comparator.log",
+      "sha256": "1c530cd8ee682053477df4d197c7d5ed8fcf62b67bdd5cf052a46beb0f7a76b5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__NativeBytes-comparator.log",
+      "sha256": "1c530cd8ee682053477df4d197c7d5ed8fcf62b67bdd5cf052a46beb0f7a76b5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__Physical-comparator.log",
+      "sha256": "1c530cd8ee682053477df4d197c7d5ed8fcf62b67bdd5cf052a46beb0f7a76b5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__Prepare-comparator.log",
+      "sha256": "1c530cd8ee682053477df4d197c7d5ed8fcf62b67bdd5cf052a46beb0f7a76b5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__PublicIO-comparator.log",
+      "sha256": "f18cc602d6dede606b42c77a41a36f0b44de6e614bccf41786165bd3f31b77e5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__RawCorrect-comparator.log",
+      "sha256": "f18cc602d6dede606b42c77a41a36f0b44de6e614bccf41786165bd3f31b77e5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__RawNative-comparator.log",
+      "sha256": "f18cc602d6dede606b42c77a41a36f0b44de6e614bccf41786165bd3f31b77e5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__Real-comparator.log",
+      "sha256": "f18cc602d6dede606b42c77a41a36f0b44de6e614bccf41786165bd3f31b77e5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__RealBridge-comparator.log",
+      "sha256": "f18cc602d6dede606b42c77a41a36f0b44de6e614bccf41786165bd3f31b77e5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__Reduction-comparator.log",
+      "sha256": "f18cc602d6dede606b42c77a41a36f0b44de6e614bccf41786165bd3f31b77e5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__Runtime-comparator.log",
+      "sha256": "f18cc602d6dede606b42c77a41a36f0b44de6e614bccf41786165bd3f31b77e5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__SourceNative-comparator.log",
+      "sha256": "f18cc602d6dede606b42c77a41a36f0b44de6e614bccf41786165bd3f31b77e5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__SourcePair-comparator.log",
+      "sha256": "f18cc602d6dede606b42c77a41a36f0b44de6e614bccf41786165bd3f31b77e5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__SourcePreservation-comparator.log",
+      "sha256": "f18cc602d6dede606b42c77a41a36f0b44de6e614bccf41786165bd3f31b77e5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__Statement-comparator.log",
+      "sha256": "f18cc602d6dede606b42c77a41a36f0b44de6e614bccf41786165bd3f31b77e5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__Storage-comparator.log",
+      "sha256": "f18cc602d6dede606b42c77a41a36f0b44de6e614bccf41786165bd3f31b77e5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__repairs__tritonbench_g__kldiv_triton__Proofs__Tile-comparator.log",
+      "sha256": "f18cc602d6dede606b42c77a41a36f0b44de6e614bccf41786165bd3f31b77e5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__tests__SignedReverseBody-comparator.log",
+      "sha256": "4088ed33659f01fa326010d5b7ba822a3168ac34a5f78c26a8952d73af50f31d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/bench__tests__SourceConstantBody-comparator.log",
+      "sha256": "4088ed33659f01fa326010d5b7ba822a3168ac34a5f78c26a8952d73af50f31d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/build-invocations.json",
+      "sha256": "953ce828df4c42cb5f26465091357ecd3a19abcfd755160da1bdd8a8443917e7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/canonical-task-files.json",
+      "sha256": "e6a34de15329cbc788fb548deee80a242e377d1c0cbeeed0feed09635d9d2107"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/comparator-invocations.json",
+      "sha256": "0355583e313c3a64868f316364d028ada8d7e397d4139226fe817620abcd72b0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/comparator-tools.json",
+      "sha256": "28998e17d51b0fb5930f7489e64512a57f8a8146d1470063a624a75bbabdb0d3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/corpus-guard.log",
+      "sha256": "1fa1f5b9806eb7bbe7b0673ea750471f8992f22c4bd050200ee8ae6939da8e9e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/cpu-final.log",
+      "sha256": "69c72ffdc894d1abb5f951d4647ebd5daa646696f6fa9dcd5ca86495535d37dc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/final-clean-build.log.gz",
+      "sha256": "cb9272e87436861d9c970d15eed49bca432439f8275ce0b91cf2569dc793d46d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/final-clean-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/final-clean-setup.json",
+      "sha256": "a2bb338135a3e44dd54833bc5cec5e9a54cd1a171d78f7aa378c68122fa53bc5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/focus-build.log.gz",
+      "sha256": "8a519deee99e04f7458b474fc3dfcf9c1d72020a24246afe77ea18e08faf63b1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/focus-invocations.json",
+      "sha256": "07309c7f282f89c98ce7476887dad25d3013c67770e016fcadfee4277a60af47"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/focus-joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/focus-modules.txt",
+      "sha256": "85fed99fb88a08791981fa0217693de0fac1ecbb2244818baa45e0ea2d538ef5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/frontend-build.log.gz",
+      "sha256": "ddcc63c62d594e72b3e3ae842c54a333d78881662e103f54e3169ed1f768f24b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/frontend-modules.txt",
+      "sha256": "141d8fad008f6a109b1d4248b3a870445c7642d10be830249acaf29e82e32bcf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/inspections.json",
+      "sha256": "28df01deea36f7a7b444f46b8b66ce70d1f482e78ba29ec06e9c6a48cee36400"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/integration-final.log.gz",
+      "sha256": "699af9afabd4a438d26e32d879c171ea6323b58a0aae69620c143609b2bee8b2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/joint-all.lean",
+      "sha256": "a393f3214bee514f820ba8108b5ad1363a56d36afce6f7cb688b5ae4e786d4d0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/joint-final.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/kldiv-raw-body-check.log",
+      "sha256": "ef3eccb64806895469101429823b8756e54b680296545f784b5e5ea520a8105e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/modules.json",
+      "sha256": "fefb41fe4feff9771b1e44b7741fe3091adb330c6e4299b4511c2c2685ddbe17"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/pairs.json",
+      "sha256": "007695b174f5eb439c585c77a45ab577ae7eceb0ee9c9e883918e18808a41e7f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/previous-reviews.json.gz",
+      "sha256": "7d123d3c219ceb1398ef6a301cfe06ff4834fe8114b0f9f62ac8cf77beb70f1a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/python-invocations.json",
+      "sha256": "3ca305d6b11581d86fb439e332d3b26d7e25b9dc7335bfa4f5a8eba6194c097c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/python-tests.log",
+      "sha256": "e026d45d79c06287588d22699d21e3f97a89987de5d2300aa6c353fdfe7e87d3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/raw-body-check.log",
+      "sha256": "b3d7e371160172f5348e20c090c661aae3a410d9fd9c3c163c616819650b13ce"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/source-closure.json",
+      "sha256": "946943323919b78f0d98d1a864a1343d46497eb6de6d160d37717766bf4bc69f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/standalone-SignedReverseBody.log",
+      "sha256": "efa818b86bbaade66bfc57f43688fae59d3aecc8977809e92d8187be80b6aee4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/standalone-SourceConstantBody.log",
+      "sha256": "554d6aecfe65ce48ac56d15f3aef75d9fd265250bf1f2bb4a9968de744055299"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/transferred-files.json",
+      "sha256": "d3f7cd6d66d57f5301a5c51aa9ce583cdd94464aa31733a1bc133e6dac6ca88e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/warm-final-invocation.json",
+      "sha256": "f5e77349c75f492d0cddfe7b16d7d6a172cb7b5bee170fe3e7fede8d30643e67"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-28/native-decay-cumsum-function-bodies/workflow-counts.json",
+      "sha256": "48cb96565ac7924e8d5182d670c577dbb3e367ca80da51ab05a16745d14fe4c7"
+    }
+  ]
+}
