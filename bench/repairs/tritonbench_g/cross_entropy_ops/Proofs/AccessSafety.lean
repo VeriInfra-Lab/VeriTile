@@ -66,6 +66,7 @@ theorem forwardTail_safe (M : Algebra α) (p : Parameters) (s : State α)
           have := mul_nonneg (Int.natCast_nonneg (s.pids 1)) (Int.natCast_nonneg p.block)
           omega
         have within : (target p s - p.classStart).toNat < p.cols := by omega
+        apply lt_of_le_of_lt (Nat.sub_le _ _)
         simpa only [Int.toNat_add (by positivity) nonnegative,
           Int.toNat_natCast] using input _ within
 

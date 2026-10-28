@@ -44,7 +44,7 @@ theorem forward_gather (M : Algebra α) (p : Parameters) (row chunk : Nat)
     (isChunked wholeRow : Bool) (xs : ChannelValues α (forwardInputs p wholeRow)) (s : State α)
     (bound : (forwardIO M id id p row chunk isChunked wholeRow).InputBinding xs s)
     (written : isChunked=Bool.false ∨ chunk=0) (active : forwardLabel p wholeRow xs ≠ -100) :
-    (s.mem p.logits (row*p.logitsStride+(forwardLabel p wholeRow xs).toNat)).read .real=
+    (s.mem p.logits (row*p.logitsStride+(forwardLabel p wholeRow xs).toNat-(-(forwardLabel p wholeRow xs)).toNat)).read .real=
       xs (2 : Fin 3) PUnit.unit :=
   bound (2 : Fin 3) PUnit.unit ⟨written,active⟩
 

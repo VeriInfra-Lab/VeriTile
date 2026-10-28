@@ -9,13 +9,17 @@ set_option maxHeartbeats 5000000
 set_option maxRecDepth 4000
 set_option linter.unusedSimpArgs false
 
+private theorem positive_sub_negative (z : Int) :
+    z.toNat - (-z).toNat = z.toNat := by omega
+attribute [local simp] positive_sub_negative
+
 def sequence (p : Parameters) (ids : Nat → Nat) : Int := (ids 0 : Int).tdiv p.n
 def position {α : Type} [Inhabited α] (p : Parameters) (s : State α) : Int :=
   (s.mem p.lengths.cast (sequence p s.pids).toNat).read .int +
     ((s.pids 0 : Int) - (p.n : Int) * (sequence p s.pids + 1))
 def selectedBlock {α : Type} [Inhabited α] (p : Parameters) (s : State α) : Int :=
   (s.mem p.blockTables.cast
-    ((sequence p s.pids * p.strideBts).toNat + ((position p s).tdiv p.blockSize * p.strideBtb).toNat)).read .int
+    ((sequence p s.pids * p.strideBts).toNat + ((position p s).tdiv p.blockSize * p.strideBtb).toNat - (-((position p s).tdiv p.blockSize * p.strideBtb)).toNat)).read .int
 def sourceOffset (p : Parameters) (ids : Nat → Nat) (i : TileIndex [p.width]) : Nat :=
   ids 0 * p.strideKt + ids 1 * p.strideKh + (ids 2 * p.width + i.1.val) * p.strideKd
 def targetOffset {α : Type} [Inhabited α] (p : Parameters) (s : State α)
@@ -95,11 +99,11 @@ theorem tail_run {α : Type} [Inhabited α] (M : Algebra α) (v : Bool)
     sourceOffset,targetOffset,Broadcast.leftIndex,Broadcast.rightIndex,
     Int.add_comm,Int.add_left_comm,Int.add_assoc]
   all_goals try dsimp only [bop,Broadcast.leftIndex,Broadcast.rightIndex]
-  all_goals simp only [←Int.natCast_add,←Int.natCast_mul,Int.toNat_natCast]
+  all_goals simp only [←Int.natCast_add,←Int.natCast_mul,Int.toNat_natCast,Int.toNat_neg_natCast,Nat.sub_zero]
   all_goals simp [Int.add_comm,Int.add_left_comm,Int.add_assoc,Nat.add_comm,Nat.add_left_comm,Nat.add_assoc]
   all_goals congr 20
   all_goals funext
-  all_goals simp only [bop,Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_add,←Int.natCast_mul,Int.toNat_natCast]
+  all_goals simp only [bop,Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_add,←Int.natCast_mul,Int.toNat_natCast,Int.toNat_neg_natCast,Nat.sub_zero]
   all_goals simp [Int.add_comm,Int.add_left_comm,Int.add_assoc,Nat.add_comm,Nat.add_left_comm,Nat.add_assoc]
 
   all_goals first | ring | (congr 2 <;> ring)

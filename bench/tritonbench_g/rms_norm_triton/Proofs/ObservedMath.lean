@@ -9,6 +9,7 @@ set_option maxRecDepth 20000
 
 def realModel (eps : ℝ) : NativeModel ℝ where
   literal := id
+  fromNat := Nat.cast
   epsilon := eps
   mul := fun x y => x*y
   add := fun x y => x+y

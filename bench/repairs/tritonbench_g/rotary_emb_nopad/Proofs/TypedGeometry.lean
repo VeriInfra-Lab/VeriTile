@@ -133,7 +133,7 @@ theorem metadata_nonnegative [Inhabited A] (c : Checked.Call) (index : Indices)
   have natural : cPast (cLayout c.request) s=(c.request.past index (s.pids 1) : Int) := by
     rw [past,Request.past,Int.toNat_of_nonneg (by omega)]
   rw [natural]
-  simp only [cLayout,Nat.cast_one,mul_one,←Int.natCast_ediv,Int.toNat_natCast]
+  simp only [cLayout,Nat.cast_one,mul_one,←Int.natCast_ediv,Int.toNat_natCast,Int.toNat_neg_natCast,Nat.sub_zero]
   rw [observed.2]
   exact h.2.2.2.1
 

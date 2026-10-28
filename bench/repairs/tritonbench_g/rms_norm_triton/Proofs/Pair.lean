@@ -1,4 +1,4 @@
-import bench.repairs.tritonbench_g.rms_norm_triton.Proofs.SourcePreservation
+import bench.repairs.tritonbench_g.rms_norm_triton.Proofs.RuntimeObserved
 import bench.repairs.tritonbench_g.rms_norm_triton.IO
 import bench.repairs.tritonbench_g.rms_norm_triton.Proofs.PublicIO
 namespace VeriTile.Bench.Repairs.RmsNormTriton.Pair
@@ -121,7 +121,7 @@ theorem equivalent (c : Layout) (eps : ℝ) (M : NativeModel (BitVec 32))
   intro vals _ bounds bound initial binding
   obtain ⟨safe,final,ran,values,frame⟩ :=
     GridPublic.implements_argument graphAlgebra Term.input (interpret M profile) c eps (.parameter "eps") rows schedule
-      xSeparate wSeparate (reference M profile c.N c.B) (RuntimeObserved.source_graph_lowering M profile c)
+      xSeparate wSeparate (RuntimeObserved.reference M profile c.N c.B) (RuntimeObserved.source_graph_lowering M profile c)
       vals trivial bounds bound initial binding
   refine ⟨safe,schedule_safe c eps M profile rows schedule vals bounds bound initial,
     final,final,ran,?_,fun _ _ _ => rfl,frame,frame⟩

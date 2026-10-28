@@ -8,6 +8,8 @@ set_option maxRecDepth 24000
 set_option linter.unusedSimpArgs false
 variable {α : Type} [Inhabited α]
 
+
+
 def inputLSE (M : Algebra α) (p : Parameters) (initial : State α) : α :=
   M.fp32Load ((initial.mem p.lse (p.lseBase+initial.pids 0)).read .real)
 

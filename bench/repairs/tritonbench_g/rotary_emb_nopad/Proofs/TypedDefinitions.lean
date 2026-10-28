@@ -72,7 +72,8 @@ def cPast {A : Type} [Inhabited A] (p : Kernels.CachedLayout) (s : State A) : In
   (s.mem p.context_lengths (s.pids 1)).read .int-1
 def cBlock {A : Type} [Inhabited A] (p : Kernels.CachedLayout) (s : State A) : Int :=
   (s.mem p.BLOCK_TABLES (s.pids 1*p.bts_stride+
-    ((cPast p s).tdiv p.block_size*p.btb_stride).toNat)).read .int
+    ((cPast p s).tdiv p.block_size*p.btb_stride).toNat -
+    (-((cPast p s).tdiv p.block_size*p.btb_stride)).toNat)).read .int
 def cOffset {A : Type} [Inhabited A] (p : Kernels.CachedLayout) (s : State A)
     (key odd : Bool) (i : CLane p) :=
   if key then

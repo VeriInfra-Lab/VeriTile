@@ -60,7 +60,7 @@ theorem step1 (M : Algebra α) (p : Parameters) (flag : Bool) (s : State α) (st
     step,run,evalExpr,evalComputeOp,evalOp_unfold,Option.bind_eq_bind,Option.pure_def,Option.bind,
     engine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,State.setReg,
     numeric,numericLt,natLt,FP.Structural.bop,Region.cast,b0,b1,b2,b3,b4,raw,Backward.scalar,ofFloat,toFloat,
-    ←Int.natCast_add,Int.toNat_natCast,Int.ofNat_lt,Tile.active_int,h.cols,
+    ←Int.natCast_add,Int.toNat_natCast,Int.zero_sub,Int.toNat_neg_natCast,Nat.sub_zero,Int.ofNat_lt,Tile.active_int,h.cols,
     ne_eq,not_false_eq_true,not_true_eq_false,String.reduceEq,reduceCtorEq,
     decide_eq_true_eq,ite_true,ite_false,dite_true,dite_false,
     Broadcast.leftIndex,Broadcast.rightIndex]
@@ -91,7 +91,7 @@ theorem step2 (M : Algebra α) (p : Parameters) (flag : Bool) (s : State α) (ro
     step,run,evalExpr,evalComputeOp,evalOp_unfold,Option.bind_eq_bind,Option.pure_def,Option.bind,
     engine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,State.setReg,
     numeric,numericLt,natLt,FP.Structural.bop,Region.cast,b0,b1,b2,b3,b4,raw,Backward.scalar,ofFloat,toFloat,
-    ←Int.natCast_add,Int.toNat_natCast,Int.ofNat_lt,Tile.active_int,h.target,h.output,h.cols,
+    ←Int.natCast_add,Int.toNat_natCast,Int.zero_sub,Int.toNat_neg_natCast,Nat.sub_zero,Int.ofNat_lt,Tile.active_int,h.target,h.output,h.cols,
     ne_eq,not_false_eq_true,not_true_eq_false,String.reduceEq,reduceCtorEq,
     decide_eq_true_eq,ite_true,ite_false,dite_true,dite_false,
     Broadcast.leftIndex,Broadcast.rightIndex]
@@ -113,7 +113,7 @@ theorem step3 (M : Algebra α) (p : Parameters) (flag : Bool) (s : State α) (ro
     step,run,evalExpr,evalComputeOp,evalOp_unfold,Option.bind_eq_bind,Option.pure_def,Option.bind,
     engine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,State.setReg,
     numeric,numericLt,natLt,FP.Structural.bop,Region.cast,b0,b1,b2,b3,b4,raw,Backward.scalar,ofFloat,toFloat,
-    ←Int.natCast_add,Int.toNat_natCast,Int.ofNat_lt,Tile.active_int,
+    ←Int.natCast_add,Int.toNat_natCast,Int.zero_sub,Int.toNat_neg_natCast,Nat.sub_zero,Int.ofNat_lt,Tile.active_int,
     ne_eq,not_false_eq_true,not_true_eq_false,String.reduceEq,reduceCtorEq,
     decide_eq_true_eq,ite_true,ite_false,dite_true,dite_false,
     Broadcast.leftIndex,Broadcast.rightIndex]

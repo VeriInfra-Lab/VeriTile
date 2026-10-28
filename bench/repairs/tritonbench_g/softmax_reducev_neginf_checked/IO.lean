@@ -51,7 +51,8 @@ def read (c : Host.Call) (counts : Fin c.batch → Nat)
   | ⟨2,_⟩ => fun j => j.1.val*c.maximum+(c.maximum-counts j.1)+j.2.1.val
   | ⟨3,_⟩ => fun j => j.2.1.val*c.tokens+(start xs j.1+j.2.2.1.val)
   | ⟨4,_⟩ => fun j => j.2.1.val*c.dimensions+j.2.2.2.1.val+
-      (page xs j.1 j.2.2.1*(c.heads*c.dimensions : Nat)).toNat
+      (page xs j.1 j.2.2.1*(c.heads*c.dimensions : Nat)).toNat -
+      (-(page xs j.1 j.2.2.1*(c.heads*c.dimensions : Nat))).toNat
   | ⟨k+5,hp⟩ => False.elim (by simp [inputs] at hp)
 
 def inputMask (c : Host.Call) (counts : Fin c.batch → Nat)

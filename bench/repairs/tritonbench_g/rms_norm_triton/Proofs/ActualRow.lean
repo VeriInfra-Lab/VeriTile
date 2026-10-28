@@ -41,7 +41,7 @@ def rowValue [Inhabited α] (mdl : Algebra α) (c : Layout) (epsilon : α)
   let loaded := inputTile mdl c xs
   let squared := fun j => mdl.binary (some .fp32) .real .mul (loaded j) (loaded j)
   let total := mdl.reduceSum (some .fp32) (shape := [c.B]) ⟨0, by simp⟩ Bool.false squared PUnit.unit
-  let variance := mdl.binary (some .fp32) .real .div total (mdl.literal (some .fp32) .real c.N)
+  let variance := mdl.binary (some .fp32) .real .div total (mdl.fromNat (some .fp32) c.N)
   let rrms := mdl.binary (some .fp32) .real .div (mdl.literal (some .fp32) .real 1)
     (mdl.unary (some .fp32) .sqrt (mdl.binary (some .fp32) .real .add variance epsilon))
   mdl.binary (some .fp32) .real .mul
@@ -91,7 +91,7 @@ theorem row_readback [Inhabited α] (mdl : Algebra α) (c : Layout) (epsilon : �
     (i := (i,PUnit.unit)) (hi := hi) (hinj := injective)]
   simp only [rowValue,inputTile,weightTile,hi,if_true,bop,
     Broadcast.leftIndex,Broadcast.rightIndex,State.setReg,rowState,entry,
-    Nat.zero_add,Nat.mul_one]
+    Nat.zero_add,Nat.mul_one,Int.zero_sub,←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,Int.toNat_neg_natCast,Nat.sub_zero]
   rfl
 
 def Outside (c : Layout) (pid : Nat) (region : RegionName) (a : Nat) : Prop :=
@@ -106,10 +106,6 @@ theorem row_frame [Inhabited α] (mdl : Algebra α) (c : Layout) (epsilon : α)
   rcases outside with hr | ho
   · exact Or.inl hr
   · exact Or.inr (fun i _ hi => ho i.1 hi)
-
-theorem rowValue_argument [Inhabited α] (mdl : Algebra α) (c : Layout) (eps : ℝ)
-    (xs ws : Nat → α) (i : Nat) :
-    rowValue mdl c (argument mdl eps) xs ws i = Whole.rowValue mdl c eps xs ws i := rfl
 
 /-- Specializing the FP32 argument at the call site has the same complete
 memory execution as supplying that literal through the runtime argument. -/
@@ -128,7 +124,6 @@ theorem literal_memory_connection [Inhabited α] (mdl : Algebra α) (c : Layout)
 #axiomsClean sourceRun
 #axiomsClean row_readback
 #axiomsClean row_frame
-#axiomsClean rowValue_argument
 
 end
 #guard_msgs (drop info) in

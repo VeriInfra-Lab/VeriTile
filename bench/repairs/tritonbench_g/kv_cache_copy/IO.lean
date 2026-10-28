@@ -15,7 +15,8 @@ def ids (seqPid headPid : Nat) (ax : Nat) : Nat :=
   if ax = 0 then seqPid else if ax = 1 then headPid else 0
 
 def tableAddress (p : Parameters) (seqPid : Nat) (length : Int) : Nat :=
-  seqPid*p.strideBts+((length-1).tdiv p.blockSize*p.strideBtb).toNat
+  seqPid*p.strideBts+((length-1).tdiv p.blockSize*p.strideBtb).toNat -
+    (-((length-1).tdiv p.blockSize*p.strideBtb)).toNat
 
 def inputAddress (p : Parameters) (seqPid headPid : Nat) (key : Bool)
     (q : Nat) (i : TileIndex [p.width]) : Nat :=

@@ -35,7 +35,7 @@ theorem uncached_safe {A : Type} [Inhabited A] (rest : Algebra A) (ops : Ops A)
       integralFloorDiv,integralMod,headNonneg,signedLeader,leader]
     try dsimp only [TileShape.insertAxis,TileShape.dropInsertedIndex]
     all_goals simp only [int_half,←Int.natCast_add,←Int.natCast_mul,←Int.natCast_ediv,
-      Int.toNat_natCast,Int.ofNat_lt]
+      Int.toNat_natCast,Int.zero_sub,Int.toNat_neg_natCast,Nat.sub_zero,Int.ofNat_lt]
   all_goals
     repeat' constructor
     all_goals first
@@ -61,7 +61,8 @@ theorem cached_safe {A : Type} [Inhabited A] (rest : Algebra A) (ops : Ops A)
     (token : s.pids 1 < p.q_total_tokens)
     (length : s.pids 0 < p.Q_HEAD_NUM → s.pids 1 < bounds p.context_lengths)
     (table : s.pids 0 < p.Q_HEAD_NUM →
-      s.pids 1*p.bts_stride+((cPast p s).tdiv p.block_size*p.btb_stride).toNat < bounds p.BLOCK_TABLES)
+      s.pids 1*p.bts_stride+((cPast p s).tdiv p.block_size*p.btb_stride).toNat -
+      (-((cPast p s).tdiv p.block_size*p.btb_stride)).toNat < bounds p.BLOCK_TABLES)
     (coeff : s.pids 0 < p.Q_HEAD_NUM → ∀ sine i, i.1.val < p.HEAD_DIM/2 →
       cCoefficient p s sine i < bounds (if sine then p.sin else p.cos))
     (input : s.pids 0 < p.Q_HEAD_NUM → ∀ key odd i, cActive p s key i →
@@ -80,7 +81,7 @@ theorem cached_safe {A : Type} [Inhabited A] (rest : Algebra A) (ops : Ops A)
       integralFloorDiv,integralMod,head,token]
     try dsimp only [TileShape.insertAxis,TileShape.dropInsertedIndex]
     all_goals simp only [int_half,←Int.natCast_add,←Int.natCast_mul,←Int.natCast_ediv,
-      Int.toNat_natCast,Int.ofNat_lt]
+      Int.toNat_natCast,Int.zero_sub,Int.toNat_neg_natCast,Nat.sub_zero,Int.ofNat_lt]
     all_goals try simp only [←IntegerExpr.tdiv_formula,Int.tmod_def]
   repeat' constructor
   all_goals first

@@ -1,3 +1,4 @@
+import bench.repairs.tritonbench_g.rms_norm_triton.Proofs.RuntimeReal
 import bench.repairs.tritonbench_g.rms_norm_triton.Kernels
 import bench.repairs.tritonbench_g.rms_norm_triton.Proofs.LogicalReader
 
@@ -20,7 +21,7 @@ specification kernel_correct (c : Layout) (eps : ℝ)
         ((∑ k : Fin c.N, xs row k*xs row k)/(c.N:ℝ)+eps)) * weights col) :=
   (LogicalIO.logical_iff c eps rows).mpr
     (GridPublic.implements realAlgebra id (fun _ => id) c eps rows schedule
-      xSeparate wSeparate (realFormula c.N eps) (rowValue_real c eps))
+      xSeparate wSeparate (realFormula c.N eps) (RuntimeReal.rowValue_real c eps))
 
 #specNonCircular formula avoiding [RmsNormTriton.kernel,rowValue,sourceRun,runRows]
 #axiomsClean kernel_correct

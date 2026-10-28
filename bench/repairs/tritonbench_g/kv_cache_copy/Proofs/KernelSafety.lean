@@ -10,10 +10,15 @@ set_option linter.unusedSimpArgs false
 
 /-- Both metadata reads are unconditional, including when the split count is
 zero. Their bounds follow the actually evaluated signed metadata expressions. -/
+private theorem positive_sub_negative (z : Int) :
+    z.toNat - (-z).toNat = z.toNat := by omega
+attribute [local simp] positive_sub_negative
+
 theorem prelude_safe {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters)
     (bounds : RegionName → Nat) (s : State α)
     (length : s.pids 0 < bounds "lengths")
-    (table : s.pids 0*p.strideBts+((position s).tdiv p.blockSize*p.strideBtb).toNat < bounds "table") :
+    (table : s.pids 0*p.strideBts+((position s).tdiv p.blockSize*p.strideBtb).toNat -
+      (-((position s).tdiv p.blockSize*p.strideBtb)).toNat < bounds "table") :
     Safety.traceSafeList M bounds (prelude p) s := by
   simp (config := { maxSteps := 500000 }) [prelude, originalKernel, kernel,quotedOriginal,quotedCommuted, quotedOriginal, quotedCommuted,
     ComputeKernel.surfaceBody, Safety.traceSafeList_unfold, Safety.stepSafe_unfold,
@@ -56,7 +61,8 @@ exactly its two metadata bounds and its K/V input/output windows. -/
 theorem trace {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters)
     (bounds : RegionName → Nat) (s : State α)
     (length : s.pids 0 < bounds "lengths")
-    (table : s.pids 0*p.strideBts+((position s).tdiv p.blockSize*p.strideBtb).toNat < bounds "table")
+    (table : s.pids 0*p.strideBts+((position s).tdiv p.blockSize*p.strideBtb).toNat -
+      (-((position s).tdiv p.blockSize*p.strideBtb)).toNat < bounds "table")
     (inputs : ∀ q, q < p.dims/p.width → ∀ key (i : TileIndex [p.width]),
       sourceOffset p s.pids key q i < bounds (inputRegion key))
     (outputs : ∀ q, q < p.dims/p.width → ∀ key (i : TileIndex [p.width]),

@@ -31,7 +31,8 @@ def logicOffset {α : Type} [Inhabited α] (p : Parameters) (s : State α) (star
 def valueOffset {α : Type} [Inhabited α] (p : Parameters) (s : State α) (start : Nat)
     (i : TileIndex [p.tokens,p.dimensions]) : Nat :=
   s.pids 1*p.valueHeadStride+i.2.1.val*p.valueDimStride+
-    (location p s start i.1 * (p.valueBatchStride : Int)).toNat
+    (location p s start i.1 * (p.valueBatchStride : Int)).toNat -
+    (-(location p s start i.1 * (p.valueBatchStride : Int))).toNat
 
 def outputOffset {α : Type} (p : Parameters) (s : State α) (i : Index p) : Nat :=
   s.pids 0*p.outputBatchStride+s.pids 1*p.outputHeadStride+i.1.val*p.outputDimStride

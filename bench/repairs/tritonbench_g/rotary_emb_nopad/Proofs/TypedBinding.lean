@@ -156,7 +156,7 @@ theorem positions (c : Call) (m : Physical.Bytes)
   refine ⟨hp,?_⟩
   unfold Typed.cBlock
   rw [Int.tdiv_eq_ediv_of_nonneg nonneg.1,←Int.toNat_of_nonneg nonneg.1,hp]
-  simp only [Typed.cLayout,Nat.cast_one,mul_one,←Int.natCast_ediv,Int.toNat_natCast]
+  simp only [Typed.cLayout,Nat.cast_one,mul_one,←Int.natCast_ediv,Int.toNat_natCast,Int.toNat_neg_natCast,Nat.sub_zero]
   simp [state,Request.block]
 
 /-- The signed typed page/slot expressions denote the checked caller cache

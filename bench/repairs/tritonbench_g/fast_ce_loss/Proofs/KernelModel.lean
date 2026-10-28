@@ -56,7 +56,7 @@ def lseValue (M : Algebra α) (p : Parameters) (initial : State α) (chunk : Nat
 
 def gathered (M : Algebra α) (p : Parameters) (initial : State α) : α :=
   M.fp32Load ((initial.mem p.logits
-    (initial.pids 0*p.logitsStride+(label p initial).toNat)).read .real)
+    (initial.pids 0*p.logitsStride+(label p initial).toNat-(-(label p initial)).toNat)).read .real)
 
 def forwardLoss (M : Algebra α) (p : Parameters) (initial : State α) : α :=
   if label p initial = -100 then literal M 0 else
@@ -65,7 +65,7 @@ def forwardLoss (M : Algebra α) (p : Parameters) (initial : State α) : α :=
 
 def chunkTarget (M : Algebra α) (p : Parameters) (initial : State α) : α :=
   cast M ((initial.mem p.logits
-    (initial.pids 0*p.logitsStride+(label p initial).toNat)).read .real)
+    (initial.pids 0*p.logitsStride+(label p initial).toNat-(-(label p initial)).toNat)).read .real)
 
 def chunkLoss (M : Algebra α) (p : Parameters) (initial : State α) : α :=
   if label p initial = -100 then literal M 0 else

@@ -7,6 +7,10 @@ set_option maxHeartbeats 2500000
 set_option maxRecDepth 8000
 set_option linter.unusedSimpArgs false
 
+private theorem positive_sub_negative (z : Int) :
+    z.toNat - (-z).toNat = z.toNat := by omega
+attribute [local simp] positive_sub_negative
+
 private theorem head_safe {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters)
     (bounds : RegionName → Nat) (s : State α) :
     Safety.traceSafeList M bounds (headBody p) s := by
@@ -21,7 +25,8 @@ private theorem metadata_safe {α : Type} [Inhabited α] (M : Algebra α) (p : P
     (bounds : RegionName → Nat) (s : State α)
     (lengths : (KernelFP.sequence p s.pids).toNat<bounds p.lengths.cast)
     (block : (KernelFP.sequence p s.pids*p.strideBts).toNat+
-      ((position p s).tdiv p.blockSize*p.strideBtb).toNat<bounds p.blockTables.cast) :
+      ((position p s).tdiv p.blockSize*p.strideBtb).toNat-
+      (-((position p s).tdiv p.blockSize*p.strideBtb)).toNat<bounds p.blockTables.cast) :
     Safety.traceSafeList M bounds (metadataBody p) (headState p s) := by
   simp [metadataBody,kernel,quotedOriginal,quotedCommuted,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
@@ -48,7 +53,7 @@ private theorem tail_safe {α : Type} [Inhabited α] (M : Algebra α) (v : Bool)
     sourceOffset,targetOffset,Broadcast.leftIndex,Broadcast.rightIndex,
     Int.add_comm,Int.add_left_comm,Int.add_assoc]
   all_goals
-    simp only [←Int.natCast_add,←Int.natCast_mul,Int.toNat_natCast]
+    simp only [←Int.natCast_add,←Int.natCast_mul,Int.toNat_natCast,Int.toNat_neg_natCast,Nat.sub_zero]
     constructor
     · intro i
       simpa [sourceOffset,Region.cast,Nat.add_comm,Nat.add_left_comm,Nat.add_assoc] using input (i,())
@@ -66,7 +71,8 @@ theorem trace_safe {α : Type} [Inhabited α] (M : Algebra α) (v : Bool)
     (p : Parameters) (bounds : RegionName → Nat) (s : State α)
     (lengths : (KernelFP.sequence p s.pids).toNat<bounds p.lengths.cast)
     (block : (KernelFP.sequence p s.pids*p.strideBts).toNat+
-      ((position p s).tdiv p.blockSize*p.strideBtb).toNat<bounds p.blockTables.cast)
+      ((position p s).tdiv p.blockSize*p.strideBtb).toNat-
+      (-((position p s).tdiv p.blockSize*p.strideBtb)).toNat<bounds p.blockTables.cast)
     (input : ∀ i : TileIndex [p.width],sourceOffset p s.pids i<bounds p.K)
     (output : ∀ i : TileIndex [p.width],targetOffset p s i<bounds p.KCache) :
     TraceSafe M bounds (kernel v p) s := by

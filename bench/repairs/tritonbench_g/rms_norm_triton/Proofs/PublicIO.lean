@@ -89,12 +89,12 @@ theorem implements {α β : Type} [Inhabited α] [Inhabited β] (M : Algebra β)
     (rows : List Nat) (schedule : rows.Perm (List.range c.M))
     (xSeparate : c.X≠c.Y) (wSeparate : c.W≠c.Y)
     (f : (Nat → α) → (Nat → α) → Nat → α)
-    (scalar : ∀ xs ws i, observe i (rowValue M c eps
+    (scalar : ∀ xs ws i, observe i (ActualRow.rowValue M c (ActualRow.argument M eps)
       (fun j => encode (xs j)) (fun j => encode (ws j)) i)=f xs ws i) :
     (io M encode observe c eps rows).Implements (target M encode observe c eps rows f) := by
   apply implements_argument M encode observe c eps (ActualRow.argument M eps)
     rows schedule xSeparate wSeparate f
-  simpa only [ActualRow.rowValue_argument] using scalar
+  exact scalar
 
 #axiomsClean implements_argument
 #axiomsClean implements
